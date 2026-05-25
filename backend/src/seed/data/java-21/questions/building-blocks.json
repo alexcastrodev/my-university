@@ -1,0 +1,56 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following are legal entry point methods that can be run from the command line? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "private static void main(String[] args)" },
+      { "key": "B", "text": "public static final main(String[] args)" },
+      { "key": "C", "text": "public void main(String[] args)" },
+      { "key": "D", "text": "public static final void main(String[] args)" },
+      { "key": "E", "text": "public static void main(String[] args)" },
+      { "key": "F", "text": "public static main(String[] args)" }
+    ],
+    "correctKeys": ["D", "E"],
+    "explanation": "The traditional entry point requires public static void main(String[] args). The final modifier is allowed. Without a return type (B, F) it does not compile. Instance methods (C) and private methods (A) cannot be the entry point.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, p. 37"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which answer options represent the order in which the following statements can be assembled into a program that will compile successfully? (Choose all that apply.)\n\nX: class Rabbit {}\nY: import java.util.*;\nZ: package animals;",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "X, Y, Z" },
+      { "key": "B", "text": "Y, Z, X" },
+      { "key": "C", "text": "Z, Y, X" },
+      { "key": "D", "text": "Y, X" },
+      { "key": "E", "text": "Z, X" },
+      { "key": "F", "text": "X, Z" },
+      { "key": "G", "text": "None of the above" }
+    ],
+    "correctKeys": ["C", "E"],
+    "explanation": "The order must be: package declaration → import statements → class declaration. Z (package) must come before Y (import) must come before X (class). Z, Y, X is valid. Z, X is also valid (imports are optional). Y, X is invalid because there is a package statement that must come first if present.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, p. 22"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which statements about garbage collection in Java are true? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "System.gc() guarantees garbage collection runs immediately." },
+      { "key": "B", "text": "An object is eligible for GC when no strong references point to it." },
+      { "key": "C", "text": "Calling System.gc() is a hint, not a command." },
+      { "key": "D", "text": "Finalize() is guaranteed to run before an object is collected." },
+      { "key": "E", "text": "An object can become eligible for GC even if it is still referenced by another eligible object (island of isolation)." }
+    ],
+    "correctKeys": ["B", "C", "E"],
+    "explanation": "System.gc() is only a hint. finalize() is not guaranteed to run. Objects in a reference cycle with no external references form an island of isolation and are eligible for GC.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 72–74"
+  }
+]

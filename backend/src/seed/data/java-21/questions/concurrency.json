@@ -1,0 +1,38 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which APIs exist for creating or working with virtual threads? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Executors.newVirtualThread()" },
+      { "key": "B", "text": "Executors.newVirtualThreadExecutor()" },
+      { "key": "C", "text": "Executors.newVirtualThreadPerTaskExecutor()" },
+      { "key": "D", "text": "new VirtualThread()" },
+      { "key": "E", "text": "Thread.ofVirtual()" },
+      { "key": "F", "text": "Thread.ofVirtualThread()" }
+    ],
+    "correctKeys": ["C", "E"],
+    "explanation": "Thread.ofVirtual() returns a Thread.Builder for virtual threads. Executors.newVirtualThreadPerTaskExecutor() creates an executor that starts a new virtual thread per task.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 590–594"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following are thread-safe classes from java.util.concurrent? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "ArrayList" },
+      { "key": "B", "text": "CopyOnWriteArrayList" },
+      { "key": "C", "text": "HashMap" },
+      { "key": "D", "text": "ConcurrentHashMap" },
+      { "key": "E", "text": "AtomicInteger" },
+      { "key": "F", "text": "LinkedList" }
+    ],
+    "correctKeys": ["B", "D", "E"],
+    "explanation": "ArrayList, HashMap, LinkedList are NOT thread-safe. CopyOnWriteArrayList, ConcurrentHashMap, and AtomicInteger are thread-safe concurrent alternatives.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 570–577"
+  }
+]

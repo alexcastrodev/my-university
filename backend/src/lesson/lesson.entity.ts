@@ -22,7 +22,7 @@ export class Lesson {
   status: LessonStatus;
 
   @Column('text', { nullable: true })
-  content: string | null;
+  contentPath: string | null;
 
   @ManyToOne(() => CourseModule, (m) => m.lessons, { onDelete: 'CASCADE' })
   module: CourseModule;

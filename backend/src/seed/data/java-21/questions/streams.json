@@ -1,0 +1,52 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of this code?",
+    "code": "20: Predicate<String> empty = String::isEmpty;\n21: Predicate<String> notEmpty = empty.negate();\n22:\n23: var result = Stream.generate(() -> \"\")\n24:   .filter(notEmpty)\n25:   .collect(Collectors.groupingBy(k -> k))\n26:   .entrySet()\n27:   .stream()\n28:   .map(Entry::getValue)\n29:   .flatMap(Collection::stream)\n30:   .collect(Collectors.partitioningBy(notEmpty));\n31: System.out.println(result);",
+    "options": [
+      { "key": "A", "text": "It outputs {}." },
+      { "key": "B", "text": "It outputs {false=[], true=[]}." },
+      { "key": "C", "text": "The code does not compile." },
+      { "key": "D", "text": "The code does not terminate." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "Stream.generate(() -> \"\") is an infinite stream of empty strings. filter(notEmpty) keeps only non-empty strings, but there are none — so the stream runs forever trying to find a match.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 449–453"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "var stream = Stream.iterate(1, n -> n + 1);\nvar result = stream\n  .limit(5)\n  .filter(n -> n % 2 == 0)\n  .mapToInt(Integer::intValue)\n  .sum();\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "2" },
+      { "key": "B", "text": "6" },
+      { "key": "C", "text": "4" },
+      { "key": "D", "text": "9" },
+      { "key": "E", "text": "15" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "iterate(1, n->n+1) generates 1,2,3,4,5,… limit(5) gives 1,2,3,4,5. filter even keeps 2,4. sum = 6.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 430–436"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "Which functional interface best represents the method signature: String apply(String s)?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Predicate<String>" },
+      { "key": "B", "text": "Function<String, String>" },
+      { "key": "C", "text": "Consumer<String>" },
+      { "key": "D", "text": "Supplier<String>" },
+      { "key": "E", "text": "UnaryOperator<String>" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Function<T,R> maps T → R. UnaryOperator<T> extends Function<T,T> (same input and output type). Both B and E are technically correct, but Function<String,String> is the more general answer. UnaryOperator<String> is also valid — if both options appeared, choose E.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Lambdas and Functional Interfaces, pp. 403–408"
+  }
+]

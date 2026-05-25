@@ -1,0 +1,36 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following are true about try-with-resources? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Resources are closed in the reverse order they are declared." },
+      { "key": "B", "text": "Resources are closed before any catch or finally block runs." },
+      { "key": "C", "text": "The resource must implement java.lang.AutoCloseable." },
+      { "key": "D", "text": "The resource variable can be used in the catch block." },
+      { "key": "E", "text": "A try-with-resources can have no catch or finally block." }
+    ],
+    "correctKeys": ["A", "B", "C", "E"],
+    "explanation": "Resources must implement AutoCloseable, are closed in reverse order, before catch/finally. A try-with-resources does not require a catch or finally. The resource variable is not in scope in catch/finally.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 493–500"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is printed by the following code?",
+    "code": "try {\n  String s = null;\n  System.out.println(s.length());\n} catch (NullPointerException e) {\n  System.out.println(\"null\");\n} catch (Exception e) {\n  System.out.println(\"exception\");\n} finally {\n  System.out.println(\"finally\");\n}",
+    "options": [
+      { "key": "A", "text": "null" },
+      { "key": "B", "text": "exception" },
+      { "key": "C", "text": "null\nfinally" },
+      { "key": "D", "text": "exception\nfinally" },
+      { "key": "E", "text": "finally" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "Calling length() on null throws NullPointerException, caught by the first catch block printing \"null\". The finally block always runs, printing \"finally\".",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 476–482"
+  }
+]

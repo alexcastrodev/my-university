@@ -16,4 +16,11 @@ export class CourseController {
     if (!course) throw new NotFoundException();
     return course;
   }
+
+  @Get(':id/lessons/:lessonId')
+  async findLesson(@Param('lessonId') lessonId: string) {
+    const lesson = await this.service.findLesson(lessonId);
+    if (!lesson) throw new NotFoundException();
+    return lesson;
+  }
 }

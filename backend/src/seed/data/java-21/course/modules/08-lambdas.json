@@ -1,0 +1,13 @@
+{
+  "id": 8,
+  "title": "Lambdas and Functional Interfaces",
+  "lessons": [
+    { "id": "8-1", "title": "Writing Simple Lambdas",                              "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "8-2", "title": "Coding Functional Interfaces",                        "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "8-3", "title": "Using Method References",                             "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "8-4", "title": "Working with Built-in Functional Interfaces",         "duration": "20m", "type": "slide",       "status": "new"          },
+    { "id": "8-5", "title": "Returning an Optional",                               "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "8-6", "title": "Practice: Lambdas and Functional Interfaces",         "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "8-7", "title": "Skill Check: Lambdas and Functional Interfaces",      "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

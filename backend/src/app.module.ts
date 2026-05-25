@@ -16,7 +16,7 @@ import { SeedModule } from './seed/seed.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
-      database: 'ocp-java.db',
+      database: process.env.DB_PATH ?? 'ocp-java.db',
       entities: [Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt],
       synchronize: true,
     }),

@@ -1,0 +1,37 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "modules",
+    "type": "multi",
+    "text": "Which of the following keywords can appear in a module-info.java file? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "requires" },
+      { "key": "B", "text": "exports" },
+      { "key": "C", "text": "imports" },
+      { "key": "D", "text": "opens" },
+      { "key": "E", "text": "uses" },
+      { "key": "F", "text": "provides" }
+    ],
+    "correctKeys": ["A", "B", "D", "E", "F"],
+    "explanation": "\"imports\" is not a module directive. The valid directives are: requires, exports, opens, uses, provides (with ... with).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 12 – Modules, pp. 546–558"
+  },
+  {
+    "examId": "java-21",
+    "topic": "modules",
+    "type": "single",
+    "text": "Which statement about unnamed modules is correct?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Unnamed modules can read from named modules but named modules cannot read from unnamed modules." },
+      { "key": "B", "text": "Unnamed modules can only be used on the module path." },
+      { "key": "C", "text": "There can only be one unnamed module per JVM." },
+      { "key": "D", "text": "An unnamed module exports all its packages to all other modules." },
+      { "key": "E", "text": "Unnamed modules require explicit requires declarations." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "An unnamed module (classpath) exports all of its packages and reads all named modules. Named modules do not read from the unnamed module by default.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 12 – Modules, pp. 562–564"
+  }
+]

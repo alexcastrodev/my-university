@@ -106,6 +106,8 @@ import { Course } from '../../models/course.model';
               </div>
             </div>
 
+            <ng-content></ng-content>
+
             <div class="benefits-section">
               <h3>Benefits to you</h3>
               <p class="benefits-intro">After completing this course, you should be able to:</p>
@@ -220,7 +222,7 @@ import { Course } from '../../models/course.model';
 
     .course-body {
       flex: 1;
-      padding: 1.25rem 1.5rem;
+      padding: 1.75rem 2rem 2.5rem;
     }
 
     .course-header-info {
@@ -228,7 +230,7 @@ import { Course } from '../../models/course.model';
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .course-title-sm {
@@ -277,14 +279,14 @@ import { Course } from '../../models/course.model';
       font-size: 0.82rem;
       color: #4b5563;
       line-height: 1.65;
-      margin: 0 0 1.25rem;
+      margin: 0 0 1.5rem;
     }
 
     .course-info-cards {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .info-card {
@@ -322,6 +324,10 @@ import { Course } from '../../models/course.model';
       font-size: 0.8rem;
       font-weight: 600;
       color: #111827;
+    }
+
+    .benefits-section {
+      padding-top: 0.25rem;
     }
 
     .benefits-section h3 {

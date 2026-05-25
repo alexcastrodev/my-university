@@ -1,0 +1,11 @@
+{
+  "id": 9,
+  "title": "Collections and Generics",
+  "lessons": [
+    { "id": "9-1", "title": "Using Generics",                           "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "9-2", "title": "Using Lists, Sets, Maps, and Queues",      "duration": "22m", "type": "slide",       "status": "new"          },
+    { "id": "9-3", "title": "Using the Collections Class",              "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "9-4", "title": "Practice: Collections and Generics",       "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "9-5", "title": "Skill Check: Collections and Generics",    "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

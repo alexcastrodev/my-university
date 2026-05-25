@@ -6,8 +6,20 @@ import { CourseModule as CourseModuleEntity } from '../lesson/course-module.enti
 import { Lesson } from '../lesson/lesson.entity';
 import { Exam } from '../exam/exam.entity';
 import { Question } from '../exam/question.entity';
-import { COURSE_DATA } from './course.data';
+import { ALL_COURSES } from './course.data';
 import { EXAMS, EXAM_QUESTIONS } from './exam.data';
+
+const LESSON_CONTENT_MAP: Record<string, string> = {
+  '1-1': 'java-25/1-1-primitives-and-wrapper-classes.md',
+  '1-2': 'java-25/1-2-arithmetic-and-boolean-expressions.md',
+  '1-3': 'java-25/1-3-operator-precedence-type-conversions-casting.md',
+  '1-4': 'java-25/1-4-math-api.md',
+  '1-5': 'java-25/1-5-string-and-stringbuilder.md',
+  '1-6': 'java-25/1-6-text-blocks.md',
+  '1-7': 'java-25/1-7-localdate-localtime-localdatetime.md',
+  '1-8': 'java-25/1-8-duration-period-instant.md',
+  '1-9': 'java-25/1-9-time-zones-daylight-saving.md',
+};
 
 @Injectable()
 export class SeedService implements OnApplicationBootstrap {
@@ -22,49 +34,51 @@ export class SeedService implements OnApplicationBootstrap {
   ) {}
 
   async onApplicationBootstrap() {
-    await this.seedCourse();
+    await this.seedCourses();
     await this.seedExams();
     await this.seedQuestions();
   }
 
-  private async seedCourse() {
-    const exists = await this.courseRepo.findOne({ where: { id: COURSE_DATA.id } });
-    if (exists) return;
+  private async seedCourses() {
+    for (const courseData of ALL_COURSES) {
+      const exists = await this.courseRepo.findOne({ where: { id: courseData.id } });
+      if (exists) continue;
 
-    this.log.log('Seeding course data…');
-    const course = this.courseRepo.create({
-      id: COURSE_DATA.id,
-      title: COURSE_DATA.title,
-      tag: COURSE_DATA.tag,
-      audience: COURSE_DATA.audience,
-      moduleCount: COURSE_DATA.moduleCount,
-      duration: COURSE_DATA.duration,
-      description: COURSE_DATA.description,
-      benefits: COURSE_DATA.benefits,
-    });
-    await this.courseRepo.save(course);
-
-    for (const mod of COURSE_DATA.modules) {
-      const moduleEntity = this.moduleRepo.create({
-        order: mod.id,
-        title: mod.title,
-        course,
+      this.log.log(`Seeding course: ${courseData.title}`);
+      const course = this.courseRepo.create({
+        id: courseData.id,
+        title: courseData.title,
+        tag: courseData.tag,
+        audience: courseData.audience,
+        moduleCount: courseData.moduleCount,
+        duration: courseData.duration,
+        description: courseData.description,
+        benefits: courseData.benefits,
       });
-      await this.moduleRepo.save(moduleEntity);
+      await this.courseRepo.save(course);
 
-      for (const lesson of mod.lessons) {
-        const lessonEntity = new Lesson();
-        lessonEntity.id = lesson.id;
-        lessonEntity.title = lesson.title;
-        lessonEntity.duration = lesson.duration;
-        lessonEntity.type = (lesson.type === 'video' ? 'slide' : lesson.type) as Lesson['type'];
-        lessonEntity.status = lesson.status as Lesson['status'];
-        lessonEntity.content = null;
-        lessonEntity.module = moduleEntity;
-        await this.lessonRepo.save(lessonEntity);
+      for (const mod of courseData.modules) {
+        const moduleEntity = this.moduleRepo.create({
+          order: mod.id,
+          title: mod.title,
+          course,
+        });
+        await this.moduleRepo.save(moduleEntity);
+
+        for (const lesson of mod.lessons) {
+          const lessonEntity = new Lesson();
+          lessonEntity.id = lesson.id;
+          lessonEntity.title = lesson.title;
+          lessonEntity.duration = lesson.duration;
+          lessonEntity.type = (lesson.type === 'video' ? 'slide' : lesson.type) as Lesson['type'];
+          lessonEntity.status = lesson.status as Lesson['status'];
+          lessonEntity.contentPath = LESSON_CONTENT_MAP[lesson.id] ?? null;
+          lessonEntity.module = moduleEntity;
+          await this.lessonRepo.save(lessonEntity);
+        }
       }
+      this.log.log(`Course seeded: ${courseData.id}`);
     }
-    this.log.log('Course seeded.');
   }
 
   private async seedExams() {

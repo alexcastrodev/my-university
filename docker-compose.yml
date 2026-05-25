@@ -4,9 +4,10 @@ services:
     ports:
       - "80:80"
     volumes:
-      - sqlite_data:/app
+      - sqlite_data:/app/data
     environment:
       PORT: 3000
+      DB_PATH: /app/data/ocp-java.db
 
 volumes:
   sqlite_data:

@@ -1,0 +1,21 @@
+{
+  "id": "java-21",
+  "title": "OCP Java SE 21 Developer Complete",
+  "tag": "Course",
+  "audience": "All Users",
+  "moduleCount": 16,
+  "duration": "63h 0m",
+  "description": "This course prepares you for the Oracle Certified Professional Java SE 21 Developer exam (1Z0-829). Based on the OCP Oracle Certified Professional Java SE 21 Developer Study Guide by Scott Selikoff and Jeanne Boyarsky. Includes a dedicated module covering the differences introduced in Java 25 (1Z0-831).",
+  "benefits": [
+    "Understand Java building blocks: primitives, operators, and program flow",
+    "Apply object-oriented principles: classes, interfaces, inheritance, and polymorphism",
+    "Work with generics, collections, and functional interfaces",
+    "Process data with lambdas, streams, and the Collections framework",
+    "Handle exceptions, I/O, and serialization",
+    "Write concurrent code using threads, executors, and virtual threads",
+    "Use the Java module system to package and deploy applications",
+    "Apply localization using locales and resource bundles",
+    "Build secure and well-structured applications following OCP best practices",
+    "Understand what changed from Java 21 to Java 25 for the 1Z0-831 exam"
+  ]
+}

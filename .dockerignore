@@ -1,3 +1,6 @@
 .skills
 .sources
 tmp
+**/node_modules
+**/.git
+**/dist

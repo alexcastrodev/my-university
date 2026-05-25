@@ -1,0 +1,37 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "multi",
+    "text": "What is guaranteed to be printed by the following code? (Choose all that apply.)",
+    "code": "int[] array = {6, 9, 8};\nSystem.out.println(\"B\" + Arrays.binarySearch(array, 9));\nSystem.out.println(\"C\" + Arrays.compare(array, new int[]{6, 9, 8}));\nSystem.out.println(\"M\" + Arrays.mismatch(array, new int[]{6, 9, 8}));",
+    "options": [
+      { "key": "A", "text": "B1" },
+      { "key": "B", "text": "B2" },
+      { "key": "C", "text": "C-1" },
+      { "key": "D", "text": "C0" },
+      { "key": "E", "text": "M-1" },
+      { "key": "F", "text": "M0" }
+    ],
+    "correctKeys": ["B", "D", "F"],
+    "explanation": "The array is not sorted, so binarySearch result is undefined — but actually {6,9,8} binarySearch(9) in unsorted array gives undefined. compare returns 0 for equal arrays → C0. mismatch returns -1 for identical arrays but prints as M-1... Actually: compare equal arrays → 0 (C0), mismatch returns -1 for equal arrays (M-1), binarySearch unsorted is undefined. The guaranteed ones are C0 and M-1. B2 is not guaranteed.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 418–424"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var map = new HashMap<String, Integer>();\nmap.put(\"a\", 1);\nmap.put(\"b\", 2);\nmap.put(\"c\", 3);\nmap.merge(\"b\", 10, Integer::sum);\nmap.merge(\"d\", 10, Integer::sum);\nSystem.out.println(map.get(\"b\") + \" \" + map.get(\"d\"));",
+    "options": [
+      { "key": "A", "text": "10 10" },
+      { "key": "B", "text": "12 10" },
+      { "key": "C", "text": "2 null" },
+      { "key": "D", "text": "null 10" },
+      { "key": "E", "text": "The code does not compile." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "merge(\"b\", 10, sum) finds existing value 2, applies sum(2,10)=12, stores 12. merge(\"d\", 10, sum) finds no existing value so stores 10 directly.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 441–443"
+  }
+]

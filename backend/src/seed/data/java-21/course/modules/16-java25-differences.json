@@ -1,0 +1,15 @@
+{
+  "id": 16,
+  "title": "What's New in Java 25 (1Z0-831)",
+  "lessons": [
+    { "id": "16-1", "title": "Java 21 vs Java 25: Exam Differences Overview",              "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "16-2", "title": "Flexible Constructor Bodies (JEP 513)",                      "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "16-3", "title": "Module Import Declarations (JEP 511)",                       "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "16-4", "title": "Compact Source Files and Multi-File Programs (JEP 512)",     "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "16-5", "title": "Instance main Methods — Now Final (JEP 495)",                "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "16-6", "title": "Scoped Values — Now Final (JEP 446 → JEP 487)",             "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "16-7", "title": "Stream Gatherers — gather() and Gatherers API (JEP 485)",   "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "16-8", "title": "Practice: Java 25 New Features",                            "duration": "15m", "type": "practice",    "status": "new"          },
+    { "id": "16-9", "title": "Skill Check: Java 25 Differences",                          "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

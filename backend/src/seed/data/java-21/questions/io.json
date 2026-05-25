@@ -1,0 +1,36 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following statements about Java serialization are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "A class must implement Serializable to be serialized." },
+      { "key": "B", "text": "Fields marked transient are not included in serialization." },
+      { "key": "C", "text": "static fields are serialized by default." },
+      { "key": "D", "text": "serialVersionUID is recommended to control versioning." },
+      { "key": "E", "text": "The no-arg constructor is called during deserialization." }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "static fields are NOT serialized (they belong to the class, not instance). The no-arg constructor is NOT called during deserialization — Java restores the object state from the byte stream directly.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 638–644"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following create a valid Path object? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Path.of(\"/home/user/file.txt\")" },
+      { "key": "B", "text": "Paths.get(\"/home/user/file.txt\")" },
+      { "key": "C", "text": "new Path(\"/home/user/file.txt\")" },
+      { "key": "D", "text": "FileSystems.getDefault().getPath(\"/home/user/file.txt\")" },
+      { "key": "E", "text": "Path.from(\"/home/user/file.txt\")" }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "Path is an interface — you cannot use new Path(). Path.from() does not exist. Valid ways: Path.of(), Paths.get(), or FileSystems.getDefault().getPath().",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 612–615"
+  }
+]

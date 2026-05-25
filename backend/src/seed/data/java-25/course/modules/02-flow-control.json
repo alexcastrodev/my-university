@@ -1,0 +1,13 @@
+{
+  "id": 2,
+  "title": "Implementing Program Flow Control",
+  "lessons": [
+    { "id": "2-1", "title": "if/else Statements",                              "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "2-2", "title": "switch Statements and Expressions",               "duration": "20m", "type": "slide",       "status": "new"          },
+    { "id": "2-3", "title": "Pattern Matching in switch",                      "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "2-4", "title": "for, while, and do-while Loops",                  "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "2-5", "title": "break, continue, and Labeled Statements",         "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "2-6", "title": "Practice: Flow Control",                          "duration": "15m", "type": "practice",    "status": "new"          },
+    { "id": "2-7", "title": "Skill Check: Flow Control",                       "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

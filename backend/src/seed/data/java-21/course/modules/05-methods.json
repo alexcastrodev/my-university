@@ -1,0 +1,14 @@
+{
+  "id": 5,
+  "title": "Methods",
+  "lessons": [
+    { "id": "5-1", "title": "Designing Methods",                        "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "5-2", "title": "Declaring Local and Instance Variables",   "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "5-3", "title": "Working with Varargs",                     "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "5-4", "title": "Applying Access Modifiers",                "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "5-5", "title": "Applying the static Keyword",              "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "5-6", "title": "Encapsulating Data",                       "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "5-7", "title": "Practice: Methods",                        "duration": "15m", "type": "practice",    "status": "new"          },
+    { "id": "5-8", "title": "Skill Check: Methods",                     "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

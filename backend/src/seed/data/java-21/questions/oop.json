@@ -1,0 +1,72 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the result of the following program?",
+    "code": "1: public class MathFunctions {\n2:   public static void addToInt(int x, int amountToAdd) {\n3:     x = x + amountToAdd % -5;\n4:   }\n5:   public static void main(String[] args) {\n6:     var a = 15;\n7:     var b = 10;\n8:     MathFunctions.addToInt(a, b);\n9:     System.out.println(a);\n10:  }\n11: }",
+    "options": [
+      { "key": "A", "text": "10" },
+      { "key": "B", "text": "15" },
+      { "key": "C", "text": "25" },
+      { "key": "D", "text": "Compiler error on line 3" },
+      { "key": "E", "text": "Compiler error on line 8" },
+      { "key": "F", "text": "None of the above" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Java is pass-by-value. The method modifies its local copy of x, not the original variable a. So a remains 15.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 5 – Methods, pp. 214–215"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following program?",
+    "code": "1: class Insect {\n2:   protected int numberOfLegs = 4;\n3:   String label = \"insect\";\n4: }\n5:\n6: public class Beetle extends Insect {\n7:   protected int numberOfLegs = 6;\n8:   short age = 3;\n9:   public static void main(String[] args) {\n10:    Insect i = new Beetle();\n11:    System.out.print(i.label + \" \");\n12:    System.out.print(i.numberOfLegs + \" \");\n13:    System.out.print(((Beetle) i).numberOfLegs);\n14: } }",
+    "options": [
+      { "key": "A", "text": "insect 4 6" },
+      { "key": "B", "text": "insect 6 6" },
+      { "key": "C", "text": "insect 4 4" },
+      { "key": "D", "text": "insect 6 4" },
+      { "key": "E", "text": "The code does not compile." },
+      { "key": "F", "text": "The code compiles but throws an exception at runtime." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Fields (not methods) are not polymorphic — they are accessed based on the reference type. i is declared as Insect, so i.numberOfLegs gives Insect's 4. After casting to Beetle, the Beetle field gives 6.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 8 – Class Design, pp. 379–381"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following can be used to implement a functional interface? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "An anonymous class with a single abstract method" },
+      { "key": "B", "text": "A lambda expression" },
+      { "key": "C", "text": "A method reference" },
+      { "key": "D", "text": "A concrete class implementing the interface" },
+      { "key": "E", "text": "A var variable" }
+    ],
+    "correctKeys": ["A", "B", "C", "D"],
+    "explanation": "Functional interfaces can be implemented by anonymous classes, lambdas, method references, or regular classes. var cannot implement an interface on its own.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 316–319"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are valid subclasses of a sealed class? (Choose all that apply.)",
+    "code": "public sealed class Shape permits Circle, Rectangle, Triangle {}",
+    "options": [
+      { "key": "A", "text": "public final class Circle extends Shape {}" },
+      { "key": "B", "text": "public sealed class Rectangle extends Shape permits Square {}" },
+      { "key": "C", "text": "public non-sealed class Triangle extends Shape {}" },
+      { "key": "D", "text": "public class Square extends Shape {}" },
+      { "key": "E", "text": "public abstract class Triangle extends Shape {}" }
+    ],
+    "correctKeys": ["A", "B", "C"],
+    "explanation": "Direct subclasses of a sealed class must be declared final, sealed, or non-sealed. Square is not permitted, so D is invalid. Abstract classes without sealed/non-sealed are invalid (E).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 344–348"
+  }
+]

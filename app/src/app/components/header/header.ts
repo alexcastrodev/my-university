@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RouterLinkActive],
   template: `
     <header class="header" role="banner">
       <div class="header-left">
-        <a href="/" class="brand" aria-label="My University Home">
+        <a routerLink="/" class="brand" aria-label="My University Home">
           <span class="brand-icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor"/>
@@ -16,11 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <span class="brand-name">My<strong>University</strong></span>
         </a>
         <nav class="nav-links" aria-label="Main navigation">
-          <a href="/" class="nav-link active">Home</a>
-          <a href="/" class="nav-link">Library</a>
-          <a href="/" class="nav-link">Live Sessions</a>
-          <a href="/" class="nav-link">Dashboard</a>
-          <a href="/" class="nav-link">Favorites</a>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Exams</a>
         </nav>
       </div>
       <div class="header-right">
@@ -68,27 +66,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       flex-shrink: 0;
     }
 
-    .brand-icon {
-      display: flex;
-      align-items: center;
-      color: #c74634;
-    }
+    .brand-icon { display: flex; align-items: center; color: #c74634; }
+    .brand-name { font-size: 0.95rem; font-weight: 400; letter-spacing: 0.01em; }
+    .brand-name strong { font-weight: 700; }
 
-    .brand-name {
-      font-size: 0.95rem;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-    }
-
-    .brand-name strong {
-      font-weight: 700;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 
     .nav-link {
       color: #ccc;
@@ -100,18 +82,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       white-space: nowrap;
     }
 
-    .nav-link:hover,
-    .nav-link.active {
-      color: #fff;
-      background: rgba(255,255,255,.08);
-    }
+    .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.08); }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-shrink: 0;
-    }
+    .header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
     .search-box {
       display: flex;
@@ -126,10 +99,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       transition: background .15s;
     }
 
-    .search-box:focus-within {
-      background: rgba(255,255,255,.15);
-      color: #fff;
-    }
+    .search-box:focus-within { background: rgba(255,255,255,.15); color: #fff; }
 
     .search-box input {
       background: none;
@@ -140,9 +110,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       width: 100%;
     }
 
-    .search-box input::placeholder {
-      color: #888;
-    }
+    .search-box input::placeholder { color: #888; }
 
     .avatar {
       width: 32px;
@@ -160,9 +128,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       transition: opacity .15s;
     }
 
-    .avatar:hover {
-      opacity: .85;
-    }
+    .avatar:hover { opacity: .85; }
   `,
 })
 export class Header {}

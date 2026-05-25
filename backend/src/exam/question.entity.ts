@@ -34,4 +34,7 @@ export class Question {
 
   @Column('text', { nullable: true })
   explanation: string | null;
+
+  @Column('text', { nullable: true })
+  source: string | null;
 }

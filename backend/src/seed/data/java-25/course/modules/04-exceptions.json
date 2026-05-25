@@ -1,0 +1,11 @@
+{
+  "id": 4,
+  "title": "Implementing Exception Handling",
+  "lessons": [
+    { "id": "4-1", "title": "try/catch/finally Blocks",                    "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "4-2", "title": "try-with-resources",                          "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "4-3", "title": "Multi-catch and Custom Exceptions",           "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "4-4", "title": "Practice: Exception Handling",                "duration": "15m", "type": "practice",    "status": "new"          },
+    { "id": "4-5", "title": "Skill Check: Exceptions",                     "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": 4,
+  "title": "Core APIs",
+  "lessons": [
+    { "id": "4-1", "title": "Creating and Manipulating Strings",  "duration": "20m", "type": "slide",       "status": "new"          },
+    { "id": "4-2", "title": "Using the StringBuilder Class",      "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "4-3", "title": "Understanding Equality",             "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "4-4", "title": "Understanding Java Arrays",          "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "4-5", "title": "Calculating with Math APIs",         "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "4-6", "title": "Working with Dates and Times",       "duration": "22m", "type": "slide",       "status": "new"          },
+    { "id": "4-7", "title": "Practice: Core APIs",                "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "4-8", "title": "Skill Check: Core APIs",             "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

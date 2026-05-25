@@ -1,0 +1,11 @@
+{
+  "id": 9,
+  "title": "Performing Input and Output Operations",
+  "lessons": [
+    { "id": "9-1", "title": "Reading and Writing Console and File Data",         "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "9-2", "title": "Serialization and Deserialization",                 "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "9-3", "title": "java.nio.file API and Path Objects",                "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "9-4", "title": "Practice: I/O",                                     "duration": "15m", "type": "practice",    "status": "new"          },
+    { "id": "9-5", "title": "Skill Check: I/O",                                  "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

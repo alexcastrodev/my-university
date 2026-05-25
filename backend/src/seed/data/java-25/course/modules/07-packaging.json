@@ -1,0 +1,16 @@
+{
+  "id": 7,
+  "title": "Packaging and Deploying Java Code",
+  "lessons": [
+    { "id": "7-1", "title": "Module System Overview",                                                    "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "7-2", "title": "Declaring Module Dependencies",                                             "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "7-3", "title": "Module Import Declarations (JEP 511)",                                     "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "7-4", "title": "Services, Providers, and Consumers",                                       "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "7-5", "title": "Compact Source Files and Multi-File Programs (JEP 512)",                   "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "7-6", "title": "Instance main Methods — Now Final (JEP 495)",                              "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "7-7", "title": "Creating Modular and Non-modular JARs and Runtime Images",                 "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "7-8", "title": "Migration to Modules: Unnamed and Automatic Modules",                      "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "7-9", "title": "Practice: Packaging",                                                      "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "7-10", "title": "Skill Check: Packaging",                                                  "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

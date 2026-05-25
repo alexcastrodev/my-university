@@ -1,0 +1,14 @@
+{
+  "id": 7,
+  "title": "Beyond Classes",
+  "lessons": [
+    { "id": "7-1", "title": "Implementing Interfaces",                         "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "7-2", "title": "Working with Enums (Advanced)",                   "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "7-3", "title": "Sealing Classes (Advanced)",                      "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "7-4", "title": "Encapsulating Data with Records (Advanced)",      "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "7-5", "title": "Creating Nested Classes (Advanced)",              "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "7-6", "title": "Understanding Polymorphism",                      "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "7-7", "title": "Practice: Beyond Classes",                        "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "7-8", "title": "Skill Check: Beyond Classes",                     "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

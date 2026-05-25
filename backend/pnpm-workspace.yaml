@@ -1,6 +1,7 @@
 minimumReleaseAgeExclude:
   - '@nestjs/platform-fastify@11.1.24'
 
-onlyBuiltDependencies:
-  - '@nestjs/core'
-  - better-sqlite3
+allowBuilds:
+  '@nestjs/core': true
+  better-sqlite3: true
+  unrs-resolver: true

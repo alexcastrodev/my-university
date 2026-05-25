@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "title": "Building Blocks",
+  "lessons": [
+    { "id": "1-1",  "title": "Learning About the Environment",                 "duration": "15m", "type": "slide",       "status": "new"          },
+    { "id": "1-2",  "title": "Understanding the Class Structure",               "duration": "18m", "type": "slide",       "status": "new"          },
+    { "id": "1-3",  "title": "Writing a main() Method",                         "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "1-4",  "title": "Understanding Package Declarations and Imports",   "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "1-5",  "title": "Creating Objects",                                 "duration": "16m", "type": "slide",       "status": "new"          },
+    { "id": "1-6",  "title": "Understanding Data Types",                         "duration": "20m", "type": "slide",       "status": "new"          },
+    { "id": "1-7",  "title": "Declaring Variables",                              "duration": "12m", "type": "slide",       "status": "new"          },
+    { "id": "1-8",  "title": "Managing Variable Scope",                          "duration": "10m", "type": "slide",       "status": "new"          },
+    { "id": "1-9",  "title": "Destroying Objects and Garbage Collection",        "duration": "14m", "type": "slide",       "status": "new"          },
+    { "id": "1-10", "title": "Practice: Building Blocks",                        "duration": "20m", "type": "practice",    "status": "new"          },
+    { "id": "1-11", "title": "Skill Check: Building Blocks",                     "duration": "",    "type": "skill-check", "status": "not-attempted" }
+  ]
+}

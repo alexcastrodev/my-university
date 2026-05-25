@@ -1,0 +1,20 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "Suppose we have the following property files and code. What values are printed on lines 8 and 9?",
+    "code": "// Penguin.properties:    name=Billy, age=1\n// Penguin_de.properties: name=Chilly, age=4\n// Penguin_en.properties: name=Willy  (no age!)\n\n5: Locale fr = Locale.of(\"fr\");\n6: Locale.setDefault(Locale.of(\"en\", \"US\"));\n7: var b = ResourceBundle.getBundle(\"Penguin\", fr);\n8: System.out.println(b.getString(\"name\"));\n9: System.out.println(b.getString(\"age\"));",
+    "options": [
+      { "key": "A", "text": "Billy and 1" },
+      { "key": "B", "text": "Billy and null" },
+      { "key": "C", "text": "Willy and 1" },
+      { "key": "D", "text": "Willy and null" },
+      { "key": "E", "text": "Chilly and null" },
+      { "key": "F", "text": "The code does not compile." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "For locale \"fr\" there is no Penguin_fr.properties, so the default locale \"en_US\" is used → Penguin_en.properties gives name=Willy. age is not in Penguin_en.properties so it falls back to Penguin.properties giving age=1.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 519–525"
+  }
+]

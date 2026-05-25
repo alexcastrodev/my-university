@@ -4,6 +4,7 @@ export interface Lesson {
   duration: string;
   type: 'video' | 'practice' | 'skill-check';
   status: 'new' | 'in-progress' | 'completed' | 'not-attempted';
+  contentPath?: string | null;
 }
 
 export interface CourseModule {

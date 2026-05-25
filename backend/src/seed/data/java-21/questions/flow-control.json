@@ -1,0 +1,20 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the result of executing the following code snippet?",
+    "code": "41: final int score1 = 8, score2 = 3;\n42: Integer myScore = 7;\n43: var goal = switch (myScore) {\n44:   case score1, score2, 7 -> \"good\";\n45:   case Integer i when i < 10 -> \"better\";\n46:   case Integer i when i >= 10 -> \"best\";\n47:   default -> { yield \"unknown\"; }\n48:   case null -> \"nope\";\n49: };\n50: System.out.print(goal);",
+    "options": [
+      { "key": "A", "text": "good" },
+      { "key": "B", "text": "better" },
+      { "key": "C", "text": "best" },
+      { "key": "D", "text": "unknown" },
+      { "key": "E", "text": "nope" },
+      { "key": "F", "text": "Line 44 does not compile." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "myScore is 7, which matches case score1, score2, 7 on line 44 — so \"good\" is printed. Pattern matching cases are evaluated in order but constant cases take priority.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 130–136"
+  }
+]
