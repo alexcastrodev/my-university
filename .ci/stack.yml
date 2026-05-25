@@ -1,0 +1,15 @@
+services:
+  web:
+    image: pifive:5001/university:latest
+    networks:
+      - proxy_net
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+networks:
+  proxy_net:
+    external: true
