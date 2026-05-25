@@ -50,6 +50,7 @@ import { Course, Lesson } from '../../models/course.model';
         </main>
         <app-playlist
           [modules]="modules()"
+          [activeLessonId]="activeLessonId()"
           (lessonSelected)="onLessonSelected($event)"
           (moduleToggled)="onModuleToggled($event)"
         ></app-playlist>
@@ -186,6 +187,7 @@ export class CoursePage implements OnInit {
   questionCount = signal(0);
 
   activeLesson = signal<Lesson | null>(null);
+  activeLessonId = signal<string | null>(null);
   markdownContent = signal<string | null>(null);
   markdownLoading = signal(false);
 
@@ -195,8 +197,20 @@ export class CoursePage implements OnInit {
     const id = this.route.snapshot.paramMap.get('examId') ?? '';
     this.examId.set(id);
 
+    this.route.paramMap.subscribe((params) => {
+      const lessonId = params.get('lessonId');
+      if (this.course()) {
+        this.activateLessonFromUrl(lessonId);
+      }
+    });
+
     this.http.get<Course>(`/api/courses/${id}`).subscribe({
-      next: (c) => { this.course.set(c); this.loading.set(false); },
+      next: (c) => {
+        const lessonId = this.route.snapshot.paramMap.get('lessonId');
+        this.course.set(this.withExpandedModule(c, lessonId));
+        this.loading.set(false);
+        this.activateLessonFromUrl(lessonId);
+      },
       error: () => { this.loading.set(false); },
     });
 
@@ -213,7 +227,30 @@ export class CoursePage implements OnInit {
   }
 
   onLessonSelected(lesson: Lesson): void {
+    void this.router.navigate(['/exam', this.examId(), 'lesson', lesson.id]);
+    this.openLesson(lesson);
+  }
+
+  private activateLessonFromUrl(lessonId: string | null): void {
+    if (!lessonId) {
+      this.activeLesson.set(null);
+      this.activeLessonId.set(null);
+      this.markdownContent.set(null);
+      return;
+    }
+
+    const lesson = this.findLesson(lessonId);
+    if (lesson) {
+      this.expandModuleForLesson(lessonId);
+      this.openLesson(lesson);
+    }
+  }
+
+  private openLesson(lesson: Lesson): void {
+    if (this.activeLessonId() === lesson.id && this.markdownContent()) return;
+
     this.activeLesson.set(lesson);
+    this.activeLessonId.set(lesson.id);
     if (!lesson.contentPath) {
       this.markdownContent.set(null);
       return;
@@ -226,7 +263,37 @@ export class CoursePage implements OnInit {
   }
 
   clearLesson(): void {
+    void this.router.navigate(['/exam', this.examId()]);
     this.activeLesson.set(null);
+    this.activeLessonId.set(null);
     this.markdownContent.set(null);
+  }
+
+  private findLesson(lessonId: string): Lesson | null {
+    for (const mod of this.modules()) {
+      const lesson = mod.lessons.find((item) => item.id === lessonId);
+      if (lesson) return lesson;
+    }
+    return null;
+  }
+
+  private expandModuleForLesson(lessonId: string): void {
+    this.course.update((c) => c ? ({
+      ...c,
+      modules: c.modules.map((m) => ({
+        ...m,
+        expanded: m.expanded || m.lessons.some((lesson) => lesson.id === lessonId),
+      })),
+    }) : c);
+  }
+
+  private withExpandedModule(course: Course, lessonId: string | null): Course {
+    return {
+      ...course,
+      modules: course.modules.map((m, index) => ({
+        ...m,
+        expanded: Boolean(m.expanded) || (lessonId ? m.lessons.some((lesson) => lesson.id === lessonId) : index === 0),
+      })),
+    };
   }
 }

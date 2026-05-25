@@ -6,7 +6,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/exam-list/exam-list').then((m) => m.ExamListPage),
   },
   {
-    path: 'exam/:examId',
+    path: 'exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
   {
@@ -16,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'exam/:examId/result/:attemptId',
     loadComponent: () => import('./pages/result/result-page').then((m) => m.ResultPage),
+  },
+  {
+    path: 'exam/:examId',
+    loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
   { path: '**', redirectTo: '' },
 ];

@@ -66,7 +66,7 @@ import { CourseModule, Lesson } from '../../models/course.model';
                   <li>
                     <button
                       class="lesson"
-                      [class.active]="activeLesson() === lesson.id"
+                      [class.active]="activeLessonId() === lesson.id"
                       (click)="selectLesson(lesson)"
                       type="button"
                     >
@@ -360,10 +360,10 @@ import { CourseModule, Lesson } from '../../models/course.model';
 })
 export class Playlist {
   modules = input.required<CourseModule[]>();
+  activeLessonId = input<string | null>(null);
   lessonSelected = output<Lesson>();
   moduleToggled = output<number>();
 
-  activeLesson = signal<string | null>(null);
   skillChecksVisible = signal(true);
 
   toggleModule(id: number): void {
@@ -371,7 +371,6 @@ export class Playlist {
   }
 
   selectLesson(lesson: Lesson): void {
-    this.activeLesson.set(lesson.id);
     this.lessonSelected.emit(lesson);
   }
 
