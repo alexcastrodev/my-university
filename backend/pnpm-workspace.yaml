@@ -1,0 +1,6 @@
+minimumReleaseAgeExclude:
+  - '@nestjs/platform-fastify@11.1.24'
+
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - better-sqlite3

@@ -1,0 +1,13 @@
+<app-header></app-header>
+
+<div class="layout">
+  <main class="main-content" id="main-content" tabindex="-1">
+    <app-course-view [course]="course()"></app-course-view>
+  </main>
+
+  <app-playlist
+    [modules]="modules()"
+    (lessonSelected)="onLessonSelected($event)"
+    (moduleToggled)="onModuleToggled($event)"
+  ></app-playlist>
+</div>

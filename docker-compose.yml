@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - sqlite_data:/app
+    environment:
+      PORT: 3000
+
+volumes:
+  sqlite_data:
