@@ -9,6 +9,7 @@ export interface Lesson {
 
 export interface CourseModule {
   id: number;
+  order?: number;
   title: string;
   lessons: Lesson[];
   expanded: boolean;

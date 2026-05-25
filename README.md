@@ -7,3 +7,9 @@
 ![exam](./.github/exam.png)
 
 ![summary](./.github/summary.png)
+
+# Run
+
+```bash
+docker compose up -d
+```

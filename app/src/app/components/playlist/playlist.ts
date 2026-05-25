@@ -47,7 +47,7 @@ import { CourseModule, Lesson } from '../../models/course.model';
               [attr.aria-controls]="'module-' + mod.id"
               type="button"
             >
-              <span class="module-number">{{ mod.id }}.</span>
+              <span class="module-number">{{ mod.order }}.</span>
               <span class="module-title">{{ mod.title }}</span>
               <svg
                 class="chevron"

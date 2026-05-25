@@ -2,13 +2,69 @@
   "id": 8,
   "title": "Implementing Multithreading for Concurrent Code Execution",
   "lessons": [
-    { "id": "8-1", "title": "Platform Threads and Virtual Threads",                              "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "8-2", "title": "Runnable, Callable, and Thread Lifecycle",                          "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "8-3", "title": "Executor Services and the Concurrent API",                          "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "8-4", "title": "Scoped Values — Now Final (JEP 487)",                               "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "8-5", "title": "Thread-Safe Code and Locking Mechanisms",                           "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "8-6", "title": "Concurrent Collections and Parallel Streams",                       "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "8-7", "title": "Practice: Multithreading",                                          "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "8-8", "title": "Skill Check: Multithreading",                                       "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j25-8-1",
+      "title": "Platform Threads and Virtual Threads",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-2",
+      "title": "Runnable, Callable, and Thread Lifecycle",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-3",
+      "title": "Executor Services and the Concurrent API",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-4",
+      "title": "Scoped Values — Now Final (JEP 487)",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-5",
+      "title": "Thread-Safe Code and Locking Mechanisms",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-6",
+      "title": "Concurrent Collections and Parallel Streams",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-7",
+      "title": "Practice: Multithreading",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-8-8",
+      "title": "Skill Check: Multithreading",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

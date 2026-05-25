@@ -9,18 +9,6 @@ import { Question } from '../exam/question.entity';
 import { ALL_COURSES } from './course.data';
 import { EXAMS, EXAM_QUESTIONS } from './exam.data';
 
-const LESSON_CONTENT_MAP: Record<string, string> = {
-  '1-1': 'java-25/1-1-primitives-and-wrapper-classes.md',
-  '1-2': 'java-25/1-2-arithmetic-and-boolean-expressions.md',
-  '1-3': 'java-25/1-3-operator-precedence-type-conversions-casting.md',
-  '1-4': 'java-25/1-4-math-api.md',
-  '1-5': 'java-25/1-5-string-and-stringbuilder.md',
-  '1-6': 'java-25/1-6-text-blocks.md',
-  '1-7': 'java-25/1-7-localdate-localtime-localdatetime.md',
-  '1-8': 'java-25/1-8-duration-period-instant.md',
-  '1-9': 'java-25/1-9-time-zones-daylight-saving.md',
-};
-
 @Injectable()
 export class SeedService implements OnApplicationBootstrap {
   private readonly log = new Logger(SeedService.name);
@@ -72,7 +60,7 @@ export class SeedService implements OnApplicationBootstrap {
           lessonEntity.duration = lesson.duration;
           lessonEntity.type = (lesson.type === 'video' ? 'slide' : lesson.type) as Lesson['type'];
           lessonEntity.status = lesson.status as Lesson['status'];
-          lessonEntity.contentPath = LESSON_CONTENT_MAP[lesson.id] ?? null;
+          lessonEntity.contentPath = lesson.contentPath ?? null;
           lessonEntity.module = moduleEntity;
           await this.lessonRepo.save(lessonEntity);
         }

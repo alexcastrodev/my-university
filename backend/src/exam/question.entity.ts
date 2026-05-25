@@ -20,13 +20,13 @@ export class Question {
   @Column('text')
   text: string;
 
-  @Column('simple-json', { nullable: true })
+  @Column('text', { nullable: true })
   code: string | null;
 
-  @Column('simple-json')
+  @Column('jsonb')
   options: { key: string; text: string }[];
 
-  @Column('simple-json')
+  @Column('jsonb')
   correctKeys: string[];
 
   @Column()

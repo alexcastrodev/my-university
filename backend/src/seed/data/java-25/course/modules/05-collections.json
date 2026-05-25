@@ -2,12 +2,61 @@
   "id": 5,
   "title": "Using Arrays and Collections",
   "lessons": [
-    { "id": "5-1", "title": "Arrays",                                       "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "5-2", "title": "List and Set",                                 "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "5-3", "title": "Map and Deque",                                "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "5-4", "title": "Sequenced Collections",                        "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "5-5", "title": "Sorting and Retrieving Elements",              "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "5-6", "title": "Practice: Collections",                        "duration": "15m", "type": "practice",    "status": "new"          },
-    { "id": "5-7", "title": "Skill Check: Collections",                     "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j25-5-1",
+      "title": "Arrays",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-2",
+      "title": "List and Set",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-3",
+      "title": "Map and Deque",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-4",
+      "title": "Sequenced Collections",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-5",
+      "title": "Sorting and Retrieving Elements",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-6",
+      "title": "Practice: Collections",
+      "duration": "15m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-5-7",
+      "title": "Skill Check: Collections",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

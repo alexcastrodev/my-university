@@ -2,13 +2,69 @@
   "id": 2,
   "title": "Operators",
   "lessons": [
-    { "id": "2-1", "title": "Understanding Java Operators",                   "duration": "10m", "type": "slide",       "status": "new"          },
-    { "id": "2-2", "title": "Applying Unary Operators",                       "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "2-3", "title": "Working with Binary Arithmetic Operators",       "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "2-4", "title": "Assigning Values",                               "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "2-5", "title": "Comparing Values",                               "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "2-6", "title": "Making Decisions with the Ternary Operator",     "duration": "8m",  "type": "slide",       "status": "new"          },
-    { "id": "2-7", "title": "Practice: Operators",                            "duration": "15m", "type": "practice",    "status": "new"          },
-    { "id": "2-8", "title": "Skill Check: Operators",                         "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-2-1",
+      "title": "Understanding Java Operators",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-2",
+      "title": "Applying Unary Operators",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-3",
+      "title": "Working with Binary Arithmetic Operators",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-4",
+      "title": "Assigning Values",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-5",
+      "title": "Comparing Values",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-6",
+      "title": "Making Decisions with the Ternary Operator",
+      "duration": "8m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-7",
+      "title": "Practice: Operators",
+      "duration": "15m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-2-8",
+      "title": "Skill Check: Operators",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

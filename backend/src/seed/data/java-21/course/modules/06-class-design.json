@@ -2,15 +2,85 @@
   "id": 6,
   "title": "Class Design",
   "lessons": [
-    { "id": "6-1",  "title": "Understanding Inheritance",               "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "6-2",  "title": "Creating Classes",                        "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-3",  "title": "Extending Classes",                       "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "6-4",  "title": "Declaring Interfaces",                    "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-5",  "title": "Working with Enums",                      "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-6",  "title": "Sealing Classes",                         "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-7",  "title": "Encapsulating Data with Records",         "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "6-8",  "title": "Creating Nested Classes",                 "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-9",  "title": "Practice: Class Design",                  "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "6-10", "title": "Skill Check: Class Design",               "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-6-1",
+      "title": "Understanding Inheritance",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-2",
+      "title": "Creating Classes",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-3",
+      "title": "Extending Classes",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-4",
+      "title": "Declaring Interfaces",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-5",
+      "title": "Working with Enums",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-6",
+      "title": "Sealing Classes",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-7",
+      "title": "Encapsulating Data with Records",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-8",
+      "title": "Creating Nested Classes",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-9",
+      "title": "Practice: Class Design",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-6-10",
+      "title": "Skill Check: Class Design",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

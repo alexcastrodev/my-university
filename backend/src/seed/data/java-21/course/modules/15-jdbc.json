@@ -2,13 +2,69 @@
   "id": 15,
   "title": "JDBC",
   "lessons": [
-    { "id": "15-1", "title": "Introducing Relational Databases and SQL",   "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "15-2", "title": "Connecting to a Database",                   "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "15-3", "title": "Working with a PreparedStatement",           "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "15-4", "title": "Getting Data from a ResultSet",              "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "15-5", "title": "Calling a CallableStatement",                "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "15-6", "title": "Controlling Data with Transactions",         "duration": "10m", "type": "slide",       "status": "new"          },
-    { "id": "15-7", "title": "Practice: JDBC",                             "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "15-8", "title": "Skill Check: JDBC",                          "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-15-1",
+      "title": "Introducing Relational Databases and SQL",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-2",
+      "title": "Connecting to a Database",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-3",
+      "title": "Working with a PreparedStatement",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-4",
+      "title": "Getting Data from a ResultSet",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-5",
+      "title": "Calling a CallableStatement",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-6",
+      "title": "Controlling Data with Transactions",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-7",
+      "title": "Practice: JDBC",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-15-8",
+      "title": "Skill Check: JDBC",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

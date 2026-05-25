@@ -2,13 +2,69 @@
   "id": 13,
   "title": "Concurrency",
   "lessons": [
-    { "id": "13-1", "title": "Introducing Threads",                             "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "13-2", "title": "Creating Threads with the Concurrency API",       "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "13-3", "title": "Writing Thread-Safe Code",                        "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "13-4", "title": "Using Concurrent Collections",                    "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "13-5", "title": "Identifying Threading Problems",                  "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "13-6", "title": "Working with Parallel Streams",                   "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "13-7", "title": "Practice: Concurrency",                           "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "13-8", "title": "Skill Check: Concurrency",                        "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-13-1",
+      "title": "Introducing Threads",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-2",
+      "title": "Creating Threads with the Concurrency API",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-3",
+      "title": "Writing Thread-Safe Code",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-4",
+      "title": "Using Concurrent Collections",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-5",
+      "title": "Identifying Threading Problems",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-6",
+      "title": "Working with Parallel Streams",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-7",
+      "title": "Practice: Concurrency",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-13-8",
+      "title": "Skill Check: Concurrency",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

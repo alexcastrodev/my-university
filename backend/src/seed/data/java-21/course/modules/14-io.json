@@ -2,14 +2,77 @@
   "id": 14,
   "title": "I/O",
   "lessons": [
-    { "id": "14-1", "title": "Referencing Files and Directories",   "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "14-2", "title": "Operating on File and Path",          "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "14-3", "title": "Introducing I/O Streams",             "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "14-4", "title": "Reading and Writing Files",           "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "14-5", "title": "Serializing Data",                    "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "14-6", "title": "Interacting with Users",              "duration": "10m", "type": "slide",       "status": "new"          },
-    { "id": "14-7", "title": "Working with Advanced APIs",          "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "14-8", "title": "Practice: I/O",                       "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "14-9", "title": "Skill Check: I/O",                    "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-14-1",
+      "title": "Referencing Files and Directories",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-2",
+      "title": "Operating on File and Path",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-3",
+      "title": "Introducing I/O Streams",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-4",
+      "title": "Reading and Writing Files",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-5",
+      "title": "Serializing Data",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-6",
+      "title": "Interacting with Users",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-7",
+      "title": "Working with Advanced APIs",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-8",
+      "title": "Practice: I/O",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-14-9",
+      "title": "Skill Check: I/O",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

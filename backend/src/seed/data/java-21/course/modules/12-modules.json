@@ -2,13 +2,69 @@
   "id": 12,
   "title": "Modules",
   "lessons": [
-    { "id": "12-1", "title": "Introducing Modules",                            "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "12-2", "title": "Creating and Running a Modular Program",         "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "12-3", "title": "Updating Our Example for Multiple Modules",      "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "12-4", "title": "Diving into the module-info File",               "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "12-5", "title": "Understanding Module Directives",                "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "12-6", "title": "Discovering Modules",                            "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "12-7", "title": "Practice: Modules",                              "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "12-8", "title": "Skill Check: Modules",                           "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-12-1",
+      "title": "Introducing Modules",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-2",
+      "title": "Creating and Running a Modular Program",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-3",
+      "title": "Updating Our Example for Multiple Modules",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-4",
+      "title": "Diving into the module-info File",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-5",
+      "title": "Understanding Module Directives",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-6",
+      "title": "Discovering Modules",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-7",
+      "title": "Practice: Modules",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-12-8",
+      "title": "Skill Check: Modules",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

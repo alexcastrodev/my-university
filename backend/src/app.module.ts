@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { CourseNestModule } from './course/course.module';
@@ -17,10 +18,12 @@ import { SeedModule } from './seed/seed.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'better-sqlite3',
-      database: process.env.DB_PATH ?? 'ocp-java.db',
+      type: 'postgres',
+      url: process.env.DATABASE_URL ?? 'postgres://postgres@127.0.0.1:5432/ocp_java',
       entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt],
-      synchronize: true,
+      migrations: [join(__dirname, 'migrations', '*.js')],
+      migrationsRun: true,
+      synchronize: false,
     }),
     AuthModule,
     CourseNestModule,

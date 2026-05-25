@@ -2,13 +2,69 @@
   "id": 3,
   "title": "Making Decisions",
   "lessons": [
-    { "id": "3-1", "title": "Creating Decision-Making Statements",  "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "3-2", "title": "Pattern Matching",                      "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "3-3", "title": "Applying switch Statements",            "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "3-4", "title": "Writing while Loops",                   "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "3-5", "title": "Constructing for Loops",                "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "3-6", "title": "Controlling Flow with Branching",       "duration": "10m", "type": "slide",       "status": "new"          },
-    { "id": "3-7", "title": "Practice: Making Decisions",            "duration": "15m", "type": "practice",    "status": "new"          },
-    { "id": "3-8", "title": "Skill Check: Making Decisions",         "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-3-1",
+      "title": "Creating Decision-Making Statements",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-3-2",
+      "title": "Pattern Matching",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-21/content/3-2-pattern-matching.md"
+    },
+    {
+      "id": "j21-3-3",
+      "title": "Applying switch Statements",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-21/content/3-3-pattern-matching-switch.md"
+    },
+    {
+      "id": "j21-3-4",
+      "title": "Writing while Loops",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-3-5",
+      "title": "Constructing for Loops",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-3-6",
+      "title": "Controlling Flow with Branching",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-3-7",
+      "title": "Practice: Making Decisions",
+      "duration": "15m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-3-8",
+      "title": "Skill Check: Making Decisions",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

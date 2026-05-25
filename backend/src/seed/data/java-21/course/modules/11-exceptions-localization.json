@@ -2,14 +2,77 @@
   "id": 11,
   "title": "Exceptions and Localization",
   "lessons": [
-    { "id": "11-1", "title": "Understanding Exceptions",                          "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "11-2", "title": "Recognizing Exception Classes",                     "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "11-3", "title": "Handling Exceptions",                               "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "11-4", "title": "Automating Resource Management",                    "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "11-5", "title": "Formatting Values",                                 "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "11-6", "title": "Supporting Internationalization and Localization",   "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "11-7", "title": "Loading Properties with Resource Bundles",           "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "11-8", "title": "Practice: Exceptions and Localization",              "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "11-9", "title": "Skill Check: Exceptions and Localization",           "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-11-1",
+      "title": "Understanding Exceptions",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-2",
+      "title": "Recognizing Exception Classes",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-3",
+      "title": "Handling Exceptions",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-4",
+      "title": "Automating Resource Management",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-5",
+      "title": "Formatting Values",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-6",
+      "title": "Supporting Internationalization and Localization",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-7",
+      "title": "Loading Properties with Resource Bundles",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-8",
+      "title": "Practice: Exceptions and Localization",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-11-9",
+      "title": "Skill Check: Exceptions and Localization",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

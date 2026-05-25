@@ -2,10 +2,45 @@
   "id": 10,
   "title": "Developing Applications with Localization Support",
   "lessons": [
-    { "id": "10-1", "title": "Locales and Resource Bundles",                             "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "10-2", "title": "Parsing and Formatting Messages",                          "duration": "12m", "type": "slide",       "status": "new"          },
-    { "id": "10-3", "title": "Formatting Dates, Times, Numbers, and Currency",           "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "10-4", "title": "Practice: Localization",                                   "duration": "15m", "type": "practice",    "status": "new"          },
-    { "id": "10-5", "title": "Skill Check: Localization",                                "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j25-10-1",
+      "title": "Locales and Resource Bundles",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-10-2",
+      "title": "Parsing and Formatting Messages",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-10-3",
+      "title": "Formatting Dates, Times, Numbers, and Currency",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-10-4",
+      "title": "Practice: Localization",
+      "duration": "15m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-10-5",
+      "title": "Skill Check: Localization",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

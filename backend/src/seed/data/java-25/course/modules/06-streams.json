@@ -2,13 +2,69 @@
   "id": 6,
   "title": "Processing Data with Streams and Lambda Expressions",
   "lessons": [
-    { "id": "6-1", "title": "Lambda Expressions and Functional Interfaces",              "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "6-2", "title": "Object and Primitive Streams",                              "duration": "20m", "type": "slide",       "status": "new"          },
-    { "id": "6-3", "title": "Filter, Transform, and Sort",                               "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "6-4", "title": "Reduction, Grouping, and Partitioning",                     "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "6-5", "title": "Stream Gatherers — gather() and Gatherers API (JEP 485)",  "duration": "20m", "type": "slide",       "status": "new"          },
-    { "id": "6-6", "title": "Parallel Streams",                                          "duration": "14m", "type": "slide",       "status": "new"          },
-    { "id": "6-7", "title": "Practice: Streams",                                         "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "6-8", "title": "Skill Check: Streams and Lambdas",                          "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j25-6-1",
+      "title": "Lambda Expressions and Functional Interfaces",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-2",
+      "title": "Object and Primitive Streams",
+      "duration": "20m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-3",
+      "title": "Filter, Transform, and Sort",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-4",
+      "title": "Reduction, Grouping, and Partitioning",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-5",
+      "title": "Stream Gatherers — gather() and Gatherers API (JEP 485)",
+      "duration": "20m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-6",
+      "title": "Parallel Streams",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-7",
+      "title": "Practice: Streams",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j25-6-8",
+      "title": "Skill Check: Streams and Lambdas",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }

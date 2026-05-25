@@ -24,7 +24,7 @@ export class Course {
   @Column('text')
   description: string;
 
-  @Column('simple-json')
+  @Column('jsonb')
   benefits: string[];
 
   @OneToMany(() => CourseModule, (m) => m.course, { cascade: true, eager: true })

@@ -24,6 +24,6 @@ export class ExamAttempt {
   @Column({ default: 0 })
   total: number;
 
-  @Column('simple-json')
+  @Column('jsonb')
   answers: Record<number, string[]>;
 }

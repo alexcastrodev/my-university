@@ -2,11 +2,53 @@
   "id": 10,
   "title": "Streams",
   "lessons": [
-    { "id": "10-1", "title": "Returning an Optional",                             "duration": "10m", "type": "slide",       "status": "new"          },
-    { "id": "10-2", "title": "Using Streams",                                     "duration": "20m", "type": "slide",       "status": "new"          },
-    { "id": "10-3", "title": "Working with Primitive Streams",                    "duration": "16m", "type": "slide",       "status": "new"          },
-    { "id": "10-4", "title": "Working with Advanced Stream Pipeline Concepts",    "duration": "18m", "type": "slide",       "status": "new"          },
-    { "id": "10-5", "title": "Practice: Streams",                                 "duration": "20m", "type": "practice",    "status": "new"          },
-    { "id": "10-6", "title": "Skill Check: Streams",                              "duration": "",    "type": "skill-check", "status": "not-attempted" }
+    {
+      "id": "j21-10-1",
+      "title": "Returning an Optional",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-10-2",
+      "title": "Using Streams",
+      "duration": "20m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-10-3",
+      "title": "Working with Primitive Streams",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-10-4",
+      "title": "Working with Advanced Stream Pipeline Concepts",
+      "duration": "18m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-10-5",
+      "title": "Practice: Streams",
+      "duration": "20m",
+      "type": "practice",
+      "status": "new",
+      "contentPath": null
+    },
+    {
+      "id": "j21-10-6",
+      "title": "Skill Check: Streams",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
   ]
 }
