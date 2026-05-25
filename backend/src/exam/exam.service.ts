@@ -21,10 +21,14 @@ export class ExamService {
     return this.examRepo.findOne({ where: { id } });
   }
 
-  getQuestions(examId: string, topic?: string, limit = 50): Promise<Question[]> {
+  async getQuestions(examId: string, topic?: string, limit?: number): Promise<Question[]> {
+    const exam = await this.getExam(examId);
+    const maxQuestions = exam?.questionCount ?? 50;
+    const requestedLimit = Number.isFinite(limit) && limit && limit > 0 ? limit : maxQuestions;
+    const questionLimit = Math.min(requestedLimit, maxQuestions);
     const qb = this.questionRepo.createQueryBuilder('q').where('q.examId = :examId', { examId });
     if (topic) qb.andWhere('q.topic = :topic', { topic });
-    return qb.orderBy('RANDOM()').limit(limit).getMany();
+    return qb.orderBy('RANDOM()').limit(questionLimit).getMany();
   }
 
   getQuestion(id: number): Promise<Question | null> {

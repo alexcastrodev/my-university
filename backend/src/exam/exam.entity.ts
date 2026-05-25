@@ -18,6 +18,21 @@ export class Exam {
   @Column()
   version: string;
 
+  @Column({ default: 'Proctored Online' })
+  delivery: string;
+
+  @Column({ default: 'Multiple Choice' })
+  format: string;
+
+  @Column({ default: 120 })
+  durationMinutes: number;
+
+  @Column({ default: 50 })
+  questionCount: number;
+
+  @Column({ default: 68 })
+  passingScore: number;
+
   @OneToMany(() => Question, (q) => q.exam)
   questions: Question[];
 

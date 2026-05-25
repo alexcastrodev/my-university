@@ -43,7 +43,7 @@ interface TopicBreakdown {
           </div>
 
           <div class="passing-note">
-            Passing score: 68% &nbsp;·&nbsp; {{ passed() ? 'You met the passing score.' : 'You did not meet the passing score.' }}
+            Passing score: {{ passingScore() }}% &nbsp;·&nbsp; {{ passed() ? 'You met the passing score.' : 'You did not meet the passing score.' }}
           </div>
         </div>
       </div>
@@ -60,8 +60,8 @@ interface TopicBreakdown {
                 <div class="topic-bar">
                   <div
                     class="topic-bar-fill"
-                    [class.pass]="t.percent >= 68"
-                    [class.fail]="t.percent < 68"
+                    [class.pass]="t.percent >= passingScore()"
+                    [class.fail]="t.percent < passingScore()"
                     [style.width.%]="t.percent"
                   ></div>
                 </div>
@@ -274,15 +274,20 @@ export class ResultPage implements OnInit {
   examId = signal('');
   score = signal(0);
   total = signal(0);
+  passingScore = signal(68);
   breakdown = signal<TopicBreakdown[]>([]);
 
   scorePercent = computed(() => this.total() ? Math.round((this.score() / this.total()) * 100) : 0);
-  passed = computed(() => this.scorePercent() >= 68);
+  passed = computed(() => this.scorePercent() >= this.passingScore());
 
   ngOnInit() {
     const examId = this.route.snapshot.paramMap.get('examId') ?? '';
     const attemptId = Number(this.route.snapshot.paramMap.get('attemptId'));
     this.examId.set(examId);
+
+    this.examService.getExam(examId).subscribe({
+      next: (exam) => this.passingScore.set(exam.passingScore),
+    });
 
     const nav = this.router.getCurrentNavigation()?.extras.state as
       { questions: ExamQuestion[]; answers: Record<number, string[]> } | undefined;

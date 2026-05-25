@@ -9,6 +9,11 @@ export interface ExamSeed {
   title: string;
   category: ExamCategory;
   version: string;
+  delivery?: string;
+  format?: string;
+  durationMinutes?: number;
+  questionCount?: number;
+  passingScore?: number;
 }
 
 interface QuestionSeed {

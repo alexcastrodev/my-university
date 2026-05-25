@@ -459,7 +459,7 @@ export class QuizPage implements OnInit, OnDestroy {
   attemptId = signal<number | null>(null);
   submitted = signal(false);
   submitting = signal(false);
-  timeLeft = signal(90 * 60); // 90 minutes
+  timeLeft = signal(120 * 60);
 
   private timerRef: ReturnType<typeof setInterval> | null = null;
 
@@ -470,12 +470,17 @@ export class QuizPage implements OnInit, OnDestroy {
     const id = this.route.snapshot.paramMap.get('examId') ?? '';
     this.examId.set(id);
 
-    this.examService.startAttempt(id).subscribe((attempt) => {
-      this.attemptId.set(attempt.id);
-    });
-
-    this.examService.getQuestions(id, 50).subscribe({
-      next: (qs) => { this.questions.set(qs); this.loading.set(false); this.startTimer(); },
+    this.examService.getExam(id).subscribe({
+      next: (exam) => {
+        this.timeLeft.set(exam.durationMinutes * 60);
+        this.examService.startAttempt(id).subscribe((attempt) => {
+          this.attemptId.set(attempt.id);
+        });
+        this.examService.getQuestions(id, exam.questionCount).subscribe({
+          next: (qs) => { this.questions.set(qs); this.loading.set(false); this.startTimer(); },
+          error: () => this.loading.set(false),
+        });
+      },
       error: () => this.loading.set(false),
     });
   }

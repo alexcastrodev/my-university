@@ -8,21 +8,26 @@ import { Progress } from './progress.entity';
 export class ProgressService {
   constructor(@InjectRepository(Progress) private repo: Repository<Progress>) {}
 
-  findAll(): Promise<Progress[]> {
-    return this.repo.find();
+  findAll(userId: number, courseId: string): Promise<Progress[]> {
+    return this.repo.find({ where: { userId, courseId } });
   }
 
-  async upsert(lessonId: string, status: LessonStatus): Promise<Progress> {
-    let progress = await this.repo.findOne({ where: { lessonId } });
+  async upsert(
+    userId: number,
+    courseId: string,
+    lessonId: string,
+    status: LessonStatus,
+  ): Promise<Progress> {
+    let progress = await this.repo.findOne({ where: { userId, courseId, lessonId } });
     if (!progress) {
-      progress = this.repo.create({ lessonId });
+      progress = this.repo.create({ userId, courseId, lessonId });
     }
     progress.status = status;
     return this.repo.save(progress);
   }
 
-  async getMap(): Promise<Record<string, LessonStatus>> {
-    const all = await this.repo.find();
+  async getMap(userId: number, courseId: string): Promise<Record<string, LessonStatus>> {
+    const all = await this.findAll(userId, courseId);
     return Object.fromEntries(all.map((p) => [p.lessonId, p.status]));
   }
 }

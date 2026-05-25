@@ -2,5 +2,10 @@
   "id": "java-25",
   "title": "OCP Java SE 25 Developer (1Z0-831)",
   "category": "Language",
-  "version": "25"
+  "version": "25",
+  "delivery": "Proctored Online",
+  "format": "Multiple Choice",
+  "durationMinutes": 120,
+  "questionCount": 50,
+  "passingScore": 68
 }

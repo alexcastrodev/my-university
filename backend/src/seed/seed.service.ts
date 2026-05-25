@@ -84,9 +84,12 @@ export class SeedService implements OnApplicationBootstrap {
   private async seedExams() {
     for (const examData of EXAMS) {
       const exists = await this.examRepo.findOne({ where: { id: examData.id } });
-      if (exists) continue;
-      this.log.log(`Seeding exam: ${examData.title}`);
-      await this.examRepo.save(this.examRepo.create(examData));
+      if (exists) {
+        await this.examRepo.save({ ...exists, ...examData });
+      } else {
+        this.log.log(`Seeding exam: ${examData.title}`);
+        await this.examRepo.save(this.examRepo.create(examData));
+      }
     }
   }
 

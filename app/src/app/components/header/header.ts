@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           </svg>
           <input type="search" placeholder="What do you want to learn?" aria-label="Search courses" />
         </div>
-        <button class="avatar" aria-label="User account menu" type="button">AC</button>
+        <button class="avatar" aria-label="User account menu" type="button" (click)="toggleUser()">
+          {{ userInitials() }}
+        </button>
       </div>
     </header>
   `,
@@ -113,12 +116,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     .search-box input::placeholder { color: #888; }
 
     .avatar {
-      width: 32px;
+      min-width: 32px;
       height: 32px;
       border-radius: 50%;
       background: #c74634;
       color: #fff;
       border: none;
+      padding: 0 0.65rem;
       font-size: 0.7rem;
       font-weight: 700;
       cursor: pointer;
@@ -131,4 +135,31 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     .avatar:hover { opacity: .85; }
   `,
 })
-export class Header {}
+export class Header {
+  private auth = inject(AuthService);
+
+  userInitials = computed(() => {
+    const user = this.auth.currentUser();
+    if (!user) return 'Sign in';
+
+    return user.displayName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join('');
+  });
+
+  toggleUser(): void {
+    const user = this.auth.currentUser();
+    if (user) {
+      if (confirm(`Sign out ${user.displayName}?`)) this.auth.logout();
+      return;
+    }
+
+    const displayName = prompt('Name');
+    if (!displayName) return;
+
+    this.auth.login(displayName).subscribe();
+  }
+}

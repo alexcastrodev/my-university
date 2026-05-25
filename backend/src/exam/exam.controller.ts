@@ -10,6 +10,11 @@ export class ExamController {
     return this.service.listExams();
   }
 
+  @Get(':examId')
+  getExam(@Param('examId') examId: string) {
+    return this.service.getExam(examId);
+  }
+
   @Get(':examId/topics')
   getTopics(@Param('examId') examId: string) {
     return this.service.getTopics(examId);
@@ -26,7 +31,7 @@ export class ExamController {
     @Query('topic') topic?: string,
     @Query('limit') limit?: string,
   ) {
-    return this.service.getQuestions(examId, topic, limit ? parseInt(limit) : 50);
+    return this.service.getQuestions(examId, topic, limit ? parseInt(limit) : undefined);
   }
 
   @Get('questions/:id')

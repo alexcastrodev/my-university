@@ -35,6 +35,11 @@ import { ExamService } from '../../services/exam.service';
                       <span class="card-category">{{ exam.category }}</span>
                     </div>
                     <h3 class="card-title">{{ exam.title }}</h3>
+                    <div class="card-meta">
+                      <span>{{ exam.questionCount }} questions</span>
+                      <span>{{ exam.durationMinutes }} minutes</span>
+                      <span>{{ exam.passingScore }}% pass</span>
+                    </div>
                     <div class="card-footer">
                       <span class="card-cta">Start Practice →</span>
                     </div>
@@ -176,6 +181,22 @@ import { ExamService } from '../../services/exam.service';
       margin: 0;
       flex: 1;
       line-height: 1.4;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.75rem;
+    }
+
+    .card-meta span {
+      font-size: 0.68rem;
+      color: #4b5563;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 0.15rem 0.45rem;
     }
 
     .card-footer {

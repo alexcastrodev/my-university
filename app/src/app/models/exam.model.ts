@@ -3,6 +3,11 @@ export interface Exam {
   title: string;
   category: 'Language' | 'Database';
   version: string;
+  delivery: string;
+  format: string;
+  durationMinutes: number;
+  questionCount: number;
+  passingScore: number;
 }
 
 export interface ExamOption {

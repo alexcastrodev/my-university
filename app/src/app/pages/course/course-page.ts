@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CourseView } from '../../components/course-view/course-view';
 import { LessonContent } from '../../components/lesson-content/lesson-content';
 import { Playlist } from '../../components/playlist/playlist';
 import { Course, Lesson } from '../../models/course.model';
+import { Exam } from '../../models/exam.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-course-page',
@@ -25,6 +27,14 @@ import { Course, Lesson } from '../../models/course.model';
                 ← Back to course
               </button>
               <span class="lesson-title-bar">{{ activeLesson()!.title }}</span>
+              <button
+                class="complete-btn"
+                [class.completed]="activeLesson()!.status === 'completed'"
+                (click)="toggleCompleted()"
+                type="button"
+              >
+                {{ activeLesson()!.status === 'completed' ? 'Completed' : 'Mark completed' }}
+              </button>
             </div>
             @if (markdownLoading()) {
               <div class="loading" role="status">
@@ -39,7 +49,7 @@ import { Course, Lesson } from '../../models/course.model';
               <div class="quiz-banner">
                 <div class="quiz-banner-text">
                   <strong>Ready to test your knowledge?</strong>
-                  <span>Practice exam with {{ questionCount() }} randomised questions.</span>
+                  <span>{{ questionCount() }} questions · {{ durationMinutes() }} minutes · {{ passingScore() }}% passing score</span>
                 </div>
                 <a [routerLink]="['/exam', examId(), 'quiz']" class="quiz-btn">
                   Start Practice Exam →
@@ -173,6 +183,32 @@ import { Course, Lesson } from '../../models/course.model';
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .complete-btn {
+      background: #fff;
+      border: 1px solid #d1d5db;
+      color: #374151;
+      border-radius: 6px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .12s, border-color .12s, color .12s;
+    }
+
+    .complete-btn:hover {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    .complete-btn.completed {
+      background: #ecfdf5;
+      border-color: #16a34a;
+      color: #166534;
     }
   `,
 })
@@ -180,11 +216,19 @@ export class CoursePage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private http = inject(HttpClient);
+  private auth = inject(AuthService);
+  private courseLoader = effect(() => {
+    const id = this.examId();
+    this.auth.currentUser();
+    if (id) this.loadCourse(id);
+  });
 
   examId = signal('');
   course = signal<Course | null>(null);
   loading = signal(true);
   questionCount = signal(0);
+  durationMinutes = signal(0);
+  passingScore = signal(0);
 
   activeLesson = signal<Lesson | null>(null);
   activeLessonId = signal<string | null>(null);
@@ -204,18 +248,12 @@ export class CoursePage implements OnInit {
       }
     });
 
-    this.http.get<Course>(`/api/courses/${id}`).subscribe({
-      next: (c) => {
-        const lessonId = this.route.snapshot.paramMap.get('lessonId');
-        this.course.set(this.withExpandedModule(c, lessonId));
-        this.loading.set(false);
-        this.activateLessonFromUrl(lessonId);
+    this.http.get<Exam>(`/api/exam/${id}`).subscribe({
+      next: (exam) => {
+        this.questionCount.set(exam.questionCount);
+        this.durationMinutes.set(exam.durationMinutes);
+        this.passingScore.set(exam.passingScore);
       },
-      error: () => { this.loading.set(false); },
-    });
-
-    this.http.get<{ topic: string; count: number }[]>(`/api/exam/${id}/stats`).subscribe({
-      next: (stats) => this.questionCount.set(stats.reduce((s, t) => s + Number(t.count), 0)),
     });
   }
 
@@ -269,6 +307,24 @@ export class CoursePage implements OnInit {
     this.markdownContent.set(null);
   }
 
+  toggleCompleted(): void {
+    const lesson = this.activeLesson();
+    if (!lesson) return;
+
+    const user = this.auth.currentUser();
+    if (!user) {
+      const displayName = prompt('Name');
+      if (!displayName) return;
+      this.auth.login(displayName).subscribe({ next: () => this.toggleCompleted() });
+      return;
+    }
+
+    const status = lesson.status === 'completed' ? 'in-progress' : 'completed';
+    this.http
+      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
+      .subscribe({ next: () => this.setLessonStatus(lesson.id, status) });
+  }
+
   private findLesson(lessonId: string): Lesson | null {
     for (const mod of this.modules()) {
       const lesson = mod.lessons.find((item) => item.id === lessonId);
@@ -295,5 +351,30 @@ export class CoursePage implements OnInit {
         expanded: Boolean(m.expanded) || (lessonId ? m.lessons.some((lesson) => lesson.id === lessonId) : index === 0),
       })),
     };
+  }
+
+  private setLessonStatus(lessonId: string, status: Lesson['status']): void {
+    this.course.update((course) => course ? ({
+      ...course,
+      modules: course.modules.map((mod) => ({
+        ...mod,
+        lessons: mod.lessons.map((lesson) => lesson.id === lessonId ? { ...lesson, status } : lesson),
+      })),
+    }) : course);
+
+    this.activeLesson.update((lesson) => lesson?.id === lessonId ? { ...lesson, status } : lesson);
+  }
+
+  private loadCourse(id: string): void {
+    this.loading.set(true);
+    this.http.get<Course>(`/api/courses/${id}`, this.auth.headers()).subscribe({
+      next: (c) => {
+        const lessonId = this.route.snapshot.paramMap.get('lessonId');
+        this.course.set(this.withExpandedModule(c, lessonId));
+        this.loading.set(false);
+        this.activateLessonFromUrl(lessonId);
+      },
+      error: () => { this.loading.set(false); },
+    });
   }
 }

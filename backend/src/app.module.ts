@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 import { CourseNestModule } from './course/course.module';
 import { Exam } from './exam/exam.entity';
 import { ExamAttempt } from './exam/exam-attempt.entity';
@@ -17,9 +19,10 @@ import { SeedModule } from './seed/seed.module';
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: process.env.DB_PATH ?? 'ocp-java.db',
-      entities: [Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt],
+      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt],
       synchronize: true,
     }),
+    AuthModule,
     CourseNestModule,
     ProgressModule,
     ExamModule,

@@ -1,9 +1,19 @@
-import { Column, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import type { LessonStatus } from '../lesson/lesson.entity';
 
-@Entity()
+@Entity('user_lesson_progress')
+@Index(['userId', 'courseId', 'lessonId'], { unique: true })
 export class Progress {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  userId: number;
+
+  @Column()
+  courseId: string;
+
+  @Column()
   lessonId: string;
 
   @Column({ default: 'new' })
