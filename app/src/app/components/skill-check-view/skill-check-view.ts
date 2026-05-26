@@ -164,9 +164,16 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       margin: 0;
     }
 
+    :host {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
     .quiz-wrap {
       display: flex;
       flex-direction: column;
+      flex: 1;
     }
 
     .quiz-topbar {
@@ -219,6 +226,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       max-width: 720px;
       width: 100%;
       margin: 0 auto;
+      flex: 1;
     }
 
     .question-meta {

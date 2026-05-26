@@ -27,6 +27,9 @@ export class Lesson {
   @Column('varchar', { nullable: true })
   topic: string | null;
 
+  @Column({ default: 0 })
+  order: number = 0;
+
   @ManyToOne(() => CourseModule, (m) => m.lessons, { onDelete: 'CASCADE' })
   module: CourseModule;
 }

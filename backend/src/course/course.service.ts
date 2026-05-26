@@ -16,7 +16,7 @@ export class CourseService {
   async findAll(userId: number | null = null): Promise<Course[]> {
     const courses = await this.repo.find({
       relations: { modules: { lessons: true } },
-      order: { modules: { order: 'ASC' } },
+      order: { modules: { order: 'ASC', lessons: { order: 'ASC' } } },
     });
     if (!userId) return courses;
     return Promise.all(courses.map((course) => this.applyUserProgress(course, userId)));
@@ -26,7 +26,7 @@ export class CourseService {
     const course = await this.repo.findOne({
       where: { id },
       relations: { modules: { lessons: true } },
-      order: { modules: { order: 'ASC' } },
+      order: { modules: { order: 'ASC', lessons: { order: 'ASC' } } },
     });
     if (!course || !userId) return course;
     return this.applyUserProgress(course, userId);

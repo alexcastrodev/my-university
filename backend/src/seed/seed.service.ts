@@ -53,7 +53,8 @@ export class SeedService implements OnApplicationBootstrap {
         });
         await this.moduleRepo.save(moduleEntity);
 
-        for (const lesson of mod.lessons) {
+        for (let i = 0; i < mod.lessons.length; i++) {
+          const lesson = mod.lessons[i];
           const lessonEntity = new Lesson();
           lessonEntity.id = lesson.id;
           lessonEntity.title = lesson.title;
@@ -62,6 +63,7 @@ export class SeedService implements OnApplicationBootstrap {
           lessonEntity.status = lesson.status as Lesson['status'];
           lessonEntity.contentPath = lesson.contentPath ?? null;
           lessonEntity.topic = (lesson as any).topic ?? null;
+          lessonEntity.order = i;
           lessonEntity.module = moduleEntity;
           await this.lessonRepo.save(lessonEntity);
         }
