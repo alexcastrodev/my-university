@@ -42,6 +42,11 @@ import { XpService } from '../../services/xp.service';
                 <span class="spinner" aria-hidden="true"></span>
                 Loading lesson…
               </div>
+            } @else if (isPracticePlaceholder()) {
+              <div class="practice-placeholder">
+                <div class="practice-icon" aria-hidden="true">✏️</div>
+                <p class="practice-desc">Work through the practice exercises for this topic on your own. When you're done, mark this lesson as completed.</p>
+              </div>
             } @else {
               <app-lesson-content [markdown]="markdownContent()"></app-lesson-content>
             }
@@ -226,6 +231,28 @@ import { XpService } from '../../services/xp.service';
       border-color: #16a34a;
       color: #166534;
     }
+
+    .practice-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 4rem 2rem;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .practice-icon { font-size: 2.5rem; line-height: 1; }
+
+    .practice-desc {
+      font-size: 0.875rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin: 0;
+    }
+
   `,
 })
 export class CoursePage implements OnInit {
@@ -253,6 +280,7 @@ export class CoursePage implements OnInit {
   markdownLoading = signal(false);
 
   modules = computed(() => this.course()?.modules ?? []);
+  isPracticePlaceholder = computed(() => this.activeLesson()?.type === 'practice' && !this.markdownContent());
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('examId') ?? '';
@@ -282,6 +310,10 @@ export class CoursePage implements OnInit {
   }
 
   onLessonSelected(lesson: Lesson): void {
+    if (lesson.type === 'skill-check') {
+      void this.router.navigate(['/exam', this.examId(), 'quiz']);
+      return;
+    }
     void this.router.navigate(['/exam', this.examId(), 'lesson', lesson.id]);
     this.openLesson(lesson);
   }
@@ -296,6 +328,10 @@ export class CoursePage implements OnInit {
 
     const lesson = this.findLesson(lessonId);
     if (lesson) {
+      if (lesson.type === 'skill-check') {
+        void this.router.navigate(['/exam', this.examId(), 'quiz']);
+        return;
+      }
       this.expandModuleForLesson(lessonId);
       this.openLesson(lesson);
     }
