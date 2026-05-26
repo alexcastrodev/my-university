@@ -21,16 +21,12 @@ function parseFrontmatter(raw: string): LessonContent {
 
 @Controller('content')
 export class ContentController {
-  @Get(':courseSlug/:filename')
-  async serveMarkdown(
-    @Param('courseSlug') courseSlug: string,
-    @Param('filename') filename: string,
-  ): Promise<LessonContent> {
-    const safeCourse = courseSlug.replace(/\.\./g, '');
-    const safeFile = filename.replace(/\.\./g, '');
-    const filePath = join(__dirname, '../seed/data', safeCourse, 'content', safeFile);
+  @Get('*')
+  async serveMarkdown(@Param('0') filePath: string): Promise<LessonContent> {
+    const safePath = filePath.replace(/\.\./g, '');
+    const absPath = join(__dirname, '../seed/data', safePath);
     try {
-      const raw = await readFile(filePath, 'utf-8');
+      const raw = await readFile(absPath, 'utf-8');
       return parseFrontmatter(raw);
     } catch {
       throw new NotFoundException();
