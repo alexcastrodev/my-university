@@ -120,5 +120,359 @@
       "B"
     ],
     "explanation": "BufferedReader wraps a Reader (typically FileReader) and provides buffered character reading including readLine(). FileInputStream is byte-based. DataInputStream reads primitive types. ObjectInputStream is for deserialization."
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the key behavioral difference between Files.readString() and Files.lines()?",
+    "code": "Path p = Path.of(\"data.txt\");\n// Option A\nString all = Files.readString(p);\n// Option B\ntry (Stream<String> s = Files.lines(p)) {\n    s.forEach(System.out::println);\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Files.readString() reads the entire file into memory at once; Files.lines() returns a lazy stream that reads on demand."
+      },
+      {
+        "key": "B",
+        "text": "Files.readString() requires try-with-resources; Files.lines() does not."
+      },
+      {
+        "key": "C",
+        "text": "Files.lines() reads the entire file into memory at once; Files.readString() returns a lazy stream."
+      },
+      {
+        "key": "D",
+        "text": "Both methods read the entire file eagerly; the only difference is the return type."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Files.readString(Path) reads all bytes and decodes them to a String in one operation — the whole file content is in memory. Files.lines(Path) opens a BufferedReader internally and returns a lazy Stream<String>; lines are only consumed as the stream is traversed. Because Files.lines() holds an open file handle, the stream must be closed via try-with-resources. Files.readString() closes the file before returning, so no try-with-resources is needed for resource management (though checked exceptions still require handling).",
+    "source": "Oracle Docs – Files.readString / Files.lines : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Files.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What does the following code do if \"log.txt\" already exists and contains text?",
+    "code": "Path p = Path.of(\"log.txt\");\nFiles.writeString(p, \"new entry\\n\", StandardOpenOption.APPEND);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws FileAlreadyExistsException because the file exists."
+      },
+      {
+        "key": "B",
+        "text": "Overwrites the existing content with \"new entry\\n\"."
+      },
+      {
+        "key": "C",
+        "text": "Appends \"new entry\\n\" to the end of the existing file content."
+      },
+      {
+        "key": "D",
+        "text": "Creates a new file named \"log(1).txt\" to avoid overwriting."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Files.writeString(Path, CharSequence, OpenOption...) accepts StandardOpenOption values. APPEND positions the write pointer at the end of the file before each write, so the existing content is preserved and the new string is added after it. Without any OpenOption, the default is CREATE, TRUNCATE_EXISTING, WRITE — which would overwrite. APPEND implies WRITE and CREATE as well, so the file is created if it does not exist.",
+    "source": "Oracle Docs – Files.writeString : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Files.html#writeString(java.nio.file.Path,java.lang.CharSequence,java.nio.file.OpenOption...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "multi",
+    "text": "Given the following code, which statements correctly describe the result of each Path operation? (Choose all that apply.)\n\n```\nPath base  = Path.of(\"/home/user\");\nPath other = Path.of(\"docs/report.txt\");\n```",
+    "code": "Path base  = Path.of(\"/home/user\");\nPath other = Path.of(\"docs/report.txt\");\n\nPath r = base.resolve(other);       // line 1\nPath n = Path.of(\"/a/b/../c\").normalize(); // line 2\nPath rel = Path.of(\"/home/user\").relativize(Path.of(\"/home/user/docs/report.txt\")); // line 3",
+    "options": [
+      {
+        "key": "A",
+        "text": "Line 1 produces /home/user/docs/report.txt"
+      },
+      {
+        "key": "B",
+        "text": "Line 1 produces docs/report.txt because other is relative."
+      },
+      {
+        "key": "C",
+        "text": "Line 2 produces /a/c"
+      },
+      {
+        "key": "D",
+        "text": "Line 2 produces /a/b/../c because normalize() only removes trailing slashes."
+      },
+      {
+        "key": "E",
+        "text": "Line 3 produces docs/report.txt"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "E"
+    ],
+    "explanation": "resolve(): when the argument is a relative path, it is appended to the base, yielding /home/user/docs/report.txt. If the argument were absolute, resolve() would return the argument unchanged. normalize(): removes redundant . and .. segments — /a/b/../c becomes /a/c. relativize(): computes the path to navigate from the receiver to the argument. From /home/user to /home/user/docs/report.txt the result is docs/report.txt (no leading slash because it is relative).",
+    "source": "Oracle Docs – Path : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Path.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What happens when the following code runs and the destination file already exists?",
+    "code": "Path src  = Path.of(\"source.txt\");\nPath dest = Path.of(\"dest.txt\");\nFiles.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws FileAlreadyExistsException."
+      },
+      {
+        "key": "B",
+        "text": "The destination file is replaced with the content of source.txt."
+      },
+      {
+        "key": "C",
+        "text": "The content of source.txt is appended to dest.txt."
+      },
+      {
+        "key": "D",
+        "text": "The copy is skipped silently and no exception is thrown."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Without REPLACE_EXISTING, Files.copy() throws FileAlreadyExistsException if the target exists. With StandardCopyOption.REPLACE_EXISTING, the existing destination is atomically replaced with a copy of the source. The option does NOT append — it fully replaces. If the destination is a non-empty directory, an exception is still thrown regardless of REPLACE_EXISTING.",
+    "source": "Oracle Docs – Files.copy : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Files.html#copy(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "Why must Files.walk() be used inside a try-with-resources block?",
+    "code": "try (Stream<Path> stream = Files.walk(Path.of(\"/data\"))) {\n    stream.filter(Files::isRegularFile)\n          .forEach(System.out::println);\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Because Files.walk() throws a checked exception that must be caught."
+      },
+      {
+        "key": "B",
+        "text": "Because the returned Stream<Path> holds an open directory handle that must be closed to release OS resources."
+      },
+      {
+        "key": "C",
+        "text": "Because Stream does not implement AutoCloseable and requires explicit cleanup code."
+      },
+      {
+        "key": "D",
+        "text": "Because Files.walk() buffers all paths in memory and try-with-resources flushes the buffer."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Files.walk() opens one or more directory streams internally to traverse the tree. The returned Stream<Path> implements AutoCloseable specifically to allow those directory handles to be released when the stream is closed. If the stream is never closed, the underlying file descriptors remain open until GC — which can cause 'too many open files' errors on large trees. Stream itself does implement AutoCloseable (since Java 8), so try-with-resources works directly. The IOException is also a reason to handle checked exceptions, but it is not the reason try-with-resources is needed for resource management.",
+    "source": "Oracle Docs – Files.walk : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Files.html#walk(java.nio.file.Path,java.nio.file.FileVisitOption...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following statements about serialVersionUID and transient fields are correct? (Choose all that apply.)",
+    "code": "import java.io.*;\n\npublic class Account implements Serializable {\n    private static final long serialVersionUID = 42L;\n    private String owner;\n    private transient String password;\n    private static int instanceCount = 0;\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "If serialVersionUID in the .class file does not match the value in the serialized stream, deserialization throws InvalidClassException."
+      },
+      {
+        "key": "B",
+        "text": "After deserialization, password will be null."
+      },
+      {
+        "key": "C",
+        "text": "After deserialization, instanceCount will hold the value it had at serialization time."
+      },
+      {
+        "key": "D",
+        "text": "Declaring serialVersionUID is mandatory; omitting it causes a compilation error."
+      },
+      {
+        "key": "E",
+        "text": "If serialVersionUID is not declared explicitly, the JVM generates one automatically based on class structure."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "E"
+    ],
+    "explanation": "A: Correct — a mismatch between the stream's UID and the loaded class's UID causes InvalidClassException during readObject(). B: Correct — transient fields are skipped during serialization; upon deserialization they receive their default value (null for objects, 0 for numbers, false for booleans). C: Incorrect — static fields are not serialized; instanceCount is a class-level field and retains whatever value the JVM currently holds, not the serialized value. D: Incorrect — declaring serialVersionUID is strongly recommended but optional; the compiler does not require it (though IDEs warn when it is absent). E: Correct — if omitted, the JVM computes a UID from class name, fields, and methods; any structural change will alter the computed UID and break deserialization of old streams.",
+    "source": "Oracle Docs – Serializable : https://docs.oracle.com/en/java/docs/api/java.base/java/io/Serializable.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What is printed when the following code runs successfully?",
+    "code": "import java.io.*;\nimport java.nio.file.*;\n\npublic class Demo {\n    public static void main(String[] args) throws Exception {\n        Path file = Files.createTempFile(\"test\", \".dat\");\n\n        try (ObjectOutputStream oos = new ObjectOutputStream(\n                new FileOutputStream(file.toFile()))) {\n            oos.writeObject(\"alpha\");\n            oos.writeObject(\"beta\");\n            oos.writeObject(\"gamma\");\n        }\n\n        try (ObjectInputStream ois = new ObjectInputStream(\n                new FileInputStream(file.toFile()))) {\n            System.out.println(ois.readObject());\n            System.out.println(ois.readObject());\n        }\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "gamma\nbeta"
+      },
+      {
+        "key": "B",
+        "text": "alpha\nbeta"
+      },
+      {
+        "key": "C",
+        "text": "beta\nalpha"
+      },
+      {
+        "key": "D",
+        "text": "Throws EOFException because only two objects are read from a stream containing three."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ObjectOutputStream writes objects in the order the writeObject() calls are made. ObjectInputStream reads them back in the same FIFO order. The first readObject() returns \"alpha\" and the second returns \"beta\". The third object \"gamma\" remains unread in the stream, which is perfectly legal — no exception is thrown merely because the stream contains more data. EOFException is only thrown if readObject() is called when no more objects are available.",
+    "source": "Oracle Docs – ObjectInputStream : https://docs.oracle.com/en/java/docs/api/java.base/java/io/ObjectInputStream.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following statements about Java records and serialization are correct? (Choose all that apply.)",
+    "code": "import java.io.*;\n\npublic record Point(int x, int y) implements Serializable {}",
+    "options": [
+      {
+        "key": "A",
+        "text": "During deserialization, the canonical constructor of Point is always invoked."
+      },
+      {
+        "key": "B",
+        "text": "Records use the same serialization mechanism as regular classes, so readObject() / writeObject() can be customized."
+      },
+      {
+        "key": "C",
+        "text": "Records cannot implement Serializable."
+      },
+      {
+        "key": "D",
+        "text": "The serialization form of a record is based on its record components, not its fields directly."
+      },
+      {
+        "key": "E",
+        "text": "Because the canonical constructor is called on deserialization, any validation logic inside it is always enforced."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D",
+      "E"
+    ],
+    "explanation": "A: Correct — unlike regular classes (which bypass constructors during deserialization using unsafe allocation), records are always reconstructed via their canonical constructor. D: Correct — the serialized form is defined in terms of the record's components; this provides stability even if internal implementation details change. E: Correct — because the canonical constructor runs, any precondition checks or compaction logic it contains are automatically enforced during deserialization, making records safer than regular classes for serialization. B: Incorrect — records cannot declare readObject(), writeObject(), readResolve(), or writeReplace(); these methods are ignored. C: Incorrect — records can implement Serializable (and Externalizable is also permitted but unusual).",
+    "source": "Oracle Docs – Record Serialization : https://docs.oracle.com/en/java/docs/api/java.base/java/io/Serializable.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the return type of Console.readPassword() and why is it preferred over returning a String?",
+    "code": "Console console = System.console();\nchar[] pwd = console.readPassword(\"Enter password: \");",
+    "options": [
+      {
+        "key": "A",
+        "text": "String — it is preferred because String is immutable and therefore safer."
+      },
+      {
+        "key": "B",
+        "text": "char[] — so the caller can explicitly zero out the array after use, preventing the password from lingering in memory."
+      },
+      {
+        "key": "C",
+        "text": "byte[] — because passwords are stored as raw bytes to avoid encoding issues."
+      },
+      {
+        "key": "D",
+        "text": "char[] — because Console cannot construct String objects."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Console.readPassword() returns char[] (not String) specifically for security. String objects are immutable and interned in the string pool, so a sensitive value may remain in memory for an indeterminate period until GC. With char[], the caller can immediately overwrite the array (e.g., Arrays.fill(pwd, '\\0')) after use, minimising the window in which the plaintext password resides in the heap. Additionally, readPassword() disables echo to the terminal so the characters are not displayed as they are typed.",
+    "source": "Oracle Docs – Console.readPassword : https://docs.oracle.com/en/java/docs/api/java.base/java/io/Console.html#readPassword()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "import java.util.Scanner;\n\npublic class Demo {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        // Simulated input: \"42\\nHello\"\n        int n = sc.nextInt();\n        String line = sc.nextLine();\n        System.out.println(n);\n        System.out.println(\"|\" + line + \"|\");\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "42\n|Hello|"
+      },
+      {
+        "key": "B",
+        "text": "42\n||"
+      },
+      {
+        "key": "C",
+        "text": "Throws InputMismatchException."
+      },
+      {
+        "key": "D",
+        "text": "42\n|42|"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "nextInt() reads the token '42' but leaves the newline character '\\n' still in the input buffer. The subsequent nextLine() call reads up to the next newline — which is immediately the '\\n' left by nextInt() — and returns an empty string \"\". Therefore line is \"\" and the output is '|' + '' + '|' = '||'. The classic fix is to call sc.nextLine() once after nextInt() to consume the leftover newline before reading the intended line.",
+    "source": "Oracle Docs – Scanner : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Scanner.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following statements about Path.of() and Paths.get() are correct? (Choose all that apply.)",
+    "code": "Path p1 = Path.of(\"/home/user/file.txt\");\nPath p2 = Paths.get(\"/home/user/file.txt\");",
+    "options": [
+      {
+        "key": "A",
+        "text": "Path.of() was introduced in Java 11 as a more convenient factory method."
+      },
+      {
+        "key": "B",
+        "text": "p1 and p2 represent identical paths and p1.equals(p2) is true."
+      },
+      {
+        "key": "C",
+        "text": "Paths.get() was deprecated in Java 11 and removed in Java 17."
+      },
+      {
+        "key": "D",
+        "text": "Path.of() delegates to the default FileSystem; Paths.get() uses a different file system provider."
+      },
+      {
+        "key": "E",
+        "text": "Both methods accept a varargs second argument to build paths from multiple segments."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "E"
+    ],
+    "explanation": "A: Correct — Path.of(String, String...) was added in Java 11 as a static factory directly on the Path interface. B: Correct — both methods return equivalent Path objects for the same input; equals() compares the paths lexicographically on the same file system, so the result is true. C: Incorrect — Paths.get() has NOT been formally deprecated in any LTS release; it still exists in Java 21/25. The community prefers Path.of() stylistically, but Paths.get() remains available. D: Incorrect — internally Paths.get() simply delegates to FileSystems.getDefault().getPath(), exactly as Path.of() does; they use the same provider. E: Correct — both accept (String first, String... more) so segments can be joined: Path.of(\"/home\", \"user\", \"file.txt\").",
+    "source": "Oracle Docs – Path.of : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Path.html#of(java.lang.String,java.lang.String...)"
   }
 ]

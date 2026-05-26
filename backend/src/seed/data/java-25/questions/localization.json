@@ -92,5 +92,408 @@
       "A"
     ],
     "explanation": "NumberFormat.getCurrencyInstance() returns a locale-sensitive currency formatter. String.format(\"%c\") formats a char. DecimalFormat with a hardcoded $ symbol is not locale-aware. getMoneyInstance() does not exist."
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "You need to create a Locale for European Portuguese using the modern Java 19+ API. Which call is correct and avoids the deprecated constructor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "new Locale(\"pt\", \"PT\")"
+      },
+      {
+        "key": "B",
+        "text": "Locale.forLanguageTag(\"PT-pt\")"
+      },
+      {
+        "key": "C",
+        "text": "Locale.of(\"pt\", \"PT\")"
+      },
+      {
+        "key": "D",
+        "text": "Locale.Builder().setLanguage(\"PT\").setRegion(\"pt\").build()"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Since Java 19, the public constructors of Locale (e.g. new Locale(\"pt\",\"PT\")) are deprecated. The preferred replacement is the factory method Locale.of(languageCode, countryCode) where language is lowercase and country is uppercase. Locale.forLanguageTag() expects BCP 47 tags like \"pt-PT\" (not \"PT-pt\"). The Builder approach is valid but more verbose and not the simplest option.",
+    "source": "Oracle Docs – Locale (Java 19 deprecation notice): https://docs.oracle.com/en/java/docs/api/java.base/java/util/Locale.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What does `Locale.getDefault()` return when called on a JVM with no explicit locale configuration?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Always Locale.US regardless of the operating system."
+      },
+      {
+        "key": "B",
+        "text": "The locale of the underlying operating system or JVM startup configuration."
+      },
+      {
+        "key": "C",
+        "text": "Locale.ROOT, which has no language or country."
+      },
+      {
+        "key": "D",
+        "text": "null if no locale has been explicitly set."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Locale.getDefault() returns the default locale established when the JVM started, which is typically derived from the host operating system's locale settings. It can be overridden programmatically with Locale.setDefault(locale) or at JVM startup with -Duser.language and -Duser.country system properties. It never returns null.",
+    "source": "Oracle Docs – Locale.getDefault(): https://docs.oracle.com/en/java/docs/api/java.base/java/util/Locale.html#getDefault()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "Given a resource bundle base name \"Messages\" and a locale of `Locale.of(\"fr\", \"CA\")`, in what order does Java search for the bundle files when the exact match does not exist?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Messages_fr_CA.properties → Messages.properties → MissingResourceException"
+      },
+      {
+        "key": "B",
+        "text": "Messages_fr_CA.properties → Messages_fr.properties → Messages.properties → MissingResourceException"
+      },
+      {
+        "key": "C",
+        "text": "Messages.properties → Messages_fr.properties → Messages_fr_CA.properties"
+      },
+      {
+        "key": "D",
+        "text": "Messages_fr_CA.properties → Messages_fr_CA_default.properties → MissingResourceException"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ResourceBundle.getBundle() follows a well-defined fallback chain from most specific to least specific: first the exact locale (language + country), then language only, then the default locale chain, and finally the base bundle with no suffix. For Locale.of(\"fr\",\"CA\") the chain is Messages_fr_CA.properties → Messages_fr.properties → Messages.properties. A MissingResourceException is thrown only if none is found.",
+    "source": "Oracle Docs – ResourceBundle.getBundle() fallback: https://docs.oracle.com/en/java/docs/api/java.base/java/util/ResourceBundle.html#getBundle(java.lang.String,java.util.Locale)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What happens when `ResourceBundle.getString(\"nonexistent.key\")` is called and the key does not exist in the bundle or any parent bundle?",
+    "code": "ResourceBundle bundle = ResourceBundle.getBundle(\"Messages\", Locale.US);\nString value = bundle.getString(\"nonexistent.key\");\nSystem.out.println(value);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Returns null."
+      },
+      {
+        "key": "B",
+        "text": "Returns an empty String \"\"."
+      },
+      {
+        "key": "C",
+        "text": "Throws MissingResourceException at runtime."
+      },
+      {
+        "key": "D",
+        "text": "Throws IllegalArgumentException at runtime."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "ResourceBundle.getString() throws java.util.MissingResourceException (an unchecked RuntimeException) when the requested key cannot be found in the bundle or any of its parent bundles. It does not return null or an empty string. To check existence safely, use bundle.containsKey(\"key\") before calling getString().",
+    "source": "Oracle Docs – ResourceBundle.getString(): https://docs.oracle.com/en/java/docs/api/java.base/java/util/ResourceBundle.html#getString(java.lang.String)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "import java.text.MessageFormat;\n\nString pattern = \"Hello, {0}! You have {1,number} messages.\";\nString result = MessageFormat.format(pattern, \"Ana\", 5);\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Hello, Ana! You have {1,number} messages."
+      },
+      {
+        "key": "B",
+        "text": "Hello, Ana! You have 5 messages."
+      },
+      {
+        "key": "C",
+        "text": "Hello, {0}! You have 5 messages."
+      },
+      {
+        "key": "D",
+        "text": "Compilation error: MessageFormat.format() does not accept varargs."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "MessageFormat.format(String pattern, Object... args) substitutes indexed placeholders: {0} is replaced by the first argument (\"Ana\"), and {1,number} is replaced by the second argument (5) formatted as a number. The output is: Hello, Ana! You have 5 messages.",
+    "source": "Oracle Docs – MessageFormat: https://docs.oracle.com/en/java/docs/api/java.base/java/text/MessageFormat.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following MessageFormat patterns are valid and produce the described output when formatted with the given arguments? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "\"{0,date,short}\" with a java.util.Date argument — formats the date in short locale-sensitive style."
+      },
+      {
+        "key": "B",
+        "text": "\"{0,number,currency}\" with 1234.5 — formats as locale-sensitive currency (e.g. $1,234.50 for Locale.US)."
+      },
+      {
+        "key": "C",
+        "text": "\"{0,string}\" with \"hello\" — formats using the string format type."
+      },
+      {
+        "key": "D",
+        "text": "\"{0,number,#.##}\" with 3.14159 — formats as 3.14 using a DecimalFormat sub-pattern."
+      },
+      {
+        "key": "E",
+        "text": "\"{0,choice,0#no items|1#one item|2<{0} items}\" with 3 — formats as \"3 items\"."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "MessageFormat supports format types: number, date, time, and choice. {0,date,short} uses DateFormat.SHORT for locale-aware date formatting. {0,number,currency} applies currency formatting. {0,number,#.##} uses a DecimalFormat sub-pattern. {0,choice,...} uses ChoiceFormat for conditional text. There is no 'string' format type in MessageFormat — plain {0} is used for strings, so option C is invalid.",
+    "source": "Oracle Docs – MessageFormat Format Element syntax: https://docs.oracle.com/en/java/docs/api/java.base/java/text/MessageFormat.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "A MessageFormat pattern uses ChoiceFormat to display singular/plural text. What does the following pattern produce when the argument is `1`?",
+    "code": "String pattern = \"{0,choice,0#no files|1#one file|2<{0} files}\";\nSystem.out.println(MessageFormat.format(pattern, 1));",
+    "options": [
+      {
+        "key": "A",
+        "text": "no files"
+      },
+      {
+        "key": "B",
+        "text": "one file"
+      },
+      {
+        "key": "C",
+        "text": "1 files"
+      },
+      {
+        "key": "D",
+        "text": "Throws IllegalArgumentException."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ChoiceFormat boundaries use '#' for exact equality and '<' for strictly greater than. The pattern maps: 0 → \"no files\", 1 → \"one file\", >2 → \"{0} files\". With argument 1, the exact match for boundary 1 applies, so the output is \"one file\".",
+    "source": "Oracle Docs – ChoiceFormat: https://docs.oracle.com/en/java/docs/api/java.base/java/text/ChoiceFormat.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the key difference between `String.format(\"%,.2f\", 1234567.89)` and `String.format(Locale.US, \"%,.2f\", 1234567.89)` when the JVM default locale is `Locale.of(\"de\", \"DE\")`?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Both produce the same output because %f is not locale-sensitive."
+      },
+      {
+        "key": "B",
+        "text": "The first uses the JVM default locale (German), potentially producing \"1.234.567,89\"; the second always uses US locale, producing \"1,234,567.89\"."
+      },
+      {
+        "key": "C",
+        "text": "The second form throws a compilation error because Locale cannot be passed to String.format()."
+      },
+      {
+        "key": "D",
+        "text": "The first produces \"1,234,567.89\" and the second produces \"1.234.567,89\"."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "String.format(String, Object...) uses the JVM default locale for locale-sensitive conversions such as %f, %e, %g, and %,. When the default locale is German (de_DE), the decimal separator is a comma and the thousands separator is a period, so the output would be \"1.234.567,89\". String.format(Locale, String, Object...) explicitly overrides the locale, so passing Locale.US guarantees \"1,234,567.89\" regardless of the JVM default.",
+    "source": "Oracle Docs – String.format(Locale,String,Object...): https://docs.oracle.com/en/java/docs/api/java.base/java/lang/String.html#format(java.util.Locale,java.lang.String,java.lang.Object...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the correct way to format the number `9876.50` as a currency string using the locale for Portugal (`pt-PT`)?",
+    "code": "Locale ptPT = Locale.of(\"pt\", \"PT\");\nNumberFormat nf = NumberFormat.getCurrencyInstance(ptPT);\nSystem.out.println(nf.format(9876.50));",
+    "options": [
+      {
+        "key": "A",
+        "text": "Prints \"$9,876.50\" because getCurrencyInstance() always uses USD."
+      },
+      {
+        "key": "B",
+        "text": "Prints a currency string using the Euro symbol and Portuguese decimal/thousand separators (e.g. \"9 876,50 €\")."
+      },
+      {
+        "key": "C",
+        "text": "Throws UnsupportedOperationException because pt-PT is not a supported locale."
+      },
+      {
+        "key": "D",
+        "text": "Prints \"9876.50\" without any currency symbol."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "NumberFormat.getCurrencyInstance(locale) returns a NumberFormat that formats numbers with the currency symbol, decimal separator, and thousands separator appropriate for the given locale. For pt-PT (Portuguese/Portugal), the currency is EUR, the decimal separator is a comma, and the result includes the € symbol. The exact formatting (symbol position, spacing) is JVM/ICU-data dependent, but the Euro symbol and locale conventions are always applied.",
+    "source": "Oracle Docs – NumberFormat.getCurrencyInstance(): https://docs.oracle.com/en/java/docs/api/java.base/java/text/NumberFormat.html#getCurrencyInstance(java.util.Locale)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the return type of `NumberFormat.parse(String)` and what checked exception must be handled?",
+    "code": "NumberFormat nf = NumberFormat.getInstance(Locale.US);\nNumber n = nf.parse(\"1,234.56\");\nSystem.out.println(n.doubleValue());",
+    "options": [
+      {
+        "key": "A",
+        "text": "Returns double; throws NumberFormatException."
+      },
+      {
+        "key": "B",
+        "text": "Returns Number; throws ParseException."
+      },
+      {
+        "key": "C",
+        "text": "Returns BigDecimal; throws ArithmeticException."
+      },
+      {
+        "key": "D",
+        "text": "Returns Number; throws NumberFormatException."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "NumberFormat.parse(String) returns a java.lang.Number (the actual subtype is typically Long or Double depending on the value). It throws java.text.ParseException, which is a checked exception, so it must be declared in a throws clause or caught in a try-catch block. NumberFormatException is unchecked and is not thrown by this method.",
+    "source": "Oracle Docs – NumberFormat.parse(): https://docs.oracle.com/en/java/docs/api/java.base/java/text/NumberFormat.html#parse(java.lang.String)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What does `DateTimeFormatter.ofPattern(\"dd/MM/yyyy\").withLocale(Locale.of(\"pt\",\"PT\"))` do differently than `DateTimeFormatter.ofPattern(\"dd/MM/yyyy\")` alone?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nothing; the pattern dd/MM/yyyy contains no locale-sensitive elements so withLocale() has no effect on the result."
+      },
+      {
+        "key": "B",
+        "text": "It changes the calendar system to the Portuguese Gregorian calendar."
+      },
+      {
+        "key": "C",
+        "text": "It ensures that locale-sensitive pattern letters (like 'MMMM' for month name or 'E' for day-of-week name) would be localised to Portuguese, and it also sets the locale for any future parsed text comparisons."
+      },
+      {
+        "key": "D",
+        "text": "It throws UnsupportedTemporalTypeException if the pattern does not match the locale's expected format."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "DateTimeFormatter.withLocale(Locale) returns a copy of the formatter with the locale set. For the specific pattern \"dd/MM/yyyy\", numeric fields are not locale-sensitive, so the formatted output of a date looks the same. However, the locale matters when the pattern contains text-based symbols such as 'MMMM' (full month name), 'MMM' (abbreviated month), or 'E' (day-of-week name) — these are rendered in the specified language. It is also relevant when parsing locale-sensitive text. withLocale() does not affect the calendar system.",
+    "source": "Oracle Docs – DateTimeFormatter.withLocale(): https://docs.oracle.com/en/java/docs/api/java.base/java/time/format/DateTimeFormatter.html#withLocale(java.util.Locale)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following statements about `CompactNumberFormat` (introduced in Java 12) are true? (Choose all that apply.)",
+    "code": "NumberFormat cf = NumberFormat.getCompactNumberInstance(\n    Locale.US, NumberFormat.Style.SHORT);\nSystem.out.println(cf.format(1_500_000));",
+    "options": [
+      {
+        "key": "A",
+        "text": "The code above prints \"1M\" or \"2M\" (rounded) for Locale.US with Style.SHORT."
+      },
+      {
+        "key": "B",
+        "text": "Style.LONG produces a textual representation such as \"1 million\" for Locale.US."
+      },
+      {
+        "key": "C",
+        "text": "CompactNumberFormat is locale-sensitive: the abbreviations differ per locale."
+      },
+      {
+        "key": "D",
+        "text": "CompactNumberFormat is obtained via new CompactNumberFormat() constructor directly."
+      },
+      {
+        "key": "E",
+        "text": "The default number of fraction digits is 0, so 1_500_000 formats as \"2M\" with Style.SHORT for Locale.US."
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "CompactNumberFormat is obtained via the factory method NumberFormat.getCompactNumberInstance(Locale, Style), not via a public constructor. Style.SHORT uses abbreviated suffixes (K, M, B for English) while Style.LONG uses full words (\"thousand\", \"million\"). The format is locale-sensitive. With the default 0 fraction digits, 1_500_000 rounds to 2M (nearest million) for Locale.US/Style.SHORT, not \"1M\". Therefore A is incorrect (it prints \"2M\", not \"1M\"), D is incorrect (no public constructor), and B, C, E are correct.",
+    "source": "Oracle Docs – NumberFormat.getCompactNumberInstance(): https://docs.oracle.com/en/java/docs/api/java.base/java/text/NumberFormat.html#getCompactNumberInstance(java.util.Locale,java.text.NumberFormat.Style)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "In a `DecimalFormat` pattern `#,##0.00`, what do the symbols `#`, `0`, `,`, and `.` each represent?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "`#` = mandatory digit; `0` = optional digit; `,` = thousands separator; `.` = decimal separator."
+      },
+      {
+        "key": "B",
+        "text": "`#` = optional digit (omitted if zero); `0` = mandatory digit (zero-padded); `,` = grouping separator; `.` = decimal separator."
+      },
+      {
+        "key": "C",
+        "text": "`#` = optional digit; `0` = mandatory digit; `,` = decimal separator; `.` = grouping separator."
+      },
+      {
+        "key": "D",
+        "text": "`#` = wildcard; `0` = fixed zero; `,` = thousands separator; `.` = optional decimal point."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "In DecimalFormat patterns: '#' is a digit placeholder that is omitted (not shown) when the digit value is zero, meaning leading/trailing zeros are suppressed. '0' is a digit placeholder that always displays — zero-padding if the digit is absent. ',' is the grouping separator (typically thousands), and '.' is the decimal separator. So '#,##0.00' means: group by thousands, always show at least one integer digit, and always show exactly two decimal places. For example, 0.5 formats as '0.50', and 1234.5 as '1,234.50'.",
+    "source": "Oracle Docs – DecimalFormat pattern syntax: https://docs.oracle.com/en/java/docs/api/java.base/java/text/DecimalFormat.html"
   }
 ]
