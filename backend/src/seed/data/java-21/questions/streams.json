@@ -48,5 +48,201 @@
     "correctKeys": ["B"],
     "explanation": "Function<T,R> maps T → R. UnaryOperator<T> extends Function<T,T> (same input and output type). Both B and E are technically correct, but Function<String,String> is the more general answer. UnaryOperator<String> is also valid — if both options appeared, choose E.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Lambdas and Functional Interfaces, pp. 403–408"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Optional<String> opt = Optional.of(\"hello\");\nString result = opt\n    .map(String::toUpperCase)\n    .filter(s -> s.length() > 3)\n    .orElse(\"default\");\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "hello" },
+      { "key": "B", "text": "HELLO" },
+      { "key": "C", "text": "default" },
+      { "key": "D", "text": "NullPointerException" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Optional.of(\"hello\") wraps \"hello\". map(toUpperCase) → Optional.of(\"HELLO\"). filter(length > 3): \"HELLO\" has length 5 > 3, so the Optional is still present. orElse() returns the wrapped value \"HELLO\" since it is present.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 459–465"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Stream.of(\"one\", \"two\", \"three\", \"four\")\n    .sorted()\n    .limit(2)\n    .forEach(System.out::println);",
+    "options": [
+      { "key": "A", "text": "one\ntwo" },
+      { "key": "B", "text": "four\none" },
+      { "key": "C", "text": "three\ntwo" },
+      { "key": "D", "text": "one\ntwo\nthree\nfour" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "sorted() orders alphabetically: four, one, three, two. limit(2) takes the first two: four, one. forEach prints them in encounter order.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 443–449"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following reduce operation?",
+    "code": "int result = Stream.of(1, 2, 3, 4, 5)\n    .reduce(0, (a, b) -> a + b);\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "15" },
+      { "key": "B", "text": "0" },
+      { "key": "C", "text": "120" },
+      { "key": "D", "text": "5" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "reduce(identity, accumulator) starts with 0 and applies (a, b) -> a + b cumulatively: 0+1=1, 1+2=3, 3+3=6, 6+4=10, 10+5=15.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 453–458"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following are terminal operations on a Stream? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "collect()" },
+      { "key": "B", "text": "filter()" },
+      { "key": "C", "text": "count()" },
+      { "key": "D", "text": "map()" },
+      { "key": "E", "text": "findFirst()" },
+      { "key": "F", "text": "anyMatch()" }
+    ],
+    "correctKeys": ["A", "C", "E", "F"],
+    "explanation": "Terminal operations produce a result or side effect and consume the stream: collect(), count(), findFirst(), anyMatch(), forEach(), reduce(), etc. Intermediate operations (filter, map, sorted, etc.) return a new Stream and are lazy.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 430–433"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "List<List<Integer>> nested = List.of(\n    List.of(1, 2),\n    List.of(3, 4),\n    List.of(5)\n);\nlong count = nested.stream()\n    .flatMap(Collection::stream)\n    .filter(n -> n > 2)\n    .count();\nSystem.out.println(count);",
+    "options": [
+      { "key": "A", "text": "2" },
+      { "key": "B", "text": "3" },
+      { "key": "C", "text": "4" },
+      { "key": "D", "text": "5" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "flatMap flattens the nested lists into a single stream: 1,2,3,4,5. filter(n > 2) keeps 3,4,5. count() returns 3.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 436–439"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following Collectors.groupingBy code?",
+    "code": "Map<Integer, List<String>> result = Stream.of(\"a\", \"bb\", \"ccc\", \"dd\", \"e\")\n    .collect(Collectors.groupingBy(String::length));\nSystem.out.println(result.get(2));",
+    "options": [
+      { "key": "A", "text": "[bb]" },
+      { "key": "B", "text": "[bb, dd]" },
+      { "key": "C", "text": "[a, e]" },
+      { "key": "D", "text": "null" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "groupingBy(String::length) groups strings by their length. Length 2 includes \"bb\" and \"dd\". result.get(2) returns [bb, dd].",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 465–472"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following primitive stream code?",
+    "code": "IntStream.range(1, 6)\n    .mapToObj(i -> i * i)\n    .forEach(n -> System.out.print(n + \" \"));",
+    "options": [
+      { "key": "A", "text": "1 4 9 16 25" },
+      { "key": "B", "text": "1 2 3 4 5" },
+      { "key": "C", "text": "1 4 9 16 25 36" },
+      { "key": "D", "text": "2 3 4 5 6" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "IntStream.range(1, 6) produces 1, 2, 3, 4, 5 (exclusive end). mapToObj(i -> i*i) converts to boxed stream of squares: 1, 4, 9, 16, 25. forEach prints them.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 472–478"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following are true about Optional in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Optional.empty() represents an absent value." },
+      { "key": "B", "text": "Optional.of(null) is allowed." },
+      { "key": "C", "text": "Optional.ofNullable(null) creates an empty Optional." },
+      { "key": "D", "text": "get() on an empty Optional throws NoSuchElementException." },
+      { "key": "E", "text": "orElseThrow() is equivalent to get() in terms of behavior." }
+    ],
+    "correctKeys": ["A", "C", "D", "E"],
+    "explanation": "Optional.of(null) throws NullPointerException. ofNullable(null) creates empty Optional. get() and orElseThrow() both throw NoSuchElementException on empty Optional (orElseThrow() is the preferred, more descriptive name).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 459–465"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does Collectors.joining(\", \", \"[\", \"]\") produce for Stream.of(\"a\", \"b\", \"c\")?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "a, b, c" },
+      { "key": "B", "text": "[a, b, c]" },
+      { "key": "C", "text": "[a][b][c]" },
+      { "key": "D", "text": "abc" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Collectors.joining(delimiter, prefix, suffix) joins elements with the delimiter and wraps with prefix and suffix. joining(\", \", \"[\", \"]\") gives [a, b, c].",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 465–472"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Stream<String> s1 = Stream.of(\"a\", \"b\");\nStream<String> s2 = Stream.of(\"c\", \"d\");\nStream.concat(s1, s2)\n    .map(String::toUpperCase)\n    .forEach(System.out::print);",
+    "options": [
+      { "key": "A", "text": "ABCD" },
+      { "key": "B", "text": "abcd" },
+      { "key": "C", "text": "CDAB" },
+      { "key": "D", "text": "AB\nCD" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Stream.concat(s1, s2) creates a single stream of s1 elements followed by s2 elements: a,b,c,d. map(toUpperCase) converts to A,B,C,D. forEach prints without separator: ABCD.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 430–433"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following statements about lazy evaluation in streams are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Intermediate operations are not executed until a terminal operation is called." },
+      { "key": "B", "text": "Calling filter() on a stream immediately starts processing elements." },
+      { "key": "C", "text": "A stream can be used as many times as needed." },
+      { "key": "D", "text": "Short-circuit operations like findFirst() can stop processing early." },
+      { "key": "E", "text": "The order of intermediate operations can affect performance." }
+    ],
+    "correctKeys": ["A", "D", "E"],
+    "explanation": "Streams are lazy — intermediate operations are only executed when a terminal operation is invoked. filter() and map() do not process elements immediately. Once a stream is consumed, it cannot be reused. Short-circuit operations like findFirst() and anyMatch() can terminate before processing all elements. Placing filter() before map() reduces unnecessary transformations.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 430–436"
+  },
+  {
+    "examId": "java-21",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "OptionalDouble avg = IntStream.of(2, 4, 6, 8).average();\nSystem.out.println(avg.getAsDouble());",
+    "options": [
+      { "key": "A", "text": "5.0" },
+      { "key": "B", "text": "4.0" },
+      { "key": "C", "text": "6.0" },
+      { "key": "D", "text": "NoSuchElementException" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "IntStream.average() returns an OptionalDouble. The average of 2, 4, 6, 8 is (2+4+6+8)/4 = 20/4 = 5.0. getAsDouble() returns the double value.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 10 – Streams, pp. 472–478"
   }
 ]

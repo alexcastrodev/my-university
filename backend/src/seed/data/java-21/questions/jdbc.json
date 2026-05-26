@@ -1,0 +1,245 @@
+[
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "Which of the following correctly obtains a database connection using DriverManager?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Connection c = DriverManager.getConnection(\"jdbc:h2:mem:\");" },
+      { "key": "B", "text": "Connection c = new Connection(\"jdbc:h2:mem:\");" },
+      { "key": "C", "text": "Connection c = JDBC.connect(\"jdbc:h2:mem:\");" },
+      { "key": "D", "text": "Connection c = ConnectionFactory.open(\"jdbc:h2:mem:\");" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "DriverManager.getConnection(url) is the standard way to obtain a Connection. The method can also accept (url, user, password). Connection is an interface — you cannot use new. There is no JDBC.connect() or ConnectionFactory.open() in the standard API.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 660–664"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the output of the following JDBC code, assuming a row with id=1 exists in the database?",
+    "code": "try (Connection conn = DriverManager.getConnection(url);\n     PreparedStatement ps = conn.prepareStatement(\n         \"SELECT name FROM employees WHERE id = ?\")) {\n    ps.setInt(1, 1);\n    ResultSet rs = ps.executeQuery();\n    if (rs.next()) {\n        System.out.println(rs.getString(\"name\"));\n    }\n}",
+    "options": [
+      { "key": "A", "text": "Prints the employee name for id=1." },
+      { "key": "B", "text": "Compilation error: setInt index must start at 0." },
+      { "key": "C", "text": "ResultSet index out of bounds exception." },
+      { "key": "D", "text": "Nothing is printed because ResultSet starts before the first row." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "PreparedStatement parameters are 1-indexed. ps.setInt(1, 1) sets the first ? to value 1. executeQuery() returns a ResultSet. rs.next() advances to the first row; if a row exists, getString(\"name\") returns the name. The try-with-resources closes Connection and PreparedStatement automatically.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 668–674"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What does ResultSet.wasNull() do?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Returns true if the ResultSet itself is null." },
+      { "key": "B", "text": "Returns true if the last column read was a SQL NULL." },
+      { "key": "C", "text": "Returns true if there are no more rows to read." },
+      { "key": "D", "text": "Returns true if the last call to next() returned false." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "wasNull() must be called after reading a column value (e.g., getInt(), getString()). It returns true if the last column read contained a SQL NULL. This is necessary for primitive getters like getInt(), which return 0 for NULL — you cannot distinguish 0 from NULL without wasNull().",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 677–679"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the correct way to iterate over all rows in a ResultSet?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "for (int i = 0; i < rs.size(); i++) { rs.get(i); }" },
+      { "key": "B", "text": "while (rs.next()) { /* process row */ }" },
+      { "key": "C", "text": "rs.forEach(row -> /* process */)" },
+      { "key": "D", "text": "do { /* process */ } while (rs.hasNext());" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "ResultSet.next() advances the cursor to the next row and returns true if the row is valid. The standard pattern is while (rs.next()). ResultSet has no size(), get(int), forEach(), or hasNext() methods.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 674–677"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "multi",
+    "text": "Which of the following are true about PreparedStatement? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "PreparedStatement prevents SQL injection by using parameterized queries." },
+      { "key": "B", "text": "PreparedStatement parameters are 1-indexed." },
+      { "key": "C", "text": "PreparedStatement is slower than Statement for repeated executions." },
+      { "key": "D", "text": "PreparedStatement can be reused with different parameter values." },
+      { "key": "E", "text": "PreparedStatement uses ? as placeholders for parameters." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "PreparedStatement precompiles the SQL, preventing SQL injection. Parameters are 1-indexed. It is faster for repeated executions (precompiled). The same PreparedStatement can be reused by setting different parameters and calling execute() again. ? is the placeholder syntax.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 668–674"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the default transaction behavior of a JDBC Connection?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Auto-commit is disabled; you must manually commit." },
+      { "key": "B", "text": "Auto-commit is enabled; each SQL statement is committed immediately." },
+      { "key": "C", "text": "All statements are rolled back unless explicitly committed." },
+      { "key": "D", "text": "The connection starts in manual-commit mode and switches after the first statement." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "By default, JDBC connections have auto-commit enabled — each SQL statement is treated as its own transaction and committed immediately. To use explicit transactions, you must call conn.setAutoCommit(false) and then manually call commit() or rollback().",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 682–686"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the correct sequence for performing a transaction with explicit commit in JDBC?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "getConnection → execute SQL → commit → setAutoCommit(false)" },
+      { "key": "B", "text": "getConnection → setAutoCommit(false) → execute SQL → commit (or rollback on error)" },
+      { "key": "C", "text": "getConnection → execute SQL → setAutoCommit(false) → commit" },
+      { "key": "D", "text": "getConnection → beginTransaction() → execute SQL → commit" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "To use manual transactions: disable auto-commit first with setAutoCommit(false), execute your SQL, then call commit() on success or rollback() on failure. JDBC has no beginTransaction() method.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 682–686"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What does the following code do?",
+    "code": "conn.setAutoCommit(false);\ntry {\n    stmt.executeUpdate(\"INSERT INTO orders VALUES (1, 'A')\");\n    Savepoint sp = conn.setSavepoint();\n    stmt.executeUpdate(\"INSERT INTO orders VALUES (2, 'B')\");\n    conn.rollback(sp);\n    conn.commit();\n} catch (SQLException e) {\n    conn.rollback();\n}",
+    "options": [
+      { "key": "A", "text": "Both rows are inserted and committed." },
+      { "key": "B", "text": "Neither row is inserted." },
+      { "key": "C", "text": "Only the first row (1, 'A') is committed; the second is rolled back to the savepoint." },
+      { "key": "D", "text": "Only the second row (2, 'B') is committed." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "A Savepoint marks a point in a transaction. rollback(sp) rolls back to the savepoint, undoing only the second insert. The first insert (before the savepoint) remains. The subsequent commit() persists the first row only.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 686–688"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "Which JDBC interface is used to execute a stored procedure?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Statement" },
+      { "key": "B", "text": "PreparedStatement" },
+      { "key": "C", "text": "CallableStatement" },
+      { "key": "D", "text": "StoredProcedure" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "CallableStatement (a subinterface of PreparedStatement) is designed for executing stored procedures. It uses the escape syntax {call procedure_name(?)} and supports both IN and OUT parameters. There is no StoredProcedure class in JDBC.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 679–682"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "How do you register an OUT parameter for a CallableStatement?",
+    "code": "CallableStatement cs = conn.prepareCall(\"{call getEmployeeCount(?)}\");",
+    "options": [
+      { "key": "A", "text": "cs.setOut(1, Types.INTEGER);" },
+      { "key": "B", "text": "cs.registerOutParameter(1, Types.INTEGER);" },
+      { "key": "C", "text": "cs.addOutParameter(1, Types.INTEGER);" },
+      { "key": "D", "text": "cs.out(1, Integer.class);" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "registerOutParameter(index, sqlType) registers the parameter at the given index (1-based) as an OUT parameter of the specified SQL type. After executing the statement, you retrieve the value with getInt(), getString(), etc.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 679–682"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "multi",
+    "text": "Which of the following statements about JDBC transaction isolation levels are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "TRANSACTION_READ_UNCOMMITTED allows dirty reads." },
+      { "key": "B", "text": "TRANSACTION_READ_COMMITTED prevents dirty reads." },
+      { "key": "C", "text": "TRANSACTION_REPEATABLE_READ prevents phantom reads." },
+      { "key": "D", "text": "TRANSACTION_SERIALIZABLE provides the highest isolation level." },
+      { "key": "E", "text": "Higher isolation levels generally reduce concurrency." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "READ_UNCOMMITTED allows dirty reads (can see uncommitted data from other transactions). READ_COMMITTED prevents dirty reads. REPEATABLE_READ prevents dirty reads and non-repeatable reads but NOT phantom reads. SERIALIZABLE prevents all three phenomena (dirty, non-repeatable, phantom reads) and is the most restrictive. Higher isolation = less concurrency.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 688–691"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the output of the following code if the 'salary' column contains NULL for the retrieved row?",
+    "code": "ResultSet rs = stmt.executeQuery(\"SELECT salary FROM emp WHERE id=1\");\nrs.next();\nint salary = rs.getInt(\"salary\");\nboolean wasNull = rs.wasNull();\nSystem.out.println(salary + \" \" + wasNull);",
+    "options": [
+      { "key": "A", "text": "null true" },
+      { "key": "B", "text": "0 true" },
+      { "key": "C", "text": "NullPointerException" },
+      { "key": "D", "text": "0 false" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "getInt() returns 0 when the column is SQL NULL (it cannot return null for primitives). wasNull() returns true because the last column read was NULL. To distinguish between a real 0 and NULL, you must check wasNull() after the get call.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 677–679"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "Which of the following JDBC statements is correct regarding closing resources?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Closing a Connection automatically closes associated Statements and ResultSets." },
+      { "key": "B", "text": "Closing a Statement leaves the Connection open but closes associated ResultSets." },
+      { "key": "C", "text": "ResultSets must be closed before their Statement can be closed." },
+      { "key": "D", "text": "All of the above." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "All three statements are correct JDBC behavior. Closing a Connection closes all its Statements and their ResultSets. Closing a Statement closes its ResultSets but not the Connection. ResultSets should be closed before Statements. try-with-resources handles this in reverse declaration order.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 664–668"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "multi",
+    "text": "Which of the following are true about using PreparedStatement with batch updates? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "addBatch() adds the current parameter set to the batch." },
+      { "key": "B", "text": "executeBatch() returns an int[] with update counts for each batch entry." },
+      { "key": "C", "text": "Batch updates always execute within a single transaction." },
+      { "key": "D", "text": "clearBatch() removes all queued batch commands." },
+      { "key": "E", "text": "Batch updates are used to execute multiple SQL statements more efficiently." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "addBatch() queues the current parameters. executeBatch() runs all queued statements and returns update counts. clearBatch() empties the queue. Batch updates improve performance by reducing round trips. However, they do NOT automatically execute in a single transaction — transaction control is separate.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 674–677"
+  },
+  {
+    "examId": "java-21",
+    "topic": "jdbc",
+    "type": "single",
+    "text": "What is the correct JDBC URL format for connecting to an H2 in-memory database?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "jdbc:h2:mem:testdb" },
+      { "key": "B", "text": "h2://localhost/testdb" },
+      { "key": "C", "text": "jdbc://h2:mem/testdb" },
+      { "key": "D", "text": "jdbc:h2:tcp://localhost/testdb" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "JDBC URLs follow the format jdbc:<subprotocol>:<subname>. For H2 in-memory: jdbc:h2:mem:<database-name>. The subprotocol is 'h2' and 'mem:' indicates an in-memory database. Option D is the TCP connection format for a server-mode H2 database.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 15 – JDBC, pp. 660–664"
+  }
+]

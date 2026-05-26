@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-1-understanding-exceptions.md"
     },
     {
       "id": "j21-11-2",
@@ -16,7 +16,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-2-recognizing-exception-classes.md"
     },
     {
       "id": "j21-11-3",
@@ -24,7 +24,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-3-handling-exceptions.md"
     },
     {
       "id": "j21-11-4",
@@ -32,7 +32,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-4-automating-resource-management.md"
     },
     {
       "id": "j21-11-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-5-formatting-values.md"
     },
     {
       "id": "j21-11-6",
@@ -48,7 +48,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-6-supporting-internationalization-and-localization.md"
     },
     {
       "id": "j21-11-7",
@@ -56,7 +56,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/11-7-loading-properties-with-resource-bundles.md"
     },
     {
       "id": "j21-11-8",

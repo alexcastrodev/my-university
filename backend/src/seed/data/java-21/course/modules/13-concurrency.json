@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-1-introducing-threads.md"
     },
     {
       "id": "j21-13-2",
@@ -16,7 +16,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-2-creating-threads-with-the-concurrency-api.md"
     },
     {
       "id": "j21-13-3",
@@ -24,7 +24,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-3-writing-thread-safe-code.md"
     },
     {
       "id": "j21-13-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-4-using-concurrent-collections.md"
     },
     {
       "id": "j21-13-5",
@@ -40,7 +40,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-5-identifying-threading-problems.md"
     },
     {
       "id": "j21-13-6",
@@ -48,7 +48,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/13-6-working-with-parallel-streams.md"
     },
     {
       "id": "j21-13-7",

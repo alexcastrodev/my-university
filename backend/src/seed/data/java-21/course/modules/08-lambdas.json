@@ -8,7 +8,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/8-1-writing-simple-lambdas.md"
     },
     {
       "id": "j21-8-2",
@@ -16,7 +16,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/8-2-coding-functional-interfaces.md"
     },
     {
       "id": "j21-8-3",
@@ -24,7 +24,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/8-3-using-method-references.md"
     },
     {
       "id": "j21-8-4",
@@ -32,7 +32,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/8-4-working-with-built-in-functional-interfaces.md"
     },
     {
       "id": "j21-8-5",
@@ -40,7 +40,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/8-5-returning-an-optional.md"
     },
     {
       "id": "j21-8-6",

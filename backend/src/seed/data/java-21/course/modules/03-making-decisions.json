@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/3-1-creating-decision-making-statements.md"
     },
     {
       "id": "j21-3-2",
@@ -32,7 +32,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/3-4-writing-while-loops.md"
     },
     {
       "id": "j21-3-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/3-5-constructing-for-loops.md"
     },
     {
       "id": "j21-3-6",
@@ -48,7 +48,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/3-6-controlling-flow-with-branching.md"
     },
     {
       "id": "j21-3-7",

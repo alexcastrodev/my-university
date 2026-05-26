@@ -16,5 +16,217 @@
     "correctKeys": ["A"],
     "explanation": "myScore is 7, which matches case score1, score2, 7 on line 44 — so \"good\" is printed. Pattern matching cases are evaluated in order but constant cases take priority.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 130–136"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int x = 0;\nfor (int i = 0; i < 5; i++) {\n    if (i == 3) break;\n    x += i;\n}\nSystem.out.println(x);",
+    "options": [
+      { "key": "A", "text": "10" },
+      { "key": "B", "text": "3" },
+      { "key": "C", "text": "6" },
+      { "key": "D", "text": "0" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The loop adds i to x for i = 0, 1, 2. When i == 3, break exits the loop. x = 0 + 1 + 2 = 3.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 116–118"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int x = 0;\nfor (int i = 0; i < 5; i++) {\n    if (i == 3) continue;\n    x += i;\n}\nSystem.out.println(x);",
+    "options": [
+      { "key": "A", "text": "10" },
+      { "key": "B", "text": "7" },
+      { "key": "C", "text": "6" },
+      { "key": "D", "text": "3" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "continue skips the rest of the loop body for i == 3. x accumulates 0 + 1 + 2 + 4 = 7 (skipping 3).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 118–120"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int i = 0;\ndo {\n    System.out.print(i + \" \");\n    i++;\n} while (i < 3);",
+    "options": [
+      { "key": "A", "text": "0 1 2 3" },
+      { "key": "B", "text": "0 1 2" },
+      { "key": "C", "text": "1 2 3" },
+      { "key": "D", "text": "Nothing is printed." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "A do-while loop always executes the body at least once. It prints 0, then 1, then 2. After printing 2, i becomes 3 and the condition i < 3 is false, so the loop exits. Output: '0 1 2 '.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 108–110"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following switch expression/statement rules are correct in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "A switch expression must be exhaustive (cover all possible values)." },
+      { "key": "B", "text": "The yield keyword is used to return a value from a switch expression block." },
+      { "key": "C", "text": "A traditional switch statement requires a break to prevent fall-through." },
+      { "key": "D", "text": "Arrow case labels (->) allow fall-through just like colon labels." },
+      { "key": "E", "text": "A switch expression can use both arrow (->) and colon (:) cases in the same switch." }
+    ],
+    "correctKeys": ["A", "B", "C"],
+    "explanation": "Switch expressions must cover all possible selector values (exhaustiveness). yield returns a value from a block in a switch expression. Traditional switch with colon labels falls through unless break is used. Arrow labels do NOT fall through. You cannot mix arrow and colon labels in the same switch.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 126–134"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "outer:\nfor (int i = 0; i < 3; i++) {\n    for (int j = 0; j < 3; j++) {\n        if (j == 1) continue outer;\n        System.out.print(i + \"\" + j + \" \");\n    }\n}",
+    "options": [
+      { "key": "A", "text": "00 01 02 10 11 12 20 21 22" },
+      { "key": "B", "text": "00 10 20" },
+      { "key": "C", "text": "00 01 10 11 20 21" },
+      { "key": "D", "text": "00 10 11 20" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "continue outer jumps to the next iteration of the outer loop when j == 1. For each i, only j = 0 is printed before continue outer fires. Output: '00 10 20 '.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 120–122"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Object obj = \"Hello\";\nif (obj instanceof String s && s.length() > 3) {\n    System.out.println(\"Long string: \" + s);\n} else {\n    System.out.println(\"Not a long string\");\n}",
+    "options": [
+      { "key": "A", "text": "Long string: Hello" },
+      { "key": "B", "text": "Not a long string" },
+      { "key": "C", "text": "Compilation error: pattern variable s cannot be used in &&" },
+      { "key": "D", "text": "Runtime ClassCastException" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Pattern matching instanceof (Java 16+) binds s if obj is a String. The && operator short-circuits, and s is in scope after the instanceof pattern match in the same boolean expression. \"Hello\" has length 5 > 3, so the if branch executes.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 136–140"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "How many times is 'hello' printed by the following code?",
+    "code": "int count = 0;\nwhile (count++ < 3) {\n    System.out.println(\"hello\");\n}",
+    "options": [
+      { "key": "A", "text": "2" },
+      { "key": "B", "text": "3" },
+      { "key": "C", "text": "4" },
+      { "key": "D", "text": "Infinite loop" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "count++ is post-increment: the condition uses the current value of count before incrementing. Iterations: count=0 (<3, print, count becomes 1), count=1 (<3, print, count becomes 2), count=2 (<3, print, count becomes 3), count=3 (not <3, exit). Printed 3 times.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 106–108"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is printed by the following traditional switch statement?",
+    "code": "int day = 2;\nswitch (day) {\n    case 1:\n        System.out.print(\"Mon \");\n    case 2:\n        System.out.print(\"Tue \");\n    case 3:\n        System.out.print(\"Wed \");\n        break;\n    default:\n        System.out.print(\"Other \");\n}",
+    "options": [
+      { "key": "A", "text": "Tue" },
+      { "key": "B", "text": "Tue Wed" },
+      { "key": "C", "text": "Mon Tue Wed" },
+      { "key": "D", "text": "Mon Tue Wed Other" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The switch matches case 2. Because there is no break after case 2, execution falls through to case 3 and prints 'Wed '. The break after case 3 stops execution. Output: 'Tue Wed '.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 122–126"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following can be used as the selector expression in a switch statement or expression in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "int" },
+      { "key": "B", "text": "long" },
+      { "key": "C", "text": "String" },
+      { "key": "D", "text": "boolean" },
+      { "key": "E", "text": "enum" },
+      { "key": "F", "text": "char" }
+    ],
+    "correctKeys": ["A", "C", "E", "F"],
+    "explanation": "Switch supports: byte, short, char, int (and their wrappers), String, and enum types. long, float, double, boolean, and long wrappers are NOT valid switch selector types.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 122–124"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int[] numbers = {1, 2, 3, 4, 5};\nint sum = 0;\nfor (int n : numbers) {\n    if (n % 2 == 0) sum += n;\n}\nSystem.out.println(sum);",
+    "options": [
+      { "key": "A", "text": "15" },
+      { "key": "B", "text": "6" },
+      { "key": "C", "text": "9" },
+      { "key": "D", "text": "2" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The enhanced for loop iterates over each element. Even numbers are 2 and 4. sum = 2 + 4 = 6.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 112–115"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "String result = switch (\"B\") {\n    case \"A\" -> \"Alpha\";\n    case \"B\" -> {\n        String s = \"Beta\";\n        yield s.toLowerCase();\n    }\n    default -> \"Other\";\n};\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "Beta" },
+      { "key": "B", "text": "beta" },
+      { "key": "C", "text": "Other" },
+      { "key": "D", "text": "Compilation error: yield is not allowed with arrow cases." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Arrow cases with a block require yield to produce a value. The block yields s.toLowerCase() which is \"beta\". Arrow cases with a single expression do not need yield. Both forms are valid.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 129–131"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int i = 10;\nif (i > 5)\n    if (i > 8)\n        System.out.println(\"A\");\nelse\n    System.out.println(\"B\");",
+    "options": [
+      { "key": "A", "text": "A" },
+      { "key": "B", "text": "B" },
+      { "key": "C", "text": "A\nB" },
+      { "key": "D", "text": "Nothing is printed." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "The dangling else attaches to the nearest if — the inner 'if (i > 8)'. Since i = 10 > 8 is true, 'A' is printed and the else is skipped. The outer if condition (i > 5) is also true, so execution reaches the inner if.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 101–103"
+  },
+  {
+    "examId": "java-21",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following statements about pattern matching in switch (Java 21) are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "A guarded pattern uses the 'when' keyword to add a condition." },
+      { "key": "B", "text": "A null case must always be listed last." },
+      { "key": "C", "text": "A default case is required when using type patterns even if all types are covered." },
+      { "key": "D", "text": "Constant cases are checked before type patterns." },
+      { "key": "E", "text": "Pattern variables declared in a case are scoped to that case arm." }
+    ],
+    "correctKeys": ["A", "D", "E"],
+    "explanation": "Guarded patterns use 'when'. The null case can appear anywhere (not necessarily last). When a sealed class hierarchy is fully covered by patterns, a default is not required. Constant cases take precedence over type patterns. Pattern variables are scoped to their case arm.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 3 – Making Decisions, pp. 136–142"
   }
 ]

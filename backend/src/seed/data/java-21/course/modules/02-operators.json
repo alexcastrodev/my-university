@@ -8,7 +8,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-1-understanding-java-operators.md"
     },
     {
       "id": "j21-2-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-2-applying-unary-operators.md"
     },
     {
       "id": "j21-2-3",
@@ -24,7 +24,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-3-working-with-binary-arithmetic-operators.md"
     },
     {
       "id": "j21-2-4",
@@ -32,7 +32,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-4-assigning-values.md"
     },
     {
       "id": "j21-2-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-5-comparing-values.md"
     },
     {
       "id": "j21-2-6",
@@ -48,7 +48,7 @@
       "duration": "8m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/2-6-making-decisions-with-ternary-operator.md"
     },
     {
       "id": "j21-2-7",

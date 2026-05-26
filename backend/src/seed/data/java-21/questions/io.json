@@ -32,5 +32,216 @@
     "correctKeys": ["A", "B", "D"],
     "explanation": "Path is an interface — you cannot use new Path(). Path.from() does not exist. Valid ways: Path.of(), Paths.get(), or FileSystems.getDefault().getPath().",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 612–615"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the output of the following code, assuming the file does NOT exist?",
+    "code": "Path p = Path.of(\"/tmp/test.txt\");\nSystem.out.println(Files.exists(p));\nSystem.out.println(Files.notExists(p));",
+    "options": [
+      { "key": "A", "text": "true\ntrue" },
+      { "key": "B", "text": "false\nfalse" },
+      { "key": "C", "text": "true\nfalse" },
+      { "key": "D", "text": "false\ntrue" }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "Files.exists() returns false when the file does not exist. Files.notExists() returns true when the file does not exist. They are NOT strict negations of each other — both can return false if the file status cannot be determined (e.g., permission issues).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 617–619"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "Which class provides methods to read, write, copy, and move files using Path objects?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "File" },
+      { "key": "B", "text": "Path" },
+      { "key": "C", "text": "Files" },
+      { "key": "D", "text": "FileSystem" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "java.nio.file.Files is a utility class with static methods to operate on files and directories via Path objects: Files.copy(), Files.move(), Files.readAllLines(), Files.write(), etc. Path represents a file location. File is the legacy java.io class.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 619–630"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the correct way to read all lines from a file using NIO.2?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Files.readAllLines(Path.of(\"file.txt\"))" },
+      { "key": "B", "text": "new FileReader(\"file.txt\").readLines()" },
+      { "key": "C", "text": "Files.lines(Path.of(\"file.txt\")).collect()" },
+      { "key": "D", "text": "Path.of(\"file.txt\").readLines()" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Files.readAllLines(Path) reads all lines into a List<String>. Files.lines(Path) returns a Stream<String> which must be collected. FileReader has no readLines() method. Path has no readLines() method.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 623–625"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following about BufferedReader and BufferedWriter are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "BufferedReader adds buffering to reduce underlying read calls." },
+      { "key": "B", "text": "BufferedReader.readLine() returns null at end of stream." },
+      { "key": "C", "text": "BufferedWriter.newLine() writes a platform-specific line separator." },
+      { "key": "D", "text": "BufferedReader extends InputStream." },
+      { "key": "E", "text": "BufferedReader can wrap any Reader, not just FileReader." }
+    ],
+    "correctKeys": ["A", "B", "C", "E"],
+    "explanation": "BufferedReader extends Reader (not InputStream) and adds a buffer plus readLine(). readLine() returns null at EOF. newLine() on BufferedWriter writes the system line.separator. BufferedReader can wrap any Reader implementation.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 600–607"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the primary difference between InputStream/OutputStream and Reader/Writer?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "InputStream works with bytes; Reader works with characters." },
+      { "key": "B", "text": "InputStream is faster; Reader is more accurate." },
+      { "key": "C", "text": "Reader supports random access; InputStream does not." },
+      { "key": "D", "text": "They are interchangeable." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "InputStream and OutputStream deal with raw bytes (0–255). Reader and Writer deal with characters (Unicode), handling character encoding internally. For text files, Reader/Writer is preferred; for binary data, InputStream/OutputStream is used.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 596–600"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "Which of the following correctly writes a String to a file using NIO.2?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Files.write(Path.of(\"out.txt\"), \"hello\".getBytes());" },
+      { "key": "B", "text": "Files.writeString(Path.of(\"out.txt\"), \"hello\");" },
+      { "key": "C", "text": "Path.of(\"out.txt\").write(\"hello\");" },
+      { "key": "D", "text": "Both A and B are correct." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "Files.write(Path, byte[]) writes bytes. Files.writeString(Path, CharSequence) (introduced in Java 11) writes a String directly. Both are valid. Path itself has no write() method.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 625–627"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the output of Path.of(\"/a/b/../c\").normalize().toString() on a Unix system?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "/a/b/../c" },
+      { "key": "B", "text": "/a/c" },
+      { "key": "C", "text": "/a/b/c" },
+      { "key": "D", "text": "/c" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "normalize() resolves . and .. components without accessing the file system. /a/b/.. goes up from b to a, then /c is appended, giving /a/c.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 615–617"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following Files methods return a Stream and should be used in a try-with-resources? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Files.lines(Path)" },
+      { "key": "B", "text": "Files.list(Path)" },
+      { "key": "C", "text": "Files.walk(Path)" },
+      { "key": "D", "text": "Files.readAllLines(Path)" },
+      { "key": "E", "text": "Files.readAllBytes(Path)" }
+    ],
+    "correctKeys": ["A", "B", "C"],
+    "explanation": "Files.lines(), Files.list(), and Files.walk() all return streams that hold open file handles. They should be used in a try-with-resources to ensure the underlying stream is closed. Files.readAllLines() and Files.readAllBytes() read everything at once and close the file, so they do not need try-with-resources.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 627–632"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What happens when you attempt to deserialize an object whose class has a different serialVersionUID than the serialized form?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "The object is deserialized with default values for new fields." },
+      { "key": "B", "text": "An InvalidClassException is thrown." },
+      { "key": "C", "text": "A ClassNotFoundException is thrown." },
+      { "key": "D", "text": "The JVM ignores the mismatch and deserializes the object." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "If the serialVersionUID of the class at deserialization time does not match the one in the serialized stream, Java throws InvalidClassException. This prevents accidentally deserializing data with incompatible class changes.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 641–643"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "Which method on Path returns the file name component without the parent path?",
+    "code": "Path p = Path.of(\"/home/user/docs/file.txt\");",
+    "options": [
+      { "key": "A", "text": "p.getFileName() → file.txt" },
+      { "key": "B", "text": "p.getName() → file.txt" },
+      { "key": "C", "text": "p.getFile() → file.txt" },
+      { "key": "D", "text": "p.toFile().getName() → file.txt" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Path.getFileName() returns the last component of the path as a Path object. toString() on that gives 'file.txt'. Path.getName(int) returns the name element at a given index — not the same. toFile().getName() works but goes through java.io.File, which is the legacy API.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 612–617"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Path p1 = Path.of(\"/a/b/c\");\nPath p2 = Path.of(\"/a/d\");\nSystem.out.println(p1.relativize(p2));",
+    "options": [
+      { "key": "A", "text": "../d" },
+      { "key": "B", "text": "../../d" },
+      { "key": "C", "text": "/a/d" },
+      { "key": "D", "text": "d" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "relativize() computes the relative path from p1 to p2. Starting from /a/b/c, you go up two levels (.. to /a/b, .. to /a) and then down to d. Result: ../../d.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 615–617"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following are differences between File and Path/Files? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Path is an interface; File is a class." },
+      { "key": "B", "text": "Files.copy() returns the destination Path; File.copy() does not exist." },
+      { "key": "C", "text": "File provides better exception messages than Path-based operations." },
+      { "key": "D", "text": "Path supports symbolic links; File has limited support." },
+      { "key": "E", "text": "Files methods throw IOException on errors; File methods mostly return boolean." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "Path is an interface (NIO.2). File.copy() does not exist — copying required manual code. NIO.2 Path/Files handles symbolic links more explicitly. Files methods throw proper IOExceptions; File methods return booleans (making error diagnosis harder). NIO.2 provides better error messages, not File.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 610–614"
+  },
+  {
+    "examId": "java-21",
+    "topic": "io",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "Path p = Path.of(\"a\", \"b\", \"c\");\nSystem.out.println(p.getNameCount());\nSystem.out.println(p.getName(1));",
+    "options": [
+      { "key": "A", "text": "3\nb" },
+      { "key": "B", "text": "2\nb" },
+      { "key": "C", "text": "3\na" },
+      { "key": "D", "text": "3\nc" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Path.of(\"a\", \"b\", \"c\") creates a relative path a/b/c. getNameCount() returns 3 (three components). getName(1) returns the element at index 1 (zero-based), which is 'b'.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 14 – I/O, pp. 612–615"
   }
 ]

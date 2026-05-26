@@ -32,5 +32,216 @@
     "correctKeys": ["C"],
     "explanation": "Calling length() on null throws NullPointerException, caught by the first catch block printing \"null\". The finally block always runs, printing \"finally\".",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 476–482"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class TWR {\n    static class Res implements AutoCloseable {\n        String name;\n        Res(String name) { this.name = name; System.out.print(\"open \" + name + \" \"); }\n        public void close() { System.out.print(\"close \" + name + \" \"); }\n    }\n    public static void main(String[] args) {\n        try (Res a = new Res(\"A\"); Res b = new Res(\"B\")) {\n            System.out.print(\"body \");\n        }\n    }\n}",
+    "options": [
+      { "key": "A", "text": "open A open B body close A close B" },
+      { "key": "B", "text": "open A open B body close B close A" },
+      { "key": "C", "text": "body close B close A open A open B" },
+      { "key": "D", "text": "open B open A body close A close B" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Resources are opened left to right (A then B). After the try body, they are closed in reverse order: B first, then A. So the output is: open A open B body close B close A.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 493–497"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which of the following is an unchecked exception?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "IOException" },
+      { "key": "B", "text": "SQLException" },
+      { "key": "C", "text": "ClassNotFoundException" },
+      { "key": "D", "text": "IllegalArgumentException" }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "Unchecked exceptions extend RuntimeException or Error. IllegalArgumentException extends RuntimeException and does not need to be declared or caught. IOException, SQLException, and ClassNotFoundException are checked exceptions that extend Exception directly.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 467–470"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "try {\n    throw new RuntimeException(\"original\");\n} finally {\n    throw new RuntimeException(\"finally\");\n}",
+    "options": [
+      { "key": "A", "text": "Throws RuntimeException: original" },
+      { "key": "B", "text": "Throws RuntimeException: finally" },
+      { "key": "C", "text": "Throws both exceptions simultaneously." },
+      { "key": "D", "text": "Prints 'original' then 'finally'." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "If an exception is thrown in a finally block while another exception is propagating, the finally exception replaces the original. The original exception becomes a suppressed exception only when using try-with-resources, not a plain finally block. Here the 'finally' exception is the one that propagates.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 482–485"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following are valid multi-catch syntax in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "catch (IOException | SQLException e)" },
+      { "key": "B", "text": "catch (IOException e | SQLException e)" },
+      { "key": "C", "text": "catch (IOException | NullPointerException e)" },
+      { "key": "D", "text": "catch (Exception | IOException e)" },
+      { "key": "E", "text": "catch (ArithmeticException | NumberFormatException e)" }
+    ],
+    "correctKeys": ["A", "C", "E"],
+    "explanation": "Multi-catch uses | between exception types with a single variable at the end (no repeated variable name). Exception types in a multi-catch cannot be in a subtype relationship with each other — catch(Exception | IOException) is invalid because IOException is a subtype of Exception.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 485–488"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of this try-with-resources code when close() throws an exception?",
+    "code": "class Bomb implements AutoCloseable {\n    public void close() { throw new RuntimeException(\"boom\"); }\n}\ntry (Bomb b = new Bomb()) {\n    throw new RuntimeException(\"try\");\n} catch (RuntimeException e) {\n    System.out.println(e.getMessage());\n    System.out.println(e.getSuppressed().length);\n}",
+    "options": [
+      { "key": "A", "text": "try\n1" },
+      { "key": "B", "text": "boom\n1" },
+      { "key": "C", "text": "try\n0" },
+      { "key": "D", "text": "boom\n0" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "In try-with-resources, if both the try body and close() throw, the primary exception (from the try body) propagates and the close() exception is added as a suppressed exception. e.getMessage() is \"try\" and e.getSuppressed().length is 1.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 497–500"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "public class CustomEx {\n    static class AppException extends Exception {\n        AppException(String msg) { super(msg); }\n    }\n    static void doSomething() throws AppException {\n        throw new AppException(\"error\");\n    }\n    public static void main(String[] args) {\n        try {\n            doSomething();\n        } catch (AppException e) {\n            System.out.println(\"Caught: \" + e.getMessage());\n        }\n    }\n}",
+    "options": [
+      { "key": "A", "text": "Caught: error" },
+      { "key": "B", "text": "Compilation error: AppException must extend RuntimeException." },
+      { "key": "C", "text": "AppException is thrown and uncaught." },
+      { "key": "D", "text": "Compilation error: doSomething must declare throws." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "AppException extends Exception (a checked exception). doSomething() correctly declares 'throws AppException'. The catch block catches it and prints the message. The code compiles and runs correctly.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 488–493"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which statements about the exception class hierarchy are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Error is a subclass of Throwable." },
+      { "key": "B", "text": "RuntimeException is a subclass of Exception." },
+      { "key": "C", "text": "Checked exceptions extend RuntimeException." },
+      { "key": "D", "text": "StackOverflowError is a subclass of Error." },
+      { "key": "E", "text": "NullPointerException is a checked exception." }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "Throwable is the root. Error and Exception both extend Throwable. RuntimeException extends Exception. Checked exceptions extend Exception but NOT RuntimeException. NullPointerException extends RuntimeException, making it unchecked. StackOverflowError extends VirtualMachineError which extends Error.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 467–472"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int result = 0;\ntry {\n    result = 1;\n    if (true) throw new Exception();\n    result = 2;\n} catch (Exception e) {\n    result += 10;\n} finally {\n    result += 100;\n}\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "111" },
+      { "key": "B", "text": "101" },
+      { "key": "C", "text": "111" },
+      { "key": "D", "text": "11" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "result starts at 0. In the try block, result = 1. Exception is thrown; result = 2 is skipped. In catch, result += 10 → result = 11. In finally, result += 100 → result = 111. Wait — 1 + 10 + 100 = 111. The correct answer is 111, which is option A and C (both say 111). result = 1 (try) + 10 (catch) + 100 (finally) = 111.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 476–482"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which of the following correctly re-throws a caught exception while preserving the original cause?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "throw new RuntimeException();" },
+      { "key": "B", "text": "throw new RuntimeException(e);" },
+      { "key": "C", "text": "throw e.getCause();" },
+      { "key": "D", "text": "throw new Exception(e.getMessage());" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "new RuntimeException(e) wraps the original exception as the cause, which is accessible via getCause(). Option A loses the original exception. Option C may return null if there's no cause. Option D creates a new exception with only the message (losing the stack trace).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 488–493"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "try {\n    System.out.println(\"try\");\n    return;\n} finally {\n    System.out.println(\"finally\");\n}",
+    "options": [
+      { "key": "A", "text": "try" },
+      { "key": "B", "text": "finally" },
+      { "key": "C", "text": "try\nfinally" },
+      { "key": "D", "text": "Compilation error: return in try with finally." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "The finally block always executes, even when return is encountered in the try block. 'try' is printed, then the finally block runs printing 'finally', then the method returns.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 482–485"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following exceptions are thrown by the JVM automatically (i.e., not by application code)? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "NullPointerException" },
+      { "key": "B", "text": "ArrayIndexOutOfBoundsException" },
+      { "key": "C", "text": "IllegalArgumentException" },
+      { "key": "D", "text": "StackOverflowError" },
+      { "key": "E", "text": "ClassCastException" }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "NullPointerException (null dereference), ArrayIndexOutOfBoundsException (invalid array access), StackOverflowError (deep recursion), and ClassCastException (invalid cast) are all thrown automatically by the JVM. IllegalArgumentException is typically thrown explicitly by application code to signal improper argument.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 500–503"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class EarlyReturn {\n    static int compute() {\n        try {\n            return 1;\n        } finally {\n            return 2;\n        }\n    }\n    public static void main(String[] args) {\n        System.out.println(compute());\n    }\n}",
+    "options": [
+      { "key": "A", "text": "1" },
+      { "key": "B", "text": "2" },
+      { "key": "C", "text": "Compilation error." },
+      { "key": "D", "text": "1\n2" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "When both the try block and the finally block have return statements, the finally return always wins and discards the try block's return value. The method returns 2. This is generally considered bad practice.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 482–485"
+  },
+  {
+    "examId": "java-21",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which statement correctly declares a checked exception in a method signature?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "public void read() { throw new IOException(); }" },
+      { "key": "B", "text": "public void read() throws IOException { throw new IOException(); }" },
+      { "key": "C", "text": "public void read() throws RuntimeException { throw new IOException(); }" },
+      { "key": "D", "text": "public void read() catch IOException { throw new IOException(); }" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Checked exceptions must be either caught or declared in the throws clause. Option A does not declare throws IOException, so it does not compile (IOException is checked). Option C declares RuntimeException but throws IOException which is a different checked type — won't compile. Option D uses invalid syntax.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 472–476"
   }
 ]

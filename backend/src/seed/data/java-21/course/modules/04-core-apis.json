@@ -8,7 +8,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-1-creating-and-manipulating-strings.md"
     },
     {
       "id": "j21-4-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-2-using-the-stringbuilder-class.md"
     },
     {
       "id": "j21-4-3",
@@ -24,7 +24,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-3-understanding-equality.md"
     },
     {
       "id": "j21-4-4",
@@ -32,7 +32,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-4-understanding-java-arrays.md"
     },
     {
       "id": "j21-4-5",
@@ -40,7 +40,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-5-calculating-with-math-apis.md"
     },
     {
       "id": "j21-4-6",
@@ -48,7 +48,7 @@
       "duration": "22m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/4-6-working-with-dates-and-times.md"
     },
     {
       "id": "j21-4-7",

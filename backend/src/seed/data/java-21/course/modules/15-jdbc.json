@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-1-introducing-relational-databases-and-sql.md"
     },
     {
       "id": "j21-15-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-2-connecting-to-a-database.md"
     },
     {
       "id": "j21-15-3",
@@ -24,7 +24,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-3-working-with-a-preparedstatement.md"
     },
     {
       "id": "j21-15-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-4-getting-data-from-a-resultset.md"
     },
     {
       "id": "j21-15-5",
@@ -40,7 +40,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-5-calling-a-callablestatement.md"
     },
     {
       "id": "j21-15-6",
@@ -48,7 +48,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/15-6-controlling-data-with-transactions.md"
     },
     {
       "id": "j21-15-7",

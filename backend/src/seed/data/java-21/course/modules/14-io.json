@@ -8,7 +8,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-1-referencing-files-and-directories.md"
     },
     {
       "id": "j21-14-2",
@@ -16,7 +16,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-2-operating-on-file-and-path.md"
     },
     {
       "id": "j21-14-3",
@@ -24,7 +24,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-3-introducing-io-streams.md"
     },
     {
       "id": "j21-14-4",
@@ -32,7 +32,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-4-reading-and-writing-files.md"
     },
     {
       "id": "j21-14-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-5-serializing-data.md"
     },
     {
       "id": "j21-14-6",
@@ -48,7 +48,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-6-interacting-with-users.md"
     },
     {
       "id": "j21-14-7",
@@ -56,7 +56,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/14-7-working-with-advanced-apis.md"
     },
     {
       "id": "j21-14-8",

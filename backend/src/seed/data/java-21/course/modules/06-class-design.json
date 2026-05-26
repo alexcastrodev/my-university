@@ -8,7 +8,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-1-understanding-inheritance.md"
     },
     {
       "id": "j21-6-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-2-creating-classes.md"
     },
     {
       "id": "j21-6-3",
@@ -24,7 +24,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-3-extending-classes.md"
     },
     {
       "id": "j21-6-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-4-declaring-interfaces.md"
     },
     {
       "id": "j21-6-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-5-working-with-enums.md"
     },
     {
       "id": "j21-6-6",
@@ -48,7 +48,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-6-sealing-classes.md"
     },
     {
       "id": "j21-6-7",
@@ -56,7 +56,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-7-encapsulating-data-with-records.md"
     },
     {
       "id": "j21-6-8",
@@ -64,7 +64,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/6-8-creating-nested-classes.md"
     },
     {
       "id": "j21-6-9",

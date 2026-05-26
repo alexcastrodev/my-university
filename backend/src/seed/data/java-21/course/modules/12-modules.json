@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-1-introducing-modules.md"
     },
     {
       "id": "j21-12-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-2-creating-and-running-a-modular-program.md"
     },
     {
       "id": "j21-12-3",
@@ -24,7 +24,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-3-updating-for-multiple-modules.md"
     },
     {
       "id": "j21-12-4",
@@ -32,7 +32,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-4-diving-into-the-module-info-file.md"
     },
     {
       "id": "j21-12-5",
@@ -40,7 +40,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-5-understanding-module-directives.md"
     },
     {
       "id": "j21-12-6",
@@ -48,7 +48,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/12-6-discovering-modules.md"
     },
     {
       "id": "j21-12-7",

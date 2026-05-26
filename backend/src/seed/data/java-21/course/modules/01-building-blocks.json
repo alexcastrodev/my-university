@@ -8,7 +8,7 @@
       "duration": "15m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-1-learning-about-the-environment.md"
     },
     {
       "id": "j21-1-2",
@@ -16,7 +16,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-2-understanding-the-class-structure.md"
     },
     {
       "id": "j21-1-3",
@@ -24,7 +24,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-3-writing-a-main-method.md"
     },
     {
       "id": "j21-1-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-4-understanding-package-declarations-and-imports.md"
     },
     {
       "id": "j21-1-5",
@@ -40,7 +40,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-5-creating-objects.md"
     },
     {
       "id": "j21-1-6",
@@ -48,7 +48,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-6-understanding-data-types.md"
     },
     {
       "id": "j21-1-7",
@@ -56,7 +56,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-7-declaring-variables.md"
     },
     {
       "id": "j21-1-8",
@@ -64,7 +64,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-8-managing-variable-scope.md"
     },
     {
       "id": "j21-1-9",
@@ -72,7 +72,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/1-9-destroying-objects-and-garbage-collection.md"
     },
     {
       "id": "j21-1-10",

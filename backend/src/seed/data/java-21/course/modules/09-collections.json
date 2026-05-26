@@ -8,7 +8,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/9-1-using-generics.md"
     },
     {
       "id": "j21-9-2",
@@ -16,7 +16,7 @@
       "duration": "22m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/9-2-using-lists-sets-maps-and-queues.md"
     },
     {
       "id": "j21-9-3",
@@ -24,7 +24,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/9-3-using-the-collections-class.md"
     },
     {
       "id": "j21-9-4",

@@ -13,8 +13,8 @@
       { "key": "E", "text": "M-1" },
       { "key": "F", "text": "M0" }
     ],
-    "correctKeys": ["B", "D", "F"],
-    "explanation": "The array is not sorted, so binarySearch result is undefined — but actually {6,9,8} binarySearch(9) in unsorted array gives undefined. compare returns 0 for equal arrays → C0. mismatch returns -1 for identical arrays but prints as M-1... Actually: compare equal arrays → 0 (C0), mismatch returns -1 for equal arrays (M-1), binarySearch unsorted is undefined. The guaranteed ones are C0 and M-1. B2 is not guaranteed.",
+    "correctKeys": ["D", "E"],
+    "explanation": "compare on two equal arrays returns 0 → C0. mismatch on two identical arrays returns -1 → M-1. binarySearch on an unsorted array yields an undefined (implementation-specific) result, so neither B1 nor B2 is guaranteed.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 418–424"
   },
   {
@@ -32,6 +32,218 @@
     ],
     "correctKeys": ["B"],
     "explanation": "merge(\"b\", 10, sum) finds existing value 2, applies sum(2,10)=12, stores 12. merge(\"d\", 10, sum) finds no existing value so stores 10 directly.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 441–443"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "List<String> list = List.of(\"a\", \"b\", \"c\");\nlist.add(\"d\");",
+    "options": [
+      { "key": "A", "text": "Adds \"d\" to the list." },
+      { "key": "B", "text": "Throws UnsupportedOperationException at runtime." },
+      { "key": "C", "text": "Compilation error." },
+      { "key": "D", "text": "Returns false without modifying the list." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "List.of() creates an immutable list. Any structural modification (add, remove, set) throws UnsupportedOperationException at runtime. The code compiles because add is declared on the List interface.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 425–427"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which of the following statements about generics wildcards are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "List<? extends Number> allows reading elements as Number." },
+      { "key": "B", "text": "List<? extends Number> allows adding any Number subtype." },
+      { "key": "C", "text": "List<? super Integer> allows adding Integer values." },
+      { "key": "D", "text": "List<?> is equivalent to List<Object>." },
+      { "key": "E", "text": "List<? super Integer> allows reading elements as Integer." }
+    ],
+    "correctKeys": ["A", "C"],
+    "explanation": "Upper bounded wildcards (? extends) allow reading but NOT adding (except null). Lower bounded wildcards (? super) allow adding the specified type or its subtypes, but reading only gives Object. List<?> is an unbounded wildcard — NOT the same as List<Object>.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 448–455"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var deque = new ArrayDeque<Integer>();\ndeque.push(1);\ndeque.push(2);\ndeque.push(3);\nSystem.out.println(deque.peek() + \" \" + deque.poll() + \" \" + deque.size());",
+    "options": [
+      { "key": "A", "text": "1 1 2" },
+      { "key": "B", "text": "3 3 2" },
+      { "key": "C", "text": "3 1 2" },
+      { "key": "D", "text": "1 3 2" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "push() adds to the front (like a stack). After pushing 1, 2, 3 the deque is [3, 2, 1] front to back. peek() returns 3 (front, no removal). poll() removes and returns 3. Remaining size is 2.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 434–437"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "Which Map method returns the value for a key if it exists, or computes and stores a new value if it does not?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "getOrDefault()" },
+      { "key": "B", "text": "putIfAbsent()" },
+      { "key": "C", "text": "computeIfAbsent()" },
+      { "key": "D", "text": "merge()" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "computeIfAbsent(key, mappingFunction) returns the existing value if present, otherwise applies the mapping function, stores the result, and returns it. getOrDefault() returns but does not store. putIfAbsent() stores but does not compute. merge() always requires a value to combine.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 441–443"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which of the following List implementations preserve insertion order? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "ArrayList" },
+      { "key": "B", "text": "LinkedList" },
+      { "key": "C", "text": "HashSet" },
+      { "key": "D", "text": "TreeSet" },
+      { "key": "E", "text": "LinkedHashSet" }
+    ],
+    "correctKeys": ["A", "B"],
+    "explanation": "ArrayList and LinkedList both preserve insertion order. HashSet does not guarantee order. TreeSet orders elements by natural ordering (not insertion order). LinkedHashSet preserves insertion order but it is a Set, not a List — the question asks about List implementations.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 407–415"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Set<Integer> set = new TreeSet<>();\nset.add(5);\nset.add(1);\nset.add(3);\nset.add(1);\nSystem.out.println(set);",
+    "options": [
+      { "key": "A", "text": "[5, 1, 3]" },
+      { "key": "B", "text": "[1, 3, 5]" },
+      { "key": "C", "text": "[1, 1, 3, 5]" },
+      { "key": "D", "text": "[5, 3, 1]" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "TreeSet stores elements in natural (ascending) order and does not allow duplicates. Adding 1 twice only keeps one 1. The result is [1, 3, 5].",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 415–418"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "Which interface was introduced in Java 21 as a super-interface of List, Set, and Deque to provide sequenced access?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "OrderedCollection" },
+      { "key": "B", "text": "SequencedCollection" },
+      { "key": "C", "text": "IndexedCollection" },
+      { "key": "D", "text": "NavigableCollection" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Java 21 introduced SequencedCollection (JEP 431) as a common super-interface for collections with a defined encounter order. It provides methods like getFirst(), getLast(), addFirst(), addLast(), and reversed().",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 405–407"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which of the following operations on a Map are correct? (Choose all that apply.)",
+    "code": "Map<String, Integer> map = new HashMap<>();\nmap.put(\"a\", 1);",
+    "options": [
+      { "key": "A", "text": "map.getOrDefault(\"b\", 0) returns 0." },
+      { "key": "B", "text": "map.putIfAbsent(\"a\", 5) changes the value to 5." },
+      { "key": "C", "text": "map.putIfAbsent(\"b\", 2) adds \"b\"->2." },
+      { "key": "D", "text": "map.replace(\"a\", 99) updates the value to 99." },
+      { "key": "E", "text": "map.remove(\"a\", 2) removes the entry because the value matches." }
+    ],
+    "correctKeys": ["A", "C", "D"],
+    "explanation": "getOrDefault returns the default if the key is absent. putIfAbsent does NOT change an existing value (so B is wrong — value remains 1). putIfAbsent for absent key \"b\" stores 2. replace updates the existing value to 99. remove(key, value) only removes if the key maps to that exact value; here the value is 1 not 2, so E is wrong.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 438–444"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "List<String> original = new ArrayList<>(List.of(\"a\", \"b\", \"c\"));\nList<String> copy = Collections.unmodifiableList(original);\noriginal.add(\"d\");\nSystem.out.println(copy.size());",
+    "options": [
+      { "key": "A", "text": "3" },
+      { "key": "B", "text": "4" },
+      { "key": "C", "text": "UnsupportedOperationException" },
+      { "key": "D", "text": "Compilation error" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Collections.unmodifiableList() creates a view — it wraps the original list without copying. When the original list is modified (add \"d\"), the unmodifiable view reflects the change. copy.size() returns 4.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 425–427"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var pq = new PriorityQueue<Integer>();\npq.offer(5);\npq.offer(1);\npq.offer(3);\nwhile (!pq.isEmpty()) {\n    System.out.print(pq.poll() + \" \");\n}",
+    "options": [
+      { "key": "A", "text": "5 1 3" },
+      { "key": "B", "text": "1 3 5" },
+      { "key": "C", "text": "5 3 1" },
+      { "key": "D", "text": "3 1 5" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "PriorityQueue orders elements by natural ordering (min-heap by default). poll() always returns the smallest element. So elements are polled in order: 1, 3, 5.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 433–434"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which of the following correctly create immutable collections in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "List.of(1, 2, 3)" },
+      { "key": "B", "text": "Collections.unmodifiableList(new ArrayList<>())" },
+      { "key": "C", "text": "Map.of(\"a\", 1, \"b\", 2)" },
+      { "key": "D", "text": "Set.copyOf(existingSet)" },
+      { "key": "E", "text": "new ArrayList<>(List.of(1,2,3))" }
+    ],
+    "correctKeys": ["A", "C", "D"],
+    "explanation": "List.of(), Map.of(), and Set.copyOf() all create truly immutable collections — they cannot be modified and do not reflect changes to any source. Collections.unmodifiableList() creates an unmodifiable view, NOT a truly immutable copy — changes to the backing list are visible. new ArrayList<>() creates a mutable list.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 425–430"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the result of this code?",
+    "code": "List<Number> numbers = new ArrayList<>();\nnumbers.add(1);\nnumbers.add(2.0);\nnumbers.add(3L);\nSystem.out.println(numbers);",
+    "options": [
+      { "key": "A", "text": "[1, 2.0, 3]" },
+      { "key": "B", "text": "Compilation error: cannot add double or long to List<Number>" },
+      { "key": "C", "text": "[1, 2, 3]" },
+      { "key": "D", "text": "ClassCastException at runtime" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "List<Number> accepts any subtype of Number. Autoboxing converts 1 to Integer, 2.0 to Double, and 3L to Long. All are Number subtypes. println calls toString on each, producing [1, 2.0, 3].",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 404–407"
+  },
+  {
+    "examId": "java-21",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Map<String, List<String>> map = new HashMap<>();\nmap.computeIfAbsent(\"fruits\", k -> new ArrayList<>()).add(\"apple\");\nmap.computeIfAbsent(\"fruits\", k -> new ArrayList<>()).add(\"banana\");\nSystem.out.println(map.get(\"fruits\"));",
+    "options": [
+      { "key": "A", "text": "[apple]" },
+      { "key": "B", "text": "[banana]" },
+      { "key": "C", "text": "[apple, banana]" },
+      { "key": "D", "text": "[]" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "The first computeIfAbsent call creates and stores a new ArrayList for key \"fruits\", then adds \"apple\". The second call finds the existing list (key present), returns it, and adds \"banana\". The final list is [apple, banana].",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 9 – Collections and Generics, pp. 441–443"
   }
 ]

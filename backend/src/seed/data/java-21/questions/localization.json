@@ -16,5 +16,232 @@
     "correctKeys": ["C"],
     "explanation": "For locale \"fr\" there is no Penguin_fr.properties, so the default locale \"en_US\" is used → Penguin_en.properties gives name=Willy. age is not in Penguin_en.properties so it falls back to Penguin.properties giving age=1.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 519–525"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which of the following correctly creates a Locale for French spoken in France?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "new Locale(\"fr\", \"FR\")" },
+      { "key": "B", "text": "Locale.of(\"fr\", \"FR\")" },
+      { "key": "C", "text": "Locale.FRANCE" },
+      { "key": "D", "text": "All of the above" }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "All three create a Locale representing French in France. new Locale(String, String) is the legacy constructor. Locale.of(String, String) is the Java 19+ factory method. Locale.FRANCE is a predefined constant for fr_FR.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 505–509"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What does the following code print in the US locale?",
+    "code": "NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);\nSystem.out.println(nf.format(1234567.89));",
+    "options": [
+      { "key": "A", "text": "1234567.89" },
+      { "key": "B", "text": "$1,234,567.89" },
+      { "key": "C", "text": "USD 1,234,567.89" },
+      { "key": "D", "text": "1.234.567,89 $" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "NumberFormat.getCurrencyInstance(Locale.US) formats numbers as US currency, using $ symbol, comma grouping separators, and period as decimal separator.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 511–515"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String pattern = \"Hello, {0}! You have {1} messages.\";\nString result = MessageFormat.format(pattern, \"Alice\", 5);\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "Hello, {0}! You have {1} messages." },
+      { "key": "B", "text": "Hello, Alice! You have 5 messages." },
+      { "key": "C", "text": "Compilation error: MessageFormat.format takes only one argument." },
+      { "key": "D", "text": "Hello, 0! You have 1 messages." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "MessageFormat.format(pattern, args...) substitutes {0}, {1}, etc. with the corresponding arguments. {0} is replaced by \"Alice\" and {1} by 5.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 525–528"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which DateTimeFormatter pattern correctly formats a date as 'Jan 31, 2024'?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "\"MMM dd, yyyy\"" },
+      { "key": "B", "text": "\"MM dd, yyyy\"" },
+      { "key": "C", "text": "\"MMMM dd, yyyy\"" },
+      { "key": "D", "text": "\"MON dd, yyyy\"" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "In DateTimeFormatter patterns: M or MM formats month as number, MMM formats month as abbreviated name (Jan), MMMM formats month as full name (January). 'Jan 31, 2024' uses MMM (abbreviated month).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 515–519"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following are true about ResourceBundle? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "ResourceBundle.getBundle() uses a lookup hierarchy based on locale." },
+      { "key": "B", "text": "ResourceBundle falls back to the default locale if the specific locale bundle is not found." },
+      { "key": "C", "text": "A missing key in the bundle always returns null." },
+      { "key": "D", "text": "The base bundle (no locale suffix) is the last resort in lookup." },
+      { "key": "E", "text": "ResourceBundle can be backed by .properties files or Java classes." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "ResourceBundle uses a hierarchical lookup: specific locale → default locale → base bundle. If a key is not found in any bundle, MissingResourceException is thrown (not null). Bundles can be .properties files or ListResourceBundle subclasses.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 519–525"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Locale locale = Locale.of(\"de\", \"DE\");\nNumberFormat nf = NumberFormat.getNumberInstance(locale);\nString formatted = nf.format(1234567.89);\nSystem.out.println(formatted);",
+    "options": [
+      { "key": "A", "text": "1,234,567.89" },
+      { "key": "B", "text": "1.234.567,89" },
+      { "key": "C", "text": "1234567.89" },
+      { "key": "D", "text": "1 234 567,89" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "In German locale (de_DE), the period is the grouping separator and the comma is the decimal separator. 1234567.89 formats as 1.234.567,89.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 511–515"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which of the following predefined DateTimeFormatter instances is locale-sensitive?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "DateTimeFormatter.ISO_LOCAL_DATE" },
+      { "key": "B", "text": "DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)" },
+      { "key": "C", "text": "DateTimeFormatter.ofPattern(\"yyyy-MM-dd\")" },
+      { "key": "D", "text": "DateTimeFormatter.ISO_DATE_TIME" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "ofLocalizedDate(FormatStyle) produces a formatter that is locale-sensitive — the output varies by locale. ISO_LOCAL_DATE and ISO_DATE_TIME always use ISO-8601 format regardless of locale. ofPattern(\"yyyy-MM-dd\") produces a fixed pattern.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 515–519"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "NumberFormat nf = NumberFormat.getInstance(Locale.US);\nnumber = nf.parse(\"1,234.56\");\nSystem.out.println(number);",
+    "options": [
+      { "key": "A", "text": "1234.56" },
+      { "key": "B", "text": "1,234.56" },
+      { "key": "C", "text": "1234" },
+      { "key": "D", "text": "ParseException at runtime." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "NumberFormat.parse() converts a locale-formatted string to a Number. In US locale, comma is the grouping separator and period is the decimal. '1,234.56' parses to 1234.56 (a Double).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 511–515"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following are valid ways to specify a Locale in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Locale.of(\"en\")" },
+      { "key": "B", "text": "Locale.of(\"en\", \"US\")" },
+      { "key": "C", "text": "new Locale.Builder().setLanguage(\"en\").setRegion(\"US\").build()" },
+      { "key": "D", "text": "Locale.forLanguageTag(\"en-US\")" },
+      { "key": "E", "text": "Locale.create(\"en\", \"US\")" }
+    ],
+    "correctKeys": ["A", "B", "C", "D"],
+    "explanation": "Locale.of() is the Java 19+ factory (replaces deprecated new Locale()). Locale.Builder provides a fluent API. Locale.forLanguageTag() parses IETF BCP 47 tags. Locale.create() does not exist.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 505–509"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "LocalDate date = LocalDate.of(2024, 3, 15);\nDateTimeFormatter f = DateTimeFormatter.ofPattern(\"dd/MM/yyyy\");\nSystem.out.println(f.format(date));",
+    "options": [
+      { "key": "A", "text": "2024/03/15" },
+      { "key": "B", "text": "15/03/2024" },
+      { "key": "C", "text": "03/15/2024" },
+      { "key": "D", "text": "15/3/2024" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The pattern 'dd/MM/yyyy' formats day/month/year with zero-padding. March 15, 2024 formats as 15/03/2024.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 515–519"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which of the following correctly parses a date string using DateTimeFormatter?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "LocalDate.parse(\"2024-01-15\", DateTimeFormatter.ISO_LOCAL_DATE)" },
+      { "key": "B", "text": "DateTimeFormatter.ISO_LOCAL_DATE.parse(\"2024-01-15\")" },
+      { "key": "C", "text": "LocalDate.of(\"2024-01-15\")" },
+      { "key": "D", "text": "Both A and B work." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "LocalDate.parse(String, DateTimeFormatter) and DateTimeFormatter.parse(String) both work. The first gives a LocalDate directly; the second returns a TemporalAccessor that you'd query. In practice, A is the most common. LocalDate.of() does not accept a String.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 515–519"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What exception is thrown when a key is missing from a ResourceBundle?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "NoSuchElementException" },
+      { "key": "B", "text": "MissingResourceException" },
+      { "key": "C", "text": "KeyNotFoundException" },
+      { "key": "D", "text": "null is returned." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "ResourceBundle.getString() throws MissingResourceException (a RuntimeException) when the specified key is not found in any bundle in the lookup chain. It never returns null.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 519–521"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following statements about locale-sensitive operations are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "String.toUpperCase(Locale) is locale-sensitive." },
+      { "key": "B", "text": "String comparison with equals() is locale-sensitive." },
+      { "key": "C", "text": "Collator provides locale-sensitive string comparison." },
+      { "key": "D", "text": "NumberFormat formats vary by locale." },
+      { "key": "E", "text": "DateTimeFormatter with ISO patterns is locale-sensitive." }
+    ],
+    "correctKeys": ["A", "C", "D"],
+    "explanation": "String.toUpperCase(Locale) applies locale rules (e.g., Turkish 'i' → 'İ'). Collator compares strings per locale. NumberFormat produces locale-specific output. String.equals() compares Unicode code points and is NOT locale-sensitive. ISO DateTimeFormatter patterns produce the same output regardless of locale.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 11 – Exceptions and Localization, pp. 508–511"
+  },
+  {
+    "examId": "java-21",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var p = Period.of(1, 2, 3);\nSystem.out.println(p);",
+    "options": [
+      { "key": "A", "text": "1 year, 2 months, 3 days" },
+      { "key": "B", "text": "P1Y2M3D" },
+      { "key": "C", "text": "PT1H2M3S" },
+      { "key": "D", "text": "P1Y2M3DT0H0M0S" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Period.toString() uses ISO-8601 duration format. P1Y2M3D means Period of 1 Year, 2 Months, 3 Days. This is NOT locale-sensitive — it always uses the ISO format.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 186–190"
   }
 ]

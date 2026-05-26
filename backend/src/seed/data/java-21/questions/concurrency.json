@@ -34,5 +34,216 @@
     "correctKeys": ["B", "D", "E"],
     "explanation": "ArrayList, HashMap, LinkedList are NOT thread-safe. CopyOnWriteArrayList, ConcurrentHashMap, and AtomicInteger are thread-safe concurrent alternatives.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 570–577"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the most likely output of the following code, assuming the task completes normally?",
+    "code": "ExecutorService exec = Executors.newSingleThreadExecutor();\nFuture<Integer> future = exec.submit(() -> 42);\nSystem.out.println(future.get());\nexec.shutdown();",
+    "options": [
+      { "key": "A", "text": "42" },
+      { "key": "B", "text": "Compilation error: submit does not accept a lambda." },
+      { "key": "C", "text": "null" },
+      { "key": "D", "text": "InterruptedException is thrown." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "submit(Callable<T>) accepts a lambda returning T. future.get() blocks until the task completes and returns 42. shutdown() prevents new tasks but waits for running tasks to finish.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 551–556"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "AtomicInteger counter = new AtomicInteger(5);\nint result = counter.getAndIncrement();\nSystem.out.println(result + \" \" + counter.get());",
+    "options": [
+      { "key": "A", "text": "5 5" },
+      { "key": "B", "text": "6 6" },
+      { "key": "C", "text": "5 6" },
+      { "key": "D", "text": "6 5" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "getAndIncrement() atomically returns the current value (5) and then increments the counter to 6. So result = 5 and counter.get() = 6.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 566–568"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following conditions are required for a deadlock to occur? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Mutual exclusion: at least one resource is held in a non-shareable mode." },
+      { "key": "B", "text": "Hold and wait: a thread holds a resource and waits for another." },
+      { "key": "C", "text": "Preemption: a resource can be forcibly taken from a thread." },
+      { "key": "D", "text": "Circular wait: a cycle exists in the resource-allocation graph." },
+      { "key": "E", "text": "No preemption: resources can only be released voluntarily." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "The four necessary conditions for deadlock (Coffman conditions) are: mutual exclusion, hold and wait, no preemption (resources are NOT forcibly taken), and circular wait. Preemption (C) actually prevents deadlock rather than causing it.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 584–587"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the difference between synchronized method and ReentrantLock?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "ReentrantLock is not reentrant; synchronized methods are." },
+      { "key": "B", "text": "ReentrantLock supports timed lock acquisition and interruptible waiting; synchronized does not." },
+      { "key": "C", "text": "synchronized methods can be used without try/finally; ReentrantLock also has no unlock requirement." },
+      { "key": "D", "text": "ReentrantLock automatically releases the lock when an exception occurs." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "ReentrantLock provides advanced features: tryLock() with timeout, lockInterruptibly(), and the ability to query lock state. Unlike synchronized, you must manually call unlock() — typically in a finally block. Both are reentrant (the same thread can acquire the lock multiple times).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 577–582"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the output of the following parallel stream code?",
+    "code": "long count = LongStream.rangeClosed(1, 10)\n    .parallel()\n    .filter(n -> n % 2 == 0)\n    .count();\nSystem.out.println(count);",
+    "options": [
+      { "key": "A", "text": "5" },
+      { "key": "B", "text": "10" },
+      { "key": "C", "text": "A non-deterministic value each run." },
+      { "key": "D", "text": "Compilation error." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "parallel() uses the common ForkJoinPool but count() is a terminal reduction that always produces the correct aggregate result regardless of thread ordering. Even numbers from 1–10 are 2,4,6,8,10 — exactly 5 elements.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 595–601"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following are valid ways to create a thread in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Extend Thread and override run()." },
+      { "key": "B", "text": "Implement Runnable and pass to Thread constructor." },
+      { "key": "C", "text": "Implement Callable and pass to Thread constructor." },
+      { "key": "D", "text": "Use Thread.ofVirtual().start(runnable)." },
+      { "key": "E", "text": "Use ExecutorService.submit(callable)." }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "Callable cannot be passed directly to Thread — it requires an ExecutorService. Thread can be created by extending Thread, implementing Runnable, or using Thread.ofVirtual() (Java 21). ExecutorService.submit(Callable) submits a task but does not directly 'create a thread' in the same sense.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 543–551"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the likely result of the following code run by two threads simultaneously without synchronization?",
+    "code": "// Shared variable\nstatic int count = 0;\n\n// Each thread runs:\nfor (int i = 0; i < 1000; i++) {\n    count++;\n}",
+    "options": [
+      { "key": "A", "text": "Always 2000." },
+      { "key": "B", "text": "Always 1000." },
+      { "key": "C", "text": "A value between 1000 and 2000 due to a race condition." },
+      { "key": "D", "text": "0, because threads reset each other's values." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "count++ is not atomic — it is a read-modify-write sequence. Two threads can interleave these operations, causing lost updates. The final value is non-deterministic and typically between 1000 and 2000.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 558–563"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which ExecutorService method waits for all submitted tasks to complete after shutdown?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "shutdown()" },
+      { "key": "B", "text": "shutdownNow()" },
+      { "key": "C", "text": "awaitTermination(long timeout, TimeUnit unit)" },
+      { "key": "D", "text": "stop()" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "shutdown() signals that no new tasks should be accepted but does not block. awaitTermination() blocks the calling thread until all tasks complete, the timeout elapses, or the thread is interrupted. shutdownNow() attempts to cancel running tasks. stop() does not exist on ExecutorService.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 553–555"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is true about CyclicBarrier?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "CyclicBarrier allows threads to wait for each other to reach a common barrier point and can be reused." },
+      { "key": "B", "text": "CyclicBarrier can only be used once and then discarded." },
+      { "key": "C", "text": "CyclicBarrier is equivalent to CountDownLatch." },
+      { "key": "D", "text": "CyclicBarrier does not support a barrier action." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "CyclicBarrier allows a set of threads to all wait for each other at a barrier. Once all threads arrive, an optional barrier action can run, and then the barrier resets and can be reused. CountDownLatch is single-use only.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 582–584"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following about the volatile keyword in Java are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "volatile guarantees visibility — changes made by one thread are immediately visible to others." },
+      { "key": "B", "text": "volatile guarantees atomicity for compound operations like i++." },
+      { "key": "C", "text": "volatile prevents instruction reordering around the read/write." },
+      { "key": "D", "text": "volatile is a replacement for synchronized for all thread-safety concerns." },
+      { "key": "E", "text": "volatile is suitable for flag variables accessed by multiple threads." }
+    ],
+    "correctKeys": ["A", "C", "E"],
+    "explanation": "volatile ensures that writes are immediately flushed to main memory and reads always come from main memory (visibility). It also prevents certain reorderings. However, volatile does NOT make compound operations atomic — i++ still has a race condition. It is not a full substitute for synchronized.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 563–566"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What does invokeAll() on an ExecutorService do?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Executes all tasks and returns a list of Future objects once all tasks complete." },
+      { "key": "B", "text": "Executes all tasks in parallel and returns the first completed result." },
+      { "key": "C", "text": "Submits tasks without waiting for completion." },
+      { "key": "D", "text": "Runs tasks sequentially in the order submitted." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "invokeAll(Collection<Callable<T>>) submits all tasks, blocks until all complete, and returns a List<Future<T>> where each Future is done. invokeAny() returns the result of the first successfully completed task.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 556–558"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var list = new CopyOnWriteArrayList<>(List.of(1, 2, 3));\nfor (int n : list) {\n    if (n == 2) list.add(4);\n}\nSystem.out.println(list);",
+    "options": [
+      { "key": "A", "text": "[1, 2, 3, 4]" },
+      { "key": "B", "text": "ConcurrentModificationException" },
+      { "key": "C", "text": "[1, 2, 3]" },
+      { "key": "D", "text": "[1, 2, 4, 3]" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "CopyOnWriteArrayList creates a new underlying array on each mutative operation. The iterator operates on a snapshot taken at the start of the for-each loop, so no ConcurrentModificationException occurs. The add(4) modifies the live list, resulting in [1, 2, 3, 4].",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 570–572"
+  },
+  {
+    "examId": "java-21",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which of the following best describes a livelock?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Two threads are blocked waiting for each other, making no progress." },
+      { "key": "B", "text": "Two threads keep responding to each other's actions but neither makes progress." },
+      { "key": "C", "text": "One thread starves because higher-priority threads always run first." },
+      { "key": "D", "text": "A thread acquires the same lock twice and blocks itself." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "A livelock is similar to deadlock but threads are not blocked — they keep changing state in response to each other without making progress (e.g., two people stepping aside to let each other pass but always stepping to the same side). Deadlock involves threads blocked waiting. Starvation means a thread cannot get CPU time.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 13 – Concurrency, pp. 587–589"
   }
 ]

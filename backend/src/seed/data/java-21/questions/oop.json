@@ -68,5 +68,184 @@
     "correctKeys": ["A", "B", "C"],
     "explanation": "Direct subclasses of a sealed class must be declared final, sealed, or non-sealed. Square is not permitted, so D is invalid. Abstract classes without sealed/non-sealed are invalid (E).",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 344–348"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public record Point(int x, int y) {\n    public Point {\n        if (x < 0) throw new IllegalArgumentException();\n    }\n}\n// In main:\nPoint p = new Point(3, 4);\nSystem.out.println(p.x() + \" \" + p.y());",
+    "options": [
+      { "key": "A", "text": "3 4" },
+      { "key": "B", "text": "Compilation error: records cannot have custom constructors." },
+      { "key": "C", "text": "IllegalArgumentException is thrown." },
+      { "key": "D", "text": "0 0" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Records support compact constructors (without parameter list) for validation. The compact constructor runs first, then the record assigns the fields. p.x() returns 3, p.y() returns 4. No exception since x >= 0.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 348–354"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are true about records in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Records are implicitly final." },
+      { "key": "B", "text": "Records can extend other classes." },
+      { "key": "C", "text": "Records can implement interfaces." },
+      { "key": "D", "text": "The compiler generates equals(), hashCode(), and toString() automatically." },
+      { "key": "E", "text": "Record components are mutable by default." }
+    ],
+    "correctKeys": ["A", "C", "D"],
+    "explanation": "Records are implicitly final and cannot extend any class (they implicitly extend java.lang.Record). They can implement interfaces. The compiler auto-generates equals(), hashCode(), toString(), and accessor methods. Record components are final (immutable).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 348–354"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "interface Greet {\n    default String hello() { return \"Hello\"; }\n}\ninterface Farewell {\n    default String hello() { return \"Bye\"; }\n}\nclass MyClass implements Greet, Farewell {\n    public String hello() { return Greet.super.hello(); }\n}\n// In main:\nSystem.out.println(new MyClass().hello());",
+    "options": [
+      { "key": "A", "text": "Hello" },
+      { "key": "B", "text": "Bye" },
+      { "key": "C", "text": "HelloBye" },
+      { "key": "D", "text": "Compilation error: ambiguous default methods." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "When a class implements two interfaces with conflicting default methods, it must override the method. The override uses InterfaceName.super.method() to call a specific interface's default. Greet.super.hello() returns \"Hello\".",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 305–310"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "abstract class Animal {\n    String name;\n    Animal(String name) { this.name = name; }\n    abstract String sound();\n    String describe() { return name + \" says \" + sound(); }\n}\nclass Dog extends Animal {\n    Dog(String name) { super(name); }\n    String sound() { return \"woof\"; }\n}\n// In main:\nAnimal a = new Dog(\"Rex\");\nSystem.out.println(a.describe());",
+    "options": [
+      { "key": "A", "text": "Rex says woof" },
+      { "key": "B", "text": "null says woof" },
+      { "key": "C", "text": "Compilation error: abstract class cannot have a constructor." },
+      { "key": "D", "text": "Rex says null" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Abstract classes can and often do have constructors, called via super() from subclasses. describe() is a concrete method that calls the abstract sound() — which is polymorphically resolved to Dog.sound() at runtime. Output: 'Rex says woof'.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 8 – Class Design, pp. 363–370"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which of the following correctly demonstrates method overloading vs overriding?",
+    "code": "class Parent {\n    void print(int x) { System.out.println(\"Parent int\"); }\n}\nclass Child extends Parent {\n    void print(int x) { System.out.println(\"Child int\"); } // (1)\n    void print(double x) { System.out.println(\"Child double\"); } // (2)\n}",
+    "options": [
+      { "key": "A", "text": "(1) is overriding; (2) is overloading." },
+      { "key": "B", "text": "(1) is overloading; (2) is overriding." },
+      { "key": "C", "text": "Both are overriding." },
+      { "key": "D", "text": "Both are overloading." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "(1) has the same method signature (same name and parameter type int) — it overrides the parent method. (2) has a different parameter type (double) — it is a new overloaded method in the child class.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 8 – Class Design, pp. 371–380"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are rules for method overriding in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "The overriding method must have the same method signature." },
+      { "key": "B", "text": "The overriding method can declare fewer checked exceptions than the overridden method." },
+      { "key": "C", "text": "The overriding method can have a wider access modifier." },
+      { "key": "D", "text": "The overriding method can return a subtype of the original return type (covariant return)." },
+      { "key": "E", "text": "static methods can be overridden." }
+    ],
+    "correctKeys": ["A", "B", "C", "D"],
+    "explanation": "Overriding requires the same signature. Checked exceptions can be the same or a subset (not broader). Access modifier can be the same or wider (public > protected > package-private). Covariant return types are allowed. Static methods are hidden, not overridden.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 8 – Class Design, pp. 371–380"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "class Base {\n    Base() { print(); }\n    void print() { System.out.println(\"Base\"); }\n}\nclass Derived extends Base {\n    int value = 10;\n    Derived() { super(); }\n    void print() { System.out.println(\"Derived: \" + value); }\n}\n// In main:\nnew Derived();",
+    "options": [
+      { "key": "A", "text": "Base" },
+      { "key": "B", "text": "Derived: 10" },
+      { "key": "C", "text": "Derived: 0" },
+      { "key": "D", "text": "Base\nDerived: 10" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "When Derived() calls super(), Base() runs and calls print(). Due to polymorphism, Derived.print() is called. However, at this point, the Derived instance is not fully initialized — value has not been assigned (it is still 0). So 'Derived: 0' is printed.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 8 – Class Design, pp. 355–363"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which of the following about enums in Java are true?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Enums can extend other classes." },
+      { "key": "B", "text": "Enums can implement interfaces." },
+      { "key": "C", "text": "Enum constants can have their own method implementations." },
+      { "key": "D", "text": "Both B and C are true." }
+    ],
+    "correctKeys": ["D"],
+    "explanation": "Enums implicitly extend java.lang.Enum so they cannot extend other classes. They CAN implement interfaces. Each enum constant can also override methods — this is the constant-specific class body pattern.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 335–344"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following inner class code?",
+    "code": "public class Outer {\n    private int x = 10;\n    class Inner {\n        private int x = 20;\n        void print() {\n            int x = 30;\n            System.out.println(x);           // (1)\n            System.out.println(this.x);      // (2)\n            System.out.println(Outer.this.x);// (3)\n        }\n    }\n    public static void main(String[] args) {\n        new Outer().new Inner().print();\n    }\n}",
+    "options": [
+      { "key": "A", "text": "30\n20\n10" },
+      { "key": "B", "text": "10\n20\n30" },
+      { "key": "C", "text": "30\n10\n20" },
+      { "key": "D", "text": "Compilation error." }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "(1) x refers to the local variable = 30. (2) this.x refers to Inner's field = 20. (3) Outer.this.x refers to the enclosing Outer instance's field = 10.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 319–327"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are true about interfaces in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Interfaces can have private methods." },
+      { "key": "B", "text": "Interfaces can have static methods." },
+      { "key": "C", "text": "Interfaces can have instance fields." },
+      { "key": "D", "text": "Interfaces can have default methods with a body." },
+      { "key": "E", "text": "All interface fields are implicitly public static final." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "Since Java 9, interfaces can have private methods (helper for default/static methods) and static methods. Since Java 8, interfaces can have default methods. Interface fields are always public static final. Interfaces cannot have instance (non-static) fields.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 293–315"
+  },
+  {
+    "examId": "java-21",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code using a static nested class?",
+    "code": "public class Outer {\n    static int value = 5;\n    static class Nested {\n        void show() { System.out.println(\"Value: \" + value); }\n    }\n    public static void main(String[] args) {\n        Nested n = new Nested();\n        n.show();\n    }\n}",
+    "options": [
+      { "key": "A", "text": "Value: 5" },
+      { "key": "B", "text": "Compilation error: static nested class cannot access outer fields." },
+      { "key": "C", "text": "Compilation error: new Nested() requires an outer instance." },
+      { "key": "D", "text": "Value: null" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "A static nested class can access static members of the enclosing class. It does NOT require an instance of the outer class to be instantiated (unlike inner classes). new Nested() is valid in a static context.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 7 – Beyond Classes, pp. 327–332"
   }
 ]

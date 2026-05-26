@@ -6,14 +6,35 @@
     "text": "Which of the following are legal entry point methods that can be run from the command line? (Choose all that apply.)",
     "code": null,
     "options": [
-      { "key": "A", "text": "private static void main(String[] args)" },
-      { "key": "B", "text": "public static final main(String[] args)" },
-      { "key": "C", "text": "public void main(String[] args)" },
-      { "key": "D", "text": "public static final void main(String[] args)" },
-      { "key": "E", "text": "public static void main(String[] args)" },
-      { "key": "F", "text": "public static main(String[] args)" }
+      {
+        "key": "A",
+        "text": "private static void main(String[] args)"
+      },
+      {
+        "key": "B",
+        "text": "public static final main(String[] args)"
+      },
+      {
+        "key": "C",
+        "text": "public void main(String[] args)"
+      },
+      {
+        "key": "D",
+        "text": "public static final void main(String[] args)"
+      },
+      {
+        "key": "E",
+        "text": "public static void main(String[] args)"
+      },
+      {
+        "key": "F",
+        "text": "public static main(String[] args)"
+      }
     ],
-    "correctKeys": ["D", "E"],
+    "correctKeys": [
+      "D",
+      "E"
+    ],
     "explanation": "The traditional entry point requires public static void main(String[] args). The final modifier is allowed. Without a return type (B, F) it does not compile. Instance methods (C) and private methods (A) cannot be the entry point.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, p. 37"
   },
@@ -24,15 +45,39 @@
     "text": "Which answer options represent the order in which the following statements can be assembled into a program that will compile successfully? (Choose all that apply.)\n\nX: class Rabbit {}\nY: import java.util.*;\nZ: package animals;",
     "code": null,
     "options": [
-      { "key": "A", "text": "X, Y, Z" },
-      { "key": "B", "text": "Y, Z, X" },
-      { "key": "C", "text": "Z, Y, X" },
-      { "key": "D", "text": "Y, X" },
-      { "key": "E", "text": "Z, X" },
-      { "key": "F", "text": "X, Z" },
-      { "key": "G", "text": "None of the above" }
+      {
+        "key": "A",
+        "text": "X, Y, Z"
+      },
+      {
+        "key": "B",
+        "text": "Y, Z, X"
+      },
+      {
+        "key": "C",
+        "text": "Z, Y, X"
+      },
+      {
+        "key": "D",
+        "text": "Y, X"
+      },
+      {
+        "key": "E",
+        "text": "Z, X"
+      },
+      {
+        "key": "F",
+        "text": "X, Z"
+      },
+      {
+        "key": "G",
+        "text": "None of the above"
+      }
     ],
-    "correctKeys": ["C", "E"],
+    "correctKeys": [
+      "C",
+      "E"
+    ],
     "explanation": "The order must be: package declaration → import statements → class declaration. Z (package) must come before Y (import) must come before X (class). Z, Y, X is valid. Z, X is also valid (imports are optional). Y, X is invalid because there is a package statement that must come first if present.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, p. 22"
   },
@@ -43,14 +88,903 @@
     "text": "Which statements about garbage collection in Java are true? (Choose all that apply.)",
     "code": null,
     "options": [
-      { "key": "A", "text": "System.gc() guarantees garbage collection runs immediately." },
-      { "key": "B", "text": "An object is eligible for GC when no strong references point to it." },
-      { "key": "C", "text": "Calling System.gc() is a hint, not a command." },
-      { "key": "D", "text": "Finalize() is guaranteed to run before an object is collected." },
-      { "key": "E", "text": "An object can become eligible for GC even if it is still referenced by another eligible object (island of isolation)." }
+      {
+        "key": "A",
+        "text": "System.gc() guarantees garbage collection runs immediately."
+      },
+      {
+        "key": "B",
+        "text": "An object is eligible for GC when no strong references point to it."
+      },
+      {
+        "key": "C",
+        "text": "Calling System.gc() is a hint, not a command."
+      },
+      {
+        "key": "D",
+        "text": "Finalize() is guaranteed to run before an object is collected."
+      },
+      {
+        "key": "E",
+        "text": "An object can become eligible for GC even if it is still referenced by another eligible object (island of isolation)."
+      }
     ],
-    "correctKeys": ["B", "C", "E"],
+    "correctKeys": [
+      "B",
+      "C",
+      "E"
+    ],
     "explanation": "System.gc() is only a hint. finalize() is not guaranteed to run. Objects in a reference cycle with no external references form an island of isolation and are eligible for GC.",
     "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 72–74"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class Primitives {\n    public static void main(String[] args) {\n        int x = 10;\n        long y = x;\n        double z = y;\n        System.out.println(x + \" \" + y + \" \" + z);\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "10 10 10"
+      },
+      {
+        "key": "B",
+        "text": "10 10 10.0"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error: incompatible types"
+      },
+      {
+        "key": "D",
+        "text": "10.0 10.0 10.0"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java supports widening primitive conversions without a cast: int → long → double. x prints as 10 (int), y prints as 10 (long), z prints as 10.0 (double) because doubles always display with a decimal point.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 42–46"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "Which of the following is a valid use of the var keyword?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "var list = new ArrayList<>();"
+      },
+      {
+        "key": "B",
+        "text": "var x;"
+      },
+      {
+        "key": "C",
+        "text": "var x = null;"
+      },
+      {
+        "key": "D",
+        "text": "public var getName() { return name; }"
+      },
+      {
+        "key": "E",
+        "text": "var x = (var y = 5);"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "var requires an initializer so the compiler can infer the type. var x; and var x = null; do not provide enough information to infer a type, so they are compile errors. var cannot be used as a method return type. Nested var is not valid.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 64–69"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following statements about wrapper classes are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Integer.parseInt(\"42\") returns an int primitive."
+      },
+      {
+        "key": "B",
+        "text": "Integer.valueOf(\"42\") returns an Integer object."
+      },
+      {
+        "key": "C",
+        "text": "new Integer(42) is preferred over Integer.valueOf(42)."
+      },
+      {
+        "key": "D",
+        "text": "Autoboxing converts a primitive int to an Integer automatically."
+      },
+      {
+        "key": "E",
+        "text": "Integer.MAX_VALUE is 2,147,483,647."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "parseInt returns a primitive; valueOf returns a wrapper object. new Integer(int) is deprecated since Java 9 — valueOf should be used (it may cache values). Autoboxing/unboxing are compiler-level automatic conversions. Integer.MAX_VALUE is 2^31 - 1 = 2,147,483,647.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 55–59"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class TextBlock {\n    public static void main(String[] args) {\n        String s = \"\"\"\n                Hello,\n                World!\n                \"\"\";\n        System.out.print(s.length());\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "13"
+      },
+      {
+        "key": "B",
+        "text": "14"
+      },
+      {
+        "key": "C",
+        "text": "15"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Text blocks strip the common leading whitespace. The content is \"Hello,\\nWorld!\\n\" (with a trailing newline before the closing \"\"\"). That is 6 + 1 + 6 + 1 = 14 characters.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 162–166"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "byte b = 50;\nb = b * 2;",
+    "options": [
+      {
+        "key": "A",
+        "text": "Assigns 100 to b."
+      },
+      {
+        "key": "B",
+        "text": "Compile error: possible lossy conversion from int to byte."
+      },
+      {
+        "key": "C",
+        "text": "Runtime ArithmeticException."
+      },
+      {
+        "key": "D",
+        "text": "Assigns -56 to b due to overflow."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The expression b * 2 promotes b to int, resulting in an int. Assigning an int back to byte without a cast causes a compile-time error 'possible lossy conversion from int to byte'. b *= 2 would work because compound assignment operators include an implicit cast.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 91–93"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following are valid Java identifiers? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "_myVar"
+      },
+      {
+        "key": "B",
+        "text": "$amount"
+      },
+      {
+        "key": "C",
+        "text": "3rdItem"
+      },
+      {
+        "key": "D",
+        "text": "class"
+      },
+      {
+        "key": "E",
+        "text": "My_Variable_1"
+      },
+      {
+        "key": "F",
+        "text": "true"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "E"
+    ],
+    "explanation": "Java identifiers must start with a letter, underscore (_), or dollar sign ($), followed by letters, digits, underscores, or dollar signs. 3rdItem starts with a digit (invalid). class and true are reserved keywords/literals and cannot be used as identifiers.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 24–26"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "Which of the following correctly declares and initializes multiple variables in a single statement?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "int x = 5, y = 10;"
+      },
+      {
+        "key": "B",
+        "text": "int x, y = 10;"
+      },
+      {
+        "key": "C",
+        "text": "int x = 5, String y = \"hi\";"
+      },
+      {
+        "key": "D",
+        "text": "var x = 5, y = 10;"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Multiple variables of the same type can be declared in one statement separated by commas, each with its own initializer (A). B is valid for declaration but x is not initialized. C mixes types in one declaration — invalid. var cannot declare multiple variables in the same statement (D).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 62–64"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class RefTest {\n    public static void main(String[] args) {\n        String a = \"hello\";\n        String b = \"hello\";\n        String c = new String(\"hello\");\n        System.out.println(a == b);\n        System.out.println(a == c);\n        System.out.println(a.equals(c));\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "true\ntrue\ntrue"
+      },
+      {
+        "key": "B",
+        "text": "true\nfalse\ntrue"
+      },
+      {
+        "key": "C",
+        "text": "false\nfalse\ntrue"
+      },
+      {
+        "key": "D",
+        "text": "true\nfalse\nfalse"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "String literals are interned in the string pool, so a == b is true. new String(\"hello\") creates a new object on the heap, so a == c is false (different references). equals() compares content, so a.equals(c) is true.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 157–160"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "Which primitive type can hold the value 4,000,000,000?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "int"
+      },
+      {
+        "key": "B",
+        "text": "short"
+      },
+      {
+        "key": "C",
+        "text": "long"
+      },
+      {
+        "key": "D",
+        "text": "float"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "int holds up to ~2.1 billion (2^31 - 1). 4,000,000,000 exceeds int's range. long holds up to ~9.2 × 10^18, so it can store 4,000,000,000. float could also store this value approximately, but with loss of precision; long stores it exactly. The best answer for exact storage is long.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 40–44"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following are true about the scope of local variables in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A local variable declared inside a for loop is not accessible after the loop ends."
+      },
+      {
+        "key": "B",
+        "text": "Local variables are automatically initialized to their default values."
+      },
+      {
+        "key": "C",
+        "text": "Two local variables with the same name can exist in nested blocks."
+      },
+      {
+        "key": "D",
+        "text": "A local variable must be definitely assigned before it can be read."
+      },
+      {
+        "key": "E",
+        "text": "Method parameters are a special kind of local variable."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D",
+      "E"
+    ],
+    "explanation": "Local variables are NOT automatically initialized (unlike instance/class variables). Reading an uninitialized local variable is a compile error. You cannot shadow a local variable with another local in a nested block (C is false). Loop variables are scoped to the loop. Method parameters count as local variables.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 60–62"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What happens when the following code is compiled and run?",
+    "code": "public class NumLiteral {\n    public static void main(String[] args) {\n        int million = 1_000_000;\n        int hex = 0xFF;\n        int binary = 0b1010;\n        System.out.println(million + \" \" + hex + \" \" + binary);\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error: underscores are not allowed in numeric literals."
+      },
+      {
+        "key": "B",
+        "text": "1000000 255 10"
+      },
+      {
+        "key": "C",
+        "text": "1_000_000 0xFF 0b1010"
+      },
+      {
+        "key": "D",
+        "text": "1000000 FF 1010"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java supports underscores in numeric literals for readability (1_000_000 = 1000000), hexadecimal literals (0xFF = 255), and binary literals (0b1010 = 10). All are stored as int and print in decimal.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 46–48"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class DefaultVal {\n    static int count;\n    boolean flag;\n    public static void main(String[] args) {\n        DefaultVal d = new DefaultVal();\n        System.out.println(count + \" \" + d.flag);\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "0 false"
+      },
+      {
+        "key": "B",
+        "text": "null false"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error: count and flag are not initialized."
+      },
+      {
+        "key": "D",
+        "text": "0 null"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Instance and static fields are automatically initialized to their default values: numeric types to 0, boolean to false, object references to null. Local variables are not, but instance variables are — so count = 0 and flag = false.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 1 – Building Blocks, pp. 58–60"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code snippet?",
+    "code": "int moon = 9, star = 2 + 2 * 3;\nfloat sun = star > 10 ? 1 : 3;\ndouble jupiter = (sun + moon) - 1.0f;\nint mars = --moon <= 8 ? 2 : 3;\nSystem.out.println(sun + \", \" + jupiter + \", \" + mars);",
+    "options": [
+      {
+        "key": "A",
+        "text": "1, 11, 2"
+      },
+      {
+        "key": "B",
+        "text": "3.0, 11.0, 2"
+      },
+      {
+        "key": "C",
+        "text": "1.0, 11.0, 3"
+      },
+      {
+        "key": "D",
+        "text": "3.0, 13.0, 3"
+      },
+      {
+        "key": "E",
+        "text": "3.0f, 12, 2"
+      },
+      {
+        "key": "F",
+        "text": "The code does not compile because one of the assignments requires an explicit numeric cast."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "star = 2 + (2*3) = 8. 8 > 10 is false so sun = 3.0f. jupiter = (3.0 + 9) - 1.0 = 11.0. --moon = 8, 8 <= 8 is true so mars = 2.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 83–98"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following application?",
+    "code": "1: public class Apples {\n2:   public static void main(String[] args) {\n3:     int x = 5;\n4:     int y = ++x * 3 / --x + 10;\n5:     System.out.println(\"x=\" + x + \" y=\" + y);\n6:   }\n7: }",
+    "options": [
+      {
+        "key": "A",
+        "text": "x=5 y=13"
+      },
+      {
+        "key": "B",
+        "text": "x=5 y=14"
+      },
+      {
+        "key": "C",
+        "text": "x=6 y=13"
+      },
+      {
+        "key": "D",
+        "text": "x=5 y=16"
+      },
+      {
+        "key": "E",
+        "text": "x=6 y=16"
+      },
+      {
+        "key": "F",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "++x makes x=6, then 6*3=18, then --x makes x=5, 18/5=3 (integer division), 3+10=13. So x=5, y=13.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 88–90"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "LocalDate date = LocalDate.of(2024, Month.JANUARY, 31);\ndate = date.plusMonths(1);\nSystem.out.println(date);",
+    "options": [
+      {
+        "key": "A",
+        "text": "2024-02-29"
+      },
+      {
+        "key": "B",
+        "text": "2024-02-28"
+      },
+      {
+        "key": "C",
+        "text": "2024-03-02"
+      },
+      {
+        "key": "D",
+        "text": "An exception is thrown."
+      },
+      {
+        "key": "E",
+        "text": "2024-02-31"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "2024 is a leap year, so February has 29 days. Adding one month to Jan 31 adjusts to the last valid day of February → Feb 29.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 180–183"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following String method calls?",
+    "code": "String s = \"Hello, World!\";\nSystem.out.println(s.substring(7));\nSystem.out.println(s.substring(7, 12));",
+    "options": [
+      {
+        "key": "A",
+        "text": "World!\nWorld"
+      },
+      {
+        "key": "B",
+        "text": "World!\nWorld!"
+      },
+      {
+        "key": "C",
+        "text": "orld!\norld!"
+      },
+      {
+        "key": "D",
+        "text": "World\nWorld"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "substring(7) returns from index 7 to end: 'World!'. substring(7, 12) returns from index 7 (inclusive) to 12 (exclusive): 'World' (W=7, o=8, r=9, l=10, d=11).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 157–162"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following StringBuilder code?",
+    "code": "StringBuilder sb = new StringBuilder(\"Hello\");\nsb.insert(5, \" World\");\nsb.delete(0, 5);\nSystem.out.println(sb);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Hello World"
+      },
+      {
+        "key": "B",
+        "text": " World"
+      },
+      {
+        "key": "C",
+        "text": "World"
+      },
+      {
+        "key": "D",
+        "text": "Hello"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "After insert(5, \" World\"), sb is 'Hello World'. delete(0, 5) removes characters from index 0 (inclusive) to 5 (exclusive), removing 'Hello'. Result: ' World' (with leading space).",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 167–172"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "System.out.println(Math.min(3, 7));\nSystem.out.println(Math.pow(2, 10));\nSystem.out.println(Math.abs(-5));",
+    "options": [
+      {
+        "key": "A",
+        "text": "3\n1024\n5"
+      },
+      {
+        "key": "B",
+        "text": "3\n1024.0\n5"
+      },
+      {
+        "key": "C",
+        "text": "7\n1024.0\n-5"
+      },
+      {
+        "key": "D",
+        "text": "3\n10.0\n5"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Math.min(3,7) returns int 3. Math.pow(2,10) returns double 1024.0. Math.abs(-5) returns int 5. System.out.println of a double prints with decimal point.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 191–194"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "LocalDateTime ldt = LocalDateTime.of(2024, 6, 15, 10, 30);\nDuration d = Duration.ofHours(5);\nLocalDateTime result = ldt.plus(d);\nSystem.out.println(result.getHour());",
+    "options": [
+      {
+        "key": "A",
+        "text": "10"
+      },
+      {
+        "key": "B",
+        "text": "15"
+      },
+      {
+        "key": "C",
+        "text": "5"
+      },
+      {
+        "key": "D",
+        "text": "An exception is thrown."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ldt starts at hour 10. Adding a Duration of 5 hours gives hour 15. LocalDateTime supports Duration (which works with time units). LocalDate cannot use Duration.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 183–190"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following statements about Period and Duration are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Period works with date-based values (years, months, days)."
+      },
+      {
+        "key": "B",
+        "text": "Duration works with time-based values (hours, minutes, seconds, nanoseconds)."
+      },
+      {
+        "key": "C",
+        "text": "Period can be added to a LocalTime."
+      },
+      {
+        "key": "D",
+        "text": "Duration can be added to a LocalDateTime."
+      },
+      {
+        "key": "E",
+        "text": "Both Period and Duration are immutable."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "Period is date-only (years/months/days). Duration is time-based. Period cannot be added to LocalTime (no date component). Duration can be added to LocalDateTime. Both are immutable value objects.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 183–191"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int result = 5 + 3 * 2 - 8 / 4;\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "9"
+      },
+      {
+        "key": "B",
+        "text": "3"
+      },
+      {
+        "key": "C",
+        "text": "11"
+      },
+      {
+        "key": "D",
+        "text": "4"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Operator precedence: * and / before + and -. 3*2=6, 8/4=2. Then left to right: 5+6=11, 11-2=9.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 83–86"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String s = \"Java\";\ns.concat(\" 21\");\nSystem.out.println(s);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Java 21"
+      },
+      {
+        "key": "B",
+        "text": "Java"
+      },
+      {
+        "key": "C",
+        "text": "null"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Strings are immutable. concat() returns a new String — it does not modify s. Since the return value is not stored, s still refers to 'Java'.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 157–162"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Instant i1 = Instant.parse(\"2024-01-01T00:00:00Z\");\nInstant i2 = i1.plus(Duration.ofDays(1));\nSystem.out.println(i1.isBefore(i2));",
+    "options": [
+      {
+        "key": "A",
+        "text": "false"
+      },
+      {
+        "key": "B",
+        "text": "true"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error."
+      },
+      {
+        "key": "D",
+        "text": "UnsupportedTemporalTypeException"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "i1 is 2024-01-01T00:00:00Z. i2 is one day later: 2024-01-02T00:00:00Z. i1.isBefore(i2) returns true because i1 is chronologically before i2.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 190–194"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int a = 0b1010;  // binary 10\nint b = 0x0F;    // hex 15\nSystem.out.println(a & b);\nSystem.out.println(a | b);",
+    "options": [
+      {
+        "key": "A",
+        "text": "10\n15"
+      },
+      {
+        "key": "B",
+        "text": "0\n15"
+      },
+      {
+        "key": "C",
+        "text": "10\n25"
+      },
+      {
+        "key": "D",
+        "text": "2\n25"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "a = 1010 in binary (decimal 10). b = 00001111 in binary (decimal 15). a & b: 1010 & 1111 = 1010 = 10. a | b: 1010 | 1111 = 1111 = 15.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 93–97"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int x = 10;\nSystem.out.println(x > 5 ? x > 8 ? \"high\" : \"mid\" : \"low\");",
+    "options": [
+      {
+        "key": "A",
+        "text": "low"
+      },
+      {
+        "key": "B",
+        "text": "mid"
+      },
+      {
+        "key": "C",
+        "text": "high"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Ternary is right-associative: first checks x > 5 (true), then evaluates x > 8 ? \"high\" : \"mid\". Since x=10 > 8 is true, returns \"high\".",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 2 – Operators, pp. 97–99"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "multi",
+    "text": "Which of the following are true about StringBuilder vs String? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "StringBuilder is mutable; String is immutable."
+      },
+      {
+        "key": "B",
+        "text": "StringBuilder is thread-safe; String is not."
+      },
+      {
+        "key": "C",
+        "text": "StringBuilder.reverse() reverses the character sequence in place."
+      },
+      {
+        "key": "D",
+        "text": "String concatenation with + always creates a new String object."
+      },
+      {
+        "key": "E",
+        "text": "StringBuilder.append() returns the same StringBuilder instance."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "E"
+    ],
+    "explanation": "StringBuilder is mutable. StringBuffer (not StringBuilder) is thread-safe. StringBuilder.reverse() modifies the builder in place and returns the same instance. String + concatenation inside loops creates many objects, but the compiler may optimize. append() returns 'this' enabling chaining.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 167–172"
+  },
+  {
+    "examId": "java-21",
+    "topic": "building-blocks",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "LocalDate d1 = LocalDate.of(2024, 1, 1);\nLocalDate d2 = LocalDate.of(2024, 12, 31);\nPeriod p = Period.between(d1, d2);\nSystem.out.println(p.getMonths() + \" \" + p.getDays());",
+    "options": [
+      {
+        "key": "A",
+        "text": "11 30"
+      },
+      {
+        "key": "B",
+        "text": "12 0"
+      },
+      {
+        "key": "C",
+        "text": "364 0"
+      },
+      {
+        "key": "D",
+        "text": "0 365"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Period.between(d1, d2) computes the period in years, months, days. From Jan 1 to Dec 31 in the same year is 0 years, 11 months, and 30 days. getMonths() returns 11, getDays() returns 30.",
+    "source": "Selikoff & Boyarsky, OCP Java SE 21 Developer Study Guide (Sybex, 2023), Chapter 4 – Core APIs, pp. 183–190"
   }
 ]

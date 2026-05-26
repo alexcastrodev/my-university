@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-1-designing-methods.md"
     },
     {
       "id": "j21-5-2",
@@ -16,7 +16,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-2-declaring-local-and-instance-variables.md"
     },
     {
       "id": "j21-5-3",
@@ -24,7 +24,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-3-working-with-varargs.md"
     },
     {
       "id": "j21-5-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-4-applying-access-modifiers.md"
     },
     {
       "id": "j21-5-5",
@@ -40,7 +40,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-5-applying-the-static-keyword.md"
     },
     {
       "id": "j21-5-6",
@@ -48,7 +48,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/5-6-encapsulating-data.md"
     },
     {
       "id": "j21-5-7",

@@ -8,7 +8,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-1-java21-vs-java25-exam-differences-overview.md"
     },
     {
       "id": "j21-16-2",
@@ -16,7 +16,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-2-flexible-constructor-bodies.md"
     },
     {
       "id": "j21-16-3",
@@ -24,7 +24,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-3-module-import-declarations.md"
     },
     {
       "id": "j21-16-4",
@@ -32,7 +32,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-4-compact-source-files-and-multi-file-programs.md"
     },
     {
       "id": "j21-16-5",
@@ -40,7 +40,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-5-instance-main-methods-final.md"
     },
     {
       "id": "j21-16-6",
@@ -48,7 +48,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-6-scoped-values-final.md"
     },
     {
       "id": "j21-16-7",
@@ -56,7 +56,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-21/content/16-7-stream-gatherers.md"
     },
     {
       "id": "j21-16-8",
