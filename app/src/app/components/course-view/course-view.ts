@@ -35,14 +35,6 @@ import { Course } from '../../models/course.model';
               </span>
             </div>
           </div>
-          <div class="hero-player" aria-label="Course preview video">
-            <div class="play-button" role="button" tabindex="0" aria-label="Play course overview">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <polygon points="5 3 19 12 5 21 5 3" fill="white"/>
-              </svg>
-            </div>
-            <div class="hero-overlay" aria-hidden="true"></div>
-          </div>
         </div>
 
         <div class="course-body">
@@ -181,43 +173,6 @@ import { Course } from '../../models/course.model';
       gap: 0.35rem;
       font-size: 0.8rem;
       color: rgba(255,255,255,.8);
-    }
-
-    .hero-player {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.2);
-    }
-
-    .play-button {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: rgba(0,0,0,.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform .2s, background .2s;
-      position: relative;
-      z-index: 2;
-      border: 2px solid rgba(255,255,255,.3);
-    }
-
-    .play-button:hover,
-    .play-button:focus-visible {
-      transform: scale(1.08);
-      background: rgba(0,0,0,.75);
-      outline: 2px solid rgba(255,255,255,.6);
     }
 
     .course-body {
