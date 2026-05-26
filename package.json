@@ -1,0 +1,22 @@
+{
+  "name": "ocp-java-25",
+  "version": "1.0.0",
+  "description": "![home](./.github/home.png)",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcastrodev/my-university.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexcastrodev/my-university/issues"
+  },
+  "homepage": "https://github.com/alexcastrodev/my-university#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.1"
+  }
+}
