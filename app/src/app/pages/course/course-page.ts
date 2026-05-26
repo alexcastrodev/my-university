@@ -285,6 +285,15 @@ export class CoursePage implements OnInit {
   activeLesson = signal<Lesson | null>(null);
   activeLessonId = signal<string | null>(null);
   markdownContent = signal<{ content: string; version: string | null; updatedAt: string | null } | null>(null);
+
+  private parseFrontmatter(raw: string): { content: string; version: string | null; updatedAt: string | null } {
+    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+    if (!match) return { content: raw, version: null, updatedAt: null };
+    const fm = match[1];
+    const version = fm.match(/^version:\s*(.+)$/m)?.[1]?.trim() ?? null;
+    const updatedAt = fm.match(/^updatedAt:\s*(.+)$/m)?.[1]?.trim() ?? null;
+    return { content: match[2], version, updatedAt };
+  }
   markdownLoading = signal(false);
 
   modules = computed(() => this.course()?.modules ?? []);
@@ -365,8 +374,8 @@ export class CoursePage implements OnInit {
       return;
     }
     this.markdownLoading.set(true);
-    this.http.get<{ content: string; version: string | null; updatedAt: string | null }>(`/api/content/${lesson.contentPath}`).subscribe({
-      next: (lc) => { this.markdownContent.set(lc); this.markdownLoading.set(false); },
+    this.http.get(`/api/content/${lesson.contentPath}`, { responseType: 'text' }).subscribe({
+      next: (raw) => { this.markdownContent.set(this.parseFrontmatter(raw)); this.markdownLoading.set(false); },
       error: () => { this.markdownContent.set(null); this.markdownLoading.set(false); },
     });
   }

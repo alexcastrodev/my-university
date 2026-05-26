@@ -18,12 +18,37 @@ export const test = base.extend({
 
 export { expect };
 
+async function login(page) {
+  await page.goto(`${BASE_URL}/login`);
+  await page.locator('input[type="text"]').fill('Test User');
+  await page.locator('button[type="submit"]').click();
+  await page.waitForURL((url) => !url.toString().includes('/login'));
+}
+
+async function ensureLoggedIn(page, destination) {
+  await page.waitForLoadState('networkidle');
+  if (page.url().includes('/login')) {
+    await page.locator('input[type="text"]').fill('Test User');
+    await page.locator('button[type="submit"]').click();
+    await page.waitForURL((url) => !url.toString().includes('/login'));
+    if (destination) {
+      await page.goto(destination);
+      await page.waitForLoadState('networkidle');
+    }
+  }
+}
+
 export async function gotoExamList(page) {
+  await login(page);
   await page.goto(BASE_URL);
+  await page.waitForLoadState('networkidle');
 }
 
 export async function gotoCourse(page, examId = EXAM_ID) {
-  await page.goto(`${BASE_URL}/exam/${examId}`);
+  const url = `${BASE_URL}/exam/${examId}`;
+  await login(page);
+  await page.goto(url);
+  await page.waitForLoadState('networkidle');
 }
 
 export async function gotoLesson(page, examId = EXAM_ID, lessonId) {

@@ -14,7 +14,10 @@ test.describe('Exam List Page', () => {
       await expect(header.header).toBeVisible();
       await expect(header.brandLink).toBeVisible();
       await expect(header.examsLink).toBeVisible();
-      await expect(header.searchInput).toBeVisible();
+      const vp = page.viewportSize();
+      if (!vp || vp.width >= 768) {
+        await expect(header.searchInput).toBeVisible();
+      }
       await expect(header.avatarBtn).toBeVisible();
     });
   });

@@ -6,7 +6,6 @@ export class CoursePage {
     this.mainContent   = page.locator('.main-content');
     this.heroSection   = page.locator('.hero');
     this.courseTitle   = page.locator('.course-title').first();
-    this.playButton    = page.getByRole('button', { name: 'Play course overview' });
     this.quizBanner    = page.locator('.quiz-banner');
     this.startExamBtn  = page.getByRole('link', { name: /Start Practice Exam/i });
 

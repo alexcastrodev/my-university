@@ -29,6 +29,7 @@ COPY --from=backend-build /app/node_modules ./node_modules
 COPY --from=backend-build /app/dist ./dist
 COPY --from=frontend-build /app/dist/ocp-simulator/browser /usr/share/nginx/html
 COPY backend/src/seed/data /public/content
+RUN chmod -R a+rX /public/content
 COPY nginx.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 80

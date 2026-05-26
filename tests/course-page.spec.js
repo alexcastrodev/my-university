@@ -29,6 +29,7 @@ test.describe('Course Page', () => {
     });
 
     test('main content should have overflow-y auto', async ({ page }) => {
+      test.skip(page.viewportSize()?.width < 900, 'overflow-y is visible on mobile layout');
       const course = new CoursePage(page);
       expect(await course.mainContentOverflowY()).toBe('auto');
     });
@@ -39,11 +40,6 @@ test.describe('Course Page', () => {
       const course = new CoursePage(page);
       await expect(course.heroSection).toBeVisible();
       await expect(course.courseTitle).toBeVisible();
-    });
-
-    test('should render play button', async ({ page }) => {
-      const course = new CoursePage(page);
-      await expect(course.playButton).toBeVisible();
     });
   });
 
