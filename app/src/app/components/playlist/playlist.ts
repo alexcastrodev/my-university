@@ -110,14 +110,33 @@ import { CourseModule, Lesson } from '../../models/course.model';
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-height: 0;
     }
 
     .playlist {
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-height: 0;
       background: #fff;
       border-left: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 900px) {
+      :host {
+        height: auto;
+        min-height: 0;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .playlist {
+        height: auto;
+        max-height: 60vh;
+      }
+
+      .modules-list {
+        max-height: none;
+      }
     }
 
     .playlist-header {

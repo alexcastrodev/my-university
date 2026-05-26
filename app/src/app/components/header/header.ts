@@ -133,6 +133,16 @@ import { AuthService } from '../../services/auth.service';
     }
 
     .avatar:hover { opacity: .85; }
+
+    @media (max-width: 640px) {
+      .search-box {
+        display: none;
+      }
+
+      .brand-name {
+        font-size: 0.85rem;
+      }
+    }
   `,
 })
 export class Header {

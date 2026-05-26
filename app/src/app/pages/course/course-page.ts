@@ -100,7 +100,22 @@ import { AuthService } from '../../services/auth.service';
 
     .main-content {
       overflow-y: auto;
+      min-height: 0;
       outline: none;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+        height: auto;
+        min-height: calc(100vh - 52px);
+        overflow: visible;
+      }
+
+      .main-content {
+        overflow-y: visible;
+      }
     }
 
     .quiz-banner {
