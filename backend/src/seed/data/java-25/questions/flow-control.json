@@ -1,0 +1,229 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int i = 0;\nswitch (i) {\n  case 0 -> System.out.print(\"zero\");\n  case 1 -> System.out.print(\"one\");\n  default -> System.out.print(\"other\");\n}",
+    "options": [
+      { "key": "A", "text": "zero" },
+      { "key": "B", "text": "zeroone" },
+      { "key": "C", "text": "zeroonenother" },
+      { "key": "D", "text": "Compiler error" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "Arrow case labels (->) do not fall through. Only the matching branch executes, printing 'zero'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following are valid switch expression result types? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "int" },
+      { "key": "B", "text": "String" },
+      { "key": "C", "text": "void" },
+      { "key": "D", "text": "boolean" },
+      { "key": "E", "text": "long" }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "Switch expressions can yield any non-void type. void is not a valid yield type — switch expressions must produce a value."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "outer:\nfor (int i = 0; i < 3; i++) {\n  for (int j = 0; j < 3; j++) {\n    if (j == 1) continue outer;\n    System.out.print(i + \"\" + j + \" \");\n  }\n}",
+    "options": [
+      { "key": "A", "text": "00 10 20" },
+      { "key": "B", "text": "00 01 02 10 11 12 20 21 22" },
+      { "key": "C", "text": "00 10 11 20" },
+      { "key": "D", "text": "00" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "When j==1, continue outer skips to the next iteration of the outer loop. Only j==0 is ever printed per outer iteration, giving 00, 10, 20."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "Which switch expression syntax correctly assigns a multi-line result?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "case 1 -> { return \"one\"; }" },
+      { "key": "B", "text": "case 1 -> { yield \"one\"; }" },
+      { "key": "C", "text": "case 1: yield \"one\";" },
+      { "key": "D", "text": "case 1 -> yield \"one\";" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "In a switch expression block ({}), the yield statement provides the value. return is not used in switch expressions. Arrow case with a block uses yield, not return."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code? (dangling else)",
+    "code": "int x = 5;\nif (x > 3)\n  if (x > 10)\n    System.out.println(\"big\");\nelse\n  System.out.println(\"small\");",
+    "options": [
+      { "key": "A", "text": "big" },
+      { "key": "B", "text": "small" },
+      { "key": "C", "text": "No output" },
+      { "key": "D", "text": "Compiler error" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The dangling else rule in Java: an else always binds to the nearest preceding if. Here the else belongs to 'if (x > 10)', not 'if (x > 3)'. Since x=5 satisfies x>3 but not x>10, the else branch executes, printing 'small'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What does the following ternary expression evaluate to?",
+    "code": "int a = 2, b = 3;\nint result = a > b ? a * 2 : b > 1 ? b * 3 : 0;\nSystem.out.println(result);",
+    "options": [
+      { "key": "A", "text": "4" },
+      { "key": "B", "text": "9" },
+      { "key": "C", "text": "6" },
+      { "key": "D", "text": "0" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "a > b is false (2 > 3), so the false branch evaluates: b > 1 is true (3 > 1), so b * 3 = 9 is returned. The ternary operator is right-associative: a > b ? ... : (b > 1 ? b*3 : 0)."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following traditional switch statement?",
+    "code": "int day = 2;\nswitch (day) {\n  case 1:\n    System.out.print(\"Mon \");\n  case 2:\n    System.out.print(\"Tue \");\n  case 3:\n    System.out.print(\"Wed \");\n    break;\n  case 4:\n    System.out.print(\"Thu \");\n}\nSystem.out.print(\"Done\");",
+    "options": [
+      { "key": "A", "text": "Tue Done" },
+      { "key": "B", "text": "Tue Wed Done" },
+      { "key": "C", "text": "Mon Tue Wed Done" },
+      { "key": "D", "text": "Tue Wed Thu Done" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "In a traditional switch statement, execution falls through each case until a break is encountered. Matching starts at case 2, then falls through to case 3 which has a break. Output: 'Tue Wed Done'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following switch expressions compile without error? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "String s = switch(x) { case 1 -> \"one\"; default -> \"other\"; };" },
+      { "key": "B", "text": "int n = switch(x) { case 1 -> { System.out.println(); yield 1; } default -> 0; };" },
+      { "key": "C", "text": "switch(x) { case 1 -> System.out.println(\"one\"); };" },
+      { "key": "D", "text": "int n = switch(x) { case 1 -> 1; };" }
+    ],
+    "correctKeys": ["A", "B"],
+    "explanation": "A: valid arrow switch expression with default — compiles. B: valid block case with yield — compiles. C: a switch expression used as a statement is allowed if the switch type is void-compatible (all arms are void), but here there is no default, which is only required when the result is used; used as statement without default is actually allowed — however the question tests expression context. D: missing default in an expression context where all enum values are not covered — compiler error because exhaustiveness cannot be guaranteed for int."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int i = 0;\nwhile (i < 3) {\n  System.out.print(i + \" \");\n  i++;\n}\nSystem.out.print(\"end\");",
+    "options": [
+      { "key": "A", "text": "0 1 2 end" },
+      { "key": "B", "text": "0 1 2 3 end" },
+      { "key": "C", "text": "1 2 3 end" },
+      { "key": "D", "text": "end" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "The while loop checks the condition before each iteration. i starts at 0, prints 0, 1, 2 (while i < 3 is true), then when i becomes 3 the condition is false and the loop exits. Output: '0 1 2 end'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following do-while code when the condition is initially false?",
+    "code": "int count = 10;\ndo {\n  System.out.print(count + \" \");\n  count++;\n} while (count < 5);\nSystem.out.print(\"done\");",
+    "options": [
+      { "key": "A", "text": "done" },
+      { "key": "B", "text": "10 done" },
+      { "key": "C", "text": "10 11 12 done" },
+      { "key": "D", "text": "Compiler error" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "A do-while loop always executes its body at least once before evaluating the condition. count=10 is printed, then count becomes 11. The condition 11 < 5 is false, so the loop exits. Output: '10 done'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "outer:\nfor (int i = 0; i < 3; i++) {\n  for (int j = 0; j < 3; j++) {\n    if (i == 1 && j == 1) break outer;\n    System.out.print(i + \"\" + j + \" \");\n  }\n}",
+    "options": [
+      { "key": "A", "text": "00 01 02 10" },
+      { "key": "B", "text": "00 01 02 10 11 12 20 21 22" },
+      { "key": "C", "text": "00 01 02" },
+      { "key": "D", "text": "00 01 02 10 20" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "break outer terminates both loops when i==1 and j==1. The iterations that print before that break are: (0,0), (0,1), (0,2), (1,0). When (i=1, j=1), break outer fires and no more output follows."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following statements about the enhanced for loop are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "It can iterate over any object that implements java.lang.Iterable." },
+      { "key": "B", "text": "It can iterate over arrays." },
+      { "key": "C", "text": "The loop variable is a reference to the original array element and can be used to modify the array." },
+      { "key": "D", "text": "It does not expose an index variable." },
+      { "key": "E", "text": "It can iterate over a Map directly." }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "A: Enhanced for works with any Iterable. B: It also works with arrays directly. D: There is no index variable — only the element value. C is incorrect: for primitive arrays the loop variable is a copy, so modifying it does not affect the original array; for object arrays you get a reference to the object but reassigning the variable does not change the array slot. E is incorrect: Map does not implement Iterable; you iterate over keySet(), values(), or entrySet()."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "Which of the following code snippets causes a compilation error?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "int x = 1; if (x == 1) System.out.println(\"one\");" },
+      { "key": "B", "text": "int x = 1; if (x = 1) System.out.println(\"one\");" },
+      { "key": "C", "text": "boolean b = true; if (b) System.out.println(\"yes\");" },
+      { "key": "D", "text": "int x = 0; while (x < 10) { x++; }" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "In Java, the condition of an if statement must be a boolean expression. Option B uses assignment (x = 1) which has type int, not boolean — this is a compiler error. (Unlike C/C++, Java does not implicitly convert int to boolean.)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "public void demo() {\n  int x = 5;\n  if (x > 0) {\n    return;\n  } else {\n    return;\n  }\n  System.out.println(\"unreachable\");\n}",
+    "options": [
+      { "key": "A", "text": "Compiles and prints nothing at runtime." },
+      { "key": "B", "text": "Compiles and prints 'unreachable' at runtime." },
+      { "key": "C", "text": "Compile error: unreachable statement." },
+      { "key": "D", "text": "Runtime exception." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "Java's compiler performs flow analysis and detects unreachable statements. Since both branches of the if/else unconditionally return, the println after the if/else is unreachable. The compiler reports an 'unreachable statement' error and refuses to compile."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "multi",
+    "text": "Which of the following correctly demonstrate the use of yield in a switch expression? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "int r = switch(x) { case 1 -> { int v = x * 2; yield v; } default -> 0; };" },
+      { "key": "B", "text": "int r = switch(x) { case 1: yield x * 2; default: yield 0; };" },
+      { "key": "C", "text": "int r = switch(x) { case 1 -> yield x * 2; default -> yield 0; };" },
+      { "key": "D", "text": "int r = switch(x) { case 1: { yield x * 2; } default: yield 0; };" }
+    ],
+    "correctKeys": ["A", "B", "D"],
+    "explanation": "A: Arrow case with a block — yield is correct inside {}. B: Colon case labels always use yield (or fall-through + yield) to produce a value. D: A colon case can have a block with yield inside. C is invalid: 'case 1 -> yield x * 2' is a syntax error — arrow cases with a single expression do not use yield; yield is only valid inside a block ({})."
+  }
+]

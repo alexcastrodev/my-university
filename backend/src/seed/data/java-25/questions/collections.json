@@ -1,0 +1,489 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "var map = new HashMap<String, Integer>();\nmap.put(\"a\", 1);\nmap.put(\"b\", 2);\nmap.put(\"a\", 3);\nSystem.out.println(map.size());",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "3"
+      },
+      {
+        "key": "D",
+        "text": "Throws exception"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Maps do not allow duplicate keys. The third put() replaces the value for 'a'. The map has 2 entries: {a=3, b=2}."
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which of the following create an unmodifiable list? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "List.of(1, 2, 3)"
+      },
+      {
+        "key": "B",
+        "text": "Collections.unmodifiableList(new ArrayList<>())"
+      },
+      {
+        "key": "C",
+        "text": "new ArrayList<>()"
+      },
+      {
+        "key": "D",
+        "text": "List.copyOf(existingList)"
+      },
+      {
+        "key": "E",
+        "text": "Arrays.asList(1, 2, 3)"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "List.of(), Collections.unmodifiableList(), and List.copyOf() create unmodifiable views or instances. new ArrayList<>() is mutable. Arrays.asList() is fixed-size but allows set() — it is not fully unmodifiable."
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What interface must a class implement to be sortable with Collections.sort()?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Comparator"
+      },
+      {
+        "key": "B",
+        "text": "Comparable"
+      },
+      {
+        "key": "C",
+        "text": "Sortable"
+      },
+      {
+        "key": "D",
+        "text": "Ordered"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Classes implement Comparable<T> with compareTo() to define their natural ordering. Comparator is a separate strategy for external ordering and is not implemented by the element class itself."
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "Which of the following correctly retrieves the first element from a Deque named deque?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "deque.get(0)"
+      },
+      {
+        "key": "B",
+        "text": "deque.peekFirst()"
+      },
+      {
+        "key": "C",
+        "text": "deque.first()"
+      },
+      {
+        "key": "D",
+        "text": "deque.getFirst() — throws NoSuchElementException if empty"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "getFirst() retrieves (without removing) the first element and throws NoSuchElementException if empty. peekFirst() also retrieves without removing but returns null if empty. get(0) and first() are not Deque methods."
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "var list = new ArrayList<>(List.of(3, 1, 4, 1, 5));\nCollections.sort(list);\nSystem.out.println(list);",
+    "options": [
+      {
+        "key": "A",
+        "text": "[3, 1, 4, 1, 5]"
+      },
+      {
+        "key": "B",
+        "text": "[1, 1, 3, 4, 5]"
+      },
+      {
+        "key": "C",
+        "text": "[5, 4, 3, 1, 1]"
+      },
+      {
+        "key": "D",
+        "text": "Throws UnsupportedOperationException"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Collections.sort() sorts in ascending natural order. The list is a mutable ArrayList (copied from List.of), so sorting works. Result: [1, 1, 3, 4, 5]."
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int[] arr = new int[5];\narr[1] = 10;\nSystem.out.println(Arrays.binarySearch(arr, 10));",
+    "options": [
+      {
+        "key": "A",
+        "text": "0"
+      },
+      {
+        "key": "B",
+        "text": "1"
+      },
+      {
+        "key": "C",
+        "text": "Throws ArrayIndexOutOfBoundsException"
+      },
+      {
+        "key": "D",
+        "text": "Undefined — the array is not sorted"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Arrays.binarySearch() requires the array to be sorted in ascending order before calling it. The array [0, 10, 0, 0, 0] is not sorted (10 appears before subsequent 0s), so the result is undefined by the contract of binarySearch — the return value is unspecified. On the exam, any code that calls binarySearch on an unsorted array is treated as producing undefined/unreliable output.",
+    "source": "Oracle Docs – Arrays.binarySearch : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Arrays.html#binarySearch(int[],int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which statements about Set.of() are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Set.of(1, 2, 2) throws IllegalArgumentException at runtime"
+      },
+      {
+        "key": "B",
+        "text": "Set.of(null) throws NullPointerException at runtime"
+      },
+      {
+        "key": "C",
+        "text": "The iteration order of Set.of() is guaranteed to be insertion order"
+      },
+      {
+        "key": "D",
+        "text": "The returned set is unmodifiable"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Set.of() disallows duplicate elements (throws IllegalArgumentException) and null values (throws NullPointerException). The set is fully unmodifiable — any structural mutation throws UnsupportedOperationException. Iteration order is NOT guaranteed; it may vary across JVM runs.",
+    "source": "Oracle Docs – Set.of : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Set.html#of(E...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "Which Set implementation maintains elements in sorted (natural) order?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "HashSet"
+      },
+      {
+        "key": "B",
+        "text": "LinkedHashSet"
+      },
+      {
+        "key": "C",
+        "text": "TreeSet"
+      },
+      {
+        "key": "D",
+        "text": "ArrayDeque"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "TreeSet stores elements in their natural sorted order (or by a provided Comparator). HashSet provides no ordering guarantee. LinkedHashSet maintains insertion order but not sorted order. ArrayDeque is a Deque, not a Set.",
+    "source": "Oracle Docs – TreeSet : https://docs.oracle.com/en/java/docs/api/java.base/java/util/TreeSet.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Deque<String> deque = new ArrayDeque<>();\ndeque.push(\"A\");\ndeque.push(\"B\");\ndeque.push(\"C\");\nSystem.out.println(deque.pop() + \" \" + deque.poll());",
+    "options": [
+      {
+        "key": "A",
+        "text": "A B"
+      },
+      {
+        "key": "B",
+        "text": "C A"
+      },
+      {
+        "key": "C",
+        "text": "C B"
+      },
+      {
+        "key": "D",
+        "text": "A C"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "push() adds to the front (head) of the deque, so after three pushes the order from head is [C, B, A]. pop() removes and returns the head — 'C'. poll() also removes and returns the head (now 'B'). Result: 'C B'.",
+    "source": "Oracle Docs – Deque : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Deque.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which statements correctly describe the difference between HashMap and TreeMap? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "HashMap allows one null key; TreeMap throws NullPointerException on null key"
+      },
+      {
+        "key": "B",
+        "text": "TreeMap maintains keys in sorted order; HashMap does not"
+      },
+      {
+        "key": "C",
+        "text": "HashMap guarantees O(1) amortised get/put; TreeMap guarantees O(log n)"
+      },
+      {
+        "key": "D",
+        "text": "TreeMap allows multiple null keys"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "HashMap allows exactly one null key and offers O(1) average-case performance. TreeMap sorts keys by natural order or Comparator and has O(log n) operations; it does not allow null keys because comparisons would throw NullPointerException. D is false.",
+    "source": "Oracle Docs – TreeMap : https://docs.oracle.com/en/java/docs/api/java.base/java/util/TreeMap.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "Which of the following correctly uses SequencedCollection methods introduced in Java 21?",
+    "code": "List<String> list = new ArrayList<>(List.of(\"x\", \"y\", \"z\"));\nSystem.out.println(list.getFirst() + \" \" + list.getLast());\nList<String> rev = list.reversed();\nSystem.out.println(rev.getFirst());",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error — getFirst() and getLast() do not exist on List"
+      },
+      {
+        "key": "B",
+        "text": "x z followed by z"
+      },
+      {
+        "key": "C",
+        "text": "x z followed by x"
+      },
+      {
+        "key": "D",
+        "text": "Throws UnsupportedOperationException because ArrayList does not implement SequencedCollection"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java 21 introduced SequencedCollection with getFirst(), getLast(), and reversed(). ArrayList implements this interface. getFirst() returns 'x', getLast() returns 'z'. reversed() returns a reverse-order view; its getFirst() is the last element of the original list — 'z'.",
+    "source": "Oracle Docs – SequencedCollection : https://docs.oracle.com/en/java/docs/api/java.base/java/util/SequencedCollection.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Map<String, Integer> map = new HashMap<>();\nmap.put(\"a\", 1);\nmap.computeIfAbsent(\"a\", k -> 99);\nmap.computeIfAbsent(\"b\", k -> 42);\nSystem.out.println(map.get(\"a\") + \" \" + map.get(\"b\"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "99 42"
+      },
+      {
+        "key": "B",
+        "text": "1 null"
+      },
+      {
+        "key": "C",
+        "text": "1 42"
+      },
+      {
+        "key": "D",
+        "text": "Throws NullPointerException"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "computeIfAbsent() only computes and stores a value when the key is absent (or mapped to null). Key 'a' already has value 1, so it is unchanged. Key 'b' is absent, so the lambda runs and stores 42. Result: '1 42'.",
+    "source": "Oracle Docs – Map.computeIfAbsent : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Map.html#computeIfAbsent(K,java.util.function.Function)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "multi",
+    "text": "Which statements about Comparable and Comparator are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Comparable defines the natural ordering of a class via compareTo()"
+      },
+      {
+        "key": "B",
+        "text": "Comparator can be used to sort objects that do not implement Comparable"
+      },
+      {
+        "key": "C",
+        "text": "A class can have multiple Comparable implementations"
+      },
+      {
+        "key": "D",
+        "text": "Comparator.comparing() can chain multiple sort keys with thenComparing()"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Comparable provides a single natural ordering embedded in the class. Comparator is an external strategy that can sort any objects, including those without Comparable, and supports chaining via thenComparing(). A class can only implement Comparable once (one natural ordering), so C is false.",
+    "source": "Oracle Docs – Comparator : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Comparator.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Map<String, List<String>> map = new HashMap<>();\nmap.merge(\"key\", new ArrayList<>(List.of(\"a\")),\n    (existing, incoming) -> {\n        existing.addAll(incoming);\n        return existing;\n    });\nmap.merge(\"key\", new ArrayList<>(List.of(\"b\")),\n    (existing, incoming) -> {\n        existing.addAll(incoming);\n        return existing;\n    });\nSystem.out.println(map.get(\"key\"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "[a]"
+      },
+      {
+        "key": "B",
+        "text": "[b]"
+      },
+      {
+        "key": "C",
+        "text": "[a, b]"
+      },
+      {
+        "key": "D",
+        "text": "Throws IllegalStateException"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Map.merge() inserts the value directly when the key is absent. On the second call the key exists, so the remapping function receives the existing list [a] and the incoming list [b], adds 'b' to the existing list, and returns it. The final value is [a, b].",
+    "source": "Oracle Docs – Map.merge : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Map.html#merge(K,V,java.util.function.BiFunction)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What does Arrays.copyOf(original, newLength) do when newLength is greater than the length of the original array?",
+    "code": "int[] original = {1, 2, 3};\nint[] copy = Arrays.copyOf(original, 5);\nSystem.out.println(Arrays.toString(copy));",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws ArrayIndexOutOfBoundsException"
+      },
+      {
+        "key": "B",
+        "text": "[1, 2, 3]"
+      },
+      {
+        "key": "C",
+        "text": "[1, 2, 3, 0, 0]"
+      },
+      {
+        "key": "D",
+        "text": "[1, 2, 3, null, null]"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Arrays.copyOf() fills extra positions with the default value of the element type. For int[], the default is 0. The resulting array is [1, 2, 3, 0, 0]. For Object arrays the padding would be null.",
+    "source": "Oracle Docs – Arrays.copyOf : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Arrays.html#copyOf(int[],int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the result of calling Collections.binarySearch() on a list that has NOT been sorted?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Always returns -1"
+      },
+      {
+        "key": "B",
+        "text": "Throws IllegalArgumentException"
+      },
+      {
+        "key": "C",
+        "text": "The result is undefined — the contract requires the list to be sorted first"
+      },
+      {
+        "key": "D",
+        "text": "Performs a linear scan and returns the correct index"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The contract of Collections.binarySearch() states that the list must be sorted in ascending order (by natural ordering or the provided Comparator) prior to calling this method. If the list is unsorted, the results are undefined — the method may return any value including a positive index or a negative insertion point that does not correspond to reality.",
+    "source": "Oracle Docs – Collections.binarySearch : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Collections.html#binarySearch(java.util.List,T)"
+  }
+]

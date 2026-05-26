@@ -1,0 +1,481 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which directive in module-info.java allows other modules to use reflection on private members of a package?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "exports com.example;"
+      },
+      {
+        "key": "B",
+        "text": "opens com.example;"
+      },
+      {
+        "key": "C",
+        "text": "requires com.example;"
+      },
+      {
+        "key": "D",
+        "text": "provides com.example;"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "opens allows deep reflection (including private members) on the package's types. exports only allows compile-time access to public types. requires declares a dependency. provides registers a service implementation."
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "multi",
+    "text": "Which of the following are true about automatic modules? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "An automatic module is created from a regular JAR placed on the module path."
+      },
+      {
+        "key": "B",
+        "text": "Automatic modules can read all other modules."
+      },
+      {
+        "key": "C",
+        "text": "Automatic modules export all packages."
+      },
+      {
+        "key": "D",
+        "text": "Automatic modules have a module-info.java."
+      },
+      {
+        "key": "E",
+        "text": "The module name is derived from the JAR filename."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "Automatic modules are JARs on the module path without module-info.java. They read all modules, export all packages, and derive their name from the JAR filename (dashes to dots, version stripped)."
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which command creates a modular JAR with a main class specified?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "jar --create --file app.jar --main-class com.Main -C out ."
+      },
+      {
+        "key": "B",
+        "text": "jar -cf app.jar com.Main out/"
+      },
+      {
+        "key": "C",
+        "text": "javac --main-class com.Main -d app.jar src/"
+      },
+      {
+        "key": "D",
+        "text": "jar --module com.Main --file app.jar out/"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "The correct jar syntax uses --create (or -c), --file to name the JAR, --main-class to set the entry point, and -C to specify the root of compiled classes."
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "What is the purpose of the 'uses' directive in module-info.java?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Declares that this module uses (depends on) another module."
+      },
+      {
+        "key": "B",
+        "text": "Declares that this module is a consumer of a service interface via ServiceLoader."
+      },
+      {
+        "key": "C",
+        "text": "Declares that this module provides an implementation of a service."
+      },
+      {
+        "key": "D",
+        "text": "Declares that this module exports a package for service discovery."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The 'uses' directive declares that this module uses a service interface, enabling ServiceLoader to discover implementations. 'provides ... with' is for declaring an implementation. 'requires' is for module dependencies."
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "What is the output of running the following with 'java Hello.java' (Java 25 compact source file)?",
+    "code": "void main() {\n  System.out.println(\"Hello, Java 25!\");\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiler error — no class declaration"
+      },
+      {
+        "key": "B",
+        "text": "Hello, Java 25!"
+      },
+      {
+        "key": "C",
+        "text": "Compiler error — main must be static"
+      },
+      {
+        "key": "D",
+        "text": "Runtime error — no main class found"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java 25 supports unnamed classes (JEP 512/495). A file with a top-level instance main() method is valid. 'java Hello.java' compiles and runs it directly. The class name is inferred from the filename."
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "multi",
+    "text": "Which of the following statements about module import declarations (JEP 511) are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "import module java.base; imports all public packages exported by the java.base module."
+      },
+      {
+        "key": "B",
+        "text": "Module imports are transitive — importing a module also imports all modules it requires."
+      },
+      {
+        "key": "C",
+        "text": "A module import declaration can appear in any source file, including unnamed-module code."
+      },
+      {
+        "key": "D",
+        "text": "Module import declarations replace the need for a module-info.java file."
+      },
+      {
+        "key": "E",
+        "text": "Module imports are a compile-time convenience and do not affect the module graph at runtime."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "E"
+    ],
+    "explanation": "import module java.base; brings all exported packages of the module into scope for that file. It works in unnamed module code too. It does not affect the runtime module graph and does not make dependencies transitive. It does not replace module-info.java.",
+    "source": "JEP 511 – Module Import Declarations (Java 25): https://openjdk.org/jeps/511"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which of the following is a valid compact source file that can be run directly with java HelloWorld.java?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A file with a public class containing a static void main(String[] args) method."
+      },
+      {
+        "key": "B",
+        "text": "A file with no class declaration and a top-level void main() statement."
+      },
+      {
+        "key": "C",
+        "text": "A file where the first class declared is implicitly the main class and has an instance main() or static main() method."
+      },
+      {
+        "key": "D",
+        "text": "Any .java file regardless of structure."
+      },
+      {
+        "key": "E",
+        "text": "A file with a module-info.java declaration in the same directory."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Compact source files (JEP 512) allow a .java file where the first class is implicitly the main class. It can use an instance main() method (JEP 495) or the traditional static main(). No explicit class declaration is required when using unnamed classes.",
+    "source": "JEP 512 – Compact Source Files and Instance Main Methods (Java 25): https://openjdk.org/jeps/512 | JEP 495 – Simple Source Files and Instance Main Methods (preview): https://openjdk.org/jeps/495"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which command correctly runs a multi-file source-code program where Main.java depends on Helper.java, both in the same directory?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "java Main.java Helper.java"
+      },
+      {
+        "key": "B",
+        "text": "java --source 25 Main.java"
+      },
+      {
+        "key": "C",
+        "text": "java Main.java"
+      },
+      {
+        "key": "D",
+        "text": "javac Main.java Helper.java && java Main"
+      },
+      {
+        "key": "E",
+        "text": "java *.java"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "With multi-file source-code programs (JEP 512), running java Main.java automatically compiles and resolves other source files referenced by Main.java in the same directory. Only the entry-point file is specified on the command line.",
+    "source": "JEP 512 – Compact Source Files and Instance Main Methods (Java 25): https://openjdk.org/jeps/512"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Module A declares 'requires transitive B;'. Which of the following best describes the effect of this directive?",
+    "code": "// module-info.java of module A\nmodule com.app.a {\n    requires transitive com.lib.b;\n    exports com.app.a.api;\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Module A reads module B, and any module that reads A automatically also reads B (implied readability)."
+      },
+      {
+        "key": "B",
+        "text": "Module A re-exports all packages of module B to all other modules."
+      },
+      {
+        "key": "C",
+        "text": "Module A reads module B, but no other module can read B through A."
+      },
+      {
+        "key": "D",
+        "text": "The transitive keyword forces module B to be loaded before module A at runtime."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "'requires transitive' establishes implied readability: any module M that 'requires A' will automatically be able to read module B without explicitly declaring 'requires B'. This is useful when A's public API exposes types from B — callers of A need those types to be readable. It does not re-export packages; exports directives still control which packages are accessible.",
+    "source": "Oracle Docs – Implied Readability: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/module/ModuleDescriptor.Requires.Modifier.html#TRANSITIVE"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "A module wants to export package com.internal only to module com.trusted.client and to no other modules. Which module-info.java directive achieves this?",
+    "code": "// module-info.java\nmodule com.mylib {\n    // Which line goes here?\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "exports com.internal;"
+      },
+      {
+        "key": "B",
+        "text": "exports com.internal to com.trusted.client;"
+      },
+      {
+        "key": "C",
+        "text": "opens com.internal to com.trusted.client;"
+      },
+      {
+        "key": "D",
+        "text": "requires com.trusted.client;"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "'exports P to M' is a qualified export: only the listed module(s) can access the public types in package P at compile time and runtime. 'exports P' (unqualified) makes the package accessible to all modules. 'opens ... to' grants reflective access only, not compile-time access. 'requires' declares a dependency, not an export.",
+    "source": "Oracle Docs – Java Platform Module System (JPMS), qualified exports: https://openjdk.org/projects/jigsaw/spec/sotms/#exports"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "multi",
+    "text": "Consider the two directives 'exports com.example.impl' and 'opens com.example.impl'. Which of the following statements are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "'exports' grants compile-time and normal runtime access to public types in the package."
+      },
+      {
+        "key": "B",
+        "text": "'opens' grants reflective access at runtime, including access to private members via reflection."
+      },
+      {
+        "key": "C",
+        "text": "'exports' also grants the ability to use setAccessible(true) on private fields of exported types."
+      },
+      {
+        "key": "D",
+        "text": "A package can appear in both 'exports' and 'opens' directives simultaneously."
+      },
+      {
+        "key": "E",
+        "text": "Frameworks like Hibernate or Jackson require 'opens' (not just 'exports') to use reflection on entity fields."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "'exports' allows other modules to compile against and use public API from the package at runtime, but does NOT permit deep reflection (setAccessible) on private members. 'opens' is required for frameworks that rely on reflection (e.g., JPA providers, JSON serializers) because it unlocks reflective access including private members. Both directives can coexist on the same package. Therefore C is wrong — exports alone is insufficient for deep reflection.",
+    "source": "Oracle Docs – Module System, opens directive: https://openjdk.org/projects/jigsaw/spec/sotms/#open-modules-and-packages"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Given the module declarations below, what must a consumer module do to load all available implementations of com.api.Greeter using ServiceLoader?",
+    "code": "// module-info.java of com.api\nmodule com.api {\n    exports com.api;\n}\n\n// module-info.java of com.impl\nmodule com.impl {\n    requires com.api;\n    provides com.api.Greeter with com.impl.EnglishGreeter;\n}\n\n// module-info.java of com.consumer\nmodule com.consumer {\n    requires com.api;\n    uses com.api.Greeter;\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "ServiceLoader.load(Greeter.class) — the module system resolves providers automatically when 'uses' is declared."
+      },
+      {
+        "key": "B",
+        "text": "ServiceLoader.load(Greeter.class, getClass().getClassLoader()) — a class loader is always required."
+      },
+      {
+        "key": "C",
+        "text": "The consumer must use Class.forName(\"com.impl.EnglishGreeter\") to discover the implementation explicitly."
+      },
+      {
+        "key": "D",
+        "text": "Nothing — ServiceLoader automatically discovers providers even without the 'uses' directive."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "ServiceLoader.load(Greeter.class) is sufficient when the consumer module declares 'uses com.api.Greeter'. The module system's service binding mechanism links providers (declared with 'provides ... with') to consumers (declared with 'uses') at startup. The consumer never needs to reference the implementation class directly — this decoupling is the primary benefit of the service loader pattern in JPMS.",
+    "source": "Oracle Docs – java.util.ServiceLoader: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ServiceLoader.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "multi",
+    "text": "Which of the following statements about the unnamed module are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Classes on the classpath belong to the unnamed module."
+      },
+      {
+        "key": "B",
+        "text": "The unnamed module can read every named module."
+      },
+      {
+        "key": "C",
+        "text": "Named modules can declare 'requires unnamed;' to depend on classpath code."
+      },
+      {
+        "key": "D",
+        "text": "The unnamed module exports all of its packages to all named modules."
+      },
+      {
+        "key": "E",
+        "text": "The unnamed module allows incremental migration: existing classpath code can access named module APIs without module-info changes."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "E"
+    ],
+    "explanation": "The unnamed module contains all classes loaded from the classpath. It can read every named module, making classpath code able to use modular libraries. However, named modules cannot depend on the unnamed module — 'requires unnamed' is not valid syntax (C is false). The unnamed module does NOT export its packages to named modules (D is false); named modules cannot access classpath code. This asymmetry is intentional: it allows bottom-up migration from classpath to modules.",
+    "source": "Oracle Docs – The Unnamed Module: https://openjdk.org/projects/jigsaw/spec/sotms/#the-unnamed-module"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which jlink command correctly creates a custom runtime image containing only the modules needed to run com.myapp, outputting to a directory named 'myapp-runtime'?",
+    "code": "# Assume compiled modules are in the 'mods' directory\n# and the JDK modules are in $JAVA_HOME/jmods",
+    "options": [
+      {
+        "key": "A",
+        "text": "jlink --module-path $JAVA_HOME/jmods:mods --add-modules com.myapp --output myapp-runtime"
+      },
+      {
+        "key": "B",
+        "text": "jlink --module-path mods --modules com.myapp --dest myapp-runtime"
+      },
+      {
+        "key": "C",
+        "text": "jlink --add-modules com.myapp --output myapp-runtime"
+      },
+      {
+        "key": "D",
+        "text": "java --link com.myapp --output myapp-runtime --module-path mods"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "jlink requires: '--module-path' pointing to both the JDK modules ($JAVA_HOME/jmods) and the application modules directory; '--add-modules' listing the root module(s) to include (jlink transitively resolves all required modules); '--output' specifying the destination directory. jlink does NOT use '--modules', '--dest', or '--link'. The resulting image in myapp-runtime/bin contains a java launcher that includes only the resolved module set — no JDK installation needed on the target machine.",
+    "source": "Oracle Docs – jlink tool: https://docs.oracle.com/en/java/javase/21/docs/specs/man/jlink.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "A team is migrating a large legacy application from classpath to the Java Module System. Before writing any module-info.java, which tool should they run to understand inter-package dependencies and identify potential split packages?",
+    "code": "# Example invocation candidates:\n# A: jdeps --multi-release 21 --module-path . myapp.jar\n# B: jlink --check-deps myapp.jar\n# C: javac --analyze-deps src/\n# D: jar --list-deps myapp.jar",
+    "options": [
+      {
+        "key": "A",
+        "text": "jdeps — it analyses bytecode to report class-level and package-level dependencies, including JDK internal API usage."
+      },
+      {
+        "key": "B",
+        "text": "jlink — it verifies dependency graphs before creating a runtime image."
+      },
+      {
+        "key": "C",
+        "text": "javac with --analyze-deps — the compiler can report dependency issues at compile time."
+      },
+      {
+        "key": "D",
+        "text": "jar with --list-deps — it lists all dependencies declared in MANIFEST.MF."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "jdeps is the dedicated Java dependency analysis tool. It inspects compiled bytecode (.class files or JARs) and reports: package-to-package and class-to-class dependencies; usage of JDK internal APIs (e.g., sun.misc.Unsafe); split package issues across JARs; and can suggest module-info.java stubs with --generate-module-info. Neither jlink, javac, nor jar provide this pre-migration dependency analysis capability.",
+    "source": "Oracle Docs – jdeps tool: https://docs.oracle.com/en/java/javase/21/docs/specs/man/jdeps.html"
+  }
+]

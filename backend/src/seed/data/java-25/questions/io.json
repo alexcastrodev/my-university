@@ -1,0 +1,124 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "Which of the following reads a file line-by-line using NIO.2?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Files.readLines(path)"
+      },
+      {
+        "key": "B",
+        "text": "Files.lines(path)"
+      },
+      {
+        "key": "C",
+        "text": "new FileReader(path).lines()"
+      },
+      {
+        "key": "D",
+        "text": "Paths.lines(path)"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Files.lines(Path) returns a lazy Stream<String> of lines. The stream must be closed (use try-with-resources). Files.readLines() does not exist. FileReader doesn't return a Path-based stream. Paths has no lines() method."
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "multi",
+    "text": "Which of the following are true about object serialization? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A class must implement Serializable to be serialized."
+      },
+      {
+        "key": "B",
+        "text": "transient fields are not included in serialization."
+      },
+      {
+        "key": "C",
+        "text": "static fields are serialized by default."
+      },
+      {
+        "key": "D",
+        "text": "serialVersionUID is used to verify class compatibility during deserialization."
+      },
+      {
+        "key": "E",
+        "text": "All fields in the class hierarchy are serialized automatically."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "Serializable is required. transient fields are excluded. static fields belong to the class, not the object — they are NOT serialized. serialVersionUID is used for version verification. Only fields of Serializable classes are serialized — if a superclass is not Serializable, its fields use default values."
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "Which NIO.2 method recursively walks a directory tree?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Files.list(path)"
+      },
+      {
+        "key": "B",
+        "text": "Files.walk(path)"
+      },
+      {
+        "key": "C",
+        "text": "Files.traverse(path)"
+      },
+      {
+        "key": "D",
+        "text": "Path.walk()"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Files.walk(Path) returns a Stream<Path> of all files and directories recursively. Files.list(path) only lists the immediate children (depth 1). Files.traverse() and Path.walk() do not exist."
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "Which class provides buffered character-based reading from a file?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "FileInputStream"
+      },
+      {
+        "key": "B",
+        "text": "BufferedReader"
+      },
+      {
+        "key": "C",
+        "text": "DataInputStream"
+      },
+      {
+        "key": "D",
+        "text": "ObjectInputStream"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "BufferedReader wraps a Reader (typically FileReader) and provides buffered character reading including readLine(). FileInputStream is byte-based. DataInputStream reads primitive types. ObjectInputStream is for deserialization."
+  }
+]

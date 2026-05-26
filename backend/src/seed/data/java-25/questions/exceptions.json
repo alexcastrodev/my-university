@@ -1,0 +1,242 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "try {\n  System.out.print(\"try \");\n  throw new RuntimeException();\n} catch (RuntimeException e) {\n  System.out.print(\"catch \");\n} finally {\n  System.out.print(\"finally\");\n}",
+    "options": [
+      { "key": "A", "text": "try catch" },
+      { "key": "B", "text": "try catch finally" },
+      { "key": "C", "text": "try finally" },
+      { "key": "D", "text": "catch finally" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The finally block always executes after try/catch. All three blocks print their text in order."
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following are true about try-with-resources? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Resources are closed in reverse order of declaration." },
+      { "key": "B", "text": "The resource must implement AutoCloseable." },
+      { "key": "C", "text": "The close() method is called even if an exception is thrown." },
+      { "key": "D", "text": "A finally block cannot be used with try-with-resources." },
+      { "key": "E", "text": "Suppressed exceptions can be retrieved via getSuppressed()." }
+    ],
+    "correctKeys": ["A", "B", "C", "E"],
+    "explanation": "Resources are closed in LIFO order, must implement AutoCloseable, are closed regardless of exceptions, and suppressed exceptions are accessible via getSuppressed(). A finally block CAN still be used alongside try-with-resources."
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which of the following correctly creates a custom checked exception?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "class MyException extends RuntimeException {}" },
+      { "key": "B", "text": "class MyException extends Exception {}" },
+      { "key": "C", "text": "class MyException extends Error {}" },
+      { "key": "D", "text": "class MyException implements Exception {}" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Checked exceptions extend Exception (but not RuntimeException). RuntimeException and its subclasses are unchecked. Error is not for application exceptions. Exceptions are classes, not interfaces."
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of this code?",
+    "code": "try {\n  int[] arr = new int[3];\n  arr[5] = 10;\n} catch (ArrayIndexOutOfBoundsException e) {\n  System.out.print(\"caught \");\n} catch (RuntimeException e) {\n  System.out.print(\"runtime \");\n} finally {\n  System.out.print(\"done\");\n}",
+    "options": [
+      { "key": "A", "text": "caught done" },
+      { "key": "B", "text": "runtime done" },
+      { "key": "C", "text": "caught runtime done" },
+      { "key": "D", "text": "done" }
+    ],
+    "correctKeys": ["A"],
+    "explanation": "ArrayIndexOutOfBoundsException is a subclass of RuntimeException. The more specific catch block is matched first. Finally always runs."
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which statement best describes the relationship between Error, Exception, and RuntimeException in the Java exception hierarchy?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Error and Exception both extend RuntimeException." },
+      { "key": "B", "text": "RuntimeException extends Exception, and both Error and Exception extend Throwable." },
+      { "key": "C", "text": "Exception extends Error, and RuntimeException extends Exception." },
+      { "key": "D", "text": "Error, Exception, and RuntimeException all extend Object directly." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The hierarchy is: Object -> Throwable -> Error (and) Throwable -> Exception -> RuntimeException. Error represents serious JVM-level problems (e.g., OutOfMemoryError) and should not be caught by application code. Exception is the root of checked exceptions. RuntimeException (and its subclasses) are unchecked.",
+    "source": "Oracle Docs – The Catch or Specify Requirement: https://docs.oracle.com/javase/tutorial/essential/exceptions/catchOrDeclare.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following statements about checked versus unchecked exceptions are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Checked exceptions must be declared with throws or caught at the call site." },
+      { "key": "B", "text": "RuntimeException and its subclasses are unchecked." },
+      { "key": "C", "text": "Unchecked exceptions must always be declared in the method signature." },
+      { "key": "D", "text": "Error subclasses are considered unchecked by the compiler." },
+      { "key": "E", "text": "A checked exception that is never thrown can still appear in a throws clause without causing a compile error." }
+    ],
+    "correctKeys": ["A", "B", "D", "E"],
+    "explanation": "Checked exceptions (subclasses of Exception that are not RuntimeException) must be caught or declared. RuntimeException subclasses and Error subclasses are unchecked — the compiler does not require them to be declared. It is legal (though misleading) to declare a checked exception in throws even when it is never actually thrown.",
+    "source": "Oracle Docs – Unchecked Exceptions — The Controversy: https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "try {\n  throw new IllegalArgumentException();\n} catch (Exception e) {\n  System.out.println(\"Exception\");\n} catch (IllegalArgumentException e) {\n  System.out.println(\"IllegalArgumentException\");\n}",
+    "options": [
+      { "key": "A", "text": "It compiles and prints: Exception" },
+      { "key": "B", "text": "It compiles and prints: IllegalArgumentException" },
+      { "key": "C", "text": "Compile error — the second catch block is unreachable." },
+      { "key": "D", "text": "It compiles but throws an exception at runtime." }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "Catch blocks must be ordered from most specific to most general. Because IllegalArgumentException is a subclass of Exception, the second catch block can never be reached when Exception is already caught above it. The compiler flags this as an error.",
+    "source": "Oracle Docs – Catching and Handling Exceptions: https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "static int test() {\n  try {\n    return 1;\n  } finally {\n    System.out.print(\"finally \");\n  }\n}\n\npublic static void main(String[] args) {\n  System.out.print(test());\n}",
+    "options": [
+      { "key": "A", "text": "1" },
+      { "key": "B", "text": "finally 1" },
+      { "key": "C", "text": "finally" },
+      { "key": "D", "text": "Compile error" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "The finally block always executes before a method actually returns — even when there is a return statement in the try block. The finally block runs first (printing 'finally '), and then the method returns 1.",
+    "source": "Oracle Docs – The finally Block: https://docs.oracle.com/javase/tutorial/essential/exceptions/finally.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What value does the following method return?",
+    "code": "static int compute() {\n  try {\n    return 10;\n  } finally {\n    return 20;\n  }\n}",
+    "options": [
+      { "key": "A", "text": "10" },
+      { "key": "B", "text": "20" },
+      { "key": "C", "text": "0" },
+      { "key": "D", "text": "Compile error — two return statements in one method." }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "A return statement inside a finally block overrides any return value from the try block. The method returns 20. This is considered bad practice because it silently discards any exception that may have been thrown in the try block.",
+    "source": "Oracle Docs – The finally Block: https://docs.oracle.com/javase/tutorial/essential/exceptions/finally.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Given the following code, what is printed?",
+    "code": "class R implements AutoCloseable {\n  String name;\n  R(String name) { this.name = name; }\n  public void close() { System.out.print(name + \" closed \"); }\n}\n\ntry (R r1 = new R(\"A\"); R r2 = new R(\"B\")) {\n  System.out.print(\"body \");\n}",
+    "options": [
+      { "key": "A", "text": "body A closed B closed" },
+      { "key": "B", "text": "body B closed A closed" },
+      { "key": "C", "text": "A closed B closed body" },
+      { "key": "D", "text": "B closed A closed body" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "In try-with-resources, resources are closed in the reverse order of their declaration (LIFO). r2 ('B') was declared last, so it is closed first, followed by r1 ('A'). Closing happens after the try body completes.",
+    "source": "Oracle Docs – The try-with-resources Statement: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is printed by the following code?",
+    "code": "class Bomb implements AutoCloseable {\n  public void close() throws Exception {\n    throw new Exception(\"close\");\n  }\n}\n\ntry (Bomb b = new Bomb()) {\n  throw new Exception(\"try\");\n} catch (Exception e) {\n  System.out.print(e.getMessage());\n  System.out.print(\" suppressed:\" + e.getSuppressed().length);\n}",
+    "options": [
+      { "key": "A", "text": "close suppressed:0" },
+      { "key": "B", "text": "try suppressed:1" },
+      { "key": "C", "text": "try suppressed:0" },
+      { "key": "D", "text": "close suppressed:1" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "When both the try body and the close() method throw exceptions, the exception from the try body is the primary exception. The exception thrown by close() is attached to the primary exception as a suppressed exception, accessible via getSuppressed(). Therefore, the caught exception has message 'try' and one suppressed exception.",
+    "source": "Oracle Docs – Suppressed Exceptions: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following are true about the multi-catch syntax (catch (X | Y e))? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "The caught exception variable e is effectively final inside the catch block." },
+      { "key": "B", "text": "You can catch a supertype and one of its subtypes in the same multi-catch clause." },
+      { "key": "C", "text": "Multi-catch reduces code duplication when handling unrelated exception types the same way." },
+      { "key": "D", "text": "You can reassign the variable e to a new exception inside the multi-catch block." },
+      { "key": "E", "text": "Multi-catch was introduced in Java 7." }
+    ],
+    "correctKeys": ["A", "C", "E"],
+    "explanation": "In a multi-catch block, the exception variable is implicitly final (effectively final) and cannot be reassigned. You cannot combine a supertype and its subtype in the same multi-catch clause — the compiler rejects it because one alternative would always be unreachable. Multi-catch reduces boilerplate and was introduced in Java 7.",
+    "source": "Oracle Docs – Catching Multiple Exception Types: https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "Which of the following correctly creates a custom unchecked exception?",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "class MyException extends Exception {}" },
+      { "key": "B", "text": "class MyException extends Throwable {}" },
+      { "key": "C", "text": "class MyException extends RuntimeException {}" },
+      { "key": "D", "text": "class MyException extends Error {}" }
+    ],
+    "correctKeys": ["C"],
+    "explanation": "Unchecked exceptions extend RuntimeException (or one of its subclasses). They do not need to be declared in a throws clause or caught at the call site. Extending Exception produces a checked exception; extending Error is reserved for serious JVM-level problems and must not be used for application logic.",
+    "source": "Oracle Docs – Unchecked Exceptions — The Controversy: https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is printed by the following code?",
+    "code": "try {\n  try {\n    throw new RuntimeException(\"root\");\n  } catch (RuntimeException e) {\n    throw new IllegalStateException(\"wrapper\", e);\n  }\n} catch (IllegalStateException e) {\n  System.out.print(e.getMessage());\n  System.out.print(\" cause:\" + e.getCause().getMessage());\n}",
+    "options": [
+      { "key": "A", "text": "root cause:wrapper" },
+      { "key": "B", "text": "wrapper cause:root" },
+      { "key": "C", "text": "wrapper cause:null" },
+      { "key": "D", "text": "Compile error" }
+    ],
+    "correctKeys": ["B"],
+    "explanation": "Exception chaining is achieved by passing the original exception as the cause argument to the new exception's constructor. getCause() returns that original exception. Here, the IllegalStateException wraps the RuntimeException, so e.getMessage() is 'wrapper' and e.getCause().getMessage() is 'root'.",
+    "source": "Oracle Docs – Chained Exceptions: https://docs.oracle.com/javase/tutorial/essential/exceptions/chained.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "multi",
+    "text": "Which of the following statements correctly describe the difference between AutoCloseable and Closeable? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      { "key": "A", "text": "Closeable extends AutoCloseable." },
+      { "key": "B", "text": "AutoCloseable.close() declares throws Exception, while Closeable.close() declares throws IOException." },
+      { "key": "C", "text": "Both Closeable and AutoCloseable can be used as the resource type in a try-with-resources statement." },
+      { "key": "D", "text": "AutoCloseable was introduced in Java 5 alongside try-with-resources." },
+      { "key": "E", "text": "Closeable requires that its close() method be idempotent." }
+    ],
+    "correctKeys": ["A", "B", "C", "E"],
+    "explanation": "Closeable (java.io) extends AutoCloseable (java.lang). AutoCloseable.close() throws the broader Exception, whereas Closeable.close() is restricted to IOException. Both satisfy the try-with-resources requirement. AutoCloseable was introduced in Java 7 (not Java 5) along with try-with-resources. The Closeable contract specifies that repeated calls to close() must be idempotent (no side effects on subsequent calls), whereas AutoCloseable does not impose that requirement.",
+    "source": "Oracle Docs – AutoCloseable (Java SE 21): https://docs.oracle.com/en/java/docs/api/java.base/java/lang/AutoCloseable.html"
+  }
+]

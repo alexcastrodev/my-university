@@ -1,0 +1,485 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "List.of(1, 2, 3, 4, 5)\n  .stream()\n  .filter(n -> n % 2 == 0)\n  .map(n -> n * 10)\n  .forEach(System.out::println);",
+    "options": [
+      {
+        "key": "A",
+        "text": "10\n20\n30\n40\n50"
+      },
+      {
+        "key": "B",
+        "text": "20\n40"
+      },
+      {
+        "key": "C",
+        "text": "2\n4"
+      },
+      {
+        "key": "D",
+        "text": "1\n3\n5"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "filter keeps even numbers (2, 4). map multiplies by 10 giving 20, 40. forEach prints each on a new line."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following are terminal stream operations? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "collect()"
+      },
+      {
+        "key": "B",
+        "text": "filter()"
+      },
+      {
+        "key": "C",
+        "text": "reduce()"
+      },
+      {
+        "key": "D",
+        "text": "count()"
+      },
+      {
+        "key": "E",
+        "text": "map()"
+      },
+      {
+        "key": "F",
+        "text": "findFirst()"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "D",
+      "F"
+    ],
+    "explanation": "Terminal operations consume the stream and produce a result or side effect: collect(), reduce(), count(), findFirst(), forEach(), anyMatch(), etc. filter() and map() are intermediate operations."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code produce?",
+    "code": "OptionalInt result = IntStream.of(3, 1, 4, 1, 5)\n  .filter(n -> n > 10)\n  .findFirst();\nSystem.out.println(result.isPresent());",
+    "options": [
+      {
+        "key": "A",
+        "text": "true"
+      },
+      {
+        "key": "B",
+        "text": "false"
+      },
+      {
+        "key": "C",
+        "text": "Throws NoSuchElementException"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "No element is greater than 10, so the stream is empty after filter. findFirst() returns an empty OptionalInt. isPresent() returns false."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "Which collector groups a stream of strings by their length?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Collectors.partitioningBy(String::length)"
+      },
+      {
+        "key": "B",
+        "text": "Collectors.groupingBy(String::length)"
+      },
+      {
+        "key": "C",
+        "text": "Collectors.toMap(String::length, s -> s)"
+      },
+      {
+        "key": "D",
+        "text": "Collectors.mapping(String::length, Collectors.toList())"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "groupingBy(String::length) creates a Map<Integer, List<String>> keyed by string length. partitioningBy requires a predicate returning boolean. toMap would fail on duplicate keys. mapping transforms elements before collecting."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Stream.of(\"a\", \"b\", \"c\")\n  .peek(s -> System.out.print(s + \"1 \"))\n  .filter(s -> !s.equals(\"b\"))\n  .peek(s -> System.out.print(s + \"2 \"))\n  .count();",
+    "options": [
+      {
+        "key": "A",
+        "text": "a1 b1 c1 a2 c2"
+      },
+      {
+        "key": "B",
+        "text": "a1 a2 b1 c1 c2"
+      },
+      {
+        "key": "C",
+        "text": "a1 a2 c1 c2"
+      },
+      {
+        "key": "D",
+        "text": "a2 c2"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Streams are lazy and process one element at a time through the pipeline. For 'a': peek1(a1), filter(pass), peek2(a2). For 'b': peek1(b1), filter(reject, pipeline stops). For 'c': peek1(c1), filter(pass), peek2(c2). Output: a1 a2 b1 c1 c2."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the result of Stream.of(1, 2, 3).reduce(0, Integer::sum)?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Optional[6]"
+      },
+      {
+        "key": "B",
+        "text": "6"
+      },
+      {
+        "key": "C",
+        "text": "Optional.empty()"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "reduce(identity, accumulator) returns the result type directly (not Optional) because the identity value ensures a result is always present. With identity 0 and Integer::sum, the result is 0+1+2+3 = 6."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following Stream operations are stateful intermediate operations? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "filter()"
+      },
+      {
+        "key": "B",
+        "text": "sorted()"
+      },
+      {
+        "key": "C",
+        "text": "distinct()"
+      },
+      {
+        "key": "D",
+        "text": "map()"
+      },
+      {
+        "key": "E",
+        "text": "limit()"
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "Stateful intermediate operations must see multiple elements to produce results: sorted() needs all elements, distinct() tracks seen values, limit() tracks count. filter() and map() are stateless — they process each element independently."
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "var result = Stream.of(1, 2, 3, 4, 5, 6)\n  .gather(Gatherers.windowFixed(3))\n  .toList();\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "[[1, 2, 3], [4, 5, 6]]"
+      },
+      {
+        "key": "B",
+        "text": "[[1, 2, 3, 4, 5, 6]]"
+      },
+      {
+        "key": "C",
+        "text": "[1, 2, 3, 4, 5, 6]"
+      },
+      {
+        "key": "D",
+        "text": "[[1], [2], [3], [4], [5], [6]]"
+      },
+      {
+        "key": "E",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Gatherers.windowFixed(3) groups stream elements into non-overlapping windows of exactly 3. Stream of 6 elements produces two windows: [1,2,3] and [4,5,6]. The result is a List<List<Integer>>.",
+    "source": "JEP 485 – Stream Gatherers (finalized in Java 25): https://openjdk.org/jeps/485"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following Gatherers are available in the standard java.util.stream.Gatherers class? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Gatherers.windowFixed(int size)"
+      },
+      {
+        "key": "B",
+        "text": "Gatherers.windowSliding(int size)"
+      },
+      {
+        "key": "C",
+        "text": "Gatherers.scan(supplier, integrator)"
+      },
+      {
+        "key": "D",
+        "text": "Gatherers.batch(int size)"
+      },
+      {
+        "key": "E",
+        "text": "Gatherers.fold(supplier, integrator)"
+      },
+      {
+        "key": "F",
+        "text": "Gatherers.mapConcurrent(int maxConcurrency, function)"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E",
+      "F"
+    ],
+    "explanation": "The standard Gatherers class (JEP 485) provides: windowFixed, windowSliding, scan, fold, and mapConcurrent. There is no Gatherers.batch() — use windowFixed for fixed-size batching.",
+    "source": "JEP 485 – Stream Gatherers (finalized in Java 25): https://openjdk.org/jeps/485 | Java SE 25 API Docs: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "List<List<Integer>> nested = List.of(\n    List.of(1, 2),\n    List.of(3, 4),\n    List.of(5)\n);\nnested.stream()\n    .map(list -> list.stream())\n    .forEach(s -> s.forEach(System.out::print));\nSystem.out.println();\nnested.stream()\n    .flatMap(list -> list.stream())\n    .forEach(System.out::print);",
+    "options": [
+      {
+        "key": "A",
+        "text": "12345\n12345"
+      },
+      {
+        "key": "B",
+        "text": "[1, 2][3, 4][5]\n12345"
+      },
+      {
+        "key": "C",
+        "text": "Stream output is non-deterministic — order is not guaranteed"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error on the flatMap line"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "map(list -> list.stream()) produces a Stream<Stream<Integer>>; iterating with forEach and nested forEach still prints each integer in encounter order. flatMap(list -> list.stream()) flattens the nested streams into a single Stream<Integer> and also prints 12345. Both lines yield the same output because the source is an ordered list. The key difference is the intermediate type: map gives Stream<Stream<Integer>> (requiring double iteration) while flatMap gives Stream<Integer> directly.",
+    "source": "Oracle Docs – Stream.flatMap: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#flatMap(java.util.function.Function)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "Given the following code, which statement about orElse and orElseGet is correct?",
+    "code": "Optional<String> opt = Optional.empty();\n\nString a = opt.orElse(expensiveDefault());       // line A\nString b = opt.orElseGet(() -> expensiveDefault()); // line B",
+    "options": [
+      {
+        "key": "A",
+        "text": "Both lines call expensiveDefault() exactly once."
+      },
+      {
+        "key": "B",
+        "text": "Line A always calls expensiveDefault() regardless of whether the Optional is empty; line B calls expensiveDefault() only when the Optional is empty."
+      },
+      {
+        "key": "C",
+        "text": "Line B always calls expensiveDefault() regardless of whether the Optional is empty; line A calls expensiveDefault() only when the Optional is empty."
+      },
+      {
+        "key": "D",
+        "text": "orElse and orElseGet behave identically — the difference is only syntactic."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "orElse(T other) is an eager method: the argument expression is evaluated before the method is called, so expensiveDefault() runs unconditionally even if the Optional contains a value. orElseGet(Supplier<T>) is lazy: the Supplier is only invoked when the Optional is empty. Prefer orElseGet for expensive computations or side-effect-bearing suppliers.",
+    "source": "Oracle Docs – Optional.orElseGet: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html#orElseGet(java.util.function.Supplier)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the type and value of result after this code executes?",
+    "code": "Map<Boolean, List<String>> result =\n    Stream.of(\"cat\", \"elephant\", \"ox\", \"hippopotamus\", \"bee\")\n          .collect(Collectors.partitioningBy(s -> s.length() > 3));",
+    "options": [
+      {
+        "key": "A",
+        "text": "Map<Boolean, List<String>> with keys true and false; true -> [elephant, hippopotamus], false -> [cat, ox, bee]"
+      },
+      {
+        "key": "B",
+        "text": "Map<Boolean, List<String>> with only key true because no element fails the predicate"
+      },
+      {
+        "key": "C",
+        "text": "Map<Integer, List<String>> keyed by string length"
+      },
+      {
+        "key": "D",
+        "text": "Throws IllegalStateException on duplicate keys"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "partitioningBy always produces exactly two keys — true and false — regardless of whether any element matches. Elements with length > 3 ('elephant', 'hippopotamus') go to true; 'cat' (3), 'ox' (2), 'bee' (3) go to false. This is its key guarantee over groupingBy: both partitions are always present in the result map.",
+    "source": "Oracle Docs – Collectors.partitioningBy: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Collectors.html#partitioningBy(java.util.function.Predicate)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Consider the following code. Which statements are true about the two collectors used? (Choose all that apply.)",
+    "code": "List<String> words = List.of(\"hi\", \"hello\", \"hey\", \"world\", \"word\");\n\nMap<Integer, Long> countByLength = words.stream()\n    .collect(Collectors.groupingBy(\n        String::length,\n        Collectors.counting()   // downstream collector\n    ));\n\nSystem.out.println(countByLength);",
+    "options": [
+      {
+        "key": "A",
+        "text": "The downstream collector Collectors.counting() counts the elements in each group, producing Map<Integer, Long>."
+      },
+      {
+        "key": "B",
+        "text": "Without a downstream collector, groupingBy would produce Map<Integer, List<String>> by default."
+      },
+      {
+        "key": "C",
+        "text": "The output is {2=1, 5=2, 4=2} because 'hi' has length 2, 'hello'/'world' have length 5, and 'hey'/'word' have length 4."
+      },
+      {
+        "key": "D",
+        "text": "Collectors.counting() returns a Collector<T, ?, Integer>, so the map value type is Integer, not Long."
+      },
+      {
+        "key": "E",
+        "text": "A downstream collector can itself be another groupingBy, allowing multi-level grouping."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "A: correct — counting() accumulates the size of each downstream group as Long. B: correct — the single-argument groupingBy defaults to Collectors.toList() as the downstream collector. C: correct — lengths are 2 (hi), 5 (hello, world), 4 (hey, word). D: incorrect — Collectors.counting() returns Collector<T, ?, Long>, producing Long values. E: correct — groupingBy can be nested, e.g., groupingBy(keyFn, groupingBy(secondaryFn)).",
+    "source": "Oracle Docs – Collectors.groupingBy: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Collectors.html#groupingBy(java.util.function.Function,java.util.stream.Collector)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "// Two-arg iterate: infinite stream (Java 9+)\nStream.iterate(1, n -> n * 2)\n      .limit(5)\n      .forEach(n -> System.out.print(n + \" \"));\nSystem.out.println();\n\n// Three-arg iterate: finite stream with predicate (Java 9)\nStream.iterate(1, n -> n < 20, n -> n * 2)\n      .forEach(n -> System.out.print(n + \" \"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "1 2 4 8 16 \n1 2 4 8 16"
+      },
+      {
+        "key": "B",
+        "text": "1 2 4 8 16 \n1 2 4 8"
+      },
+      {
+        "key": "C",
+        "text": "1 2 4 8 16 32 \n1 2 4 8 16"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error — Stream.iterate does not accept a predicate"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The two-argument iterate(seed, unaryOp) produces an infinite stream; limit(5) cuts it to 1, 2, 4, 8, 16. The three-argument iterate(seed, hasNext, unaryOp) introduced in Java 9 stops when the predicate returns false: starting at 1, doubling each time — 1 (< 20 true), 2 (true), 4 (true), 8 (true), 16 (true), next would be 32 but 32 < 20 is false so the stream ends. Output of the second line is 1 2 4 8 16, but 16 IS included because the predicate is checked before producing the next element (16 itself is produced because 16 < 20 is true; the stream stops before producing 32).",
+    "source": "Oracle Docs – Stream.iterate(T, Predicate, UnaryOperator): https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#iterate(T,java.util.function.Predicate,java.util.function.UnaryOperator)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "List<Integer> ordered = List.of(1, 2, 3, 4, 5, 1, 2);\n\nSystem.out.print(\"takeWhile: \");\nordered.stream()\n       .takeWhile(n -> n < 4)\n       .forEach(n -> System.out.print(n + \" \"));\nSystem.out.println();\n\nSystem.out.print(\"dropWhile: \");\nordered.stream()\n       .dropWhile(n -> n < 4)\n       .forEach(n -> System.out.print(n + \" \"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "takeWhile: 1 2 3 \ndropWhile: 4 5 1 2"
+      },
+      {
+        "key": "B",
+        "text": "takeWhile: 1 2 3 \ndropWhile: 4 5"
+      },
+      {
+        "key": "C",
+        "text": "takeWhile: 1 2 3 1 2 \ndropWhile: 4 5"
+      },
+      {
+        "key": "D",
+        "text": "takeWhile: 1 2 3 4 5 \ndropWhile: (empty)"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "takeWhile stops at the first element that does NOT satisfy the predicate. 1, 2, 3 satisfy n < 4; 4 does not, so the stream ends there — elements after 4 (including 1, 2 at the end) are never seen. dropWhile discards elements as long as the predicate holds: drops 1, 2, 3, then yields 4, 5, 1, 2. Crucially, once 4 fails the predicate, dropWhile stops dropping and passes all remaining elements through — including 1 and 2 at the end, even though they would satisfy the predicate. Both operations are defined on ordered streams and rely on encounter order; behaviour on unordered streams is non-deterministic.",
+    "source": "Oracle Docs – Stream.takeWhile / dropWhile (Java 9): https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#takeWhile(java.util.function.Predicate)"
+  }
+]

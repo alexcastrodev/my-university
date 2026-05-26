@@ -8,7 +8,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/2-1-if-else-statements.md"
     },
     {
       "id": "j25-2-2",
@@ -16,7 +16,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/2-2-switch-statements-and-expressions.md"
     },
     {
       "id": "j25-2-3",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/2-4-for-while-do-while-loops.md"
     },
     {
       "id": "j25-2-5",
@@ -40,7 +40,7 @@
       "duration": "10m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/2-5-break-continue-labeled-statements.md"
     },
     {
       "id": "j25-2-6",

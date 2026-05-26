@@ -1,0 +1,957 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code snippet?",
+    "code": "int moon = 9, star = 2 + 2 * 3;\nfloat sun = star > 10 ? 1 : 3;\ndouble jupiter = (sun + moon) - 1.0f;\nint mars = --moon <= 8 ? 2 : 3;\nSystem.out.println(sun + \", \" + jupiter + \", \" + mars);",
+    "options": [
+      {
+        "key": "A",
+        "text": "1, 11, 2"
+      },
+      {
+        "key": "B",
+        "text": "3.0, 11.0, 2"
+      },
+      {
+        "key": "C",
+        "text": "1.0, 11.0, 3"
+      },
+      {
+        "key": "D",
+        "text": "3.0, 13.0, 3"
+      },
+      {
+        "key": "E",
+        "text": "3.0f, 12, 2"
+      },
+      {
+        "key": "F",
+        "text": "The code does not compile because one of the assignments requires an explicit numeric cast."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "star = 2 + (2*3) = 8. 8 > 10 is false so sun = 3.0f. jupiter = (3.0f + 9) - 1.0f = 11.0. --moon = 8, 8 <= 8 is true so mars = 2. Output: 3.0, 11.0, 2.",
+    "source": "Oracle Docs – Primitive Types: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following application?",
+    "code": "public class Apples {\n    public static void main(String[] args) {\n        int x = 5;\n        int y = ++x * 3 / --x + 10;\n        System.out.println(\"x=\" + x + \" y=\" + y);\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "x=5 y=13"
+      },
+      {
+        "key": "B",
+        "text": "x=5 y=14"
+      },
+      {
+        "key": "C",
+        "text": "x=6 y=13"
+      },
+      {
+        "key": "D",
+        "text": "x=5 y=16"
+      },
+      {
+        "key": "E",
+        "text": "x=6 y=16"
+      },
+      {
+        "key": "F",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "++x makes x=6, then 6*3=18, then --x makes x=5, 18/5=3 (integer division truncates), 3+10=13. Final: x=5, y=13.",
+    "source": "Oracle Docs – Operators: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "Which of the following is true about the Integer cache in Java?",
+    "code": "Integer a = 127;\nInteger b = 127;\nInteger c = 128;\nInteger d = 128;\nSystem.out.println(a == b);\nSystem.out.println(c == d);",
+    "options": [
+      {
+        "key": "A",
+        "text": "true, true — all Integer values are cached."
+      },
+      {
+        "key": "B",
+        "text": "false, false — Integer objects are never the same reference."
+      },
+      {
+        "key": "C",
+        "text": "true, false — Integer caches values from -128 to 127."
+      },
+      {
+        "key": "D",
+        "text": "false, true — Integer caches values from 128 onward."
+      },
+      {
+        "key": "E",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "The JVM caches Integer objects for values -128 through 127. a and b reference the same cached object, so == is true. c and d are outside the cache range and create new objects, so == is false. Always use .equals() to compare wrapper values.",
+    "source": "Oracle Docs – Integer (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "byte b = 10;\nb += 5.5;",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error — cannot assign double to byte."
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — 5.5 is a double literal."
+      },
+      {
+        "key": "C",
+        "text": "Runtime error — ArithmeticException."
+      },
+      {
+        "key": "D",
+        "text": "b has the value 15 — compound assignment includes an implicit cast."
+      },
+      {
+        "key": "E",
+        "text": "b has the value 15.5 — byte is promoted to double."
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Compound assignment operators (+=, -=, etc.) include an implicit narrowing cast. b += 5.5 is equivalent to b = (byte)(b + 5.5). 10 + 5.5 = 15.5, cast to byte = 15.",
+    "source": "JLS 25 – Compound Assignment Operators: https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.26.2"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "System.out.println(1 + 2 + \"3\");\nSystem.out.println(\"1\" + 2 + 3);",
+    "options": [
+      {
+        "key": "A",
+        "text": "33 and 123"
+      },
+      {
+        "key": "B",
+        "text": "33 and 15"
+      },
+      {
+        "key": "C",
+        "text": "6 and 123"
+      },
+      {
+        "key": "D",
+        "text": "123 and 33"
+      },
+      {
+        "key": "E",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Evaluation is left-to-right. 1+2=3 (numeric), then 3+\"3\"=\"33\" (string concat). For the second line, \"1\"+2=\"12\" (concat), then \"12\"+3=\"123\" (concat). Output: 33 then 123.",
+    "source": "Oracle Docs – Expressions, Statements, and Blocks: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/expressions.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What happens when the following code is executed?",
+    "code": "Integer x = null;\nint y = x;",
+    "options": [
+      {
+        "key": "A",
+        "text": "y is assigned 0 — null unboxes to the default int value."
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — null cannot be assigned to Integer."
+      },
+      {
+        "key": "C",
+        "text": "NullPointerException at runtime during unboxing."
+      },
+      {
+        "key": "D",
+        "text": "y is assigned -1 — null unboxes to -1 for numeric types."
+      },
+      {
+        "key": "E",
+        "text": "Compilation error — Integer cannot be assigned to int."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Unboxing a null Integer reference throws NullPointerException at runtime. The compiler allows the assignment because it inserts an automatic unboxing call (x.intValue()), but calling a method on null causes NPE.",
+    "source": "Oracle Docs – Autoboxing and Unboxing: https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "multi",
+    "text": "Which of the following statements about numeric promotion are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "byte and short operands are promoted to int before a binary operation."
+      },
+      {
+        "key": "B",
+        "text": "If one operand is long and the other is int, the int is promoted to long."
+      },
+      {
+        "key": "C",
+        "text": "char operands are promoted to short before a binary operation."
+      },
+      {
+        "key": "D",
+        "text": "If one operand is float and the other is long, the long is promoted to float."
+      },
+      {
+        "key": "E",
+        "text": "Two int operands always produce an int result, even when the value overflows."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "A: byte and short (and char) are promoted to int. B: mixed int/long promotes int to long. C is wrong — char is promoted to int, not short. D: mixed float/long promotes long to float. E: integer arithmetic always stays within the declared type and overflows silently.",
+    "source": "JLS 25 – Numeric Promotions: https://docs.oracle.com/javase/specs/jls/se25/html/jls-5.html#jls-5.6"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "System.out.println(Math.round(3.5));\nSystem.out.println(Math.round(-3.5));",
+    "options": [
+      {
+        "key": "A",
+        "text": "4 and -4"
+      },
+      {
+        "key": "B",
+        "text": "4 and -3"
+      },
+      {
+        "key": "C",
+        "text": "3 and -3"
+      },
+      {
+        "key": "D",
+        "text": "3 and -4"
+      },
+      {
+        "key": "E",
+        "text": "The code does not compile — Math.round returns double."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Math.round() rounds half-up toward positive infinity. 3.5 rounds to 4. -3.5 rounds toward positive infinity, so it rounds to -3 (not -4). Math.round(double) returns long; Math.round(float) returns int.",
+    "source": "Oracle Docs – Math (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Math.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String s = \"Hello\";\ns.toUpperCase();\nSystem.out.println(s);",
+    "options": [
+      {
+        "key": "A",
+        "text": "HELLO"
+      },
+      {
+        "key": "B",
+        "text": "Hello"
+      },
+      {
+        "key": "C",
+        "text": "hello"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — toUpperCase() is not defined on String."
+      },
+      {
+        "key": "E",
+        "text": "null"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "String is immutable. toUpperCase() returns a new String with the uppercase value but does not modify the original. Since the return value is not assigned, s still refers to \"Hello\".",
+    "source": "Oracle Docs – String (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String a = \"hello\";\nString b = \"hello\";\nString c = new String(\"hello\");\nSystem.out.println(a == b);\nSystem.out.println(a == c);\nSystem.out.println(a.equals(c));",
+    "options": [
+      {
+        "key": "A",
+        "text": "true, true, true"
+      },
+      {
+        "key": "B",
+        "text": "false, false, true"
+      },
+      {
+        "key": "C",
+        "text": "true, false, true"
+      },
+      {
+        "key": "D",
+        "text": "true, false, false"
+      },
+      {
+        "key": "E",
+        "text": "false, false, false"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "String literals with the same content share the same pool object, so a == b is true. new String(...) always creates a new heap object outside the pool, so a == c is false. equals() compares content, so a.equals(c) is true.",
+    "source": "Oracle Docs – String (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "StringBuilder sb = new StringBuilder(\"Hello\");\nsb.append(\", World\");\nSystem.out.println(sb);\nSystem.out.println(sb.length());",
+    "options": [
+      {
+        "key": "A",
+        "text": "Hello and 5"
+      },
+      {
+        "key": "B",
+        "text": "Hello, World and 5"
+      },
+      {
+        "key": "C",
+        "text": "Hello, World and 12"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — StringBuilder.append() returns void."
+      },
+      {
+        "key": "E",
+        "text": "Hello, World and 11"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "StringBuilder is mutable. append() modifies the object in place and returns this. After appending \", World\", the content is \"Hello, World\" which has 12 characters.",
+    "source": "Oracle Docs – StringBuilder (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/StringBuilder.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "Which of the following text block declarations is valid?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "String s = \"\"\"red\"\"\";"
+      },
+      {
+        "key": "B",
+        "text": "String s = \"\"\"\nred\"\"\";"
+      },
+      {
+        "key": "C",
+        "text": "String s = \"\"\"\n    red\n    \"\"\";"
+      },
+      {
+        "key": "D",
+        "text": "String s = \"\"\" red \"\"\";"
+      },
+      {
+        "key": "E",
+        "text": "Options A and D are both valid."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A text block must start with \"\"\" followed immediately by a line terminator — content cannot begin on the same line as the opening \"\"\". A, D are invalid for this reason. B ends on the same line as the opening so also invalid. C is the only valid form.",
+    "source": "Oracle Docs – Text Blocks (Java 25): https://docs.oracle.com/en/java/javase/25/language/text-blocks.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String s = \"\"\"\n    red\n    green\n    blue\n    \"\"\";\nSystem.out.println(s.length());",
+    "options": [
+      {
+        "key": "A",
+        "text": "14"
+      },
+      {
+        "key": "B",
+        "text": "15"
+      },
+      {
+        "key": "C",
+        "text": "18"
+      },
+      {
+        "key": "D",
+        "text": "17"
+      },
+      {
+        "key": "E",
+        "text": "Compilation error."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "After incidental whitespace stripping, the content is \"red\\ngreen\\nblue\\n\" — 3 words (3+5+4 = 12 chars) plus 3 newlines = 15 characters total. The closing \"\"\" on its own line causes a trailing newline to be included.",
+    "source": "Oracle Docs – Text Blocks (Java 25): https://docs.oracle.com/en/java/javase/25/language/text-blocks.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "LocalDate date = LocalDate.of(2024, Month.JANUARY, 31);\ndate = date.plusMonths(1);\nSystem.out.println(date);",
+    "options": [
+      {
+        "key": "A",
+        "text": "2024-02-29"
+      },
+      {
+        "key": "B",
+        "text": "2024-02-28"
+      },
+      {
+        "key": "C",
+        "text": "2024-03-02"
+      },
+      {
+        "key": "D",
+        "text": "An exception is thrown."
+      },
+      {
+        "key": "E",
+        "text": "2024-02-31"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "2024 is a leap year (divisible by 4), so February has 29 days. When adding one month to January 31, the result is adjusted to the last valid day of February — Feb 29 in a leap year.",
+    "source": "Oracle Docs – LocalDate (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/LocalDate.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "LocalTime t = LocalTime.of(23, 30);\nt = t.plusHours(2);\nSystem.out.println(t);",
+    "options": [
+      {
+        "key": "A",
+        "text": "25:30"
+      },
+      {
+        "key": "B",
+        "text": "01:30"
+      },
+      {
+        "key": "C",
+        "text": "An exception is thrown."
+      },
+      {
+        "key": "D",
+        "text": "00:30"
+      },
+      {
+        "key": "E",
+        "text": "Compilation error."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "LocalTime wraps around midnight. 23:30 plus 2 hours crosses midnight and wraps to 01:30. LocalTime has no concept of dates so it does not overflow — it simply wraps.",
+    "source": "Oracle Docs – LocalTime (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/LocalTime.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the result of the following code?",
+    "code": "LocalDate start = LocalDate.of(2025, 1, 1);\nLocalDate end   = LocalDate.of(2025, 6, 15);\nPeriod p = Period.between(start, end);\nSystem.out.println(p.getMonths() + \" \" + p.getDays());",
+    "options": [
+      {
+        "key": "A",
+        "text": "5 14"
+      },
+      {
+        "key": "B",
+        "text": "165 0"
+      },
+      {
+        "key": "C",
+        "text": "5 15"
+      },
+      {
+        "key": "D",
+        "text": "6 14"
+      },
+      {
+        "key": "E",
+        "text": "An exception is thrown."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Period.between() returns separate year/month/day components, not a total count. From Jan 1 to Jun 15 is 5 months and 14 days (Jan→Feb=1, Feb→Mar=2, Mar→Apr=3, Apr→May=4, May→Jun=5, then 1→15 = 14 days). getMonths()=5, getDays()=14.",
+    "source": "Oracle Docs – Period (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Period.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the result of applying a Duration to a LocalDate?",
+    "code": "LocalDate date = LocalDate.of(2025, 6, 15);\nLocalDate result = date.plus(Duration.ofDays(1));\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "2025-06-16"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error."
+      },
+      {
+        "key": "C",
+        "text": "UnsupportedTemporalTypeException at runtime."
+      },
+      {
+        "key": "D",
+        "text": "2025-06-15 — Duration.ofDays(1) equals zero for dates."
+      },
+      {
+        "key": "E",
+        "text": "DateTimeException at runtime."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Duration is time-based (seconds and nanoseconds) and cannot be applied to a date-based type like LocalDate. Calling date.plus(Duration.ofDays(1)) throws UnsupportedTemporalTypeException at runtime. Use Period.ofDays(1) instead.",
+    "source": "Oracle Docs – Duration (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "A developer needs to convert a ZonedDateTime from America/New_York to Europe/London preserving the same moment in time. Which method should be used?",
+    "code": "ZonedDateTime nyTime = ZonedDateTime.of(\n    LocalDateTime.of(2025, 6, 15, 9, 0),\n    ZoneId.of(\"America/New_York\"));\n// convert here",
+    "options": [
+      {
+        "key": "A",
+        "text": "nyTime.withZoneSameLocal(ZoneId.of(\"Europe/London\"))"
+      },
+      {
+        "key": "B",
+        "text": "nyTime.withZoneSameInstant(ZoneId.of(\"Europe/London\"))"
+      },
+      {
+        "key": "C",
+        "text": "nyTime.toInstant().atZone(ZoneId.of(\"Europe/London\")) — but only withZoneSameInstant is correct API"
+      },
+      {
+        "key": "D",
+        "text": "ZonedDateTime.of(nyTime.toLocalDateTime(), ZoneId.of(\"Europe/London\"))"
+      },
+      {
+        "key": "E",
+        "text": "nyTime.plusHours(5)"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "withZoneSameInstant() converts the ZonedDateTime to another zone keeping the same underlying Instant — the same moment in time. withZoneSameLocal() keeps the same local clock reading but in a different zone, changing the moment. Note: toInstant().atZone() also works but is not among the clean choices here.",
+    "source": "Oracle Docs – ZonedDateTime (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/ZonedDateTime.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "multi",
+    "text": "Which of the following statements about the Math API are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Math.abs(Integer.MIN_VALUE) returns a positive value equal to Integer.MAX_VALUE + 1."
+      },
+      {
+        "key": "B",
+        "text": "Math.pow(x, y) always returns a double."
+      },
+      {
+        "key": "C",
+        "text": "Math.random() returns a value in the range [0.0, 1.0), including 0.0 but excluding 1.0."
+      },
+      {
+        "key": "D",
+        "text": "Math.ceil(-3.1) returns -3.0."
+      },
+      {
+        "key": "E",
+        "text": "Math.addExact(Integer.MAX_VALUE, 1) returns Integer.MIN_VALUE due to overflow."
+      }
+    ],
+    "correctKeys": [
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "A is wrong — Math.abs(Integer.MIN_VALUE) overflows and returns Integer.MIN_VALUE (negative). B is correct — Math.pow always returns double. C is correct — Math.random() includes 0.0 but excludes 1.0. D is correct — ceil rounds toward +∞, so -3.1 → -3.0. E is wrong — Math.addExact throws ArithmeticException on overflow rather than wrapping.",
+    "source": "Oracle Docs – Math (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Math.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String s = \"Hello, World!\";\nSystem.out.println(s.substring(7, 12));",
+    "options": [
+      {
+        "key": "A",
+        "text": "World!"
+      },
+      {
+        "key": "B",
+        "text": "World"
+      },
+      {
+        "key": "C",
+        "text": " Worl"
+      },
+      {
+        "key": "D",
+        "text": "orld!"
+      },
+      {
+        "key": "E",
+        "text": "StringIndexOutOfBoundsException at runtime."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "substring(beginIndex, endIndex) is beginIndex inclusive and endIndex exclusive. Index 7 is 'W', index 12 (exclusive) stops before '!'. Characters at indices 7,8,9,10,11 are 'W','o','r','l','d' → \"World\".",
+    "source": "Oracle Docs – String.substring (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#substring(int,int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "int x = 5;\nint y = 2;\nSystem.out.println(x / y + \" \" + x % y);",
+    "options": [
+      {
+        "key": "A",
+        "text": "2 1"
+      },
+      {
+        "key": "B",
+        "text": "2.5 1"
+      },
+      {
+        "key": "C",
+        "text": "2 0"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Integer division 5/2 = 2 (truncates). 5 % 2 = 1. Output is '2 1'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "double d = 1.0 / 0;\nSystem.out.println(d);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws ArithmeticException"
+      },
+      {
+        "key": "B",
+        "text": "Infinity"
+      },
+      {
+        "key": "C",
+        "text": "NaN"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Dividing a floating-point number by zero produces Infinity, not an exception. ArithmeticException only occurs with integer division by zero."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "multi",
+    "text": "Which of the following are valid text block declarations? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "String s = \"\"\"\n  hello\n  \"\"\";"
+      },
+      {
+        "key": "B",
+        "text": "String s = \"\"\" hello \"\"\";"
+      },
+      {
+        "key": "C",
+        "text": "String s = \"\"\"\nhello\"\"\";"
+      },
+      {
+        "key": "D",
+        "text": "String s = \"\"\"\n  hello\n\"\"\";"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "D"
+    ],
+    "explanation": "Text blocks require the opening triple-quote followed immediately by a newline. B is invalid (no newline after opening \"\"\"). C is valid Java but the closing \"\"\" has no newline indent. A and D are valid."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the result of Math.round(3.5) and Math.round(-3.5)?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "4 and -4"
+      },
+      {
+        "key": "B",
+        "text": "4 and -3"
+      },
+      {
+        "key": "C",
+        "text": "3 and -3"
+      },
+      {
+        "key": "D",
+        "text": "3 and -4"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Math.round uses half-up rounding. 3.5 rounds to 4. -3.5 rounds to -3 (toward positive infinity when exactly .5)."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "Which of the following correctly parses the date '2025-06-15' using the Date-Time API?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "LocalDate.parse(\"2025-06-15\")"
+      },
+      {
+        "key": "B",
+        "text": "LocalDate.of(\"2025-06-15\")"
+      },
+      {
+        "key": "C",
+        "text": "Date.parse(\"2025-06-15\")"
+      },
+      {
+        "key": "D",
+        "text": "LocalDate.from(\"2025-06-15\")"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "LocalDate.parse() accepts ISO-8601 format (yyyy-MM-dd) directly. LocalDate.of() takes int parameters. Date.parse() is deprecated. LocalDate.from() takes a TemporalAccessor, not a String."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String a = \"hello\";\nString b = \"hello\";\nString c = new String(\"hello\");\nSystem.out.println(a == b);\nSystem.out.println(a == c);",
+    "options": [
+      {
+        "key": "A",
+        "text": "true\ntrue"
+      },
+      {
+        "key": "B",
+        "text": "false\nfalse"
+      },
+      {
+        "key": "C",
+        "text": "true\nfalse"
+      },
+      {
+        "key": "D",
+        "text": "false\ntrue"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "String literals are interned — a and b point to the same pool object, so == is true. new String() creates a new heap object, so a == c is false even though the contents are equal."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What does Period.between(LocalDate.of(2024,1,1), LocalDate.of(2025,3,15)) return?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "P1Y2M14D"
+      },
+      {
+        "key": "B",
+        "text": "P440D"
+      },
+      {
+        "key": "C",
+        "text": "P14M15D"
+      },
+      {
+        "key": "D",
+        "text": "Throws DateTimeException"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Period.between measures date-based amounts: 1 year, 2 months, 14 days. It does not convert to total days (that would be Duration or ChronoUnit.DAYS)."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "String s = \"  hello world  \";\nSystem.out.println(s.strip().replace(\" \", \"-\"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "hello-world"
+      },
+      {
+        "key": "B",
+        "text": "  hello-world  "
+      },
+      {
+        "key": "C",
+        "text": "hello world"
+      },
+      {
+        "key": "D",
+        "text": "-hello-world-"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "strip() removes leading and trailing whitespace (Unicode-aware, unlike trim()). replace(' ', '-') replaces the space between 'hello' and 'world'. Result: 'hello-world'."
+  },
+  {
+    "examId": "java-25",
+    "topic": "values",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "var sb = new StringBuilder(\"Java\");\nsb.insert(2, \"-\");\nSystem.out.println(sb);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Ja-va"
+      },
+      {
+        "key": "B",
+        "text": "Java-"
+      },
+      {
+        "key": "C",
+        "text": "-Java"
+      },
+      {
+        "key": "D",
+        "text": "Jav-a"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "insert(int offset, String) inserts at the given index. Index 2 is between 'a' (index 1) and 'v' (index 2), so '-' is inserted between 'Ja' and 'va' → 'Ja-va'."
+  }
+]

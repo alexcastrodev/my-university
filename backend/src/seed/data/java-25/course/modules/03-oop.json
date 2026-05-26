@@ -8,7 +8,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-1-object-lifecycle-and-garbage-collection.md"
     },
     {
       "id": "j25-3-2",
@@ -16,7 +16,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-2-classes-records-fields-methods.md"
     },
     {
       "id": "j25-3-3",
@@ -24,7 +24,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-3-constructors-flexible-bodies-initializers.md"
     },
     {
       "id": "j25-3-4",
@@ -32,7 +32,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-4-overloaded-methods-and-varargs.md"
     },
     {
       "id": "j25-3-5",
@@ -40,7 +40,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-5-encapsulation-immutability-var-unnamed-variables.md"
     },
     {
       "id": "j25-3-6",
@@ -48,7 +48,7 @@
       "duration": "22m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-6-inheritance-abstract-classes-sealed-types.md"
     },
     {
       "id": "j25-3-7",
@@ -56,7 +56,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-7-method-overriding-and-polymorphism.md"
     },
     {
       "id": "j25-3-8",
@@ -64,7 +64,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-8-interfaces-private-static-default-methods.md"
     },
     {
       "id": "j25-3-9",
@@ -72,7 +72,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-9-functional-interfaces.md"
     },
     {
       "id": "j25-3-10",
@@ -80,7 +80,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/3-10-enum-types-fields-methods-constructors.md"
     },
     {
       "id": "j25-3-11",

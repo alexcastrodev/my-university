@@ -1,0 +1,482 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "public class Counter {\n  static int count = 0;\n  Counter() { count++; }\n  public static void main(String[] args) {\n    new Counter();\n    new Counter();\n    System.out.println(Counter.count);\n  }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "0"
+      },
+      {
+        "key": "B",
+        "text": "1"
+      },
+      {
+        "key": "C",
+        "text": "2"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "count is a static field shared by all instances. Each constructor call increments it. Two instances are created, so count is 2."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are true about records in Java? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Records are implicitly final."
+      },
+      {
+        "key": "B",
+        "text": "Records can extend other classes."
+      },
+      {
+        "key": "C",
+        "text": "Records automatically generate equals(), hashCode(), and toString()."
+      },
+      {
+        "key": "D",
+        "text": "Records can implement interfaces."
+      },
+      {
+        "key": "E",
+        "text": "Records can declare additional instance fields."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "Records are implicitly final, auto-generate equals/hashCode/toString based on components, and can implement interfaces. They cannot extend other classes (they implicitly extend Record). They cannot have additional instance fields beyond their components."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "interface Greeter {\n  default String greet() { return \"Hello\"; }\n}\nclass EnglishGreeter implements Greeter {\n  public String greet() { return \"Hi\"; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Greeter g = new EnglishGreeter();\n    System.out.println(g.greet());\n  }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Hello"
+      },
+      {
+        "key": "B",
+        "text": "Hi"
+      },
+      {
+        "key": "C",
+        "text": "HelloHi"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The EnglishGreeter class overrides the default greet() method. Since the object is an EnglishGreeter, the overriding method is called due to polymorphism."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following statements about sealed classes are correct? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "All permitted subclasses must be in the same package or module."
+      },
+      {
+        "key": "B",
+        "text": "A permitted subclass must be declared final, sealed, or non-sealed."
+      },
+      {
+        "key": "C",
+        "text": "Sealed interfaces can also have permits clauses."
+      },
+      {
+        "key": "D",
+        "text": "A sealed class can have unlimited permitted subclasses."
+      },
+      {
+        "key": "E",
+        "text": "Non-sealed subclasses can be extended freely."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "explanation": "All five statements are correct: permitted classes must be in same package/module, must declare final/sealed/non-sealed, sealed interfaces support permits, there is no limit on number of permitted types, and non-sealed opens the hierarchy again."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which of the following correctly defines an enum with a field and constructor?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "enum Planet { EARTH(9.8); double gravity; Planet(double g) { gravity = g; } }"
+      },
+      {
+        "key": "B",
+        "text": "enum Planet { EARTH(9.8); public Planet(double g) {} }"
+      },
+      {
+        "key": "C",
+        "text": "enum Planet { EARTH; double gravity = 9.8; }"
+      },
+      {
+        "key": "D",
+        "text": "enum Planet { EARTH(9.8); private double gravity; Planet(double g) { this.gravity = g; } }"
+      }
+    ],
+    "correctKeys": [
+      "D"
+    ],
+    "explanation": "Enum constructors must be private (or package-private). The field must be declared before it is assigned in the constructor. D correctly uses private field, private implicit constructor with correct syntax."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What happens when you call the following code?",
+    "code": "var list = new ArrayList<>();\nlist.add(\"hello\");\nString s = list.get(0);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiles and runs fine, s = \"hello\""
+      },
+      {
+        "key": "B",
+        "text": "Compiler error: incompatible types"
+      },
+      {
+        "key": "C",
+        "text": "Compiler warning but runs fine"
+      },
+      {
+        "key": "D",
+        "text": "ClassCastException at runtime"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "new ArrayList<>() with no type argument infers ArrayList<Object>. Assigning get(0) to String requires an explicit cast. Without it, the compiler rejects the assignment."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which keyword allows a variable to be inferred by the compiler at compile time?",
+    "code": "var list = new ArrayList<String>();",
+    "options": [
+      {
+        "key": "A",
+        "text": "var is a reserved keyword that disallows reassignment."
+      },
+      {
+        "key": "B",
+        "text": "var infers the type from the right-hand side at compile time."
+      },
+      {
+        "key": "C",
+        "text": "var can be used as a field declaration."
+      },
+      {
+        "key": "D",
+        "text": "var allows the type to change at runtime."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "var is a reserved type name (not a keyword) that causes the compiler to infer the static type from the initializer. It cannot be used for fields (only local variables, for-loop variables, and lambda parameters), and the type is fixed at compile time."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are true about abstract classes? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Abstract classes cannot be instantiated directly."
+      },
+      {
+        "key": "B",
+        "text": "Abstract classes can have constructors."
+      },
+      {
+        "key": "C",
+        "text": "Abstract classes can have concrete (non-abstract) methods."
+      },
+      {
+        "key": "D",
+        "text": "A class that extends an abstract class must implement all abstract methods."
+      },
+      {
+        "key": "E",
+        "text": "Abstract classes can implement interfaces."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "explanation": "All five are correct. Abstract classes cannot be instantiated but have constructors (called by subclasses). They can mix abstract and concrete methods, implement interfaces, and subclasses must provide all abstract method implementations unless the subclass is also abstract."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is printed by the following code?",
+    "code": "public class Main {\n  static String msg = \"static\";\n  String msg = \"instance\";\n  public static void main(String[] args) {\n    Main m = new Main();\n    System.out.println(Main.msg + \" \" + m.msg);\n  }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "static instance"
+      },
+      {
+        "key": "B",
+        "text": "instance instance"
+      },
+      {
+        "key": "C",
+        "text": "static static"
+      },
+      {
+        "key": "D",
+        "text": "Compiler error — duplicate field name"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Java allows a static and an instance field with the same name. Main.msg accesses the static field ('static'). m.msg accesses the instance field ('instance')."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which of the following correctly demonstrates pattern matching with instanceof?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "if (obj instanceof String) { String s = (String) obj; }"
+      },
+      {
+        "key": "B",
+        "text": "if (obj instanceof String s) { System.out.println(s.length()); }"
+      },
+      {
+        "key": "C",
+        "text": "if (obj instanceof (String s)) { System.out.println(s); }"
+      },
+      {
+        "key": "D",
+        "text": "String s = obj instanceof String; System.out.println(s);"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Pattern matching with instanceof (finalized in Java 16) uses the syntax: obj instanceof Type varName. If the check is true, varName is bound to the cast value and in scope. No explicit cast needed."
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are true about flexible constructor bodies (JEP 513)? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Statements can appear before the super() or this() call as long as they do not access the instance being constructed."
+      },
+      {
+        "key": "B",
+        "text": "super() can now be placed anywhere in the constructor body, not just the first statement."
+      },
+      {
+        "key": "C",
+        "text": "Flexible constructor bodies allow argument validation and transformation before the superclass constructor runs."
+      },
+      {
+        "key": "D",
+        "text": "Fields of the subclass can be read before the super() call."
+      },
+      {
+        "key": "E",
+        "text": "The feature removes the requirement to call super() entirely."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C"
+    ],
+    "explanation": "Flexible constructor bodies allow statements before super()/this() that do not reference the uninitialized instance (no this.field access). This is useful for validating or transforming arguments before passing them to super(). super() must still be called and cannot be read before it.",
+    "source": "JEP 513 – Flexible Constructor Bodies (Java 25): https://openjdk.org/jeps/513"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Given the following sealed class hierarchy, which statement about the class Square is correct?\n\n```\nsealed class Shape permits Circle, Rectangle, Square {}\nfinal class Circle extends Shape {}\nnon-sealed class Rectangle extends Shape {}\nclass Square extends Rectangle {}\n```",
+    "code": "sealed class Shape permits Circle, Rectangle, Square {}\nfinal class Circle extends Shape {}\nnon-sealed class Rectangle extends Shape {}\nclass Square extends Rectangle {}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiler error — Square must be listed in the permits clause of Shape."
+      },
+      {
+        "key": "B",
+        "text": "Compiler error — Square must be declared final, sealed, or non-sealed."
+      },
+      {
+        "key": "C",
+        "text": "Square compiles fine because Rectangle is non-sealed and opens the hierarchy."
+      },
+      {
+        "key": "D",
+        "text": "Square compiles fine only if it is in the same package as Shape."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "A non-sealed permitted subclass removes the sealing restriction for its own subtree. Because Rectangle is declared non-sealed, any class may extend Rectangle without being listed in Shape's permits clause and without any modifier obligation. Square therefore compiles without issues.",
+    "source": "Oracle Docs – Sealed Classes (JEP 409): https://openjdk.org/jeps/409"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following usages of var produce a compiler error? (Choose all that apply.)",
+    "code": "// (A)\nclass Foo {\n    var name = \"hello\"; // field\n}\n\n// (B)\nvoid greet(var msg) { } // parameter\n\n// (C)\nvar x = 42; // local variable\n\n// (D)\nvar y; // no initializer\n\n// (E)\nfor (var item : List.of(1,2,3)) { } // enhanced-for",
+    "options": [
+      {
+        "key": "A",
+        "text": "var name = \"hello\"; declared as an instance field."
+      },
+      {
+        "key": "B",
+        "text": "void greet(var msg) — var used as a method parameter type."
+      },
+      {
+        "key": "C",
+        "text": "var x = 42; declared as a local variable."
+      },
+      {
+        "key": "D",
+        "text": "var y; declared as a local variable without an initializer."
+      },
+      {
+        "key": "E",
+        "text": "for (var item : List.of(1,2,3)) — var in an enhanced-for loop."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "var is only permitted for local variables (including for-loop and enhanced-for variables) that have an initializer. Three cases cause a compiler error: (A) var cannot be used for instance or static fields; (B) var cannot be used as a formal parameter type in a regular method (only in implicitly-typed lambda parameters); (D) var requires an initializer so the compiler can infer the type — a declaration without one is rejected. Cases C and E are valid.",
+    "source": "JEP 286 – Local-Variable Type Inference: https://openjdk.org/jeps/286"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Which of the following is a valid use of the unnamed variable _ (underscore) introduced by JEP 456?",
+    "code": "// Option A\nint _ = computeValue();\nSystem.out.println(_);\n\n// Option B\ntry {\n    riskyOp();\n} catch (Exception _) {\n    System.out.println(\"failed\");\n}\n\n// Option C\nrecord Point(int x, int y) {}\nPoint p = new Point(1,2);\nvar _ = p; // stored for later use\n\n// Option D\nclass Handler {\n    private int _ = 0;\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "int _ = computeValue(); followed by System.out.println(_); — unnamed variable read back."
+      },
+      {
+        "key": "B",
+        "text": "catch (Exception _) — unnamed variable in a catch clause, body does not use it."
+      },
+      {
+        "key": "C",
+        "text": "var _ = p; used later as a reference to p."
+      },
+      {
+        "key": "D",
+        "text": "private int _ = 0; declared as an instance field."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "JEP 456 (Java 22, finalised) introduces _ as an unnamed variable to explicitly signal that a value is intentionally unused. It is valid in local variable declarations, catch parameters, lambda parameters, and pattern variables — but only when the value is NOT subsequently read. Option A is invalid because _ is read on the next line. Option C is invalid for the same reason. Option D is invalid because _ cannot be used for fields. Option B is the canonical use-case: a catch parameter that the handler body ignores.",
+    "source": "JEP 456 – Unnamed Variables and Patterns: https://openjdk.org/jeps/456"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "A developer writes the following record. Which statements about it are correct? (Choose all that apply.)\n\n```java\npublic record Person(String name, int age) {\n    // compact canonical constructor\n    Person {\n        if (age < 0) throw new IllegalArgumentException(\"negative age\");\n        name = name.trim();\n    }\n    private String nickname; // extra instance field\n}\n```",
+    "code": "public record Person(String name, int age) {\n    // compact canonical constructor\n    Person {\n        if (age < 0) throw new IllegalArgumentException(\"negative age\");\n        name = name.trim();\n    }\n    private String nickname; // extra instance field\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "The compact canonical constructor is syntactically valid."
+      },
+      {
+        "key": "B",
+        "text": "The declaration private String nickname; causes a compiler error because records cannot have extra instance fields."
+      },
+      {
+        "key": "C",
+        "text": "Inside the compact canonical constructor, assigning name = name.trim(); modifies the component before it is stored."
+      },
+      {
+        "key": "D",
+        "text": "Records can declare additional instance fields beyond their components as long as they are private."
+      },
+      {
+        "key": "E",
+        "text": "Records are always immutable because their components are implicitly final."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "A: The compact canonical constructor (no parameter list, implicit assignment at the end) is valid syntax. B: Records prohibit extra instance fields — only static fields are allowed in addition to the record components; the nickname declaration is a compile-time error. C: In a compact canonical constructor the parameters are mutable local variables; the assignment propagates to the final component fields implicitly at the constructor's end. D is false — extra instance fields are never allowed regardless of access modifier. E: Record components are implicitly private and final, making record instances structurally immutable (though a component whose type is mutable, like a List, can still be mutated through its own API).",
+    "source": "Oracle Docs – Records (JEP 395): https://openjdk.org/jeps/395"
+  }
+]

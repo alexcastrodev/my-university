@@ -8,7 +8,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-1-platform-threads-and-virtual-threads.md"
     },
     {
       "id": "j25-8-2",
@@ -16,7 +16,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-2-runnable-callable-and-thread-lifecycle.md"
     },
     {
       "id": "j25-8-3",
@@ -24,7 +24,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-3-executor-services-and-concurrent-api.md"
     },
     {
       "id": "j25-8-4",
@@ -32,7 +32,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-4-scoped-values.md"
     },
     {
       "id": "j25-8-5",
@@ -40,7 +40,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-5-thread-safe-code-and-locking.md"
     },
     {
       "id": "j25-8-6",
@@ -48,7 +48,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/8-6-concurrent-collections-and-parallel-streams.md"
     },
     {
       "id": "j25-8-7",

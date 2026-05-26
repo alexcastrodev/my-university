@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-1-module-system-overview.md"
     },
     {
       "id": "j25-7-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-2-declaring-module-dependencies.md"
     },
     {
       "id": "j25-7-3",
@@ -24,7 +24,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-3-module-import-declarations.md"
     },
     {
       "id": "j25-7-4",
@@ -32,7 +32,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-4-services-providers-and-consumers.md"
     },
     {
       "id": "j25-7-5",
@@ -40,7 +40,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-5-compact-source-files-and-multi-file-programs.md"
     },
     {
       "id": "j25-7-6",
@@ -48,7 +48,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-6-instance-main-methods.md"
     },
     {
       "id": "j25-7-7",
@@ -56,7 +56,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-7-creating-jars-and-runtime-images.md"
     },
     {
       "id": "j25-7-8",
@@ -64,7 +64,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/7-8-migration-unnamed-automatic-modules.md"
     },
     {
       "id": "j25-7-9",

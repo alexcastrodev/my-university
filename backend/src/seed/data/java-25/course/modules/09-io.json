@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/9-1-reading-and-writing-console-and-file-data.md"
     },
     {
       "id": "j25-9-2",
@@ -16,7 +16,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/9-2-serialization-and-deserialization.md"
     },
     {
       "id": "j25-9-3",
@@ -24,7 +24,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/9-3-nio-file-api-and-path-objects.md"
     },
     {
       "id": "j25-9-4",

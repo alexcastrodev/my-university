@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/4-1-try-catch-finally.md"
     },
     {
       "id": "j25-4-2",
@@ -16,7 +16,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/4-2-try-with-resources.md"
     },
     {
       "id": "j25-4-3",
@@ -24,7 +24,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/4-3-multi-catch-and-custom-exceptions.md"
     },
     {
       "id": "j25-4-4",

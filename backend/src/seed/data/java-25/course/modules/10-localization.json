@@ -8,7 +8,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/10-1-locales-and-resource-bundles.md"
     },
     {
       "id": "j25-10-2",
@@ -16,7 +16,7 @@
       "duration": "12m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/10-2-parsing-and-formatting-messages.md"
     },
     {
       "id": "j25-10-3",
@@ -24,7 +24,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/10-3-formatting-dates-times-numbers-and-currency.md"
     },
     {
       "id": "j25-10-4",

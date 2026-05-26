@@ -1,0 +1,484 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the key difference between a platform thread and a virtual thread in Java?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Virtual threads cannot run CPU-intensive tasks."
+      },
+      {
+        "key": "B",
+        "text": "Platform threads are mapped 1:1 to OS threads; virtual threads are lightweight and managed by the JVM."
+      },
+      {
+        "key": "C",
+        "text": "Virtual threads have higher priority than platform threads."
+      },
+      {
+        "key": "D",
+        "text": "Platform threads are deprecated in Java 25."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Platform threads map 1:1 to OS threads. Virtual threads (Project Loom) are managed by the JVM with much lower overhead — many can share a small pool of carrier (OS) threads. They are not deprecated."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which of the following correctly creates a virtual thread?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "new Thread(runnable).start();"
+      },
+      {
+        "key": "B",
+        "text": "Thread.ofVirtual().start(runnable);"
+      },
+      {
+        "key": "C",
+        "text": "Executors.newVirtualThread(runnable);"
+      },
+      {
+        "key": "D",
+        "text": "Thread.virtual(runnable).start();"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Thread.ofVirtual().start(runnable) creates and starts a virtual thread. Thread.ofVirtual().unstarted(runnable) creates one without starting. The other options are either incorrect syntax or nonexistent API."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following are thread-safe collections? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "ConcurrentHashMap"
+      },
+      {
+        "key": "B",
+        "text": "HashMap"
+      },
+      {
+        "key": "C",
+        "text": "CopyOnWriteArrayList"
+      },
+      {
+        "key": "D",
+        "text": "ArrayList"
+      },
+      {
+        "key": "E",
+        "text": "Collections.synchronizedList(new ArrayList<>())"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "E"
+    ],
+    "explanation": "ConcurrentHashMap and CopyOnWriteArrayList are designed for concurrent use. Collections.synchronizedList wraps a list with synchronized methods. HashMap and ArrayList are not thread-safe."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What does ExecutorService.submit(Callable) return?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "void"
+      },
+      {
+        "key": "B",
+        "text": "Thread"
+      },
+      {
+        "key": "C",
+        "text": "Future<?>"
+      },
+      {
+        "key": "D",
+        "text": "CompletableFuture<?>"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "submit(Callable<T>) returns a Future<T> that can be used to retrieve the result or check for exceptions. It does not return a Thread or CompletableFuture directly."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which of the following correctly uses a ReentrantLock?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "lock.acquire(); try { ... } finally { lock.release(); }"
+      },
+      {
+        "key": "B",
+        "text": "lock.lock(); try { ... } finally { lock.unlock(); }"
+      },
+      {
+        "key": "C",
+        "text": "synchronized(lock) { ... }"
+      },
+      {
+        "key": "D",
+        "text": "lock.start(); try { ... } finally { lock.stop(); }"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ReentrantLock uses lock() and unlock(). The unlock() must always be in a finally block to prevent deadlock. acquire/release and start/stop are not ReentrantLock methods."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which of the following correctly shuts down an ExecutorService and waits for completion?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "executor.stop();"
+      },
+      {
+        "key": "B",
+        "text": "executor.shutdown(); executor.awaitTermination(1, TimeUnit.MINUTES);"
+      },
+      {
+        "key": "C",
+        "text": "executor.close();"
+      },
+      {
+        "key": "D",
+        "text": "executor.terminate();"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "shutdown() initiates an orderly shutdown (no new tasks, existing tasks complete). awaitTermination() blocks until all tasks finish or timeout. shutdownNow() attempts to stop all tasks. close() is available on AutoCloseable-based executors but is not universally applicable."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following are true about StructuredTaskScope (preview/incubating in Java 21, progressing in Java 25)? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "StructuredTaskScope ensures all subtasks finish before the scope closes."
+      },
+      {
+        "key": "B",
+        "text": "It provides ShutdownOnFailure and ShutdownOnSuccess policies."
+      },
+      {
+        "key": "C",
+        "text": "It is designed to work with virtual threads."
+      },
+      {
+        "key": "D",
+        "text": "StructuredTaskScope replaces CompletableFuture in all use cases."
+      },
+      {
+        "key": "E",
+        "text": "fork() submits a subtask and returns a Future-like handle."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "StructuredTaskScope ensures lifetime containment of subtasks. It has ShutdownOnFailure and ShutdownOnSuccess policies. It is designed for virtual threads. It does not replace CompletableFuture — they address different use cases. fork() returns a Subtask handle."
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following are true about Scoped Values (JEP 487, now final in Java 25)? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A ScopedValue is immutable once bound within a scope."
+      },
+      {
+        "key": "B",
+        "text": "ScopedValue is a replacement for ThreadLocal in all use cases."
+      },
+      {
+        "key": "C",
+        "text": "A ScopedValue is accessible to all threads spawned in its scope via StructuredTaskScope."
+      },
+      {
+        "key": "D",
+        "text": "ScopedValue.where(key, value).run(() -> ...) binds the value only for the duration of the lambda."
+      },
+      {
+        "key": "E",
+        "text": "ScopedValue values are mutable and can be updated by child threads."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "C",
+      "D"
+    ],
+    "explanation": "ScopedValues are immutable within their bound scope. They propagate automatically to child threads created via StructuredTaskScope. The binding is scoped to the run()/call() block. They do not replace all ThreadLocal use cases (e.g., mutable per-thread state) and child threads cannot mutate them.",
+    "source": "JEP 487 – Scoped Values (Fourth Preview) → finalized in Java 25 as JEP 509: https://openjdk.org/jeps/487 | https://openjdk.org/jeps/509"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "A thread has called Object.wait() inside a synchronized block. Which Thread state does it enter, and what is required to resume it?",
+    "code": "synchronized (lock) {\n    while (!conditionMet) {\n        lock.wait(); // thread suspends here\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "BLOCKED — resumes when another thread calls lock.notify() or lock.notifyAll()."
+      },
+      {
+        "key": "B",
+        "text": "WAITING — resumes when another thread calls lock.notify() or lock.notifyAll() and the thread reacquires the monitor."
+      },
+      {
+        "key": "C",
+        "text": "TIMED_WAITING — resumes automatically after the JVM's default timeout."
+      },
+      {
+        "key": "D",
+        "text": "RUNNABLE — the thread keeps running but inside a spin-wait loop."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Object.wait() without a timeout moves the calling thread to the WAITING state. It leaves the WAITING state only when another thread calls notify() or notifyAll() on the same monitor and the thread successfully reacquires the intrinsic lock. BLOCKED is the state when a thread is trying to acquire a monitor held by another thread. TIMED_WAITING applies to wait(long), sleep(long), or join(long).",
+    "source": "Oracle Docs – Thread.State: https://docs.oracle.com/en/java/docs/api/java.base/java/lang/Thread.State.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which statements correctly describe the differences between Runnable and Callable? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Runnable.run() returns void; Callable.call() returns a typed result."
+      },
+      {
+        "key": "B",
+        "text": "Callable.call() can throw checked exceptions; Runnable.run() cannot."
+      },
+      {
+        "key": "C",
+        "text": "Both Runnable and Callable can be submitted to an ExecutorService."
+      },
+      {
+        "key": "D",
+        "text": "Submitting a Runnable to ExecutorService.submit() returns Future<Void>."
+      },
+      {
+        "key": "E",
+        "text": "Runnable can be used as a lambda; Callable cannot."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Runnable.run() is void and declares no checked exception; Callable.call() declares 'throws Exception' and returns a generic result. Both can be submitted to an ExecutorService — submit(Runnable) returns Future<?> (not Future<Void>) whose get() always returns null. Both are functional interfaces and therefore usable as lambdas.",
+    "source": "Oracle Docs – Callable: https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/Callable.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What happens when Future.get() is called on a task that threw an exception during execution?",
+    "code": "ExecutorService exec = Executors.newSingleThreadExecutor();\nFuture<Integer> future = exec.submit(() -> {\n    if (true) throw new IllegalStateException(\"boom\");\n    return 42;\n});\ntry {\n    Integer result = future.get(); // what happens here?\n} catch (ExecutionException e) {\n    System.out.println(e.getCause().getMessage());\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "future.get() returns null because the task failed."
+      },
+      {
+        "key": "B",
+        "text": "future.get() throws ExecutionException; the original exception is wrapped as its cause."
+      },
+      {
+        "key": "C",
+        "text": "future.get() re-throws the original IllegalStateException directly."
+      },
+      {
+        "key": "D",
+        "text": "future.get() blocks forever because no result is available."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "When a Callable's call() throws any exception, Future.get() wraps that exception inside an ExecutionException. To access the original cause you call e.getCause(). This is by design so that the checked/unchecked nature of the original exception does not contaminate the caller's signature. The code in the example prints 'boom'.",
+    "source": "Oracle Docs – Future.get(): https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/Future.html#get()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Given the code below, is it possible for two threads to simultaneously read stale values of the 'flag' field after one thread has written to it?",
+    "code": "class Worker {\n    private volatile boolean flag = false;\n\n    public void stop()  { flag = true; }\n    public boolean isRunning() { return !flag; }\n}\n\n// Thread A:\nworker.stop();              // writes flag = true\n\n// Thread B:\nif (worker.isRunning()) {   // reads flag\n    doWork();\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Yes — volatile does not prevent stale reads; only synchronized does."
+      },
+      {
+        "key": "B",
+        "text": "No — volatile guarantees visibility: Thread B will always observe the most recent write to flag."
+      },
+      {
+        "key": "C",
+        "text": "It depends on whether the JVM enables JIT optimizations."
+      },
+      {
+        "key": "D",
+        "text": "No — volatile also guarantees atomicity for compound operations like flag++."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The volatile keyword establishes a happens-before relationship: any write to a volatile variable happens-before every subsequent read of that variable. Thread B is therefore guaranteed to see the value written by Thread A. However, volatile does NOT guarantee atomicity for compound operations (read-modify-write like flag++) — that still requires AtomicBoolean or synchronization. Option D is false.",
+    "source": "JLS 17.4.4 – Synchronization Order: https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.4.4"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What does AtomicInteger.compareAndSet(int expect, int update) return, and when does the update actually take effect?",
+    "code": "AtomicInteger counter = new AtomicInteger(5);\nboolean result = counter.compareAndSet(5, 10);\nSystem.out.println(result + \" \" + counter.get());",
+    "options": [
+      {
+        "key": "A",
+        "text": "Returns void and always sets the value to update."
+      },
+      {
+        "key": "B",
+        "text": "Returns the old value (5) and sets the value to 10."
+      },
+      {
+        "key": "C",
+        "text": "Returns true and sets the value to 10, because the current value equals expect."
+      },
+      {
+        "key": "D",
+        "text": "Returns false and leaves the value unchanged, because CAS always fails on the first attempt."
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "compareAndSet(expect, update) atomically compares the current value with expect. If they match, it sets the value to update and returns true. If they do not match, it leaves the value unchanged and returns false. This is the Compare-And-Swap (CAS) operation — the foundation of lock-free algorithms. Here, current value is 5 == expect 5, so the update to 10 succeeds and true is printed, followed by 10.",
+    "source": "Oracle Docs – AtomicInteger.compareAndSet: https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html#compareAndSet(int,int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following statements about ConcurrentHashMap are correct? (Choose all that apply.)",
+    "code": "ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();\nmap.put(null, \"value\"); // line A\nmap.put(\"key\", null);   // line B\nmap.put(\"key\", \"value\"); // line C",
+    "options": [
+      {
+        "key": "A",
+        "text": "Line A throws NullPointerException — null keys are not allowed."
+      },
+      {
+        "key": "B",
+        "text": "Line B throws NullPointerException — null values are not allowed."
+      },
+      {
+        "key": "C",
+        "text": "Line C executes successfully."
+      },
+      {
+        "key": "D",
+        "text": "ConcurrentHashMap allows null keys but not null values, matching the contract of TreeMap."
+      },
+      {
+        "key": "E",
+        "text": "ConcurrentHashMap uses segment-level locking (or CAS) rather than locking the entire map for writes."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "ConcurrentHashMap prohibits both null keys and null values — unlike HashMap which permits one null key and null values. This design avoids ambiguity: map.get(key) returning null could mean the key is absent or the stored value is null, which is unsafe in concurrent contexts. ConcurrentHashMap uses CAS operations and fine-grained locking (bucket-level in Java 8+) rather than a global lock, enabling high concurrency.",
+    "source": "Oracle Docs – ConcurrentHashMap: https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "multi",
+    "text": "Which of the following correctly describe the behaviour of invokeAll() and invokeAny() on an ExecutorService? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "invokeAll() blocks until ALL submitted tasks have completed (or are cancelled/failed), then returns a List<Future<T>>."
+      },
+      {
+        "key": "B",
+        "text": "invokeAny() blocks until at least ONE task completes successfully and returns that task's result directly (not wrapped in a Future)."
+      },
+      {
+        "key": "C",
+        "text": "invokeAll() returns as soon as the first task completes successfully."
+      },
+      {
+        "key": "D",
+        "text": "invokeAny() cancels the remaining tasks once a result is obtained."
+      },
+      {
+        "key": "E",
+        "text": "invokeAny() throws ExecutionException if all tasks fail."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D",
+      "E"
+    ],
+    "explanation": "invokeAll(Collection<Callable>) waits for every task and returns a List<Future<T>> where each Future is already done (either normally or exceptionally). invokeAny(Collection<Callable>) returns the raw result T (not a Future) of the first successful task and then cancels any tasks still running. If all tasks fail, invokeAny() throws ExecutionException. Option C describes invokeAny behaviour, not invokeAll.",
+    "source": "Oracle Docs – ExecutorService: https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/ExecutorService.html"
+  }
+]

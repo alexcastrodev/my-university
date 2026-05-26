@@ -8,7 +8,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-1-lambda-expressions-and-functional-interfaces.md"
     },
     {
       "id": "j25-6-2",
@@ -16,7 +16,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-2-object-and-primitive-streams.md"
     },
     {
       "id": "j25-6-3",
@@ -24,7 +24,7 @@
       "duration": "16m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-3-filter-transform-and-sort.md"
     },
     {
       "id": "j25-6-4",
@@ -32,7 +32,7 @@
       "duration": "18m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-4-reduction-grouping-and-partitioning.md"
     },
     {
       "id": "j25-6-5",
@@ -40,7 +40,7 @@
       "duration": "20m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-5-stream-gatherers.md"
     },
     {
       "id": "j25-6-6",
@@ -48,7 +48,7 @@
       "duration": "14m",
       "type": "slide",
       "status": "new",
-      "contentPath": null
+      "contentPath": "java-25/content/6-6-parallel-streams.md"
     },
     {
       "id": "j25-6-7",

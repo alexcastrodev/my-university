@@ -1,0 +1,96 @@
+[
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which of the following creates a Locale for Brazilian Portuguese?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "new Locale(\"br\", \"PT\")"
+      },
+      {
+        "key": "B",
+        "text": "Locale.of(\"pt\", \"BR\")"
+      },
+      {
+        "key": "C",
+        "text": "new Locale(\"BR\", \"pt\")"
+      },
+      {
+        "key": "D",
+        "text": "Locale.BRAZIL"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Locale.of(language, country) uses lowercase language code and uppercase country code. 'pt' is Portuguese, 'BR' is Brazil. Locale.of() is the preferred factory method in modern Java. Locale.BRAZIL is not a standard constant."
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "multi",
+    "text": "Which of the following are true about ResourceBundle? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "ResourceBundle.getBundle() uses a parent chain to find the most specific bundle."
+      },
+      {
+        "key": "B",
+        "text": "Property files must be encoded in UTF-8 by default in Java 9+."
+      },
+      {
+        "key": "C",
+        "text": "A ResourceBundle can be backed by a .properties file or a Java class."
+      },
+      {
+        "key": "D",
+        "text": "If a key is not found in the specific bundle, Java looks in the parent bundle."
+      },
+      {
+        "key": "E",
+        "text": "ResourceBundle caches bundles indefinitely with no way to clear the cache."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "ResourceBundle uses parent-chain lookup, supports .properties files and Java class bundles, and delegates to parent bundles for missing keys. Since Java 9, .properties files default to UTF-8. The cache can be cleared with ResourceBundle.clearCache()."
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "Which format pattern correctly formats a number as currency for the default locale?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "NumberFormat.getCurrencyInstance().format(1234.56)"
+      },
+      {
+        "key": "B",
+        "text": "String.format(\"%c\", 1234.56)"
+      },
+      {
+        "key": "C",
+        "text": "new DecimalFormat(\"$#,##0.00\").format(1234.56)"
+      },
+      {
+        "key": "D",
+        "text": "NumberFormat.getMoneyInstance().format(1234.56)"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "NumberFormat.getCurrencyInstance() returns a locale-sensitive currency formatter. String.format(\"%c\") formats a char. DecimalFormat with a hardcoded $ symbol is not locale-aware. getMoneyInstance() does not exist."
+  }
+]
