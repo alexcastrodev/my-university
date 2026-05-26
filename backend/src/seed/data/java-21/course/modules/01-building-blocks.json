@@ -88,7 +88,8 @@
       "duration": "",
       "type": "skill-check",
       "status": "not-attempted",
-      "contentPath": null
+      "contentPath": null,
+      "topic": "building-blocks"
     }
   ]
 }

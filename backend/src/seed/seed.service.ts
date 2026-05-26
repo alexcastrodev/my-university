@@ -61,6 +61,7 @@ export class SeedService implements OnApplicationBootstrap {
           lessonEntity.type = (lesson.type === 'video' ? 'slide' : lesson.type) as Lesson['type'];
           lessonEntity.status = lesson.status as Lesson['status'];
           lessonEntity.contentPath = lesson.contentPath ?? null;
+          lessonEntity.topic = (lesson as any).topic ?? null;
           lessonEntity.module = moduleEntity;
           await this.lessonRepo.save(lessonEntity);
         }

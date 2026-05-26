@@ -24,6 +24,9 @@ export class Lesson {
   @Column('text', { nullable: true })
   contentPath: string | null;
 
+  @Column({ nullable: true })
+  topic: string | null;
+
   @ManyToOne(() => CourseModule, (m) => m.lessons, { onDelete: 'CASCADE' })
   module: CourseModule;
 }

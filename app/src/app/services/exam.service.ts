@@ -16,9 +16,12 @@ export class ExamService {
     return this.http.get<Exam>(`${this.base}/${examId}`);
   }
 
-  getQuestions(examId: string, limit?: number): Observable<ExamQuestion[]> {
-    const params = limit ? `?limit=${limit}` : '';
-    return this.http.get<ExamQuestion[]>(`${this.base}/${examId}/questions${params}`);
+  getQuestions(examId: string, limit?: number, topic?: string): Observable<ExamQuestion[]> {
+    const parts: string[] = [];
+    if (limit) parts.push(`limit=${limit}`);
+    if (topic) parts.push(`topic=${encodeURIComponent(topic)}`);
+    const qs = parts.length ? `?${parts.join('&')}` : '';
+    return this.http.get<ExamQuestion[]>(`${this.base}/${examId}/questions${qs}`);
   }
 
   startAttempt(examId: string): Observable<ExamAttempt> {

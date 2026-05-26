@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CourseView } from '../../components/course-view/course-view';
 import { LessonContent } from '../../components/lesson-content/lesson-content';
 import { Playlist } from '../../components/playlist/playlist';
+import { SkillCheckView } from '../../components/skill-check-view/skill-check-view';
 import { Course, Lesson } from '../../models/course.model';
 import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +13,7 @@ import { XpService } from '../../services/xp.service';
 @Component({
   selector: 'app-course-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CourseView, LessonContent, Playlist, RouterLink],
+  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView],
   template: `
     @if (loading()) {
       <div class="loading" role="status">
@@ -47,6 +48,13 @@ import { XpService } from '../../services/xp.service';
                 <div class="practice-icon" aria-hidden="true">✏️</div>
                 <p class="practice-desc">Work through the practice exercises for this topic on your own. When you're done, mark this lesson as completed.</p>
               </div>
+            } @else if (activeLesson()!.type === 'skill-check') {
+              <app-skill-check-view
+                [examId]="examId()"
+                [topic]="activeLesson()!.topic!"
+                [lessonId]="activeLesson()!.id"
+                (completed)="onSkillCheckCompleted()"
+              ></app-skill-check-view>
             } @else {
               <app-lesson-content [markdown]="markdownContent()"></app-lesson-content>
             }
@@ -310,12 +318,19 @@ export class CoursePage implements OnInit {
   }
 
   onLessonSelected(lesson: Lesson): void {
-    if (lesson.type === 'skill-check') {
-      void this.router.navigate(['/exam', this.examId(), 'quiz']);
-      return;
-    }
     void this.router.navigate(['/exam', this.examId(), 'lesson', lesson.id]);
     this.openLesson(lesson);
+  }
+
+  onSkillCheckCompleted(): void {
+    const lesson = this.activeLesson();
+    if (!lesson) return;
+    const user = this.auth.currentUser();
+    if (!user) return;
+    const status = 'completed';
+    this.http
+      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
+      .subscribe({ next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadXp(); } });
   }
 
   private activateLessonFromUrl(lessonId: string | null): void {
@@ -328,10 +343,6 @@ export class CoursePage implements OnInit {
 
     const lesson = this.findLesson(lessonId);
     if (lesson) {
-      if (lesson.type === 'skill-check') {
-        void this.router.navigate(['/exam', this.examId(), 'quiz']);
-        return;
-      }
       this.expandModuleForLesson(lessonId);
       this.openLesson(lesson);
     }

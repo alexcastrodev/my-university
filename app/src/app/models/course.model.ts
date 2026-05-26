@@ -5,6 +5,7 @@ export interface Lesson {
   type: 'video' | 'practice' | 'skill-check';
   status: 'new' | 'in-progress' | 'completed' | 'not-attempted';
   contentPath?: string | null;
+  topic?: string | null;
 }
 
 export interface CourseModule {
