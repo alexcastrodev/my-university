@@ -1,3 +1,7 @@
+---
+version: 1.0
+updatedAt: 2026-05-26
+---
 # Sorting and Retrieving Elements
 
 ---

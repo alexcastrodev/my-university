@@ -1,3 +1,7 @@
+---
+version: 1.0
+updatedAt: 2026-05-26
+---
 # Pattern Matching for switch
 
 > **JEP 441** — finalized in Java 21, available in Java 25. The selector expression can be any reference or primitive type; case labels can have patterns.

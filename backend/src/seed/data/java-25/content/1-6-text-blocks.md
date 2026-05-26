@@ -1,3 +1,7 @@
+---
+version: 1.0
+updatedAt: 2026-05-26
+---
 # Text Blocks
 
 > **JEP 378** — finalized in Java 15. A text block is a multi-line string literal that avoids the need for most escape sequences and gives the string a predictable format.

@@ -56,7 +56,7 @@ import { XpService } from '../../services/xp.service';
                 (completed)="onSkillCheckCompleted()"
               ></app-skill-check-view>
             } @else {
-              <app-lesson-content [markdown]="markdownContent()"></app-lesson-content>
+              <app-lesson-content [lessonContent]="markdownContent()"></app-lesson-content>
             }
           } @else {
             <app-course-view [course]="course()!">
@@ -284,7 +284,7 @@ export class CoursePage implements OnInit {
 
   activeLesson = signal<Lesson | null>(null);
   activeLessonId = signal<string | null>(null);
-  markdownContent = signal<string | null>(null);
+  markdownContent = signal<{ content: string; version: string | null; updatedAt: string | null } | null>(null);
   markdownLoading = signal(false);
 
   modules = computed(() => this.course()?.modules ?? []);
@@ -365,8 +365,8 @@ export class CoursePage implements OnInit {
       return;
     }
     this.markdownLoading.set(true);
-    this.http.get(`/api/content/${lesson.contentPath}`, { responseType: 'text' }).subscribe({
-      next: (md) => { this.markdownContent.set(md); this.markdownLoading.set(false); },
+    this.http.get<{ content: string; version: string | null; updatedAt: string | null }>(`/api/content/${lesson.contentPath}`).subscribe({
+      next: (lc) => { this.markdownContent.set(lc); this.markdownLoading.set(false); },
       error: () => { this.markdownContent.set(null); this.markdownLoading.set(false); },
     });
   }

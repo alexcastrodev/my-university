@@ -16,6 +16,13 @@ import { marked } from 'marked';
   template: `
     @if (html()) {
       <article class="lesson-body" [innerHTML]="html()"></article>
+      @if (version() || updatedAt()) {
+        <footer class="lesson-meta">
+          @if (version()) { <span>v{{ version() }}</span> }
+          @if (version() && updatedAt()) { <span class="sep">·</span> }
+          @if (updatedAt()) { <span>Last updated {{ updatedAt() }}</span> }
+        </footer>
+      }
     } @else {
       <div class="lesson-empty">
         <p>No content available for this lesson.</p>
@@ -141,6 +148,19 @@ import { marked } from 'marked';
       color: #111827;
     }
 
+    .lesson-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 2.5rem 1.5rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .lesson-meta .sep {
+      color: #d1d5db;
+    }
+
     .lesson-empty {
       display: flex;
       align-items: center;
@@ -152,19 +172,25 @@ import { marked } from 'marked';
   `,
 })
 export class LessonContent implements OnChanges {
-  markdown = input<string | null>(null);
+  lessonContent = input<{ content: string; version: string | null; updatedAt: string | null } | null>(null);
 
   private sanitizer = inject(DomSanitizer);
   html = signal<SafeHtml | null>(null);
+  version = signal<string | null>(null);
+  updatedAt = signal<string | null>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['markdown']) {
-      const md = this.markdown();
-      if (md) {
-        const rawHtml = marked.parse(md) as string;
+    if (changes['lessonContent']) {
+      const lc = this.lessonContent();
+      if (lc) {
+        const rawHtml = marked.parse(lc.content) as string;
         this.html.set(this.sanitizer.bypassSecurityTrustHtml(rawHtml));
+        this.version.set(lc.version);
+        this.updatedAt.set(lc.updatedAt);
       } else {
         this.html.set(null);
+        this.version.set(null);
+        this.updatedAt.set(null);
       }
     }
   }

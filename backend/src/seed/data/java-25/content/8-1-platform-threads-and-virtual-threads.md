@@ -1,3 +1,7 @@
+---
+version: 1.1
+updatedAt: 2026-05-26
+---
 # Platform Threads and Virtual Threads
 
 ---
@@ -65,23 +69,29 @@ System.out.println(pt.isVirtual());   // false
 Virtual threads run on top of platform threads called **carrier threads**. The JVM scheduler mounts a virtual thread onto a carrier when it is ready to run, and unmounts it when it blocks (e.g., on I/O or `Object.wait()`).
 
 **Pinning** occurs when a virtual thread cannot be unmounted from its carrier:
-- Inside a `synchronized` block or method
 - Inside a native method or foreign function call
 
-A pinned virtual thread holds its carrier thread for the duration of the block, reducing scalability. Prefer `ReentrantLock` over `synchronized` in virtual-thread-heavy code.
+> **Java 24 — JEP 491:** `synchronized` blocks and methods **no longer pin** virtual threads to their carrier. A virtual thread that blocks inside `synchronized` now unmounts normally, just like it does with `ReentrantLock`. This removes the main scalability concern with `synchronized` in virtual-thread code.
+
+Before Java 24, the guidance was to replace `synchronized` with `ReentrantLock` for I/O-bound virtual-thread code. From Java 24 onward that workaround is no longer necessary for correctness, although `ReentrantLock` still offers extra features (timed tries, fairness, condition variables).
 
 ```java
-// May pin — avoid for virtual threads with blocking I/O inside
+// Java 21–23: synchronized pins the carrier — avoid with blocking I/O
 synchronized (lock) {
-    doBlockingIO();   // carrier thread is held
+    doBlockingIO();   // carrier thread was held
 }
 
-// Preferred — ReentrantLock allows unmounting
+// Java 21–23: preferred workaround — ReentrantLock allowed unmounting
 lock.lock();
 try {
-    doBlockingIO();   // virtual thread can unmount
+    doBlockingIO();
 } finally {
     lock.unlock();
+}
+
+// Java 24+: synchronized no longer pins — both forms are equally safe
+synchronized (lock) {
+    doBlockingIO();   // virtual thread unmounts normally
 }
 ```
 
@@ -130,7 +140,7 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 |----------|-------------|
 | CPU-intensive computation | Platform thread |
 | High-volume I/O (HTTP servers, DB queries) | Virtual thread |
-| Legacy code with `synchronized` + blocking I/O | Platform thread (or refactor) |
+| Legacy code with `synchronized` + blocking I/O | Virtual thread (Java 24+ — no pinning) |
 | New concurrent code with many tasks | Virtual thread |
 
 ---
@@ -147,5 +157,6 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 ## References
 
 - [JEP 444 — Virtual Threads (Java 21)](https://openjdk.org/jeps/444)
+- [JEP 491 — Synchronize Virtual Threads without Pinning (Java 24)](https://openjdk.org/jeps/491)
 - [JEP 480 — Structured Concurrency (Java 25)](https://openjdk.org/jeps/480)
 - [Oracle Docs — Thread (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html)

@@ -1,3 +1,7 @@
+---
+version: 1.1
+updatedAt: 2026-05-26
+---
 # Duration, Period, and Instant
 
 ---
@@ -50,6 +54,23 @@ start.isBefore(later);    // true
 start.isAfter(later);     // false
 Duration between = Duration.between(start, later);  // PT1H
 ```
+
+### Measuring Distance with `until()` — Java 23
+
+`Instant.until(Temporal endExclusive, TemporalUnit unit)` returns the number of complete units between two instants. Added in **Java 23**.
+
+```java
+Instant start = Instant.parse("2025-01-01T00:00:00Z");
+Instant end   = Instant.parse("2025-01-01T02:30:00Z");
+
+long hours   = start.until(end, ChronoUnit.HOURS);   // 2
+long minutes = start.until(end, ChronoUnit.MINUTES); // 150
+long seconds = start.until(end, ChronoUnit.SECONDS); // 9000
+```
+
+`until()` always **truncates** toward zero — it counts only complete units. The result is negative if `end` is before `start`.
+
+> **Exam tip:** `Instant.until(end, unit)` and `ChronoUnit.X.between(start, end)` return the same value for `Instant`. Both truncate fractional units.
 
 > **Exam tip:** `Instant` represents machine time and has no concept of date fields like year or month. To get human-readable date/time, convert to `ZonedDateTime` using a `ZoneId`.
 
@@ -204,6 +225,7 @@ ChronoUnit.MINUTES.between(t1, t2);     // 510
 ## Key Points for the Exam
 
 - `Instant` is a point in time on the UTC timeline; it has no date/time fields.
+- `Instant.until(end, unit)` (Java 23) measures the distance between two instants in any `ChronoUnit`; truncates toward zero.
 - `Duration` measures seconds and nanos — apply it to time-based types.
 - `Period` measures years, months, and days — apply it to date-based types.
 - Applying `Duration` to `LocalDate` or `Period` to `LocalTime` throws `UnsupportedTemporalTypeException`.
@@ -216,3 +238,4 @@ ChronoUnit.MINUTES.between(t1, t2);     // 510
 - [Oracle Docs — Duration (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html)
 - [Oracle Docs — Period (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Period.html)
 - [Oracle Docs — Instant (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Instant.html)
+- [JDK 23 Release Notes — Instant.until()](https://www.oracle.com/java/technologies/javase/23-relnote-issues.html)

@@ -1,3 +1,7 @@
+---
+version: 1.1
+updatedAt: 2026-05-26
+---
 # Reading and Writing Console and File Data
 
 ---
@@ -71,6 +75,43 @@ if (console != null) {
 ```
 
 `readPassword()` returns `char[]` — not `String` — so the password can be zeroed from memory after use.
+
+#### `Console.readln()` — Java 23
+
+**Java 23** added `Console.readln(String fmt, Object... args)` as a convenience alias for `readLine(fmt, args)`. It reads a line after displaying a formatted prompt.
+
+```java
+Console console = System.console();
+if (console != null) {
+    // Java 23+: readln() is equivalent to readLine()
+    String name = console.readln("Enter name: ");
+    String city = console.readln("City (%s): ", "default");
+}
+```
+
+> **Exam tip:** `readln()` and `readLine()` are functionally identical on `Console`. Both return `null` at end-of-stream. `readln()` was introduced in Java 23.
+
+---
+
+### `Reader.of(CharSequence)` — Java 24
+
+**Java 24** added a static factory `Reader.of(CharSequence)` that wraps a `String` (or any `CharSequence`) as a `Reader` without needing `StringReader` explicitly.
+
+```java
+// Java 24+: create a Reader directly from a String
+Reader r = Reader.of("Hello, World!");
+int ch;
+while ((ch = r.read()) != -1) {
+    System.out.print((char) ch);
+}
+
+// Useful as a drop-in where a Reader is required
+try (BufferedReader br = new BufferedReader(Reader.of("line1\nline2\n"))) {
+    br.lines().forEach(System.out::println);
+}
+```
+
+> **Exam tip:** `Reader.of(CharSequence)` (Java 24) is a concise alternative to `new StringReader(str)`. Both produce a `Reader` over the given character sequence.
 
 ---
 
@@ -216,6 +257,8 @@ Common constants in `StandardCharsets`:
 - `BufferedReader.readLine()` returns `null` at EOF, not an empty string.
 - `Scanner.nextInt()` leaves the newline in the buffer; a subsequent `nextLine()` returns `""`.
 - `System.console()` returns `null` when no console is attached; guard before calling its methods.
+- `Console.readln()` (Java 23) is an alias for `readLine()` — same behavior, shorter name.
+- `Reader.of(CharSequence)` (Java 24) is a static factory equivalent to `new StringReader(str)`.
 - `Files.readString()` / `Files.writeString()` are the modern alternatives for small text files.
 - `Files.lines()` is lazy and must be closed.
 
@@ -223,3 +266,7 @@ Common constants in `StandardCharsets`:
 
 - [Oracle Docs — java.io (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/package-summary.html)
 - [Oracle Docs — Files (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html)
+- [Oracle Docs — Console (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Console.html)
+- [Oracle Docs — Reader (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Reader.html)
+- [JDK 23 Release Notes — Console.readln()](https://www.oracle.com/java/technologies/javase/23-relnote-issues.html)
+- [JDK 24 Release Notes — Reader.of()](https://www.oracle.com/java/technologies/javase/24-relnote-issues.html)

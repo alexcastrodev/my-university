@@ -1,3 +1,7 @@
+---
+version: 1.0
+updatedAt: 2026-05-26
+---
 # Interfaces: private, static, and default Methods
 
 ---

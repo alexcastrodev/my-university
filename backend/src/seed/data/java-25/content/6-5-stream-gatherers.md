@@ -1,3 +1,7 @@
+---
+version: 1.0
+updatedAt: 2026-05-26
+---
 # Stream Gatherers — gather() and the Gatherers API (JEP 485)
 
 > **JEP 485** — finalized in Java 25. Adds `Stream.gather(Gatherer)` as a general-purpose intermediate operation.
