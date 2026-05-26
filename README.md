@@ -13,3 +13,9 @@
 ```bash
 docker compose up -d
 ```
+
+# Tests
+
+```bash
+docker compose --profile test run --rm console-test
+```

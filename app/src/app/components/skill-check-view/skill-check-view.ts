@@ -59,7 +59,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
                 <label
                   class="option"
                   [class.selected]="isSelected(q.id, opt.key)"
-                  [class.correct]="state() === 'submitted' && q.correctKeys.includes(opt.key)"
+                  [class.correct]="state() === 'submitted' && hasAnswer(q.id) && q.correctKeys.includes(opt.key)"
                   [class.wrong]="state() === 'submitted' && isSelected(q.id, opt.key) && !q.correctKeys.includes(opt.key)"
                 >
                   <input
@@ -120,7 +120,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      padding: 4rem 2rem;
+      padding: 3rem 2rem;
       color: #6b7280;
       font-size: 0.9rem;
     }
@@ -142,7 +142,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      padding: 4rem 2rem;
+      padding: 3rem 2rem;
       text-align: center;
       max-width: 480px;
       margin: 0 auto;
@@ -167,16 +167,18 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
     .quiz-wrap {
       display: flex;
       flex-direction: column;
-      gap: 0;
     }
 
     .quiz-topbar {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 0.75rem 1.5rem;
+      padding: 0.65rem 1.25rem;
       background: #f9fafb;
       border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     .progress-area {
@@ -193,7 +195,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
     }
 
     .progress-bar {
-      height: 6px;
+      height: 5px;
       background: #e5e7eb;
       border-radius: 3px;
       overflow: hidden;
@@ -213,14 +215,14 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
     }
 
     .question-card {
-      padding: 1.5rem;
-      max-width: 780px;
+      padding: 1.25rem 1.5rem;
+      max-width: 720px;
       width: 100%;
       margin: 0 auto;
     }
 
     .question-meta {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
     }
 
     .type-badge {
@@ -238,7 +240,7 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       font-weight: 500;
       color: #111827;
       line-height: 1.6;
-      margin: 0 0 1.25rem;
+      margin: 0 0 1rem;
       white-space: pre-wrap;
     }
 
@@ -323,10 +325,12 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.875rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       background: #fff;
       border-top: 1px solid #e5e7eb;
       gap: 1rem;
+      position: sticky;
+      bottom: 0;
     }
 
     .result-inline {
@@ -446,6 +450,10 @@ export class SkillCheckView implements OnInit {
 
   isSelected(questionId: number, key: string): boolean {
     return (this.answers()[questionId] ?? []).includes(key);
+  }
+
+  hasAnswer(questionId: number): boolean {
+    return (this.answers()[questionId] ?? []).length > 0;
   }
 
   toggleAnswer(q: ExamQuestion, key: string): void {

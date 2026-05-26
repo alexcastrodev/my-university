@@ -6,5 +6,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
 
+  console-test:
+    image: node:22-alpine
+    working_dir: /workspace
+    volumes:
+      - ./backend:/workspace
+    environment:
+      - API_URL=http://app/api
+      - CI=true
+    command: sh -c "corepack enable && corepack prepare pnpm@11.3.0 --activate && pnpm install --frozen-lockfile && pnpm spec"
+    depends_on:
+      - app
+    profiles:
+      - test
+
 volumes:
   postgres_data:

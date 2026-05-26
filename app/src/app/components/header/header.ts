@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 
@@ -175,6 +175,7 @@ import { XpService } from '../../services/xp.service';
 export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
+  private router = inject(Router);
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
@@ -191,13 +192,12 @@ export class Header {
   toggleUser(): void {
     const user = this.auth.currentUser();
     if (user) {
-      if (confirm(`Sign out ${user.displayName}?`)) this.auth.logout();
+      if (confirm(`Sign out ${user.displayName}?`)) {
+        this.auth.logout();
+        void this.router.navigate(['/login']);
+      }
       return;
     }
-
-    const displayName = prompt('Name');
-    if (!displayName) return;
-
-    this.auth.login(displayName).subscribe();
+    void this.router.navigate(['/login']);
   }
 }

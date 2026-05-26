@@ -324,13 +324,20 @@ export class CoursePage implements OnInit {
 
   onSkillCheckCompleted(): void {
     const lesson = this.activeLesson();
-    if (!lesson) return;
-    const user = this.auth.currentUser();
-    if (!user) return;
+    if (!lesson || !this.auth.currentUser()) return;
+
     const status = 'completed';
     this.http
       .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
-      .subscribe({ next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadXp(); } });
+      .subscribe({
+        next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadXp(); },
+        error: (err) => {
+          if (err.status === 401) {
+            this.auth.logout();
+            void this.router.navigate(['/login']);
+          }
+        },
+      });
   }
 
   private activateLessonFromUrl(lessonId: string | null): void {
@@ -373,15 +380,7 @@ export class CoursePage implements OnInit {
 
   toggleCompleted(): void {
     const lesson = this.activeLesson();
-    if (!lesson) return;
-
-    const user = this.auth.currentUser();
-    if (!user) {
-      const displayName = prompt('Name');
-      if (!displayName) return;
-      this.auth.login(displayName).subscribe({ next: () => this.toggleCompleted() });
-      return;
-    }
+    if (!lesson || !this.auth.currentUser()) return;
 
     const status = lesson.status === 'completed' ? 'in-progress' : 'completed';
     this.http
@@ -390,6 +389,12 @@ export class CoursePage implements OnInit {
         next: () => {
           this.setLessonStatus(lesson.id, status);
           if (status === 'completed') this.xpService.loadXp();
+        },
+        error: (err) => {
+          if (err.status === 401) {
+            this.auth.logout();
+            void this.router.navigate(['/login']);
+          }
         },
       });
   }

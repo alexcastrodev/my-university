@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LessonStatus } from '../lesson/lesson.entity';
+import { User } from '../auth/user.entity';
 import { XpService } from '../xp/xp.service';
 import { Progress } from './progress.entity';
 
@@ -9,6 +10,7 @@ import { Progress } from './progress.entity';
 export class ProgressService {
   constructor(
     @InjectRepository(Progress) private repo: Repository<Progress>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     private xpService: XpService,
   ) {}
 
@@ -22,6 +24,9 @@ export class ProgressService {
     lessonId: string,
     status: LessonStatus,
   ): Promise<Progress> {
+    const userExists = await this.userRepo.existsBy({ id: userId });
+    if (!userExists) throw new UnauthorizedException();
+
     let progress = await this.repo.findOne({ where: { userId, courseId, lessonId } });
     if (!progress) {
       progress = this.repo.create({ userId, courseId, lessonId });
