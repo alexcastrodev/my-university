@@ -14,13 +14,15 @@ import { Course } from './course/course.entity';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { SeedModule } from './seed/seed.module';
+import { UserXpEntry } from './xp/user-xp.entity';
+import { XpModule } from './xp/xp.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL ?? 'postgres://postgres@127.0.0.1:5432/ocp_java',
-      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt],
+      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt, UserXpEntry],
       migrations: [join(__dirname, 'migrations', '*.js')],
       migrationsRun: true,
       synchronize: false,
@@ -29,6 +31,7 @@ import { SeedModule } from './seed/seed.module';
     CourseNestModule,
     ProgressModule,
     ExamModule,
+    XpModule,
     SeedModule,
   ],
 })

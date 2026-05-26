@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { ExamService } from './exam.service';
 
 @Controller('exam')
@@ -40,8 +40,12 @@ export class ExamController {
   }
 
   @Post(':examId/attempts')
-  start(@Param('examId') examId: string) {
-    return this.service.startAttempt(examId);
+  start(
+    @Param('examId') examId: string,
+    @Headers('x-user-id') userId: string | string[] | undefined,
+  ) {
+    const uid = Number(Array.isArray(userId) ? userId[0] : userId);
+    return this.service.startAttempt(examId, Number.isInteger(uid) && uid > 0 ? uid : undefined);
   }
 
   @Post('attempts/:id/submit')

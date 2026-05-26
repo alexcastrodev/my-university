@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { XpService } from '../../services/xp.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +31,12 @@ import { AuthService } from '../../services/auth.service';
           </svg>
           <input type="search" placeholder="What do you want to learn?" aria-label="Search courses" />
         </div>
+        @if (auth.currentUser()) {
+          <div class="xp-badge" aria-label="Experience points">
+            <span class="xp-icon">⚡</span>
+            <span class="xp-value">{{ xpService.xp() }} XP</span>
+          </div>
+        }
         <button class="avatar" aria-label="User account menu" type="button" (click)="toggleUser()">
           {{ userInitials() }}
         </button>
@@ -134,6 +141,26 @@ import { AuthService } from '../../services/auth.service';
 
     .avatar:hover { opacity: .85; }
 
+    .xp-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(234, 179, 8, .15);
+      border: 1px solid rgba(234, 179, 8, .3);
+      border-radius: 20px;
+      padding: 0.2rem 0.65rem;
+      white-space: nowrap;
+    }
+
+    .xp-icon { font-size: 0.8rem; line-height: 1; }
+
+    .xp-value {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fbbf24;
+      letter-spacing: 0.02em;
+    }
+
     @media (max-width: 640px) {
       .search-box {
         display: none;
@@ -146,7 +173,8 @@ import { AuthService } from '../../services/auth.service';
   `,
 })
 export class Header {
-  private auth = inject(AuthService);
+  protected auth = inject(AuthService);
+  protected xpService = inject(XpService);
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();

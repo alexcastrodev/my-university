@@ -7,6 +7,7 @@ import { Playlist } from '../../components/playlist/playlist';
 import { Course, Lesson } from '../../models/course.model';
 import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
+import { XpService } from '../../services/xp.service';
 
 @Component({
   selector: 'app-course-page',
@@ -232,6 +233,7 @@ export class CoursePage implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   private auth = inject(AuthService);
+  private xpService = inject(XpService);
   private courseLoader = effect(() => {
     const id = this.examId();
     this.auth.currentUser();
@@ -337,7 +339,12 @@ export class CoursePage implements OnInit {
     const status = lesson.status === 'completed' ? 'in-progress' : 'completed';
     this.http
       .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
-      .subscribe({ next: () => this.setLessonStatus(lesson.id, status) });
+      .subscribe({
+        next: () => {
+          this.setLessonStatus(lesson.id, status);
+          if (status === 'completed') this.xpService.loadXp();
+        },
+      });
   }
 
   private findLesson(lessonId: string): Lesson | null {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { XpService } from '../xp/xp.service';
 import { Exam } from './exam.entity';
 import { ExamAttempt } from './exam-attempt.entity';
 import { Question } from './question.entity';
@@ -11,6 +12,7 @@ export class ExamService {
     @InjectRepository(Exam) private examRepo: Repository<Exam>,
     @InjectRepository(Question) private questionRepo: Repository<Question>,
     @InjectRepository(ExamAttempt) private attemptRepo: Repository<ExamAttempt>,
+    private xpService: XpService,
   ) {}
 
   listExams(): Promise<Exam[]> {
@@ -35,8 +37,8 @@ export class ExamService {
     return this.questionRepo.findOne({ where: { id } });
   }
 
-  async startAttempt(examId: string): Promise<ExamAttempt> {
-    const attempt = this.attemptRepo.create({ examId, answers: {} });
+  async startAttempt(examId: string, userId?: number): Promise<ExamAttempt> {
+    const attempt = this.attemptRepo.create({ examId, answers: {}, ...(userId ? { userId } : {}) });
     return this.attemptRepo.save(attempt);
   }
 
@@ -61,7 +63,13 @@ export class ExamService {
     attempt.score = score;
     attempt.total = questions.length;
     attempt.finishedAt = new Date();
-    return this.attemptRepo.save(attempt);
+    const saved = await this.attemptRepo.save(attempt);
+
+    if (attempt.userId) {
+      await this.xpService.grantSkillCheckXp(attempt.userId, attempt.examId, score, questions.length);
+    }
+
+    return saved;
   }
 
   getAttempts(examId: string): Promise<ExamAttempt[]> {

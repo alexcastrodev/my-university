@@ -12,6 +12,9 @@ export class ExamAttempt {
   @ManyToOne(() => Exam, (e) => e.attempts)
   exam: Exam;
 
+  @Column({ nullable: true })
+  userId: number;
+
   @CreateDateColumn()
   startedAt: Date;
 

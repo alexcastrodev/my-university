@@ -2,11 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LessonStatus } from '../lesson/lesson.entity';
+import { XpService } from '../xp/xp.service';
 import { Progress } from './progress.entity';
 
 @Injectable()
 export class ProgressService {
-  constructor(@InjectRepository(Progress) private repo: Repository<Progress>) {}
+  constructor(
+    @InjectRepository(Progress) private repo: Repository<Progress>,
+    private xpService: XpService,
+  ) {}
 
   findAll(userId: number, courseId: string): Promise<Progress[]> {
     return this.repo.find({ where: { userId, courseId } });
@@ -23,7 +27,11 @@ export class ProgressService {
       progress = this.repo.create({ userId, courseId, lessonId });
     }
     progress.status = status;
-    return this.repo.save(progress);
+    const saved = await this.repo.save(progress);
+    if (status === 'completed') {
+      await this.xpService.grantLessonXp(userId, lessonId);
+    }
+    return saved;
   }
 
   async getMap(userId: number, courseId: string): Promise<Record<string, LessonStatus>> {

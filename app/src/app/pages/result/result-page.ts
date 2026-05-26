@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal, computed } 
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ExamQuestion } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
+import { XpService } from '../../services/xp.service';
 
 interface TopicBreakdown {
   topic: string;
@@ -44,6 +45,11 @@ interface TopicBreakdown {
 
           <div class="passing-note">
             Passing score: {{ passingScore() }}% &nbsp;·&nbsp; {{ passed() ? 'You met the passing score.' : 'You did not meet the passing score.' }}
+          </div>
+
+          <div class="xp-earned">
+            <span class="xp-earned-icon">⚡</span>
+            <span class="xp-earned-text">+{{ xpEarned() }} XP earned</span>
           </div>
         </div>
       </div>
@@ -165,6 +171,26 @@ interface TopicBreakdown {
       text-align: center;
     }
 
+    .xp-earned {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(234, 179, 8, .15);
+      border: 1px solid rgba(234, 179, 8, .3);
+      border-radius: 20px;
+      padding: 0.3rem 1rem;
+      margin-top: 0.25rem;
+    }
+
+    .xp-earned-icon { font-size: 0.9rem; line-height: 1; }
+
+    .xp-earned-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fbbf24;
+      letter-spacing: 0.03em;
+    }
+
     .breakdown-section {
       max-width: 680px;
       width: 100%;
@@ -270,6 +296,7 @@ export class ResultPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private examService = inject(ExamService);
+  private xpService = inject(XpService);
 
   examId = signal('');
   score = signal(0);
@@ -279,11 +306,13 @@ export class ResultPage implements OnInit {
 
   scorePercent = computed(() => this.total() ? Math.round((this.score() / this.total()) * 100) : 0);
   passed = computed(() => this.scorePercent() >= this.passingScore());
+  xpEarned = computed(() => this.total() ? Math.round((this.score() / this.total()) * 50) : 0);
 
   ngOnInit() {
     const examId = this.route.snapshot.paramMap.get('examId') ?? '';
     const attemptId = Number(this.route.snapshot.paramMap.get('attemptId'));
     this.examId.set(examId);
+    this.xpService.loadXp();
 
     this.examService.getExam(examId).subscribe({
       next: (exam) => this.passingScore.set(exam.passingScore),
