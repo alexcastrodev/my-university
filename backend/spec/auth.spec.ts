@@ -1,31 +1,52 @@
 import { describe, it, expect } from 'vitest';
 import { get, post, json, login } from './helpers';
 
-describe('POST /auth/login', () => {
+describe('POST /auth/signup', () => {
   it('creates a new user and returns it', async () => {
-    const res = await post('/auth/login', { displayName: `spec-user-${Date.now()}` });
+    const res = await post('/auth/signup', { displayName: `spec-user-${Date.now()}` });
     expect(res.status).toBe(201);
     const body = await json<any>(res);
     expect(body).toMatchObject({ id: expect.any(Number), displayName: expect.any(String) });
   });
 
-  it('returns the same user on repeated login with the same name (case-insensitive)', async () => {
-    const name = `repeated-${Date.now()}`;
-    const first = await json<any>(await post('/auth/login', { displayName: name }));
-    const second = await json<any>(await post('/auth/login', { displayName: name.toUpperCase() }));
-    expect(first.id).toBe(second.id);
+  it('rejects signing up a name that already exists (case-insensitive)', async () => {
+    const name = `taken-${Date.now()}`;
+    expect((await post('/auth/signup', { displayName: name })).status).toBe(201);
+    expect((await post('/auth/signup', { displayName: name.toUpperCase() })).status).toBe(409);
+  });
+
+  it('returns 400 when displayName is empty', async () => {
+    const res = await post('/auth/signup', { displayName: '   ' });
+    expect(res.status).toBe(400);
+  });
+
+  it('sets a session cookie on success', async () => {
+    const res = await post('/auth/signup', { displayName: `cookie-${Date.now()}` });
+    const setCookie = res.headers.getSetCookie?.()[0] ?? res.headers.get('set-cookie') ?? '';
+    expect(setCookie).toContain('uid=');
+    expect(setCookie.toLowerCase()).toContain('httponly');
+  });
+});
+
+describe('POST /auth/login', () => {
+  it('returns the existing user (case-insensitive) and a session cookie', async () => {
+    const name = `login-${Date.now()}`;
+    const created = await json<any>(await post('/auth/signup', { displayName: name }));
+    const res = await post('/auth/login', { displayName: name.toUpperCase() });
+    expect(res.status).toBe(201);
+    expect((await json<any>(res)).id).toBe(created.id);
+    const setCookie = res.headers.getSetCookie?.()[0] ?? res.headers.get('set-cookie') ?? '';
+    expect(setCookie).toContain('uid=');
+  });
+
+  it('returns 404 for a name that was never registered', async () => {
+    const res = await post('/auth/login', { displayName: `ghost-${Date.now()}` });
+    expect(res.status).toBe(404);
   });
 
   it('returns 400 when displayName is empty', async () => {
     const res = await post('/auth/login', { displayName: '   ' });
     expect(res.status).toBe(400);
-  });
-
-  it('sets a session cookie on success', async () => {
-    const res = await post('/auth/login', { displayName: `cookie-${Date.now()}` });
-    const setCookie = res.headers.getSetCookie?.()[0] ?? res.headers.get('set-cookie') ?? '';
-    expect(setCookie).toContain('uid=');
-    expect(setCookie.toLowerCase()).toContain('httponly');
   });
 });
 

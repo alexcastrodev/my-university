@@ -111,6 +111,27 @@ describe('GET /exam/:examId/questions', () => {
     const body = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?topic=${encodeURIComponent(topic)}`));
     expect(body.every((q) => q.topic === topic)).toBe(true);
   });
+
+  it('never leaks the answer key (correctKeys/explanation/source)', async () => {
+    const body = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=5`));
+    expect(body.length).toBeGreaterThan(0);
+    for (const q of body) {
+      expect(q).not.toHaveProperty('correctKeys');
+      expect(q).not.toHaveProperty('explanation');
+      expect(q).not.toHaveProperty('source');
+      // public fields the quiz needs are still present
+      expect(q).toMatchObject({ id: expect.any(Number), options: expect.any(Array), type: expect.any(String) });
+    }
+  });
+
+  it('never leaks the answer key on a single question', async () => {
+    const [first] = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=1`));
+    const q = await json<any>(await get(`/exam/questions/${first.id}`));
+    expect(q.id).toBe(first.id);
+    expect(q).not.toHaveProperty('correctKeys');
+    expect(q).not.toHaveProperty('explanation');
+    expect(q).not.toHaveProperty('source');
+  });
 });
 
 describe('POST /exam/:examId/attempts', () => {
@@ -156,6 +177,26 @@ describe('POST /exam/attempts/:id/submit', () => {
     const body = await json<any>(await post(`/exam/attempts/${a.id}/submit`, { answers: {} }));
     // empty answers → no correct answers → score is always 0
     expect(body.score).toBe(0);
+  });
+
+  it('reveals the answer key only in the submit review, and totals the shown questions', async () => {
+    const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=3`));
+    const questionIds = questions.map((q) => q.id);
+    const a = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const result = await json<any>(
+      await post(`/exam/attempts/${a.id}/submit`, { answers: {}, questionIds }),
+    );
+    // total reflects the shown set, not just the answered ones
+    expect(result.total).toBe(questionIds.length);
+    expect(Array.isArray(result.review)).toBe(true);
+    expect(result.review.length).toBe(questionIds.length);
+    for (const r of result.review) {
+      expect(r).toMatchObject({
+        id: expect.any(Number),
+        correctKeys: expect.any(Array),
+        correct: expect.any(Boolean),
+      });
+    }
   });
 
   it('returns 500 when attempt id does not exist', async () => {
