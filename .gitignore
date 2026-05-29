@@ -2,6 +2,7 @@ tmp/
 **/*.pdf
 .pnpm-store
 scripts/
+tasks.md
 
 # Playwright
 node_modules/
