@@ -1,6 +1,8 @@
 services:
   web:
     image: pifive:5001/university:latest
+    volumes:
+      - /mnt/ssd/@docker/university/db:/var/lib/postgresql
     networks:
       - proxy_net
     deploy:
