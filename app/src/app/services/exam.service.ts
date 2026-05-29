@@ -28,8 +28,15 @@ export class ExamService {
     return this.http.post<ExamAttempt>(`${this.base}/${examId}/attempts`, {});
   }
 
-  submitAttempt(attemptId: number, answers: Record<number, string[]>): Observable<SubmitResult> {
-    return this.http.post<SubmitResult>(`${this.base}/attempts/${attemptId}/submit`, { answers });
+  submitAttempt(
+    attemptId: number,
+    answers: Record<number, string[]>,
+    questionIds?: number[],
+  ): Observable<SubmitResult> {
+    return this.http.post<SubmitResult>(`${this.base}/attempts/${attemptId}/submit`, {
+      answers,
+      questionIds,
+    });
   }
 
   getAttempts(examId: string): Observable<ExamAttempt[]> {

@@ -23,7 +23,16 @@ export interface ExamQuestion {
   text: string;
   code: string | null;
   options: ExamOption[];
+}
+
+/** Per-question grading returned only after an attempt is submitted. */
+export interface QuestionReview {
+  id: number;
+  topic: string;
+  type: 'single' | 'multi';
+  given: string[];
   correctKeys: string[];
+  correct: boolean;
   explanation: string | null;
   source: string | null;
 }
@@ -40,7 +49,10 @@ export interface ExamAttempt {
 
 export interface SubmitResult {
   id: number;
+  examId: string;
   score: number;
   total: number;
+  finishedAt: string | null;
   answers: Record<number, string[]>;
+  review: QuestionReview[];
 }

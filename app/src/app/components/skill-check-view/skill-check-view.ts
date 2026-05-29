@@ -8,7 +8,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ExamQuestion } from '../../models/exam.model';
+import { ExamQuestion, QuestionReview } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 
 type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
@@ -59,8 +59,8 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
                 <label
                   class="option"
                   [class.selected]="isSelected(q.id, opt.key)"
-                  [class.correct]="state() === 'submitted' && hasAnswer(q.id) && q.correctKeys.includes(opt.key)"
-                  [class.wrong]="state() === 'submitted' && isSelected(q.id, opt.key) && !q.correctKeys.includes(opt.key)"
+                  [class.correct]="state() === 'submitted' && hasAnswer(q.id) && correctKeysOf(q.id).includes(opt.key)"
+                  [class.wrong]="state() === 'submitted' && isSelected(q.id, opt.key) && !correctKeysOf(q.id).includes(opt.key)"
                 >
                   <input
                     [type]="q.type === 'multi' ? 'checkbox' : 'radio'"
@@ -76,9 +76,9 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
               }
             </fieldset>
 
-            @if (state() === 'submitted' && q.explanation) {
+            @if (state() === 'submitted' && explanationOf(q.id)) {
               <div class="explanation" role="alert">
-                {{ q.explanation }}
+                {{ explanationOf(q.id) }}
               </div>
             }
           </div>
@@ -414,6 +414,7 @@ export class SkillCheckView implements OnInit {
   questions = signal<ExamQuestion[]>([]);
   currentIndex = signal(0);
   answers = signal<Record<number, string[]>>({});
+  reviews = signal<Record<number, QuestionReview>>({});
   attemptId = signal<number | null>(null);
   submitting = signal(false);
   scorePercent = signal(0);
@@ -453,6 +454,7 @@ export class SkillCheckView implements OnInit {
   startQuiz() {
     this.currentIndex.set(0);
     this.answers.set({});
+    this.reviews.set({});
     this.state.set('answering');
   }
 
@@ -462,6 +464,14 @@ export class SkillCheckView implements OnInit {
 
   hasAnswer(questionId: number): boolean {
     return (this.answers()[questionId] ?? []).length > 0;
+  }
+
+  correctKeysOf(questionId: number): string[] {
+    return this.reviews()[questionId]?.correctKeys ?? [];
+  }
+
+  explanationOf(questionId: number): string | null {
+    return this.reviews()[questionId]?.explanation ?? null;
   }
 
   toggleAnswer(q: ExamQuestion, key: string): void {
@@ -485,10 +495,12 @@ export class SkillCheckView implements OnInit {
     if (!id) return;
     this.submitting.set(true);
 
-    this.examService.submitAttempt(id, this.answers()).subscribe({
+    const questionIds = this.questions().map((q) => q.id);
+    this.examService.submitAttempt(id, this.answers(), questionIds).subscribe({
       next: (result) => {
         const pct = result.total > 0 ? Math.round((result.score / result.total) * 100) : 0;
         this.scorePercent.set(pct);
+        this.reviews.set(Object.fromEntries(result.review.map((r) => [r.id, r])));
         this.submitting.set(false);
         this.state.set('submitted');
         this.currentIndex.set(0);

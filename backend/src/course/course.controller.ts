@@ -1,4 +1,5 @@
-import { Controller, Get, Headers, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { OptionalUserId } from '../auth/session';
 import { CourseService } from './course.service';
 
 @Controller('courses')
@@ -6,13 +7,13 @@ export class CourseController {
   constructor(private service: CourseService) {}
 
   @Get()
-  findAll(@Headers('x-user-id') userId: string | string[] | undefined) {
-    return this.service.findAll(this.readOptionalUserId(userId));
+  findAll(@OptionalUserId() userId: number | null) {
+    return this.service.findAll(userId);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Headers('x-user-id') userId: string | string[] | undefined) {
-    const course = await this.service.findOne(id, this.readOptionalUserId(userId));
+  async findOne(@Param('id') id: string, @OptionalUserId() userId: number | null) {
+    const course = await this.service.findOne(id, userId);
     if (!course) throw new NotFoundException();
     return course;
   }
@@ -22,10 +23,5 @@ export class CourseController {
     const lesson = await this.service.findLesson(lessonId);
     if (!lesson) throw new NotFoundException();
     return lesson;
-  }
-
-  private readOptionalUserId(userId: string | string[] | undefined): number | null {
-    const id = Number(Array.isArray(userId) ? userId[0] : userId);
-    return Number.isInteger(id) && id > 0 ? id : null;
   }
 }

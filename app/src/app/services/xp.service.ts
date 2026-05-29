@@ -12,7 +12,7 @@ export class XpService {
   loadXp(): void {
     const user = this.auth.currentUser();
     if (!user) return;
-    this.http.get<{ total: number }>('/api/xp', this.auth.headers()).subscribe({
+    this.http.get<{ total: number }>('/api/xp').subscribe({
       next: (res) => this.xp.set(res.total),
     });
   }

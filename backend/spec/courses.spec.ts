@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { get, json } from './helpers';
+import { get, json, login } from './helpers';
 
 const COURSE_ID = 'java-21';
 
@@ -22,9 +22,9 @@ describe('GET /courses', () => {
     }
   });
 
-  it('applies user progress when x-user-id is provided', async () => {
-    const { id: userId } = await json<any>(await import('./helpers').then((h) => h.post('/auth/login', { displayName: `courses-user-${Date.now()}` })));
-    const withUser = await json<any[]>(await get('/courses', { 'x-user-id': String(userId) }));
+  it('applies user progress when authenticated', async () => {
+    const { cookie } = await login(`courses-user-${Date.now()}`);
+    const withUser = await json<any[]>(await get('/courses', { Cookie: cookie }));
     expect(Array.isArray(withUser)).toBe(true);
   });
 });

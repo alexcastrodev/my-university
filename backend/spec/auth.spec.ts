@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { get, post, json } from './helpers';
+import { get, post, json, login } from './helpers';
 
 describe('POST /auth/login', () => {
   it('creates a new user and returns it', async () => {
@@ -20,24 +20,31 @@ describe('POST /auth/login', () => {
     const res = await post('/auth/login', { displayName: '   ' });
     expect(res.status).toBe(400);
   });
+
+  it('sets a session cookie on success', async () => {
+    const res = await post('/auth/login', { displayName: `cookie-${Date.now()}` });
+    const setCookie = res.headers.getSetCookie?.()[0] ?? res.headers.get('set-cookie') ?? '';
+    expect(setCookie).toContain('uid=');
+    expect(setCookie.toLowerCase()).toContain('httponly');
+  });
 });
 
 describe('GET /auth/me', () => {
-  it('returns the user for a valid x-user-id', async () => {
-    const { id } = await json<any>(await post('/auth/login', { displayName: `me-${Date.now()}` }));
-    const res = await get('/auth/me', { 'x-user-id': String(id) });
+  it('returns the user for a valid session cookie', async () => {
+    const { id, cookie } = await login(`me-${Date.now()}`);
+    const res = await get('/auth/me', { Cookie: cookie });
     expect(res.status).toBe(200);
     const body = await json<any>(res);
     expect(body.id).toBe(id);
   });
 
-  it('returns 401 when x-user-id header is missing', async () => {
+  it('returns 401 when no session cookie is present', async () => {
     const res = await get('/auth/me');
     expect(res.status).toBe(401);
   });
 
-  it('returns 404 when user id does not exist', async () => {
-    const res = await get('/auth/me', { 'x-user-id': '999999' });
-    expect(res.status).toBe(404);
+  it('returns 401 for an invalid / forged session cookie', async () => {
+    const res = await get('/auth/me', { Cookie: 'uid=999999' });
+    expect(res.status).toBe(401);
   });
 });

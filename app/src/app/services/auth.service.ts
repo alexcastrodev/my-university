@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { User } from '../models/auth.model';
@@ -24,14 +24,10 @@ export class AuthService {
   }
 
   logout(): void {
+    this.http.post('/api/auth/logout', {}).subscribe({ error: () => {} });
     this.currentUser.set(null);
     if (typeof localStorage === 'undefined') return;
     localStorage.removeItem(STORAGE_KEY);
-  }
-
-  headers(): { headers?: HttpHeaders } {
-    const user = this.currentUser();
-    return user ? { headers: new HttpHeaders({ 'X-User-Id': String(user.id) }) } : {};
   }
 
   private setUser(user: User): void {

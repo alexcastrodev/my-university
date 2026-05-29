@@ -13,6 +13,6 @@ beforeAll(async () => {
 // the running dist pre-dates the route. Tests are marked todo until redeploy.
 describe('GET /xp', () => {
   it.todo('returns total xp for a valid user (starts at 0)');
-  it.todo('returns 401 when x-user-id header is missing');
+  it.todo('returns 401 when no session cookie is present');
   it.todo('total increases after completing a lesson');
 });

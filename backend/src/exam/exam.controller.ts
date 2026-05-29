@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Headers, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { OptionalUserId } from '../auth/session';
 import { ExamService } from './exam.service';
 
 @Controller('exam')
@@ -40,24 +41,22 @@ export class ExamController {
   }
 
   @Post(':examId/attempts')
-  start(
-    @Param('examId') examId: string,
-    @Headers('x-user-id') userId: string | string[] | undefined,
-  ) {
-    const uid = Number(Array.isArray(userId) ? userId[0] : userId);
-    return this.service.startAttempt(examId, Number.isInteger(uid) && uid > 0 ? uid : undefined);
+  start(@Param('examId') examId: string, @OptionalUserId() userId: number | null) {
+    return this.service.startAttempt(examId, userId ?? undefined);
   }
 
   @Post('attempts/:id/submit')
   submit(
     @Param('id', ParseIntPipe) id: number,
+    @OptionalUserId() userId: number | null,
     @Body('answers') answers: Record<number, string[]>,
+    @Body('questionIds') questionIds?: number[],
   ) {
-    return this.service.submitAttempt(id, answers);
+    return this.service.submitAttempt(id, answers ?? {}, questionIds, userId);
   }
 
   @Get(':examId/attempts')
-  getAttempts(@Param('examId') examId: string) {
-    return this.service.getAttempts(examId);
+  getAttempts(@Param('examId') examId: string, @OptionalUserId() userId: number | null) {
+    return this.service.getAttempts(examId, userId);
   }
 }

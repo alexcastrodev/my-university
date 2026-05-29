@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ExamQuestion } from '../../models/exam.model';
+import { QuestionReview, SubmitResult } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 import { XpService } from '../../services/xp.service';
 
@@ -319,10 +319,12 @@ export class ResultPage implements OnInit {
     });
 
     const nav = this.router.getCurrentNavigation()?.extras.state as
-      { questions: ExamQuestion[]; answers: Record<number, string[]> } | undefined;
+      { result: SubmitResult } | undefined;
 
-    if (nav?.questions) {
-      this.buildBreakdown(nav.questions, nav.answers);
+    if (nav?.result) {
+      this.score.set(nav.result.score);
+      this.total.set(nav.result.total);
+      this.buildBreakdown(nav.result.review);
     }
 
     this.examService.getAttempts(examId).subscribe((attempts) => {
@@ -334,23 +336,15 @@ export class ResultPage implements OnInit {
     });
   }
 
-  private buildBreakdown(questions: ExamQuestion[], answers: Record<number, string[]>) {
+  private buildBreakdown(review: QuestionReview[]) {
     const map = new Map<string, { correct: number; total: number }>();
 
-    for (const q of questions) {
-      const given = (answers[q.id] ?? []).sort().join(',');
-      const correct = [...q.correctKeys].sort().join(',');
-      const isPassed = given === correct;
-      const entry = map.get(q.topic) ?? { correct: 0, total: 0 };
+    for (const r of review) {
+      const entry = map.get(r.topic) ?? { correct: 0, total: 0 };
       entry.total++;
-      if (isPassed) entry.correct++;
-      map.set(q.topic, entry);
+      if (r.correct) entry.correct++;
+      map.set(r.topic, entry);
     }
-
-    const totalCorrect = [...map.values()].reduce((s, e) => s + e.correct, 0);
-    const totalAll = [...map.values()].reduce((s, e) => s + e.total, 0);
-    this.score.set(totalCorrect);
-    this.total.set(totalAll);
 
     this.breakdown.set(
       [...map.entries()]

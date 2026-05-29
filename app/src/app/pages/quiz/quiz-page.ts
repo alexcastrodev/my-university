@@ -60,8 +60,6 @@ import { ExamService } from '../../services/exam.service';
                   <label
                     class="option"
                     [class.selected]="isSelected(q.id, opt.key)"
-                    [class.correct]="submitted() && q.correctKeys.includes(opt.key)"
-                    [class.wrong]="submitted() && isSelected(q.id, opt.key) && !q.correctKeys.includes(opt.key)"
                   >
                     <input
                       [type]="q.type === 'multi' ? 'checkbox' : 'radio'"
@@ -76,28 +74,6 @@ import { ExamService } from '../../services/exam.service';
                   </label>
                 }
               </fieldset>
-
-              @if (submitted() && q.explanation) {
-                <div class="explanation" role="alert">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                    <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                  {{ q.explanation }}
-                </div>
-              }
-
-              @if (submitted() && q.source) {
-                <div class="source">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="source-label">Fonte:</span>
-                  {{ q.source }}
-                </div>
-              }
             </div>
           }
         </div>
@@ -325,8 +301,6 @@ import { ExamService } from '../../services/exam.service';
     .option:hover { border-color: #9ca3af; background: #f9fafb; }
 
     .option.selected { border-color: #2563eb; background: #eff6ff; }
-    .option.correct  { border-color: #16a34a; background: #f0fdf4; }
-    .option.wrong    { border-color: #dc2626; background: #fef2f2; }
 
     .option input {
       margin-top: 2px;
@@ -347,44 +321,6 @@ import { ExamService } from '../../services/exam.service';
       font-size: 0.84rem;
       color: #374151;
       line-height: 1.45;
-    }
-
-    .explanation {
-      display: flex;
-      gap: 0.6rem;
-      align-items: flex-start;
-      margin-top: 1.25rem;
-      padding: 0.875rem 1rem;
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      color: #92400e;
-      line-height: 1.55;
-    }
-
-    .explanation svg { flex-shrink: 0; margin-top: 2px; color: #d97706; }
-
-    .source {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-      padding: 0.5rem 0.875rem;
-      background: #f0f4ff;
-      border: 1px solid #c7d7fd;
-      border-radius: 6px;
-      font-size: 0.76rem;
-      color: #374151;
-      line-height: 1.45;
-    }
-
-    .source svg { flex-shrink: 0; margin-top: 1px; color: #4b5563; }
-
-    .source-label {
-      font-weight: 700;
-      color: #1d4ed8;
-      flex-shrink: 0;
     }
 
     .quiz-footer {
@@ -541,12 +477,13 @@ export class QuizPage implements OnInit, OnDestroy {
     const id = this.attemptId();
     if (!id) return;
 
-    this.examService.submitAttempt(id, this.answers()).subscribe({
+    const questionIds = this.questions().map((q) => q.id);
+    this.examService.submitAttempt(id, this.answers(), questionIds).subscribe({
       next: (result) => {
         this.submitted.set(true);
         this.submitting.set(false);
         this.router.navigate(['/exam', this.examId(), 'result', result.id], {
-          state: { questions: this.questions(), answers: this.answers() },
+          state: { result },
         });
       },
       error: () => this.submitting.set(false),

@@ -23,3 +23,12 @@ export async function put(path: string, body: unknown, headers: Record<string, s
 export async function json<T = unknown>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
+
+/** Logs in (creating the user on first use) and returns the id plus the session cookie to replay. */
+export async function login(displayName: string): Promise<{ id: number; cookie: string }> {
+  const res = await post('/auth/login', { displayName });
+  const setCookie = res.headers.getSetCookie?.()[0] ?? res.headers.get('set-cookie') ?? '';
+  const cookie = setCookie.split(';')[0];
+  const { id } = (await res.json()) as { id: number };
+  return { id, cookie };
+}

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { get, post, json } from './helpers';
+import { get, post, json, login } from './helpers';
 
 const EXAM_ID = 'java-21';
 let attemptId: number;
@@ -122,9 +122,9 @@ describe('POST /exam/:examId/attempts', () => {
     attemptId = body.id;
   });
 
-  it('associates attempt with userId when x-user-id header is provided', async () => {
-    const { id: userId } = await json<any>(await post('/auth/login', { displayName: `attempt-user-${Date.now()}` }));
-    const res = await post(`/exam/${EXAM_ID}/attempts`, {}, { 'x-user-id': String(userId) });
+  it('associates attempt with the user when authenticated', async () => {
+    const { cookie } = await login(`attempt-user-${Date.now()}`);
+    const res = await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie });
     const body = await json<any>(res);
     // userId may be stored but not serialized in response; assert attempt was created
     expect(body.id).toEqual(expect.any(Number));
@@ -162,23 +162,35 @@ describe('POST /exam/attempts/:id/submit', () => {
     const res = await post('/exam/attempts/999999/submit', { answers: {} });
     expect(res.status).toBeGreaterThanOrEqual(400);
   });
+
+  it('rejects submitting an attempt that belongs to another user', async () => {
+    const { cookie } = await login(`owner-${Date.now()}`);
+    const owned = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie }));
+    const res = await post(`/exam/attempts/${owned.id}/submit`, { answers: {} }); // no session → not the owner
+    expect(res.status).toBeGreaterThanOrEqual(400);
+  });
 });
 
 describe('GET /exam/:examId/attempts', () => {
-  it('returns list of attempts for the exam', async () => {
+  it('returns an empty array without a session', async () => {
     const res = await get(`/exam/${EXAM_ID}/attempts`);
     expect(res.status).toBe(200);
-    const body = await json<any[]>(res);
-    expect(Array.isArray(body)).toBe(true);
+    expect(await json<any[]>(res)).toEqual([]);
   });
 
-  it('returns empty array for an exam with no attempts', async () => {
-    const body = await json<any[]>(await get('/exam/no-such-exam/attempts'));
-    expect(body).toEqual([]);
+  it("returns only the caller's own attempts", async () => {
+    const { cookie } = await login(`attempts-user-${Date.now()}`);
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie }));
+    const body = await json<any[]>(await get(`/exam/${EXAM_ID}/attempts`, { Cookie: cookie }));
+    expect(body.some((a) => a.id === created.id)).toBe(true);
+    expect(body.every((a) => a.examId === EXAM_ID)).toBe(true);
   });
 
   it('attempts are ordered by startedAt descending', async () => {
-    const body = await json<any[]>(await get(`/exam/${EXAM_ID}/attempts`));
+    const { cookie } = await login(`order-user-${Date.now()}`);
+    await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie });
+    await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie });
+    const body = await json<any[]>(await get(`/exam/${EXAM_ID}/attempts`, { Cookie: cookie }));
     if (body.length < 2) return;
     const dates = body.map((a) => new Date(a.startedAt).getTime());
     for (let i = 1; i < dates.length; i++) {

@@ -360,7 +360,7 @@ export class CoursePage implements OnInit {
 
     const status = 'completed';
     this.http
-      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
+      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status })
       .subscribe({
         next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadXp(); },
         error: (err) => {
@@ -416,7 +416,7 @@ export class CoursePage implements OnInit {
 
     const status = lesson.status === 'completed' ? 'in-progress' : 'completed';
     this.http
-      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status }, this.auth.headers())
+      .put(`/api/progress/${this.examId()}/${lesson.id}`, { status })
       .subscribe({
         next: () => {
           this.setLessonStatus(lesson.id, status);
@@ -473,7 +473,7 @@ export class CoursePage implements OnInit {
 
   private loadCourse(id: string): void {
     this.loading.set(true);
-    this.http.get<Course>(`/api/courses/${id}`, this.auth.headers()).subscribe({
+    this.http.get<Course>(`/api/courses/${id}`).subscribe({
       next: (c) => {
         const lessonId = this.route.snapshot.paramMap.get('lessonId');
         this.course.set(this.withExpandedModule(c, lessonId));
