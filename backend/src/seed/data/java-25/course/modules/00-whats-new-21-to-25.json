@@ -1,0 +1,102 @@
+{
+  "id": 0,
+  "title": "What's New in Java 25 (since Java 21)",
+  "lessons": [
+    {
+      "id": "j25-0-1",
+      "title": "Overview: Java 22 → 25 Roadmap for OCP 21 Holders",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-1-overview-21-to-25-roadmap.md"
+    },
+    {
+      "id": "j25-0-2",
+      "title": "Stream Gatherers — JEP 485 (Finalized)",
+      "duration": "15m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-2-stream-gatherers-changes.md"
+    },
+    {
+      "id": "j25-0-3",
+      "title": "Scoped Values — JEP 506 (Finalized)",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-3-scoped-values-changes.md"
+    },
+    {
+      "id": "j25-0-4",
+      "title": "Module Import Declarations — JEP 511 (Finalized)",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-4-module-import-declarations-changes.md"
+    },
+    {
+      "id": "j25-0-5",
+      "title": "Compact Source Files & Instance Main Methods — JEP 512 (Finalized)",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-5-compact-source-files-instance-main-changes.md"
+    },
+    {
+      "id": "j25-0-6",
+      "title": "Flexible Constructor Bodies — JEP 513 (Finalized)",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-6-flexible-constructor-bodies-changes.md"
+    },
+    {
+      "id": "j25-0-7",
+      "title": "Unnamed Variables and Patterns — JEP 456 (Java 22)",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-7-unnamed-variables-patterns-changes.md"
+    },
+    {
+      "id": "j25-0-8",
+      "title": "Preview & Incubator Features (Context, Not on Exam)",
+      "duration": "14m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-8-preview-incubator-features.md"
+    },
+    {
+      "id": "j25-0-9",
+      "title": "API Changes: New Methods, Deprecations, Removals (21 → 25)",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-9-api-changes-21-to-25.md"
+    },
+    {
+      "id": "j25-0-10",
+      "title": "Runtime & Performance: G1, ZGC Generational, AOT, Compact Headers",
+      "duration": "12m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-10-runtime-performance-changes.md"
+    },
+    {
+      "id": "j25-0-11",
+      "title": "Quick Reference: Java 21 → 25 Cheat Sheet",
+      "duration": "10m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/0-11-cheat-sheet-21-to-25.md"
+    },
+    {
+      "id": "j25-0-12",
+      "title": "Skill Check: What's New 21 → 25",
+      "duration": "",
+      "type": "skill-check",
+      "status": "not-attempted",
+      "contentPath": null
+    }
+  ]
+}

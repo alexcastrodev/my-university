@@ -1,4 +1,5 @@
 import { test as base, expect } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage.js';
 
 export const BASE_URL = 'http://localhost';
 export const EXAM_ID = 'java-21';
@@ -20,22 +21,7 @@ export { expect };
 
 async function login(page) {
   await page.goto(`${BASE_URL}/login`);
-  await page.locator('input[type="text"]').fill('Test User');
-  await page.locator('button[type="submit"]').click();
-  await page.waitForURL((url) => !url.toString().includes('/login'));
-}
-
-async function ensureLoggedIn(page, destination) {
-  await page.waitForLoadState('networkidle');
-  if (page.url().includes('/login')) {
-    await page.locator('input[type="text"]').fill('Test User');
-    await page.locator('button[type="submit"]').click();
-    await page.waitForURL((url) => !url.toString().includes('/login'));
-    if (destination) {
-      await page.goto(destination);
-      await page.waitForLoadState('networkidle');
-    }
-  }
+  await new LoginPage(page).login('Test User');
 }
 
 export async function gotoExamList(page) {

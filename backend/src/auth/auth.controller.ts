@@ -10,6 +10,11 @@ export class AuthController {
     return this.service.login(displayName ?? '');
   }
 
+  @Post('signup')
+  signup(@Body('displayName') displayName: string) {
+    return this.service.signup(displayName ?? '');
+  }
+
   @Get('me')
   me(@Headers('x-user-id') userId: string | string[] | undefined) {
     const id = Number(Array.isArray(userId) ? userId[0] : userId);

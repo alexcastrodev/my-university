@@ -17,6 +17,12 @@ export class AuthService {
     );
   }
 
+  signup(displayName: string) {
+    return this.http.post<User>('/api/auth/signup', { displayName }).pipe(
+      tap((user) => this.setUser(user)),
+    );
+  }
+
   logout(): void {
     this.currentUser.set(null);
     if (typeof localStorage === 'undefined') return;

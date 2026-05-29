@@ -32,9 +32,16 @@ import { XpService } from '../../services/xp.service';
               <button
                 class="complete-btn"
                 [class.completed]="activeLesson()!.status === 'completed'"
+                [class.locked]="!auth.currentUser()"
+                [disabled]="!auth.currentUser()"
+                [attr.title]="!auth.currentUser() ? 'Log in to mark this lesson as completed' : null"
+                [attr.aria-label]="!auth.currentUser() ? 'Log in to mark this lesson as completed' : null"
                 (click)="toggleCompleted()"
                 type="button"
               >
+                @if (!auth.currentUser()) {
+                  <span aria-hidden="true">🔒</span>
+                }
                 {{ activeLesson()!.status === 'completed' ? 'Completed' : 'Mark completed' }}
               </button>
             </div>
@@ -240,6 +247,22 @@ import { XpService } from '../../services/xp.service';
       color: #166534;
     }
 
+    .complete-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .complete-btn.locked {
+      background: #f9fafb;
+      color: #6b7280;
+      border-style: dashed;
+    }
+
+    .complete-btn.locked:hover {
+      background: #f9fafb;
+      border-color: #d1d5db;
+    }
+
     .practice-placeholder {
       display: flex;
       flex-direction: column;
@@ -267,7 +290,7 @@ export class CoursePage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private http = inject(HttpClient);
-  private auth = inject(AuthService);
+  protected auth = inject(AuthService);
   private xpService = inject(XpService);
   private courseLoader = effect(() => {
     const id = this.examId();
