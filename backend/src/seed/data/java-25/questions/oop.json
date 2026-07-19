@@ -478,5 +478,215 @@
     ],
     "explanation": "A: The compact canonical constructor (no parameter list, implicit assignment at the end) is valid syntax. B: Records prohibit extra instance fields — only static fields are allowed in addition to the record components; the nickname declaration is a compile-time error. C: In a compact canonical constructor the parameters are mutable local variables; the assignment propagates to the final component fields implicitly at the constructor's end. D is false — extra instance fields are never allowed regardless of access modifier. E: Record components are implicitly private and final, making record instances structurally immutable (though a component whose type is mutable, like a List, can still be mutated through its own API).",
     "source": "Oracle Docs – Records (JEP 395): https://openjdk.org/jeps/395"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Given the following overloaded methods, what is the output of print(\"x\", 1, 2)?",
+    "code": "void print(String label, int... nums) {\n    System.out.println(\"varargs\");\n}\nvoid print(String label, int a, int b) {\n    System.out.println(\"fixed\");\n}\n\nprint(\"x\", 1, 2);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error — the call is ambiguous between the two overloads"
+      },
+      {
+        "key": "B",
+        "text": "varargs"
+      },
+      {
+        "key": "C",
+        "text": "fixed"
+      },
+      {
+        "key": "D",
+        "text": "Both methods run: prints varargs then fixed"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Java's overload resolution tries phases in order: (1) exact arity, no boxing/varargs, (2) with boxing, still no varargs, (3) allowing varargs. The fixed-arity method (String, int, int) matches exactly in phase 1, so it is selected before variable-arity methods are even considered. Varargs overloads are always the last resort, never a source of ambiguity when an exact-arity match exists.",
+    "source": "JLS 25 – Applicable Methods for Invocation: https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.12.2"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "class Animal {\n    Animal reproduce() { return new Animal(); }\n}\nclass Dog extends Animal {\n    @Override\n    Dog reproduce() { return new Dog(); }\n}\npublic class Main {\n    public static void main(String[] args) {\n        Animal a = new Dog();\n        System.out.println(a.reproduce().getClass().getSimpleName());\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Dog"
+      },
+      {
+        "key": "B",
+        "text": "Animal"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — Dog.reproduce() must return Animal to match the overridden signature"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — @Override cannot change the return type"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Since Java 5, an overriding method may return a covariant type — a subtype of the return type declared by the overridden method. Dog.reproduce() returning Dog (a subtype of Animal) legally overrides Animal.reproduce(). At runtime, the actual object is a Dog, so a.reproduce() invokes Dog's version and returns a Dog instance.",
+    "source": "JLS 25 – Requirements in Overriding and Hiding: https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.5"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "class Parent {\n    static String greet() { return \"Parent\"; }\n}\nclass Child extends Parent {\n    static String greet() { return \"Child\"; }\n}\npublic class Main {\n    public static void main(String[] args) {\n        Parent p = new Child();\n        System.out.println(p.greet());\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Child"
+      },
+      {
+        "key": "B",
+        "text": "Parent"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — static methods cannot be redeclared in a subclass"
+      },
+      {
+        "key": "D",
+        "text": "Throws an exception at runtime"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Static methods are not polymorphic — they are not overridden, only hidden. A static method call is resolved at compile time based on the declared (reference) type of the variable, not the runtime object type. Since p is declared as Parent, p.greet() resolves to Parent.greet() regardless of the fact the object is actually a Child. (Most compilers also warn that a static method should be called through the class name rather than an instance reference.)",
+    "source": "JLS 25 – Hiding (Static) Methods: https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.8.2"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "interface Calculator {\n    private int square(int x) {\n        return x * x;\n    }\n    default int squarePlusOne(int x) {\n        return square(x) + 1;\n    }\n}\nclass BasicCalculator implements Calculator {\n    void demo() {\n        System.out.println(square(4));\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiles fine — private interface methods are inherited like default methods"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error in BasicCalculator.demo() — square(int) is private to Calculator and not visible to implementing classes"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error in Calculator — interfaces cannot declare private methods"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error in Calculator — private methods cannot be called from default methods"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Since Java 9, interfaces may declare private methods as internal helpers for default/other private methods within the SAME interface (squarePlusOne calling square() is valid). However, private interface methods are not inherited by implementing classes and are not part of the interface's public contract — BasicCalculator has no visibility into Calculator.square(), so demo()'s call to square(4) fails to compile.",
+    "source": "JEP 213 – Private Interface Methods: https://openjdk.org/jeps/213"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "interface Utils {\n    static int triple(int x) {\n        return x * 3;\n    }\n}\nclass MyUtils implements Utils {}\npublic class Main {\n    public static void main(String[] args) {\n        MyUtils m = new MyUtils();\n        System.out.println(m.triple(4));\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Prints 12"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — static interface methods are not inherited by implementing classes; triple must be called as Utils.triple(4)"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — interfaces cannot declare static methods"
+      },
+      {
+        "key": "D",
+        "text": "Throws NoSuchMethodError at runtime"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Static methods on an interface belong to the interface itself, not to implementing classes — they are never inherited. Unlike default methods, they must always be invoked through the interface name (Utils.triple(4)). m.triple(4) does not compile because MyUtils has no such instance-accessible method.",
+    "source": "Oracle Docs – Interface static methods (JLS 25): https://docs.oracle.com/javase/specs/jls/se25/html/jls-9.html#jls-9.4"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "At which point does the object originally created on line 1 become eligible for garbage collection?",
+    "code": "1: Resource a = new Resource();\n2: Resource b = a;\n3: a = null;\n4: b = null;",
+    "options": [
+      {
+        "key": "A",
+        "text": "Immediately after line 3, because a no longer references it"
+      },
+      {
+        "key": "B",
+        "text": "After line 4, once no live reference remains"
+      },
+      {
+        "key": "C",
+        "text": "Immediately after line 2, because b is a copy"
+      },
+      {
+        "key": "D",
+        "text": "It is never eligible unless finalize() is explicitly called"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "An object becomes eligible for garbage collection only when no reachable reference points to it anymore. After line 3, b still references the object, so it remains reachable. Only after line 4, when b is also set to null, does the object have zero reachable references and become eligible for collection (the JVM decides when to actually reclaim it).",
+    "source": "Oracle Docs – Garbage Collection Basics: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/package-summary.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "The class below is intended to be immutable. What is the output of the code that follows it, and why?",
+    "code": "final class ImmutablePoint {\n    private final List<Integer> coords;\n    ImmutablePoint(List<Integer> coords) {\n        this.coords = coords;\n    }\n    List<Integer> getCoords() {\n        return coords;\n    }\n}\n\nList<Integer> list = new ArrayList<>(List.of(1, 2));\nImmutablePoint p = new ImmutablePoint(list);\nlist.add(3);\nSystem.out.println(p.getCoords());",
+    "options": [
+      {
+        "key": "A",
+        "text": "[1, 2] — the final field protects coords from external mutation"
+      },
+      {
+        "key": "B",
+        "text": "[1, 2, 3] — the constructor stores the same list reference the caller holds, so external mutation is visible through the class"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — final fields of a mutable type cannot be assigned in the constructor"
+      },
+      {
+        "key": "D",
+        "text": "Throws UnsupportedOperationException on list.add(3)"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "final only prevents the coords reference itself from being reassigned — it says nothing about the mutability of the object it points to. Because the constructor stores the caller's list directly (no defensive copy) and getCoords() returns that same reference (no defensive copy on the way out either), the class is not truly immutable: mutating the original list after construction, or mutating the returned list, both affect the 'immutable' object's visible state. A genuinely immutable class must defensively copy mutable inputs and outputs.",
+    "source": "Oracle Docs – Creating Immutable Objects: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#copyOf(java.util.Collection)"
   }
 ]

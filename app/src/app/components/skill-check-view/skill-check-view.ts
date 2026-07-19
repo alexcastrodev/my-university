@@ -10,12 +10,14 @@ import {
 } from '@angular/core';
 import { ExamQuestion, QuestionReview } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
+import { QuizQuestion } from '../quiz-question/quiz-question';
 
 type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
 
 @Component({
   selector: 'app-skill-check-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [QuizQuestion],
   template: `
     @if (state() === 'loading') {
       <div class="center">
@@ -42,40 +44,15 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
         </div>
 
         @if (current(); as q) {
-          <div class="question-card">
-            <div class="question-meta">
-              <span class="type-badge">{{ q.type === 'multi' ? 'Multiple answers' : 'Single answer' }}</span>
-            </div>
-
-            <p class="question-text">{{ q.text }}</p>
-
-            @if (q.code) {
-              <pre class="code-block" aria-label="Code snippet"><code>{{ q.code }}</code></pre>
-            }
-
-            <fieldset class="options" [attr.aria-label]="q.type === 'multi' ? 'Select all correct answers' : 'Select the correct answer'">
-              <legend class="sr-only">{{ q.type === 'multi' ? 'Select all correct answers' : 'Select the correct answer' }}</legend>
-              @for (opt of q.options; track opt.key) {
-                <label
-                  class="option"
-                  [class.selected]="isSelected(q.id, opt.key)"
-                  [class.correct]="state() === 'submitted' && hasAnswer(q.id) && correctKeysOf(q.id).includes(opt.key)"
-                  [class.wrong]="state() === 'submitted' && isSelected(q.id, opt.key) && !correctKeysOf(q.id).includes(opt.key)"
-                >
-                  <input
-                    [type]="q.type === 'multi' ? 'checkbox' : 'radio'"
-                    [name]="'q-' + q.id"
-                    [value]="opt.key"
-                    [checked]="isSelected(q.id, opt.key)"
-                    [disabled]="state() === 'submitted'"
-                    (change)="toggleAnswer(q, opt.key)"
-                  />
-                  <span class="option-key">{{ opt.key }}</span>
-                  <span class="option-text">{{ opt.text }}</span>
-                </label>
-              }
-            </fieldset>
-
+          <div class="question-area">
+            <app-quiz-question
+              [question]="q"
+              [selectedKeys]="answers()[q.id] ?? []"
+              [disabled]="state() === 'submitted'"
+              [reviewing]="state() === 'submitted'"
+              [correctKeys]="correctKeysOf(q.id)"
+              (toggle)="toggleAnswer(q, $event)"
+            />
             @if (state() === 'submitted' && explanationOf(q.id)) {
               <div class="explanation" role="alert">
                 {{ explanationOf(q.id) }}
@@ -221,101 +198,14 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       flex-shrink: 0;
     }
 
-    .question-card {
+    .question-area {
       padding: 1.25rem 1.5rem;
       max-width: 720px;
       width: 100%;
       margin: 0 auto;
       flex: 1;
-    }
-
-    .question-meta {
-      margin-bottom: 0.6rem;
-    }
-
-    .type-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      border-radius: 12px;
-      padding: 0.2rem 0.65rem;
-      background: #f3f4f6;
-      color: #6b7280;
-      border: 1px solid #e5e7eb;
-    }
-
-    .question-text {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #111827;
-      line-height: 1.6;
-      margin: 0 0 1rem;
-      white-space: pre-wrap;
-    }
-
-    .code-block {
-      background: #1e1e2e;
-      color: #cdd6f4;
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      font-size: 0.8rem;
-      line-height: 1.55;
-      overflow-x: auto;
-      margin: 0 0 1.25rem;
-      white-space: pre;
-      font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-    }
-
-    .code-block code {
-      background: none;
-      color: inherit;
-      font-size: inherit;
-    }
-
-    .options {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      border: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .option {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      border: 2px solid #e5e7eb;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color .12s, background .12s;
-      background: #fff;
-    }
-
-    .option:hover { border-color: #9ca3af; background: #f9fafb; }
-    .option.selected { border-color: #2563eb; background: #eff6ff; }
-    .option.correct  { border-color: #16a34a; background: #f0fdf4; }
-    .option.wrong    { border-color: #dc2626; background: #fef2f2; }
-
-    .option input {
-      margin-top: 2px;
-      flex-shrink: 0;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-
-    .option-key {
-      font-weight: 700;
-      font-size: 0.82rem;
-      color: #374151;
-      min-width: 1rem;
-      flex-shrink: 0;
-    }
-
-    .option-text {
-      font-size: 0.84rem;
-      color: #374151;
-      line-height: 1.45;
     }
 
     .explanation {
@@ -389,17 +279,6 @@ type ViewState = 'loading' | 'ready' | 'answering' | 'submitted';
       color: #fff;
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
   `,
 })
 export class SkillCheckView implements OnInit {
@@ -456,14 +335,6 @@ export class SkillCheckView implements OnInit {
     this.answers.set({});
     this.reviews.set({});
     this.state.set('answering');
-  }
-
-  isSelected(questionId: number, key: string): boolean {
-    return (this.answers()[questionId] ?? []).includes(key);
-  }
-
-  hasAnswer(questionId: number): boolean {
-    return (this.answers()[questionId] ?? []).length > 0;
   }
 
   correctKeysOf(questionId: number): string[] {

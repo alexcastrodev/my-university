@@ -485,5 +485,275 @@
     ],
     "explanation": "The contract of Collections.binarySearch() states that the list must be sorted in ascending order (by natural ordering or the provided Comparator) prior to calling this method. If the list is unsorted, the results are undefined — the method may return any value including a positive index or a negative insertion point that does not correspond to reality.",
     "source": "Oracle Docs – Collections.binarySearch : https://docs.oracle.com/en/java/docs/api/java.base/java/util/Collections.html#binarySearch(java.util.List,T)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the result of executing the following code?",
+    "code": "1:  List<String> list = new ArrayList<>(List.of(\"a\", \"b\", \"c\"));\n2:  for (String s : list) {\n3:      if (s.equals(\"b\")) {\n4:          list.remove(s);\n5:      }\n6:  }\n7:  System.out.println(list);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws ConcurrentModificationException"
+      },
+      {
+        "key": "B",
+        "text": "Prints [a, c] with no exception"
+      },
+      {
+        "key": "C",
+        "text": "Prints [a, b, c] with no exception"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error on line 4"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "This is a classic fail-fast quirk: removing the second-to-last element of a 3-element list during a for-each does NOT throw ConcurrentModificationException. After 'b' (cursor=2) is removed, size becomes 2, so the iterator's next hasNext() check (cursor 2 != size 2 → false) ends the loop before next() ever re-checks modCount. The exception only surfaces on a subsequent next() call, which never happens here. The list ends as [a, c].",
+    "source": "Oracle Docs – ArrayList (Java SE 25), 'Iterator' fail-fast behavior: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "PriorityQueue<Integer> pq = new PriorityQueue<>();\npq.add(5);\npq.add(1);\npq.add(3);\nSystem.out.println(pq.poll() + \" \" + pq.peek());",
+    "options": [
+      {
+        "key": "A",
+        "text": "5 1"
+      },
+      {
+        "key": "B",
+        "text": "1 3"
+      },
+      {
+        "key": "C",
+        "text": "1 5"
+      },
+      {
+        "key": "D",
+        "text": "5 3"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "PriorityQueue with no Comparator orders by natural ordering as a min-heap. poll() removes and returns the smallest element (1). After removal, the heap re-arranges around the remaining elements {5, 3}; peek() returns the new smallest, 3. Insertion order and toString order are irrelevant — only the heap ordering matters.",
+    "source": "Oracle Docs – PriorityQueue (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "TreeSet<Integer> set = new TreeSet<>(Set.of(10, 20, 30, 40));\nSystem.out.println(set.floor(25) + \" \" + set.ceiling(25)\n    + \" \" + set.higher(30) + \" \" + set.lower(30));",
+    "options": [
+      {
+        "key": "A",
+        "text": "20 30 40 20"
+      },
+      {
+        "key": "B",
+        "text": "20 30 30 20"
+      },
+      {
+        "key": "C",
+        "text": "30 20 40 20"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — floor/ceiling/higher/lower are not TreeSet methods"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "These NavigableSet methods: floor(25) = greatest element <= 25 → 20. ceiling(25) = smallest element >= 25 → 30. higher(30) = smallest element strictly > 30 → 40. lower(30) = greatest element strictly < 30 → 20. Result: '20 30 40 20'.",
+    "source": "Oracle Docs – NavigableSet (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableSet.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "List<String> list = new ArrayList<>(List.of(\"banana\", \"apple\", \"cherry\"));\nlist.sort(null);\nSystem.out.println(list);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws NullPointerException"
+      },
+      {
+        "key": "B",
+        "text": "[apple, banana, cherry]"
+      },
+      {
+        "key": "C",
+        "text": "[banana, apple, cherry] — unchanged, null means no sorting"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — sort() requires a non-null Comparator"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "List.sort(Comparator) explicitly documents that passing null sorts elements according to their natural ordering (the elements must implement Comparable). It does not throw and does not skip sorting. The result is the alphabetically sorted list: [apple, banana, cherry].",
+    "source": "Oracle Docs – List.sort (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "Given the following code, which line throws an exception at runtime?",
+    "code": "10: List<Integer> a = List.of(1, 2, 3);\n11: List<Integer> b = Arrays.asList(1, 2, 3);\n12: List<Integer> c = new ArrayList<>(a);\n13: a.set(0, 99);\n14: b.set(0, 99);\n15: c.set(0, 99);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Line 13 only"
+      },
+      {
+        "key": "B",
+        "text": "Lines 13 and 14"
+      },
+      {
+        "key": "C",
+        "text": "Lines 13, 14, and 15"
+      },
+      {
+        "key": "D",
+        "text": "None of the lines throw"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "List.of() (line 10) returns a fully unmodifiable list, so set() on it (line 13) throws UnsupportedOperationException. Arrays.asList() (line 11) returns a fixed-size list backed by the array — it does NOT support add()/remove(), but set() IS supported and succeeds (line 14). Line 15's list is a genuine mutable ArrayList copy, so set() succeeds too. Only line 13 throws.",
+    "source": "Oracle Docs – List.of / Arrays.asList (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#asList(T...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Map<String, Integer> map = new HashMap<>();\nmap.put(\"a\", 1);\nmap.put(\"b\", 2);\nfor (Map.Entry<String, Integer> e : map.entrySet()) {\n    e.setValue(e.getValue() * 10);\n}\nSystem.out.println(map.get(\"a\") + \" \" + map.get(\"b\"));",
+    "options": [
+      {
+        "key": "A",
+        "text": "1 2"
+      },
+      {
+        "key": "B",
+        "text": "10 20"
+      },
+      {
+        "key": "C",
+        "text": "Throws ConcurrentModificationException"
+      },
+      {
+        "key": "D",
+        "text": "Throws UnsupportedOperationException"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Map.Entry.setValue() writes through to the backing map and is explicitly safe to call while iterating entrySet() — it changes a value, not the map's structure, so it does not trigger ConcurrentModificationException. Both entries are updated: 'a' becomes 10, 'b' becomes 20.",
+    "source": "Oracle Docs – Map.Entry (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html#setValue(V)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Deque<String> deque = new ArrayDeque<>();\nSystem.out.println(deque.poll());\nSystem.out.println(deque.pollFirst());\nSystem.out.println(deque.remove());",
+    "options": [
+      {
+        "key": "A",
+        "text": "null, null, then throws NoSuchElementException"
+      },
+      {
+        "key": "B",
+        "text": "Throws NoSuchElementException on the first line"
+      },
+      {
+        "key": "C",
+        "text": "null, null, null"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — poll() and pollFirst() are ambiguous on Deque"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "poll() and pollFirst() retrieve-and-remove the head, returning null when the deque is empty rather than throwing. remove() (inherited from Queue) also retrieves-and-removes the head, but throws NoSuchElementException when empty instead of returning null. So the first two calls print 'null', and the third throws.",
+    "source": "Oracle Docs – Deque (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What happens when the following code is executed?",
+    "code": "List<Integer> list = List.of(1, 2, 3);\nlist.addFirst(0);",
+    "options": [
+      {
+        "key": "A",
+        "text": "The list becomes [0, 1, 2, 3]"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — addFirst() is not defined on List"
+      },
+      {
+        "key": "C",
+        "text": "Throws UnsupportedOperationException"
+      },
+      {
+        "key": "D",
+        "text": "Throws IndexOutOfBoundsException"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Since Java 21, List extends SequencedCollection, which adds default methods addFirst()/addLast()/removeFirst()/removeLast(). These defaults are implemented in terms of add()/remove(), so on an unmodifiable list produced by List.of(), calling addFirst() still throws UnsupportedOperationException at runtime — the method compiles fine but fails structurally.",
+    "source": "Oracle Docs – SequencedCollection (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "collections",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "List<String> list = List.of(\"apple\", \"fig\", \"banana\");\nSystem.out.println(Collections.max(list, Comparator.comparing(String::length)));",
+    "options": [
+      {
+        "key": "A",
+        "text": "apple"
+      },
+      {
+        "key": "B",
+        "text": "fig"
+      },
+      {
+        "key": "C",
+        "text": "banana"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — Collections.max() does not accept a Comparator"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "Collections.max(Collection, Comparator) overload picks the maximum element according to the given Comparator instead of natural ordering. Comparing by String::length: apple=5, fig=3, banana=6. The maximum by length is 'banana'.",
+    "source": "Oracle Docs – Collections.max (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#max(java.util.Collection,java.util.Comparator)"
   }
 ]

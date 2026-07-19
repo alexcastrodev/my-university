@@ -477,5 +477,95 @@
     ],
     "explanation": "jdeps is the dedicated Java dependency analysis tool. It inspects compiled bytecode (.class files or JARs) and reports: package-to-package and class-to-class dependencies; usage of JDK internal APIs (e.g., sun.misc.Unsafe); split package issues across JARs; and can suggest module-info.java stubs with --generate-module-info. Neither jlink, javac, nor jar provide this pre-migration dependency analysis capability.",
     "source": "Oracle Docs – jdeps tool: https://docs.oracle.com/en/java/javase/21/docs/specs/man/jdeps.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "What is the difference between declaring 'open module com.mylib { ... }' and declaring a regular module with individual 'opens' directives per package?",
+    "code": "open module com.mylib {\n    exports com.mylib.api;\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "There is no difference — 'open module' is just alternate syntax for the same thing."
+      },
+      {
+        "key": "B",
+        "text": "An open module opens ALL of its packages for deep reflection at runtime, without needing an 'opens' directive for each one; exports still controls compile-time/normal access as usual."
+      },
+      {
+        "key": "C",
+        "text": "An open module cannot declare 'exports' directives."
+      },
+      {
+        "key": "D",
+        "text": "An open module opens all its packages for compile-time access instead of runtime reflection."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Prefixing a module declaration with 'open' makes every package in that module implicitly opened for deep reflection at runtime — equivalent to writing 'opens' for each package individually — without giving up the ability to still declare 'exports' for normal compile-time API access. This is a convenience for modules (e.g. ones full of reflection-heavy DTOs) that would otherwise need an 'opens' line per package.",
+    "source": "Oracle Docs – Open Modules (JPMS): https://openjdk.org/projects/jigsaw/spec/sotms/#open-modules-and-packages"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "The exact same plain JAR file (no module-info.class inside it) is run two different ways. What is the difference in behavior?",
+    "code": "# Run 1: on the classpath\njava -cp mylib.jar:app.jar com.app.Main\n\n# Run 2: on the module path\njava --module-path mylib.jar:app.jar --module com.app/com.app.Main",
+    "options": [
+      {
+        "key": "A",
+        "text": "Both runs behave identically because the JAR contents are the same."
+      },
+      {
+        "key": "B",
+        "text": "Run 1 places mylib.jar's classes in the unnamed module; Run 2 turns mylib.jar into an automatic module named after the JAR file."
+      },
+      {
+        "key": "C",
+        "text": "Run 2 fails to start because a JAR without module-info.class cannot be placed on the module path."
+      },
+      {
+        "key": "D",
+        "text": "Run 1 fails because the classpath cannot be used once JPMS is enabled."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "The same modularity-free JAR is treated completely differently depending on where it is placed. On the classpath (Run 1), its classes belong to the unnamed module. On the module path with no module-info.class (Run 2), the JVM treats it as an automatic module: it gets a synthesized name derived from the JAR filename, reads every other module, and exports all of its packages — this is the standard mechanism for incrementally migrating legacy JARs into a modular application.",
+    "source": "Oracle Docs – Automatic Modules: https://openjdk.org/projects/jigsaw/spec/sotms/#automatic-modules"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "Which command inspects the module declaration (name, exports, requires) of an existing modular JAR without extracting it?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "jar --describe-module --file mylib.jar"
+      },
+      {
+        "key": "B",
+        "text": "javac --show-module mylib.jar"
+      },
+      {
+        "key": "C",
+        "text": "java --list-module mylib.jar"
+      },
+      {
+        "key": "D",
+        "text": "jdeps --module-info mylib.jar"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "jar --describe-module (or its short form jar -d) reads a JAR's module-info.class directly and prints the module's name, requires, exports, and other directives, without needing to extract the JAR. If the JAR has no module-info.class, the same command instead prints the automatic module name that would be derived for it.",
+    "source": "Oracle Docs – jar tool, --describe-module: https://docs.oracle.com/en/java/javase/21/docs/specs/man/jar.html"
   }
 ]

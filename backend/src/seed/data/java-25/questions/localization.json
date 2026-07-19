@@ -495,5 +495,65 @@
     ],
     "explanation": "In DecimalFormat patterns: '#' is a digit placeholder that is omitted (not shown) when the digit value is zero, meaning leading/trailing zeros are suppressed. '0' is a digit placeholder that always displays — zero-padding if the digit is absent. ',' is the grouping separator (typically thousands), and '.' is the decimal separator. So '#,##0.00' means: group by thousands, always show at least one integer digit, and always show exactly two decimal places. For example, 0.5 formats as '0.50', and 1234.5 as '1,234.50'.",
     "source": "Oracle Docs – DecimalFormat pattern syntax: https://docs.oracle.com/en/java/docs/api/java.base/java/text/DecimalFormat.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "NumberFormat pf = NumberFormat.getPercentInstance(Locale.US);\nSystem.out.println(pf.format(0.75));\nSystem.out.println(pf.format(75));",
+    "options": [
+      {
+        "key": "A",
+        "text": "75% then 7,500%"
+      },
+      {
+        "key": "B",
+        "text": "0.75% then 75%"
+      },
+      {
+        "key": "C",
+        "text": "75% then 75%"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — getPercentInstance() does not exist"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "NumberFormat.getPercentInstance() multiplies its input by 100 and appends the '%' symbol — it expects a fraction, not a pre-multiplied percentage. format(0.75) yields '75%'. This is a common trap: passing 75 directly (thinking of it as '75 percent') actually formats as 75 * 100 = 7500%, printed as '7,500%' with US grouping.",
+    "source": "Oracle Docs – NumberFormat.getPercentInstance(): https://docs.oracle.com/en/java/docs/api/java.base/java/text/NumberFormat.html#getPercentInstance(java.util.Locale)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "localization",
+    "type": "single",
+    "text": "What is the key difference between using DateTimeFormatter.ofPattern(\"dd/MM/yyyy\") and DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale) to format a LocalDate?",
+    "code": "LocalDate date = LocalDate.of(2025, 3, 7);\n\nDateTimeFormatter explicit = DateTimeFormatter.ofPattern(\"dd/MM/yyyy\");\nDateTimeFormatter localized = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)\n        .withLocale(Locale.US);\n\nSystem.out.println(explicit.format(date));\nSystem.out.println(localized.format(date));",
+    "options": [
+      {
+        "key": "A",
+        "text": "Both always produce the exact same output regardless of locale, since both ultimately format the same LocalDate."
+      },
+      {
+        "key": "B",
+        "text": "ofPattern() enforces a fixed, locale-independent layout ('07/03/2025'); ofLocalizedDate(style) instead derives an appropriate layout from the locale's conventions (e.g. 'Mar 7, 2025' for Locale.US), without you specifying field order or separators."
+      },
+      {
+        "key": "C",
+        "text": "ofLocalizedDate() requires a ZonedDateTime and cannot format a plain LocalDate."
+      },
+      {
+        "key": "D",
+        "text": "ofPattern() is deprecated in Java 25 in favor of ofLocalizedDate()."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ofPattern(String) uses the exact literal pattern you supply, so the field order and separators are the same no matter the locale (only text elements like month names would vary if the pattern used them). ofLocalizedDate(FormatStyle) instead asks the locale itself to decide the appropriate date layout for one of four standard styles (FULL, LONG, MEDIUM, SHORT) — for Locale.US, FormatStyle.MEDIUM produces something like 'Mar 7, 2025', while other locales would produce a completely different field order and format entirely. Neither method is deprecated, and both work with LocalDate as well as other temporal types.",
+    "source": "Oracle Docs – DateTimeFormatter.ofLocalizedDate(): https://docs.oracle.com/en/java/docs/api/java.base/java/time/format/DateTimeFormatter.html#ofLocalizedDate(java.time.format.FormatStyle)"
   }
 ]

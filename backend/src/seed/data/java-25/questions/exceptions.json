@@ -238,5 +238,125 @@
     "correctKeys": ["A", "B", "C", "E"],
     "explanation": "Closeable (java.io) extends AutoCloseable (java.lang). AutoCloseable.close() throws the broader Exception, whereas Closeable.close() is restricted to IOException. Both satisfy the try-with-resources requirement. AutoCloseable was introduced in Java 7 (not Java 5) along with try-with-resources. The Closeable contract specifies that repeated calls to close() must be idempotent (no side effects on subsequent calls), whereas AutoCloseable does not impose that requirement.",
     "source": "Oracle Docs – AutoCloseable (Java SE 21): https://docs.oracle.com/en/java/docs/api/java.base/java/lang/AutoCloseable.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "class R implements AutoCloseable {\n    public void close() { System.out.print(\"closed\"); }\n}\n\nvoid demo() {\n    R resource = new R();\n    try (resource) {\n        System.out.print(\"body \");\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error — try-with-resources requires the resource to be declared inside the parentheses"
+      },
+      {
+        "key": "B",
+        "text": "body closed"
+      },
+      {
+        "key": "C",
+        "text": "closed body"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — resource is not final"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Since Java 9, try-with-resources accepts an existing effectively-final variable directly, without redeclaring it — try (resource) is valid as long as resource is final or effectively final (never reassigned) and already initialized. The body runs first, printing 'body ', then close() runs automatically, printing 'closed'.",
+    "source": "JEP 213 – try-with-resources with effectively-final variables (Java 9): https://openjdk.org/jeps/213"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "class Loader {\n    void load() throws java.io.IOException {\n        throw new java.io.IOException();\n    }\n}\nclass Main {\n    void use(Loader loader) {\n        loader.load();\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiles fine — IOException is unchecked in Java 25"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error in use() — IOException is checked and must be caught or declared with throws"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error in load() — checked exceptions cannot be thrown from a method"
+      },
+      {
+        "key": "D",
+        "text": "Compiles fine, but throws IOException uncaught at runtime"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "IOException is a checked exception (it extends Exception, not RuntimeException). The 'catch or specify' rule requires every checked exception that can be thrown from a method body to either be caught there or declared in that method's throws clause. use() does neither, so the compiler rejects it.",
+    "source": "Oracle Docs – The Catch or Specify Requirement: https://docs.oracle.com/javase/tutorial/essential/exceptions/catchOrDeclare.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "void demo() {\n    try {\n        doWork();\n    } catch (java.io.FileNotFoundException | java.io.IOException e) {\n        System.out.println(\"failed\");\n    }\n}\nvoid doWork() throws java.io.IOException {}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiles and runs fine"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — FileNotFoundException is a subtype of IOException, so the multi-catch alternative is redundant/unreachable"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — multi-catch cannot use fully qualified exception names"
+      },
+      {
+        "key": "D",
+        "text": "Compiles fine, but only IOException is ever actually caught"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A multi-catch clause's alternatives must not be related by subclassing. FileNotFoundException extends IOException, so listing both is redundant — the compiler rejects catch (FileNotFoundException | IOException e) as an error, unlike normal separate catch blocks where subclass-before-superclass ordering would be required instead.",
+    "source": "Oracle Docs – Catching Multiple Exception Types: https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "exceptions",
+    "type": "single",
+    "text": "What happens when the following code is compiled and run?",
+    "code": "static void divide() {\n    int result = 10 / 0;\n}\npublic static void main(String[] args) {\n    divide();\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compilation error — divide() must declare throws ArithmeticException"
+      },
+      {
+        "key": "B",
+        "text": "Compiles fine; at runtime throws ArithmeticException, which propagates uncaught and terminates the program with a stack trace"
+      },
+      {
+        "key": "C",
+        "text": "Prints Infinity"
+      },
+      {
+        "key": "D",
+        "text": "result is assigned 0"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "ArithmeticException is unchecked (it extends RuntimeException), so it never needs to be declared or caught for the code to compile. Integer division by zero throws it at runtime — unlike floating-point division by zero, which produces Infinity/NaN instead of throwing. Since neither divide() nor main() catches it, the exception propagates up and the JVM terminates the program, printing the stack trace to standard error.",
+    "source": "Oracle Docs – ArithmeticException (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ArithmeticException.html"
   }
 ]

@@ -474,5 +474,95 @@
     ],
     "explanation": "A: Correct — Path.of(String, String...) was added in Java 11 as a static factory directly on the Path interface. B: Correct — both methods return equivalent Path objects for the same input; equals() compares the paths lexicographically on the same file system, so the result is true. C: Incorrect — Paths.get() has NOT been formally deprecated in any LTS release; it still exists in Java 21/25. The community prefers Path.of() stylistically, but Paths.get() remains available. D: Incorrect — internally Paths.get() simply delegates to FileSystems.getDefault().getPath(), exactly as Path.of() does; they use the same provider. E: Correct — both accept (String first, String... more) so segments can be joined: Path.of(\"/home\", \"user\", \"file.txt\").",
     "source": "Oracle Docs – Path.of : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Path.html#of(java.lang.String,java.lang.String...)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the difference in behavior between Files.delete(path) and Files.deleteIfExists(path) when the target file does not exist?",
+    "code": "Path missing = Path.of(\"does-not-exist.txt\");\n\n// Files.delete(missing);         // line A\nboolean removed = Files.deleteIfExists(missing); // line B",
+    "options": [
+      {
+        "key": "A",
+        "text": "Both throw NoSuchFileException when the file is missing."
+      },
+      {
+        "key": "B",
+        "text": "Files.delete() throws NoSuchFileException if the file does not exist; Files.deleteIfExists() instead returns false and throws nothing."
+      },
+      {
+        "key": "C",
+        "text": "Files.delete() returns false silently; Files.deleteIfExists() throws NoSuchFileException."
+      },
+      {
+        "key": "D",
+        "text": "Both return false silently when the file is missing."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Files.delete(Path) throws NoSuchFileException if the path does not exist — deletion is expected to succeed and any failure (missing file, non-empty directory, permissions) is reported via an exception. Files.deleteIfExists(Path) is the null-safe variant: it returns true if the file was deleted, and simply returns false (without throwing) if the file was already absent. It can still throw other exceptions (e.g. DirectoryNotEmptyException) for reasons unrelated to existence.",
+    "source": "Oracle Docs – Files.deleteIfExists : https://docs.oracle.com/en/java/docs/api/java.base/java/nio/file/Files.html#deleteIfExists(java.nio.file.Path)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "In the following code, is it necessary to explicitly close fr in addition to closing br?",
+    "code": "FileReader fr = new FileReader(\"data.txt\");\ntry (BufferedReader br = new BufferedReader(fr)) {\n    System.out.println(br.readLine());\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Yes — fr must be closed separately in its own try-with-resources, otherwise the file descriptor leaks."
+      },
+      {
+        "key": "B",
+        "text": "No — closing br also closes the FileReader it wraps, because a decorator's close() cascades to the underlying stream it was built from."
+      },
+      {
+        "key": "C",
+        "text": "It depends on the operating system."
+      },
+      {
+        "key": "D",
+        "text": "No, but only because FileReader implements try-with-resources automatically without being declared."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java's I/O classes follow the decorator pattern: a wrapping stream/reader (like BufferedReader) holds a reference to the stream it wraps, and its close() method is implemented to also close that underlying resource. Since only br is declared as the try-with-resources variable, closing br is sufficient — it transitively closes fr. It is redundant (though harmless) to also list fr separately in the resource list.",
+    "source": "Oracle Docs – BufferedReader.close : https://docs.oracle.com/en/java/docs/api/java.base/java/io/BufferedReader.html#close()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "io",
+    "type": "single",
+    "text": "What is the risk in the following code if the program crashes (e.g. System.exit or an uncaught Error) between the writes and the close() call?",
+    "code": "PrintWriter pw = new PrintWriter(new FileWriter(\"out.txt\"));\npw.println(\"line 1\");\npw.println(\"line 2\");\n// ... crash happens here, before pw.close() ...\npw.close();",
+    "options": [
+      {
+        "key": "A",
+        "text": "None — println() always writes directly to disk with no buffering."
+      },
+      {
+        "key": "B",
+        "text": "Some or all of the written lines may never reach the file, because PrintWriter (wrapping a FileWriter) buffers output and only guarantees it is flushed to disk on flush() or close()."
+      },
+      {
+        "key": "C",
+        "text": "The file will be corrupted and unreadable."
+      },
+      {
+        "key": "D",
+        "text": "PrintWriter automatically flushes after every println() call regardless of configuration."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "PrintWriter (like most Writer/OutputStream decorators) buffers output in memory for efficiency. Data is only guaranteed to be pushed to the underlying file when flush() is called explicitly, when the buffer fills, or when close() runs (which flushes internally). PrintWriter does have an optional 'autoFlush' constructor argument, but it only flushes on println()/newline when explicitly enabled — and even then only for certain constructors — the default (as used here) does not auto-flush. If the program terminates abnormally before close(), buffered-but-unflushed lines can be lost. This is why writing to a file should use try-with-resources or call flush() at safe points.",
+    "source": "Oracle Docs – PrintWriter : https://docs.oracle.com/en/java/docs/api/java.base/java/io/PrintWriter.html"
   }
 ]

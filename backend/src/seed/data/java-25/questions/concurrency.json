@@ -183,37 +183,38 @@
     "examId": "java-25",
     "topic": "concurrency",
     "type": "multi",
-    "text": "Which of the following are true about StructuredTaskScope (preview/incubating in Java 21, progressing in Java 25)? (Choose all that apply.)",
+    "text": "Which of the following are true about StructuredTaskScope as it exists in Java SE 25? (Choose all that apply.)",
     "code": null,
     "options": [
       {
         "key": "A",
-        "text": "StructuredTaskScope ensures all subtasks finish before the scope closes."
+        "text": "It remains a preview feature in Java 25 — code using it must be compiled and run with --enable-preview."
       },
       {
         "key": "B",
-        "text": "It provides ShutdownOnFailure and ShutdownOnSuccess policies."
+        "text": "It provides ShutdownOnFailure and ShutdownOnSuccess subclasses as the standard way to configure a scope's failure policy."
       },
       {
         "key": "C",
-        "text": "It is designed to work with virtual threads."
+        "text": "A scope is opened via the static factory method StructuredTaskScope.open(...) rather than a public constructor."
       },
       {
         "key": "D",
-        "text": "StructuredTaskScope replaces CompletableFuture in all use cases."
+        "text": "Concurrency/failure policies are now expressed through a Joiner passed to open(), not through scope subclasses."
       },
       {
         "key": "E",
-        "text": "fork() submits a subtask and returns a Future-like handle."
+        "text": "It ensures all forked subtasks are joined (or the scope is cancelled) before the scope is closed."
       }
     ],
     "correctKeys": [
       "A",
-      "B",
       "C",
+      "D",
       "E"
     ],
-    "explanation": "StructuredTaskScope ensures lifetime containment of subtasks. It has ShutdownOnFailure and ShutdownOnSuccess policies. It is designed for virtual threads. It does not replace CompletableFuture — they address different use cases. fork() returns a Subtask handle."
+    "explanation": "As of JEP 505 (Structured Concurrency, Fifth Preview, targeted for JDK 25), StructuredTaskScope is still a preview API — it has NOT been finalized, unlike Scoped Values. Its shape also changed: the old ShutdownOnFailure/ShutdownOnSuccess subclasses were removed; scopes are now created via the open(...) static factory and configured with a Joiner that determines how subtask outcomes are combined (e.g. Joiner.allSuccessfulOrThrow()). B describes the now-removed Java 21–23 preview API and is false for Java 25. The core structured-concurrency guarantee — no subtask outlives its scope — still holds.",
+    "source": "JEP 505 – Structured Concurrency (Fifth Preview, Java 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html"
   },
   {
     "examId": "java-25",
@@ -249,7 +250,7 @@
       "D"
     ],
     "explanation": "ScopedValues are immutable within their bound scope. They propagate automatically to child threads created via StructuredTaskScope. The binding is scoped to the run()/call() block. They do not replace all ThreadLocal use cases (e.g., mutable per-thread state) and child threads cannot mutate them.",
-    "source": "JEP 487 – Scoped Values (Fourth Preview) → finalized in Java 25 as JEP 509: https://openjdk.org/jeps/487 | https://openjdk.org/jeps/509"
+    "source": "JEP 506 – Scoped Values, finalized in Java 25: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html"
   },
   {
     "examId": "java-25",
@@ -480,5 +481,125 @@
     ],
     "explanation": "invokeAll(Collection<Callable>) waits for every task and returns a List<Future<T>> where each Future is already done (either normally or exceptionally). invokeAny(Collection<Callable>) returns the raw result T (not a Future) of the first successful task and then cancels any tasks still running. If all tasks fail, invokeAny() throws ExecutionException. Option C describes invokeAny behaviour, not invokeAll.",
     "source": "Oracle Docs – ExecutorService: https://docs.oracle.com/en/java/docs/api/java.base/java/util/concurrent/ExecutorService.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Which factory method creates an ExecutorService that runs each submitted task on its own new virtual thread?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Executors.newVirtualThreadPerTaskExecutor()"
+      },
+      {
+        "key": "B",
+        "text": "Executors.newFixedThreadPool(Integer.MAX_VALUE)"
+      },
+      {
+        "key": "C",
+        "text": "Thread.ofVirtual().factory()"
+      },
+      {
+        "key": "D",
+        "text": "Executors.newVirtualExecutor()"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Executors.newVirtualThreadPerTaskExecutor() (finalized alongside virtual threads in Java 21) returns an ExecutorService that starts a brand-new virtual thread for every submitted task, rather than reusing a fixed pool of platform threads. This makes it practical to run millions of concurrent tasks. newFixedThreadPool still uses platform threads no matter how large the pool size.",
+    "source": "Oracle Docs – Executors.newVirtualThreadPerTaskExecutor (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executors.html#newVirtualThreadPerTaskExecutor()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What is the most likely outcome of running the following code?",
+    "code": "Object lockA = new Object();\nObject lockB = new Object();\n\nThread t1 = new Thread(() -> {\n    synchronized (lockA) {\n        sleep(100);\n        synchronized (lockB) { System.out.println(\"t1 done\"); }\n    }\n});\nThread t2 = new Thread(() -> {\n    synchronized (lockB) {\n        sleep(100);\n        synchronized (lockA) { System.out.println(\"t2 done\"); }\n    }\n});\nt1.start();\nt2.start();",
+    "options": [
+      {
+        "key": "A",
+        "text": "Both threads always finish quickly, printing 't1 done' and 't2 done' in some order"
+      },
+      {
+        "key": "B",
+        "text": "Deadlock: t1 holds lockA waiting for lockB, while t2 holds lockB waiting for lockA — neither can proceed"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — nested synchronized blocks are not allowed"
+      },
+      {
+        "key": "D",
+        "text": "Throws IllegalMonitorStateException at runtime"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "This is the classic deadlock pattern: the two threads acquire the same two locks in opposite order. After the sleep, t1 holds lockA and needs lockB, while t2 holds lockB and needs lockA. Each is permanently blocked waiting for a lock the other holds, and neither ever releases what it has. The JVM does not detect or resolve this automatically; the threads simply hang forever. Avoiding deadlock requires a consistent lock-acquisition order across all threads.",
+    "source": "Oracle Docs – Deadlock: https://docs.oracle.com/javase/tutorial/essential/concurrency/deadlock.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "Given the following class, can Thread A execute deposit() at the same time Thread B executes withdraw() on the SAME Account instance?",
+    "code": "class Account {\n    private int balance;\n    synchronized void deposit(int amt) { balance += amt; }\n    synchronized void withdraw(int amt) { balance -= amt; }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Yes — synchronized only blocks concurrent calls to the exact same method, not different methods."
+      },
+      {
+        "key": "B",
+        "text": "No — both are synchronized instance methods on the same object, so they contend for the same intrinsic (monitor) lock: this."
+      },
+      {
+        "key": "C",
+        "text": "Yes, because balance is not declared volatile."
+      },
+      {
+        "key": "D",
+        "text": "It depends on whether the JVM is running on a multi-core machine."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A synchronized instance method acquires the intrinsic lock associated with 'this' — the object it's called on, not the method itself. Since deposit() and withdraw() are both synchronized instance methods and are called on the same Account object, they compete for the same monitor. Only one of them can run at a time on that instance; the other thread blocks until the lock is released. (Two different Account instances would not contend with each other.)",
+    "source": "Oracle Docs – Intrinsic Locks and Synchronization: https://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "concurrency",
+    "type": "single",
+    "text": "What Thread.State does a newly constructed Thread have before start() is called, and what state does it have right after start() while actively running?",
+    "code": "Thread t = new Thread(() -> { /* work */ });\nSystem.out.println(t.getState()); // before start()\nt.start();",
+    "options": [
+      {
+        "key": "A",
+        "text": "NEW before start(); RUNNABLE while eligible to run or actually running"
+      },
+      {
+        "key": "B",
+        "text": "RUNNABLE before start(); RUNNING while executing"
+      },
+      {
+        "key": "C",
+        "text": "READY before start(); RUNNABLE while executing"
+      },
+      {
+        "key": "D",
+        "text": "NEW before start(); ACTIVE while executing"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Thread.State defines exactly six states: NEW (created but not started), RUNNABLE (executing or ready/eligible to be scheduled by the OS — Java does not distinguish 'ready' from 'running' as separate states), BLOCKED (waiting to acquire a monitor), WAITING, TIMED_WAITING, and TERMINATED. There is no RUNNING, READY, or ACTIVE state in the Java thread model — RUNNABLE covers both actually executing and merely eligible to execute.",
+    "source": "Oracle Docs – Thread.State (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.State.html"
   }
 ]

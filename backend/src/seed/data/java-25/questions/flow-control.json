@@ -225,5 +225,185 @@
     ],
     "correctKeys": ["A", "B", "D"],
     "explanation": "A: Arrow case with a block — yield is correct inside {}. B: Colon case labels always use yield (or fall-through + yield) to produce a value. D: A colon case can have a block with yield inside. C is invalid: 'case 1 -> yield x * 2' is a syntax error — arrow cases with a single expression do not use yield; yield is only valid inside a block ({})."
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Object obj = 15;\nString result = switch (obj) {\n    case Integer i when i > 10 -> \"big int: \" + i;\n    case Integer i -> \"small int: \" + i;\n    case String s -> \"string: \" + s;\n    default -> \"other\";\n};\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "big int: 15"
+      },
+      {
+        "key": "B",
+        "text": "small int: 15"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — when is not a valid keyword in switch"
+      },
+      {
+        "key": "D",
+        "text": "other"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Pattern matching for switch (finalized in Java 21, JEP 441) supports guarded patterns using the 'when' clause: case Integer i when i > 10 matches only Integer values greater than 10. obj is 15, an Integer greater than 10, so the first (most specific, guarded) pattern matches. Pattern labels are checked top to bottom, and the first matching one wins.",
+    "source": "JEP 441 – Pattern Matching for switch (Java 21): https://openjdk.org/jeps/441"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "record Point(int x, int y) {}\n\nObject obj = new Point(3, 4);\nString desc = switch (obj) {\n    case Point(int x, int y) when x == y -> \"diagonal\";\n    case Point(int x, int y) -> \"point(\" + x + \",\" + y + \")\";\n    default -> \"unknown\";\n};\nSystem.out.println(desc);",
+    "options": [
+      {
+        "key": "A",
+        "text": "diagonal"
+      },
+      {
+        "key": "B",
+        "text": "point(3,4)"
+      },
+      {
+        "key": "C",
+        "text": "unknown"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — record patterns cannot be used in switch"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Record patterns (finalized in Java 21, JEP 440) let a case label deconstruct a record's components directly, binding x and y from within the Point. Since obj is Point(3, 4), x (3) != y (4), so the guarded 'diagonal' pattern does not match; the second, unguarded Point(int x, int y) pattern matches instead, producing 'point(3,4)'.",
+    "source": "JEP 440 – Record Patterns (Java 21): https://openjdk.org/jeps/440"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "Does the following code compile, and why?",
+    "code": "sealed interface Shape permits Circle, Square {}\nrecord Circle(double r) implements Shape {}\nrecord Square(double s) implements Shape {}\n\nstatic double area(Shape shape) {\n    return switch (shape) {\n        case Circle c -> Math.PI * c.r() * c.r();\n        case Square sq -> sq.s() * sq.s();\n    };\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Yes — the compiler recognizes the switch is exhaustive because Circle and Square are the only permitted implementations of the sealed interface Shape"
+      },
+      {
+        "key": "B",
+        "text": "No — a switch expression on an interface type always requires a default branch"
+      },
+      {
+        "key": "C",
+        "text": "No — sealed interfaces cannot be used as switch selector types"
+      },
+      {
+        "key": "D",
+        "text": "Yes, but only because Math.PI provides an implicit default value"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "When switching on a sealed type, the compiler can verify exhaustiveness using the sealed hierarchy's permits clause. Since Shape permits exactly Circle and Square, and both are handled, no default branch is required — the switch is provably exhaustive at compile time. This is one of the main motivations for combining sealed types with pattern matching switch.",
+    "source": "JEP 441 – Exhaustiveness of switch expressions: https://openjdk.org/jeps/441"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "static String test(Object obj) {\n    return switch (obj) {\n        case Object o -> \"object\";\n        case String s -> \"string\";\n        default -> \"other\";\n    };\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Compiles fine — more specific patterns can always follow general ones"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — case String s is unreachable because case Object o already matches every possible value"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — default is redundant and must be removed"
+      },
+      {
+        "key": "D",
+        "text": "Compiles fine, but case String s and default are both unreachable at runtime only, not a compile error"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Just like catch clauses, pattern labels in a switch are checked in order, and the compiler rejects a label that can never be reached because a broader pattern already precedes it. case Object o matches literally any non-null object, so the later case String s (and the default) can never execute — this is a compile-time error, the same 'dominance' rule seen with catch block ordering.",
+    "source": "JEP 441 – Pattern Matching for switch, dominance rules: https://openjdk.org/jeps/441"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "What is the output of calling describe(null)?",
+    "code": "static String describe(String s) {\n    return switch (s) {\n        case null -> \"null value\";\n        case \"\" -> \"empty\";\n        default -> \"other: \" + s;\n    };\n}\nSystem.out.println(describe(null));",
+    "options": [
+      {
+        "key": "A",
+        "text": "Throws NullPointerException"
+      },
+      {
+        "key": "B",
+        "text": "null value"
+      },
+      {
+        "key": "C",
+        "text": "other: null"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — case null is not allowed in a switch"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Traditionally, switching on a null reference throws NullPointerException before any case is checked. Since Java 21 (JEP 441), an explicit case null label can handle the null selector directly instead of throwing — here it matches first and returns 'null value'. Without an explicit case null, the NPE would still occur exactly as before.",
+    "source": "JEP 441 – Pattern Matching for switch, case null: https://openjdk.org/jeps/441"
+  },
+  {
+    "examId": "java-25",
+    "topic": "flow-control",
+    "type": "single",
+    "text": "Which switch label correctly combines null-handling with the default branch in a single arm?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "case null -> ...  (handled separately, cannot combine with default)"
+      },
+      {
+        "key": "B",
+        "text": "case null, default -> ..."
+      },
+      {
+        "key": "C",
+        "text": "case default, null -> ..."
+      },
+      {
+        "key": "D",
+        "text": "default, case null -> ..."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Java 21 allows the combined label 'case null, default ->' to handle both a null selector and any otherwise-unmatched value in the same arm. default must appear after null in this combined form, and this is the only combined ordering the compiler accepts.",
+    "source": "JEP 441 – Pattern Matching for switch, case null, default: https://openjdk.org/jeps/441"
   }
 ]

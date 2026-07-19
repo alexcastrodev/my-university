@@ -251,7 +251,7 @@
       "A"
     ],
     "explanation": "Gatherers.windowFixed(3) groups stream elements into non-overlapping windows of exactly 3. Stream of 6 elements produces two windows: [1,2,3] and [4,5,6]. The result is a List<List<Integer>>.",
-    "source": "JEP 485 – Stream Gatherers (finalized in Java 25): https://openjdk.org/jeps/485"
+    "source": "JEP 485 – Stream Gatherers (finalized in JDK 24, included in Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html"
   },
   {
     "examId": "java-25",
@@ -293,7 +293,7 @@
       "F"
     ],
     "explanation": "The standard Gatherers class (JEP 485) provides: windowFixed, windowSliding, scan, fold, and mapConcurrent. There is no Gatherers.batch() — use windowFixed for fixed-size batching.",
-    "source": "JEP 485 – Stream Gatherers (finalized in Java 25): https://openjdk.org/jeps/485 | Java SE 25 API Docs: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html"
+    "source": "JEP 485 – Stream Gatherers (finalized in JDK 24, included in Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html"
   },
   {
     "examId": "java-25",
@@ -481,5 +481,245 @@
     ],
     "explanation": "takeWhile stops at the first element that does NOT satisfy the predicate. 1, 2, 3 satisfy n < 4; 4 does not, so the stream ends there — elements after 4 (including 1, 2 at the end) are never seen. dropWhile discards elements as long as the predicate holds: drops 1, 2, 3, then yields 4, 5, 1, 2. Crucially, once 4 fails the predicate, dropWhile stops dropping and passes all remaining elements through — including 1 and 2 at the end, even though they would satisfy the predicate. Both operations are defined on ordered streams and rely on encounter order; behaviour on unordered streams is non-deterministic.",
     "source": "Oracle Docs – Stream.takeWhile / dropWhile (Java 9): https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#takeWhile(java.util.function.Predicate)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What happens when the following code is executed?",
+    "code": "List<Integer> a = Stream.of(1, 2, 3).toList();\nList<Integer> b = Stream.of(1, 2, 3).collect(Collectors.toList());\na.add(4);\nb.add(4);\nSystem.out.println(b);",
+    "options": [
+      {
+        "key": "A",
+        "text": "Prints [1, 2, 3, 4] — both lists are mutable"
+      },
+      {
+        "key": "B",
+        "text": "a.add(4) throws UnsupportedOperationException; the program never reaches the println"
+      },
+      {
+        "key": "C",
+        "text": "b.add(4) throws UnsupportedOperationException; the program never reaches the println"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — Stream has no toList() method"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Stream.toList() (added in Java 16) returns an unmodifiable List, so a.add(4) throws UnsupportedOperationException immediately, and the program terminates before reaching b.add(4) or the println. In contrast, collect(Collectors.toList()) conventionally returns a mutable list (the specific implementation is not guaranteed by the API, but in the JDK it is a plain ArrayList).",
+    "source": "Oracle Docs – Stream.toList (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#toList()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "record MinMax(int min, int max) {}\n\nList<Integer> nums = List.of(4, 2, 9, 1, 7);\nMinMax result = nums.stream().collect(Collectors.teeing(\n    Collectors.minBy(Integer::compareTo),\n    Collectors.maxBy(Integer::compareTo),\n    (min, max) -> new MinMax(min.get(), max.get())\n));\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "MinMax[min=1, max=9]"
+      },
+      {
+        "key": "B",
+        "text": "MinMax[min=4, max=7]"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — teeing() does not exist in Collectors"
+      },
+      {
+        "key": "D",
+        "text": "Throws NoSuchElementException because minBy/maxBy return Optional"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Collectors.teeing(c1, c2, merger) (Java 12+) applies both downstream collectors to the same stream and combines their results with the merger function. minBy/maxBy return Optional<Integer>; since the stream is non-empty, both Optionals are present. min=1, max=9, so the record's auto-generated toString prints 'MinMax[min=1, max=9]'.",
+    "source": "Oracle Docs – Collectors.teeing (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html#teeing(java.util.stream.Collector,java.util.stream.Collector,java.util.function.BiFunction)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "System.out.println(IntStream.range(1, 5).sum());\nSystem.out.println(IntStream.rangeClosed(1, 5).sum());",
+    "options": [
+      {
+        "key": "A",
+        "text": "10\n15"
+      },
+      {
+        "key": "B",
+        "text": "15\n15"
+      },
+      {
+        "key": "C",
+        "text": "10\n10"
+      },
+      {
+        "key": "D",
+        "text": "15\n10"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "IntStream.range(1, 5) is exclusive of the upper bound: 1+2+3+4 = 10. IntStream.rangeClosed(1, 5) includes the upper bound: 1+2+3+4+5 = 15.",
+    "source": "Oracle Docs – IntStream.rangeClosed (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/IntStream.html#rangeClosed(int,int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the most accurate description of the behavior of the following code?",
+    "code": "List<Integer> results = new ArrayList<>();\nIntStream.range(0, 1000).parallel().forEach(results::add);\nSystem.out.println(results.size());",
+    "options": [
+      {
+        "key": "A",
+        "text": "Always prints 1000, since parallel() guarantees thread-safe aggregation"
+      },
+      {
+        "key": "B",
+        "text": "Compilation error — forEach cannot be used with parallel streams"
+      },
+      {
+        "key": "C",
+        "text": "The behavior is unreliable: ArrayList is not thread-safe, so concurrent add() calls from multiple threads can throw exceptions (e.g. ArrayIndexOutOfBoundsException) or silently lose elements"
+      },
+      {
+        "key": "D",
+        "text": "Always throws ConcurrentModificationException"
+      }
+    ],
+    "correctKeys": [
+      "C"
+    ],
+    "explanation": "parallel() only parallelizes the traversal of the stream — it does nothing to make operations you perform inside forEach thread-safe. Calling results::add concurrently from multiple threads on a plain ArrayList is a data race: it can corrupt internal array state (throwing exceptions) or drop elements (undercounting size). The correct approach is a thread-safe target (e.g. collect(Collectors.toList()) which handles this safely, or a concurrent collection).",
+    "source": "Oracle Docs – Stream.parallel (Java SE 25), 'Side-effects' section: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "OptionalDouble avg = IntStream.of(2, 4, 6).average();\nSystem.out.println(avg.getAsDouble());",
+    "options": [
+      {
+        "key": "A",
+        "text": "4.0"
+      },
+      {
+        "key": "B",
+        "text": "4"
+      },
+      {
+        "key": "C",
+        "text": "Compilation error — average() returns Optional<Double>, so getAsDouble() does not exist"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — average() returns double directly, not an Optional type"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "IntStream.average() returns OptionalDouble (a primitive specialization, not Optional<Double>), whose accessor is getAsDouble(), not get(). The average of 2, 4, 6 is (2+4+6)/3 = 4.0, printed as a double.",
+    "source": "Oracle Docs – IntStream.average (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/IntStream.html#average()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "Stream.generate(() -> \"x\").limit(3).forEach(System.out::print);",
+    "options": [
+      {
+        "key": "A",
+        "text": "xxx"
+      },
+      {
+        "key": "B",
+        "text": "The program hangs and never terminates because generate() produces an infinite stream"
+      },
+      {
+        "key": "C",
+        "text": "x"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — generate() requires a Comparator"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Stream.generate(Supplier) produces an unbounded stream, but limit(3) is a short-circuiting intermediate operation that truncates it to 3 elements before the terminal forEach runs. The pipeline is lazy and evaluated element-by-element, so it correctly terminates after producing 'x' three times: 'xxx'.",
+    "source": "Oracle Docs – Stream.generate (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#generate(java.util.function.Supplier)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the value of nested.get().get() after this code executes, and why is the double get() necessary?",
+    "code": "Optional<String> name = Optional.of(\"Anna\");\nOptional<Optional<Integer>> nested = name.map(n -> Optional.of(n.length()));\nSystem.out.println(nested.get().get());",
+    "options": [
+      {
+        "key": "A",
+        "text": "4 — map() wraps whatever the mapper returns in an Optional, so a mapper that itself returns Optional<Integer> produces Optional<Optional<Integer>>"
+      },
+      {
+        "key": "B",
+        "text": "4 — but this is a compilation error, because map() cannot accept a mapper that returns Optional"
+      },
+      {
+        "key": "C",
+        "text": "Throws NoSuchElementException because nested is empty"
+      },
+      {
+        "key": "D",
+        "text": "4 — flatMap() would have thrown a compilation error here instead"
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Optional.map(Function<T,U>) always wraps the mapper's return value in a new Optional<U>. Here U is itself Optional<Integer>, so the result type is Optional<Optional<Integer>>, requiring two get() calls to reach 4. Using flatMap(Function<T, Optional<U>>) instead would avoid the double-wrapping and produce a plain Optional<Integer>.",
+    "source": "Oracle Docs – Optional.map / flatMap (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html#map(java.util.function.Function)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the output of the following code?",
+    "code": "class Point {\n    int x, y;\n    Point(int x, int y) { this.x = x; this.y = y; }\n}\n\nList<Point> points = List.of(new Point(1, 1), new Point(1, 1));\nlong count = points.stream().distinct().count();\nSystem.out.println(count);",
+    "options": [
+      {
+        "key": "A",
+        "text": "1"
+      },
+      {
+        "key": "B",
+        "text": "2"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "Compilation error — distinct() requires Comparable elements"
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "distinct() relies on equals()/hashCode(). Point does not override either, so it uses Object's identity-based implementations — the two Point instances are distinct objects even though their fields match. Nothing is removed, so count is 2. (Using a record instead of a plain class would print 1, since records generate equals()/hashCode() from their components.)",
+    "source": "Oracle Docs – Stream.distinct (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#distinct()"
   }
 ]
