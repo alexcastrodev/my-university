@@ -11,6 +11,7 @@ import { Question } from './exam/question.entity';
 import { CourseModule as CourseModuleEntity } from './lesson/course-module.entity';
 import { Lesson } from './lesson/lesson.entity';
 import { Course } from './course/course.entity';
+import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { SeedModule } from './seed/seed.module';
@@ -29,6 +30,7 @@ import { XpModule } from './xp/xp.module';
     }),
     AuthModule,
     CourseNestModule,
+    JavaMinuteModule,
     ProgressModule,
     ExamModule,
     XpModule,

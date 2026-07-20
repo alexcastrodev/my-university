@@ -6,25 +6,25 @@ Rota/endpoint/pastas em inglês (`java-minute`); título exibido e conteúdo con
 
 ## Backend
 
-- [ ] `backend/src/seed/data/java-minute/episodes.json` — metadata: `slug`, `order`, `question`, `publishedAt`, `references`
-- [ ] `backend/src/seed/data/java-minute/content/context-switching.md` — corpo do episódio 1 (8 seções, texto abaixo)
-- [ ] `backend/src/java-minute/java-minute.service.ts` — lê `episodes.json` + `.md`, faz split das 8 seções por `##`, monta DTO
-- [ ] `backend/src/java-minute/java-minute.controller.ts` — `GET /java-minute` (lista) e `GET /java-minute/:slug` (detalhe). Validar `slug` contra a lista finita carregada de `episodes.json` (allowlist por dado), **não** replicar a allowlist de filesystem/regex do `ContentController` — aquele controller é código morto em produção (shadowed pelo nginx), então seu padrão de "servir markdown cru por path" nunca é de fato exercitado; o `java-minute` roda de verdade e não deve herdar esse modelo.
-- [ ] `backend/src/java-minute/java-minute.module.ts` — registra controller/service, sem `TypeOrmModule.forFeature`
-- [ ] Editar `backend/src/app.module.ts` — importar `JavaMinuteModule`
-- [ ] Teste `backend/spec/java-minute.spec.ts` — seguir o padrão dominante do repo: E2E via `fetch` contra a app rodando (helpers de `backend/spec/`), sem `@nestjs/testing`/`TestingModule` (não usado em nenhum outro spec do projeto). `content.spec.ts` é uma exceção unitária por causa do shadowing do nginx — não é o padrão a copiar aqui.
+- [x] `backend/src/seed/data/java-minute/episodes.json` — metadata: `slug`, `order`, `question`, `publishedAt`, `references`
+- [x] `backend/src/seed/data/java-minute/content/context-switching.md` — corpo do episódio 1 (8 seções, texto abaixo)
+- [x] `backend/src/java-minute/java-minute.service.ts` — lê `episodes.json` + `.md`, faz split das 8 seções por `##`, monta DTO
+- [x] `backend/src/java-minute/java-minute.controller.ts` — `GET /java-minute` (lista) e `GET /java-minute/:slug` (detalhe). Validar `slug` contra a lista finita carregada de `episodes.json` (allowlist por dado), **não** replicar a allowlist de filesystem/regex do `ContentController` — aquele controller é código morto em produção (shadowed pelo nginx), então seu padrão de "servir markdown cru por path" nunca é de fato exercitado; o `java-minute` roda de verdade e não deve herdar esse modelo.
+- [x] `backend/src/java-minute/java-minute.module.ts` — registra controller/service, sem `TypeOrmModule.forFeature`
+- [x] Editar `backend/src/app.module.ts` — importar `JavaMinuteModule`
+- [x] Teste `backend/spec/java-minute.spec.ts` — seguir o padrão dominante do repo: E2E via `fetch` contra a app rodando (helpers de `backend/spec/`), sem `@nestjs/testing`/`TestingModule` (não usado em nenhum outro spec do projeto). `content.spec.ts` é uma exceção unitária por causa do shadowing do nginx — não é o padrão a copiar aqui.
 
 ## Frontend
 
-- [ ] `app/src/app/shared/markdown.ts` — util `parseMarkdown(sanitizer, raw)` extraído de `lesson-content.ts`. Extrair **junto** o `wikiLinkExtension` e o `marked.use({ extensions: [wikiLinkExtension] })` (hoje em module scope no topo de `lesson-content.ts`) — senão o parsing de `[[slug]]` fica duplicado/quebrado se `java-minute` também precisar da sintaxe.
-- [ ] Editar `app/src/app/components/lesson-content/lesson-content.ts` — usar o util novo (evita duplicar lógica de `marked`+sanitize)
-- [ ] `app/src/app/models/java-minute.model.ts` — interface `JavaMinuteEpisode` (8 seções + `references`)
-- [ ] `app/src/app/services/java-minute.service.ts` — chamadas HTTP para lista/detalhe
-- [ ] `app/src/app/components/java-minute-episode/java-minute-episode.ts` + `.html` + `.css` — componente apresentacional via `templateUrl`/`styleUrl` (padrão do projeto — todos os componentes existentes já foram migrados de template/styles inline para arquivos separados), 8 seções em ordem fixa + lista de referências (doc/vídeo); título exibido "Minuto Java"
-- [ ] `app/src/app/pages/java-minute/java-minute-list.ts` + `.html` + `.css` — lista de episódios (`templateUrl`/`styleUrl`)
-- [ ] `app/src/app/pages/java-minute/java-minute-detail.ts` + `.html` + `.css` — detalhe por `slug` (`templateUrl`/`styleUrl`)
-- [ ] Editar `app/src/app/app.routes.ts` — rotas `java-minute` e `java-minute/:slug`
-- [ ] Editar `app/src/app/components/header/header.ts` — link "Minuto Java" apontando para `/java-minute` no nav
+- [x] `app/src/app/shared/markdown.ts` — util `parseMarkdown(sanitizer, raw)` extraído de `lesson-content.ts`. Extrair **junto** o `wikiLinkExtension` e o `marked.use({ extensions: [wikiLinkExtension] })` (hoje em module scope no topo de `lesson-content.ts`) — senão o parsing de `[[slug]]` fica duplicado/quebrado se `java-minute` também precisar da sintaxe.
+- [x] Editar `app/src/app/components/lesson-content/lesson-content.ts` — usar o util novo (evita duplicar lógica de `marked`+sanitize)
+- [x] `app/src/app/models/java-minute.model.ts` — interface `JavaMinuteEpisode` (8 seções + `references`)
+- [x] `app/src/app/services/java-minute.service.ts` — chamadas HTTP para lista/detalhe
+- [x] `app/src/app/components/java-minute-episode/java-minute-episode.ts` + `.html` + `.css` — componente apresentacional via `templateUrl`/`styleUrl` (padrão do projeto — todos os componentes existentes já foram migrados de template/styles inline para arquivos separados), 8 seções em ordem fixa + lista de referências (doc/vídeo); título exibido "Minuto Java"
+- [x] `app/src/app/pages/java-minute/java-minute-list.ts` + `.html` + `.css` — lista de episódios (`templateUrl`/`styleUrl`)
+- [x] `app/src/app/pages/java-minute/java-minute-detail.ts` + `.html` + `.css` — detalhe por `slug` (`templateUrl`/`styleUrl`)
+- [x] Editar `app/src/app/app.routes.ts` — rotas `java-minute` e `java-minute/:slug`
+- [x] Editar `app/src/app/components/header/header.ts` — link "Minuto Java" apontando para `/java-minute` no nav
 
 ## Conteúdo do episódio 1 (Context Switching)
 
@@ -99,7 +99,7 @@ Isso evita boa parte do context switching desnecessário e, como consequência p
 
 ## Verificação
 
-- [ ] Backend: `curl /java-minute` (lista) e `curl /java-minute/context-switching` (detalhe) retornam JSON esperado
-- [ ] Frontend: navegar `/java-minute` → card do episódio → `/java-minute/context-switching` renderiza as 8 seções com estilo consistente
-- [ ] Link "Minuto Java" aparece no header em todas as páginas
-- [ ] Suite de testes do backend passando
+- [x] Backend: `curl /java-minute` (lista) e `curl /java-minute/context-switching` (detalhe) retornam JSON esperado
+- [x] Frontend: navegar `/java-minute` → card do episódio → `/java-minute/context-switching` renderiza as 8 seções com estilo consistente
+- [x] Link "Minuto Java" aparece no header em todas as páginas
+- [x] Suite de testes do backend passando

@@ -1,0 +1,18 @@
+<div class="page">
+  <div class="page-body">
+    <a routerLink="/java-minute" class="back-link">← Minuto Java</a>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading episode">
+        <span class="spinner" aria-hidden="true"></span>
+        Carregando episódio…
+      </div>
+    } @else if (notFound()) {
+      <div class="not-found">
+        <p>Episódio não encontrado.</p>
+      </div>
+    } @else {
+      <app-java-minute-episode [episode]="episode()" />
+    }
+  </div>
+</div>
