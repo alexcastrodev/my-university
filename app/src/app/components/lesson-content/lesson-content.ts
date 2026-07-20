@@ -10,26 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked } from 'marked';
-
-const wikiLinkExtension = {
-  name: 'wikiLink',
-  level: 'inline' as const,
-  start(src: string) { return src.indexOf('[['); },
-  tokenizer(src: string) {
-    const match = /^\[\[([^\[\]\n|]+?)(?:\|([^\[\]\n]+?))?\]\]/.exec(src);
-    if (!match) return undefined;
-    const slug = match[1].trim();
-    const label = (match[2] ?? slug).trim();
-    return { type: 'wikiLink', raw: match[0], slug, label } as any;
-  },
-  renderer(token: any) {
-    const m = /^(\d+)-(\d+)(?:-|$)/.exec(token.slug);
-    const lessonId = m ? `j25-${m[1]}-${m[2]}` : token.slug;
-    return `<a class="wiki-link" data-lesson-id="${lessonId}" href="#lesson/${lessonId}">${token.label}</a>`;
-  },
-};
-marked.use({ extensions: [wikiLinkExtension] });
+import { parseMarkdown } from '../../shared/markdown';
 
 @Component({
   selector: 'app-lesson-content',
@@ -65,8 +46,7 @@ export class LessonContent implements OnChanges {
     if (changes['lessonContent']) {
       const lc = this.lessonContent();
       if (lc) {
-        const rawHtml = marked.parse(lc.content) as string;
-        this.html.set(this.sanitizer.bypassSecurityTrustHtml(rawHtml));
+        this.html.set(parseMarkdown(this.sanitizer, lc.content));
         this.version.set(lc.version);
         this.updatedAt.set(lc.updatedAt);
       } else {

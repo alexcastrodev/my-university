@@ -1,0 +1,9 @@
+import { Module } from '@nestjs/common';
+import { JavaMinuteController } from './java-minute.controller';
+import { JavaMinuteService } from './java-minute.service';
+
+@Module({
+  controllers: [JavaMinuteController],
+  providers: [JavaMinuteService],
+})
+export class JavaMinuteModule {}
