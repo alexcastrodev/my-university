@@ -1,0 +1,74 @@
+<div class="page">
+  <div class="card">
+    <div class="logo" aria-hidden="true">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#c74634"/>
+        <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#c74634" opacity=".7"/>
+      </svg>
+    </div>
+    <h1 class="title">
+      {{ mode() === 'login' ? 'Welcome back' : 'Create an account' }}
+    </h1>
+    <p class="subtitle">
+      {{ mode() === 'login' ? 'Enter your name to continue' : 'Pick a name to get started' }}
+    </p>
+
+    <div class="tabs" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.active]="mode() === 'login'"
+        [attr.aria-selected]="mode() === 'login'"
+        (click)="setMode('login')"
+      >
+        Login
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.active]="mode() === 'signup'"
+        [attr.aria-selected]="mode() === 'signup'"
+        (click)="setMode('signup')"
+      >
+        Sign up
+      </button>
+    </div>
+
+    <form class="form" (ngSubmit)="submit()">
+      <input
+        class="input"
+        type="text"
+        [placeholder]="mode() === 'login' ? 'Your name' : 'Choose a name'"
+        [(ngModel)]="name"
+        name="name"
+        autocomplete="name"
+        autofocus
+        [disabled]="loading()"
+      />
+      @if (error()) {
+        <p class="error-msg" role="alert">
+          {{ error() }}
+          @if (suggestSignup()) {
+            <button type="button" class="link-btn" (click)="setMode('signup')">
+              Create one instead
+            </button>
+          }
+          @if (suggestLogin()) {
+            <button type="button" class="link-btn" (click)="setMode('login')">
+              Log in instead
+            </button>
+          }
+        </p>
+      }
+      <button class="btn" type="submit" [disabled]="loading() || !name().trim()">
+        @if (loading()) {
+          {{ mode() === 'login' ? 'Signing in…' : 'Creating…' }}
+        } @else {
+          {{ mode() === 'login' ? 'Continue' : 'Create account' }}
+        }
+      </button>
+    </form>
+  </div>
+</div>

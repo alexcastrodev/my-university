@@ -1,0 +1,34 @@
+<header class="header" role="banner">
+  <div class="header-left">
+    <a routerLink="/" class="brand" aria-label="My University Home">
+      <span class="brand-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor"/>
+          <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="currentColor" opacity=".8"/>
+        </svg>
+      </span>
+      <span class="brand-name">My<strong>University</strong></span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Exams</a>
+    </nav>
+  </div>
+  <div class="header-right">
+    <div class="search-box" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input type="search" placeholder="What do you want to learn?" aria-label="Search courses" />
+    </div>
+    @if (auth.currentUser()) {
+      <div class="xp-badge" aria-label="Experience points">
+        <span class="xp-icon">⚡</span>
+        <span class="xp-value">{{ xpService.xp() }} XP</span>
+      </div>
+    }
+    <button class="avatar" aria-label="User account menu" type="button" (click)="toggleUser()">
+      {{ userInitials() }}
+    </button>
+  </div>
+</header>

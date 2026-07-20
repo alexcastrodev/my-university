@@ -1,0 +1,97 @@
+<aside class="playlist" aria-label="Course playlist">
+  <div class="playlist-header">
+    <div class="playlist-title-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="3" y1="18" x2="15" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Playlist</span>
+    </div>
+    <div class="playlist-search-box">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input type="search" placeholder="Search playlist" aria-label="Search within playlist" />
+    </div>
+    <div class="playlist-options">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="skillChecksVisible" />
+        <span>Skill Checks</span>
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" checked />
+        <span>Auto Play</span>
+      </label>
+    </div>
+  </div>
+
+  <ol class="modules-list" role="list">
+    @for (mod of modules(); track mod.id) {
+      <li class="module">
+        <button
+          class="module-header"
+          [class.expanded]="mod.expanded"
+          (click)="toggleModule(mod.id)"
+          [attr.aria-expanded]="mod.expanded"
+          [attr.aria-controls]="'module-' + mod.id"
+          type="button"
+        >
+          <span class="module-number">{{ mod.order }}.</span>
+          <span class="module-title">{{ mod.title }}</span>
+          <svg
+            class="chevron"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        @if (mod.expanded) {
+          <ol [id]="'module-' + mod.id" class="lessons-list" role="list">
+            @for (lesson of mod.lessons; track lesson.id) {
+              <li>
+                <button
+                  class="lesson"
+                  [class.active]="activeLessonId() === lesson.id"
+                  (click)="selectLesson(lesson)"
+                  type="button"
+                >
+                  <span
+                    class="lesson-status-dot"
+                    [class]="'dot-' + lesson.status"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="lesson-info">
+                    <span class="lesson-title">{{ lesson.title }}</span>
+                    @if (lesson.type === 'skill-check') {
+                      <span class="skill-check-badge">{{ getSkillCheckLabel(lesson.status) }}</span>
+                    }
+                    @if (lesson.type === 'skill-check' && lesson.status === 'not-attempted') {
+                      <span class="skill-check-sub">Score 80% or higher to Pass</span>
+                    }
+                  </span>
+                  @if (lesson.duration) {
+                    <span class="lesson-duration">{{ lesson.duration }}</span>
+                  }
+                  @if (lesson.status === 'new') {
+                    <span class="new-badge" aria-label="New">New</span>
+                  }
+                </button>
+              </li>
+            }
+          </ol>
+        }
+      </li>
+    }
+  </ol>
+
+  <div class="playlist-footer">
+    <span class="footer-label">Course Duration</span>
+    <span class="footer-duration">40h 17m</span>
+  </div>
+</aside>

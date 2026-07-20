@@ -1,0 +1,71 @@
+@if (state() === 'loading') {
+  <div class="center">
+    <span class="spinner" aria-hidden="true"></span>
+    Loading questions…
+  </div>
+} @else if (state() === 'ready') {
+  <div class="intro">
+    <div class="intro-icon" aria-hidden="true">🎯</div>
+    <h2 class="intro-title">Skill Check</h2>
+    <p class="intro-desc">{{ questions().length }} questions · answer them all and submit to check your score.</p>
+    <button class="btn primary" (click)="startQuiz()" type="button">Start</button>
+  </div>
+} @else if (state() === 'answering' || state() === 'submitted') {
+  <div class="quiz-wrap">
+    <div class="quiz-topbar">
+      <div class="progress-area">
+        <span class="progress-label">{{ currentIndex() + 1 }} / {{ questions().length }}</span>
+        <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="currentIndex() + 1" [attr.aria-valuemax]="questions().length">
+          <div class="progress-fill" [style.width.%]="((currentIndex() + 1) / questions().length) * 100"></div>
+        </div>
+      </div>
+      <span class="answered-label">{{ answeredCount() }} answered</span>
+    </div>
+
+    @if (current(); as q) {
+      <div class="question-area">
+        <app-quiz-question
+          [question]="q"
+          [selectedKeys]="answers()[q.id] ?? []"
+          [disabled]="state() === 'submitted'"
+          [reviewing]="state() === 'submitted'"
+          [correctKeys]="correctKeysOf(q.id)"
+          (toggle)="toggleAnswer(q, $event)"
+        />
+        @if (state() === 'submitted' && explanationOf(q.id)) {
+          <div class="explanation" role="alert">
+            {{ explanationOf(q.id) }}
+          </div>
+        }
+      </div>
+    }
+
+    <div class="quiz-footer">
+      <button
+        class="btn secondary"
+        (click)="prev()"
+        [disabled]="currentIndex() === 0"
+        type="button"
+      >← Previous</button>
+
+      @if (state() === 'submitted') {
+        <div class="result-inline" [class.pass]="passed()" [class.fail]="!passed()">
+          {{ scorePercent() }}% · {{ passed() ? 'Passed ✓' : 'Not yet' }}
+        </div>
+      }
+
+      @if (currentIndex() < questions().length - 1) {
+        <button class="btn primary" (click)="next()" type="button">Next →</button>
+      } @else if (state() === 'answering') {
+        <button
+          class="btn submit"
+          (click)="submitQuiz()"
+          [disabled]="submitting()"
+          type="button"
+        >{{ submitting() ? 'Submitting…' : 'Submit' }}</button>
+      } @else {
+        <button class="btn primary" (click)="tryAgain()" type="button">Try Again</button>
+      }
+    </div>
+  </div>
+}

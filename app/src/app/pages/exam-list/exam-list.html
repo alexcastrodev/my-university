@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Certification Exams</h1>
+    <p class="page-sub">Choose an exam to start practising. Questions are randomised every session.</p>
+  </div>
+
+  <div class="page-body">
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading exams">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading exams…
+      </div>
+    } @else {
+      @for (category of categories(); track category) {
+        <section class="category-section">
+          <h2 class="category-title">
+            <span class="category-icon" aria-hidden="true">{{ categoryIcon(category) }}</span>
+            {{ category }}
+          </h2>
+          <div class="cards-grid">
+            @for (exam of byCategory(category); track exam.id) {
+              <a [routerLink]="['/exam', exam.id]" class="exam-card">
+                <div class="card-header">
+                  <span class="card-version">v{{ exam.version }}</span>
+                  <span class="card-category">{{ exam.category }}</span>
+                </div>
+                <h3 class="card-title">{{ exam.title }}</h3>
+                <div class="card-meta">
+                  <span>{{ exam.questionCount }} questions</span>
+                  <span>{{ exam.durationMinutes }} minutes</span>
+                  <span>{{ exam.passingScore }}% pass</span>
+                </div>
+                <div class="card-footer">
+                  <span class="card-cta">Start Practice →</span>
+                </div>
+              </a>
+            }
+          </div>
+        </section>
+      }
+    }
+  </div>
+</div>

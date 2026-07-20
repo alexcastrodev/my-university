@@ -1,0 +1,200 @@
+.course-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #2d1f1a 0%, #3d2415 40%, #4a3020 100%);
+  min-height: 240px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(180,90,30,.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(100,60,20,.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(200,100,50,.25) 0%, transparent 40%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.course-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.course-meta {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,.8);
+}
+
+.course-body {
+  flex: 1;
+  padding: 1.75rem 2rem 2.5rem;
+}
+
+.course-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.course-title-sm {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.course-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #c74634;
+  background: #fef2f0;
+  border: 1px solid #fca99a;
+  border-radius: 12px;
+  padding: 0.2rem 0.65rem;
+  white-space: nowrap;
+}
+
+.action-row {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: background .15s, color .15s;
+}
+
+.icon-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.description {
+  font-size: 0.82rem;
+  color: #4b5563;
+  line-height: 1.65;
+  margin: 0 0 1.5rem;
+}
+
+.course-info-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  color: #374151;
+  flex: 1;
+  min-width: 120px;
+}
+
+.info-card svg {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.info-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.info-label {
+  font-size: 0.68rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.info-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.benefits-section {
+  padding-top: 0.25rem;
+}
+
+.benefits-section h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.4rem;
+}
+
+.benefits-intro {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 0.75rem;
+}
+
+.benefits-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #374151;
+  line-height: 1.45;
+}
+
+.benefit-item svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}

@@ -1,0 +1,72 @@
+@if (loading()) {
+  <div class="loading" role="status">
+    <span class="spinner" aria-hidden="true"></span>
+    Preparing questions…
+  </div>
+} @else if (questions().length === 0) {
+  <div class="empty">No questions available for this exam.</div>
+} @else {
+  <div class="quiz">
+    <div class="quiz-topbar">
+      <button class="back-btn" (click)="confirmExit()" type="button" aria-label="Exit exam">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Exit
+      </button>
+
+      <div class="progress-area">
+        <span class="progress-label">{{ currentIndex() + 1 }} / {{ questions().length }}</span>
+        <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="currentIndex() + 1" [attr.aria-valuemax]="questions().length">
+          <div class="progress-fill" [style.width.%]="((currentIndex() + 1) / questions().length) * 100"></div>
+        </div>
+      </div>
+
+      <div class="timer" [class.timer-warn]="timeLeft() <= 60" aria-live="polite" aria-label="Time remaining">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        {{ formatTime(timeLeft()) }}
+      </div>
+    </div>
+
+    <div class="quiz-body">
+      @if (current(); as q) {
+        <app-quiz-question
+          [question]="q"
+          [selectedKeys]="answers()[q.id] ?? []"
+          [disabled]="submitted()"
+          [showTopicBadge]="true"
+          (toggle)="toggleAnswer(q, $event)"
+        />
+      }
+    </div>
+
+    <div class="quiz-footer">
+      <button
+        class="nav-btn secondary"
+        (click)="prev()"
+        [disabled]="currentIndex() === 0"
+        type="button"
+      >← Previous</button>
+
+      <div class="answered-count">
+        {{ answeredCount() }} / {{ questions().length }} answered
+      </div>
+
+      @if (currentIndex() < questions().length - 1) {
+        <button class="nav-btn primary" (click)="next()" type="button">Next →</button>
+      } @else {
+        <button
+          class="nav-btn submit"
+          (click)="submitExam()"
+          [disabled]="submitting()"
+          type="button"
+        >
+          {{ submitting() ? 'Submitting…' : 'Submit Exam' }}
+        </button>
+      }
+    </div>
+  </div>
+}

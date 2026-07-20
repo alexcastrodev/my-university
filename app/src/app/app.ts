@@ -8,11 +8,8 @@ import { XpService } from './services/xp.service';
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Header, RouterOutlet],
-  template: `
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-  `,
-  styles: ``,
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
 export class App {
   private auth = inject(AuthService);

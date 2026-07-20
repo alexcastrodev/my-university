@@ -1,0 +1,37 @@
+<div class="question-card">
+  <div class="question-meta">
+    @if (showTopicBadge()) {
+      <span class="topic-badge">{{ question().topic }}</span>
+    }
+    <span class="type-badge">{{ question().type === 'multi' ? 'Multiple answers' : 'Single answer' }}</span>
+  </div>
+
+  <p class="question-text">{{ question().text }}</p>
+
+  @if (question().code) {
+    <pre class="code-block" aria-label="Code snippet"><code>{{ question().code }}</code></pre>
+  }
+
+  <fieldset class="options" [attr.aria-label]="question().type === 'multi' ? 'Select all correct answers' : 'Select the correct answer'">
+    <legend class="sr-only">{{ question().type === 'multi' ? 'Select all correct answers' : 'Select the correct answer' }}</legend>
+    @for (opt of question().options; track opt.key) {
+      <label
+        class="option"
+        [class.selected]="isSelected(opt.key)"
+        [class.correct]="reviewing() && hasAnswer() && isCorrect(opt.key)"
+        [class.wrong]="reviewing() && isSelected(opt.key) && !isCorrect(opt.key)"
+      >
+        <input
+          [type]="question().type === 'multi' ? 'checkbox' : 'radio'"
+          [name]="'q-' + question().id"
+          [value]="opt.key"
+          [checked]="isSelected(opt.key)"
+          [disabled]="disabled()"
+          (change)="onToggle(opt.key)"
+        />
+        <span class="option-key">{{ opt.key }}</span>
+        <span class="option-text">{{ opt.text }}</span>
+      </label>
+    }
+  </fieldset>
+</div>

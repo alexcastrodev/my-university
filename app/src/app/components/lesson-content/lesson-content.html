@@ -1,0 +1,14 @@
+@if (html()) {
+  <article class="lesson-body" [innerHTML]="html()"></article>
+  @if (version() || updatedAt()) {
+    <footer class="lesson-meta">
+      @if (version()) { <span>v{{ version() }}</span> }
+      @if (version() && updatedAt()) { <span class="sep">·</span> }
+      @if (updatedAt()) { <span>Last updated {{ updatedAt() }}</span> }
+    </footer>
+  }
+} @else {
+  <div class="lesson-empty">
+    <p>No content available for this lesson.</p>
+  </div>
+}

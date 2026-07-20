@@ -1,0 +1,68 @@
+<div class="result-page">
+  <div class="result-hero" [class.pass]="passed()" [class.fail]="!passed()">
+    <div class="hero-inner">
+      <div class="oracle-logo" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor"/>
+          <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="currentColor" opacity=".6"/>
+        </svg>
+      </div>
+
+      <div class="exam-label">Oracle Certification Practice Exam</div>
+
+      <div class="verdict-row">
+        <span class="verdict-badge" [class.pass]="passed()" [class.fail]="!passed()">
+          {{ passed() ? 'PASS' : 'FAIL' }}
+        </span>
+      </div>
+
+      <div class="score-display">
+        <span class="score-number">{{ scorePercent() }}</span>
+        <span class="score-unit">%</span>
+      </div>
+
+      <div class="score-detail">
+        {{ score() }} correct out of {{ total() }} questions
+      </div>
+
+      <div class="passing-note">
+        Passing score: {{ passingScore() }}% &nbsp;·&nbsp; {{ passed() ? 'You met the passing score.' : 'You did not meet the passing score.' }}
+      </div>
+
+      <div class="xp-earned">
+        <span class="xp-earned-icon">⚡</span>
+        <span class="xp-earned-text">+{{ xpEarned() }} XP earned</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="breakdown-section">
+    <h2 class="breakdown-title">Section Analysis</h2>
+    <p class="breakdown-sub">Performance breakdown by exam topic</p>
+
+    <div class="topics-list">
+      @for (t of breakdown(); track t.topic) {
+        <div class="topic-row">
+          <div class="topic-name">{{ formatTopic(t.topic) }}</div>
+          <div class="topic-bar-wrap">
+            <div class="topic-bar">
+              <div
+                class="topic-bar-fill"
+                [class.pass]="t.percent >= passingScore()"
+                [class.fail]="t.percent < passingScore()"
+                [style.width.%]="t.percent"
+              ></div>
+            </div>
+            <span class="topic-pct">{{ t.percent }}%</span>
+          </div>
+          <div class="topic-count">{{ t.correct }}/{{ t.total }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="actions-section">
+    <a [routerLink]="['/exam', examId()]" class="action-btn secondary">← Back to Course</a>
+    <a [routerLink]="['/exam', examId(), 'quiz']" class="action-btn primary">Retake Exam</a>
+  </div>
+</div>
