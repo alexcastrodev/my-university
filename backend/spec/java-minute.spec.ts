@@ -45,14 +45,14 @@ describe('GET /java-minute/:slug', () => {
     expect(Array.isArray(body.sections)).toBe(true);
     expect(body.sections).toHaveLength(8);
     expect(body.sections.map((s: any) => s.title)).toEqual([
-      'Pergunta',
-      'Resposta Curta',
-      'O que é',
-      'O Processo',
-      'Impacto na Performance',
-      'Exemplo Prático',
-      'Solução e Conclusão',
-      'Referências',
+      'Question',
+      'Short Answer',
+      'What It Is',
+      'The Process',
+      'Performance Impact',
+      'Practical Example',
+      'Solution and Conclusion',
+      'References',
     ]);
   });
 

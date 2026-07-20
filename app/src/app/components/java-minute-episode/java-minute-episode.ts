@@ -3,7 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { parseMarkdown } from '../../shared/markdown';
 
-const REFERENCES_TITLE = 'Referências';
+const REFERENCES_TITLE = 'References';
 
 @Component({
   selector: 'app-java-minute-episode',

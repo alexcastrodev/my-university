@@ -2,10 +2,10 @@
   {
     "slug": "context-switching",
     "order": 1,
-    "question": "O que é context switching?",
+    "question": "What is context switching?",
     "publishedAt": "2026-07-20",
     "references": [
-      { "label": "Minuto Java: Context Switching", "url": "https://www.youtube.com/shorts/m7HvmcRAvac", "type": "video" },
+      { "label": "Java Minute: Context Switching", "url": "https://www.youtube.com/shorts/m7HvmcRAvac", "type": "video" },
       { "label": "JEP 444: Virtual Threads", "url": "https://openjdk.org/jeps/444", "type": "doc" },
       { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" }
     ]

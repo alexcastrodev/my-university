@@ -1,14 +1,14 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">Minuto Java</h1>
-    <p class="page-sub">Respostas rápidas para perguntas comuns sobre Java, um episódio por vez.</p>
+    <h1 class="page-title">Java Minute</h1>
+    <p class="page-sub">Quick answers to common Java questions, one episode at a time.</p>
   </div>
 
   <div class="page-body">
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading episodes">
         <span class="spinner" aria-hidden="true"></span>
-        Carregando episódios…
+        Loading episodes…
       </div>
     } @else {
       <div class="cards-grid">
@@ -20,7 +20,7 @@
             </div>
             <h3 class="card-title">{{ episode.question }}</h3>
             <div class="card-footer">
-              <span class="card-cta">Assistir →</span>
+              <span class="card-cta">Watch →</span>
             </div>
           </a>
         }

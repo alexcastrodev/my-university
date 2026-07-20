@@ -2,48 +2,48 @@
 version: 1.0
 updatedAt: 2026-07-20
 ---
-## Pergunta
+## Question
 
-# O que é context switching?
+# What is context switching?
 
-## Resposta Curta
+## Short Answer
 
-Context switching é a troca de contexto que o sistema operacional faz entre threads em um mesmo núcleo de CPU. É algo que, em geral, devemos **evitar**: está diretamente relacionado à concorrência e, quando acontece com frequência, prejudica a performance da aplicação.
+Context switching is when the operating system swaps out the context of one thread for another on the same CPU core. It's something we should generally **avoid**: it's directly tied to concurrency, and when it happens frequently, it hurts application performance.
 
-## O que é
+## What It Is
 
-Uma thread roda em um núcleo (core) da CPU. Enquanto está em execução, ela carrega o que chamamos de **contexto**: os dados que está manipulando, o código sendo executado, o conteúdo de cache e os registradores da CPU.
+A thread runs on a CPU core. While it's executing, it carries what we call its **context**: the data it's working with, the code being executed, the cache contents, and the CPU registers.
 
-Quando o sistema operacional decide que outra thread precisa rodar naquele mesmo núcleo, ele precisa **pausar a thread atual** para dar lugar à próxima. Isso significa remover o contexto da thread pausada do núcleo e, mais tarde, quando for a vez dela rodar de novo, devolver esse contexto para o núcleo — como se fosse "desempacotar" tudo de novo.
+When the operating system decides another thread needs to run on that same core, it has to **pause the current thread** to make room for the next one. That means removing the paused thread's context from the core and, later, when it's that thread's turn to run again, loading that context back onto the core — as if "unpacking" everything all over again.
 
-## O Processo
+## The Process
 
-1. O SO decide interromper a thread em execução (ex: fim de fatia de tempo, ou a thread ficou bloqueada esperando algo).
-2. O contexto da thread (registradores, dados, estado) é salvo fora do núcleo.
-3. O núcleo fica livre e o SO carrega o contexto de outra thread pronta para rodar.
-4. Essa nova thread executa.
-5. Quando chega a vez da thread original voltar a rodar, seu contexto é recarregado no núcleo — praticamente do zero.
+1. The OS decides to interrupt the running thread (e.g., its time slice ended, or it got blocked waiting on something).
+2. The thread's context (registers, data, state) is saved off the core.
+3. The core is now free, and the OS loads the context of another thread that's ready to run.
+4. That new thread executes.
+5. When it's time for the original thread to run again, its context is reloaded onto the core — practically from scratch.
 
-## Impacto na Performance
+## Performance Impact
 
-Cada troca de contexto leva, em média, cerca de **100 microssegundos**. Pode parecer pouco, mas para os padrões de uma CPU é um tempo considerado **alto**: nesse intervalo, o núcleo não está fazendo trabalho útil para nenhuma das duas threads, só salvando e restaurando estado.
+Each context switch takes, on average, about **100 microseconds**. That may sound small, but by CPU standards it's considered a **long** time: during that window, the core isn't doing useful work for either thread — it's just saving and restoring state.
 
-Em aplicações com muitas threads concorrentes disputando poucos núcleos, esse custo se repete constantemente e pode consumir uma fatia relevante do tempo de CPU — tempo que deveria ir para processamento real, não para "trocar de roupa" entre threads.
+In applications with many concurrent threads competing for few cores, this cost repeats constantly and can eat up a meaningful share of CPU time — time that should go toward real processing, not "changing clothes" between threads.
 
-## Exemplo Prático
+## Practical Example
 
-O cenário mais comum: uma thread faz uma chamada de rede (por exemplo, uma requisição HTTP para outro serviço) e essa chamada é **bloqueante** — a thread fica parada esperando a resposta chegar.
+The most common scenario: a thread makes a network call (for example, an HTTP request to another service) and that call is **blocking** — the thread sits idle waiting for the response to arrive.
 
-Enquanto essa thread espera, ela não está fazendo nada útil, mas ainda ocupa um núcleo. Para não desperdiçar esse núcleo, o SO frequentemente faz context switching: tira essa thread bloqueada dali e coloca outra no lugar. Quando a resposta da rede finalmente chega, é preciso trazer a thread de volta — outro context switching.
+While that thread waits, it isn't doing anything useful, but it's still occupying a core. To avoid wasting that core, the OS frequently performs a context switch: it pulls the blocked thread out and puts another one in its place. When the network response finally arrives, the original thread has to be brought back — another context switch.
 
-## Solução e Conclusão
+## Solution and Conclusion
 
-A recomendação prática é usar **virtual threads**. Como virtual threads não ocupam uma kernel thread de forma exclusiva enquanto esperam uma operação bloqueante (como I/O de rede), o bloqueio de uma virtual thread não trava a kernel thread por trás dela.
+The practical recommendation is to use **virtual threads**. Since virtual threads don't hold a kernel thread exclusively while waiting on a blocking operation (such as network I/O), blocking a virtual thread doesn't tie up the kernel thread behind it.
 
-Isso evita boa parte do context switching desnecessário e, como consequência prática, reduz bugs relacionados à concorrência que costumam surgir da complexidade de gerenciar muitas threads tradicionais competindo por poucos núcleos.
+This avoids much of the unnecessary context switching and, as a practical consequence, reduces concurrency-related bugs that tend to arise from the complexity of managing many traditional threads competing for few cores.
 
-## Referências
+## References
 
-- [Minuto Java: Context Switching](https://www.youtube.com/shorts/m7HvmcRAvac) — vídeo
+- [Java Minute: Context Switching](https://www.youtube.com/shorts/m7HvmcRAvac) — video
 - [JEP 444: Virtual Threads](https://openjdk.org/jeps/444) — doc
 - [java.lang.Thread — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html) — doc

@@ -1,10 +1,10 @@
 @if (episode(); as ep) {
   <article class="episode">
     <header class="episode-header">
-      <span class="episode-kicker">Minuto Java</span>
+      <span class="episode-kicker">Java Minute</span>
       <h1 class="episode-question">{{ ep.question }}</h1>
       <div class="episode-meta">
-        <span>Publicado em {{ ep.publishedAt }}</span>
+        <span>Published on {{ ep.publishedAt }}</span>
         @if (ep.version) { <span class="sep">·</span><span>v{{ ep.version }}</span> }
       </div>
     </header>
@@ -18,7 +18,7 @@
 
     @if (ep.references.length) {
       <section class="episode-section">
-        <h2 class="section-title">Referências</h2>
+        <h2 class="section-title">References</h2>
         <ul class="references-list">
           @for (ref of ep.references; track ref.url) {
             <li class="reference-item">
