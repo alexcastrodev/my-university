@@ -24,6 +24,7 @@ WORKDIR /app
 RUN apk add --no-cache nginx su-exec postgresql18 postgresql18-client \
       --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main \
       --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN npm install -g pm2
 
 COPY --from=backend-build /app/node_modules ./node_modules
 COPY --from=backend-build /app/dist ./dist
@@ -46,7 +47,8 @@ CMD ["sh", "-c", "\
   su-exec postgres pg_ctl -D \"$PGDATA\" -o \"-c listen_addresses='127.0.0.1'\" -w start; \
   su-exec postgres createdb -h 127.0.0.1 -U postgres \"$POSTGRES_DB\" 2>/dev/null || true; \
   until su-exec postgres pg_isready -h 127.0.0.1 -U postgres; do sleep 1; done; \
-  node dist/main.js & \
-  PORT=4000 node frontend/server/server.mjs & \
+  pm2 start dist/main.js --name backend --max-restarts=10; \
+  PORT=4000 pm2 start frontend/server/server.mjs --name ssr --max-restarts=10; \
+  pm2 logs --raw & \
   nginx -g 'daemon off;' \
 "]
