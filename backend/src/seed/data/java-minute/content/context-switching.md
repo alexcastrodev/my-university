@@ -44,6 +44,6 @@ This avoids much of the unnecessary context switching and, as a practical conseq
 
 ## References
 
-- [Java Minute: Context Switching](https://www.youtube.com/shorts/m7HvmcRAvac) — video
+- [Java Coding Tip #376: Context Switching](https://www.youtube.com/shorts/m7HvmcRAvac) — video
 - [JEP 444: Virtual Threads](https://openjdk.org/jeps/444) — doc
 - [java.lang.Thread — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html) — doc
