@@ -15,7 +15,7 @@ export interface JavaMinuteSection {
 
 export interface JavaMinuteEpisodeSummary {
   slug: string;
-  order: number;
+  id: number;
   question: string;
   publishedAt: string;
 }
@@ -68,12 +68,12 @@ export class JavaMinuteService {
     require(join(DATA_DIR, 'episodes.json')) as EpisodeMeta[]
   )
     .slice()
-    .sort((a, b) => a.order - b.order);
+    .sort((a, b) => b.id - a.id);
 
   findAll(): JavaMinuteEpisodeSummary[] {
-    return this.episodesMeta.map(({ slug, order, question, publishedAt }) => ({
+    return this.episodesMeta.map(({ slug, id, question, publishedAt }) => ({
       slug,
-      order,
+      id,
       question,
       publishedAt,
     }));
@@ -91,7 +91,7 @@ export class JavaMinuteService {
 
     return {
       slug: meta.slug,
-      order: meta.order,
+      id: meta.id,
       question: meta.question,
       publishedAt: meta.publishedAt,
       version,

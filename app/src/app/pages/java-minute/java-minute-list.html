@@ -15,7 +15,7 @@
         @for (episode of episodes(); track episode.slug) {
           <a [routerLink]="['/java-minute', episode.slug]" class="episode-card">
             <div class="card-header">
-              <span class="card-order">#{{ episode.order }}</span>
+              <span class="card-order">#{{ episode.id }}</span>
               <span class="card-date">{{ episode.publishedAt }}</span>
             </div>
             <h3 class="card-title">{{ episode.question }}</h3>

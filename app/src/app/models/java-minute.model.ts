@@ -11,7 +11,7 @@ export interface JavaMinuteSection {
 
 export interface JavaMinuteEpisodeSummary {
   slug: string;
-  order: number;
+  id: number;
   question: string;
   publishedAt: string;
 }

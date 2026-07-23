@@ -10,23 +10,23 @@ describe('GET /java-minute', () => {
     expect(body.length).toBeGreaterThan(0);
   });
 
-  it('summaries expose slug, order, question and publishedAt but no sections', async () => {
+  it('summaries expose slug, id, question and publishedAt but no sections', async () => {
     const body = await json<any[]>(await get('/java-minute'));
     const episode = body.find((e) => e.slug === 'context-switching');
     expect(episode).toMatchObject({
       slug: 'context-switching',
-      order: 1,
+      id: 1,
       question: expect.any(String),
       publishedAt: expect.any(String),
     });
     expect(episode.sections).toBeUndefined();
   });
 
-  it('is ordered by the order field', async () => {
+  it('is ordered by id, highest first', async () => {
     const body = await json<any[]>(await get('/java-minute'));
-    const orders = body.map((e) => e.order);
-    const sorted = [...orders].sort((a, b) => a - b);
-    expect(orders).toEqual(sorted);
+    const ids = body.map((e) => e.id);
+    const sorted = [...ids].sort((a, b) => b - a);
+    expect(ids).toEqual(sorted);
   });
 });
 

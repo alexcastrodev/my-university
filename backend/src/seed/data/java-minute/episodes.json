@@ -1,24 +1,47 @@
 [
   {
-    "slug": "context-switching",
-    "order": 2,
-    "question": "What is context switching?",
-    "publishedAt": "2026-07-20",
+    "slug": "limiting-concurrent-access",
+    "id": 4,
+    "question": "How can you limit the number of concurrent accesses to a resource?",
+    "publishedAt": "2026-07-22",
     "references": [
-      { "label": "Java Coding Tip #376: Context Switching", "url": "https://www.youtube.com/shorts/m7HvmcRAvac", "type": "video" },
-      { "label": "JEP 444: Virtual Threads", "url": "https://openjdk.org/jeps/444", "type": "doc" },
-      { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" }
+      { "label": "Java Coding Tip #379: Limiting Concurrent Access", "url": "https://www.youtube.com/shorts/q-coQ6MBjeE", "type": "video" },
+      { "label": "Semaphore — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html", "type": "doc" },
+      { "label": "Gatherers.mapConcurrent — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html#mapConcurrent(int,java.util.function.Function)", "type": "doc" },
+      { "label": "JEP 485: Stream Gatherers", "url": "https://openjdk.org/jeps/485", "type": "doc" }
     ]
   },
   {
     "slug": "string-length",
-    "order": 1,
+    "id": 3,
     "question": "How can you get the number of characters in a String?",
     "publishedAt": "2026-07-21",
     "references": [
       { "label": "Java Coding Tip #378: String Length", "url": "https://www.youtube.com/shorts/7al_ZQn99CY", "type": "video" },
       { "label": "String.length() — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#length()", "type": "doc" },
       { "label": "Character — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sized-and-subsized-streams",
+    "id": 2,
+    "question": "What is a subsized stream?",
+    "publishedAt": "2026-07-23",
+    "references": [
+      { "label": "Java Coding Tip #377: Sized and Subsized Streams", "url": "https://www.youtube.com/shorts/WLsaE5eC9k8", "type": "video" },
+      { "label": "Spliterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Spliterator.html", "type": "doc" },
+      { "label": "Spliterator.SUBSIZED — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Spliterator.html#SUBSIZED", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "context-switching",
+    "id": 1,
+    "question": "What is context switching?",
+    "publishedAt": "2026-07-20",
+    "references": [
+      { "label": "Java Coding Tip #376: Context Switching", "url": "https://www.youtube.com/shorts/m7HvmcRAvac", "type": "video" },
+      { "label": "JEP 444: Virtual Threads", "url": "https://openjdk.org/jeps/444", "type": "doc" },
+      { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" }
     ]
   }
 ]
