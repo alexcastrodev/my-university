@@ -15,7 +15,7 @@ describe('GET /java-minute', () => {
     const episode = body.find((e) => e.slug === 'context-switching');
     expect(episode).toMatchObject({
       slug: 'context-switching',
-      id: 1,
+      id: 376,
       question: expect.any(String),
       publishedAt: expect.any(String),
     });

@@ -1,7 +1,7 @@
 [
   {
     "slug": "limiting-concurrent-access",
-    "id": 4,
+    "id": 379,
     "question": "How can you limit the number of concurrent accesses to a resource?",
     "publishedAt": "2026-07-22",
     "references": [
@@ -13,7 +13,7 @@
   },
   {
     "slug": "string-length",
-    "id": 3,
+    "id": 378,
     "question": "How can you get the number of characters in a String?",
     "publishedAt": "2026-07-21",
     "references": [
@@ -24,7 +24,7 @@
   },
   {
     "slug": "sized-and-subsized-streams",
-    "id": 2,
+    "id": 377,
     "question": "What is a subsized stream?",
     "publishedAt": "2026-07-23",
     "references": [
@@ -35,13 +35,23 @@
   },
   {
     "slug": "context-switching",
-    "id": 1,
+    "id": 376,
     "question": "What is context switching?",
     "publishedAt": "2026-07-20",
     "references": [
       { "label": "Java Coding Tip #376: Context Switching", "url": "https://www.youtube.com/shorts/m7HvmcRAvac", "type": "video" },
       { "label": "JEP 444: Virtual Threads", "url": "https://openjdk.org/jeps/444", "type": "doc" },
       { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "enum-set",
+    "id": 375,
+    "question": "What is an EnumSet?",
+    "publishedAt": "2026-07-19",
+    "references": [
+      { "label": "Java Coding Tip #375: Enum Set", "url": "https://www.youtube.com/shorts/1BzJQf2fP3U", "type": "video" },
+      { "label": "EnumSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumSet.html", "type": "doc" }
     ]
   }
 ]
