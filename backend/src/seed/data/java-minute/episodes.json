@@ -1,5 +1,15 @@
 [
   {
+    "slug": "searching-in-a-list",
+    "id": 380,
+    "question": "How can you search for an element in a list?",
+    "publishedAt": "2026-07-24",
+    "references": [
+      { "label": "Java Coding Tip #380: Searching in a List", "url": "https://www.youtube.com/watch?v=hrLJTsM9c4M", "type": "video" },
+      { "label": "Collections.binarySearch — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#binarySearch(java.util.List,java.lang.Object)", "type": "doc" }
+    ]
+  },
+  {
     "slug": "limiting-concurrent-access",
     "id": 379,
     "question": "How can you limit the number of concurrent accesses to a resource?",
