@@ -85,6 +85,14 @@ export class JavaConceptsService {
     const meta = this.conceptsMeta.find((concept) => concept.slug === slug);
     if (!meta) return null;
 
+    return this.readDetail(meta);
+  }
+
+  findAllDetailed(): JavaConceptDetail[] {
+    return this.conceptsMeta.map((meta) => this.readDetail(meta));
+  }
+
+  private readDetail(meta: ConceptMeta): JavaConceptDetail {
     const raw = readFileSync(
       join(DATA_DIR, 'content', `${meta.slug}.md`),
       'utf-8',

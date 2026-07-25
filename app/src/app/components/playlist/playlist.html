@@ -13,7 +13,12 @@
         <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
         <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <input type="search" placeholder="Search playlist" aria-label="Search within playlist" />
+      <input
+        type="search"
+        placeholder="Search playlist"
+        aria-label="Search within playlist"
+        [(ngModel)]="searchQuery"
+      />
     </div>
     <div class="playlist-options">
       <label class="checkbox-label">
@@ -28,13 +33,13 @@
   </div>
 
   <ol class="modules-list" role="list">
-    @for (mod of modules(); track mod.id) {
+    @for (mod of filteredModules(); track mod.id) {
       <li class="module">
         <button
           class="module-header"
-          [class.expanded]="mod.expanded"
+          [class.expanded]="isModuleExpanded(mod)"
           (click)="toggleModule(mod.id)"
-          [attr.aria-expanded]="mod.expanded"
+          [attr.aria-expanded]="isModuleExpanded(mod)"
           [attr.aria-controls]="'module-' + mod.id"
           type="button"
         >
@@ -51,7 +56,7 @@
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        @if (mod.expanded) {
+        @if (isModuleExpanded(mod)) {
           <ol [id]="'module-' + mod.id" class="lessons-list" role="list">
             @for (lesson of mod.lessons; track lesson.id) {
               <li>

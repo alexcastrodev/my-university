@@ -70,27 +70,25 @@ export class SearchService implements OnApplicationBootstrap {
       });
     }
 
-    for (const summary of this.javaMinuteService.findAll()) {
-      const episode = this.javaMinuteService.findBySlug(summary.slug);
+    for (const episode of this.javaMinuteService.findAllDetailed()) {
       documents.push({
-        id: `java-minute-${summary.slug}`,
+        id: `java-minute-${episode.slug}`,
         type: 'java-minute' satisfies SearchResultType,
-        title: summary.question,
+        title: episode.question,
         subtitle: 'Java Minute',
-        url: `/java-minute/${summary.slug}`,
-        content: episode?.sections.map((s) => `${s.title} ${s.content}`).join(' ') ?? '',
+        url: `/java-minute/${episode.slug}`,
+        content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
       });
     }
 
-    for (const summary of this.javaConceptsService.findAll()) {
-      const concept = this.javaConceptsService.findBySlug(summary.slug);
+    for (const concept of this.javaConceptsService.findAllDetailed()) {
       documents.push({
-        id: `java-concept-${summary.slug}`,
+        id: `java-concept-${concept.slug}`,
         type: 'java-concept' satisfies SearchResultType,
-        title: summary.title,
+        title: concept.title,
         subtitle: 'Java Concepts',
-        url: `/java-concepts/${summary.slug}`,
-        content: [summary.summary, ...(concept?.sections.map((s) => `${s.title} ${s.content}`) ?? [])].join(' '),
+        url: `/java-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }
 

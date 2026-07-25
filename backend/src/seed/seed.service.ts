@@ -45,16 +45,13 @@ export class SeedService implements OnApplicationBootstrap {
       });
       await this.courseRepo.save(course);
 
-      for (const mod of courseData.modules) {
-        const moduleEntity = this.moduleRepo.create({
-          order: mod.id,
-          title: mod.title,
-          course,
-        });
-        await this.moduleRepo.save(moduleEntity);
+      const moduleEntities = courseData.modules.map((mod: any) =>
+        this.moduleRepo.create({ order: mod.id, title: mod.title, course }),
+      );
+      const savedModules = await this.moduleRepo.save(moduleEntities);
 
-        for (let i = 0; i < mod.lessons.length; i++) {
-          const lesson = mod.lessons[i];
+      const lessonEntities = courseData.modules.flatMap((mod: any, moduleIndex: number) =>
+        mod.lessons.map((lesson: any, i: number) => {
           const lessonEntity = new Lesson();
           lessonEntity.id = lesson.id;
           lessonEntity.title = lesson.title;
@@ -64,10 +61,12 @@ export class SeedService implements OnApplicationBootstrap {
           lessonEntity.contentPath = lesson.contentPath ?? null;
           lessonEntity.topic = (lesson as any).topic ?? null;
           lessonEntity.order = i;
-          lessonEntity.module = moduleEntity;
-          await this.lessonRepo.save(lessonEntity);
-        }
-      }
+          lessonEntity.module = savedModules[moduleIndex];
+          return lessonEntity;
+        }),
+      );
+      await this.lessonRepo.save(lessonEntities);
+
       this.log.log(`Course seeded: ${courseData.id}`);
     }
   }
@@ -89,9 +88,7 @@ export class SeedService implements OnApplicationBootstrap {
     if (count > 0) return;
 
     this.log.log(`Seeding ${EXAM_QUESTIONS.length} exam questions…`);
-    for (const q of EXAM_QUESTIONS) {
-      await this.questionRepo.save(this.questionRepo.create(q));
-    }
+    await this.questionRepo.save(EXAM_QUESTIONS.map((q) => this.questionRepo.create(q)));
     this.log.log('Questions seeded.');
   }
 }

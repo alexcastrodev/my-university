@@ -83,6 +83,14 @@ export class JavaMinuteService {
     const meta = this.episodesMeta.find((episode) => episode.slug === slug);
     if (!meta) return null;
 
+    return this.readDetail(meta);
+  }
+
+  findAllDetailed(): JavaMinuteEpisodeDetail[] {
+    return this.episodesMeta.map((meta) => this.readDetail(meta));
+  }
+
+  private readDetail(meta: EpisodeMeta): JavaMinuteEpisodeDetail {
     const raw = readFileSync(
       join(DATA_DIR, 'content', `${meta.slug}.md`),
       'utf-8',
