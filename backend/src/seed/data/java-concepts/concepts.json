@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "iterator-vs-iterable",
+    "id": 1,
+    "title": "Iterator vs Iterable",
+    "summary": "What each interface is for, why Iterable forces you to implement Iterator, and why the JDK collections are built this way.",
+    "publishedAt": "2026-07-25",
+    "references": [
+      { "label": "Iterable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html", "type": "doc" },
+      { "label": "Iterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html", "type": "doc" },
+      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+    ]
+  }
+]

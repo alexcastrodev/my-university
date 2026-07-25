@@ -18,6 +18,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-minute/java-minute-detail').then((m) => m.JavaMinuteDetailPage),
   },
   {
+    path: 'java-concepts',
+    loadComponent: () => import('./pages/java-concepts/java-concepts-list').then((m) => m.JavaConceptsListPage),
+  },
+  {
+    path: 'java-concepts/:slug',
+    loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
+  },
+  {
     path: 'exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

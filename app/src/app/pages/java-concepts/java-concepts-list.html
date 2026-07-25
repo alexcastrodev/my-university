@@ -1,0 +1,30 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Java Concepts</h1>
+    <p class="page-sub">Core Java concepts explained in depth, one at a time.</p>
+  </div>
+
+  <div class="page-body">
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (concept of concepts(); track concept.slug) {
+          <a [routerLink]="['/java-concepts', concept.slug]" class="concept-card">
+            <div class="card-header">
+              <span class="card-date">{{ concept.publishedAt }}</span>
+            </div>
+            <h3 class="card-title">{{ concept.title }}</h3>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-footer">
+              <span class="card-cta">Read →</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

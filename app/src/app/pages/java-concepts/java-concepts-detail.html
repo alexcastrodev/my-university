@@ -1,0 +1,18 @@
+<div class="page">
+  <div class="page-body">
+    <a routerLink="/java-concepts" class="back-link">← Java Concepts</a>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concept…
+      </div>
+    } @else if (notFound()) {
+      <div class="not-found">
+        <p>Concept not found.</p>
+      </div>
+    } @else {
+      <app-java-concept-view [concept]="concept()" />
+    }
+  </div>
+</div>
