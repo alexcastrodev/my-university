@@ -5,8 +5,20 @@ services:
       - "80:80"
     environment:
       - SESSION_SECRET
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_MASTER_KEY
     volumes:
       - postgres_data:/var/lib/postgresql
+    depends_on:
+      - meilisearch
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    environment:
+      - MEILI_MASTER_KEY
+      - MEILI_NO_ANALYTICS=true
+    volumes:
+      - meili_data:/meili_data
 
   console-test:
     image: node:22-alpine
@@ -24,3 +36,4 @@ services:
 
 volumes:
   postgres_data:
+  meili_data:

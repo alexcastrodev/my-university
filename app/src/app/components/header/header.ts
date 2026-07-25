@@ -1,7 +1,35 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
+import { SearchService } from '../../services/search.service';
+import { SearchResult, SearchResultType } from '../../models/search.model';
+
+const TYPE_LABELS: Record<SearchResultType, string> = {
+  course: 'Course',
+  lesson: 'Lesson',
+  'java-minute': 'Java Minute',
+  'java-concept': 'Java Concept',
+};
+
+const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
+  { label: 'All', value: null },
+  { label: 'Courses', value: 'course' },
+  { label: 'Lessons', value: 'lesson' },
+  { label: 'Java Minute', value: 'java-minute' },
+  { label: 'Java Concepts', value: 'java-concept' },
+];
+
+const SEARCH_DEBOUNCE_MS = 300;
+const MIN_QUERY_LENGTH = 2;
 
 @Component({
   selector: 'app-header',
@@ -14,6 +42,20 @@ export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   private router = inject(Router);
+  private searchService = inject(SearchService);
+  private elementRef = inject(ElementRef);
+
+  protected readonly TYPE_LABELS = TYPE_LABELS;
+  protected readonly FILTER_OPTIONS = FILTER_OPTIONS;
+
+  searchQuery = signal('');
+  searchResults = signal<SearchResult[]>([]);
+  searchLoading = signal(false);
+  searchOpen = signal(false);
+  searchError = signal(false);
+  searchTypeFilter = signal<SearchResultType | null>(null);
+
+  private debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
@@ -37,5 +79,76 @@ export class Header {
       return;
     }
     void this.router.navigate(['/login']);
+  }
+
+  onSearchInput(value: string): void {
+    this.searchQuery.set(value);
+    clearTimeout(this.debounceTimer);
+
+    const trimmed = value.trim();
+    if (trimmed.length < MIN_QUERY_LENGTH) {
+      this.searchResults.set([]);
+      this.searchLoading.set(false);
+      this.searchOpen.set(trimmed.length > 0);
+      return;
+    }
+
+    this.searchOpen.set(true);
+    this.searchLoading.set(true);
+    this.searchError.set(false);
+    this.debounceTimer = setTimeout(() => this.runSearch(trimmed), SEARCH_DEBOUNCE_MS);
+  }
+
+  onFilterChange(type: SearchResultType | null): void {
+    this.searchTypeFilter.set(type);
+    const trimmed = this.searchQuery().trim();
+    if (trimmed.length >= MIN_QUERY_LENGTH) {
+      this.searchLoading.set(true);
+      this.searchError.set(false);
+      this.runSearch(trimmed);
+    }
+  }
+
+  private runSearch(query: string): void {
+    this.searchService.search(query, this.searchTypeFilter() ?? undefined).subscribe({
+      next: (results) => {
+        if (this.searchQuery().trim() === query) {
+          this.searchResults.set(results);
+        }
+        this.searchLoading.set(false);
+      },
+      error: () => {
+        this.searchLoading.set(false);
+        this.searchError.set(true);
+      },
+    });
+  }
+
+  selectResult(): void {
+    this.closeSearch();
+  }
+
+  onSearchFocus(): void {
+    if (this.searchQuery().trim().length > 0) {
+      this.searchOpen.set(true);
+    }
+  }
+
+  closeSearch(): void {
+    this.searchOpen.set(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeSearch();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    if (!this.searchOpen()) return;
+    const searchBox = this.elementRef.nativeElement.querySelector('.search-box');
+    if (searchBox && !searchBox.contains(event.target as Node)) {
+      this.closeSearch();
+    }
   }
 }

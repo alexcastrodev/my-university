@@ -5,5 +5,6 @@ import { JavaConceptsService } from './java-concepts.service';
 @Module({
   controllers: [JavaConceptsController],
   providers: [JavaConceptsService],
+  exports: [JavaConceptsService],
 })
 export class JavaConceptsModule {}

@@ -5,5 +5,6 @@ import { JavaMinuteService } from './java-minute.service';
 @Module({
   controllers: [JavaMinuteController],
   providers: [JavaMinuteService],
+  exports: [JavaMinuteService],
 })
 export class JavaMinuteModule {}

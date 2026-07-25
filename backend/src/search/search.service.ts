@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { MeilisearchClient } from './meilisearch.client';
 
 export type SearchResultType = 'course' | 'lesson' | 'java-minute' | 'java-concept';
 
@@ -16,74 +17,98 @@ export interface SearchResult {
 }
 
 @Injectable()
-export class SearchService {
+export class SearchService implements OnApplicationBootstrap {
+  private readonly log = new Logger(SearchService.name);
+
   constructor(
     @InjectRepository(Course) private courseRepo: Repository<Course>,
     @InjectRepository(Lesson) private lessonRepo: Repository<Lesson>,
     private javaConceptsService: JavaConceptsService,
     private javaMinuteService: JavaMinuteService,
+    private meili: MeilisearchClient,
   ) {}
 
-  async search(query: string): Promise<SearchResult[]> {
-    const term = query.trim().toLowerCase();
-    if (!term) return [];
+  async onApplicationBootstrap() {
+    try {
+      await this.meili.waitUntilHealthy();
+      await this.meili.configureIndex();
+      await this.indexAll();
+    } catch (err) {
+      this.log.error(`Failed to build search index: ${(err as Error).message}`);
+    }
+  }
 
+  async indexAll(): Promise<void> {
     const [courses, lessons] = await Promise.all([
       this.courseRepo.find(),
       this.lessonRepo.find({ relations: { module: { course: true } } }),
     ]);
 
-    const results: SearchResult[] = [];
+    const documents: Record<string, unknown>[] = [];
 
     for (const course of courses) {
-      if (course.title.toLowerCase().includes(term) || course.description.toLowerCase().includes(term)) {
-        results.push({
-          type: 'course',
-          title: course.title,
-          subtitle: course.tag,
-          url: `/exam/${course.id}`,
-        });
-      }
+      documents.push({
+        id: `course-${course.id}`,
+        type: 'course' satisfies SearchResultType,
+        title: course.title,
+        subtitle: course.tag,
+        url: `/exam/${course.id}`,
+        content: course.description,
+      });
     }
 
     for (const lesson of lessons) {
-      if (lesson.title.toLowerCase().includes(term)) {
-        const courseId = lesson.module?.course?.id;
-        if (!courseId) continue;
-        results.push({
-          type: 'lesson',
-          title: lesson.title,
-          subtitle: lesson.module?.course?.title ?? null,
-          url: `/exam/${courseId}/lesson/${lesson.id}`,
-        });
-      }
+      const courseId = lesson.module?.course?.id;
+      if (!courseId) continue;
+      documents.push({
+        id: `lesson-${lesson.id}`,
+        type: 'lesson' satisfies SearchResultType,
+        title: lesson.title,
+        subtitle: lesson.module?.course?.title ?? null,
+        url: `/exam/${courseId}/lesson/${lesson.id}`,
+        content: '',
+      });
     }
 
-    for (const episode of this.javaMinuteService.findAll()) {
-      if (episode.question.toLowerCase().includes(term)) {
-        results.push({
-          type: 'java-minute',
-          title: episode.question,
-          subtitle: 'Java Minute',
-          url: `/java-minute/${episode.slug}`,
-        });
-      }
+    for (const summary of this.javaMinuteService.findAll()) {
+      const episode = this.javaMinuteService.findBySlug(summary.slug);
+      documents.push({
+        id: `java-minute-${summary.slug}`,
+        type: 'java-minute' satisfies SearchResultType,
+        title: summary.question,
+        subtitle: 'Java Minute',
+        url: `/java-minute/${summary.slug}`,
+        content: episode?.sections.map((s) => `${s.title} ${s.content}`).join(' ') ?? '',
+      });
     }
 
-    for (const concept of this.javaConceptsService.findAll()) {
-      if (
-        concept.title.toLowerCase().includes(term) ||
-        concept.summary.toLowerCase().includes(term)
-      ) {
-        results.push({
-          type: 'java-concept',
-          title: concept.title,
-          subtitle: 'Java Concepts',
-          url: `/java-concepts/${concept.slug}`,
-        });
-      }
+    for (const summary of this.javaConceptsService.findAll()) {
+      const concept = this.javaConceptsService.findBySlug(summary.slug);
+      documents.push({
+        id: `java-concept-${summary.slug}`,
+        type: 'java-concept' satisfies SearchResultType,
+        title: summary.title,
+        subtitle: 'Java Concepts',
+        url: `/java-concepts/${summary.slug}`,
+        content: [summary.summary, ...(concept?.sections.map((s) => `${s.title} ${s.content}`) ?? [])].join(' '),
+      });
     }
 
-    return results;
+    await this.meili.replaceDocuments(documents);
+  }
+
+  async search(query: string, type?: SearchResultType): Promise<SearchResult[]> {
+    const term = query.trim();
+    if (term.length < 2) return [];
+
+    const filter = type ? `type = "${type}"` : undefined;
+    const hits = await this.meili.search(term, filter);
+
+    return hits.map((hit) => ({
+      type: hit.type as SearchResultType,
+      title: hit.title,
+      subtitle: hit.subtitle,
+      url: hit.url,
+    }));
   }
 }

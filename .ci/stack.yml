@@ -5,8 +5,11 @@ services:
       - /mnt/ssd/@docker/university/db:/var/lib/postgresql
     environment:
       - SESSION_SECRET
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_MASTER_KEY
     networks:
       - proxy_net
+      - search_net
     deploy:
       replicas: 1
       resources:
@@ -14,6 +17,24 @@ services:
           cpus: '1'
           memory: 1G
 
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    volumes:
+      - /mnt/ssd/@docker/university/meili:/meili_data
+    environment:
+      - MEILI_MASTER_KEY
+      - MEILI_NO_ANALYTICS=true
+    networks:
+      - search_net
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
 networks:
   proxy_net:
     external: true
+  search_net:
+    driver: overlay
