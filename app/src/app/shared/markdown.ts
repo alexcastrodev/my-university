@@ -1,5 +1,20 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
+import hljs from 'highlight.js/lib/core';
+import java from 'highlight.js/lib/languages/java';
+import plaintext from 'highlight.js/lib/languages/plaintext';
+
+hljs.registerLanguage('java', java);
+hljs.registerLanguage('plaintext', plaintext);
+
+const codeBlockRenderer = {
+  code({ text, lang }: { text: string; lang?: string }) {
+    const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext';
+    const highlighted = hljs.highlight(text, { language }).value;
+    return `<pre><div class="code-lang">${language}</div><code class="hljs language-${language}">${highlighted}</code></pre>`;
+  },
+};
+marked.use({ renderer: codeBlockRenderer });
 
 const wikiLinkExtension = {
   name: 'wikiLink',
