@@ -10,5 +10,15 @@
       { "label": "Iterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html", "type": "doc" },
       { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "pattern-matching",
+    "id": 2,
+    "title": "Pattern Matching",
+    "summary": "How instanceof, switch, and record patterns let you test an object's structure and extract its data in one step, instead of casting after a type check.",
+    "publishedAt": "2026-07-26",
+    "references": [
+      { "label": "Pattern Matching — Java SE 26 Language Guide", "url": "https://docs.oracle.com/en/java/javase/26/language/pattern-matching.html", "type": "doc" }
+    ]
   }
 ]

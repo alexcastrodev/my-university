@@ -96,9 +96,31 @@ Every collection in the JDK follows this same pattern: `Collection` extends `Ite
 ## Trade-offs
 
 - **Coupling vs. convenience** — implementing `Iterable` couples your class to `Iterator`, but the payoff (`for-each` support) is almost always worth it for anything collection-like.
-- **Standalone `Iterator` loses `for-each`** — skipping `Iterable` is simpler when you only need one-shot manual traversal, but callers lose the ability to use `for-each` and any API that expects an `Iterable`.
-- **Mutating during iteration** — removing directly from a collection inside a `for-each` loop throws `ConcurrentModificationException`, because the collection's internal modification count changes underneath the iterator. `Iterator.remove()` is the only safe way to delete elements mid-traversal.
-- **`remove()` is optional** — many `Iterator` implementations (e.g., over immutable or fixed-size structures) throw `UnsupportedOperationException` from `remove()`, so it can't be relied on universally.
+- **Standalone `Iterator` loses `for-each`** — skipping `Iterable` is simpler when you only need one-shot manual traversal, but callers lose the ability to use `for-each` and any API that expects an `Iterable`:
+
+  ```java
+  CustomIterator it = new CustomIterator();
+  for (String s : it) { ... } // error: CustomIterator is not Iterable
+  ```
+- **Mutating during iteration** — removing directly from a collection inside a `for-each` loop throws `ConcurrentModificationException`, because the collection's internal modification count changes underneath the iterator. `Iterator.remove()` is the only safe way to delete elements mid-traversal:
+
+  ```java
+  for (String s : list) {
+      if (s.isEmpty()) list.remove(s); // ConcurrentModificationException
+  }
+
+  Iterator<String> it = list.iterator();
+  while (it.hasNext()) {
+      if (it.next().isEmpty()) it.remove(); // safe
+  }
+  ```
+- **`remove()` is optional** — many `Iterator` implementations (e.g., over immutable or fixed-size structures) throw `UnsupportedOperationException` from `remove()`, so it can't be relied on universally:
+
+  ```java
+  Iterator<String> it = List.of("a", "b").iterator();
+  it.next();
+  it.remove(); // UnsupportedOperationException
+  ```
 
 ## Documentation Links
 
