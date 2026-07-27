@@ -13,7 +13,7 @@
     } @else {
       <div class="cards-grid">
         @for (concept of concepts(); track concept.slug) {
-          <a [routerLink]="['/java-concepts', concept.slug]" class="concept-card">
+          <a [routerLink]="['/java/java-concepts', concept.slug]" class="concept-card">
             <div class="card-header">
               <span class="card-date">{{ concept.publishedAt }}</span>
             </div>

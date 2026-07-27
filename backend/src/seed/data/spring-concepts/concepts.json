@@ -14,8 +14,22 @@
     ]
   },
   {
-    "slug": "spring-batch-chunk-processing",
+    "slug": "spring-security-authentication-architecture",
     "id": 2,
+    "category": "Spring Security",
+    "title": "Spring Security Authentication Architecture",
+    "summary": "How the authentication filter, AuthenticationManager, AuthenticationProvider, UserDetailsService, and SecurityContextHolder fit together, and how to configure them today with SecurityFilterChain instead of the deprecated WebSecurityConfigurerAdapter.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 1, \"Security today\", p. 14-31 and Chapter 2, \"Hello Spring Security\", p. 33-58", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authentication Architecture", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html", "type": "doc" },
+      { "label": "Spring Security Reference — Java Configuration (SecurityFilterChain)", "url": "https://docs.spring.io/spring-security/reference/servlet/configuration/java.html", "type": "doc" },
+      { "label": "OWASP — Top 10 Web Application Security Risks", "url": "https://owasp.org/www-project-top-ten/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-chunk-processing",
+    "id": 3,
     "category": "Spring Batch",
     "title": "Spring Batch Chunk-Oriented Processing",
     "summary": "How Spring Batch's Job/Step/JobInstance/JobExecution/StepExecution model and chunk-oriented ItemReader/ItemProcessor/ItemWriter processing work, and how Java-based JobBuilder/StepBuilder configuration replaced the now-deprecated XML namespace.",

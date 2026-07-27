@@ -22,7 +22,7 @@ export class JavaMinuteListPage implements OnInit {
     this.seo.set({
       title: 'Java Minute',
       description: 'Short, sharp answers to tricky Java questions — one episode at a time.',
-      path: '/java-minute',
+      path: '/java/java-minute',
     });
 
     this.javaMinuteService.listEpisodes().subscribe({

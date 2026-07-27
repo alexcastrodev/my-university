@@ -20,5 +20,62 @@
     "references": [
       { "label": "Pattern Matching — Java SE 26 Language Guide", "url": "https://docs.oracle.com/en/java/javase/26/language/pattern-matching.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "collection-interface",
+    "id": 3,
+    "title": "The Collection Interface",
+    "summary": "The generic root interface of the Collections Framework — what add, remove, and bulk operations guarantee, and why several of them can throw at runtime instead of failing to compile.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" },
+      { "label": "List — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html", "type": "doc" },
+      { "label": "Collections Framework Overview — The Java Tutorials", "url": "https://docs.oracle.com/javase/tutorial/collections/index.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "list-interface",
+    "id": 4,
+    "title": "The List Interface",
+    "summary": "How List builds a positional, duplicate-allowing sequence on top of Collection — indexed access, sublists, sort, and the unmodifiable lists produced by List.of().",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "List — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html", "type": "doc" },
+      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "set-interface",
+    "id": 5,
+    "title": "The Set Interface",
+    "summary": "How Set forbids duplicates, how SortedSet and NavigableSet layer ordering and closest-match lookups on top of it, and why their range views are backed by the original set.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Set — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html", "type": "doc" },
+      { "label": "SortedSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SortedSet.html", "type": "doc" },
+      { "label": "NavigableSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableSet.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "queue-interface",
+    "id": 6,
+    "title": "The Queue Interface",
+    "summary": "Why Queue defines two parallel families of methods — one that throws on failure, one that reports it — and what that means for empty and fixed-length queues.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" },
+      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "deque-interface",
+    "id": 7,
+    "title": "The Deque Interface",
+    "summary": "How Deque extends Queue into a double-ended queue that can also act as a stack, and how its addFirst/addLast, peek, and remove families each split into a throwing and a reporting version.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Deque — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html", "type": "doc" },
+      { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" }
+    ]
   }
 ]

@@ -37,7 +37,7 @@ export class JavaConceptsDetailPage implements OnInit {
         this.seo.set({
           title: `${concept.title} — Java Concepts`,
           description: concept.summary,
-          path: `/java-concepts/${concept.slug}`,
+          path: `/java/java-concepts/${concept.slug}`,
           type: 'article',
         });
       },
