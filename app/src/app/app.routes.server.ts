@@ -30,6 +30,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'spring-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'spring-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Client,
   },
