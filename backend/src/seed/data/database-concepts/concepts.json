@@ -1,0 +1,15 @@
+[
+  {
+    "slug": "postgresql-rpo-rto-planning",
+    "id": 1,
+    "category": "PostgreSQL",
+    "title": "RPO and RTO Planning for a Highly Available PostgreSQL Cluster",
+    "summary": "How Recovery Point Objective (data-loss tolerance) and Recovery Time Objective (downtime tolerance) drive PostgreSQL architecture decisions, and how synchronous replication's quorum commit turns an RPO target into an enforceable guarantee.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 1, \"Architectural Considerations\", p. 8-15", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Synchronous Replication (synchronous_standby_names, quorum commit)", "url": "https://www.postgresql.org/docs/current/warm-standby.html#SYNCHRONOUS-REPLICATION", "type": "doc" },
+      { "label": "PostgreSQL 17 Release Notes — Incremental backup (pg_basebackup, pg_combinebackup)", "url": "https://www.postgresql.org/docs/17/release-17.html", "type": "doc" }
+    ]
+  }
+]
