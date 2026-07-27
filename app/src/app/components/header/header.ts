@@ -54,6 +54,7 @@ export class Header {
   searchOpen = signal(false);
   searchError = signal(false);
   searchTypeFilter = signal<SearchResultType | null>(null);
+  userMenuOpen = signal(false);
 
   private debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -70,14 +71,20 @@ export class Header {
   });
 
   toggleUser(): void {
-    const user = this.auth.currentUser();
-    if (user) {
-      if (confirm(`Sign out ${user.displayName}?`)) {
-        this.auth.logout();
-        void this.router.navigate(['/login']);
-      }
+    if (this.auth.currentUser()) {
+      this.userMenuOpen.update((open) => !open);
       return;
     }
+    void this.router.navigate(['/login']);
+  }
+
+  closeUserMenu(): void {
+    this.userMenuOpen.set(false);
+  }
+
+  logout(): void {
+    this.closeUserMenu();
+    this.auth.logout();
     void this.router.navigate(['/login']);
   }
 
@@ -141,14 +148,23 @@ export class Header {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeSearch();
+    this.closeUserMenu();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
-    if (!this.searchOpen()) return;
-    const searchBox = this.elementRef.nativeElement.querySelector('.search-box');
-    if (searchBox && !searchBox.contains(event.target as Node)) {
-      this.closeSearch();
+    if (this.searchOpen()) {
+      const searchBox = this.elementRef.nativeElement.querySelector('.search-box');
+      if (searchBox && !searchBox.contains(event.target as Node)) {
+        this.closeSearch();
+      }
+    }
+
+    if (this.userMenuOpen()) {
+      const userMenu = this.elementRef.nativeElement.querySelector('.user-menu');
+      if (userMenu && !userMenu.contains(event.target as Node)) {
+        this.closeUserMenu();
+      }
     }
   }
 }

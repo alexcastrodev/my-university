@@ -71,28 +71,42 @@
       }
     </div>
     @if (auth.currentUser()) {
-      <a routerLink="/profile" class="xp-link">
-        <span class="xp-badge" aria-label="Experience points">
-          <span class="xp-icon">⚡</span>
-          <span class="xp-value">{{ xpService.xp() }} XP</span>
+      <a
+        routerLink="/profile"
+        class="xp-level-badge"
+        aria-label="Level and experience points"
+        [attr.title]="xpService.summary()?.level?.title ?? null"
+      >
+        <span class="level-part">Lv {{ xpService.summary()?.level?.number ?? 1 }}</span>
+        <span class="xp-part">
+          <span class="xp-icon" aria-hidden="true">⚡</span>
+          {{ xpService.xp() }} XP
         </span>
-        @if (xpService.summary(); as summary) {
-          <span class="level-chip" [attr.title]="summary.level.title">Lv {{ summary.level.number }}</span>
-        }
       </a>
     }
-    <button
-      class="avatar"
-      [class.has-avatar]="!!auth.currentUser()?.avatarUrl"
-      aria-label="User account menu"
-      type="button"
-      (click)="toggleUser()"
-    >
-      @if (auth.currentUser()?.avatarUrl; as avatarUrl) {
-        <img class="avatar-img" [src]="avatarUrl" [alt]="auth.currentUser()!.displayName" />
-      } @else {
-        {{ userInitials() }}
+    <div class="user-menu">
+      <button
+        class="avatar"
+        [class.has-avatar]="!!auth.currentUser()?.avatarUrl"
+        aria-label="User account menu"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="userMenuOpen()"
+        type="button"
+        (click)="toggleUser()"
+      >
+        @if (auth.currentUser()?.avatarUrl; as avatarUrl) {
+          <img class="avatar-img" [src]="avatarUrl" [alt]="auth.currentUser()!.displayName" />
+        } @else {
+          {{ userInitials() }}
+        }
+      </button>
+
+      @if (userMenuOpen() && auth.currentUser()) {
+        <div class="user-menu-dropdown" role="menu">
+          <a routerLink="/profile" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">Profile</a>
+          <button type="button" class="user-menu-item" role="menuitem" (click)="logout()">Logout</button>
+        </div>
       }
-    </button>
+    </div>
   </div>
 </header>
