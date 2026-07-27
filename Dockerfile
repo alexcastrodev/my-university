@@ -21,6 +21,10 @@ RUN pnpm run build
 FROM node:22-alpine
 WORKDIR /app
 
+# Secure by default: dev-only endpoints (dev-login, _test/login) stay disabled unless
+# an environment (docker-compose.yml) explicitly overrides this to "development".
+ENV NODE_ENV=production
+
 RUN apk add --no-cache nginx su-exec postgresql18 postgresql18-client \
       --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main \
       --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
