@@ -7,6 +7,25 @@
         <span>Published on {{ c.publishedAt }}</span>
         @if (c.version) { <span class="sep">·</span><span>v{{ c.version }}</span> }
       </div>
+      <button
+        class="got-it-btn"
+        [class.completed]="read()"
+        [class.locked]="!auth.currentUser()"
+        [disabled]="!auth.currentUser() || read() || marking()"
+        [attr.title]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+        [attr.aria-label]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+        (click)="onMarkRead()"
+        type="button"
+      >
+        @if (!auth.currentUser()) {
+          <span aria-hidden="true">🔒</span>
+        }
+        @if (read()) {
+          ⚡ Got it +10 XP
+        } @else {
+          ⚡ Got it!
+        }
+      </button>
     </header>
 
     @for (section of sections(); track section.title) {

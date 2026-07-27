@@ -1,0 +1,67 @@
+<div class="page">
+  <div class="page-body">
+    @if (!auth.currentUser()) {
+      <div class="login-prompt">
+        <p>Log in with GitHub to track your progress.</p>
+        <a class="btn github-btn" href="/api/auth/github">Continue with GitHub</a>
+      </div>
+    } @else if (xpService.summary(); as summary) {
+      <div class="profile-header">
+        <img class="avatar-lg" [src]="auth.currentUser()!.avatarUrl" [alt]="auth.currentUser()!.displayName" />
+        <div class="profile-identity">
+          <h1 class="display-name">{{ auth.currentUser()!.displayName }}</h1>
+          <span class="github-login">&#64;{{ auth.currentUser()!.githubLogin }}</span>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-info">
+          <span class="level-number">Level {{ summary.level.number }}</span>
+          <span class="level-title">{{ summary.level.title }}</span>
+        </div>
+        <div class="xp-total">{{ summary.total }} XP</div>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="progressPercent()"></div>
+        </div>
+        @if (summary.level.nextLevelXp !== null) {
+          <span class="progress-label">{{ summary.level.nextLevelXp - summary.total }} XP to next level</span>
+        } @else {
+          <span class="progress-label">Max level reached</span>
+        }
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">XP Breakdown</h2>
+        @if (summary.breakdown.length === 0) {
+          <p class="empty-state">No XP earned yet — complete a lesson or mark something as read to get started.</p>
+        } @else {
+          <ul class="breakdown-list">
+            @for (entry of summary.breakdown; track entry.sourceType) {
+              <li class="breakdown-item">
+                <span>{{ sourceLabel(entry.sourceType) }}</span>
+                <span>{{ entry.total }} XP</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Recent Activity</h2>
+        @if (xpService.history().length === 0) {
+          <p class="empty-state">Nothing here yet.</p>
+        } @else {
+          <ul class="history-list">
+            @for (entry of xpService.history(); track entry.id) {
+              <li class="history-item">
+                <span class="history-source">{{ sourceLabel(entry.sourceType) }}</span>
+                <span class="history-id">{{ entry.sourceId }}</span>
+                <span class="history-exp">+{{ entry.exp }} XP</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  </div>
+</div>

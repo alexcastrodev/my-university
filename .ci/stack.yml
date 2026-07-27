@@ -4,9 +4,13 @@ services:
     volumes:
       - /mnt/ssd/@docker/university/db:/var/lib/postgresql
     environment:
+      - NODE_ENV=production
       - SESSION_SECRET
       - MEILI_HOST=http://meilisearch:7700
       - MEILI_MASTER_KEY
+      - GITHUB_CLIENT_ID
+      - GITHUB_CLIENT_SECRET
+      - GITHUB_CALLBACK_URL
     networks:
       - proxy_net
       - search_net

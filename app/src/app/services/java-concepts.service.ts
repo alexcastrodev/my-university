@@ -15,4 +15,8 @@ export class JavaConceptsService {
   getConcept(slug: string): Observable<JavaConcept> {
     return this.http.get<JavaConcept>(`${this.base}/${slug}`);
   }
+
+  markRead(slug: string): Observable<{ read: boolean }> {
+    return this.http.put<{ read: boolean }>(`${this.base}/${slug}/read`, {});
+  }
 }

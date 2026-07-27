@@ -10,4 +10,14 @@ export class XpController {
   getXp(@CurrentUserId() userId: number) {
     return this.service.getUserXp(userId);
   }
+
+  @Get('summary')
+  getSummary(@CurrentUserId() userId: number) {
+    return this.service.getSummary(userId);
+  }
+
+  @Get('history')
+  getHistory(@CurrentUserId() userId: number) {
+    return this.service.getHistory(userId);
+  }
 }

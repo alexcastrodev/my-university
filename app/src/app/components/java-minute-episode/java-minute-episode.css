@@ -39,6 +39,50 @@
   color: #d1d5db;
 }
 
+.got-it-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .12s, border-color .12s, color .12s;
+}
+
+.got-it-btn:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.got-it-btn.completed {
+  background: #ecfdf5;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+.got-it-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.got-it-btn.locked {
+  background: #f9fafb;
+  color: #6b7280;
+  border-style: dashed;
+}
+
+.got-it-btn.locked:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
 .episode-section {
   margin-bottom: 2rem;
 }

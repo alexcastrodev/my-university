@@ -1,0 +1,193 @@
+.page {
+  min-height: calc(100vh - 52px);
+  background: #f9fafb;
+}
+
+.page-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-prompt {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.login-prompt p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.btn:hover { opacity: .88; }
+
+.github-btn {
+  background: #24292f;
+  color: #fff;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-lg {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.display-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.github-login {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.level-card, .card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.level-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.level-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #c74634;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.level-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.xp-total {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #c74634;
+  border-radius: 4px;
+  transition: width .3s ease;
+}
+
+.progress-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.9rem;
+}
+
+.empty-state {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.breakdown-list, .history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.breakdown-item span:last-child {
+  font-weight: 700;
+  color: #111827;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #374151;
+}
+
+.history-source {
+  font-weight: 600;
+  color: #111827;
+}
+
+.history-id {
+  color: #9ca3af;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.history-exp {
+  font-weight: 700;
+  color: #c74634;
+  white-space: nowrap;
+}

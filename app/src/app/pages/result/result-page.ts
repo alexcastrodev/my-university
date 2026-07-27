@@ -38,7 +38,7 @@ export class ResultPage implements OnInit {
     const examId = this.route.snapshot.paramMap.get('examId') ?? '';
     const attemptId = Number(this.route.snapshot.paramMap.get('attemptId'));
     this.examId.set(examId);
-    this.xpService.loadXp();
+    this.xpService.loadSummary();
 
     this.examService.getExam(examId).subscribe({
       next: (exam) => this.passingScore.set(exam.passingScore),

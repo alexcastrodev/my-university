@@ -12,7 +12,12 @@
         <p>Concept not found.</p>
       </div>
     } @else {
-      <app-java-concept-view [concept]="concept()" />
+      <app-java-concept-view
+        [concept]="concept()"
+        [read]="read()"
+        [marking]="marking()"
+        (markRead)="onMarkRead()"
+      />
     }
   </div>
 </div>

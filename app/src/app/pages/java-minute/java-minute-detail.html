@@ -12,7 +12,12 @@
         <p>Episode not found.</p>
       </div>
     } @else {
-      <app-java-minute-episode [episode]="episode()" />
+      <app-java-minute-episode
+        [episode]="episode()"
+        [read]="read()"
+        [marking]="marking()"
+        (markRead)="onMarkRead()"
+      />
     }
   </div>
 </div>

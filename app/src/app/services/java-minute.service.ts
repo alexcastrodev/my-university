@@ -15,4 +15,8 @@ export class JavaMinuteService {
   getEpisode(slug: string): Observable<JavaMinuteEpisode> {
     return this.http.get<JavaMinuteEpisode>(`${this.base}/${slug}`);
   }
+
+  markRead(slug: string): Observable<{ read: boolean }> {
+    return this.http.put<{ read: boolean }>(`${this.base}/${slug}/read`, {});
+  }
 }

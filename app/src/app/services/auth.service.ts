@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { User } from '../models/auth.model';
 
 const STORAGE_KEY = 'ocp-user';
@@ -11,29 +11,41 @@ export class AuthService {
 
   currentUser = signal<User | null>(this.readStoredUser());
 
-  login(displayName: string) {
-    return this.http.post<User>('/api/auth/login', { displayName }).pipe(
-      tap((user) => this.setUser(user)),
-    );
+  /** Client-only: resolves the current session against the server and syncs the cached user. */
+  bootstrap(): void {
+    if (typeof localStorage === 'undefined') return;
+
+    this.http.get<User>('/api/auth/me').subscribe({
+      next: (user) => this.setUser(user),
+      error: () => this.clearUser(),
+    });
   }
 
-  signup(displayName: string) {
-    return this.http.post<User>('/api/auth/signup', { displayName }).pipe(
-      tap((user) => this.setUser(user)),
-    );
+  /** Non-production only: reports whether the GitHub-less dev-login shortcut is available. */
+  isDevModeEnabled(): Observable<boolean> {
+    return this.http.get<{ enabled: boolean }>('/api/auth/dev-mode').pipe(map((res) => res.enabled));
+  }
+
+  /** Dev-only: logs in as a stable local account without going through GitHub. */
+  devLogin(): Observable<User> {
+    return this.http.post<User>('/api/auth/dev-login', {}).pipe(tap((user) => this.setUser(user)));
   }
 
   logout(): void {
     this.http.post('/api/auth/logout', {}).subscribe({ error: () => {} });
-    this.currentUser.set(null);
-    if (typeof localStorage === 'undefined') return;
-    localStorage.removeItem(STORAGE_KEY);
+    this.clearUser();
   }
 
   private setUser(user: User): void {
     this.currentUser.set(user);
     if (typeof localStorage === 'undefined') return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+  }
+
+  private clearUser(): void {
+    this.currentUser.set(null);
+    if (typeof localStorage === 'undefined') return;
+    localStorage.removeItem(STORAGE_KEY);
   }
 
   private readStoredUser(): User | null {

@@ -1,9 +1,14 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Put } from '@nestjs/common';
+import { CurrentUserId, OptionalUserId } from '../auth/session';
+import { XpService } from '../xp/xp.service';
 import { JavaMinuteService } from './java-minute.service';
 
 @Controller('java-minute')
 export class JavaMinuteController {
-  constructor(private service: JavaMinuteService) {}
+  constructor(
+    private service: JavaMinuteService,
+    private xp: XpService,
+  ) {}
 
   @Get()
   findAll() {
@@ -11,9 +16,23 @@ export class JavaMinuteController {
   }
 
   @Get(':slug')
-  findOne(@Param('slug') slug: string) {
+  async findOne(
+    @Param('slug') slug: string,
+    @OptionalUserId() userId: number | null,
+  ) {
     const episode = this.service.findBySlug(slug);
     if (!episode) throw new NotFoundException();
-    return episode;
+    const read =
+      userId !== null &&
+      (await this.xp.hasEntry(userId, 'episode-watched', slug));
+    return { ...episode, read };
+  }
+
+  @Put(':slug/read')
+  async markRead(@Param('slug') slug: string, @CurrentUserId() userId: number) {
+    const episode = this.service.findBySlug(slug);
+    if (!episode) throw new NotFoundException();
+    await this.xp.grantEpisodeWatchedXp(userId, slug);
+    return { read: true };
   }
 }

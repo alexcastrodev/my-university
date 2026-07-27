@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { get, json } from './helpers';
+import { get, json, login, put } from './helpers';
 
 describe('GET /java-minute', () => {
   it('returns a list of episode summaries', async () => {
@@ -76,5 +76,48 @@ describe('GET /java-minute/:slug', () => {
   it('returns 404 for a path-traversal slug', async () => {
     const res = await get('/java-minute/..%2f..%2fetc%2fpasswd');
     expect(res.status).toBe(404);
+  });
+});
+
+describe('PUT /java-minute/:slug/read', () => {
+  it('returns 404 for an unknown slug', async () => {
+    const { cookie } = await login(`episode-404-${Date.now()}`);
+    const res = await put(
+      '/java-minute/does-not-exist/read',
+      {},
+      { Cookie: cookie },
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 401 when no session cookie is present', async () => {
+    const res = await put('/java-minute/context-switching/read', {}, {});
+    expect(res.status).toBe(401);
+  });
+
+  it('grants XP once and is idempotent on repeated calls', async () => {
+    const { cookie } = await login(`episode-read-${Date.now()}`);
+    const before = (
+      await json<{ total: number }>(await get('/xp', { Cookie: cookie }))
+    ).total;
+
+    const res1 = await put(
+      '/java-minute/context-switching/read',
+      {},
+      { Cookie: cookie },
+    );
+    expect(res1.status).toBe(200);
+    expect((await json<any>(res1)).read).toBe(true);
+
+    const afterFirst = (
+      await json<{ total: number }>(await get('/xp', { Cookie: cookie }))
+    ).total;
+    expect(afterFirst).toBe(before + 10);
+
+    await put('/java-minute/context-switching/read', {}, { Cookie: cookie });
+    const afterSecond = (
+      await json<{ total: number }>(await get('/xp', { Cookie: cookie }))
+    ).total;
+    expect(afterSecond).toBe(afterFirst);
   });
 });

@@ -4,6 +4,7 @@ import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
 import { SeoService } from '../../services/seo.service';
+import { XpService } from '../../services/xp.service';
 
 @Component({
   selector: 'app-java-minute-detail',
@@ -16,16 +17,22 @@ export class JavaMinuteDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private javaMinuteService = inject(JavaMinuteService);
   private seo = inject(SeoService);
+  private xpService = inject(XpService);
 
   episode = signal<JavaMinuteEpisode | null>(null);
   loading = signal(true);
   notFound = signal(false);
+  read = signal(false);
+  marking = signal(false);
+
+  private slug = '';
 
   ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.javaMinuteService.getEpisode(slug).subscribe({
+    this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
+    this.javaMinuteService.getEpisode(this.slug).subscribe({
       next: (episode) => {
         this.episode.set(episode);
+        this.read.set(episode.read);
         this.loading.set(false);
         this.seo.set({
           title: `${episode.question} — Java Minute`,
@@ -35,6 +42,19 @@ export class JavaMinuteDetailPage implements OnInit {
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); },
+    });
+  }
+
+  onMarkRead(): void {
+    if (this.read() || this.marking()) return;
+    this.marking.set(true);
+    this.javaMinuteService.markRead(this.slug).subscribe({
+      next: () => {
+        this.read.set(true);
+        this.marking.set(false);
+        this.xpService.loadSummary();
+      },
+      error: () => this.marking.set(false),
     });
   }
 

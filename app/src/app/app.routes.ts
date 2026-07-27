@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
   },
   {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile-page').then((m) => m.ProfilePage),
+  },
+  {
     path: 'java-minute',
     loadComponent: () => import('./pages/java-minute/java-minute-list').then((m) => m.JavaMinuteListPage),
   },

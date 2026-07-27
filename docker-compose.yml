@@ -4,9 +4,14 @@ services:
     ports:
       - "80:80"
     environment:
+      - NODE_ENV=development
       - SESSION_SECRET
       - MEILI_HOST=http://meilisearch:7700
       - MEILI_MASTER_KEY
+      - GITHUB_CLIENT_ID
+      - GITHUB_CLIENT_SECRET
+      - GITHUB_CALLBACK_URL
+      - FRONTEND_URL
     volumes:
       - postgres_data:/var/lib/postgresql
     depends_on:

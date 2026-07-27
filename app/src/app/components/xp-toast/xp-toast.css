@@ -1,0 +1,32 @@
+.xp-toast-container {
+  position: fixed;
+  top: 70px;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.xp-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #111827;
+  color: #fbbf24;
+  border: 1px solid rgba(234, 179, 8, .4);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  animation: xp-toast-in .2s ease-out;
+}
+
+.xp-toast-icon { font-size: 0.9rem; }
+
+@keyframes xp-toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

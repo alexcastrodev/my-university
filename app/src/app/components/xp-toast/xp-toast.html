@@ -1,0 +1,8 @@
+<div class="xp-toast-container" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="xp-toast">
+      <span class="xp-toast-icon" aria-hidden="true">⚡</span>
+      <span class="xp-toast-text">+{{ toast.amount }} XP</span>
+    </div>
+  }
+</div>

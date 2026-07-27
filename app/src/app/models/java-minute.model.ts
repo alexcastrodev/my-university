@@ -21,4 +21,5 @@ export interface JavaMinuteEpisode extends JavaMinuteEpisodeSummary {
   updatedAt: string | null;
   sections: JavaMinuteSection[];
   references: JavaMinuteReference[];
+  read: boolean;
 }

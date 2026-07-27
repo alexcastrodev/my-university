@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../auth/user.entity';
 
 @Entity('user_xp_entry')
@@ -13,7 +19,7 @@ export class UserXpEntry {
   user: User;
 
   @Column()
-  sourceType: 'lesson' | 'skill-check';
+  sourceType: 'lesson' | 'skill-check' | 'concept-read' | 'episode-watched';
 
   @Column()
   sourceId: string;

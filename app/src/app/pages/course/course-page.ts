@@ -93,7 +93,7 @@ export class CoursePage implements OnInit {
     this.http
       .put(`/api/progress/${this.examId()}/${lesson.id}`, { status })
       .subscribe({
-        next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadXp(); },
+        next: () => { this.setLessonStatus(lesson.id, status); this.xpService.loadSummary(); },
         error: (err) => {
           if (err.status === 401) {
             this.auth.logout();
@@ -151,7 +151,7 @@ export class CoursePage implements OnInit {
       .subscribe({
         next: () => {
           this.setLessonStatus(lesson.id, status);
-          if (status === 'completed') this.xpService.loadXp();
+          if (status === 'completed') this.xpService.loadSummary();
         },
         error: (err) => {
           if (err.status === 401) {

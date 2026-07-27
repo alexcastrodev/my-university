@@ -4,6 +4,7 @@ import { JavaConceptView } from '../../components/java-concept-view/java-concept
 import { JavaConcept } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { XpService } from '../../services/xp.service';
 
 @Component({
   selector: 'app-java-concepts-detail',
@@ -16,16 +17,22 @@ export class JavaConceptsDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private javaConceptsService = inject(JavaConceptsService);
   private seo = inject(SeoService);
+  private xpService = inject(XpService);
 
   concept = signal<JavaConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
+  read = signal(false);
+  marking = signal(false);
+
+  private slug = '';
 
   ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.javaConceptsService.getConcept(slug).subscribe({
+    this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
+    this.javaConceptsService.getConcept(this.slug).subscribe({
       next: (concept) => {
         this.concept.set(concept);
+        this.read.set(concept.read);
         this.loading.set(false);
         this.seo.set({
           title: `${concept.title} — Java Concepts`,
@@ -35,6 +42,19 @@ export class JavaConceptsDetailPage implements OnInit {
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); },
+    });
+  }
+
+  onMarkRead(): void {
+    if (this.read() || this.marking()) return;
+    this.marking.set(true);
+    this.javaConceptsService.markRead(this.slug).subscribe({
+      next: () => {
+        this.read.set(true);
+        this.marking.set(false);
+        this.xpService.loadSummary();
+      },
+      error: () => this.marking.set(false),
     });
   }
 }

@@ -1,24 +1,33 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { GithubProfile } from './github-oauth.service';
 import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  async login(displayName: string): Promise<User> {
-    const { normalizedName } = this.normalize(displayName);
-    const existing = await this.repo.findOne({ where: { normalizedName } });
-    if (!existing) throw new NotFoundException('Name not found.');
-    return existing;
-  }
+  async upsertFromGithub(profile: GithubProfile): Promise<User> {
+    const githubId = String(profile.id);
+    const existing = await this.repo.findOne({ where: { githubId } });
+    const displayName = profile.name ?? profile.login;
 
-  async signup(displayName: string): Promise<User> {
-    const { cleanName, normalizedName } = this.normalize(displayName);
-    const existing = await this.repo.findOne({ where: { normalizedName } });
-    if (existing) throw new ConflictException('Name already taken.');
-    return this.repo.save(this.repo.create({ displayName: cleanName, normalizedName }));
+    if (existing) {
+      existing.githubLogin = profile.login;
+      existing.displayName = displayName;
+      existing.avatarUrl = profile.avatar_url;
+      return this.repo.save(existing);
+    }
+
+    return this.repo.save(
+      this.repo.create({
+        githubId,
+        githubLogin: profile.login,
+        displayName,
+        avatarUrl: profile.avatar_url,
+      }),
+    );
   }
 
   async findById(id: number): Promise<User> {
@@ -27,9 +36,31 @@ export class AuthService {
     return user;
   }
 
-  private normalize(displayName: string): { cleanName: string; normalizedName: string } {
-    const cleanName = displayName.trim();
-    if (!cleanName) throw new BadRequestException('Name is required.');
-    return { cleanName, normalizedName: cleanName.toLocaleLowerCase() };
+  /** Test-only: creates a fresh user without going through the GitHub OAuth flow. */
+  async createTestUser(name: string): Promise<User> {
+    return this.repo.save(
+      this.repo.create({
+        githubId: `test-${name}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        githubLogin: name,
+        displayName: name,
+        avatarUrl: 'https://avatars.githubusercontent.com/u/0',
+      }),
+    );
+  }
+
+  /** Dev-only: finds or creates a single stable local account so XP/progress survive across dev logins. */
+  async upsertDevUser(): Promise<User> {
+    const githubId = 'local-dev';
+    const existing = await this.repo.findOne({ where: { githubId } });
+    if (existing) return existing;
+
+    return this.repo.save(
+      this.repo.create({
+        githubId,
+        githubLogin: 'dev',
+        displayName: 'Dev User',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/0',
+      }),
+    );
   }
 }
