@@ -66,5 +66,16 @@
       { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" },
       { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "deque-interface",
+    "id": 7,
+    "title": "The Deque Interface",
+    "summary": "How Deque extends Queue into a double-ended queue that can also act as a stack, and how its addFirst/addLast, peek, and remove families each split into a throwing and a reporting version.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Deque — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html", "type": "doc" },
+      { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" }
+    ]
   }
 ]
