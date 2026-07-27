@@ -1,10 +1,20 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">Java Concepts</h1>
-    <p class="page-sub">Core Java concepts explained in depth, one at a time.</p>
+    <h1 class="page-title">Spring Concepts</h1>
+    <p class="page-sub">Spring Boot, Spring Security, and Spring Batch — core concepts explained in depth.</p>
   </div>
 
   <div class="page-body">
+    <div class="category-filters">
+      @for (opt of CATEGORY_OPTIONS; track opt.value) {
+        <button type="button" class="category-filter-pill"
+          [class.active]="selectedCategory() === opt.value"
+          (click)="onFilterChange(opt.value)">
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading concepts">
         <span class="spinner" aria-hidden="true"></span>
@@ -12,9 +22,10 @@
       </div>
     } @else {
       <div class="cards-grid">
-        @for (concept of concepts(); track concept.slug) {
-          <a [routerLink]="['/java/java-concepts', concept.slug]" class="concept-card">
+        @for (concept of filteredConcepts(); track concept.slug) {
+          <a [routerLink]="['/spring-concepts', concept.slug]" class="concept-card">
             <div class="card-header">
+              <span class="card-category">{{ concept.category }}</span>
               <span class="card-date">{{ concept.publishedAt }}</span>
             </div>
             <h3 class="card-title">{{ concept.title }}</h3>

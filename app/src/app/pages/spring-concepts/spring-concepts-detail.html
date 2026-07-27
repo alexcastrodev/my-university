@@ -1,6 +1,6 @@
 <div class="page">
   <div class="page-body">
-    <a routerLink="/java/java-concepts" class="back-link">← Java Concepts</a>
+    <a routerLink="/spring-concepts" class="back-link">← Spring Concepts</a>
 
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading concept">
@@ -12,7 +12,7 @@
         <p>Concept not found.</p>
       </div>
     } @else {
-      <app-java-concept-view
+      <app-spring-concept-view
         [concept]="concept()"
         [read]="read()"
         [marking]="marking()"

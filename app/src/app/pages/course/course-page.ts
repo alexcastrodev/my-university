@@ -81,7 +81,7 @@ export class CoursePage implements OnInit {
   }
 
   onLessonSelected(lesson: Lesson): void {
-    void this.router.navigate(['/exam', this.examId(), 'lesson', lesson.id]);
+    void this.router.navigate(['/java/exam', this.examId(), 'lesson', lesson.id]);
     this.openLesson(lesson);
   }
 
@@ -135,7 +135,7 @@ export class CoursePage implements OnInit {
   }
 
   clearLesson(): void {
-    void this.router.navigate(['/exam', this.examId()]);
+    void this.router.navigate(['/java/exam', this.examId()]);
     this.activeLesson.set(null);
     this.activeLessonId.set(null);
     this.markdownContent.set(null);

@@ -52,7 +52,7 @@ export class SearchService implements OnApplicationBootstrap {
         type: 'course' satisfies SearchResultType,
         title: course.title,
         subtitle: course.tag,
-        url: `/exam/${course.id}`,
+        url: `/java/exam/${course.id}`,
         content: course.description,
       });
     }
@@ -65,7 +65,7 @@ export class SearchService implements OnApplicationBootstrap {
         type: 'lesson' satisfies SearchResultType,
         title: lesson.title,
         subtitle: lesson.module?.course?.title ?? null,
-        url: `/exam/${courseId}/lesson/${lesson.id}`,
+        url: `/java/exam/${courseId}/lesson/${lesson.id}`,
         content: '',
       });
     }
@@ -76,7 +76,7 @@ export class SearchService implements OnApplicationBootstrap {
         type: 'java-minute' satisfies SearchResultType,
         title: episode.question,
         subtitle: 'Java Minute',
-        url: `/java-minute/${episode.slug}`,
+        url: `/java/java-minute/${episode.slug}`,
         content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
       });
     }
@@ -87,7 +87,7 @@ export class SearchService implements OnApplicationBootstrap {
         type: 'java-concept' satisfies SearchResultType,
         title: concept.title,
         subtitle: 'Java Concepts',
-        url: `/java-concepts/${concept.slug}`,
+        url: `/java/java-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JavaConceptView } from '../../components/java-concept-view/java-concept-view';
-import { JavaConcept } from '../../models/java-concept.model';
-import { JavaConceptsService } from '../../services/java-concepts.service';
+import { SpringConceptView } from '../../components/spring-concept-view/spring-concept-view';
+import { SpringConcept } from '../../models/spring-concept.model';
+import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
 @Component({
-  selector: 'app-java-concepts-detail',
+  selector: 'app-spring-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JavaConceptView, RouterLink],
-  templateUrl: './java-concepts-detail.html',
-  styleUrl: './java-concepts-detail.css',
+  imports: [SpringConceptView, RouterLink],
+  templateUrl: './spring-concepts-detail.html',
+  styleUrl: './spring-concepts-detail.css',
 })
-export class JavaConceptsDetailPage implements OnInit {
+export class SpringConceptsDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
-  private javaConceptsService = inject(JavaConceptsService);
+  private springConceptsService = inject(SpringConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
 
-  concept = signal<JavaConcept | null>(null);
+  concept = signal<SpringConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
   read = signal(false);
@@ -29,15 +29,15 @@ export class JavaConceptsDetailPage implements OnInit {
 
   ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.javaConceptsService.getConcept(this.slug).subscribe({
+    this.springConceptsService.getConcept(this.slug).subscribe({
       next: (concept) => {
         this.concept.set(concept);
         this.read.set(concept.read);
         this.loading.set(false);
         this.seo.set({
-          title: `${concept.title} — Java Concepts`,
+          title: `${concept.title} — Spring Concepts`,
           description: concept.summary,
-          path: `/java/java-concepts/${concept.slug}`,
+          path: `/spring-concepts/${concept.slug}`,
           type: 'article',
         });
       },
@@ -48,7 +48,7 @@ export class JavaConceptsDetailPage implements OnInit {
   onMarkRead(): void {
     if (this.read() || this.marking()) return;
     this.marking.set(true);
-    this.javaConceptsService.markRead(this.slug).subscribe({
+    this.springConceptsService.markRead(this.slug).subscribe({
       next: () => {
         this.read.set(true);
         this.marking.set(false);
