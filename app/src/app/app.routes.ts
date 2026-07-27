@@ -30,6 +30,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
   },
   {
+    path: 'databases/database-concepts',
+    loadComponent: () => import('./pages/database-concepts/database-concepts-list').then((m) => m.DatabaseConceptsListPage),
+  },
+  {
+    path: 'databases/database-concepts/:slug',
+    loadComponent: () => import('./pages/database-concepts/database-concepts-detail').then((m) => m.DatabaseConceptsDetailPage),
+  },
+  {
     path: 'exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
