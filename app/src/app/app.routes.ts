@@ -30,6 +30,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
   },
   {
+    path: 'spring-concepts',
+    loadComponent: () => import('./pages/spring-concepts/spring-concepts-list').then((m) => m.SpringConceptsListPage),
+  },
+  {
+    path: 'spring-concepts/:slug',
+    loadComponent: () => import('./pages/spring-concepts/spring-concepts-detail').then((m) => m.SpringConceptsDetailPage),
+  },
+  {
     path: 'exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

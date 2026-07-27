@@ -1,0 +1,31 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Spring Concepts</h1>
+    <p class="page-sub">Spring Boot, Spring Security, and Spring Batch — core concepts explained in depth.</p>
+  </div>
+
+  <div class="page-body">
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (concept of concepts(); track concept.slug) {
+          <a [routerLink]="['/spring-concepts', concept.slug]" class="concept-card">
+            <div class="card-header">
+              <span class="card-category">{{ concept.category }}</span>
+              <span class="card-date">{{ concept.publishedAt }}</span>
+            </div>
+            <h3 class="card-title">{{ concept.title }}</h3>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-footer">
+              <span class="card-cta">Read →</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>
