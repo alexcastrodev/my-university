@@ -49,6 +49,36 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.category-filter-pill {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  color: #4b5563;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.category-filter-pill:hover {
+  background: #fff1ef;
+  color: #c74634;
+}
+
+.category-filter-pill.active {
+  background: #fff1ef;
+  border-color: #c74634;
+  color: #c74634;
+}
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

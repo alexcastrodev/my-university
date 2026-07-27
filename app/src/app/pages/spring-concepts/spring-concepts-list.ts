@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SpringConceptSummary } from '../../models/spring-concept.model';
+import { SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { SeoService } from '../../services/seo.service';
+
+const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[] = [
+  { label: 'All', value: null },
+  { label: 'Spring Boot', value: 'Spring Boot' },
+  { label: 'Spring Security', value: 'Spring Security' },
+  { label: 'Spring Batch', value: 'Spring Batch' },
+];
 
 @Component({
   selector: 'app-spring-concepts-list',
@@ -15,8 +22,21 @@ export class SpringConceptsListPage implements OnInit {
   private springConceptsService = inject(SpringConceptsService);
   private seo = inject(SeoService);
 
+  protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
+
   concepts = signal<SpringConceptSummary[]>([]);
   loading = signal(true);
+  selectedCategory = signal<SpringConceptCategory | null>(null);
+
+  filteredConcepts = computed(() => {
+    const category = this.selectedCategory();
+    const all = this.concepts();
+    return category ? all.filter((c) => c.category === category) : all;
+  });
+
+  onFilterChange(category: SpringConceptCategory | null) {
+    this.selectedCategory.set(category);
+  }
 
   ngOnInit() {
     this.seo.set({

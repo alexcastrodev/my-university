@@ -5,6 +5,16 @@
   </div>
 
   <div class="page-body">
+    <div class="category-filters">
+      @for (opt of CATEGORY_OPTIONS; track opt.value) {
+        <button type="button" class="category-filter-pill"
+          [class.active]="selectedCategory() === opt.value"
+          (click)="onFilterChange(opt.value)">
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading concepts">
         <span class="spinner" aria-hidden="true"></span>
@@ -12,7 +22,7 @@
       </div>
     } @else {
       <div class="cards-grid">
-        @for (concept of concepts(); track concept.slug) {
+        @for (concept of filteredConcepts(); track concept.slug) {
           <a [routerLink]="['/spring-concepts', concept.slug]" class="concept-card">
             <div class="card-header">
               <span class="card-category">{{ concept.category }}</span>
