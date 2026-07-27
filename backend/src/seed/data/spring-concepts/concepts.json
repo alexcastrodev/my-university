@@ -12,5 +12,18 @@
       { "label": "Spring Boot Reference — Auto-configuration", "url": "https://docs.spring.io/spring-boot/reference/using/auto-configuration.html", "type": "doc" },
       { "label": "Spring Initializr", "url": "https://start.spring.io", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-batch-chunk-processing",
+    "id": 2,
+    "category": "Spring Batch",
+    "title": "Spring Batch Chunk-Oriented Processing",
+    "summary": "How Spring Batch's Job/Step/JobInstance/JobExecution/StepExecution model and chunk-oriented ItemReader/ItemProcessor/ItemWriter processing work, and how Java-based JobBuilder/StepBuilder configuration replaced the now-deprecated XML namespace.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 1, \"Introducing Spring Batch\", p. 16-27", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Domain Language (Job, Step, JobInstance, JobExecution, StepExecution, JobRepository)", "url": "https://docs.spring.io/spring-batch/reference/domain.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
   }
 ]
