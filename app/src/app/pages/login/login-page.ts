@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     if (this.auth.currentUser()) {
-      void this.router.navigateByUrl('/');
+      void this.router.navigateByUrl('/java/exams');
       return;
     }
     this.error.set(this.route.snapshot.queryParamMap.get('error') === 'oauth_failed');
@@ -38,7 +38,7 @@ export class LoginPage implements OnInit {
     this.auth.devLogin().subscribe({
       next: () => {
         this.devLoggingIn.set(false);
-        void this.router.navigateByUrl('/');
+        void this.router.navigateByUrl('/java/exams');
       },
       error: () => this.devLoggingIn.set(false),
     });

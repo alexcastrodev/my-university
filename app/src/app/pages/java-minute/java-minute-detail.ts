@@ -37,7 +37,7 @@ export class JavaMinuteDetailPage implements OnInit {
         this.seo.set({
           title: `${episode.question} — Java Minute`,
           description: this.summarize(episode),
-          path: `/java-minute/${episode.slug}`,
+          path: `/java/java-minute/${episode.slug}`,
           type: 'article',
         });
       },

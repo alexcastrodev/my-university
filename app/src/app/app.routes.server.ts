@@ -10,19 +10,23 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
-    path: 'java-minute',
+    path: 'java/exams',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'java-minute/:slug',
+    path: 'java/java-minute',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'java-concepts',
+    path: 'java/java-minute/:slug',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'java-concepts/:slug',
+    path: 'java/java-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'java/java-concepts/:slug',
     renderMode: RenderMode.Server,
   },
   {

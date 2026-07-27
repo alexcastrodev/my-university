@@ -39,7 +39,7 @@ export class LessonContent implements OnChanges {
     const examId = this.route.snapshot.paramMap.get('examId')
       ?? this.route.snapshot.root.firstChild?.paramMap.get('examId')
       ?? 'java-25';
-    void this.router.navigate(['/exam', examId, 'lesson', lessonId]);
+    void this.router.navigate(['/java/exam', examId, 'lesson', lessonId]);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

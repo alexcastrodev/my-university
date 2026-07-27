@@ -19,7 +19,7 @@
           </h2>
           <div class="cards-grid">
             @for (exam of byCategory(category); track exam.id) {
-              <a [routerLink]="['/exam', exam.id]" class="exam-card">
+              <a [routerLink]="['/java/exam', exam.id]" class="exam-card">
                 <div class="card-header">
                   <span class="card-version">v{{ exam.version }}</span>
                   <span class="card-category">{{ exam.category }}</span>
