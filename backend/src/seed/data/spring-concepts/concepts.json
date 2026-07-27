@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "spring-boot-autoconfiguration",
+    "id": 1,
+    "category": "Spring Boot",
+    "title": "Spring Boot Autoconfiguration",
+    "summary": "How @SpringBootApplication, starter dependencies, and conditional beans let Spring Boot wire an application with almost no explicit configuration.",
+    "publishedAt": "2026-07-27",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 1, \"Getting started with Spring\", p. 3-18", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Boot Reference — Using Spring Boot", "url": "https://docs.spring.io/spring-boot/reference/using/index.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Auto-configuration", "url": "https://docs.spring.io/spring-boot/reference/using/auto-configuration.html", "type": "doc" },
+      { "label": "Spring Initializr", "url": "https://start.spring.io", "type": "doc" }
+    ]
+  }
+]
