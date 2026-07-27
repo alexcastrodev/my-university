@@ -1,0 +1,19 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">My University</h1>
+    <p class="page-sub">Practice exams, quick answers, and in-depth concepts — pick a session to get started.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="sessions-grid">
+      @for (session of sessions; track session.title) {
+        <a [routerLink]="session.routerLink" class="session-card">
+          <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
+          <h2 class="session-title">{{ session.title }}</h2>
+          <p class="session-description">{{ session.description }}</p>
+          <span class="session-cta">Explore →</span>
+        </a>
+      }
+    </div>
+  </div>
+</div>

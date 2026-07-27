@@ -22,7 +22,7 @@ export class JavaConceptsListPage implements OnInit {
     this.seo.set({
       title: 'Java Concepts',
       description: 'Core Java concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
-      path: '/java-concepts',
+      path: '/java/java-concepts',
     });
 
     this.javaConceptsService.listConcepts().subscribe({

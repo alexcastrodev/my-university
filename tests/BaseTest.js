@@ -26,23 +26,23 @@ async function login(page) {
 
 export async function gotoExamList(page) {
   await login(page);
-  await page.goto(BASE_URL);
+  await page.goto(`${BASE_URL}/java/exams`);
   await page.waitForLoadState('networkidle');
 }
 
 export async function gotoCourse(page, examId = EXAM_ID) {
-  const url = `${BASE_URL}/exam/${examId}`;
+  const url = `${BASE_URL}/java/exam/${examId}`;
   await login(page);
   await page.goto(url);
   await page.waitForLoadState('networkidle');
 }
 
 export async function gotoLesson(page, examId = EXAM_ID, lessonId) {
-  await page.goto(`${BASE_URL}/exam/${examId}/lesson/${lessonId}`);
+  await page.goto(`${BASE_URL}/java/exam/${examId}/lesson/${lessonId}`);
 }
 
 export async function gotoQuiz(page, examId = EXAM_ID) {
-  await page.goto(`${BASE_URL}/exam/${examId}/quiz`);
+  await page.goto(`${BASE_URL}/java/exam/${examId}/quiz`);
 }
 
 export async function setViewport(page, name) {

@@ -1,0 +1,82 @@
+.page {
+  min-height: calc(100vh - 52px);
+  background: #f9fafb;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.page-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,.65);
+  margin: 0;
+}
+
+.page-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.session-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+  cursor: pointer;
+}
+
+.session-card:hover {
+  border-color: #c74634;
+  box-shadow: 0 6px 20px rgba(199,70,52,.12);
+  transform: translateY(-2px);
+}
+
+.session-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.session-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem;
+}
+
+.session-description {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.session-cta {
+  margin-top: 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c74634;
+}
