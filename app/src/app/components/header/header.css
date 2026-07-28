@@ -36,6 +36,18 @@
 
 .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 
+.mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.4rem;
+  flex-shrink: 0;
+}
+
 .nav-link {
   color: #ccc;
   text-decoration: none;
@@ -258,12 +270,60 @@
 
 .xp-icon { font-size: 0.8rem; line-height: 1; }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .header-left {
+    gap: 0.75rem;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    order: 2;
+  }
+
+  .header-right {
+    order: 3;
+    gap: 0.5rem;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.15rem;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    padding: 0.5rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 0.6rem 0.75rem;
+  }
+
   .search-box {
     display: none;
   }
 
   .brand-name {
     font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .xp-part {
+    display: none;
   }
 }
