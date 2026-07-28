@@ -58,6 +58,7 @@
 .concept-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
@@ -96,6 +97,8 @@
   color: #111827;
   margin: 0 0 0.4rem;
   line-height: 1.4;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .card-summary {
@@ -104,6 +107,8 @@
   margin: 0;
   line-height: 1.5;
   flex: 1;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .card-footer {
