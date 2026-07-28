@@ -46,6 +46,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'system-design/system-design-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'system-design/system-design-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Client,
   },

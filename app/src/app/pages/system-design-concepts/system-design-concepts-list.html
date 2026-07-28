@@ -1,0 +1,46 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">System Design Concepts</h1>
+    <p class="page-sub">Distributed systems and architecture patterns explained in depth.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="tag-filters">
+      @for (opt of tagOptions(); track opt.value) {
+        <button type="button" class="tag-filter-pill"
+          [class.active]="selectedTag() === opt.value"
+          (click)="onFilterChange(opt.value)">
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (concept of filteredConcepts(); track concept.slug) {
+          <a [routerLink]="['/system-design/system-design-concepts', concept.slug]" class="concept-card">
+            <div class="card-header">
+              <span class="card-difficulty">{{ concept.difficulty }}</span>
+              <span class="card-reading-time">{{ concept.readingTime }} min</span>
+            </div>
+            <h3 class="card-title">{{ concept.title }}</h3>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-tags">
+              @for (tag of concept.tags; track tag) {
+                <span class="card-tag">{{ tag }}</span>
+              }
+            </div>
+            <div class="card-footer">
+              <span class="card-cta">Read →</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

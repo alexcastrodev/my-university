@@ -42,6 +42,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/database-concepts/database-concepts-detail').then((m) => m.DatabaseConceptsDetailPage),
   },
   {
+    path: 'system-design/system-design-concepts',
+    loadComponent: () => import('./pages/system-design-concepts/system-design-concepts-list').then((m) => m.SystemDesignConceptsListPage),
+  },
+  {
+    path: 'system-design/system-design-concepts/:slug',
+    loadComponent: () => import('./pages/system-design-concepts/system-design-concepts-detail').then((m) => m.SystemDesignConceptsDetailPage),
+  },
+  {
     path: 'spring-concepts',
     loadComponent: () => import('./pages/spring-concepts/spring-concepts-list').then((m) => m.SpringConceptsListPage),
   },

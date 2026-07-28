@@ -1,0 +1,23 @@
+<div class="page">
+  <div class="page-body">
+    <a routerLink="/system-design/system-design-concepts" class="back-link">← System Design</a>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concept…
+      </div>
+    } @else if (notFound()) {
+      <div class="not-found">
+        <p>Concept not found.</p>
+      </div>
+    } @else {
+      <app-system-design-concept-view
+        [concept]="concept()"
+        [read]="read()"
+        [marking]="marking()"
+        (markRead)="onMarkRead()"
+      />
+    }
+  </div>
+</div>

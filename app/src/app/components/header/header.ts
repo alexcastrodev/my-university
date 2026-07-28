@@ -18,6 +18,9 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   lesson: 'Lesson',
   'java-minute': 'Java Minute',
   'java-concept': 'Java Concept',
+  'database-concept': 'Database Concept',
+  'spring-concept': 'Spring Concept',
+  'system-design-concept': 'System Design',
 };
 
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
@@ -26,6 +29,9 @@ const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'Lessons', value: 'lesson' },
   { label: 'Java Minute', value: 'java-minute' },
   { label: 'Java Concepts', value: 'java-concept' },
+  { label: 'Database Concepts', value: 'database-concept' },
+  { label: 'Spring Concepts', value: 'spring-concept' },
+  { label: 'System Design', value: 'system-design-concept' },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;

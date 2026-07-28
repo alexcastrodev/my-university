@@ -1,0 +1,74 @@
+# Rendered to SVG (and inlined into ../content/outbox-pattern.md) with:
+#   d2 --pad 16 --no-xml-tag outbox-architecture.d2 outbox-architecture.svg
+
+vars: {
+  d2-config: {
+    theme-id: 0
+  }
+}
+
+direction: down
+
+classes: {
+  node: {
+    style: {
+      fill: "#fff1ef"
+      stroke: "#c74634"
+      stroke-width: 2
+      font-color: "#111827"
+      border-radius: 8
+    }
+  }
+}
+
+writer: OrderService\n(write path) {
+  class: node
+}
+
+db: Database {
+  style: {
+    fill: "#f9fafb"
+    stroke: "#e5e7eb"
+    stroke-width: 1
+    font-color: "#6b7280"
+    border-radius: 10
+  }
+  orders: orders table {
+    class: node
+  }
+  outbox: outbox table {
+    class: node
+  }
+}
+
+relay: Message Relay {
+  class: node
+}
+broker: Message Broker {
+  class: node
+}
+
+writer -> db.orders: 1 local TX {
+  style: {
+    stroke: "#9ca3af"
+    font-color: "#6b7280"
+  }
+}
+writer -> db.outbox: 1 local TX {
+  style: {
+    stroke: "#9ca3af"
+    font-color: "#6b7280"
+  }
+}
+db.outbox -> relay: 2. relay reads {
+  style: {
+    stroke: "#9ca3af"
+    font-color: "#6b7280"
+  }
+}
+relay -> broker: 3. publish {
+  style: {
+    stroke: "#9ca3af"
+    font-color: "#6b7280"
+  }
+}

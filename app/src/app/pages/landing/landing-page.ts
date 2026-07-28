@@ -28,6 +28,12 @@ const SESSIONS: LandingSession[] = [
     icon: '🗄️',
     routerLink: '/databases/database-concepts',
   },
+  {
+    title: 'System Design',
+    description: 'Distributed systems and architecture patterns explained in depth.',
+    icon: '🧩',
+    routerLink: '/system-design/system-design-concepts',
+  },
 ];
 
 @Component({

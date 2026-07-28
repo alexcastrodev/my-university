@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "outbox-pattern",
+    "id": 1,
+    "title": "The Transactional Outbox Pattern",
+    "summary": "How to atomically update a database and publish an event about that update without a distributed transaction — by writing the event to an outbox table in the same local transaction, then relaying it asynchronously.",
+    "publishedAt": "2026-07-28",
+    "difficulty": "Intermediate",
+    "readingTime": 16,
+    "tags": ["Distributed Systems", "Messaging", "Data Consistency", "Event-Driven Architecture", "Microservices"],
+    "prerequisites": ["Database transactions (ACID)", "Message queues / brokers basics", "Eventual consistency"],
+    "related": ["Change Data Capture (CDC)", "Saga Pattern", "Event Sourcing", "Two-Phase Commit (2PC)"],
+    "references": [
+      { "label": "Chris Richardson, \"Microservices Patterns\" (Manning, 2018) — Chapter 3, \"Transactional messaging\"", "url": "https://www.manning.com/books/microservices-patterns", "type": "book" },
+      { "label": "microservices.io — Pattern: Transactional outbox", "url": "https://microservices.io/patterns/data/transactional-outbox.html", "type": "doc" },
+      { "label": "Gunnar Morling — \"Reliable Microservices Data Exchange With the Outbox Pattern\" (Debezium blog, 2019)", "url": "https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/", "type": "engineering" },
+      { "label": "Debezium Documentation — Outbox Event Router", "url": "https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html", "type": "doc" }
+    ]
+  }
+]

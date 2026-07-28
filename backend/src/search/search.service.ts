@@ -3,11 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
+import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
+import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { MeilisearchClient } from './meilisearch.client';
 
-export type SearchResultType = 'course' | 'lesson' | 'java-minute' | 'java-concept';
+export type SearchResultType =
+  | 'course'
+  | 'lesson'
+  | 'java-minute'
+  | 'java-concept'
+  | 'database-concept'
+  | 'spring-concept'
+  | 'system-design-concept';
 
 export interface SearchResult {
   type: SearchResultType;
@@ -25,6 +35,9 @@ export class SearchService implements OnApplicationBootstrap {
     @InjectRepository(Lesson) private lessonRepo: Repository<Lesson>,
     private javaConceptsService: JavaConceptsService,
     private javaMinuteService: JavaMinuteService,
+    private databaseConceptsService: DatabaseConceptsService,
+    private springConceptsService: SpringConceptsService,
+    private systemDesignConceptsService: SystemDesignConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -88,6 +101,39 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Java Concepts',
         url: `/java/java-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.databaseConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `database-concept-${concept.slug}`,
+        type: 'database-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Database Concepts',
+        url: `/databases/database-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.springConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `spring-concept-${concept.slug}`,
+        type: 'spring-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Spring Concepts',
+        url: `/spring-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.systemDesignConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `system-design-concept-${concept.slug}`,
+        type: 'system-design-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'System Design',
+        url: `/system-design/system-design-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

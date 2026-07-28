@@ -1,0 +1,89 @@
+@if (concept(); as c) {
+  <article class="concept">
+    <header class="concept-header">
+      <div class="concept-badges">
+        <span class="concept-badge difficulty">{{ c.difficulty }}</span>
+        <span class="concept-badge reading-time">{{ c.readingTime }} min read</span>
+      </div>
+      <h1 class="concept-title">{{ c.title }}</h1>
+      <div class="concept-meta">
+        <span>Published on {{ c.publishedAt }}</span>
+      </div>
+      <div class="concept-tags">
+        @for (tag of c.tags; track tag) {
+          <span class="concept-tag">{{ tag }}</span>
+        }
+      </div>
+      <button
+        class="got-it-btn"
+        [class.completed]="read()"
+        [class.locked]="!auth.currentUser()"
+        [disabled]="!auth.currentUser() || read() || marking()"
+        [attr.title]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+        [attr.aria-label]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+        (click)="onMarkRead()"
+        type="button"
+      >
+        @if (!auth.currentUser()) {
+          <span aria-hidden="true">🔒</span>
+        }
+        @if (read()) {
+          ⚡ Got it +10 XP
+        } @else {
+          ⚡ Got it!
+        }
+      </button>
+    </header>
+
+    @if (c.prerequisites.length || c.related.length) {
+      <section class="concept-section side-info">
+        @if (c.prerequisites.length) {
+          <div class="side-info-block">
+            <h2 class="side-info-title">Prerequisites</h2>
+            <ul class="side-info-list">
+              @for (item of c.prerequisites; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+        @if (c.related.length) {
+          <div class="side-info-block">
+            <h2 class="side-info-title">Related</h2>
+            <ul class="side-info-list">
+              @for (item of c.related; track item) {
+                <li>{{ item }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </section>
+    }
+
+    @for (section of sections(); track section.title) {
+      <section class="concept-section">
+        <h2 class="section-title">{{ section.title }}</h2>
+        <div class="section-body" [innerHTML]="section.html"></div>
+      </section>
+    }
+
+    @if (referenceGroups().length) {
+      <section class="concept-section">
+        <h2 class="section-title">References</h2>
+        @for (group of referenceGroups(); track group.type) {
+          <div class="reference-group">
+            <h3 class="reference-group-title">{{ group.label }}</h3>
+            <ul class="references-list">
+              @for (ref of group.refs; track ref.url) {
+                <li class="reference-item">
+                  <span class="reference-icon" aria-hidden="true">{{ group.icon }}</span>
+                  <a [href]="ref.url" target="_blank" rel="noopener noreferrer">{{ ref.label }}</a>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </section>
+    }
+  </article>
+}
