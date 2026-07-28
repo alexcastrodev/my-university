@@ -9,13 +9,31 @@
       </span>
       <span class="brand-name">My<strong>University</strong></span>
     </a>
-    <nav class="nav-links" aria-label="Main navigation">
+    <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" aria-label="Main navigation" (click)="closeMobileMenu()">
       <a routerLink="/java/exams" routerLinkActive="active" class="nav-link">Exams</a>
       <a routerLink="/java/java-minute" routerLinkActive="active" class="nav-link">Java Minute</a>
       <a routerLink="/java/java-concepts" routerLinkActive="active" class="nav-link">Java Concepts</a>
       <a routerLink="/spring-concepts" routerLinkActive="active" class="nav-link">Spring Concepts</a>
     </nav>
   </div>
+  <button
+    type="button"
+    class="mobile-menu-toggle"
+    aria-label="Toggle navigation menu"
+    aria-controls="nav-links"
+    [attr.aria-expanded]="mobileMenuOpen()"
+    (click)="toggleMobileMenu()"
+  >
+    @if (mobileMenuOpen()) {
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    } @else {
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    }
+  </button>
   <div class="header-right">
     <div class="search-box" role="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
