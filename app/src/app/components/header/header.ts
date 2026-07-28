@@ -62,6 +62,7 @@ export class Header {
   searchTypeFilter = signal<SearchResultType | null>(null);
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
+  javaMenuOpen = signal(false);
 
   private debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -95,6 +96,14 @@ export class Header {
 
   closeMobileMenu(): void {
     this.mobileMenuOpen.set(false);
+  }
+
+  toggleJavaMenu(): void {
+    this.javaMenuOpen.update((open) => !open);
+  }
+
+  closeJavaMenu(): void {
+    this.javaMenuOpen.set(false);
   }
 
   logout(): void {
@@ -165,6 +174,7 @@ export class Header {
     this.closeSearch();
     this.closeUserMenu();
     this.closeMobileMenu();
+    this.closeJavaMenu();
   }
 
   @HostListener('document:click', ['$event'])
@@ -189,6 +199,13 @@ export class Header {
       const target = event.target as Node;
       if (nav && toggle && !nav.contains(target) && !toggle.contains(target)) {
         this.closeMobileMenu();
+      }
+    }
+
+    if (this.javaMenuOpen()) {
+      const javaMenu = this.elementRef.nativeElement.querySelector('.java-menu');
+      if (javaMenu && !javaMenu.contains(event.target as Node)) {
+        this.closeJavaMenu();
       }
     }
   }

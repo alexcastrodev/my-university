@@ -9,12 +9,32 @@
       </span>
       <span class="brand-name">My<strong>University</strong></span>
     </a>
-    <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" aria-label="Main navigation" (click)="closeMobileMenu()">
-      <a routerLink="/java/exams" routerLinkActive="active" class="nav-link">Exams</a>
-      <a routerLink="/java/java-minute" routerLinkActive="active" class="nav-link">Java Minute</a>
-      <a routerLink="/java/java-concepts" routerLinkActive="active" class="nav-link">Java Concepts</a>
-      <a routerLink="/spring-concepts" routerLinkActive="active" class="nav-link">Spring Concepts</a>
-      <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link">System Design</a>
+    <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" aria-label="Main navigation">
+      <div class="java-menu">
+        <button
+          type="button"
+          class="nav-link nav-dropdown-trigger"
+          [class.active]="javaMenuOpen()"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="javaMenuOpen()"
+          (click)="toggleJavaMenu()"
+        >
+          Java
+          <svg class="chevron" [class.open]="javaMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        @if (javaMenuOpen()) {
+          <div class="java-menu-dropdown" role="menu">
+            <a routerLink="/java/exams" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Exams</a>
+            <a routerLink="/spring-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Spring</a>
+            <a routerLink="/java/java-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Concepts</a>
+            <a routerLink="/java/java-minute" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Java Minute</a>
+          </div>
+        }
+      </div>
+      <a routerLink="/databases/database-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Database Concepts</a>
+      <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">System Design</a>
     </nav>
   </div>
   <button

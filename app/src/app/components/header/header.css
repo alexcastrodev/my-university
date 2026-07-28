@@ -60,6 +60,57 @@
 
 .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.08); }
 
+.java-menu {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.chevron {
+  transition: transform .15s;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.java-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 160px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 110;
+}
+
+.java-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+}
+
+.java-menu-item:hover, .java-menu-item.active { background: #f3f4f6; }
+
 .header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
 .search-box {
@@ -311,6 +362,22 @@
 
   .nav-link {
     padding: 0.6rem 0.75rem;
+  }
+
+  .java-menu-dropdown {
+    position: static;
+    background: none;
+    box-shadow: none;
+    padding: 0 0 0 1rem;
+  }
+
+  .java-menu-item {
+    color: #ccc;
+  }
+
+  .java-menu-item:hover, .java-menu-item.active {
+    color: #fff;
+    background: rgba(255,255,255,.08);
   }
 
   .search-box {
