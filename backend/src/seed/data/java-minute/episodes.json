@@ -1,5 +1,16 @@
 [
   {
+    "slug": "array-equality",
+    "id": 381,
+    "question": "How can you compare arrays for equality?",
+    "publishedAt": "2026-07-29",
+    "references": [
+      { "label": "Java Coding Tip #381: Array Equality", "url": "https://www.youtube.com/shorts/4f2MDQg15J8", "type": "video" },
+      { "label": "Arrays.equals — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#equals(java.lang.Object%5B%5D,java.lang.Object%5B%5D)", "type": "doc" },
+      { "label": "Arrays.deepEquals — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#deepEquals(java.lang.Object%5B%5D,java.lang.Object%5B%5D)", "type": "doc" }
+    ]
+  },
+  {
     "slug": "searching-in-a-list",
     "id": 380,
     "question": "How can you search for an element in a list?",
