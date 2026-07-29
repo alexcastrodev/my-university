@@ -55,5 +55,33 @@
       { "label": "Spring Framework Reference — Web on Reactive Stack (WebFlux)", "url": "https://docs.spring.io/spring-framework/reference/web-reactive.html", "type": "doc" },
       { "label": "Preparing for Spring Boot 3.0 (Jakarta EE, GraalVM native, observability)", "url": "https://spring.io/blog/2022/05/24/preparing-for-spring-boot-3-0/", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-security-user-management",
+    "id": 5,
+    "category": "Spring Security",
+    "title": "Spring Security User Management",
+    "summary": "How UserDetails, GrantedAuthority, UserDetailsService, and UserDetailsManager describe and manage users in Spring Security, and why decorating a JPA entity with a separate UserDetails wrapper keeps persistence and security concerns apart.",
+    "publishedAt": "2026-07-29",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 3, \"Managing users\", p. 61-78", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — In-Memory Authentication (UserDetailsManager)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html", "type": "doc" },
+      { "label": "Spring Security Reference — JDBC Authentication (JdbcUserDetailsManager)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/jdbc.html", "type": "doc" },
+      { "label": "Spring Security API — UserDetailsService", "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/core/userdetails/UserDetailsService.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-model",
+    "id": 6,
+    "category": "Spring Batch",
+    "title": "Spring Batch Job Repository, Launcher, and Job Model",
+    "summary": "How the JobLauncher and JobRepository infrastructure components work, why persistent vs. in-memory job repositories trade off monitoring and restart against overhead, and how a job is modeled as a sequence of steps with optional non-linear control flow.",
+    "publishedAt": "2026-07-29",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 1, \"Introducing Spring Batch\", p. 26-31, and Chapter 2, \"Spring Batch concepts\", p. 32-43", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Configuring a JobRepository", "url": "https://docs.spring.io/spring-batch/reference/job/configuring-repository.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Spring Batch", "url": "https://docs.spring.io/spring-boot/reference/io/spring-batch.html", "type": "doc" },
+      { "label": "Spring Batch 5.0 Migration Guide", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide", "type": "doc" }
+    ]
   }
 ]

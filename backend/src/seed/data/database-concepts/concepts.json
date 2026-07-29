@@ -11,5 +11,19 @@
       { "label": "PostgreSQL Documentation — Synchronous Replication (synchronous_standby_names, quorum commit)", "url": "https://www.postgresql.org/docs/current/warm-standby.html#SYNCHRONOUS-REPLICATION", "type": "doc" },
       { "label": "PostgreSQL 17 Release Notes — Incremental backup (pg_basebackup, pg_combinebackup)", "url": "https://www.postgresql.org/docs/17/release-17.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "postgresql-node-count-and-placement",
+    "id": 2,
+    "category": "PostgreSQL",
+    "title": "PostgreSQL Node Count and Geographic Placement",
+    "summary": "How to derive how many PostgreSQL nodes a highly available cluster needs (backup, replicas, witness) and where to place them across data centers, and how Patroni's DCS-based quorum has replaced the manually placed witness node.",
+    "publishedAt": "2026-07-29",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 1, \"Architectural Considerations\", recipes \"Picking redundant copies\" and \"Selecting locations\", p. 15-21", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Synchronous Replication", "url": "https://www.postgresql.org/docs/current/runtime-config-replication.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
+      { "label": "Patroni Documentation — Architecture and DCS-based quorum", "url": "https://patroni.readthedocs.io/en/latest/", "type": "doc" }
+    ]
   }
 ]
