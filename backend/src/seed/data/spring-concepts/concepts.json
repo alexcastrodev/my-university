@@ -39,5 +39,21 @@
       { "label": "Spring Batch Reference — Domain Language (Job, Step, JobInstance, JobExecution, StepExecution, JobRepository)", "url": "https://docs.spring.io/spring-batch/reference/domain.html", "type": "doc" },
       { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-framework-landscape",
+    "id": 4,
+    "category": "Spring Boot",
+    "title": "The Spring Framework Landscape",
+    "summary": "How the core Spring Framework, Spring Boot, Spring Data, Spring Security, Spring Batch/Integration, and Spring Cloud fit together as one ecosystem, and how that landscape has shifted since 2019 (Jakarta EE namespace, GraalVM native images, Spring Cloud's current sub-projects).",
+    "publishedAt": "2026-07-29",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 1, \"Getting started with Spring\", Section 1.4 \"Surveying the Spring landscape\", p. 26-28", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring — Projects overview", "url": "https://spring.io/projects", "type": "doc" },
+      { "label": "Spring Boot Reference — System Requirements (Java 17 baseline)", "url": "https://docs.spring.io/spring-boot/system-requirements.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Actuator", "url": "https://docs.spring.io/spring-boot/reference/actuator/index.html", "type": "doc" },
+      { "label": "Spring Framework Reference — Web on Reactive Stack (WebFlux)", "url": "https://docs.spring.io/spring-framework/reference/web-reactive.html", "type": "doc" },
+      { "label": "Preparing for Spring Boot 3.0 (Jakarta EE, GraalVM native, observability)", "url": "https://spring.io/blog/2022/05/24/preparing-for-spring-boot-3-0/", "type": "doc" }
+    ]
   }
 ]
