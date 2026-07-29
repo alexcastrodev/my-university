@@ -18,6 +18,7 @@ export interface DatabaseConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface DatabaseConcept extends DatabaseConceptSummary {

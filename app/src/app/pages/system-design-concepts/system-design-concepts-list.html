@@ -5,14 +5,21 @@
   </div>
 
   <div class="page-body">
-    <div class="tag-filters">
-      @for (opt of tagOptions(); track opt.value) {
-        <button type="button" class="tag-filter-pill"
-          [class.active]="selectedTag() === opt.value"
-          (click)="onFilterChange(opt.value)">
-          {{ opt.label }}
-        </button>
-      }
+    <div class="filters-row">
+      <div class="tag-filters">
+        @for (opt of tagOptions(); track opt.value) {
+          <button type="button" class="tag-filter-pill"
+            [class.active]="selectedTag() === opt.value"
+            (click)="onFilterChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+      <button type="button" class="labs-filter-btn"
+        [class.active]="showOnlyLabs()"
+        (click)="onToggleLabsFilter()">
+        🔬 Labs only
+      </button>
     </div>
 
     @if (loading()) {
@@ -25,8 +32,13 @@
         @for (concept of filteredConcepts(); track concept.slug) {
           <a [routerLink]="['/system-design/system-design-concepts', concept.slug]" class="concept-card">
             <div class="card-header">
-              <span class="card-difficulty">{{ concept.difficulty }}</span>
-              <span class="card-reading-time">{{ concept.readingTime }} min</span>
+              <div class="card-meta">
+                <span class="card-difficulty">{{ concept.difficulty }}</span>
+                <span class="card-reading-time">{{ concept.readingTime }} min</span>
+              </div>
+              @if (concept.labUrl) {
+                <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
+              }
             </div>
             <h3 class="card-title">{{ concept.title }}</h3>
             <p class="card-summary">{{ concept.summary }}</p>

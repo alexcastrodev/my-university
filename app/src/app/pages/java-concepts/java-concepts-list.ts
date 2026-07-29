@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JavaConceptSummary } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
@@ -17,6 +17,17 @@ export class JavaConceptsListPage implements OnInit {
 
   concepts = signal<JavaConceptSummary[]>([]);
   loading = signal(true);
+  showOnlyLabs = signal(false);
+
+  filteredConcepts = computed(() => {
+    const showLabs = this.showOnlyLabs();
+    const all = this.concepts();
+    return showLabs ? all.filter((c) => c.labUrl) : all;
+  });
+
+  onToggleLabsFilter() {
+    this.showOnlyLabs.update((v) => !v);
+  }
 
   ngOnInit() {
     this.seo.set({

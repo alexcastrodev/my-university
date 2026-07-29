@@ -14,6 +14,7 @@ export interface JavaMinuteEpisodeSummary {
   id: number;
   question: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface JavaMinuteEpisode extends JavaMinuteEpisodeSummary {

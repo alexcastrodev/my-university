@@ -27,15 +27,26 @@ export class SpringConceptsListPage implements OnInit {
   concepts = signal<SpringConceptSummary[]>([]);
   loading = signal(true);
   selectedCategory = signal<SpringConceptCategory | null>(null);
+  showOnlyLabs = signal(false);
 
   filteredConcepts = computed(() => {
     const category = this.selectedCategory();
+    const showLabs = this.showOnlyLabs();
     const all = this.concepts();
-    return category ? all.filter((c) => c.category === category) : all;
+
+    return all.filter((c) => {
+      const matchesCategory = !category || c.category === category;
+      const matchesLab = !showLabs || c.labUrl;
+      return matchesCategory && matchesLab;
+    });
   });
 
   onFilterChange(category: SpringConceptCategory | null) {
     this.selectedCategory.set(category);
+  }
+
+  onToggleLabsFilter() {
+    this.showOnlyLabs.update((v) => !v);
   }
 
   ngOnInit() {

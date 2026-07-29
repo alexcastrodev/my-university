@@ -22,6 +22,7 @@ export interface SystemDesignConceptSummary {
   tags: string[];
   prerequisites: string[];
   related: string[];
+  labUrl?: string;
 }
 
 export interface SystemDesignConcept extends SystemDesignConceptSummary {

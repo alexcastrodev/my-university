@@ -30,14 +30,26 @@ export class SystemDesignConceptsListPage implements OnInit {
     ];
   });
 
+  showOnlyLabs = signal(false);
+
   filteredConcepts = computed(() => {
     const tag = this.selectedTag();
+    const showLabs = this.showOnlyLabs();
     const all = this.concepts();
-    return tag ? all.filter((c) => c.tags.includes(tag)) : all;
+
+    return all.filter((c) => {
+      const matchesTag = !tag || c.tags.includes(tag);
+      const matchesLab = !showLabs || c.labUrl;
+      return matchesTag && matchesLab;
+    });
   });
 
   onFilterChange(tag: string | null) {
     this.selectedTag.set(tag);
+  }
+
+  onToggleLabsFilter() {
+    this.showOnlyLabs.update((v) => !v);
   }
 
   ngOnInit() {

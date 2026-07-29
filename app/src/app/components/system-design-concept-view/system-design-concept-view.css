@@ -65,11 +65,17 @@
   padding: 0.15rem 0.6rem;
 }
 
+.concept-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
 .got-it-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.25rem;
   background: #fff;
   border: 1px solid #d1d5db;
   color: #374151;
@@ -329,4 +335,25 @@
 
 .reference-item a:hover {
   text-decoration: underline;
+}
+
+.lab-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background .12s, border-color .12s, color .12s;
+}
+
+.lab-link-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
 }

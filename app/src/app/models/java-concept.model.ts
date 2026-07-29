@@ -15,6 +15,7 @@ export interface JavaConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface JavaConcept extends JavaConceptSummary {
