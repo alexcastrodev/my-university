@@ -19,6 +19,7 @@ export interface JavaConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface JavaConceptDetail extends JavaConceptSummary {
@@ -72,12 +73,13 @@ export class JavaConceptsService {
     .sort((a, b) => b.id - a.id);
 
   findAll(): JavaConceptSummary[] {
-    return this.conceptsMeta.map(({ slug, id, title, summary, publishedAt }) => ({
+    return this.conceptsMeta.map(({ slug, id, title, summary, publishedAt, labUrl }) => ({
       slug,
       id,
       title,
       summary,
       publishedAt,
+      ...(labUrl && { labUrl }),
     }));
   }
 
@@ -105,6 +107,7 @@ export class JavaConceptsService {
       title: meta.title,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
       version,
       updatedAt,
       sections: splitSections(body),

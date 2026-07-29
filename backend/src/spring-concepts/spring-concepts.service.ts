@@ -25,6 +25,7 @@ export interface SpringConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface SpringConceptDetail extends SpringConceptSummary {
@@ -79,13 +80,14 @@ export class SpringConceptsService {
 
   findAll(): SpringConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, category, title, summary, publishedAt }) => ({
+      ({ slug, id, category, title, summary, publishedAt, labUrl }) => ({
         slug,
         id,
         category,
         title,
         summary,
         publishedAt,
+        ...(labUrl && { labUrl }),
       }),
     );
   }
@@ -115,6 +117,7 @@ export class SpringConceptsService {
       title: meta.title,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
       version,
       updatedAt,
       sections: splitSections(body),

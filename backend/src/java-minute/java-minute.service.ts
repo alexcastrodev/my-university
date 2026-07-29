@@ -18,6 +18,7 @@ export interface JavaMinuteEpisodeSummary {
   id: number;
   question: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface JavaMinuteEpisodeDetail extends JavaMinuteEpisodeSummary {
@@ -71,11 +72,12 @@ export class JavaMinuteService {
     .sort((a, b) => b.id - a.id);
 
   findAll(): JavaMinuteEpisodeSummary[] {
-    return this.episodesMeta.map(({ slug, id, question, publishedAt }) => ({
+    return this.episodesMeta.map(({ slug, id, question, publishedAt, labUrl }) => ({
       slug,
       id,
       question,
       publishedAt,
+      ...(labUrl && { labUrl }),
     }));
   }
 
@@ -102,6 +104,7 @@ export class JavaMinuteService {
       id: meta.id,
       question: meta.question,
       publishedAt: meta.publishedAt,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
       version,
       updatedAt,
       sections: splitSections(body),

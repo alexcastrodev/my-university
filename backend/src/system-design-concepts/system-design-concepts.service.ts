@@ -27,6 +27,7 @@ export interface SystemDesignConceptSummary {
   tags: string[];
   prerequisites: string[];
   related: string[];
+  labUrl?: string;
 }
 
 export interface SystemDesignConceptDetail extends SystemDesignConceptSummary {
@@ -86,7 +87,7 @@ export class SystemDesignConceptsService {
 
   findAll(): SystemDesignConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, title, summary, publishedAt, difficulty, readingTime, tags, prerequisites, related }) => ({
+      ({ slug, id, title, summary, publishedAt, difficulty, readingTime, tags, prerequisites, related, labUrl }) => ({
         slug,
         id,
         title,
@@ -97,6 +98,7 @@ export class SystemDesignConceptsService {
         tags,
         prerequisites,
         related,
+        ...(labUrl && { labUrl }),
       }),
     );
   }
@@ -133,6 +135,7 @@ export class SystemDesignConceptsService {
       tags: meta.tags,
       prerequisites: meta.prerequisites,
       related: meta.related,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
       sections: splitSections(body),
       references: meta.references,
     };

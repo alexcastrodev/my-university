@@ -22,6 +22,7 @@ export interface DatabaseConceptSummary {
   title: string;
   summary: string;
   publishedAt: string;
+  labUrl?: string;
 }
 
 export interface DatabaseConceptDetail extends DatabaseConceptSummary {
@@ -76,13 +77,14 @@ export class DatabaseConceptsService {
 
   findAll(): DatabaseConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, category, title, summary, publishedAt }) => ({
+      ({ slug, id, category, title, summary, publishedAt, labUrl }) => ({
         slug,
         id,
         category,
         title,
         summary,
         publishedAt,
+        ...(labUrl && { labUrl }),
       }),
     );
   }
@@ -112,6 +114,7 @@ export class DatabaseConceptsService {
       title: meta.title,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
       version,
       updatedAt,
       sections: splitSections(body),
