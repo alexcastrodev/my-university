@@ -76,13 +76,14 @@
     "id": 6,
     "category": "Spring Batch",
     "title": "Spring Batch Job Repository, Launcher, and Job Model",
-    "summary": "How the JobLauncher and JobRepository infrastructure components work, why persistent vs. in-memory job repositories trade off monitoring and restart against overhead, and how a job is modeled as a sequence of steps with optional non-linear control flow.",
+    "summary": "How the JobLauncher and JobRepository infrastructure components work, why persistent vs. in-memory job repositories trade off monitoring and restart against overhead, and how a job is modeled as a sequence of steps with optional non-linear control flow. Note: JobLauncher is now deprecated in favor of JobOperator as of Spring Batch 6.0.",
     "publishedAt": "2026-07-29",
     "references": [
       { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 1, \"Introducing Spring Batch\", p. 26-31, and Chapter 2, \"Spring Batch concepts\", p. 32-43", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
       { "label": "Spring Batch Reference — Configuring a JobRepository", "url": "https://docs.spring.io/spring-batch/reference/job/configuring-repository.html", "type": "doc" },
       { "label": "Spring Boot Reference — Spring Batch", "url": "https://docs.spring.io/spring-boot/reference/io/spring-batch.html", "type": "doc" },
-      { "label": "Spring Batch 5.0 Migration Guide", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide", "type": "doc" }
+      { "label": "Spring Batch 5.0 Migration Guide", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
     ]
   },
   {

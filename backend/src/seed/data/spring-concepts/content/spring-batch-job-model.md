@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-07-29
+version: 1.1
+updatedAt: 2026-07-30
 ---
 ## Objective
 
@@ -108,6 +108,10 @@ The book's other in-memory option, `MapJobRepositoryFactoryBean`, was deprecated
 - **A persistent job repository against a separate database from the business data reintroduces the two-phase-commit problem** — without JTA spanning both databases, batch metadata (skipped-item counts, restart position) and business data can desynchronize on failure, producing inaccurate skip counts or broken restarts. Sharing one database avoids the problem entirely at the cost of coupling schemas.
 - **Non-linear control flow adds power at the cost of traceability** — a job with several decision points is more flexible than a linear sequence, but harder to read at a glance than "step 1, then step 2, then step 3"; the trade-off is worth it exactly when the branches reflect genuine business conditions (a skip threshold, a file-not-found case), not as a default structuring choice.
 
+> **Update:** as of Spring Batch 6.0, `JobLauncher` (including `run(...)`, used
+> throughout this concept) is deprecated in favor of `JobOperator.start(Job, JobParameters)`,
+> a drop-in replacement — removal is slated for 6.2+.
+
 ## Documentation Links
 
 - [Spring Batch in Action (Manning, 2012) — Chapter 1, "Introducing Spring Batch", p. 26-31, and Chapter 2, "Spring Batch concepts", p. 32-43](https://www.manning.com/books/spring-batch-in-action) — doc
@@ -115,3 +119,4 @@ The book's other in-memory option, `MapJobRepositoryFactoryBean`, was deprecated
 - [Spring Batch Reference — Configuring a JobLauncher](https://docs.spring.io/spring-batch/reference/5.1/job/configuring-launcher.html) — doc
 - [Spring Boot Reference — Spring Batch](https://docs.spring.io/spring-boot/reference/io/spring-batch.html) — doc
 - [Spring Batch 5.0 Migration Guide](https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide) — doc
+- [Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator](https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide) — doc

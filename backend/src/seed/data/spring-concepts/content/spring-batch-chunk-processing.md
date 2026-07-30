@@ -103,7 +103,7 @@ A `Job` is the logical definition of a batch process (its steps and their order)
 - **`JobExecution`** — one technical attempt at a `JobInstance`. If today's run fails and is restarted, it's the same `JobInstance` but a new `JobExecution` — status, start/end time, and exit status all belong here.
 - **`StepExecution`** — one attempt at a single step within a `JobExecution`, tracking read/write/commit/rollback/skip counts for that step specifically.
 
-The `JobRepository` persists all of this (so a restart knows exactly where a job stopped), and the `JobLauncher` is what starts a `Job` with a given set of `JobParameters` in the first place.
+The `JobRepository` persists all of this (so a restart knows exactly where a job stopped), and the `JobLauncher` is what starts a `Job` with a given set of `JobParameters` in the first place — see `spring-batch-job-model` for how `JobLauncher` itself is now deprecated in favor of `JobOperator` as of Spring Batch 6.0.
 
 ### Book vs. today: XML batch namespace → `JobBuilder`/`StepBuilder`
 
