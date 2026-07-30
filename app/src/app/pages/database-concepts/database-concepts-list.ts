@@ -7,6 +7,7 @@ import { SeoService } from '../../services/seo.service';
 const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }[] = [
   { label: 'All', value: null },
   { label: 'PostgreSQL', value: 'PostgreSQL' },
+  { label: 'SQL', value: 'SQL' },
 ];
 
 @Component({

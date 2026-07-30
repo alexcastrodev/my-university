@@ -1,4 +1,4 @@
-export type DatabaseConceptCategory = 'PostgreSQL';
+export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL';
 
 export interface DatabaseConceptReference {
   label: string;

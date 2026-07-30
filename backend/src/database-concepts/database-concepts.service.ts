@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-export type DatabaseConceptCategory = 'PostgreSQL';
+export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL';
 
 export interface DatabaseConceptReference {
   label: string;
