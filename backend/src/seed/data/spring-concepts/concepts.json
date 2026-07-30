@@ -84,5 +84,47 @@
       { "label": "Spring Boot Reference — Spring Batch", "url": "https://docs.spring.io/spring-boot/reference/io/spring-batch.html", "type": "doc" },
       { "label": "Spring Batch 5.0 Migration Guide", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-mvc-request-handling",
+    "id": 7,
+    "category": "Spring Boot",
+    "title": "Spring MVC Request Handling and Data Binding",
+    "summary": "How a Spring MVC controller pairs @GetMapping/@PostMapping handlers with a Model to render views and with implicit command-object binding to process form submissions, and how Java records now offer a dependency-free alternative to Lombok for immutable domain types.",
+    "publishedAt": "2026-07-30",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", sections 2.1-2.2, p. 29-44", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Framework Reference — Mapping Requests (@GetMapping, @PostMapping)", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html", "type": "doc" },
+      { "label": "Spring Framework Reference — @ModelAttribute Method Arguments", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/modelattrib-method-args.html", "type": "doc" },
+      { "label": "Spring Data JPA Reference — Class-based Projections/DTOs (records)", "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-jdbc-ldap-user-management",
+    "id": 8,
+    "category": "Spring Security",
+    "title": "Spring Security JDBC and LDAP User Management",
+    "summary": "How JdbcUserDetailsManager manages users in a relational database via plain JDBC (default schema, overridable queries) and how LdapUserDetailsManager authenticates against an LDAP directory, both implementing the UserDetailsManager contract.",
+    "publishedAt": "2026-07-30",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 3, \"Managing users\", sections 3.3.3-3.4, p. 78-85", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — JDBC Authentication (JdbcUserDetailsManager)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/jdbc.html", "type": "doc" },
+      { "label": "Spring Security Reference — LDAP Authentication (LdapUserDetailsManager)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/ldap.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Data Initialization (spring.sql.init.mode)", "url": "https://docs.spring.io/spring-boot/how-to/data-initialization.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-instance-execution-flow",
+    "id": 9,
+    "category": "Spring Batch",
+    "title": "Spring Batch Non-Linear Flow and Job Instance Identity",
+    "summary": "How a JobExecutionDecider routes a job's flow based on a step's outcome, how JobInstance identity is derived from a job plus its identifying JobParameters, and why JobLauncher is deprecated in Spring Batch 6.0 in favor of JobOperator.",
+    "publishedAt": "2026-07-30",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 2, \"Spring Batch concepts\", sections 2.3.1-2.3.2, p. 44-50", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Controlling Step Flow (conditional flow, JobExecutionDecider)", "url": "https://docs.spring.io/spring-batch/reference/step/controlling-flow.html", "type": "doc" },
+      { "label": "Spring Batch Reference — Domain Language (JobInstance, JobParameters, identifying flag)", "url": "https://docs.spring.io/spring-batch/reference/domain.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
   }
 ]

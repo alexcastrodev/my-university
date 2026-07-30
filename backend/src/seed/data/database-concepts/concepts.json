@@ -25,5 +25,19 @@
       { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
       { "label": "Patroni Documentation — Architecture and DCS-based quorum", "url": "https://patroni.readthedocs.io/en/latest/", "type": "doc" }
     ]
+  },
+  {
+    "slug": "postgresql-quorum-and-connection-indirection",
+    "id": 3,
+    "category": "PostgreSQL",
+    "title": "PostgreSQL Quorum Voting and Connection Indirection",
+    "summary": "How witness-node voting rules avoid tied elections during automated failover, and how connection indirection (DNS, VIP, connection multiplexer, or load balancer) keeps applications from needing reconfiguration when the primary changes — today typically HAProxy polling Patroni's own REST health-check API.",
+    "publishedAt": "2026-07-30",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 1, \"Architectural Considerations\", recipes \"Considering quorum\" and \"Introducing indirection\", p. 25-30", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
+      { "label": "Patroni Documentation — REST API (health-check endpoints for load balancers)", "url": "https://patroni.readthedocs.io/en/latest/rest_api.html", "type": "doc" },
+      { "label": "Patroni — example haproxy.cfg using the REST API health checks", "url": "https://github.com/patroni/patroni/blob/master/haproxy.cfg", "type": "doc" }
+    ]
   }
 ]
