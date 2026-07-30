@@ -16,5 +16,95 @@
       { "label": "Gunnar Morling — \"Reliable Microservices Data Exchange With the Outbox Pattern\" (Debezium blog, 2019)", "url": "https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/", "type": "engineering" },
       { "label": "Debezium Documentation — Outbox Event Router", "url": "https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "cap-theorem",
+    "id": 2,
+    "title": "The CAP Theorem",
+    "summary": "Why a distributed system can't give you consistency and availability at the same time during a network partition — and why that framing is both essential and incomplete.",
+    "publishedAt": "2026-07-30",
+    "difficulty": "Beginner",
+    "readingTime": 8,
+    "tags": ["Distributed Systems", "Consistency Models", "Fundamentals", "Trade-offs"],
+    "prerequisites": ["Basic client-server networking", "What a network partition is", "Database replication basics"],
+    "related": ["PACELC Theorem", "Consistent Hashing", "Read/Write Splitting & CQRS-Lite", "Eventual Consistency"],
+    "references": [
+      { "label": "Eric Brewer — \"CAP Twelve Years Later: How the 'Rules' Have Changed\" (InfoQ / IEEE Computer, 2012)", "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/", "type": "engineering" },
+      { "label": "Daniel Abadi — \"Problems with CAP, and Yahoo's Little Known NoSQL System\" (DBMS Musings, 2010)", "url": "http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html", "type": "engineering" },
+      { "label": "Wikipedia — CAP theorem", "url": "https://en.wikipedia.org/wiki/CAP_theorem", "type": "doc" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 9, \"Consistency and Consensus\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" }
+    ]
+  },
+  {
+    "slug": "consistent-hashing",
+    "id": 3,
+    "title": "Consistent Hashing",
+    "summary": "A hashing scheme that lets a distributed store add or remove nodes while remapping only a small fraction of keys — instead of nearly all of them, as naive modulo hashing does.",
+    "publishedAt": "2026-07-30",
+    "difficulty": "Intermediate",
+    "readingTime": 9,
+    "tags": ["Distributed Systems", "Sharding", "Caching", "Load Balancing", "Fundamentals"],
+    "prerequisites": ["Hash functions basics", "Horizontal sharding / partitioning basics"],
+    "related": ["CAP Theorem", "Distributed ID Generation", "Caching Strategies & CDNs", "Chord (peer-to-peer DHT)"],
+    "references": [
+      { "label": "Wikipedia — Consistent hashing", "url": "https://en.wikipedia.org/wiki/Consistent_hashing", "type": "doc" },
+      { "label": "Giuseppe DeCandia et al. — \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "paper" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 6, \"Partitioning\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" },
+      { "label": "Wikipedia — Chord (peer-to-peer)", "url": "https://en.wikipedia.org/wiki/Chord_(peer-to-peer)", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "distributed-id-generation",
+    "id": 4,
+    "title": "Distributed ID Generation",
+    "summary": "How to generate unique identifiers at high throughput across many servers without a single database sequence becoming the bottleneck — and how to size an ID for a fixed-length short code.",
+    "publishedAt": "2026-07-30",
+    "difficulty": "Intermediate",
+    "readingTime": 9,
+    "tags": ["Distributed Systems", "Data Modeling", "Scalability", "Sharding"],
+    "prerequisites": ["Database primary keys and auto-increment / sequences", "Basic distributed systems concepts"],
+    "related": ["Consistent Hashing", "CAP Theorem", "Read/Write Splitting & CQRS-Lite", "Base62 Encoding"],
+    "references": [
+      { "label": "Twitter (archived) — Snowflake ID generator", "url": "https://github.com/twitter-archive/snowflake", "type": "engineering" },
+      { "label": "Instagram Engineering — \"Sharding & IDs at Instagram\"", "url": "https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c", "type": "engineering" },
+      { "label": "RFC 9562 — UUID Version 7 (IETF, 2024)", "url": "https://www.rfc-editor.org/rfc/rfc9562", "type": "doc" },
+      { "label": "PostgreSQL Documentation — CREATE SEQUENCE", "url": "https://www.postgresql.org/docs/current/sql-createsequence.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "caching-strategies-and-cdns",
+    "id": 5,
+    "title": "Caching Strategies and CDNs",
+    "summary": "The handful of caching patterns — cache-aside, write-through, write-behind — that cover most interview and production scenarios, plus what a CDN adds on top of an in-datacenter cache.",
+    "publishedAt": "2026-07-30",
+    "difficulty": "Intermediate",
+    "readingTime": 8,
+    "tags": ["Caching", "Performance", "CDN", "Scalability"],
+    "prerequisites": ["HTTP request/response basics", "Database read/write basics"],
+    "related": ["Consistent Hashing", "Read/Write Splitting & CQRS-Lite", "CAP Theorem"],
+    "references": [
+      { "label": "MDN — HTTP Caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching", "type": "doc" },
+      { "label": "Rajesh Nishtala et al. — \"Scaling Memcache at Facebook\" (NSDI 2013)", "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala", "type": "paper" },
+      { "label": "AWS — Caching Best Practices", "url": "https://aws.amazon.com/caching/best-practices/", "type": "doc" },
+      { "label": "Cloudflare Learning Center — What is a CDN?", "url": "https://www.cloudflare.com/learning/cdn/what-is-a-cdn/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "read-write-splitting-and-cqrs-lite",
+    "id": 6,
+    "title": "Read/Write Splitting and CQRS-Lite",
+    "summary": "When separating the read path from the write path is a legitimate scaling technique versus when it's just two databases arguing about which one is telling the truth.",
+    "publishedAt": "2026-07-30",
+    "difficulty": "Advanced",
+    "readingTime": 10,
+    "tags": ["Distributed Systems", "Data Consistency", "CQRS", "Database Replication", "Scalability"],
+    "prerequisites": ["CAP Theorem", "Database replication basics", "Eventual consistency"],
+    "related": ["The Transactional Outbox Pattern", "PostgreSQL Quorum Voting and Connection Indirection", "PostgreSQL Split-Brain Prevention", "Change Data Capture (CDC)"],
+    "references": [
+      { "label": "Martin Fowler — \"CQRS\" (bliki)", "url": "https://martinfowler.com/bliki/CQRS.html", "type": "doc" },
+      { "label": "microservices.io — Pattern: CQRS", "url": "https://microservices.io/patterns/data/cqrs.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 5, \"Replication\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" }
+    ]
   }
 ]
