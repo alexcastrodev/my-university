@@ -1,5 +1,5 @@
 ---
-title: The CAP Theorem
+title: CAP Theorem
 description: Why a distributed system can't give you consistency and availability at the same time during a network partition — and why that framing is both essential and incomplete.
 difficulty: Beginner
 readingTime: 8
@@ -15,7 +15,7 @@ prerequisites:
 related:
   - PACELC Theorem
   - Consistent Hashing
-  - Read/Write Splitting & CQRS-Lite
+  - Read/Write Splitting and CQRS-Lite
   - Eventual Consistency
 ---
 

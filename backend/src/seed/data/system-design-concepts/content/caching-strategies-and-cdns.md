@@ -13,7 +13,7 @@ prerequisites:
   - Database read/write basics
 related:
   - Consistent Hashing
-  - Read/Write Splitting & CQRS-Lite
+  - Read/Write Splitting and CQRS-Lite
   - CAP Theorem
 ---
 

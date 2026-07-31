@@ -14,7 +14,7 @@ prerequisites:
 related:
   - Consistent Hashing
   - CAP Theorem
-  - Read/Write Splitting & CQRS-Lite
+  - Read/Write Splitting and CQRS-Lite
   - Base62 Encoding
 ---
 

@@ -20,14 +20,19 @@
   {
     "slug": "cap-theorem",
     "id": 2,
-    "title": "The CAP Theorem",
+    "title": "CAP Theorem",
     "summary": "Why a distributed system can't give you consistency and availability at the same time during a network partition — and why that framing is both essential and incomplete.",
     "publishedAt": "2026-07-30",
     "difficulty": "Beginner",
     "readingTime": 8,
     "tags": ["Distributed Systems", "Consistency Models", "Fundamentals", "Trade-offs"],
     "prerequisites": ["Basic client-server networking", "What a network partition is", "Database replication basics"],
-    "related": ["PACELC Theorem", "Consistent Hashing", "Read/Write Splitting & CQRS-Lite", "Eventual Consistency"],
+    "related": [
+      "PACELC Theorem",
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      "Eventual Consistency"
+    ],
     "references": [
       { "label": "Eric Brewer — \"CAP Twelve Years Later: How the 'Rules' Have Changed\" (InfoQ / IEEE Computer, 2012)", "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/", "type": "engineering" },
       { "label": "Daniel Abadi — \"Problems with CAP, and Yahoo's Little Known NoSQL System\" (DBMS Musings, 2010)", "url": "http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html", "type": "engineering" },
@@ -45,7 +50,12 @@
     "readingTime": 9,
     "tags": ["Distributed Systems", "Sharding", "Caching", "Load Balancing", "Fundamentals"],
     "prerequisites": ["Hash functions basics", "Horizontal sharding / partitioning basics"],
-    "related": ["CAP Theorem", "Distributed ID Generation", "Caching Strategies & CDNs", "Chord (peer-to-peer DHT)"],
+    "related": [
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" },
+      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      "Chord (peer-to-peer DHT)"
+    ],
     "references": [
       { "label": "Wikipedia — Consistent hashing", "url": "https://en.wikipedia.org/wiki/Consistent_hashing", "type": "doc" },
       { "label": "Giuseppe DeCandia et al. — \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "paper" },
@@ -63,7 +73,12 @@
     "readingTime": 9,
     "tags": ["Distributed Systems", "Data Modeling", "Scalability", "Sharding"],
     "prerequisites": ["Database primary keys and auto-increment / sequences", "Basic distributed systems concepts"],
-    "related": ["Consistent Hashing", "CAP Theorem", "Read/Write Splitting & CQRS-Lite", "Base62 Encoding"],
+    "related": [
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      "Base62 Encoding"
+    ],
     "references": [
       { "label": "Twitter (archived) — Snowflake ID generator", "url": "https://github.com/twitter-archive/snowflake", "type": "engineering" },
       { "label": "Instagram Engineering — \"Sharding & IDs at Instagram\"", "url": "https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c", "type": "engineering" },
@@ -81,7 +96,11 @@
     "readingTime": 8,
     "tags": ["Caching", "Performance", "CDN", "Scalability"],
     "prerequisites": ["HTTP request/response basics", "Database read/write basics"],
-    "related": ["Consistent Hashing", "Read/Write Splitting & CQRS-Lite", "CAP Theorem"],
+    "related": [
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" }
+    ],
     "references": [
       { "label": "MDN — HTTP Caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching", "type": "doc" },
       { "label": "Rajesh Nishtala et al. — \"Scaling Memcache at Facebook\" (NSDI 2013)", "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala", "type": "paper" },
@@ -98,8 +117,13 @@
     "difficulty": "Advanced",
     "readingTime": 10,
     "tags": ["Distributed Systems", "Data Consistency", "CQRS", "Database Replication", "Scalability"],
-    "prerequisites": ["CAP Theorem", "Database replication basics", "Eventual consistency"],
-    "related": ["The Transactional Outbox Pattern", "PostgreSQL Quorum Voting and Connection Indirection", "PostgreSQL Split-Brain Prevention", "Change Data Capture (CDC)"],
+    "prerequisites": [{ "label": "CAP Theorem", "slug": "cap-theorem" }, "Database replication basics", "Eventual consistency"],
+    "related": [
+      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      { "label": "PostgreSQL Quorum Voting and Connection Indirection", "slug": "postgresql-quorum-and-connection-indirection", "feature": "database" },
+      { "label": "PostgreSQL Split-Brain Prevention", "slug": "postgresql-split-brain-prevention", "feature": "database" },
+      "Change Data Capture (CDC)"
+    ],
     "references": [
       { "label": "Martin Fowler — \"CQRS\" (bliki)", "url": "https://martinfowler.com/bliki/CQRS.html", "type": "doc" },
       { "label": "microservices.io — Pattern: CQRS", "url": "https://microservices.io/patterns/data/cqrs.html", "type": "doc" },

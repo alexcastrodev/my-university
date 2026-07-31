@@ -1,5 +1,16 @@
 [
   {
+    "slug": "max-of-a-collection",
+    "id": 382,
+    "question": "How can you get the max of a collection?",
+    "publishedAt": "2026-07-31",
+    "references": [
+      { "label": "Java Coding Tip #382: Max of a Collection", "url": "https://www.youtube.com/shorts/1XLa9QEMMyI", "type": "video" },
+      { "label": "Collections.max — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#max(java.util.Collection,java.util.Comparator)", "type": "doc" },
+      { "label": "Stream.max — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#max(java.util.Comparator)", "type": "doc" }
+    ]
+  },
+  {
     "slug": "array-equality",
     "id": 381,
     "question": "How can you compare arrays for equality?",
@@ -74,6 +85,17 @@
     "references": [
       { "label": "Java Coding Tip #375: Enum Set", "url": "https://www.youtube.com/shorts/1BzJQf2fP3U", "type": "video" },
       { "label": "EnumSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumSet.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "javadoc-code-snippets",
+    "id": 374,
+    "question": "How can you add a snippet of code in your Javadoc?",
+    "publishedAt": "2026-07-18",
+    "references": [
+      { "label": "Java Coding Tip #374: Javadoc Code Snippets", "url": "https://www.youtube.com/shorts/ZNe_-Z1qxp8", "type": "video" },
+      { "label": "JEP 413: Code Snippets in Java API Documentation", "url": "https://openjdk.org/jeps/413", "type": "doc" },
+      { "label": "javadoc — Java SE 25 Tool Reference (--snippet-path option)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javadoc.html", "type": "doc" }
     ]
   }
 ]

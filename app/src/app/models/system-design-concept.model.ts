@@ -11,6 +11,12 @@ export interface SystemDesignConceptSection {
   content: string;
 }
 
+export type SystemDesignConceptLinkFeature = 'system-design' | 'database';
+
+export type SystemDesignConceptLinkRef =
+  | string
+  | { label: string; slug: string; feature?: SystemDesignConceptLinkFeature };
+
 export interface SystemDesignConceptSummary {
   slug: string;
   id: number;
@@ -20,8 +26,8 @@ export interface SystemDesignConceptSummary {
   difficulty: SystemDesignConceptDifficulty;
   readingTime: number;
   tags: string[];
-  prerequisites: string[];
-  related: string[];
+  prerequisites: SystemDesignConceptLinkRef[];
+  related: SystemDesignConceptLinkRef[];
   labUrl?: string;
 }
 

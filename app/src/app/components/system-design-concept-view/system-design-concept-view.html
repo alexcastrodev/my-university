@@ -48,8 +48,14 @@
           <div class="side-info-block">
             <h2 class="side-info-title">Prerequisites</h2>
             <ul class="side-info-list">
-              @for (item of c.prerequisites; track item) {
-                <li>{{ item }}</li>
+              @for (item of prerequisiteItems(); track item.label) {
+                <li>
+                  @if (item.route) {
+                    <a [routerLink]="item.route">{{ item.label }}</a>
+                  } @else {
+                    {{ item.label }}
+                  }
+                </li>
               }
             </ul>
           </div>
@@ -58,8 +64,14 @@
           <div class="side-info-block">
             <h2 class="side-info-title">Related</h2>
             <ul class="side-info-list">
-              @for (item of c.related; track item) {
-                <li>{{ item }}</li>
+              @for (item of relatedItems(); track item.label) {
+                <li>
+                  @if (item.route) {
+                    <a [routerLink]="item.route">{{ item.label }}</a>
+                  } @else {
+                    {{ item.label }}
+                  }
+                </li>
               }
             </ul>
           </div>

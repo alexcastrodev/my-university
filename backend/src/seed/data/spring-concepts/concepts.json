@@ -127,5 +127,48 @@
       { "label": "Spring Batch Reference — Domain Language (JobInstance, JobParameters, identifying flag)", "url": "https://docs.spring.io/spring-batch/reference/domain.html", "type": "doc" },
       { "label": "Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-mvc-bean-validation",
+    "id": 10,
+    "category": "Spring Boot",
+    "title": "Spring MVC Form Validation with the Bean Validation API",
+    "summary": "How to declare validation rules with Bean Validation annotations on a domain class and enforce them at form-binding time with @Valid and Errors/BindingResult, and why spring-boot-starter-validation is now a separate, explicit dependency instead of a transitive one.",
+    "publishedAt": "2026-07-31",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", section 2.3, \"Validating form input\", p. 45-50", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Framework Reference — Java Bean Validation", "url": "https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Validation (spring-boot-starter-validation)", "url": "https://docs.spring.io/spring-boot/reference/io/validation.html", "type": "doc" },
+      { "label": "Jakarta Bean Validation 3.0 Specification", "url": "https://jakarta.ee/specifications/bean-validation/3.0/", "type": "doc" },
+      { "label": "Hibernate Validator Documentation", "url": "https://hibernate.org/validator/documentation/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-password-encoding",
+    "id": 11,
+    "category": "Spring Security",
+    "title": "Spring Security PasswordEncoder Contract and Encoding Strategies",
+    "summary": "How PasswordEncoder's encode()/matches() contract validates passwords without ever reversing a hash, how DelegatingPasswordEncoder lets an app support multiple algorithms at once via a prefix scheme, and why Argon2 is now a more prominent recommendation than the book's bcrypt/scrypt/PBKDF2 trio.",
+    "publishedAt": "2026-07-31",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 4, \"Dealing with passwords\", section 4.1, \"Understanding the PasswordEncoder contract\", p. 86-96", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Password Storage", "url": "https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html", "type": "doc" },
+      { "label": "Spring Security API — DelegatingPasswordEncoder", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/password/DelegatingPasswordEncoder.html", "type": "doc" },
+      { "label": "Spring Security API — PasswordEncoderFactories", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/factory/PasswordEncoderFactories.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-configuration-attributes",
+    "id": 12,
+    "category": "Spring Batch",
+    "title": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
+    "summary": "How the book's XML job/step attributes (restartable, incrementer, validator, next, parent/abstract) map onto JobBuilder's preventRestart()/incrementer()/validator()/next() methods, and why Java configuration doesn't need an equivalent to XML's parent/abstract inheritance.",
+    "publishedAt": "2026-07-31",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", sections 3.1-3.2, p. 53-61", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Configuring a Job", "url": "https://docs.spring.io/spring-batch/reference/job/configuring-job.html", "type": "doc" },
+      { "label": "Spring Batch API — DefaultJobParametersValidator", "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/job/DefaultJobParametersValidator.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
   }
 ]

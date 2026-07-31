@@ -15,7 +15,7 @@ prerequisites:
 related:
   - CAP Theorem
   - Distributed ID Generation
-  - Caching Strategies & CDNs
+  - Caching Strategies and CDNs
   - Chord (peer-to-peer DHT)
 ---
 
