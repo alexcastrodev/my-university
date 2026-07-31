@@ -72,6 +72,18 @@ export class XpService {
     return count > 0;
   }
 
+  /** All sourceIds a user has an entry for under a given sourceType — for marking a whole list as read/unread in one query. */
+  async getReadSourceIds(
+    userId: number,
+    sourceType: XpSourceType,
+  ): Promise<Set<string>> {
+    const rows = await this.repo.find({
+      where: { userId, sourceType },
+      select: { sourceId: true },
+    });
+    return new Set(rows.map((row) => row.sourceId));
+  }
+
   async getUserXp(userId: number): Promise<{ total: number }> {
     const result = await this.repo
       .createQueryBuilder('x')

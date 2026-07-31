@@ -11,8 +11,16 @@ export class JavaMinuteController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  async findAll(@OptionalUserId() userId: number | null) {
+    const episodes = this.service.findAll();
+    const readSlugs =
+      userId === null
+        ? new Set<string>()
+        : await this.xp.getReadSourceIds(userId, 'episode-watched');
+    return episodes.map((episode) => ({
+      ...episode,
+      read: readSlugs.has(episode.slug),
+    }));
   }
 
   @Get(':slug')

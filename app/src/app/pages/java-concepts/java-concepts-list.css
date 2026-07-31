@@ -129,6 +129,16 @@
   background: #1976d2;
 }
 
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.card-badge.read-badge {
+  background: #2e7d32;
+}
+
 .card-date {
   font-size: 0.7rem;
   color: #6b7280;

@@ -16,6 +16,7 @@ export interface JavaConceptSummary {
   summary: string;
   publishedAt: string;
   labUrl?: string;
+  read: boolean;
 }
 
 export interface JavaConcept extends JavaConceptSummary {
@@ -23,5 +24,4 @@ export interface JavaConcept extends JavaConceptSummary {
   updatedAt: string | null;
   sections: JavaConceptSection[];
   references: JavaConceptReference[];
-  read: boolean;
 }

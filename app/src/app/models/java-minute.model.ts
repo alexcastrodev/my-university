@@ -15,6 +15,7 @@ export interface JavaMinuteEpisodeSummary {
   question: string;
   publishedAt: string;
   labUrl?: string;
+  read: boolean;
 }
 
 export interface JavaMinuteEpisode extends JavaMinuteEpisodeSummary {
@@ -22,5 +23,4 @@ export interface JavaMinuteEpisode extends JavaMinuteEpisodeSummary {
   updatedAt: string | null;
   sections: JavaMinuteSection[];
   references: JavaMinuteReference[];
-  read: boolean;
 }

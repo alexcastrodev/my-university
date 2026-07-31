@@ -11,8 +11,16 @@ export class DatabaseConceptsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  async findAll(@OptionalUserId() userId: number | null) {
+    const concepts = this.service.findAll();
+    const readSlugs =
+      userId === null
+        ? new Set<string>()
+        : await this.xp.getReadSourceIds(userId, 'concept-read');
+    return concepts.map((concept) => ({
+      ...concept,
+      read: readSlugs.has(`db:${concept.slug}`),
+    }));
   }
 
   @Get(':slug')

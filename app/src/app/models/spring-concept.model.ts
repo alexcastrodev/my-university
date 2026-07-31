@@ -19,6 +19,7 @@ export interface SpringConceptSummary {
   summary: string;
   publishedAt: string;
   labUrl?: string;
+  read: boolean;
 }
 
 export interface SpringConcept extends SpringConceptSummary {
@@ -26,5 +27,4 @@ export interface SpringConcept extends SpringConceptSummary {
   updatedAt: string | null;
   sections: SpringConceptSection[];
   references: SpringConceptReference[];
-  read: boolean;
 }

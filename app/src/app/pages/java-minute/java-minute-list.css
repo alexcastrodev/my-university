@@ -81,6 +81,12 @@
   margin-bottom: 0.75rem;
 }
 
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .card-order {
   font-size: 0.7rem;
   font-weight: 700;
@@ -88,6 +94,16 @@
   background: #c74634;
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
+}
+
+.card-badge.read-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff;
+  background: #2e7d32;
+  border-radius: 12px;
+  padding: 0.15rem 0.45rem;
+  white-space: nowrap;
 }
 
 .card-date {

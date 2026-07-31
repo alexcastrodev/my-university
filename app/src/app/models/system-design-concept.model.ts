@@ -29,10 +29,10 @@ export interface SystemDesignConceptSummary {
   prerequisites: SystemDesignConceptLinkRef[];
   related: SystemDesignConceptLinkRef[];
   labUrl?: string;
+  read: boolean;
 }
 
 export interface SystemDesignConcept extends SystemDesignConceptSummary {
   sections: SystemDesignConceptSection[];
   references: SystemDesignConceptReference[];
-  read: boolean;
 }

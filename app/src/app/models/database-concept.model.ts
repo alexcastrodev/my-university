@@ -19,6 +19,7 @@ export interface DatabaseConceptSummary {
   summary: string;
   publishedAt: string;
   labUrl?: string;
+  read: boolean;
 }
 
 export interface DatabaseConcept extends DatabaseConceptSummary {
@@ -26,5 +27,4 @@ export interface DatabaseConcept extends DatabaseConceptSummary {
   updatedAt: string | null;
   sections: DatabaseConceptSection[];
   references: DatabaseConceptReference[];
-  read: boolean;
 }
