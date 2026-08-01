@@ -47,17 +47,22 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **2 de 26 feitos:**
+      - **3 de 26 feitos:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
-        - `8-7-practice-multithreading.md` (java-25, Multithreading,
-          2026-08-02) — `run()` vs `start()` em virtual thread, re-interrupt
-          após `InterruptedException`, `ScopedValue`/`isBound()`, se
+        - `8-7-practice-multithreading.md` (java-25, Multithreading) —
+          `run()` vs `start()` em virtual thread, re-interrupt após
+          `InterruptedException`, `ScopedValue`/`isBound()`, se
           `synchronized` ainda pina virtual thread no Java 25 (JEP 491 —
           não pina mais, desde o Java 24; corrige uma imprecisão da própria
           tabela do slide `8-5`, que ainda lista "sim" sem a ressalva de
           versão), `StructuredTaskScope.ShutdownOnFailure`.
+        - `10-5-practice-streams.md` (java-21, Streams, 2026-08-02) — stream
+          reusado (`IllegalStateException`), laziness/short-circuit com
+          `peek`+`findFirst`, `Collectors.toMap` com chave duplicada,
+          `reduce` com vs. sem identity num stream vazio,
+          `partitioningBy`+`counting()`.
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -68,7 +73,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 24 módulos** sem o "Practice"
+        de propósito e restaurados). **Restam 23 módulos** sem o "Practice"
         preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
         workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
