@@ -7,11 +7,21 @@
   <div class="page-body">
     <div class="filters-row">
       <div class="tag-filters">
-        @for (opt of tagOptions(); track opt.value) {
+        <button type="button" class="tag-filter-pill"
+          [class.active]="selectedTag() === null"
+          (click)="onFilterChange(null)">
+          All
+        </button>
+        @for (opt of visibleTagOptions(); track opt.value) {
           <button type="button" class="tag-filter-pill"
             [class.active]="selectedTag() === opt.value"
             (click)="onFilterChange(opt.value)">
             {{ opt.label }}
+          </button>
+        }
+        @if (hasMoreTags()) {
+          <button type="button" class="tag-filter-pill tag-filter-more" (click)="onToggleShowAllTags()">
+            {{ showAllTags() ? 'Show less' : '+' + hiddenTagCount() + ' more' }}
           </button>
         }
       </div>

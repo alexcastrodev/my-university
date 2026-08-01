@@ -86,6 +86,19 @@
   color: #c74634;
 }
 
+.tag-filter-more {
+  background: transparent;
+  border-style: dashed;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.tag-filter-more:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
 .labs-filter-btn {
   background: #f3f4f6;
   border: 1px solid #e5e7eb;

@@ -12,23 +12,35 @@ import { SeoService } from '../../services/seo.service';
   styleUrl: './system-design-concepts-list.css',
 })
 export class SystemDesignConceptsListPage implements OnInit {
+  private static readonly VISIBLE_TAG_LIMIT = 10;
+
   private systemDesignConceptsService = inject(SystemDesignConceptsService);
   private seo = inject(SeoService);
 
   concepts = signal<SystemDesignConceptSummary[]>([]);
   loading = signal(true);
   selectedTag = signal<string | null>(null);
+  showAllTags = signal(false);
 
-  tagOptions = computed(() => {
-    const tags = new Set<string>();
+  /** Tags ranked by how many concepts use them (most common first, alphabetical tiebreak). */
+  rankedTagOptions = computed(() => {
+    const counts = new Map<string, number>();
     for (const concept of this.concepts()) {
-      for (const tag of concept.tags) tags.add(tag);
+      for (const tag of concept.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
-    return [
-      { label: 'All', value: null as string | null },
-      ...Array.from(tags).sort().map((tag) => ({ label: tag, value: tag })),
-    ];
+    return Array.from(counts.entries())
+      .sort(([tagA, countA], [tagB, countB]) => countB - countA || tagA.localeCompare(tagB))
+      .map(([tag]) => ({ label: tag, value: tag as string | null }));
   });
+
+  visibleTagOptions = computed(() => {
+    const ranked = this.rankedTagOptions();
+    return this.showAllTags() ? ranked : ranked.slice(0, SystemDesignConceptsListPage.VISIBLE_TAG_LIMIT);
+  });
+
+  hasMoreTags = computed(() => this.rankedTagOptions().length > SystemDesignConceptsListPage.VISIBLE_TAG_LIMIT);
+
+  hiddenTagCount = computed(() => this.rankedTagOptions().length - SystemDesignConceptsListPage.VISIBLE_TAG_LIMIT);
 
   showOnlyLabs = signal(false);
 
@@ -46,6 +58,10 @@ export class SystemDesignConceptsListPage implements OnInit {
 
   onFilterChange(tag: string | null) {
     this.selectedTag.set(tag);
+  }
+
+  onToggleShowAllTags() {
+    this.showAllTags.update((v) => !v);
   }
 
   onToggleLabsFilter() {
