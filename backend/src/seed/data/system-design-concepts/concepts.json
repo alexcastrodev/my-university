@@ -130,5 +130,120 @@
       { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
       { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 5, \"Replication\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" }
     ]
+  },
+  {
+    "slug": "distributed-systems-partial-failures",
+    "id": 7,
+    "title": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+    "summary": "Why a node in a distributed system can never fully trust its own judgment about the current time or its own liveness — unreliable networks, unreliable clocks, and process pauses, and why they all point to the same underlying problem.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Intermediate",
+    "readingTime": 10,
+    "tags": ["Distributed Systems", "Fundamentals", "Fault Tolerance", "Consistency Models"],
+    "prerequisites": ["Basic client-server networking", "What a network partition is", "Garbage collection basics"],
+    "related": [
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      "Consensus and Coordination Services",
+      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" }
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly, 2024)", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Google Research — \"Spanner: Google's Globally-Distributed Database\" (OSDI 2012)", "url": "https://research.google/pubs/spanner-googles-globally-distributed-database/", "type": "paper" },
+      { "label": "AWS — Amazon Time Sync Service", "url": "https://docs.aws.amazon.com/AmazonElasticComputeCloud/latest/UserGuide/set-time.html", "type": "doc" },
+      { "label": "Java Platform — G1 Garbage Collector pause-time tuning", "url": "https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-g1-garbage-collector1.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "change-data-capture",
+    "id": 8,
+    "title": "Change Data Capture (CDC)",
+    "summary": "How tailing a database's own replication log — instead of polling a table or dual-writing — turns every committed change into an ordered event stream, and why that stream, not the table, is arguably the real source of truth.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Intermediate",
+    "readingTime": 14,
+    "tags": ["Distributed Systems", "Data Consistency", "Event-Driven Architecture", "Streaming", "Replication"],
+    "prerequisites": ["Database replication basics", "Message queues / brokers basics", "The Transactional Outbox Pattern"],
+    "related": [
+      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      "Event Sourcing",
+      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      "Log Compaction"
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Databases and Streams\" and \"State, Streams, and Immutability\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Debezium Documentation — How Debezium Works / Features", "url": "https://debezium.io/documentation/reference/stable/features.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Logical Replication", "url": "https://www.postgresql.org/docs/current/logical-replication.html", "type": "doc" },
+      { "label": "Google Cloud — Datastream (managed CDC) Overview", "url": "https://cloud.google.com/datastream/docs/overview", "type": "doc" },
+      { "label": "Netflix Tech Blog — DBLog: A Generic Change-Data-Capture Framework", "url": "https://netflixtechblog.com/dblog-a-generic-change-data-capture-framework-69351fb9099b", "type": "engineering" }
+    ]
+  },
+  {
+    "slug": "transactions-acid-and-isolation-levels",
+    "id": 9,
+    "title": "Transactions, ACID, and Isolation Levels",
+    "summary": "What ACID actually guarantees underneath the marketing term, the specific race conditions (dirty reads, lost updates, write skew, phantoms) that weak isolation levels allow through, and why PostgreSQL's \"repeatable read\" and MySQL's \"repeatable read\" don't mean the same thing.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": ["Databases", "Data Consistency", "Transactions", "Concurrency", "Fundamentals"],
+    "prerequisites": ["Basic SQL (SELECT/UPDATE/transactions)", "What a race condition is"],
+    "related": [
+      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Consensus and Coordination Services", "slug": "consensus-and-coordination-services" }
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 8, \"Transactions\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "PostgreSQL Documentation — Transaction Isolation", "url": "https://www.postgresql.org/docs/current/transaction-iso.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — InnoDB Transaction Isolation Levels", "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html", "type": "doc" },
+      { "label": "Jepsen — \"Analyses\" (isolation-level violations found in real databases under test)", "url": "https://jepsen.io/analyses", "type": "engineering" }
+    ]
+  },
+  {
+    "slug": "consensus-and-coordination-services",
+    "id": 10,
+    "title": "Consensus and Coordination Services",
+    "summary": "Why single-leader replication needs a way to agree on who the leader is, how Raft/Paxos-style algorithms turn that into a fault-tolerant shared log via quorum voting, and why almost nobody implements consensus from scratch — they reach for a coordination service like ZooKeeper or etcd instead.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Advanced",
+    "readingTime": 12,
+    "tags": ["Distributed Systems", "Consensus", "Fault Tolerance", "Coordination"],
+    "prerequisites": ["Database replication basics", "Quorum reads/writes", "CAP Theorem"],
+    "related": [
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
+      "Linearizability",
+      "Two-Phase Commit"
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 10, \"Consistency and Consensus\", sections \"Consensus\" and \"Coordination Services\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Diego Ongaro and John Ousterhout — \"In Search of an Understandable Consensus Algorithm\" (Raft paper, USENIX ATC 2014)", "url": "https://raft.github.io/raft.pdf", "type": "paper" },
+      { "label": "etcd Documentation — Why etcd", "url": "https://etcd.io/docs/v3.5/learning/why/", "type": "doc" },
+      { "label": "Apache ZooKeeper — ZooKeeper Recipes and Solutions (locks, leader election)", "url": "https://zookeeper.apache.org/doc/current/recipes.html", "type": "doc" },
+      { "label": "Kubernetes Documentation — Operating etcd clusters for Kubernetes", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "message-brokers-queues-vs-logs",
+    "id": 11,
+    "title": "Message Brokers: Queues vs. Log-Based Streaming",
+    "summary": "How traditional JMS/AMQP-style brokers (RabbitMQ, SQS) treat message delivery as destructive and short-lived, how log-based brokers (Kafka, Redpanda, Kinesis) instead treat the log itself as durable storage that consumers replay independently, and why picking between them is really a choice between per-message parallelism and strict ordering with replay.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": ["Distributed Systems", "Streaming", "Event-Driven Architecture", "Messaging"],
+    "prerequisites": ["Message queues / brokers basics", "Database replication basics"],
+    "related": [
+      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
+      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      "Log Compaction",
+      "Event Sourcing"
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", section \"Transmitting Event Streams\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Apache Kafka Documentation — Introduction and Design", "url": "https://kafka.apache.org/documentation/#introduction", "type": "doc" },
+      { "label": "Confluent — KRaft: Apache Kafka Without ZooKeeper", "url": "https://developer.confluent.io/learn/kraft/", "type": "doc" },
+      { "label": "AWS — Choosing Between Amazon SQS and Amazon Kinesis", "url": "https://docs.aws.amazon.com/whitepapers/latest/streaming-data-solutions-on-aws/amazon-sqs.html", "type": "doc" }
+    ]
   }
 ]

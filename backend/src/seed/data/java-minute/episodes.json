@@ -1,5 +1,15 @@
 [
   {
+    "slug": "thread-scheduler",
+    "id": 308,
+    "question": "What is a thread scheduler?",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Java Coding Tip #308: Thread Scheduler", "url": "https://www.youtube.com/shorts/VCXDZKcVNR4", "type": "video" },
+      { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" }
+    ]
+  },
+  {
     "slug": "max-of-a-collection",
     "id": 382,
     "question": "How can you get the max of a collection?",
