@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
   selector: 'app-system-design-concepts-list',
@@ -17,10 +18,13 @@ export class SystemDesignConceptsListPage implements OnInit {
   private systemDesignConceptsService = inject(SystemDesignConceptsService);
   private seo = inject(SeoService);
 
+  protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+
   concepts = signal<SystemDesignConceptSummary[]>([]);
   loading = signal(true);
   selectedTag = signal<string | null>(null);
   showAllTags = signal(false);
+  readSort = signal<ReadSortOrder>('default');
 
   /** Tags ranked by how many concepts use them (most common first, alphabetical tiebreak). */
   rankedTagOptions = computed(() => {
@@ -49,15 +53,21 @@ export class SystemDesignConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    return all.filter((c) => {
+    const filtered = all.filter((c) => {
       const matchesTag = !tag || c.tags.includes(tag);
       const matchesLab = !showLabs || c.labUrl;
       return matchesTag && matchesLab;
     });
+
+    return sortByRead(filtered, this.readSort());
   });
 
   onFilterChange(tag: string | null) {
     this.selectedTag.set(tag);
+  }
+
+  onSortChange(order: ReadSortOrder) {
+    this.readSort.set(order);
   }
 
   onToggleShowAllTags() {

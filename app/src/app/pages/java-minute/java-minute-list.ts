@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
 import { SeoService } from '../../services/seo.service';
+import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
   selector: 'app-java-minute-list',
@@ -15,8 +16,17 @@ export class JavaMinuteListPage implements OnInit {
   private javaMinuteService = inject(JavaMinuteService);
   private seo = inject(SeoService);
 
+  protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+
   episodes = signal<JavaMinuteEpisodeSummary[]>([]);
   loading = signal(true);
+  readSort = signal<ReadSortOrder>('default');
+
+  sortedEpisodes = computed(() => sortByRead(this.episodes(), this.readSort()));
+
+  onSortChange(order: ReadSortOrder) {
+    this.readSort.set(order);
+  }
 
   ngOnInit() {
     this.seo.set({

@@ -73,4 +73,14 @@ describe('JavaMinuteListPage', () => {
     const first = Array.from(cards).find((c) => c.textContent?.includes('switch on String'));
     expect(first?.querySelector('.card-order')?.textContent).toContain('375');
   });
+
+  it('sorts unread episodes first when "Unread first" is selected', () => {
+    const fixture = render();
+    fixture.componentInstance.onSortChange('unread-first');
+    fixture.detectChanges();
+
+    const cards: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.episode-card');
+    expect(cards[0].textContent).toContain('diamond operator');
+    expect(cards[1].textContent).toContain('switch on String');
+  });
 });

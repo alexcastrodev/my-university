@@ -110,4 +110,14 @@ describe('SystemDesignConceptsListPage', () => {
     expect(cards.length).toBe(1);
     expect(cards[0].textContent).toContain('Consistent Hashing');
   });
+
+  it('sorts unread concepts first when "Unread first" is selected', () => {
+    const fixture = render();
+    fixture.componentInstance.onSortChange('unread-first');
+    fixture.detectChanges();
+
+    const cards: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.concept-card');
+    expect(cards[0].textContent).toContain('CAP Theorem');
+    expect(cards[1].textContent).toContain('Consistent Hashing');
+  });
 });

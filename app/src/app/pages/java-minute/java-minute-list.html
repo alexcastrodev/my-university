@@ -5,6 +5,19 @@
   </div>
 
   <div class="page-body">
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+    </div>
+
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading episodes">
         <span class="spinner" aria-hidden="true"></span>
@@ -12,7 +25,7 @@
       </div>
     } @else {
       <div class="cards-grid">
-        @for (episode of episodes(); track episode.slug) {
+        @for (episode of sortedEpisodes(); track episode.slug) {
           <a [routerLink]="['/java/java-minute', episode.slug]" class="episode-card" [class.is-read]="episode.read">
             <div class="card-header">
               <span class="card-order">#{{ episode.id }}</span>

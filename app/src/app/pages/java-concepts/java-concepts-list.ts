@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { JavaConceptSummary } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
   selector: 'app-java-concepts-list',
@@ -15,18 +16,26 @@ export class JavaConceptsListPage implements OnInit {
   private javaConceptsService = inject(JavaConceptsService);
   private seo = inject(SeoService);
 
+  protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+
   concepts = signal<JavaConceptSummary[]>([]);
   loading = signal(true);
   showOnlyLabs = signal(false);
+  readSort = signal<ReadSortOrder>('default');
 
   filteredConcepts = computed(() => {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
-    return showLabs ? all.filter((c) => c.labUrl) : all;
+    const filtered = showLabs ? all.filter((c) => c.labUrl) : all;
+    return sortByRead(filtered, this.readSort());
   });
 
   onToggleLabsFilter() {
     this.showOnlyLabs.update((v) => !v);
+  }
+
+  onSortChange(order: ReadSortOrder) {
+    this.readSort.set(order);
   }
 
   ngOnInit() {

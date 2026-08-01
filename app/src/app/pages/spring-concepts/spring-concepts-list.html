@@ -22,6 +22,19 @@
       </button>
     </div>
 
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+    </div>
+
     @if (loading()) {
       <div class="loading" role="status" aria-label="Loading concepts">
         <span class="spinner" aria-hidden="true"></span>

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[] = [
   { label: 'All', value: null },
@@ -23,26 +24,34 @@ export class SpringConceptsListPage implements OnInit {
   private seo = inject(SeoService);
 
   protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
+  protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
 
   concepts = signal<SpringConceptSummary[]>([]);
   loading = signal(true);
   selectedCategory = signal<SpringConceptCategory | null>(null);
   showOnlyLabs = signal(false);
+  readSort = signal<ReadSortOrder>('default');
 
   filteredConcepts = computed(() => {
     const category = this.selectedCategory();
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    return all.filter((c) => {
+    const filtered = all.filter((c) => {
       const matchesCategory = !category || c.category === category;
       const matchesLab = !showLabs || c.labUrl;
       return matchesCategory && matchesLab;
     });
+
+    return sortByRead(filtered, this.readSort());
   });
 
   onFilterChange(category: SpringConceptCategory | null) {
     this.selectedCategory.set(category);
+  }
+
+  onSortChange(order: ReadSortOrder) {
+    this.readSort.set(order);
   }
 
   onToggleLabsFilter() {
