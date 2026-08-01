@@ -57,12 +57,21 @@ describe('course seed data: contentPath integrity', () => {
     });
   }
 
-  // Locks in the specific fix from this session: the concurrency module's
-  // practice lesson now has real content instead of `contentPath: null`.
-  it('java-21 concurrency module: the practice lesson has a non-null contentPath', () => {
-    const { module } = loadModules('java-21').find((m) => m.file === '13-concurrency.json')!;
-    const practiceLesson = module.lessons.find((l) => l.type === 'practice');
-    expect(practiceLesson).toBeTruthy();
-    expect(practiceLesson!.contentPath).toBe('java-21/content/13-7-practice-concurrency.md');
-  });
+  // Locks in specific fixes made session by session: each of these modules'
+  // practice lesson used to be `contentPath: null` and now has real content.
+  // Add a row here each time another "Practice: {Topic}" lesson gets written
+  // — see work.md for the list of the 24 still remaining.
+  const FILLED_PRACTICE_LESSONS = [
+    { course: 'java-21', file: '13-concurrency.json', contentPath: 'java-21/content/13-7-practice-concurrency.md' },
+    { course: 'java-25', file: '08-concurrency.json', contentPath: 'java-25/content/8-7-practice-multithreading.md' },
+  ];
+
+  for (const { course, file, contentPath } of FILLED_PRACTICE_LESSONS) {
+    it(`${course} ${file}: the practice lesson has the expected non-null contentPath`, () => {
+      const { module } = loadModules(course).find((m) => m.file === file)!;
+      const practiceLesson = module.lessons.find((l) => l.type === 'practice');
+      expect(practiceLesson).toBeTruthy();
+      expect(practiceLesson!.contentPath).toBe(contentPath);
+    });
+  }
 });

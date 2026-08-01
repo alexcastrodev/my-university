@@ -47,20 +47,30 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **Piloto feito (2026-08-02):** `13-7-practice-concurrency.md` (5
-        exercícios reais — thread creation, race condition, `HashMap` sob
-        parallel stream, deadlock, virtual threads + `try`-with-resources),
-        `contentPath` do `j21-13-7` apontado pra ele. Testes de regressão
-        dos dois lados: backend (`backend/spec/content.spec.ts` +
-        `backend/spec/course-content-paths.spec.ts`, este último varre
-        *todos* os módulos dos 2 cursos e falha se algum `contentPath` não-nulo
-        apontar pra um arquivo inexistente) e frontend
-        (`app/src/app/pages/course/course-page.spec.ts`, cobre os dois
-        estados: placeholder quando `contentPath` é `null`, conteúdo real
-        quando não é). Os 4 testes foram verificados pegando a regressão de
-        verdade (quebrados de propósito e restaurados). **Restam 25 módulos**
-        sem o "Practice" preenchido — mesmo formato, uma sessão de conteúdo
-        por vez, como o workflow dos livros em `tmp/book/`.
+      - **2 de 26 feitos:**
+        - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
+          creation, race condition, `HashMap` sob parallel stream, deadlock,
+          virtual threads + `try`-with-resources.
+        - `8-7-practice-multithreading.md` (java-25, Multithreading,
+          2026-08-02) — `run()` vs `start()` em virtual thread, re-interrupt
+          após `InterruptedException`, `ScopedValue`/`isBound()`, se
+          `synchronized` ainda pina virtual thread no Java 25 (JEP 491 —
+          não pina mais, desde o Java 24; corrige uma imprecisão da própria
+          tabela do slide `8-5`, que ainda lista "sim" sem a ressalva de
+          versão), `StructuredTaskScope.ShutdownOnFailure`.
+        Testes de regressão dos dois lados, generalizados pra cobrir
+        qualquer lição nova automaticamente: backend
+        (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
+        — este último varre *todos* os módulos dos 2 cursos e falha se
+        algum `contentPath` não-nulo apontar pra um arquivo inexistente,
+        mais uma lista `FILLED_PRACTICE_LESSONS` travando cada lição já
+        preenchida) e frontend (`app/src/app/pages/course/course-page.spec.ts`,
+        cobre os dois estados: placeholder quando `contentPath` é `null`,
+        conteúdo real quando não é — genérico, não precisa de teste novo por
+        lição). Todos verificados pegando a regressão de verdade (quebrados
+        de propósito e restaurados). **Restam 24 módulos** sem o "Practice"
+        preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
+        workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
       lição/exame em andamento. Hoje o usuário precisa navegar até
       `/java/exams` → escolher o exame → achar a lição de novo. Um botão

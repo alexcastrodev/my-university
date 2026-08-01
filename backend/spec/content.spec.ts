@@ -84,7 +84,7 @@ describe('ContentController.serveMarkdown (unit)', () => {
 
     // Regression coverage for the "Practice" lesson content that used to be a
     // dead `contentPath: null` — see 13-concurrency.json / work.md.
-    it('returns markdown for the concurrency practice lesson content', async () => {
+    it('returns markdown for the java-21 concurrency practice lesson content', async () => {
       const reply = makeReply();
       await controller.serveMarkdown(
         'java-21',
@@ -93,6 +93,18 @@ describe('ContentController.serveMarkdown (unit)', () => {
       );
       expect(reply.contentType).toBe('text/plain; charset=utf-8');
       expect(reply.body as string).toContain('Practice: Concurrency');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 multithreading practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '8-7-practice-multithreading.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Multithreading');
       expect(reply.body as string).toContain('Exercise 1');
     });
   });
