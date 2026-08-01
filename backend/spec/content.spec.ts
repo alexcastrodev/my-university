@@ -81,5 +81,19 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(typeof reply.body).toBe('string');
       expect((reply.body as string).length).toBeGreaterThan(0);
     });
+
+    // Regression coverage for the "Practice" lesson content that used to be a
+    // dead `contentPath: null` — see 13-concurrency.json / work.md.
+    it('returns markdown for the concurrency practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '13-7-practice-concurrency.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Concurrency');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });
