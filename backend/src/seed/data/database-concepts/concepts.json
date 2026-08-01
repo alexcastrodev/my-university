@@ -173,5 +173,33 @@
       { "label": "MySQL Reference Manual — Set Operations (INTERSECT, EXCEPT, since 8.0.31)", "url": "https://dev.mysql.com/doc/refman/8.0/en/set-operations.html", "type": "doc" },
       { "label": "SQL Server Documentation — Set Operators: UNION (Transact-SQL)", "url": "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/set-operators-union-transact-sql", "type": "doc" }
     ]
+  },
+  {
+    "slug": "postgresql-table-activity-and-bloat-stats",
+    "id": 13,
+    "category": "PostgreSQL",
+    "title": "Finding Your Busiest Tables: Activity and Bloat Stats in PostgreSQL",
+    "summary": "How to rank tables and indexes by size (pg_total_relation_size), by write/read activity (pg_stat_user_tables, pg_stat_user_indexes), and by bloat (the pgstattuple extension) — and how PostgreSQL 16's last_seq_scan/last_idx_scan columns solve the book's own complaint that activity counters have no associated timestamp.",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Identifying important tables\", p. 100-105", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — The Cumulative Statistics System (pg_stat_user_tables, pg_stat_reset)", "url": "https://www.postgresql.org/docs/current/monitoring-stats.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pgstattuple", "url": "https://www.postgresql.org/docs/current/pgstattuple.html", "type": "doc" },
+      { "label": "PostgreSQL 16 Release Notes — last_seq_scan/last_idx_scan added to pg_stat_*_tables", "url": "https://www.postgresql.org/docs/16/release-16.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-anti-joins-and-optional-joins",
+    "id": 14,
+    "category": "SQL",
+    "title": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
+    "summary": "How LEFT JOIN + IS NULL (an anti-join) finds rows in one table with no match in another, how the same LEFT JOIN mechanism — or a scalar subquery in the SELECT list — adds optional data to an already-correct query without dropping rows, and why MySQL and PostgreSQL both recognize the anti-join pattern and stop scanning early instead of evaluating it as a naive join-then-filter.",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipes 3.5-3.6, p. 40-43", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "MySQL Reference Manual — Outer Join Optimization", "url": "https://dev.mysql.com/doc/refman/8.4/en/outer-join-optimization.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Explicit Joins (LEFT/RIGHT/FULL JOIN)", "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html", "type": "doc" },
+      { "label": "SQL Server Documentation — Subqueries (scalar subqueries in the SELECT list)", "url": "https://learn.microsoft.com/en-us/sql/relational-databases/performance/subqueries", "type": "doc" }
+    ]
   }
 ]

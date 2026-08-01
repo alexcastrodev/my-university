@@ -77,5 +77,67 @@
       { "label": "Deque — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html", "type": "doc" },
       { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "generics",
+    "id": 8,
+    "title": "Generics: Bounded Types, Wildcards, and Erasure",
+    "summary": "How parameterized types move casts and type-mismatch checks from runtime to compile time, what bounded types and PECS wildcards (extends/super) actually constrain, and why erasure means there's really only one class file per generic type at runtime.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "Generics (The Java Tutorials) — Oracle", "url": "https://docs.oracle.com/javase/tutorial/java/generics/index.html", "type": "doc" },
+      { "label": "Java Language Specification — Chapter 4.5, Parameterized Types", "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5", "type": "doc" },
+      { "label": "Comparable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "records-and-sealed-types",
+    "id": 9,
+    "title": "Records and Sealed Types",
+    "summary": "How a record turns a data-holder class into one line (canonical/compact constructors, free equals/hashCode/toString, shallow immutability), and how sealed classes/interfaces replace \"anyone can extend this\" with an explicit, exhaustive permits list — the pairing that makes closed hierarchies safe to model.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "Java SE Language Documentation — Record Classes", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
+      { "label": "Java SE Language Documentation — Sealed Classes and Interfaces", "url": "https://docs.oracle.com/en/java/javase/25/language/sealed-classes-interfaces.html", "type": "doc" },
+      { "label": "JEP 395: Records", "url": "https://openjdk.org/jeps/395", "type": "doc" },
+      { "label": "JEP 409: Sealed Classes", "url": "https://openjdk.org/jeps/409", "type": "doc" },
+      { "label": "JEP 456: Unnamed Variables & Patterns", "url": "https://openjdk.org/jeps/456", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "comparators-and-collection-algorithms",
+    "id": 10,
+    "title": "Comparators and Collection Algorithms",
+    "summary": "How Comparator decouples ordering from a type entirely (unlike the one fixed Comparable.compareTo()), how comparing()/thenComparing() build multi-key comparators without a hand-written compare(), and what the static algorithms on Collections (sort, shuffle, unmodifiable/synchronized/checked views) actually guarantee.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "Comparator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html", "type": "doc" },
+      { "label": "Comparable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html", "type": "doc" },
+      { "label": "Collections — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html", "type": "doc" },
+      { "label": "List.sort() — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "httpclient-and-java-net-http",
+    "id": 11,
+    "title": "HttpClient: The Modern java.net.http API",
+    "summary": "How HttpClient's builder pattern replaced HttpURLConnection's low-level, awkward API — synchronous send() vs. asynchronous sendAsync() returning a CompletableFuture, and how BodyHandlers decides what shape the response body arrives in.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "HttpClient — Java SE 25 API (java.net.http)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpClient.html", "type": "doc" },
+      { "label": "HttpRequest — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpRequest.html", "type": "doc" },
+      { "label": "HttpResponse.BodyHandlers — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpResponse.BodyHandlers.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "regular-expressions",
+    "id": 12,
+    "title": "Regular Expressions with Pattern and Matcher",
+    "summary": "Why Pattern.compile() and Matcher exist as two separate objects (compile once, match many), the difference between find()/matches()/lookingAt(), and how capturing groups — numbered and named — pull substrings out of a match instead of just testing yes/no.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "Pattern — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html", "type": "doc" },
+      { "label": "Matcher — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html", "type": "doc" }
+    ]
   }
 ]

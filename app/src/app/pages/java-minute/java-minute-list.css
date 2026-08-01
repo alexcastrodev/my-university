@@ -74,16 +74,27 @@
   transform: translateY(-2px);
 }
 
+.episode-card.is-read {
+  border-color: rgba(46,125,50,.35);
+}
+
+.episode-card.is-read:hover {
+  border-color: #c74634;
+}
+
 .card-header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 0.75rem;
+  gap: 0.4rem;
 }
 
 .card-badges {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
 }
 
@@ -96,14 +107,20 @@
   padding: 0.15rem 0.55rem;
 }
 
-.card-badge.read-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #fff;
-  background: #2e7d32;
-  border-radius: 12px;
-  padding: 0.15rem 0.45rem;
-  white-space: nowrap;
+.read-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #2e7d32;
+  border-radius: 50%;
+  color: #2e7d32;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  background: #fff;
 }
 
 .card-date {
@@ -125,6 +142,10 @@
 }
 
 .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   margin-top: 1rem;
   padding-top: 0.75rem;
   border-top: 1px solid #f3f4f6;

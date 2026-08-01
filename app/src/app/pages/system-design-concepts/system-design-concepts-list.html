@@ -30,16 +30,13 @@
     } @else {
       <div class="cards-grid">
         @for (concept of filteredConcepts(); track concept.slug) {
-          <a [routerLink]="['/system-design/system-design-concepts', concept.slug]" class="concept-card">
+          <a [routerLink]="['/system-design/system-design-concepts', concept.slug]" class="concept-card" [class.is-read]="concept.read">
             <div class="card-header">
               <div class="card-meta">
                 <span class="card-difficulty">{{ concept.difficulty }}</span>
                 <span class="card-reading-time">{{ concept.readingTime }} min</span>
               </div>
               <div class="card-badges">
-                @if (concept.read) {
-                  <span class="card-badge read-badge" title="You've marked this as read">✓ Read</span>
-                }
                 @if (concept.labUrl) {
                   <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
                 }
@@ -54,6 +51,9 @@
             </div>
             <div class="card-footer">
               <span class="card-cta">Read →</span>
+              @if (concept.read) {
+                <span class="read-check" title="You've marked this as read">✓</span>
+              }
             </div>
           </a>
         }

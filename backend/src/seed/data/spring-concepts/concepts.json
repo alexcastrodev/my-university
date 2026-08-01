@@ -170,5 +170,48 @@
       { "label": "Spring Batch API — DefaultJobParametersValidator", "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/job/DefaultJobParametersValidator.html", "type": "doc" },
       { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-jdbc-persistence-with-jdbctemplate",
+    "id": 13,
+    "category": "Spring Boot",
+    "title": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+    "summary": "How JdbcTemplate eliminates JDBC's connection/statement/result-set boilerplate via query()/queryForObject() and a RowMapper, how SimpleJdbcInsert simplifies inserts that need a generated key, and how schema.sql/data.sql auto-initialize a database on startup — plus why Spring Framework 6.1's JdbcClient is now the recommended fluent facade for the same job.",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.1, p. 56-74", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Framework Reference — Data Access with JDBC (JdbcTemplate)", "url": "https://docs.spring.io/spring-framework/reference/data-access/jdbc/core.html", "type": "doc" },
+      { "label": "Spring Framework API — JdbcClient (fluent facade over JdbcTemplate)", "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/simple/JdbcClient.html", "type": "doc" },
+      { "label": "Spring Boot Reference — SQL Databases (schema.sql/data.sql initialization)", "url": "https://docs.spring.io/spring-boot/how-to/data-initialization.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-crypto-module",
+    "id": 14,
+    "category": "Spring Security",
+    "title": "Spring Security Crypto Module: Key Generators and Encryptors",
+    "summary": "How KeyGenerators produces salt/key values (StringKeyGenerator, BytesKeyGenerator) and how Encryptors builds encryption/decryption objects (standard AES/CBC, stronger AES/GCM, queryableText for searchable ciphertext) without pulling in a separate crypto library.",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 4, \"Dealing with passwords\", section 4.2, \"More about the Spring Security Crypto module\", p. 97-101", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Spring Security Crypto Module", "url": "https://docs.spring.io/spring-security/reference/features/integrations/cryptography.html", "type": "doc" },
+      { "label": "Spring Security API — KeyGenerators", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/keygen/KeyGenerators.html", "type": "doc" },
+      { "label": "Spring Security API — Encryptors", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/encrypt/Encryptors.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-fault-tolerant-step-configuration",
+    "id": 15,
+    "category": "Spring Batch",
+    "title": "Spring Batch Fault-Tolerant Steps: Skip, Retry, and Transaction Attributes",
+    "summary": "How the book's chunk/tasklet XML attributes (skip-limit, retry-policy, cache-capacity, transaction-attributes, no-rollback-exception-classes) map onto Java configuration — first onto the now-deprecated FaultTolerantStepBuilder, and, as of Spring Batch 6.0, onto ChunkOrientedStepBuilder's policy-object-based retryPolicy()/skipPolicy() built on Spring Framework's own core retry feature instead of the Spring Retry library.",
+    "publishedAt": "2026-08-01",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", sections 3.2.4-3.2.5, p. 61-71", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch API — FaultTolerantStepBuilder (deprecated since 6.0)", "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/step/builder/FaultTolerantStepBuilder.html", "type": "doc" },
+      { "label": "Spring Batch API — ChunkOrientedStepBuilder", "url": "https://docs.spring.io/spring-batch/docs/6.0.0-M2/api/org/springframework/batch/core/step/builder/ChunkOrientedStepBuilder.html", "type": "doc" },
+      { "label": "Spring Batch API — LimitCheckingItemSkipPolicy", "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/step/skip/LimitCheckingItemSkipPolicy.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 release announcement", "url": "https://spring.io/blog/2025/08/20/spring-batch-6/", "type": "doc" }
+    ]
   }
 ]

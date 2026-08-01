@@ -30,13 +30,10 @@
     } @else {
       <div class="cards-grid">
         @for (concept of filteredConcepts(); track concept.slug) {
-          <a [routerLink]="['/spring-concepts', concept.slug]" class="concept-card">
+          <a [routerLink]="['/spring-concepts', concept.slug]" class="concept-card" [class.is-read]="concept.read">
             <div class="card-header">
               <span class="card-category">{{ concept.category }}</span>
               <div class="card-badges">
-                @if (concept.read) {
-                  <span class="card-badge read-badge" title="You've marked this as read">✓ Read</span>
-                }
                 @if (concept.labUrl) {
                   <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
                 }
@@ -47,6 +44,9 @@
             <p class="card-summary">{{ concept.summary }}</p>
             <div class="card-footer">
               <span class="card-cta">Read →</span>
+              @if (concept.read) {
+                <span class="read-check" title="You've marked this as read">✓</span>
+              }
             </div>
           </a>
         }

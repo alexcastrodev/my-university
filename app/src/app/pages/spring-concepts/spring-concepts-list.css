@@ -135,12 +135,21 @@
   transform: translateY(-2px);
 }
 
+.concept-card.is-read {
+  border-color: rgba(46,125,50,.35);
+}
+
+.concept-card.is-read:hover {
+  border-color: #c74634;
+}
+
 .card-header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 0.75rem;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .card-category {
@@ -158,10 +167,10 @@
 .card-badges {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
   justify-content: flex-end;
-  flex-shrink: 1;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .card-badge {
@@ -179,8 +188,20 @@
   background: #1976d2;
 }
 
-.card-badge.read-badge {
-  background: #2e7d32;
+.read-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #2e7d32;
+  border-radius: 50%;
+  color: #2e7d32;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  background: #fff;
 }
 
 .card-date {
@@ -215,6 +236,10 @@
 }
 
 .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   margin-top: 1rem;
   padding-top: 0.75rem;
   border-top: 1px solid #f3f4f6;

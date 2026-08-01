@@ -13,19 +13,19 @@
     } @else {
       <div class="cards-grid">
         @for (episode of episodes(); track episode.slug) {
-          <a [routerLink]="['/java/java-minute', episode.slug]" class="episode-card">
+          <a [routerLink]="['/java/java-minute', episode.slug]" class="episode-card" [class.is-read]="episode.read">
             <div class="card-header">
               <div class="card-badges">
                 <span class="card-order">#{{ episode.id }}</span>
-                @if (episode.read) {
-                  <span class="card-badge read-badge" title="You've watched this episode">✓ Watched</span>
-                }
               </div>
               <span class="card-date">{{ episode.publishedAt }}</span>
             </div>
             <h3 class="card-title">{{ episode.question }}</h3>
             <div class="card-footer">
               <span class="card-cta">Watch →</span>
+              @if (episode.read) {
+                <span class="read-check" title="You've watched this episode">✓</span>
+              }
             </div>
           </a>
         }
