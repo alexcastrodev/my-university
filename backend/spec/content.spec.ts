@@ -119,5 +119,17 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: Streams');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-21 collections and generics practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '9-4-practice-collections-and-generics.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Collections and Generics');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });

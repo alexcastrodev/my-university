@@ -65,6 +65,7 @@ describe('course seed data: contentPath integrity', () => {
     { course: 'java-21', file: '13-concurrency.json', contentPath: 'java-21/content/13-7-practice-concurrency.md' },
     { course: 'java-25', file: '08-concurrency.json', contentPath: 'java-25/content/8-7-practice-multithreading.md' },
     { course: 'java-21', file: '10-streams.json', contentPath: 'java-21/content/10-5-practice-streams.md' },
+    { course: 'java-21', file: '09-collections.json', contentPath: 'java-21/content/9-4-practice-collections-and-generics.md' },
   ];
 
   for (const { course, file, contentPath } of FILLED_PRACTICE_LESSONS) {
