@@ -131,5 +131,17 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: Collections and Generics');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-21 lambdas and functional interfaces practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '8-6-practice-lambdas-and-functional-interfaces.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Lambdas and Functional Interfaces');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });

@@ -47,7 +47,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **4 de 26 feitos:**
+      - **5 de 26 feitos:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
@@ -64,13 +64,22 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
           `reduce` com vs. sem identity num stream vazio,
           `partitioningBy`+`counting()`.
         - `9-4-practice-collections-and-generics.md` (java-21, Collections
-          and Generics, 2026-08-02) — `List<? extends Number>` não aceita
-          `add()` (PECS), `Set.add()` retornando `false` em duplicata +
-          ordenação do `TreeSet`, `Map.merge` vs. `computeIfAbsent` (quando
-          cada um chama a função), o mesmo `ArrayDeque` usado como pilha
+          and Generics) — `List<? extends Number>` não aceita `add()`
+          (PECS), `Set.add()` retornando `false` em duplicata + ordenação
+          do `TreeSet`, `Map.merge` vs. `computeIfAbsent` (quando cada um
+          chama a função), o mesmo `ArrayDeque` usado como pilha
           (`push`/`pop`) vs. fila (`offer`/`poll`), `unmodifiableList` como
           view (não cópia) + `binarySearch` em lista não ordenada
           (comportamento não especificado).
+        - `8-6-practice-lambdas-and-functional-interfaces.md` (java-21,
+          Lambdas and Functional Interfaces, 2026-08-02) — capturar a
+          variável de um `for` clássico não compila (não é effectively
+          final) vs. copiar pra uma variável nova por iteração, contagem de
+          SAM (default/static/override de `Object` não contam pro
+          `@FunctionalInterface`), tipo de method reference + resultado
+          exato (`String::compareTo` vs. `prefix::concat`), ordem de
+          `Function.andThen` vs. `compose`, `Predicate.and()` short-circuit
+          evitando `NullPointerException`.
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -81,7 +90,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 22 módulos** sem o "Practice"
+        de propósito e restaurados). **Restam 21 módulos** sem o "Practice"
         preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
         workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
