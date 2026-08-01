@@ -28,8 +28,18 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   private slug = '';
 
   ngOnInit() {
-    this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.systemDesignConceptsService.getConcept(this.slug).subscribe({
+    this.route.paramMap.subscribe((params) => {
+      this.loadConcept(params.get('slug') ?? '');
+    });
+  }
+
+  private loadConcept(slug: string): void {
+    this.slug = slug;
+    this.loading.set(true);
+    this.notFound.set(false);
+    this.marking.set(false);
+    this.concept.set(null);
+    this.systemDesignConceptsService.getConcept(slug).subscribe({
       next: (concept) => {
         this.concept.set(concept);
         this.read.set(concept.read);

@@ -28,8 +28,18 @@ export class JavaMinuteDetailPage implements OnInit {
   private slug = '';
 
   ngOnInit() {
-    this.slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.javaMinuteService.getEpisode(this.slug).subscribe({
+    this.route.paramMap.subscribe((params) => {
+      this.loadEpisode(params.get('slug') ?? '');
+    });
+  }
+
+  private loadEpisode(slug: string): void {
+    this.slug = slug;
+    this.loading.set(true);
+    this.notFound.set(false);
+    this.marking.set(false);
+    this.episode.set(null);
+    this.javaMinuteService.getEpisode(slug).subscribe({
       next: (episode) => {
         this.episode.set(episode);
         this.read.set(episode.read);
