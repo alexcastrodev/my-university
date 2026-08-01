@@ -215,5 +215,65 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: OOP');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-21 making decisions practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '3-7-practice-making-decisions.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Making Decisions');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 core apis practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '4-7-practice-core-apis.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Core APIs');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 jdbc practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '15-7-practice-jdbc.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: JDBC');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 io practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '14-8-practice-io.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: I/O');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 collections practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '5-6-practice-collections.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Collections');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });

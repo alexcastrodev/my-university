@@ -47,7 +47,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **11 de 26 feitos:**
+      - **16 de 26 feitos:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
@@ -135,18 +135,67 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
           sealed com `non-sealed` (mesmo padrão do Exercício 3 do Beyond
           Classes, mas com módulo/exemplo diferente), unnamed variables
           `_` (JEP 456) — múltiplos `_` coexistem, mas ler `_` não compila.
-        **Nota de processo:** os últimos 5 (Beyond Classes,
+        - `3-7-practice-making-decisions.md` (java-21, Making Decisions,
+          2026-08-02, sub-agente em paralelo — verificado) — variável de
+          pattern matching definitivamente atribuída através de `!` +
+          `||`, guarded pattern (`when`) nunca conta pra exhaustiveness
+          mesmo que a negação pareça cobrir o resto, `case Object o` não
+          casa com `null` num switch de pattern matching (`NullPointerException`
+          em runtime sem `case null`), fall-through de switch clássico
+          (labels empilhadas vs. fall-through real sem `break`), `continue`
+          rotulado pulando pro loop externo.
+        - `4-7-practice-core-apis.md` (java-21, Core APIs, 2026-08-02,
+          sub-agente em paralelo — verificado) — string pool + `==` vs.
+          `equals`/`intern()`, encadeamento mutável de `StringBuilder`
+          (contraste com imutabilidade de `String`), array multidimensional
+          com linhas não inicializadas (`null` por padrão, `NullPointerException`
+          ao indexar), `Math.round`/`ceil`/`floor` em negativos +
+          `Math.abs(Integer.MIN_VALUE)` estourando pra negativo,
+          `LocalDate`/`Period` imutável (retorno descartado não muda o
+          original) + `Period.toString()` omitindo componentes zerados.
+        - `15-7-practice-jdbc.md` (java-21, JDBC, 2026-08-02, sub-agente em
+          paralelo — verificado) — ordem de fechamento reversa em
+          try-with-resources com `Connection`/`PreparedStatement`/`ResultSet`
+          (+ cascata do `Statement` fechando seu `ResultSet`), índice de
+          parâmetro do `PreparedStatement` começa em 1 (não 0) + contraste
+          com SQL injection via `Statement` cru, `ResultSet` lança exceção
+          se ler antes do primeiro `next()` mas permite reler a mesma
+          coluna, `registerOutParameter` precisa vir antes de `execute()`
+          no `CallableStatement`, fechar `Connection` em modo manual sem
+          `commit()`/`rollback()` é rollback implícito (citação exata do
+          exam tip do slide 15-6, conferida).
+        - `14-8-practice-io.md` (java-21, I/O, 2026-08-02, sub-agente em
+          paralelo — verificado) — navegação de `Path` (`getNameCount()`,
+          `subpath()`, `resolve()` com argumento absoluto descarta a base),
+          compatibilidade de wrapper byte-stream vs. character-stream (`
+          BufferedInputStream(FileReader)` não compila, `FileReader` é
+          `Reader` não `InputStream`), `BufferedWriter` sem `flush()`/
+          `close()` não garante que os dados cheguem ao disco, serialização
+          com superclasse não-`Serializable` (campo dela reinicializado via
+          construtor no-arg, não recuperado do stream) + `transient`,
+          ordem de fechamento em cadeia de streams decoradas (each
+          `close()` cascateia pro `super.close()`).
+        - `5-6-practice-collections.md` (java-25, Collections, 2026-08-02,
+          sub-agente em paralelo — verificado) — `reversed()` é view viva,
+          não cópia, `LinkedHashMap` implementa `SequencedMap` mas
+          `HashMap` não compila como tal, covariância de array +
+          `ArrayStoreException` em runtime, `Arrays.sort(int[], Comparator)`
+          não existe (só pra arrays de objeto) + fórmula do insertion point
+          negativo do `binarySearch`, métodos de navegação half-open do
+          `TreeSet` (`headSet`/`tailSet`/`subSet`).
+        **Nota de processo:** os últimos 10 (Beyond Classes,
         Exceptions/Localization java-21, Exception Handling/Streams/OOP
-        java-25) foram delegados em paralelo a 5 sub-agentes de uma vez,
-        cada um restrito a escrever só o `.md` novo + o `contentPath` do
-        seu próprio módulo (proibido tocar nos specs compartilhados ou
-        no work.md, pra evitar conflito de edição simultânea). Todos os 5
-        cumpriram o escopo à risca (confirmado via `git status` — nenhum
-        tocou fora do que foi pedido); o conteúdo de cada um foi lido e
-        revisado antes de integrar, e a integração dos specs
-        (`FILLED_PRACTICE_LESSONS` + `content.spec.ts`) foi feita
-        manualmente depois, de uma vez, com a mesma verificação de
-        quebrar/restaurar pra confirmar que pega regressão.
+        java-25, depois Making Decisions/Core APIs/I-O/JDBC java-21 +
+        Collections java-25) foram delegados em dois lotes de 5
+        sub-agentes em paralelo, cada um restrito a escrever só o `.md`
+        novo + o `contentPath` do seu próprio módulo (proibido tocar nos
+        specs compartilhados ou no work.md, pra evitar conflito de edição
+        simultânea). Todos os 10 cumpriram o escopo à risca (confirmado
+        via `git status` — nenhum tocou fora do que foi pedido); o
+        conteúdo de cada um foi lido e revisado antes de integrar, e a
+        integração dos specs (`FILLED_PRACTICE_LESSONS` + `content.spec.ts`)
+        foi feita manualmente depois, de uma vez por lote, com a mesma
+        verificação de quebrar/restaurar pra confirmar que pega regressão.
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -157,7 +206,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 15 módulos** sem o "Practice"
+        de propósito e restaurados). **Restam 10 módulos** sem o "Practice"
         preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
         workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
