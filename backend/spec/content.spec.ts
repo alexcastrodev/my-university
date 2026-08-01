@@ -143,5 +143,77 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: Lambdas and Functional Interfaces');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-21 class design practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '6-9-practice-class-design.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Class Design');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 beyond classes practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '7-7-practice-beyond-classes.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Beyond Classes');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 exceptions and localization practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '11-8-practice-exceptions-and-localization.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Exceptions and Localization');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 exception handling practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '4-4-practice-exception-handling.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Exception Handling');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 streams practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '6-7-practice-streams.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Streams');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 oop practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '3-11-practice-oop.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: OOP');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });

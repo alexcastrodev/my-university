@@ -47,7 +47,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **5 de 26 feitos:**
+      - **11 de 26 feitos:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
@@ -80,6 +80,73 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
           exato (`String::compareTo` vs. `prefix::concat`), ordem de
           `Function.andThen` vs. `compose`, `Predicate.and()` short-circuit
           evitando `NullPointerException`.
+        - `6-9-practice-class-design.md` (java-21, Class Design, 2026-08-02)
+          — hiding estático vs. override de instância (`v.category()`
+          resolvido pelo tipo declarado, `v.topSpeed()` por dispatch
+          dinâmico), classe listada em `permits` sem `final`/`sealed`/
+          `non-sealed` não compila, identidade vs. igualdade de record
+          (`equals` true, `==` false) + compact constructor lançando
+          exceção, enum com corpo por constante não pode ser instanciado
+          via `new` fora da declaração, subclasse anônima de classe
+          abstrata compila mas `new AbstractClass()` direto não.
+        - `7-7-practice-beyond-classes.md` (java-21, Beyond Classes,
+          2026-08-02, escrito por sub-agente em paralelo — verificado) —
+          diamond de default methods entre interfaces não relacionadas não
+          compila sem override + `Interface.super.method()`, enum com corpo
+          por constante + `EnumMap` sempre iterando em ordem de declaração
+          (não de inserção), switch exaustivo sobre hierarquia sealed com
+          ramo `non-sealed` (type pattern casa por assignability), record
+          com construtor não-canônico precisa delegar via `this(...)`
+          (atribuição direta só vale no canônico), inner class exige
+          instância externa pra `new` (`outer.new Inner()`) enquanto nested
+          `static` não acessa campo de instância sem qualificar.
+        - `11-8-practice-exceptions-and-localization.md` (java-21,
+          Exceptions and Localization, 2026-08-02, sub-agente em paralelo —
+          verificado) — ordem de `catch` por hierarquia (tipo mais
+          específico antes do genérico, senão não compila), `finally` com
+          `return`/`throw` engolindo exceção em trânsito do `try`,
+          multi-catch com variável implicitly final, try-with-resources
+          (ordem reversa de fechamento + suppressed exceptions),
+          `ResourceBundle` com fallback por chave (não só por arquivo).
+        - `4-4-practice-exception-handling.md` (java-25, Exception
+          Handling, 2026-08-02, sub-agente em paralelo — verificado) —
+          `return` no `finally` sobrepondo `return` do `try`, exceção
+          lançada dentro do `finally` substituindo (perdendo) a original,
+          try-with-resources (ordem de fechamento + suppressed), variável
+          de multi-catch implicitly final, encadeamento de construtor de
+          exception checked customizada (`super(message, cause)` +
+          `throws` obrigatório).
+        - `6-7-practice-streams.md` (java-25, Streams, 2026-08-02,
+          sub-agente em paralelo — verificado) — `gather()` +
+          `Gatherers.windowFixed` (JEP 485, feature nova do Java 25, sem
+          equivalente no track java-21), `Stream<Integer>` não tem
+          `average()` (só `IntStream`, precisa `mapToInt`), `sorted()` é
+          stateful (bufferiza tudo antes de emitir, ao contrário de
+          `filter`/`map`), `Collectors.teeing` combinando dois collectors
+          numa passada só, `forEach` numa `ArrayList` compartilhada em
+          parallel stream é race condition de comportamento genuinamente
+          não especificado (sem assumir valor errado específico).
+        - `3-11-practice-oop.md` (java-25, OOP, 2026-08-02, sub-agente em
+          paralelo — verificado) — ordem de resolução de overload
+          (widening > boxing > varargs), Flexible Constructor Bodies (JEP
+          492 — o que pode rodar antes do `super()`: só código que não
+          toca em `this`), static hiding + field hiding + override de
+          instância lado a lado no mesmo exemplo, switch exaustivo sobre
+          sealed com `non-sealed` (mesmo padrão do Exercício 3 do Beyond
+          Classes, mas com módulo/exemplo diferente), unnamed variables
+          `_` (JEP 456) — múltiplos `_` coexistem, mas ler `_` não compila.
+        **Nota de processo:** os últimos 5 (Beyond Classes,
+        Exceptions/Localization java-21, Exception Handling/Streams/OOP
+        java-25) foram delegados em paralelo a 5 sub-agentes de uma vez,
+        cada um restrito a escrever só o `.md` novo + o `contentPath` do
+        seu próprio módulo (proibido tocar nos specs compartilhados ou
+        no work.md, pra evitar conflito de edição simultânea). Todos os 5
+        cumpriram o escopo à risca (confirmado via `git status` — nenhum
+        tocou fora do que foi pedido); o conteúdo de cada um foi lido e
+        revisado antes de integrar, e a integração dos specs
+        (`FILLED_PRACTICE_LESSONS` + `content.spec.ts`) foi feita
+        manualmente depois, de uma vez, com a mesma verificação de
+        quebrar/restaurar pra confirmar que pega regressão.
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -90,7 +157,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 21 módulos** sem o "Practice"
+        de propósito e restaurados). **Restam 15 módulos** sem o "Practice"
         preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
         workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
