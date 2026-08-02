@@ -23,6 +23,10 @@ export class User {
   @Column()
   avatarUrl: string;
 
+  /** User-set override for `displayName`, shown instead of the raw GitHub name. Null means "use the GitHub name". */
+  @Column({ type: 'varchar', nullable: true })
+  displayNameOverride: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

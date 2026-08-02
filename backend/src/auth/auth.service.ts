@@ -4,6 +4,12 @@ import { Repository } from 'typeorm';
 import { GithubProfile } from './github-oauth.service';
 import { User } from './user.entity';
 
+/** Returns a copy of `user` with `displayName` replaced by the effective value (override, if set). Does not persist anything. */
+function withEffectiveDisplayName(user: User): User {
+  if (!user.displayNameOverride) return user;
+  return { ...user, displayName: user.displayNameOverride };
+}
+
 @Injectable()
 export class AuthService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
@@ -33,7 +39,19 @@ export class AuthService {
   async findById(id: number): Promise<User> {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException();
-    return user;
+    return withEffectiveDisplayName(user);
+  }
+
+  /**
+   * Sets (or clears, when `displayName` is empty/whitespace) the user's display name override.
+   * Never touches the raw `displayName` column, which stays in sync with GitHub via `upsertFromGithub`.
+   */
+  async updateDisplayNameOverride(id: number, displayName: string | null): Promise<User> {
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException();
+    user.displayNameOverride = displayName?.trim() || null;
+    await this.repo.save(user);
+    return withEffectiveDisplayName(user);
   }
 
   /** Test-only: creates a fresh user without going through the GitHub OAuth flow. */

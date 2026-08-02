@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="page-body">
+    @if (!auth.currentUser()) {
+      <div class="login-prompt">
+        <p>Log in with GitHub to change your settings.</p>
+        <a class="btn github-btn" href="/api/auth/github">Continue with GitHub</a>
+      </div>
+    } @else {
+      <h1 class="page-title">Settings</h1>
+
+      <div class="card">
+        <h2 class="section-title">Display name</h2>
+        <p class="hint">
+          By default your name comes from GitHub (&#64;{{ auth.currentUser()!.githubLogin }}). You can override it below.
+        </p>
+
+        <input
+          class="name-input"
+          type="text"
+          [value]="displayName()"
+          (input)="displayName.set($any($event.target).value)"
+          maxlength="80"
+          aria-label="Display name"
+        />
+
+        <div class="actions">
+          <button type="button" class="btn primary-btn" [disabled]="saving()" (click)="save()">
+            {{ saving() ? 'Saving…' : 'Save' }}
+          </button>
+          <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()">
+            Reset to GitHub name
+          </button>
+        </div>
+
+        @if (message(); as msg) {
+          <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
+        }
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Theme</h2>
+        <p class="hint">Coming soon.</p>
+        <button type="button" class="btn secondary-btn" disabled>Dark mode</button>
+      </div>
+    }
+  </div>
+</div>

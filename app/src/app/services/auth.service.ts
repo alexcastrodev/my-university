@@ -36,6 +36,13 @@ export class AuthService {
     this.clearUser();
   }
 
+  /** Sets (or, given `null`/empty, clears) the display name override and syncs the cached user on success. */
+  updateDisplayName(displayName: string | null): Observable<User> {
+    return this.http
+      .put<User>('/api/auth/settings', { displayName })
+      .pipe(tap((user) => this.setUser(user)));
+  }
+
   private setUser(user: User): void {
     this.currentUser.set(user);
     if (typeof localStorage === 'undefined') return;

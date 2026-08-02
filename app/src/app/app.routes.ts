@@ -85,5 +85,9 @@ export const routes: Routes = [
     path: 'java/exam/:examId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings-page').then((m) => m.SettingsPage),
+  },
   { path: '**', redirectTo: '' },
 ];
