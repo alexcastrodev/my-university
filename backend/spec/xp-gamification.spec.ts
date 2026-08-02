@@ -86,6 +86,18 @@ describe('GET /xp/leaderboard', () => {
     expect(typeof entry!.displayName).toBe('string');
   });
 
+  it('shows the display name override, not the raw GitHub name, once set', async () => {
+    const { id, cookie } = await login(`leaderboard-override-${Date.now()}`);
+    await put(`/java-concepts/${CONCEPT_SLUG}/read`, {}, { Cookie: cookie });
+    await put('/auth/settings', { displayName: 'Overridden Name' }, { Cookie: cookie });
+
+    const res = await get('/xp/leaderboard', { Cookie: cookie });
+    const body = await json<{ userId: number; displayName: string }[]>(res);
+
+    const entry = body.find((row) => row.userId === id);
+    expect(entry?.displayName).toBe('Overridden Name');
+  });
+
   it('is ordered by total XP descending', async () => {
     const { cookie } = await login(`leaderboard-order-${Date.now()}`);
     const res = await get('/xp/leaderboard', { Cookie: cookie });

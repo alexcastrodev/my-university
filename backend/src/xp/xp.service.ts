@@ -172,16 +172,19 @@ export class XpService {
       .innerJoin('x.user', 'u')
       .select('x.userId', 'userId')
       .addSelect('u.displayName', 'displayName')
+      .addSelect('u.displayNameOverride', 'displayNameOverride')
       .addSelect('u.avatarUrl', 'avatarUrl')
       .addSelect('COALESCE(SUM(x.exp), 0)', 'total')
       .groupBy('x.userId')
       .addGroupBy('u.displayName')
+      .addGroupBy('u.displayNameOverride')
       .addGroupBy('u.avatarUrl')
       .orderBy('total', 'DESC')
       .limit(limit)
       .getRawMany<{
         userId: number;
         displayName: string;
+        displayNameOverride: string | null;
         avatarUrl: string;
         total: string;
       }>();
@@ -190,7 +193,7 @@ export class XpService {
       const total = Number(row.total);
       return {
         userId: row.userId,
-        displayName: row.displayName,
+        displayName: row.displayNameOverride ?? row.displayName,
         avatarUrl: row.avatarUrl,
         total,
         levelNumber: getLevelForXp(total).number,
