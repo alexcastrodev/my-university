@@ -1,0 +1,100 @@
+.page {
+  min-height: calc(100vh - 52px);
+  background: #f9fafb;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem;
+}
+
+.page-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,.65);
+  margin: 0;
+}
+
+.page-body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.empty-state {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.leaderboard-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.leaderboard-item-self {
+  background: #fff7ed;
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+  margin: -0.35rem -0.5rem;
+}
+
+.leaderboard-rank {
+  width: 1.75rem;
+  font-weight: 700;
+  color: #9ca3af;
+}
+
+.avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.leaderboard-name {
+  flex: 1;
+  font-weight: 600;
+  color: #111827;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-level {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.leaderboard-total {
+  font-weight: 700;
+  color: #c74634;
+  white-space: nowrap;
+}

@@ -31,8 +31,9 @@ export class XpController {
     return this.service.getDailyGoalStatus(userId);
   }
 
+  /** Public — anyone can see the leaderboard, logged in or not. */
   @Get('leaderboard')
-  getLeaderboard(@CurrentUserId() userId: number) {
+  getLeaderboard() {
     return this.service.getLeaderboard();
   }
 }

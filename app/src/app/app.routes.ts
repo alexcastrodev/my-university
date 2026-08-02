@@ -93,5 +93,9 @@ export const routes: Routes = [
     path: 'settings',
     loadComponent: () => import('./pages/settings/settings-page').then((m) => m.SettingsPage),
   },
+  {
+    path: 'leaderboard',
+    loadComponent: () => import('./pages/leaderboard/leaderboard-page').then((m) => m.LeaderboardPage),
+  },
   { path: '**', redirectTo: '' },
 ];

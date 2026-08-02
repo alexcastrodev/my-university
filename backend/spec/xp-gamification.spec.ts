@@ -60,9 +60,10 @@ describe('GET /xp/daily-goal', () => {
 });
 
 describe('GET /xp/leaderboard', () => {
-  it('returns 401 when no session cookie is present', async () => {
+  it('is public — works without a session cookie', async () => {
     const res = await get('/xp/leaderboard');
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(await json<unknown[]>(res))).toBe(true);
   });
 
   it('lists the current user once they have XP, with the right shape', async () => {

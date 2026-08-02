@@ -538,15 +538,31 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       isoladamente em `streak.spec.ts` cobrindo sem atividade, só hoje, só
       ontem, gap quebrado e sequência longa) e leaderboard (top 10 por XP
       total, com nível calculado via `getLevelForXp`) — ambos derivados só
-      do `user_xp_entry` que já existia, sem migration nova. Rotas novas
-      `GET /xp/streak` e `GET /xp/leaderboard`, atrás de sessão como as
-      demais rotas de XP. No `/profile`: badge "🔥 N day streak" ao lado do
-      nível (tooltip com o recorde) e um card de Leaderboard destacando a
-      própria linha do usuário. Verificado ao vivo contra Postgres real
-      (login de teste, ganhar XP, conferir streak/leaderboard mudarem) e
-      415 testes de backend + 69 de frontend passando (67 verdes, os mesmos
-      2 falhos pré-existentes e não relacionados de sempre), zero
-      regressão.**
+      do `user_xp_entry` que já existia, sem migration nova. Rota nova
+      `GET /xp/streak` (atrás de sessão, como as demais rotas de XP). No
+      `/profile`: badge "🔥 N day streak" ao lado do nível (tooltip com o
+      recorde) e um card de Leaderboard destacando a própria linha do
+      usuário. Verificado ao vivo contra Postgres real (login de teste,
+      ganhar XP, conferir streak/leaderboard mudarem) e 415 testes de
+      backend + 69 de frontend passando (67 verdes, os mesmos 2 falhos
+      pré-existentes e não relacionados de sempre), zero regressão.
+      **Follow-up (2026-08-02) — leaderboard virou global/público a
+      pedido do usuário:** `GET /xp/leaderboard` deixou de exigir sessão
+      (o dado já era global — top 10 entre todos os usuários — só a
+      visibilidade era limitada a quem tava logado dentro do
+      `/profile`). Nova página pública `/leaderboard` (linkada no header,
+      visível a qualquer visitante, sem exigir login), continua também
+      embutida no `/profile` de quem está logado. **Bug real encontrado
+      durante a verificação manual no browser dessa mudança:** a query do
+      leaderboard lia `displayName` direto da tabela `user`, ignorando o
+      override de nome adicionado pela feature de "Página de
+      configurações" (construída em paralelo, em worktree isolado) — um
+      usuário que customizava o nome continuava aparecendo com o nome
+      cru do GitHub no leaderboard. Corrigido pra selecionar também
+      `displayNameOverride` e preferir ele, igual `AuthService.findById`
+      já fazia pro `/auth/me`; teste de regressão novo cobrindo isso.
+      425 testes de backend + 82 de frontend passando (80 verdes, mesmas
+      2 falhas pré-existentes).**
 - [x] **Meta diária.** Similar ao acima — hoje XP só acumula, não tem
       nenhum "hoje você já estudou X, faltam Y pra bater a meta".
       **✅ Concluído (2026-08-02) — meta diária fixa de 30 XP

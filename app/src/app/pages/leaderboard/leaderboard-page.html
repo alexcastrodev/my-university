@@ -1,0 +1,26 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Leaderboard</h1>
+    <p class="page-sub">Top learners by total XP — open to everyone, no login required to view.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="card">
+      @if (xpService.leaderboard().length === 0) {
+        <p class="empty-state">No one's earned XP yet — be the first.</p>
+      } @else {
+        <ul class="leaderboard-list">
+          @for (entry of xpService.leaderboard(); track entry.userId; let rank = $index) {
+            <li class="leaderboard-item" [class.leaderboard-item-self]="entry.userId === auth.currentUser()?.id">
+              <span class="leaderboard-rank">#{{ rank + 1 }}</span>
+              <img class="avatar-sm" [src]="entry.avatarUrl" [alt]="entry.displayName" />
+              <span class="leaderboard-name">{{ entry.displayName }}</span>
+              <span class="leaderboard-level">Lvl {{ entry.levelNumber }}</span>
+              <span class="leaderboard-total">{{ entry.total }} XP</span>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+</div>

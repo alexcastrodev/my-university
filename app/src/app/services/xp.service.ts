@@ -68,10 +68,8 @@ export class XpService {
     });
   }
 
+  /** Public — no login required, so it can be shown to anonymous visitors too. */
   loadLeaderboard(): void {
-    const user = this.auth.currentUser();
-    if (!user) return;
-
     this.http.get<LeaderboardEntry[]>('/api/xp/leaderboard').subscribe({
       next: (entries) => this.leaderboard.set(entries),
     });
