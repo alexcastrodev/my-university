@@ -540,10 +540,19 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       atividade). Não tem onde trocar preferências — nem teóricas (tema,
       notificações) nem de conta (nome de exibição vem sempre do GitHub, sem
       override).
-- [ ] **Duração da lição visível.** `Lesson.duration` existe no model mas
+- [x] **Duração da lição visível.** `Lesson.duration` existe no model mas
       não confirmei se aparece em algum lugar do `course-view`/`playlist` —
       vale checar e, se não aparecer, mostrar (ajuda a planejar quanto tempo
-      separar pra uma sessão de estudo).
+      separar pra uma sessão de estudo). **✅ Verificado (2026-08-02) — já
+      aparece.** `duration` (ex. "15m") já vem populado nos dados de seed
+      de cada lição e já é renderizado em `playlist.html` (`@if
+      (lesson.duration) { <span class="lesson-duration">...` }`) na
+      sidebar do curso, que é o único lugar onde lições individuais são
+      listadas — `course-view` só mostra a duração agregada do curso
+      inteiro, não de cada lição, então não há nada faltando ali.
+      Confirmado ao vivo: Postgres real + backend, `GET
+      /courses/java-21` retornando `duration: "15m"` na primeira lição.
+      Não era um gap — não precisou de código novo.
 - [ ] **Exportar/compartilhar resultado de exame.** Hoje o result-page é só
       pra você ver. Um link compartilhável ou export (PDF/imagem) do
       resultado seria fácil de adicionar em cima do que já existe e ajudaria
