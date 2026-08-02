@@ -54,6 +54,9 @@
             <div class="quiz-banner-text">
               <strong>Ready to test your knowledge?</strong>
               <span>{{ questionCount() }} questions · {{ durationMinutes() }} minutes · {{ passingScore() }}% passing score</span>
+              @if (!auth.currentUser()) {
+                <span class="quiz-anon-warning">⚠️ You're not logged in — this attempt won't be saved to your profile or count toward XP.</span>
+              }
             </div>
             <div class="quiz-banner-actions">
               @if (auth.currentUser()) {

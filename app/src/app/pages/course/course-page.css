@@ -74,6 +74,11 @@
   color: rgba(255,255,255,.65);
 }
 
+.quiz-banner-text .quiz-anon-warning {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
 .quiz-btn {
   background: #c74634;
   color: #fff;

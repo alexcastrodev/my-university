@@ -1,10 +1,11 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Course, Lesson } from '../../models/course.model';
+import { AuthService } from '../../services/auth.service';
 import { CoursePage } from './course-page';
 
 const PRACTICE_LESSON_ID = 'j21-13-7';
@@ -100,5 +101,53 @@ describe('CoursePage — practice lesson content', () => {
     const el: HTMLElement = fixture.nativeElement;
     expect(el.querySelector('.practice-placeholder')).toBeFalsy();
     expect(el.querySelector('app-lesson-content')).toBeTruthy();
+  });
+});
+
+describe('CoursePage — quiz banner anonymous-attempt warning', () => {
+  async function renderOverview(loggedIn: boolean) {
+    const paramMap$ = new BehaviorSubject(convertToParamMap({ examId: 'java-21' }));
+
+    await TestBed.configureTestingModule({
+      imports: [CoursePage],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: { paramMap: paramMap$, snapshot: { paramMap: paramMap$.value } },
+        },
+        {
+          provide: AuthService,
+          useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) },
+        },
+      ],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(CoursePage);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const httpMock = TestBed.inject(HttpTestingController);
+    httpMock.expectOne('/api/exam/java-21').flush({ questionCount: 60, durationMinutes: 120, passingScore: 68 });
+    httpMock.expectOne('/api/courses/java-21').flush(makeCourse({}));
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    return fixture;
+  }
+
+  it('warns that the attempt will not be saved when the visitor is not logged in', async () => {
+    const fixture = await renderOverview(false);
+    expect(fixture.nativeElement.querySelector('.quiz-anon-warning')?.textContent).toContain("won't be saved");
+    expect(fixture.nativeElement.querySelector('.attempts-link')).toBeFalsy();
+  });
+
+  it('does not show the warning for a logged-in user', async () => {
+    const fixture = await renderOverview(true);
+    expect(fixture.nativeElement.querySelector('.quiz-anon-warning')).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('.attempts-link')).toBeTruthy();
   });
 });

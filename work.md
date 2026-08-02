@@ -513,11 +513,18 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       pra suportar isso genericamente. Verificado ao vivo no browser
       (screenshot + clique real navegando pra `/java/java-concepts`).
       58 testes de frontend passando.**
-- [ ] **Tentativa de exame anônima é silenciosa.** `ExamAttempt.userId` é
+- [x] **Tentativa de exame anônima é silenciosa.** `ExamAttempt.userId` é
       nullable — dá pra fazer o exame sem estar logado. Não é
       necessariamente errado (baixa fricção pra experimentar), mas hoje não
       há nenhum aviso no quiz avisando "faça login pra isso contar" — o
       usuário só descobre depois que o resultado não aparece no profile/XP.
+      **✅ Concluído (2026-08-02) — banner do quiz em `course-page.html`
+      agora mostra um aviso amarelo ("⚠️ You're not logged in — this
+      attempt won't be saved to your profile or count toward XP.")
+      quando `!auth.currentUser()`, no mesmo lugar onde hoje aparece
+      "View past attempts" pra quem está logado. Nenhuma mudança de
+      backend — só torna visível uma limitação que já existia. 60 testes
+      de frontend passando (2 novos cobrindo logado/deslogado).**
 
 ## Funcionalidades que dariam pra adicionar
 
