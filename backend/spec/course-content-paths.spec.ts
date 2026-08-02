@@ -78,6 +78,11 @@ describe('course seed data: contentPath integrity', () => {
     { course: 'java-21', file: '15-jdbc.json', contentPath: 'java-21/content/15-7-practice-jdbc.md' },
     { course: 'java-21', file: '14-io.json', contentPath: 'java-21/content/14-8-practice-io.md' },
     { course: 'java-25', file: '05-collections.json', contentPath: 'java-25/content/5-6-practice-collections.md' },
+    { course: 'java-21', file: '05-methods.json', contentPath: 'java-21/content/5-7-practice-methods.md' },
+    { course: 'java-21', file: '02-operators.json', contentPath: 'java-21/content/2-7-practice-operators.md' },
+    { course: 'java-21', file: '01-building-blocks.json', contentPath: 'java-21/content/1-10-practice-building-blocks.md' },
+    { course: 'java-21', file: '12-modules.json', contentPath: 'java-21/content/12-7-practice-modules.md' },
+    { course: 'java-21', file: '16-java25-differences.json', contentPath: 'java-21/content/16-8-practice-java25-new-features.md' },
   ];
 
   for (const { course, file, contentPath } of FILLED_PRACTICE_LESSONS) {

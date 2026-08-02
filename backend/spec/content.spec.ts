@@ -275,5 +275,65 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: Collections');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-21 methods practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '5-7-practice-methods.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Methods');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 operators practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '2-7-practice-operators.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Operators');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 building blocks practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '1-10-practice-building-blocks.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Building Blocks');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 modules practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '12-7-practice-modules.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Modules');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-21 java 25 new features practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-21',
+        '16-8-practice-java25-new-features.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Java 25 New Features');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });

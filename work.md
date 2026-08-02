@@ -47,7 +47,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **16 de 26 feitos:**
+      - **21 de 26 feitos — track java-21 (16 módulos) completo:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
@@ -183,19 +183,68 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
           não existe (só pra arrays de objeto) + fórmula do insertion point
           negativo do `binarySearch`, métodos de navegação half-open do
           `TreeSet` (`headSet`/`tailSet`/`subSet`).
-        **Nota de processo:** os últimos 10 (Beyond Classes,
+        - `1-10-practice-building-blocks.md` (java-21, Building Blocks,
+          2026-08-02, sub-agente em paralelo — verificado) — regra de um
+          único `public class` por arquivo, shadowing de campo por
+          parâmetro vs. impossibilidade de shadowing entre variáveis
+          locais no mesmo escopo, defaults de campo (inclusive array `null`
+          por padrão) vs. variável local sem default, ordem exata de
+          inicialização (field initializer → instance initializer block →
+          corpo do construtor, uma vez só mesmo com `this(...)`
+          encadeado), "ilha de isolamento" falsa em GC (referências mútuas
+          que continuam alcançáveis por outra variável viva).
+        - `2-7-practice-operators.md` (java-21, Operators, 2026-08-02,
+          sub-agente em paralelo — verificado) — ordem de avaliação de
+          pré/pós-incremento, cast de narrowing implícito no `+=`
+          (overflow silencioso em `byte`), precedência entre aritmético/
+          relacional/lógico, `&&`/`||` short-circuit vs. `&`/`|` sempre
+          avaliando os dois lados (efeito colateral), promoção de tipo do
+          ternário (mistura numérica vira `double`; `char`+`int` não
+          constante vira `int`).
+        - `5-7-practice-methods.md` (java-21, Methods, 2026-08-02,
+          sub-agente em paralelo — verificado) — varargs só como último
+          recurso na resolução de overload, `protected` entre pacotes só
+          através do próprio tipo da subclasse (não de uma referência
+          tipada como o pai), método `static` não lê campo de instância
+          sem instância explícita + static hiding resolvido pelo tipo
+          declarado, ordem completa de resolução de overload (widening →
+          boxing → varargs), getter vazando referência mutável quebra
+          encapsulamento mesmo com campo `private`.
+        - `12-7-practice-modules.md` (java-21, Modules/JPMS, 2026-08-02,
+          sub-agente em paralelo — verificado) — `requires` vs. `requires
+          transitive` (readability implícita), `exports` vs. `exports ...
+          to` (export qualificado), `opens` dá acesso via reflection mas
+          não visibilidade em compile-time, `uses`/`provides ... with`
+          ainda exige `requires` do módulo dono da interface do serviço,
+          `module-info.java` não pode ter `package` (não pertence a
+          nenhum pacote).
+        - `16-8-practice-java25-new-features.md` (java-21, What's New in
+          Java 25, 2026-08-02, sub-agente em paralelo — verificado) —
+          `import module` com nomes ambíguos entre dois módulos, `import
+          module` não substitui `requires` num módulo nomeado, imports
+          automáticos só valem pra classes implícitas (JEP 512), ordem de
+          prioridade dos 8 formatos de `main` (JEP 495, conferida contra o
+          slide), Scoped Values preview no Java 21 vs. final no Java 25
+          (por que 1Z0-830 não cobra e 1Z0-831 cobra) — evitou de propósito
+          sobrepor Flexible Constructor Bodies e Stream Gatherers, já
+          cobertos nos practice do track java-25.
+        **Nota de processo:** os últimos 15 (Beyond Classes,
         Exceptions/Localization java-21, Exception Handling/Streams/OOP
-        java-25, depois Making Decisions/Core APIs/I-O/JDBC java-21 +
-        Collections java-25) foram delegados em dois lotes de 5
+        java-25, Making Decisions/Core APIs/I-O/JDBC java-21 + Collections
+        java-25, e por fim Building Blocks/Operators/Methods/Modules/Java
+        25 New Features java-21) foram delegados em três lotes de 5
         sub-agentes em paralelo, cada um restrito a escrever só o `.md`
         novo + o `contentPath` do seu próprio módulo (proibido tocar nos
         specs compartilhados ou no work.md, pra evitar conflito de edição
-        simultânea). Todos os 10 cumpriram o escopo à risca (confirmado
-        via `git status` — nenhum tocou fora do que foi pedido); o
-        conteúdo de cada um foi lido e revisado antes de integrar, e a
-        integração dos specs (`FILLED_PRACTICE_LESSONS` + `content.spec.ts`)
-        foi feita manualmente depois, de uma vez por lote, com a mesma
-        verificação de quebrar/restaurar pra confirmar que pega regressão.
+        simultânea). Todos os 15 cumpriram o escopo à risca (confirmado
+        via `git status` a cada lote — nenhum tocou fora do que foi
+        pedido); o conteúdo de cada um foi lido e revisado antes de
+        integrar, e a integração dos specs (`FILLED_PRACTICE_LESSONS` +
+        `content.spec.ts`) foi feita manualmente depois, de uma vez por
+        lote, com a mesma verificação de quebrar/restaurar pra confirmar
+        que pega regressão. **O track java-21 (16 módulos) está 100%
+        completo** — todo o que resta é o track java-25 (5 módulos:
+        Values, Flow Control, Packaging, I/O, Localization).
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -206,7 +255,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 10 módulos** sem o "Practice"
+        de propósito e restaurados). **Restam 5 módulos** sem o "Practice"
         preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
         workflow dos livros em `tmp/book/`.
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
