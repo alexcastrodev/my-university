@@ -1,0 +1,61 @@
+<div class="review-page">
+  @if (loading()) {
+    <div class="center">
+      <span class="spinner" aria-hidden="true"></span>
+      Loading review…
+    </div>
+  } @else if (notFound()) {
+    <div class="center-message">
+      <p>This attempt couldn't be found.</p>
+      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">← Back to Course</a>
+    </div>
+  } @else if (reviewUnavailable()) {
+    <div class="center-message">
+      <p>No review is available for this attempt — it was submitted before answer review existed.</p>
+      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">← Back to Course</a>
+    </div>
+  } @else {
+    <div class="review-header">
+      <a [routerLink]="['/java/exam', examId(), 'result', attemptId()]" class="back-link">← Back to results</a>
+      <h1 class="review-title">Review Answers</h1>
+      <div class="filter-toggle">
+        <button
+          type="button"
+          class="filter-btn"
+          [class.active]="filter() === 'wrong'"
+          (click)="setFilter('wrong')"
+        >Wrong only ({{ wrongCount() }})</button>
+        <button
+          type="button"
+          class="filter-btn"
+          [class.active]="filter() === 'all'"
+          (click)="setFilter('all')"
+        >All ({{ review().length }})</button>
+      </div>
+    </div>
+
+    @if (visibleReview().length === 0) {
+      <div class="center-message">
+        <p>{{ filter() === 'wrong' ? 'No wrong answers — nice work!' : 'No questions in this attempt.' }}</p>
+      </div>
+    } @else {
+      <div class="review-list">
+        @for (r of visibleReview(); track r.id) {
+          <div class="review-item">
+            <app-quiz-question
+              [question]="toQuestion(r)"
+              [selectedKeys]="r.given"
+              [disabled]="true"
+              [showTopicBadge]="true"
+              [reviewing]="true"
+              [correctKeys]="r.correctKeys"
+            />
+            @if (r.explanation) {
+              <div class="explanation" role="note">{{ r.explanation }}</div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

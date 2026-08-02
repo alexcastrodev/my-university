@@ -3,26 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { XpService } from '../xp/xp.service';
 import { Exam } from './exam.entity';
-import { ExamAttempt } from './exam-attempt.entity';
-import { Question, QuestionType } from './question.entity';
+import { ExamAttempt, QuestionReview } from './exam-attempt.entity';
+import { Question } from './question.entity';
 
 /** A question as exposed to the client while taking the exam — never includes the answer key. */
 export type PublicQuestion = Pick<
   Question,
   'id' | 'examId' | 'topic' | 'text' | 'code' | 'options' | 'type'
 >;
-
-/** Per-question grading, revealed only in the response to a submitted attempt. */
-export interface QuestionReview {
-  id: number;
-  topic: string;
-  type: QuestionType;
-  given: string[];
-  correctKeys: string[];
-  correct: boolean;
-  explanation: string | null;
-  source: string | null;
-}
 
 export interface SubmitResult {
   id: number;
@@ -116,6 +104,9 @@ export class ExamService {
         id: q.id,
         topic: q.topic,
         type: q.type,
+        text: q.text,
+        code: q.code,
+        options: q.options,
         given,
         correctKeys: q.correctKeys,
         correct,
@@ -127,6 +118,7 @@ export class ExamService {
     attempt.answers = answers;
     attempt.score = score;
     attempt.total = questions.length;
+    attempt.review = review;
     attempt.finishedAt = new Date();
     const saved = await this.attemptRepo.save(attempt);
 
@@ -148,6 +140,18 @@ export class ExamService {
   getAttempts(examId: string, userId?: number | null): Promise<ExamAttempt[]> {
     if (!userId) return Promise.resolve([]);
     return this.attemptRepo.find({ where: { examId, userId }, order: { startedAt: 'DESC' } });
+  }
+
+  async getAttempt(examId: string, id: number, requesterId?: number | null): Promise<ExamAttempt | null> {
+    const attempt = await this.attemptRepo.findOne({ where: { id, examId } });
+    if (!attempt) return null;
+
+    // Same rule as submitAttempt: an owned attempt can only be read back by its owner.
+    if (attempt.userId != null && attempt.userId !== requesterId) {
+      throw new ForbiddenException();
+    }
+
+    return attempt;
   }
 
   getTopics(examId: string): Promise<string[]> {

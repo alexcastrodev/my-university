@@ -5,12 +5,49 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
 
 ## Ajudam diretamente nos estudos
 
-- [ ] **Revisão de respostas erradas.** `ExamAttempt.answers` já é persistido
-      no backend (`backend/src/exam/`), mas depois do result-page ninguém
-      mais consegue ver *quais* perguntas errou e por quê — só o score
-      agregado. Uma tela "revisar essa tentativa" com pergunta + resposta
-      dada + resposta certa + explicação seria o maior ganho de estudo
-      possível aqui, e a maior parte do dado já existe.
+- [x] **Revisão de respostas erradas — feito (2026-08-02).** `ExamAttempt.answers`
+      já era persistido, mas o `review` (pergunta + resposta dada + certa +
+      explicação) só existia efêmero na resposta HTTP do `submit` — nunca
+      salvo, então revisitar `/result/:attemptId` (refresh, ou uma futura
+      tela de histórico) só sobrava o score agregado. Implementado:
+      - **Backend:** nova coluna `review` (jsonb, nullable) em
+        `exam_attempt` via migration
+        (`backend/src/migrations/1764000000005-AddExamAttemptReview.ts`,
+        testada de verdade — `up`/`down` rodados contra um Postgres real
+        via Docker, `\d exam_attempt` conferido). `QuestionReview` (movido
+        pra `exam-attempt.entity.ts`) agora inclui snapshot do conteúdo da
+        pergunta (`text`/`code`/`options`), não só o gabarito — assim uma
+        tela de revisão nunca precisa de N requests extras por pergunta,
+        um único `GET` já traz tudo. `submitAttempt` salva o `review`
+        calculado no attempt; novo endpoint `GET
+        /exam/:examId/attempts/:id` (mesma regra de ownership do submit —
+        403 se pertence a outro usuário, 404 se não existe ou é de outro
+        exam) devolve o attempt completo, com `review: null` pra attempts
+        antigos (antes desta coluna existir) ou ainda não submetidos.
+        Testado ponta a ponta contra um backend real (fora dos specs
+        automatizados): `docker run postgres:18-alpine` isolado, `nest
+        start` apontado pra ele, `curl` no fluxo completo (start → submit
+        → get antes/depois → 404 de attempt inexistente/exam errado) —
+        bateu exatamente o esperado em todos os casos.
+      - **Frontend:** nova página `/java/exam/:examId/review/:attemptId`
+        (`app/src/app/pages/review/`), reaproveitando o `<app-quiz-question>`
+        existente em modo `reviewing` (mesmo componente que já colore
+        certo/errado no skill-check) — filtro "Wrong only" (default) vs.
+        "All". Link "Review Answers" adicionado no result-page, só
+        aparece quando `attempt.review` existe. Aproveitei pra corrigir de
+        graça um bug adjacente: `result-page.ts` dependia de
+        `router.getCurrentNavigation().extras.state` (perdido em qualquer
+        refresh) com fallback pra `getAttempts()` (lista completa, sem
+        review) — trocado pra usar o `getAttempt()` novo direto, então o
+        breakdown por tópico agora sobrevive a um refresh também.
+      - Testes: `backend/spec/exam.spec.ts` ganhou 5 casos novos pro
+        endpoint (não rodados localmente sem o stack docker-compose
+        completo, mas a lógica foi validada ao vivo via curl acima,
+        exercitando exatamente os mesmos cenários). Frontend:
+        `review-page.spec.ts` (4 casos) + `result-page.spec.ts` (3 casos,
+        arquivo novo — a página não tinha spec antes), todos passando
+        (41/41 relevantes, as 2 falhas restantes são as mesmas
+        pré-existentes sem relação).
 - [ ] **Histórico de tentativas.** O backend já expõe
       `GET /api/exam/:id/attempts` com o histórico completo, mas o frontend
       só usa isso como fallback pra achar 1 attempt (`result-page.ts:56`).

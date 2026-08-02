@@ -30,6 +30,9 @@ export interface QuestionReview {
   id: number;
   topic: string;
   type: 'single' | 'multi';
+  text: string;
+  code: string | null;
+  options: ExamOption[];
   given: string[];
   correctKeys: string[];
   correct: boolean;
@@ -45,6 +48,8 @@ export interface ExamAttempt {
   score: number;
   total: number;
   answers: Record<number, string[]>;
+  /** Snapshot of per-question grading taken at submit time; null for attempts submitted before this field existed. */
+  review: QuestionReview[] | null;
 }
 
 export interface SubmitResult {

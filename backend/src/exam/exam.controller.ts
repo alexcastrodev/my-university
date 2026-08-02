@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { OptionalUserId } from '../auth/session';
 import { ExamService } from './exam.service';
 
@@ -58,5 +58,16 @@ export class ExamController {
   @Get(':examId/attempts')
   getAttempts(@Param('examId') examId: string, @OptionalUserId() userId: number | null) {
     return this.service.getAttempts(examId, userId);
+  }
+
+  @Get(':examId/attempts/:id')
+  async getAttempt(
+    @Param('examId') examId: string,
+    @Param('id', ParseIntPipe) id: number,
+    @OptionalUserId() userId: number | null,
+  ) {
+    const attempt = await this.service.getAttempt(examId, id, userId);
+    if (!attempt) throw new NotFoundException();
+    return attempt;
   }
 }

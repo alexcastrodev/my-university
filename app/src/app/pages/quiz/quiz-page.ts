@@ -107,9 +107,7 @@ export class QuizPage implements OnInit, OnDestroy {
       next: (result) => {
         this.submitted.set(true);
         this.submitting.set(false);
-        this.router.navigate(['/java/exam', this.examId(), 'result', result.id], {
-          state: { result },
-        });
+        this.router.navigate(['/java/exam', this.examId(), 'result', result.id]);
       },
       error: () => this.submitting.set(false),
     });

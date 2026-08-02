@@ -212,6 +212,49 @@ describe('POST /exam/attempts/:id/submit', () => {
   });
 });
 
+describe('GET /exam/:examId/attempts/:id', () => {
+  it('returns the persisted review for a submitted attempt', async () => {
+    const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=3`));
+    const questionIds = questions.map((q) => q.id);
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    await post(`/exam/attempts/${created.id}/submit`, { answers: {}, questionIds });
+
+    const res = await get(`/exam/${EXAM_ID}/attempts/${created.id}`);
+    expect(res.status).toBe(200);
+    const body = await json<any>(res);
+    expect(body.id).toBe(created.id);
+    expect(Array.isArray(body.review)).toBe(true);
+    expect(body.review.length).toBe(questionIds.length);
+    for (const r of body.review) {
+      expect(r).toMatchObject({ id: expect.any(Number), correctKeys: expect.any(Array), correct: expect.any(Boolean) });
+    }
+  });
+
+  it('review is null for an attempt that was never submitted', async () => {
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const body = await json<any>(await get(`/exam/${EXAM_ID}/attempts/${created.id}`));
+    expect(body.review).toBeNull();
+  });
+
+  it('returns 404 for an unknown attempt id', async () => {
+    const res = await get(`/exam/${EXAM_ID}/attempts/999999`);
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 404 when the attempt belongs to a different exam', async () => {
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const res = await get(`/exam/some-other-exam/attempts/${created.id}`);
+    expect(res.status).toBe(404);
+  });
+
+  it("rejects reading another user's attempt", async () => {
+    const { cookie } = await login(`review-owner-${Date.now()}`);
+    const owned = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie }));
+    const res = await get(`/exam/${EXAM_ID}/attempts/${owned.id}`); // no session → not the owner
+    expect(res.status).toBeGreaterThanOrEqual(400);
+  });
+});
+
 describe('GET /exam/:examId/attempts', () => {
   it('returns an empty array without a session', async () => {
     const res = await get(`/exam/${EXAM_ID}/attempts`);

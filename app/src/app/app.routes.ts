@@ -70,6 +70,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/result/result-page').then((m) => m.ResultPage),
   },
   {
+    path: 'java/exam/:examId/review/:attemptId',
+    loadComponent: () => import('./pages/review/review-page').then((m) => m.ReviewPage),
+  },
+  {
     path: 'java/exam/:examId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

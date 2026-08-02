@@ -63,6 +63,9 @@
 
   <div class="actions-section">
     <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">← Back to Course</a>
+    @if (hasReview()) {
+      <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary">Review Answers</a>
+    }
     <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">Retake Exam</a>
   </div>
 </div>

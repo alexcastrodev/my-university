@@ -42,4 +42,8 @@ export class ExamService {
   getAttempts(examId: string): Observable<ExamAttempt[]> {
     return this.http.get<ExamAttempt[]>(`${this.base}/${examId}/attempts`);
   }
+
+  getAttempt(examId: string, attemptId: number): Observable<ExamAttempt> {
+    return this.http.get<ExamAttempt>(`${this.base}/${examId}/attempts/${attemptId}`);
+  }
 }
