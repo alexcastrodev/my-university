@@ -595,10 +595,33 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       Confirmado ao vivo: Postgres real + backend, `GET
       /courses/java-21` retornando `duration: "15m"` na primeira lição.
       Não era um gap — não precisou de código novo.
-- [ ] **Exportar/compartilhar resultado de exame.** Hoje o result-page é só
+- [x] **Exportar/compartilhar resultado de exame.** Hoje o result-page é só
       pra você ver. Um link compartilhável ou export (PDF/imagem) do
       resultado seria fácil de adicionar em cima do que já existe e ajudaria
       quem usa isso pra mostrar progresso (ex.: LinkedIn, portfolio).
+      **✅ Concluído (2026-08-02) — só o link compartilhável (export
+      PDF/imagem ficou fora do escopo, pediria um pipeline de
+      renderização/screenshot). Novo endpoint público, sem autenticação,
+      `GET /api/exam/:examId/attempts/:id/public`
+      (`ExamService.getPublicAttemptSummary`) devolve só um resumo
+      enxuto — título do exame, score, total, passingScore, passed e
+      finishedAt — nunca `answers`/`review`, que exporiam conteúdo real
+      de questões de certificação publicamente. Não é gated por
+      ownership (o objetivo é justamente qualquer um com o link poder
+      ver) e devolve 404 pra tentativa inexistente ou ainda não
+      finalizada (`finishedAt === null`). No result-page, botão "Copy
+      share link" copia `/java/exam/:examId/share/:attemptId` pra área
+      de transferência com confirmação "Copied!" por ~2s. Nova página
+      pública `share-result-page` (rota `java/exam/:examId/share/:attemptId`,
+      inserida antes do catch-all `java/exam/:examId`) renderiza um card
+      apresentável (score, badge PASS/FAIL, data) reaproveitando a
+      paleta do result-page, sem exigir login. Verificado ao vivo contra
+      Postgres real: login, start+submit de uma tentativa real via HTTP,
+      curl no endpoint público sem cookie nenhum confirmando o resumo
+      enxuto, e 404 pra tentativa não finalizada. 402 testes de backend
+      e 64 de frontend passando (as 2 falhas de frontend são as
+      pré-existentes de `ActivatedRoute` no spec da raiz, não
+      relacionadas).**
 
 ## Notas de escopo
 

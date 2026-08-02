@@ -34,6 +34,9 @@ export class ResultPage implements OnInit {
   scorePercent = computed(() => this.total() ? Math.round((this.score() / this.total()) * 100) : 0);
   passed = computed(() => this.scorePercent() >= this.passingScore());
   xpEarned = computed(() => this.total() ? Math.round((this.score() / this.total()) * 50) : 0);
+  copied = signal(false);
+
+  private copiedTimeout?: ReturnType<typeof setTimeout>;
 
   ngOnInit() {
     const examId = this.route.snapshot.paramMap.get('examId') ?? '';
@@ -76,6 +79,19 @@ export class ResultPage implements OnInit {
           percent: total ? Math.round((correct / total) * 100) : 0,
         }))
     );
+  }
+
+  async copyShareLink(): Promise<void> {
+    const url = `${location.origin}/java/exam/${this.examId()}/share/${this.attemptId()}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Clipboard API unavailable/denied — nothing more we can do here.
+      return;
+    }
+    this.copied.set(true);
+    clearTimeout(this.copiedTimeout);
+    this.copiedTimeout = setTimeout(() => this.copied.set(false), 2000);
   }
 
   formatTopic(topic: string): string {

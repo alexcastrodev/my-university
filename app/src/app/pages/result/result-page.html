@@ -67,5 +67,8 @@
       <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary">Review Answers</a>
     }
     <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">Retake Exam</a>
+    <button type="button" class="action-btn secondary" (click)="copyShareLink()">
+      {{ copied() ? 'Copied!' : 'Copy share link' }}
+    </button>
   </div>
 </div>

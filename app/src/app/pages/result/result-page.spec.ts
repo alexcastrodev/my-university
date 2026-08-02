@@ -97,4 +97,25 @@ describe('ResultPage', () => {
     const links: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a.action-btn');
     expect(Array.from(links).some((a) => a.textContent?.includes('Review Answers'))).toBe(false);
   });
+
+  it('copies the share link to the clipboard and shows a brief confirmation', async () => {
+    const writeText = jasmine.createSpy('writeText').and.resolveTo(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    });
+
+    const fixture = setup(makeAttempt(null));
+    const button: HTMLButtonElement = Array.from(
+      fixture.nativeElement.querySelectorAll('button.action-btn'),
+    ).find((b) => (b as HTMLButtonElement).textContent?.includes('Copy share link')) as HTMLButtonElement;
+    expect(button).toBeTruthy();
+
+    await fixture.componentInstance.copyShareLink();
+    fixture.detectChanges();
+
+    expect(writeText).toHaveBeenCalledWith(`${location.origin}/java/exam/java-21/share/7`);
+    expect(fixture.componentInstance.copied()).toBe(true);
+    expect(button.textContent).toContain('Copied!');
+  });
 });

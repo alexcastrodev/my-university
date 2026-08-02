@@ -70,4 +70,12 @@ export class ExamController {
     if (!attempt) throw new NotFoundException();
     return attempt;
   }
+
+  /** Fully public, unauthenticated route backing shareable result links — no ownership check. */
+  @Get(':examId/attempts/:id/public')
+  async getPublicAttemptSummary(@Param('examId') examId: string, @Param('id', ParseIntPipe) id: number) {
+    const summary = await this.service.getPublicAttemptSummary(examId, id);
+    if (!summary) throw new NotFoundException();
+    return summary;
+  }
 }

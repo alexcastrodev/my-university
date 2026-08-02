@@ -255,6 +255,61 @@ describe('GET /exam/:examId/attempts/:id', () => {
   });
 });
 
+describe('GET /exam/:examId/attempts/:id/public', () => {
+  it('works without auth, for a requester who is not the attempt owner, and never leaks review/answers', async () => {
+    const { cookie } = await login(`share-owner-${Date.now()}`);
+    const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=3`));
+    const questionIds = questions.map((q) => q.id);
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie }));
+    await post(`/exam/attempts/${created.id}/submit`, { answers: {}, questionIds }, { Cookie: cookie });
+
+    // No Cookie header at all — fully anonymous, unauthenticated request.
+    const res = await get(`/exam/${EXAM_ID}/attempts/${created.id}/public`);
+    expect(res.status).toBe(200);
+    const body = await json<any>(res);
+    expect(body).toMatchObject({
+      examTitle: expect.any(String),
+      score: expect.any(Number),
+      total: expect.any(Number),
+      passingScore: expect.any(Number),
+      passed: expect.any(Boolean),
+    });
+    expect(body).not.toHaveProperty('review');
+    expect(body).not.toHaveProperty('answers');
+  });
+
+  it('computes passed correctly relative to the exam passing score', async () => {
+    const exam = await json<any>(await get(`/exam/${EXAM_ID}`));
+    const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=3`));
+    const questionIds = questions.map((q) => q.id);
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    // Empty answers → score 0 → should never pass.
+    await post(`/exam/attempts/${created.id}/submit`, { answers: {}, questionIds });
+
+    const body = await json<any>(await get(`/exam/${EXAM_ID}/attempts/${created.id}/public`));
+    expect(body.passingScore).toBe(exam.passingScore);
+    expect(body.passed).toBe(false);
+  });
+
+  it('returns 404 for an unknown attempt id', async () => {
+    const res = await get(`/exam/${EXAM_ID}/attempts/999999/public`);
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 404 for an unknown examId', async () => {
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    await post(`/exam/attempts/${created.id}/submit`, { answers: {} });
+    const res = await get(`/exam/does-not-exist/attempts/${created.id}/public`);
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 404 for an attempt that was started but never submitted (unfinished)', async () => {
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const res = await get(`/exam/${EXAM_ID}/attempts/${created.id}/public`);
+    expect(res.status).toBe(404);
+  });
+});
+
 describe('GET /exam/:examId/attempts', () => {
   it('returns an empty array without a session', async () => {
     const res = await get(`/exam/${EXAM_ID}/attempts`);

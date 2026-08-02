@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Exam, ExamAttempt, ExamAttemptSummary, ExamQuestion, SubmitResult } from '../models/exam.model';
+import {
+  Exam,
+  ExamAttempt,
+  ExamAttemptSummary,
+  ExamQuestion,
+  PublicAttemptSummary,
+  SubmitResult,
+} from '../models/exam.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
@@ -45,5 +52,9 @@ export class ExamService {
 
   getAttempt(examId: string, attemptId: number): Observable<ExamAttempt> {
     return this.http.get<ExamAttempt>(`${this.base}/${examId}/attempts/${attemptId}`);
+  }
+
+  getPublicAttemptSummary(examId: string, attemptId: number): Observable<PublicAttemptSummary> {
+    return this.http.get<PublicAttemptSummary>(`${this.base}/${examId}/attempts/${attemptId}/public`);
   }
 }
