@@ -455,14 +455,20 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
 
 ## Podia ser mais claro
 
-- [ ] **Duas buscas com o mesmo visual, comportamento bem diferente.** A
+- [x] **Duas buscas com o mesmo visual, comportamento bem diferente.** A
       busca do header (Meilisearch, indexa curso/lições/todos os concepts)
       e a busca dentro do sidebar do curso (`components/playlist/playlist.ts`,
       só `.includes()` local nos títulos das lições do curso atual) usam a
       mesma aparência de campo de busca. Fácil o usuário digitar algo geral
       na busca do playlist esperando resultado global e não achar nada. Vale
       diferenciar visualmente ou deixar explícito no placeholder
-      ("Buscar nesta lista" vs "Buscar em tudo").
+      ("Buscar nesta lista" vs "Buscar em tudo"). **✅ Concluído (2026-08-02)
+      — placeholder/aria-label do campo do playlist agora dizem
+      explicitamente "Search in this course…" (antes só "Search
+      playlist", ambíguo), deixando claro que o escopo é local ao curso
+      atual e não a busca global do header. Spec novo (`playlist.spec.ts`)
+      trava o texto explícito e o comportamento de filtro. 56 testes de
+      frontend passando.**
 - [ ] **Categoria "Database" de exame existe só no modelo.** `Exam.category`
       aceita `'Language' | 'Database'` e `exam-list.ts` já tem até o ícone
       🗄️ pronto, mas nenhum exame de Database foi cadastrado — a categoria é
