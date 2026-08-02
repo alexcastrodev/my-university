@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { XpHistoryEntry, XpSummary } from '../models/xp.model';
+import {
+  DailyGoalStatus,
+  LeaderboardEntry,
+  StreakInfo,
+  XpHistoryEntry,
+  XpSummary,
+} from '../models/xp.model';
 import { AuthService } from './auth.service';
 import { XpToastService } from './xp-toast.service';
 
@@ -12,6 +18,9 @@ export class XpService {
 
   summary = signal<XpSummary | null>(null);
   history = signal<XpHistoryEntry[]>([]);
+  streak = signal<StreakInfo | null>(null);
+  dailyGoal = signal<DailyGoalStatus | null>(null);
+  leaderboard = signal<LeaderboardEntry[]>([]);
   xp = computed(() => this.summary()?.total ?? 0);
 
   private hasLoadedOnce = false;
@@ -38,6 +47,33 @@ export class XpService {
 
     this.http.get<XpHistoryEntry[]>('/api/xp/history').subscribe({
       next: (entries) => this.history.set(entries),
+    });
+  }
+
+  loadStreak(): void {
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    this.http.get<StreakInfo>('/api/xp/streak').subscribe({
+      next: (streak) => this.streak.set(streak),
+    });
+  }
+
+  loadDailyGoal(): void {
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    this.http.get<DailyGoalStatus>('/api/xp/daily-goal').subscribe({
+      next: (status) => this.dailyGoal.set(status),
+    });
+  }
+
+  loadLeaderboard(): void {
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    this.http.get<LeaderboardEntry[]>('/api/xp/leaderboard').subscribe({
+      next: (entries) => this.leaderboard.set(entries),
     });
   }
 }

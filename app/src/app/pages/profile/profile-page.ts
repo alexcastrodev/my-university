@@ -29,10 +29,19 @@ export class ProfilePage implements OnInit {
     return Math.min(100, Math.round(((total - level.minXp) / span) * 100));
   });
 
+  dailyGoalPercent = computed(() => {
+    const goal = this.xpService.dailyGoal();
+    if (!goal || goal.goal <= 0) return 0;
+    return Math.min(100, Math.round((goal.earnedToday / goal.goal) * 100));
+  });
+
   ngOnInit(): void {
     if (!this.auth.currentUser()) return;
     this.xpService.loadSummary();
     this.xpService.loadHistory();
+    this.xpService.loadStreak();
+    this.xpService.loadDailyGoal();
+    this.xpService.loadLeaderboard();
   }
 
   sourceLabel(sourceType: string): string {

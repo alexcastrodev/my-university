@@ -528,14 +528,36 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
 
 ## Funcionalidades que dariam pra adicionar
 
-- [ ] **Streaks e leaderboard.** A infra de XP + 10 níveis
+- [x] **Streaks e leaderboard.** A infra de XP + 10 níveis
       (`backend/src/xp/levels.ts`) já existe, mas não tem nada de streak
       (dias seguidos estudando) nem comparação com outros usuários — é um
       sistema de XP sem nenhum gancho social ou de hábito. Streak é
       geralmente o que mais sustenta retorno diário num app de estudo (efeito
-      Duolingo).
-- [ ] **Meta diária.** Similar ao acima — hoje XP só acumula, não tem
+      Duolingo). **✅ Concluído (2026-08-02) — streak (dias UTC consecutivos,
+      função pura `computeStreak` em `backend/src/xp/streak.ts`, testada
+      isoladamente em `streak.spec.ts` cobrindo sem atividade, só hoje, só
+      ontem, gap quebrado e sequência longa) e leaderboard (top 10 por XP
+      total, com nível calculado via `getLevelForXp`) — ambos derivados só
+      do `user_xp_entry` que já existia, sem migration nova. Rotas novas
+      `GET /xp/streak` e `GET /xp/leaderboard`, atrás de sessão como as
+      demais rotas de XP. No `/profile`: badge "🔥 N day streak" ao lado do
+      nível (tooltip com o recorde) e um card de Leaderboard destacando a
+      própria linha do usuário. Verificado ao vivo contra Postgres real
+      (login de teste, ganhar XP, conferir streak/leaderboard mudarem) e
+      415 testes de backend + 69 de frontend passando (67 verdes, os mesmos
+      2 falhos pré-existentes e não relacionados de sempre), zero
+      regressão.**
+- [x] **Meta diária.** Similar ao acima — hoje XP só acumula, não tem
       nenhum "hoje você já estudou X, faltam Y pra bater a meta".
+      **✅ Concluído (2026-08-02) — meta diária fixa de 30 XP
+      (`DAILY_XP_GOAL` em `xp.service.ts`, não configurável de propósito —
+      dá pra bater com uma lição + uma leitura de concept, ou meio
+      skill-check), somando o `exp` do dia UTC corrente na mesma tabela
+      `user_xp_entry`. Rota nova `GET /xp/daily-goal`. Card "Daily Goal" no
+      `/profile` com barra de progresso igual à do nível ("X / 30 XP
+      today", "faltam Y XP" ou "meta batida"). Implementado, testado e
+      verificado ao vivo junto com o item de streak/leaderboard acima
+      (mesmos números de teste).**
 - [ ] **Página de configurações.** `/profile` hoje é só leitura (XP, nível,
       atividade). Não tem onde trocar preferências — nem teóricas (tema,
       notificações) nem de conta (nome de exibição vem sempre do GitHub, sem

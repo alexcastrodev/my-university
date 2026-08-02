@@ -25,3 +25,21 @@ export interface XpHistoryEntry {
   exp: number;
   updatedAt: string;
 }
+
+export interface StreakInfo {
+  current: number;
+  longest: number;
+}
+
+export interface DailyGoalStatus {
+  earnedToday: number;
+  goal: number;
+}
+
+export interface LeaderboardEntry {
+  userId: number;
+  displayName: string;
+  avatarUrl: string;
+  total: number;
+  levelNumber: number;
+}
