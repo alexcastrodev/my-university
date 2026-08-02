@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
+import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
@@ -18,6 +19,7 @@ export class JavaMinuteDetailPage implements OnInit {
   private javaMinuteService = inject(JavaMinuteService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   episode = signal<JavaMinuteEpisode | null>(null);
   loading = signal(true);
@@ -63,6 +65,7 @@ export class JavaMinuteDetailPage implements OnInit {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
+        this.reviewService.scheduleReview('java-minute', this.slug).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

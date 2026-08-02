@@ -79,12 +79,67 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         `attempts-page.spec.ts` (3 casos — prompt de login, lista
         filtrando tentativas não-finalizadas, estado vazio), todos
         passando (44/44 relevantes).
-- [ ] **Fila de revisão espaçada pros concepts.** Hoje "read" é só um
-      booleano (lido/não lido). Pra um app de estudo, "marcado como lido" e
-      "eu realmente lembro disso" são coisas bem diferentes. Uma revisão tipo
-      Anki simplificada (perguntar de novo em N dias, priorizar o que faz
-      mais tempo que não é revisitado) aproveitaria a infra de "read" que já
-      existe em todos os 5 módulos de concepts.
+- [x] **Fila de revisão espaçada pros concepts — feito (2026-08-02).**
+      Achado importante durante o design: **não existe uma tabela "read"
+      separada** — hoje "lido" é só uma linha em `user_xp_entry` (mesma
+      tabela do XP), deduplicada por `(userId, sourceType, sourceId)` via
+      `INSERT ... ON CONFLICT DO NOTHING`. Isso não dá pra reaproveitar
+      direto (nunca atualiza em cliques repetidos), então a feature exigiu
+      uma tabela nova.
+      - **Decisões tomadas com o usuário antes de implementar:** rating de
+        4 níveis estilo Anki (Again/Hard/Good/Easy, SM-2 simplificado) em
+        vez de binário lembrei/esqueci; página dedicada `/review`
+        agregando os 5 módulos numa fila só, em vez de badge por lista.
+      - **Backend:** novo módulo `backend/src/review/` — entidade
+        `ReviewSchedule` (easeFactor/intervalDays/repetitions/dueAt/
+        lastReviewedAt, única por `(userId, sourceType, sourceId)`),
+        algoritmo SM-2 simplificado em `sm2.ts` (função pura, sem
+        dependência de banco), e `review.constants.ts` como fonte única de
+        verdade pro mapeamento módulo↔prefixo de sourceId (reaproveita
+        exatamente a convenção que já existe nos 5 controllers de
+        concepts — `spring:`/`db:`/`sysdesign:`/sem-prefixo — em vez de
+        inventar uma segunda convenção).
+        - `POST /review/schedule` (body `{module, slug}`) — agenda a
+          primeira revisão pra 1 dia depois, idempotente.
+        - `GET /review/due` — fila de itens vencidos do usuário, com
+          título/rota resolvidos contra os 5 services de concept (sem
+          reler markdown do disco — usa só `findAll()`, que é metadata em
+          memória).
+        - `POST /review/answer` (body `{sourceType, sourceId, rating}`) —
+          recalcula o agendamento via SM-2 e devolve `{dueAt,
+          intervalDays}`.
+        - **Decisão de arquitetura pra evitar import circular:** o
+          agendamento é disparado pelo *frontend* (uma segunda chamada
+          depois do markRead), não pelo backend internamente — se os 5
+          controllers de concept importassem `ReviewModule` pra chamar
+          `ReviewService` diretamente, e `ReviewModule` precisa importar
+          os 5 módulos de concept pra resolver títulos, isso criaria um
+          ciclo de módulos do NestJS. Resolvido mantendo unidirecional:
+          `ReviewModule` → 5 módulos de concept, nunca o contrário.
+      - **Frontend:** nova página `/review` (`app/src/app/pages/review-queue/`,
+        classe `ReviewQueuePage` — nome diferente do `ReviewPage` já
+        existente da revisão de tentativas de exame, pra não colidir),
+        fluxo tipo flashcard (item atual + link "abrir pra reler" + 4
+        botões de rating, avança pro próximo ao responder). Link "Review"
+        adicionado no header (só logado). Nos 5 detail pages, `onMarkRead()`
+        agora também dispara `reviewService.scheduleReview(module, slug)`
+        depois do sucesso do markRead (fire-and-forget, erro engolido —
+        não deve bloquear o read-tracking que já funcionou).
+      - **Testado ao vivo** contra Postgres real via Docker + `nest start`
+        + `curl`: migration up/down confirmada, 401 sem sessão, 404 pra
+        módulo desconhecido, agendamento não aparece na fila antes de
+        vencer, aparece depois de forçar `dueAt` pro passado com título
+        certo (testado com java-concepts *e* spring-concepts, confirmando
+        o desprefixamento `spring:`), isolamento entre usuários, resposta
+        avança o agendamento corretamente.
+      - Specs: `sm2.spec.ts` (8 casos, incluindo conferência manual da
+        matemática do algoritmo) + `review-constants.spec.ts` (7 casos,
+        round-trip módulo↔sourceId pros 5 módulos) — ambos puros, sem
+        banco. `review.spec.ts` (9 casos de integração, mesmo padrão do
+        `exam.spec.ts`). Frontend: `review-queue-page.spec.ts` (5 casos).
+        47/49 relevantes passando no frontend (as 2 falhas restantes são
+        as mesmas pré-existentes sem relação); 270 testes de backend
+        (specs sem banco) passando.
 - [x] **26 lições "Practice" eram literalmente a mesma frase genérica, sem
       nenhum conteúdo por trás — as 26 estão feitas.** Todo módulo dos
       cursos `java-21`/`java-25`

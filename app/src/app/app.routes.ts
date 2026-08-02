@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/profile/profile-page').then((m) => m.ProfilePage),
   },
   {
+    path: 'review',
+    loadComponent: () => import('./pages/review-queue/review-queue-page').then((m) => m.ReviewQueuePage),
+  },
+  {
     path: 'java/exams',
     loadComponent: () => import('./pages/exam-list/exam-list').then((m) => m.ExamListPage),
   },

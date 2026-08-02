@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SpringConceptView } from '../../components/spring-concept-view/spring-concept-view';
 import { SpringConcept } from '../../models/spring-concept.model';
+import { ReviewService } from '../../services/review.service';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -18,6 +19,7 @@ export class SpringConceptsDetailPage implements OnInit {
   private springConceptsService = inject(SpringConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   concept = signal<SpringConcept | null>(null);
   loading = signal(true);
@@ -63,6 +65,7 @@ export class SpringConceptsDetailPage implements OnInit {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
+        this.reviewService.scheduleReview('spring-concepts', this.slug).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

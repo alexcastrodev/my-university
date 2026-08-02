@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SystemDesignConceptView } from '../../components/system-design-concept-view/system-design-concept-view';
 import { SystemDesignConcept } from '../../models/system-design-concept.model';
+import { ReviewService } from '../../services/review.service';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -18,6 +19,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   private systemDesignConceptsService = inject(SystemDesignConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   concept = signal<SystemDesignConcept | null>(null);
   loading = signal(true);
@@ -63,6 +65,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
+        this.reviewService.scheduleReview('system-design-concepts', this.slug).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

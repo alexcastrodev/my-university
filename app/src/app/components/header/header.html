@@ -111,6 +111,7 @@
       }
     </div>
     @if (auth.currentUser()) {
+      <a routerLink="/review" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Review</a>
       <a
         routerLink="/profile"
         class="xp-level-badge"

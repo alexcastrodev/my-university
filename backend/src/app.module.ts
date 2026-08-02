@@ -16,6 +16,8 @@ import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
+import { ReviewSchedule } from './review/review-schedule.entity';
+import { ReviewModule } from './review/review.module';
 import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 import { SpringConceptsModule } from './spring-concepts/spring-concepts.module';
@@ -28,7 +30,7 @@ import { XpModule } from './xp/xp.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL ?? 'postgres://postgres@127.0.0.1:5432/ocp_java',
-      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt, UserXpEntry],
+      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt, UserXpEntry, ReviewSchedule],
       migrations: [join(__dirname, 'migrations', '*.js')],
       migrationsRun: true,
       synchronize: false,
@@ -43,6 +45,7 @@ import { XpModule } from './xp/xp.module';
     ProgressModule,
     ExamModule,
     XpModule,
+    ReviewModule,
     SeedModule,
     SearchModule,
   ],

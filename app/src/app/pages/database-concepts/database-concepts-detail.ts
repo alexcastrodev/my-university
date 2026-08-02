@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatabaseConceptView } from '../../components/database-concept-view/database-concept-view';
 import { DatabaseConcept } from '../../models/database-concept.model';
 import { DatabaseConceptsService } from '../../services/database-concepts.service';
+import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
@@ -18,6 +19,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
   private databaseConceptsService = inject(DatabaseConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   concept = signal<DatabaseConcept | null>(null);
   loading = signal(true);
@@ -63,6 +65,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
+        this.reviewService.scheduleReview('database-concepts', this.slug).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

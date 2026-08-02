@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JavaConceptView } from '../../components/java-concept-view/java-concept-view';
 import { JavaConcept } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
+import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
@@ -18,6 +19,7 @@ export class JavaConceptsDetailPage implements OnInit {
   private javaConceptsService = inject(JavaConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   concept = signal<JavaConcept | null>(null);
   loading = signal(true);
@@ -63,6 +65,7 @@ export class JavaConceptsDetailPage implements OnInit {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
+        this.reviewService.scheduleReview('java-concepts', this.slug).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });
