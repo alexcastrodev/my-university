@@ -35,7 +35,7 @@ export class ExamService {
   ) {}
 
   listExams(): Promise<Exam[]> {
-    return this.examRepo.find({ order: { category: 'ASC', title: 'ASC' } });
+    return this.examRepo.find({ order: { title: 'ASC' } });
   }
 
   getExam(id: string): Promise<Exam | null> {

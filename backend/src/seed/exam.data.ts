@@ -1,13 +1,11 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
-import { ExamCategory } from '../exam/exam.entity';
 import { QuestionType } from '../exam/question.entity';
 
 export interface ExamSeed {
   id: string;
   title: string;
-  category: ExamCategory;
   version: string;
   delivery?: string;
   format?: string;

@@ -10,7 +10,6 @@ import { ResultPage } from './result-page';
 const EXAM: Exam = {
   id: 'java-21',
   title: 'OCP Java 21',
-  category: 'Language',
   version: '1Z0-829',
   delivery: 'Online',
   format: 'Multiple choice',

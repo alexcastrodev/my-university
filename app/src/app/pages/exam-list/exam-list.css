@@ -49,26 +49,6 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.category-section {
-  margin-bottom: 2.5rem;
-}
-
-.category-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.category-icon {
-  font-size: 1.1rem;
-}
-
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -106,15 +86,6 @@
   font-weight: 700;
   color: #fff;
   background: #c74634;
-  border-radius: 12px;
-  padding: 0.15rem 0.55rem;
-}
-
-.card-category {
-  font-size: 0.7rem;
-  color: #6b7280;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
 }

@@ -30,16 +30,4 @@ export class ExamListPage implements OnInit {
       error: () => this.loading.set(false),
     });
   }
-
-  categories(): string[] {
-    return [...new Set(this.exams().map((e) => e.category))].sort();
-  }
-
-  byCategory(category: string): Exam[] {
-    return this.exams().filter((e) => e.category === category);
-  }
-
-  categoryIcon(category: string): string {
-    return category === 'Language' ? '☕' : '🗄️';
-  }
 }

@@ -13,16 +13,16 @@ describe('GET /exam/list', () => {
     expect(body.length).toBeGreaterThan(0);
   });
 
-  it('each exam has id, title, and category', async () => {
+  it('each exam has an id and title', async () => {
     const body = await json<any[]>(await get('/exam/list'));
     for (const exam of body) {
-      expect(exam).toMatchObject({ id: expect.any(String), title: expect.any(String), category: expect.any(String) });
+      expect(exam).toMatchObject({ id: expect.any(String), title: expect.any(String) });
     }
   });
 
-  it('returns exams ordered by category then title', async () => {
+  it('returns exams ordered by title', async () => {
     const body = await json<any[]>(await get('/exam/list'));
-    const sorted = [...body].sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
+    const sorted = [...body].sort((a, b) => a.title.localeCompare(b.title));
     expect(body.map((e) => e.id)).toEqual(sorted.map((e) => e.id));
   });
 });

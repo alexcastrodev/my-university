@@ -469,11 +469,20 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       atual e não a busca global do header. Spec novo (`playlist.spec.ts`)
       trava o texto explícito e o comportamento de filtro. 56 testes de
       frontend passando.**
-- [ ] **Categoria "Database" de exame existe só no modelo.** `Exam.category`
+- [x] **Categoria "Database" de exame existe só no modelo.** `Exam.category`
       aceita `'Language' | 'Database'` e `exam-list.ts` já tem até o ícone
       🗄️ pronto, mas nenhum exame de Database foi cadastrado — a categoria é
       morta hoje. Ou popula (faz sentido dado que já existe `database-concepts`
       como módulo de estudo) ou remove o branch morto do código.
+      **✅ Concluído (2026-08-02) — removido o branch morto (confirmado com
+      o usuário: popular exigiria inventar um exame de certificação de
+      Database de verdade, não faz sentido fabricar isso). Removida a
+      coluna `category`/tipo `ExamCategory` do backend (entity, service,
+      seed, migration `DropExamCategory` com up/down verificados ao vivo)
+      e do model/página do frontend — `exam-list` agora é uma grade única
+      de exames (só existe uma categoria mesmo, "Language"), sem
+      agrupamento nem ícone de categoria. 397 testes de backend + 56 de
+      frontend passando, verificado ao vivo com Postgres real.**
 - [x] **"Read" é autoavaliação, de propósito — não tracking passivo.** O
       botão "Got it!" é manual por design: a intenção é o usuário dizer
       "eu li isso até o fim e entendi", não o app tentar inferir isso por

@@ -1,7 +1,6 @@
 export interface Exam {
   id: string;
   title: string;
-  category: 'Language' | 'Database';
   version: string;
   delivery: string;
   format: string;
