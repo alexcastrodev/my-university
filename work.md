@@ -558,10 +558,30 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       today", "faltam Y XP" ou "meta batida"). Implementado, testado e
       verificado ao vivo junto com o item de streak/leaderboard acima
       (mesmos números de teste).**
-- [ ] **Página de configurações.** `/profile` hoje é só leitura (XP, nível,
+- [x] **Página de configurações.** `/profile` hoje é só leitura (XP, nível,
       atividade). Não tem onde trocar preferências — nem teóricas (tema,
       notificações) nem de conta (nome de exibição vem sempre do GitHub, sem
       override).
+      **✅ Concluído (2026-08-02) — escopo reduzido a override de nome de
+      exibição (tema/dark-mode ficou fora, exigiria retemar o CSS do app
+      inteiro). `User` ganhou coluna `displayNameOverride` nullable
+      (migration `AddUserDisplayNameOverride`), sem tocar a coluna raw
+      `displayName` que `upsertFromGithub` resincroniza a cada login.
+      `AuthService.findById`/`GET /auth/me` agora retornam o valor efetivo
+      (`displayNameOverride ?? displayName`) calculado só na resposta, nunca
+      persistido — então o override sobrevive a logins futuros. Novo
+      endpoint `PUT /auth/settings` (`{ displayName }`) seta o override, e
+      string vazia/só espaço limpa e volta pro nome do GitHub. Nova página
+      `/settings` (link no dropdown do header, entre Profile e Logout) com
+      input pré-preenchido, botão Save e "Reset to GitHub name", mais um
+      toggle de tema desabilitado como placeholder "Coming soon". 4 specs
+      novos no backend (401 sem sessão, seta e reflete em `/auth/me`, limpa
+      com string vazia, limpa com só espaços) e 5 no frontend (nome
+      pré-preenchido, save com sucesso, erro, reset). Verificado ao vivo
+      contra Postgres real: migration up/down/up limpo, servidor real
+      subido, `_test/login` → `PUT /auth/settings` → `GET /auth/me`
+      confirmando persistência e reset via curl. Suite completa do backend
+      rodando contra o servidor ao vivo: 401 testes / 16 arquivos passando.**
 - [x] **Duração da lição visível.** `Lesson.duration` existe no model mas
       não confirmei se aparece em algum lugar do `course-view`/`playlist` —
       vale checar e, se não aparecer, mostrar (ajuda a planejar quanto tempo

@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -71,6 +72,15 @@ export class AuthController {
   @Get('me')
   me(@CurrentUserId() userId: number) {
     return this.service.findById(userId);
+  }
+
+  /** Sets or clears (empty/whitespace body) the caller's display name override. */
+  @Put('settings')
+  updateSettings(
+    @CurrentUserId() userId: number,
+    @Body('displayName') displayName: string | null,
+  ) {
+    return this.service.updateDisplayNameOverride(userId, displayName);
   }
 
   /** Lets the login page know whether the dev-login shortcut is available. */

@@ -145,6 +145,7 @@
       @if (userMenuOpen() && auth.currentUser()) {
         <div class="user-menu-dropdown" role="menu">
           <a routerLink="/profile" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">Profile</a>
+          <a routerLink="/settings" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">Settings</a>
           <button type="button" class="user-menu-item" role="menuitem" (click)="logout()">Logout</button>
         </div>
       }
