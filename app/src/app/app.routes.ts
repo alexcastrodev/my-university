@@ -82,6 +82,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attempts/attempts-page').then((m) => m.AttemptsPage),
   },
   {
+    path: 'java/exam/:examId/share/:attemptId',
+    loadComponent: () => import('./pages/share-result/share-result-page').then((m) => m.ShareResultPage),
+  },
+  {
     path: 'java/exam/:examId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

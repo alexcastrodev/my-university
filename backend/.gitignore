@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+# this backend is pinned to pnpm-lock.yaml; don't let a stray `npm install`
+# (e.g. in a fresh worktree) commit a competing lockfile
+/package-lock.json
+
 # Logs
 logs
 *.log

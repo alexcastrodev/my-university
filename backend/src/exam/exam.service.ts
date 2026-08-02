@@ -25,6 +25,19 @@ export interface SubmitResult {
 /** History-list shape — the fields returned by getAttempts(), omitting answers/review. */
 export type AttemptSummary = Pick<ExamAttempt, 'id' | 'examId' | 'startedAt' | 'finishedAt' | 'score' | 'total'>;
 
+/**
+ * Trimmed, safe-to-publish shape for a shareable attempt link. Deliberately omits
+ * `answers`/`review` (would expose actual certification question content publicly).
+ */
+export interface PublicAttemptSummary {
+  examTitle: string;
+  score: number;
+  total: number;
+  passingScore: number;
+  passed: boolean;
+  finishedAt: Date | null;
+}
+
 @Injectable()
 export class ExamService {
   constructor(
@@ -160,6 +173,31 @@ export class ExamService {
     }
 
     return attempt;
+  }
+
+  /**
+   * Public, unauthenticated summary for a shareable attempt link. Not gated by ownership —
+   * anyone with the link can view this trimmed subset — but only once the attempt is finished
+   * (an in-progress attempt shouldn't be shareable).
+   */
+  async getPublicAttemptSummary(examId: string, id: number): Promise<PublicAttemptSummary | null> {
+    const attempt = await this.attemptRepo.findOne({ where: { id, examId } });
+    if (!attempt || !attempt.finishedAt) return null;
+
+    const exam = await this.getExam(examId);
+    if (!exam) return null;
+
+    const percent = attempt.total > 0 ? Math.round((attempt.score / attempt.total) * 100) : 0;
+    const passed = attempt.total > 0 && percent >= exam.passingScore;
+
+    return {
+      examTitle: exam.title,
+      score: attempt.score,
+      total: attempt.total,
+      passingScore: exam.passingScore,
+      passed,
+      finishedAt: attempt.finishedAt,
+    };
   }
 
   getTopics(examId: string): Promise<string[]> {

@@ -1,0 +1,49 @@
+<div class="share-page">
+  @if (loading()) {
+    <div class="center">
+      <span class="spinner" aria-hidden="true"></span>
+      Loading result…
+    </div>
+  } @else if (notFound() || !summary()) {
+    <div class="center-message">
+      <p>This result link is invalid, or the exam attempt hasn't been finished yet.</p>
+      <a routerLink="/" class="action-btn secondary">Go to homepage</a>
+    </div>
+  } @else {
+    <div class="share-card" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
+      <div class="oracle-logo" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor"/>
+          <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="currentColor" opacity=".6"/>
+        </svg>
+      </div>
+
+      <div class="exam-title">{{ summary()!.examTitle }}</div>
+
+      <span class="verdict-badge" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
+        {{ summary()!.passed ? 'PASS' : 'FAIL' }}
+      </span>
+
+      <div class="score-display">
+        <span class="score-number">{{ scorePercent() }}</span>
+        <span class="score-unit">%</span>
+      </div>
+
+      <div class="score-detail">
+        {{ summary()!.score }} correct out of {{ summary()!.total }} questions
+      </div>
+
+      <div class="passing-note">
+        Passing score: {{ summary()!.passingScore }}%
+      </div>
+
+      @if (summary()!.finishedAt) {
+        <div class="attempt-date">Completed {{ formatDate(summary()!.finishedAt) }}</div>
+      }
+    </div>
+
+    <div class="share-footer">
+      <a routerLink="/" class="action-btn secondary">Try this exam yourself →</a>
+    </div>
+  }
+</div>

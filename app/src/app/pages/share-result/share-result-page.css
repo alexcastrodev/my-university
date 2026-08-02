@@ -1,0 +1,134 @@
+.share-page {
+  min-height: calc(100vh - 52px);
+  background: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 2rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #c74634;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.center-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.share-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  padding: 3rem 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .18);
+}
+
+.share-card.pass { background: linear-gradient(160deg, #0f2027, #1a3a2a, #0d3320); }
+.share-card.fail { background: linear-gradient(160deg, #1a0a0a, #2d1414, #1a0f0f); }
+
+.oracle-logo { color: rgba(255,255,255,.4); }
+
+.exam-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  letter-spacing: .02em;
+}
+
+.verdict-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  padding: 0.3rem 1.25rem;
+  border-radius: 3px;
+  margin: 0.25rem 0;
+}
+
+.verdict-badge.pass { background: #16a34a; color: #fff; }
+.verdict-badge.fail { background: #dc2626; color: #fff; }
+
+.score-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  line-height: 1;
+  margin-top: 0.25rem;
+}
+
+.score-number {
+  font-size: 4.25rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.02em;
+}
+
+.score-unit {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.6);
+}
+
+.score-detail {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,.55);
+}
+
+.passing-note {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,.4);
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 0.75rem;
+  width: 100%;
+}
+
+.attempt-date {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,.35);
+}
+
+.share-footer { margin-top: 1.5rem; }
+
+.action-btn {
+  padding: 0.55rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .15s;
+  display: inline-block;
+}
+
+.action-btn:hover { opacity: .85; }
+.action-btn.secondary { background: #fff; color: #374151; border: 1px solid #d1d5db; }

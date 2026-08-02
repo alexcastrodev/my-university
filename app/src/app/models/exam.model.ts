@@ -61,6 +61,16 @@ export interface ExamAttemptSummary {
   total: number;
 }
 
+/** Trimmed, safe-to-publish shape for a shareable attempt link — omits answers/review. */
+export interface PublicAttemptSummary {
+  examTitle: string;
+  score: number;
+  total: number;
+  passingScore: number;
+  passed: boolean;
+  finishedAt: string | null;
+}
+
 export interface SubmitResult {
   id: number;
   examId: string;
