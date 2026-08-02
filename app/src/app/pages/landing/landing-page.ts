@@ -5,11 +5,19 @@ import { AuthService } from '../../services/auth.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
 
+interface LandingSessionLink {
+  label: string;
+  routerLink: string;
+}
+
 interface LandingSession {
   title: string;
   description: string;
   icon: string;
-  routerLink: string;
+  /** Single destination for the whole card — used when there is only one place to go. */
+  routerLink?: string;
+  /** Multiple destinations — rendered as separate links so each promised topic is reachable. */
+  links?: LandingSessionLink[];
 }
 
 const SESSIONS: LandingSession[] = [
@@ -17,7 +25,11 @@ const SESSIONS: LandingSession[] = [
     title: 'Java',
     description: 'Certification practice exams, Java Minute quick answers, and in-depth Java Concepts.',
     icon: '☕',
-    routerLink: '/java/exams',
+    links: [
+      { label: 'Exams', routerLink: '/java/exams' },
+      { label: 'Concepts', routerLink: '/java/java-concepts' },
+      { label: 'Java Minute', routerLink: '/java/java-minute' },
+    ],
   },
   {
     title: 'Spring',

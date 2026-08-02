@@ -17,12 +17,25 @@
 
     <div class="sessions-grid">
       @for (session of sessions; track session.title) {
-        <a [routerLink]="session.routerLink" class="session-card">
-          <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
-          <h2 class="session-title">{{ session.title }}</h2>
-          <p class="session-description">{{ session.description }}</p>
-          <span class="session-cta">Explore →</span>
-        </a>
+        @if (session.links; as links) {
+          <div class="session-card session-card-multi">
+            <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
+            <h2 class="session-title">{{ session.title }}</h2>
+            <p class="session-description">{{ session.description }}</p>
+            <div class="session-links">
+              @for (link of links; track link.routerLink) {
+                <a [routerLink]="link.routerLink" class="session-link">{{ link.label }} →</a>
+              }
+            </div>
+          </div>
+        } @else {
+          <a [routerLink]="session.routerLink" class="session-card">
+            <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
+            <h2 class="session-title">{{ session.title }}</h2>
+            <p class="session-description">{{ session.description }}</p>
+            <span class="session-cta">Explore →</span>
+          </a>
+        }
       }
     </div>
   </div>

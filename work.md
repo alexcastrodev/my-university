@@ -492,7 +492,7 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       (ex.: revisão espaçada): o sinal é "usuário afirma que entendeu", não
       uma garantia objetiva de retenção — a diferença importa se algum dia
       quiser combinar isso com um quiz de verificação de fato.
-- [ ] **Card "Java" da landing page pula direto pra Exams.**
+- [x] **Card "Java" da landing page pula direto pra Exams.**
       `landing-page.ts:12-18` — o card descreve três coisas ("Certification
       practice exams, Java Minute quick answers, and in-depth Java
       Concepts") mas o clique inteiro do card só tem um `routerLink` pra
@@ -503,6 +503,16 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       reaproveitar a mesma ideia aqui: ou o card "Java" vira um mini-menu
       igual ao do header, ou vira uma página intermediária de escolha de
       tópico dentro de Java, em vez de ir direto pra exams.
+      **✅ Concluído (2026-08-02) — sem popup nem página nova: o card
+      "Java" deixou de ser um único `<a>` e virou um `<div>` com três
+      links visíveis lado a lado (Exams / Concepts / Java Minute), cada
+      um navegando direto pro destino certo. Os outros cards (Spring,
+      Databases, System Design) continuam com o comportamento de
+      "clique no card inteiro" de antes, já que cada um só tem um
+      destino real. `LandingSession` ganhou um campo opcional `links`
+      pra suportar isso genericamente. Verificado ao vivo no browser
+      (screenshot + clique real navegando pra `/java/java-concepts`).
+      58 testes de frontend passando.**
 - [ ] **Tentativa de exame anônima é silenciosa.** `ExamAttempt.userId` é
       nullable — dá pra fazer o exame sem estar logado. Não é
       necessariamente errado (baixa fricção pra experimentar), mas hoje não

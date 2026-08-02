@@ -123,3 +123,37 @@
   font-weight: 600;
   color: #c74634;
 }
+
+.session-card-multi {
+  cursor: default;
+}
+
+.session-card-multi:hover {
+  border-color: #e5e7eb;
+  box-shadow: none;
+  transform: none;
+}
+
+.session-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.session-link {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #c74634;
+  background: #fef2f0;
+  border: 1px solid #fbd9d2;
+  border-radius: 20px;
+  padding: 0.3rem 0.75rem;
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+
+.session-link:hover {
+  background: #fde3dd;
+  border-color: #c74634;
+}

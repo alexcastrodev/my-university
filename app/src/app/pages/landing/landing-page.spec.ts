@@ -30,6 +30,23 @@ describe('LandingPage', () => {
     expect(fixture.nativeElement.textContent).toContain('Spring');
   });
 
+  it('exposes separate links for each Java topic instead of jumping straight to exams', () => {
+    const fixture = setup(false);
+    const links: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('.session-link');
+
+    expect(links.length).toBe(3);
+    expect(fixture.nativeElement.textContent).toContain('Exams');
+    expect(fixture.nativeElement.textContent).toContain('Concepts');
+    expect(fixture.nativeElement.textContent).toContain('Java Minute');
+  });
+
+  it('does not wrap the whole Java card in a single link', () => {
+    const fixture = setup(false);
+    const cards: HTMLElement[] = fixture.nativeElement.querySelectorAll('.session-card');
+    const javaCard = Array.from(cards).find((c) => c.textContent?.includes('Java'));
+    expect(javaCard?.tagName).toBe('DIV');
+  });
+
   it('does not show a resume banner for logged-out visitors', () => {
     const fixture = setup(false);
     expect(fixture.nativeElement.querySelector('.resume-banner')).toBeNull();
