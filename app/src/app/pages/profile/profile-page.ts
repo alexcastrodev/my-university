@@ -41,7 +41,6 @@ export class ProfilePage implements OnInit {
     this.xpService.loadHistory();
     this.xpService.loadStreak();
     this.xpService.loadDailyGoal();
-    this.xpService.loadLeaderboard();
   }
 
   sourceLabel(sourceType: string): string {

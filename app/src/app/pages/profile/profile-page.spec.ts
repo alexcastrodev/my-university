@@ -1,13 +1,7 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { User } from '../../models/auth.model';
-import {
-  DailyGoalStatus,
-  LeaderboardEntry,
-  StreakInfo,
-  XpHistoryEntry,
-  XpSummary,
-} from '../../models/xp.model';
+import { DailyGoalStatus, StreakInfo, XpHistoryEntry, XpSummary } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 import { ProfilePage } from './profile-page';
@@ -26,16 +20,8 @@ function setup(options: {
   history?: XpHistoryEntry[];
   streak?: StreakInfo | null;
   dailyGoal?: DailyGoalStatus | null;
-  leaderboard?: LeaderboardEntry[];
 } = {}) {
-  const {
-    loggedIn = true,
-    summary = SUMMARY,
-    history = [],
-    streak = null,
-    dailyGoal = null,
-    leaderboard = [],
-  } = options;
+  const { loggedIn = true, summary = SUMMARY, history = [], streak = null, dailyGoal = null } = options;
 
   TestBed.configureTestingModule({
     imports: [ProfilePage],
@@ -49,12 +35,10 @@ function setup(options: {
           history: signal(history),
           streak: signal(streak),
           dailyGoal: signal(dailyGoal),
-          leaderboard: signal(leaderboard),
           loadSummary: () => {},
           loadHistory: () => {},
           loadStreak: () => {},
           loadDailyGoal: () => {},
-          loadLeaderboard: () => {},
         },
       },
     ],
@@ -83,14 +67,23 @@ describe('ProfilePage', () => {
     const fixture = setup({ streak: { current: 4, longest: 9 } });
 
     const badge = fixture.nativeElement.querySelector('.streak-badge');
-    expect(badge?.textContent).toContain('4 days streak');
-    expect(badge?.getAttribute('title')).toBe('Longest streak: 9 days');
+    expect(badge?.textContent?.trim()).toBe('🔥 4');
+    expect(badge?.classList.contains('streak-zero')).toBe(false);
   });
 
-  it('uses singular wording for a 1-day streak', () => {
-    const fixture = setup({ streak: { current: 1, longest: 1 } });
+  it('shows the longest streak as a separate, always-visible label', () => {
+    const fixture = setup({ streak: { current: 4, longest: 9 } });
 
-    expect(fixture.nativeElement.querySelector('.streak-badge')?.textContent).toContain('1 day streak');
+    const label = fixture.nativeElement.querySelector('.longest-streak-label');
+    expect(label?.textContent?.trim()).toBe('Best: 9');
+  });
+
+  it('dims the streak badge when the current streak is zero', () => {
+    const fixture = setup({ streak: { current: 0, longest: 9 } });
+
+    const badge = fixture.nativeElement.querySelector('.streak-badge');
+    expect(badge?.textContent?.trim()).toBe('🔥 0');
+    expect(badge?.classList.contains('streak-zero')).toBe(true);
   });
 
   it('shows the daily goal progress and remaining XP', () => {
@@ -116,25 +109,12 @@ describe('ProfilePage', () => {
     expect(cardTitles).not.toContain('Daily Goal');
   });
 
-  it('shows an empty state when the leaderboard has no entries', () => {
-    const fixture = setup({ leaderboard: [] });
+  it('does not render a Leaderboard card (moved to its own public /leaderboard page)', () => {
+    const fixture = setup();
 
-    expect(fixture.nativeElement.textContent).toContain("No one's earned XP yet");
-  });
-
-  it('renders leaderboard rows ranked in the order given, highlighting the current user', () => {
-    const leaderboard: LeaderboardEntry[] = [
-      { userId: 2, displayName: 'Bea', avatarUrl: 'https://example.com/bea.png', total: 500, levelNumber: 3 },
-      { userId: 1, displayName: 'Ana', avatarUrl: 'https://example.com/ana.png', total: 150, levelNumber: 2 },
-    ];
-    const fixture = setup({ leaderboard });
-
-    const rows: HTMLElement[] = fixture.nativeElement.querySelectorAll('.leaderboard-item');
-    expect(rows.length).toBe(2);
-    expect(rows[0].querySelector('.leaderboard-rank')?.textContent).toContain('#1');
-    expect(rows[0].querySelector('.leaderboard-name')?.textContent).toContain('Bea');
-    expect(rows[1].querySelector('.leaderboard-name')?.textContent).toContain('Ana');
-    expect(rows[1].classList.contains('leaderboard-item-self')).toBe(true);
-    expect(rows[0].classList.contains('leaderboard-item-self')).toBe(false);
+    const cardTitles = Array.from(
+      fixture.nativeElement.querySelectorAll('.section-title') as NodeListOf<Element>,
+    ).map((el) => el.textContent);
+    expect(cardTitles).not.toContain('Leaderboard');
   });
 });
