@@ -4,6 +4,14 @@ import { Repository } from 'typeorm';
 import { Course } from './course.entity';
 import { Lesson, LessonStatus } from '../lesson/lesson.entity';
 import { Progress } from '../progress/progress.entity';
+import { findNextLesson } from './resume';
+
+export interface ResumePoint {
+  courseId: string;
+  courseTitle: string;
+  lessonId: string | null;
+  lessonTitle: string | null;
+}
 
 @Injectable()
 export class CourseService {
@@ -34,6 +42,29 @@ export class CourseService {
 
   findLesson(lessonId: string): Promise<Lesson | null> {
     return this.lessonRepo.findOne({ where: { id: lessonId } });
+  }
+
+  async findResumePoint(userId: number): Promise<ResumePoint | null> {
+    const lastCompleted = await this.progressRepo.findOne({
+      where: { userId, status: 'completed' },
+      order: { updatedAt: 'DESC' },
+    });
+    if (!lastCompleted) return null;
+
+    const course = await this.repo.findOne({
+      where: { id: lastCompleted.courseId },
+      relations: { modules: { lessons: true } },
+      order: { modules: { order: 'ASC', lessons: { order: 'ASC' } } },
+    });
+    if (!course) return null;
+
+    const next = findNextLesson(course, lastCompleted.lessonId);
+    return {
+      courseId: course.id,
+      courseTitle: course.title,
+      lessonId: next?.id ?? null,
+      lessonTitle: next?.title ?? null,
+    };
   }
 
   private async applyUserProgress(course: Course, userId: number): Promise<Course> {

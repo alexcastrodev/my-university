@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ResumePoint } from '../../models/course.model';
+import { AuthService } from '../../services/auth.service';
+import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
 
 interface LandingSession {
@@ -45,8 +48,11 @@ const SESSIONS: LandingSession[] = [
 })
 export class LandingPage implements OnInit {
   private seo = inject(SeoService);
+  private auth = inject(AuthService);
+  private resumeService = inject(ResumeService);
 
   sessions = SESSIONS;
+  resumePoint = signal<ResumePoint | null>(null);
 
   ngOnInit() {
     this.seo.set({
@@ -54,5 +60,20 @@ export class LandingPage implements OnInit {
       description: 'Practice exams, quick answers, and in-depth concepts for Java, Spring, and Databases.',
       path: '/',
     });
+
+    if (this.auth.currentUser()) {
+      this.resumeService.getResumePoint().subscribe({
+        next: (point) => this.resumePoint.set(point),
+        error: () => {},
+      });
+    }
+  }
+
+  resumeLink(): string[] {
+    const point = this.resumePoint();
+    if (!point) return [];
+    return point.lessonId
+      ? ['/java/exam', point.courseId, 'lesson', point.lessonId]
+      : ['/java/exam', point.courseId];
   }
 }

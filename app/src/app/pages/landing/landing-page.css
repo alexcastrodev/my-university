@@ -28,6 +28,49 @@
   padding: 2.5rem 1.5rem;
 }
 
+.resume-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #c74634;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .15s, transform .15s;
+}
+
+.resume-banner:hover {
+  box-shadow: 0 6px 20px rgba(199,70,52,.12);
+  transform: translateY(-1px);
+}
+
+.resume-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.resume-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+  flex: 1;
+}
+
+.resume-cta {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c74634;
+  flex-shrink: 0;
+}
+
 .sessions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

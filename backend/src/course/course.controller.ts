@@ -1,5 +1,5 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
-import { OptionalUserId } from '../auth/session';
+import { CurrentUserId, OptionalUserId } from '../auth/session';
 import { CourseService } from './course.service';
 
 @Controller('courses')
@@ -9,6 +9,11 @@ export class CourseController {
   @Get()
   findAll(@OptionalUserId() userId: number | null) {
     return this.service.findAll(userId);
+  }
+
+  @Get('resume')
+  findResumePoint(@CurrentUserId() userId: number) {
+    return this.service.findResumePoint(userId);
   }
 
   @Get(':id')

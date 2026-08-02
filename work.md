@@ -435,10 +435,23 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         (Concurrency, Class Design), 253 testes de backend + 34 de
         frontend passando, nenhum arquivo fora do escopo tocado em
         nenhuma rodada.**
-- [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
+- [x] **"Continuar de onde parei."** Não existe atalho pra retomar a última
       lição/exame em andamento. Hoje o usuário precisa navegar até
       `/java/exams` → escolher o exame → achar a lição de novo. Um botão
-      "Continuar" na home/profile resolveria.
+      "Continuar" na home/profile resolveria. **✅ Concluído (2026-08-02) —
+      sem tabela/tracking novo: deriva do último `Progress` com
+      `status: 'completed'` (mais recente por `updatedAt`) e acha a
+      próxima lição na ordem de módulos/lições do curso
+      (`findNextLesson`, função pura testada isoladamente). Backend:
+      `GET /courses/resume` (rota registrada antes de `:id` pra não
+      colidir), `CourseService.findResumePoint`. Frontend: banner
+      "Continue where you left off" na landing page, linkando pra
+      `/java/exam/:courseId/lesson/:lessonId` (ou pro curso, se a
+      última lição concluída for a última do curso). Verificado ao
+      vivo com Postgres real (Docker) + `curl` nos três casos: sem
+      progresso → `null`, meio do curso → próxima lição certa, última
+      lição do curso → `lessonId: null`. 397 testes de backend + 56 de
+      frontend passando.**
 
 ## Podia ser mais claro
 

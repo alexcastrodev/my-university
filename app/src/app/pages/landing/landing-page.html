@@ -5,6 +5,16 @@
   </div>
 
   <div class="page-body">
+    @if (resumePoint(); as point) {
+      <a [routerLink]="resumeLink()" class="resume-banner">
+        <span class="resume-label">Continue where you left off</span>
+        <span class="resume-title">
+          {{ point.lessonTitle ?? (point.courseTitle + ' — course complete') }}
+        </span>
+        <span class="resume-cta">Resume →</span>
+      </a>
+    }
+
     <div class="sessions-grid">
       @for (session of sessions; track session.title) {
         <a [routerLink]="session.routerLink" class="session-card">

@@ -27,3 +27,10 @@ export interface Course {
   benefits: string[];
   modules: CourseModule[];
 }
+
+export interface ResumePoint {
+  courseId: string;
+  courseTitle: string;
+  lessonId: string | null;
+  lessonTitle: string | null;
+}
