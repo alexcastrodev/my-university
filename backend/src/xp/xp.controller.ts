@@ -20,4 +20,19 @@ export class XpController {
   getHistory(@CurrentUserId() userId: number) {
     return this.service.getHistory(userId);
   }
+
+  @Get('streak')
+  getStreak(@CurrentUserId() userId: number) {
+    return this.service.getStreak(userId);
+  }
+
+  @Get('daily-goal')
+  getDailyGoal(@CurrentUserId() userId: number) {
+    return this.service.getDailyGoalStatus(userId);
+  }
+
+  @Get('leaderboard')
+  getLeaderboard(@CurrentUserId() userId: number) {
+    return this.service.getLeaderboard();
+  }
 }
