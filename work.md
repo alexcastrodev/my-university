@@ -22,8 +22,8 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
       Anki simplificada (perguntar de novo em N dias, priorizar o que faz
       mais tempo que não é revisitado) aproveitaria a infra de "read" que já
       existe em todos os 5 módulos de concepts.
-- [ ] **26 lições "Practice" são literalmente a mesma frase genérica, sem
-      nenhum conteúdo por trás — piloto feito, faltam 25.** Todo módulo dos
+- [x] **26 lições "Practice" eram literalmente a mesma frase genérica, sem
+      nenhum conteúdo por trás — as 26 estão feitas.** Todo módulo dos
       cursos `java-21`/`java-25`
       termina com um trio: slides → **"Practice: {Tópico}"** → "Skill Check:
       {Tópico}". O Skill Check já é real (`topic` setado, puxa perguntas de
@@ -47,7 +47,8 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         tópico (enunciado + código pra completar/prever output + resposta
         comentada), igual ao formato Problem/Solution que já é usado nos
         concepts vindos do SQL Cookbook.
-      - **21 de 26 feitos — track java-21 (16 módulos) completo:**
+      - **26 de 26 feitos — as duas trilhas (java-21 e java-25, 26
+        módulos) estão 100% completas:**
         - `13-7-practice-concurrency.md` (java-21, Concurrency) — thread
           creation, race condition, `HashMap` sob parallel stream, deadlock,
           virtual threads + `try`-with-resources.
@@ -228,23 +229,78 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
           (por que 1Z0-830 não cobra e 1Z0-831 cobra) — evitou de propósito
           sobrepor Flexible Constructor Bodies e Stream Gatherers, já
           cobertos nos practice do track java-25.
-        **Nota de processo:** os últimos 15 (Beyond Classes,
-        Exceptions/Localization java-21, Exception Handling/Streams/OOP
-        java-25, Making Decisions/Core APIs/I-O/JDBC java-21 + Collections
-        java-25, e por fim Building Blocks/Operators/Methods/Modules/Java
-        25 New Features java-21) foram delegados em três lotes de 5
-        sub-agentes em paralelo, cada um restrito a escrever só o `.md`
-        novo + o `contentPath` do seu próprio módulo (proibido tocar nos
-        specs compartilhados ou no work.md, pra evitar conflito de edição
-        simultânea). Todos os 15 cumpriram o escopo à risca (confirmado
-        via `git status` a cada lote — nenhum tocou fora do que foi
-        pedido); o conteúdo de cada um foi lido e revisado antes de
-        integrar, e a integração dos specs (`FILLED_PRACTICE_LESSONS` +
-        `content.spec.ts`) foi feita manualmente depois, de uma vez por
+        - `2-6-practice-flow-control.md` (java-25, Flow Control,
+          2026-08-02, sub-agente em paralelo — verificado) — dangling
+          `else` num `if` sem chaves (liga ao `if` desencontrado mais
+          próximo), `do-while` executa o corpo antes de testar a condição
+          (mais o `;` obrigatório depois do `while`), `yield` + fall-through
+          num switch expression de sintaxe `:`, record deconstruction
+          pattern + exhaustiveness sobre hierarquia sealed (ordem
+          guarded-antes-de-unguarded), `break` sem label vs. `break`
+          rotulado quando um switch está dentro de um loop.
+        - `7-9-practice-packaging.md` (java-25, Packaging, 2026-08-02,
+          sub-agente em paralelo — verificado) — derivação do nome de
+          automatic module a partir do nome do JAR (só o sufixo de versão
+          é removido), readability é via única entre módulo nomeado e
+          unnamed module (`--add-reads ... =ALL-UNNAMED` como escape
+          hatch), diferença entre JAR modular de verdade e um JAR sem
+          `module-info` tratado como automatic module, `jlink` exige
+          `--module-path` explícito (não escaneia o disco sozinho),
+          provider de serviço só é descoberto se entrar no grafo resolvido
+          como root module (`--add-modules`), não basta estar no module
+          path.
+        - `1-10-practice-values.md` (java-25, Values, 2026-08-02,
+          sub-agente em paralelo — verificado) — indentação incidental de
+          text block (o algoritmo do JEP 378, inclusive a linha do `"""`
+          de fechamento contando pro mínimo), cache de `Integer`/`Long`
+          (-128 a 127) fazendo `==` "funcionar" por acidente,
+          `Instant.until()` truncando pra zero + `UnsupportedTemporalTypeException`
+          ao aplicar `Duration` (baseado em tempo) a um `LocalDate`
+          (baseado em data), overlap de DST no fim do horário de verão
+          americano (mesmo `LocalDateTime`, `Instant` diferente conforme
+          o offset escolhido), cast de narrowing do `+=` combinado com
+          promoção de tipo do ternário.
+        - `9-4-practice-io.md` (java-25, I/O, 2026-08-02, sub-agente em
+          paralelo — verificado) — `Files.writeString` com opções
+          explícitas substitui os defaults em vez de somar (armadilha do
+          `APPEND` sem `TRUNCATE_EXISTING`), `Files.exists`/`notExists`
+          não são complementares estritos (os dois podem retornar `false`
+          se a existência não puder ser confirmada), campo `static` nunca
+          é serializado nem restaurado (só reflete o estado atual da
+          classe), `relativize()` entre paths de "tipo" diferente
+          (absoluto vs. relativo) lança `IllegalArgumentException` em
+          runtime, `normalize()` mantém um `..` literal quando não há
+          root pra cancelar num path relativo.
+        - `10-4-practice-localization.md` (java-25, Localization,
+          2026-08-02, sub-agente em paralelo — verificado, exemplos
+          testados de fato compilando/rodando no JDK 25) — `Locale.of()`
+          normaliza case (idioma minúsculo, país maiúsculo) +
+          `toString()` com underscore vs. `toLanguageTag()` BCP 47 com
+          hífen, aspas duplas escapando apóstrofo no `MessageFormat` +
+          semântica de limite do `ChoiceFormat` (`#` é `>=`, `<` é `>`
+          estrito), `DecimalFormatSymbols` explícito por locale (separador
+          de milhar/decimal invertidos no alemão), `ofPattern(pattern,
+          locale)` só localiza o texto dos tokens sem reordenar a
+          estrutura (contraste com `ofLocalizedDate().withLocale()`),
+          `Currency.getDefaultFractionDigits()` guiando o arredondamento
+          do `NumberFormat` de moeda (JPY sem casa decimal).
+        **Nota de processo:** os 20 lotes-sub-agente no total (Beyond
+        Classes, Exceptions/Localization java-21, Exception
+        Handling/Streams/OOP java-25, Making Decisions/Core APIs/I-O/JDBC
+        java-21 + Collections java-25, Building Blocks/Operators/Methods/
+        Modules/Java 25 New Features java-21, e por fim Flow
+        Control/Packaging/Values/I-O/Localization java-25) foram
+        delegados em quatro lotes de 5 sub-agentes em paralelo, cada um
+        restrito a escrever só o `.md` novo + o `contentPath` do seu
+        próprio módulo (proibido tocar nos specs compartilhados ou no
+        work.md, pra evitar conflito de edição simultânea). Todos os 20
+        cumpriram o escopo à risca (confirmado via `git status` a cada
+        lote — nenhum tocou fora do que foi pedido); o conteúdo de cada
+        um foi lido e revisado antes de integrar, e a integração dos
+        specs (`FILLED_PRACTICE_LESSONS` + `content.spec.ts`) foi feita
+        manualmente depois, de uma vez por
         lote, com a mesma verificação de quebrar/restaurar pra confirmar
-        que pega regressão. **O track java-21 (16 módulos) está 100%
-        completo** — todo o que resta é o track java-25 (5 módulos:
-        Values, Flow Control, Packaging, I/O, Localization).
+        que pega regressão.
         Testes de regressão dos dois lados, generalizados pra cobrir
         qualquer lição nova automaticamente: backend
         (`backend/spec/content.spec.ts` + `backend/spec/course-content-paths.spec.ts`
@@ -255,9 +311,12 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         cobre os dois estados: placeholder quando `contentPath` é `null`,
         conteúdo real quando não é — genérico, não precisa de teste novo por
         lição). Todos verificados pegando a regressão de verdade (quebrados
-        de propósito e restaurados). **Restam 5 módulos** sem o "Practice"
-        preenchido — mesmo formato, uma sessão de conteúdo por vez, como o
-        workflow dos livros em `tmp/book/`.
+        de propósito e restaurados). **✅ Concluído (2026-08-02) — as 26
+        lições "Practice" dos dois cursos (java-21 e java-25) têm conteúdo
+        real. 4 lotes de 5 sub-agentes em paralelo + 2 escritas diretas
+        (Concurrency, Class Design), 253 testes de backend + 34 de
+        frontend passando, nenhum arquivo fora do escopo tocado em
+        nenhuma rodada.**
 - [ ] **"Continuar de onde parei."** Não existe atalho pra retomar a última
       lição/exame em andamento. Hoje o usuário precisa navegar até
       `/java/exams` → escolher o exame → achar a lição de novo. Um botão

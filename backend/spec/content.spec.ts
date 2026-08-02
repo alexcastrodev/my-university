@@ -335,5 +335,65 @@ describe('ContentController.serveMarkdown (unit)', () => {
       expect(reply.body as string).toContain('Practice: Java 25 New Features');
       expect(reply.body as string).toContain('Exercise 1');
     });
+
+    it('returns markdown for the java-25 flow control practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '2-6-practice-flow-control.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Flow Control');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 packaging practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '7-9-practice-packaging.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Packaging');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 values practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '1-10-practice-values.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Values');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 io practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '9-4-practice-io.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: I/O');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
+
+    it('returns markdown for the java-25 localization practice lesson content', async () => {
+      const reply = makeReply();
+      await controller.serveMarkdown(
+        'java-25',
+        '10-4-practice-localization.md',
+        reply,
+      );
+      expect(reply.contentType).toBe('text/plain; charset=utf-8');
+      expect(reply.body as string).toContain('Practice: Localization');
+      expect(reply.body as string).toContain('Exercise 1');
+    });
   });
 });
