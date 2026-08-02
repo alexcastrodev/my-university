@@ -18,13 +18,7 @@
         <div class="level-info">
           <span class="level-number">Level {{ summary.level.number }}</span>
           <span class="level-title">{{ summary.level.title }}</span>
-          @if (xpService.streak(); as streak) {
-            <span class="streak-badge" [class.streak-zero]="streak.current === 0">🔥 {{ streak.current }}</span>
-          }
         </div>
-        @if (xpService.streak(); as streak) {
-          <span class="longest-streak-label">Best: {{ streak.longest }}</span>
-        }
         <div class="xp-total">{{ summary.total }} XP</div>
         <div class="progress-bar">
           <div class="progress-fill" [style.width.%]="progressPercent()"></div>
@@ -34,6 +28,45 @@
         } @else {
           <span class="progress-label">Max level reached</span>
         }
+      </div>
+
+      <div class="stats-grid">
+        @if (xpService.streak(); as streak) {
+          <div class="card streak-card">
+            <div class="stat-card-header">
+              <span class="stat-card-icon">🔥</span>
+              <h2 class="section-title">Streak</h2>
+            </div>
+            <div class="streak-stats-row">
+              <div class="streak-stat">
+                <span class="streak-stat-label">Current</span>
+                <span class="streak-stat-value" [class.streak-zero]="streak.current === 0">
+                  {{ streak.current }} <span class="streak-stat-unit">{{ streak.current === 1 ? 'day' : 'days' }}</span>
+                </span>
+              </div>
+              <div class="streak-stat-divider"></div>
+              <div class="streak-stat">
+                <span class="streak-stat-label">Longest</span>
+                <span class="streak-stat-value">
+                  {{ streak.longest }} <span class="streak-stat-unit">{{ streak.longest === 1 ? 'day' : 'days' }}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="card favorite-topic-card">
+          <div class="stat-card-header">
+            <span class="stat-card-icon">⭐</span>
+            <h2 class="section-title">Favorite Topic</h2>
+          </div>
+          @if (favoriteTopic(); as favorite) {
+            <span class="favorite-topic-value">{{ favorite.label }}</span>
+            <span class="favorite-topic-sub">{{ favorite.total }} XP earned</span>
+          } @else {
+            <span class="favorite-topic-empty">Not enough data yet</span>
+          }
+        </div>
       </div>
 
       @if (xpService.dailyGoal(); as goal) {

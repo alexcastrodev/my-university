@@ -57,33 +57,59 @@ describe('ProfilePage', () => {
     expect(fixture.nativeElement.querySelector('.level-card')).toBeNull();
   });
 
-  it('hides the streak badge when no streak data has loaded yet', () => {
+  it('hides the Streak card when no streak data has loaded yet', () => {
     const fixture = setup({ streak: null });
 
-    expect(fixture.nativeElement.querySelector('.streak-badge')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.streak-card')).toBeNull();
   });
 
-  it('shows the current streak count once loaded', () => {
+  it('shows the current and longest streak side by side once loaded', () => {
     const fixture = setup({ streak: { current: 4, longest: 9 } });
 
-    const badge = fixture.nativeElement.querySelector('.streak-badge');
-    expect(badge?.textContent?.trim()).toBe('🔥 4');
-    expect(badge?.classList.contains('streak-zero')).toBe(false);
+    const values: HTMLElement[] = fixture.nativeElement.querySelectorAll('.streak-stat-value');
+    expect(values[0].textContent?.trim()).toContain('4');
+    expect(values[0].querySelector('.streak-stat-unit')?.textContent).toBe('days');
+    expect(values[0].classList.contains('streak-zero')).toBe(false);
+    expect(values[1].textContent?.trim()).toContain('9');
+    expect(values[1].querySelector('.streak-stat-unit')?.textContent).toBe('days');
   });
 
-  it('shows the longest streak as a separate, always-visible label', () => {
-    const fixture = setup({ streak: { current: 4, longest: 9 } });
+  it('uses singular wording for a 1-day streak', () => {
+    const fixture = setup({ streak: { current: 1, longest: 1 } });
 
-    const label = fixture.nativeElement.querySelector('.longest-streak-label');
-    expect(label?.textContent?.trim()).toBe('Best: 9');
+    const values: HTMLElement[] = fixture.nativeElement.querySelectorAll('.streak-stat-value');
+    expect(values[0].querySelector('.streak-stat-unit')?.textContent).toBe('day');
   });
 
-  it('dims the streak badge when the current streak is zero', () => {
+  it('dims the current streak value when it is zero', () => {
     const fixture = setup({ streak: { current: 0, longest: 9 } });
 
-    const badge = fixture.nativeElement.querySelector('.streak-badge');
-    expect(badge?.textContent?.trim()).toBe('🔥 0');
-    expect(badge?.classList.contains('streak-zero')).toBe(true);
+    const values: HTMLElement[] = fixture.nativeElement.querySelectorAll('.streak-stat-value');
+    expect(values[0].classList.contains('streak-zero')).toBe(true);
+  });
+
+  it('shows the favorite topic based on the highest XP breakdown entry', () => {
+    const fixture = setup({
+      summary: {
+        total: 200,
+        level: { number: 2, title: 'Syntax Sprout', minXp: 100, nextLevelXp: 300 },
+        breakdown: [
+          { sourceType: 'lesson', total: 50 },
+          { sourceType: 'concept-read', total: 150 },
+        ],
+      },
+    });
+
+    expect(fixture.nativeElement.querySelector('.favorite-topic-value')?.textContent).toContain('Java Concepts');
+    expect(fixture.nativeElement.querySelector('.favorite-topic-sub')?.textContent).toContain('150 XP earned');
+  });
+
+  it('shows an empty state for favorite topic when there is no XP yet', () => {
+    const fixture = setup({
+      summary: { total: 0, level: { number: 1, title: 'Hello World', minXp: 0, nextLevelXp: 100 }, breakdown: [] },
+    });
+
+    expect(fixture.nativeElement.querySelector('.favorite-topic-empty')?.textContent).toContain('Not enough data yet');
   });
 
   it('shows the daily goal progress and remaining XP', () => {

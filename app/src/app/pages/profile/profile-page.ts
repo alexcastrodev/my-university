@@ -35,6 +35,14 @@ export class ProfilePage implements OnInit {
     return Math.min(100, Math.round((goal.earnedToday / goal.goal) * 100));
   });
 
+  /** The XP source with the most XP earned — the topic the user has engaged with the most. */
+  favoriteTopic = computed(() => {
+    const breakdown = this.xpService.summary()?.breakdown ?? [];
+    if (breakdown.length === 0) return null;
+    const top = [...breakdown].sort((a, b) => b.total - a.total)[0];
+    return { label: this.sourceLabel(top.sourceType), total: top.total };
+  });
+
   ngOnInit(): void {
     if (!this.auth.currentUser()) return;
     this.xpService.loadSummary();
