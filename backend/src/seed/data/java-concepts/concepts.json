@@ -151,5 +151,18 @@
       { "label": "Pattern — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html", "type": "doc" },
       { "label": "Matcher — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "project-valhalla",
+    "id": 13,
+    "title": "Project Valhalla: Value Classes",
+    "summary": "Why objects cost more than primitives (identity, header, heap allocation, GC pressure), how Value Classes let the JVM drop that overhead for types that are just their data, and why List<int> still doesn't exist because of generics' type erasure.",
+    "publishedAt": "2026-08-02",
+    "references": [
+      { "label": "JEP 401: Value Classes and Objects (Preview)", "url": "https://openjdk.org/jeps/401", "type": "doc" },
+      { "label": "JEP 402: Enhanced Primitive Boxing (Preview)", "url": "https://openjdk.org/jeps/402", "type": "doc" },
+      { "label": "Project Valhalla — OpenJDK", "url": "https://openjdk.org/projects/valhalla/", "type": "doc" },
+      { "label": "Project Valhalla — State of Valhalla (Brian Goetz)", "url": "https://openjdk.org/projects/valhalla/design-notes/state-of-valhalla/01-background", "type": "doc" }
+    ]
   }
 ]
