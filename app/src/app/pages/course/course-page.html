@@ -55,9 +55,14 @@
               <strong>Ready to test your knowledge?</strong>
               <span>{{ questionCount() }} questions · {{ durationMinutes() }} minutes · {{ passingScore() }}% passing score</span>
             </div>
-            <a [routerLink]="['/java/exam', examId(), 'quiz']" class="quiz-btn">
-              Start Practice Exam →
-            </a>
+            <div class="quiz-banner-actions">
+              @if (auth.currentUser()) {
+                <a [routerLink]="['/java/exam', examId(), 'attempts']" class="attempts-link">View past attempts</a>
+              }
+              <a [routerLink]="['/java/exam', examId(), 'quiz']" class="quiz-btn">
+                Start Practice Exam →
+              </a>
+            </div>
           </div>
         </app-course-view>
       }

@@ -92,6 +92,25 @@
   opacity: .88;
 }
 
+.quiz-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.attempts-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.attempts-link:hover {
+  color: #fff;
+}
+
 .lesson-header {
   display: flex;
   align-items: center;

@@ -74,6 +74,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/review/review-page').then((m) => m.ReviewPage),
   },
   {
+    path: 'java/exam/:examId/attempts',
+    loadComponent: () => import('./pages/attempts/attempts-page').then((m) => m.AttemptsPage),
+  },
+  {
     path: 'java/exam/:examId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

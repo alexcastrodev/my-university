@@ -281,4 +281,20 @@ describe('GET /exam/:examId/attempts', () => {
       expect(dates[i - 1]).toBeGreaterThanOrEqual(dates[i]);
     }
   });
+
+  it('omits answers/review from the list — those are only served by the single-attempt endpoint', async () => {
+    const { cookie } = await login(`attempts-light-${Date.now()}`);
+    const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=2`));
+    const created = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}, { Cookie: cookie }));
+    await post(`/exam/attempts/${created.id}/submit`, {
+      answers: {},
+      questionIds: questions.map((q) => q.id),
+    }, { Cookie: cookie });
+
+    const body = await json<any[]>(await get(`/exam/${EXAM_ID}/attempts`, { Cookie: cookie }));
+    const found = body.find((a) => a.id === created.id);
+    expect(found).toMatchObject({ id: created.id, score: expect.any(Number), total: expect.any(Number) });
+    expect(found).not.toHaveProperty('answers');
+    expect(found).not.toHaveProperty('review');
+  });
 });

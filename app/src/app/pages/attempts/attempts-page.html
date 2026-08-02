@@ -1,0 +1,41 @@
+<div class="attempts-page">
+  <div class="attempts-header">
+    <a [routerLink]="['/java/exam', examId()]" class="back-link">← Back to course</a>
+    <h1 class="attempts-title">Attempt History</h1>
+    @if (examTitle()) {
+      <p class="attempts-sub">{{ examTitle() }}</p>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="center">
+      <span class="spinner" aria-hidden="true"></span>
+      Loading attempts…
+    </div>
+  } @else if (!auth.currentUser()) {
+    <div class="center-message">
+      <p>Log in to see your past attempts — anonymous attempts aren't saved to a history.</p>
+      <a routerLink="/login" class="action-btn primary">Log In</a>
+    </div>
+  } @else if (finishedAttempts().length === 0) {
+    <div class="center-message">
+      <p>No completed attempts yet.</p>
+      <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">Start Practice Exam →</a>
+    </div>
+  } @else {
+    <div class="attempts-list">
+      @for (a of finishedAttempts(); track a.id) {
+        <a [routerLink]="['/java/exam', examId(), 'result', a.id]" class="attempt-row">
+          <div class="attempt-date">{{ a.finishedAt | date: 'medium' }}</div>
+          <div class="attempt-score">
+            <span class="attempt-percent" [class.pass]="passed(a)" [class.fail]="!passed(a)">{{ percentOf(a) }}%</span>
+            <span class="attempt-count">{{ a.score }}/{{ a.total }}</span>
+          </div>
+          <span class="attempt-badge" [class.pass]="passed(a)" [class.fail]="!passed(a)">
+            {{ passed(a) ? 'Pass' : 'Fail' }}
+          </span>
+        </a>
+      }
+    </div>
+  }
+</div>

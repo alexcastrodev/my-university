@@ -22,6 +22,9 @@ export interface SubmitResult {
   review: QuestionReview[];
 }
 
+/** History-list shape — the fields returned by getAttempts(), omitting answers/review. */
+export type AttemptSummary = Pick<ExamAttempt, 'id' | 'examId' | 'startedAt' | 'finishedAt' | 'score' | 'total'>;
+
 @Injectable()
 export class ExamService {
   constructor(
@@ -137,9 +140,14 @@ export class ExamService {
     };
   }
 
-  getAttempts(examId: string, userId?: number | null): Promise<ExamAttempt[]> {
+  /** Lightweight history list — omits `answers`/`review`, which can be large and aren't needed to render a list. */
+  getAttempts(examId: string, userId?: number | null): Promise<AttemptSummary[]> {
     if (!userId) return Promise.resolve([]);
-    return this.attemptRepo.find({ where: { examId, userId }, order: { startedAt: 'DESC' } });
+    return this.attemptRepo.find({
+      where: { examId, userId },
+      order: { startedAt: 'DESC' },
+      select: { id: true, examId: true, startedAt: true, finishedAt: true, score: true, total: true },
+    });
   }
 
   async getAttempt(examId: string, id: number, requesterId?: number | null): Promise<ExamAttempt | null> {

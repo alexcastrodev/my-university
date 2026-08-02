@@ -48,11 +48,37 @@ search) — não é um plano formal, é uma lista de ideias pra priorizar depois
         arquivo novo — a página não tinha spec antes), todos passando
         (41/41 relevantes, as 2 falhas restantes são as mesmas
         pré-existentes sem relação).
-- [ ] **Histórico de tentativas.** O backend já expõe
-      `GET /api/exam/:id/attempts` com o histórico completo, mas o frontend
-      só usa isso como fallback pra achar 1 attempt (`result-page.ts:56`).
-      Não tem nenhuma tela "minhas tentativas anteriores" — dá pra ver
-      evolução de score ao longo do tempo, comparar tentativas, etc.
+- [x] **Histórico de tentativas — feito (2026-08-02).** Nova tela
+      `/java/exam/:examId/attempts` (`app/src/app/pages/attempts/`) — lista
+      as tentativas finalizadas do usuário logado (score, %, pass/fail),
+      cada linha linkando pro result-page daquela tentativa. Link "View
+      past attempts" adicionado no banner do quiz no course-page (só
+      aparece logado, já que tentativa anônima não é salva no histórico).
+      - **Otimização de payload feita junto:** `GET /exam/:examId/attempts`
+        (usado pela lista) devolvia `answers`/`review` completos de *toda*
+        tentativa histórica — para um exame de 200 perguntas, isso é um
+        payload gigante por tentativa só pra mostrar score+data numa
+        lista. Adicionado `select` no TypeORM (`backend/src/exam/exam.service.ts`)
+        pra devolver só os campos leves (`id`/`examId`/`startedAt`/
+        `finishedAt`/`score`/`total`); a tela de detalhe/revisão continua
+        usando o `GET .../attempts/:id` singular (não afetado, continua
+        completo). Novo tipo `ExamAttemptSummary` no frontend pra refletir
+        isso honestamente no TS (em vez de fingir que `answers`/`review`
+        ainda existem no retorno da lista).
+      - Testado ao vivo contra um backend real (mesmo processo de antes —
+        Docker Postgres isolado + `nest start` + `curl`): confirmado que a
+        lista vem só com os 6 campos leves e que o endpoint singular
+        continua completo. **Achado de processo durante esse teste:** um
+        processo `nest start` anterior tinha ficado vivo na porta 3000
+        sem eu perceber (o `kill` não tinha realmente matado o processo
+        filho) e respondia com código desatualizado — só percebi
+        conferindo com `lsof -i :3000` depois do resultado não bater;
+        salvo em memória pra próxima vez.
+      - Specs: `backend/spec/exam.spec.ts` ganhou 1 caso novo confirmando
+        que `answers`/`review` não aparecem na lista. Frontend:
+        `attempts-page.spec.ts` (3 casos — prompt de login, lista
+        filtrando tentativas não-finalizadas, estado vazio), todos
+        passando (44/44 relevantes).
 - [ ] **Fila de revisão espaçada pros concepts.** Hoje "read" é só um
       booleano (lido/não lido). Pra um app de estudo, "marcado como lido" e
       "eu realmente lembro disso" são coisas bem diferentes. Uma revisão tipo

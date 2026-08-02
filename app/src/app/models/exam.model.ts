@@ -52,6 +52,16 @@ export interface ExamAttempt {
   review: QuestionReview[] | null;
 }
 
+/** Lightweight attempt shape used for history lists — omits answers/review, which the list endpoint doesn't send. */
+export interface ExamAttemptSummary {
+  id: number;
+  examId: string;
+  startedAt: string;
+  finishedAt: string | null;
+  score: number;
+  total: number;
+}
+
 export interface SubmitResult {
   id: number;
   examId: string;
