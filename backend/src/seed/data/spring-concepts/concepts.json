@@ -213,5 +213,216 @@
       { "label": "Spring Batch API — LimitCheckingItemSkipPolicy", "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/step/skip/LimitCheckingItemSkipPolicy.html", "type": "doc" },
       { "label": "Spring Batch 6.0 release announcement", "url": "https://spring.io/blog/2025/08/20/spring-batch-6/", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-data-jpa-repositories",
+    "id": 16,
+    "category": "Spring Boot",
+    "title": "Persisting Data with Spring Data JPA Repositories",
+    "summary": "How annotating domain classes as JPA entities and extending CrudRepository gives you a working persistence layer with zero implementation code, and how Spring Data parses derived query method names (findByDeliveryZip, readOrdersByDeliveryZipAndPlacedAtBetween) into real queries, with @Query as the escape hatch.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.2, p. 75-83", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Data JPA Reference — Repository core concepts (CrudRepository, ListCrudRepository, JpaRepository)", "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/core-concepts.html", "type": "doc" },
+      { "label": "Spring Data JPA Reference — Query methods derived from method names", "url": "https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html", "type": "doc" },
+      { "label": "Vlad Mihalcea — The best way to use Java Records with JPA and Hibernate", "url": "https://vladmihalcea.com/java-records-jpa-hibernate/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-authentication-provider-contract",
+    "id": 17,
+    "category": "Spring Security",
+    "title": "Spring Security: the Authentication and AuthenticationProvider Contracts",
+    "summary": "How Spring Security represents an in-flight or completed authentication request via the Authentication interface, and how AuthenticationProvider's authenticate()/supports() pair lets multiple authentication schemes coexist behind one AuthenticationManager.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 5, \"Implementing authentication\", section 5.1, p. 104-112", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authentication Architecture", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html", "type": "doc" },
+      { "label": "Spring Security API — AuthenticationProvider", "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/authentication/AuthenticationProvider.html", "type": "doc" },
+      { "label": "Spring Security API — Authentication", "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/core/Authentication.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-repository-database-configuration",
+    "id": 18,
+    "category": "Spring Batch",
+    "title": "Spring Batch Job Repository: Choosing and Configuring the Persistence Layer",
+    "summary": "How the book's <batch:job-repository> XML attributes (data-source, transaction-manager, isolation-level-for-create, table-prefix, max-varchar-length, lob-handler) configure the one JobRepository implementation Spring Batch ships, SimpleJobRepository, and how the same attributes map onto today's @EnableJdbcJobRepository — including why isolation-level-for-create defaults to SERIALIZABLE as a safeguard against launching the same job instance twice from different nodes.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", section 3.3, \"Configuring the job repository\", p. 72-75", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Configuring a JobRepository (@EnableJdbcJobRepository, JdbcJobRepositoryFactoryBean)", "url": "https://docs.spring.io/spring-batch/reference/job/configuring-repository.html", "type": "doc" },
+      { "label": "Spring Batch Reference — What's New in Spring Batch 6 (JobRepository now extends JobExplorer)", "url": "https://docs.spring.io/spring-batch/reference/whatsnew.html", "type": "doc" },
+      { "label": "Spring Batch API — Deprecated List (lobHandler / setLobHandler removal)", "url": "https://docs.spring.io/spring-batch/docs/current/api/deprecated-list.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-boot-configuration-properties",
+    "id": 19,
+    "category": "Spring Boot",
+    "title": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
+    "summary": "How the Spring environment abstraction aggregates properties from JVM system properties, OS environment variables, command-line arguments, and application.yml/properties into one source, and how a few hundred built-in configuration properties (server.port, spring.datasource.*, logging.level.*) let you tune Spring Boot's autoconfigured beans without writing a single @Bean method.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.1, p. 114-122", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Boot Reference — Externalized Configuration", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Database Initialization (spring.sql.init.*)", "url": "https://docs.spring.io/spring-boot/how-to/data-initialization.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Logging (logging.file.name/logging.file.path)", "url": "https://docs.spring.io/spring-boot/reference/features/logging.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Configure a DataSource (connection pool auto-detection order)", "url": "https://docs.spring.io/spring-boot/how-to/data-access.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-context-thread-propagation",
+    "id": 20,
+    "category": "Spring Security",
+    "title": "Spring Security: SecurityContext Storage and Thread Propagation",
+    "summary": "How SecurityContextHolder stores the Authentication after login via three strategies (MODE_THREADLOCAL, MODE_INHERITABLETHREADLOCAL, MODE_GLOBAL), and how DelegatingSecurityContextCallable/ExecutorService propagate the security context to self-managed threads the framework doesn't know about.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 5, \"Implementing authentication\", section 5.2, p. 113-124", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Servlet Authentication Architecture (SecurityContextHolder)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html", "type": "doc" },
+      { "label": "Spring Security Reference — Authentication Persistence and Session Management (SecurityContextHolderStrategy)", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html", "type": "doc" },
+      { "label": "Spring Security API — SecurityContextHolderStrategy", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolderStrategy.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-step-scope-and-spel-late-binding",
+    "id": 21,
+    "category": "Spring Batch",
+    "title": "Spring Batch Step Scope and SpEL Late Binding",
+    "summary": "How Spring Batch's custom StepScope bean scope delays bean instantiation until a step actually starts, and how SpEL expressions against jobParameters/jobExecutionContext/stepExecutionContext let a reader, writer, or tasklet pull in a value — like an input filename — that's only known at launch time instead of being hardcoded in configuration.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", sections 3.4.1-3.4.2, p. 75-78", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Late Binding of Job and Step Attributes", "url": "https://docs.spring.io/spring-batch/reference/step/late-binding.html", "type": "doc" },
+      { "label": "Spring Batch API — StepScope", "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/scope/StepScope.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-boot-custom-configuration-properties",
+    "id": 22,
+    "category": "Spring Boot",
+    "title": "Creating Your Own Configuration Properties with @ConfigurationProperties",
+    "summary": "How @ConfigurationProperties turns any bean's setters into configuration-driven values, why extracting them into a dedicated holder bean keeps controllers and services clean, and how to generate IDE metadata for custom properties — plus why records with constructor binding are now the preferred alternative to a mutable, Lombok-backed holder class.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.2, p. 122-129", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Boot Reference — Externalized Configuration (Type-safe Configuration Properties)", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Configuration Metadata (Generating Your Own Metadata via the Annotation Processor)", "url": "https://docs.spring.io/spring-boot/specification/configuration-metadata/annotation-processor.html", "type": "doc" },
+      { "label": "Spring Boot API — ConfigurationPropertiesScan", "url": "https://docs.spring.io/spring-boot/api/java/org/springframework/boot/context/properties/ConfigurationPropertiesScan.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-http-basic-and-form-login",
+    "id": 23,
+    "category": "Spring Security",
+    "title": "Spring Security: HTTP Basic and Form-Based Login Authentication",
+    "summary": "How httpBasic() and formLogin() configure Spring Security's two built-in authentication methods, how AuthenticationEntryPoint/AuthenticationSuccessHandler/AuthenticationFailureHandler customize their failure and success behavior, and how the two methods can run side by side on the same application.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 5, \"Implementing authentication\", section 5.3, p. 125-133", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Basic Authentication", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html", "type": "doc" },
+      { "label": "Spring Security Reference — Form Login", "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/form.html", "type": "doc" },
+      { "label": "Spring Security Reference — Configuration Migrations (Spring Security 7, .and() removal, mandatory Customizer)", "url": "https://docs.spring.io/spring-security/reference/6.5/migration-7/configuration.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-execution-listeners",
+    "id": 24,
+    "category": "Spring Batch",
+    "title": "Spring Batch Listeners: Hooking Into Job, Step, and Item Lifecycle Events",
+    "summary": "How JobExecutionListener/StepExecutionListener/ChunkListener and the per-item ItemReadListener/ItemProcessListener/ItemWriteListener/SkipListener interfaces let you plug notification and error-handling logic into a batch job's lifecycle without touching the job's own reader/processor/writer code, and how @BeforeStep/@AfterStep-style annotations offer the same hooks on a plain POJO instead of an interface implementation.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", section 3.4.3, \"Using listeners to provide additional processing\", p. 78-83", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Intercepting Step Execution (listener interfaces and annotations)", "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/intercepting-execution.html", "type": "doc" },
+      { "label": "Spring Batch API — Deprecated List (RepeatListenerSupport removal)", "url": "https://docs.spring.io/spring-batch/docs/current/api/deprecated-list.html", "type": "doc" },
+      { "label": "Spring Framework API — RetryListener (org.springframework.core.retry)", "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/retry/RetryListener.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-boot-profiles",
+    "id": 25,
+    "category": "Spring Boot",
+    "title": "Environment-Specific Configuration with Spring Profiles",
+    "summary": "How Spring profiles let different properties and beans apply depending on which profile is active, why setting spring.profiles.active outside of application.yml keeps environment-specific config properly separated, and how the book's multi-document spring.profiles: prod YAML syntax has since been replaced by spring.config.activate.on-profile.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.3, p. 129-133", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Boot Reference — Profiles", "url": "https://docs.spring.io/spring-boot/reference/features/profiles.html", "type": "doc" },
+      { "label": "Spring Boot Reference — Externalized Configuration (Multi-Document Files, spring.config.activate.on-profile)", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html", "type": "doc" },
+      { "label": "Spring Framework API — @Profile", "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-authorization-authorities-and-roles",
+    "id": 26,
+    "category": "Spring Security",
+    "title": "Spring Security Authorization: Authorities and Roles",
+    "summary": "How Spring Security decides, after authentication succeeds, whether a request is actually allowed — via the GrantedAuthority contract, the hasAuthority()/hasAnyAuthority() methods for fine-grained authorities, hasRole()/hasAnyRole() and the ROLE_ prefix convention for coarser-grained roles, and denyAll() for blanket restrictions — plus the access() method's escape hatch into raw SpEL for anything the named methods can't express.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 7, \"Configuring authorization: Restricting access\", section 7.1, p. 153-171", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authorize HttpServletRequests", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html", "type": "doc" },
+      { "label": "Spring Security API — WebExpressionAuthorizationManager", "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/access/expression/WebExpressionAuthorizationManager.html", "type": "doc" },
+      { "label": "Spring Security 5.8 Migration Guide — Authorization Migrations (authorizeRequests to authorizeHttpRequests)", "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-xml-configuration-inheritance",
+    "id": 27,
+    "category": "Spring Batch",
+    "title": "Spring Batch XML Configuration Inheritance: abstract and parent",
+    "summary": "How Spring Batch's XML vocabulary reuses plain Spring's abstract/parent bean-inheritance mechanism to let a job or step definition inherit and override another's attributes, how the merge=\"true\" flag combines rather than replaces a parent's listener list, and why Java configuration has no direct equivalent — reuse there is achieved by extracting shared configuration into ordinary Java methods instead of a dedicated inheritance keyword.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 3, \"Batch configuration\", section 3.4.4, \"Configuration inheritance\", p. 83-86", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Inheriting from a Parent Step", "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/inheriting-from-parent.html", "type": "doc" },
+      { "label": "Spring Batch Reference — Configuring a Step (StepBuilder)", "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/configuring.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — XML namespace deprecation", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-boot-rest-controllers",
+    "id": 28,
+    "category": "Spring Boot",
+    "title": "Writing RESTful Controllers with Spring MVC",
+    "summary": "How @RestController and the HTTP-method mapping annotations (@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping) map CRUD operations onto REST endpoints, why PUT and PATCH have genuinely different replace-vs-merge semantics that the annotations alone don't enforce, and how Spring Framework 6's ProblemDetail (RFC 7807) now gives 404s and other error responses a structured body instead of an empty one.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.1, p. 138-149", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Framework Reference — Annotated Controllers (Mapping Requests)", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html", "type": "doc" },
+      { "label": "Spring Framework Reference — Error Responses (ProblemDetail, RFC 7807)", "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html", "type": "doc" },
+      { "label": "Spring Framework API — ProblemDetail", "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ProblemDetail.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-authorization-matcher-methods",
+    "id": 29,
+    "category": "Spring Security",
+    "title": "Spring Security: Selecting Requests with Matcher Methods",
+    "summary": "How Spring Security's matcher methods (anyRequest(), mvcMatchers()/requestMatchers()) select which requests an authorization rule applies to, why rule order must go from specific to general, how to combine a path with an HTTP method, and why the book's own security argument for preferring MVC matchers over Ant matchers is now built into requestMatchers() by default.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 8, \"Configuring authorization: Applying restrictions\", sections 8.1-8.2, p. 172-184", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authorize HttpServletRequests (requestMatchers)", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html", "type": "doc" },
+      { "label": "Spring Security 5.8 Migration Guide — Authorization Migrations", "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html", "type": "doc" },
+      { "label": "Spring Security API — RequestMatcher", "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/web/util/matcher/RequestMatcher.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-launcher-api-and-async-launching",
+    "id": 30,
+    "category": "Spring Batch",
+    "title": "The Spring Batch Launcher API: Synchronous vs. Asynchronous Job Launches",
+    "summary": "How the JobLauncher interface's single run(Job, JobParameters) method starts a job execution, why the default launch is synchronous and blocks the calling thread until the job finishes, how supplying a TaskExecutor makes it asynchronous instead, and how JobLauncher/SimpleJobLauncher/TaskExecutorJobLauncher have all been deprecated since Spring Batch 6.0 in favor of JobOperator/TaskExecutorJobOperator.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 4, \"Running batch jobs\", section 4.1, \"Launching concepts\", p. 88-92", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch API — JobOperator (6.0)", "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/launch/JobOperator.html", "type": "doc" },
+      { "label": "Spring Batch API — TaskExecutorJobOperator", "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/launch/support/TaskExecutorJobOperator.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
   }
 ]

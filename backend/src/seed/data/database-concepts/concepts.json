@@ -201,5 +201,145 @@
       { "label": "PostgreSQL Documentation — Explicit Joins (LEFT/RIGHT/FULL JOIN)", "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html", "type": "doc" },
       { "label": "SQL Server Documentation — Subqueries (scalar subqueries in the SELECT list)", "url": "https://learn.microsoft.com/en-us/sql/relational-databases/performance/subqueries", "type": "doc" }
     ]
+  },
+  {
+    "slug": "postgresql-cache-warming-after-restart",
+    "id": 15,
+    "category": "PostgreSQL",
+    "title": "Defusing Cache Poisoning: Warming PostgreSQL's Cache After a Restart",
+    "summary": "Why a cold OS/shared-buffer cache after a crash or restart can make a technically 'up' PostgreSQL server unusably slow, how to snapshot and reload the most active tables and indexes with pgFincore or pg_prewarm, and how pg_prewarm's autoprewarm background worker — already available well before PostgreSQL 12 — automates the entire snapshot/restore recipe without a hand-built active_snap table.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Defusing cache poisoning\", p. 106-110", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pg_prewarm (including the autoprewarm background worker)", "url": "https://www.postgresql.org/docs/current/pgprewarm.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — The Cumulative Statistics System (pg_stat_user_tables, pg_stat_user_indexes)", "url": "https://www.postgresql.org/docs/current/monitoring-stats.html", "type": "doc" },
+      { "label": "pgFincore — GitHub repository and documentation", "url": "https://github.com/klando/pgfincore", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-comparing-two-tables-for-equality",
+    "id": 16,
+    "category": "SQL",
+    "title": "Comparing Two Tables for Equality (Cardinality and Values)",
+    "summary": "Use a symmetric set difference (EXCEPT/MINUS, or a correlated-subquery fallback) to prove two tables or views hold exactly the same rows, duplicates included.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipe 3.7, p. 44-50", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "MySQL Reference Manual — Set Operations with UNION, INTERSECT, and EXCEPT", "url": "https://dev.mysql.com/doc/refman/8.0/en/set-operations.html", "type": "doc" },
+      { "label": "Microsoft Learn — EXCEPT and INTERSECT (Transact-SQL)", "url": "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/set-operators-except-and-intersect-transact-sql", "type": "doc" },
+      { "label": "PostgreSQL Documentation — 7.4. Combining Queries (UNION, INTERSECT, EXCEPT)", "url": "https://www.postgresql.org/docs/current/queries-union.html", "type": "doc" },
+      { "label": "Oracle Database SQL Language Reference — The UNION [ALL], INTERSECT, MINUS Operators", "url": "https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/The-UNION-ALL-INTERSECT-MINUS-Operators.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-terminating-rogue-connections",
+    "id": 17,
+    "category": "PostgreSQL",
+    "title": "Terminating Rogue Connections: pg_cancel_backend, pg_terminate_backend, and tcpkill",
+    "summary": "The escalation path for evicting a misbehaving PostgreSQL client — from querying pg_stat_activity for long-running or idle-in-transaction sessions, through the gentler pg_cancel_backend() and the forceful pg_terminate_backend(), down to a network-level tcpkill when the client refuses to acknowledge termination — and how PostgreSQL 14's optional timeout argument on pg_terminate_backend() now lets the function itself wait for confirmation instead of requiring a manual re-check query.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Terminating rogue connections\", p. 111-114", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — System Administration Functions (pg_cancel_backend, pg_terminate_backend)", "url": "https://www.postgresql.org/docs/current/functions-admin.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — The Cumulative Statistics System (pg_stat_activity)", "url": "https://www.postgresql.org/docs/current/monitoring-stats.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Resource Consumption (statement_timeout, idle_in_transaction_session_timeout, idle_session_timeout, transaction_timeout)", "url": "https://www.postgresql.org/docs/current/runtime-config-client.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-avoiding-cartesian-products",
+    "id": 18,
+    "category": "SQL",
+    "title": "Identifying and Avoiding Cartesian Products",
+    "summary": "How a missing or incomplete join condition silently multiplies row counts instead of erroring out, why the resulting row count is always the product of the input cardinalities, and why explicit ANSI JOIN syntax catches the mistake at parse time where old-style comma joins let it run.",
+    "publishedAt": "2026-08-03",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipe 3.8, p. 51", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — 7.2.1. Joined Tables (CROSS JOIN vs. old-style comma FROM)", "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — JOIN Clause", "url": "https://dev.mysql.com/doc/refman/8.0/en/join.html", "type": "doc" },
+      { "label": "Microsoft Learn — FROM (Transact-SQL), joined tables", "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-concurrent-index-creation",
+    "id": 19,
+    "category": "PostgreSQL",
+    "title": "Reducing Contention with Concurrent Index Creation",
+    "summary": "Why a plain CREATE INDEX locks a table against every write for the whole build, how CREATE INDEX CONCURRENTLY trades a slower, two-scan build for zero write blocking, its hard restrictions (no transaction block, one build per table, OLTP lock-wait pileups), and how today's official docs cover a real gap in the book's recipe: what to do when a concurrent build fails and leaves an INVALID index behind, plus REINDEX CONCURRENTLY — already available in the book's own target version, PostgreSQL 12, but never mentioned in the recipe.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Reducing contention with concurrent indexes\", p. 114-117", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — CREATE INDEX (Building Indexes Concurrently)", "url": "https://www.postgresql.org/docs/current/sql-createindex.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — REINDEX (Rebuilding Indexes Concurrently)", "url": "https://www.postgresql.org/docs/current/sql-reindex.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-joins-with-aggregates-avoiding-fanout",
+    "id": 20,
+    "category": "SQL",
+    "title": "Performing Joins When Using Aggregates: Avoiding Fan-Out",
+    "summary": "Why joining before aggregating can silently inflate a SUM by counting a duplicated row more than once, and how to fix it with SUM(DISTINCT ...), pre-aggregating in a subquery before the join, or a window function on DB2/Oracle/SQL Server.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipe 3.9, p. 52-56", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Window Functions", "url": "https://www.postgresql.org/docs/current/tutorial-window.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — Window Function Concepts and Syntax", "url": "https://dev.mysql.com/doc/refman/8.4/en/window-functions-usage.html", "type": "doc" },
+      { "label": "Microsoft Learn — OVER Clause (Transact-SQL)", "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-server-migration-via-streaming-replication",
+    "id": 21,
+    "category": "PostgreSQL",
+    "title": "Migrating a PostgreSQL Server with Streaming Replication",
+    "summary": "How to move a PostgreSQL database to new hardware with minimal downtime by building a streaming replica with pg_basebackup, waiting for it to catch up, then promoting it to primary — plus two gaps in the book's own PostgreSQL 12-era recipe: pg_stat_replication's sent_location/replay_location columns were already renamed to sent_lsn/replay_lsn back in PostgreSQL 10, and pg_basebackup's -R flag already automated the manual standby.signal/primary_conninfo setup the recipe walks through by hand.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Managing system migrations\", p. 118-121", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pg_basebackup", "url": "https://www.postgresql.org/docs/current/app-pgbasebackup.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — The Cumulative Statistics System (pg_stat_replication)", "url": "https://www.postgresql.org/docs/current/monitoring-stats.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Log-Shipping Standby Servers", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-outer-joins-with-aggregates",
+    "id": 22,
+    "category": "SQL",
+    "title": "Performing Outer Joins When Using Aggregates",
+    "summary": "How to correctly sum a column across every row of a table when a second, joined table only has matching rows for some of them — outer join instead of inner join, and let the CASE expression treat a NULL match as zero instead of skipping the row.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipe 3.10, p. 57-59", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Window Functions", "url": "https://www.postgresql.org/docs/current/tutorial-window.html", "type": "doc" },
+      { "label": "PostgreSQL mailing list — DISTINCT support inside window aggregate functions (WIP patch, still unmerged)", "url": "https://www.postgresql.org/message-id/CAN1Pwonf4waD+PWkEFK8ANLua8fPjZ4DmV+hixO62+LiR8gwaA@mail.gmail.com", "type": "doc" },
+      { "label": "MySQL Reference Manual — Window Function Concepts and Syntax", "url": "https://dev.mysql.com/doc/refman/8.4/en/window-functions-usage.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-minor-upgrades-via-node-switching",
+    "id": 23,
+    "category": "PostgreSQL",
+    "title": "Applying PostgreSQL Software Upgrades with Zero Downtime via Node Switching",
+    "summary": "How to patch PostgreSQL on both nodes of a primary/replica pair without ever taking the database fully offline, by upgrading the idle replica first, cutting over to it as the new primary, then rebuilding the old primary as a fresh replica — plus why pg_rewind, already available at the book's own PostgreSQL 12 target, replaces the recipe's wasteful full pg_basebackup re-copy of the demoted node.",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Managing software upgrades\", p. 122-126", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pg_rewind", "url": "https://www.postgresql.org/docs/current/app-pgrewind.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pg_basebackup", "url": "https://www.postgresql.org/docs/current/app-pgbasebackup.html", "type": "doc" },
+      { "label": "PostgreSQL 18 Release Notes — initdb defaults to enabling data checksums", "url": "https://www.postgresql.org/docs/release/18.0/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-full-outer-joins-for-missing-data",
+    "id": 24,
+    "category": "SQL",
+    "title": "Returning Missing Data from Both Tables with FULL OUTER JOIN",
+    "summary": "How to return unmatched rows from both sides of a join at once — departments with no employees and employees with no department, simultaneously — using FULL OUTER JOIN where it's supported, or a UNION of a LEFT and RIGHT outer join where it isn't (MySQL, and Oracle's proprietary (+) syntax).",
+    "publishedAt": "2026-08-04",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 3, \"Working with Multiple Tables\", recipe 3.11, p. 60-63", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Joined Tables (FULL [OUTER] JOIN)", "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — JOIN Clause (no native FULL OUTER JOIN)", "url": "https://dev.mysql.com/doc/refman/8.0/en/join.html", "type": "doc" },
+      { "label": "Oracle Database SQL Language Reference — Joins (ANSI outer join syntax since Oracle 9i)", "url": "https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/SELECT.html", "type": "doc" }
+    ]
   }
 ]

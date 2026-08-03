@@ -54,6 +54,7 @@
       { "label": "CAP Theorem", "slug": "cap-theorem" },
       { "label": "Distributed ID Generation", "slug": "distributed-id-generation" },
       { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
       "Chord (peer-to-peer DHT)"
     ],
     "references": [
@@ -244,6 +245,51 @@
       { "label": "Apache Kafka Documentation — Introduction and Design", "url": "https://kafka.apache.org/documentation/#introduction", "type": "doc" },
       { "label": "Confluent — KRaft: Apache Kafka Without ZooKeeper", "url": "https://developer.confluent.io/learn/kraft/", "type": "doc" },
       { "label": "AWS — Choosing Between Amazon SQS and Amazon Kinesis", "url": "https://docs.aws.amazon.com/whitepapers/latest/streaming-data-solutions-on-aws/amazon-sqs.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "load-balancing-strategies",
+    "id": 12,
+    "title": "Load Balancing Strategies",
+    "summary": "Why round-robin is only the starting point for load balancing — how weighted algorithms, least-connections, and saturation-aware routing handle uneven servers and uneven requests, and when to balance at the transport layer versus the application layer.",
+    "publishedAt": "2026-08-03",
+    "difficulty": "Intermediate",
+    "readingTime": 9,
+    "tags": ["Load Balancing", "Scalability", "Networking", "Fundamentals"],
+    "prerequisites": ["HTTP request/response basics", "Basic client-server networking"],
+    "related": [
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" }
+    ],
+    "references": [
+      { "label": "NGINX Documentation — Load Balancing", "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/", "type": "doc" },
+      { "label": "AWS — Elastic Load Balancing: Application, Network, and Gateway Load Balancers", "url": "https://aws.amazon.com/elasticloadbalancing/", "type": "doc" },
+      { "label": "Google Cloud Architecture Center — Load Balancing Overview", "url": "https://cloud.google.com/load-balancing/docs/load-balancing-overview", "type": "doc" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 6, \"Partitioning\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" }
+    ]
+  },
+  {
+    "slug": "polyglot-persistence",
+    "id": 13,
+    "title": "Polyglot Persistence",
+    "summary": "Why a system that stores video files, product catalogs, session state, and social graphs shouldn't put all of them in the same kind of database — matching each data shape and access pattern to the storage engine actually built for it.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Intermediate",
+    "readingTime": 10,
+    "tags": ["Databases", "Data Modeling", "Scalability", "Fundamentals"],
+    "prerequisites": ["Basic SQL and relational modeling", "What a key-value store is"],
+    "related": [
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" }
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "AWS — Amazon S3 vs. Amazon RDS: When to Use Which", "url": "https://aws.amazon.com/products/storage/", "type": "doc" },
+      { "label": "MongoDB — Relational vs. Document Databases", "url": "https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases", "type": "doc" },
+      { "label": "Martin Fowler — Polyglot Persistence", "url": "https://martinfowler.com/bliki/PolyglotPersistence.html", "type": "doc" }
     ]
   }
 ]
