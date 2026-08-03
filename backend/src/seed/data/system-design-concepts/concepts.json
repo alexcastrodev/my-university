@@ -291,5 +291,78 @@
       { "label": "MongoDB — Relational vs. Document Databases", "url": "https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases", "type": "doc" },
       { "label": "Martin Fowler — Polyglot Persistence", "url": "https://martinfowler.com/bliki/PolyglotPersistence.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "designing-a-large-scale-chat-system",
+    "id": 14,
+    "title": "Designing a Large-Scale Chat System (Slack-like)",
+    "summary": "A worked system design interview walkthrough for a Slack-like chat product — functional and non-functional requirements, core entities, why WebSockets replace request/response polling, and the high-level design for sending messages, rich media, offline delivery, and message deletion.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Intermediate",
+    "readingTime": 18,
+    "tags": [
+      "System Design Interviews",
+      "Real-Time Systems",
+      "WebSockets",
+      "Messaging",
+      "API Design"
+    ],
+    "prerequisites": [
+      "Basic client-server networking",
+      "REST APIs",
+      "Relational vs. NoSQL databases basics"
+    ],
+    "related": [
+      {
+        "label": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
+        "slug": "scaling-real-time-messaging-ordering-and-fan-out"
+      },
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }
+    ],
+    "references": [
+      { "label": "IETF RFC 6455 — The WebSocket Protocol", "url": "https://datatracker.ietf.org/doc/html/rfc6455", "type": "doc" },
+      { "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)", "url": "https://www.youtube.com/@IGotAnOffer-Engineering", "type": "video" },
+      { "label": "System Design Handbook — Slack System Design Interview: The Complete Guide", "url": "https://www.systemdesignhandbook.com/guides/slack-system-design-interview/", "type": "doc" },
+      { "label": "MDN Web Docs — WebSockets API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "scaling-real-time-messaging-ordering-and-fan-out",
+    "id": 15,
+    "title": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
+    "summary": "The deep-dive half of a chat system design interview — guaranteeing per-chat message ordering with Kafka, decoupling fan-out from the chat server via CDC, scaling WebSocket delivery with pub/sub, taming WebSocket churn with leased subscriptions, and partitioning/caching storage for billions of users.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Advanced",
+    "readingTime": 16,
+    "tags": [
+      "System Design Interviews",
+      "Real-Time Systems",
+      "Scalability",
+      "Message Ordering",
+      "Pub/Sub"
+    ],
+    "prerequisites": [
+      {
+        "label": "Designing a Large-Scale Chat System (Slack-like)",
+        "slug": "designing-a-large-scale-chat-system"
+      },
+      "WebSockets basics",
+      "Kafka partitioning basics"
+    ],
+    "related": [
+      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
+      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" }
+    ],
+    "references": [
+      { "label": "Apache Kafka Documentation — Partitions and Ordering Guarantees", "url": "https://kafka.apache.org/documentation/#intro_topics", "type": "doc" },
+      { "label": "Redis Documentation — Pub/Sub", "url": "https://redis.io/docs/latest/develop/interact/pubsub/", "type": "doc" },
+      { "label": "Debezium Documentation — Change Data Capture Overview", "url": "https://debezium.io/documentation/reference/stable/tutorial.html", "type": "doc" },
+      { "label": "Discord Engineering — How Discord Stores Billions of Messages", "url": "https://discord.com/blog/how-discord-stores-billions-of-messages", "type": "engineering" },
+      { "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)", "url": "https://www.youtube.com/@IGotAnOffer-Engineering", "type": "video" }
+    ]
   }
 ]
