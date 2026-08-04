@@ -1,5 +1,5 @@
 ---
-title: Scaling Real-Time Messaging: Ordering, Fan-out, and Presence
+title: "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence"
 description: The deep-dive half of a chat system design interview — guaranteeing per-chat message ordering with Kafka, decoupling fan-out from the chat server via CDC, scaling WebSocket delivery with pub/sub, taming WebSocket churn with leased subscriptions, and partitioning/caching storage for billions of users.
 difficulty: Advanced
 readingTime: 16
