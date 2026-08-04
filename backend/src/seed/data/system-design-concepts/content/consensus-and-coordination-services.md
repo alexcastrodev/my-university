@@ -47,6 +47,26 @@ The best-known consensus algorithms — Raft, Paxos (and its Multi-Paxos variant
 1. **Leader election.** Every leadership term gets a monotonically increasing number (Raft calls it a *term*, Paxos a *ballot number*). If a node hasn't heard from the current leader within a timeout, it starts an election with a new, higher term and requests votes from a quorum.
 2. **Log replication.** The elected leader appends new entries to its log and replicates them to a quorum before telling the client the write succeeded — so a write survives even if the current leader immediately crashes.
 
+```mermaid
+sequenceDiagram
+    participant N1 as Node 1 (candidate)
+    participant N2 as Node 2
+    participant N3 as Node 3
+    participant N4 as Node 4
+    participant N5 as Node 5
+
+    Note over N1: No heartbeat from leader.<br/>Times out, starts term 5.
+    N1->>N2: RequestVote(term=5)
+    N1->>N3: RequestVote(term=5)
+    N1->>N4: RequestVote(term=5)
+    N1->>N5: RequestVote(term=5)
+    N2-->>N1: vote granted
+    N3-->>N1: vote granted
+    Note over N1,N3: 3 of 5 = quorum reached
+    N1->>N2: AppendEntries (as leader, term=5)
+    N1->>N3: AppendEntries (as leader, term=5)
+```
+
 This looks superficially similar to two-phase commit (2PC), but it isn't: in 2PC, only the coordinator can propose a commit, and *every* participant must vote yes. In consensus algorithms, *any* node can start an election, and it only needs a quorum — not unanimity — to respond. That difference is what lets consensus tolerate a minority of nodes being down; 2PC's coordinator is a single point of failure with no equivalent fallback.
 
 The genuinely hard part isn't the happy path — it's making sure a new leader always has every entry a previous leader might have already committed, even across multiple leader changes with overlapping in-flight writes. Raft handles this by only allowing a node to become leader if its own log is at least as up-to-date as a majority of its peers'; weakening this requirement (as Kafka's optional "unclean leader election" does, trading safety for faster recovery) reopens exactly the data-loss and split-brain problems consensus exists to close.

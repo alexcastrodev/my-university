@@ -100,7 +100,8 @@
     "related": [
       { "label": "Consistent Hashing", "slug": "consistent-hashing" },
       { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" }
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "Rate Limiting", "slug": "rate-limiting" }
     ],
     "references": [
       { "label": "MDN — HTTP Caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching", "type": "doc" },
@@ -168,7 +169,8 @@
       { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
       "Event Sourcing",
       { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
-      "Log Compaction"
+      "Log Compaction",
+      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
     ],
     "references": [
       { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Databases and Streams\" and \"State, Streams, and Immutability\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
@@ -238,7 +240,8 @@
       { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
       { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
       "Log Compaction",
-      "Event Sourcing"
+      "Event Sourcing",
+      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
     ],
     "references": [
       { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", section \"Transmitting Event Streams\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
@@ -260,7 +263,10 @@
     "related": [
       { "label": "Consistent Hashing", "slug": "consistent-hashing" },
       { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" }
+      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      { "label": "The API Gateway", "slug": "api-gateway" },
+      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" },
+      { "label": "Stateless Services and Decoupling Compute from Data", "slug": "stateless-services-and-decoupling" }
     ],
     "references": [
       { "label": "NGINX Documentation — Load Balancing", "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/", "type": "doc" },
@@ -283,7 +289,8 @@
       { "label": "CAP Theorem", "slug": "cap-theorem" },
       { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
       { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" }
+      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
     ],
     "references": [
       { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
@@ -363,6 +370,142 @@
       { "label": "Debezium Documentation — Change Data Capture Overview", "url": "https://debezium.io/documentation/reference/stable/tutorial.html", "type": "doc" },
       { "label": "Discord Engineering — How Discord Stores Billions of Messages", "url": "https://discord.com/blog/how-discord-stores-billions-of-messages", "type": "engineering" },
       { "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)", "url": "https://www.youtube.com/@IGotAnOffer-Engineering", "type": "video" }
+    ]
+  },
+  {
+    "slug": "api-gateway",
+    "id": 16,
+    "title": "The API Gateway",
+    "summary": "Why a distributed system needs a single front door that terminates client traffic, routes to the right service, and centralizes cross-cutting concerns like authentication — instead of exposing every microservice directly to the internet.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Intermediate",
+    "readingTime": 10,
+    "tags": ["Microservices", "API Design", "Authentication", "Networking"],
+    "prerequisites": ["REST APIs", { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }, "Basic client-server networking"],
+    "related": [
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
+      { "label": "Rate Limiting", "slug": "rate-limiting" },
+      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" }
+    ],
+    "references": [
+      { "label": "NGINX Documentation — API Gateway", "url": "https://www.nginx.com/learn/api-gateway/", "type": "doc" },
+      { "label": "microservices.io — Pattern: API Gateway", "url": "https://microservices.io/patterns/apigateway.html", "type": "doc" },
+      { "label": "Auth0 — What Is an API Gateway?", "url": "https://auth0.com/blog/what-is-an-api-gateway/", "type": "doc" },
+      { "label": "IETF RFC 7519 — JSON Web Token (JWT)", "url": "https://datatracker.ietf.org/doc/html/rfc7519", "type": "doc" },
+      { "label": "Sam Newman, \"Building Microservices\" (O'Reilly, 2nd Edition) — inter-service communication and gateways", "url": "https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/", "type": "book" }
+    ]
+  },
+  {
+    "slug": "rate-limiting",
+    "id": 17,
+    "title": "Rate Limiting",
+    "summary": "Why unbounded request rates let a handful of clients degrade service for everyone else, the algorithms (fixed window, sliding window, token bucket) used to cap them, and where in the stack a rate limiter actually belongs.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Intermediate",
+    "readingTime": 9,
+    "tags": ["Scalability", "Caching", "API Design", "Fault Tolerance"],
+    "prerequisites": ["HTTP request/response basics", { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" }],
+    "related": [
+      { "label": "The API Gateway", "slug": "api-gateway" },
+      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }
+    ],
+    "references": [
+      { "label": "Cloudflare Learning Center — What is Rate Limiting?", "url": "https://www.cloudflare.com/learning/bots/what-is-rate-limiting/", "type": "doc" },
+      { "label": "Stripe Engineering — Scaling your API with rate limiters", "url": "https://stripe.com/blog/rate-limiters", "type": "engineering" },
+      { "label": "Redis Documentation — Rate limiting patterns", "url": "https://redis.io/glossary/rate-limiting/", "type": "doc" },
+      { "label": "AWS — Throttling a tiered, multi-tenant REST API", "url": "https://aws.amazon.com/blogs/compute/throttling-a-tiered-multi-tenant-rest-api-at-scale-using-api-gateway/", "type": "engineering" }
+    ]
+  },
+  {
+    "slug": "object-storage-and-direct-upload",
+    "id": 18,
+    "title": "Object Storage and the Direct-Upload Pattern",
+    "summary": "Why large files should never be streamed through your application server or stored as blobs in a relational database — and how presigned URLs let clients upload straight to object storage while your database only ever holds metadata.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Intermediate",
+    "readingTime": 11,
+    "tags": ["Object Storage", "Scalability", "API Design", "Event-Driven Architecture"],
+    "prerequisites": ["REST APIs", "Message queues / brokers basics"],
+    "related": [
+      { "label": "The API Gateway", "slug": "api-gateway" },
+      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
+      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
+      { "label": "Polyglot Persistence", "slug": "polyglot-persistence" },
+      { "label": "Chunked Upload, Deduplication, and Delta Sync", "slug": "chunked-upload-deduplication-and-delta-sync" }
+    ],
+    "references": [
+      { "label": "AWS S3 Documentation — Uploading and copying objects using presigned URLs", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html", "type": "doc" },
+      { "label": "Google Cloud Storage Documentation — Signed URLs", "url": "https://cloud.google.com/storage/docs/access-control/signed-urls", "type": "doc" },
+      { "label": "AWS S3 Documentation — Amazon S3 Event Notifications", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html", "type": "doc" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" }
+    ]
+  },
+  {
+    "slug": "horizontal-vs-vertical-scaling",
+    "id": 19,
+    "title": "Horizontal vs. Vertical Scaling",
+    "summary": "The two ways to give a system more capacity — bigger machines versus more machines — why they aren't interchangeable, and how autoscaling turns \"how many servers do we need\" from a manual decision into a policy.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Beginner",
+    "readingTime": 8,
+    "tags": ["Scalability", "Fundamentals", "Load Balancing", "Infrastructure"],
+    "prerequisites": ["Basic client-server networking", { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }],
+    "related": [
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
+      { "label": "Stateless Services and Decoupling Compute from Data", "slug": "stateless-services-and-decoupling" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" }
+    ],
+    "references": [
+      { "label": "AWS — What Is Amazon EC2 Auto Scaling?", "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html", "type": "doc" },
+      { "label": "Google Cloud — Autoscaling groups of instances", "url": "https://cloud.google.com/compute/docs/autoscaler", "type": "doc" },
+      { "label": "Kubernetes Documentation — Horizontal Pod Autoscaling", "url": "https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/", "type": "doc" },
+      { "label": "Martin L. Abbott and Michael T. Fisher, \"The Art of Scalability\" (Addison-Wesley, 2nd Edition) — the AKF Scale Cube", "url": "https://theartofscalability.com/", "type": "book" }
+    ]
+  },
+  {
+    "slug": "stateless-services-and-decoupling",
+    "id": 20,
+    "title": "Stateless Services and Decoupling Compute from Data",
+    "summary": "The single change that makes almost every other scaling technique possible — moving state out of the server process and into a separate store, so that any instance can handle any request and none of them are irreplaceable.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Beginner",
+    "readingTime": 8,
+    "tags": ["Fundamentals", "Scalability", "Distributed Systems", "Fault Tolerance"],
+    "prerequisites": ["Basic client-server networking"],
+    "related": [
+      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" },
+      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
+      { "label": "CAP Theorem", "slug": "cap-theorem" }
+    ],
+    "references": [
+      { "label": "Martin Fowler — Software Architecture Guide", "url": "https://martinfowler.com/architecture/", "type": "doc" },
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 1, \"Reliable, Scalable, and Maintainable Applications\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "The Twelve-Factor App — VI. Processes", "url": "https://12factor.net/processes", "type": "doc" },
+      { "label": "AWS Well-Architected Framework — Reliability Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "chunked-upload-deduplication-and-delta-sync",
+    "id": 21,
+    "title": "Chunked Upload, Deduplication, and Delta Sync",
+    "summary": "How Dropbox-style sync products handle files too large for a single request and avoid re-transferring bytes the server already has — by splitting files into content-addressed chunks, fingerprinting each one, and syncing only what changed.",
+    "publishedAt": "2026-08-04",
+    "difficulty": "Advanced",
+    "readingTime": 12,
+    "tags": ["Object Storage", "Scalability", "Distributed Systems", "Performance"],
+    "prerequisites": [{ "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }, "Hash functions basics"],
+    "related": [
+      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" },
+      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
+      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" }
+    ],
+    "references": [
+      { "label": "Rabin, M. O. — \"Fingerprinting by Random Polynomials\" (Harvard, 1981)", "url": "https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/rabinfingerprint.pdf", "type": "paper" },
+      { "label": "AWS S3 Documentation — Uploading and copying objects using multipart upload", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html", "type": "doc" },
+      { "label": "Dropbox Tech Blog — Rewriting the heart of our sync engine", "url": "https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine", "type": "engineering" },
+      { "label": "rsync — The rsync algorithm (Andrew Tridgell, Paul Mackerras)", "url": "https://rsync.samba.org/tech_report/", "type": "paper" },
+      { "label": "Facebook Engineering — Smaller and faster data compression with Zstandard", "url": "https://engineering.fb.com/2016/08/31/core-data/smaller-and-faster-data-compression-with-zstandard/", "type": "engineering" }
     ]
   }
 ]

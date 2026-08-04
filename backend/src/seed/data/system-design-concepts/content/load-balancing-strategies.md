@@ -81,6 +81,17 @@ Most production systems use both: an L4 balancer (or the cloud provider's networ
 
 A load balancer that keeps sending traffic to a dead or degraded server is worse than useless — it's actively routing users to failures. Health checks are periodic probes (a lightweight `GET /health` endpoint, or a TCP connect) that remove a server from the pool when it stops responding correctly, and add it back once it recovers:
 
+```mermaid
+flowchart LR
+    Client --> LB{Load Balancer}
+    LB -->|routes by algorithm| A[Server A]
+    LB -.->|excluded: unhealthy| B[Server B]
+    LB -->|routes by algorithm| C[Server C]
+    HC["Health check probe<br/>(every 5s)"] -.-> A
+    HC -.->|failing| B
+    HC -.-> C
+```
+
 ```
 every 5s:
     for server in pool:

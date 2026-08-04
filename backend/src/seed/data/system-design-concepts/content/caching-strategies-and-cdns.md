@@ -37,6 +37,15 @@ def get_user(user_id):
 
 This is the default pattern for read-heavy data: the cache only ever holds what's actually been requested (no wasted memory on cold data), and a cache outage degrades to "every read hits the database" rather than losing data — the database is still the source of truth and nothing was ever written cache-first.
 
+```mermaid
+flowchart LR
+    R["get_user(id)"] --> C{Cache hit?}
+    C -->|yes| Return[Return cached value]
+    C -->|no| DB[(Query database)]
+    DB --> Populate["cache.set(key, value, ttl)"]
+    Populate --> Return
+```
+
 ## Write-Through and Write-Behind
 
 **Write-through** writes to the cache and the database synchronously, as one logical operation, so the cache is never stale after a write it participated in:

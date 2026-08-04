@@ -52,6 +52,16 @@ Topic B, Partition 2:  [1][2]...[12]           <- no ordering relationship to Pa
 
 Because a consumer just tracks "I've processed everything below offset N," the broker doesn't need per-message acknowledgment bookkeeping — it periodically checkpoints the offset instead, which is cheaper and enables batching. A consumer that crashes after processing but before checkpointing will simply reprocess a few messages on restart — an at-least-once guarantee, the same trade-off traditional brokers make with ack timeouts.
 
+```mermaid
+flowchart LR
+    P[Producer] --> L[["Log (partition)<br/>append-only, on disk"]]
+    L -->|reads at offset 47| G1["Consumer group 1<br/>(analytics)"]
+    L -->|reads at offset 12| G2["Consumer group 2<br/>(search indexer)"]
+    L -.->|rewind & replay| G3["New consumer<br/>backfilling history"]
+```
+
+Each group tracks its own offset independently — nothing is deleted on read, so one slow or brand-new consumer never affects another.
+
 ## Consumer Groups: Both Patterns, One Mechanism
 
 Kafka's **consumer group** unifies load balancing and fan-out: within one group, each partition is assigned to exactly one consumer (load balancing across the group); two separate groups subscribed to the same topic each get their own full copy of every message (fan-out across groups). The trade-off for this coarser-grained assignment is that parallelism within a group is capped at the number of partitions — you can't have more active consumers *in one group* than partitions, no matter how many machines you throw at it.

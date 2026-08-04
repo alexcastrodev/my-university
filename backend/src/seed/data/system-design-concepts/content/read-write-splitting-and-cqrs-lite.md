@@ -43,10 +43,17 @@ For a simple key→URL lookup, a single relational database plus a cache in fron
 
 Any read replica — SQL-to-SQL streaming replication or a cross-store pipeline — has a real propagation delay, and the read-your-own-writes problem is the concrete failure mode that delay causes:
 
-```
-1. User creates short code "abc123" -> written to primary
-2. User is immediately redirected to /abc123 to verify it worked
-3. Read hits a replica that hasn't received "abc123" yet -> 404
+```mermaid
+sequenceDiagram
+    participant User
+    participant Primary as Primary DB (write)
+    participant Replica as Replica (read)
+
+    User->>Primary: create short code "abc123"
+    Primary-->>User: 201 Created
+    Note over Primary,Replica: replication lag —<br/>"abc123" hasn't propagated yet
+    User->>Replica: GET /abc123 (verify it worked)
+    Replica-->>User: 404 Not Found
 ```
 
 This is not a hypothetical edge case in an interview setting — it's the literal next action ("did my write work?") most users take after writing something. Common mitigations: route a user's own reads to the primary for a short window after they write (session affinity to the primary), have the client pass back a log sequence number / commit timestamp and have the replica wait until it has caught up to that point before answering ("read-your-writes" consistency), or accept the staleness and design the UI around it (e.g., show the newly created short code optimistically without re-fetching it from the read path at all).

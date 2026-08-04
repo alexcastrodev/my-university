@@ -88,6 +88,16 @@ The mistake polyglot persistence corrects is defaulting to whatever database the
 
 This last point is the shape most systems converge on: the actual media/blob lives in object storage, and a relational or document database holds the metadata (title, owner, tags, permissions) plus a reference to the object's key — each store doing the part of the job it's actually good at.
 
+```mermaid
+flowchart TD
+    App[Application]
+    App -->|structured, ad-hoc queries| SQL[("Relational DB<br/>orders, users")]
+    App -->|large, write-once blobs| Obj[("Object Storage<br/>videos, images")]
+    App -->|single-key lookups| KV[("Key-Value Store<br/>sessions, cache")]
+    App -->|nested, variable schema| Doc[("Document Store<br/>product catalog")]
+    SQL -.->|references object key| Obj
+```
+
 ## Trade-offs
 
 - **More database types means more operational surface area** — each store has its own backup strategy, monitoring, failure modes, and on-call runbook; polyglot persistence is a real cost paid in operational complexity, not a free lunch, and isn't worth it for a system small enough that one general-purpose database handles every access pattern adequately.

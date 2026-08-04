@@ -3,6 +3,7 @@ tmp/
 .pnpm-store
 scripts/
 tasks.md
+.env
 
 # Playwright
 node_modules/

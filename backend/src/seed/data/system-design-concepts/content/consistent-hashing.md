@@ -105,6 +105,17 @@ key "user:99"  hash = 5   -> still owned by A (unaffected, D is nowhere near it)
 
 Only keys between B(40) and D(60) moved — everything else on the ring kept its owner.
 
+```mermaid
+flowchart LR
+    A["A (pos 10)"] --> B["B (pos 40)"]
+    B --> D["D (pos 60, newly added)"]
+    D --> C["C (pos 75)"]
+    C -.->|wraps around| A
+
+    K42["key user:42 (hash 55)"] -.->|now owned by| D
+    K99["key user:99 (hash 5)"] -.->|still owned by| A
+```
+
 ## Where It's Used in Practice
 
 - **Caching layers** — Memcached clients (e.g., libketama) use consistent hashing client-side to decide which cache server owns a key, so scaling the cache cluster up or down doesn't cause a mass cache miss.

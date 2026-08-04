@@ -36,6 +36,16 @@ Dual writes have a race condition that's easy to miss: two clients writing confl
 
 CDC makes one database the leader and turns every other representation of the data into a follower of it — the same state-machine-replication idea a database uses to keep its own replicas in sync, just extended to heterogeneous systems. The database decides the order in which conflicting writes are applied and records that order in its log; every downstream consumer (search index, cache, warehouse) applies changes in that same order, so they all converge on the same final value the leader has. The order is decided once, at the source — nobody downstream has to re-derive it.
 
+```mermaid
+flowchart LR
+    App[Application] -->|writes| DB[(Primary Database)]
+    DB -->|replication log<br/>WAL / binlog / oplog| CDC["CDC connector<br/>(e.g. Debezium)"]
+    CDC -->|ordered change events| Kafka[["Kafka topic"]]
+    Kafka --> Search[Search index]
+    Kafka --> Cache[Cache invalidation]
+    Kafka --> Warehouse[Data warehouse]
+```
+
 ## Implementing CDC: Log-Based, Not Query-Based
 
 CDC tools attach to a database's existing replication mechanism instead of running periodic queries against application tables:

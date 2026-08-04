@@ -79,6 +79,22 @@ B: UPDATE doctors SET on_call=false WHERE name='Bryce'     -- "2 on call, safe t
 -- both commit: zero doctors on call, invariant violated, neither transaction saw the other's write
 ```
 
+```mermaid
+sequenceDiagram
+    participant A as Transaction A
+    participant DB
+    participant B as Transaction B
+
+    A->>DB: SELECT count(*) on_call -- sees 2
+    B->>DB: SELECT count(*) on_call -- sees 2
+    Note over A,B: both snapshots show 2 on-call doctors
+    A->>DB: UPDATE Aaliyah on_call=false
+    B->>DB: UPDATE Bryce on_call=false
+    A->>DB: COMMIT
+    B->>DB: COMMIT
+    Note over DB: both succeed — zero doctors on call,<br/>invariant silently violated
+```
+
 Write skew is easy to miss precisely because no single row was double-written — each doctor only updated their *own* row. The anomaly is in the invariant across rows, which snapshot isolation was never designed to protect.
 
 ## Serializability: Making the Anomalies Actually Go Away

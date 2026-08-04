@@ -47,6 +47,14 @@ UUIDv7: 018f5a3c-1b2e-7a3d-9c4e-1a2b3c4d5e6f   (leading bits = timestamp, sorts 
 - **Worker ID (10 bits)** — up to 1024 distinct machines/processes can mint IDs concurrently with zero coordination between them, because each owns a disjoint slice of the ID space by construction.
 - **Sequence (12 bits)** — a per-millisecond counter on that one worker, allowing up to 4096 IDs per millisecond per worker before it has to wait for the next millisecond tick.
 
+```mermaid
+flowchart LR
+    T["Timestamp<br/>41 bits<br/>ms since epoch"] --> ID["64-bit Snowflake ID"]
+    W["Worker ID<br/>10 bits<br/>up to 1024 workers"] --> ID
+    S["Sequence<br/>12 bits<br/>up to 4096 / ms / worker"] --> ID
+    ID --> Out["No lock, no network call —<br/>pure local arithmetic on the issuing server"]
+```
+
 Because the worker ID is baked into every bit pattern, two workers can never produce the same ID, and because generation is purely local arithmetic (no lock, no network call), it's extremely fast — this is the same shape used by Instagram's ID scheme (documented in their [engineering blog](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)) and by most "Snowflake-style" generators since (Sonyflake, Baidu's UidGenerator).
 
 ## Designing a 7-Character Short Code (the URL Shortener Case)

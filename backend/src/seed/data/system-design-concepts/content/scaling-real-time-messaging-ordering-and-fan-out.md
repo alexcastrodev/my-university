@@ -53,9 +53,13 @@ Each partition is consumed by exactly one consumer within a consumer group, so a
 
 Rather than having the chat server itself decide "is this recipient online, offline — where do I push this?" for every message (making it a single hot path for both writes and delivery logic), that responsibility can move to a separate **fan-out job** triggered by [Change Data Capture](change-data-capture) on the message table's write. The moment a message row commits, CDC (e.g., Debezium reading the database's write-ahead log) emits a change event that a fan-out worker consumes independently:
 
-```
-DB write (message table) --CDC--> Fan-out job --> query WebSocket Server (online?) --> push
-                                              \--> offline --> push notification (APNs/FCM)
+```mermaid
+flowchart LR
+    DB[(message table write)] -->|CDC| Fan[Fan-out job]
+    Fan --> Check{Recipient online?}
+    Check -->|yes| WS[Query WebSocket Server]
+    WS --> Push[Push to connected client]
+    Check -->|no| Notif["Push notification<br/>(APNs / FCM)"]
 ```
 
 This decouples "persist the message" from "figure out delivery," so the chat server's write path stays fast and fan-out logic can scale (or fail) independently as its own microservice.
@@ -64,8 +68,14 @@ This decouples "persist the message" from "figure out delivery," so the chat ser
 
 Billions of users means billions of devices holding open WebSocket connections, potentially spread across many WebSocket server instances. If the fan-out job had to know *which specific server instance* holds a given user's connection, that's a tight coupling that doesn't scale. Instead, use a **pub/sub layer (e.g., Redis Pub/Sub)** with one channel per `chat_id`:
 
-```
-Fan-out job --publish--> Redis channel "chat:{chat_id}" --> subscribed WebSocket servers --> push to connected clients
+```mermaid
+flowchart LR
+    Fan[Fan-out job] -->|publish| Ch["Redis channel<br/>chat:{chat_id}"]
+    Ch --> WS1[WebSocket Server 1]
+    Ch --> WS2[WebSocket Server 2]
+    Ch --> WS3[WebSocket Server 3]
+    WS1 --> C1[Connected clients]
+    WS2 --> C2[Connected clients]
 ```
 
 Each WebSocket server dynamically subscribes to the channels for the chats its currently-connected clients belong to. The fan-out job publishes once per chat event; Redis handles delivering that single publish to every subscribed server, instead of the fan-out job needing to track individual server-to-connection mappings.

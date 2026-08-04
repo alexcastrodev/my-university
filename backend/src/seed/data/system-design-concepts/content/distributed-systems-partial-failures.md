@@ -55,6 +55,21 @@ This looks safe — a 10-second buffer should be more than enough time to notice
 
 The fix isn't a clever code change; it's accepting that a thread can be preempted for an unbounded, unpredictable amount of time, and building the protocol (fencing tokens that increment on every lease acquisition, checked by anything the leader writes to) so that a "zombie" leader's writes are rejected even if it never notices it stopped being leader.
 
+```mermaid
+sequenceDiagram
+    participant N1 as Node A (leader)
+    participant N2 as Node B
+    participant Store as Shared Storage
+
+    N1->>Store: renew lease
+    Note over N1: GC stop-the-world pause<br/>(15s — longer than lease TTL)
+    Note over N2: no heartbeat from A —<br/>lease expires, B becomes leader
+    N2->>Store: acquire lease, become leader
+    Note over N1: wakes up, has no idea<br/>time passed at all
+    N1->>Store: process(request) — still thinks it's leader!
+    Note over Store: two nodes now believe<br/>they're leader at once
+```
+
 ## Trade-offs
 
 - **A longer timeout reduces false failure detection but slows down genuine failure recovery — there's no value that's simply "correct."**

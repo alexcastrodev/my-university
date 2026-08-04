@@ -8,6 +8,7 @@ import {
 } from '../../models/system-design-concept.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const REFERENCES_TITLE = 'References';
 
@@ -46,7 +47,7 @@ const REFERENCE_TYPE_ICONS: Record<SystemDesignConceptReference['type'], string>
 @Component({
   selector: 'app-system-design-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, RenderMermaidDirective],
   templateUrl: './system-design-concept-view.html',
   styleUrl: './system-design-concept-view.css',
 })

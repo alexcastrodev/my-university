@@ -35,6 +35,15 @@ The theorem is often taught as "pick 2 of 3," which is misleading. Partition tol
 
 ## CP vs. AP: What Each Choice Looks Like in Practice
 
+```mermaid
+flowchart TD
+    P["Network partition:<br/>Node A can't reach quorum"] --> Q{"Does Node A answer<br/>the client anyway?"}
+    Q -->|No: choose C| CP["CP — refuse the request<br/>(ZooKeeper, etcd, HBase)"]
+    Q -->|Yes: choose A| AP["AP — answer with<br/>possibly-stale data<br/>(Cassandra, DynamoDB)"]
+    CP --> CPr["Client sees an error/timeout,<br/>never a wrong value"]
+    AP --> APr["Client always gets a response,<br/>reconciled later once healed"]
+```
+
 **CP (Consistent + Partition-tolerant, sacrifices Availability):**
 
 ```

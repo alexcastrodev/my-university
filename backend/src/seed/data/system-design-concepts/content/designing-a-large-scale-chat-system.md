@@ -80,15 +80,26 @@ A representative payload for a broadcast message includes a server-generated glo
 
 Start simple: don't add a component until measured complexity demands it. The base flow:
 
-```
-Client --(WebSocket)--> API Gateway --> Chat Server --> DB (message table)
-                                            |
-                                            v
-                              Query WebSocket Server for active sessions
-                                            |
-                             (online)                    (handled in deep dive: offline)
-                                v
-                      Push new_message to active recipients
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gateway as API Gateway
+    participant Chat as Chat Server
+    participant DB as DB (message table)
+    participant WS as WebSocket Server
+    participant Recipient
+
+    Client->>Gateway: send_message (WebSocket)
+    Gateway->>Chat: forward
+    Chat->>DB: persist message
+    Chat->>WS: which sessions are active for this chat?
+    alt recipient online
+        WS-->>Chat: active session found
+        Chat->>Recipient: push new_message
+    else recipient offline
+        WS-->>Chat: no active session
+        Note over Chat: handled by offline delivery (below)
+    end
 ```
 
 The **API Gateway** acts as reverse proxy, load balancer, and handles authN/authZ, rate limiting, and protocol translation. The **Chat Server** (a microservice) validates the sender, classifies the message type (text vs. media), generates a globally unique `message_id` (e.g., a UUID) before persisting, writes the row, and optionally increments a per-chat sequence number. It then asks the **WebSocket Server** — which tracks every device's active connection — which recipients are currently online, and pushes `new_message` to those sessions.
@@ -108,9 +119,21 @@ Keeping `parent_message_id` from day one means the schema can grow into threaded
 
 Large binary payloads (images, videos, files) don't belong in the same store as text — this is the [polyglot persistence](polyglot-persistence) instinct at work. The flow changes at the front:
 
-```
-Client --> Media Server --(pre-signed URL)--> Client --(direct upload)--> S3
-Client --(send_message with media_id)--> API Gateway --> Chat Server --> DB
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Media as Media Server
+    participant S3 as Object Storage (S3)
+    participant Gateway as API Gateway
+    participant Chat as Chat Server
+    participant DB
+
+    Client->>Media: request upload URL
+    Media-->>Client: pre-signed URL + media_id
+    Client->>S3: direct upload (bypasses chat server)
+    Client->>Gateway: send_message(media_id)
+    Gateway->>Chat: forward
+    Chat->>DB: persist message row (media_id, media_url)
 ```
 
 The client asks the **Media Server** for a pre-signed upload URL, uploads the binary *directly* to object storage (e.g., S3) — bypassing the chat server entirely for the heavy payload — and receives back a `media_id`/URL. The `send_message` event then carries that media reference instead of raw bytes. The `message` table only needs two additional columns, `media_id` and `media_url`, to distinguish structured (text) from unstructured (media) content; the rest of the pipeline (persist, look up active sessions, fan out) is identical to use case 1.
