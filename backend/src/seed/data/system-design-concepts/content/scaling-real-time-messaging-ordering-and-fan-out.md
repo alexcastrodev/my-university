@@ -15,7 +15,7 @@ prerequisites:
   - WebSockets basics
   - Kafka partitioning basics
 related:
-  - label: Message Brokers: Queues vs. Log-Based Streaming
+  - label: "Message Brokers: Queues vs. Log-Based Streaming"
     slug: message-brokers-queues-vs-logs
   - label: Change Data Capture (CDC)
     slug: change-data-capture

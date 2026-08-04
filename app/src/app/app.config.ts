@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' })
     ),
-    provideHttpClient(withFetch(), withInterceptors([credentialsInterceptor])), provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
+    provideHttpClient(withInterceptors([credentialsInterceptor])), provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
   ]
 };

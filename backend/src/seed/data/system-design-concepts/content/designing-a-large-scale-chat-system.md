@@ -14,13 +14,12 @@ prerequisites:
   - REST APIs
   - Relational vs. NoSQL databases basics
 related:
-  - label: Scaling Real-Time Messaging: Ordering, Fan-out, and Presence
+  - label: "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence"
     slug: scaling-real-time-messaging-ordering-and-fan-out
   - label: CAP Theorem
     slug: cap-theorem
   - label: Load Balancing Strategies
     slug: load-balancing-strategies
-  - Presence Systems
 ---
 
 ## Overview
