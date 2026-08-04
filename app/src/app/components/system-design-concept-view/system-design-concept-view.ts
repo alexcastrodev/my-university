@@ -3,8 +3,10 @@ import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   SystemDesignConcept,
+  SystemDesignConceptDifficulty,
   SystemDesignConceptLinkRef,
   SystemDesignConceptReference,
+  SystemDesignConceptSummary,
 } from '../../models/system-design-concept.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
@@ -20,12 +22,8 @@ const FEATURE_ROUTES: Record<NonNullable<Extract<SystemDesignConceptLinkRef, obj
 export interface ConceptLinkItem {
   label: string;
   route: string[] | null;
-}
-
-function toLinkItem(ref: SystemDesignConceptLinkRef): ConceptLinkItem {
-  if (typeof ref === 'string') return { label: ref, route: null };
-  const base = FEATURE_ROUTES[ref.feature ?? 'system-design'];
-  return { label: ref.label, route: [base, ref.slug] };
+  difficulty?: SystemDesignConceptDifficulty;
+  read?: boolean;
 }
 
 const REFERENCE_TYPE_LABELS: Record<SystemDesignConceptReference['type'], string> = {
@@ -55,6 +53,7 @@ export class SystemDesignConceptView implements OnChanges {
   concept = input<SystemDesignConcept | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
+  allConcepts = input<SystemDesignConceptSummary[]>([]);
   markRead = output<void>();
 
   protected auth = inject(AuthService);
@@ -70,7 +69,7 @@ export class SystemDesignConceptView implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['concept']) return;
+    if (!changes['concept'] && !changes['allConcepts']) return;
 
     const concept = this.concept();
     if (!concept) {
@@ -102,7 +101,21 @@ export class SystemDesignConceptView implements OnChanges {
       })),
     );
 
-    this.prerequisiteItems.set(concept.prerequisites.map(toLinkItem));
-    this.relatedItems.set(concept.related.map(toLinkItem));
+    this.prerequisiteItems.set(concept.prerequisites.map((ref) => this.toLinkItem(ref)));
+    this.relatedItems.set(concept.related.map((ref) => this.toLinkItem(ref)));
+  }
+
+  private toLinkItem(ref: SystemDesignConceptLinkRef): ConceptLinkItem {
+    if (typeof ref === 'string') return { label: ref, route: null };
+    const base = FEATURE_ROUTES[ref.feature ?? 'system-design'];
+    const item: ConceptLinkItem = { label: ref.label, route: [base, ref.slug] };
+    if (!ref.feature || ref.feature === 'system-design') {
+      const match = this.allConcepts().find((c) => c.slug === ref.slug);
+      if (match) {
+        item.difficulty = match.difficulty;
+        item.read = match.read;
+      }
+    }
+    return item;
   }
 }

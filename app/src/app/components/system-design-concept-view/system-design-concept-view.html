@@ -55,6 +55,12 @@
                   } @else {
                     {{ item.label }}
                   }
+                  @if (item.difficulty) {
+                    <span class="concept-badge difficulty small">{{ item.difficulty }}</span>
+                  }
+                  @if (item.read) {
+                    <span class="read-check" aria-label="Already read">✓</span>
+                  }
                 </li>
               }
             </ul>
@@ -70,6 +76,12 @@
                     <a [routerLink]="item.route">{{ item.label }}</a>
                   } @else {
                     {{ item.label }}
+                  }
+                  @if (item.difficulty) {
+                    <span class="concept-badge difficulty small">{{ item.difficulty }}</span>
+                  }
+                  @if (item.read) {
+                    <span class="read-check" aria-label="Already read">✓</span>
                   }
                 </li>
               }

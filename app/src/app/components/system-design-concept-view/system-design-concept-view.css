@@ -147,7 +147,22 @@
 }
 
 .side-info-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
   margin-bottom: 0.3rem;
+}
+
+.concept-badge.small {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+}
+
+.read-check {
+  color: #16a34a;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .concept-section {

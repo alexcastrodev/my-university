@@ -38,18 +38,13 @@ For a cache cluster, this means adding a node to relieve load momentarily makes 
 
 Consistent hashing (Karger et al., 1997) fixes this by hashing both keys *and* nodes onto the same circular space — typically `[0, 2^32)` or `[0, 2^64)`, visualized as a ring:
 
-```
-                     0 / 2^32
-                        |
-        node C ---------+--------- node A
-             \                    /
-              \                  /
-               \                /
-                \              /
-        key "foo" lands here   node B
-        (hash between C and A)
-        -> owned by node A
-        (first node clockwise)
+```mermaid
+flowchart LR
+    C["node C"] --> A["node A<br/>(pos 0 / 2^32)"]
+    A --> B["node B"]
+    B -.->|wraps around| C
+
+    K["key 'foo'<br/>(hash between C and A)"] -.->|owned by, first clockwise| A
 ```
 
 Each node is placed on the ring at the position given by `hash(node_id)`. Each key is placed at `hash(key)`, and is owned by the first node encountered walking clockwise from the key's position. Removing node A only affects the keys that were between node C and node A — they now belong to node B (the next node clockwise) — every other key on the ring is untouched. Adding a new node between two existing nodes only steals keys from the one immediate neighbor it was inserted next to.

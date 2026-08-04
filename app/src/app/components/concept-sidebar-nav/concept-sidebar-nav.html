@@ -1,0 +1,19 @@
+<aside class="sidebar-nav" aria-label="System design concepts">
+  <ol class="concept-list" role="list">
+    @for (item of items(); track item.slug) {
+      <li>
+        <a
+          class="concept-item"
+          [class.active]="activeSlug() === item.slug"
+          [routerLink]="['/system-design/system-design-concepts', item.slug]"
+        >
+          <span class="status-dot" [class.read]="item.read" aria-hidden="true"></span>
+          <span class="concept-item-info">
+            <span class="concept-item-title">{{ item.title }}</span>
+            <span class="concept-item-badge">{{ item.difficulty }}</span>
+          </span>
+        </a>
+      </li>
+    }
+  </ol>
+</aside>

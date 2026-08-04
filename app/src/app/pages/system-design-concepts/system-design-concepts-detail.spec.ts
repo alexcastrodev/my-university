@@ -43,7 +43,7 @@ describe('SystemDesignConceptsDetailPage', () => {
         { provide: ActivatedRoute, useValue: { paramMap: paramMap$, snapshot: { paramMap: paramMap$.value } } },
         {
           provide: SystemDesignConceptsService,
-          useValue: { getConcept: getConceptSpy, markRead: () => of({ read: true }) },
+          useValue: { getConcept: getConceptSpy, markRead: () => of({ read: true }), listConcepts: () => of([]) },
         },
       ],
     }).compileComponents();
