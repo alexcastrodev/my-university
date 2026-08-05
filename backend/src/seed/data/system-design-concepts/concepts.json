@@ -1891,5 +1891,560 @@
         "type": "engineering"
       }
     ]
+  },
+  {
+    "slug": "designing-google-maps",
+    "id": 33,
+    "title": "Designing Google Maps",
+    "summary": "Three unrelated systems hide behind one prompt — a petabyte-scale static tile pyramid served from a CDN, a geocoder that turns text into coordinates, and a shortest-path engine over a continent-sized road graph that Dijkstra cannot touch.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Geospatial",
+      "Routing Algorithms",
+      "Scalability",
+      "Caching"
+    ],
+    "prerequisites": [
+      "Graph algorithms basics",
+      "Designing a Proximity Service"
+    ],
+    "related": [
+      {
+        "label": "Designing a Proximity Service",
+        "slug": "proximity-service"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 3, \"Google Maps\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Geisberger, Sanders, Schultes, Delling, \"Contraction Hierarchies: Faster and Simpler Hierarchical Routing in Road Networks\" (WEA 2008)",
+        "url": "https://link.springer.com/chapter/10.1007/978-3-540-68552-4_24",
+        "type": "paper"
+      },
+      {
+        "label": "OpenStreetMap Wiki — Slippy map tilenames",
+        "url": "https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames",
+        "type": "doc"
+      },
+      {
+        "label": "DeepMind — Traffic prediction with advanced Graph Neural Networks",
+        "url": "https://deepmind.google/discover/blog/traffic-prediction-with-advanced-graph-neural-networks/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "distributed-message-queue-design",
+    "id": 34,
+    "title": "Designing a Distributed Message Queue",
+    "summary": "How to build a Kafka-style log-based broker from scratch — an append-only on-disk log split into partitions, leader/follower replication with in-sync replicas, consumer groups with committed offsets and rebalancing, and what each delivery semantic (at-most-once, at-least-once, exactly-once) actually costs.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 16,
+    "tags": [
+      "Messaging",
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Consensus"
+    ],
+    "prerequisites": [
+      "Message Brokers: Queues vs. Log-Based Streaming",
+      "Consensus and Coordination Services"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 4, \"Distributed Message Queue\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Jay Kreps, Neha Narkhede, and Jun Rao, \"Kafka: a Distributed Messaging System for Log Processing\" (LinkedIn, NetDB 2011)",
+        "url": "https://notes.stephenholiday.com/Kafka.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Kafka Documentation — Design",
+        "url": "https://kafka.apache.org/documentation/#design",
+        "type": "doc"
+      },
+      {
+        "label": "Confluent Engineering — Hands-Free Kafka Replication: A Lesson in Operational Simplicity",
+        "url": "https://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "metrics-monitoring-and-alerting-system",
+    "id": 35,
+    "title": "Designing a Metrics Monitoring and Alerting System",
+    "summary": "How a Prometheus- or Datadog-style monitoring platform absorbs tens of millions of metric writes per interval into a time-series store while a second, deliberately simpler path evaluates alert rules on the same data in seconds.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 15,
+    "tags": [
+      "Observability",
+      "Time-Series Data",
+      "Scalability",
+      "Alerting"
+    ],
+    "prerequisites": [
+      "Message queues basics",
+      "Batch vs. stream processing"
+    ],
+    "related": [
+      {
+        "label": "Designing a Distributed Message Queue",
+        "slug": "distributed-message-queue-design"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 5, \"Metrics Monitoring and Alerting System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Prometheus Documentation — Data Model and Overview",
+        "url": "https://prometheus.io/docs/concepts/data_model/",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus Blog — Pull doesn't scale — or does it?",
+        "url": "https://prometheus.io/blog/2016/07/23/pull-does-not-scale-or-does-it/",
+        "type": "engineering"
+      },
+      {
+        "label": "Pelkonen et al., \"Gorilla: A Fast, Scalable, In-Memory Time Series Database\" (VLDB 2015)",
+        "url": "http://www.vldb.org/pvldb/vol8/p1816-teller.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "ad-click-event-aggregation",
+    "id": 36,
+    "title": "Designing Ad Click Event Aggregation",
+    "summary": "How to count a billion ad click events per day grouped by ad and time window without double-counting a single one — the streaming path that answers dashboards in minutes, the batch path that produces the numbers advertisers are actually billed for, and the deduplication, watermarking, and reconciliation that keep them honest.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Batch Processing",
+      "Stream Processing",
+      "Data Modeling",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "The MapReduce Programming Model",
+      "Message Brokers: Queues vs. Log-Based Streaming"
+    ],
+    "related": [
+      {
+        "label": "The MapReduce Programming Model",
+        "slug": "mapreduce-programming-model"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 6, \"Ad Click Event Aggregation\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Nathan Marz, \"How to beat the CAP theorem\" (2011)",
+        "url": "http://nathanmarz.com/blog/how-to-beat-the-cap-theorem.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Apache Flink Documentation — Timely Stream Processing",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+        "type": "doc"
+      },
+      {
+        "label": "Uber Engineering — Real-Time Exactly-Once Ad Event Processing with Apache Flink, Kafka, and Pinot",
+        "url": "https://www.uber.com/blog/real-time-exactly-once-ad-event-processing/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "hotel-reservation-system",
+    "id": 37,
+    "title": "Designing a Hotel Reservation System",
+    "summary": "Why a booking system is one of the rare designs where correctness outranks throughput — the room-type inventory model, the double-booking race between two users buying the last room, and the pessimistic, optimistic, and constraint-based mechanisms that actually stop it.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Data Consistency",
+      "ACID Transactions",
+      "Concurrency Control",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "Transactions, ACID, and Isolation Levels"
+    ],
+    "related": [
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 7, \"Hotel Reservation System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "PostgreSQL Documentation — Constraints (Exclusion Constraints)",
+        "url": "https://www.postgresql.org/docs/current/ddl-constraints.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Range Types: Constraints on Ranges",
+        "url": "https://www.postgresql.org/docs/current/rangetypes.html",
+        "type": "doc"
+      },
+      {
+        "label": "H. T. Kung and John T. Robinson, \"On Optimistic Methods for Concurrency Control\" (ACM TODS, 1981)",
+        "url": "https://dl.acm.org/doi/10.1145/319566.319567",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "distributed-email-service",
+    "id": 38,
+    "title": "Designing a Distributed Email Service",
+    "summary": "How a Gmail-scale email service splits into three systems with three different design pressures — accepting mail from the public internet over SMTP, storing petabytes of mailbox metadata and attachments, and serving fast inbox loads and full-text search on top of it.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Messaging",
+      "Object Storage",
+      "Scalability",
+      "Data Modeling"
+    ],
+    "prerequisites": [
+      "Message Brokers: Queues vs. Log-Based Streaming",
+      "Object Storage and the Direct-Upload Pattern"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 8, \"Distributed Email Service\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "IETF — RFC 5321, \"Simple Mail Transfer Protocol\"",
+        "url": "https://datatracker.ietf.org/doc/html/rfc5321",
+        "type": "doc"
+      },
+      {
+        "label": "AWS SES Documentation — Warming up dedicated IP addresses",
+        "url": "https://docs.aws.amazon.com/ses/latest/dg/dedicated-ip-warming.html",
+        "type": "doc"
+      },
+      {
+        "label": "Patrick O'Neil et al., \"The Log-Structured Merge-Tree (LSM-Tree)\" (Acta Informatica, 1996)",
+        "url": "https://www.cs.umb.edu/~poneil/lsmtree.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "real-time-gaming-leaderboard",
+    "id": 39,
+    "title": "Designing a Real-Time Gaming Leaderboard",
+    "summary": "Why \"what's my rank?\" and \"who are the top 10?\" are two very different queries at millions of players, and how a sorted set — plus sharding, a top-N cache, and read replicas — answers both in logarithmic time.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 11,
+    "tags": [
+      "Caching",
+      "Data Structures",
+      "Real-Time Systems",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "Caching Strategies and CDNs",
+      "Sorted set / skip list basics"
+    ],
+    "related": [
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 10, \"Real-Time Gaming Leaderboard\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Redis Documentation — Sorted sets",
+        "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Scaling with Redis Cluster",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Database Blog — Building a real-time gaming leaderboard with Amazon ElastiCache for Redis",
+        "url": "https://aws.amazon.com/blogs/database/building-a-real-time-gaming-leaderboard-with-amazon-elasticache-for-redis/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "payment-system-design",
+    "id": 40,
+    "title": "Designing a Payment System",
+    "summary": "Why a payment system's defining constraint is that money must never be lost or double-charged when a call to an external payment provider times out with an unknown outcome — idempotency keys, exactly-once execution, a double-entry ledger, and nightly reconciliation against the provider's settlement file.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 17,
+    "tags": [
+      "Data Consistency",
+      "ACID Transactions",
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Idempotency"
+    ],
+    "prerequisites": [
+      "Transactions, ACID, and Isolation Levels",
+      "The Transactional Outbox Pattern"
+    ],
+    "related": [
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Designing a Digital Wallet",
+        "slug": "digital-wallet-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 11, \"Payment System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Stripe API Reference — Idempotent requests",
+        "url": "https://docs.stripe.com/api/idempotent_requests",
+        "type": "doc"
+      },
+      {
+        "label": "Airbnb Engineering — Avoiding double payments in a distributed payments system",
+        "url": "https://medium.com/airbnb-engineering/avoiding-double-payments-in-a-distributed-payments-system-2981f6b070bb",
+        "type": "engineering"
+      },
+      {
+        "label": "Square Engineering — Books, an immutable double-entry accounting database service",
+        "url": "https://developer.squareup.com/blog/books-an-immutable-double-entry-accounting-database-service/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "digital-wallet-design",
+    "id": 41,
+    "title": "Designing a Digital Wallet",
+    "summary": "How a wallet keeps every user's balance provably equal to the sum of their transaction history — the append-only ledger, the single atomic debit-plus-credit transfer, and the locking, constraints, and idempotency that keep concurrent transfers from creating or destroying money.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Data Consistency",
+      "ACID Transactions",
+      "Idempotency",
+      "Fault Tolerance"
+    ],
+    "prerequisites": [
+      "Designing a Payment System",
+      "Transactions, ACID, and Isolation Levels"
+    ],
+    "related": [
+      {
+        "label": "Designing a Payment System",
+        "slug": "payment-system-design"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 12, \"Digital Wallet\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "PostgreSQL Documentation — Explicit Locking",
+        "url": "https://www.postgresql.org/docs/current/explicit-locking.html",
+        "type": "doc"
+      },
+      {
+        "label": "Square Engineering — Books, an immutable double-entry accounting database service",
+        "url": "https://developer.squareup.com/blog/books-an-immutable-double-entry-accounting-database-service/",
+        "type": "engineering"
+      },
+      {
+        "label": "Stripe — Ledger: Stripe's system for tracking and validating money movement",
+        "url": "https://stripe.com/blog/ledger-stripe-system-for-tracking-and-validating-money-movement",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "stock-exchange-design",
+    "id": 42,
+    "title": "Designing a Stock Exchange",
+    "summary": "Why a matching engine is the one system where microseconds — not throughput or availability — are the primary constraint, and how price-time priority, a single-threaded in-memory order book per symbol, and an append-only sequenced event log combine to make matching fast, fair, deterministic, and replayable.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 16,
+    "tags": [
+      "Low Latency",
+      "Concurrency Control",
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Consensus"
+    ],
+    "prerequisites": [
+      "Consensus and Coordination Services",
+      "Transactions, ACID, and Isolation Levels"
+    ],
+    "related": [
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 13, \"Stock Exchange\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Martin Fowler — The LMAX Architecture",
+        "url": "https://martinfowler.com/articles/lmax.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Martin Thompson et al., \"Disruptor: High Performance Alternative to Bounded Queues for Exchanging Data Between Concurrent Threads\" (LMAX, 2011)",
+        "url": "https://lmax-exchange.github.io/disruptor/disruptor.html",
+        "type": "paper"
+      },
+      {
+        "label": "Aeron — Design Overview",
+        "url": "https://github.com/real-logic/aeron/wiki/Design-Overview",
+        "type": "doc"
+      }
+    ]
   }
 ]
