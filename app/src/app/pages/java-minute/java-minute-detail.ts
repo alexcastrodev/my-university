@@ -29,7 +29,7 @@ export class JavaMinuteDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<JavaMinuteEpisodeSummary>();
+  nav = createConceptNavigation<JavaMinuteEpisodeSummary>(() => this.javaMinuteService.listEpisodes());
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((e) => ({ slug: e.slug, label: e.question, read: e.read })),
@@ -44,10 +44,7 @@ export class JavaMinuteDetailPage implements OnInit {
   });
 
   ngOnInit() {
-    this.javaMinuteService.listEpisodes().subscribe({
-      next: (episodes) => this.nav.allConcepts.set(episodes),
-      error: () => {},
-    });
+    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
       this.loadEpisode(params.get('slug') ?? '');
     });
@@ -82,6 +79,7 @@ export class JavaMinuteDetailPage implements OnInit {
       next: () => {
         this.read.set(true);
         this.marking.set(false);
+        this.nav.refetchList();
         this.xpService.loadSummary();
         this.reviewService.scheduleReview('java-minute', this.nav.slug()).subscribe({ error: () => {} });
       },

@@ -1,10 +1,12 @@
 import { computed, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface ConceptNavEntry {
   slug: string;
+  read: boolean;
 }
 
-export function createConceptNavigation<T extends ConceptNavEntry>() {
+export function createConceptNavigation<T extends ConceptNavEntry>(fetchList: () => Observable<T[]>) {
   const allConcepts = signal<T[]>([]);
   const slug = signal('');
 
@@ -19,5 +21,12 @@ export function createConceptNavigation<T extends ConceptNavEntry>() {
     return i >= 0 && i < list.length - 1 ? list[i + 1] : null;
   });
 
-  return { allConcepts, slug, currentIndex, prevConcept, nextConcept };
+  const refetchList = () => {
+    fetchList().subscribe({
+      next: (concepts) => allConcepts.set(concepts),
+      error: () => {},
+    });
+  };
+
+  return { allConcepts, slug, currentIndex, prevConcept, nextConcept, refetchList };
 }

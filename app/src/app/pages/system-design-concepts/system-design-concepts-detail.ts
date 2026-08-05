@@ -29,7 +29,9 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<SystemDesignConceptSummary>();
+  nav = createConceptNavigation<SystemDesignConceptSummary>(() =>
+    this.systemDesignConceptsService.listConcepts(),
+  );
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.difficulty })),
@@ -44,10 +46,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   });
 
   ngOnInit() {
-    this.systemDesignConceptsService.listConcepts().subscribe({
-      next: (concepts) => this.nav.allConcepts.set(concepts),
-      error: () => {},
-    });
+    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
       this.loadConcept(params.get('slug') ?? '');
     });
@@ -82,6 +81,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
       next: () => {
         this.read.set(true);
         this.marking.set(false);
+        this.nav.refetchList();
         this.xpService.loadSummary();
         this.reviewService.scheduleReview('system-design-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },

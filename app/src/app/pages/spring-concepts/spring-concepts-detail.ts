@@ -29,7 +29,7 @@ export class SpringConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<SpringConceptSummary>();
+  nav = createConceptNavigation<SpringConceptSummary>(() => this.springConceptsService.listConcepts());
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
@@ -44,10 +44,7 @@ export class SpringConceptsDetailPage implements OnInit {
   });
 
   ngOnInit() {
-    this.springConceptsService.listConcepts().subscribe({
-      next: (concepts) => this.nav.allConcepts.set(concepts),
-      error: () => {},
-    });
+    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
       this.loadConcept(params.get('slug') ?? '');
     });
@@ -82,6 +79,7 @@ export class SpringConceptsDetailPage implements OnInit {
       next: () => {
         this.read.set(true);
         this.marking.set(false);
+        this.nav.refetchList();
         this.xpService.loadSummary();
         this.reviewService.scheduleReview('spring-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },

@@ -29,7 +29,7 @@ export class JavaConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<JavaConceptSummary>();
+  nav = createConceptNavigation<JavaConceptSummary>(() => this.javaConceptsService.listConcepts());
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
@@ -44,10 +44,7 @@ export class JavaConceptsDetailPage implements OnInit {
   });
 
   ngOnInit() {
-    this.javaConceptsService.listConcepts().subscribe({
-      next: (concepts) => this.nav.allConcepts.set(concepts),
-      error: () => {},
-    });
+    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
       this.loadConcept(params.get('slug') ?? '');
     });
@@ -82,6 +79,7 @@ export class JavaConceptsDetailPage implements OnInit {
       next: () => {
         this.read.set(true);
         this.marking.set(false);
+        this.nav.refetchList();
         this.xpService.loadSummary();
         this.reviewService.scheduleReview('java-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
