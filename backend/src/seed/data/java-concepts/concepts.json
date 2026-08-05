@@ -619,5 +619,97 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "sockets-and-raw-http-anatomy",
+    "id": 22,
+    "title": "Sockets and the Raw Anatomy of an HTTP Request",
+    "summary": "How ServerSocket/Socket implement the accept-connect-read-write primitive under every web server, and the literal byte-level shape of an HTTP/1.1 request/response (request line, headers, blank-line terminator, Content-Length/chunked bodies, status code classes).",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "ServerSocket — java.net API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html",
+        "type": "doc"
+      },
+      {
+        "label": "Socket — java.net API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/Socket.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9110 — HTTP Semantics",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9112 — HTTP/1.1 (message syntax and routing)",
+        "url": "https://www.rfc-editor.org/rfc/rfc9112",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "classpath-scanning-via-reflection",
+    "id": 23,
+    "title": "Classpath Scanning via Reflection",
+    "summary": "How a component scan actually works underneath: a recursive directory walk over compiled .class files, Class.forName + isAnnotationPresent to find marker-annotated classes, and why real frameworks read bytecode metadata via ASM instead of loading every candidate class.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Class.forName() — java.lang API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html#forName(java.lang.String)",
+        "type": "doc"
+      },
+      {
+        "label": "AnnotatedElement.isAnnotationPresent() — java.lang.reflect API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/AnnotatedElement.html#isAnnotationPresent(java.lang.Class)",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Classpath Scanning and Managed Components",
+        "url": "https://docs.spring.io/spring-framework/reference/core/beans/classpath-scanning.html",
+        "type": "doc"
+      },
+      {
+        "label": "ASM — a Java bytecode manipulation and analysis framework",
+        "url": "https://asm.ow2.io/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "http-sessions-under-the-hood",
+    "id": 24,
+    "title": "HTTP Sessions Under the Hood",
+    "summary": "How session state is faked on top of stateless HTTP: a random session ID, a Set-Cookie/Cookie round trip, and a server-side map keyed by that ID — plus what's missing from the minimal version (expiration, invalidation, externalized storage) and current cookie security attributes (Secure, SameSite).",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "MDN — Using HTTP cookies (attributes, security considerations)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+        "type": "doc"
+      },
+      {
+        "label": "UUID.randomUUID() — java.util API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/UUID.html#randomUUID()",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentHashMap — java.util.concurrent API docs (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6265 — HTTP State Management Mechanism (cookies)",
+        "url": "https://www.rfc-editor.org/rfc/rfc6265",
+        "type": "doc"
+      },
+      {
+        "label": "IETF draft-ietf-httpbis-rfc6265bis — Cookies: HTTP State Management Mechanism (SameSite, in-progress update to RFC 6265)",
+        "url": "https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis",
+        "type": "doc"
+      }
+    ]
   }
 ]
