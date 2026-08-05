@@ -107,5 +107,16 @@
       { "label": "JEP 413: Code Snippets in Java API Documentation", "url": "https://openjdk.org/jeps/413", "type": "doc" },
       { "label": "javadoc — Java SE 25 Tool Reference (--snippet-path option)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javadoc.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "jlink",
+    "id": 383,
+    "question": "What is JLink?",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Java Coding Tip #383: JLink", "url": "https://youtube.com/shorts/bJ3GDdTmRJc?is=FoMccFwLU_1L-t8D", "type": "video" },
+      { "label": "jlink — Java SE 25 Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jlink.html", "type": "doc" },
+      { "label": "jpackage — Java SE 25 Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jpackage.html", "type": "doc" }
+    ]
   }
 ]
