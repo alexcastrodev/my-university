@@ -12,41 +12,23 @@
         <p>Concept not found.</p>
       </div>
     } @else {
-      <app-reading-progress-bar />
-      <div class="detail-layout">
-        <div class="detail-main">
-          <a routerLink="/system-design/system-design-concepts" class="back-link">← System Design</a>
-
-          <app-system-design-concept-view
-            [concept]="concept()"
-            [read]="read()"
-            [marking]="marking()"
-            [allConcepts]="allConcepts()"
-            (markRead)="onMarkRead()"
-          />
-
-          @if (prevConcept() || nextConcept()) {
-            <nav class="concept-pager" aria-label="Concept navigation">
-              @if (prevConcept(); as p) {
-                <a [routerLink]="['/system-design/system-design-concepts', p.slug]" class="pager-link prev">
-                  ← {{ p.title }}
-                </a>
-              } @else {
-                <span></span>
-              }
-              @if (nextConcept(); as n) {
-                <a [routerLink]="['/system-design/system-design-concepts', n.slug]" class="pager-link next">
-                  {{ n.title }} →
-                </a>
-              }
-            </nav>
-          }
-        </div>
-
-        @if (allConcepts().length) {
-          <app-concept-sidebar-nav [items]="allConcepts()" [activeSlug]="slug()" />
-        }
-      </div>
+      <app-concept-detail-layout
+        backHref="/system-design/system-design-concepts"
+        backLabel="System Design"
+        basePath="/system-design/system-design-concepts"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-system-design-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          [allConcepts]="nav.allConcepts()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
     }
   </div>
 </div>

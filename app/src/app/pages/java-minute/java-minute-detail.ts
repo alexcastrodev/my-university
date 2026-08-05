@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
-import { JavaMinuteEpisode } from '../../models/java-minute.model';
+import { JavaMinuteEpisode, JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
 import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { createConceptNavigation } from '../../shared/concept-navigation';
 
 @Component({
   selector: 'app-java-minute-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JavaMinuteEpisodeView, RouterLink],
+  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout],
   templateUrl: './java-minute-detail.html',
   styleUrl: './java-minute-detail.css',
 })
@@ -27,16 +29,32 @@ export class JavaMinuteDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  private slug = '';
+  nav = createConceptNavigation<JavaMinuteEpisodeSummary>();
+
+  sidebarItems = computed(() =>
+    this.nav.allConcepts().map((e) => ({ slug: e.slug, label: e.question, read: e.read })),
+  );
+  prevItem = computed(() => {
+    const p = this.nav.prevConcept();
+    return p ? { slug: p.slug, label: p.question } : null;
+  });
+  nextItem = computed(() => {
+    const n = this.nav.nextConcept();
+    return n ? { slug: n.slug, label: n.question } : null;
+  });
 
   ngOnInit() {
+    this.javaMinuteService.listEpisodes().subscribe({
+      next: (episodes) => this.nav.allConcepts.set(episodes),
+      error: () => {},
+    });
     this.route.paramMap.subscribe((params) => {
       this.loadEpisode(params.get('slug') ?? '');
     });
   }
 
   private loadEpisode(slug: string): void {
-    this.slug = slug;
+    this.nav.slug.set(slug);
     this.loading.set(true);
     this.notFound.set(false);
     this.marking.set(false);
@@ -60,12 +78,12 @@ export class JavaMinuteDetailPage implements OnInit {
   onMarkRead(): void {
     if (this.read() || this.marking()) return;
     this.marking.set(true);
-    this.javaMinuteService.markRead(this.slug).subscribe({
+    this.javaMinuteService.markRead(this.nav.slug()).subscribe({
       next: () => {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('java-minute', this.slug).subscribe({ error: () => {} });
+        this.reviewService.scheduleReview('java-minute', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

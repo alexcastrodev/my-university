@@ -1,23 +1,33 @@
 <div class="page">
   <div class="page-body">
-    <a routerLink="/databases/database-concepts" class="back-link">← Database Concepts</a>
-
     @if (loading()) {
+      <a routerLink="/databases/database-concepts" class="back-link">← Database Concepts</a>
       <div class="loading" role="status" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         Loading concept…
       </div>
     } @else if (notFound()) {
+      <a routerLink="/databases/database-concepts" class="back-link">← Database Concepts</a>
       <div class="not-found">
         <p>Concept not found.</p>
       </div>
     } @else {
-      <app-database-concept-view
-        [concept]="concept()"
-        [read]="read()"
-        [marking]="marking()"
-        (markRead)="onMarkRead()"
-      />
+      <app-concept-detail-layout
+        backHref="/databases/database-concepts"
+        backLabel="Database Concepts"
+        basePath="/databases/database-concepts"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-database-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
     }
   </div>
 </div>

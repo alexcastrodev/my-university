@@ -1,16 +1,31 @@
-<aside class="sidebar-nav" aria-label="System design concepts">
+<aside class="sidebar-nav" aria-label="Concept navigation">
+  <div class="sidebar-progress">
+    <span class="sidebar-progress-label">{{ readCount() }} / {{ items().length }} read</span>
+    <div class="sidebar-progress-track">
+      <div class="sidebar-progress-fill" [style.width.%]="progressPercent()"></div>
+    </div>
+  </div>
+
   <ol class="concept-list" role="list">
     @for (item of items(); track item.slug) {
       <li>
         <a
           class="concept-item"
           [class.active]="activeSlug() === item.slug"
-          [routerLink]="['/system-design/system-design-concepts', item.slug]"
+          [routerLink]="[basePath(), item.slug]"
         >
-          <span class="status-dot" [class.read]="item.read" aria-hidden="true"></span>
+          <span class="status-dot" [class.read]="item.read" aria-hidden="true">
+            @if (item.read) {
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
+                <path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            }
+          </span>
           <span class="concept-item-info">
-            <span class="concept-item-title">{{ item.title }}</span>
-            <span class="concept-item-badge">{{ item.difficulty }}</span>
+            <span class="concept-item-title">{{ item.label }}</span>
+            @if (item.badge) {
+              <span class="concept-item-badge">{{ item.badge }}</span>
+            }
           </span>
         </a>
       </li>

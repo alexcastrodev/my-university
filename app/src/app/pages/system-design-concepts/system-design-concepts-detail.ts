@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ConceptSidebarNav } from '../../components/concept-sidebar-nav/concept-sidebar-nav';
-import { ReadingProgressBar } from '../../components/reading-progress-bar/reading-progress-bar';
+import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { SystemDesignConceptView } from '../../components/system-design-concept-view/system-design-concept-view';
 import { SystemDesignConcept, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { ReviewService } from '../../services/review.service';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { createConceptNavigation } from '../../shared/concept-navigation';
 
 @Component({
   selector: 'app-system-design-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SystemDesignConceptView, RouterLink, ReadingProgressBar, ConceptSidebarNav],
+  imports: [SystemDesignConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './system-design-concepts-detail.html',
   styleUrl: './system-design-concepts-detail.css',
 })
@@ -28,24 +28,24 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   notFound = signal(false);
   read = signal(false);
   marking = signal(false);
-  allConcepts = signal<SystemDesignConceptSummary[]>([]);
 
-  slug = signal('');
+  nav = createConceptNavigation<SystemDesignConceptSummary>();
 
-  currentIndex = computed(() => this.allConcepts().findIndex((c) => c.slug === this.slug()));
-  prevConcept = computed(() => {
-    const i = this.currentIndex();
-    return i > 0 ? this.allConcepts()[i - 1] : null;
+  sidebarItems = computed(() =>
+    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.difficulty })),
+  );
+  prevItem = computed(() => {
+    const p = this.nav.prevConcept();
+    return p ? { slug: p.slug, label: p.title } : null;
   });
-  nextConcept = computed(() => {
-    const i = this.currentIndex();
-    const list = this.allConcepts();
-    return i >= 0 && i < list.length - 1 ? list[i + 1] : null;
+  nextItem = computed(() => {
+    const n = this.nav.nextConcept();
+    return n ? { slug: n.slug, label: n.title } : null;
   });
 
   ngOnInit() {
     this.systemDesignConceptsService.listConcepts().subscribe({
-      next: (concepts) => this.allConcepts.set(concepts),
+      next: (concepts) => this.nav.allConcepts.set(concepts),
       error: () => {},
     });
     this.route.paramMap.subscribe((params) => {
@@ -54,7 +54,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   }
 
   private loadConcept(slug: string): void {
-    this.slug.set(slug);
+    this.nav.slug.set(slug);
     this.loading.set(true);
     this.notFound.set(false);
     this.marking.set(false);
@@ -78,12 +78,12 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   onMarkRead(): void {
     if (this.read() || this.marking()) return;
     this.marking.set(true);
-    this.systemDesignConceptsService.markRead(this.slug()).subscribe({
+    this.systemDesignConceptsService.markRead(this.nav.slug()).subscribe({
       next: () => {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('system-design-concepts', this.slug()).subscribe({ error: () => {} });
+        this.reviewService.scheduleReview('system-design-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

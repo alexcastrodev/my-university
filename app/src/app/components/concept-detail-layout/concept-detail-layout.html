@@ -1,0 +1,26 @@
+<app-reading-progress-bar />
+
+<div class="detail-layout">
+  <div class="detail-main">
+    <a [routerLink]="backHref()" class="back-link">← {{ backLabel() }}</a>
+
+    <ng-content />
+
+    @if (prevItem() || nextItem()) {
+      <nav class="concept-pager" aria-label="Concept navigation">
+        @if (prevItem(); as p) {
+          <a [routerLink]="[basePath(), p.slug]" class="pager-link prev">← {{ p.label }}</a>
+        } @else {
+          <span></span>
+        }
+        @if (nextItem(); as n) {
+          <a [routerLink]="[basePath(), n.slug]" class="pager-link next">{{ n.label }} →</a>
+        }
+      </nav>
+    }
+  </div>
+
+  @if (items().length) {
+    <app-concept-sidebar-nav [items]="items()" [activeSlug]="activeSlug()" [basePath]="basePath()" />
+  }
+</div>

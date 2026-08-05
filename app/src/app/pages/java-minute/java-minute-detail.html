@@ -1,23 +1,33 @@
 <div class="page">
   <div class="page-body">
-    <a routerLink="/java/java-minute" class="back-link">← Java Minute</a>
-
     @if (loading()) {
+      <a routerLink="/java/java-minute" class="back-link">← Java Minute</a>
       <div class="loading" role="status" aria-label="Loading episode">
         <span class="spinner" aria-hidden="true"></span>
         Loading episode…
       </div>
     } @else if (notFound()) {
+      <a routerLink="/java/java-minute" class="back-link">← Java Minute</a>
       <div class="not-found">
         <p>Episode not found.</p>
       </div>
     } @else {
-      <app-java-minute-episode
-        [episode]="episode()"
-        [read]="read()"
-        [marking]="marking()"
-        (markRead)="onMarkRead()"
-      />
+      <app-concept-detail-layout
+        backHref="/java/java-minute"
+        backLabel="Java Minute"
+        basePath="/java/java-minute"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-java-minute-episode
+          [episode]="episode()"
+          [read]="read()"
+          [marking]="marking()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
     }
   </div>
 </div>

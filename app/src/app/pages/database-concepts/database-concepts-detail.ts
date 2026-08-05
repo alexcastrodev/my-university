@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { DatabaseConceptView } from '../../components/database-concept-view/database-concept-view';
-import { DatabaseConcept } from '../../models/database-concept.model';
+import { DatabaseConcept, DatabaseConceptSummary } from '../../models/database-concept.model';
 import { DatabaseConceptsService } from '../../services/database-concepts.service';
 import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { createConceptNavigation } from '../../shared/concept-navigation';
 
 @Component({
   selector: 'app-database-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatabaseConceptView, RouterLink],
+  imports: [DatabaseConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './database-concepts-detail.html',
   styleUrl: './database-concepts-detail.css',
 })
@@ -27,16 +29,32 @@ export class DatabaseConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  private slug = '';
+  nav = createConceptNavigation<DatabaseConceptSummary>();
+
+  sidebarItems = computed(() =>
+    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
+  );
+  prevItem = computed(() => {
+    const p = this.nav.prevConcept();
+    return p ? { slug: p.slug, label: p.title } : null;
+  });
+  nextItem = computed(() => {
+    const n = this.nav.nextConcept();
+    return n ? { slug: n.slug, label: n.title } : null;
+  });
 
   ngOnInit() {
+    this.databaseConceptsService.listConcepts().subscribe({
+      next: (concepts) => this.nav.allConcepts.set(concepts),
+      error: () => {},
+    });
     this.route.paramMap.subscribe((params) => {
       this.loadConcept(params.get('slug') ?? '');
     });
   }
 
   private loadConcept(slug: string): void {
-    this.slug = slug;
+    this.nav.slug.set(slug);
     this.loading.set(true);
     this.notFound.set(false);
     this.marking.set(false);
@@ -60,12 +78,12 @@ export class DatabaseConceptsDetailPage implements OnInit {
   onMarkRead(): void {
     if (this.read() || this.marking()) return;
     this.marking.set(true);
-    this.databaseConceptsService.markRead(this.slug).subscribe({
+    this.databaseConceptsService.markRead(this.nav.slug()).subscribe({
       next: () => {
         this.read.set(true);
         this.marking.set(false);
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('database-concepts', this.slug).subscribe({ error: () => {} });
+        this.reviewService.scheduleReview('database-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });
