@@ -7,14 +7,45 @@
     "publishedAt": "2026-07-28",
     "difficulty": "Intermediate",
     "readingTime": 16,
-    "tags": ["Distributed Systems", "Messaging", "Data Consistency", "Event-Driven Architecture", "Microservices"],
-    "prerequisites": ["Database transactions (ACID)", "Message queues / brokers basics", "Eventual consistency"],
-    "related": ["Change Data Capture (CDC)", "Saga Pattern", "Event Sourcing", "Two-Phase Commit (2PC)"],
+    "tags": [
+      "Distributed Systems",
+      "Messaging",
+      "Data Consistency",
+      "Event-Driven Architecture",
+      "Microservices"
+    ],
+    "prerequisites": [
+      "Database transactions (ACID)",
+      "Message queues / brokers basics",
+      "Eventual consistency"
+    ],
+    "related": [
+      "Change Data Capture (CDC)",
+      "Saga Pattern",
+      "Event Sourcing",
+      "Two-Phase Commit (2PC)"
+    ],
     "references": [
-      { "label": "Chris Richardson, \"Microservices Patterns\" (Manning, 2018) — Chapter 3, \"Transactional messaging\"", "url": "https://www.manning.com/books/microservices-patterns", "type": "book" },
-      { "label": "microservices.io — Pattern: Transactional outbox", "url": "https://microservices.io/patterns/data/transactional-outbox.html", "type": "doc" },
-      { "label": "Gunnar Morling — \"Reliable Microservices Data Exchange With the Outbox Pattern\" (Debezium blog, 2019)", "url": "https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/", "type": "engineering" },
-      { "label": "Debezium Documentation — Outbox Event Router", "url": "https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html", "type": "doc" }
+      {
+        "label": "Chris Richardson, \"Microservices Patterns\" (Manning, 2018) — Chapter 3, \"Transactional messaging\"",
+        "url": "https://www.manning.com/books/microservices-patterns",
+        "type": "book"
+      },
+      {
+        "label": "microservices.io — Pattern: Transactional outbox",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+        "type": "doc"
+      },
+      {
+        "label": "Gunnar Morling — \"Reliable Microservices Data Exchange With the Outbox Pattern\" (Debezium blog, 2019)",
+        "url": "https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/",
+        "type": "engineering"
+      },
+      {
+        "label": "Debezium Documentation — Outbox Event Router",
+        "url": "https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -25,19 +56,50 @@
     "publishedAt": "2026-07-30",
     "difficulty": "Beginner",
     "readingTime": 8,
-    "tags": ["Distributed Systems", "Consistency Models", "Fundamentals", "Trade-offs"],
-    "prerequisites": ["Basic client-server networking", "What a network partition is", "Database replication basics"],
+    "tags": [
+      "Distributed Systems",
+      "Consistency Models",
+      "Fundamentals",
+      "Trade-offs"
+    ],
+    "prerequisites": [
+      "Basic client-server networking",
+      "What a network partition is",
+      "Database replication basics"
+    ],
     "related": [
       "PACELC Theorem",
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
       "Eventual Consistency"
     ],
     "references": [
-      { "label": "Eric Brewer — \"CAP Twelve Years Later: How the 'Rules' Have Changed\" (InfoQ / IEEE Computer, 2012)", "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/", "type": "engineering" },
-      { "label": "Daniel Abadi — \"Problems with CAP, and Yahoo's Little Known NoSQL System\" (DBMS Musings, 2010)", "url": "http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html", "type": "engineering" },
-      { "label": "Wikipedia — CAP theorem", "url": "https://en.wikipedia.org/wiki/CAP_theorem", "type": "doc" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 9, \"Consistency and Consensus\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" }
+      {
+        "label": "Eric Brewer — \"CAP Twelve Years Later: How the 'Rules' Have Changed\" (InfoQ / IEEE Computer, 2012)",
+        "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/",
+        "type": "engineering"
+      },
+      {
+        "label": "Daniel Abadi — \"Problems with CAP, and Yahoo's Little Known NoSQL System\" (DBMS Musings, 2010)",
+        "url": "http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Wikipedia — CAP theorem",
+        "url": "https://en.wikipedia.org/wiki/CAP_theorem",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 9, \"Consistency and Consensus\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -48,20 +110,57 @@
     "publishedAt": "2026-07-30",
     "difficulty": "Intermediate",
     "readingTime": 9,
-    "tags": ["Distributed Systems", "Sharding", "Caching", "Load Balancing", "Fundamentals"],
-    "prerequisites": ["Hash functions basics", "Horizontal sharding / partitioning basics"],
+    "tags": [
+      "Distributed Systems",
+      "Sharding",
+      "Caching",
+      "Load Balancing",
+      "Fundamentals"
+    ],
+    "prerequisites": [
+      "Hash functions basics",
+      "Horizontal sharding / partitioning basics"
+    ],
     "related": [
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" },
-      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
       "Chord (peer-to-peer DHT)"
     ],
     "references": [
-      { "label": "Wikipedia — Consistent hashing", "url": "https://en.wikipedia.org/wiki/Consistent_hashing", "type": "doc" },
-      { "label": "Giuseppe DeCandia et al. — \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "paper" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 6, \"Partitioning\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" },
-      { "label": "Wikipedia — Chord (peer-to-peer)", "url": "https://en.wikipedia.org/wiki/Chord_(peer-to-peer)", "type": "doc" }
+      {
+        "label": "Wikipedia — Consistent hashing",
+        "url": "https://en.wikipedia.org/wiki/Consistent_hashing",
+        "type": "doc"
+      },
+      {
+        "label": "Giuseppe DeCandia et al. — \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 6, \"Partitioning\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+        "type": "book"
+      },
+      {
+        "label": "Wikipedia — Chord (peer-to-peer)",
+        "url": "https://en.wikipedia.org/wiki/Chord_(peer-to-peer)",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -72,19 +171,52 @@
     "publishedAt": "2026-07-30",
     "difficulty": "Intermediate",
     "readingTime": 9,
-    "tags": ["Distributed Systems", "Data Modeling", "Scalability", "Sharding"],
-    "prerequisites": ["Database primary keys and auto-increment / sequences", "Basic distributed systems concepts"],
+    "tags": [
+      "Distributed Systems",
+      "Data Modeling",
+      "Scalability",
+      "Sharding"
+    ],
+    "prerequisites": [
+      "Database primary keys and auto-increment / sequences",
+      "Basic distributed systems concepts"
+    ],
     "related": [
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
       "Base62 Encoding"
     ],
     "references": [
-      { "label": "Twitter (archived) — Snowflake ID generator", "url": "https://github.com/twitter-archive/snowflake", "type": "engineering" },
-      { "label": "Instagram Engineering — \"Sharding & IDs at Instagram\"", "url": "https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c", "type": "engineering" },
-      { "label": "RFC 9562 — UUID Version 7 (IETF, 2024)", "url": "https://www.rfc-editor.org/rfc/rfc9562", "type": "doc" },
-      { "label": "PostgreSQL Documentation — CREATE SEQUENCE", "url": "https://www.postgresql.org/docs/current/sql-createsequence.html", "type": "doc" }
+      {
+        "label": "Twitter (archived) — Snowflake ID generator",
+        "url": "https://github.com/twitter-archive/snowflake",
+        "type": "engineering"
+      },
+      {
+        "label": "Instagram Engineering — \"Sharding & IDs at Instagram\"",
+        "url": "https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c",
+        "type": "engineering"
+      },
+      {
+        "label": "RFC 9562 — UUID Version 7 (IETF, 2024)",
+        "url": "https://www.rfc-editor.org/rfc/rfc9562",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — CREATE SEQUENCE",
+        "url": "https://www.postgresql.org/docs/current/sql-createsequence.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -95,19 +227,55 @@
     "publishedAt": "2026-07-30",
     "difficulty": "Intermediate",
     "readingTime": 8,
-    "tags": ["Caching", "Performance", "CDN", "Scalability"],
-    "prerequisites": ["HTTP request/response basics", "Database read/write basics"],
+    "tags": [
+      "Caching",
+      "Performance",
+      "CDN",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "HTTP request/response basics",
+      "Database read/write basics"
+    ],
     "related": [
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Rate Limiting", "slug": "rate-limiting" }
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      }
     ],
     "references": [
-      { "label": "MDN — HTTP Caching", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching", "type": "doc" },
-      { "label": "Rajesh Nishtala et al. — \"Scaling Memcache at Facebook\" (NSDI 2013)", "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala", "type": "paper" },
-      { "label": "AWS — Caching Best Practices", "url": "https://aws.amazon.com/caching/best-practices/", "type": "doc" },
-      { "label": "Cloudflare Learning Center — What is a CDN?", "url": "https://www.cloudflare.com/learning/cdn/what-is-a-cdn/", "type": "doc" }
+      {
+        "label": "MDN — HTTP Caching",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching",
+        "type": "doc"
+      },
+      {
+        "label": "Rajesh Nishtala et al. — \"Scaling Memcache at Facebook\" (NSDI 2013)",
+        "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala",
+        "type": "paper"
+      },
+      {
+        "label": "AWS — Caching Best Practices",
+        "url": "https://aws.amazon.com/caching/best-practices/",
+        "type": "doc"
+      },
+      {
+        "label": "Cloudflare Learning Center — What is a CDN?",
+        "url": "https://www.cloudflare.com/learning/cdn/what-is-a-cdn/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -118,19 +286,59 @@
     "publishedAt": "2026-07-30",
     "difficulty": "Advanced",
     "readingTime": 10,
-    "tags": ["Distributed Systems", "Data Consistency", "CQRS", "Database Replication", "Scalability"],
-    "prerequisites": [{ "label": "CAP Theorem", "slug": "cap-theorem" }, "Database replication basics", "Eventual consistency"],
+    "tags": [
+      "Distributed Systems",
+      "Data Consistency",
+      "CQRS",
+      "Database Replication",
+      "Scalability"
+    ],
+    "prerequisites": [
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      "Database replication basics",
+      "Eventual consistency"
+    ],
     "related": [
-      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
-      { "label": "PostgreSQL Quorum Voting and Connection Indirection", "slug": "postgresql-quorum-and-connection-indirection", "feature": "database" },
-      { "label": "PostgreSQL Split-Brain Prevention", "slug": "postgresql-split-brain-prevention", "feature": "database" },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "PostgreSQL Quorum Voting and Connection Indirection",
+        "slug": "postgresql-quorum-and-connection-indirection",
+        "feature": "database"
+      },
+      {
+        "label": "PostgreSQL Split-Brain Prevention",
+        "slug": "postgresql-split-brain-prevention",
+        "feature": "database"
+      },
       "Change Data Capture (CDC)"
     ],
     "references": [
-      { "label": "Martin Fowler — \"CQRS\" (bliki)", "url": "https://martinfowler.com/bliki/CQRS.html", "type": "doc" },
-      { "label": "microservices.io — Pattern: CQRS", "url": "https://microservices.io/patterns/data/cqrs.html", "type": "doc" },
-      { "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication", "url": "https://www.postgresql.org/docs/current/warm-standby.html", "type": "doc" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 5, \"Replication\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/", "type": "book" }
+      {
+        "label": "Martin Fowler — \"CQRS\" (bliki)",
+        "url": "https://martinfowler.com/bliki/CQRS.html",
+        "type": "doc"
+      },
+      {
+        "label": "microservices.io — Pattern: CQRS",
+        "url": "https://microservices.io/patterns/data/cqrs.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — High Availability, Load Balancing, and Replication",
+        "url": "https://www.postgresql.org/docs/current/warm-standby.html",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 5, \"Replication\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -141,18 +349,49 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Intermediate",
     "readingTime": 10,
-    "tags": ["Distributed Systems", "Fundamentals", "Fault Tolerance", "Consistency Models"],
-    "prerequisites": ["Basic client-server networking", "What a network partition is", "Garbage collection basics"],
+    "tags": [
+      "Distributed Systems",
+      "Fundamentals",
+      "Fault Tolerance",
+      "Consistency Models"
+    ],
+    "prerequisites": [
+      "Basic client-server networking",
+      "What a network partition is",
+      "Garbage collection basics"
+    ],
     "related": [
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
       "Consensus and Coordination Services",
-      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" }
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly, 2024)", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Google Research — \"Spanner: Google's Globally-Distributed Database\" (OSDI 2012)", "url": "https://research.google/pubs/spanner-googles-globally-distributed-database/", "type": "paper" },
-      { "label": "AWS — Amazon Time Sync Service", "url": "https://docs.aws.amazon.com/AmazonElasticComputeCloud/latest/UserGuide/set-time.html", "type": "doc" },
-      { "label": "Java Platform — G1 Garbage Collector pause-time tuning", "url": "https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-g1-garbage-collector1.html", "type": "doc" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly, 2024)",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Google Research — \"Spanner: Google's Globally-Distributed Database\" (OSDI 2012)",
+        "url": "https://research.google/pubs/spanner-googles-globally-distributed-database/",
+        "type": "paper"
+      },
+      {
+        "label": "AWS — Amazon Time Sync Service",
+        "url": "https://docs.aws.amazon.com/AmazonElasticComputeCloud/latest/UserGuide/set-time.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Platform — G1 Garbage Collector pause-time tuning",
+        "url": "https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-g1-garbage-collector1.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -163,21 +402,60 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Intermediate",
     "readingTime": 14,
-    "tags": ["Distributed Systems", "Data Consistency", "Event-Driven Architecture", "Streaming", "Replication"],
-    "prerequisites": ["Database replication basics", "Message queues / brokers basics", "The Transactional Outbox Pattern"],
+    "tags": [
+      "Distributed Systems",
+      "Data Consistency",
+      "Event-Driven Architecture",
+      "Streaming",
+      "Replication"
+    ],
+    "prerequisites": [
+      "Database replication basics",
+      "Message queues / brokers basics",
+      "The Transactional Outbox Pattern"
+    ],
     "related": [
-      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
       "Event Sourcing",
-      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
       "Log Compaction",
-      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Databases and Streams\" and \"State, Streams, and Immutability\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Debezium Documentation — How Debezium Works / Features", "url": "https://debezium.io/documentation/reference/stable/features.html", "type": "doc" },
-      { "label": "PostgreSQL Documentation — Logical Replication", "url": "https://www.postgresql.org/docs/current/logical-replication.html", "type": "doc" },
-      { "label": "Google Cloud — Datastream (managed CDC) Overview", "url": "https://cloud.google.com/datastream/docs/overview", "type": "doc" },
-      { "label": "Netflix Tech Blog — DBLog: A Generic Change-Data-Capture Framework", "url": "https://netflixtechblog.com/dblog-a-generic-change-data-capture-framework-69351fb9099b", "type": "engineering" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Databases and Streams\" and \"State, Streams, and Immutability\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Debezium Documentation — How Debezium Works / Features",
+        "url": "https://debezium.io/documentation/reference/stable/features.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Logical Replication",
+        "url": "https://www.postgresql.org/docs/current/logical-replication.html",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud — Datastream (managed CDC) Overview",
+        "url": "https://cloud.google.com/datastream/docs/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Netflix Tech Blog — DBLog: A Generic Change-Data-Capture Framework",
+        "url": "https://netflixtechblog.com/dblog-a-generic-change-data-capture-framework-69351fb9099b",
+        "type": "engineering"
+      }
     ]
   },
   {
@@ -188,18 +466,52 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Intermediate",
     "readingTime": 13,
-    "tags": ["Databases", "Data Consistency", "Transactions", "Concurrency", "Fundamentals"],
-    "prerequisites": ["Basic SQL (SELECT/UPDATE/transactions)", "What a race condition is"],
+    "tags": [
+      "Databases",
+      "Data Consistency",
+      "Transactions",
+      "Concurrency",
+      "Fundamentals"
+    ],
+    "prerequisites": [
+      "Basic SQL (SELECT/UPDATE/transactions)",
+      "What a race condition is"
+    ],
     "related": [
-      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Consensus and Coordination Services", "slug": "consensus-and-coordination-services" }
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 8, \"Transactions\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "PostgreSQL Documentation — Transaction Isolation", "url": "https://www.postgresql.org/docs/current/transaction-iso.html", "type": "doc" },
-      { "label": "MySQL Reference Manual — InnoDB Transaction Isolation Levels", "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html", "type": "doc" },
-      { "label": "Jepsen — \"Analyses\" (isolation-level violations found in real databases under test)", "url": "https://jepsen.io/analyses", "type": "engineering" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 8, \"Transactions\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "PostgreSQL Documentation — Transaction Isolation",
+        "url": "https://www.postgresql.org/docs/current/transaction-iso.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — InnoDB Transaction Isolation Levels",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+        "type": "doc"
+      },
+      {
+        "label": "Jepsen — \"Analyses\" (isolation-level violations found in real databases under test)",
+        "url": "https://jepsen.io/analyses",
+        "type": "engineering"
+      }
     ]
   },
   {
@@ -210,20 +522,55 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Advanced",
     "readingTime": 12,
-    "tags": ["Distributed Systems", "Consensus", "Fault Tolerance", "Coordination"],
-    "prerequisites": ["Database replication basics", "Quorum reads/writes", "CAP Theorem"],
+    "tags": [
+      "Distributed Systems",
+      "Consensus",
+      "Fault Tolerance",
+      "Coordination"
+    ],
+    "prerequisites": [
+      "Database replication basics",
+      "Quorum reads/writes",
+      "CAP Theorem"
+    ],
     "related": [
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
       "Linearizability",
       "Two-Phase Commit"
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 10, \"Consistency and Consensus\", sections \"Consensus\" and \"Coordination Services\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Diego Ongaro and John Ousterhout — \"In Search of an Understandable Consensus Algorithm\" (Raft paper, USENIX ATC 2014)", "url": "https://raft.github.io/raft.pdf", "type": "paper" },
-      { "label": "etcd Documentation — Why etcd", "url": "https://etcd.io/docs/v3.5/learning/why/", "type": "doc" },
-      { "label": "Apache ZooKeeper — ZooKeeper Recipes and Solutions (locks, leader election)", "url": "https://zookeeper.apache.org/doc/current/recipes.html", "type": "doc" },
-      { "label": "Kubernetes Documentation — Operating etcd clusters for Kubernetes", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/", "type": "doc" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 10, \"Consistency and Consensus\", sections \"Consensus\" and \"Coordination Services\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Diego Ongaro and John Ousterhout — \"In Search of an Understandable Consensus Algorithm\" (Raft paper, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "etcd Documentation — Why etcd",
+        "url": "https://etcd.io/docs/v3.5/learning/why/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache ZooKeeper — ZooKeeper Recipes and Solutions (locks, leader election)",
+        "url": "https://zookeeper.apache.org/doc/current/recipes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes Documentation — Operating etcd clusters for Kubernetes",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -234,20 +581,53 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Intermediate",
     "readingTime": 12,
-    "tags": ["Distributed Systems", "Streaming", "Event-Driven Architecture", "Messaging"],
-    "prerequisites": ["Message queues / brokers basics", "Database replication basics"],
+    "tags": [
+      "Distributed Systems",
+      "Streaming",
+      "Event-Driven Architecture",
+      "Messaging"
+    ],
+    "prerequisites": [
+      "Message queues / brokers basics",
+      "Database replication basics"
+    ],
     "related": [
-      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
-      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
       "Log Compaction",
       "Event Sourcing",
-      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", section \"Transmitting Event Streams\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Apache Kafka Documentation — Introduction and Design", "url": "https://kafka.apache.org/documentation/#introduction", "type": "doc" },
-      { "label": "Confluent — KRaft: Apache Kafka Without ZooKeeper", "url": "https://developer.confluent.io/learn/kraft/", "type": "doc" },
-      { "label": "AWS — Choosing Between Amazon SQS and Amazon Kinesis", "url": "https://docs.aws.amazon.com/whitepapers/latest/streaming-data-solutions-on-aws/amazon-sqs.html", "type": "doc" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", section \"Transmitting Event Streams\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Apache Kafka Documentation — Introduction and Design",
+        "url": "https://kafka.apache.org/documentation/#introduction",
+        "type": "doc"
+      },
+      {
+        "label": "Confluent — KRaft: Apache Kafka Without ZooKeeper",
+        "url": "https://developer.confluent.io/learn/kraft/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS — Choosing Between Amazon SQS and Amazon Kinesis",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/streaming-data-solutions-on-aws/amazon-sqs.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -258,21 +638,63 @@
     "publishedAt": "2026-08-03",
     "difficulty": "Intermediate",
     "readingTime": 9,
-    "tags": ["Load Balancing", "Scalability", "Networking", "Fundamentals"],
-    "prerequisites": ["HTTP request/response basics", "Basic client-server networking"],
+    "tags": [
+      "Load Balancing",
+      "Scalability",
+      "Networking",
+      "Fundamentals"
+    ],
+    "prerequisites": [
+      "HTTP request/response basics",
+      "Basic client-server networking"
+    ],
     "related": [
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "The API Gateway", "slug": "api-gateway" },
-      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" },
-      { "label": "Stateless Services and Decoupling Compute from Data", "slug": "stateless-services-and-decoupling" }
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      },
+      {
+        "label": "Stateless Services and Decoupling Compute from Data",
+        "slug": "stateless-services-and-decoupling"
+      }
     ],
     "references": [
-      { "label": "NGINX Documentation — Load Balancing", "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/", "type": "doc" },
-      { "label": "AWS — Elastic Load Balancing: Application, Network, and Gateway Load Balancers", "url": "https://aws.amazon.com/elasticloadbalancing/", "type": "doc" },
-      { "label": "Google Cloud Architecture Center — Load Balancing Overview", "url": "https://cloud.google.com/load-balancing/docs/load-balancing-overview", "type": "doc" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 6, \"Partitioning\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" }
+      {
+        "label": "NGINX Documentation — Load Balancing",
+        "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS — Elastic Load Balancing: Application, Network, and Gateway Load Balancers",
+        "url": "https://aws.amazon.com/elasticloadbalancing/",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud Architecture Center — Load Balancing Overview",
+        "url": "https://cloud.google.com/load-balancing/docs/load-balancing-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 6, \"Partitioning\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -283,20 +705,59 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Intermediate",
     "readingTime": 10,
-    "tags": ["Databases", "Data Modeling", "Scalability", "Fundamentals"],
-    "prerequisites": ["Basic SQL and relational modeling", "What a key-value store is"],
+    "tags": [
+      "Databases",
+      "Data Modeling",
+      "Scalability",
+      "Fundamentals"
+    ],
+    "prerequisites": [
+      "Basic SQL and relational modeling",
+      "What a key-value store is"
+    ],
     "related": [
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "The Transactional Outbox Pattern", "slug": "outbox-pattern" },
-      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "AWS — Amazon S3 vs. Amazon RDS: When to Use Which", "url": "https://aws.amazon.com/products/storage/", "type": "doc" },
-      { "label": "MongoDB — Relational vs. Document Databases", "url": "https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases", "type": "doc" },
-      { "label": "Martin Fowler — Polyglot Persistence", "url": "https://martinfowler.com/bliki/PolyglotPersistence.html", "type": "doc" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "AWS — Amazon S3 vs. Amazon RDS: When to Use Which",
+        "url": "https://aws.amazon.com/products/storage/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB — Relational vs. Document Databases",
+        "url": "https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Fowler — Polyglot Persistence",
+        "url": "https://martinfowler.com/bliki/PolyglotPersistence.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -324,14 +785,36 @@
         "label": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
         "slug": "scaling-real-time-messaging-ordering-and-fan-out"
       },
-      { "label": "CAP Theorem", "slug": "cap-theorem" },
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
     ],
     "references": [
-      { "label": "IETF RFC 6455 — The WebSocket Protocol", "url": "https://datatracker.ietf.org/doc/html/rfc6455", "type": "doc" },
-      { "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)", "url": "https://www.youtube.com/@IGotAnOffer-Engineering", "type": "video" },
-      { "label": "System Design Handbook — Slack System Design Interview: The Complete Guide", "url": "https://www.systemdesignhandbook.com/guides/slack-system-design-interview/", "type": "doc" },
-      { "label": "MDN Web Docs — WebSockets API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API", "type": "doc" }
+      {
+        "label": "IETF RFC 6455 — The WebSocket Protocol",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6455",
+        "type": "doc"
+      },
+      {
+        "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)",
+        "url": "https://www.youtube.com/@IGotAnOffer-Engineering",
+        "type": "video"
+      },
+      {
+        "label": "System Design Handbook — Slack System Design Interview: The Complete Guide",
+        "url": "https://www.systemdesignhandbook.com/guides/slack-system-design-interview/",
+        "type": "doc"
+      },
+      {
+        "label": "MDN Web Docs — WebSockets API",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -358,18 +841,53 @@
       "Kafka partitioning basics"
     ],
     "related": [
-      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
-      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "Read/Write Splitting and CQRS-Lite", "slug": "read-write-splitting-and-cqrs-lite" }
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      }
     ],
     "references": [
-      { "label": "Apache Kafka Documentation — Partitions and Ordering Guarantees", "url": "https://kafka.apache.org/documentation/#intro_topics", "type": "doc" },
-      { "label": "Redis Documentation — Pub/Sub", "url": "https://redis.io/docs/latest/develop/interact/pubsub/", "type": "doc" },
-      { "label": "Debezium Documentation — Change Data Capture Overview", "url": "https://debezium.io/documentation/reference/stable/tutorial.html", "type": "doc" },
-      { "label": "Discord Engineering — How Discord Stores Billions of Messages", "url": "https://discord.com/blog/how-discord-stores-billions-of-messages", "type": "engineering" },
-      { "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)", "url": "https://www.youtube.com/@IGotAnOffer-Engineering", "type": "video" }
+      {
+        "label": "Apache Kafka Documentation — Partitions and Ordering Guarantees",
+        "url": "https://kafka.apache.org/documentation/#intro_topics",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Pub/Sub",
+        "url": "https://redis.io/docs/latest/develop/interact/pubsub/",
+        "type": "doc"
+      },
+      {
+        "label": "Debezium Documentation — Change Data Capture Overview",
+        "url": "https://debezium.io/documentation/reference/stable/tutorial.html",
+        "type": "doc"
+      },
+      {
+        "label": "Discord Engineering — How Discord Stores Billions of Messages",
+        "url": "https://discord.com/blog/how-discord-stores-billions-of-messages",
+        "type": "engineering"
+      },
+      {
+        "label": "IGotAnOffer: Engineering — System design mock interviews (YouTube)",
+        "url": "https://www.youtube.com/@IGotAnOffer-Engineering",
+        "type": "video"
+      }
     ]
   },
   {
@@ -380,19 +898,60 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Intermediate",
     "readingTime": 10,
-    "tags": ["Microservices", "API Design", "Authentication", "Networking"],
-    "prerequisites": ["REST APIs", { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }, "Basic client-server networking"],
+    "tags": [
+      "Microservices",
+      "API Design",
+      "Authentication",
+      "Networking"
+    ],
+    "prerequisites": [
+      "REST APIs",
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      "Basic client-server networking"
+    ],
     "related": [
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
-      { "label": "Rate Limiting", "slug": "rate-limiting" },
-      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" }
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      }
     ],
     "references": [
-      { "label": "NGINX Documentation — API Gateway", "url": "https://www.nginx.com/learn/api-gateway/", "type": "doc" },
-      { "label": "microservices.io — Pattern: API Gateway", "url": "https://microservices.io/patterns/apigateway.html", "type": "doc" },
-      { "label": "Auth0 — What Is an API Gateway?", "url": "https://auth0.com/blog/what-is-an-api-gateway/", "type": "doc" },
-      { "label": "IETF RFC 7519 — JSON Web Token (JWT)", "url": "https://datatracker.ietf.org/doc/html/rfc7519", "type": "doc" },
-      { "label": "Sam Newman, \"Building Microservices\" (O'Reilly, 2nd Edition) — inter-service communication and gateways", "url": "https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/", "type": "book" }
+      {
+        "label": "NGINX Documentation — API Gateway",
+        "url": "https://www.nginx.com/learn/api-gateway/",
+        "type": "doc"
+      },
+      {
+        "label": "microservices.io — Pattern: API Gateway",
+        "url": "https://microservices.io/patterns/apigateway.html",
+        "type": "doc"
+      },
+      {
+        "label": "Auth0 — What Is an API Gateway?",
+        "url": "https://auth0.com/blog/what-is-an-api-gateway/",
+        "type": "doc"
+      },
+      {
+        "label": "IETF RFC 7519 — JSON Web Token (JWT)",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7519",
+        "type": "doc"
+      },
+      {
+        "label": "Sam Newman, \"Building Microservices\" (O'Reilly, 2nd Edition) — inter-service communication and gateways",
+        "url": "https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -403,18 +962,54 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Intermediate",
     "readingTime": 9,
-    "tags": ["Scalability", "Caching", "API Design", "Fault Tolerance"],
-    "prerequisites": ["HTTP request/response basics", { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" }],
+    "tags": [
+      "Scalability",
+      "Caching",
+      "API Design",
+      "Fault Tolerance"
+    ],
+    "prerequisites": [
+      "HTTP request/response basics",
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      }
+    ],
     "related": [
-      { "label": "The API Gateway", "slug": "api-gateway" },
-      { "label": "Caching Strategies and CDNs", "slug": "caching-strategies-and-cdns" },
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
     ],
     "references": [
-      { "label": "Cloudflare Learning Center — What is Rate Limiting?", "url": "https://www.cloudflare.com/learning/bots/what-is-rate-limiting/", "type": "doc" },
-      { "label": "Stripe Engineering — Scaling your API with rate limiters", "url": "https://stripe.com/blog/rate-limiters", "type": "engineering" },
-      { "label": "Redis Documentation — Rate limiting patterns", "url": "https://redis.io/glossary/rate-limiting/", "type": "doc" },
-      { "label": "AWS — Throttling a tiered, multi-tenant REST API", "url": "https://aws.amazon.com/blogs/compute/throttling-a-tiered-multi-tenant-rest-api-at-scale-using-api-gateway/", "type": "engineering" }
+      {
+        "label": "Cloudflare Learning Center — What is Rate Limiting?",
+        "url": "https://www.cloudflare.com/learning/bots/what-is-rate-limiting/",
+        "type": "doc"
+      },
+      {
+        "label": "Stripe Engineering — Scaling your API with rate limiters",
+        "url": "https://stripe.com/blog/rate-limiters",
+        "type": "engineering"
+      },
+      {
+        "label": "Redis Documentation — Rate limiting patterns",
+        "url": "https://redis.io/glossary/rate-limiting/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS — Throttling a tiered, multi-tenant REST API",
+        "url": "https://aws.amazon.com/blogs/compute/throttling-a-tiered-multi-tenant-rest-api-at-scale-using-api-gateway/",
+        "type": "engineering"
+      }
     ]
   },
   {
@@ -425,20 +1020,59 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Intermediate",
     "readingTime": 11,
-    "tags": ["Object Storage", "Scalability", "API Design", "Event-Driven Architecture"],
-    "prerequisites": ["REST APIs", "Message queues / brokers basics"],
+    "tags": [
+      "Object Storage",
+      "Scalability",
+      "API Design",
+      "Event-Driven Architecture"
+    ],
+    "prerequisites": [
+      "REST APIs",
+      "Message queues / brokers basics"
+    ],
     "related": [
-      { "label": "The API Gateway", "slug": "api-gateway" },
-      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
-      { "label": "Change Data Capture (CDC)", "slug": "change-data-capture" },
-      { "label": "Polyglot Persistence", "slug": "polyglot-persistence" },
-      { "label": "Chunked Upload, Deduplication, and Delta Sync", "slug": "chunked-upload-deduplication-and-delta-sync" }
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      },
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync"
+      }
     ],
     "references": [
-      { "label": "AWS S3 Documentation — Uploading and copying objects using presigned URLs", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html", "type": "doc" },
-      { "label": "Google Cloud Storage Documentation — Signed URLs", "url": "https://cloud.google.com/storage/docs/access-control/signed-urls", "type": "doc" },
-      { "label": "AWS S3 Documentation — Amazon S3 Event Notifications", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html", "type": "doc" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" }
+      {
+        "label": "AWS S3 Documentation — Uploading and copying objects using presigned URLs",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud Storage Documentation — Signed URLs",
+        "url": "https://cloud.google.com/storage/docs/access-control/signed-urls",
+        "type": "doc"
+      },
+      {
+        "label": "AWS S3 Documentation — Amazon S3 Event Notifications",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -449,18 +1083,54 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Beginner",
     "readingTime": 8,
-    "tags": ["Scalability", "Fundamentals", "Load Balancing", "Infrastructure"],
-    "prerequisites": ["Basic client-server networking", { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" }],
+    "tags": [
+      "Scalability",
+      "Fundamentals",
+      "Load Balancing",
+      "Infrastructure"
+    ],
+    "prerequisites": [
+      "Basic client-server networking",
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
+    ],
     "related": [
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
-      { "label": "Stateless Services and Decoupling Compute from Data", "slug": "stateless-services-and-decoupling" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" }
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Stateless Services and Decoupling Compute from Data",
+        "slug": "stateless-services-and-decoupling"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      }
     ],
     "references": [
-      { "label": "AWS — What Is Amazon EC2 Auto Scaling?", "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html", "type": "doc" },
-      { "label": "Google Cloud — Autoscaling groups of instances", "url": "https://cloud.google.com/compute/docs/autoscaler", "type": "doc" },
-      { "label": "Kubernetes Documentation — Horizontal Pod Autoscaling", "url": "https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/", "type": "doc" },
-      { "label": "Martin L. Abbott and Michael T. Fisher, \"The Art of Scalability\" (Addison-Wesley, 2nd Edition) — the AKF Scale Cube", "url": "https://theartofscalability.com/", "type": "book" }
+      {
+        "label": "AWS — What Is Amazon EC2 Auto Scaling?",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud — Autoscaling groups of instances",
+        "url": "https://cloud.google.com/compute/docs/autoscaler",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes Documentation — Horizontal Pod Autoscaling",
+        "url": "https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/",
+        "type": "doc"
+      },
+      {
+        "label": "Martin L. Abbott and Michael T. Fisher, \"The Art of Scalability\" (Addison-Wesley, 2nd Edition) — the AKF Scale Cube",
+        "url": "https://theartofscalability.com/",
+        "type": "book"
+      }
     ]
   },
   {
@@ -471,18 +1141,50 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Beginner",
     "readingTime": 8,
-    "tags": ["Fundamentals", "Scalability", "Distributed Systems", "Fault Tolerance"],
-    "prerequisites": ["Basic client-server networking"],
+    "tags": [
+      "Fundamentals",
+      "Scalability",
+      "Distributed Systems",
+      "Fault Tolerance"
+    ],
+    "prerequisites": [
+      "Basic client-server networking"
+    ],
     "related": [
-      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" },
-      { "label": "Load Balancing Strategies", "slug": "load-balancing-strategies" },
-      { "label": "CAP Theorem", "slug": "cap-theorem" }
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      }
     ],
     "references": [
-      { "label": "Martin Fowler — Software Architecture Guide", "url": "https://martinfowler.com/architecture/", "type": "doc" },
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 1, \"Reliable, Scalable, and Maintainable Applications\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "The Twelve-Factor App — VI. Processes", "url": "https://12factor.net/processes", "type": "doc" },
-      { "label": "AWS Well-Architected Framework — Reliability Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html", "type": "doc" }
+      {
+        "label": "Martin Fowler — Software Architecture Guide",
+        "url": "https://martinfowler.com/architecture/",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 1, \"Reliable, Scalable, and Maintainable Applications\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "The Twelve-Factor App — VI. Processes",
+        "url": "https://12factor.net/processes",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Well-Architected Framework — Reliability Pillar",
+        "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -493,19 +1195,59 @@
     "publishedAt": "2026-08-04",
     "difficulty": "Advanced",
     "readingTime": 12,
-    "tags": ["Object Storage", "Scalability", "Distributed Systems", "Performance"],
-    "prerequisites": [{ "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" }, "Hash functions basics"],
+    "tags": [
+      "Object Storage",
+      "Scalability",
+      "Distributed Systems",
+      "Performance"
+    ],
+    "prerequisites": [
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      "Hash functions basics"
+    ],
     "related": [
-      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" },
-      { "label": "Consistent Hashing", "slug": "consistent-hashing" },
-      { "label": "Distributed ID Generation", "slug": "distributed-id-generation" }
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      }
     ],
     "references": [
-      { "label": "Rabin, M. O. — \"Fingerprinting by Random Polynomials\" (Harvard, 1981)", "url": "https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/rabinfingerprint.pdf", "type": "paper" },
-      { "label": "AWS S3 Documentation — Uploading and copying objects using multipart upload", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html", "type": "doc" },
-      { "label": "Dropbox Tech Blog — Rewriting the heart of our sync engine", "url": "https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine", "type": "engineering" },
-      { "label": "rsync — The rsync algorithm (Andrew Tridgell, Paul Mackerras)", "url": "https://rsync.samba.org/tech_report/", "type": "paper" },
-      { "label": "Facebook Engineering — Smaller and faster data compression with Zstandard", "url": "https://engineering.fb.com/2016/08/31/core-data/smaller-and-faster-data-compression-with-zstandard/", "type": "engineering" }
+      {
+        "label": "Rabin, M. O. — \"Fingerprinting by Random Polynomials\" (Harvard, 1981)",
+        "url": "https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/rabinfingerprint.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "AWS S3 Documentation — Uploading and copying objects using multipart upload",
+        "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Dropbox Tech Blog — Rewriting the heart of our sync engine",
+        "url": "https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine",
+        "type": "engineering"
+      },
+      {
+        "label": "rsync — The rsync algorithm (Andrew Tridgell, Paul Mackerras)",
+        "url": "https://rsync.samba.org/tech_report/",
+        "type": "paper"
+      },
+      {
+        "label": "Facebook Engineering — Smaller and faster data compression with Zstandard",
+        "url": "https://engineering.fb.com/2016/08/31/core-data/smaller-and-faster-data-compression-with-zstandard/",
+        "type": "engineering"
+      }
     ]
   },
   {
@@ -516,24 +1258,64 @@
     "publishedAt": "2026-08-05",
     "difficulty": "Intermediate",
     "readingTime": 12,
-    "tags": ["Distributed Systems", "Data Processing", "Scalability", "Fault Tolerance"],
+    "tags": [
+      "Distributed Systems",
+      "Data Processing",
+      "Scalability",
+      "Fault Tolerance"
+    ],
     "prerequisites": [
-      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
       "Basic familiarity with distributed systems",
       "Unix command-line pipes basics"
     ],
     "related": [
-      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
-      { "label": "Consensus and Coordination Services", "slug": "consensus-and-coordination-services" },
-      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" },
-      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" }
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing in Distributed Systems\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)", "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/", "type": "paper" },
-      { "label": "Apache Spark Documentation — Cluster Mode Overview", "url": "https://spark.apache.org/docs/latest/cluster-overview.html", "type": "doc" },
-      { "label": "Kubernetes Documentation — Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/", "type": "doc" },
-      { "label": "Pinterest Engineering — \"Next Gen Data Processing at Massive Scale At Pinterest With Moka (Part 1 of 2)\"", "url": "https://medium.com/pinterest-engineering/next-gen-data-processing-at-massive-scale-at-pinterest-with-moka-part-1-of-2-39a36d5e82c4", "type": "engineering" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing in Distributed Systems\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)",
+        "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Spark Documentation — Cluster Mode Overview",
+        "url": "https://spark.apache.org/docs/latest/cluster-overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes Documentation — Jobs",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/",
+        "type": "doc"
+      },
+      {
+        "label": "Pinterest Engineering — \"Next Gen Data Processing at Massive Scale At Pinterest With Moka (Part 1 of 2)\"",
+        "url": "https://medium.com/pinterest-engineering/next-gen-data-processing-at-massive-scale-at-pinterest-with-moka-part-1-of-2-39a36d5e82c4",
+        "type": "engineering"
+      }
     ]
   },
   {
@@ -544,20 +1326,570 @@
     "publishedAt": "2026-08-05",
     "difficulty": "Intermediate",
     "readingTime": 10,
-    "tags": ["Distributed Systems", "Data Processing", "Batch Processing", "Functional Programming"],
+    "tags": [
+      "Distributed Systems",
+      "Data Processing",
+      "Batch Processing",
+      "Functional Programming"
+    ],
     "prerequisites": [
-      { "label": "Batch Processing in Distributed Systems", "slug": "batch-processing-in-distributed-systems" },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      },
       "Basic familiarity with functional programming (map/reduce/fold)"
     ],
     "related": [
-      { "label": "Batch Processing in Distributed Systems", "slug": "batch-processing-in-distributed-systems" }
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      }
     ],
     "references": [
-      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing Models: MapReduce\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
-      { "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)", "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/", "type": "paper" },
-      { "label": "Matei Zaharia et al. — \"Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing\" (NSDI 2012)", "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia", "type": "paper" },
-      { "label": "Apache Spark Documentation — RDD Programming Guide", "url": "https://spark.apache.org/docs/latest/rdd-programming-guide.html", "type": "doc" },
-      { "label": "Apache Hadoop — MapReduce Tutorial", "url": "https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html", "type": "doc" }
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing Models: MapReduce\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)",
+        "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/",
+        "type": "paper"
+      },
+      {
+        "label": "Matei Zaharia et al. — \"Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing\" (NSDI 2012)",
+        "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Spark Documentation — RDD Programming Guide",
+        "url": "https://spark.apache.org/docs/latest/rdd-programming-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Hadoop — MapReduce Tutorial",
+        "url": "https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "key-value-store-design",
+    "id": 24,
+    "title": "Designing a Distributed Key-Value Store",
+    "summary": "A worked design for a Dynamo/Cassandra-style distributed key-value store — sizing the cluster, partitioning and replicating the keyspace, tuning consistency with N/W/R quorums, and keeping replicas in sync through hinted handoff, Merkle trees, and gossip.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 15,
+    "tags": [
+      "Distributed Systems",
+      "NoSQL",
+      "Sharding",
+      "Fault Tolerance",
+      "Data Modeling"
+    ],
+    "prerequisites": [
+      "Consistent Hashing",
+      "CAP Theorem",
+      "Basic client-server networking"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      "Polyglot Persistence",
+      "Consensus and Coordination Services"
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 6, \"Design A Key-value Store\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "DeCandia et al., \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Cassandra Documentation",
+        "url": "https://cassandra.apache.org/doc/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia — Merkle tree",
+        "url": "https://en.wikipedia.org/wiki/Merkle_tree",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "url-shortener",
+    "id": 25,
+    "title": "Designing a URL Shortener",
+    "summary": "A worked design for a TinyURL-style service — sizing the write and read load, the two-endpoint API, the 301 vs. 302 redirect trade-off, and why the redirect path is really a cache design problem.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Beginner",
+    "readingTime": 10,
+    "tags": [
+      "API Design",
+      "Data Modeling",
+      "Caching",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "REST APIs",
+      "Base62 / hashing basics"
+    ],
+    "related": [
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 8, \"Design A URL Shortener\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "MDN Web Docs — Redirections in HTTP",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections",
+        "type": "doc"
+      },
+      {
+        "label": "IETF RFC 9110 — HTTP Semantics, §15.4 Redirection 3xx",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110#name-redirection-3xx",
+        "type": "doc"
+      },
+      {
+        "label": "Google Search Central — Redirects and Google Search",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/301-redirects",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "web-crawler-design",
+    "id": 26,
+    "title": "Designing a Web Crawler",
+    "summary": "How a crawler that fetches billions of pages a month stays polite to individual hosts, fresh against a web that changes underneath it, and robust against traps and malformed content — and why the URL frontier, not the downloader, is where the design actually lives.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Distributed Systems",
+      "Batch Processing",
+      "Fault Tolerance",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "HTTP/DNS basics",
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      }
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 9, \"Design A Web Crawler\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Allan Heydon and Marc Najork, \"Mercator: A Scalable, Extensible Web Crawler\" — World Wide Web 2(4), 1999",
+        "url": "https://link.springer.com/article/10.1023/A:1019213109274",
+        "type": "paper"
+      },
+      {
+        "label": "Christopher Olston and Marc Najork, \"Web Crawling\" — Foundations and Trends in Information Retrieval 4(3), 2010",
+        "url": "https://www.nowpublishers.com/article/Details/INR-017",
+        "type": "paper"
+      },
+      {
+        "label": "IETF, \"RFC 9309 — Robots Exclusion Protocol\"",
+        "url": "https://www.rfc-editor.org/rfc/rfc9309.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "notification-system-design",
+    "id": 27,
+    "title": "Designing a Notification System",
+    "summary": "How to fan a single notification event out across push, SMS, and email — per-channel queues that absorb slow third-party APIs, retries and dead-lettering that guarantee nothing is lost, and the dedupe, preferences, and rate limits that keep users from turning notifications off entirely.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Messaging",
+      "Scalability",
+      "Fault Tolerance",
+      "API Design"
+    ],
+    "prerequisites": [
+      "Message brokers basics",
+      "Push notification protocols (APNs/FCM)"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      },
+      {
+        "label": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
+        "slug": "scaling-real-time-messaging-ordering-and-fan-out"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 10, \"Design A Notification System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Apple Developer Documentation — Sending notification requests to APNs",
+        "url": "https://developer.apple.com/documentation/usernotifications/sending-notification-requests-to-apns",
+        "type": "doc"
+      },
+      {
+        "label": "Google — Firebase Cloud Messaging documentation",
+        "url": "https://firebase.google.com/docs/cloud-messaging",
+        "type": "doc"
+      },
+      {
+        "label": "Tyler Treat — You Cannot Have Exactly-Once Delivery",
+        "url": "https://bravenewgeek.com/you-cannot-have-exactly-once-delivery/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "news-feed-system-design",
+    "id": 28,
+    "title": "Designing a News Feed System",
+    "summary": "How a Facebook/Instagram/Twitter-style feed splits into two independently scaled pipelines — a write path that fans a post out into millions of precomputed per-user feed caches, and a read path that hydrates a list of IDs into a renderable feed in milliseconds — plus the celebrity hotkey problem that forces a hybrid fan-out model.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 13,
+    "tags": [
+      "Fan-out",
+      "Caching",
+      "Scalability",
+      "Data Modeling"
+    ],
+    "prerequisites": [
+      "Caching basics",
+      "Message queues basics"
+    ],
+    "related": [
+      {
+        "label": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
+        "slug": "scaling-real-time-messaging-ordering-and-fan-out"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 11, \"Design A News Feed System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Raffi Krikorian (Twitter), \"Timelines at Scale\" — QCon San Francisco 2012",
+        "url": "https://www.infoq.com/presentations/Twitter-Timeline-Scalability/",
+        "type": "video"
+      },
+      {
+        "label": "Meta Engineering, \"Serving Facebook Multifeed: Efficiency, performance gains through redesign\"",
+        "url": "https://engineering.fb.com/2015/03/10/production-engineering/serving-facebook-multifeed-efficiency-performance-gains-through-redesign/",
+        "type": "engineering"
+      },
+      {
+        "label": "Redis Documentation — Redis sorted sets",
+        "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "search-autocomplete-system",
+    "id": 29,
+    "title": "Designing a Search Autocomplete System",
+    "summary": "How a typeahead box returns five ranked suggestions in under 100ms on every keystroke — a trie annotated with precomputed top-k results, built offline by a batch aggregation pipeline, sharded, cached, and shielded by client-side debouncing.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 11,
+    "tags": [
+      "Data Structures",
+      "Caching",
+      "Batch Processing",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "Trie data structure",
+      "Caching basics"
+    ],
+    "related": [
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 13, \"Design A Search Autocomplete System\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Prefixy Team, \"How We Built Prefixy: A Scalable Prefix Search Service for Powering Autocomplete\"",
+        "url": "https://medium.com/@prefixyteam/how-we-built-prefixy-a-scalable-prefix-search-service-for-powering-autocomplete-c20f98e2eff1",
+        "type": "engineering"
+      },
+      {
+        "label": "Elasticsearch Reference — Suggesters (completion suggester for search-as-you-type)",
+        "url": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/search-suggesters",
+        "type": "doc"
+      },
+      {
+        "label": "MDN Web Docs — Cache-Control header",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "designing-youtube",
+    "id": 30,
+    "title": "Designing YouTube",
+    "summary": "Why a video platform is a transcoding and distribution problem rather than a storage problem — turning one uploaded file into a matrix of adaptive-bitrate renditions through a DAG of parallel encoding tasks, then pushing those renditions to edge caches close to viewers.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Object Storage",
+      "CDN",
+      "Video Streaming",
+      "Scalability",
+      "Polyglot Persistence"
+    ],
+    "prerequisites": [
+      "Object Storage and the Direct-Upload Pattern",
+      "CDN basics"
+    ],
+    "related": [
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync"
+      },
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 14, \"Design YouTube\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "IETF — RFC 8216, \"HTTP Live Streaming\"",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8216",
+        "type": "doc"
+      },
+      {
+        "label": "Huang et al. — \"SVE: Distributed Video Processing at Facebook Scale\" (SOSP 2017)",
+        "url": "https://www.cs.princeton.edu/~wlloyd/papers/sve-sosp17.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Netflix Technology Blog — \"Content Popularity for Open Connect\"",
+        "url": "https://netflixtechblog.com/content-popularity-for-open-connect-b86d56f613b",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "proximity-service",
+    "id": 31,
+    "title": "Designing a Proximity Service",
+    "summary": "How a \"find every business within 5 km of me\" query gets answered in milliseconds — why a two-dimensional range scan is the wrong tool, and how geohash, quadtree, and Google's S2 flatten the globe into a one-dimensional index that a database can actually seek on.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 14,
+    "tags": [
+      "Geospatial",
+      "Sharding",
+      "Caching",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "Geohashing / Quadtree basics",
+      "Consistent Hashing"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Designing Nearby Friends",
+        "slug": "nearby-friends"
+      },
+      {
+        "label": "Designing Google Maps",
+        "slug": "designing-google-maps"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 1, \"Proximity Service\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Google — S2 Geometry Library",
+        "url": "https://s2geometry.io/",
+        "type": "doc"
+      },
+      {
+        "label": "Movable Type Scripts — Geohash",
+        "url": "https://www.movable-type.co.uk/scripts/geohash.html",
+        "type": "doc"
+      },
+      {
+        "label": "Yext Engineering — Improved Location Caching with Quadtrees",
+        "url": "https://engblog.yext.com/post/geolocation-caching",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "nearby-friends",
+    "id": 32,
+    "title": "Designing Nearby Friends",
+    "summary": "Why showing which friends are nearby is a high-write, real-time fan-out problem rather than an indexed-lookup one — the in-memory location cache, per-user pub/sub channels, and WebSocket push that make hundreds of thousands of location updates per second turn into millions of pushes per second without a database in the hot path.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Geospatial",
+      "Real-Time Systems",
+      "Messaging",
+      "WebSockets"
+    ],
+    "prerequisites": [
+      "Designing a Proximity Service",
+      "Pub/sub messaging"
+    ],
+    "related": [
+      {
+        "label": "Designing a Proximity Service",
+        "slug": "proximity-service"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence",
+        "slug": "scaling-real-time-messaging-ordering-and-fan-out"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 2\" (ByteByteGo, 2022) — Chapter 2, \"Nearby Friends\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Redis Documentation — Pub/Sub",
+        "url": "https://redis.io/docs/latest/develop/pubsub/",
+        "type": "doc"
+      },
+      {
+        "label": "IETF, \"RFC 6455 — The WebSocket Protocol\"",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6455",
+        "type": "doc"
+      },
+      {
+        "label": "TechCrunch — \"Facebook Launches Nearby Friends\" (2014)",
+        "url": "https://techcrunch.com/2014/04/17/facebook-nearby-friends/",
+        "type": "engineering"
+      }
     ]
   }
 ]
