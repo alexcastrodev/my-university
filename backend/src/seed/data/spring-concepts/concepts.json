@@ -424,5 +424,94 @@
       { "label": "Spring Batch API — TaskExecutorJobOperator", "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/launch/support/TaskExecutorJobOperator.html", "type": "doc" },
       { "label": "Spring Batch 6.0 Migration Guide — JobLauncher deprecated in favor of JobOperator", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-mvc-hateoas-hypermedia",
+    "id": 31,
+    "category": "Spring Boot",
+    "title": "Enabling Hypermedia: Spring HATEOAS and the _links/_embedded Shape",
+    "summary": "How Spring HATEOAS attaches self-describing hyperlinks to REST responses so clients navigate an API by relation name instead of hardcoded URLs, via RepresentationModel/EntityModel/CollectionModel, linkTo(methodOn(...)) link builders, and RepresentationModelAssembler classes that produce the HAL _links/_embedded JSON shape.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.2 \"Enabling hypermedia\", p. 150-159", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring HATEOAS Reference — Fundamentals (RepresentationModel, EntityModel, CollectionModel)", "url": "https://docs.spring.io/spring-hateoas/docs/current/reference/html/#fundamentals", "type": "doc" },
+      { "label": "Spring HATEOAS Reference — Server-side support (WebMvcLinkBuilder, RepresentationModelAssembler)", "url": "https://docs.spring.io/spring-hateoas/docs/current/reference/html/#server", "type": "doc" },
+      { "label": "Spring HATEOAS API — WebMvcLinkBuilder", "url": "https://docs.spring.io/spring-hateoas/docs/current/api/org/springframework/hateoas/server/mvc/WebMvcLinkBuilder.html", "type": "doc" },
+      { "label": "Spring HATEOAS Reference — Media types (HAL)", "url": "https://docs.spring.io/spring-hateoas/docs/current/reference/html/#mediatypes.hal", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-command-line-launching",
+    "id": 32,
+    "category": "Spring Batch",
+    "title": "Launching Spring Batch Jobs from the Command Line",
+    "summary": "How CommandLineJobRunner launches a job as a plain java -classpath process for cron-style scheduling — Spring config file, job name, typed job parameters, and an ExitCodeMapper that turns a job's exit status back into a shell exit code — and why it's deprecated since Spring Batch 6.0 in favor of the operation-aware CommandLineJobOperator.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 4, \"Running batch jobs\", section 4.2, \"Launching from the command line\", p. 92-97", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Batch Reference — Running a Job from the Command Line", "url": "https://docs.spring.io/spring-batch/reference/job/running.html", "type": "doc" },
+      { "label": "Spring Batch API — CommandLineJobOperator", "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/launch/support/CommandLineJobOperator.html", "type": "doc" },
+      { "label": "Spring Batch API — Deprecated List (CommandLineJobRunner)", "url": "https://docs.spring.io/spring-batch/reference/api/deprecated-list.html", "type": "doc" },
+      { "label": "Spring Batch 6.0 Migration Guide", "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-authorization-ant-matchers",
+    "id": 33,
+    "category": "Spring Security",
+    "title": "Spring Security Authorization: Ant Matchers and the Trailing-Slash Gotcha",
+    "summary": "How antMatchers() shares its wildcard syntax with mvcMatchers() but matches only the literal path expression, why that leaves a path like /hello/ unprotected when a rule is written for /hello, and why requestMatchers() and Spring's own trailing-slash matching default have both moved since the book's recommendation to prefer MVC matchers.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 8, \"Configuring authorization: Applying restrictions\", section 8.3, \"Selecting requests for authorization using Ant matchers\", p. 185-189", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authorize HttpServletRequests (requestMatchers)", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html", "type": "doc" },
+      { "label": "Spring Security 5.8 Migration Guide — Authorization Migrations", "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html", "type": "doc" },
+      { "label": "Spring Security Reference — Web Migrations for 7.0 (AntPathRequestMatcher/MvcRequestMatcher removed, PathPatternRequestMatcher)", "url": "https://docs.spring.io/spring-security/reference/6.5/migration-7/web.html", "type": "doc" },
+      { "label": "Spring Framework Issue #28552 — Deprecate trailing slash match and change default value from true to false", "url": "https://github.com/spring-projects/spring-framework/issues/28552", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-security-authorization-regex-matchers",
+    "id": 35,
+    "category": "Spring Security",
+    "title": "Spring Security Authorization: Regex Matchers as the Last Resort",
+    "summary": "How regexMatchers() matches a request's full path against a regular expression when MVC and Ant matchers can't express the rule — such as a condition spanning two path variables at once — and why the book's own advice to prefer readable matchers still applies today via the still-current, explicit RegexRequestMatcher.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 8, \"Configuring authorization: Applying restrictions\", section 8.4, \"Selecting requests for authorization using regex matchers\", p. 190-194", "url": "https://www.manning.com/books/spring-security-in-action", "type": "doc" },
+      { "label": "Spring Security Reference — Authorize HttpServletRequests (Matching Using Regular Expressions)", "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html#match-by-regex", "type": "doc" },
+      { "label": "Spring Security API — RegexRequestMatcher", "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/web/util/matcher/RegexRequestMatcher.html", "type": "doc" },
+      { "label": "Spring Security 5.8 Migration Guide — Authorization Migrations", "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html", "type": "doc" },
+      { "label": "Spring Security Reference — Web Migrations for 7.0 (AntPathRequestMatcher/MvcRequestMatcher removed, PathPatternRequestMatcher)", "url": "https://docs.spring.io/spring-security/reference/6.5/migration-7/web.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-batch-job-schedulers-cron-and-spring-scheduler",
+    "id": 36,
+    "category": "Spring Batch",
+    "title": "Triggering Spring Batch Jobs: cron vs. the Spring Scheduler",
+    "summary": "How cron's crontab entries trigger CommandLineJobRunner as a fresh OS process on a schedule, how Spring's @Scheduled/TaskScheduler support offers an in-process alternative with fixedRate/fixedDelay/cron options since Spring 3.0, and why Kubernetes CronJob has largely replaced raw crontab as the deployment model for the same trigger-a-batch-process pattern.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 4, \"Running batch jobs\", section 4.3, \"Job schedulers\", p. 98-104", "url": "https://www.manning.com/books/spring-batch-in-action", "type": "doc" },
+      { "label": "Spring Framework Reference — Task Execution and Scheduling (@Scheduled, TaskScheduler)", "url": "https://docs.spring.io/spring-framework/reference/integration/scheduling.html", "type": "doc" },
+      { "label": "Spring Batch Reference — Running a Job from the Command Line", "url": "https://docs.spring.io/spring-batch/reference/job/running.html", "type": "doc" },
+      { "label": "Kubernetes Documentation — CronJob", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spring-data-rest-repositories",
+    "id": 34,
+    "category": "Spring Boot",
+    "title": "Spring Data REST: Repositories as Hypermedia APIs",
+    "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.3 \"Enabling data-backed services\", p. 160-168", "url": "https://www.manning.com/books/spring-in-action-fifth-edition", "type": "doc" },
+      { "label": "Spring Data REST Reference — Repository resources", "url": "https://docs.spring.io/spring-data/rest/reference/repository-resources.html", "type": "doc" },
+      { "label": "Spring Data REST Reference — Overriding Spring Data REST Response Handlers (@RepositoryRestController)", "url": "https://docs.spring.io/spring-data/rest/reference/customizing/overriding-sdr-response-handlers.html", "type": "doc" },
+      { "label": "Spring Data REST Reference — Configuring the REST URL Path", "url": "https://docs.spring.io/spring-data/rest/reference/customizing/configuring-the-rest-url-path.html", "type": "doc" },
+      { "label": "Spring Data REST Reference — Integration (RepositoryEntityLinks)", "url": "https://docs.spring.io/spring-data/rest/reference/integration.html", "type": "doc" }
+    ]
   }
 ]

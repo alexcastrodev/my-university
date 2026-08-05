@@ -507,5 +507,57 @@
       { "label": "rsync — The rsync algorithm (Andrew Tridgell, Paul Mackerras)", "url": "https://rsync.samba.org/tech_report/", "type": "paper" },
       { "label": "Facebook Engineering — Smaller and faster data compression with Zstandard", "url": "https://engineering.fb.com/2016/08/31/core-data/smaller-and-faster-data-compression-with-zstandard/", "type": "engineering" }
     ]
+  },
+  {
+    "slug": "batch-processing-in-distributed-systems",
+    "id": 22,
+    "title": "Batch Processing in Distributed Systems",
+    "summary": "How distributed batch frameworks turn a cluster of machines into something like a distributed operating system — a resource manager, task executors, and a scheduler that run immutable-input, regenerated-output jobs at scale — and why per-task fault tolerance, not whole-job retry, is the entire point of the model.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": ["Distributed Systems", "Data Processing", "Scalability", "Fault Tolerance"],
+    "prerequisites": [
+      { "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses", "slug": "distributed-systems-partial-failures" },
+      "Basic familiarity with distributed systems",
+      "Unix command-line pipes basics"
+    ],
+    "related": [
+      { "label": "Message Brokers: Queues vs. Log-Based Streaming", "slug": "message-brokers-queues-vs-logs" },
+      { "label": "Consensus and Coordination Services", "slug": "consensus-and-coordination-services" },
+      { "label": "Object Storage and the Direct-Upload Pattern", "slug": "object-storage-and-direct-upload" },
+      { "label": "Horizontal vs. Vertical Scaling", "slug": "horizontal-vs-vertical-scaling" }
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing in Distributed Systems\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)", "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/", "type": "paper" },
+      { "label": "Apache Spark Documentation — Cluster Mode Overview", "url": "https://spark.apache.org/docs/latest/cluster-overview.html", "type": "doc" },
+      { "label": "Kubernetes Documentation — Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/", "type": "doc" },
+      { "label": "Pinterest Engineering — \"Next Gen Data Processing at Massive Scale At Pinterest With Moka (Part 1 of 2)\"", "url": "https://medium.com/pinterest-engineering/next-gen-data-processing-at-massive-scale-at-pinterest-with-moka-part-1-of-2-39a36d5e82c4", "type": "engineering" }
+    ]
+  },
+  {
+    "slug": "mapreduce-programming-model",
+    "id": 23,
+    "title": "The MapReduce Programming Model",
+    "summary": "The four-step pattern — split input into records, map each record to a key/value pair, sort by key, reduce each key's group — that turns the classic Unix log-analysis pipeline into a distributed programming model, and why raw MapReduce got replaced by engines that keep intermediate data in memory instead of writing it to disk between every job.",
+    "publishedAt": "2026-08-05",
+    "difficulty": "Intermediate",
+    "readingTime": 10,
+    "tags": ["Distributed Systems", "Data Processing", "Batch Processing", "Functional Programming"],
+    "prerequisites": [
+      { "label": "Batch Processing in Distributed Systems", "slug": "batch-processing-in-distributed-systems" },
+      "Basic familiarity with functional programming (map/reduce/fold)"
+    ],
+    "related": [
+      { "label": "Batch Processing in Distributed Systems", "slug": "batch-processing-in-distributed-systems" }
+    ],
+    "references": [
+      { "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", section \"Batch Processing Models: MapReduce\"", "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/", "type": "book" },
+      { "label": "Jeffrey Dean and Sanjay Ghemawat — \"MapReduce: Simplified Data Processing on Large Clusters\" (OSDI 2004)", "url": "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/", "type": "paper" },
+      { "label": "Matei Zaharia et al. — \"Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing\" (NSDI 2012)", "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia", "type": "paper" },
+      { "label": "Apache Spark Documentation — RDD Programming Guide", "url": "https://spark.apache.org/docs/latest/rdd-programming-guide.html", "type": "doc" },
+      { "label": "Apache Hadoop — MapReduce Tutorial", "url": "https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html", "type": "doc" }
+    ]
   }
 ]

@@ -164,5 +164,36 @@
       { "label": "Project Valhalla — OpenJDK", "url": "https://openjdk.org/projects/valhalla/", "type": "doc" },
       { "label": "Project Valhalla — State of Valhalla (Brian Goetz)", "url": "https://openjdk.org/projects/valhalla/design-notes/state-of-valhalla/01-background", "type": "doc" }
     ]
+  },
+  {
+    "slug": "lambda-expressions",
+    "id": 14,
+    "title": "Lambda Expressions",
+    "summary": "How a lambda expression implements a functional interface's single abstract method, the expression- vs. block-body syntax forms, the java.util.function catalogue, the effectively-final rule behind variable capture, and the four kinds of method references.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "java.util.function — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/package-summary.html", "type": "doc" },
+      { "label": "Function — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html", "type": "doc" },
+      { "label": "Predicate — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html", "type": "doc" },
+      { "label": "Supplier — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Supplier.html", "type": "doc" },
+      { "label": "Java Language Specification — Section 15.27, Lambda Expressions", "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.27", "type": "doc" },
+      { "label": "JEP 456: Unnamed Variables & Patterns", "url": "https://openjdk.org/jeps/456", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "stream-api-fundamentals",
+    "id": 15,
+    "title": "Stream API Fundamentals",
+    "summary": "Why a stream is a lazy, single-use conduit rather than a data structure, how the pipeline shape (source → intermediate ops → terminal op) makes filter-then-findFirst short-circuit instead of scanning everything, how Collectors and the primitive stream specializations work under the hood, and when parallel streams actually help.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "java.util.stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html", "type": "doc" },
+      { "label": "Stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html", "type": "doc" },
+      { "label": "Collector — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html", "type": "doc" },
+      { "label": "Collectors — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html", "type": "doc" },
+      { "label": "Gatherer — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherer.html", "type": "doc" },
+      { "label": "Gatherers — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html", "type": "doc" },
+      { "label": "JEP 485: Stream Gatherers", "url": "https://openjdk.org/jeps/485", "type": "doc" }
+    ]
   }
 ]

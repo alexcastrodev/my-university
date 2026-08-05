@@ -341,5 +341,65 @@
       { "label": "MySQL Reference Manual — JOIN Clause (no native FULL OUTER JOIN)", "url": "https://dev.mysql.com/doc/refman/8.0/en/join.html", "type": "doc" },
       { "label": "Oracle Database SQL Language Reference — Joins (ANSI outer join syntax since Oracle 9i)", "url": "https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/SELECT.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "sql-deleting-duplicate-records",
+    "id": 25,
+    "category": "SQL",
+    "title": "Deleting Duplicate Records",
+    "summary": "How to arbitrarily keep one row per duplicate group and delete the rest with MIN(id) NOT IN, why MySQL still rejects a DELETE subquery that reads its own target table, and how ROW_NUMBER() over a CTE offers a more portable — though not identically-syntaxed — alternative across PostgreSQL, MySQL, and SQL Server.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 4, \"Inserting, Updating, and Deleting\", recipe 4.16, p. 85-87", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — DELETE (USING clause)", "url": "https://www.postgresql.org/docs/current/sql-delete.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — DELETE Statement (same-table subquery restriction, WITH clause support)", "url": "https://dev.mysql.com/doc/refman/8.4/en/delete.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — Window Function Restrictions", "url": "https://dev.mysql.com/doc/refman/8.4/en/window-function-restrictions.html", "type": "doc" },
+      { "label": "Microsoft Learn — WITH common_table_expression (Transact-SQL)", "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-hardware-failure-mitigation",
+    "id": 26,
+    "category": "PostgreSQL",
+    "title": "Mitigating Hardware Failure: Delayed WAL Archiving vs. recovery_min_apply_delay",
+    "summary": "Why silent CPU/RAM corruption can poison a synchronous primary and standby nearly simultaneously, how archiving WAL to a tertiary server with a deliberate hour-long cron/mtime delay buys time to detect it before it spreads, why the book's own recovery_min_apply_delay example doesn't actually delay by an hour, and why data checksums — not the book's vague 'monitors' — are the real detection mechanism this recipe depends on.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Mitigating the impact of hardware failure\", p. 126-131", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — pg_receivewal", "url": "https://www.postgresql.org/docs/current/app-pgreceivewal.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Replication Settings (recovery_min_apply_delay)", "url": "https://www.postgresql.org/docs/current/runtime-config-replication.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Reliability and the Write-Ahead Log: Data Checksums", "url": "https://www.postgresql.org/docs/current/checksums.html", "type": "doc" },
+      { "label": "PostgreSQL 18 Release Notes — initdb defaults to enabling data checksums", "url": "https://www.postgresql.org/docs/release/18.0/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sql-merge-statement-upsert",
+    "id": 28,
+    "category": "SQL",
+    "title": "Merging Records: The MERGE Statement and MySQL's Upsert Alternative",
+    "summary": "How MERGE conditionally updates, deletes, or inserts rows in one atomic statement across matched/unmatched source rows, why PostgreSQL had no MERGE at all until version 15 (2022) — two years after this book's 2nd edition — and why MySQL's INSERT ... ON DUPLICATE KEY UPDATE can insert-or-update but never delete in the same statement.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 4, \"Inserting, Updating, and Deleting\", recipe 4.11 \"Merging Records\", p. 80-82", "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/", "type": "doc" },
+      { "label": "PostgreSQL Documentation — MERGE", "url": "https://www.postgresql.org/docs/current/sql-merge.html", "type": "doc" },
+      { "label": "PostgreSQL 15 Release Notes — Add SQL MERGE command", "url": "https://www.postgresql.org/docs/15/release-15.html", "type": "doc" },
+      { "label": "MySQL Reference Manual — INSERT ... ON DUPLICATE KEY UPDATE Statement", "url": "https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html", "type": "doc" },
+      { "label": "Microsoft Learn — MERGE (Transact-SQL)", "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/merge-transact-sql", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "postgresql-kernel-tuning-for-availability",
+    "id": 27,
+    "category": "PostgreSQL",
+    "title": "PostgreSQL Kernel Tuning for Availability: Dirty Pages, Swappiness, and THP",
+    "summary": "OS-level sysctl and /sys tuning that keeps PostgreSQL online under stress rather than just faster — byte-based vm.dirty_background_bytes/vm.dirty_bytes to avoid a huge emergency write flush, vm.swappiness=1 to keep backends out of swap, and disabling Transparent Huge Pages, whose khugepaged defragmentation can stall PostgreSQL for tens of seconds — a recommendation current PostgreSQL documentation now states explicitly.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      { "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 3, \"Minimizing Downtime\", recipe \"Applying bonus kernel tweaks\", p. 132-136", "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Resource Consumption (huge_pages parameter, THP discouraged)", "url": "https://www.postgresql.org/docs/current/runtime-config-resource.html", "type": "doc" },
+      { "label": "PostgreSQL Documentation — Managing Kernel Resources", "url": "https://www.postgresql.org/docs/current/kernel-resources.html", "type": "doc" },
+      { "label": "Linux Kernel Documentation — Transparent Hugepage Support", "url": "https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html", "type": "doc" },
+      { "label": "Red Hat Enterprise Linux 9 Documentation — Configuring Transparent Huge Pages", "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/monitoring_and_managing_system_status_and_performance/configuring-huge-pages_monitoring-and-managing-system-status-and-performance", "type": "doc" }
+    ]
   }
 ]
