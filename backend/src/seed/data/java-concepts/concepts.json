@@ -7,9 +7,21 @@
     "publishedAt": "2026-07-25",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/iterator-vs-iterable",
     "references": [
-      { "label": "Iterable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html", "type": "doc" },
-      { "label": "Iterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html", "type": "doc" },
-      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+      {
+        "label": "Iterable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Iterator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -20,7 +32,11 @@
     "publishedAt": "2026-07-26",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/pattern-matching",
     "references": [
-      { "label": "Pattern Matching — Java SE 26 Language Guide", "url": "https://docs.oracle.com/en/java/javase/26/language/pattern-matching.html", "type": "doc" }
+      {
+        "label": "Pattern Matching — Java SE 26 Language Guide",
+        "url": "https://docs.oracle.com/en/java/javase/26/language/pattern-matching.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -31,9 +47,21 @@
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/collection-interface",
     "references": [
-      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" },
-      { "label": "List — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html", "type": "doc" },
-      { "label": "Collections Framework Overview — The Java Tutorials", "url": "https://docs.oracle.com/javase/tutorial/collections/index.html", "type": "doc" }
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collections Framework Overview — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/collections/index.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -44,8 +72,16 @@
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/list-interface",
     "references": [
-      { "label": "List — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html", "type": "doc" },
-      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -56,9 +92,21 @@
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/set-interface",
     "references": [
-      { "label": "Set — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html", "type": "doc" },
-      { "label": "SortedSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SortedSet.html", "type": "doc" },
-      { "label": "NavigableSet — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableSet.html", "type": "doc" }
+      {
+        "label": "Set — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html",
+        "type": "doc"
+      },
+      {
+        "label": "SortedSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SortedSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "NavigableSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableSet.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -69,8 +117,16 @@
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/queue-interface",
     "references": [
-      { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" },
-      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" }
+      {
+        "label": "Queue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -81,8 +137,16 @@
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/deque-interface",
     "references": [
-      { "label": "Deque — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html", "type": "doc" },
-      { "label": "Queue — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html", "type": "doc" }
+      {
+        "label": "Deque — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html",
+        "type": "doc"
+      },
+      {
+        "label": "Queue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -93,9 +157,21 @@
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/generics",
     "references": [
-      { "label": "Generics (The Java Tutorials) — Oracle", "url": "https://docs.oracle.com/javase/tutorial/java/generics/index.html", "type": "doc" },
-      { "label": "Java Language Specification — Chapter 4.5, Parameterized Types", "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5", "type": "doc" },
-      { "label": "Comparable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html", "type": "doc" }
+      {
+        "label": "Generics (The Java Tutorials) — Oracle",
+        "url": "https://docs.oracle.com/javase/tutorial/java/generics/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — Chapter 4.5, Parameterized Types",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5",
+        "type": "doc"
+      },
+      {
+        "label": "Comparable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -106,11 +182,31 @@
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/records-and-sealed-types",
     "references": [
-      { "label": "Java SE Language Documentation — Record Classes", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
-      { "label": "Java SE Language Documentation — Sealed Classes and Interfaces", "url": "https://docs.oracle.com/en/java/javase/25/language/sealed-classes-interfaces.html", "type": "doc" },
-      { "label": "JEP 395: Records", "url": "https://openjdk.org/jeps/395", "type": "doc" },
-      { "label": "JEP 409: Sealed Classes", "url": "https://openjdk.org/jeps/409", "type": "doc" },
-      { "label": "JEP 456: Unnamed Variables & Patterns", "url": "https://openjdk.org/jeps/456", "type": "doc" }
+      {
+        "label": "Java SE Language Documentation — Record Classes",
+        "url": "https://docs.oracle.com/en/java/javase/25/language/records.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE Language Documentation — Sealed Classes and Interfaces",
+        "url": "https://docs.oracle.com/en/java/javase/25/language/sealed-classes-interfaces.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 395: Records",
+        "url": "https://openjdk.org/jeps/395",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 409: Sealed Classes",
+        "url": "https://openjdk.org/jeps/409",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 456: Unnamed Variables & Patterns",
+        "url": "https://openjdk.org/jeps/456",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -121,10 +217,26 @@
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/comparators-and-collection-algorithms",
     "references": [
-      { "label": "Comparator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html", "type": "doc" },
-      { "label": "Comparable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html", "type": "doc" },
-      { "label": "Collections — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html", "type": "doc" },
-      { "label": "List.sort() — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)", "type": "doc" }
+      {
+        "label": "Comparator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Comparable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collections — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html",
+        "type": "doc"
+      },
+      {
+        "label": "List.sort() — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -135,9 +247,21 @@
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/httpclient-and-java-net-http",
     "references": [
-      { "label": "HttpClient — Java SE 25 API (java.net.http)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpClient.html", "type": "doc" },
-      { "label": "HttpRequest — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpRequest.html", "type": "doc" },
-      { "label": "HttpResponse.BodyHandlers — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpResponse.BodyHandlers.html", "type": "doc" }
+      {
+        "label": "HttpClient — Java SE 25 API (java.net.http)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpClient.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpRequest — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpRequest.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpResponse.BodyHandlers — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpResponse.BodyHandlers.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -148,8 +272,16 @@
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/regular-expressions",
     "references": [
-      { "label": "Pattern — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html", "type": "doc" },
-      { "label": "Matcher — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html", "type": "doc" }
+      {
+        "label": "Pattern — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html",
+        "type": "doc"
+      },
+      {
+        "label": "Matcher — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -159,10 +291,26 @@
     "summary": "Why objects cost more than primitives (identity, header, heap allocation, GC pressure), how Value Classes let the JVM drop that overhead for types that are just their data, and why List<int> still doesn't exist because of generics' type erasure.",
     "publishedAt": "2026-08-02",
     "references": [
-      { "label": "JEP 401: Value Classes and Objects (Preview)", "url": "https://openjdk.org/jeps/401", "type": "doc" },
-      { "label": "JEP 402: Enhanced Primitive Boxing (Preview)", "url": "https://openjdk.org/jeps/402", "type": "doc" },
-      { "label": "Project Valhalla — OpenJDK", "url": "https://openjdk.org/projects/valhalla/", "type": "doc" },
-      { "label": "Project Valhalla — State of Valhalla (Brian Goetz)", "url": "https://openjdk.org/projects/valhalla/design-notes/state-of-valhalla/01-background", "type": "doc" }
+      {
+        "label": "JEP 401: Value Classes and Objects (Preview)",
+        "url": "https://openjdk.org/jeps/401",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 402: Enhanced Primitive Boxing (Preview)",
+        "url": "https://openjdk.org/jeps/402",
+        "type": "doc"
+      },
+      {
+        "label": "Project Valhalla — OpenJDK",
+        "url": "https://openjdk.org/projects/valhalla/",
+        "type": "doc"
+      },
+      {
+        "label": "Project Valhalla — State of Valhalla (Brian Goetz)",
+        "url": "https://openjdk.org/projects/valhalla/design-notes/state-of-valhalla/01-background",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -172,12 +320,36 @@
     "summary": "How a lambda expression implements a functional interface's single abstract method, the expression- vs. block-body syntax forms, the java.util.function catalogue, the effectively-final rule behind variable capture, and the four kinds of method references.",
     "publishedAt": "2026-08-05",
     "references": [
-      { "label": "java.util.function — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/package-summary.html", "type": "doc" },
-      { "label": "Function — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html", "type": "doc" },
-      { "label": "Predicate — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html", "type": "doc" },
-      { "label": "Supplier — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Supplier.html", "type": "doc" },
-      { "label": "Java Language Specification — Section 15.27, Lambda Expressions", "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.27", "type": "doc" },
-      { "label": "JEP 456: Unnamed Variables & Patterns", "url": "https://openjdk.org/jeps/456", "type": "doc" }
+      {
+        "label": "java.util.function — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Function — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html",
+        "type": "doc"
+      },
+      {
+        "label": "Predicate — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html",
+        "type": "doc"
+      },
+      {
+        "label": "Supplier — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Supplier.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — Section 15.27, Lambda Expressions",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.27",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 456: Unnamed Variables & Patterns",
+        "url": "https://openjdk.org/jeps/456",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -187,13 +359,265 @@
     "summary": "Why a stream is a lazy, single-use conduit rather than a data structure, how the pipeline shape (source → intermediate ops → terminal op) makes filter-then-findFirst short-circuit instead of scanning everything, how Collectors and the primitive stream specializations work under the hood, and when parallel streams actually help.",
     "publishedAt": "2026-08-05",
     "references": [
-      { "label": "java.util.stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html", "type": "doc" },
-      { "label": "Stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html", "type": "doc" },
-      { "label": "Collector — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html", "type": "doc" },
-      { "label": "Collectors — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html", "type": "doc" },
-      { "label": "Gatherer — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherer.html", "type": "doc" },
-      { "label": "Gatherers — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html", "type": "doc" },
-      { "label": "JEP 485: Stream Gatherers", "url": "https://openjdk.org/jeps/485", "type": "doc" }
+      {
+        "label": "java.util.stream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Stream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collector — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collectors — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Gatherer — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherer.html",
+        "type": "doc"
+      },
+      {
+        "label": "Gatherers — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 485: Stream Gatherers",
+        "url": "https://openjdk.org/jeps/485",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "thread-model-legacy-vs-virtual-threads",
+    "id": 16,
+    "title": "Thread Model: Legacy Control vs. Virtual Threads",
+    "summary": "Why Thread.suspend/resume/stop were deprecated for corrupting shared state, the cooperative-shutdown pattern that replaced them, and why virtual threads solve a different problem (thread cost) rather than that same correctness problem.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Virtual Threads — Java SE developer guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 444: Virtual Threads",
+        "url": "https://openjdk.org/jeps/444",
+        "type": "doc"
+      },
+      {
+        "label": "Thread — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nio2-path-and-files-api",
+    "id": 17,
+    "title": "NIO.2: The Path and Files API",
+    "summary": "How java.nio.file replaces java.io.File with informative, specific exceptions instead of boolean returns, adds DirectoryStream for closeable/filterable directory iteration, first-class symbolic-link support, and WatchService for reacting to filesystem changes instead of polling.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Files — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html",
+        "type": "doc"
+      },
+      {
+        "label": "Path — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Path.html",
+        "type": "doc"
+      },
+      {
+        "label": "DirectoryStream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/DirectoryStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "WatchService — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/WatchService.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "io-streams-fundamentals",
+    "id": 18,
+    "title": "java.io: Streams, Closing Resources, and Serialization",
+    "summary": "The byte-stream vs. character-stream split (InputStream/OutputStream vs. Reader/Writer), how Closeable/AutoCloseable/Flushable and try-with-resources guarantee resource cleanup with suppressed exceptions, buffering and PrintWriter, and how Serializable/ObjectInputFilter turn an object graph into bytes while guarding against deserialization attacks.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "InputStream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "OutputStream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/OutputStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reader — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Reader.html",
+        "type": "doc"
+      },
+      {
+        "label": "Writer — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Writer.html",
+        "type": "doc"
+      },
+      {
+        "label": "AutoCloseable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Serializable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectInputStream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectInputFilter — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputFilter.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 290: Filter Incoming Serialization Data",
+        "url": "https://openjdk.org/jeps/290",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 415: Context-Specific Deserialization Filters",
+        "url": "https://openjdk.org/jeps/415",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "annotations-in-java",
+    "id": 19,
+    "title": "Annotations: Retention, Meta-Annotations, and Reflection",
+    "summary": "How @Retention/RetentionPolicy control whether an annotation survives past source, the @Target/@Inherited/@Repeatable meta-annotations, reading annotations at runtime via AnnotatedElement, and the built-in @Deprecated/@SafeVarargs/@FunctionalInterface/@Documented annotations.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "java.lang.annotation package — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Retention — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Retention.html",
+        "type": "doc"
+      },
+      {
+        "label": "RetentionPolicy — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/RetentionPolicy.html",
+        "type": "doc"
+      },
+      {
+        "label": "Target — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Target.html",
+        "type": "doc"
+      },
+      {
+        "label": "Repeatable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Repeatable.html",
+        "type": "doc"
+      },
+      {
+        "label": "AnnotatedElement — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/AnnotatedElement.html",
+        "type": "doc"
+      },
+      {
+        "label": "Deprecated — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "java-lang-essential-utility-types",
+    "id": 20,
+    "title": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
+    "summary": "The Comparable<T> natural-ordering contract and its equals-consistency recommendation, AutoCloseable vs. Closeable idempotency rules, StackWalker as the lazy, modern replacement for stack-trace inspection, and ProcessBuilder/Process/ProcessHandle for launching and managing OS processes.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Comparable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html",
+        "type": "doc"
+      },
+      {
+        "label": "AutoCloseable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Closeable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Closeable.html",
+        "type": "doc"
+      },
+      {
+        "label": "StackWalker — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/StackWalker.html",
+        "type": "doc"
+      },
+      {
+        "label": "ProcessBuilder — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessBuilder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Process — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Process.html",
+        "type": "doc"
+      },
+      {
+        "label": "ProcessHandle — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ProcessHandle.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jshell-repl",
+    "id": 21,
+    "title": "JShell: The Java REPL",
+    "summary": "How JShell lets you evaluate expressions, declare variables/methods/classes, and get immediate feedback without a full class/main-method wrapper — the  result-variable convention, forward references, essential /commands, and how it differs from single-file source-code launching.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Introduction to JShell — Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/jshell/introduction-jshell.html",
+        "type": "doc"
+      },
+      {
+        "label": "The jshell Command — Java SE 25 Tool Specifications",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jshell.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 222: jshell: The Java Shell (Read-Eval-Print Loop)",
+        "url": "https://openjdk.org/jeps/222",
+        "type": "doc"
+      }
     ]
   }
 ]
