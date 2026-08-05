@@ -1,0 +1,77 @@
+:host {
+  display: contents;
+}
+
+.ask-ai-tooltip {
+  position: fixed;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  animation: ask-ai-in 0.15s ease-out;
+}
+
+.ask-ai-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 0.8rem;
+  font-family: inherit;
+}
+
+.ask-ai-btn + .ask-ai-btn {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ask-ai-btn:hover,
+.ask-ai-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ask-ai-btn.claude svg {
+  color: #e8734f;
+}
+
+.ask-ai-btn.chatgpt svg {
+  color: #10a37f;
+}
+
+.ask-ai-status {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  max-width: 320px;
+  white-space: normal;
+}
+
+@keyframes ask-ai-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .ask-ai-btn {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}
