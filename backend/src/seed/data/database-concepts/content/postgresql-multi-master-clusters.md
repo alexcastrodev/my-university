@@ -70,6 +70,20 @@ read traffic. This satisfies growing regional read demand without adding to the
 primary-to-primary mesh, since the added nodes never need to accept writes
 themselves.
 
+```mermaid
+flowchart LR
+    subgraph Mesh["Full mesh, N=3 primaries: 6 channels"]
+        A1((Primary A)) --- B1((Primary B))
+        B1 --- C1((Primary C))
+        C1 --- A1
+    end
+    subgraph HubSpoke["Hub + Spoke"]
+        H1((Primary,<br/>Region A)) --- H2((Primary,<br/>Region B))
+        H1 --> HR1[Read replica]
+        H2 --> HR2[Read replica]
+    end
+```
+
 ### Near-zero RTO through proxy-mediated switchover
 
 Because no node needs promotion — every primary is already writable — a proxy

@@ -107,6 +107,15 @@ parameters starts a new execution of the same instance rather than failing, whic
 what makes retrying a corrected job (like a re-uploaded, uncorrupted archive)
 possible.
 
+```mermaid
+flowchart TD
+    L["Launch job with JobParameters"] --> E{"JobInstance already exists?"}
+    E -->|no| C1["create JobInstance + first JobExecution"]
+    E -->|yes, last execution completed| X1["JobInstanceAlreadyCompleteException"]
+    E -->|yes, execution in progress| X2["JobExecutionAlreadyRunningException"]
+    E -->|yes, last execution failed| C2["create new JobExecution<br/>of the same JobInstance"]
+```
+
 ## Trade-offs
 
 - **`JobLauncher.run(job, jobParameters)` — the call this book uses throughout — is

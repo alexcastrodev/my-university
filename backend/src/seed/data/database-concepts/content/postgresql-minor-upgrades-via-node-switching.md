@@ -25,6 +25,27 @@ role each node plays changes.
 
 ## Deep Dive
 
+```mermaid
+sequenceDiagram
+    participant P as Primary (.10)
+    participant R as Replica (.20)
+
+    Note over R: Step 1 — patch idle replica
+    R->>R: stop, upgrade, start
+    R->>P: reconnect, catch up on WAL
+
+    Note over P: Step 2 — drain and hand off
+    P->>P: remove virtual IP, CHECKPOINT
+    P->>R: verify sent_lsn = replay_lsn
+    P->>P: stop (pg_ctl stop -m fast)
+    R->>R: promote (pg_ctl promote)
+    R->>R: attach virtual IP — now primary
+
+    Note over P: Step 3 — patch former primary
+    P->>P: upgrade, pg_rewind from R
+    P->>R: rejoin as new replica
+```
+
 ### Step 1: patch the idle replica first
 
 With a primary at `192.168.1.10` and a replica at `192.168.1.20` behind a

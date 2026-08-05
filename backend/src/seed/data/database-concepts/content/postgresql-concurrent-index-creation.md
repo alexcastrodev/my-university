@@ -52,6 +52,25 @@ very end, for the brief moment PostgreSQL needs to attach the finished index to
 the table's catalog entry. This capability isn't new or experimental — it's
 been in PostgreSQL since version 8.2 (2006).
 
+```mermaid
+sequenceDiagram
+    participant W as Writes (INSERT/UPDATE/DELETE)
+    participant PG as CREATE INDEX CONCURRENTLY
+
+    PG->>PG: register index, mark INVALID
+    par writes keep flowing
+        W->>PG: ongoing writes
+    and
+        PG->>PG: scan 1 — build against current contents
+    end
+    par writes keep flowing
+        W->>PG: ongoing writes
+    and
+        PG->>PG: scan 2 — catch writes missed during scan 1
+    end
+    PG->>PG: brief lock — attach index, mark VALID
+```
+
 ### Why it's slower: two scans instead of one
 
 A plain `CREATE INDEX` does a single table scan under its exclusive lock. A

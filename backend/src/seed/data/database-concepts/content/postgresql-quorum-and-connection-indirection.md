@@ -26,6 +26,16 @@ hardcoded to the old node's hostname hasn't achieved high availability.
 
 ## Deep Dive
 
+```mermaid
+flowchart TD
+    App["Application"] --> LB["Proxy / load balancer<br/>(health-checks each node)"]
+    LB -->|writes routed to whichever<br/>node answers as leader| P["Primary"]
+    LB -.->|reads, if configured| R["Replica"]
+    P -.replicates.-> R
+    P -.vote.-> W["Witness<br/>(voter only, never promoted)"]
+    R -.vote.-> W
+```
+
 ### Reaching an odd voter count
 
 Automated failover needs a way to avoid a tie vote when the primary disappears.

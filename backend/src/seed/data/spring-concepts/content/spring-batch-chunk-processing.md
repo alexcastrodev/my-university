@@ -77,6 +77,15 @@ A chunk-oriented step reads items one at a time but commits them as a batch: the
 
 A chunk size of 100 means: read up to 100 products, then write all 100 in a single transaction. If item 57 fails, the whole chunk rolls back — not just that item — which is the mechanism trading throughput for transactional simplicity.
 
+```mermaid
+flowchart LR
+    R["ItemReader<br/>reads one item"] --> A{"chunk size<br/>reached?"}
+    A -->|no| R
+    A -->|yes| W["ItemWriter.write(chunk)"]
+    W --> C["commit transaction"]
+    C --> R
+```
+
 ### A `Tasklet` handles work that isn't shaped like a read-write loop
 
 Not every step processes a stream of items. Decompressing an uploaded archive before the read-write step even starts is a single unit of work, modeled with the `Tasklet` interface instead of a reader/writer pair:
@@ -104,6 +113,17 @@ A `Job` is the logical definition of a batch process (its steps and their order)
 - **`StepExecution`** — one attempt at a single step within a `JobExecution`, tracking read/write/commit/rollback/skip counts for that step specifically.
 
 The `JobRepository` persists all of this (so a restart knows exactly where a job stopped), and the `JobLauncher` is what starts a `Job` with a given set of `JobParameters` in the first place — see `spring-batch-job-model` for how `JobLauncher` itself is now deprecated in favor of `JobOperator` as of Spring Batch 6.0.
+
+```mermaid
+classDiagram
+    class Job { logical definition, holds no execution state }
+    class JobInstance { job name + identifying JobParameters }
+    class JobExecution { one attempt at a JobInstance }
+    class StepExecution { one attempt at a Step, within a JobExecution }
+    Job --> JobInstance : produces
+    JobInstance "1" --> "*" JobExecution : attempts
+    JobExecution "1" --> "*" StepExecution : per step
+```
 
 ### Book vs. today: XML batch namespace → `JobBuilder`/`StepBuilder`
 

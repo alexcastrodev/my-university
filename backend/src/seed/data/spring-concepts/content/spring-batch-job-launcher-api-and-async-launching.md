@@ -110,6 +110,26 @@ query later, without ever blocking on the job's actual completion. The
 `ThreadPoolTaskExecutor` can be declared the same way as any other bean
 instead, with identical effect.
 
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant JL as JobLauncher
+
+    rect rgb(240,240,240)
+    Note over Caller,JL: Synchronous (no TaskExecutor)
+    Caller->>JL: run(job, params)
+    JL->>JL: execute job (blocks caller's thread)
+    JL-->>Caller: JobExecution (COMPLETED/FAILED)
+    end
+
+    rect rgb(240,240,240)
+    Note over Caller,JL: Asynchronous (TaskExecutor configured)
+    Caller->>JL: run(job, params)
+    JL->>JL: hand off to pooled thread
+    JL-->>Caller: JobExecution (STARTED) — returns immediately
+    end
+```
+
 ### Choosing a launching solution: the chapter's roadmap
 
 The book frames "how do I actually trigger this?" as a separate question from

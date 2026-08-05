@@ -22,6 +22,24 @@ and only take a brief outage at the very end to switch roles.
 
 ## Deep Dive
 
+```mermaid
+sequenceDiagram
+    participant D as Donor (old server)
+    participant N as New server
+
+    N->>D: pg_basebackup (clone data dir)
+    D-->>N: full copy of data
+    N->>D: connect as rep_user, start streaming
+    loop ongoing replication
+        D->>N: stream + replay WAL
+    end
+    Note over D: CHECKPOINT
+    D->>N: verify sent_lsn = replay_lsn
+    Note over D: stop (pg_ctl stop -m fast)
+    Note over N: promote (pg_ctl promote)
+    N->>N: now the primary
+```
+
 ### Preparing the donor server to accept a replication connection
 
 Before anything can copy data, the source ("donor") server needs a role dedicated

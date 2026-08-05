@@ -31,6 +31,15 @@ Fencing means physically or forcibly ensuring a node can't act as primary anymor
 as opposed to trusting that a failed or demoted node will cooperate. The book frames
 this with two named techniques:
 
+```mermaid
+flowchart TD
+    F["Failover or network partition detected"] --> S{"Who detects it?"}
+    S -->|Standby sees primary as unreachable| ST["STONITH:<br/>standby cuts power to old primary<br/>via PDU / hypervisor API"]
+    S -->|Primary loses contact with<br/>standby + witness| SM["SMITH:<br/>primary's own watchdog<br/>powers it off"]
+    ST --> R["Old primary provably cannot accept writes"]
+    SM --> R
+```
+
 ### STONITH — Shoot The Other Node In The Head
 
 When a standby promotes itself, it uses remote power-management hardware (a

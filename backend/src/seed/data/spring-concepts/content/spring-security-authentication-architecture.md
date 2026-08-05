@@ -57,6 +57,28 @@ Six components, wired together, handle every authentication request:
 
 The default `AuthenticationManager` implementation is `ProviderManager`: it holds a list of `AuthenticationProvider`s and tries each in turn until one can authenticate the request (or none can, which raises `ProviderNotFoundException`). The default `AuthenticationProvider` in a Basic-auth setup delegates directly to the autoconfigured `UserDetailsService` and `PasswordEncoder` — the two beans Spring Boot creates for you when it sees `spring-boot-starter-security` on the classpath with nothing else configured.
 
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant F as Authentication filter
+    participant M as AuthenticationManager<br/>(ProviderManager)
+    participant P as AuthenticationProvider
+    participant U as UserDetailsService
+    participant E as PasswordEncoder
+    participant S as SecurityContextHolder
+
+    C->>F: request with credentials
+    F->>M: authenticate(Authentication)
+    M->>P: try each provider in turn
+    P->>U: loadUserByUsername()
+    U-->>P: UserDetails
+    P->>E: matches(rawPassword, encoded)
+    E-->>P: true/false
+    P-->>M: authenticated Authentication (or exception)
+    M-->>F: result
+    F->>S: store authenticated principal
+```
+
 ### Overriding `UserDetailsService` and `PasswordEncoder`
 
 Declaring your own `UserDetailsService` bean replaces the single generated user with credentials you control. `InMemoryUserDetailsManager` is the simplest built-in implementation — suitable for examples, not production:

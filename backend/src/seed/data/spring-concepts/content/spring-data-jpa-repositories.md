@@ -160,6 +160,13 @@ understands operators like `GreaterThan`, `LessThan`, `IsNull`, `In`,
 `StartingWith`, `Containing`, `IgnoringCase`, and a trailing `OrderBy...` for
 sorting.
 
+```mermaid
+flowchart LR
+    M["readOrdersByDeliveryZipAndPlacedAtBetween"] --> V["verb: read<br/>(read/find/get = fetch)"]
+    M --> Su["subject: Orders<br/>(ignored — entity comes from CrudRepository&lt;Order, Long&gt;)"]
+    M --> P["predicate: DeliveryZipAndPlacedAtBetween<br/>→ deliveryZip = ? AND placedAt BETWEEN ? AND ?"]
+```
+
 ### Escaping the naming convention with @Query
 
 Once a query needs more than the naming convention can reasonably express

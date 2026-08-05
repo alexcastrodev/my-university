@@ -145,6 +145,33 @@
   margin-bottom: 0.3rem;
 }
 
+.lesson-body ::ng-deep .mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 1.25rem;
+  padding: 1.75rem 1.25rem;
+  background: linear-gradient(180deg, #fdfdfe 0%, #f8f9fb 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  overflow-x: auto;
+}
+
+.lesson-body ::ng-deep .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.lesson-body ::ng-deep .mermaid-diagram .node rect,
+.lesson-body ::ng-deep .mermaid-diagram .node circle,
+.lesson-body ::ng-deep .mermaid-diagram .node polygon {
+  filter: drop-shadow(0 1px 2px rgba(199, 70, 52, 0.12));
+}
+
+.lesson-body ::ng-deep .mermaid-diagram .edgeLabel {
+  border-radius: 4px;
+}
+
 .lesson-body ::ng-deep blockquote {
   border-left: 4px solid #c74634;
   background: #fff7f6;

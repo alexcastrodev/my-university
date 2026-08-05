@@ -30,6 +30,14 @@ scheduled job).
 
 ## Deep Dive
 
+```mermaid
+flowchart TD
+    Q["Does the security context need<br/>to reach a new thread?"] --> A{"Who creates the thread?"}
+    A -->|Spring Security itself, e.g. @Async| B["MODE_INHERITABLETHREADLOCAL"]
+    A -->|Standalone app, every thread shares one identity| C["MODE_GLOBAL"]
+    A -->|Your own code, e.g. manual ExecutorService| D["Wrap task: DelegatingSecurityContextCallable/Runnable<br/>or wrap pool: DelegatingSecurityContextExecutorService"]
+```
+
 ### The `SecurityContext` contract and its default home: `MODE_THREADLOCAL`
 
 ```java

@@ -103,6 +103,20 @@ recognizes the type but rejects the specific object returns `null` from
 `authenticate()`, and the manager moves on to the next provider. If none of them
 succeeds, authentication fails with `ProviderNotFoundException`.
 
+```mermaid
+flowchart TD
+    Req["Authentication request"] --> PM["ProviderManager"]
+    PM --> P1{"Provider 1<br/>supports()?"}
+    P1 -->|no| P2{"Provider 2<br/>supports()?"}
+    P1 -->|yes| A1["authenticate()"]
+    A1 -->|success| Done["authenticated Authentication"]
+    A1 -->|null: not this instance| P2
+    A1 -->|throws| Fail["authentication fails"]
+    P2 -->|no more providers| NF["ProviderNotFoundException"]
+    P2 -->|yes| A2["authenticate()"]
+    A2 -->|success| Done
+```
+
 ### Writing a custom provider that still uses `UserDetailsService`/`PasswordEncoder`
 
 Implementing `AuthenticationProvider` from scratch doesn't mean abandoning the

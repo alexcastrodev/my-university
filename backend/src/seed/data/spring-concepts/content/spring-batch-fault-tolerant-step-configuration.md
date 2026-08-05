@@ -61,6 +61,16 @@ error; `cache-capacity` bounds the retry context cache (items awaiting
 recovery across transactions) as a safeguard against unbounded memory growth
 if items can't be reliably identified between attempts.
 
+```mermaid
+flowchart TD
+    I["Item fails during read/process/write"] --> R{"Retryable exception?"}
+    R -->|yes, attempts < retry-limit| Rt["retry the item"]
+    Rt --> I
+    R -->|no, or retries exhausted| S{"Skippable exception?"}
+    S -->|yes, skips < skip-limit| Sk["skip item, continue chunk"]
+    S -->|no, or skip-limit reached| F["fail the step"]
+```
+
 ### Java configuration, era 1: `FaultTolerantStepBuilder` (still common today, but deprecated since 6.0)
 
 ```java

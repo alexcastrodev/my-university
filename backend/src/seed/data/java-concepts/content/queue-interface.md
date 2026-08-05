@@ -24,6 +24,21 @@ interface Queue<E>
 
 `E` specifies the type of objects the queue will hold. Several of `Queue`'s methods throw `ClassCastException` when an object is incompatible with the elements already in the queue, `NullPointerException` when `null` isn't allowed, and `IllegalArgumentException` if an invalid argument is used — the same exception vocabulary `Collection` uses elsewhere.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Queue { <<interface>> }
+    class Deque { <<interface>> }
+    class LinkedList
+    class ArrayBlockingQueue
+    class PriorityQueue
+    Collection <|-- Queue
+    Queue <|-- Deque
+    Queue <|.. LinkedList
+    Queue <|.. ArrayBlockingQueue
+    Queue <|.. PriorityQueue
+```
+
 ### Adding: add() vs. offer()
 
 `add()` (inherited from `Collection`) throws if it can't add the element. `offer()` is `Queue`'s own method for the same job, but it reports failure instead of throwing:

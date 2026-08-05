@@ -3,12 +3,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SpringConcept } from '../../models/spring-concept.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-spring-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RenderMermaidDirective],
   templateUrl: './spring-concept-view.html',
   styleUrl: './spring-concept-view.css',
 })

@@ -25,6 +25,21 @@ interface Set<E>
 
 `Set` declares no methods of its own beyond what `Collection` already has — the contract is entirely behavioral. `add()` returns `false`, instead of throwing, when the element is already present:
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Set { <<interface>> }
+    class SortedSet { <<interface>> }
+    class NavigableSet { <<interface>> }
+    class HashSet
+    class TreeSet
+    Collection <|-- Set
+    Set <|-- SortedSet
+    SortedSet <|-- NavigableSet
+    Set <|.. HashSet
+    NavigableSet <|.. TreeSet
+```
+
 ```java
 Set<String> names = new HashSet<>();
 names.add("Ann");    // true, added

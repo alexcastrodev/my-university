@@ -115,6 +115,24 @@ This is what connects `processDesign()` (which redirects to `/orders/current`) t
 separate `OrderController`'s `@GetMapping("/current")` handler — two controllers
 composed through a redirect rather than one controller doing everything.
 
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant DC as DesignTacoController
+    participant OC as OrderController
+
+    B->>DC: GET /design
+    DC->>DC: build Model, add "design"
+    DC-->>B: view "design" rendered
+
+    B->>DC: POST /design (form fields)
+    DC->>DC: bind fields onto Taco (implicit @ModelAttribute)
+    DC-->>B: redirect:/orders/current
+
+    B->>OC: GET /orders/current
+    OC-->>B: view rendered
+```
+
 ## Trade-offs
 
 - **Lombok removes boilerplate but adds a build-time dependency.** Every developer

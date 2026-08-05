@@ -15,6 +15,16 @@ Understand how the pieces of the Spring ecosystem fit together around one core: 
 
 ## Deep Dive
 
+```mermaid
+flowchart TD
+    Core["Spring Framework<br/>(DI container, Spring MVC / WebFlux)"] --> Boot["Spring Boot<br/>(starters, autoconfiguration, Actuator)"]
+    Boot --> Data["Spring Data"]
+    Boot --> Security["Spring Security"]
+    Boot --> Batch["Spring Batch / Integration"]
+    Boot --> Cloud["Spring Cloud"]
+    Boot --> AI["Spring AI"]
+```
+
 ### The core Spring Framework: DI container plus Spring MVC
 
 Everything else in the ecosystem is built on top of the core container and its dependency injection model. The core framework also ships Spring MVC (the web framework used to handle requests) and basic JDBC support via `JdbcTemplate`:

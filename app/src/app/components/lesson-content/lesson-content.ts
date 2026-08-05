@@ -11,10 +11,12 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 @Component({
   selector: 'app-lesson-content',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RenderMermaidDirective],
   templateUrl: './lesson-content.html',
   styleUrl: './lesson-content.css',
 })

@@ -225,6 +225,25 @@ protected void configure(HttpSecurity http) throws Exception {
 }
 ```
 
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant S as Spring Security
+
+    B->>S: GET /home (unauthenticated)
+    S-->>B: 302 redirect to /login
+    B->>S: GET /login
+    S-->>B: login form
+    B->>S: POST /login (username, password)
+    alt success
+        S->>S: AuthenticationSuccessHandler
+        S-->>B: redirect to /home (originally requested)
+    else failure
+        S->>S: AuthenticationFailureHandler
+        S-->>B: redirect back to /login?error
+    end
+```
+
 ### Running both methods together
 
 Once `formLogin()` is configured, HTTP Basic credentials on their own stop

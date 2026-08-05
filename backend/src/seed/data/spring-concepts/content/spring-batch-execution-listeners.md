@@ -28,6 +28,28 @@ to the reader, processor, or writer itself.
 
 ## Deep Dive
 
+```mermaid
+flowchart TD
+    subgraph JobLevel["Job"]
+        BJ["beforeJob"]
+        subgraph StepLevel["each Step"]
+            BS["beforeStep"]
+            subgraph ChunkLevel["each chunk"]
+                BC["beforeChunk"]
+                subgraph ItemLevel["each item"]
+                    R["beforeRead / afterRead / onReadError"]
+                    P["beforeProcess / afterProcess / onProcessError"]
+                    W["beforeWrite / afterWrite / onWriteError"]
+                end
+                AC["afterChunk"]
+            end
+            AS["afterStep"]
+        end
+        AJ["afterJob"]
+    end
+    BJ --> BS --> BC --> R --> P --> W --> AC --> AS --> AJ
+```
+
 ### Job listeners: before/after the whole job
 
 ```java

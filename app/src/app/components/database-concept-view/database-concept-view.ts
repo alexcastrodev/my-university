@@ -3,12 +3,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DatabaseConcept } from '../../models/database-concept.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-database-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RenderMermaidDirective],
   templateUrl: './database-concept-view.html',
   styleUrl: './database-concept-view.css',
 })

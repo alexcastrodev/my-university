@@ -25,6 +25,19 @@ interface Collection<E>
 
 Here, `E` specifies the type of objects the collection will hold. `Collection` extends `Iterable`, so only classes that implement `Collection` (directly or transitively) can be cycled through by a for-each loop, and any class implementing it is forced to supply an `iterator()`.
 
+```mermaid
+classDiagram
+    class Iterable { <<interface>> }
+    class Collection { <<interface>> }
+    class List { <<interface>> }
+    class Set { <<interface>> }
+    class Queue { <<interface>> }
+    Iterable <|-- Collection
+    Collection <|-- List
+    Collection <|-- Set
+    Collection <|-- Queue
+```
+
 ### Adding elements: add and addAll
 
 ```java

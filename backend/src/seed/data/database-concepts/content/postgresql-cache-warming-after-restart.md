@@ -28,6 +28,22 @@ the same time.
 
 ## Deep Dive
 
+```mermaid
+sequenceDiagram
+    participant D as DBA
+    participant PG as PostgreSQL
+    participant Disk
+
+    D->>PG: build active_snap (top tables/indexes by scan count)
+    D->>PG: shut down for maintenance
+    Note over PG: shared buffers + OS cache lost
+    D->>PG: restart
+    D->>PG: SELECT pg_prewarm(objrelid) FROM active_snap
+    PG->>Disk: read each warmed relation
+    Disk-->>PG: blocks loaded into shared buffers
+    Note over PG: cache hot — now open to applications
+```
+
 ### Building a snapshot of what actually matters
 
 Before anything can be warmed, something has to say which tables and indexes

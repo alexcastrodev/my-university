@@ -24,6 +24,19 @@ interface Deque<E>
 
 `E` specifies the type of objects the deque will hold. Everything `Queue` declares is still available, but where `Queue` only exposes the head, `Deque` gives explicit access to both ends.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Queue { <<interface>> }
+    class Deque { <<interface>> }
+    class ArrayDeque
+    class LinkedList
+    Collection <|-- Queue
+    Queue <|-- Deque
+    Deque <|.. ArrayDeque
+    Deque <|.. LinkedList
+```
+
 ### Adding at either end: addFirst/addLast vs. offerFirst/offerLast
 
 ```java

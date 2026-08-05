@@ -3,12 +3,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const REFERENCES_TITLE = 'References';
 
 @Component({
   selector: 'app-java-minute-episode',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RenderMermaidDirective],
   templateUrl: './java-minute-episode.html',
   styleUrl: './java-minute-episode.css',
 })

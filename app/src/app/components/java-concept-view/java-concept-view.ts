@@ -3,12 +3,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaConcept } from '../../models/java-concept.model';
 import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-java-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RenderMermaidDirective],
   templateUrl: './java-concept-view.html',
   styleUrl: './java-concept-view.css',
 })

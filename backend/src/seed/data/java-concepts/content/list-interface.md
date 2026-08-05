@@ -25,6 +25,17 @@ interface List<E>
 
 `E` specifies the type of objects the list will hold. Because `List` extends `Collection`, everything `Collection` declares — `add`, `remove`, `contains`, `stream`, ... — is available, but `List` gives `add(E)` and `addAll(Collection)` more specific semantics: elements always go in at a defined position (the end, unless told otherwise), and duplicates are allowed.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class List { <<interface>> }
+    class ArrayList
+    class LinkedList
+    Collection <|-- List
+    List <|.. ArrayList
+    List <|.. LinkedList
+```
+
 ### Inserting at a position: add(int, E) and addAll(int, Collection)
 
 ```java

@@ -45,6 +45,16 @@ public interface JobRepository {
 
 The repository tracks which steps ran, how many items were read/written/skipped, and how long each step took — all transparently, without the application code calling it directly.
 
+```mermaid
+flowchart TD
+    Ext["Scheduler / script / HTTP request"] --> JL["JobLauncher"]
+    JL --> JR["JobRepository<br/>(persists execution metadata)"]
+    JL --> J["Job"]
+    J --> S1["Step 1"]
+    S1 --> S2["Step 2"]
+    S2 --> S3["Step 3"]
+```
+
 ### In-memory vs. persistent job repository: the trade-off is monitoring and restart
 
 An in-memory job repository is simpler to configure but loses everything on process exit — no restart-where-it-failed, no cross-process visibility, and it isn't safe for concurrent job execution. A persistent job repository, backed by a relational database, adds three capabilities in exchange for the overhead of talking to a database on every step: monitoring (the execution history is queryable), restart (a failed job resumes from its last successful step instead of from the start), and safety against launching the same job instance twice from different processes, since the database provides the isolation.

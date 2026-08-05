@@ -50,6 +50,23 @@ Node count answers "how many"; a separate set of guidelines answers "where":
 
 ### Working through a placement example
 
+```mermaid
+flowchart LR
+    subgraph Chicago
+        P["Primary"]
+        Wt["Witness"]
+    end
+    subgraph Dallas
+        R1["Replica"]
+    end
+    subgraph "Third site"
+        R2["Replica"]
+    end
+    P -.replicates.-> R1
+    P -.replicates.-> R2
+    P === Wt
+```
+
 Starting from a naive design — six PostgreSQL nodes, one witness, and a backup, all in a single Chicago data center — every guideline above is violated at once: a single site failure takes out the entire cluster, backup included. Applying the guidelines incrementally: move the backup to a second location (Dallas) first, since it's the cheapest fix and protects the most important asset; then move at least one PostgreSQL replica there too, so the cluster survives losing Chicago entirely; then, because three data centers are now in play, automated failover becomes viable. The witness stays in the *second* Chicago location rather than moving to Dallas — if Chicago becomes isolated from Dallas, the witness needs to remain reachable from whichever side keeps the most infrastructure, and colocating it with the majority of nodes (Chicago) rather than the minority (Dallas) keeps its vote meaningful for the more common case. The end state, for a large institution with several data centers available, evenly distributes nodes across three geographically diverse sites rather than leaving the imbalance from the first two moves in place.
 
 ### Book vs. today: the manual witness has a modern, off-the-shelf equivalent

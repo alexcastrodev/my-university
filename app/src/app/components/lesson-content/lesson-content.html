@@ -1,5 +1,5 @@
 @if (html()) {
-  <article class="lesson-body" [innerHTML]="html()"></article>
+  <article class="lesson-body" appRenderMermaid [innerHTML]="html()"></article>
   @if (version() || updatedAt()) {
     <footer class="lesson-meta">
       @if (version()) { <span>v{{ version() }}</span> }
