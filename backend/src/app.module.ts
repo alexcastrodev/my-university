@@ -22,6 +22,7 @@ import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 import { SpringConceptsModule } from './spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from './system-design-concepts/system-design-concepts.module';
+import { TestingConceptsModule } from './testing-concepts/testing-concepts.module';
 import { UserXpEntry } from './xp/user-xp.entity';
 import { XpModule } from './xp/xp.module';
 
@@ -42,6 +43,7 @@ import { XpModule } from './xp/xp.module';
     DatabaseConceptsModule,
     SpringConceptsModule,
     SystemDesignConceptsModule,
+    TestingConceptsModule,
     ProgressModule,
     ExamModule,
     XpModule,

@@ -1,0 +1,33 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/java/testing" class="back-link">← Testing Concepts</a>
+      <div class="loading" role="status" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concept…
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/java/testing" class="back-link">← Testing Concepts</a>
+      <div class="not-found">
+        <p>Concept not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        backHref="/java/testing"
+        backLabel="Testing Concepts"
+        basePath="/java/testing"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-testing-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

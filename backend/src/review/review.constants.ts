@@ -19,6 +19,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'database-concepts', sourceType: 'concept-read', prefix: 'db:', route: (slug) => ['/databases/database-concepts', slug] },
   { module: 'system-design-concepts', sourceType: 'concept-read', prefix: 'sysdesign:', route: (slug) => ['/system-design/system-design-concepts', slug] },
   { module: 'java-minute', sourceType: 'episode-watched', prefix: '', route: (slug) => ['/java/java-minute', slug] },
+  { module: 'testing-concepts', sourceType: 'concept-read', prefix: 'testing:', route: (slug) => ['/java/testing', slug] },
 ];
 
 export interface ResolvedSource {

@@ -6,6 +6,7 @@ import { SpringConceptsService } from '../spring-concepts/spring-concepts.servic
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { fromSourceId, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
@@ -32,6 +33,7 @@ export class ReviewService {
     private databaseConcepts: DatabaseConceptsService,
     private systemDesignConcepts: SystemDesignConceptsService,
     private javaMinute: JavaMinuteService,
+    private testingConcepts: TestingConceptsService,
   ) {}
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
@@ -67,6 +69,7 @@ export class ReviewService {
       'database-concepts': new Map(this.databaseConcepts.findAll().map((c) => [c.slug, c.title])),
       'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),
       'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
+      'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
     } as Record<string, Map<string, string>>;
 
     const items: ReviewQueueItem[] = [];

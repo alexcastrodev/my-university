@@ -62,6 +62,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/spring-concepts/spring-concepts-detail').then((m) => m.SpringConceptsDetailPage),
   },
   {
+    path: 'java/testing',
+    loadComponent: () => import('./pages/testing-concepts/testing-concepts-list').then((m) => m.TestingConceptsListPage),
+  },
+  {
+    path: 'java/testing/:slug',
+    loadComponent: () => import('./pages/testing-concepts/testing-concepts-detail').then((m) => m.TestingConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

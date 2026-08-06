@@ -1,0 +1,68 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Testing Concepts</h1>
+    <p class="page-sub">JUnit 5, Mockito, and Spring testing — core concepts explained in depth.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="filters-row">
+      <div class="category-filters">
+        @for (opt of CATEGORY_OPTIONS; track opt.value) {
+          <button type="button" class="category-filter-pill"
+            [class.active]="selectedCategory() === opt.value"
+            (click)="onFilterChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+      <button type="button" class="labs-filter-btn"
+        [class.active]="showOnlyLabs()"
+        (click)="onToggleLabsFilter()">
+        🔬 Labs only
+      </button>
+    </div>
+
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (concept of filteredConcepts(); track concept.slug) {
+          <a [routerLink]="['/java/testing', concept.slug]" class="concept-card" [class.is-read]="concept.read">
+            <div class="card-header">
+              <div class="card-meta">
+                <span class="card-category">{{ concept.category }}</span>
+                @if (concept.labUrl) {
+                  <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
+                }
+              </div>
+            </div>
+            <h3 class="card-title">{{ concept.title }}</h3>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-footer">
+              <span class="card-cta">Read →</span>
+              @if (concept.read) {
+                <span class="read-check" title="You've marked this as read">✓</span>
+              }
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

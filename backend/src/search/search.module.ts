@@ -7,6 +7,7 @@ import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
+import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
 import { MeilisearchClient } from './meilisearch.client';
 import { SearchController } from './search.controller';
 import { SearchService } from './search.service';
@@ -19,6 +20,7 @@ import { SearchService } from './search.service';
     DatabaseConceptsModule,
     SpringConceptsModule,
     SystemDesignConceptsModule,
+    TestingConceptsModule,
   ],
   controllers: [SearchController],
   providers: [SearchService, MeilisearchClient],

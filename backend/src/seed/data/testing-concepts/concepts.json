@@ -1,0 +1,347 @@
+[
+  {
+    "slug": "junit-5-fundamentals",
+    "id": 1,
+    "category": "Java",
+    "title": "JUnit 5 Fundamentals",
+    "summary": "The JUnit 5 test lifecycle, assertions vs. assumptions, nested/tagged tests, and parameterized/dynamic tests — from JUnit in Action, Third Edition, Ch. 2.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 Jupiter API — Assertions",
+        "url": "https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 2, \"Exploring core JUnit,\" pp. 15–46 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "junit-5-architecture",
+    "id": 2,
+    "category": "Java",
+    "title": "JUnit 5 Architecture",
+    "summary": "How Platform, Jupiter, and Vintage fit together to run new and legacy tests side by side, plus a short JUnit 4-to-5 migration reference — from JUnit in Action, Third Edition, Ch. 3.1/3.3 (and a short Ch. 4 note).",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JUnit 5 User Guide — Architecture",
+        "url": "https://docs.junit.org/current/user-guide/#overview-what-is-junit-5",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Migrating from JUnit 4",
+        "url": "https://docs.junit.org/current/user-guide/#migrating-from-junit4",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 3.1/3.3, \"JUnit architecture,\" pp. 47–48, 58–62 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 4, \"Migrating from JUnit 4 to JUnit 5\" (short reference only), pp. 63–86 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "software-testing-principles",
+    "id": 3,
+    "category": "Java",
+    "title": "Software Testing Principles",
+    "summary": "Unit vs. integration vs. system vs. acceptance testing, and black-box vs. white-box testing — the vocabulary behind how a test suite is organized, from JUnit in Action, Third Edition, Ch. 5.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Selenium — official site",
+        "url": "https://www.selenium.dev",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 5, \"Software testing principles,\" pp. 87–98 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-quality-and-testable-code",
+    "id": 4,
+    "category": "Java",
+    "title": "Test Quality and Testable Code",
+    "summary": "Measuring coverage with JaCoCo, writing testable code (Law of Demeter, composition over conditionals), and how TDD/BDD/mutation testing fit the development cycle — from JUnit in Action, Third Edition, Ch. 6.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JaCoCo — official site",
+        "url": "https://www.jacoco.org",
+        "type": "doc"
+      },
+      {
+        "label": "PIT (Pitest) — mutation testing for Java",
+        "url": "https://pitest.org",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 6, \"Test quality,\" pp. 101–121 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "selenium-browser-testing",
+    "id": 7,
+    "category": "Java",
+    "title": "Selenium Browser Testing",
+    "summary": "Driving a real browser through the WebDriver interface — element lookup, cross-browser parameterized tests, and the Page Object model — with notes on what changed from the book's Selenium 3 to today's Selenium 4, from JUnit in Action, Third Edition, Ch. 15.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Selenium WebDriver — official documentation",
+        "url": "https://www.selenium.dev/documentation/webdriver/",
+        "type": "doc"
+      },
+      {
+        "label": "Selenium Manager — automatic driver management",
+        "url": "https://www.selenium.dev/documentation/selenium_manager/",
+        "type": "doc"
+      },
+      {
+        "label": "The Page Object Models — Selenium docs",
+        "url": "https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 15.4–15.6, \"Presentation-layer testing\" (Selenium), pp. 294–309 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "junit-5-extension-model",
+    "id": 6,
+    "category": "Java",
+    "title": "JUnit 5 Extension Model",
+    "summary": "The five extension points (conditional execution, lifecycle callbacks, parameter resolution, exception handling, instance postprocessing) behind @ExtendWith — the same mechanism MockitoExtension and SpringExtension use — from JUnit in Action, Third Edition, Ch. 14.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "JUnit 5 User Guide — Extension Model",
+        "url": "https://docs.junit.org/current/user-guide/#extensions",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 Jupiter API — Extension",
+        "url": "https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/extension/Extension.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 14, \"JUnit 5 extension model,\" pp. 263–280 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-doubles-stubs-and-mocking",
+    "id": 5,
+    "category": "Java",
+    "title": "Test Doubles: Stubs and Mocking",
+    "summary": "Stubs vs. mocks as two strategies for faking a collaborator, and how to create and verify mocks with Mockito — from JUnit in Action, Third Edition, Ch. 7–8.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Mockito — official site",
+        "url": "https://site.mockito.org",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Mockito class",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 7, \"Coarse-grained testing with stubs,\" pp. 123–137 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 8, \"Testing with mock objects\" (Mockito, pp. 166–169), pp. 138–170 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-testcontext-and-springextension",
+    "id": 8,
+    "category": "Spring",
+    "title": "Testing Spring with SpringExtension",
+    "summary": "Loading a Spring ApplicationContext into a JUnit 5 test with @ExtendWith(SpringExtension.class) and @ContextConfiguration, injecting beans via @Autowired — with a note on today's @SpringJUnitConfig shortcut, from JUnit in Action, Third Edition, Ch. 16.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring TestContext Framework — Spring Framework docs",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html",
+        "type": "doc"
+      },
+      {
+        "label": "SpringExtension / @SpringJUnitConfig — Spring testing annotations",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/annotations/integration-junit-jupiter.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 16, \"Testing Spring applications,\" pp. 311–336 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-boot-testing",
+    "id": 9,
+    "category": "Spring",
+    "title": "Testing Spring Boot Applications",
+    "summary": "Bootstrapping a full application context with @SpringBootTest — component scanning, auto-configuration, and bean autowiring — plus today's faster test slices (@WebMvcTest, @DataJpaTest) and the @MockBean→@MockitoBean change, from JUnit in Action, Third Edition, Ch. 17.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Testing Spring Boot Applications — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html",
+        "type": "doc"
+      },
+      {
+        "label": "Test slices auto-configuration — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/appendix/test-auto-configuration/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "@MockitoBean / @MockitoSpyBean (replaces @MockBean) — Spring Framework",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-mockitobean.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 17, \"Testing Spring Boot applications,\" pp. 337–357 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-rest-api-testing-mockmvc",
+    "id": 10,
+    "category": "Spring",
+    "title": "Testing a REST API with MockMvc",
+    "summary": "Driving a Spring REST controller through MockMvc — simulated HTTP requests, status/content-type/jsonPath assertions, and a mocked data layer — with today's @WebMvcTest slice, @MockitoBean (replacing @MockBean), and the Spring 6 NestedServletException change, from JUnit in Action, Third Edition, Ch. 18.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Testing the Web Layer with MockMvc — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.with-mock-environment",
+        "type": "doc"
+      },
+      {
+        "label": "@WebMvcTest auto-configuration — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/appendix/test-auto-configuration/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "@MockitoBean / @MockitoSpyBean (replaces @MockBean) — Spring Framework",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-mockitobean.html",
+        "type": "doc"
+      },
+      {
+        "label": "MockMvc / MockMvcResultMatchers — Spring Framework testing",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/mockmvc.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 18, \"Testing a REST API,\" pp. 359–372 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-jdbc-and-spring-jdbc",
+    "id": 11,
+    "category": "Spring",
+    "title": "Testing JDBC and Spring JDBC",
+    "summary": "Testing data-access code against an in-memory database — from raw JDBC (Connection/PreparedStatement/ResultSet) to Spring's JdbcTemplate/NamedParameterJdbcTemplate — with notes on obsolete Class.forName driver loading, injected JdbcTemplate over JdbcDaoSupport, and the @JdbcTest slice, from JUnit in Action, Third Edition, Ch. 19.1–19.3.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Data Access with JDBC — Spring Framework reference",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/jdbc.html",
+        "type": "doc"
+      },
+      {
+        "label": "JdbcTemplate / NamedParameterJdbcTemplate — Spring Framework",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/jdbc/core.html",
+        "type": "doc"
+      },
+      {
+        "label": "@JdbcTest auto-configuration — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/appendix/test-auto-configuration/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 19.1–19.3, \"Testing database applications\" (JDBC, Spring JDBC), pp. 373–388 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-jpa-hibernate",
+    "id": 12,
+    "category": "Spring",
+    "title": "Testing JPA and Hibernate",
+    "summary": "Testing a JPA/Hibernate persistence layer — entity mapping, persistence.xml, and EntityManager queries against a test database — with the critical javax→jakarta package move (Hibernate 6 / Spring 6), the @DataJpaTest slice, and Testcontainers for real-database integration tests, from JUnit in Action, Third Edition, Ch. 19.4–19.6.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Jakarta Persistence (JPA) migration — javax to jakarta (Hibernate 6 ORM guide)",
+        "url": "https://docs.jboss.org/hibernate/orm/6.0/migration-guide/migration-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "Data JPA & @DataJpaTest — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.autoconfigured-spring-data-jpa",
+        "type": "doc"
+      },
+      {
+        "label": "Testcontainers for Java — official documentation",
+        "url": "https://java.testcontainers.org/",
+        "type": "doc"
+      },
+      {
+        "label": "@ServiceConnection (Testcontainers integration) — Spring Boot reference",
+        "url": "https://docs.spring.io/spring-boot/reference/testing/testcontainers.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 19.4–19.6, \"Testing database applications\" (Hibernate, Spring Hibernate), pp. 388–397 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  }
+]

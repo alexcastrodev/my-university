@@ -8,6 +8,7 @@ import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
+import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
 import { MeilisearchClient } from './meilisearch.client';
 
 export type SearchResultType =
@@ -17,7 +18,8 @@ export type SearchResultType =
   | 'java-concept'
   | 'database-concept'
   | 'spring-concept'
-  | 'system-design-concept';
+  | 'system-design-concept'
+  | 'testing-concept';
 
 export interface SearchResult {
   type: SearchResultType;
@@ -38,6 +40,7 @@ export class SearchService implements OnApplicationBootstrap {
     private databaseConceptsService: DatabaseConceptsService,
     private springConceptsService: SpringConceptsService,
     private systemDesignConceptsService: SystemDesignConceptsService,
+    private testingConceptsService: TestingConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -134,6 +137,17 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'System Design',
         url: `/system-design/system-design-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.testingConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `testing-concept-${concept.slug}`,
+        type: 'testing-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Testing Concepts',
+        url: `/java/testing/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

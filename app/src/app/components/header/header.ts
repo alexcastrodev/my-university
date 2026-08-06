@@ -21,6 +21,7 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'database-concept': 'Database Concept',
   'spring-concept': 'Spring Concept',
   'system-design-concept': 'System Design',
+  'testing-concept': 'Testing Concept',
 };
 
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
@@ -32,6 +33,7 @@ const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'Database Concepts', value: 'database-concept' },
   { label: 'Spring Concepts', value: 'spring-concept' },
   { label: 'System Design', value: 'system-design-concept' },
+  { label: 'Testing Concepts', value: 'testing-concept' },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;
