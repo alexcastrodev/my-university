@@ -2446,5 +2446,846 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "operational-vs-analytical-systems",
+    "id": 43,
+    "title": "Operational vs. Analytical Systems: OLTP, OLAP, and Data Warehousing",
+    "summary": "Why the database serving your checkout flow is the wrong place to compute last quarter's revenue — the opposite access patterns behind OLTP and OLAP, the data warehouse and ETL/CDC pipeline that separate them, and the systems-of-record vs. derived-data distinction that makes everything downstream safe to rebuild.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Beginner",
+    "readingTime": 11,
+    "tags": [
+      "Data Modeling",
+      "Scalability",
+      "Fundamentals",
+      "Data Warehousing"
+    ],
+    "prerequisites": [
+      "Basic relational database concepts"
+    ],
+    "related": [
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 1, \"Trade-Offs in Data Systems Architecture\", section \"Operational Versus Analytical Systems\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Google Cloud — BigQuery storage overview (columnar storage and the Capacitor format)",
+        "url": "https://cloud.google.com/bigquery/docs/storage_overview",
+        "type": "doc"
+      },
+      {
+        "label": "Snowflake Documentation — Key Concepts and Architecture",
+        "url": "https://docs.snowflake.com/en/user-guide/intro-key-concepts",
+        "type": "doc"
+      },
+      {
+        "label": "Uber Engineering — Uber's Big Data Platform: 100+ Petabytes with Minute Latency",
+        "url": "https://www.uber.com/blog/uber-big-data-platform/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "cloud-vs-self-hosting-tradeoffs",
+    "id": 44,
+    "title": "Cloud vs. Self-Hosting, and When to Distribute at All",
+    "summary": "Two decisions that shape a system before a single line of business logic is written — whether to rent infrastructure or own it, and whether to spread the workload across machines at all — and why \"distributed by default\" is usually the more expensive of the two mistakes.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Beginner",
+    "readingTime": 13,
+    "tags": [
+      "Cloud Architecture",
+      "Distributed Systems",
+      "Fundamentals",
+      "Trade-offs"
+    ],
+    "prerequisites": [
+      "Basic client-server architecture"
+    ],
+    "related": [
+      {
+        "label": "Stateless Services and Decoupling Compute from Data",
+        "slug": "stateless-services-and-decoupling"
+      },
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 1, \"Trade-Offs in Data Systems Architecture\", sections \"Cloud Versus Self-Hosting\" and \"Distributed Versus Single-Node Systems\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Frank McSherry, Michael Isard, Derek G. Murray — \"Scalability! But at what COST?\" (HotOS XV, 2015)",
+        "url": "https://www.usenix.org/system/files/conference/hotos15/hotos15-paper-mcsherry.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "David Heinemeier Hansson — \"Why we're leaving the cloud\" (37signals)",
+        "url": "https://world.hey.com/dhh/why-we-re-leaving-the-cloud-654b47e0",
+        "type": "engineering"
+      },
+      {
+        "label": "Martin Fowler — \"Microservice Trade-Offs\"",
+        "url": "https://martinfowler.com/articles/microservice-trade-offs.html",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "describing-performance-latency-and-percentiles",
+    "id": 45,
+    "title": "Describing Performance: Latency, Response Time, and Percentiles",
+    "summary": "Why the average response time tells you almost nothing about what your users actually experience, and how percentiles — p50, p95, p99, p999 — describe a distribution of response times honestly enough to put in an SLA.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Beginner",
+    "readingTime": 9,
+    "tags": [
+      "Performance",
+      "Fundamentals",
+      "Monitoring",
+      "SLAs"
+    ],
+    "prerequisites": [
+      "Basic statistics (mean, median)"
+    ],
+    "related": [
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      },
+      {
+        "label": "Designing a Metrics Monitoring and Alerting System",
+        "slug": "metrics-monitoring-and-alerting-system"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Defining Nonfunctional Requirements\", section \"Describing Performance\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Jeffrey Dean and Luiz André Barroso — \"The Tail at Scale\", Communications of the ACM 56(2), 2013",
+        "url": "https://research.google/pubs/the-tail-at-scale/",
+        "type": "paper"
+      },
+      {
+        "label": "Google SRE Book — Chapter 4: Service Level Objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus Documentation — Histograms and Summaries",
+        "url": "https://prometheus.io/docs/practices/histograms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "reliability-and-fault-tolerance",
+    "id": 46,
+    "title": "Reliability and Fault Tolerance: Faults vs. Failures",
+    "summary": "Reliability only means something once you define what \"working correctly\" and \"things going wrong\" mean for your specific system. Covers the fault/failure distinction, why hardware redundancy stops being sufficient at scale, why it never helps against correlated software bugs, and why operator error is a property of the tooling rather than the operator.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Beginner",
+    "readingTime": 9,
+    "tags": [
+      "Fault Tolerance",
+      "Fundamentals",
+      "Reliability",
+      "Distributed Systems"
+    ],
+    "prerequisites": [
+      "Basic client-server architecture"
+    ],
+    "related": [
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Defining Nonfunctional Requirements\", section \"Reliability and Fault Tolerance\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Google SRE Book — \"Embracing Risk\"",
+        "url": "https://sre.google/sre-book/embracing-risk/",
+        "type": "engineering"
+      },
+      {
+        "label": "Google SRE Book — \"Postmortem Culture: Learning from Failure\"",
+        "url": "https://sre.google/sre-book/postmortem-culture/",
+        "type": "engineering"
+      },
+      {
+        "label": "AWS — \"Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region\"",
+        "url": "https://aws.amazon.com/message/41926/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "scalability-and-maintainability-principles",
+    "id": 47,
+    "title": "Scalability and Maintainability: Load Parameters and the Operability-Simplicity-Evolvability Triad",
+    "summary": "Why \"is it scalable?\" is a meaningless question until you name the load parameter and the dimension of growth — the shared-memory/shared-disk/shared-nothing taxonomy, why there is no generic scalable architecture, and the three separately-optimizable properties that decide whether a system survives its next five years.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 11,
+    "tags": [
+      "Scalability",
+      "Maintainability",
+      "Fundamentals",
+      "Architecture"
+    ],
+    "prerequisites": [
+      "Horizontal vs. Vertical Scaling"
+    ],
+    "related": [
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      },
+      {
+        "label": "Stateless Services and Decoupling Compute from Data",
+        "slug": "stateless-services-and-decoupling"
+      },
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Defining Nonfunctional Requirements\", sections \"Scalability\" and \"Maintainability\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Michael Stonebraker — \"The Case for Shared Nothing\" (HPTS, 1985)",
+        "url": "https://dsf.berkeley.edu/papers/hpts85-nothing.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Frederick P. Brooks Jr. — \"No Silver Bullet: Essence and Accidents of Software Engineering\" (IEEE Computer, 1987)",
+        "url": "https://ieeexplore.ieee.org/document/1663532",
+        "type": "paper"
+      },
+      {
+        "label": "Google SRE Book — Monitoring Distributed Systems",
+        "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "relational-vs-document-data-models",
+    "id": 48,
+    "title": "Relational vs. Document Data Models",
+    "summary": "Why the choice between normalized tables and self-contained JSON documents is a question about the shape of your data — trees versus graphs — rather than a question about which technology is more modern.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Beginner",
+    "readingTime": 11,
+    "tags": [
+      "Data Modeling",
+      "NoSQL",
+      "Fundamentals",
+      "Schema Design"
+    ],
+    "prerequisites": [
+      "Basic SQL",
+      "JSON basics"
+    ],
+    "related": [
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      },
+      {
+        "label": "Graph Data Models and Query Languages",
+        "slug": "graph-data-models-and-query-languages"
+      },
+      {
+        "label": "Operational vs. Analytical Systems: OLTP, OLAP, and Data Warehousing",
+        "slug": "operational-vs-analytical-systems"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 3, \"Data Models and Query Languages\", section \"Relational Versus Document Models\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "MongoDB Manual — Data Modeling: embedded data models vs. references",
+        "url": "https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — JSON Types (json, jsonb, and indexing values inside documents)",
+        "url": "https://www.postgresql.org/docs/current/datatype-json.html",
+        "type": "doc"
+      },
+      {
+        "label": "E. F. Codd, \"A Relational Model of Data for Large Shared Data Banks\" (CACM, 1970)",
+        "url": "https://dl.acm.org/doi/10.1145/362384.362685",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "graph-data-models-and-query-languages",
+    "id": 49,
+    "title": "Graph Data Models and Query Languages",
+    "summary": "When almost every relationship in your data is many-to-many, the natural model is vertices and edges rather than tables or documents — and a pattern-matching query language like Cypher earns its keep against thirty lines of recursive SQL.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "Data Modeling",
+      "Graph Databases",
+      "Query Languages",
+      "NoSQL"
+    ],
+    "prerequisites": [
+      "Relational vs. Document Data Models"
+    ],
+    "related": [
+      {
+        "label": "Relational vs. Document Data Models",
+        "slug": "relational-vs-document-data-models"
+      },
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 3, \"Data Models and Query Languages\", section \"Graph-Like Data Models\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Neo4j Cypher Manual — Introduction to the Cypher query language",
+        "url": "https://neo4j.com/docs/cypher-manual/current/introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C — SPARQL 1.1 Query Language (W3C Recommendation)",
+        "url": "https://www.w3.org/TR/sparql11-query/",
+        "type": "doc"
+      },
+      {
+        "label": "GraphQL.org FAQ — \"Is GraphQL a database language like SQL?\"",
+        "url": "https://graphql.org/faq/getting-started/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "event-sourcing-and-cqrs",
+    "id": 50,
+    "title": "Event Sourcing and CQRS",
+    "summary": "Why storing the append-only log of everything that happened — instead of a mutable row holding what is true right now — gives you an audit trail for free and lets you build brand-new read models over old data, and how CQRS's projections turn that log into something queryable.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 12,
+    "tags": [
+      "Data Modeling",
+      "Event-Driven Architecture",
+      "CQRS",
+      "Audit Trail"
+    ],
+    "prerequisites": [
+      "Relational vs. Document Data Models"
+    ],
+    "related": [
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 3, \"Data Models and Query Languages\", section \"Event Sourcing and CQRS\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Martin Fowler — Event Sourcing (eaaDev patterns)",
+        "url": "https://martinfowler.com/eaaDev/EventSourcing.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Greg Young — CQRS Documents",
+        "url": "https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Kurrent (formerly EventStoreDB) — What is Event Sourcing?",
+        "url": "https://www.kurrent.io/event-sourcing",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "oltp-storage-btrees-vs-lsm-trees",
+    "id": 51,
+    "title": "OLTP Storage Engines: B-Trees vs. LSM-Trees",
+    "summary": "How the two dominant storage engine families — in-place-updating B-trees and append-only LSM-trees — actually write and read data on disk, and why that hidden choice determines your write throughput, read latency predictability, and disk footprint.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Data Storage",
+      "Database Internals",
+      "Indexing",
+      "Performance"
+    ],
+    "prerequisites": [
+      "Basic database indexing concepts"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Column-Oriented Storage for Analytics",
+        "slug": "column-oriented-storage-for-analytics"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 4, \"Storage and Retrieval\", section \"Storage and Indexing for OLTP\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "RocksDB Wiki — Leveled Compaction and the LSM-tree structure",
+        "url": "https://github.com/facebook/rocksdb/wiki/Leveled-Compaction",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — B-Tree Indexes (internal structure and implementation)",
+        "url": "https://www.postgresql.org/docs/current/btree.html",
+        "type": "doc"
+      },
+      {
+        "label": "ScyllaDB Engineering — Compaction Series: Size-Tiered Compaction (write, read, and space amplification trade-offs)",
+        "url": "https://www.scylladb.com/2018/01/17/compaction-series-space-amplification/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "column-oriented-storage-for-analytics",
+    "id": 52,
+    "title": "Column-Oriented Storage for Analytical Workloads",
+    "summary": "Why a warehouse query that sums one column of a billion-row table shouldn't have to read the other ninety-nine — the columnar disk layout behind every modern analytical engine, the compression it unlocks, and the vectorized execution and precomputed aggregates built on top of it.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "Data Storage",
+      "OLAP",
+      "Database Internals",
+      "Performance"
+    ],
+    "prerequisites": [
+      "Operational vs. Analytical Systems: OLTP, OLAP, and Data Warehousing"
+    ],
+    "related": [
+      {
+        "label": "Operational vs. Analytical Systems: OLTP, OLAP, and Data Warehousing",
+        "slug": "operational-vs-analytical-systems"
+      },
+      {
+        "label": "OLTP Storage Engines: B-Trees vs. LSM-Trees",
+        "slug": "oltp-storage-btrees-vs-lsm-trees"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 4, \"Storage and Retrieval\", section \"Data Storage for Analytics\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Snowflake Documentation — Micro-partitions and Data Clustering",
+        "url": "https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions",
+        "type": "doc"
+      },
+      {
+        "label": "ClickHouse Documentation — Architecture Overview (columnar storage and vectorized query execution)",
+        "url": "https://clickhouse.com/docs/development/architecture",
+        "type": "doc"
+      },
+      {
+        "label": "Boncz, Zukowski, Nes — \"MonetDB/X100: Hyper-Pipelining Query Execution\" (CIDR 2005)",
+        "url": "https://www.cidrdb.org/cidr2005/papers/P19.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "full-text-and-vector-search-indexes",
+    "id": 53,
+    "title": "Full-Text Search and Vector Embedding Indexes",
+    "summary": "B-trees answer exact and range queries on one attribute; they cannot answer \"which documents mention this\" or \"what is similar to this.\" Covers multidimensional R-tree indexes, inverted indexes with postings lists and BM25 ranking, vector embeddings for semantic search, and why HNSW is the ANN structure behind pgvector, Pinecone, and Weaviate.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "Search",
+      "Vector Databases",
+      "Data Storage",
+      "AI Infrastructure"
+    ],
+    "prerequisites": [
+      "OLTP Storage Engines: B-Trees vs. LSM-Trees"
+    ],
+    "related": [
+      {
+        "label": "OLTP Storage Engines: B-Trees vs. LSM-Trees",
+        "slug": "oltp-storage-btrees-vs-lsm-trees"
+      },
+      {
+        "label": "Designing a Search Autocomplete System",
+        "slug": "search-autocomplete-system"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 4, \"Storage and Retrieval\", section \"Multidimensional and Full-Text Indexes\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Elastic Docs — How full-text search works (inverted index, analysis, BM25 relevance scoring)",
+        "url": "https://www.elastic.co/docs/solutions/search/full-text/how-full-text-works",
+        "type": "doc"
+      },
+      {
+        "label": "Yu. A. Malkov, D. A. Yashunin — \"Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs\" (arXiv:1603.09320)",
+        "url": "https://arxiv.org/abs/1603.09320",
+        "type": "paper"
+      },
+      {
+        "label": "pgvector — PostgreSQL extension documentation (HNSW and IVFFlat index types)",
+        "url": "https://github.com/pgvector/pgvector",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "data-encoding-formats-and-schema-evolution",
+    "id": 54,
+    "title": "Data Encoding Formats and Schema Evolution",
+    "summary": "Every byte that leaves a process has to be encoded, and the format decides whether you can deploy services independently — how JSON, Protocol Buffers' field tags, and Avro's writer/reader schema resolution preserve backward and forward compatibility.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "Data Modeling",
+      "Serialization",
+      "API Design",
+      "Backward Compatibility"
+    ],
+    "prerequisites": [
+      "Basic JSON/binary format concepts"
+    ],
+    "related": [
+      {
+        "label": "Relational vs. Document Data Models",
+        "slug": "relational-vs-document-data-models"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 5, \"Encoding and Evolution\", section \"Formats for Encoding Data\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Protocol Buffers Language Guide (proto3) — Updating A Message Type",
+        "url": "https://protobuf.dev/programming-guides/proto3/#updating",
+        "type": "doc"
+      },
+      {
+        "label": "Protocol Buffers — Encoding (wire format, varints, and field tags)",
+        "url": "https://protobuf.dev/programming-guides/encoding/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Avro Specification — Schema Resolution",
+        "url": "https://avro.apache.org/docs/1.12.0/specification/#schema-resolution",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dataflow-patterns-databases-services-events",
+    "id": 55,
+    "title": "Dataflow Patterns: Databases, Services, and Events",
+    "summary": "The three ways encoded data actually travels between processes — stored in a database and read back later, requested synchronously over REST or RPC, or published as an event to unknown consumers — and how each path changes who must agree on the schema, when, and what happens when a step fails partway through.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "API Design",
+      "Event-Driven Architecture",
+      "Distributed Systems",
+      "Data Modeling"
+    ],
+    "prerequisites": [
+      "Data Encoding Formats and Schema Evolution"
+    ],
+    "related": [
+      {
+        "label": "Data Encoding Formats and Schema Evolution",
+        "slug": "data-encoding-formats-and-schema-evolution"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 5, \"Encoding and Evolution\", section \"Modes of Dataflow\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Temporal Documentation — Understanding Temporal: Durable Execution",
+        "url": "https://docs.temporal.io/evaluate/understanding-temporal",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — What is AWS Step Functions?",
+        "url": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html",
+        "type": "doc"
+      },
+      {
+        "label": "Brandur Leach (Stripe) — Designing Robust and Predictable APIs with Idempotency",
+        "url": "https://stripe.com/blog/idempotency",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "single-leader-replication",
+    "id": 56,
+    "title": "Single-Leader Replication",
+    "summary": "Why funneling every write through one designated node is still the default replication model for PostgreSQL, MySQL, MongoDB, and Kafka — how synchronous, asynchronous, and semi-synchronous replication trade latency against durability, why leader failover risks split brain and lost writes, and the three user-visible anomalies replication lag produces.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Replication",
+      "Distributed Systems",
+      "Consistency Models",
+      "Fault Tolerance"
+    ],
+    "prerequisites": [
+      "CAP Theorem"
+    ],
+    "related": [
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 6, \"Replication\", section \"Single-Leader Replication\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "PostgreSQL Documentation — Log-Shipping Standby Servers and Streaming Replication",
+        "url": "https://www.postgresql.org/docs/current/warm-standby.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Logical Replication",
+        "url": "https://www.postgresql.org/docs/current/logical-replication.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL 8.4 Reference Manual — Replication Formats (statement-based vs. row-based)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/replication-formats.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-leader-and-leaderless-replication",
+    "id": 57,
+    "title": "Multi-Leader and Leaderless Replication",
+    "summary": "Single-leader replication makes write conflicts impossible by construction — but that constraint breaks down once every region needs local writes or devices must keep working offline. Multi-leader and leaderless topologies drop the single-writer rule and pay for it in conflicts: geo-distributed leaders and sync engines, last-write-wins vs. CRDTs, Dynamo-style quorum reads and writes, and version vectors for telling a causally ordered write from a genuinely concurrent one.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Replication",
+      "Distributed Systems",
+      "Consistency Models",
+      "Conflict Resolution"
+    ],
+    "prerequisites": [
+      "Single-Leader Replication"
+    ],
+    "related": [
+      {
+        "label": "Single-Leader Replication",
+        "slug": "single-leader-replication"
+      },
+      {
+        "label": "Designing a Distributed Key-Value Store",
+        "slug": "key-value-store-design"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 6, \"Replication\", sections \"Multi-Leader Replication\" and \"Leaderless Replication\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Shapiro, Preguiça, Baquero, Zawirski — \"Conflict-Free Replicated Data Types\" (INRIA / SSS 2011)",
+        "url": "https://inria.hal.science/inria-00609399",
+        "type": "paper"
+      },
+      {
+        "label": "DeCandia et al., \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ink and Switch — \"Local-First Software: You Own Your Data, in Spite of the Cloud\"",
+        "url": "https://www.inkandswitch.com/local-first/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "sharding-strategies-rebalancing-and-secondary-indexes",
+    "id": 58,
+    "title": "Sharding Strategies, Rebalancing, and Secondary Indexes",
+    "summary": "Sharding buys horizontal scale for storage and write throughput, and charges for it on every cross-shard operation. Covers key-range vs. hash-range partitioning and what each makes expensive, sharding for multitenancy as a distinct motivation from scale, hot keys and the read cost of splitting them, why automatic rebalancing can cascade an incident, request routing via coordination services, and the local vs. global secondary index trade-off.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 13,
+    "tags": [
+      "Sharding",
+      "Distributed Systems",
+      "Scalability",
+      "Data Modeling"
+    ],
+    "prerequisites": [
+      "Consistent Hashing"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      },
+      {
+        "label": "Polyglot Persistence",
+        "slug": "polyglot-persistence"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 7, \"Sharding\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "MongoDB Manual — Shard Keys: ranged vs. hashed sharding",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-shard-key/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS — Using Global Secondary Indexes in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html",
+        "type": "doc"
+      },
+      {
+        "label": "Vitess Docs — Resharding",
+        "url": "https://vitess.io/docs/user-guides/configuration-advanced/resharding/",
+        "type": "doc"
+      }
+    ]
   }
 ]
