@@ -2229,5 +2229,1065 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "spring-batch-remote-chunking",
+    "id": 70,
+    "category": "Spring Batch",
+    "title": "Remote Chunking: Scaling a Step Across Machines",
+    "summary": "Remote chunking distributes one chunk-oriented step across JVMs — a master keeps the ItemReader, JobRepository and step, dispatching ChunkRequests over durable, guaranteed-delivery middleware (JMS/AMQP) to slaves that process and write and return only a StepContribution summary — so it pays off only when reading isn't the bottleneck, and unlike partitioning it depends on transacted re-delivery rather than per-chunk batch metadata for correctness; the book's hand-wired Spring Integration channels, MessagingTemplate gateway, RemoteChunkHandlerFactoryBean and ChunkProcessorChunkHandler (shipped separately with Spring Batch Admin) are today the spring-batch-integration module's @EnableBatchIntegration plus RemoteChunkingManagerStepBuilder/RemoteChunkingWorkerBuilder in manager/worker terminology, with ChunkHandler renamed ChunkRequestHandler, ChunkProvider deprecated in 6.0 with no replacement, ChunkProcessor's arguments reordered, and two new 6.0 siblings — local chunking via ChunkTaskExecutorItemWriter and remote step execution via RemoteStep.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Batch in Action (Manning, 2012) — Chapter 13, section 13.4 \"Remote chunking (multiple machines)\", p. 387-394",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Scaling and Parallel Processing (Remote Chunking, Local Chunking, Remote Step, Partitioning)",
+        "url": "https://docs.spring.io/spring-batch/reference/scalability.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Spring Batch Integration: Externalizing Batch Process Execution (remote chunking manager/worker configuration, @EnableBatchIntegration)",
+        "url": "https://docs.spring.io/spring-batch/reference/spring-batch-integration/externalizing-execution.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (ChunkHandler to ChunkRequestHandler, ChunkProvider/ChunkOrientedTasklet deprecation, new chunk model)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — org.springframework.batch.integration.chunk package summary (ChunkRequestHandler, ChunkProcessorChunkRequestHandler, ChunkTaskExecutorItemWriter)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/integration/chunk/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — RemoteChunkingManagerStepBuilder (inputChannel, outputChannel, throttleLimit, maxWaitTimeouts)",
+        "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/integration/chunk/RemoteChunkingManagerStepBuilder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — RemoteChunkingWorkerBuilder (build() returns an IntegrationFlow)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/integration/chunk/RemoteChunkingWorkerBuilder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — ChunkProcessor (process(Chunk, StepContribution) new in 6.0, old argument order deprecated)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/step/item/ChunkProcessor.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-partitioning",
+    "id": 71,
+    "category": "Spring Batch",
+    "title": "Fine-Grained Scaling in Spring Batch: Partitioning a Step",
+    "summary": "How a manager step splits input data into partitions that each run as their own StepExecution of an untouched worker step, the partitioning SPI (Partitioner returning a Map of named ExecutionContexts, StepExecutionSplitter, and a PartitionHandler that decides local threads via TaskExecutorPartitionHandler or remote workers via MessageChannelPartitionHandler), how gridSize and #{stepExecutionContext[...]} late binding feed per-partition parameters, why restart works without durable messaging, and how partitioning compares to multithreaded steps, parallel steps, and remote chunking — plus the Spring Batch 6.0 changes: manager/worker vocabulary, partition classes relocated to org.springframework.batch.core.partition, JobExplorer folded into JobRepository, XML replaced by PartitionStepBuilder, and two new strategies (local chunking, remote step).",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 13, \"Scaling and parallel processing\", sections 13.5-13.6, \"Fine-grained scaling with partitioning\" / \"Comparing patterns\", p. 394-405",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Scaling and Parallel Processing (Partitioning, PartitionHandler, Partitioner, gridSize, binding input data to steps)",
+        "url": "https://docs.spring.io/spring-batch/reference/scalability.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Externalizing Batch Process Execution (Remote Partitioning, @EnableBatchIntegration builder factories)",
+        "url": "https://docs.spring.io/spring-batch/reference/spring-batch-integration/externalizing-execution.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (partition package relocations, JobExplorer to JobRepository, XML namespace deprecation)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — PartitionHandler (org.springframework.batch.core.partition)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/partition/PartitionHandler.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — StepExecutionSplitter (split(StepExecution, int gridSize))",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/partition/StepExecutionSplitter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — org.springframework.batch.core.partition.support (TaskExecutorPartitionHandler, SimplePartitioner, SimpleStepExecutionSplitter)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/partition/support/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — MultiResourcePartitioner (keyName defaults to \"fileName\")",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/partition/support/MultiResourcePartitioner.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — PartitionStepBuilder (partitioner, step, gridSize, taskExecutor, partitionHandler, splitter, aggregator)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/step/builder/PartitionStepBuilder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — StepExecutionRequestHandler (setJobRepository, setStepLocator)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/integration/partition/StepExecutionRequestHandler.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-unit-testing-with-junit-and-mockito",
+    "id": 72,
+    "category": "Spring Batch",
+    "title": "Unit Testing Batch Components with JUnit and Mockito",
+    "summary": "Batch jobs run headless with no UI to reveal a silent failure, so testing matters more than usual; this covers the white-box unit layer with zero Spring context — plain JUnit fixtures for a POJO Validator or ItemProcessor, Mockito mock/when/thenReturn/verify/times/never/verifyNoMoreInteractions to replace a FieldSet, JdbcTemplate, or reject-file writer and drive branches without a database or file system, spies plus RETURNS_DEEP_STUBS for a JobParametersValidator, and MetaDataInstanceFactory from spring-batch-test to build StepExecution/JobExecution/ExecutionContext fixtures (plus a hand-built StepContribution and ChunkContext) so a JobExecutionDecider, StepExecutionListener, or Tasklet is testable without launching a job; the 2012 book's JUnit 4 style (@RunWith(MockitoJUnitRunner), @Before/@After, @Test(expected=...)) maps to Jupiter (@ExtendWith(MockitoExtension.class), @BeforeEach/@AfterEach, assertThrows) since Spring Batch 6.0 dropped JUnit 4 entirely, Mockito's core API is unchanged in 5.x apart from Java 11+, the inline mock maker, verifyZeroInteractions removal, and strict stubs, and the 6.0 reorg moved the domain objects (core.job / core.step / core.job.parameters / infrastructure.item) while ItemWriter.write now takes Chunk instead of List and JobParametersInvalidException became InvalidJobParametersException.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 14, \"Testing batch applications\", sections 14.1-14.2, \"The what and why of testing\" / \"Unit testing\", p. 408-425",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Unit Testing (MetaDataInstanceFactory, mocking domain objects, JUnit 4 unsupported as of 6.0)",
+        "url": "https://docs.spring.io/spring-batch/reference/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.test.MetaDataInstanceFactory",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/test/MetaDataInstanceFactory.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.infrastructure.item.Chunk",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/infrastructure/item/Chunk.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.core.step.tasklet.Tasklet",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/step/tasklet/Tasklet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.core.job.parameters.JobParametersValidator",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/job/parameters/JobParametersValidator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide — core package relocations and JUnit 4 removal",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 6 User Guide — Jupiter annotations, assertions, assertThrows",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito framework site — current mockito-core and core API",
+        "url": "https://site.mockito.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito 5 release notes — Java 11 baseline, inline mock maker, minimal API change",
+        "url": "https://github.com/mockito/mockito/wiki/Draft-Mockito-5-release-notes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-integration-and-functional-testing",
+    "id": 73,
+    "category": "Spring Batch",
+    "title": "Integration and Functional Testing of Spring Batch Jobs",
+    "summary": "How the Spring-context-backed testing tiers work — the Spring TestContext Framework (@SpringJUnitConfig, context caching, @DirtiesContext) plus an embedded H2 datasource for integration tests that catch wiring bugs unit tests can't, StepScopeTestExecutionListener and its getStepExecution factory method (or StepScopeTestUtils.doInStepScope) to exercise @StepScope beans and late-bound SpEL outside a running step with MetaDataInstanceFactory-built domain objects, and functional tests that launch one real step or a whole job and assert on JobExecution/BatchStatus/StepExecution counts/table rows — plus the migration from the book's @RunWith(SpringJUnit4ClassRunner.class) to the all-in-one @SpringBatchTest, from the now-deprecated JobLauncherTestUtils.launchJob/launchStep to JobOperatorTestUtils.startJob/startStep, and away from the removed AssertFile helper.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 14, \"Testing batch applications\", sections 14.3-14.5, \"Integration testing\" / \"Functional testing\" / \"Summary\", p. 425-437",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Unit Testing (@SpringBatchTest, JobOperatorTestUtils, StepScopeTestExecutionListener, MetaDataInstanceFactory)",
+        "url": "https://docs.spring.io/spring-batch/reference/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — @SpringBatchTest (org.springframework.batch.test.context, since 4.1)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/test/context/SpringBatchTest.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — JobOperatorTestUtils (since 6.0: startJob, startStep)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/test/JobOperatorTestUtils.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — JobLauncherTestUtils (deprecated since 6.0, removal in 6.2 or later)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/test/JobLauncherTestUtils.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — StepScopeTestExecutionListener (getStepExecution factory method)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/test/StepScopeTestExecutionListener.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide — JUnit 4 deprecation, spring-batch-infrastructure package relocation",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch issue #4181 — Deprecate AssertFile (use JUnit 5 assertLinesMatch / AssertJ)",
+        "url": "https://github.com/spring-projects/spring-batch/issues/4181",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Executing SQL scripts in tests (@Sql)",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Embedded database support (EmbeddedDatabaseBuilder)",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/jdbc/embedded-database-support.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — TestContext support classes (@SpringJUnitConfig, SpringExtension)",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/support-classes.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-custom-filters-in-the-chain",
+    "id": 74,
+    "category": "Spring Security",
+    "title": "Custom Filters in the Spring Security Filter Chain",
+    "summary": "Spring Security's HttpSecurity exposes exactly three placements for a custom Filter relative to a known built-in filter — addFilterBefore() to reject bad requests before expensive authentication runs, addFilterAfter() to observe what already got through, and addFilterAt() to substitute your own implementation of a responsibility a built-in filter normally owns (note: addFilterAt does NOT remove the filter it sits next to, both still run) — plus the catalog of filters Spring Security ships; the book's javax.servlet.Filter and WebSecurityConfigurerAdapter.configure(HttpSecurity) override are now jakarta.servlet.Filter (Spring Boot 3.0+ Jakarta EE namespace) and a SecurityFilterChain bean using the same three builder methods.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 9, \"Implementing filters\", sections 9.1-9.5, p. 198-212",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Architecture: Security Filters, Adding Filters to the Filter Chain, Customizing a Spring Security Filter",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/architecture.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — HttpSecurity (addFilterBefore / addFilterAfter / addFilterAt / addFilter)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security source — FilterOrderRegistration (built-in filter positions, INITIAL_ORDER 100 / ORDER_STEP 100)",
+        "url": "https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/annotation/web/builders/FilterOrderRegistration.java",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — OncePerRequestFilter (doFilterInternal, shouldNotFilter, shouldNotFilterAsyncDispatch, shouldNotFilterErrorDispatch)",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/OncePerRequestFilter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot 3.0 Migration Guide — Jakarta EE (javax.servlet becomes jakarta.servlet)",
+        "url": "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-csrf-protection",
+    "id": 75,
+    "category": "Spring Security",
+    "title": "CSRF Protection: CsrfFilter, CsrfTokenRepository, and Practical Customization",
+    "summary": "CsrfFilter sits in the filter chain, lets GET/HEAD/TRACE/OPTIONS through untouched and demands a token (handed to the client earlier via a CsrfTokenRepository) for every other method, so a fresh Spring Security project rejecting an authenticated POST with 403 is CSRF protection working as designed, not a bug — the fix is passing the token back (hidden form field for server-rendered apps, a cookie via CookieCsrfTokenRepository for SPAs) or, when genuinely appropriate, excluding specific request matchers or disabling it for bearer-token-only APIs; since Spring Security 6.1 the default handler for reading the token became XorCsrfTokenRequestAttributeHandler (BREACH-resistant, deferred token loading) in place of the book's simpler default.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.1 \"Applying cross-site request forgery (CSRF) protection in applications\" (10.1.1-10.1.3), p. 213-234",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Cross Site Request Forgery (CSRF) for Servlet Environments",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Cross Site Request Forgery (CSRF), concepts and when to use it",
+        "url": "https://docs.spring.io/spring-security/reference/features/exploits/csrf.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — CsrfConfigurer (csrfTokenRepository, csrfTokenRequestHandler, ignoringRequestMatchers, requireCsrfProtectionMatcher, spa)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configurers/CsrfConfigurer.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — CsrfTokenRepository",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/csrf/CsrfTokenRepository.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — CsrfToken",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/csrf/CsrfToken.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security 6.0 Migration Guide — Exploit Protection (XorCsrfTokenRequestAttributeHandler default, deferred CsrfToken)",
+        "url": "https://github.com/spring-projects/spring-security/blob/6.0.2/docs/modules/ROOT/pages/migration/servlet/exploits.adoc",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-cors-configuration",
+    "id": 76,
+    "category": "Spring Security",
+    "title": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
+    "summary": "CORS is a browser mechanism that relaxes the same-origin policy rather than a server-side restriction — an unconfigured cross-origin call still executes on the server and only its response is withheld from JavaScript — configured either per endpoint with Spring MVC's @CrossOrigin or centrally via http.cors() plus a CorsConfigurationSource whose CorsFilter must run before Spring Security's authentication and authorization so credential-less preflight OPTIONS requests are not rejected with 401; the book's WebSecurityConfigurerAdapter.configure(HttpSecurity) container is now a SecurityFilterChain bean and the raw lambda source a UrlBasedCorsConfigurationSource bean, while CorsConfiguration, @CrossOrigin, and http.cors() themselves are unchanged, with today's additions being originPatterns (required instead of the wildcard once allowCredentials is true), preFlightRequestHandler, and the WHATWG Fetch Standard superseding the W3C CORS spec the book cites for simple-request rules.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.2, \"Using cross-origin resource sharing\", p. 235-243",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — CORS",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — CORS (Spring MVC)",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webmvc-cors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Javadoc — @CrossOrigin",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/CrossOrigin.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Javadoc — CorsConfiguration",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/cors/CorsConfiguration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security source — CorsConfigurer (filter lookup, preFlightRequestHandler, MVC fallback)",
+        "url": "https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/annotation/web/configurers/CorsConfigurer.java",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security source — FilterOrderRegistration (CorsFilter before CsrfFilter)",
+        "url": "https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/annotation/web/builders/FilterOrderRegistration.java",
+        "type": "doc"
+      },
+      {
+        "label": "MDN — Cross-Origin Resource Sharing (CORS)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+        "type": "doc"
+      },
+      {
+        "label": "WHATWG Fetch Standard — the current specification defining CORS",
+        "url": "https://fetch.spec.whatwg.org/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-custom-token-based-authentication",
+    "id": 77,
+    "category": "Spring Security",
+    "title": "Hand-Rolled Token Authentication: The Pre-OAuth2 Case Study",
+    "summary": "A hands-on two-server build (an authentication server that owns credentials and issues one-time tokens, a business-logic server that trusts a bearer token on every request with no server-side session) expressed entirely in Spring Security's own contracts (Authentication, AuthenticationProvider, OncePerRequestFilter, SecurityContextHolder) — deliberately pre-OAuth2 pedagogy showing what a bearer-token flow has to do before the framework hands you OAuth2/OIDC to do it in a standardized way; the book's javax-era filter and WebSecurityConfigurerAdapter config map to jakarta.servlet + a SecurityFilterChain bean today, and production systems now reach for Spring Authorization Server (RegisteredClient/JWT) instead of hand-rolling this exact mechanism, though the underlying contracts this concept teaches are unchanged.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 11, \"Hands-on: A separation of responsibilities\", sections 11.1-11.4.6, p. 245-283",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "jjwt — README / current API (Jwts.builder, Jwts.parser, parseSignedClaims)",
+        "url": "https://github.com/jwtk/jjwt",
+        "type": "doc"
+      },
+      {
+        "label": "jjwt — CHANGELOG (0.12.0 API rework, 0.13.0 release)",
+        "url": "https://github.com/jwtk/jjwt/blob/main/CHANGELOG.md",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server JWT (BearerTokenAuthenticationFilter, JwtDecoder, NimbusJwtDecoder)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Authentication Architecture (ProviderManager, SecurityContextHolder.createEmptyContext)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Configuration Migrations to Spring Security 7 (Lambda DSL, .and() removal)",
+        "url": "https://docs.spring.io/spring-security/reference/6.5/migration-7/configuration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Overview",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — OncePerRequestFilter (doFilterInternal, shouldNotFilter)",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/OncePerRequestFilter.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8725 — JSON Web Token Best Current Practices",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8725",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7518 — JSON Web Algorithms (§3.2, minimum HMAC key size)",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7518#section-3.2",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-oauth2-fundamentals-and-grant-types",
+    "id": 78,
+    "category": "Spring Security",
+    "title": "OAuth 2 Fundamentals and Grant Types",
+    "summary": "The OAuth 2 mental model — resource owner, client with its own client_id/client_secret, authorization server, and resource server exchanging scope-limited access tokens — plus when to pick each grant type (authorization code's two round trips and why, password, client credentials, refresh token) and the book's own \"sins of OAuth 2\"; note that since 2020 the password grant has become forbidden rather than merely discouraged (RFC 9700/BCP 240 says MUST NOT, OAuth 2.1 omits it, AuthorizationGrantType.PASSWORD is deprecated in Spring Security 6.x and gone in 7.0, and Spring Authorization Server never supported it) while PKCE moved from an optional hardening note to mandatory for every authorization-code client, alongside exact redirect-URI matching and no bearer tokens in query strings.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 12: \"How does OAuth 2 work?\", sections 12.1-12.4, p. 285-299",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700 / BCP 240 — Best Current Practice for OAuth 2.0 Security (January 2025)",
+        "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+        "type": "doc"
+      },
+      {
+        "label": "draft-ietf-oauth-v2-1 — The OAuth 2.1 Authorization Framework",
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/",
+        "type": "doc"
+      },
+      {
+        "label": "oauth.net — OAuth 2.1 (summary of changes from OAuth 2.0)",
+        "url": "https://oauth.net/2.1/",
+        "type": "doc"
+      },
+      {
+        "label": "oauth.net — OAuth 2.0 Password Grant (legacy, disallowed)",
+        "url": "https://oauth.net/2/grant-types/password/",
+        "type": "doc"
+      },
+      {
+        "label": "oauth.net — PKCE",
+        "url": "https://oauth.net/2/pkce/",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7636 — Proof Key for Code Exchange by OAuth Public Clients",
+        "url": "https://www.rfc-editor.org/rfc/rfc7636.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6749 — The OAuth 2.0 Authorization Framework",
+        "url": "https://www.rfc-editor.org/rfc/rfc6749.html",
+        "type": "doc"
+      },
+      {
+        "label": "draft-ietf-oauth-browser-based-apps — OAuth 2.0 for Browser-Based Applications",
+        "url": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Client Authorization Grant Support",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — AuthorizationGrantType",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/core/AuthorizationGrantType.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Overview and supported grant types",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/overview.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-oauth2-client-and-sso",
+    "id": 79,
+    "category": "Spring Security",
+    "title": "Implementing an OAuth2 Client: Single Sign-On with ClientRegistration",
+    "summary": "Building the smallest OAuth2 actor — a client app that redirects to somebody else's authorization server, exchanges the returned code for a token, and reads the user's details, with no users, tokens, or protected resources of its own — modeled by Spring Security as ClientRegistration (one client's registration at one provider), ClientRegistrationRepository, and the oauth2Login() HttpSecurity method that autoconfigures almost everything from a handful of spring.security.oauth2.client.registration.* properties; the API (ClientRegistration, OAuth2AuthenticationToken, OidcUser) is largely unchanged since 2020, with the main shifts being the lambda-DSL SecurityFilterChain replacing WebSecurityConfigurerAdapter and authorizeHttpRequests() replacing authorizeRequests().",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 12, \"How does OAuth 2 work?\", section 12.5, \"Implementing a simple single sign-on application\", p. 299-315",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Client: Core Interfaces and Classes (ClientRegistration, ClientRegistrationRepository)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/client/core.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Log In: Core Configuration",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Log In: Advanced Configuration",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Client: Authorization Grants (Authorization Code, PKCE, redirect-uri templates)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — ClientRegistration.Builder",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/client/registration/ClientRegistration.Builder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — CommonOAuth2Provider",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — OAuth2AuthenticationToken",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/client/authentication/OAuth2AuthenticationToken.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — OidcUser",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/core/oidc/user/OidcUser.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security 5.8 Migration Guide — Authorization Migrations (authorizeRequests to authorizeHttpRequests)",
+        "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html",
+        "type": "doc"
+      },
+      {
+        "label": "spring-security Issue #8906 — Deprecate ClientRegistration.redirectUriTemplate",
+        "url": "https://github.com/spring-projects/spring-security/issues/8906",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-oauth2-authorization-server",
+    "id": 80,
+    "category": "Spring Security",
+    "title": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
+    "summary": "Building the component that issues access tokens — the book does it with the now-archived Spring Security OAuth project's @EnableAuthorizationServer + ClientDetailsService, end-of-lifed in 2022 and replaced by the standalone Spring Authorization Server (RegisteredClient/RegisteredClientRepository/AuthorizationServerSettings beans), which itself was folded back into Spring Security as of Spring Security 7.0; of the book's four grant types, only authorization-code and client-credentials survive directly in the modern project — password is unsupported entirely (never implemented, deprecated in OAuth 2.1) and refresh-token support is automatic rather than separately configured.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 13, \"OAuth 2: Implementing the authorization server\", sections 13.1-13.7, p. 318-337",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth2 Authorization Server (Spring Security 7)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/authorization-server/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Getting Started",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/getting-started.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Core Model / Components (RegisteredClient, RegisteredClientRepository)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/core-model-components.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Configuration Model (AuthorizationServerSettings, default endpoints)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/configuration-model.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Overview (supported grant types)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Spring Security OAuth 2.0 Roadmap Update (14 Nov 2019)",
+        "url": "https://spring.io/blog/2019/11/14/spring-security-oauth-2-0-roadmap-update/",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — End-of-Life for Spring Security OAuth (7 May 2020)",
+        "url": "https://spring.io/blog/2020/05/07/end-of-life-for-spring-security-oauth/",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Spring Security OAuth reaches End-of-Life (1 Jun 2022)",
+        "url": "https://spring.io/blog/2022/06/01/spring-security-oauth-reaches-end-of-life/",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Spring Authorization Server 1.0 is now GA (22 Nov 2022)",
+        "url": "https://spring.io/blog/2022/11/22/spring-authorization-server-1-0-is-now-ga/",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Spring Authorization Server moving to Spring Security 7.0 (11 Sep 2025)",
+        "url": "https://spring.io/blog/2025/09/11/spring-authorization-server-moving-to-spring-security-7-0/",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub — spring-attic/spring-security-oauth (archived, EOL README)",
+        "url": "https://github.com/spring-attic/spring-security-oauth",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub Wiki — Spring Security OAuth 2.0 Features Matrix (password/implicit \"Not implemented [deprecated from OAuth 2.1]\")",
+        "url": "https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — AuthorizationGrantType",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/core/AuthorizationGrantType.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-oauth2-resource-server-approaches",
+    "id": 81,
+    "category": "Spring Security",
+    "title": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+    "summary": "The resource server must validate a bearer token it never issued and (with opaque UUID tokens) cannot read, which yields exactly three strategies — calling the authorization server's check_token endpoint per request, blackboarding via a JdbcTokenStore-backed database shared by both servers, or verifying a signature locally — traded off on per-request latency, availability coupling, and revocation lag; today the book's @EnableResourceServer/ResourceServerConfigurerAdapter/TokenStore API is end-of-life, the remote check is standardized as RFC 7662 introspection configured with oauth2ResourceServer(...).opaqueToken() (or three spring.security.oauth2.resourceserver.opaquetoken.* properties), local validation is .jwt() with NimbusJwtDecoder fetching the JWK set lazily so startup isn't coupled to the IdP, and blackboarding has no supported successor — JdbcTokenStore was never ported (issue #9381 closed as duplicate) and survives only as a custom OpaqueTokenIntrospector, whose javadoc blesses querying a backing store, best used to cache introspection responses rather than to share a schema between the two servers.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 14, \"OAuth 2: Implementing the resource server\", sections 14.1-14.4, p. 341-359",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server (overview: JWT vs Opaque Tokens)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server: Opaque Token (RFC 7662 introspection)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/opaque-token.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server: JWT",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — OpaqueTokenIntrospector (\"query a backing store of tokens, for example a distributed cache\")",
+        "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/oauth2/server/resource/introspection/OpaqueTokenIntrospector.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — SpringOpaqueTokenIntrospector",
+        "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/oauth2/server/resource/introspection/SpringOpaqueTokenIntrospector.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Protocol Endpoints (OAuth2 Token Introspection Endpoint, default paths)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/protocol-endpoints.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Core Model / Components (OAuth2AuthorizationService, JdbcOAuth2AuthorizationService)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/core-model-components.html",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub Wiki — OAuth 2.0 Migration Guide (@EnableResourceServer to oauth2ResourceServer)",
+        "url": "https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub — spring-security issue #9381, \"Introduce JdbcTokenStore\" (closed as duplicate; never ported)",
+        "url": "https://github.com/spring-projects/spring-security/issues/9381",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Spring Security (spring-boot-starter-oauth2-resource-server auto-configuration)",
+        "url": "https://docs.spring.io/spring-boot/reference/web/spring-security.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7662 — OAuth 2.0 Token Introspection",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7662",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-jwt-signing-symmetric-and-asymmetric",
+    "id": 82,
+    "category": "Spring Security",
+    "title": "JWT Signing: Symmetric vs. Asymmetric Keys",
+    "summary": "How a resource server validates a JWT locally by checking its signature: symmetric HMAC (HS256) where one shared secret both signs and verifies — so every resource server holding it can also mint tokens — versus an asymmetric RSA key pair (RS256) where the authorization server signs with a private key and any number of resource servers verify with a freely publishable public key, plus adding and reading custom claims; the book's Spring Security OAuth JwtTokenStore/JwtAccessTokenConverter/TokenEnhancer stack is end-of-life and maps today onto Nimbus-backed JwtEncoder/JwtDecoder, OAuth2TokenCustomizer, and Jwt.getClaim(), while its ad-hoc /oauth/token_key public-key endpoint is exactly what the standard JWK Set endpoint (RFC 7517, discovered via the jwks_uri of RFC 8414; /oauth2/jwks in Spring Authorization Server) formalizes, adding kid-based key rotation the book's static PEM config cannot do.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 15, \"OAuth 2: Using JWT and cryptographic signatures\", sections 15.1-15.3, p. 361-386",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server JWT (NimbusJwtDecoder, jwk-set-uri, issuer-uri, jwsAlgorithm)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server Opaque Token (introspection, revocation trade-off)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/opaque-token.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — NimbusJwtEncoder (withSecretKey, withKeyPair RSA/EC, encode)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/jwt/NimbusJwtEncoder.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — MacAlgorithm (HS256/HS384/HS512)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/jose/jws/MacAlgorithm.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — Configuration Model (default endpoints, jwkSetEndpoint /oauth2/jwks)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/configuration-model.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — How-to: Customize the OpenID Connect 1.0 UserInfo response (OAuth2TokenCustomizer for JwtEncodingContext)",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/guides/how-to-userinfo.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Authorization Server Reference — How-to: Add authorities as custom claims in JWT access tokens",
+        "url": "https://docs.spring.io/spring-authorization-server/reference/guides/how-to-custom-claims-authorities.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7515 — JSON Web Signature (JWS)",
+        "url": "https://www.rfc-editor.org/rfc/rfc7515",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7517 — JSON Web Key (JWK) and JWK Set",
+        "url": "https://www.rfc-editor.org/rfc/rfc7517",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7518 — JSON Web Algorithms (HS256, RS256, ES256 registrations and key-size requirements)",
+        "url": "https://www.rfc-editor.org/rfc/rfc7518",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7519 — JSON Web Token (JWT)",
+        "url": "https://www.rfc-editor.org/rfc/rfc7519",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8414 — OAuth 2.0 Authorization Server Metadata (jwks_uri, /.well-known/oauth-authorization-server)",
+        "url": "https://www.rfc-editor.org/rfc/rfc8414",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub — spring-attic/spring-security-oauth (archived; contains spring-security-jwt, JwtHelper/MacSigner/RsaSigner)",
+        "url": "https://github.com/spring-attic/spring-security-oauth",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-method-security-preauthorization-and-postauthorization",
+    "id": 83,
+    "category": "Spring Security",
+    "title": "Method Security: Preauthorization and Postauthorization",
+    "summary": "Method security moves authorization from the filter chain onto the method call itself via a Spring AOP interceptor, where @PreAuthorize evaluates a SpEL rule before invocation (using hasAuthority/hasRole plus method arguments via #paramName and the current authentication) and @PostAuthorize evaluates it after, against the special returnObject, with hasPermission() delegating object-level logic to a PermissionEvaluator bean; today the book's @EnableGlobalMethodSecurity(prePostEnabled = true) is deprecated in favor of @EnableMethodSecurity (since 5.6), which turns pre/post annotations on by default, replaces the voter stack with AuthorizationManager-based interceptors and a deferred Supplier<Authentication>, and notably no longer auto-detects a custom PermissionEvaluator — it must be wired through a static MethodSecurityExpressionHandler bean or every hasPermission() silently denies.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 16, \"Global method security: Pre- and postauthorizations\", sections 16.1-16.4, p. 388-412",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Method Security",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — EnableMethodSecurity",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/method/configuration/EnableMethodSecurity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — EnableGlobalMethodSecurity (deprecated)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/method/configuration/EnableGlobalMethodSecurity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security 5.8 Migration Guide — Authorization Migrations",
+        "url": "https://docs.spring.io/spring-security/reference/5.8/migration/servlet/authorization.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security 6.5 Migration Guide — Compile With -parameters",
+        "url": "https://docs.spring.io/spring-security/reference/6.5/migration/servlet/authorization.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-method-security-filtering-and-spring-data",
+    "id": 84,
+    "category": "Spring Security",
+    "title": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
+    "summary": "@PreFilter and @PostFilter apply a SpEL rule per element (filterObject vs. authentication) to trim a collection argument or return value in place rather than allowing or denying the whole call the way @PreAuthorize/@PostAuthorize do — requiring a mutable collection, since the aspect mutates the caller's instance and an immutable List.of() throws UnsupportedOperationException; both annotations are unchanged today apart from swapping the deprecated @EnableGlobalMethodSecurity(prePostEnabled = true) for @EnableMethodSecurity, and the book's chapter 17.3 technique of replacing repository-level @PostFilter with a SecurityEvaluationContextExtension bean plus a ?#{authentication.name} predicate inside @Query remains the officially documented recommendation, since in-memory filtering wastes the heap and breaks pagination.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 17, \"Global method security: Pre- and postfiltering\", sections 17.1-17.3, p. 414-432",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Method Security (@PreFilter / @PostFilter)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Spring Data Integration",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/data.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — PreFilter (value, filterTarget)",
+        "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/access/prepost/PreFilter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — SecurityEvaluationContextExtension",
+        "url": "https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/data/repository/query/SecurityEvaluationContextExtension.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-keycloak-authorization-server-integration",
+    "id": 85,
+    "category": "Spring Security",
+    "title": "Keycloak as the Authorization Server for a Spring Resource Server",
+    "summary": "How a Spring Boot resource server plugs into Keycloak as a real, off-the-shelf authorization server — configuring a realm, client, client scope, users and roles in the admin console, obtaining a JWT from the token endpoint, using protocol mappers to add roles/username/audience claims, and validating that JWT offline against the realm's JWKS endpoint (kid-based key selection, so key rotation works) while enforcing rules at three layers (hasAuthority at the endpoint, @PreAuthorize on the service, a SpEL-filtered @Query in the repository); Keycloak is still very much alive but the book's every mechanism has moved — the WildFly runtime was replaced by Quarkus in Keycloak 17 (bin/kc.sh instead of standalone.sh, and /auth dropped from every URL so the issuer is now /realms/{realm}), the master realm is admin-only, the password grant is disabled by default for new clients since 26.2, Keycloak's own keycloak-spring-boot-starter adapter was deprecated and removed, and the Spring Security OAuth classes it used (@EnableResourceServer, JwkTokenStore) are EOL — today the whole configuration collapses to spring-boot-starter-oauth2-resource-server plus issuer-uri/audiences, with a JwtAuthenticationConverter mapping Keycloak's native realm_access.roles and preferred_username claims instead of reshaping the realm to fit a dead library.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 18, \"Hands-on: An OAuth 2 application\", sections 18.1-18.4, p. 434-466",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak — Downloads (current version)",
+        "url": "https://www.keycloak.org/downloads",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak — Migrating to the Quarkus distribution (/auth context path removed, kc.sh, providers directory)",
+        "url": "https://www.keycloak.org/migration/migrating-to-quarkus",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Blog — Deprecation of Keycloak adapters (Feb 2022)",
+        "url": "https://www.keycloak.org/2022/02/adapter-deprecation",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Blog — Update on deprecation of Keycloak adapters (Mar 2023)",
+        "url": "https://www.keycloak.org/2023/03/adapter-deprecation-update",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak — Securing applications: OpenID Connect endpoints and discovery document",
+        "url": "https://www.keycloak.org/securing-apps/oidc-layers",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak — Server Administration Guide (realms, the master realm, clients, roles, protocol mappers)",
+        "url": "https://www.keycloak.org/docs/latest/server_admin/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Blog — Keycloak 26.2.0 released (Direct Access Grant disabled by default for new clients)",
+        "url": "https://www.keycloak.org/2025/04/keycloak-2620-released",
+        "type": "doc"
+      },
+      {
+        "label": "Keycloak Issue #30226 — Admin UI: disable Direct Access Grant by default when creating a new client",
+        "url": "https://github.com/keycloak/keycloak/issues/30226",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — OAuth 2.0 Resource Server JWT (issuer-uri, audiences, JwtAuthenticationConverter, JwtGrantedAuthoritiesConverter)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — JwtAuthenticationConverter (setPrincipalClaimName defaults to \"sub\")",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/server/resource/authentication/JwtAuthenticationConverter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Spring Data integration (SecurityEvaluationContextExtension)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/data.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Spring Security OAuth reaches End-of-Life (1 Jun 2022)",
+        "url": "https://spring.io/blog/2022/06/01/spring-security-oauth-reaches-end-of-life/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-testing-mock-users-and-authentication",
+    "id": 86,
+    "category": "Spring Security",
+    "title": "Spring Security Testing: Mock Users and Authentication",
+    "summary": "How spring-security-test establishes a principal for a test — @WithMockUser fabricating a UserDetails with no lookup (roles auto-prefixed ROLE_, authorities not, usable at class level and overridable per-method with @WithAnonymousUser), @WithUserDetails loading a real user through a UserDetailsService bean so the principal is your own implementation, and a custom annotation wired to a WithSecurityContextFactory via @WithSecurityContext when the concrete Authentication type matters — all three skipping authentication entirely, which is why the AuthenticationProvider/PasswordEncoder/success-and-failure-handler path must be driven separately through MockMvc with httpBasic() or the formLogin() request builder plus the authenticated()/unauthenticated() result matchers; the book's JUnit 4 era idiom is now @ExtendWith(SpringExtension.class)/@SpringJUnitConfig (implied by @SpringBootTest), and springSecurity() is applied automatically under Spring Boot but still explicit via .apply(springSecurity()) outside it.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 20, \"Spring Security testing\", sections 20.1 \"Using mock users for tests\" (p. 493-500), 20.2 \"Testing with users from a UserDetailsService\" (p. 500-501), 20.3 \"Using custom Authentication objects for testing\" (p. 501-505), and 20.5 \"Testing authentication\" (p. 507-510)",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Testing Method Security (@WithMockUser, @WithUserDetails, @WithSecurityContext, WithSecurityContextFactory)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/method.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Setting Up MockMvc and Spring Security (springSecurity())",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/setup.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Testing Authentication (SecurityMockMvcRequestPostProcessors)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/authentication.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Testing Form Based Authentication (formLogin())",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/form-login.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot How-to — Testing With Spring Security (@WithMockUser with MockMvcTester)",
+        "url": "https://docs.spring.io/spring-boot/how-to/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Testing Spring Boot Applications (auto-configured MVC tests and security)",
+        "url": "https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — UsernamePasswordAuthenticationToken.authenticated() / .unauthenticated()",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/UsernamePasswordAuthenticationToken.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-security-testing-authorization-csrf-and-cors",
+    "id": 87,
+    "category": "Spring Security",
+    "title": "Testing Authorization, CSRF, and CORS with spring-security-test",
+    "summary": "How to assert Spring Security configuration in tests: method security (@PreAuthorize/@PostAuthorize/@PreFilter/@PostFilter) is tested without MockMvc by injecting the protected bean, calling it under @WithMockUser, and asserting AuthenticationException for no principal versus AccessDeniedException for the wrong authority; CSRF is tested with SecurityMockMvcRequestPostProcessors.csrf() plus its asHeader() and useInvalidToken() variants, where the valuable test is the token-less POST asserting 403; CORS is tested by hand-rolling the browser preflight as an OPTIONS request carrying Origin and Access-Control-Request-Method and asserting the Access-Control-Allow-Origin/Allow-Methods response headers — all depending on the security filter chain actually being wired into MockMvc via @AutoConfigureMockMvc or SecurityMockMvcConfigurers.springSecurity(); book vs. today, the test code is largely unchanged — @EnableGlobalMethodSecurity became @EnableMethodSecurity, interceptors now throw AuthorizationDeniedException (extends AccessDeniedException since 6.3, so existing assertions still pass), csrf() is untouched despite the 6.0 XOR/BREACH masking default underneath it, preflight-by-hand remains the only CORS approach, and the book's expected wildcard origin no longer holds under allowedOriginPatterns, which echoes the matched origin instead.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Spring Security in Action (Manning, 2020) — Chapter 20, \"Spring Security testing\", section 20.4 \"Testing method security\" (p. 505-507), section 20.6 \"Testing CSRF configurations\" (p. 510), section 20.7 \"Testing CORS configurations\" (p. 511-512)",
+        "url": "https://www.manning.com/books/spring-security-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Testing Method Security (@WithMockUser, @WithUserDetails, @WithSecurityContext, setupBefore)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/method.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Testing with CSRF Protection (csrf(), csrf().asHeader(), csrf().useInvalidToken())",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/csrf.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Setting Up MockMvc and Spring Security (SecurityMockMvcConfigurers.springSecurity())",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/setup.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — Method Security (@EnableMethodSecurity supersedes @EnableGlobalMethodSecurity; AccessDeniedException on denial; test examples)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — SecurityMockMvcRequestPostProcessors (csrf, httpBasic, user, authentication, jwt, oauth2Login)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/web/servlet/request/SecurityMockMvcRequestPostProcessors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security API — AuthorizationDeniedException (extends AccessDeniedException, since 6.3)",
+        "url": "https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authorization/AuthorizationDeniedException.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — CORS (preflight requests carry no credentials; http.cors ordering)",
+        "url": "https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — MockMvc AssertJ Integration (MockMvcTester, since 6.2)",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/mockmvc/assertj.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — MockMvcTester.MockMvcRequestBuilder (inherits with(RequestPostProcessor))",
+        "url": "https://docs.spring.io/spring-framework/docs/7.0.x/javadoc-api/org/springframework/test/web/servlet/assertj/MockMvcTester.MockMvcRequestBuilder.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
