@@ -1599,5 +1599,635 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "spring-batch-web-application-launching",
+    "id": 50,
+    "category": "Spring Batch",
+    "title": "Launching Spring Batch Jobs from a Web Application",
+    "summary": "How embedding Spring Batch in a web application's Spring context keeps a resident batch environment warm—avoiding a fresh JVM per job—and how a Spring MVC controller launches jobs on demand over HTTP asynchronously, a hand-wired setup that Spring Boot now auto-configures with JobOperator replacing the deprecated JobLauncher.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 4, \"Running batch jobs\", section 4.4, \"Launching from a web application\", p. 103-109",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Spring Batch (auto-configuration & running a Job on startup)",
+        "url": "https://docs.spring.io/spring-boot/reference/io/spring-batch.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — JobOperator (start(Job, JobParameters); JobLauncher deprecated)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/core/launch/JobOperator.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-stopping-jobs-gracefully",
+    "id": 51,
+    "category": "Spring Batch",
+    "title": "Stopping Spring Batch Jobs Gracefully",
+    "summary": "How to stop a Spring Batch job cleanly — from the outside as an operator with JobOperator.stop and from inside a step as a developer with StepExecution.setTerminateOnly — so the job halts at the next chunk boundary within transactional safety and ends in a restartable STOPPED state, and how those APIs shifted in Spring Batch 6.0 where JobOperator (extending JobLauncher) is the API and the book's stop(long)/getRunningExecutions calls are deprecated for removal.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 4, \"Running batch jobs\", section 4.5, \"Stopping jobs gracefully\", p. 109-116",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Running a Job (JobOperator)",
+        "url": "https://docs.spring.io/spring-batch/reference/job/running.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Controlling Step Flow (BatchStatus: STOPPING/STOPPED)",
+        "url": "https://docs.spring.io/spring-batch/reference/step/controlling-flow.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-reading-flat-files",
+    "id": 52,
+    "category": "Spring Batch",
+    "title": "Reading Flat Files in Spring Batch",
+    "summary": "How Spring Batch's ItemReader contract and FlatFileItemReader turn delimited, fixed-width, multiline, heterogeneous, and JSON file records into domain objects, and the modern builder and JsonItemReader equivalents of the book's XML configuration.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 5, \"Reading data\", sections 5.1-5.2, \"Data reading concepts\" / \"Reading flat files\", p. 117-135",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Flat Files",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/flat-files.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — JSON Item Reading and Writing",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/json-reading-writing.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-reading-xml-and-multiple-resources",
+    "id": 53,
+    "category": "Spring Batch",
+    "title": "Reading XML and Multiple Resources in Spring Batch",
+    "summary": "Stream large XML input one fragment at a time with StaxEventItemReader and a Spring OXM unmarshaller, and process an ordered set of files as one continuous item stream with MultiResourceItemReader.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 5, \"Reading data\", sections 5.3-5.4, \"Reading XML files\" / \"Reading file sets\", p. 135-139",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — XML Item Readers and Writers (StaxEventItemReader)",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/xml-reading-writing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Multi-File Input (MultiResourceItemReader)",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/multi-file-input.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-database-item-readers",
+    "id": 54,
+    "category": "Spring Batch",
+    "title": "Reading from Relational Databases: JDBC and ORM Item Readers",
+    "summary": "How Spring Batch streams rows from relational databases with cursor-based and paging item readers over JDBC and ORM, and how today's builder APIs and relocated packages differ from the book's XML configuration.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 5, \"Reading data\", sections 5.5-5.6, \"Reading from relational databases\" / \"Using ORM item readers\", p. 139-151",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Database (Cursor-based and Paging ItemReader implementations)",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/database.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.infrastructure.item.database.JdbcCursorItemReader",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/infrastructure/item/database/JdbcCursorItemReader.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (Hibernate item readers removed; infrastructure package relocation)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-custom-and-service-readers",
+    "id": 55,
+    "category": "Spring Batch",
+    "title": "Custom and Service ItemReaders in Spring Batch",
+    "summary": "How Spring Batch plugs non-standard input into a chunk step—reusing an existing bean method with ItemReaderAdapter, draining a queue with JmsItemReader, and hand-writing a custom ItemReader made restartable via ItemStream—and how those classes moved to the org.springframework.batch.infrastructure.item.* packages in Spring Batch 6.0.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 5, \"Reading data\", sections 5.6-5.8, \"Services as input\" / \"Reading from JMS\" / \"Implementing custom readers\", p. 151-156",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Creating Custom ItemReaders and ItemWriters",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/custom.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — ItemReaderAdapter (org.springframework.batch.infrastructure.item.adapter)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/adapter/ItemReaderAdapter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — JmsItemReader (org.springframework.batch.infrastructure.item.jms)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/jms/JmsItemReader.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-writing-files",
+    "id": 56,
+    "category": "Spring Batch",
+    "title": "Writing Files in Spring Batch",
+    "summary": "How Spring Batch's chunk-oriented ItemWriter contract and the FlatFileItemWriter, StaxEventItemWriter, and MultiResourceItemWriter turn domain objects into delimited, fixed-width, XML, and rolling file-set output, plus the modern builder equivalents and 6.0 package relocation of the book's XML configuration.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 6, \"Writing data\", sections 6.1-6.2, \"Data-writing concepts\" / \"Writing files\", p. 158-179",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Flat Files (FlatFileItemWriter)",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/flat-files.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — XML Item Readers and Writers (StaxEventItemWriter)",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/xml-reading-writing.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-database-item-writers",
+    "id": 57,
+    "category": "Spring Batch",
+    "title": "Spring Batch Database Item Writers",
+    "summary": "How Spring Batch writes a chunk to a relational database — JdbcBatchItemWriter collapsing N inserts into a single JDBC batch per chunk, the named- versus positional-parameter binding strategies, and the JpaItemWriter/HibernateItemWriter ORM writers, plus the Spring Batch 6.0 builder APIs and the infrastructure.item package relocation.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 6, \"Writing data\", section 6.3, \"Writing to databases\", p. 179-183",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Database ItemReaders and ItemWriters",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/database.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — JdbcBatchItemWriter",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/database/JdbcBatchItemWriter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-advanced-item-writers",
+    "id": 58,
+    "category": "Spring Batch",
+    "title": "Advanced and Composite Item Writers in Spring Batch",
+    "summary": "How Spring Batch reuses an existing service as a writer with ItemWriterAdapter, implements a custom ItemWriter through the write(Chunk) contract, and fans out or routes a chunk with CompositeItemWriter versus ClassifierCompositeItemWriter — plus the niche JMS and email writers — and how those classes moved to the org.springframework.batch.infrastructure.item.* packages in Spring Batch 6.0.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 6, \"Writing data\", sections 6.4-6.9, \"Adapting existing services for reuse\" … \"Advanced writing techniques\", p. 183-192",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Creating Custom ItemReaders and ItemWriters",
+        "url": "https://docs.spring.io/spring-batch/reference/readers-and-writers/custom.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — ClassifierCompositeItemWriter (org.springframework.batch.infrastructure.item.support)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/support/ClassifierCompositeItemWriter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — CompositeItemWriter (org.springframework.batch.infrastructure.item.support)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/support/CompositeItemWriter.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-item-processing-and-transformation",
+    "id": 59,
+    "category": "Spring Batch",
+    "title": "Item Processing and Transformation: The ItemProcessor Contract",
+    "summary": "How an ItemProcessor sits between the reader and writer in a chunk-oriented step to transform items in place, change the read type into a different write type, or hydrate a driving query — plus PassThroughItemProcessor and ItemProcessorAdapter.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 7, \"Processing data\", sections 7.1-7.2, \"Processing items\" / \"Transforming items\", p. 194-208",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Item processing (ItemProcessor)",
+        "url": "https://docs.spring.io/spring-batch/reference/processor.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0.4 API — org.springframework.batch.infrastructure.item.ItemProcessor",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/infrastructure/item/ItemProcessor.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (infrastructure package relocation; batch: XML deprecated)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-filtering-and-validating-items",
+    "id": 60,
+    "category": "Spring Batch",
+    "title": "Spring Batch Filtering and Validating Items",
+    "summary": "How a Spring Batch ItemProcessor filters items by returning null (a filter, not a skip), validates them with ValidatingItemProcessor and the built-in BeanValidatingItemProcessor, and chains rules with CompositeItemProcessor.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 7, \"Processing data\", sections 7.3-7.4, \"Filtering and validating items\" / \"Chaining item processors\", p. 208-221",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Item processing (filtering & validating input)",
+        "url": "https://docs.spring.io/spring-batch/reference/processor.html",
+        "type": "doc"
+      },
+      {
+        "label": "ValidatingItemProcessor — Spring Batch 6.0.x Javadoc (filter flag, infrastructure package)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/validator/ValidatingItemProcessor.html",
+        "type": "doc"
+      },
+      {
+        "label": "BeanValidatingItemProcessor — Spring Batch 6.0.x Javadoc (JSR-303 / Jakarta Bean Validation)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/item/validator/BeanValidatingItemProcessor.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide — package relocation & XML namespace deprecation",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-skip-policy-and-listeners",
+    "id": 61,
+    "category": "Spring Batch",
+    "title": "Spring Batch Skipping Instead of Failing: SkipPolicy and SkipListener",
+    "summary": "How Spring Batch skips faulty items instead of failing the step — read/process/write skip semantics, custom SkipPolicy implementations, and SkipListener callbacks for recording or dead-lettering skipped records.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 8, \"Implementing bulletproof jobs\", sections 8.1-8.2, \"What is a bulletproof job?\" / \"Skipping instead of failing\", p. 223-234",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — SkipPolicy (org.springframework.batch.core.step.skip)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/step/skip/SkipPolicy.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — SkipListener (org.springframework.batch.core.listener)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/listener/SkipListener.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Configuring Skip Logic",
+        "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/configuring-skip.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (package relocations)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-retry-policy-and-retrytemplate",
+    "id": 62,
+    "category": "Spring Batch",
+    "title": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
+    "summary": "How Spring Batch re-attempts transient failures instead of skipping or failing them — RetryPolicy objects with back-off, RetryListener hooks, the standalone RetryTemplate for arbitrary code, and transparent AOP retry — plus the retry API's journey from Spring Batch's own package to the Spring Retry library and, in Spring Batch 6.0, to Spring Framework 7's native core retry.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 8, \"Implementing bulletproof jobs\", section 8.3, \"Retrying on error\", p. 234-242",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Retry (6.0: now uses Spring Framework core retry)",
+        "url": "https://docs.spring.io/spring-batch/reference/retry.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Resilience Features (@Retryable, RetryTemplate, RetryPolicy)",
+        "url": "https://docs.spring.io/spring-framework/reference/core/resilience.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — org.springframework.core.retry.RetryPolicy",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/retry/RetryPolicy.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Retry project (org.springframework.retry)",
+        "url": "https://github.com/spring-projects/spring-retry",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (deprecated FaultTolerantStepBuilder / batch: namespace)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-restart-and-recovery",
+    "id": 63,
+    "category": "Spring Batch",
+    "title": "Spring Batch Restart and Recovery: Resuming Failed Jobs Where They Left Off",
+    "summary": "How Spring Batch restarts a FAILED or STOPPED job by launching a new JobExecution of the same JobInstance that resumes from state persisted in the ExecutionContext — enabling or forbidding restart with preventRestart, re-running completed steps with allowStartIfComplete, capping attempts with startLimit, and resuming mid-chunk through an ItemStream reader — all requiring a persistent JDBC JobRepository, plus the Spring Batch 6.0 shift to JobOperator.restart(JobExecution) and the new recover() operation.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 8, \"Implementing bulletproof jobs\", section 8.4, \"Restart on error\", p. 242-250",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Configuring a Step for Restart (allowStartIfComplete, startLimit)",
+        "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/restart.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Configuring a Job (preventRestart, restartability)",
+        "url": "https://docs.spring.io/spring-batch/reference/job/configuring-job.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — JobOperator (restart(JobExecution); restart(long) deprecated; recover)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/core/launch/JobOperator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — ItemStream (org.springframework.batch.infrastructure.item)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/infrastructure/item/ItemStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-transaction-configuration",
+    "id": 64,
+    "category": "Spring Batch",
+    "title": "Spring Batch Transaction Management and Configuration",
+    "summary": "How Spring Batch drives transactions at the step level — one transaction per chunk (commit-interval) or per Tasklet.execute() — how to override isolation, propagation, and timeout with transaction attributes, the pitfalls of declarative transactions and transactional (JMS) readers, and how the unchanged PlatformTransactionManager model maps to today's .transactionManager()/.transactionAttribute() builder methods, jakarta.transaction, and the relocated ResourcelessTransactionManager.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 9, \"Transaction management\", sections 9.1-9.3, \"A transaction primer\" … \"Transaction configuration\", p. 252-259",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Transaction Attributes (.transactionManager() / .transactionAttribute())",
+        "url": "https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/transaction-attributes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 API — ResourcelessTransactionManager (org.springframework.batch.infrastructure.support.transaction)",
+        "url": "https://docs.spring.io/spring-batch/docs/6.0.x/api/org/springframework/batch/infrastructure/support/transaction/ResourcelessTransactionManager.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (jakarta.transaction, package relocations, XML namespace deprecation)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Transaction Strategies (PlatformTransactionManager)",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/strategies.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-transaction-patterns",
+    "id": 65,
+    "category": "Spring Batch",
+    "title": "Spring Batch Transaction Management Patterns",
+    "summary": "How Spring Batch keeps a step atomic across two transactional resources such as a JMS queue and a database, using global XA/JTA transactions, the shared-resource pattern, best-effort 1PC, and duplicate handling through deduplication or idempotency.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 9, \"Transaction management\", section 9.4, \"Transaction management patterns\", p. 259-274",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Application server-specific integration (JTA JtaTransactionManager)",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/application-server-integration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Distributed Transactions with JTA",
+        "url": "https://docs.spring.io/spring-boot/reference/io/jta.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-controlling-flow-and-exit-status",
+    "id": 66,
+    "category": "Spring Batch",
+    "title": "Controlling Job Flow in Spring Batch: BatchStatus vs. ExitStatus",
+    "summary": "How Spring Batch branches a job's flow on a step's String ExitStatus (not the persisted BatchStatus enum) using on() with */? wildcards, how to mint a custom exit status from a StepExecutionListener.afterStep() or a JobExecutionDecider, and the flow terminators end/fail/stopAndRestart — plus the migration from the deprecated XML batch namespace to the Java FlowBuilder DSL.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 10, \"Controlling execution\", sections 10.1-10.2, \"A complex flow…\" / \"Driving the flow of a job\", p. 278-287",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Controlling Step Flow (Batch Status vs. Exit Status, conditional flow, JobExecutionDecider)",
+        "url": "https://docs.spring.io/spring-batch/reference/step/controlling-flow.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (XML namespace deprecation, new chunk-oriented model)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-sharing-data-between-steps",
+    "id": 67,
+    "category": "Spring Batch",
+    "title": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
+    "summary": "How to pass a value from one step to a later one in a restart-safe way via the persisted job ExecutionContext and ExecutionContextPromotionListener versus a simpler but restart-unsafe holder bean, how to externalize a reusable sequence of steps as a Flow/FlowStep/JobStep, and how to end/fail/stopAndRestart a job declaratively from a step's exit status.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 10, \"Controlling execution\", sections 10.3-10.5, \"Sharing data between steps\" / \"Externalizing flow definitions\" / \"Stopping a job execution\", p. 287-304",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Passing Data to Future Steps (ExecutionContext, ExecutionContextPromotionListener)",
+        "url": "https://docs.spring.io/spring-batch/reference/common-patterns.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Late Binding of Job and Step Attributes (@StepScope, #{jobExecutionContext[...]})",
+        "url": "https://docs.spring.io/spring-batch/reference/step/late-binding.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Controlling Step Flow (externalizing flows, FlowStep/JobStep, end/fail/stop)",
+        "url": "https://docs.spring.io/spring-batch/reference/step/controlling-flow.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — ExecutionContextPromotionListener (org.springframework.batch.core.listener)",
+        "url": "https://docs.spring.io/spring-batch/docs/current/api/org/springframework/batch/core/listener/ExecutionContextPromotionListener.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (XML namespace deprecation; ExecutionContext → org.springframework.batch.infrastructure.item)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-monitoring-and-jobexplorer",
+    "id": 68,
+    "category": "Spring Batch",
+    "title": "Monitoring Spring Batch Jobs: JobExplorer, JobOperator, and Metadata Schema",
+    "summary": "How to detect and act on job failures by reading execution history back from the job repository — the read-only JobExplorer for rich domain objects, the String/Long-typed JobOperator built for JMX, querying the BATCH_* metadata tables directly, and pushing alerts from a JobExecutionListener — plus the shift from hand-rolled JMX and the now-discontinued Spring Batch Admin to built-in Micrometer metrics and Spring Cloud Data Flow.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 12, \"Monitoring jobs\", sections 12.1-12.3 & 12.5, \"Accessing batch execution data\" … \"Monitoring with JMX\", p. 348-372",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Monitoring and metrics (Micrometer timers, since 4.2)",
+        "url": "https://docs.spring.io/spring-batch/reference/spring-batch-observability/micrometer.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — What's New in Spring Batch 6 (JobRepository now extends JobExplorer)",
+        "url": "https://docs.spring.io/spring-batch/reference/whatsnew.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide — JobExplorer consolidated into JobRepository",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Cloud Data Flow (modern dashboard replacing Spring Batch Admin)",
+        "url": "https://dataflow.spring.io/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-batch-multithreaded-and-parallel-steps",
+    "id": 69,
+    "category": "Spring Batch",
+    "title": "Scaling Spring Batch Locally: Multithreaded Steps and Parallel Flows",
+    "summary": "How to scale a Spring Batch step on a single machine with a TaskExecutor-backed multithreaded step or independent parallel flows joined by a split, the thread-safety-vs-restartability tension this creates for stateful readers (saveState=false, a synchronized reader, or the process-indicator pattern), and the Spring Batch 6.0 redesign where only the ItemProcessor runs on multiple threads, plus virtual-thread executors for I/O-bound work.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cogoluègnes, Templier, Gregory, Bazoud, \"Spring Batch in Action\" (Manning, 2012) — Chapter 13, \"Scaling and parallel processing\", sections 13.1-13.4, \"The scaling model\" / \"Multithreaded steps\" / \"Parallelizing processing (single machine)\", p. 374-386",
+        "url": "https://www.manning.com/books/spring-batch-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch Reference — Scaling and Parallel Processing (Multi-threaded Step, Parallel Steps)",
+        "url": "https://docs.spring.io/spring-batch/reference/scalability.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch 6.0 Migration Guide (XML namespace deprecation, new chunk-oriented model)",
+        "url": "https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Batch API — SynchronizedItemStreamReader (org.springframework.batch.infrastructure.item.support)",
+        "url": "https://docs.spring.io/spring-batch/reference/api/org/springframework/batch/infrastructure/item/support/SynchronizedItemStreamReader.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — SimpleAsyncTaskExecutor (setVirtualThreads, concurrencyLimit)",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/task/SimpleAsyncTaskExecutor.html",
+        "type": "doc"
+      }
+    ]
   }
 ]

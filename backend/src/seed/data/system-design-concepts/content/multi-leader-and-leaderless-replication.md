@@ -73,9 +73,9 @@ sequenceDiagram
     Note over L1,L2: neither version dominates the other —<br/>the writes are CONCURRENT, not ordered
 
     alt LWW (Cassandra-style)
-        Note over L1,L2: keep greater timestamp -> both settle on "B";<br/>user 2's committed write is silently discarded
+        Note over L1,L2: keep greater timestamp -> both settle on "B"<br/>user 2's committed write is silently discarded
     else Siblings (CouchDB-style)
-        Note over L1,L2: store {"B","C"}; next read returns both,<br/>app or user resolves and writes back
+        Note over L1,L2: store {"B","C"}<br/>next read returns both, app or user resolves and writes back
     else CRDT / OT (Automerge, Yjs, Google Docs)
         Note over L1,L2: merge deterministically by character IDs<br/>-> both converge on the same merged text
     end
