@@ -3287,5 +3287,565 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "distributed-transactions-and-two-phase-commit",
+    "id": 59,
+    "title": "Distributed Transactions and Two-Phase Commit",
+    "summary": "How atomic commit works when one transaction touches several nodes or systems, why two-phase commit can preserve all-or-nothing semantics yet block during failures, and why modern architectures often prefer sagas, outboxes, or consensus-backed distributed SQL instead.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Distributed Transactions",
+      "Two-Phase Commit",
+      "Consistency",
+      "Microservices",
+      "Messaging"
+    ],
+    "prerequisites": [
+      "Transactions, ACID, and Isolation Levels"
+    ],
+    "related": [
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Message Brokers: Queues vs Logs",
+        "slug": "message-brokers-queues-vs-logs"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 8, \"Transactions\", sections \"Distributed Transactions\" and \"Exactly-Once Message Processing Revisited\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Jim Gray and Leslie Lamport — \"Consensus on Transaction Commit\" (ACM Transactions on Database Systems, 2006)",
+        "url": "https://www.microsoft.com/en-us/research/publication/consensus-on-transaction-commit/",
+        "type": "paper"
+      },
+      {
+        "label": "Chris Richardson — \"Pattern: Saga\" (microservices.io)",
+        "url": "https://microservices.io/patterns/data/saga.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Chris Richardson — \"Pattern: Transactional outbox\" (microservices.io)",
+        "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Oracle Java EE Tutorial — \"Transactions in Java EE Applications\"",
+        "url": "https://docs.oracle.com/javaee/7/tutorial/transactions001.htm",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud Spanner Documentation — \"Transactions overview\"",
+        "url": "https://cloud.google.com/spanner/docs/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "CockroachDB Docs — \"Transaction Layer\"",
+        "url": "https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer",
+        "type": "doc"
+      },
+      {
+        "label": "YugabyteDB Docs — \"DocDB transactions layer\"",
+        "url": "https://docs.yugabyte.com/stable/architecture/transactions/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "byzantine-faults-and-system-models",
+    "id": 60,
+    "title": "Byzantine Faults and System Models",
+    "summary": "How distributed systems decide what is true when no node can trust only its own view — quorum-based truth, Byzantine faults, realistic system models, safety versus liveness, and the formal and randomized testing techniques used to make fault-tolerant algorithms credible.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Consensus",
+      "Formal Methods"
+    ],
+    "prerequisites": [
+      "The Trouble with Distributed Systems"
+    ],
+    "related": [
+      {
+        "label": "The Trouble with Distributed Systems",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 9, \"The Trouble with Distributed Systems\", sections \"Knowledge, Truth, and Lies\", \"System Model and Reality\", and \"Formal Methods and Randomized Testing\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Leslie Lamport, Robert Shostak, and Marshall Pease — \"The Byzantine Generals Problem\" (ACM TOPLAS 1982)",
+        "url": "https://dl.acm.org/doi/10.1145/357172.357176",
+        "type": "paper"
+      },
+      {
+        "label": "Miguel Castro and Barbara Liskov — \"Practical Byzantine Fault Tolerance\" (OSDI 1999)",
+        "url": "https://pmg.csail.mit.edu/papers/osdi99.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Leslie Lamport — \"My TLA+ Home Page\"",
+        "url": "https://lamport.azurewebsites.net/tla/tla.html",
+        "type": "doc"
+      },
+      {
+        "label": "Jepsen — Distributed Systems Safety Research",
+        "url": "https://jepsen.io/",
+        "type": "engineering"
+      },
+      {
+        "label": "FoundationDB — \"Simulation and Testing\"",
+        "url": "https://apple.github.io/foundationdb/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "TigerBeetle — \"Simulation Testing for Liveness\"",
+        "url": "https://tigerbeetle.com/blog/2023-07-06-simulation-testing-for-liveness/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "linearizability",
+    "id": 61,
+    "title": "Linearizability",
+    "summary": "The recency guarantee that makes a replicated object behave like one up-to-date copy, why it differs from serializability, where systems rely on it, how leaders and consensus implement it, and why CAP and network delay make it expensive.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Consistency Models",
+      "Distributed Systems",
+      "Replication",
+      "Consensus"
+    ],
+    "prerequisites": [
+      "CAP Theorem"
+    ],
+    "related": [
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "Single-Leader Replication",
+        "slug": "single-leader-replication"
+      },
+      {
+        "label": "Transactions: ACID and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "Logical Clocks and Ordered IDs",
+        "slug": "logical-clocks-and-ordered-ids"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 10, \"Consistency and Consensus\", section \"Linearizability\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Herlihy & Wing — \"Linearizability: A Correctness Condition for Concurrent Objects\" (ACM TOPLAS 1990)",
+        "url": "https://dl.acm.org/doi/10.1145/78969.78972",
+        "type": "paper"
+      },
+      {
+        "label": "Gilbert & Lynch — \"Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services\"",
+        "url": "https://people.csail.mit.edu/lynch/publications/CAP.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Martin Kleppmann — \"Please stop calling databases CP or AP\"",
+        "url": "https://martin.kleppmann.com/2015/05/05/cap-theorem.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Apache ZooKeeper Programmer's Guide — Consistency Guarantees",
+        "url": "https://zookeeper.apache.org/doc/current/zookeeperProgrammers.html#ch_zkGuarantees",
+        "type": "doc"
+      },
+      {
+        "label": "etcd Documentation — Consistency",
+        "url": "https://etcd.io/docs/v3.5/learning/api_guarantees/",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud Spanner Documentation — TrueTime and External Consistency",
+        "url": "https://cloud.google.com/spanner/docs/true-time-external-consistency",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logical-clocks-and-ordered-ids",
+    "id": 62,
+    "title": "Logical Clocks and Ordered ID Generation",
+    "summary": "How distributed systems order events and generate IDs when wall clocks cannot be trusted — Lamport timestamps, happens-before causality, total order broadcast, and the practical trade-off between strictly monotonic linearizable sequences and scalable roughly ordered IDs such as Snowflake.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Distributed Systems",
+      "Consistency",
+      "ID Generation",
+      "Ordering"
+    ],
+    "prerequisites": [
+      "Linearizability"
+    ],
+    "related": [
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "Linearizability",
+        "slug": "linearizability"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 10, \"Consistency and Consensus\", section \"ID Generators and Logical Clocks\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Leslie Lamport — \"Time, Clocks, and the Ordering of Events in a Distributed System\"",
+        "url": "https://dl.acm.org/doi/10.1145/359545.359563",
+        "type": "paper"
+      },
+      {
+        "label": "Twitter Engineering — \"Announcing Snowflake\"",
+        "url": "https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake",
+        "type": "engineering"
+      },
+      {
+        "label": "Tushar Deepak Chandra and Sam Toueg — \"Unreliable Failure Detectors for Reliable Distributed Systems\"",
+        "url": "https://dl.acm.org/doi/10.1145/226643.226647",
+        "type": "paper"
+      },
+      {
+        "label": "Kulkarni, Demirbas, et al. — \"Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases\" (HLC)",
+        "url": "https://cse.buffalo.edu/tech-reports/2014-04.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "dataflow-engines-and-distributed-joins",
+    "id": 63,
+    "title": "Dataflow Engines and Distributed Joins",
+    "summary": "How modern batch dataflow engines replace chains of materialized MapReduce jobs with optimized DAGs, and how distributed systems choose among reduce-side, broadcast, partitioned, and merge joins under shuffle, memory, skew, and optimizer constraints.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Batch Processing",
+      "Distributed Systems",
+      "Data Engineering",
+      "Query Optimization"
+    ],
+    "prerequisites": [
+      "MapReduce Programming Model"
+    ],
+    "related": [
+      {
+        "label": "The MapReduce Programming Model",
+        "slug": "mapreduce-programming-model"
+      },
+      {
+        "label": "Batch Processing in Distributed Systems",
+        "slug": "batch-processing-in-distributed-systems"
+      },
+      {
+        "label": "Column-Oriented Storage for Analytical Workloads",
+        "slug": "column-oriented-storage-for-analytics"
+      },
+      {
+        "label": "Sharding Strategies, Rebalancing, and Secondary Indexes",
+        "slug": "sharding-strategies-rebalancing-and-secondary-indexes"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 11, \"Batch Processing\", sections \"Dataflow Engines\", \"Shuffling Data\", \"Joins and Grouping\", \"Query Languages\", \"DataFrames\", and \"Batch Use Cases\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Zaharia et al. — \"Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing\" (NSDI 2012)",
+        "url": "https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Spark Documentation — \"Performance Tuning\", join strategy hints and automatic broadcast joins",
+        "url": "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Flink Documentation — \"Execution Mode (Batch/Streaming)\"",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/execution_mode/",
+        "type": "doc"
+      },
+      {
+        "label": "Data Dynamics — \"Conquering PySpark Data Skew: Rescuing Jobs Stuck at 99%\"",
+        "url": "https://www.data-dynamics.io/en/blog/pyspark-data-skew",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "stream-processing-time-and-windows",
+    "id": 64,
+    "title": "Stream Processing: Time and Windows",
+    "summary": "How stream processors turn unbounded event streams into useful results by separating event time from processing time, using watermarks to reason about late data, and choosing the right window type for rolling analytics, monitoring, and materialized views.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Stream Processing",
+      "Event Time",
+      "Watermarks",
+      "Windowing"
+    ],
+    "prerequisites": [
+      "Message Brokers: Queues vs Logs"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs Logs",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Change Data Capture",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Stream Joins and Exactly-Once Processing",
+        "slug": "stream-joins-and-exactly-once"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Uses of Stream Processing\" and \"Reasoning About Time\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Tyler Akidau — \"The world beyond batch: Streaming 101\" (O'Reilly Radar)",
+        "url": "https://www.oreilly.com/radar/the-world-beyond-batch-streaming-101/",
+        "type": "engineering"
+      },
+      {
+        "label": "Tyler Akidau — \"The world beyond batch: Streaming 102\" (O'Reilly Radar)",
+        "url": "https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/",
+        "type": "engineering"
+      },
+      {
+        "label": "Akidau et al. — \"The Dataflow Model\" (VLDB 2015)",
+        "url": "https://www.vldb.org/pvldb/vol8/p1792-Akidau.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Apache Flink documentation — \"Generating Watermarks\"",
+        "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/event-time/generating_watermarks/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Beam Programming Guide — \"Windowing\"",
+        "url": "https://beam.apache.org/documentation/programming-guide/#windowing",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Kafka documentation — \"Windowing\" in the Kafka Streams DSL",
+        "url": "https://kafka.apache.org/documentation/streams/developer-guide/dsl-api.html#windowing",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "stream-joins-and-exactly-once",
+    "id": 65,
+    "title": "Stream Joins and Exactly-Once Processing",
+    "summary": "How stream processors join unbounded event streams with other streams and changing tables, why those joins are time-dependent, and how checkpoints, replay, idempotent writes, and transactions make failures look effectively once rather than exactly magical.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Stream Processing",
+      "Fault Tolerance",
+      "Event-Driven Architecture",
+      "Distributed Systems"
+    ],
+    "prerequisites": [
+      "Stream Processing: Time and Windows"
+    ],
+    "related": [
+      {
+        "label": "Message Brokers: Queues vs Logs",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Change Data Capture",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit"
+      },
+      {
+        "label": "Stream Processing: Time and Windows",
+        "slug": "stream-processing-time-and-windows"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 12, \"Stream Processing\", sections \"Stream Joins\" and \"Fault Tolerance\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Apache Flink Documentation — Stateful Stream Processing",
+        "url": "https://nightlies.apache.org/flink/flink-docs-master/docs/concepts/stateful-stream-processing/",
+        "type": "doc"
+      },
+      {
+        "label": "Carbone et al. — \"Lightweight Asynchronous Snapshots for Distributed Dataflows\"",
+        "url": "https://arxiv.org/abs/1506.08603",
+        "type": "paper"
+      },
+      {
+        "label": "Confluent — \"Exactly-Once Semantics Are Possible: Here's How Kafka Does It\"",
+        "url": "https://www.confluent.io/blog/exactly-once-semantics-are-possible-heres-how-apache-kafka-does-it/",
+        "type": "engineering"
+      },
+      {
+        "label": "Confluent — \"Transactions in Apache Kafka\"",
+        "url": "https://www.confluent.io/blog/transactions-apache-kafka/",
+        "type": "engineering"
+      },
+      {
+        "label": "O'Reilly Radar — \"Why local state is a fundamental primitive in stream processing\"",
+        "url": "https://www.oreilly.com/radar/why-local-state-is-a-fundamental-primitive-in-stream-processing/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "unbundling-the-database-and-dataflow",
+    "id": 66,
+    "title": "Unbundling the Database and Dataflow Architecture",
+    "summary": "How an ordered event log can become the write-side backbone for an ecosystem of databases, indexes, caches, warehouses, and ML stores, letting teams rebuild derived state, unify batch and streaming, and reason about correctness end to end instead of hoping every specialized system stays magically consistent.",
+    "publishedAt": "2026-08-06",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Streaming",
+      "Data Integration",
+      "Event-Driven Architecture",
+      "Distributed Systems",
+      "Data Consistency"
+    ],
+    "prerequisites": [
+      "Change Data Capture"
+    ],
+    "related": [
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "Event Sourcing and CQRS",
+        "slug": "event-sourcing-and-cqrs"
+      },
+      {
+        "label": "Dataflow Patterns: Databases, Services, and Events",
+        "slug": "dataflow-patterns-databases-services-events"
+      },
+      {
+        "label": "Read/Write Splitting and CQRS-Lite",
+        "slug": "read-write-splitting-and-cqrs-lite"
+      },
+      {
+        "label": "Stream Joins and Exactly-Once Processing",
+        "slug": "stream-joins-and-exactly-once"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 13, \"A Philosophy of Streaming Systems\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Martin Kleppmann — \"Turning the Database Inside-Out with Apache Samza\" (Confluent)",
+        "url": "https://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/",
+        "type": "engineering"
+      },
+      {
+        "label": "Jay Kreps — \"Questioning the Lambda Architecture\" (O'Reilly Radar)",
+        "url": "https://www.oreilly.com/radar/questioning-the-lambda-architecture/",
+        "type": "engineering"
+      },
+      {
+        "label": "Saltzer, Reed & Clark — \"End-to-End Arguments in System Design\"",
+        "url": "https://dl.acm.org/doi/10.1145/357401.357402",
+        "type": "paper"
+      },
+      {
+        "label": "Jay Kreps — \"The Log: What every software engineer should know about real-time data's unifying abstraction\" (LinkedIn Engineering)",
+        "url": "https://engineering.linkedin.com/blog/2013/12/the-log--what-every-software-engineer-should-know-about-real-time-data-s-unifying-abstraction",
+        "type": "engineering"
+      }
+    ]
   }
 ]
