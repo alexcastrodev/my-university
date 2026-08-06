@@ -343,5 +343,85 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "test-driven-development",
+    "id": 13,
+    "category": "Java",
+    "title": "Test-Driven Development",
+    "summary": "The red-green-refactor cycle — write a failing test first, add the smallest code to pass, then refactor safely — driving design with JUnit 5, from JUnit in Action, Third Edition, Ch. 20.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Test-Driven Development — Martin Fowler",
+        "url": "https://martinfowler.com/bliki/TestDrivenDevelopment.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Writing Tests",
+        "url": "https://docs.junit.org/current/user-guide/#writing-tests",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 20, \"Test-driven development with JUnit 5,\" pp. 405–436 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bdd-with-cucumber",
+    "id": 14,
+    "category": "Java",
+    "title": "BDD with Cucumber",
+    "summary": "Writing behavior specifications in business-readable Gherkin (Given/When/Then) and binding them to Java step definitions with Cucumber — with today's io.cucumber + JUnit 5 Platform setup replacing the book's obsolete info.cukes/@RunWith(Cucumber.class), from JUnit in Action, Third Edition, Ch. 21.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Cucumber — official documentation",
+        "url": "https://cucumber.io/docs/cucumber/",
+        "type": "doc"
+      },
+      {
+        "label": "Gherkin reference — Cucumber docs",
+        "url": "https://cucumber.io/docs/gherkin/reference/",
+        "type": "doc"
+      },
+      {
+        "label": "cucumber-junit-platform-engine (JUnit 5 integration) — GitHub",
+        "url": "https://github.com/cucumber/cucumber-jvm/blob/main/cucumber-junit-platform-engine/README.md",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 21, \"Behavior-driven development with JUnit 5,\" pp. 437–470 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "test-pyramid-strategy",
+    "id": 15,
+    "category": "Java",
+    "title": "The Test Pyramid Strategy",
+    "summary": "How to distribute tests across levels — many fast unit tests at the base, fewer integration/system/acceptance tests toward the top — what to test at each level, and which tool fits each, from JUnit in Action, Third Edition, Ch. 22.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "The Practical Test Pyramid — Martin Fowler / Ham Vocke",
+        "url": "https://martinfowler.com/articles/practical-test-pyramid.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit in Action, 3rd Ed. — Ch. 22, \"Implementing a test pyramid strategy with JUnit 5,\" pp. 471–491 (Manning)",
+        "url": "https://www.manning.com/books/junit-in-action-third-edition",
+        "type": "doc"
+      }
+    ]
   }
 ]
