@@ -1031,6 +1031,41 @@
     ]
   },
   {
+    "slug": "spring-data-rest-repositories",
+    "id": 34,
+    "category": "Spring Boot",
+    "title": "Spring Data REST: Repositories as Hypermedia APIs",
+    "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.3 \"Enabling data-backed services\", p. 160-168",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Data REST Reference — Repository resources",
+        "url": "https://docs.spring.io/spring-data/rest/reference/repository-resources.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Data REST Reference — Overriding Spring Data REST Response Handlers (@RepositoryRestController)",
+        "url": "https://docs.spring.io/spring-data/rest/reference/customizing/overriding-sdr-response-handlers.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Data REST Reference — Configuring the REST URL Path",
+        "url": "https://docs.spring.io/spring-data/rest/reference/customizing/configuring-the-rest-url-path.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Data REST Reference — Integration (RepositoryEntityLinks)",
+        "url": "https://docs.spring.io/spring-data/rest/reference/integration.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "spring-security-authorization-regex-matchers",
     "id": 35,
     "category": "Spring Security",
@@ -1091,41 +1126,6 @@
       {
         "label": "Kubernetes Documentation — CronJob",
         "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
-        "type": "doc"
-      }
-    ]
-  },
-  {
-    "slug": "spring-data-rest-repositories",
-    "id": 34,
-    "category": "Spring Boot",
-    "title": "Spring Data REST: Repositories as Hypermedia APIs",
-    "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
-    "publishedAt": "2026-08-05",
-    "references": [
-      {
-        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.3 \"Enabling data-backed services\", p. 160-168",
-        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
-        "type": "doc"
-      },
-      {
-        "label": "Spring Data REST Reference — Repository resources",
-        "url": "https://docs.spring.io/spring-data/rest/reference/repository-resources.html",
-        "type": "doc"
-      },
-      {
-        "label": "Spring Data REST Reference — Overriding Spring Data REST Response Handlers (@RepositoryRestController)",
-        "url": "https://docs.spring.io/spring-data/rest/reference/customizing/overriding-sdr-response-handlers.html",
-        "type": "doc"
-      },
-      {
-        "label": "Spring Data REST Reference — Configuring the REST URL Path",
-        "url": "https://docs.spring.io/spring-data/rest/reference/customizing/configuring-the-rest-url-path.html",
-        "type": "doc"
-      },
-      {
-        "label": "Spring Data REST Reference — Integration (RepositoryEntityLinks)",
-        "url": "https://docs.spring.io/spring-data/rest/reference/integration.html",
         "type": "doc"
       }
     ]
@@ -1196,6 +1196,406 @@
       {
         "label": "Spring Framework Reference — DispatcherServlet",
         "url": "https://docs.spring.io/spring-framework/reference/web/webmvc/dispatcher-servlet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-resttemplate-and-traverson",
+    "id": 39,
+    "category": "Spring Boot",
+    "title": "Consuming REST Services: RestTemplate & Traverson",
+    "summary": "Calling REST APIs from a Spring application — RestTemplate's per-verb operations for GET/PUT/DELETE/POST and Traverson's relation-name navigation of a hypermedia API, plus where RestClient now fits.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 7, \"Consuming REST services\", p. 169-177",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — REST Clients (RestClient, WebClient, RestTemplate)",
+        "url": "https://docs.spring.io/spring-framework/reference/integration/rest-clients.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — RestTemplate",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — RestClient",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestClient.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring HATEOAS Reference — Client-side support (Traverson)",
+        "url": "https://docs.spring.io/spring-hateoas/docs/current/reference/html/#client.traverson",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-jms-messaging",
+    "id": 40,
+    "category": "Spring Boot",
+    "title": "Asynchronous Messaging with JMS",
+    "summary": "Decoupling a producer from a consumer through a JMS broker — JmsTemplate's send/convertAndSend, message converters and post-processors, and the pull (receive) versus push (@JmsListener) models for consuming.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 8, \"Sending messages asynchronously\", section 8.1 \"Sending messages with JMS\", p. 179-191",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Using Spring JMS (JmsTemplate, JmsClient, MessageCreator, MessageConverter)",
+        "url": "https://docs.spring.io/spring-framework/reference/integration/jms/using.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Annotation-driven listener endpoints (@JmsListener)",
+        "url": "https://docs.spring.io/spring-framework/reference/integration/jms/annotated.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — JMS (Artemis and ActiveMQ \"Classic\" autoconfiguration)",
+        "url": "https://docs.spring.io/spring-boot/reference/messaging/jms.html",
+        "type": "doc"
+      },
+      {
+        "label": "Jakarta Messaging Specification",
+        "url": "https://jakarta.ee/specifications/messaging/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-rabbitmq-messaging",
+    "id": 41,
+    "category": "Spring Boot",
+    "title": "RabbitMQ and AMQP Messaging",
+    "summary": "How AMQP's exchange, routing key, and binding model decouples producers from queues, and how RabbitTemplate and @RabbitListener send and receive messages in Spring.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 8, \"Sending messages asynchronously\", section 8.2 \"Working with RabbitMQ and AMQP\", p. 192-201",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "RabbitMQ — AMQP 0-9-1 Model Explained (exchanges, queues, bindings, routing keys)",
+        "url": "https://www.rabbitmq.com/docs/amqp-concepts",
+        "type": "doc"
+      },
+      {
+        "label": "Spring AMQP Reference — Sending Messages (AmqpTemplate send/convertAndSend, default exchange and routing key)",
+        "url": "https://docs.spring.io/spring-amqp/reference/amqp/sending-messages.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring AMQP Reference — Message Converters (SimpleMessageConverter default, JacksonJsonMessageConverter, allowed-list patterns)",
+        "url": "https://docs.spring.io/spring-amqp/reference/amqp/message-converters.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring AMQP Reference — Polling Consumer (receive/receiveAndConvert, receiveTimeout)",
+        "url": "https://docs.spring.io/spring-amqp/reference/amqp/receiving-messages/polling-consumer.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Messaging with AMQP (spring.rabbitmq.* properties, MessageConverter bean detection, @RabbitListener)",
+        "url": "https://docs.spring.io/spring-boot/reference/messaging/amqp.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-kafka-messaging",
+    "id": 42,
+    "category": "Spring Boot",
+    "title": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+    "summary": "How Spring for Apache Kafka wraps the raw Kafka client in an autoconfigured KafkaTemplate and @KafkaListener, and why Kafka's log-based, replayable, partition-ordered model behaves differently from JMS and AMQP queue consumption.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 8, \"Sending messages asynchronously\", section 8.3 \"Messaging with Kafka\", p. 202-208",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring for Apache Kafka Reference — Sending Messages (KafkaTemplate)",
+        "url": "https://docs.spring.io/spring-kafka/reference/kafka/sending-messages.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring for Apache Kafka Reference — Receiving Messages (@KafkaListener)",
+        "url": "https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring for Apache Kafka Reference — Non-Blocking Retries (@RetryableTopic)",
+        "url": "https://docs.spring.io/spring-kafka/reference/retrytopic.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Messaging: Apache Kafka Support",
+        "url": "https://docs.spring.io/spring-boot/reference/messaging/kafka.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Kafka Documentation — Design (log storage, partitioning, delivery semantics)",
+        "url": "https://kafka.apache.org/documentation/#design",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Kafka 4.0.0 Release Announcement — KRaft-only, ZooKeeper removed",
+        "url": "https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-reactor-fundamentals",
+    "id": 43,
+    "category": "Spring Boot",
+    "title": "Reactor Fundamentals: Reactive Streams, Mono, and Flux",
+    "summary": "Why reactive programming exists — the blocked-thread problem imperative I/O code creates — plus the four-interface Reactive Streams contract that makes backpressure work, and Reactor's two core publisher types, Mono for 0-or-1 results and Flux for 0-to-N sequences.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 10, \"Introducing Reactor\", sections 10.1-10.2, p. 241-247",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor 3 Reference Guide — Flux, an Asynchronous Sequence of 0-N Items",
+        "url": "https://projectreactor.io/docs/core/release/reference/coreFeatures/flux.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor 3 Reference Guide — Mono, an Asynchronous 0-1 Result",
+        "url": "https://projectreactor.io/docs/core/release/reference/coreFeatures/mono.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reactive Streams — specification and JDK 9 Flow equivalence",
+        "url": "https://www.reactive-streams.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Task Execution and Scheduling (spring.threads.virtual.enabled)",
+        "url": "https://docs.spring.io/spring-boot/reference/features/task-execution-and-scheduling.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-reactor-operators",
+    "id": 44,
+    "category": "Spring Boot",
+    "title": "Reactor Operators: Creating, Combining, Transforming Streams",
+    "summary": "The operator vocabulary of Flux and Mono — creating streams from data, combining two with zip or mergeWith, transforming with map versus flatMap, filtering, and collapsing a stream to a single logical result.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 10, \"Introducing Reactor\", section 10.3 \"Applying common reactive operations\", p. 248-268",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor Core API — Flux (full operator javadoc)",
+        "url": "https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor Core API — Mono",
+        "url": "https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor 3 Reference Guide — \"Which operator do I need?\" (operator catalog by intent)",
+        "url": "https://projectreactor.io/docs/core/release/reference/apdx-operatorChoice.html",
+        "type": "doc"
+      },
+      {
+        "label": "Reactor 3 Reference Guide — Threading and Schedulers",
+        "url": "https://projectreactor.io/docs/core/release/reference/coreFeatures/schedulers.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-webflux-reactive-controllers",
+    "id": 45,
+    "category": "Spring Boot",
+    "title": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
+    "summary": "Build a non-blocking web layer with Spring WebFlux — the same @RestController annotations as Spring MVC but returning Mono & Flux, the annotation-free RouterFunction/HandlerFunction alternative, and WebTestClient for testing both against mocks or a live Netty server.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 11, \"Developing reactive APIs\", sections 11.1-11.3, p. 269-284",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — WebFlux Annotated Controllers",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webflux/controller.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — WebFlux Functional Endpoints (RouterFunction, HandlerFunction)",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webflux-functional.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Testing with WebTestClient",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/webtestclient.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — Spring WebFlux Overview (why WebFlux, servers, WebFlux vs Spring MVC)",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Blog — Runtime efficiency with Spring (virtual threads vs. the reactive stack)",
+        "url": "https://spring.io/blog/2023/10/16/runtime-efficiency-with-spring/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-webclient-reactive-consumption",
+    "id": 46,
+    "category": "Spring Boot",
+    "title": "WebClient: Consuming REST APIs Reactively",
+    "summary": "Spring's non-blocking HTTP client — retrieve()/bodyToMono/bodyToFlux, reactive request bodies, onStatus error handling, the exchangeToMono replacement for the leak-prone exchange(), and reactive Spring Security with SecurityWebFilterChain.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 11, \"Developing reactive APIs\", sections 11.4-11.5, p. 285-295",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — WebClient",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webflux-webclient.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference — WebClient Exchange (exchangeToMono / exchangeToFlux)",
+        "url": "https://docs.spring.io/spring-framework/reference/web/webflux-webclient/client-exchange.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework API — WebClient",
+        "url": "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Security Reference — WebFlux Security configuration (SecurityWebFilterChain)",
+        "url": "https://docs.spring.io/spring-security/reference/reactive/configuration/webflux.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-boot-actuator-endpoints",
+    "id": 47,
+    "category": "Spring Boot",
+    "title": "Spring Boot Actuator: Built-in Endpoints",
+    "summary": "Actuator adds production-readiness endpoints to a Spring Boot app — /health, /info, /metrics, /env, /beans, /mappings & more — over HTTP and JMX, plus how to expose and consume them safely.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 16, \"Working with Spring Boot Actuator\", sections 16.1-16.2, p. 395-415",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Actuator Endpoints (full endpoint list, base path, access control)",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Exposing Endpoints (management.endpoints.web.exposure.include/exclude defaults)",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints.exposing",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Recording HTTP Exchanges (HttpExchangeRepository, the /httptrace successor)",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/http-exchanges.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-boot-actuator-customization",
+    "id": 48,
+    "category": "Spring Boot",
+    "title": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+    "summary": "Extend Actuator past its built-in endpoints: contribute application data to /info with InfoContributor, write a HealthIndicator that reflects a real dependency, publish business metrics through Micrometer's MeterRegistry, build custom endpoints with @Endpoint, and lock the whole surface down with Spring Security and EndpointRequest.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 16, \"Working with Spring Boot Actuator\", sections 16.3-16.4, p. 416-428",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Writing Custom HealthIndicators",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints.health.writing-custom-health-indicators",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Metrics (Micrometer, MeterRegistry, MeterBinder)",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/metrics.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Actuator Endpoint Security (EndpointRequest)",
+        "url": "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints.security",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spring-boot-docker-deployment",
+    "id": 49,
+    "category": "Spring Boot",
+    "title": "Containerizing Spring Boot: Dockerfiles, Layered JARs & Buildpacks",
+    "summary": "Packaging a Spring Boot application as an OCI image — the book's hand-written Dockerfile, layered JARs that make Docker's build cache actually work, and spring-boot:build-image as the no-Dockerfile Cloud Native Buildpacks alternative.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 19, \"Deploying Spring\", section 19.4 \"Running Spring Boot in a Docker container\", p. 461-464",
+        "url": "https://www.manning.com/books/spring-in-action-fifth-edition",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Container Images: Dockerfiles",
+        "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Efficient Container Images (layers)",
+        "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/efficient-images.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Reference — Cloud Native Buildpacks",
+        "url": "https://docs.spring.io/spring-boot/reference/packaging/container-images/cloud-native-buildpacks.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Boot Maven Plugin — spring-boot:build-image",
+        "url": "https://docs.spring.io/spring-boot/maven-plugin/build-image.html",
+        "type": "doc"
+      },
+      {
+        "label": "Docker Hub — eclipse-temurin (successor to the deprecated openjdk image)",
+        "url": "https://hub.docker.com/_/eclipse-temurin",
         "type": "doc"
       }
     ]
