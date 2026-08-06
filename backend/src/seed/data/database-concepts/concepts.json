@@ -825,41 +825,6 @@
     ]
   },
   {
-    "slug": "sql-merge-statement-upsert",
-    "id": 28,
-    "category": "SQL",
-    "title": "Merging Records: The MERGE Statement and MySQL's Upsert Alternative",
-    "summary": "How MERGE conditionally updates, deletes, or inserts rows in one atomic statement across matched/unmatched source rows, why PostgreSQL had no MERGE at all until version 15 (2022) — two years after this book's 2nd edition — and why MySQL's INSERT ... ON DUPLICATE KEY UPDATE can insert-or-update but never delete in the same statement.",
-    "publishedAt": "2026-08-05",
-    "references": [
-      {
-        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 4, \"Inserting, Updating, and Deleting\", recipe 4.11 \"Merging Records\", p. 80-82",
-        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
-        "type": "doc"
-      },
-      {
-        "label": "PostgreSQL Documentation — MERGE",
-        "url": "https://www.postgresql.org/docs/current/sql-merge.html",
-        "type": "doc"
-      },
-      {
-        "label": "PostgreSQL 15 Release Notes — Add SQL MERGE command",
-        "url": "https://www.postgresql.org/docs/15/release-15.html",
-        "type": "doc"
-      },
-      {
-        "label": "MySQL Reference Manual — INSERT ... ON DUPLICATE KEY UPDATE Statement",
-        "url": "https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html",
-        "type": "doc"
-      },
-      {
-        "label": "Microsoft Learn — MERGE (Transact-SQL)",
-        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/merge-transact-sql",
-        "type": "doc"
-      }
-    ]
-  },
-  {
     "slug": "postgresql-kernel-tuning-for-availability",
     "id": 27,
     "category": "PostgreSQL",
@@ -890,6 +855,41 @@
       {
         "label": "Red Hat Enterprise Linux 9 Documentation — Configuring Transparent Huge Pages",
         "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/monitoring_and_managing_system_status_and_performance/configuring-huge-pages_monitoring-and-managing-system-status-and-performance",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-merge-statement-upsert",
+    "id": 28,
+    "category": "SQL",
+    "title": "Merging Records: The MERGE Statement and MySQL's Upsert Alternative",
+    "summary": "How MERGE conditionally updates, deletes, or inserts rows in one atomic statement across matched/unmatched source rows, why PostgreSQL had no MERGE at all until version 15 (2022) — two years after this book's 2nd edition — and why MySQL's INSERT ... ON DUPLICATE KEY UPDATE can insert-or-update but never delete in the same statement.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 4, \"Inserting, Updating, and Deleting\", recipe 4.11 \"Merging Records\", p. 80-82",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — MERGE",
+        "url": "https://www.postgresql.org/docs/current/sql-merge.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL 15 Release Notes — Add SQL MERGE command",
+        "url": "https://www.postgresql.org/docs/15/release-15.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — INSERT ... ON DUPLICATE KEY UPDATE Statement",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — MERGE (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/merge-transact-sql",
         "type": "doc"
       }
     ]
@@ -1090,6 +1090,36 @@
     ]
   },
   {
+    "slug": "postgresql-backup-barman-and-pgbackrest",
+    "id": 34,
+    "category": "PostgreSQL",
+    "title": "Backup Management: Barman and pgBackRest",
+    "summary": "How Barman (centralized fleet backup via SSH/streaming, near-zero-RPO capability) and pgBackRest (self-contained, compressed, incremental/differential backups) go beyond pg_basebackup with catalogs, retention policies, and PITR — plus native cloud storage support and the PostgreSQL 15 removal of exclusive backup mode.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 8, \"Backup Management\", recipes \"Installing and configuring Barman\", \"Backing up a database with Barman\", \"Restoring a database with Barman\", \"Installing and configuring pgBackRest\", \"Backing up a database with pgBackRest\", \"Restoring a database with pgBackRest\", p. 342-372",
+        "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854",
+        "type": "doc"
+      },
+      {
+        "label": "Barman Documentation",
+        "url": "https://docs.pgbarman.org/",
+        "type": "doc"
+      },
+      {
+        "label": "pgBackRest User Guide",
+        "url": "https://pgbackrest.org/user-guide.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Continuous Archiving and Point-in-Time Recovery (PITR)",
+        "url": "https://www.postgresql.org/docs/current/continuous-archiving.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "postgresql-ha-automation-with-repmgr",
     "id": 35,
     "category": "PostgreSQL",
@@ -1195,31 +1225,801 @@
     ]
   },
   {
-    "slug": "postgresql-backup-barman-and-pgbackrest",
-    "id": 34,
-    "category": "PostgreSQL",
-    "title": "Backup Management: Barman and pgBackRest",
-    "summary": "How Barman (centralized fleet backup via SSH/streaming, near-zero-RPO capability) and pgBackRest (self-contained, compressed, incremental/differential backups) go beyond pg_basebackup with catalogs, retention policies, and PITR — plus native cloud storage support and the PostgreSQL 15 removal of exclusive backup mode.",
+    "slug": "sql-deleting-referenced-records",
+    "id": 38,
+    "category": "SQL",
+    "title": "Deleting Records Referenced from Another Table",
+    "summary": "Removing rows identified by their relationship to a second table — the IN/EXISTS subquery form, the NOT IN null trap on the inverse case, and the three incompatible vendor join-DELETE syntaxes.",
     "publishedAt": "2026-08-05",
     "references": [
       {
-        "label": "Shaun Thomas, \"PostgreSQL 12 High Availability Cookbook\", 3rd Edition (Packt, 2020) — Chapter 8, \"Backup Management\", recipes \"Installing and configuring Barman\", \"Backing up a database with Barman\", \"Restoring a database with Barman\", \"Installing and configuring pgBackRest\", \"Backing up a database with pgBackRest\", \"Restoring a database with pgBackRest\", p. 342-372",
-        "url": "https://www.packtpub.com/en-us/product/postgresql-12-high-availability-cookbook-9781838984854",
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 4, \"Inserting, Updating, and Deleting\", recipe 4.17, p. 87-89",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
         "type": "doc"
       },
       {
-        "label": "Barman Documentation",
-        "url": "https://docs.pgbarman.org/",
+        "label": "PostgreSQL Documentation — DELETE (USING clause, self-join warning, standard compatibility)",
+        "url": "https://www.postgresql.org/docs/current/sql-delete.html",
         "type": "doc"
       },
       {
-        "label": "pgBackRest User Guide",
-        "url": "https://pgbackrest.org/user-guide.html",
+        "label": "PostgreSQL Documentation — Subquery Expressions (IN / NOT IN null semantics)",
+        "url": "https://www.postgresql.org/docs/current/functions-subquery.html",
         "type": "doc"
       },
       {
-        "label": "PostgreSQL Documentation — Continuous Archiving and Point-in-Time Recovery (PITR)",
-        "url": "https://www.postgresql.org/docs/current/continuous-archiving.html",
+        "label": "MySQL Reference Manual — DELETE Statement (multiple-table syntax, ORDER BY/LIMIT restriction)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/delete.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — DELETE (Transact-SQL) (FROM table_source extension vs. ISO subquery)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/delete-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-delimited-data-and-lists",
+    "id": 39,
+    "category": "SQL",
+    "title": "Delimited Data: Rows to Lists and Back",
+    "summary": "Collapsing rows into a comma-separated string with STRING_AGG/GROUP_CONCAT, splitting a delimited string back into rows for an IN-list or join, and pulling out the nth token — with the per-vendor differences that still matter.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 6, \"Working with Strings\", recipes 6.10, 6.11, 6.14, p. 132-136, 153-160",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Aggregate Functions (string_agg)",
+        "url": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — String Functions and Operators (split_part, string_to_array, string_to_table)",
+        "url": "https://www.postgresql.org/docs/current/functions-string.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Aggregate Function Descriptions (GROUP_CONCAT, group_concat_max_len)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/aggregate-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — STRING_AGG (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/string-agg-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — STRING_SPLIT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/string-split-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-string-parsing-and-validation",
+    "id": 40,
+    "category": "SQL",
+    "title": "String Parsing and Validation: Stripping, Splitting, and Type-Checking Text",
+    "summary": "Clean stray characters out of a string, split mixed alphanumeric data into its numeric and character parts, and prove a text value is castable — the book's TRANSLATE/REPLACE trick versus today's regex and type-driven validators.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 6, \"Working with Strings\", recipes 6.4, 6.5, 6.13, p. 110-116, 147-153",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — String Functions and Operators (translate, regexp_replace)",
+        "url": "https://www.postgresql.org/docs/current/functions-string.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Pattern Matching (POSIX regular expressions, ~, regexp_like)",
+        "url": "https://www.postgresql.org/docs/current/functions-matching.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — System Information Functions (pg_input_is_valid, pg_input_error_info)",
+        "url": "https://www.postgresql.org/docs/current/functions-info.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Regular Expressions (REGEXP_LIKE, REGEXP_REPLACE, ICU engine)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/regexp.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — TRANSLATE (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/translate-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — ISNUMERIC (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/isnumeric-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — Regular Expressions Functions (Transact-SQL), SQL Server 2025",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/regular-expressions-functions-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-regex-pattern-matching-in-sql",
+    "id": 41,
+    "category": "SQL",
+    "title": "Regex and Pattern Matching in SQL",
+    "summary": "Counting how many times a character or substring occurs in a value, and finding rows that do not match an expected pattern — the portable LENGTH/REPLACE and TRANSLATE techniques, and the native regex functions each vendor has added since.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 6, \"Working with Strings\", recipes 6.3, 6.17, p. 109-110, 164-167",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Pattern Matching (LIKE, SIMILAR TO, POSIX regex, regexp_count)",
+        "url": "https://www.postgresql.org/docs/current/functions-matching.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Regular Expressions (REGEXP, RLIKE, REGEXP_LIKE, no REGEXP_COUNT)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/regexp.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — LIKE (Transact-SQL), including the [ ] and [^] wildcards",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/like-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — Work with Regular Expressions in SQL Server 2025 (RE2-based REGEXP_* functions)",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/regular-expressions/overview",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-running-totals-and-moving-aggregates",
+    "id": 42,
+    "category": "SQL",
+    "title": "Running Totals, Running Products, and Moving Aggregates",
+    "summary": "One window-function shape — SUM/AVG OVER with an ORDER BY and a frame — solves running totals, running products, moving averages, and resettable accumulators, including why a running product has no native aggregate and why the default RANGE frame is a tie-related footgun.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 7, \"Working with Numbers\", recipes 7.6, 7.7, 7.8, 7.15, p. 178-182, 196-197",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Functions",
+        "url": "https://www.postgresql.org/docs/current/tutorial-window.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Frame Specification",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-functions-frames.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — OVER Clause (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-median-mode-and-outliers",
+    "id": 43,
+    "category": "SQL",
+    "title": "Mode, Median, and Outlier Detection with MAD",
+    "summary": "Computing the mode, the median, and a median-absolute-deviation outlier score in SQL, and why PostgreSQL, MySQL, and SQL Server each need a different query to do it.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 7, \"Working with Numbers\", recipes 7.9, 7.10, 7.16, p. 182-187, 197-201",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Aggregate Functions (ordered-set aggregates: mode, percentile_cont, percentile_disc)",
+        "url": "https://www.postgresql.org/docs/current/functions-aggregate.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — PERCENTILE_CONT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/percentile-cont-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Aggregate Functions (still no MEDIAN or PERCENTILE_CONT as of 9.x)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/aggregate-functions.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-date-arithmetic-between-two-dates",
+    "id": 44,
+    "category": "SQL",
+    "title": "Date Arithmetic: Shifting Dates and Measuring Intervals",
+    "summary": "Adding intervals to dates and measuring the distance between two dates in days, months, years, or sub-day units — and why SQL Server counts calendar boundaries where PostgreSQL and MySQL truncate elapsed units.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 8, \"Date Arithmetic\", recipes 8.1, 8.2, 8.4, 8.5, p. 205-220",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Date/Time Functions and Operators (interval arithmetic, age(), EXTRACT, date_add)",
+        "url": "https://www.postgresql.org/docs/current/functions-datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Date and Time Functions (DATE_ADD, DATEDIFF, TIMESTAMPDIFF)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — DATEDIFF (Transact-SQL): datepart boundaries crossed",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/datediff-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — DATEADD (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/dateadd-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-business-day-calculations",
+    "id": 45,
+    "category": "SQL",
+    "title": "Business Days and Weekday Counts in a Date Range",
+    "summary": "Counting working days between two dates and tallying weekday occurrences across a year — generating one row per day with generate_series, recursive CTEs, or a numbers table, and avoiding SQL Server's session-dependent @@DATEFIRST weekday numbering.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 8, \"Date Arithmetic\", recipes 8.3, 8.6, p. 210-215, 220-231",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Date/Time Functions and Operators (extract, dow vs isodow)",
+        "url": "https://www.postgresql.org/docs/current/functions-datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Set Returning Functions (generate_series)",
+        "url": "https://www.postgresql.org/docs/current/functions-srf.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Date and Time Functions (WEEKDAY, DAYOFWEEK, DAYNAME)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — SET DATEFIRST (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/set-datefirst-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-date-truncation-and-parts",
+    "id": 46,
+    "category": "SQL",
+    "title": "Date Truncation and Date Parts",
+    "summary": "Decomposing a date into leap-year status, days-in-year, individual units of time, and month boundaries — and where EOMONTH, LAST_DAY, and DATETRUNC have replaced the manual arithmetic.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 9, \"Date Manipulation\", recipes 9.1, 9.2, 9.3, 9.4, p. 240-255",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Date/Time Functions and Operators (EXTRACT, date_trunc, make_date)",
+        "url": "https://www.postgresql.org/docs/current/functions-datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Date and Time Functions (EXTRACT, LAST_DAY, DAYOFYEAR)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — DATEPART (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/datepart-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — EOMONTH (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/eomonth-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-quarter-and-calendar-generation",
+    "id": 47,
+    "category": "SQL",
+    "title": "Generating Calendars and Quarter Boundaries",
+    "summary": "Manufacturing date rows that no table stores — a full calendar grid, or a fiscal quarter's start and end dates — with generate_series, recursive CTEs, and SQL Server 2022's numeric-only GENERATE_SERIES.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 9, \"Date Manipulation\", recipes 9.7, 9.8, 9.9, p. 268-293",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Set Returning Functions (generate_series)",
+        "url": "https://www.postgresql.org/docs/current/functions-srf.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — WITH (Common Table Expressions), recursive date series and cte_max_recursion_depth",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/with.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — GENERATE_SERIES (Transact-SQL), SQL Server 2022+",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/generate-series-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-weekday-search-in-date-ranges",
+    "id": 48,
+    "category": "SQL",
+    "title": "Weekday Search in Date Ranges",
+    "summary": "Finding every occurrence of a weekday in a year and the first/last occurrence in a month, and navigating the incompatible weekday-numbering conventions across PostgreSQL, MySQL, and SQL Server.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 9, \"Date Manipulation\", recipes 9.5, 9.6, p. 255-268",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Date/Time Functions and Operators (EXTRACT: dow, isodow)",
+        "url": "https://www.postgresql.org/docs/current/functions-datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Date and Time Functions (DAYOFWEEK, WEEKDAY)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — DATEPART (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/datepart-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — SET DATEFIRST (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/set-datefirst-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-date-gaps-and-overlapping-ranges",
+    "id": 49,
+    "category": "SQL",
+    "title": "Date Gaps, Missing Dates, and Overlapping Ranges",
+    "summary": "Reason about dates as intervals rather than points: measure the gap to the next row with LEAD, fill holes in a date sequence with a generated calendar, and detect colliding date ranges with a self-join condition or PostgreSQL's native range types.",
+    "publishedAt": "2026-08-05",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 8, \"Date Arithmetic\", recipe 8.7, p. 231-237; Chapter 9, \"Date Manipulation\", recipes 9.10, 9.13, p. 293-311",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Range Types (daterange, && overlap operator, exclusion constraints)",
+        "url": "https://www.postgresql.org/docs/current/rangetypes.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Date/Time Functions and Operators (OVERLAPS predicate)",
+        "url": "https://www.postgresql.org/docs/current/functions-datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Set Returning Functions (generate_series)",
+        "url": "https://www.postgresql.org/docs/current/functions-srf.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Descriptions (LEAD, LAG)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-function-descriptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — LEAD (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/lead-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-gaps-and-islands",
+    "id": 50,
+    "category": "SQL",
+    "title": "Gaps and Islands: Consecutive Values and Sequence Generation",
+    "summary": "Find contiguous runs in a sparse numeric sequence, collapse each run to its start and end, and generate the dense sequence that reveals what's missing.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 10, \"Working with Ranges\", recipes 10.1, 10.3, 10.5, p. 313-317, 323-333",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Set Returning Functions (generate_series)",
+        "url": "https://www.postgresql.org/docs/current/functions-srf.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Function Calls (default RANGE frame, peer rows)",
+        "url": "https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — WITH (Common Table Expressions, recursion and cte_max_recursion_depth)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/with.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Out-of-Range and Overflow Handling (unsigned subtraction)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/out-of-range-and-overflow.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — GENERATE_SERIES (Transact-SQL, SQL Server 2022+)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/generate-series-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — OVER Clause (Transact-SQL, ROWS/RANGE default frame)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-differences-between-adjacent-rows",
+    "id": 51,
+    "category": "SQL",
+    "title": "Differences Between Adjacent Rows and Filling Gaps",
+    "summary": "Compare a row to its neighbor inside an ordered partition with LEAD/LAG, and carry the last known value forward across NULL gaps with LAST_VALUE or a counted-group FIRST_VALUE — plus the real portability gaps in offset expressions and IGNORE NULLS.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 10, \"Working with Ranges\", recipes 10.2, 10.4, p. 317-323, 326-330",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Functions (lag, lead, first_value, last_value; RESPECT/IGNORE NULLS not implemented)",
+        "url": "https://www.postgresql.org/docs/current/functions-window.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Descriptions (LAG/LEAD literal offset, null_treatment restrictions)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-function-descriptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — LAG (Transact-SQL): expression offsets and IGNORE NULLS (SQL Server 2022+)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/lag-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — LAST_VALUE (Transact-SQL): IGNORE NULLS and default frame behavior",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/last-value-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-pagination-top-n-and-extremes-per-group",
+    "id": 52,
+    "category": "SQL",
+    "title": "Pagination, Top-N with Ties, and Extremes per Group",
+    "summary": "A whole family of \"which rows, and how many\" problems past a plain LIMIT — paginating through results, sampling every Nth row, handling ties in a top-N query, and finding the highest/lowest value per group.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 11, \"Advanced Searching\", recipes 11.1, 11.2, 11.5, 11.6, p. 335-345",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — LIMIT and OFFSET",
+        "url": "https://www.postgresql.org/docs/current/queries-limit.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — SELECT Statement (LIMIT offset, count)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/select.html",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server Documentation — ORDER BY Clause (OFFSET ... FETCH NEXT)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-window-function-ranking-and-navigation",
+    "id": 53,
+    "category": "SQL",
+    "title": "SQL: Window Function Ranking and Row Navigation",
+    "summary": "Use LEAD and LAG to read or shift a neighboring row's value, and RANK, DENSE_RANK, and ROW_NUMBER to assign ordinal positions with three different tie-handling rules.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 11, \"Advanced Searching\", recipes 11.7, 11.8, 11.9, p. 345-351",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Functions (row_number, rank, dense_rank, lag, lead)",
+        "url": "https://www.postgresql.org/docs/current/functions-window.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Descriptions (LAG/LEAD offsets, RANK/DENSE_RANK/ROW_NUMBER)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-function-descriptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — ROW_NUMBER (Transact-SQL): required ORDER BY and tie nondeterminism",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/row-number-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — OVER Clause (Transact-SQL): ranking functions can't accept ROWS or RANGE",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-pivoting-rows-to-columns",
+    "id": 54,
+    "category": "SQL",
+    "title": "Pivoting Rows into Columns",
+    "summary": "Reshape grouped rows into columns with the portable CASE-inside-aggregate technique, and see where SQL Server's PIVOT operator and PostgreSQL's crosstab() actually help.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 12, \"Reporting and Reshaping\", recipes 12.1, 12.2, p. 369-377",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — Using PIVOT and UNPIVOT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — tablefunc (crosstab)",
+        "url": "https://www.postgresql.org/docs/current/tablefunc.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Aggregate Expressions (FILTER clause)",
+        "url": "https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-AGGREGATES",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-unpivoting-columns-to-rows",
+    "id": 55,
+    "category": "SQL",
+    "title": "Unpivoting Columns to Rows",
+    "summary": "Collapse several same-typed columns into one value column plus a label column — the inverse of pivoting — using UNION ALL, a single-scan LATERAL + VALUES list, or SQL Server's native UNPIVOT operator.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 12, \"Reporting and Reshaping\", recipes 12.3, 12.4, p. 377-382",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — Using PIVOT and UNPIVOT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — LATERAL Subqueries",
+        "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-LATERAL",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Lateral Derived Tables (8.0.14+)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/lateral-derived-tables.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-buckets-and-histograms",
+    "id": 56,
+    "category": "SQL",
+    "title": "Bucketing Data and Text Histograms",
+    "summary": "Splitting a result set into fixed-size buckets with ROW_NUMBER and CEILING versus a fixed number of buckets with NTILE, then rendering the distribution as a horizontal or vertical text histogram.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 12, \"Reporting and Reshaping\", recipes 12.7, 12.8, 12.9, 12.10, p. 386-394",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Functions (ntile)",
+        "url": "https://www.postgresql.org/docs/current/functions-window.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — String Functions (repeat, lpad)",
+        "url": "https://www.postgresql.org/docs/current/functions-string.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Descriptions (NTILE)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-function-descriptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — String Functions (REPEAT, LPAD)",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/string-functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server Documentation — NTILE (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/ntile-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server Documentation — REPLICATE (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/functions/replicate-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-subtotals-and-rollup",
+    "id": 57,
+    "category": "SQL",
+    "title": "Subtotals and Grand Totals: ROLLUP, CUBE, and GROUPING SETS",
+    "summary": "Produce subtotal and grand-total rows alongside detail rows in a single query — ROLLUP for a hierarchy, CUBE or GROUPING SETS for every combination of grouping columns — and use GROUPING() to tell a manufactured subtotal NULL apart from a real one, with MySQL Server still limited to ROLLUP alone.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 12, \"Reporting and Reshaping\", recipes 12.12, 12.13, 12.14, p. 397-412",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — GROUPING SETS, CUBE, and ROLLUP",
+        "url": "https://www.postgresql.org/docs/current/queries-table-expressions.html#QUERIES-GROUPING-SETS",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — GROUP BY Modifiers (WITH ROLLUP, GROUPING())",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/group-by-modifiers.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — GROUP BY (Transact-SQL): ROLLUP, CUBE, GROUPING SETS",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-moving-window-aggregations",
+    "id": 58,
+    "category": "SQL",
+    "title": "Multi-Partition and Moving-Range Window Aggregations",
+    "summary": "Computing several different partition-level aggregates side by side in one query, and moving windows framed symmetrically or by value range rather than by trailing row count.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 12, \"Reporting and Reshaping\", recipes 12.18, 12.19, p. 420-429",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Window Function Calls (frame_clause: ROWS, RANGE, GROUPS, EXCLUDE)",
+        "url": "https://www.postgresql.org/docs/current/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — Window Function Frame Specification",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/window-functions-frames.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — OVER Clause (Transact-SQL): ROWS or RANGE and its limitations",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — WINDOW clause (Transact-SQL), SQL Server 2022+",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-window-transact-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-hierarchical-parent-child-relationships",
+    "id": 59,
+    "category": "SQL",
+    "title": "Hierarchical Parent-Child Relationships with Self-Joins",
+    "summary": "Express a self-referencing parent-child hierarchy with a fixed chain of self-joins — one join per level — and recognize where the chain stops scaling and a recursive CTE takes over.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 13, \"Hierarchical Queries\", recipes 13.1, 13.2, p. 436-444",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Joins Between Tables (self-join with table aliases)",
+        "url": "https://www.postgresql.org/docs/current/tutorial-join.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — JOIN Clause",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/join.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sql-recursive-hierarchy-queries",
+    "id": 60,
+    "category": "SQL",
+    "title": "Recursive Hierarchy Queries and Tree Traversal",
+    "summary": "Walk a self-referencing table to arbitrary depth with a recursive CTE — full tree views, all descendants of a given node, and leaf/branch/root classification — plus the vendor recursion-depth limits that decide when it breaks.",
+    "publishedAt": "2026-08-06",
+    "references": [
+      {
+        "label": "Anthony Molinaro and Robert de Graaf, \"SQL Cookbook\", 2nd Edition (O'Reilly, 2020) — Chapter 13, \"Hierarchical Queries\", recipes 13.3, 13.4, 13.5, p. 444-458",
+        "url": "https://www.oreilly.com/library/view/sql-cookbook-2nd/9781492077435/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — WITH Queries (Common Table Expressions), including SEARCH and CYCLE",
+        "url": "https://www.postgresql.org/docs/current/queries-with.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL Reference Manual — WITH (Common Table Expressions) and cte_max_recursion_depth",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/with.html",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Learn — WITH common_table_expression (Transact-SQL), recursive CTE guidelines and MAXRECURSION",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql",
         "type": "doc"
       }
     ]
