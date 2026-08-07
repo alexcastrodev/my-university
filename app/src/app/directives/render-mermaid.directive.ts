@@ -1,4 +1,5 @@
-import { AfterViewChecked, Directive, ElementRef, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewChecked, Directive, ElementRef, PLATFORM_ID, inject } from '@angular/core';
 import mermaid from 'mermaid';
 
 let mermaidInitialized = false;
@@ -52,9 +53,12 @@ let renderCounter = 0;
 })
 export class RenderMermaidDirective implements AfterViewChecked {
   private host = inject(ElementRef<HTMLElement>);
+  private platformId = inject(PLATFORM_ID);
   private rendered = new WeakSet<HTMLElement>();
 
   ngAfterViewChecked(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const element: HTMLElement = this.host.nativeElement;
     const nodes: NodeListOf<HTMLElement> = element.querySelectorAll('.mermaid-diagram[data-mermaid-source]');
     if (!nodes.length) return;
