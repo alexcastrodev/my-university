@@ -711,5 +711,143 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "array-list",
+    "id": 25,
+    "title": "The ArrayList Class",
+    "summary": "How ArrayList's resizable-array storage gives O(1) indexed access at the cost of O(n) inserts/removes away from the end, and how to manage its capacity directly.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "ArrayList — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linked-list",
+    "id": 26,
+    "title": "The LinkedList Class",
+    "summary": "How LinkedList's node-based storage inverts ArrayList's trade-off — O(n) indexed access in exchange for cheap insert/remove — while implementing List, Deque, and Queue at once.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "LinkedList — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/LinkedList.html",
+        "type": "doc"
+      },
+      {
+        "label": "Deque — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hash-set",
+    "id": 27,
+    "title": "The HashSet Class",
+    "summary": "How HashSet's hash-table storage gives average O(1) add/contains/remove with no iteration-order guarantee, and what breaks lookups when an element's hash-relevant fields mutate.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "HashSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Set — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linked-hash-set",
+    "id": 28,
+    "title": "The LinkedHashSet Class",
+    "summary": "How LinkedHashSet adds insertion-order iteration on top of HashSet's lookup performance by threading a linked list through the hash table's entries.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "LinkedHashSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/LinkedHashSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "HashSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashSet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "tree-set",
+    "id": 29,
+    "title": "The TreeSet Class",
+    "summary": "How TreeSet keeps elements in ascending order via a tree structure, why uniqueness there is decided by compareTo() rather than equals(), and the O(log n) cost that pays for.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "TreeSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/TreeSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "NavigableSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableSet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "priority-queue",
+    "id": 30,
+    "title": "The PriorityQueue Class",
+    "summary": "How PriorityQueue orders elements by comparator instead of insertion order via a heap, and why iterating it does not visit elements in priority order the way repeated poll() does.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "PriorityQueue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "Queue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "array-deque",
+    "id": 31,
+    "title": "The ArrayDeque Class",
+    "summary": "How ArrayDeque's array-backed, capacity-unrestricted storage makes it the JDK-recommended stack/queue over legacy Stack or LinkedList when null elements aren't needed.",
+    "publishedAt": "2026-08-07",
+    "references": [
+      {
+        "label": "ArrayDeque — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayDeque.html",
+        "type": "doc"
+      },
+      {
+        "label": "Deque — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
