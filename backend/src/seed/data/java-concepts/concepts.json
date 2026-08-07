@@ -319,6 +319,7 @@
     "title": "Lambda Expressions",
     "summary": "How a lambda expression implements a functional interface's single abstract method, the expression- vs. block-body syntax forms, the java.util.function catalogue, the effectively-final rule behind variable capture, and the four kinds of method references.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/lambda-expressions",
     "references": [
       {
         "label": "java.util.function — Java SE 25 API",
@@ -358,6 +359,7 @@
     "title": "Stream API Fundamentals",
     "summary": "Why a stream is a lazy, single-use conduit rather than a data structure, how the pipeline shape (source → intermediate ops → terminal op) makes filter-then-findFirst short-circuit instead of scanning everything, how Collectors and the primitive stream specializations work under the hood, and when parallel streams actually help.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/stream-api-fundamentals",
     "references": [
       {
         "label": "java.util.stream — Java SE 25 API",
@@ -402,6 +404,7 @@
     "title": "Thread Model: Legacy Control vs. Virtual Threads",
     "summary": "Why Thread.suspend/resume/stop were deprecated for corrupting shared state, the cooperative-shutdown pattern that replaced them, and why virtual threads solve a different problem (thread cost) rather than that same correctness problem.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/thread-model-legacy-vs-virtual-threads",
     "references": [
       {
         "label": "Virtual Threads — Java SE developer guide",
@@ -426,6 +429,7 @@
     "title": "NIO.2: The Path and Files API",
     "summary": "How java.nio.file replaces java.io.File with informative, specific exceptions instead of boolean returns, adds DirectoryStream for closeable/filterable directory iteration, first-class symbolic-link support, and WatchService for reacting to filesystem changes instead of polling.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/nio2-path-and-files-api",
     "references": [
       {
         "label": "Files — Java SE 25 API",
@@ -455,6 +459,7 @@
     "title": "java.io: Streams, Closing Resources, and Serialization",
     "summary": "The byte-stream vs. character-stream split (InputStream/OutputStream vs. Reader/Writer), how Closeable/AutoCloseable/Flushable and try-with-resources guarantee resource cleanup with suppressed exceptions, buffering and PrintWriter, and how Serializable/ObjectInputFilter turn an object graph into bytes while guarding against deserialization attacks.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/io-streams-fundamentals",
     "references": [
       {
         "label": "InputStream — Java SE 25 API",
@@ -514,6 +519,7 @@
     "title": "Annotations: Retention, Meta-Annotations, and Reflection",
     "summary": "How @Retention/RetentionPolicy control whether an annotation survives past source, the @Target/@Inherited/@Repeatable meta-annotations, reading annotations at runtime via AnnotatedElement, and the built-in @Deprecated/@SafeVarargs/@FunctionalInterface/@Documented annotations.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/annotations-in-java",
     "references": [
       {
         "label": "java.lang.annotation package — Java SE API",
@@ -558,6 +564,7 @@
     "title": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
     "summary": "The Comparable<T> natural-ordering contract and its equals-consistency recommendation, AutoCloseable vs. Closeable idempotency rules, StackWalker as the lazy, modern replacement for stack-trace inspection, and ProcessBuilder/Process/ProcessHandle for launching and managing OS processes.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/java-lang-essential-utility-types",
     "references": [
       {
         "label": "Comparable — Java SE API",
@@ -602,6 +609,7 @@
     "title": "JShell: The Java REPL",
     "summary": "How JShell lets you evaluate expressions, declare variables/methods/classes, and get immediate feedback without a full class/main-method wrapper — the  result-variable convention, forward references, essential /commands, and how it differs from single-file source-code launching.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/jshell-repl",
     "references": [
       {
         "label": "Introduction to JShell — Java SE 25",
@@ -626,6 +634,7 @@
     "title": "Sockets and the Raw Anatomy of an HTTP Request",
     "summary": "How ServerSocket/Socket implement the accept-connect-read-write primitive under every web server, and the literal byte-level shape of an HTTP/1.1 request/response (request line, headers, blank-line terminator, Content-Length/chunked bodies, status code classes).",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/sockets-and-raw-http-anatomy",
     "references": [
       {
         "label": "ServerSocket — java.net API docs (Java SE 25)",
@@ -655,6 +664,7 @@
     "title": "Classpath Scanning via Reflection",
     "summary": "How a component scan actually works underneath: a recursive directory walk over compiled .class files, Class.forName + isAnnotationPresent to find marker-annotated classes, and why real frameworks read bytecode metadata via ASM instead of loading every candidate class.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/classpath-scanning-via-reflection",
     "references": [
       {
         "label": "Class.forName() — java.lang API docs (Java SE 25)",
@@ -684,6 +694,7 @@
     "title": "HTTP Sessions Under the Hood",
     "summary": "How session state is faked on top of stateless HTTP: a random session ID, a Set-Cookie/Cookie round trip, and a server-side map keyed by that ID — plus what's missing from the minimal version (expiration, invalidation, externalized storage) and current cookie security attributes (Secure, SameSite).",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/http-sessions-under-the-hood",
     "references": [
       {
         "label": "MDN — Using HTTP cookies (attributes, security considerations)",
@@ -718,6 +729,7 @@
     "title": "The ArrayList Class",
     "summary": "How ArrayList's resizable-array storage gives O(1) indexed access at the cost of O(n) inserts/removes away from the end, and how to manage its capacity directly.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-list",
     "references": [
       {
         "label": "ArrayList — Java SE 25 API",
@@ -737,6 +749,7 @@
     "title": "The LinkedList Class",
     "summary": "How LinkedList's node-based storage inverts ArrayList's trade-off — O(n) indexed access in exchange for cheap insert/remove — while implementing List, Deque, and Queue at once.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-list",
     "references": [
       {
         "label": "LinkedList — Java SE 25 API",
@@ -761,6 +774,7 @@
     "title": "The HashSet Class",
     "summary": "How HashSet's hash-table storage gives average O(1) add/contains/remove with no iteration-order guarantee, and what breaks lookups when an element's hash-relevant fields mutate.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-set",
     "references": [
       {
         "label": "HashSet — Java SE 25 API",
@@ -780,6 +794,7 @@
     "title": "The LinkedHashSet Class",
     "summary": "How LinkedHashSet adds insertion-order iteration on top of HashSet's lookup performance by threading a linked list through the hash table's entries.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-set",
     "references": [
       {
         "label": "LinkedHashSet — Java SE 25 API",
@@ -799,6 +814,7 @@
     "title": "The TreeSet Class",
     "summary": "How TreeSet keeps elements in ascending order via a tree structure, why uniqueness there is decided by compareTo() rather than equals(), and the O(log n) cost that pays for.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-set",
     "references": [
       {
         "label": "TreeSet — Java SE 25 API",
@@ -818,6 +834,7 @@
     "title": "The PriorityQueue Class",
     "summary": "How PriorityQueue orders elements by comparator instead of insertion order via a heap, and why iterating it does not visit elements in priority order the way repeated poll() does.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/priority-queue",
     "references": [
       {
         "label": "PriorityQueue — Java SE 25 API",
@@ -837,6 +854,7 @@
     "title": "The ArrayDeque Class",
     "summary": "How ArrayDeque's array-backed, capacity-unrestricted storage makes it the JDK-recommended stack/queue over legacy Stack or LinkedList when null elements aren't needed.",
     "publishedAt": "2026-08-07",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-deque",
     "references": [
       {
         "label": "ArrayDeque — Java SE 25 API",
