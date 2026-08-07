@@ -6,6 +6,7 @@
     "title": "JUnit 5 Fundamentals",
     "summary": "The JUnit 5 test lifecycle, assertions vs. assumptions, nested/tagged tests, and parameterized/dynamic tests — from JUnit in Action, Third Edition, Ch. 2.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/junit-5-fundamentals",
     "references": [
       {
         "label": "JUnit 5 User Guide",
@@ -166,6 +167,7 @@
     "title": "Test Doubles: Stubs and Mocking",
     "summary": "Stubs vs. mocks as two strategies for faking a collaborator, and how to create and verify mocks with Mockito — from JUnit in Action, Third Edition, Ch. 7–8.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/test-doubles-stubs-and-mocking",
     "references": [
       {
         "label": "Mockito — official site",
