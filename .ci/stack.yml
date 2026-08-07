@@ -1,45 +1,36 @@
 services:
   web:
     image: pizito:5001/university:latest
-    volumes:
-      - /mnt/ssd/@docker/university/db:/var/lib/postgresql
     environment:
       - NODE_ENV=production
       - SESSION_SECRET
-      - MEILI_HOST=http://meilisearch:7700
+      - DATABASE_URL=postgres://postgres@university-db_postgres:5432/ocp_java
+      - MEILI_HOST=http://university-db_meilisearch:7700
       - MEILI_MASTER_KEY
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
     networks:
       - proxy_net
-      - search_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:80/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
     deploy:
-      replicas: 1
+      replicas: 2
+      update_config:
+        order: start-first
+        failure_action: rollback
+        delay: 5s
+      rollback_config:
+        order: start-first
       resources:
         limits:
           cpus: '1'
           memory: 1G
 
-  meilisearch:
-    image: getmeili/meilisearch:v1.11
-    volumes:
-      - /mnt/ssd/@docker/university/meili:/meili_data
-    environment:
-      - MEILI_MASTER_KEY
-      - MEILI_NO_ANALYTICS=true
-      - MEILI_ENV=production
-    networks:
-      - search_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-
 networks:
   proxy_net:
     external: true
-  search_net:
-    driver: overlay

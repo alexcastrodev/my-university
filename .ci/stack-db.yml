@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    volumes:
+      - /mnt/ssd/@docker/university/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ocp_java
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - proxy_net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    volumes:
+      - /mnt/ssd/@docker/university/meili:/meili_data
+    environment:
+      - MEILI_MASTER_KEY
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_ENV=production
+    networks:
+      - proxy_net
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  proxy_net:
+    external: true

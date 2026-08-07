@@ -6,16 +6,24 @@ services:
     environment:
       - NODE_ENV=development
       - SESSION_SECRET
+      - DATABASE_URL=postgres://postgres@postgres:5432/ocp_java
       - MEILI_HOST=http://meilisearch:7700
       - MEILI_MASTER_KEY
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
       - FRONTEND_URL
-    volumes:
-      - postgres_data:/var/lib/postgresql
     depends_on:
       - meilisearch
+      - postgres
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      - POSTGRES_DB=ocp_java
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   meilisearch:
     image: getmeili/meilisearch:v1.11
