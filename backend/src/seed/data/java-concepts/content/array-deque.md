@@ -31,6 +31,20 @@ ArrayDeque<String> c = new ArrayDeque<>(List.of("x", "y")); // initialized from 
 
 Capacity grows automatically as elements are added — `Deque` permits capacity-restricted implementations, but `ArrayDeque` isn't one of them.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Queue { <<interface>> }
+    class Deque { <<interface>> }
+    class AbstractCollection { <<abstract>> }
+    class ArrayDeque
+    Collection <|-- Queue
+    Queue <|-- Deque
+    Collection <|.. AbstractCollection
+    AbstractCollection <|-- ArrayDeque
+    Deque <|.. ArrayDeque
+```
+
 ### Using it as a stack
 
 ```java

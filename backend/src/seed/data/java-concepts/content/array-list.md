@@ -29,6 +29,17 @@ ArrayList<String> b = new ArrayList<>(List.of("x", "y"));     // initialized fro
 ArrayList<String> c = new ArrayList<>(100);                   // pre-sized to hold 100 without resizing
 ```
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class List { <<interface>> }
+    class AbstractList { <<abstract>> }
+    class ArrayList
+    Collection <|-- List
+    List <|.. AbstractList
+    AbstractList <|-- ArrayList
+```
+
 ### Capacity vs. size
 
 Capacity (the length of the backing array) and size (the element count) are different numbers. Capacity grows automatically, but you can manage it directly:

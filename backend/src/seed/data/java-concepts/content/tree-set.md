@@ -30,6 +30,22 @@ TreeSet<String> c = new TreeSet<>(Comparator.reverseOrder());  // custom orderin
 TreeSet<String> d = new TreeSet<>((SortedSet<String>) someSortedSet);
 ```
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Set { <<interface>> }
+    class SortedSet { <<interface>> }
+    class NavigableSet { <<interface>> }
+    class AbstractSet { <<abstract>> }
+    class TreeSet
+    Collection <|-- Set
+    Set <|-- SortedSet
+    SortedSet <|-- NavigableSet
+    Set <|.. AbstractSet
+    AbstractSet <|-- TreeSet
+    NavigableSet <|.. TreeSet
+```
+
 ### Ascending order is automatic
 
 ```java

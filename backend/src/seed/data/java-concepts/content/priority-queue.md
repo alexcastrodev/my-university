@@ -33,6 +33,17 @@ PriorityQueue<Integer> e = new PriorityQueue<>(List.of(3, 1, 2));              /
 
 Capacity grows automatically as elements are added, same as `ArrayList`.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Queue { <<interface>> }
+    class AbstractQueue { <<abstract>> }
+    class PriorityQueue
+    Collection <|-- Queue
+    Queue <|.. AbstractQueue
+    AbstractQueue <|-- PriorityQueue
+```
+
 ### Default ordering: a min-heap
 
 Without an explicit `Comparator`, the natural ordering of the elements applies, so the smallest element is always at the head:

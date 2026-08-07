@@ -31,6 +31,17 @@ HashSet<String> d = new HashSet<>(64, 0.5f);                  // capacity 64, lo
 
 The load factor (also called fill ratio) controls how full the table can get, as a fraction of capacity, before it's resized upward — 0.75 by default, meaning the table roughly doubles once it's three-quarters full.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Set { <<interface>> }
+    class AbstractSet { <<abstract>> }
+    class HashSet
+    Collection <|-- Set
+    Set <|.. AbstractSet
+    AbstractSet <|-- HashSet
+```
+
 ### Lookup relies on hashCode() and equals()
 
 An element's hash code determines which bucket it lands in; `equals()` then distinguishes elements that share a bucket. Both must be correct and consistent with each other for `add`/`contains`/`remove` to behave correctly — this is the same `Object` contract every hash-based structure in the JDK depends on.

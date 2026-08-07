@@ -22,6 +22,19 @@ class LinkedHashSet<E>
 
 Its constructors parallel `HashSet`'s exactly (no-arg, from a `Collection`, with a capacity, with a capacity and load factor) — the type adds behavior, not API surface.
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class Set { <<interface>> }
+    class AbstractSet { <<abstract>> }
+    class HashSet
+    class LinkedHashSet
+    Collection <|-- Set
+    Set <|.. AbstractSet
+    AbstractSet <|-- HashSet
+    HashSet <|-- LinkedHashSet
+```
+
 ### Insertion-order iteration
 
 ```java

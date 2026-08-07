@@ -27,6 +27,22 @@ LinkedList<String> ll = new LinkedList<>();
 LinkedList<String> ll2 = new LinkedList<>(List.of("a", "b"));
 ```
 
+```mermaid
+classDiagram
+    class Collection { <<interface>> }
+    class List { <<interface>> }
+    class Queue { <<interface>> }
+    class Deque { <<interface>> }
+    class AbstractSequentialList { <<abstract>> }
+    class LinkedList
+    Collection <|-- List
+    Collection <|-- Queue
+    Queue <|-- Deque
+    List <|.. AbstractSequentialList
+    AbstractSequentialList <|-- LinkedList
+    Deque <|.. LinkedList
+```
+
 ### Deque methods on a List
 
 Because `LinkedList` implements `Deque`, both ends are addressable directly, instead of only through `List`'s index-0/index-`size()-1` positions:
