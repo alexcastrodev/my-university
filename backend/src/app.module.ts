@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { CourseNestModule } from './course/course.module';
@@ -51,5 +53,7 @@ import { XpModule } from './xp/xp.module';
     SeedModule,
     SearchModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
