@@ -56,4 +56,36 @@
       </section>
     }
   </article>
+
+  @if (activeDeepDiveId(); as activeId) {
+    <aside class="deep-dive-panel">
+      <div class="deep-dive-panel-header">
+        <span class="deep-dive-panel-kicker">Deep Dive</span>
+        <button class="deep-dive-close-btn" type="button" (click)="closeDeepDive()" aria-label="Close deep dive panel">✕</button>
+      </div>
+
+      @for (dive of deepDives(); track dive.id) {
+        @if (dive.id === activeId) {
+          <div class="deep-dive-body" [innerHTML]="dive.html"></div>
+        }
+      }
+
+      @if (deepDives().length > 1) {
+        <div class="deep-dive-others">
+          <h3 class="deep-dive-others-title">Other deep dives in this article</h3>
+          <ul class="deep-dive-others-list">
+            @for (dive of deepDives(); track dive.id) {
+              @if (dive.id !== activeId) {
+                <li>
+                  <button class="deep-dive-jump-btn" type="button" (click)="activeDeepDiveId.set(dive.id)">
+                    {{ dive.phrase }}
+                  </button>
+                </li>
+              }
+            }
+          </ul>
+        </div>
+      }
+    </aside>
+  }
 }

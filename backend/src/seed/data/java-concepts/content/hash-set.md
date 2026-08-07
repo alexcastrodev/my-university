@@ -29,7 +29,7 @@ HashSet<String> c = new HashSet<>(64);                       // initial capacity
 HashSet<String> d = new HashSet<>(64, 0.5f);                  // capacity 64, load factor 0.5
 ```
 
-The load factor (also called fill ratio) controls how full the table can get, as a fraction of capacity, before it's resized upward — 0.75 by default, meaning the table roughly doubles once it's three-quarters full.
+The {{load factor}}[^collisions] (also called fill ratio) controls how full the table can get, as a fraction of capacity, before it's resized upward — 0.75 by default, meaning the table roughly doubles once it's three-quarters full.
 
 ```mermaid
 classDiagram
@@ -45,6 +45,22 @@ classDiagram
 ### Lookup relies on hashCode() and equals()
 
 An element's hash code determines which bucket it lands in; `equals()` then distinguishes elements that share a bucket. Both must be correct and consistent with each other for `add`/`contains`/`remove` to behave correctly — this is the same `Object` contract every hash-based structure in the JDK depends on.
+
+[^collisions]: A collision happens when two different elements land in the *same bucket* — their hash codes don't need to be equal, just map to the same index after Java spreads and reduces the hash modulo the table's capacity:
+
+```java
+HashSet<String> hs = new HashSet<>(16);
+hs.add("Apple");   // hashCode spreads to bucket 2
+hs.add("Orange");  // hashCode spreads to bucket 2 as well — collision
+```
+
+`HashSet` doesn't drop either element — the bucket just holds both, and `equals()` (see above) is what tells them apart on a later lookup:
+
+```
+bucket 2 -> [Apple, Orange]
+```
+
+Since Java 8, a bucket that keeps growing doesn't stay a simple chain forever: once it passes 8 elements (`TREEIFY_THRESHOLD`), it's converted from a linked list into a small red-black tree, taking worst-case lookup inside that bucket from O(n) down to O(log n) — and it converts back to a list if a later resize shrinks it below 6 elements (`UNTREEIFY_THRESHOLD`). This is also what the load factor above is tuning: resizing sooner keeps buckets close to one element, at the cost of more allocated (mostly empty) buckets.
 
 ### Iteration order is unspecified
 

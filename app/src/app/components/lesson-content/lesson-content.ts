@@ -48,7 +48,7 @@ export class LessonContent implements OnChanges {
     if (changes['lessonContent']) {
       const lc = this.lessonContent();
       if (lc) {
-        this.html.set(parseMarkdown(this.sanitizer, lc.content));
+        this.html.set(parseMarkdown(this.sanitizer, lc.content).html);
         this.version.set(lc.version);
         this.updatedAt.set(lc.updatedAt);
       } else {

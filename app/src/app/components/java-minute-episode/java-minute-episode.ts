@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, i
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { AuthService } from '../../services/auth.service';
-import { parseMarkdown } from '../../shared/markdown';
+import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 
 const REFERENCES_TITLE = 'References';
@@ -24,9 +24,7 @@ export class JavaMinuteEpisodeView implements OnChanges {
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
 
-  referenceIcon(type: 'video' | 'doc'): string {
-    return type === 'video' ? '🎬' : '📄';
-  }
+  referenceIcon = getReferenceIcon;
 
   onMarkRead(): void {
     if (!this.auth.currentUser() || this.read() || this.marking()) return;
@@ -42,10 +40,6 @@ export class JavaMinuteEpisodeView implements OnChanges {
       return;
     }
 
-    this.sections.set(
-      episode.sections
-        .filter((section) => section.title !== REFERENCES_TITLE)
-        .map((section) => ({ title: section.title, html: parseMarkdown(this.sanitizer, section.content) })),
-    );
+    this.sections.set(mapConceptSections(episode.sections, REFERENCES_TITLE, this.sanitizer));
   }
 }

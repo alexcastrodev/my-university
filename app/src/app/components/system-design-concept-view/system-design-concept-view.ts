@@ -83,7 +83,7 @@ export class SystemDesignConceptView implements OnChanges {
     this.sections.set(
       concept.sections
         .filter((section) => section.title !== REFERENCES_TITLE)
-        .map((section) => ({ title: section.title, html: parseMarkdown(this.sanitizer, section.content) })),
+        .map((section) => ({ title: section.title, html: parseMarkdown(this.sanitizer, section.content).html })),
     );
 
     const grouped = new Map<SystemDesignConceptReference['type'], SystemDesignConceptReference[]>();
