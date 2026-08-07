@@ -118,5 +118,16 @@
       { "label": "jlink — Java SE 25 Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jlink.html", "type": "doc" },
       { "label": "jpackage — Java SE 25 Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jpackage.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "using-preview-features",
+    "id": 384,
+    "question": "How can you use preview features?",
+    "publishedAt": "2026-08-07",
+    "references": [
+      { "label": "Java Coding Tip #384: Using Preview Features", "url": "https://www.youtube.com/watch?v=2gmWx0-zqkk", "type": "video" },
+      { "label": "javac — Java SE 25 Tool Reference (--enable-preview)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javac.html", "type": "doc" },
+      { "label": "java — Java SE 25 Tool Reference (--enable-preview)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html", "type": "doc" }
+    ]
   }
 ]
