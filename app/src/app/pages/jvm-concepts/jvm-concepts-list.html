@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">JVM Concepts</h1>
+    <p class="page-sub">How the JVM works under the hood, one concept at a time.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="filters-row">
+      <button type="button" class="labs-filter-btn"
+        [class.active]="showOnlyLabs()"
+        (click)="onToggleLabsFilter()">
+        🔬 Labs only
+      </button>
+    </div>
+
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (concept of filteredConcepts(); track concept.slug) {
+          <a [routerLink]="['/java/jvm-concepts', concept.slug]" class="concept-card" [class.is-read]="concept.read">
+            <div class="card-header">
+              @if (concept.labUrl) {
+                <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
+              }
+            </div>
+            <h3 class="card-title">{{ concept.title }}</h3>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-footer">
+              <span class="card-cta">Read →</span>
+              @if (concept.read) {
+                <span class="read-check" title="You've marked this as read">✓</span>
+              }
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -867,34 +867,5 @@
         "type": "doc"
       }
     ]
-  },
-  {
-    "slug": "class-file-structure",
-    "id": 32,
-    "title": "The .class File Format: Header, Constant Pool, Fields, and Methods",
-    "summary": "How javac turns Java source into a structured binary .class file — magic number and version in the header, the constant pool's table of symbolic references, access flags, and how fields and methods are laid out for the JVM to load and execute.",
-    "publishedAt": "2026-08-10",
-    "references": [
-      {
-        "label": "The class File Format — Java Virtual Machine Specification, SE 25",
-        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html",
-        "type": "doc"
-      },
-      {
-        "label": "javap — Java SE 25 Tool Specifications",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javap.html",
-        "type": "doc"
-      },
-      {
-        "label": "ClassFormatError — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ClassFormatError.html",
-        "type": "doc"
-      },
-      {
-        "label": "UnsupportedClassVersionError — Java SE 25 API",
-        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedClassVersionError.html",
-        "type": "doc"
-      }
-    ]
   }
 ]

@@ -38,6 +38,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
   },
   {
+    path: 'java/jvm-concepts',
+    loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-list').then((m) => m.JvmConceptsListPage),
+  },
+  {
+    path: 'java/jvm-concepts/:slug',
+    loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-detail').then((m) => m.JvmConceptsDetailPage),
+  },
+  {
     path: 'databases/database-concepts',
     loadComponent: () => import('./pages/database-concepts/database-concepts-list').then((m) => m.DatabaseConceptsListPage),
   },
