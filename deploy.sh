@@ -16,15 +16,7 @@ if ! docker compose -f "$COMPOSE_FILE" pull; then
     exit 1
 fi
 
-echo "Removing existing stack: $STACK_NAME"
-if docker stack rm "$STACK_NAME"; then
-    echo "Waiting for stack to be removed..."
-    sleep 10
-else
-    echo "Warning: Stack removal failed or stack did not exist."
-fi
-
-echo "Deploying stack: $STACK_NAME (force recreate)"
+echo "Deploying stack: $STACK_NAME (rolling update)"
 if ! docker stack deploy --prune --with-registry-auth -c "$COMPOSE_FILE" "$STACK_NAME"; then
     echo "Error: Stack deployment failed."
     exit 1
