@@ -1,0 +1,24 @@
+@if (isOpen()) {
+  <div class="mermaid-viewer-backdrop" (click)="close()">
+    <div class="mermaid-viewer-toolbar" (click)="$event.stopPropagation()">
+      <button type="button" class="mermaid-viewer-btn" (click)="zoomOut()" aria-label="Zoom out">−</button>
+      <button type="button" class="mermaid-viewer-btn mermaid-viewer-percent" (click)="resetTransform()" aria-label="Reset zoom">
+        {{ scalePercent() }}%
+      </button>
+      <button type="button" class="mermaid-viewer-btn" (click)="zoomIn()" aria-label="Zoom in">+</button>
+      <button type="button" class="mermaid-viewer-btn mermaid-viewer-close" (click)="close()" aria-label="Close diagram viewer">✕</button>
+    </div>
+    <div
+      class="mermaid-viewer-stage"
+      (click)="$event.stopPropagation()"
+      (wheel)="onWheel($event)"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp($event)"
+      (pointercancel)="onPointerUp($event)"
+      (dblclick)="onDoubleClick()"
+    >
+      <div class="mermaid-viewer-content" [style.transform]="transform()" [innerHTML]="safeSvg()"></div>
+    </div>
+  </div>
+}

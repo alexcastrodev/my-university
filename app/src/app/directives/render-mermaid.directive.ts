@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewChecked, Directive, ElementRef, PLATFORM_ID, inject } from '@angular/core';
 import mermaid from 'mermaid';
+import { MermaidViewerService } from '../services/mermaid-viewer.service';
 
 let mermaidInitialized = false;
 
@@ -54,6 +55,7 @@ let renderCounter = 0;
 export class RenderMermaidDirective implements AfterViewChecked {
   private host = inject(ElementRef<HTMLElement>);
   private platformId = inject(PLATFORM_ID);
+  private viewerService = inject(MermaidViewerService);
   private rendered = new WeakSet<HTMLElement>();
 
   ngAfterViewChecked(): void {
@@ -77,11 +79,30 @@ export class RenderMermaidDirective implements AfterViewChecked {
         .render(id, source)
         .then(({ svg }) => {
           node.innerHTML = svg;
+          this.makeZoomable(node, svg);
         })
         .catch((error) => {
           node.textContent = 'Diagram could not be rendered.';
           console.error('Mermaid render failed', error);
         });
+    });
+  }
+
+  private makeZoomable(node: HTMLElement, svg: string): void {
+    node.style.cursor = 'zoom-in';
+    node.title = 'Click to zoom';
+    node.setAttribute('role', 'button');
+    node.setAttribute('tabindex', '0');
+    node.setAttribute('aria-label', 'Open diagram in zoomable view');
+
+    const open = (): void => this.viewerService.open(svg);
+
+    node.addEventListener('click', open);
+    node.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
     });
   }
 }
