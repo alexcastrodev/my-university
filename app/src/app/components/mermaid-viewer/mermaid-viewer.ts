@@ -92,6 +92,14 @@ export class MermaidViewer {
     const svgHeight = viewBox?.height || svg.getBoundingClientRect().height;
     if (!svgWidth || !svgHeight) return;
 
+    // Mermaid sets width/height="100%" with a max-width style, which needs a
+    // sized parent to resolve. Our parent is fit-content, so pin the SVG to
+    // its own native pixel size instead — otherwise it collapses to the
+    // browser's ~300x150 replaced-element default.
+    svg.setAttribute('width', `${svgWidth}`);
+    svg.setAttribute('height', `${svgHeight}`);
+    svg.style.maxWidth = 'none';
+
     const stageRect = stage.getBoundingClientRect();
     const availableWidth = Math.max(stageRect.width - STAGE_MARGIN, 1);
     const availableHeight = Math.max(stageRect.height - STAGE_MARGIN, 1);
