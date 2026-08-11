@@ -9,6 +9,7 @@
       <button type="button" class="mermaid-viewer-btn mermaid-viewer-close" (click)="close()" aria-label="Close diagram viewer">✕</button>
     </div>
     <div
+      #stage
       class="mermaid-viewer-stage"
       (click)="$event.stopPropagation()"
       (wheel)="onWheel($event)"
@@ -18,7 +19,7 @@
       (pointercancel)="onPointerUp($event)"
       (dblclick)="onDoubleClick()"
     >
-      <div class="mermaid-viewer-content" [style.transform]="transform()" [innerHTML]="safeSvg()"></div>
+      <div #content class="mermaid-viewer-content" [style.transform]="transform()" [innerHTML]="safeSvg()"></div>
     </div>
   </div>
 }

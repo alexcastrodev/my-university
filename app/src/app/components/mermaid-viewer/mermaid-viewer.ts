@@ -1,10 +1,22 @@
-import { ChangeDetectionStrategy, Component, HostListener, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MermaidViewerService } from '../../services/mermaid-viewer.service';
 
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 6;
 const ZOOM_STEP = 0.25;
+const STAGE_MARGIN = 64; // breathing room from the viewport edges
+const CONTENT_PADDING = 64; // matches the .mermaid-viewer-content CSS padding (2rem per side)
 
 interface Point {
   x: number;
@@ -20,6 +32,9 @@ interface Point {
 export class MermaidViewer {
   private viewerService = inject(MermaidViewerService);
   private sanitizer = inject(DomSanitizer);
+
+  @ViewChild('stage') private stageRef?: ElementRef<HTMLElement>;
+  @ViewChild('content') private contentRef?: ElementRef<HTMLElement>;
 
   protected isOpen = computed(() => this.viewerService.svg() !== null);
   protected safeSvg = computed<SafeHtml | null>(() => {
@@ -40,10 +55,15 @@ export class MermaidViewer {
   private isPanning = false;
   private panStart: Point = { x: 0, y: 0 };
   private translateStart: Point = { x: 0, y: 0 };
+  private fitScale = 1;
 
   constructor() {
     effect(() => {
-      if (this.isOpen()) this.resetTransform();
+      if (this.isOpen()) {
+        requestAnimationFrame(() => this.fitToView());
+      } else {
+        this.fitScale = 1;
+      }
     });
   }
 
@@ -57,9 +77,31 @@ export class MermaidViewer {
   }
 
   protected resetTransform(): void {
-    this.scale.set(1);
+    this.scale.set(this.fitScale);
     this.translateX.set(0);
     this.translateY.set(0);
+  }
+
+  private fitToView(): void {
+    const stage = this.stageRef?.nativeElement;
+    const svg = this.contentRef?.nativeElement.querySelector('svg');
+    if (!stage || !svg) return;
+
+    const viewBox = svg.viewBox.baseVal;
+    const svgWidth = viewBox?.width || svg.getBoundingClientRect().width;
+    const svgHeight = viewBox?.height || svg.getBoundingClientRect().height;
+    if (!svgWidth || !svgHeight) return;
+
+    const stageRect = stage.getBoundingClientRect();
+    const availableWidth = Math.max(stageRect.width - STAGE_MARGIN, 1);
+    const availableHeight = Math.max(stageRect.height - STAGE_MARGIN, 1);
+
+    this.fitScale = Math.min(
+      availableWidth / (svgWidth + CONTENT_PADDING),
+      availableHeight / (svgHeight + CONTENT_PADDING),
+      MAX_SCALE,
+    );
+    this.resetTransform();
   }
 
   protected zoomIn(): void {
