@@ -15,6 +15,7 @@ export interface ReviewModuleConfig {
 
 export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'java-concepts', sourceType: 'concept-read', prefix: '', route: (slug) => ['/java/java-concepts', slug] },
+  { module: 'jvm-concepts', sourceType: 'concept-read', prefix: 'jvm:', route: (slug) => ['/java/jvm-concepts', slug] },
   { module: 'spring-concepts', sourceType: 'concept-read', prefix: 'spring:', route: (slug) => ['/spring-concepts', slug] },
   { module: 'database-concepts', sourceType: 'concept-read', prefix: 'db:', route: (slug) => ['/databases/database-concepts', slug] },
   { module: 'system-design-concepts', sourceType: 'concept-read', prefix: 'sysdesign:', route: (slug) => ['/system-design/system-design-concepts', slug] },

@@ -5,6 +5,7 @@ import { Lesson } from '../lesson/lesson.entity';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
+import { JvmConceptsModule } from '../jvm-concepts/jvm-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
@@ -16,6 +17,7 @@ import { SearchService } from './search.service';
   imports: [
     TypeOrmModule.forFeature([Course, Lesson]),
     JavaConceptsModule,
+    JvmConceptsModule,
     JavaMinuteModule,
     DatabaseConceptsModule,
     SpringConceptsModule,

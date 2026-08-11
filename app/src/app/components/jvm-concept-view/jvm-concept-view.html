@@ -1,0 +1,91 @@
+@if (concept(); as c) {
+  <article class="concept" appRenderMermaid>
+    <header class="concept-header">
+      <span class="concept-kicker">JVM Concepts</span>
+      <h1 class="concept-title">{{ c.title }}</h1>
+      <div class="concept-meta">
+        <span>Published on {{ c.publishedAt }}</span>
+        @if (c.version) { <span class="sep">·</span><span>v{{ c.version }}</span> }
+      </div>
+      <div class="concept-actions">
+        <button
+          class="got-it-btn"
+          [class.completed]="read()"
+          [class.locked]="!auth.currentUser()"
+          [disabled]="!auth.currentUser() || read() || marking()"
+          [attr.title]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+          [attr.aria-label]="!auth.currentUser() ? 'Log in to mark this concept as read' : null"
+          (click)="onMarkRead()"
+          type="button"
+        >
+          @if (!auth.currentUser()) {
+            <span aria-hidden="true">🔒</span>
+          }
+          @if (read()) {
+            ⚡ Got it +10 XP
+          } @else {
+            ⚡ Got it!
+          }
+        </button>
+        @if (c.labUrl) {
+          <a [href]="c.labUrl" target="_blank" rel="noopener noreferrer" class="lab-link-btn">
+            🔬 Open Lab
+          </a>
+        }
+      </div>
+    </header>
+
+    @for (section of sections(); track section.title) {
+      <section class="concept-section">
+        <h2 class="section-title">{{ section.title }}</h2>
+        <div class="section-body" [innerHTML]="section.html"></div>
+      </section>
+    }
+
+    @if (c.references.length) {
+      <section class="concept-section">
+        <h2 class="section-title">Documentation Links</h2>
+        <ul class="references-list">
+          @for (ref of c.references; track ref.url) {
+            <li class="reference-item">
+              <span class="reference-icon" aria-hidden="true">{{ referenceIcon(ref.type) }}</span>
+              <a [href]="ref.url" target="_blank" rel="noopener noreferrer">{{ ref.label }}</a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </article>
+
+  @if (activeDeepDiveId(); as activeId) {
+    <aside class="deep-dive-panel">
+      <div class="deep-dive-panel-header">
+        <span class="deep-dive-panel-kicker">Deep Dive</span>
+        <button class="deep-dive-close-btn" type="button" (click)="closeDeepDive()" aria-label="Close deep dive panel">✕</button>
+      </div>
+
+      @for (dive of deepDives(); track dive.id) {
+        @if (dive.id === activeId) {
+          <div class="deep-dive-body" [innerHTML]="dive.html"></div>
+        }
+      }
+
+      @if (deepDives().length > 1) {
+        <div class="deep-dive-others">
+          <h3 class="deep-dive-others-title">Other deep dives in this article</h3>
+          <ul class="deep-dive-others-list">
+            @for (dive of deepDives(); track dive.id) {
+              @if (dive.id !== activeId) {
+                <li>
+                  <button class="deep-dive-jump-btn" type="button" (click)="activeDeepDiveId.set(dive.id)">
+                    {{ dive.phrase }}
+                  </button>
+                </li>
+              }
+            }
+          </ul>
+        </div>
+      }
+    </aside>
+  }
+}

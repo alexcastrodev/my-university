@@ -3,6 +3,7 @@ export type SearchResultType =
   | 'lesson'
   | 'java-minute'
   | 'java-concept'
+  | 'jvm-concept'
   | 'database-concept'
   | 'spring-concept'
   | 'system-design-concept'

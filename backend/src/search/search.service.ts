@@ -6,6 +6,7 @@ import { Lesson } from '../lesson/lesson.entity';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -16,6 +17,7 @@ export type SearchResultType =
   | 'lesson'
   | 'java-minute'
   | 'java-concept'
+  | 'jvm-concept'
   | 'database-concept'
   | 'spring-concept'
   | 'system-design-concept'
@@ -36,6 +38,7 @@ export class SearchService implements OnApplicationBootstrap {
     @InjectRepository(Course) private courseRepo: Repository<Course>,
     @InjectRepository(Lesson) private lessonRepo: Repository<Lesson>,
     private javaConceptsService: JavaConceptsService,
+    private jvmConceptsService: JvmConceptsService,
     private javaMinuteService: JavaMinuteService,
     private databaseConceptsService: DatabaseConceptsService,
     private springConceptsService: SpringConceptsService,
@@ -104,6 +107,17 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Java Concepts',
         url: `/java/java-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.jvmConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `jvm-concept-${concept.slug}`,
+        type: 'jvm-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'JVM Concepts',
+        url: `/java/jvm-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

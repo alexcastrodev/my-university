@@ -16,6 +16,7 @@ import { Course } from './course/course.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
+import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { ReviewSchedule } from './review/review-schedule.entity';
@@ -42,6 +43,7 @@ import { XpModule } from './xp/xp.module';
     CourseNestModule,
     JavaMinuteModule,
     JavaConceptsModule,
+    JvmConceptsModule,
     DatabaseConceptsModule,
     SpringConceptsModule,
     SystemDesignConceptsModule,

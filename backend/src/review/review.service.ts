@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, Repository } from 'typeorm';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
+import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
@@ -29,6 +30,7 @@ export class ReviewService {
   constructor(
     @InjectRepository(ReviewSchedule) private repo: Repository<ReviewSchedule>,
     private javaConcepts: JavaConceptsService,
+    private jvmConcepts: JvmConceptsService,
     private springConcepts: SpringConceptsService,
     private databaseConcepts: DatabaseConceptsService,
     private systemDesignConcepts: SystemDesignConceptsService,
@@ -65,6 +67,7 @@ export class ReviewService {
 
     const titlesByModule = {
       'java-concepts': new Map(this.javaConcepts.findAll().map((c) => [c.slug, c.title])),
+      'jvm-concepts': new Map(this.jvmConcepts.findAll().map((c) => [c.slug, c.title])),
       'spring-concepts': new Map(this.springConcepts.findAll().map((c) => [c.slug, c.title])),
       'database-concepts': new Map(this.databaseConcepts.findAll().map((c) => [c.slug, c.title])),
       'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),

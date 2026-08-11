@@ -28,6 +28,7 @@ const SESSIONS: LandingSession[] = [
     links: [
       { label: 'Exams', routerLink: '/java/exams' },
       { label: 'Concepts', routerLink: '/java/java-concepts' },
+      { label: 'JVM Concepts', routerLink: '/java/jvm-concepts' },
       { label: 'Java Minute', routerLink: '/java/java-minute' },
     ],
   },
