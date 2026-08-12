@@ -867,5 +867,65 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "hash-map",
+    "id": 32,
+    "title": "The HashMap Class",
+    "summary": "How HashMap's hash-table storage gives average O(1) get/put with no iteration-order guarantee, and how put() silently replaces the value of an existing key.",
+    "publishedAt": "2026-08-12",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-map",
+    "references": [
+      {
+        "label": "HashMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "Map — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "tree-map",
+    "id": 33,
+    "title": "The TreeMap Class",
+    "summary": "How TreeMap keeps keys in ascending order via a red-black tree, why key equality there is decided by compareTo() rather than equals()/hashCode(), and the O(log n) cost that pays for.",
+    "publishedAt": "2026-08-12",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-map",
+    "references": [
+      {
+        "label": "TreeMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/TreeMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "NavigableMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/NavigableMap.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linked-hash-map",
+    "id": 34,
+    "title": "The LinkedHashMap Class",
+    "summary": "How LinkedHashMap adds insertion-order (or access-order) iteration on top of HashMap's lookup performance, and how overriding removeEldestEntry() turns it into a bounded LRU cache.",
+    "publishedAt": "2026-08-12",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-map",
+    "references": [
+      {
+        "label": "LinkedHashMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/LinkedHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "HashMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashMap.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
