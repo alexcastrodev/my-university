@@ -46,6 +46,25 @@ System.out.println(lhs); // [Beta, Alpha, Eta, Gamma, Epsilon, Omega] — insert
 
 Compare this to the same sequence of `add()` calls on a plain `HashSet` — the elements are identical, but the order printed is not. This is also the order `toString()` produces and the order an `Iterator` walks.
 
+### Watch it happen: same elements, insertion-order slots instead of a scattered bucket layout
+
+Same six elements as the `HashSet` viz, same arrival order — but here the extra linked list threaded through the table means iteration walks them back out in arrival order, not scattered by hash:
+
+```viz
+type: formula
+capacity = count
+slot = index
+---
+Beta
+Alpha
+Eta
+Gamma
+Epsilon
+Omega
+```
+
+The lookup underneath (`add`/`contains`/`remove`) still goes through the same hash-bucket layout `HashSet` uses — only the *iteration* order shown here is different.
+
 ### Same hash-based lookup underneath
 
 The extra linked list only changes *iteration* order — `add`/`contains`/`remove` still go through the same hash-table lookup `HashSet` uses, so their average-case cost is unaffected by the ordering bookkeeping.

@@ -63,6 +63,23 @@ ll.removeLast();
 
 `getFirst()`/`peekFirst()` and `getLast()`/`peekLast()` mirror the throwing-vs-reporting split `Deque` uses everywhere else.
 
+### Watch it happen: addFirst() growing from the head
+
+Each `addFirst()` lands at the front — slot 0 below is the head, an O(1) insert since it's just a new node linked in, not a shift of every other element the way `ArrayList.add(0, e)` would be:
+
+```viz
+type: formula
+capacity = count
+slot = capacity - 1 - index
+---
+A
+B
+C
+D
+```
+
+The last one in (`D`) sits at slot 0. Compare this to `ArrayList`'s viz — same four elements, opposite placement rule.
+
 ### Positional access still works, just not efficiently
 
 ```java

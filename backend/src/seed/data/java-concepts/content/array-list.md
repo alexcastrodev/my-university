@@ -53,6 +53,24 @@ nums.trimToSize();          // shrink the backing array down to exactly size()
 
 Calling `ensureCapacity()` before a known-large batch of inserts avoids the cost of several incremental reallocations as the list grows past its current capacity one add at a time.
 
+### Watch it happen: add() appending at the end
+
+Every `add(E)` lands in the next free slot, in arrival order — no hashing, no sorting, just the backing array growing by one:
+
+```viz
+type: formula
+capacity = count
+slot = index
+---
+Apple
+Orange
+Banana
+Grape
+Melon
+```
+
+No collisions, no reordering — index and slot are the same number, which is exactly why `get(index)` is O(1): it jumps straight there.
+
 ### toArray(): three overloads
 
 ```java

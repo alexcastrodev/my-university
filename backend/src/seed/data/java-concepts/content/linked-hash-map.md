@@ -53,6 +53,20 @@ System.out.println(lhm); // {John Doe=3434.34, Tom Smith=123.22, Jane Baker=1378
 
 Compare this to the same `put` calls on a plain `HashMap` — the entries are identical, but the printed order is not guaranteed to match insertion order there.
 
+### Watch it happen: same bucket layout as HashMap, insertion-order slots for iteration
+
+Same three keys as above — `put()` still hashes each key into the underlying table exactly like `HashMap` does, but the linked list threaded through it means iteration walks them back out in insertion order instead of scattered by hash:
+
+```viz
+type: formula
+capacity = count
+slot = index
+---
+John Doe
+Tom Smith
+Jane Baker
+```
+
 ### Access-order mode + removeEldestEntry() builds an LRU cache
 
 ```java

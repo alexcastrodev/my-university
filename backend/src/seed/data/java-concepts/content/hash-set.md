@@ -62,6 +62,23 @@ bucket 2 -> [Apple, Orange]
 
 Since Java 8, a bucket that keeps growing doesn't stay a simple chain forever: once it passes 8 elements (`TREEIFY_THRESHOLD`), it's converted from a linked list into a small red-black tree, taking worst-case lookup inside that bucket from O(n) down to O(log n) — and it converts back to a list if a later resize shrinks it below 6 elements (`UNTREEIFY_THRESHOLD`). This is also what the load factor above is tuning: resizing sooner keeps buckets close to one element, at the cost of more allocated (mostly empty) buckets.
 
+### Watch it happen: add() spreading elements across buckets
+
+Each `add(element)` computes `element.hashCode()`, spreads its bits, and masks it against `capacity - 1` to pick a bucket — the same mechanism `HashMap` uses, since `HashSet` is a thin wrapper around one:
+
+```viz
+type: formula
+capacity = nextPow2(count)
+slot = (capacity - 1) & spread(hash(item))
+---
+Beta
+Alpha
+Eta
+Gamma
+Epsilon
+Omega
+```
+
 ### Iteration order is unspecified
 
 ```java

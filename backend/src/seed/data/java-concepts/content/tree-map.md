@@ -69,6 +69,24 @@ for (Map.Entry<String, Double> me : tm.entrySet()) {
 
 Notice the keys come out sorted by first name — `String`'s natural (lexicographic) order — regardless of the order they were `put`. Supplying a `Comparator` at construction changes what "sorted" means without touching any calling code.
 
+### Watch it happen: put() landing keys in sorted position
+
+Same five keys, same arrival order as above — each `put()` lands directly at its final ascending-order slot, not at the end like a `LinkedHashMap` would:
+
+```viz
+type: formula
+capacity = count
+slot = rank(item)
+---
+John Doe
+Tom Smith
+Jane Baker
+Tod Hall
+Ralph Smith
+```
+
+Slot 0 is the smallest key across the *whole* map, not the first one `put` — the same guarantee `TreeSet` gives for elements.
+
 ### Range and closest-key queries via NavigableMap
 
 ```java

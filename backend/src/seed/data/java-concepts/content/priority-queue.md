@@ -56,6 +56,22 @@ pq.poll(); // 2
 
 A `Comparator` inverts or replaces that ordering entirely — e.g. `Comparator.reverseOrder()` turns it into a max-heap. `comparator()` returns the comparator in use, or `null` if natural ordering applies.
 
+### Watch it happen: poll() draining in priority order
+
+Same five elements as above, same arrival order — this shows the order repeated `poll()` calls hand them back, not the actual internal heap array layout (which the next section covers):
+
+```viz
+type: formula
+capacity = count
+slot = rank(item)
+---
+5
+1
+3
+2
+4
+```
+
 ### Iteration order is not priority order
 
 ```java
