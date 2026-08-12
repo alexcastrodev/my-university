@@ -1,10 +1,17 @@
 # ─── Stage 1: Build Frontend ──────────────────────────────────────────────────
+# app/ depends on the "algorithmator" workspace package (packages/algorithmator), so this
+# stage needs the repo-root pnpm workspace, not just app/ in isolation.
 FROM node:22-alpine AS frontend-build
-WORKDIR /app
+WORKDIR /repo
 RUN corepack enable && corepack prepare pnpm@11.3.0 --activate
-COPY app/ ./
-RUN pnpm install --frozen-lockfile
-RUN pnpm run build
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY app/package.json ./app/package.json
+COPY packages/algorithmator/package.json ./packages/algorithmator/package.json
+RUN pnpm install --frozen-lockfile --filter ocp-simulator...
+COPY app/ ./app/
+COPY packages/algorithmator/ ./packages/algorithmator/
+RUN pnpm --filter algorithmator build
+RUN pnpm --filter ocp-simulator build
 
 # ─── Stage 2: Build Backend ───────────────────────────────────────────────────
 FROM node:22-alpine AS backend-build
@@ -21,12 +28,16 @@ RUN pnpm run build
 FROM node:22-alpine
 WORKDIR /app
 
+# Secure by default: dev-only endpoints (dev-login, _test/login) stay disabled unless
+# an environment (docker-compose.yml) explicitly overrides this to "development".
+ENV NODE_ENV=production
+
 RUN apk add --no-cache nginx curl
 RUN npm install -g pm2
 
 COPY --from=backend-build /app/node_modules ./node_modules
 COPY --from=backend-build /app/dist ./dist
-COPY --from=frontend-build /app/dist/ocp-simulator /app/frontend
+COPY --from=frontend-build /repo/app/dist/ocp-simulator /app/frontend
 COPY backend/src/seed/data /public/content
 RUN chmod -R a+rX /public/content
 COPY nginx.conf /etc/nginx/http.d/default.conf
