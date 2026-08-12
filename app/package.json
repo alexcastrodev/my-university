@@ -32,6 +32,7 @@
     "@angular/platform-server": "^22.0.7",
     "@angular/router": "^22.0.7",
     "@angular/ssr": "^22.0.7",
+    "algorithmator": "workspace:*",
     "express": "^5.1.0",
     "highlight.js": "^11.11.1",
     "marked": "^18.0.4",

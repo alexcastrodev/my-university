@@ -75,6 +75,25 @@ System.out.println("John Doe's new balance: " + hm.get("John Doe")); // 4434.34
 
 `put(K key, V value)` returns the *previous* value associated with `key`, or `null` if the key was new — useful for detecting whether a `put` was actually an update.
 
+### Watch it happen: put() spreading keys across buckets
+
+Each `put(key, value)` computes `key.hashCode()`, spreads its bits, and masks it against `capacity - 1` to pick a bucket. Two keys landing in the same bucket don't overwrite each other — they chain, and `equals()` is what tells them apart on a later `get()`:
+
+```viz
+type: formula
+capacity = nextPow2(count)
+slot = (capacity - 1) & spread(hash(item))
+---
+Apple
+Orange
+Banana
+Grape
+Melon
+Kiwi
+Mango
+Plum
+```
+
 ## Trade-offs
 
 - **No iteration-order guarantee, and it can change between runs or after a resize** — if a stable order matters, use `LinkedHashMap` (insertion order); if a sorted order matters, use `TreeMap`.

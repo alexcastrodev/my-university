@@ -54,6 +54,25 @@ ts.add("C"); ts.add("A"); ts.add("B"); ts.add("E"); ts.add("F"); ts.add("D");
 System.out.println(ts); // [A, B, C, D, E, F] — sorted, regardless of insertion order
 ```
 
+### Watch it happen: add() landing in sorted position
+
+Same six elements, same arrival order as above — each `add()` lands directly at its final ascending-order slot, not at the end like a plain `ArrayList` would:
+
+```viz
+type: formula
+capacity = count
+slot = rank(item)
+---
+C
+A
+B
+E
+F
+D
+```
+
+Slot 0 is the smallest element seen across the *whole* set, not the first one added — that's the difference between `NavigableSet`'s ordering guarantee and a `LinkedHashSet`'s insertion order.
+
 ### Range queries via NavigableSet
 
 ```java

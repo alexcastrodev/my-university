@@ -1,0 +1,21 @@
+{
+  "name": "algorithmator",
+  "version": "0.1.0",
+  "description": "Framework-agnostic engine that interprets a placement formula and turns it into a step-by-step DOM animation.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "mathjs": "^15.2.0"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "@types/d3": "^7.4.3"
+  }
+}

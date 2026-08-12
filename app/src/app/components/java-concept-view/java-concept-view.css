@@ -39,54 +39,9 @@
   color: #d1d5db;
 }
 
-.concept-actions {
-  display: flex;
-  gap: 0.75rem;
+app-concept-actions {
+  display: block;
   margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.got-it-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  color: #374151;
-  border-radius: 6px;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background .12s, border-color .12s, color .12s;
-}
-
-.got-it-btn:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.got-it-btn.completed {
-  background: #ecfdf5;
-  border-color: #16a34a;
-  color: #166534;
-}
-
-.got-it-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-
-.got-it-btn.locked {
-  background: #f9fafb;
-  color: #6b7280;
-  border-style: dashed;
-}
-
-.got-it-btn.locked:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
 }
 
 .concept-section {
@@ -161,6 +116,120 @@
 
 .section-body ::ng-deep .mermaid-diagram .edgeLabel {
   border-radius: 4px;
+}
+
+.section-body ::ng-deep .concept-viz {
+  display: block;
+  margin: 0 0 1.25rem;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, #fdfdfe 0%, #f8f9fb 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.section-body ::ng-deep .concept-viz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.section-body ::ng-deep .concept-viz-replay-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #c74634;
+  background: #fff1ef;
+  border: 1px solid #f3c9c1;
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.section-body ::ng-deep .concept-viz-replay-btn:hover {
+  background: #fde3de;
+}
+
+.section-body ::ng-deep .concept-viz-queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.section-body ::ng-deep .concept-viz-queue-item {
+  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  color: #374151;
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  transition: opacity 0.25s ease;
+}
+
+.section-body ::ng-deep .concept-viz-queue-item--consumed {
+  opacity: 0.25;
+}
+
+.section-body ::ng-deep .concept-viz-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 0.5rem;
+}
+
+.section-body ::ng-deep .concept-viz-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 3.5rem;
+  padding: 0.5rem 0.35rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.section-body ::ng-deep .concept-viz-slot--collision {
+  border-color: #f5cf6b;
+}
+
+.section-body ::ng-deep .concept-viz-slot--flash {
+  animation: concept-viz-flash 0.6s ease;
+}
+
+.section-body ::ng-deep .concept-viz-slot-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #9ca3af;
+}
+
+.section-body ::ng-deep .concept-viz-token {
+  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: #c74634;
+  border-radius: 5px;
+  padding: 0.15rem 0.4rem;
+  white-space: nowrap;
+}
+
+.section-body ::ng-deep .concept-viz-caption {
+  margin-top: 0.9rem;
+  font-size: 0.82rem;
+  color: #57534e;
+  min-height: 1.2em;
+}
+
+@keyframes concept-viz-flash {
+  0%, 100% { background: #f9fafb; }
+  40% { background: #fef9e7; }
 }
 
 .section-body ::ng-deep strong {
@@ -272,27 +341,6 @@
 
 .reference-item a:hover {
   text-decoration: underline;
-}
-
-.lab-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  color: #374151;
-  border-radius: 6px;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: background .12s, border-color .12s, color .12s;
-}
-
-.lab-link-btn:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
 }
 
 .section-body ::ng-deep .deep-dive-trigger {

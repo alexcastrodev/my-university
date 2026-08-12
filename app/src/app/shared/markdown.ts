@@ -13,6 +13,10 @@ const codeBlockRenderer = {
       const encoded = encodeURIComponent(text);
       return `<div class="mermaid-diagram" data-mermaid-source="${encoded}"></div>`;
     }
+    if (lang === 'viz') {
+      const encoded = encodeURIComponent(text);
+      return `<div class="concept-viz" data-viz-source="${encoded}"></div>`;
+    }
     const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext';
     const highlighted = hljs.highlight(text, { language }).value;
     return `<pre><div class="code-lang">${language}</div><code class="hljs language-${language}">${highlighted}</code></pre>`;

@@ -1,6 +1,6 @@
 ---
 version: 1.0
-updatedAt: 2026-08-07
+updatedAt: 2026-08-12
 ---
 ## Objective
 
@@ -56,6 +56,24 @@ while (stack.peek() != null) {
 ```
 
 `push`/`pop` are `Deque`'s stack-oriented aliases for `addFirst`/`removeFirst`.
+
+### Watch it happen: push() building a stack
+
+Each `push()` lands at the front — slot 0 below is the top of the stack, the next `pop()` target:
+
+```viz
+type: formula
+capacity = count
+slot = capacity - 1 - index
+---
+A
+B
+D
+E
+F
+```
+
+No collisions here, unlike a hash table — every push gets its own slot, and the last one in (`F`) sits at slot 0, exactly where `pop()` reads from first.
 
 ### Using it as a queue
 

@@ -8,9 +8,9 @@ import {
   SystemDesignConceptReference,
   SystemDesignConceptSummary,
 } from '../../models/system-design-concept.model';
-import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
+import { ConceptActions } from '../concept-actions/concept-actions';
 
 const REFERENCES_TITLE = 'References';
 
@@ -45,7 +45,7 @@ const REFERENCE_TYPE_ICONS: Record<SystemDesignConceptReference['type'], string>
 @Component({
   selector: 'app-system-design-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RenderMermaidDirective],
+  imports: [RouterLink, RenderMermaidDirective, ConceptActions],
   templateUrl: './system-design-concept-view.html',
   styleUrl: './system-design-concept-view.css',
 })
@@ -56,17 +56,11 @@ export class SystemDesignConceptView implements OnChanges {
   allConcepts = input<SystemDesignConceptSummary[]>([]);
   markRead = output<void>();
 
-  protected auth = inject(AuthService);
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
   referenceGroups = signal<{ type: SystemDesignConceptReference['type']; label: string; icon: string; refs: SystemDesignConceptReference[] }[]>([]);
   prerequisiteItems = signal<ConceptLinkItem[]>([]);
   relatedItems = signal<ConceptLinkItem[]>([]);
-
-  onMarkRead(): void {
-    if (!this.auth.currentUser() || this.read() || this.marking()) return;
-    this.markRead.emit();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['concept'] && !changes['allConcepts']) return;

@@ -7,32 +7,7 @@
         <span>Published on {{ ep.publishedAt }}</span>
         @if (ep.version) { <span class="sep">·</span><span>v{{ ep.version }}</span> }
       </div>
-      <div class="episode-actions">
-        <button
-          class="got-it-btn"
-          [class.completed]="read()"
-          [class.locked]="!auth.currentUser()"
-          [disabled]="!auth.currentUser() || read() || marking()"
-          [attr.title]="!auth.currentUser() ? 'Log in to mark this episode as read' : null"
-          [attr.aria-label]="!auth.currentUser() ? 'Log in to mark this episode as read' : null"
-          (click)="onMarkRead()"
-          type="button"
-        >
-          @if (!auth.currentUser()) {
-            <span aria-hidden="true">🔒</span>
-          }
-          @if (read()) {
-            ⚡ Got it +10 XP
-          } @else {
-            ⚡ Got it!
-          }
-        </button>
-        @if (ep.labUrl) {
-          <a [href]="ep.labUrl" target="_blank" rel="noopener noreferrer" class="lab-link-btn">
-            🔬 Open Lab
-          </a>
-        }
-      </div>
+      <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="ep.labUrl" lockedLabel="episode" (markRead)="markRead.emit()" />
     </header>
 
     @for (section of sections(); track section.title) {

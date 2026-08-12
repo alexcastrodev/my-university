@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JvmConcept } from '../../models/jvm-concept.model';
-import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
 import { getReferenceIcon } from '../../shared/concept-sections';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
+import { ConceptActions } from '../concept-actions/concept-actions';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-jvm-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective],
+  imports: [RenderMermaidDirective, ConceptActions],
   templateUrl: './jvm-concept-view.html',
   styleUrl: './jvm-concept-view.css',
 })
@@ -21,18 +21,12 @@ export class JvmConceptView implements OnChanges {
   marking = input<boolean>(false);
   markRead = output<void>();
 
-  protected auth = inject(AuthService);
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
   deepDives = signal<{ id: string; phrase: string; html: SafeHtml }[]>([]);
   activeDeepDiveId = signal<string | null>(null);
 
   referenceIcon = getReferenceIcon;
-
-  onMarkRead(): void {
-    if (!this.auth.currentUser() || this.read() || this.marking()) return;
-    this.markRead.emit();
-  }
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {

@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaConcept } from '../../models/java-concept.model';
-import { AuthService } from '../../services/auth.service';
 import { parseMarkdown } from '../../shared/markdown';
 import { getReferenceIcon } from '../../shared/concept-sections';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
+import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
+import { ConceptActions } from '../concept-actions/concept-actions';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-java-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective],
+  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions],
   templateUrl: './java-concept-view.html',
   styleUrl: './java-concept-view.css',
 })
@@ -21,18 +22,12 @@ export class JavaConceptView implements OnChanges {
   marking = input<boolean>(false);
   markRead = output<void>();
 
-  protected auth = inject(AuthService);
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
   deepDives = signal<{ id: string; phrase: string; html: SafeHtml }[]>([]);
   activeDeepDiveId = signal<string | null>(null);
 
   referenceIcon = getReferenceIcon;
-
-  onMarkRead(): void {
-    if (!this.auth.currentUser() || this.read() || this.marking()) return;
-    this.markRead.emit();
-  }
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
