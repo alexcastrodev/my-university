@@ -138,7 +138,13 @@ app-concept-actions {
   margin-bottom: 0.75rem;
 }
 
-.section-body ::ng-deep .concept-viz-replay-btn {
+.section-body ::ng-deep .concept-viz-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.section-body ::ng-deep .concept-viz-btn {
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
@@ -147,11 +153,19 @@ app-concept-actions {
   border: 1px solid #f3c9c1;
   border-radius: 6px;
   padding: 0.25rem 0.6rem;
+  min-width: 2rem;
   cursor: pointer;
 }
 
-.section-body ::ng-deep .concept-viz-replay-btn:hover {
+.section-body ::ng-deep .concept-viz-btn:hover:not(:disabled) {
   background: #fde3de;
+}
+
+.section-body ::ng-deep .concept-viz-btn:disabled {
+  color: #c1c7d0;
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
 }
 
 .section-body ::ng-deep .concept-viz-queue {
