@@ -129,5 +129,16 @@
       { "label": "javac — Java SE 25 Tool Reference (--enable-preview)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javac.html", "type": "doc" },
       { "label": "java — Java SE 25 Tool Reference (--enable-preview)", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "regex-groups",
+    "id": 385,
+    "question": "What is a group in a regular expression?",
+    "publishedAt": "2026-08-12",
+    "references": [
+      { "label": "Java Coding Tip #385: What Is a Group in a Regular Expression?", "url": "https://www.youtube.com/watch?v=iTRIbbiZBVs", "type": "video" },
+      { "label": "Pattern — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html", "type": "doc" },
+      { "label": "Matcher — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html", "type": "doc" }
+    ]
   }
 ]
