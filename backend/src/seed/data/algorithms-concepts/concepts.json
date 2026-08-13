@@ -38,5 +38,105 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "binary-search",
+    "id": 3,
+    "category": "Fundamentals",
+    "title": "Binary Search: O(log n) Lookup on a Sorted Array",
+    "summary": "How repeatedly halving a sorted array's search range finds a target in O(log n) comparisons, Sedgewick's overflow-safe midpoint formula, and CLRS's loop-invariant correctness argument.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 1.1 \"Basic Programming Model\", pp. 8-9",
+        "url": "https://algs4.cs.princeton.edu/11model/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 2 \"Getting Started\", Exercise 2.3-6, p. 45",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mergesort",
+    "id": 4,
+    "category": "Sorting",
+    "title": "Mergesort: Guaranteed O(n log n) via Divide and Merge",
+    "summary": "How mergesort recursively splits and merges to guarantee O(n log n) in every case (unlike quicksort's O(n²) worst case), Sedgewick's auxiliary-array merge vs. Cormen's sentinel-based merge, and why Java's TimSort is mergesort's real-world descendant.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.2 \"Mergesort\", pp. 270-287",
+        "url": "https://algs4.cs.princeton.edu/22mergesort/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 2 \"Getting Started\", Section 2.3, pp. 34-40",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "binary-search-trees",
+    "id": 5,
+    "category": "Data Structures",
+    "title": "Binary Search Trees",
+    "summary": "The binary-search-tree property, recursive get/put from both books, why every operation costs O(height) rather than automatically O(log n), and why TreeMap/TreeSet use self-balancing red-black trees instead of a plain BST.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 3.2 \"Binary Search Trees\", pp. 396-423",
+        "url": "https://algs4.cs.princeton.edu/32bst/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 12 \"Binary Search Trees\", pp. 312-330",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "red-black-trees",
+    "id": 6,
+    "category": "Data Structures",
+    "title": "Red-Black Trees: Guaranteed O(log n) Height",
+    "summary": "The five red-black properties, CLRS's insert-fixup cases (recolor and rotate) traced by hand and verified, and why TreeMap/TreeSet use this instead of a plain BST.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 13 \"Red-Black Trees\", Sections 13.1 and 13.3, pp. 331-334, 338-345",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 3.3 \"Balanced Search Trees\" (left-leaning red-black BSTs), pp. 424-433",
+        "url": "https://algs4.cs.princeton.edu/33balanced/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "breadth-first-search",
+    "id": 7,
+    "category": "Graphs",
+    "title": "Breadth-First Search",
+    "summary": "How BFS visits vertices in order of distance from a source using a queue instead of DFS's stack, guaranteeing shortest paths in an unweighted graph, traced against Sedgewick's own worked example graph.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.1 \"Undirected Graphs\", pp. 538-541",
+        "url": "https://algs4.cs.princeton.edu/41graph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 20 \"Elementary Graph Algorithms\", Section 20.2, pp. 554-561",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
   }
 ]

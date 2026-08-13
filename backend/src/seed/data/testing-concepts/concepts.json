@@ -485,5 +485,20 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "managed-vs-unmanaged-dependencies",
+    "id": 19,
+    "category": "Java",
+    "title": "Managed vs. Unmanaged Dependencies in Integration Tests",
+    "summary": "Why an integration test should hit a real database (a managed dependency) but mock an SMTP server or message bus (an unmanaged dependency) — and why mocking a managed dependency quietly breaks resistance to refactoring.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 8 \"Why Integration Testing?\", pp. 190-193",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      }
+    ]
   }
 ]

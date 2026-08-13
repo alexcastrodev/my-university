@@ -1,6 +1,10 @@
 import { mountViz } from './engine';
 import { compileFormula } from './formula';
+import { compileGraph } from './graph';
+import { mountGraph } from './graph-render';
 import { compileMoves } from './moves';
+import { compileTree } from './tree';
+import { mountTree } from './tree-render';
 
 function parseFenceSource(source: string): { type: string; body: string } {
   const lines = source.split('\n');
@@ -29,9 +33,15 @@ function splitConfigAndItems(body: string): { config: string; items: string[] } 
  * `type: <mode>` line) and an element you own, builds the scene and animates it into that
  * element. Returns a cleanup function — call it before discarding `el` to cancel pending timers.
  *
- * Supported types: `formula` (see formula.ts, computes a destination slot per item) and `moves`
- * (see moves.ts, replays an explicit swap/mark/move/remove command list — no expressions, no
- * control flow, just the animation steps themselves).
+ * Supported types:
+ *   `formula` (see formula.ts) — computes a destination slot per item from an expression.
+ *   `moves`   (see moves.ts)   — replays an explicit swap/mark/move/remove command list; no
+ *                                expressions, no control flow, just the animation steps themselves.
+ *   `tree`    (see tree.ts)    — replays an explicit insert/rotate/recolor/remove command list on
+ *                                a binary tree (BST or red-black tree), auto-laid-out by in-order
+ *                                position × depth.
+ *   `graph`   (see graph.ts)   — a fixed graph at author-declared grid positions, with an explicit
+ *                                visit/traverse command list for BFS/DFS/Dijkstra-style demos.
  */
 export function renderConceptViz(el: HTMLElement, source: string): () => void {
   const { type, body } = parseFenceSource(source);
@@ -58,6 +68,26 @@ export function renderConceptViz(el: HTMLElement, source: string): () => void {
     }
   }
 
+  if (type === 'tree') {
+    try {
+      const scene = compileTree(body);
+      return mountTree(el, scene);
+    } catch (error) {
+      el.textContent = `Tree error: ${(error as Error).message}`;
+      return () => {};
+    }
+  }
+
+  if (type === 'graph') {
+    try {
+      const scene = compileGraph(body);
+      return mountGraph(el, scene);
+    } catch (error) {
+      el.textContent = `Graph error: ${(error as Error).message}`;
+      return () => {};
+    }
+  }
+
   el.textContent = `Unknown visualization type: "${type}"`;
   return () => {};
 }
@@ -67,4 +97,8 @@ export { compileFormula } from './formula';
 export { placementMode } from './placement';
 export type { PlacementConfig } from './placement';
 export { compileMoves } from './moves';
+export { compileTree } from './tree';
+export { mountTree } from './tree-render';
+export { compileGraph } from './graph';
+export { mountGraph } from './graph-render';
 export * from './types';

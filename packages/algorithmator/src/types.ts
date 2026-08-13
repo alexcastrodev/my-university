@@ -34,3 +34,72 @@ export interface VizScene {
 
 /** A mode turns a raw item list into a scene to play back. */
 export type VizMode = (items: string[]) => VizScene;
+
+// ---------------------------------------------------------------------------
+// Tree scenes — binary trees, BSTs, red-black trees. Distinct from VizScene's
+// slot/token model because a tree's DEFINING feature is parent-child structure,
+// which the array-of-slots model has no way to express. Layout (x/y per node) is
+// computed automatically from the tree shape (in-order position × depth), the
+// classic technique also used in both source books' own tree figures — the
+// content author only ever declares structure (insert/rotate/recolor), never
+// coordinates.
+// ---------------------------------------------------------------------------
+
+export interface TreeStep {
+  caption: string;
+  /** Add a new node. `parent: null` makes it the root (only valid for the first insert). */
+  insert?: { id: string; label: string; parent: string | null; side?: 'left' | 'right'; color?: string };
+  /** Change an existing node's color (e.g. red-black tree recoloring during insert-fixup). */
+  recolor?: { id: string; color: string };
+  /** Standard BST left rotation pivoting on the node at `at` (CLRS's ROTATE-LEFT). */
+  rotateLeft?: { at: string };
+  /** Standard BST right rotation pivoting on the node at `at` (CLRS's ROTATE-RIGHT). */
+  rotateRight?: { at: string };
+  /** Remove a leaf or single-child node from the tree. */
+  remove?: { id: string };
+  /** Flash a node without changing the tree's structure or color. */
+  highlight?: { id: string };
+}
+
+export interface TreeScene {
+  meta?: string;
+  steps: TreeStep[];
+}
+
+// ---------------------------------------------------------------------------
+// Graph scenes — general (not necessarily tree-shaped) graphs with author-fixed
+// node positions, for traversal demos (BFS/DFS/Dijkstra). General graph auto-
+// layout (force-directed, etc.) is nondeterministic and not worth the engine
+// complexity — textbook graph figures place vertices by hand too, so the
+// content author supplies a small (col, row) grid position per node directly.
+// ---------------------------------------------------------------------------
+
+export interface GraphNodeSpec {
+  id: string;
+  label: string;
+  col: number;
+  row: number;
+}
+
+export interface GraphEdgeSpec {
+  from: string;
+  to: string;
+  directed?: boolean;
+}
+
+export interface GraphStep {
+  caption: string;
+  /** Mark a node as visited/current (e.g. dequeued in BFS, the current DFS call). */
+  visit?: { id: string };
+  /** Highlight an edge as part of the traversal (e.g. a BFS/DFS tree edge). */
+  traverseEdge?: { from: string; to: string };
+  /** Flash a node without marking it visited (e.g. "considering, not yet visiting"). */
+  highlight?: { id: string };
+}
+
+export interface GraphScene {
+  meta?: string;
+  nodes: GraphNodeSpec[];
+  edges: GraphEdgeSpec[];
+  steps: GraphStep[];
+}

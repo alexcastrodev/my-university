@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
+import { mountStepper } from './stepper';
 import { VizScene, VizStep } from './types';
 
-const STEP_DELAY_MS = 1300;
 const TRANSITION_MS = 380;
 
 // Row-layout geometry — kept in sync with the `--cv-cell-*` custom properties consumers set in
@@ -15,12 +15,12 @@ const CELL_STEP = CELL_WIDTH + CELL_GAP;
 
 /**
  * Renders `scene.slots` once, then plays `scene.steps` into `el` — autoplaying from the start,
- * with Prev/Next/Play-Pause/Replay controls so a reader can take over and step through by hand
- * at their own pace. Every navigation (forward, backward, or reset) replays scene.steps[0..target]
- * from an empty state and re-derives the slot/token layout that state implies; only the *delta*
- * against what's currently on screen actually animates (see renderGridSlots/renderRowTokens),
- * so intermediate replayed steps never themselves animate — only the target step's effect does.
- * Framework-agnostic — pass any HTMLElement you own.
+ * with Prev/Next/Play-Pause/Replay controls (via stepper.ts) so a reader can take over and step
+ * through by hand at their own pace. Every navigation (forward, backward, or reset) replays
+ * scene.steps[0..target] from an empty state and re-derives the slot/token layout that state
+ * implies; only the *delta* against what's currently on screen actually animates (see
+ * renderGridSlots/renderRowTokens), so intermediate replayed steps never themselves animate —
+ * only the target step's effect does. Framework-agnostic — pass any HTMLElement you own.
  *
  * Returns a cleanup function that cancels any pending timers.
  */
@@ -30,44 +30,13 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
   el.innerHTML = '';
   el.classList.add('concept-viz-root');
 
-  const header = document.createElement('div');
-  header.className = 'concept-viz-header';
-  header.innerHTML = `<span>${scene.meta ?? ''}</span>`;
-  el.appendChild(header);
-
-  const controls = document.createElement('div');
-  controls.className = 'concept-viz-controls';
-  header.appendChild(controls);
-
-  const makeButton = (label: string, ariaLabel: string): HTMLButtonElement => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'concept-viz-btn';
-    btn.textContent = label;
-    btn.setAttribute('aria-label', ariaLabel);
-    btn.title = ariaLabel;
-    controls.appendChild(btn);
-    return btn;
-  };
-
-  const prevBtn = makeButton('⏮', 'Previous step');
-  const playPauseBtn = makeButton('▶', 'Play');
-  const nextBtn = makeButton('⏭', 'Next step');
-  const replayBtn = makeButton('↻', 'Restart');
-
   const queueEl = document.createElement('div');
   queueEl.className = 'concept-viz-queue';
   // Row-mode scenes place every item up front (it's a fixed-size array being reordered, not
   // items arriving over time), so the "still to arrive" queue doesn't mean anything there.
-  if (!isRow) el.appendChild(queueEl);
 
   const slotsEl = document.createElement('div');
   slotsEl.className = isRow ? 'concept-viz-slots concept-viz-slots--row' : 'concept-viz-slots';
-  el.appendChild(slotsEl);
-
-  const caption = document.createElement('div');
-  caption.className = 'concept-viz-caption';
-  el.appendChild(caption);
 
   const slotEls = new Map<string, HTMLElement>();
   const slotIndexOf = new Map(scene.slots.map((s, i) => [s.id, i]));
@@ -94,7 +63,6 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
   }
 
   const allTokens = [...new Set(scene.steps.filter((s) => s.place).map((s) => s.place!.token))];
-  const lastIndex = scene.steps.length - 1;
 
   const renderQueue = (introduced: Set<string>): void => {
     d3.select(queueEl)
@@ -312,114 +280,44 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     }
   };
 
-  let stepIndex = -1;
-  let isPlaying = false;
-  let playTimer: ReturnType<typeof setTimeout> | undefined;
-  let doneTimer: ReturnType<typeof setTimeout> | undefined;
+  const stepper = mountStepper(el, scene.meta, {
+    totalSteps: scene.steps.length,
+    captionFor: (index) => (index === -1 ? '' : scene.steps[index].caption),
+    onStep: (target) => {
+      const bySlot = new Map<string, string[]>(scene.slots.map((s) => [s.id, []]));
+      const tokenSlot = new Map<string, string>();
+      const introduced = new Set<string>();
+      for (let i = 0; i <= target; i++) applyStep(scene.steps[i], bySlot, tokenSlot, introduced);
 
-  const updateButtons = (): void => {
-    prevBtn.toggleAttribute('disabled', stepIndex <= -1);
-    nextBtn.toggleAttribute('disabled', stepIndex >= lastIndex);
-    playPauseBtn.toggleAttribute('disabled', stepIndex >= lastIndex && !isPlaying);
-    playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
-    playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
-    playPauseBtn.title = isPlaying ? 'Pause' : 'Play';
-  };
+      const targetStep = target >= 0 ? scene.steps[target] : null;
 
-  const renderAt = (target: number): void => {
-    if (doneTimer) clearTimeout(doneTimer);
-
-    const bySlot = new Map<string, string[]>(scene.slots.map((s) => [s.id, []]));
-    const tokenSlot = new Map<string, string>();
-    const introduced = new Set<string>();
-    for (let i = 0; i <= target; i++) applyStep(scene.steps[i], bySlot, tokenSlot, introduced);
-
-    const targetStep = target >= 0 ? scene.steps[target] : null;
-
-    if (isRow) {
-      const swappedTokens = targetStep?.swap ? new Set([targetStep.swap.tokenA, targetStep.swap.tokenB]) : new Set<string>();
-      renderRowTokens(bySlot, swappedTokens);
-    } else {
-      renderQueue(introduced);
-      renderGridSlots(bySlot);
-    }
-    caption.textContent = targetStep?.caption ?? '';
-
-    let pivotSlot: string | undefined;
-    for (let i = target; i >= 0; i--) {
-      if (scene.steps[i].highlight) {
-        pivotSlot = scene.steps[i].highlight!.slot;
-        break;
+      if (isRow) {
+        const swappedTokens = targetStep?.swap
+          ? new Set([targetStep.swap.tokenA, targetStep.swap.tokenB])
+          : new Set<string>();
+        renderRowTokens(bySlot, swappedTokens);
+      } else {
+        renderQueue(introduced);
+        renderGridSlots(bySlot);
       }
-    }
-    syncHighlights(targetStep, tokenSlot, pivotSlot);
 
-    if (target === lastIndex) {
-      doneTimer = setTimeout(() => {
-        caption.textContent = 'Done — click Replay to run it again.';
-      }, STEP_DELAY_MS);
-    }
-
-    updateButtons();
-  };
-
-  const pause = (): void => {
-    isPlaying = false;
-    if (playTimer) clearTimeout(playTimer);
-  };
-
-  const scheduleNext = (): void => {
-    playTimer = setTimeout(() => {
-      stepIndex++;
-      renderAt(stepIndex);
-      if (stepIndex >= lastIndex) {
-        isPlaying = false;
-        updateButtons();
-        return;
+      let pivotSlot: string | undefined;
+      for (let i = target; i >= 0; i--) {
+        if (scene.steps[i].highlight) {
+          pivotSlot = scene.steps[i].highlight!.slot;
+          break;
+        }
       }
-      scheduleNext();
-    }, STEP_DELAY_MS);
-  };
-
-  const play = (): void => {
-    if (stepIndex >= lastIndex) return;
-    isPlaying = true;
-    updateButtons();
-    scheduleNext();
-  };
-
-  prevBtn.addEventListener('click', () => {
-    pause();
-    if (stepIndex <= -1) return;
-    stepIndex--;
-    renderAt(stepIndex);
+      syncHighlights(targetStep, tokenSlot, pivotSlot);
+    },
   });
 
-  nextBtn.addEventListener('click', () => {
-    pause();
-    if (stepIndex >= lastIndex) return;
-    stepIndex++;
-    renderAt(stepIndex);
-  });
+  el.appendChild(stepper.header);
+  if (!isRow) el.appendChild(queueEl);
+  el.appendChild(slotsEl);
+  el.appendChild(stepper.caption);
 
-  playPauseBtn.addEventListener('click', () => {
-    if (isPlaying) pause();
-    else play();
-    updateButtons();
-  });
+  stepper.start();
 
-  replayBtn.addEventListener('click', () => {
-    pause();
-    stepIndex = -1;
-    renderAt(-1);
-    play();
-  });
-
-  renderAt(-1);
-  play();
-
-  return () => {
-    pause();
-    if (doneTimer) clearTimeout(doneTimer);
-  };
+  return () => stepper.destroy();
 }

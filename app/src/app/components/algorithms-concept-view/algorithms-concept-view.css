@@ -454,3 +454,76 @@ app-concept-actions {
   to { background: #3b82f6; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.45); }
 }
 
+/* Tree/graph layout (`type: tree`, `type: graph`) — SVG nodes-and-edges rendering shared by
+   binary trees (auto-laid-out by in-order position × depth) and general graphs (author-fixed
+   grid positions). */
+
+.section-body ::ng-deep .concept-viz-tree {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.section-body ::ng-deep .concept-viz-tree-svg {
+  overflow: visible;
+}
+
+.section-body ::ng-deep .concept-viz-tree-edge {
+  stroke: #d1d5db;
+  stroke-width: 2px;
+  transition: stroke 0.3s ease;
+}
+
+.section-body ::ng-deep .concept-viz-tree-edge--traversed {
+  stroke: #3b82f6;
+  stroke-width: 2.5px;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node circle {
+  fill: #f9fafb;
+  stroke: #e5e7eb;
+  stroke-width: 1.5px;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node text {
+  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  fill: #374151;
+  pointer-events: none;
+  transition: fill 0.3s ease;
+}
+
+/* Red-black tree coloring — set via the node's `color` field, not the highlight classes below,
+   since a node's color is part of the tree's actual state (visible for as long as the node
+   exists), not a momentary "look here" cue. */
+.section-body ::ng-deep .concept-viz-tree-node[data-color="red"] circle {
+  fill: #fee2e2;
+  stroke: #ef4444;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node[data-color="black"] circle {
+  fill: #1f2937;
+  stroke: #111827;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node[data-color="black"] text {
+  fill: #f9fafb;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node--visited circle {
+  fill: #ede9fe;
+  stroke: #c4b5fd;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node--flash circle {
+  fill: #ede9fe;
+  stroke: #8b5cf6;
+}
+
+.section-body ::ng-deep .concept-viz-tree-node--pointer circle {
+  fill: #dbeafe;
+  stroke: #3b82f6;
+}
+
