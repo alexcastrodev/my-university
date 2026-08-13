@@ -50,6 +50,12 @@ const SESSIONS: LandingSession[] = [
     icon: '🧩',
     routerLink: '/system-design/system-design-concepts',
   },
+  {
+    title: 'Algorithms',
+    description: 'Core algorithms and data structures, with visualizations to build intuition.',
+    icon: '📈',
+    routerLink: '/algorithms/algorithms-concepts',
+  },
 ];
 
 @Component({

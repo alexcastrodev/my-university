@@ -1039,5 +1039,486 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "static-factory-methods-and-builder-pattern",
+    "title": "Static Factory Methods and the Builder Pattern",
+    "summary": "Named static methods can replace or supplement constructors for clearer, cacheable, subtype-flexible object creation, and the Builder pattern tames classes with many optional fields.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Boolean — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      },
+      {
+        "label": "EnumSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "BigInteger — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html",
+        "type": "doc"
+      },
+      {
+        "label": "Nested Classes — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html",
+        "type": "doc"
+      }
+    ],
+    "id": 38
+  },
+  {
+    "slug": "singleton-and-noninstantiable-classes",
+    "title": "Singletons and Noninstantiable Utility Classes",
+    "summary": "Compare the three ways to write a Java singleton — public field, static factory, single-element enum — and the private-constructor idiom for noninstantiable utility classes.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Enum — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html",
+        "type": "doc"
+      },
+      {
+        "label": "Constructor.newInstance() — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/Constructor.html#newInstance(java.lang.Object...)",
+        "type": "doc"
+      },
+      {
+        "label": "AccessibleObject.setAccessible() — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/AccessibleObject.html#setAccessible(boolean)",
+        "type": "doc"
+      },
+      {
+        "label": "InaccessibleObjectException — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/InaccessibleObjectException.html",
+        "type": "doc"
+      },
+      {
+        "label": "Serializable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Object Serialization Specification",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/serialization/index.html",
+        "type": "doc"
+      }
+    ],
+    "id": 39
+  },
+  {
+    "slug": "equals-hashcode-and-tostring-contracts",
+    "title": "The equals(), hashCode(), and toString() Contracts",
+    "summary": "The documented contracts behind Object's three most-overridden methods, why breaking symmetry or skipping hashCode() fails silently instead of at compile time, and how records satisfy all three for free.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Object — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html",
+        "type": "doc"
+      },
+      {
+        "label": "Objects — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html",
+        "type": "doc"
+      },
+      {
+        "label": "Record — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html",
+        "type": "doc"
+      }
+    ],
+    "id": 40
+  },
+  {
+    "slug": "immutability-and-defensive-copying",
+    "title": "Immutable Classes and Defensive Copying",
+    "summary": "Making a class truly immutable takes more than final fields — it means copying mutable arguments on the way in and mutable fields on the way out, so no other reference into an object's state ever escapes.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "java.util.Date — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Date.html",
+        "type": "doc"
+      },
+      {
+        "label": "java.time.LocalDate — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/LocalDate.html",
+        "type": "doc"
+      },
+      {
+        "label": "Object#clone() — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.5 — Final Field Semantics",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.5",
+        "type": "doc"
+      }
+    ],
+    "id": 41
+  },
+  {
+    "slug": "composition-over-inheritance",
+    "title": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+    "summary": "Extending a class you don't control is fragile because it depends on undocumented internal call patterns, and composition with forwarding avoids that risk — the same single-inheritance limitation also explains why interfaces, not abstract classes, are usually the right way to define a public type.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Set — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html",
+        "type": "doc"
+      },
+      {
+        "label": "AbstractCollection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/AbstractCollection.html",
+        "type": "doc"
+      },
+      {
+        "label": "Default Methods — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — Chapter 9.4, Interface Method Declarations",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-9.html#jls-9.4",
+        "type": "doc"
+      }
+    ],
+    "id": 42
+  },
+  {
+    "slug": "enum-patterns-strategy-and-collections",
+    "title": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+    "summary": "Use constant-specific method bodies for per-constant behavior, and EnumSet/EnumMap instead of bit fields and ordinal-indexed arrays.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Enum — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html",
+        "type": "doc"
+      },
+      {
+        "label": "EnumSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "EnumMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "Enum Types — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html",
+        "type": "doc"
+      }
+    ],
+    "id": 43
+  },
+  {
+    "slug": "varargs-pitfalls-and-safe-usage",
+    "title": "Varargs: Performance Cost and Generic Heap Pollution",
+    "summary": "Varargs implicitly allocate an array on every call and, when combined with generics, can let a ClassCastException slip past the compiler — here's why, and what @SafeVarargs actually promises.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "SafeVarargs — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/SafeVarargs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — Chapter 8.4.1, Formal Parameters and Varargs",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.1",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays.asList — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#asList(T...)",
+        "type": "doc"
+      },
+      {
+        "label": "EnumSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/EnumSet.html",
+        "type": "doc"
+      }
+    ],
+    "id": 44
+  },
+  {
+    "slug": "parameter-validation-and-fail-fast",
+    "title": "Parameter Validation and Failing Fast",
+    "summary": "Validate a method's or constructor's parameters at the top of the body and throw immediately with a clear exception, instead of letting a bad argument propagate into confusing failures or corrupted object state.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Objects (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html",
+        "type": "doc"
+      },
+      {
+        "label": "IllegalArgumentException (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html",
+        "type": "doc"
+      },
+      {
+        "label": "IndexOutOfBoundsException (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IndexOutOfBoundsException.html",
+        "type": "doc"
+      },
+      {
+        "label": "NullPointerException (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html",
+        "type": "doc"
+      },
+      {
+        "label": "AssertionError (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AssertionError.html",
+        "type": "doc"
+      },
+      {
+        "label": "Chapter 14.10, The assert Statement — The Java Language Specification (SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-14.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming With Assertions — Oracle",
+        "url": "https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html",
+        "type": "doc"
+      },
+      {
+        "label": "JavaDoc Documentation Comment Specification for the Standard Doclet (JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/javadoc/doc-comment-spec.html",
+        "type": "doc"
+      }
+    ],
+    "id": 45
+  },
+  {
+    "slug": "method-overloading-and-signature-design",
+    "title": "Method Overloading: Compile-Time Resolution and How It Surprises",
+    "summary": "Overload resolution happens at compile time based on the declared type of arguments, not runtime type — unlike overriding — and that gap shapes how method signatures should be designed.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "JLS 15.12 — Method Invocation Expressions",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.12",
+        "type": "doc"
+      },
+      {
+        "label": "JLS 8.4.9 — Overloading",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.9",
+        "type": "doc"
+      },
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      }
+    ],
+    "id": 46
+  },
+  {
+    "slug": "exception-design-philosophy",
+    "title": "Exception Design: When to Throw, and Checked vs. Unchecked as a Choice",
+    "summary": "How to decide when a failure should be an exception at all, and whether a new exception type should be checked or unchecked.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Exception — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html",
+        "type": "doc"
+      },
+      {
+        "label": "RuntimeException — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/RuntimeException.html",
+        "type": "doc"
+      },
+      {
+        "label": "Optional — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html",
+        "type": "doc"
+      },
+      {
+        "label": "Iterator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Unchecked Exceptions — The Controversy — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html",
+        "type": "doc"
+      }
+    ],
+    "id": 47
+  },
+  {
+    "slug": "serialization-risks-and-safer-alternatives",
+    "title": "Serialization: Why It's Dangerous and How to Contain It",
+    "summary": "Implementing Serializable bypasses your constructor's invariant checks and exposes internals as permanent API — see why, and how readObject discipline, the serialization proxy pattern, and ObjectInputFilter contain the risk.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Serializable — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectInputStream — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectInputFilter — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputFilter.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 290: Filter Incoming Serialization Data",
+        "url": "https://openjdk.org/jeps/290",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 415: Context-Specific Deserialization Filters",
+        "url": "https://openjdk.org/jeps/415",
+        "type": "doc"
+      },
+      {
+        "label": "Java Object Serialization Specification",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/serialization/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Secure Coding Guidelines for Java SE — Serialization",
+        "url": "https://docs.oracle.com/pls/topic/lookup?ctx=javase25&id=secure_coding_guidelines_javase",
+        "type": "doc"
+      }
+    ],
+    "id": 48
+  },
+  {
+    "slug": "visibility-and-safe-publication",
+    "title": "Visibility and Safe Publication Across Threads",
+    "summary": "Explains why unsynchronized reads across threads can see stale or torn values, what volatile actually guarantees, and how to publish an object to another thread safely.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Chapter 17. Threads and Locks — Java Language Specification (JLS SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.4 Memory Model",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.5 final Field Semantics",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.5",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.7 Non-Atomic Treatment of double and long",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.7",
+        "type": "doc"
+      },
+      {
+        "label": "volatile — Java Language Keywords (Java SE tutorials)",
+        "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/variables.html",
+        "type": "doc"
+      },
+      {
+        "label": "AtomicReference — java.util.concurrent.atomic",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/AtomicReference.html",
+        "type": "doc"
+      }
+    ],
+    "id": 49
+  },
+  {
+    "slug": "abstract-queued-synchronizer-and-custom-locks",
+    "title": "AbstractQueuedSynchronizer: What's Underneath Lock and Semaphore",
+    "summary": "The shared internal machinery — a state field, a thread queue, and a handful of overridable hooks — that ReentrantLock, Semaphore, and CountDownLatch are all built on top of.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "AbstractQueuedSynchronizer — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html",
+        "type": "doc"
+      },
+      {
+        "label": "AbstractQueuedSynchronizer.ConditionObject — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.ConditionObject.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReentrantLock — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "Semaphore — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html",
+        "type": "doc"
+      },
+      {
+        "label": "CountDownLatch — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CountDownLatch.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReentrantReadWriteLock — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html",
+        "type": "doc"
+      }
+    ],
+    "id": 50
+  },
+  {
+    "slug": "deadlock-lock-ordering-and-avoidance",
+    "title": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
+    "summary": "How lock-ordering deadlocks happen between threads, and how consistent lock ordering, open calls, and timed lock attempts prevent and diagnose them.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "ReentrantLock — tryLock(long, TimeUnit)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "Lock interface",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Lock.html",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadMXBean — findDeadlockedThreads / findMonitorDeadlockedThreads",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.management/java/lang/management/ThreadMXBean.html",
+        "type": "doc"
+      },
+      {
+        "label": "jcmd command reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jcmd.html",
+        "type": "doc"
+      },
+      {
+        "label": "jstack command reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jstack.html",
+        "type": "doc"
+      }
+    ],
+    "id": 51
   }
 ]
