@@ -721,5 +721,110 @@
     ],
     "explanation": "distinct() relies on equals()/hashCode(). Point does not override either, so it uses Object's identity-based implementations — the two Point instances are distinct objects even though their fields match. Nothing is removed, so count is 2. (Using a record instead of a plain class would print 1, since records generate equals()/hashCode() from their components.)",
     "source": "Oracle Docs – Stream.distinct (Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#distinct()"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What does the following code print?",
+    "code": "var result = Stream.of(1, 2, 3, 4, 5)\n  .gather(Gatherers.windowSliding(2))\n  .toList();\nSystem.out.println(result);",
+    "options": [
+      {
+        "key": "A",
+        "text": "[[1, 2], [2, 3], [3, 4], [4, 5]]"
+      },
+      {
+        "key": "B",
+        "text": "[[1, 2], [3, 4], [5]]"
+      },
+      {
+        "key": "C",
+        "text": "[[1, 2, 3, 4, 5]]"
+      },
+      {
+        "key": "D",
+        "text": "[[1], [2], [3], [4], [5]]"
+      },
+      {
+        "key": "E",
+        "text": "The code does not compile."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "Unlike windowFixed, which produces non-overlapping windows, Gatherers.windowSliding(n) produces overlapping windows: it advances one element at a time, emitting a window of size n for every position until fewer than n elements remain. For [1,2,3,4,5] with size 2, that's [1,2], [2,3], [3,4], [4,5].",
+    "source": "JEP 485 – Stream Gatherers (finalized in JDK 24, included in Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html#windowSliding(int)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "single",
+    "text": "What is the key difference between Gatherers.fold() and Gatherers.scan()?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "fold() emits only the final accumulated value; scan() emits every intermediate accumulated value, one per input element."
+      },
+      {
+        "key": "B",
+        "text": "fold() only works with parallel streams; scan() only works with sequential streams."
+      },
+      {
+        "key": "C",
+        "text": "fold() requires a combiner argument; scan() does not accept one."
+      },
+      {
+        "key": "D",
+        "text": "They are aliases for the same operation with different names."
+      },
+      {
+        "key": "E",
+        "text": "scan() can only be used on streams of numeric types."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "scan(initial, BiFunction) is a many-to-many, stateful gatherer that emits one output per input, each being the running accumulation up to that point — similar to a 'running total'. fold(supplier, integrator) is many-to-one: like reduce(), it only produces the final accumulated result once the upstream is exhausted, so it cannot be used with infinite streams or short-circuited.",
+    "source": "JEP 485 – Stream Gatherers (finalized in JDK 24, included in Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "streams",
+    "type": "multi",
+    "text": "Which of the following are true about creating a custom Gatherer using Gatherer.of() or Gatherer.ofSequential()? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "A Gatherer is composed of up to four components: initializer, integrator, combiner, and finisher."
+      },
+      {
+        "key": "B",
+        "text": "Gatherer.ofSequential() creates a gatherer with no combiner, forcing that stage of the pipeline to run sequentially even inside a parallel stream."
+      },
+      {
+        "key": "C",
+        "text": "The integrator can signal early termination, allowing the gatherer to short-circuit the rest of the stream."
+      },
+      {
+        "key": "D",
+        "text": "Two gatherers can be chained together with andThen() to form a composite gatherer."
+      },
+      {
+        "key": "E",
+        "text": "A custom gatherer must emit exactly one output element for every input element it consumes."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "explanation": "Gatherer has initializer (Supplier<A>), integrator, combiner (used for merging state in parallel evaluation), and finisher; the of()/ofSequential() overloads let you omit the ones you don't need. ofSequential() omits the combiner, which forces sequential execution of that stage. The integrator's Integrator.Sink allows returning false to stop processing more elements (short-circuiting). Gatherers can be composed with andThen(). Option E is false: unlike map(), a gatherer can emit zero, one, or many outputs per input — that flexibility is the entire point of the Gatherer API (e.g. windowFixed emits one output per N inputs).",
+    "source": "JEP 485 – Stream Gatherers (finalized in JDK 24, included in Java SE 25): https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherer.html"
   }
 ]

@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "algorithm-analysis-order-of-growth",
+    "id": 1,
+    "category": "Fundamentals",
+    "title": "Analysis of Algorithms: Order of Growth and Asymptotic Notation",
+    "summary": "How to describe an algorithm's running time independent of hardware and input size, using Sedgewick's tilde/order-of-growth shorthand and Cormen's formal O/Ω/Θ bounds.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 1.4 \"Analysis of Algorithms\", pp. 172-215",
+        "url": "https://algs4.cs.princeton.edu/14analysis/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 3 \"Characterizing Running Times\", Section 3.1, pp. 49-63",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "quicksort",
+    "id": 2,
+    "category": "Sorting",
+    "title": "Quicksort: Partitioning, Pivots, and Two Textbook Schemes",
+    "summary": "How quicksort sorts in-place by partitioning around a pivot, why average-case performance is O(n log n) but worst-case is O(n²), and how Sedgewick's two-pointer partition differs from Cormen's Lomuto scheme.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.3 \"Quicksort\", pp. 288-307",
+        "url": "https://algs4.cs.princeton.edu/23quicksort/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 7 \"Quicksort\", pp. 182-204",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ]
+  }
+]

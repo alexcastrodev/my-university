@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
@@ -21,6 +22,7 @@ import { ReviewService } from './review.service';
     SystemDesignConceptsModule,
     JavaMinuteModule,
     TestingConceptsModule,
+    AlgorithmsConceptsModule,
   ],
   controllers: [ReviewController],
   providers: [ReviewService],

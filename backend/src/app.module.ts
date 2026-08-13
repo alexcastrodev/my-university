@@ -13,6 +13,7 @@ import { Question } from './exam/question.entity';
 import { CourseModule as CourseModuleEntity } from './lesson/course-module.entity';
 import { Lesson } from './lesson/lesson.entity';
 import { Course } from './course/course.entity';
+import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
@@ -48,6 +49,7 @@ import { XpModule } from './xp/xp.module';
     SpringConceptsModule,
     SystemDesignConceptsModule,
     TestingConceptsModule,
+    AlgorithmsConceptsModule,
     ProgressModule,
     ExamModule,
     XpModule,

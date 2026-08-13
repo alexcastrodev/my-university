@@ -78,6 +78,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/testing-concepts/testing-concepts-detail').then((m) => m.TestingConceptsDetailPage),
   },
   {
+    path: 'algorithms/algorithms-concepts',
+    loadComponent: () => import('./pages/algorithms-concepts/algorithms-concepts-list').then((m) => m.AlgorithmsConceptsListPage),
+  },
+  {
+    path: 'algorithms/algorithms-concepts/:slug',
+    loadComponent: () => import('./pages/algorithms-concepts/algorithms-concepts-detail').then((m) => m.AlgorithmsConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

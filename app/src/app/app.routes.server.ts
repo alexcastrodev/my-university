@@ -62,6 +62,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'algorithms/algorithms-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'algorithms/algorithms-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Client,
   },

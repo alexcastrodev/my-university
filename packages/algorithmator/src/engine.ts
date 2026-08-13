@@ -1,21 +1,32 @@
 import * as d3 from 'd3';
 import { VizScene, VizStep } from './types';
 
-const STEP_DELAY_MS = 900;
-const TRANSITION_MS = 300;
+const STEP_DELAY_MS = 1300;
+const TRANSITION_MS = 380;
+
+// Row-layout geometry — kept in sync with the `--cv-cell-*` custom properties consumers set in
+// their `.concept-viz-slots--row` CSS (see algorithms-concept-view.css). Hardcoded rather than
+// read from the DOM because this is an internal rendering detail, not something content authors
+// configure per scene.
+const CELL_WIDTH = 52;
+const CELL_HEIGHT = 78; // container height: a 52px token box + gap + its index label beneath
+const CELL_GAP = 10;
+const CELL_STEP = CELL_WIDTH + CELL_GAP;
 
 /**
  * Renders `scene.slots` once, then plays `scene.steps` into `el` — autoplaying from the start,
  * with Prev/Next/Play-Pause/Replay controls so a reader can take over and step through by hand
  * at their own pace. Every navigation (forward, backward, or reset) replays scene.steps[0..target]
- * from an empty state and re-runs the same D3 enter/update/exit join; D3's keyed data join means
- * tokens that stay put across a replay are recognized as "update" (no re-animation), so only
- * genuinely new/moved/removed tokens animate — no bespoke undo logic needed per step type.
+ * from an empty state and re-derives the slot/token layout that state implies; only the *delta*
+ * against what's currently on screen actually animates (see renderGridSlots/renderRowTokens),
+ * so intermediate replayed steps never themselves animate — only the target step's effect does.
  * Framework-agnostic — pass any HTMLElement you own.
  *
  * Returns a cleanup function that cancels any pending timers.
  */
 export function mountViz(el: HTMLElement, scene: VizScene): () => void {
+  const isRow = scene.layout === 'row';
+
   el.innerHTML = '';
   el.classList.add('concept-viz-root');
 
@@ -46,10 +57,12 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
 
   const queueEl = document.createElement('div');
   queueEl.className = 'concept-viz-queue';
-  el.appendChild(queueEl);
+  // Row-mode scenes place every item up front (it's a fixed-size array being reordered, not
+  // items arriving over time), so the "still to arrive" queue doesn't mean anything there.
+  if (!isRow) el.appendChild(queueEl);
 
   const slotsEl = document.createElement('div');
-  slotsEl.className = 'concept-viz-slots';
+  slotsEl.className = isRow ? 'concept-viz-slots concept-viz-slots--row' : 'concept-viz-slots';
   el.appendChild(slotsEl);
 
   const caption = document.createElement('div');
@@ -57,13 +70,28 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
   el.appendChild(caption);
 
   const slotEls = new Map<string, HTMLElement>();
-  scene.slots.forEach((slot) => {
-    const slotEl = document.createElement('div');
-    slotEl.className = 'concept-viz-slot';
-    slotEl.innerHTML = `<span class="concept-viz-slot-label">${slot.label}</span>`;
-    slotsEl.appendChild(slotEl);
-    slotEls.set(slot.id, slotEl);
-  });
+  const slotIndexOf = new Map(scene.slots.map((s, i) => [s.id, i]));
+
+  if (isRow) {
+    slotsEl.style.width = `${scene.slots.length * CELL_STEP - CELL_GAP}px`;
+    slotsEl.style.height = `${CELL_HEIGHT}px`;
+    scene.slots.forEach((slot, index) => {
+      const cellEl = document.createElement('div');
+      cellEl.className = 'concept-viz-cell';
+      cellEl.style.left = `${index * CELL_STEP}px`;
+      cellEl.innerHTML = `<span class="concept-viz-cell-label">${slot.label}</span>`;
+      slotsEl.appendChild(cellEl);
+      slotEls.set(slot.id, cellEl);
+    });
+  } else {
+    scene.slots.forEach((slot) => {
+      const slotEl = document.createElement('div');
+      slotEl.className = 'concept-viz-slot';
+      slotEl.innerHTML = `<span class="concept-viz-slot-label">${slot.label}</span>`;
+      slotsEl.appendChild(slotEl);
+      slotEls.set(slot.id, slotEl);
+    });
+  }
 
   const allTokens = [...new Set(scene.steps.filter((s) => s.place).map((s) => s.place!.token))];
   const lastIndex = scene.steps.length - 1;
@@ -80,7 +108,7 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
       .text((d) => d);
   };
 
-  const renderSlots = (bySlot: Map<string, string[]>): void => {
+  const renderGridSlots = (bySlot: Map<string, string[]>): void => {
     scene.slots.forEach((slot) => {
       const tokens = bySlot.get(slot.id) ?? [];
       const slotSel = d3.select(slotEls.get(slot.id)!);
@@ -113,6 +141,68 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     });
   };
 
+  // Row mode: one persistent DOM element per token, positioned absolutely within `slotsEl` and
+  // moved via `transform: translate(x, y)`. Unlike grid mode's per-slot D3 join (which can only
+  // fade a token out of one slot's container and fade a *different* element into another slot's
+  // container), a token here is the *same* element throughout its life — animating its transform
+  // is a real, visible slide from its old position to its new one, not a cross-dissolve.
+  const rowTokenEls = new Map<string, HTMLElement>();
+
+  const renderRowTokens = (bySlot: Map<string, string[]>, swappedTokens: ReadonlySet<string>): void => {
+    const activeTokenSlot = new Map<string, string>();
+    bySlot.forEach((tokens, slotId) => tokens.forEach((t) => activeTokenSlot.set(t, slotId)));
+
+    for (const [token, tokenEl] of [...rowTokenEls]) {
+      if (activeTokenSlot.has(token)) continue;
+      d3.select(tokenEl)
+        .transition()
+        .duration(TRANSITION_MS)
+        .style('opacity', '0')
+        .on('end', () => tokenEl.remove());
+      rowTokenEls.delete(token);
+    }
+
+    activeTokenSlot.forEach((slotId, token) => {
+      const x = (slotIndexOf.get(slotId) ?? 0) * CELL_STEP;
+      let tokenEl = rowTokenEls.get(token);
+
+      if (!tokenEl) {
+        tokenEl = document.createElement('div');
+        tokenEl.className = 'concept-viz-row-token';
+        tokenEl.textContent = token;
+        tokenEl.style.transform = `translate(${x}px, 0px) scale(0.7)`;
+        tokenEl.style.opacity = '0';
+        slotsEl.appendChild(tokenEl);
+        rowTokenEls.set(token, tokenEl);
+        requestAnimationFrame(() => {
+          d3.select(tokenEl!)
+            .transition()
+            .duration(TRANSITION_MS)
+            .style('opacity', '1')
+            .style('transform', `translate(${x}px, 0px) scale(1)`);
+        });
+        return;
+      }
+
+      const targetTransform = `translate(${x}px, 0px) scale(1)`;
+      if (tokenEl.style.transform === targetTransform) return; // unchanged this step — no re-animation
+
+      if (swappedTokens.has(token)) {
+        // A little hop (lift, slide, settle) so two elements trading places read as a swap
+        // instead of two independent slides that happen to cross.
+        d3.select(tokenEl)
+          .transition()
+          .duration(TRANSITION_MS * 0.55)
+          .style('transform', `translate(${x}px, -16px) scale(1.08)`)
+          .transition()
+          .duration(TRANSITION_MS * 0.45)
+          .style('transform', targetTransform);
+      } else {
+        d3.select(tokenEl).transition().duration(TRANSITION_MS).style('transform', targetTransform);
+      }
+    });
+  };
+
   const flashSlot = (slotId: string): void => {
     const slotEl = slotEls.get(slotId);
     if (!slotEl) return;
@@ -138,6 +228,21 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
       bySlot.get(step.move.toSlot)?.push(step.move.token);
       tokenSlot.set(step.move.token, step.move.toSlot);
     }
+    if (step.swap) {
+      const { tokenA, tokenB } = step.swap;
+      const slotA = tokenSlot.get(tokenA);
+      const slotB = tokenSlot.get(tokenB);
+      if (slotA && slotB && slotA !== slotB) {
+        const tokensA = bySlot.get(slotA);
+        const tokensB = bySlot.get(slotB);
+        if (tokensA) bySlot.set(slotA, tokensA.filter((t) => t !== tokenA));
+        if (tokensB) bySlot.set(slotB, tokensB.filter((t) => t !== tokenB));
+        bySlot.get(slotB)?.push(tokenA);
+        bySlot.get(slotA)?.push(tokenB);
+        tokenSlot.set(tokenA, slotB);
+        tokenSlot.set(tokenB, slotA);
+      }
+    }
     if (step.remove) {
       const from = tokenSlot.get(step.remove.token);
       const fromTokens = from && bySlot.get(from);
@@ -161,8 +266,6 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     playPauseBtn.title = isPlaying ? 'Pause' : 'Play';
   };
 
-  // Every navigation replays scene.steps[0..target] from scratch — see the function doc comment
-  // above for why this is safe and cheap for the small step counts these visualizations have.
   const renderAt = (target: number): void => {
     if (doneTimer) clearTimeout(doneTimer);
 
@@ -171,8 +274,14 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     const introduced = new Set<string>();
     for (let i = 0; i <= target; i++) applyStep(scene.steps[i], bySlot, tokenSlot, introduced);
 
-    renderQueue(introduced);
-    renderSlots(bySlot);
+    if (isRow) {
+      const targetStep = target >= 0 ? scene.steps[target] : null;
+      const swappedTokens = targetStep?.swap ? new Set([targetStep.swap.tokenA, targetStep.swap.tokenB]) : new Set<string>();
+      renderRowTokens(bySlot, swappedTokens);
+    } else {
+      renderQueue(introduced);
+      renderGridSlots(bySlot);
+    }
     caption.textContent = target === -1 ? '' : scene.steps[target].caption;
 
     if (target > lastRenderedIndex && target >= 0 && scene.steps[target].highlight) {

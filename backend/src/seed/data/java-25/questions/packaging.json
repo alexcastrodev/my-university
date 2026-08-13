@@ -567,5 +567,73 @@
     ],
     "explanation": "jar --describe-module (or its short form jar -d) reads a JAR's module-info.class directly and prints the module's name, requires, exports, and other directives, without needing to extract the JAR. If the JAR has no module-info.class, the same command instead prints the automatic module name that would be derived for it.",
     "source": "Oracle Docs – jar tool, --describe-module: https://docs.oracle.com/en/java/javase/21/docs/specs/man/jar.html"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "A source file contains both of the following import declarations. Which statement is correct?",
+    "code": "import module java.base;\nimport java.util.List;\n\npublic class Demo {\n    public static void main(String[] args) {\n        List<String> list = new ArrayList<>();\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "This is a compile-time error: List is imported twice, once via the module import and once explicitly."
+      },
+      {
+        "key": "B",
+        "text": "This compiles fine — a single-type import always takes precedence over the on-demand import supplied by a module import for the same simple name."
+      },
+      {
+        "key": "C",
+        "text": "This compiles, but every unqualified use of List becomes ambiguous and must be fully qualified."
+      },
+      {
+        "key": "D",
+        "text": "Module imports and single-type imports cannot be combined in the same source file."
+      },
+      {
+        "key": "E",
+        "text": "This compiles only because the single-type import for List appears after the module import."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A module import is just a convenient on-demand import of every package a module exports, so it follows the same precedence rules as a wildcard import: an explicit single-type import for a given simple name always wins over any on-demand import (module or wildcard) that would also bring in a type with that name. There is no ambiguity, no duplicate-import error, and the order of the two declarations does not matter.",
+    "source": "JEP 511 – Module Import Declarations (Java 25): https://openjdk.org/jeps/511"
+  },
+  {
+    "examId": "java-25",
+    "topic": "packaging",
+    "type": "single",
+    "text": "The java.se module exports no packages of its own, but its module descriptor contains many 'requires transitive' clauses, e.g. requires transitive java.base; requires transitive java.desktop; and so on. What happens when a source file contains import module java.se;?",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Nothing is imported, since java.se itself exports no packages."
+      },
+      {
+        "key": "B",
+        "text": "All packages exported by every module reachable from java.se through requires transitive (recursively) become imported."
+      },
+      {
+        "key": "C",
+        "text": "Only the packages of modules that java.se requires with a plain (non-transitive) requires are imported."
+      },
+      {
+        "key": "D",
+        "text": "This is a compile-time error, because java.se cannot be the target of a module import declaration."
+      },
+      {
+        "key": "E",
+        "text": "Only java.base's packages are imported, since it is the platform's root module."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "A module import brings in the packages exported by the named module AND, recursively, the packages exported by every module it reads via 'requires transitive' — which is exactly how a module like java.se, which re-exports nothing itself but transitively requires most of the platform, can be used to pull in a large set of packages with one import module declaration. Plain (non-transitive) requires clauses do not propagate this way — that distinction is the crux of how module imports interact with the module system.",
+    "source": "JEP 511 – Module Import Declarations (Java 25): https://openjdk.org/jeps/511"
   }
 ]

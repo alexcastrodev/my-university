@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
+import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
@@ -21,7 +22,8 @@ export type SearchResultType =
   | 'database-concept'
   | 'spring-concept'
   | 'system-design-concept'
-  | 'testing-concept';
+  | 'testing-concept'
+  | 'algorithms-concept';
 
 export interface SearchResult {
   type: SearchResultType;
@@ -44,6 +46,7 @@ export class SearchService implements OnApplicationBootstrap {
     private springConceptsService: SpringConceptsService,
     private systemDesignConceptsService: SystemDesignConceptsService,
     private testingConceptsService: TestingConceptsService,
+    private algorithmsConceptsService: AlgorithmsConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -162,6 +165,17 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Testing Concepts',
         url: `/java/testing/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.algorithmsConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `algorithms-concept-${concept.slug}`,
+        type: 'algorithms-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Algorithms',
+        url: `/algorithms/algorithms-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

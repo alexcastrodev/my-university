@@ -688,5 +688,146 @@
     ],
     "explanation": "final only prevents the coords reference itself from being reassigned — it says nothing about the mutability of the object it points to. Because the constructor stores the caller's list directly (no defensive copy) and getCoords() returns that same reference (no defensive copy on the way out either), the class is not truly immutable: mutating the original list after construction, or mutating the returned list, both affect the 'immutable' object's visible state. A genuinely immutable class must defensively copy mutable inputs and outputs.",
     "source": "Oracle Docs – Creating Immutable Objects: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html#copyOf(java.util.Collection)"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following statements, placed before super() or this(), are legal in Java 25 thanks to flexible constructor bodies (JEP 513) but would NOT have compiled in Java 21? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "Local variable declarations and computations, e.g. int computed = x * 2;"
+      },
+      {
+        "key": "B",
+        "text": "Calls to static methods of the current class."
+      },
+      {
+        "key": "C",
+        "text": "Calls to instance methods of the current class, e.g. this.validate();"
+      },
+      {
+        "key": "D",
+        "text": "throw statements used to validate constructor arguments, e.g. if (x < 0) throw new IllegalArgumentException();"
+      },
+      {
+        "key": "E",
+        "text": "Assignments to instance fields of the current class, e.g. this.field = x;"
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "D"
+    ],
+    "explanation": "JEP 513 allows a 'prologue' of statements before super()/this() as long as those statements do not reference the instance being constructed. Local variable declarations, static method calls, and throw statements for argument validation are all fine because none of them touch 'this'. Options C and E are still illegal in Java 25: calling an instance method implicitly uses 'this', and assigning to 'this.field' accesses the not-yet-initialized instance — both remain compile errors.",
+    "source": "JEP 513 – Flexible Constructor Bodies (Java 25): https://openjdk.org/jeps/513"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "What happens when the following code is compiled?",
+    "code": "class Animal {\n    Animal() { System.out.println(\"Animal created\"); }\n}\nclass Dog extends Animal {\n    String name;\n    Dog(String name) {\n        this.name = name;\n        super();\n    }\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "It compiles and prints \"Animal created\" when a Dog is constructed."
+      },
+      {
+        "key": "B",
+        "text": "It does not compile — this.name = name accesses the instance being constructed before super() has run."
+      },
+      {
+        "key": "C",
+        "text": "It compiles but throws a NullPointerException at runtime."
+      },
+      {
+        "key": "D",
+        "text": "It compiles only if Dog is declared final."
+      },
+      {
+        "key": "E",
+        "text": "It does not compile — flexible constructor bodies do not allow super() to appear anywhere except as the first statement."
+      }
+    ],
+    "correctKeys": [
+      "B"
+    ],
+    "explanation": "Flexible constructor bodies (JEP 513) do let statements precede super() — but only statements that don't reference the instance under construction. this.name = name is exactly such a reference (an assignment through 'this'), so it is still illegal before super() runs, regardless of where super() itself appears. Option E states the right conclusion (does not compile) for the wrong reason: super() no longer has to be the literal first statement in general, it just can't be preceded by code that touches 'this'.",
+    "source": "JEP 513 – Flexible Constructor Bodies (Java 25): https://openjdk.org/jeps/513"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "multi",
+    "text": "Which of the following are valid uses of the unnamed variable _ under JEP 456? (Choose all that apply.)",
+    "code": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "BiFunction<Integer, Integer, Integer> addOne = (_, y) -> y + 1; — first lambda parameter unused."
+      },
+      {
+        "key": "B",
+        "text": "for (var _ : list) { count++; } — enhanced-for loop variable unused."
+      },
+      {
+        "key": "C",
+        "text": "case Point(int x, var _) -> ...; — a nested record pattern component left unnamed."
+      },
+      {
+        "key": "D",
+        "text": "static void method(int _, int y) { ... } — an unnamed formal parameter in a regular (non-lambda) method declaration."
+      },
+      {
+        "key": "E",
+        "text": "(_, _) -> compute(); — two unnamed lambda parameters in the same parameter list."
+      }
+    ],
+    "correctKeys": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "explanation": "JEP 456 permits _ for local variables, enhanced-for variables, catch parameters, lambda parameters, and pattern variables (including nested record-pattern components), and — unlike ordinary identifiers — the same _ can be reused more than once in the same scope. Option D is the trap: unnamed variables are NOT allowed as formal parameters of a regular method or constructor declaration, only as lambda parameters.",
+    "source": "JEP 456 – Unnamed Variables and Patterns: https://openjdk.org/jeps/456"
+  },
+  {
+    "examId": "java-25",
+    "topic": "oop",
+    "type": "single",
+    "text": "Does the following code compile, and why?",
+    "code": "sealed interface Shape permits Circle, Rectangle {}\nrecord Circle(double radius) implements Shape {}\nrecord Rectangle(double width, double height) implements Shape {}\nrecord Pair(Shape a, Shape b) {}\n\nstatic boolean sameKind(Pair p) {\n    return switch (p) {\n        case Pair(Circle _, Circle _) -> true;\n        case Pair(Rectangle _, Rectangle _) -> true;\n        default -> false;\n    };\n}",
+    "options": [
+      {
+        "key": "A",
+        "text": "Yes — nested record patterns can use _ for components whose value isn't needed, and the same _ may repeat within a single pattern."
+      },
+      {
+        "key": "B",
+        "text": "No — the unnamed variable _ cannot appear twice within a single pattern."
+      },
+      {
+        "key": "C",
+        "text": "No — record pattern components must each be given a distinct binding name."
+      },
+      {
+        "key": "D",
+        "text": "Yes, but only because Circle and Rectangle are declared as records rather than plain classes."
+      },
+      {
+        "key": "E",
+        "text": "No — case labels cannot mix record patterns with the default label in the same switch."
+      }
+    ],
+    "correctKeys": [
+      "A"
+    ],
+    "explanation": "This compiles. Normal identifiers can't be declared twice in the same scope, but _ is explicitly exempted from that rule so it can appear as many times as needed within one pattern (or one scope) to mark multiple 'don't care' bindings — here, both components of each nested Circle/Rectangle pattern.",
+    "source": "JEP 456 – Unnamed Variables and Patterns: https://openjdk.org/jeps/456"
   }
 ]

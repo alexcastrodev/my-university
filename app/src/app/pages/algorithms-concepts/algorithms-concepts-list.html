@@ -1,0 +1,48 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">Algorithms</h1>
+    <p class="page-sub">Classic algorithms and data structures — from Sedgewick and Cormen, explained in depth.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="filters-row">
+      <div class="category-filters">
+        @for (opt of CATEGORY_OPTIONS; track opt.value) {
+          <button type="button" class="category-filter-pill"
+            [class.active]="selectedCategory() === opt.value"
+            (click)="onFilterChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+      <button type="button" class="labs-filter-btn"
+        [class.active]="showOnlyLabs()"
+        (click)="onToggleLabsFilter()">
+        🔬 Labs only
+      </button>
+    </div>
+
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            {{ opt.label }}
+          </button>
+        }
+      </div>
+      <app-concept-view-toggle />
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else {
+      <app-concept-card-list [items]="filteredConcepts()" [routeCommands]="ROUTE_COMMANDS" />
+    }
+  </div>
+</div>

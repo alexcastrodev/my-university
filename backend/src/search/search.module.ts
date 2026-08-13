@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
+import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
@@ -23,6 +24,7 @@ import { SearchService } from './search.service';
     SpringConceptsModule,
     SystemDesignConceptsModule,
     TestingConceptsModule,
+    AlgorithmsConceptsModule,
   ],
   controllers: [SearchController],
   providers: [SearchService, MeilisearchClient],

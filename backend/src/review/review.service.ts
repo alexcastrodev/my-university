@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, Repository } from 'typeorm';
+import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -36,6 +37,7 @@ export class ReviewService {
     private systemDesignConcepts: SystemDesignConceptsService,
     private javaMinute: JavaMinuteService,
     private testingConcepts: TestingConceptsService,
+    private algorithmsConcepts: AlgorithmsConceptsService,
   ) {}
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
@@ -73,6 +75,7 @@ export class ReviewService {
       'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),
       'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
       'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
+      'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
     } as Record<string, Map<string, string>>;
 
     const items: ReviewQueueItem[] = [];

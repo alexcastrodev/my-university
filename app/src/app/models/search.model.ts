@@ -7,7 +7,8 @@ export type SearchResultType =
   | 'database-concept'
   | 'spring-concept'
   | 'system-design-concept'
-  | 'testing-concept';
+  | 'testing-concept'
+  | 'algorithms-concept';
 
 export interface SearchResult {
   type: SearchResultType;
