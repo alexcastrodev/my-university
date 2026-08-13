@@ -277,5 +277,53 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "g1-regions-and-evacuation-failure",
+    "id": 13,
+    "title": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+    "summary": "How G1 lays out the heap as regions instead of fixed generations, why a 1MB+ allocation can skip eden and land straight in old, and how to read a GC log line well enough to tell a healthy young collection from an evacuation failure.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 6 \"Garbage Collection Algorithms\", \"The G1 GC\" section, pp. 172-192",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "HotSpot Virtual Machine Garbage Collection Tuning Guide — Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-garbage-collector.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 307: Parallel Full GC for G1",
+        "url": "https://openjdk.org/jeps/307",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "zgc-colored-pointers-and-allocation-stalls",
+    "id": 14,
+    "title": "ZGC Concurrent Collection: Colored Pointers and Allocation Stalls",
+    "summary": "How ZGC's colored pointers and load barrier keep pauses sub-millisecond by moving objects concurrently, what generational ZGC changed in JDK 21-24, and why an allocation stall — not a pause — is ZGC's actual failure mode to monitor.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "JEP 439: Generational ZGC",
+        "url": "https://openjdk.org/jeps/439",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 474: ZGC: Generational Mode by Default",
+        "url": "https://openjdk.org/jeps/474",
+        "type": "doc"
+      },
+      {
+        "label": "The Z Garbage Collector — HotSpot GC Tuning Guide, Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/gctuning/z-garbage-collector.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
