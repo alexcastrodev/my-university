@@ -1,0 +1,31 @@
+<div class="view-toggle" role="group" aria-label="View mode">
+  <button
+    type="button"
+    class="view-toggle-btn"
+    [class.active]="viewModeService.mode() === 'grid'"
+    [attr.aria-pressed]="viewModeService.mode() === 'grid'"
+    (click)="viewModeService.setMode('grid')"
+    aria-label="Grid view"
+    title="Grid view"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+      <rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+      <rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+      <rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="view-toggle-btn"
+    [class.active]="viewModeService.mode() === 'list'"
+    [attr.aria-pressed]="viewModeService.mode() === 'list'"
+    (click)="viewModeService.setMode('list')"
+    aria-label="List view"
+    title="List view"
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
+</div>

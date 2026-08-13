@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { JvmConceptSummary } from '../../models/jvm-concept.model';
 import { JvmConceptsService } from '../../services/jvm-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
+import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
   selector: 'app-jvm-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './jvm-concepts-list.html',
   styleUrl: './jvm-concepts-list.css',
 })
@@ -17,6 +18,7 @@ export class JvmConceptsListPage implements OnInit {
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+  protected readonly ROUTE_COMMANDS = ['/java/jvm-concepts'];
 
   concepts = signal<JvmConceptSummary[]>([]);
   loading = signal(true);

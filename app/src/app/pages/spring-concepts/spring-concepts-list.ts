@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
+import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[] = [
@@ -15,7 +16,7 @@ const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[]
 @Component({
   selector: 'app-spring-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './spring-concepts-list.html',
   styleUrl: './spring-concepts-list.css',
 })
@@ -25,6 +26,7 @@ export class SpringConceptsListPage implements OnInit {
 
   protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+  protected readonly ROUTE_COMMANDS = ['/spring-concepts'];
 
   concepts = signal<SpringConceptSummary[]>([]);
   loading = signal(true);

@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
+import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
   selector: 'app-system-design-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './system-design-concepts-list.html',
   styleUrl: './system-design-concepts-list.css',
 })
@@ -19,6 +20,7 @@ export class SystemDesignConceptsListPage implements OnInit {
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+  protected readonly ROUTE_COMMANDS = ['/system-design/system-design-concepts'];
 
   concepts = signal<SystemDesignConceptSummary[]>([]);
   loading = signal(true);

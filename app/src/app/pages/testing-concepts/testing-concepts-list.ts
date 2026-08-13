@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TestingConceptCategory, TestingConceptSummary } from '../../models/testing-concept.model';
 import { TestingConceptsService } from '../../services/testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
+import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
+import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: TestingConceptCategory | null }[] = [
@@ -14,7 +15,7 @@ const CATEGORY_OPTIONS: { label: string; value: TestingConceptCategory | null }[
 @Component({
   selector: 'app-testing-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './testing-concepts-list.html',
   styleUrl: './testing-concepts-list.css',
 })
@@ -24,6 +25,7 @@ export class TestingConceptsListPage implements OnInit {
 
   protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
+  protected readonly ROUTE_COMMANDS = ['/java/testing'];
 
   concepts = signal<TestingConceptSummary[]>([]);
   loading = signal(true);
