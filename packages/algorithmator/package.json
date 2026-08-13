@@ -8,14 +8,20 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json --watch"
+    "watch": "tsc -p tsconfig.json --watch",
+    "spec": "vitest run --config vitest.config.ts",
+    "spec:watch": "vitest --config vitest.config.ts",
+    "spec:coverage": "vitest run --config vitest.config.ts --coverage"
   },
   "dependencies": {
     "d3": "^7.9.0",
     "mathjs": "^15.2.0"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@vitest/coverage-v8": "^4.1.10",
+    "happy-dom": "^20.11.2",
     "typescript": "~6.0.3",
-    "@types/d3": "^7.4.3"
+    "vitest": "^4.1.10"
   }
 }

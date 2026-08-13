@@ -45,7 +45,6 @@ export function mountGraph(el: HTMLElement, scene: GraphScene): () => void {
   svg.setAttribute('width', String(MARGIN * 2 + NODE_RADIUS * 2 + maxCol * COL_SPACING));
   svg.setAttribute('height', String(MARGIN * 2 + NODE_RADIUS * 2 + maxRow * ROW_SPACING));
 
-  const edgeEls = new Map<string, SVGLineElement>();
   d3.select(edgesGroup)
     .selectAll<SVGLineElement, (typeof scene.edges)[number]>('line')
     .data(scene.edges)
@@ -54,11 +53,7 @@ export function mountGraph(el: HTMLElement, scene: GraphScene): () => void {
     .attr('x1', (d) => posOf.get(d.from)!.cx)
     .attr('y1', (d) => posOf.get(d.from)!.cy)
     .attr('x2', (d) => posOf.get(d.to)!.cx)
-    .attr('y2', (d) => posOf.get(d.to)!.cy)
-    .each(function (d) {
-      edgeEls.set(edgeKey(d.from, d.to), this);
-      if (!d.directed) edgeEls.set(edgeKey(d.to, d.from), this);
-    });
+    .attr('y2', (d) => posOf.get(d.to)!.cy);
 
   const nodeEls = new Map<string, SVGGElement>();
   const nodeSel = d3
@@ -99,9 +94,15 @@ export function mountGraph(el: HTMLElement, scene: GraphScene): () => void {
           .classed('concept-viz-tree-node--pointer', id === currentId)
           .classed('concept-viz-tree-node--flash', id === markedId);
       });
-      edgeEls.forEach((elm, key) => {
-        d3.select(elm).classed('concept-viz-tree-edge--traversed', traversed.has(key));
-      });
+      // An undirected edge's element is shared by both direction keys, so its traversed status
+      // must be an OR of either direction — deciding per-key (as opposed to per-element) would
+      // let whichever key is checked last silently overwrite the other's classification.
+      d3.select(edgesGroup)
+        .selectAll<SVGLineElement, (typeof scene.edges)[number]>('line')
+        .classed(
+          'concept-viz-tree-edge--traversed',
+          (d) => traversed.has(edgeKey(d.from, d.to)) || (!d.directed && traversed.has(edgeKey(d.to, d.from))),
+        );
     },
   });
 
