@@ -161,44 +161,17 @@
   color: #c74634;
 }
 
-/* List view — compact single-line rows instead of the card grid */
+/* List view — one full-width card per row instead of a multi-column grid */
 
 .cards-grid.list-view {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.list-view .concept-card {
-  flex-direction: row;
-  align-items: center;
-  padding: 0.55rem 1rem;
+  grid-template-columns: 1fr;
   gap: 0.75rem;
 }
 
-.list-view .card-header {
-  margin-bottom: 0;
-  flex-shrink: 0;
-  flex-wrap: nowrap;
+.list-view .concept-card {
+  padding: 1rem 1.25rem;
 }
 
-.list-view .card-title {
-  margin: 0;
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.list-view .card-summary,
-.list-view .card-tags {
-  display: none;
-}
-
-.list-view .card-footer {
-  margin-top: 0;
-  padding-top: 0;
-  border-top: none;
-  flex-shrink: 0;
+.list-view .card-summary {
+  -webkit-line-clamp: 6;
 }
