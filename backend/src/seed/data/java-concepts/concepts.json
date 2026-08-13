@@ -927,5 +927,117 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "exception-handling-fundamentals",
+    "id": 35,
+    "title": "Exception Handling Fundamentals",
+    "summary": "Java's structured mechanism for run-time errors — try/catch/finally, throw/throws, checked vs unchecked exceptions, custom exception subclasses, and chained exceptions.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Exception (Java SE 25 & JDK 25) — java.lang.Exception API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html",
+        "type": "doc"
+      },
+      {
+        "label": "Throwable (Java SE 25 & JDK 25) — java.lang.Throwable API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html",
+        "type": "doc"
+      },
+      {
+        "label": "The try-with-resources Statement — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html",
+        "type": "doc"
+      },
+      {
+        "label": "Chapter 11. Exceptions — The Java Language Specification",
+        "url": "https://docs.oracle.com/javase/specs/jls/se21/html/jls-11.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "concurrency-utilities-executors-and-synchronizers",
+    "id": 36,
+    "title": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+    "summary": "The java.util.concurrent toolkit — executors and thread pools, Callable/Future, coordination primitives like CountDownLatch and Semaphore, explicit Locks, and atomic variables — as the higher-level alternative to hand-rolled Thread and synchronized code.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "ExecutorService — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html",
+        "type": "doc"
+      },
+      {
+        "label": "Executors — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Future — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Future.html",
+        "type": "doc"
+      },
+      {
+        "label": "CompletableFuture — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html",
+        "type": "doc"
+      },
+      {
+        "label": "CountDownLatch — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CountDownLatch.html",
+        "type": "doc"
+      },
+      {
+        "label": "Semaphore — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReentrantLock — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "AtomicInteger — java.util.concurrent.atomic",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "fork-join-framework",
+    "id": 37,
+    "title": "The Fork/Join Framework",
+    "summary": "A divide-and-conquer engine for true multi-core parallelism, where a ForkJoinPool runs recursively-split RecursiveAction/RecursiveTask work via work-stealing.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "ForkJoinPool — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinPool.html",
+        "type": "doc"
+      },
+      {
+        "label": "ForkJoinTask — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinTask.html",
+        "type": "doc"
+      },
+      {
+        "label": "RecursiveAction — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/RecursiveAction.html",
+        "type": "doc"
+      },
+      {
+        "label": "RecursiveTask — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/RecursiveTask.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fork/Join — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
