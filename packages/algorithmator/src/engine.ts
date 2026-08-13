@@ -193,21 +193,82 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
         d3.select(tokenEl)
           .transition()
           .duration(TRANSITION_MS * 0.55)
+          .style('opacity', '1')
           .style('transform', `translate(${x}px, -16px) scale(1.08)`)
           .transition()
           .duration(TRANSITION_MS * 0.45)
           .style('transform', targetTransform);
       } else {
-        d3.select(tokenEl).transition().duration(TRANSITION_MS).style('transform', targetTransform);
+        // `.style('opacity', '1')` here isn't just for the move itself — if this call lands
+        // while the token's entrance fade (opacity 0→1) is still in flight, starting this
+        // transition interrupts that one. Without re-asserting opacity, the interrupted fade
+        // freezes at whatever partial value it had reached, leaving the token stuck translucent.
+        d3.select(tokenEl)
+          .transition()
+          .duration(TRANSITION_MS)
+          .style('opacity', '1')
+          .style('transform', targetTransform);
       }
     });
   };
 
-  const flashSlot = (slotId: string): void => {
-    const slotEl = slotEls.get(slotId);
-    if (!slotEl) return;
-    d3.select(slotEl).classed('concept-viz-slot--flash', true);
-    setTimeout(() => d3.select(slotEl).classed('concept-viz-slot--flash', false), TRANSITION_MS * 2);
+  // Two different kinds of "this cell matters right now" exist: a pivot pick (`--flash`, violet)
+  // and the pair of positions a swap is currently exchanging (`--pointer`, blue). They're kept as
+  // separate classes so a reader can tell "the pivot" from "what's being compared/exchanged right
+  // now" at a glance, rather than one flash color meaning both.
+  //
+  // The highlight is derived fresh from whichever step is on screen, not faded out on a timer —
+  // an earlier timer-based version raced itself (a later mark's highlight could get wiped by an
+  // earlier mark's stale removal timer) and, even fixed, still faded mid-step whenever a reader
+  // paused to look rather than clicking through at a steady pace. Deriving it from the current
+  // step means it's simply correct for however long that step stays on screen, including when
+  // stepping backward (which a timer keyed to "just flashed" could never support).
+  // Keyed by token in row mode (highlighting the visible letter itself — see below) or by slot id
+  // in grid mode.
+  let activeHighlights = new Map<string, string>();
+
+  // `pivotSlot` is the slot named by the most recent `mark` at or before the current step — the
+  // pivot stays "the pivot" (violet) across every step in between, not just the single step it
+  // was marked on, since unrelated swaps can happen around it before it's finally placed.
+  const syncHighlights = (targetStep: VizStep | null, tokenSlot: Map<string, string>, pivotSlot: string | undefined): void => {
+    const nextHighlights = new Map<string, string>();
+
+    if (isRow) {
+      // In row mode the letter box (`.concept-viz-row-token`) is an opaque, absolutely-positioned
+      // element sitting exactly on top of its placeholder cell — coloring the cell underneath (as
+      // grid mode does) would be completely invisible, hidden by the token itself. So here the
+      // highlight targets the token elements directly, keyed by token rather than by slot.
+      if (pivotSlot) {
+        for (const [token, slot] of tokenSlot) {
+          if (slot === pivotSlot) {
+            nextHighlights.set(token, 'concept-viz-slot--flash');
+            break;
+          }
+        }
+      }
+      // Applied after the pivot lookup so that on the exact step where the pivot itself is one
+      // of the two tokens being swapped (its placement into final position), the swap's blue
+      // takes over from the pivot's violet for that step — a more specific, momentary signal.
+      if (targetStep?.swap) {
+        nextHighlights.set(targetStep.swap.tokenA, 'concept-viz-slot--pointer');
+        nextHighlights.set(targetStep.swap.tokenB, 'concept-viz-slot--pointer');
+      }
+    } else if (targetStep?.highlight) {
+      nextHighlights.set(targetStep.highlight.slot, 'concept-viz-slot--flash');
+    }
+
+    const elFor = (key: string): HTMLElement | undefined => (isRow ? rowTokenEls.get(key) : slotEls.get(key));
+
+    activeHighlights.forEach((className, key) => {
+      if (nextHighlights.get(key) === className) return;
+      const el = elFor(key);
+      if (el) d3.select(el).classed(className, false);
+    });
+    nextHighlights.forEach((className, key) => {
+      const el = elFor(key);
+      if (el) d3.select(el).classed(className, true);
+    });
+    activeHighlights = nextHighlights;
   };
 
   const applyStep = (
@@ -252,7 +313,6 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
   };
 
   let stepIndex = -1;
-  let lastRenderedIndex = -1;
   let isPlaying = false;
   let playTimer: ReturnType<typeof setTimeout> | undefined;
   let doneTimer: ReturnType<typeof setTimeout> | undefined;
@@ -274,20 +334,25 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     const introduced = new Set<string>();
     for (let i = 0; i <= target; i++) applyStep(scene.steps[i], bySlot, tokenSlot, introduced);
 
+    const targetStep = target >= 0 ? scene.steps[target] : null;
+
     if (isRow) {
-      const targetStep = target >= 0 ? scene.steps[target] : null;
       const swappedTokens = targetStep?.swap ? new Set([targetStep.swap.tokenA, targetStep.swap.tokenB]) : new Set<string>();
       renderRowTokens(bySlot, swappedTokens);
     } else {
       renderQueue(introduced);
       renderGridSlots(bySlot);
     }
-    caption.textContent = target === -1 ? '' : scene.steps[target].caption;
+    caption.textContent = targetStep?.caption ?? '';
 
-    if (target > lastRenderedIndex && target >= 0 && scene.steps[target].highlight) {
-      flashSlot(scene.steps[target].highlight!.slot);
+    let pivotSlot: string | undefined;
+    for (let i = target; i >= 0; i--) {
+      if (scene.steps[i].highlight) {
+        pivotSlot = scene.steps[i].highlight!.slot;
+        break;
+      }
     }
-    lastRenderedIndex = target;
+    syncHighlights(targetStep, tokenSlot, pivotSlot);
 
     if (target === lastIndex) {
       doneTimer = setTimeout(() => {
@@ -346,7 +411,6 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
   replayBtn.addEventListener('click', () => {
     pause();
     stepIndex = -1;
-    lastRenderedIndex = -1;
     renderAt(-1);
     play();
   });

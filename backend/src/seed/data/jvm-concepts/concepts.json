@@ -148,5 +148,134 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "microbenchmarking-and-jmh",
+    "id": 7,
+    "title": "Microbenchmarking Pitfalls and JMH",
+    "summary": "Why a hand-rolled \"time a loop\" benchmark routinely measures nothing (dead-code elimination, missing warm-up, constant folding), and how JMH's Blackhole exists specifically to close those holes.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 2 \"An Approach to Performance Testing\", pp. 15-48",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "JMH — OpenJDK Code Tools",
+        "url": "https://github.com/openjdk/jmh",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "string-performance",
+    "id": 8,
+    "title": "String Performance: Compact Strings, Deduplication, and Concatenation",
+    "summary": "How compact strings roughly halve the heap cost of an average String, when G1 string deduplication is worth turning on, and why the compiler's own concatenation optimization usually beats a hand-rolled StringBuilder chain.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 12 \"Java SE API Tips\", \"Strings\", pp. 363-374",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 254: Compact Strings",
+        "url": "https://openjdk.org/jeps/254",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 280: Indify String Concatenation",
+        "url": "https://openjdk.org/jeps/280",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jdbc-jpa-performance",
+    "id": 9,
+    "title": "JDBC Statement Pooling and JPA's N+1 Problem",
+    "summary": "Why prepared statements only pay off when pooled per connection, and why JPA's eager relationship fetching issues one query per related entity instead of a single JOIN — the classic N+1 query problem.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 11 \"Database Performance Best Practices\", pp. 329-361",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "Jakarta Persistence Specification",
+        "url": "https://jakarta.ee/specifications/persistence/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "native-memory-and-footprint",
+    "id": 10,
+    "title": "Native Memory and JVM Footprint: Reserved vs. Committed",
+    "summary": "How the JVM's total footprint (heap plus native memory) works, why reserved memory isn't the same as memory actually in use, and how to break it down with Native Memory Tracking.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 8 \"Native Memory Best Practices\", \"Footprint\", pp. 249-260",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "jcmd — Java SE 25 Tool Specifications",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jcmd.html",
+        "type": "doc"
+      },
+      {
+        "label": "java (JVM options reference) — Java SE 25 Tool Specifications",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nio-servers-and-async",
+    "id": 11,
+    "title": "NIO Servers, Async Responses, and Virtual Threads",
+    "summary": "Why Java servers moved from one-thread-per-connection to NIO selectors and async response patterns, and how virtual threads have since made most of that ceremony unnecessary to write by hand.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 10 \"Java Servers\", pp. 307-315",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 444: Virtual Threads",
+        "url": "https://openjdk.org/jeps/444",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 491: Synchronize Virtual Threads without Pinning",
+        "url": "https://openjdk.org/jeps/491",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "collections-and-streams-performance",
+    "id": 12,
+    "title": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+    "summary": "Why collections are unsynchronized by default, why sizing a collection up front avoids real resize costs, and why a chain of Stream operations processes far less data than it looks like it does.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Scott Oaks, \"Java Performance: The Definitive Guide\", 2nd Edition (O'Reilly, 2020) — Chapter 12 \"Java SE API Tips\", \"Java Collections API\" and \"Stream and Filter Performance\", pp. 392-401",
+        "url": "https://www.oreilly.com/library/view/java-performance-2nd/9781492056102/",
+        "type": "doc"
+      },
+      {
+        "label": "Stream — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
