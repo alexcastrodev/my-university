@@ -13,7 +13,6 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, ConceptActions],
   templateUrl: './jvm-concept-view.html',
-  styleUrl: './jvm-concept-view.css',
 })
 export class JvmConceptView implements OnChanges {
   concept = input<JvmConcept | null>(null);

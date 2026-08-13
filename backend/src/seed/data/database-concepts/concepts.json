@@ -2023,5 +2023,35 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "sql-float-vs-numeric-for-money",
+    "id": 61,
+    "category": "SQL",
+    "title": "Why Float Fails for Money: NUMERIC, Cents-as-Integers, and BigDecimal",
+    "summary": "Float and double can't represent most decimal fractions exactly because they're base-2, so 0.1 + 0.2 !== 0.3 and money totals silently drift — the fix is NUMERIC/DECIMAL, integer minor units, or BigDecimal, not rounding harder at every step.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "PostgreSQL Documentation — Numeric Types (numeric, decimal, real, double precision)",
+        "url": "https://www.postgresql.org/docs/current/datatype-numeric.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE 25 API — BigDecimal",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigDecimal.html",
+        "type": "doc"
+      },
+      {
+        "label": "David Goldberg, \"What Every Computer Scientist Should Know About Floating-Point Arithmetic\" (hosted by Oracle)",
+        "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+        "type": "doc"
+      },
+      {
+        "label": "MDN — Number.prototype.toFixed()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed",
+        "type": "doc"
+      }
+    ]
   }
 ]

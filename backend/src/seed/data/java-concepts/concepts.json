@@ -1520,5 +1520,186 @@
       }
     ],
     "id": 51
+  },
+  {
+    "slug": "concurrent-collections-and-compound-actions",
+    "title": "Concurrent Collections: Why Thread-Safe Isn't Enough, and What ConcurrentHashMap Does Differently",
+    "summary": "Why a compound action built from thread-safe calls on a synchronized collection can still race, and how ConcurrentHashMap and CopyOnWriteArrayList solve it with weakly consistent iteration and atomic compound-action methods instead.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "ConcurrentHashMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "CopyOnWriteArrayList — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CopyOnWriteArrayList.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collections — Java SE 25 API (synchronizedMap/synchronizedList)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentModificationException — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ConcurrentModificationException.html",
+        "type": "doc"
+      }
+    ],
+    "id": 52
+  },
+  {
+    "slug": "blocking-queues-and-producer-consumer",
+    "title": "BlockingQueue and the Producer-Consumer Pattern",
+    "summary": "How BlockingQueue's blocking put/take turn the producer-consumer pattern into a few lines of code, and why bounded queues provide real backpressure instead of just delaying an OutOfMemoryError.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "BlockingQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/BlockingQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayBlockingQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ArrayBlockingQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "LinkedBlockingQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityBlockingQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/PriorityBlockingQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "SynchronousQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/SynchronousQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "BlockingDeque — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/BlockingDeque.html",
+        "type": "doc"
+      },
+      {
+        "label": "LinkedBlockingDeque — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/LinkedBlockingDeque.html",
+        "type": "doc"
+      }
+    ],
+    "id": 53
+  },
+  {
+    "slug": "task-cancellation-and-interruption",
+    "title": "Task Cancellation: Interruption Done Right",
+    "summary": "How Thread.interrupt() actually works as a cooperative status flag, why swallowing InterruptedException is the most common concurrency bug, and how to cancel tasks correctly via interruption policy and Future.cancel().",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Thread.interrupt() — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#interrupt()",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.isInterrupted() — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#isInterrupted()",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.interrupted() — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#interrupted()",
+        "type": "doc"
+      },
+      {
+        "label": "InterruptedException — java.lang API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/InterruptedException.html",
+        "type": "doc"
+      },
+      {
+        "label": "Future.cancel(boolean) — java.util.concurrent.Future API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Future.html#cancel(boolean)",
+        "type": "doc"
+      }
+    ],
+    "id": 54
+  },
+  {
+    "slug": "executor-shutdown-and-jvm-exit",
+    "title": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
+    "summary": "Compares graceful shutdown() vs aggressive shutdownNow(), the awaitTermination()/close() idiom, poison pills for queue-based consumers, uncaught exception handlers, and JVM shutdown hooks and daemon threads.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "ExecutorService — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html",
+        "type": "doc"
+      },
+      {
+        "label": "ExecutorService.shutdown() — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html#shutdown()",
+        "type": "doc"
+      },
+      {
+        "label": "ExecutorService.shutdownNow() — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html#shutdownNow()",
+        "type": "doc"
+      },
+      {
+        "label": "ExecutorService.awaitTermination(long, TimeUnit) — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html#awaitTermination(long,java.util.concurrent.TimeUnit)",
+        "type": "doc"
+      },
+      {
+        "label": "ExecutorService.close() — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html#close()",
+        "type": "doc"
+      },
+      {
+        "label": "BlockingQueue — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/BlockingQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.setUncaughtExceptionHandler — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.setDefaultUncaughtExceptionHandler — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#setDefaultUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.UncaughtExceptionHandler — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime.addShutdownHook(Thread) — java.lang.Runtime API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runtime.html#addShutdownHook(java.lang.Thread)",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.setDaemon(boolean) — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#setDaemon(boolean)",
+        "type": "doc"
+      },
+      {
+        "label": "Thread.isDaemon() — java.lang.Thread API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#isDaemon()",
+        "type": "doc"
+      }
+    ],
+    "id": 55
   }
 ]

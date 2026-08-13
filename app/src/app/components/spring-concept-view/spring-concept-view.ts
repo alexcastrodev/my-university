@@ -12,7 +12,6 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, ConceptActions],
   templateUrl: './spring-concept-view.html',
-  styleUrl: './spring-concept-view.css',
 })
 export class SpringConceptView implements OnChanges {
   concept = input<SpringConcept | null>(null);

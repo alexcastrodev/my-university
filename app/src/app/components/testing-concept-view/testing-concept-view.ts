@@ -12,7 +12,6 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, ConceptActions],
   templateUrl: './testing-concept-view.html',
-  styleUrl: './testing-concept-view.css',
 })
 export class TestingConceptView implements OnChanges {
   concept = input<TestingConcept | null>(null);

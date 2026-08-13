@@ -138,5 +138,120 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "string-sorts-lsd-msd-radix",
+    "category": "Strings",
+    "title": "String Sorting: LSD and MSD Radix Sort",
+    "summary": "Explains LSD and MSD radix sort, two character-indexed string-sorting methods built on key-indexed counting that achieve linear time by sidestepping comparisons entirely, plus the insertion-sort cutoff and 3-way radix quicksort as its large-alphabet alternative.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.1 \"String Sorts\", pp. 702-725",
+        "url": "https://algs4.cs.princeton.edu/51radix/",
+        "type": "doc"
+      },
+      {
+        "label": "String#compareTo — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#compareTo(java.lang.String)",
+        "type": "doc"
+      }
+    ],
+    "id": 8
+  },
+  {
+    "slug": "tries-and-prefix-search",
+    "category": "Strings",
+    "title": "Tries: String Keys as Paths, Not Comparisons",
+    "summary": "A trie stores string keys implicitly as the path from root to node, giving search/insert cost proportional to key length rather than key count (unlike a BST, whose cost depends on N via tree height); the ternary search trie (TST) trims the R-way trie space cost by using 3 links per node instead of an R-slot array, and both structures uniquely support prefix queries such as autocomplete and longest-prefix matching.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.2 \"Tries\", pp. 730-753",
+        "url": "https://algs4.cs.princeton.edu/52trie/",
+        "type": "doc"
+      }
+    ],
+    "id": 9
+  },
+  {
+    "slug": "substring-search-kmp",
+    "category": "Strings",
+    "title": "Substring Search: From Brute Force to Knuth-Morris-Pratt",
+    "summary": "How brute-force substring search's O(NM) worst case on self-repetitive input motivates Knuth-Morris-Pratt's key insight: a mismatch already tells you enough about the text to build a small automaton from the pattern and scan the text once, with no backup, in O(N).",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", pp. 758-786",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 32 \"String Matching\", pp. 957-1002",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 10
+  },
+  {
+    "slug": "dynamic-programming-fundamentals",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Dynamic Programming: Memoization, Tabulation, and Rod Cutting",
+    "summary": "See why dynamic programming beats plain recursion only when subproblems overlap, using CLRS's rod-cutting problem: the naive exponential CUT-ROD recursion, the memoized cache that makes each subproblem size computed exactly once, the bottom-up table fill that builds the same answer iteratively, and the two hallmarks — optimal substructure and overlapping subproblems — that determine whether DP applies at all.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\" (opening) and Section 14.1 \"Rod cutting\", pp. 361-372",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 14.3 \"Elements of dynamic programming\", pp. 382-390",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 11
+  },
+  {
+    "slug": "longest-common-subsequence",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Longest Common Subsequence: The 2D DP Table",
+    "summary": "How to derive the c[i][j] recurrence for LCS by comparing two sequences' last characters, fill the resulting 2D table bottom-up in O(mn) time, and trace a path backward through the finished table to reconstruct the actual subsequence, not just its length.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Section 14.4 \"Longest common subsequence\", pp. 393-399",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "GNU diffutils manual — How diff Works",
+        "url": "https://www.gnu.org/software/diffutils/manual/html_node/Comparison-Style.html",
+        "type": "doc"
+      }
+    ],
+    "id": 12
+  },
+  {
+    "slug": "greedy-algorithms-activity-selection",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Greedy Algorithms: Activity Selection and Why the Right Greedy Choice Matters",
+    "summary": "Solves the activity-selection problem (scheduling the maximum number of non-overlapping activities on a shared resource) with the greedy earliest-finish-time rule, proves why that specific rule is optimal, and shows a verified counterexample where a plausible-sounding alternative rule (shortest duration first) fails — contrasted with the dynamic-programming formulation of the same problem.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Sections 15.1 \"An activity-selection problem\" and 15.2 \"Elements of the greedy strategy\", pp. 415-430",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 13
   }
 ]

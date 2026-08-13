@@ -13,7 +13,6 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions],
   templateUrl: './algorithms-concept-view.html',
-  styleUrl: './algorithms-concept-view.css',
 })
 export class AlgorithmsConceptView implements OnChanges {
   concept = input<AlgorithmsConcept | null>(null);

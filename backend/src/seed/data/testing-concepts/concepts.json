@@ -500,5 +500,100 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "observable-behavior-and-mock-fragility",
+    "category": "Java",
+    "title": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+    "summary": "A mock (outgoing command) and a stub (incoming query) answer different questions, and asserting interactions with a stub is a classic overspecification mistake. The deeper principle: mocking itself doesn't cause fragile tests — mocking an interaction that's an implementation detail (intra-system, no client goal behind it) rather than observable behavior (a call that crosses the application boundary and stays visible outside it) does. The fix isn't avoiding mocks, it's mocking only at true system boundaries.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 5 \"Mocks and Test Fragility\", sections 5.1-5.4, pp. 92-118",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Mockito class",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      }
+    ],
+    "id": 20
+  },
+  {
+    "slug": "three-styles-of-unit-testing",
+    "category": "Java",
+    "title": "Output-Based, State-Based, and Communication-Based Testing",
+    "summary": "The three ways a unit test can verify behavior — checking a returned output, checking resulting state, or checking a call made to a collaborator — and why output-based testing produces the highest-quality tests but only works for side-effect-free code, leaving state-based testing as the reasonable default and communication-based testing (mocks) as the rare exception.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", pp. 119-128",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide",
+        "url": "https://docs.junit.org/current/user-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "java.util.List (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      }
+    ],
+    "id": 21
+  },
+  {
+    "slug": "functional-architecture-and-testability",
+    "category": "Java",
+    "title": "Functional Architecture: Separating Decisions from Side Effects for Testability",
+    "summary": "Learn the functional-core/imperative-shell pattern for pulling business decisions out of side-effect-laden code so the decision logic becomes trivially output-based testable with zero mocks, and understand the real costs — a shell that still needs integration tests, allocation overhead from immutability in hot paths, and domain logic that can't always be cleanly separated this way.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 6 \"Styles of Unit Testing\", Sections 6.3-6.5 \"Understanding functional architecture\" / \"Transitioning to functional architecture and output-based testing\" / \"Understanding the drawbacks of functional architecture\", pp. 128-149",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Javadoc — java.util.Optional",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html",
+        "type": "doc"
+      }
+    ],
+    "id": 22
+  },
+  {
+    "slug": "unit-testing-anti-patterns",
+    "category": "Java",
+    "title": "Unit Testing Anti-Patterns: Private Methods, Leaked Domain Knowledge, and Time",
+    "summary": "Why testing private methods, exposing private state, reimplementing the SUT's logic in a test, polluting production code with test-only switches, mocking concrete classes, and calling the system clock directly all trace back to the same root cause — from Khorikov, Chapter 11 \"Unit testing anti-patterns\".",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 11 \"Unit testing anti-patterns\", pp. 259-273",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "java.time.Clock — Java SE Platform API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Clock.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — CALLS_REAL_METHODS / partial mocking",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      }
+    ],
+    "id": 23
   }
 ]

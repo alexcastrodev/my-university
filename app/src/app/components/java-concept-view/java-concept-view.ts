@@ -14,7 +14,6 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions],
   templateUrl: './java-concept-view.html',
-  styleUrl: './java-concept-view.css',
 })
 export class JavaConceptView implements OnChanges {
   concept = input<JavaConcept | null>(null);

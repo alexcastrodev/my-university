@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DatabaseConcept } from '../../models/database-concept.model';
 import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
+import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
@@ -10,9 +11,8 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 @Component({
   selector: 'app-database-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, ConceptActions],
+  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions],
   templateUrl: './database-concept-view.html',
-  styleUrl: './database-concept-view.css',
 })
 export class DatabaseConceptView implements OnChanges {
   concept = input<DatabaseConcept | null>(null);
