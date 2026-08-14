@@ -778,5 +778,140 @@
       }
     ],
     "id": 37
+  },
+  {
+    "slug": "counting-sort",
+    "category": "Sorting",
+    "title": "Counting Sort: Breaking the Comparison-Sort Lower Bound",
+    "summary": "Counting sort assumes every input element is a nonnegative integer in a bounded range 0 to k, and sorts in Theta(n + k) time — Theta(n) when k = O(n) — by counting and prefix-summing rather than comparing, which is exactly how it beats the Omega(n lg n) bound that applies only to comparison sorts.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 8.2 \"Counting sort\", pp. 209-211",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 38
+  },
+  {
+    "slug": "regular-expressions-nfa-simulation",
+    "category": "Strings",
+    "title": "Regular Expressions via NFA Simulation",
+    "summary": "How Sedgewick and Wayne turn a regular expression into a nondeterministic finite-state automaton and simulate it by tracking the entire set of reachable states rather than backtracking, guaranteeing O(NM) worst-case matching time — a stronger guarantee than the backtracking approach java.util.regex.Pattern actually uses.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.4 \"Regular Expressions\", pp. 788-809",
+        "url": "https://algs4.cs.princeton.edu/54regexp/",
+        "type": "doc"
+      },
+      {
+        "label": "Pattern — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html",
+        "type": "doc"
+      }
+    ],
+    "id": 39
+  },
+  {
+    "slug": "matrix-chain-multiplication",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Matrix-Chain Multiplication: Finding the Cheapest Parenthesization",
+    "summary": "CLRS's second worked dynamic-programming example: find the parenthesization of a chain of matrices that minimizes total scalar multiplications, filling a Theta(n^2) table of subproblems indexed by matrix range in O(n^3) time rather than enumerating the exponentially many possible parenthesizations.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Section 14.2 \"Matrix-chain multiplication\", pp. 373-381",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 40
+  },
+  {
+    "slug": "stable-marriage-gale-shapley",
+    "category": "Graphs",
+    "title": "The Stable-Marriage Problem and the Gale-Shapley Algorithm",
+    "summary": "Given a complete bipartite graph where every vertex ranks the vertices on the other side, the Gale-Shapley algorithm always finds a matching with no blocking pair — and provably gives every proposer their best achievable partner across all stable matchings, at the cost of giving every proposed-to vertex their worst.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.2 \"The stable-marriage problem\", pp. 716-723",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 41
+  },
+  {
+    "slug": "k-means-clustering",
+    "category": "Fundamentals",
+    "title": "K-Means Clustering and Lloyd's Procedure",
+    "summary": "K-means clustering is NP-hard, so Lloyd's procedure settles for a provably-terminating local-search heuristic — alternately assigning points to their nearest center and recomputing each center as its cluster's centroid — until the assignment stops changing.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.1 \"Clustering\", pp. 1005-1014",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 42
+  },
+  {
+    "slug": "gradient-descent",
+    "category": "Fundamentals",
+    "title": "Gradient Descent",
+    "summary": "A general iterative method for finding a local minimum of a continuous function by repeatedly stepping opposite the gradient, with a provable convergence bound on convex functions that trades exact answers (like Gaussian elimination's Theta(n^3)) for a faster approximate one.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 33.3 \"Gradient descent\", pp. 1023-1037",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 43
+  },
+  {
+    "slug": "approximation-algorithms-vertex-cover",
+    "category": "Fundamentals",
+    "title": "Approximation Algorithms: Vertex Cover & TSP",
+    "summary": "Covers APPROX-VERTEX-COVER, a polynomial-time 2-approximation for the NP-complete vertex-cover problem, and APPROX-TSP-TOUR, a 2-approximation for the traveling-salesperson problem under the triangle inequality, plus why no constant-ratio approximation exists without it.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Sections 35.1-35.2, pp. 1106-1114",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 44
+  },
+  {
+    "slug": "huffman-coding",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Huffman Coding",
+    "summary": "The greedy algorithm that builds an optimal prefix-free binary code by repeatedly merging the two least-frequent symbols into a trie, proven optimal via an exchange argument and optimal substructure.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 15.3 \"Huffman codes\", pp. 431-439",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 5.5 \"Data Compression\" (Huffman coding), pp. 826-839",
+        "url": "https://algs4.cs.princeton.edu/55compression/",
+        "type": "doc"
+      },
+      {
+        "label": "java.util.zip.Deflater — Java's DEFLATE-based compressor, which uses Huffman coding as one of its two internal compression stages (alongside LZ77 duplicate-string elimination)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/zip/Deflater.html",
+        "type": "doc"
+      }
+    ],
+    "id": 45
   }
 ]

@@ -1740,5 +1740,62 @@
       }
     ],
     "id": 56
+  },
+  {
+    "slug": "configuring-thread-pool-executor",
+    "title": "Configuring and Sizing Thread Pools",
+    "summary": "Covers the JCIP formula for computing an optimal thread pool size and the ThreadPoolExecutor API for work queues, saturation policies, thread factories, and extension hooks.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "ThreadPoolExecutor — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html",
+        "type": "doc"
+      },
+      {
+        "label": "RejectedExecutionHandler — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/RejectedExecutionHandler.html",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadFactory — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadFactory.html",
+        "type": "doc"
+      }
+    ],
+    "id": 57
+  },
+  {
+    "slug": "javadoc-and-api-documentation",
+    "title": "Writing Doc Comments for Exposed API Elements",
+    "summary": "How to write effective Javadoc doc comments — contracts, tags, summary descriptions, and inheritance — for every exported class, method, and field.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "javadoc tool guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/javadoc/javadoc.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE 25 API documentation",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/index.html",
+        "type": "doc"
+      }
+    ],
+    "id": 58
+  },
+  {
+    "slug": "java-naming-conventions",
+    "title": "Java Naming Conventions",
+    "summary": "Java's typographical rules (package, class, method, field, and type-parameter casing) and grammatical rules (noun phrases for classes, verb phrases for action methods, is/has for booleans) that keep code readable and predictable.",
+    "publishedAt": "2026-08-14",
+    "references": [
+      {
+        "label": "Java SE 25 API Documentation",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/index.html",
+        "type": "doc"
+      }
+    ],
+    "id": 59
   }
 ]
