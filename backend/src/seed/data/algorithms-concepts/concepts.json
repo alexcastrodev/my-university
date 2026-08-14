@@ -598,5 +598,50 @@
       }
     ],
     "id": 29
+  },
+  {
+    "slug": "rabin-karp-rolling-hash",
+    "category": "Strings",
+    "title": "Rabin-Karp: Rolling Hashes and Fingerprint Search",
+    "summary": "A hashing-based substring search: fingerprint the pattern once, then slide a window across the text updating its hash in O(1) per step via a rolling-hash recurrence, falling back to character comparison only on a hash match — covers the collision subtlety, the Las Vegas/Monte Carlo correctness trade-off, and the multi-pattern plagiarism-detection use case KMP and Boyer-Moore don't generalize to as naturally.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. — Section 5.3, \"Rabin-Karp fingerprint search,\" pp. 774-779",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Ed., Section 32.2, \"The Rabin-Karp Algorithm,\" pp. 962-966",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "HashSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/HashSet.html",
+        "type": "doc"
+      }
+    ],
+    "id": 30
+  },
+  {
+    "slug": "johnsons-algorithm-sparse-all-pairs",
+    "category": "Graphs",
+    "title": "Johnson's Algorithm: All-Pairs Shortest Paths for Sparse Graphs",
+    "summary": "Solve all-pairs shortest paths in O(V^2 lg V + VE) time by reweighting every edge to be nonnegative via one auxiliary Bellman-Ford run, then running Dijkstra once from every vertex — a composition that beats Floyd-Warshall's O(V^3) on sparse graphs.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 23, Section 23.3 \"Johnson's algorithm for sparse graphs\", pp. 662-667",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 31
   }
 ]
