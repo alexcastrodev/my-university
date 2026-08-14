@@ -1,0 +1,44 @@
+.page {
+  min-height: calc(100vh - 52px);
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-body {
+  max-width: 480px;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.code {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #c74634;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #111827;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c74634;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}

@@ -121,5 +121,8 @@ export const routes: Routes = [
     path: 'leaderboard',
     loadComponent: () => import('./pages/leaderboard/leaderboard-page').then((m) => m.LeaderboardPage),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found-page').then((m) => m.NotFoundPage),
+  },
 ];

@@ -66,9 +66,11 @@ export class JavaMinuteDetailPage implements OnInit {
           description: this.summarize(episode),
           path: `/java/java-minute/${episode.slug}`,
           type: 'article',
+          publishedAt: episode.publishedAt,
+          modifiedAt: episode.updatedAt,
         });
       },
-      error: () => { this.loading.set(false); this.notFound.set(true); },
+      error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
     });
   }
 

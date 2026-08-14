@@ -33,6 +33,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 RUN apk add --no-cache nginx curl
+# fontconfig + dejavu: without a font installed, sharp's SVG rasterizer (used by the
+# dynamic /api/og image) renders titles as blank space on Alpine.
+RUN apk add --no-cache fontconfig ttf-dejavu
 RUN npm install -g pm2
 
 COPY --from=backend-build /app/node_modules ./node_modules

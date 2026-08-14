@@ -1,0 +1,33 @@
+# My University
+
+> Practice exams, quick answers, and in-depth concepts for Java, Spring, Databases, System Design, Testing, and Algorithms — built for engineers preparing for certifications and for day-to-day work.
+
+My University is a free study platform. Each concept page is a focused, self-contained article (objective, use cases, deep dive, trade-offs) rather than a course chapter, so any single page can be read and cited on its own.
+
+## Java
+
+- [Java Certification Exams](https://university.kurz.fyi/java/exams): Practice exams for Oracle Java certifications with topic-scoped question sets.
+- [Java Concepts](https://university.kurz.fyi/java/java-concepts): Core Java language and API concepts explained in depth.
+- [JVM Concepts](https://university.kurz.fyi/java/jvm-concepts): JVM internals — memory model, garbage collection, class loading, and performance.
+- [Java Minute](https://university.kurz.fyi/java/java-minute): Short, direct answers to specific Java questions.
+- [Testing Concepts](https://university.kurz.fyi/java/testing): Unit and integration testing practices for the JVM ecosystem.
+
+## Spring
+
+- [Spring Concepts](https://university.kurz.fyi/spring-concepts): Spring Boot, Spring Security, and Spring Batch explained in depth.
+
+## Databases
+
+- [Database Concepts](https://university.kurz.fyi/databases/database-concepts): Relational database design, indexing, transactions, and query performance.
+
+## System Design
+
+- [System Design Concepts](https://university.kurz.fyi/system-design/system-design-concepts): Distributed systems building blocks — scalability, consistency, caching, and messaging.
+
+## Algorithms
+
+- [Algorithms Concepts](https://university.kurz.fyi/algorithms/algorithms-concepts): Core algorithms and data structures with complexity and trade-off analysis.
+
+## Optional
+
+- [Sitemap](https://university.kurz.fyi/sitemap.xml): Full machine-readable list of every article URL.

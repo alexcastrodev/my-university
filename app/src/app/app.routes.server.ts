@@ -70,7 +70,61 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
-    path: '**',
+    path: 'java/testing',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'java/testing/:slug',
+    renderMode: RenderMode.Server,
+  },
+  // Personalized / app-only routes — unchanged Client rendering, listed explicitly so the
+  // catch-all below (used to serve a real 404 status) doesn't accidentally start SSR-ing them.
+  {
+    path: 'profile',
     renderMode: RenderMode.Client,
+  },
+  {
+    path: 'review',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'settings',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'leaderboard',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/lesson/:lessonId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/quiz',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/result/:attemptId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/review/:attemptId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/attempts',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId/share/:attemptId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'java/exam/:examId',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: '**',
+    renderMode: RenderMode.Server,
   },
 ];

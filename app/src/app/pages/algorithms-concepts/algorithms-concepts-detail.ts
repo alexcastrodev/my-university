@@ -66,9 +66,11 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
           description: concept.summary,
           path: `/algorithms/algorithms-concepts/${concept.slug}`,
           type: 'article',
+          publishedAt: concept.publishedAt,
+          modifiedAt: concept.updatedAt,
         });
       },
-      error: () => { this.loading.set(false); this.notFound.set(true); },
+      error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
     });
   }
 

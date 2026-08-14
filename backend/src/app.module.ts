@@ -18,12 +18,14 @@ import { DatabaseConceptsModule } from './database-concepts/database-concepts.mo
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
+import { OgImageModule } from './og-image/og-image.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { ReviewSchedule } from './review/review-schedule.entity';
 import { ReviewModule } from './review/review.module';
 import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
+import { SitemapModule } from './sitemap/sitemap.module';
 import { SpringConceptsModule } from './spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from './system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from './testing-concepts/testing-concepts.module';
@@ -34,8 +36,21 @@ import { XpModule } from './xp/xp.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL ?? 'postgres://postgres@127.0.0.1:5432/ocp_java',
-      entities: [User, Course, CourseModuleEntity, Lesson, Progress, Exam, Question, ExamAttempt, UserXpEntry, ReviewSchedule],
+      url:
+        process.env.DATABASE_URL ??
+        'postgres://postgres@127.0.0.1:5432/ocp_java',
+      entities: [
+        User,
+        Course,
+        CourseModuleEntity,
+        Lesson,
+        Progress,
+        Exam,
+        Question,
+        ExamAttempt,
+        UserXpEntry,
+        ReviewSchedule,
+      ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       migrationsRun: true,
       synchronize: false,
@@ -56,6 +71,8 @@ import { XpModule } from './xp/xp.module';
     ReviewModule,
     SeedModule,
     SearchModule,
+    SitemapModule,
+    OgImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
