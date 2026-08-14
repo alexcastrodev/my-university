@@ -643,5 +643,140 @@
       }
     ],
     "id": 31
+  },
+  {
+    "slug": "hash-tables-chaining-and-open-addressing",
+    "category": "Data Structures",
+    "title": "Hash Tables: Chaining, Open Addressing, and Load Factor",
+    "summary": "The algorithmic theory behind hash tables: how a hash function maps keys to array indices, why collisions are mathematically unavoidable, and how separate chaining and open addressing/linear probing resolve them under a bounded load factor — plus hash function design (division method, universal hashing) and why deletion is tricky in open addressing.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 3.4 \"Hash Tables,\" pp. 458-483",
+        "url": "https://algs4.cs.princeton.edu/34hash/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 11 \"Hash Tables,\" Sections 11.1-11.4, pp. 272-299",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Object.hashCode() — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()",
+        "type": "doc"
+      },
+      {
+        "label": "Hash table — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Hash_table",
+        "type": "doc"
+      }
+    ],
+    "id": 32
+  },
+  {
+    "slug": "amortized-analysis",
+    "category": "Fundamentals",
+    "title": "Amortized Analysis: Aggregate, Accounting, and Potential Methods",
+    "summary": "Learn to prove a rigorous worst-case bound on an operation's average cost across any sequence of operations, even when a single operation is expensive — the aggregate, accounting, and potential methods used to justify claims like ArrayList.add being O(1) amortized, and why amortized is a stronger, different guarantee than average-case.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 16 \"Amortized Analysis,\" Sections 16.1-16.3",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Oracle Java SE Documentation — ArrayList",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html",
+        "type": "doc"
+      }
+    ],
+    "id": 33
+  },
+  {
+    "slug": "quickselect-and-order-statistics",
+    "category": "Sorting",
+    "title": "Quickselect: Finding the k-th Smallest Element in Linear Time",
+    "summary": "How to find the k-th smallest element of an unsorted array in expected linear time by reusing quicksort's own partition step and recursing into only the one side that contains the target rank, plus Cormen's median-of-medians algorithm that guarantees O(n) even in the worst case.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.5 \"Applications\" (following priority queues), select(), pp. 346-347",
+        "url": "https://algs4.cs.princeton.edu/23quicksort/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 9 \"Medians and Order Statistics\", Sections 9.1-9.3, pp. 229-241",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html",
+        "type": "doc"
+      }
+    ],
+    "id": 34
+  },
+  {
+    "slug": "b-trees-disk-based-search",
+    "category": "Data Structures",
+    "title": "B-Trees: Balancing for Disk, Not Memory",
+    "summary": "B-trees are search trees purpose-built for disk-backed storage: fat, sorted nodes and a proactive split-on-the-way-down insertion keep the tree's height tiny relative to a binary search tree, minimizing the number of expensive disk accesses per operation.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 18 \"B-Trees\" (Sections 18.1-18.3)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — Index Types (B-Tree)",
+        "url": "https://www.postgresql.org/docs/current/indexes-types.html",
+        "type": "doc"
+      },
+      {
+        "label": "MySQL 8.4 Reference Manual — Comparison of B-Tree and Hash Indexes",
+        "url": "https://dev.mysql.com/doc/refman/8.4/en/index-btree-hash.html",
+        "type": "doc"
+      }
+    ],
+    "id": 35
+  },
+  {
+    "slug": "number-theoretic-algorithms-gcd-modular-exponentiation",
+    "category": "Fundamentals",
+    "title": "GCD, Modular Arithmetic, and Fast Modular Exponentiation",
+    "summary": "Euclid's algorithm for the GCD and its extended form for computing Bezout coefficients and modular multiplicative inverses, the congruence properties that keep modular arithmetic bounded, and modular exponentiation via repeated squaring — the O(β) recursion, versus a naive O(2^β), that both RSA and Diffie-Hellman run to raise large numbers to large powers mod a large prime.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 31 \"Number-Theoretic Algorithms\", Sections 31.2, 31.3, and 31.6 (repeated squaring), pp. 911-924, 932-936",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Platform SE — BigInteger.modPow(BigInteger, BigInteger)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html#modPow(java.math.BigInteger,java.math.BigInteger)",
+        "type": "doc"
+      }
+    ],
+    "id": 36
+  },
+  {
+    "slug": "multithreaded-algorithms-work-span-analysis",
+    "category": "Fundamentals",
+    "title": "Fork-Join Parallelism: Work, Span, and the Limits of Speedup",
+    "summary": "The formal cost-analysis framework behind fork-join parallelism: model a computation as a DAG of strands, measure its work (T1) and span (T∞), and use the work law and span law to derive the provable ceiling TP >= max(T1/P, T∞) on how much speedup adding processors can ever buy.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition (MIT Press, 2022), Chapter 26 \"Parallel Algorithms\", Section 26.1 \"The basics of fork-join parallelism\", pp. 748-770",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 37
   }
 ]
