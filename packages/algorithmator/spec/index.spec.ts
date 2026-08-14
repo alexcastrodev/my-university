@@ -62,6 +62,24 @@ describe('renderConceptViz', () => {
     cleanup();
   });
 
+  it('dispatches "btree" blocks to btree-render', () => {
+    const source = ['type: btree', 'node r1 keys=B,D'].join('\n');
+    const el = document.createElement('div');
+    const cleanup = renderConceptViz(el, source);
+    expect(el.classList.contains('concept-viz-root')).toBe(true);
+    vi.advanceTimersByTime(1300);
+    expect(el.querySelectorAll('.concept-viz-btree-key')).toHaveLength(2);
+    cleanup();
+  });
+
+  it('reports a btree compile error on the element instead of throwing', () => {
+    const source = ['type: btree', 'levitate r1'].join('\n');
+    const el = document.createElement('div');
+    const cleanup = renderConceptViz(el, source);
+    expect(el.textContent).toMatch(/^B-tree error:/);
+    cleanup();
+  });
+
   it('dispatches "graph" blocks to graph-render', () => {
     const source = ['type: graph', 'node a A 0 0', 'node b B 1 0', 'edge a b', '---', 'visit a'].join('\n');
     const el = document.createElement('div');

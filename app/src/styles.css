@@ -564,6 +564,44 @@ app-concept-actions {
   stroke: #3b82f6;
 }
 
+/* B-tree nodes (`type: btree`) — several keys per node, drawn as a row of cells inside one box,
+   rather than the single-key circle plain/red-black trees use. Shares the tree/graph SVG shell
+   (.concept-viz-tree / .concept-viz-tree-svg / .concept-viz-tree-edge) above. */
+
+.section-body .concept-viz-btree-box {
+  fill: #f9fafb;
+  stroke: #e5e7eb;
+  stroke-width: 1.5px;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.section-body .concept-viz-tree-node--flash .concept-viz-btree-box {
+  fill: #ede9fe;
+  stroke: #8b5cf6;
+}
+
+.section-body .concept-viz-tree-node--pointer .concept-viz-btree-box {
+  fill: #dbeafe;
+  stroke: #3b82f6;
+}
+
+.section-body .concept-viz-btree-divider {
+  stroke: #e5e7eb;
+  stroke-width: 1px;
+}
+
+.section-body .concept-viz-btree-key {
+  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  fill: #374151;
+  pointer-events: none;
+}
+
+.section-body .concept-viz-btree-key--flash {
+  fill: #7c3aed;
+}
+
 /* ==========================================================================
    Deep dive panel — the "jump to a footnote-style aside" feature currently
    used by java-concepts and jvm-concepts (see java-concept-view.ts /

@@ -67,6 +67,37 @@ export interface TreeScene {
 }
 
 // ---------------------------------------------------------------------------
+// B-tree scenes — multiway trees where a single node holds several sorted keys
+// (and one more child than it has keys), the shape a plain binary TreeScene
+// can't express (its `insert` is one key, two children, `side: 'left' |
+// 'right'`). A node's key SET can also change in place over time (a key
+// inserted into an existing, not-yet-full node) — unlike a BST/red-black
+// node, whose single key never changes after insertion — so `node` here is a
+// full upsert: every field is stated fresh each step, not merged with
+// whatever that id held before. Layout is auto-computed the same philosophy
+// as TreeScene (author declares structure, never coordinates), generalized
+// from "in-order position × depth" to "children center under their parent,
+// leaves tick left to right".
+// ---------------------------------------------------------------------------
+
+export interface BTreeStep {
+  caption: string;
+  /** Create or fully redeclare a node's current keys and its attachment point in the tree. */
+  node?: { id: string; keys: string[]; parent: string | null; index?: number };
+  /** Remove a node that no longer exists (absorbed into a split, or an emptied-out old root). */
+  remove?: { id: string };
+  /** Flash a whole node without changing structure. */
+  highlight?: { id: string };
+  /** Flash a single key within a node (e.g. the key a search is comparing against, or the median about to promote). */
+  highlightKey?: { id: string; key: string };
+}
+
+export interface BTreeScene {
+  meta?: string;
+  steps: BTreeStep[];
+}
+
+// ---------------------------------------------------------------------------
 // Graph scenes — general (not necessarily tree-shaped) graphs with author-fixed
 // node positions, for traversal demos (BFS/DFS/Dijkstra). General graph auto-
 // layout (force-directed, etc.) is nondeterministic and not worth the engine

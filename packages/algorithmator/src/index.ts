@@ -1,3 +1,5 @@
+import { compileBTree } from './btree';
+import { mountBTree } from './btree-render';
 import { mountViz } from './engine';
 import { compileFormula } from './formula';
 import { compileGraph } from './graph';
@@ -40,6 +42,9 @@ function splitConfigAndItems(body: string): { config: string; items: string[] } 
  *   `tree`    (see tree.ts)    — replays an explicit insert/rotate/recolor/remove command list on
  *                                a binary tree (BST or red-black tree), auto-laid-out by in-order
  *                                position × depth.
+ *   `btree`   (see btree.ts)   — replays an explicit node/remove/mark command list on a multiway
+ *                                B-tree (several keys per node), auto-laid-out by children-center-
+ *                                under-parent.
  *   `graph`   (see graph.ts)   — a fixed graph at author-declared grid positions, with an explicit
  *                                visit/traverse command list for BFS/DFS/Dijkstra-style demos.
  */
@@ -78,6 +83,16 @@ export function renderConceptViz(el: HTMLElement, source: string): () => void {
     }
   }
 
+  if (type === 'btree') {
+    try {
+      const scene = compileBTree(body);
+      return mountBTree(el, scene);
+    } catch (error) {
+      el.textContent = `B-tree error: ${(error as Error).message}`;
+      return () => {};
+    }
+  }
+
   if (type === 'graph') {
     try {
       const scene = compileGraph(body);
@@ -99,6 +114,8 @@ export type { PlacementConfig } from './placement';
 export { compileMoves } from './moves';
 export { compileTree } from './tree';
 export { mountTree } from './tree-render';
+export { compileBTree } from './btree';
+export { mountBTree } from './btree-render';
 export { compileGraph } from './graph';
 export { mountGraph } from './graph-render';
 export * from './types';

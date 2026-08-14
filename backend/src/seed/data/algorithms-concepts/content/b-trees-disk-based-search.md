@@ -70,12 +70,16 @@ one B-tree node x, with x.n = 3 keys and x.n + 1 = 4 children:
 
 And a tiny example tree, height 2 (3 levels), t = 2, using letters as keys the same way Cormen's own figures do:
 
-```
-                              [   P   ]
-                             /         \
-                    [ D   H ]           [ T   X ]
-                   /    |    \         /    |    \
-              [A,C] [E,F] [J,K,M]  [Q,R] [U,V] [Y,Z]
+```mermaid
+graph TD
+  P["P"] --> DH["D, H"]
+  P --> TX["T, X"]
+  DH --> AC["A, C"]
+  DH --> EF["E, F"]
+  DH --> JKM["J, K, M"]
+  TX --> QR["Q, R"]
+  TX --> UV["U, V"]
+  TX --> YZ["Y, Z"]
 ```
 
 Every leaf sits at depth 2, every node's key count falls in [t-1, 2t-1] = [1, 3], and the keys route correctly at each level (e.g. everything under `[D H]` is < P; everything under `[E,F]` is between D and H).
@@ -109,44 +113,25 @@ Like a BST, a B-tree inserts by walking down to the correct leaf and adding the 
 
 Cormen's specific optimization: rather than inserting first and discovering an overflow afterward (which would require backtracking up the tree to fix it), B-TREE-INSERT splits every FULL node it meets *on the way down* — proactively, before descending into it. That guarantees the node the algorithm is about to recurse into is never full, so the whole insertion is a single downward pass with no backtracking at all.
 
-Hand-traced example: insert `A, B, C, D, E, F, G` in that order into an empty B-tree with minimum degree t = 2 (every node holds 1-3 keys; a node is full, and therefore split on sight, once it hits 3):
+Hand-traced example: insert `A, B, C, D, E, F, G` in that order into an empty B-tree with minimum degree t = 2 (every node holds 1-3 keys; a node is full, and therefore split on sight, once it hits 3). Watch it happen:
 
-```
-insert(A):  root = [A]
-insert(B):  root = [A B]
-insert(C):  root = [A B C]                        <- root is now full (3 keys)
-
-insert(D):  root [A B C] is full -> split it BEFORE descending. Median B moves
-            up into a brand-new root; A and C become its two children. This is
-            the ONLY way a B-tree's height grows -- at the root, on the way in.
-                    [B]
-                   /   \
-                [A]     [C]
-            D > B -> descend right into [C] (room to spare) -> insert D.
-                    [B]
-                   /   \
-                [A]     [C D]
-
-insert(E):  E > B -> descend right into [C D] (room to spare) -> insert E.
-                    [B]
-                   /   \
-                [A]     [C D E]
-
-insert(F):  F > B -> would descend into [C D E], but it is FULL (3 keys).
-            Split it first: median D promotes into the root, which has room
-            (only 1 key) -- the split stops here, no further propagation needed.
-                    [B D]
-                  /   |   \
-               [A]  [C]   [E]
-            F > D -> descend into the new rightmost child [E] -> insert F.
-                    [B D]
-                  /   |   \
-               [A]  [C]   [E F]
-
-insert(G):  G > D -> descend into [E F] (room to spare) -> insert G.
-                    [B D]
-                  /   |   \
-               [A]  [C]   [E F G]
+```viz
+type: btree
+node root keys=A | insert(A): root = [A].
+node root keys=A,B | insert(B): root = [A, B].
+node root keys=A,B,C | insert(C): root = [A, B, C] -- now FULL (3 keys).
+remove root | insert(D): root [A, B, C] is full -> split it BEFORE descending.
+node root2 keys=B | Median B moves up into a brand-new root. This is the ONLY way a B-tree's height grows -- at the root, on the way in.
+node nA keys=A parent=root2 index=0 | A becomes the new root's left child.
+node nC keys=C parent=root2 index=1 | C becomes the new root's right child.
+node nC keys=C,D parent=root2 index=1 | D > B -- descend right into [C] (room to spare) -> insert D.
+node nC keys=C,D,E parent=root2 index=1 | insert(E): E > B -- descend right into [C, D] (room to spare) -> insert E.
+remove nC | insert(F): F > B -- would descend into [C, D, E], but it is FULL (3 keys). Split it first.
+node root2 keys=B,D | Median D promotes into the root, which has room (only 1 key) -- the split stops here, no further propagation needed.
+node nC2 keys=C parent=root2 index=1 | C stays as the middle child.
+node nE keys=E parent=root2 index=2 | E becomes the new rightmost child.
+node nE keys=E,F parent=root2 index=2 | F > D -- descend into the new rightmost child [E] -> insert F.
+node nE keys=E,F,G parent=root2 index=2 | insert(G): G > D -- descend into [E, F] (room to spare) -> insert G.
 ```
 
 `insert(D)` shows a split that grows the tree's height (a new root is promoted). `insert(F)` shows a split whose promoted median propagates into its parent (here the root, which happened to have room, so the propagation stops after one level — exactly the same mechanism that would keep climbing through additional internal nodes in a taller tree). Every leaf above is still at depth 1, and the root never exceeds 2t-1 = 3 keys.
