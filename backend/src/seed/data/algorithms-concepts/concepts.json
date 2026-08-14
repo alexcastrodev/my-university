@@ -253,5 +253,350 @@
       }
     ],
     "id": 13
+  },
+  {
+    "slug": "union-find-disjoint-sets",
+    "category": "Data Structures",
+    "title": "Union-Find: From Quick-Find to Near-Constant-Time with Path Compression",
+    "summary": "Traces the union-find data structure through quick-find, quick-union, weighted quick-union, and path compression — the classic dynamic-connectivity problem solved with progressively faster array-backed forests, ending at amortized O(α(n)), effectively constant time in practice.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 1.5 \"Case Study: Union-Find\", pp. 216-231",
+        "url": "https://algs4.cs.princeton.edu/15uf/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 19 \"Data Structures for Disjoint Sets\", Sections 19.1-19.4, pp. 520-533",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 14
+  },
+  {
+    "slug": "binary-heaps-and-heapsort",
+    "category": "Data Structures",
+    "title": "Binary Heaps and Heapsort: Array-Backed Priority Order",
+    "summary": "How a binary heap packs a complete binary tree into a plain array with no pointers, using swim/sink to maintain heap order in O(log n), and how that same array-based heap powers heapsort — an in-place sort with a guaranteed O(n log n) worst case.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition (Addison-Wesley, 2011) — Section 2.4 \"Priority Queues\", pp. 308-327",
+        "url": "https://algs4.cs.princeton.edu/24pq/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition (MIT Press, 2022) — Chapter 6 \"Heapsort\", pp. 161-181",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PriorityQueue.html",
+        "type": "doc"
+      }
+    ],
+    "id": 15
+  },
+  {
+    "slug": "depth-first-search",
+    "category": "Graphs",
+    "title": "Depth-First Search: Recursive Traversal, Components, and Edge Classification",
+    "summary": "Understand depth-first search (DFS): a graph traversal that pushes as deep as possible along one branch before backtracking, typically using the recursive call stack itself instead of BFS's explicit queue. Covers the recursive formulation, finding connected components via repeated DFS, discovery/finish-time timestamping and the parenthesis structure, and edge classification (tree, back, forward, cross) — including how back edges reveal cycles and how reverse finish-time order underlies topological sort.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick, Wayne, Algorithms 4th Ed. — Section 4.1, Depth-First Search and Connected Components (pp. 530-537, 543-547)",
+        "url": "https://algs4.cs.princeton.edu/41graph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms 4th Ed. — Section 20.3, Depth-First Search (pp. 563-572)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 16
+  },
+  {
+    "slug": "minimum-spanning-trees",
+    "category": "Graphs",
+    "title": "Minimum Spanning Trees: The Cut Property, Prim's, and Kruskal's",
+    "summary": "How Prim's and Kruskal's algorithms both exploit the cut property to greedily build a minimum spanning tree -- Prim's growing one tree via a priority queue, Kruskal's sorting all edges and using union-find to skip cycle-closing ones -- traced on a hand-verified 6-vertex example and contrasted for dense vs. sparse graphs.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 4.3 \"Minimum Spanning Trees\", pp. 604-629",
+        "url": "https://algs4.cs.princeton.edu/43mst/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 21 \"Minimum Spanning Trees\", pp. 585-601",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 17
+  },
+  {
+    "slug": "dijkstra-shortest-paths",
+    "category": "Graphs",
+    "title": "Dijkstra's Algorithm: BFS Generalized to Weighted Graphs",
+    "summary": "Dijkstra's algorithm finds shortest paths in a weighted graph with non-negative edges by replacing BFS's FIFO queue with a priority queue ordered by cumulative distance, repeatedly finalizing the closest unprocessed vertex via edge relaxation.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 18
+  },
+  {
+    "slug": "topological-sort",
+    "category": "Graphs",
+    "title": "Topological Sort: Ordering a DAG via DFS Finish Times",
+    "summary": "Order the vertices of a directed acyclic graph so every edge points forward, by running DFS and reading vertices off in reverse order of finish time -- the same O(V+E) traversal the sibling DFS concept already builds, with one push per vertex added.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Topological Sort, pp. 575-584",
+        "url": "https://algs4.cs.princeton.edu/42digraph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.4 Topological Sort, pp. 573-576",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms 4th Ed. -- Topological.java (companion site)",
+        "url": "https://algs4.cs.princeton.edu/42digraph/Topological.java.html",
+        "type": "doc"
+      }
+    ],
+    "id": 19
+  },
+  {
+    "slug": "dag-shortest-paths",
+    "category": "Graphs",
+    "title": "Shortest Paths in a DAG: Topological Order Beats a Priority Queue",
+    "summary": "On a directed acyclic graph, relaxing every vertex's outgoing edges once in topological order finds shortest paths in O(V + E) — faster than Dijkstra's priority queue and correct even with negative edge weights, since a DAG can never contain the negative cycle that would make shortest paths ill-defined.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 20
+  },
+  {
+    "slug": "bellman-ford-shortest-paths",
+    "category": "Graphs",
+    "title": "Bellman-Ford: Shortest Paths with Negative Edges and Cycle Detection",
+    "summary": "Bellman-Ford solves the fully general single-source shortest-path problem — any graph, any mix of positive and negative edge weights — by relaxing every edge V-1 times instead of relying on Dijkstra's priority-queue ordering, and gets negative-cycle detection for free with one extra relaxation pass.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Shortest Paths (companion site)",
+        "url": "https://algs4.cs.princeton.edu/44sp/",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Algorithms, 4th Edition (MIT Press)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 21
+  },
+  {
+    "slug": "floyd-warshall-all-pairs-shortest-paths",
+    "category": "Graphs",
+    "title": "Floyd-Warshall: All-Pairs Shortest Paths as Dynamic Programming",
+    "summary": "Learn the all-pairs shortest-paths problem and the Floyd-Warshall dynamic-programming algorithm that solves it in Θ(V³) time by restricting each shortest path's intermediate vertices to a growing set {1, ..., k}, rather than repeating a single-source algorithm once per vertex.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen et al., Introduction to Algorithms, 4th Edition — Chapter 23, Sections 23.1-23.2 (All-Pairs Shortest Paths / The Floyd-Warshall Algorithm)",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 22
+  },
+  {
+    "slug": "strongly-connected-components",
+    "category": "Graphs",
+    "title": "Strongly Connected Components: Two DFS Passes with Kosaraju's Algorithm",
+    "summary": "Understand strongly connected components (SCCs) -- the directed-graph generalization of the sibling DFS concept's single-pass undirected connected components, needed because directed reachability is asymmetric. Covers the graph transpose and why it preserves SCCs, Kosaraju's algorithm (DFS on the reverse graph to get reverse postorder, then DFS on the original graph in that order, with each resulting DFS tree exactly one SCC), a hand-verified two-cycle example traced with the graph viz engine, why the algorithm is correct, and its O(V+E) running time.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Sedgewick & Wayne, Algorithms 4th Ed. -- Section 4.2 Directed Graphs, Strong Components (Kosaraju's algorithm), pp. 586-591",
+        "url": "https://algs4.cs.princeton.edu/42digraph/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen et al., Introduction to Algorithms 4th Ed. -- Section 20.5 Strongly Connected Components, pp. 577-580",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms 4th Ed. -- KosarajuSCC.java (companion site)",
+        "url": "https://algs4.cs.princeton.edu/42digraph/KosarajuSCC.java.html",
+        "type": "doc"
+      }
+    ],
+    "id": 23
+  },
+  {
+    "slug": "knapsack-01-vs-fractional",
+    "category": "Dynamic Programming & Greedy",
+    "title": "0-1 vs. Fractional Knapsack: Why the Same Structure Needs Different Techniques",
+    "summary": "Contrasts the fractional knapsack problem, which has the greedy-choice property and is solved by a single O(n log n) sort-and-take-greedily pass, with the 0-1 knapsack problem, where the identical-looking greedy rule provably fails (reproducing CLRS's own $220-vs-$160 counterexample) despite both problems sharing optimal substructure — then works out the 0-1 DP recurrence, a hand-verified table, and the O(nW) pseudo-polynomial running time that CLRS leaves as an exercise rather than solving in its main text.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 15 \"Greedy Algorithms\", Section 15.2 \"Elements of the greedy strategy\" (knapsack problem setup, optimal-substructure argument for both variants, and Figure 15.3's counterexample), pp. 428-431",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Comparator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html",
+        "type": "doc"
+      }
+    ],
+    "id": 24
+  },
+  {
+    "slug": "edit-distance-levenshtein",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Edit Distance: The Levenshtein DP and Sequence Alignment",
+    "summary": "Compute the minimum number of insert, delete, and substitute operations to transform one string into another using a 2D DP table that extends the LCS table-filling technique with a third predecessor cell for substitution, then backtrack through the table to recover the actual edit sequence.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 14 \"Dynamic Programming\", Problem 14-5 \"Edit distance\", pp. 409-411",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "NIST Dictionary of Algorithms and Data Structures — Levenshtein distance",
+        "url": "https://xlinux.nist.gov/dads/HTML/Levenshtein.html",
+        "type": "doc"
+      }
+    ],
+    "id": 25
+  },
+  {
+    "slug": "max-flow-min-cut-ford-fulkerson",
+    "category": "Graphs",
+    "title": "Max-Flow Min-Cut: Augmenting Paths and Ford-Fulkerson",
+    "summary": "How Ford-Fulkerson finds the maximum flow through a capacitated network by repeatedly pushing flow along augmenting paths in a residual graph, and why the max-flow min-cut theorem guarantees the algorithm's stopping point is provably optimal.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, Algorithms, 4th Edition — \"Network-Flow Algorithms\" (Ford-Fulkerson algorithm, residual networks, maxflow-mincut theorem), pp. 888-899",
+        "url": "https://algs4.cs.princeton.edu/64maxflow/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, Introduction to Algorithms, 4th Edition — Chapter 24 \"Maximum Flow,\" Section 24.2 \"The Ford-Fulkerson method,\" pp. 676-696",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Princeton Algorithms, 4th Ed. — Maximum Flow (companion site)",
+        "url": "https://algs4.cs.princeton.edu/64maxflow/",
+        "type": "doc"
+      }
+    ],
+    "id": 26
+  },
+  {
+    "slug": "p-vs-np-and-reducibility",
+    "category": "Fundamentals",
+    "title": "P vs. NP: Recognizing When a Problem Is Probably Hard",
+    "summary": "What P, NP, and NP-completeness precisely mean — the verification-vs-solving asymmetry, why a fast algorithm for one NP-complete problem would solve all of NP, and how to recognize an NP-hard problem in disguise so you reach for approximation, heuristics, or a tractable special case instead.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Chapter 6 \"Context\" — Intractability, pp. 911-919",
+        "url": "https://algs4.cs.princeton.edu/65reductions/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Chapter 34 \"NP-Completeness\", Sections 34.1-34.3, pp. 1048-1071",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Clay Mathematics Institute — P vs NP Problem (Millennium Prize Problems)",
+        "url": "https://www.claymath.org/millennium/p-vs-np/",
+        "type": "doc"
+      }
+    ],
+    "id": 27
+  },
+  {
+    "slug": "elementary-sorts-selection-insertion-shellsort",
+    "category": "Sorting",
+    "title": "Elementary Sorts: Selection, Insertion, and Shellsort",
+    "summary": "Compares the three elementary array sorts that ground the rest of this module: selection sort (minimal data movement but blind to input order), insertion sort (adaptive to nearly-sorted input, and CLRS's own running example for loop-invariant correctness proofs), and shellsort (insertion sort extended with a shrinking gap sequence, with a worst-case complexity that's still an open problem for many practical gap sequences).",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 2.1 \"Elementary Sorts\", pp. 244-265",
+        "url": "https://algs4.cs.princeton.edu/21elementary/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein, \"Introduction to Algorithms\", 4th Edition (MIT Press, 2022) — Section 2.1 \"Insertion sort\", pp. 17-24",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      }
+    ],
+    "id": 28
+  },
+  {
+    "slug": "boyer-moore-substring-search",
+    "category": "Strings",
+    "title": "Boyer-Moore: Right-to-Left Scanning and Sublinear Substring Search",
+    "summary": "How scanning the pattern right to left and precomputing a mismatched-character skip table lets Boyer-Moore slide past several text characters on a single mismatch — often sublinear in practice (~N/M compares per Sedgewick and Wayne's Property O) — at the cost of KMP's unconditional O(N+M) worst-case guarantee.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Robert Sedgewick, Kevin Wayne, \"Algorithms\", 4th Edition (Addison-Wesley, 2011) — Section 5.3 \"Substring Search\", Boyer-Moore (mismatched-character heuristic), pp. 769-774",
+        "url": "https://algs4.cs.princeton.edu/53substring/",
+        "type": "doc"
+      }
+    ],
+    "id": 29
   }
 ]

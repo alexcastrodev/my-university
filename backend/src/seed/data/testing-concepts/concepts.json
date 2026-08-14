@@ -595,5 +595,30 @@
       }
     ],
     "id": 23
+  },
+  {
+    "slug": "mocking-best-practices",
+    "category": "Java",
+    "title": "Mocking Best Practices: Integration Tests Only, Spies, and Types You Own",
+    "summary": "Concrete, sometimes counter-intuitive rules for using mocks well beyond the mock-vs-stub distinction: mocks belong only in integration tests, never unit tests on pure domain logic; hand-written spies often beat a generic mock's verify(); assertions must check call count, not just occurrence; and you should only ever mock types your own codebase defines.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 9 \"Mocking Best Practices\", Sections 9.1-9.2, pp. 217-228",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Mockito class",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mockito API — Times verification mode",
+        "url": "https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/verification/Times.html",
+        "type": "doc"
+      }
+    ],
+    "id": 24
   }
 ]

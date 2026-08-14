@@ -1701,5 +1701,44 @@
       }
     ],
     "id": 55
+  },
+  {
+    "slug": "reducing-lock-contention",
+    "title": "Reducing Lock Contention: Scope, Granularity, and Striping",
+    "summary": "Concrete techniques for shrinking a contended lock's impact — narrowing its scope, splitting or striping it, avoiding hot fields, and when to swap it for a read-write lock or atomic instead.",
+    "publishedAt": "2026-08-13",
+    "references": [
+      {
+        "label": "LongAdder — java.util.concurrent.atomic",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/LongAdder.html",
+        "type": "doc"
+      },
+      {
+        "label": "LongAccumulator — java.util.concurrent.atomic",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/LongAccumulator.html",
+        "type": "doc"
+      },
+      {
+        "label": "AtomicLong — java.util.concurrent.atomic",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/AtomicLong.html",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentHashMap — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReentrantReadWriteLock — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReadWriteLock — java.util.concurrent.locks",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html",
+        "type": "doc"
+      }
+    ],
+    "id": 56
   }
 ]
