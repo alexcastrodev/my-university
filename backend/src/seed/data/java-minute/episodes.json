@@ -140,5 +140,17 @@
       { "label": "Pattern — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html", "type": "doc" },
       { "label": "Matcher — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Matcher.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "canonical-constructor",
+    "id": 386,
+    "question": "What is the canonical constructor?",
+    "publishedAt": "2026-08-14",
+    "references": [
+      { "label": "Java Coding Tip #386: What Is the Canonical Constructor?", "url": "https://youtube.com/shorts/V_dVhb8QZuA?is=TA5Nv32YeS1Ap6J0", "type": "video" },
+      { "label": "Java SE Language Documentation — Record Classes", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
+      { "label": "Record — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html", "type": "doc" },
+      { "label": "ObjectInputStream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html", "type": "doc" }
+    ]
   }
 ]
