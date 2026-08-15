@@ -97,7 +97,7 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'java/exam/:examId/lesson/:lessonId',
-    renderMode: RenderMode.Client,
+    renderMode: RenderMode.Server,
   },
   {
     path: 'java/exam/:examId/quiz',
@@ -121,7 +121,7 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'java/exam/:examId',
-    renderMode: RenderMode.Client,
+    renderMode: RenderMode.Server,
   },
   {
     path: '**',

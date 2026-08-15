@@ -30,6 +30,23 @@
         </ul>
       </section>
     }
+
+    @if (relatedItems().length) {
+      <section class="concept-section related-concepts">
+        <h2 class="related-concepts-title">Related concepts</h2>
+        <ul class="related-concepts-list">
+          @for (item of relatedItems(); track item.label) {
+            <li>
+              @if (item.route) {
+                <a [routerLink]="item.route">{{ item.label }}</a>
+              } @else {
+                {{ item.label }}
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
   </article>
 
   @if (activeDeepDiveId(); as activeId) {

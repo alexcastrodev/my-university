@@ -21,6 +21,8 @@ export interface SeoTags {
   qa?: { question: string; answerText: string };
   /** Home is implicit — pass the trail after it, e.g. [Java Concepts, Collections, HashMap]. */
   breadcrumbs?: { name: string; path: string }[];
+  /** Set on exam/course overview pages — emits Course structured data instead of Article/WebPage. */
+  course?: { moduleCount: number };
 }
 
 const SITE_NAME = 'My University';
@@ -94,6 +96,22 @@ export class SeoService {
             text: tags.qa.answerText,
             url,
           },
+        },
+      };
+    }
+
+    if (tags.course) {
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Course',
+        name: tags.title,
+        description: tags.description,
+        url,
+        provider: { '@type': 'Organization', name: SITE_NAME, url: this.origin() },
+        hasCourseInstance: {
+          '@type': 'CourseInstance',
+          courseMode: 'Online',
+          courseWorkload: `${tags.course.moduleCount} modules`,
         },
       };
     }

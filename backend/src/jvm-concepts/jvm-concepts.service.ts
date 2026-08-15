@@ -13,6 +13,10 @@ export interface JvmConceptSection {
   content: string;
 }
 
+export type ConceptLinkRef =
+  | string
+  | { label: string; slug: string; feature?: string };
+
 export interface JvmConceptSummary {
   slug: string;
   id: number;
@@ -27,10 +31,12 @@ export interface JvmConceptDetail extends JvmConceptSummary {
   updatedAt: string | null;
   sections: JvmConceptSection[];
   references: JvmConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends JvmConceptSummary {
   references: JvmConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/jvm-concepts');
@@ -73,14 +79,16 @@ export class JvmConceptsService {
     .sort((a, b) => b.id - a.id);
 
   findAll(): JvmConceptSummary[] {
-    return this.conceptsMeta.map(({ slug, id, title, summary, publishedAt, labUrl }) => ({
-      slug,
-      id,
-      title,
-      summary,
-      publishedAt,
-      ...(labUrl && { labUrl }),
-    }));
+    return this.conceptsMeta.map(
+      ({ slug, id, title, summary, publishedAt, labUrl }) => ({
+        slug,
+        id,
+        title,
+        summary,
+        publishedAt,
+        ...(labUrl && { labUrl }),
+      }),
+    );
   }
 
   findBySlug(slug: string): JvmConceptDetail | null {
@@ -112,6 +120,7 @@ export class JvmConceptsService {
       updatedAt,
       sections: splitSections(body),
       references: meta.references,
+      related: meta.related,
     };
   }
 }

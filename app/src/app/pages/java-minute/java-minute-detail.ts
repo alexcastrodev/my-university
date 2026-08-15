@@ -7,6 +7,7 @@ import { JavaMinuteService } from '../../services/java-minute.service';
 import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { pickLeadSection } from '../../shared/concept-sections';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 
 @Component({
@@ -100,8 +101,7 @@ export class JavaMinuteDetailPage implements OnInit {
   }
 
   private plainTextFrom(episode: JavaMinuteEpisode, maxLength: number): string {
-    const shortAnswer = episode.sections.find((s) => /short answer|quick answer/i.test(s.title));
-    const text = shortAnswer?.content ?? episode.sections[0]?.content ?? episode.question;
+    const text = pickLeadSection(episode.sections)?.content ?? episode.question;
     const plain = text.replace(/[*_`#]/g, '').replace(/\s+/g, ' ').trim();
     return plain.length > maxLength ? `${plain.slice(0, maxLength - 3)}...` : plain;
   }

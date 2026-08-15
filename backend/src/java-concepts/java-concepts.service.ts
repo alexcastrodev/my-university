@@ -13,6 +13,10 @@ export interface JavaConceptSection {
   content: string;
 }
 
+export type ConceptLinkRef =
+  | string
+  | { label: string; slug: string; feature?: string };
+
 export interface JavaConceptSummary {
   slug: string;
   id: number;
@@ -28,10 +32,12 @@ export interface JavaConceptDetail extends JavaConceptSummary {
   updatedAt: string | null;
   sections: JavaConceptSection[];
   references: JavaConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends JavaConceptSummary {
   references: JavaConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/java-concepts');
@@ -117,6 +123,7 @@ export class JavaConceptsService {
       updatedAt,
       sections: splitSections(body),
       references: meta.references,
+      related: meta.related,
     };
   }
 }

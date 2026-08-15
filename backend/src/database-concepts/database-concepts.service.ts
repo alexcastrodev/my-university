@@ -15,6 +15,10 @@ export interface DatabaseConceptSection {
   content: string;
 }
 
+export type ConceptLinkRef =
+  | string
+  | { label: string; slug: string; feature?: string };
+
 export interface DatabaseConceptSummary {
   slug: string;
   id: number;
@@ -31,10 +35,12 @@ export interface DatabaseConceptDetail extends DatabaseConceptSummary {
   updatedAt: string | null;
   sections: DatabaseConceptSection[];
   references: DatabaseConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends DatabaseConceptSummary {
   references: DatabaseConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/database-concepts');
@@ -122,6 +128,7 @@ export class DatabaseConceptsService {
       updatedAt,
       sections: splitSections(body),
       references: meta.references,
+      related: meta.related,
     };
   }
 }

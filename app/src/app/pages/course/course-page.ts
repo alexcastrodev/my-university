@@ -8,6 +8,7 @@ import { SkillCheckView } from '../../components/skill-check-view/skill-check-vi
 import { Course, Lesson } from '../../models/course.model';
 import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
+import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class CoursePage implements OnInit {
   private http = inject(HttpClient);
   protected auth = inject(AuthService);
   private xpService = inject(XpService);
+  private seo = inject(SeoService);
   private courseLoader = effect(() => {
     const id = this.examId();
     this.auth.currentUser();
@@ -108,6 +110,7 @@ export class CoursePage implements OnInit {
       this.activeLesson.set(null);
       this.activeLessonId.set(null);
       this.markdownContent.set(null);
+      this.setCourseSeo();
       return;
     }
 
@@ -123,6 +126,7 @@ export class CoursePage implements OnInit {
 
     this.activeLesson.set(lesson);
     this.activeLessonId.set(lesson.id);
+    this.setLessonSeo(lesson);
     if (!lesson.contentPath) {
       this.markdownContent.set(null);
       return;
@@ -139,6 +143,38 @@ export class CoursePage implements OnInit {
     this.activeLesson.set(null);
     this.activeLessonId.set(null);
     this.markdownContent.set(null);
+    this.setCourseSeo();
+  }
+
+  private setCourseSeo(): void {
+    const course = this.course();
+    if (!course) return;
+    this.seo.set({
+      title: `${course.title} — My University`,
+      description: course.description,
+      path: `/java/exam/${course.id}`,
+      course: { moduleCount: course.moduleCount },
+      breadcrumbs: [
+        { name: 'Certification Exams', path: '/java/exams' },
+        { name: course.title, path: `/java/exam/${course.id}` },
+      ],
+    });
+  }
+
+  private setLessonSeo(lesson: Lesson): void {
+    const course = this.course();
+    if (!course) return;
+    this.seo.set({
+      title: `${lesson.title} — ${course.title}`,
+      description: `${lesson.title} — a lesson from the ${course.title} course on My University.`,
+      path: `/java/exam/${course.id}/lesson/${lesson.id}`,
+      type: 'article',
+      breadcrumbs: [
+        { name: 'Certification Exams', path: '/java/exams' },
+        { name: course.title, path: `/java/exam/${course.id}` },
+        { name: lesson.title, path: `/java/exam/${course.id}/lesson/${lesson.id}` },
+      ],
+    });
   }
 
   toggleCompleted(): void {

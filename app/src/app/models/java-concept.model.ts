@@ -1,3 +1,5 @@
+import { ConceptLinkRef } from '../shared/concept-links';
+
 export interface JavaConceptReference {
   label: string;
   url: string;
@@ -25,4 +27,5 @@ export interface JavaConcept extends JavaConceptSummary {
   updatedAt: string | null;
   sections: JavaConceptSection[];
   references: JavaConceptReference[];
+  related: ConceptLinkRef[];
 }

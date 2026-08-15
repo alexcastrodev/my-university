@@ -256,6 +256,42 @@ app-concept-actions {
   text-decoration: underline;
 }
 
+.related-concepts {
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.related-concepts-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b7280;
+  margin: 0 0 0.5rem;
+}
+
+.related-concepts-list {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.related-concepts-list li {
+  margin-bottom: 0.3rem;
+}
+
+.related-concepts-list a {
+  color: #c74634;
+  text-decoration: none;
+}
+
+.related-concepts-list a:hover {
+  text-decoration: underline;
+}
+
 /* ==========================================================================
    Concept viz — the algorithmator `viz` fenced-code-block animation engine
    (type: formula/moves/tree/graph). Was previously duplicated (and drifting

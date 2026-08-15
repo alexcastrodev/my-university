@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JavaMinuteEpisode } from '../../models/java-minute.model';
-import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
+import { getReferenceIcon, mapConceptSections, pickLeadSection } from '../../shared/concept-sections';
+import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
 
@@ -22,6 +23,7 @@ export class JavaMinuteEpisodeView implements OnChanges {
 
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
+  quickAnswer = signal<SafeHtml | null>(null);
 
   referenceIcon = getReferenceIcon;
 
@@ -31,9 +33,14 @@ export class JavaMinuteEpisodeView implements OnChanges {
     const episode = this.episode();
     if (!episode) {
       this.sections.set([]);
+      this.quickAnswer.set(null);
       return;
     }
 
-    this.sections.set(mapConceptSections(episode.sections, REFERENCES_TITLE, this.sanitizer));
+    const lead = pickLeadSection(episode.sections);
+    this.quickAnswer.set(lead ? parseMarkdown(this.sanitizer, lead.content).html : null);
+
+    const remaining = lead ? episode.sections.filter((s) => s !== lead) : episode.sections;
+    this.sections.set(mapConceptSections(remaining, REFERENCES_TITLE, this.sanitizer));
   }
 }

@@ -1,3 +1,5 @@
+import { ConceptLinkRef } from '../shared/concept-links';
+
 export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL';
 
 export interface DatabaseConceptReference {
@@ -28,4 +30,5 @@ export interface DatabaseConcept extends DatabaseConceptSummary {
   updatedAt: string | null;
   sections: DatabaseConceptSection[];
   references: DatabaseConceptReference[];
+  related: ConceptLinkRef[];
 }

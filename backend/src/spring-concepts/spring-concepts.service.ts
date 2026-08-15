@@ -18,6 +18,10 @@ export interface SpringConceptSection {
   content: string;
 }
 
+export type ConceptLinkRef =
+  | string
+  | { label: string; slug: string; feature?: string };
+
 export interface SpringConceptSummary {
   slug: string;
   id: number;
@@ -34,10 +38,12 @@ export interface SpringConceptDetail extends SpringConceptSummary {
   updatedAt: string | null;
   sections: SpringConceptSection[];
   references: SpringConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends SpringConceptSummary {
   references: SpringConceptReference[];
+  related: ConceptLinkRef[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/spring-concepts');
@@ -125,6 +131,7 @@ export class SpringConceptsService {
       updatedAt,
       sections: splitSections(body),
       references: meta.references,
+      related: meta.related,
     };
   }
 }

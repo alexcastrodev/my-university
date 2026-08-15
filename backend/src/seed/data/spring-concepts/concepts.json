@@ -5,6 +5,23 @@
     "category": "Spring Boot",
     "title": "Spring Boot Autoconfiguration",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How @SpringBootApplication, starter dependencies, and conditional beans let Spring Boot wire an application with almost no explicit configuration.",
     "publishedAt": "2026-07-27",
     "references": [
@@ -36,6 +53,23 @@
     "category": "Spring Security",
     "title": "Spring Security Authentication Architecture",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the authentication filter, AuthenticationManager, AuthenticationProvider, UserDetailsService, and SecurityContextHolder fit together, and how to configure them today with SecurityFilterChain instead of the deprecated WebSecurityConfigurerAdapter.",
     "publishedAt": "2026-07-27",
     "references": [
@@ -67,6 +101,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Chunk-Oriented Processing",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch's Job/Step/JobInstance/JobExecution/StepExecution model and chunk-oriented ItemReader/ItemProcessor/ItemWriter processing work, and how Java-based JobBuilder/StepBuilder configuration replaced the now-deprecated XML namespace.",
     "publishedAt": "2026-07-27",
     "references": [
@@ -93,6 +144,23 @@
     "category": "Spring Boot",
     "title": "The Spring Framework Landscape",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the core Spring Framework, Spring Boot, Spring Data, Spring Security, Spring Batch/Integration, and Spring Cloud fit together as one ecosystem, and how that landscape has shifted since 2019 (Jakarta EE namespace, GraalVM native images, Spring Cloud's current sub-projects).",
     "publishedAt": "2026-07-29",
     "references": [
@@ -134,6 +202,23 @@
     "category": "Spring Security",
     "title": "Spring Security User Management",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Transaction Management and Configuration",
+        "slug": "spring-batch-transaction-configuration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Transaction Management Patterns",
+        "slug": "spring-batch-transaction-patterns",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How UserDetails, GrantedAuthority, UserDetailsService, and UserDetailsManager describe and manage users in Spring Security, and why decorating a JPA entity with a separate UserDetails wrapper keeps persistence and security concerns apart.",
     "publishedAt": "2026-07-29",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-user-management",
@@ -166,6 +251,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Job Repository, Launcher, and Job Model",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the JobLauncher and JobRepository infrastructure components work, why persistent vs. in-memory job repositories trade off monitoring and restart against overhead, and how a job is modeled as a sequence of steps with optional non-linear control flow. Note: JobLauncher is now deprecated in favor of JobOperator as of Spring Batch 6.0.",
     "publishedAt": "2026-07-29",
     "references": [
@@ -202,6 +304,23 @@
     "category": "Spring Boot",
     "title": "Spring MVC Request Handling and Data Binding",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Step Scope and SpEL Late Binding",
+        "slug": "spring-batch-step-scope-and-spel-late-binding",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
+        "slug": "spring-batch-sharing-data-between-steps",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a Spring MVC controller pairs @GetMapping/@PostMapping handlers with a Model to render views and with implicit command-object binding to process form submissions, and how Java records now offer a dependency-free alternative to Lombok for immutable domain types.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -233,6 +352,23 @@
     "category": "Spring Security",
     "title": "Spring Security JDBC and LDAP User Management",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Transaction Management and Configuration",
+        "slug": "spring-batch-transaction-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How JdbcUserDetailsManager manages users in a relational database via plain JDBC (default schema, overridable queries) and how LdapUserDetailsManager authenticates against an LDAP directory, both implementing the UserDetailsManager contract.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -264,6 +400,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Non-Linear Flow and Job Instance Identity",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a JobExecutionDecider routes a job's flow based on a step's outcome, how JobInstance identity is derived from a job plus its identifying JobParameters, and why JobLauncher is deprecated in Spring Batch 6.0 in favor of JobOperator.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -295,6 +448,23 @@
     "category": "Spring Boot",
     "title": "Spring MVC Form Validation with the Bean Validation API",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to declare validation rules with Bean Validation annotations on a domain class and enforce them at form-binding time with @Valid and Errors/BindingResult, and why spring-boot-starter-validation is now a separate, explicit dependency instead of a transitive one.",
     "publishedAt": "2026-07-31",
     "references": [
@@ -331,6 +501,23 @@
     "category": "Spring Security",
     "title": "Spring Security PasswordEncoder Contract and Encoding Strategies",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How PasswordEncoder's encode()/matches() contract validates passwords without ever reversing a hash, how DelegatingPasswordEncoder lets an app support multiple algorithms at once via a prefix scheme, and why Argon2 is now a more prominent recommendation than the book's bcrypt/scrypt/PBKDF2 trio.",
     "publishedAt": "2026-07-31",
     "references": [
@@ -362,6 +549,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
+        "slug": "spring-boot-configuration-properties",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Environment-Specific Configuration with Spring Profiles",
+        "slug": "spring-boot-profiles",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the book's XML job/step attributes (restartable, incrementer, validator, next, parent/abstract) map onto JobBuilder's preventRestart()/incrementer()/validator()/next() methods, and why Java configuration doesn't need an equivalent to XML's parent/abstract inheritance.",
     "publishedAt": "2026-07-31",
     "references": [
@@ -393,6 +597,23 @@
     "category": "Spring Boot",
     "title": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
     "topic": "Data Access",
+    "related": [
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Job Repository: Choosing and Configuring the Persistence Layer",
+        "slug": "spring-batch-job-repository-database-configuration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
+        "slug": "spring-batch-retry-policy-and-retrytemplate",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How JdbcTemplate eliminates JDBC's connection/statement/result-set boilerplate via query()/queryForObject() and a RowMapper, how SimpleJdbcInsert simplifies inserts that need a generated key, and how schema.sql/data.sql auto-initialize a database on startup — plus why Spring Framework 6.1's JdbcClient is now the recommended fluent facade for the same job.",
     "publishedAt": "2026-08-01",
     "references": [
@@ -424,6 +645,23 @@
     "category": "Spring Security",
     "title": "Spring Security Crypto Module: Key Generators and Encryptors",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How KeyGenerators produces salt/key values (StringKeyGenerator, BytesKeyGenerator) and how Encryptors builds encryption/decryption objects (standard AES/CBC, stronger AES/GCM, queryableText for searchable ciphertext) without pulling in a separate crypto library.",
     "publishedAt": "2026-08-01",
     "references": [
@@ -455,6 +693,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Fault-Tolerant Steps: Skip, Retry, and Transaction Attributes",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the book's chunk/tasklet XML attributes (skip-limit, retry-policy, cache-capacity, transaction-attributes, no-rollback-exception-classes) map onto Java configuration — first onto the now-deprecated FaultTolerantStepBuilder, and, as of Spring Batch 6.0, onto ChunkOrientedStepBuilder's policy-object-based retryPolicy()/skipPolicy() built on Spring Framework's own core retry feature instead of the Spring Retry library.",
     "publishedAt": "2026-08-01",
     "references": [
@@ -491,6 +746,23 @@
     "category": "Spring Boot",
     "title": "Persisting Data with Spring Data JPA Repositories",
     "topic": "Data Access",
+    "related": [
+      {
+        "label": "Spring Data REST: Repositories as Hypermedia APIs",
+        "slug": "spring-data-rest-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
+        "slug": "spring-batch-sharing-data-between-steps",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How annotating domain classes as JPA entities and extending CrudRepository gives you a working persistence layer with zero implementation code, and how Spring Data parses derived query method names (findByDeliveryZip, readOrdersByDeliveryZipAndPlacedAtBetween) into real queries, with @Query as the escape hatch.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -522,6 +794,23 @@
     "category": "Spring Security",
     "title": "Spring Security: the Authentication and AuthenticationProvider Contracts",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Security represents an in-flight or completed authentication request via the Authentication interface, and how AuthenticationProvider's authenticate()/supports() pair lets multiple authentication schemes coexist behind one AuthenticationManager.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -553,6 +842,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Job Repository: Choosing and Configuring the Persistence Layer",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Configuring and Sizing Thread Pools",
+        "slug": "configuring-thread-pool-executor",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      }
+    ],
     "summary": "How the book's <batch:job-repository> XML attributes (data-source, transaction-manager, isolation-level-for-create, table-prefix, max-varchar-length, lob-handler) configure the one JobRepository implementation Spring Batch ships, SimpleJobRepository, and how the same attributes map onto today's @EnableJdbcJobRepository — including why isolation-level-for-create defaults to SERIALIZABLE as a safeguard against launching the same job instance twice from different nodes.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -584,6 +890,23 @@
     "category": "Spring Boot",
     "title": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
+        "slug": "spring-batch-job-configuration-attributes",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch XML Configuration Inheritance: abstract and parent",
+        "slug": "spring-batch-xml-configuration-inheritance",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Transaction Management and Configuration",
+        "slug": "spring-batch-transaction-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the Spring environment abstraction aggregates properties from JVM system properties, OS environment variables, command-line arguments, and application.yml/properties into one source, and how a few hundred built-in configuration properties (server.port, spring.datasource.*, logging.level.*) let you tune Spring Boot's autoconfigured beans without writing a single @Bean method.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -620,6 +943,23 @@
     "category": "Spring Security",
     "title": "Spring Security: SecurityContext Storage and Thread Propagation",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Configuring and Sizing Thread Pools",
+        "slug": "configuring-thread-pool-executor",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How SecurityContextHolder stores the Authentication after login via three strategies (MODE_THREADLOCAL, MODE_INHERITABLETHREADLOCAL, MODE_GLOBAL), and how DelegatingSecurityContextCallable/ExecutorService propagate the security context to self-managed threads the framework doesn't know about.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -651,6 +991,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Step Scope and SpEL Late Binding",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch's custom StepScope bean scope delays bean instantiation until a step actually starts, and how SpEL expressions against jobParameters/jobExecutionContext/stepExecutionContext let a reader, writer, or tasklet pull in a value — like an input filename — that's only known at launch time instead of being hardcoded in configuration.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -682,6 +1039,23 @@
     "category": "Spring Boot",
     "title": "Creating Your Own Configuration Properties with @ConfigurationProperties",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
+        "slug": "spring-batch-job-configuration-attributes",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch XML Configuration Inheritance: abstract and parent",
+        "slug": "spring-batch-xml-configuration-inheritance",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Reactor Operators: Creating, Combining, Transforming Streams",
+        "slug": "spring-reactor-operators",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How @ConfigurationProperties turns any bean's setters into configuration-driven values, why extracting them into a dedicated holder bean keeps controllers and services clean, and how to generate IDE metadata for custom properties — plus why records with constructor binding are now the preferred alternative to a mutable, Lombok-backed holder class.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -713,6 +1087,23 @@
     "category": "Spring Security",
     "title": "Spring Security: HTTP Basic and Form-Based Login Authentication",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How httpBasic() and formLogin() configure Spring Security's two built-in authentication methods, how AuthenticationEntryPoint/AuthenticationSuccessHandler/AuthenticationFailureHandler customize their failure and success behavior, and how the two methods can run side by side on the same application.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -744,6 +1135,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Listeners: Hooking Into Job, Step, and Item Lifecycle Events",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How JobExecutionListener/StepExecutionListener/ChunkListener and the per-item ItemReadListener/ItemProcessListener/ItemWriteListener/SkipListener interfaces let you plug notification and error-handling logic into a batch job's lifecycle without touching the job's own reader/processor/writer code, and how @BeforeStep/@AfterStep-style annotations offer the same hooks on a plain POJO instead of an interface implementation.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -775,6 +1183,23 @@
     "category": "Spring Boot",
     "title": "Environment-Specific Configuration with Spring Profiles",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
+        "slug": "spring-batch-job-configuration-attributes",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch XML Configuration Inheritance: abstract and parent",
+        "slug": "spring-batch-xml-configuration-inheritance",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Transaction Management and Configuration",
+        "slug": "spring-batch-transaction-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring profiles let different properties and beans apply depending on which profile is active, why setting spring.profiles.active outside of application.yml keeps environment-specific config properly separated, and how the book's multi-document spring.profiles: prod YAML syntax has since been replaced by spring.config.activate.on-profile.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -806,6 +1231,23 @@
     "category": "Spring Security",
     "title": "Spring Security Authorization: Authorities and Roles",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Security decides, after authentication succeeds, whether a request is actually allowed — via the GrantedAuthority contract, the hasAuthority()/hasAnyAuthority() methods for fine-grained authorities, hasRole()/hasAnyRole() and the ROLE_ prefix convention for coarser-grained roles, and denyAll() for blanket restrictions — plus the access() method's escape hatch into raw SpEL for anything the named methods can't express.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -837,6 +1279,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch XML Configuration Inheritance: abstract and parent",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
+        "slug": "spring-boot-configuration-properties",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Environment-Specific Configuration with Spring Profiles",
+        "slug": "spring-boot-profiles",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch's XML vocabulary reuses plain Spring's abstract/parent bean-inheritance mechanism to let a job or step definition inherit and override another's attributes, how the merge=\"true\" flag combines rather than replaces a parent's listener list, and why Java configuration has no direct equivalent — reuse there is achieved by extracting shared configuration into ordinary Java methods instead of a dedicated inheritance keyword.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -868,6 +1327,23 @@
     "category": "Spring Boot",
     "title": "Writing RESTful Controllers with Spring MVC",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
+        "slug": "spring-webflux-reactive-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Writing Files in Spring Batch",
+        "slug": "spring-batch-writing-files",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Writing Doc Comments for Exposed API Elements",
+        "slug": "javadoc-and-api-documentation",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How @RestController and the HTTP-method mapping annotations (@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping) map CRUD operations onto REST endpoints, why PUT and PATCH have genuinely different replace-vs-merge semantics that the annotations alone don't enforce, and how Spring Framework 6's ProblemDetail (RFC 7807) now gives 404s and other error responses a structured body instead of an empty one.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -899,6 +1375,23 @@
     "category": "Spring Security",
     "title": "Spring Security: Selecting Requests with Matcher Methods",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Regular Expressions with Pattern and Matcher",
+        "slug": "regular-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Static Factory Methods and the Builder Pattern",
+        "slug": "static-factory-methods-and-builder-pattern",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How Spring Security's matcher methods (anyRequest(), mvcMatchers()/requestMatchers()) select which requests an authorization rule applies to, why rule order must go from specific to general, how to combine a path with an HTTP method, and why the book's own security argument for preferring MVC matchers over Ant matchers is now built into requestMatchers() by default.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -930,6 +1423,23 @@
     "category": "Spring Batch",
     "title": "The Spring Batch Launcher API: Synchronous vs. Asynchronous Job Launches",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the JobLauncher interface's single run(Job, JobParameters) method starts a job execution, why the default launch is synchronous and blocks the calling thread until the job finishes, how supplying a TaskExecutor makes it asynchronous instead, and how JobLauncher/SimpleJobLauncher/TaskExecutorJobLauncher have all been deprecated since Spring Batch 6.0 in favor of JobOperator/TaskExecutorJobOperator.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -961,6 +1471,23 @@
     "category": "Spring Boot",
     "title": "Enabling Hypermedia: Spring HATEOAS and the _links/_embedded Shape",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring HATEOAS attaches self-describing hyperlinks to REST responses so clients navigate an API by relation name instead of hardcoded URLs, via RepresentationModel/EntityModel/CollectionModel, linkTo(methodOn(...)) link builders, and RepresentationModelAssembler classes that produce the HAL _links/_embedded JSON shape.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -997,6 +1524,23 @@
     "category": "Spring Batch",
     "title": "Launching Spring Batch Jobs from the Command Line",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How CommandLineJobRunner launches a job as a plain java -classpath process for cron-style scheduling — Spring config file, job name, typed job parameters, and an ExitCodeMapper that turns a job's exit status back into a shell exit code — and why it's deprecated since Spring Batch 6.0 in favor of the operation-aware CommandLineJobOperator.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1033,6 +1577,23 @@
     "category": "Spring Security",
     "title": "Spring Security Authorization: Ant Matchers and the Trailing-Slash Gotcha",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How antMatchers() shares its wildcard syntax with mvcMatchers() but matches only the literal path expression, why that leaves a path like /hello/ unprotected when a rule is written for /hello, and why requestMatchers() and Spring's own trailing-slash matching default have both moved since the book's recommendation to prefer MVC matchers.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1069,6 +1630,23 @@
     "category": "Spring Boot",
     "title": "Spring Data REST: Repositories as Hypermedia APIs",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
+        "slug": "spring-batch-sharing-data-between-steps",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
+        "slug": "spring-security-method-security-filtering-and-spring-data",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1105,6 +1683,23 @@
     "category": "Spring Security",
     "title": "Spring Security Authorization: Regex Matchers as the Last Resort",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How regexMatchers() matches a request's full path against a regular expression when MVC and Ant matchers can't express the rule — such as a condition spanning two path variables at once — and why the book's own advice to prefer readable matchers still applies today via the still-current, explicit RegexRequestMatcher.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1141,6 +1736,23 @@
     "category": "Spring Batch",
     "title": "Triggering Spring Batch Jobs: cron vs. the Spring Scheduler",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How cron's crontab entries trigger CommandLineJobRunner as a fresh OS process on a schedule, how Spring's @Scheduled/TaskScheduler support offers an in-process alternative with fixedRate/fixedDelay/cron options since Spring 3.0, and why Kubernetes CronJob has largely replaced raw crontab as the deployment model for the same trigger-a-batch-process pattern.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1172,6 +1784,23 @@
     "category": "Spring Boot",
     "title": "Dependency Injection: From EJB to Jakarta CDI",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
+        "slug": "spring-boot-configuration-properties",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How container-managed dependency injection evolved from EJB's XML deployment descriptors to the formal Jakarta CDI specification, and why @Autowired/@Component and @Inject/@Named are two dialects of the same underlying model in Spring and Quarkus.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1208,6 +1837,23 @@
     "category": "Spring Boot",
     "title": "DispatcherServlet Internals: Handler Mapping, Adapters, and Message Converters",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+        "slug": "g1-regions-and-evacuation-failure",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring MVC Form Validation with the Bean Validation API",
+        "slug": "spring-mvc-bean-validation",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "The concrete pipeline behind a REST controller call — RequestMappingHandlerMapping matching a route via PathPattern, HandlerAdapter resolving arguments and invoking the method via reflection, and HttpMessageConverter handling JSON (de)serialization on both sides.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1244,6 +1890,23 @@
     "category": "Spring Boot",
     "title": "Consuming REST Services: RestTemplate & Traverson",
     "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "WebClient: Consuming REST APIs Reactively",
+        "slug": "spring-webclient-reactive-consumption",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+        "slug": "spring-kafka-messaging",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Calling REST APIs from a Spring application — RestTemplate's per-verb operations for GET/PUT/DELETE/POST and Traverson's relation-name navigation of a hypermedia API, plus where RestClient now fits.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1280,6 +1943,23 @@
     "category": "Spring Boot",
     "title": "Asynchronous Messaging with JMS",
     "topic": "Messaging",
+    "related": [
+      {
+        "label": "The Spring Batch Launcher API: Synchronous vs. Asynchronous Job Launches",
+        "slug": "spring-batch-job-launcher-api-and-async-launching",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "RabbitMQ and AMQP Messaging",
+        "slug": "spring-rabbitmq-messaging",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+        "slug": "spring-kafka-messaging",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Decoupling a producer from a consumer through a JMS broker — JmsTemplate's send/convertAndSend, message converters and post-processors, and the pull (receive) versus push (@JmsListener) models for consuming.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1316,6 +1996,18 @@
     "category": "Spring Boot",
     "title": "RabbitMQ and AMQP Messaging",
     "topic": "Messaging",
+    "related": [
+      {
+        "label": "Asynchronous Messaging with JMS",
+        "slug": "spring-jms-messaging",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+        "slug": "spring-kafka-messaging",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How AMQP's exchange, routing key, and binding model decouples producers from queues, and how RabbitTemplate and @RabbitListener send and receive messages in Spring.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1357,6 +2049,23 @@
     "category": "Spring Boot",
     "title": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
     "topic": "Messaging",
+    "related": [
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Consuming REST Services: RestTemplate & Traverson",
+        "slug": "spring-resttemplate-and-traverson",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Skipping Instead of Failing: SkipPolicy and SkipListener",
+        "slug": "spring-batch-skip-policy-and-listeners",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring for Apache Kafka wraps the raw Kafka client in an autoconfigured KafkaTemplate and @KafkaListener, and why Kafka's log-based, replayable, partition-ordered model behaves differently from JMS and AMQP queue consumption.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1403,6 +2112,23 @@
     "category": "Spring Boot",
     "title": "Reactor Fundamentals: Reactive Streams, Mono, and Flux",
     "topic": "Reactive",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Reactor Operators: Creating, Combining, Transforming Streams",
+        "slug": "spring-reactor-operators",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Why reactive programming exists — the blocked-thread problem imperative I/O code creates — plus the four-interface Reactive Streams contract that makes backpressure work, and Reactor's two core publisher types, Mono for 0-or-1 results and Flux for 0-to-N sequences.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1439,6 +2165,23 @@
     "category": "Spring Boot",
     "title": "Reactor Operators: Creating, Combining, Transforming Streams",
     "topic": "Reactive",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Creating Your Own Configuration Properties with @ConfigurationProperties",
+        "slug": "spring-boot-custom-configuration-properties",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "The operator vocabulary of Flux and Mono — creating streams from data, combining two with zip or mergeWith, transforming with map versus flatMap, filtering, and collapsing a stream to a single logical result.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1475,6 +2218,23 @@
     "category": "Spring Boot",
     "title": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
     "topic": "Reactive",
+    "related": [
+      {
+        "label": "Writing RESTful Controllers with Spring MVC",
+        "slug": "spring-boot-rest-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Actuator: Built-in Endpoints",
+        "slug": "spring-boot-actuator-endpoints",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Launching Spring Batch Jobs from a Web Application",
+        "slug": "spring-batch-web-application-launching",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Build a non-blocking web layer with Spring WebFlux — the same @RestController annotations as Spring MVC but returning Mono & Flux, the annotation-free RouterFunction/HandlerFunction alternative, and WebTestClient for testing both against mocks or a live Netty server.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1516,6 +2276,23 @@
     "category": "Spring Boot",
     "title": "WebClient: Consuming REST APIs Reactively",
     "topic": "Reactive",
+    "related": [
+      {
+        "label": "Consuming REST Services: RestTemplate & Traverson",
+        "slug": "spring-resttemplate-and-traverson",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Data REST: Repositories as Hypermedia APIs",
+        "slug": "spring-data-rest-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Spring's non-blocking HTTP client — retrieve()/bodyToMono/bodyToFlux, reactive request bodies, onStatus error handling, the exchangeToMono replacement for the leak-prone exchange(), and reactive Spring Security with SecurityWebFilterChain.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1552,6 +2329,23 @@
     "category": "Spring Boot",
     "title": "Spring Boot Actuator: Built-in Endpoints",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
+        "slug": "spring-webflux-reactive-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Actuator adds production-readiness endpoints to a Spring Boot app — /health, /info, /metrics, /env, /beans, /mappings & more — over HTTP and JMX, plus how to expose and consume them safely.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1583,6 +2377,23 @@
     "category": "Spring Boot",
     "title": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Extend Actuator past its built-in endpoints: contribute application data to /info with InfoContributor, write a HealthIndicator that reflects a real dependency, publish business metrics through Micrometer's MeterRegistry, build custom endpoints with @Endpoint, and lock the whole surface down with Spring Security and EndpointRequest.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1614,6 +2425,23 @@
     "category": "Spring Boot",
     "title": "Containerizing Spring Boot: Dockerfiles, Layered JARs & Buildpacks",
     "topic": "Core Spring & Boot",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Packaging a Spring Boot application as an OCI image — the book's hand-written Dockerfile, layered JARs that make Docker's build cache actually work, and spring-boot:build-image as the no-Dockerfile Cloud Native Buildpacks alternative.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1655,6 +2483,23 @@
     "category": "Spring Batch",
     "title": "Launching Spring Batch Jobs from a Web Application",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
+        "slug": "spring-webflux-reactive-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How embedding Spring Batch in a web application's Spring context keeps a resident batch environment warm—avoiding a fresh JVM per job—and how a Spring MVC controller launches jobs on demand over HTTP asynchronously, a hand-wired setup that Spring Boot now auto-configures with JobOperator replacing the deprecated JobLauncher.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1681,6 +2526,23 @@
     "category": "Spring Batch",
     "title": "Stopping Spring Batch Jobs Gracefully",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to stop a Spring Batch job cleanly — from the outside as an operator with JobOperator.stop and from inside a step as a developer with StepExecution.setTerminateOnly — so the job halts at the next chunk boundary within transactional safety and ends in a restartable STOPPED state, and how those APIs shifted in Spring Batch 6.0 where JobOperator (extending JobLauncher) is the API and the book's stop(long)/getRunningExecutions calls are deprecated for removal.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1712,6 +2574,23 @@
     "category": "Spring Batch",
     "title": "Reading Flat Files in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch's ItemReader contract and FlatFileItemReader turn delimited, fixed-width, multiline, heterogeneous, and JSON file records into domain objects, and the modern builder and JsonItemReader equivalents of the book's XML configuration.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1738,6 +2617,23 @@
     "category": "Spring Batch",
     "title": "Reading XML and Multiple Resources in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Stream large XML input one fragment at a time with StaxEventItemReader and a Spring OXM unmarshaller, and process an ordered set of files as one continuous item stream with MultiResourceItemReader.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1764,6 +2660,23 @@
     "category": "Spring Batch",
     "title": "Reading from Relational Databases: JDBC and ORM Item Readers",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "JDBC Statement Pooling and JPA's N+1 Problem",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch streams rows from relational databases with cursor-based and paging item readers over JDBC and ORM, and how today's builder APIs and relocated packages differ from the book's XML configuration.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1795,6 +2708,23 @@
     "category": "Spring Batch",
     "title": "Custom and Service ItemReaders in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Custom Filters in the Spring Security Filter Chain",
+        "slug": "spring-security-custom-filters-in-the-chain",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
+        "slug": "executor-shutdown-and-jvm-exit",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch plugs non-standard input into a chunk step—reusing an existing bean method with ItemReaderAdapter, draining a queue with JmsItemReader, and hand-writing a custom ItemReader made restartable via ItemStream—and how those classes moved to the org.springframework.batch.infrastructure.item.* packages in Spring Batch 6.0.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1826,6 +2756,23 @@
     "category": "Spring Batch",
     "title": "Writing Files in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Writing RESTful Controllers with Spring MVC",
+        "slug": "spring-boot-rest-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Writing Doc Comments for Exposed API Elements",
+        "slug": "javadoc-and-api-documentation",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How Spring Batch's chunk-oriented ItemWriter contract and the FlatFileItemWriter, StaxEventItemWriter, and MultiResourceItemWriter turn domain objects into delimited, fixed-width, XML, and rolling file-set output, plus the modern builder equivalents and 6.0 package relocation of the book's XML configuration.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1852,6 +2799,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Database Item Writers",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch writes a chunk to a relational database — JdbcBatchItemWriter collapsing N inserts into a single JDBC batch per chunk, the named- versus positional-parameter binding strategies, and the JpaItemWriter/HibernateItemWriter ORM writers, plus the Spring Batch 6.0 builder APIs and the infrastructure.item package relocation.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1883,6 +2847,23 @@
     "category": "Spring Batch",
     "title": "Advanced and Composite Item Writers in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch reuses an existing service as a writer with ItemWriterAdapter, implements a custom ItemWriter through the write(Chunk) contract, and fans out or routes a chunk with CompositeItemWriter versus ClassifierCompositeItemWriter — plus the niche JMS and email writers — and how those classes moved to the org.springframework.batch.infrastructure.item.* packages in Spring Batch 6.0.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1919,6 +2900,23 @@
     "category": "Spring Batch",
     "title": "Item Processing and Transformation: The ItemProcessor Contract",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Security PasswordEncoder Contract and Encoding Strategies",
+        "slug": "spring-security-password-encoding",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Listeners: Hooking Into Job, Step, and Item Lifecycle Events",
+        "slug": "spring-batch-execution-listeners",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How an ItemProcessor sits between the reader and writer in a chunk-oriented step to transform items in place, change the read type into a different write type, or hydrate a driving query — plus PassThroughItemProcessor and ItemProcessorAdapter.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1950,6 +2948,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Filtering and Validating Items",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
+        "slug": "spring-security-method-security-filtering-and-spring-data",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a Spring Batch ItemProcessor filters items by returning null (a filter, not a skip), validates them with ValidatingItemProcessor and the built-in BeanValidatingItemProcessor, and chains rules with CompositeItemProcessor.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1986,6 +3001,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Skipping Instead of Failing: SkipPolicy and SkipListener",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch skips faulty items instead of failing the step — read/process/write skip semantics, custom SkipPolicy implementations, and SkipListener callbacks for recording or dead-lettering skipped records.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2022,6 +3054,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch re-attempts transient failures instead of skipping or failing them — RetryPolicy objects with back-off, RetryListener hooks, the standalone RetryTemplate for arbitrary code, and transparent AOP retry — plus the retry API's journey from Spring Batch's own package to the Spring Retry library and, in Spring Batch 6.0, to Spring Framework 7's native core retry.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2063,6 +3112,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Restart and Recovery: Resuming Failed Jobs Where They Left Off",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch restarts a FAILED or STOPPED job by launching a new JobExecution of the same JobInstance that resumes from state persisted in the ExecutionContext — enabling or forbidding restart with preventRestart, re-running completed steps with allowStartIfComplete, capping attempts with startLimit, and resuming mid-chunk through an ItemStream reader — all requiring a persistent JDBC JobRepository, plus the Spring Batch 6.0 shift to JobOperator.restart(JobExecution) and the new recover() operation.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2104,6 +3170,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Transaction Management and Configuration",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Fine-Tuning Autoconfiguration with Spring Boot Configuration Properties",
+        "slug": "spring-boot-configuration-properties",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch drives transactions at the step level — one transaction per chunk (commit-interval) or per Tasklet.execute() — how to override isolation, propagation, and timeout with transaction attributes, the pitfalls of declarative transactions and transactional (JMS) readers, and how the unchanged PlatformTransactionManager model maps to today's .transactionManager()/.transactionAttribute() builder methods, jakarta.transaction, and the relocated ResourcelessTransactionManager.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2140,6 +3223,23 @@
     "category": "Spring Batch",
     "title": "Spring Batch Transaction Management Patterns",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+        "slug": "enum-patterns-strategy-and-collections",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "How Spring Batch keeps a step atomic across two transactional resources such as a JMS queue and a database, using global XA/JTA transactions, the shared-resource pattern, best-effort 1PC, and duplicate handling through deduplication or idempotency.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2166,6 +3266,23 @@
     "category": "Spring Batch",
     "title": "Controlling Job Flow in Spring Batch: BatchStatus vs. ExitStatus",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
+        "slug": "executor-shutdown-and-jvm-exit",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How Spring Batch branches a job's flow on a step's String ExitStatus (not the persisted BatchStatus enum) using on() with */? wildcards, how to mint a custom exit status from a StepExecutionListener.afterStep() or a JobExecutionDecider, and the flow terminators end/fail/stopAndRestart — plus the migration from the deprecated XML batch namespace to the Java FlowBuilder DSL.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2192,6 +3309,23 @@
     "category": "Spring Batch",
     "title": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Data REST: Repositories as Hypermedia APIs",
+        "slug": "spring-data-rest-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to pass a value from one step to a later one in a restart-safe way via the persisted job ExecutionContext and ExecutionContextPromotionListener versus a simpler but restart-unsafe holder bean, how to externalize a reusable sequence of steps as a Flow/FlowStep/JobStep, and how to end/fail/stopAndRestart a job declaratively from a step's exit status.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2233,6 +3367,23 @@
     "category": "Spring Batch",
     "title": "Monitoring Spring Batch Jobs: JobExplorer, JobOperator, and Metadata Schema",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to detect and act on job failures by reading execution history back from the job repository — the read-only JobExplorer for rich domain objects, the String/Long-typed JobOperator built for JMX, querying the BATCH_* metadata tables directly, and pushing alerts from a JobExecutionListener — plus the shift from hand-rolled JMX and the now-discontinued Spring Batch Admin to built-in Micrometer metrics and Spring Cloud Data Flow.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2269,6 +3420,23 @@
     "category": "Spring Batch",
     "title": "Scaling Spring Batch Locally: Multithreaded Steps and Parallel Flows",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to scale a Spring Batch step on a single machine with a TaskExecutor-backed multithreaded step or independent parallel flows joined by a split, the thread-safety-vs-restartability tension this creates for stateful readers (saveState=false, a synchronized reader, or the process-indicator pattern), and the Spring Batch 6.0 redesign where only the ItemProcessor runs on multiple threads, plus virtual-thread executors for I/O-bound work.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2305,6 +3473,23 @@
     "category": "Spring Batch",
     "title": "Remote Chunking: Scaling a Step Across Machines",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Fine-Grained Scaling in Spring Batch: Partitioning a Step",
+        "slug": "spring-batch-partitioning",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Listeners: Hooking Into Job, Step, and Item Lifecycle Events",
+        "slug": "spring-batch-execution-listeners",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Remote chunking distributes one chunk-oriented step across JVMs — a master keeps the ItemReader, JobRepository and step, dispatching ChunkRequests over durable, guaranteed-delivery middleware (JMS/AMQP) to slaves that process and write and return only a StepContribution summary — so it pays off only when reading isn't the bottleneck, and unlike partitioning it depends on transacted re-delivery rather than per-chunk batch metadata for correctness; the book's hand-wired Spring Integration channels, MessagingTemplate gateway, RemoteChunkHandlerFactoryBean and ChunkProcessorChunkHandler (shipped separately with Spring Batch Admin) are today the spring-batch-integration module's @EnableBatchIntegration plus RemoteChunkingManagerStepBuilder/RemoteChunkingWorkerBuilder in manager/worker terminology, with ChunkHandler renamed ChunkRequestHandler, ChunkProvider deprecated in 6.0 with no replacement, ChunkProcessor's arguments reordered, and two new 6.0 siblings — local chunking via ChunkTaskExecutorItemWriter and remote step execution via RemoteStep.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2356,6 +3541,23 @@
     "category": "Spring Batch",
     "title": "Fine-Grained Scaling in Spring Batch: Partitioning a Step",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a manager step splits input data into partitions that each run as their own StepExecution of an untouched worker step, the partitioning SPI (Partitioner returning a Map of named ExecutionContexts, StepExecutionSplitter, and a PartitionHandler that decides local threads via TaskExecutorPartitionHandler or remote workers via MessageChannelPartitionHandler), how gridSize and #{stepExecutionContext[...]} late binding feed per-partition parameters, why restart works without durable messaging, and how partitioning compares to multithreaded steps, parallel steps, and remote chunking — plus the Spring Batch 6.0 changes: manager/worker vocabulary, partition classes relocated to org.springframework.batch.core.partition, JobExplorer folded into JobRepository, XML replaced by PartitionStepBuilder, and two new strategies (local chunking, remote step).",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2417,6 +3619,23 @@
     "category": "Spring Batch",
     "title": "Unit Testing Batch Components with JUnit and Mockito",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring Security Testing: Mock Users and Authentication",
+        "slug": "spring-security-testing-mock-users-and-authentication",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Testing Authorization, CSRF, and CORS with spring-security-test",
+        "slug": "spring-security-testing-authorization-csrf-and-cors",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Integration and Functional Testing of Spring Batch Jobs",
+        "slug": "spring-batch-integration-and-functional-testing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Batch jobs run headless with no UI to reveal a silent failure, so testing matters more than usual; this covers the white-box unit layer with zero Spring context — plain JUnit fixtures for a POJO Validator or ItemProcessor, Mockito mock/when/thenReturn/verify/times/never/verifyNoMoreInteractions to replace a FieldSet, JdbcTemplate, or reject-file writer and drive branches without a database or file system, spies plus RETURNS_DEEP_STUBS for a JobParametersValidator, and MetaDataInstanceFactory from spring-batch-test to build StepExecution/JobExecution/ExecutionContext fixtures (plus a hand-built StepContribution and ChunkContext) so a JobExecutionDecider, StepExecutionListener, or Tasklet is testable without launching a job; the 2012 book's JUnit 4 style (@RunWith(MockitoJUnitRunner), @Before/@After, @Test(expected=...)) maps to Jupiter (@ExtendWith(MockitoExtension.class), @BeforeEach/@AfterEach, assertThrows) since Spring Batch 6.0 dropped JUnit 4 entirely, Mockito's core API is unchanged in 5.x apart from Java 11+, the inline mock maker, verifyZeroInteractions removal, and strict stubs, and the 6.0 reorg moved the domain objects (core.job / core.step / core.job.parameters / infrastructure.item) while ItemWriter.write now takes Chunk instead of List and JobParametersInvalidException became InvalidJobParametersException.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2478,6 +3697,23 @@
     "category": "Spring Batch",
     "title": "Integration and Functional Testing of Spring Batch Jobs",
     "topic": "Spring Batch",
+    "related": [
+      {
+        "label": "Spring WebFlux: Reactive Controllers & Functional Endpoints",
+        "slug": "spring-webflux-reactive-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Testing: Mock Users and Authentication",
+        "slug": "spring-security-testing-mock-users-and-authentication",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How the Spring-context-backed testing tiers work — the Spring TestContext Framework (@SpringJUnitConfig, context caching, @DirtiesContext) plus an embedded H2 datasource for integration tests that catch wiring bugs unit tests can't, StepScopeTestExecutionListener and its getStepExecution factory method (or StepScopeTestUtils.doInStepScope) to exercise @StepScope beans and late-bound SpEL outside a running step with MetaDataInstanceFactory-built domain objects, and functional tests that launch one real step or a whole job and assert on JobExecution/BatchStatus/StepExecution counts/table rows — plus the migration from the book's @RunWith(SpringJUnit4ClassRunner.class) to the all-in-one @SpringBatchTest, from the now-deprecated JobLauncherTestUtils.launchJob/launchStep to JobOperatorTestUtils.startJob/startStep, and away from the removed AssertFile helper.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2544,6 +3780,23 @@
     "category": "Spring Security",
     "title": "Custom Filters in the Spring Security Filter Chain",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Custom and Service ItemReaders in Spring Batch",
+        "slug": "spring-batch-custom-and-service-readers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Spring Security's HttpSecurity exposes exactly three placements for a custom Filter relative to a known built-in filter — addFilterBefore() to reject bad requests before expensive authentication runs, addFilterAfter() to observe what already got through, and addFilterAt() to substitute your own implementation of a responsibility a built-in filter normally owns (note: addFilterAt does NOT remove the filter it sits next to, both still run) — plus the catalog of filters Spring Security ships; the book's javax.servlet.Filter and WebSecurityConfigurerAdapter.configure(HttpSecurity) override are now jakarta.servlet.Filter (Spring Boot 3.0+ Jakarta EE namespace) and a SecurityFilterChain bean using the same three builder methods.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2585,6 +3838,23 @@
     "category": "Spring Security",
     "title": "CSRF Protection: CsrfFilter, CsrfTokenRepository, and Practical Customization",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Hand-Rolled Token Authentication: The Pre-OAuth2 Case Study",
+        "slug": "spring-security-custom-token-based-authentication",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
+        "slug": "spring-security-method-security-filtering-and-spring-data",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Testing Authorization, CSRF, and CORS with spring-security-test",
+        "slug": "spring-security-testing-authorization-csrf-and-cors",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "CsrfFilter sits in the filter chain, lets GET/HEAD/TRACE/OPTIONS through untouched and demands a token (handed to the client earlier via a CsrfTokenRepository) for every other method, so a fresh Spring Security project rejecting an authenticated POST with 403 is CSRF protection working as designed, not a bug — the fix is passing the token back (hidden form field for server-rendered apps, a cookie via CookieCsrfTokenRepository for SPAs) or, when genuinely appropriate, excluding specific request matchers or disabling it for bearer-token-only APIs; since Spring Security 6.1 the default handler for reading the token became XorCsrfTokenRequestAttributeHandler (BREACH-resistant, deferred token loading) in place of the book's simpler default.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2631,6 +3901,23 @@
     "category": "Spring Security",
     "title": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "HTTP Sessions Under the Hood",
+        "slug": "http-sessions-under-the-hood",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "CORS is a browser mechanism that relaxes the same-origin policy rather than a server-side restriction — an unconfigured cross-origin call still executes on the server and only its response is withheld from JavaScript — configured either per endpoint with Spring MVC's @CrossOrigin or centrally via http.cors() plus a CorsConfigurationSource whose CorsFilter must run before Spring Security's authentication and authorization so credential-less preflight OPTIONS requests are not rejected with 401; the book's WebSecurityConfigurerAdapter.configure(HttpSecurity) container is now a SecurityFilterChain bean and the raw lambda source a UrlBasedCorsConfigurationSource bean, while CorsConfiguration, @CrossOrigin, and http.cors() themselves are unchanged, with today's additions being originPatterns (required instead of the wildcard once allowCredentials is true), preFlightRequestHandler, and the WHATWG Fetch Standard superseding the W3C CORS spec the book cites for simple-request rules.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2687,6 +3974,23 @@
     "category": "Spring Security",
     "title": "Hand-Rolled Token Authentication: The Pre-OAuth2 Case Study",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security: the Authentication and AuthenticationProvider Contracts",
+        "slug": "spring-security-authentication-provider-contract",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security: HTTP Basic and Form-Based Login Authentication",
+        "slug": "spring-security-http-basic-and-form-login",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "A hands-on two-server build (an authentication server that owns credentials and issues one-time tokens, a business-logic server that trusts a bearer token on every request with no server-side session) expressed entirely in Spring Security's own contracts (Authentication, AuthenticationProvider, OncePerRequestFilter, SecurityContextHolder) — deliberately pre-OAuth2 pedagogy showing what a bearer-token flow has to do before the framework hands you OAuth2/OIDC to do it in a standardized way; the book's javax-era filter and WebSecurityConfigurerAdapter config map to jakarta.servlet + a SecurityFilterChain bean today, and production systems now reach for Spring Authorization Server (RegisteredClient/JWT) instead of hand-rolling this exact mechanism, though the underlying contracts this concept teaches are unchanged.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2748,6 +4052,23 @@
     "category": "Spring Security",
     "title": "OAuth 2 Fundamentals and Grant Types",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
+        "slug": "spring-security-oauth2-authorization-server",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "The OAuth 2 mental model — resource owner, client with its own client_id/client_secret, authorization server, and resource server exchanging scope-limited access tokens — plus when to pick each grant type (authorization code's two round trips and why, password, client credentials, refresh token) and the book's own \"sins of OAuth 2\"; note that since 2020 the password grant has become forbidden rather than merely discouraged (RFC 9700/BCP 240 says MUST NOT, OAuth 2.1 omits it, AuthorizationGrantType.PASSWORD is deprecated in Spring Security 6.x and gone in 7.0, and Spring Authorization Server never supported it) while PKCE moved from an optional hardening note to mandatory for every authorization-code client, alongside exact redirect-URI matching and no bearer tokens in query strings.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2819,6 +4140,23 @@
     "category": "Spring Security",
     "title": "Implementing an OAuth2 Client: Single Sign-On with ClientRegistration",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "WebClient: Consuming REST APIs Reactively",
+        "slug": "spring-webclient-reactive-consumption",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
+        "slug": "spring-security-oauth2-authorization-server",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Building the smallest OAuth2 actor — a client app that redirects to somebody else's authorization server, exchanges the returned code for a token, and reads the user's details, with no users, tokens, or protected resources of its own — modeled by Spring Security as ClientRegistration (one client's registration at one provider), ClientRegistrationRepository, and the oauth2Login() HttpSecurity method that autoconfigures almost everything from a handful of spring.security.oauth2.client.registration.* properties; the API (ClientRegistration, OAuth2AuthenticationToken, OidcUser) is largely unchanged since 2020, with the main shifts being the lambda-DSL SecurityFilterChain replacing WebSecurityConfigurerAdapter and authorizeHttpRequests() replacing authorizeRequests().",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2885,6 +4223,23 @@
     "category": "Spring Security",
     "title": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Building the component that issues access tokens — the book does it with the now-archived Spring Security OAuth project's @EnableAuthorizationServer + ClientDetailsService, end-of-lifed in 2022 and replaced by the standalone Spring Authorization Server (RegisteredClient/RegisteredClientRepository/AuthorizationServerSettings beans), which itself was folded back into Spring Security as of Spring Security 7.0; of the book's four grant types, only authorization-code and client-credentials survive directly in the modern project — password is unsupported entirely (never implemented, deprecated in OAuth 2.1) and refresh-token support is automatic rather than separately configured.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2966,6 +4321,23 @@
     "category": "Spring Security",
     "title": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring MVC Form Validation with the Bean Validation API",
+        "slug": "spring-mvc-bean-validation",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Remote Chunking: Scaling a Step Across Machines",
+        "slug": "spring-batch-remote-chunking",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "The resource server must validate a bearer token it never issued and (with opaque UUID tokens) cannot read, which yields exactly three strategies — calling the authorization server's check_token endpoint per request, blackboarding via a JdbcTokenStore-backed database shared by both servers, or verifying a signature locally — traded off on per-request latency, availability coupling, and revocation lag; today the book's @EnableResourceServer/ResourceServerConfigurerAdapter/TokenStore API is end-of-life, the remote check is standardized as RFC 7662 introspection configured with oauth2ResourceServer(...).opaqueToken() (or three spring.security.oauth2.resourceserver.opaquetoken.* properties), local validation is .jwt() with NimbusJwtDecoder fetching the JWK set lazily so startup isn't coupled to the IdP, and blackboarding has no supported successor — JdbcTokenStore was never ported (issue #9381 closed as duplicate) and survives only as a custom OpaqueTokenIntrospector, whose javadoc blesses querying a backing store, best used to cache introspection responses rather than to share a schema between the two servers.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3037,6 +4409,23 @@
     "category": "Spring Security",
     "title": "JWT Signing: Symmetric vs. Asymmetric Keys",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security JDBC and LDAP User Management",
+        "slug": "spring-security-jdbc-ldap-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a resource server validates a JWT locally by checking its signature: symmetric HMAC (HS256) where one shared secret both signs and verifies — so every resource server holding it can also mint tokens — versus an asymmetric RSA key pair (RS256) where the authorization server signs with a private key and any number of resource servers verify with a freely publishable public key, plus adding and reading custom claims; the book's Spring Security OAuth JwtTokenStore/JwtAccessTokenConverter/TokenEnhancer stack is end-of-life and maps today onto Nimbus-backed JwtEncoder/JwtDecoder, OAuth2TokenCustomizer, and Jwt.getClaim(), while its ad-hoc /oauth/token_key public-key endpoint is exactly what the standard JWK Set endpoint (RFC 7517, discovered via the jwks_uri of RFC 8414; /oauth2/jwks in Spring Authorization Server) formalizes, adding kid-based key rotation the book's static PEM config cannot do.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3118,6 +4507,23 @@
     "category": "Spring Security",
     "title": "Method Security: Preauthorization and Postauthorization",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
+        "slug": "spring-security-method-security-filtering-and-spring-data",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security User Management",
+        "slug": "spring-security-user-management",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "Method security moves authorization from the filter chain onto the method call itself via a Spring AOP interceptor, where @PreAuthorize evaluates a SpEL rule before invocation (using hasAuthority/hasRole plus method arguments via #paramName and the current authentication) and @PostAuthorize evaluates it after, against the special returnObject, with hasPermission() delegating object-level logic to a PermissionEvaluator bean; today the book's @EnableGlobalMethodSecurity(prePostEnabled = true) is deprecated in favor of @EnableMethodSecurity (since 5.6), which turns pre/post annotations on by default, replaces the voter stack with AuthorizationManager-based interceptors and a deferred Supplier<Authentication>, and notably no longer auto-detects a custom PermissionEvaluator — it must be wired through a static MethodSecurityExpressionHandler bean or every hasPermission() silently denies.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3159,6 +4565,23 @@
     "category": "Spring Security",
     "title": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Data REST: Repositories as Hypermedia APIs",
+        "slug": "spring-data-rest-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "@PreFilter and @PostFilter apply a SpEL rule per element (filterObject vs. authentication) to trim a collection argument or return value in place rather than allowing or denying the whole call the way @PreAuthorize/@PostAuthorize do — requiring a mutable collection, since the aspect mutates the caller's instance and an immutable List.of() throws UnsupportedOperationException; both annotations are unchanged today apart from swapping the deprecated @EnableGlobalMethodSecurity(prePostEnabled = true) for @EnableMethodSecurity, and the book's chapter 17.3 technique of replacing repository-level @PostFilter with a SecurityEvaluationContextExtension bean plus a ?#{authentication.name} predicate inside @Query remains the officially documented recommendation, since in-memory filtering wastes the heap and breaks pagination.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3195,6 +4618,23 @@
     "category": "Spring Security",
     "title": "Keycloak as the Authorization Server for a Spring Resource Server",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Batch Chunk-Oriented Processing",
+        "slug": "spring-batch-chunk-processing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "The Spring Framework Landscape",
+        "slug": "spring-framework-landscape",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How a Spring Boot resource server plugs into Keycloak as a real, off-the-shelf authorization server — configuring a realm, client, client scope, users and roles in the admin console, obtaining a JWT from the token endpoint, using protocol mappers to add roles/username/audience claims, and validating that JWT offline against the realm's JWKS endpoint (kid-based key selection, so key rotation works) while enforcing rules at three layers (hasAuthority at the endpoint, @PreAuthorize on the service, a SpEL-filtered @Query in the repository); Keycloak is still very much alive but the book's every mechanism has moved — the WildFly runtime was replaced by Quarkus in Keycloak 17 (bin/kc.sh instead of standalone.sh, and /auth dropped from every URL so the issuer is now /realms/{realm}), the master realm is admin-only, the password grant is disabled by default for new clients since 26.2, Keycloak's own keycloak-spring-boot-starter adapter was deprecated and removed, and the Spring Security OAuth classes it used (@EnableResourceServer, JwkTokenStore) are EOL — today the whole configuration collapses to spring-boot-starter-oauth2-resource-server plus issuer-uri/audiences, with a JwtAuthenticationConverter mapping Keycloak's native realm_access.roles and preferred_username claims instead of reshaping the realm to fit a dead library.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3271,6 +4711,23 @@
     "category": "Spring Security",
     "title": "Spring Security Testing: Mock Users and Authentication",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Customizing Spring Boot Actuator: Info, Health, Metrics & Security",
+        "slug": "spring-boot-actuator-customization",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Integration and Functional Testing of Spring Batch Jobs",
+        "slug": "spring-batch-integration-and-functional-testing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Autoconfiguration",
+        "slug": "spring-boot-autoconfiguration",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How spring-security-test establishes a principal for a test — @WithMockUser fabricating a UserDetails with no lookup (roles auto-prefixed ROLE_, authorities not, usable at class level and overridable per-method with @WithAnonymousUser), @WithUserDetails loading a real user through a UserDetailsService bean so the principal is your own implementation, and a custom annotation wired to a WithSecurityContextFactory via @WithSecurityContext when the concrete Authentication type matters — all three skipping authentication entirely, which is why the AuthenticationProvider/PasswordEncoder/success-and-failure-handler path must be driven separately through MockMvc with httpBasic() or the formLogin() request builder plus the authenticated()/unauthenticated() result matchers; the book's JUnit 4 era idiom is now @ExtendWith(SpringExtension.class)/@SpringJUnitConfig (implied by @SpringBootTest), and springSecurity() is applied automatically under Spring Boot but still explicit via .apply(springSecurity()) outside it.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -3322,6 +4779,23 @@
     "category": "Spring Security",
     "title": "Testing Authorization, CSRF, and CORS with spring-security-test",
     "topic": "Spring Security",
+    "related": [
+      {
+        "label": "Unit Testing Batch Components with JUnit and Mockito",
+        "slug": "spring-batch-unit-testing-with-junit-and-mockito",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Integration and Functional Testing of Spring Batch Jobs",
+        "slug": "spring-batch-integration-and-functional-testing",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      }
+    ],
     "summary": "How to assert Spring Security configuration in tests: method security (@PreAuthorize/@PostAuthorize/@PreFilter/@PostFilter) is tested without MockMvc by injecting the protected bean, calling it under @WithMockUser, and asserting AuthenticationException for no principal versus AccessDeniedException for the wrong authority; CSRF is tested with SecurityMockMvcRequestPostProcessors.csrf() plus its asHeader() and useInvalidToken() variants, where the valuable test is the token-less POST asserting 403; CORS is tested by hand-rolling the browser preflight as an OPTIONS request carrying Origin and Access-Control-Request-Method and asserting the Access-Control-Allow-Origin/Allow-Methods response headers — all depending on the security filter chain actually being wired into MockMvc via @AutoConfigureMockMvc or SecurityMockMvcConfigurers.springSecurity(); book vs. today, the test code is largely unchanged — @EnableGlobalMethodSecurity became @EnableMethodSecurity, interceptors now throw AuthorizationDeniedException (extends AccessDeniedException since 6.3, so existing assertions still pass), csrf() is untouched despite the 6.0 XOR/BREACH masking default underneath it, preflight-by-hand remains the only CORS approach, and the book's expected wildcard origin no longer holds under allowedOriginPatterns, which echoes the matched origin instead.",
     "publishedAt": "2026-08-06",
     "references": [

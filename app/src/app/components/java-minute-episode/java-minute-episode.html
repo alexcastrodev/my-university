@@ -10,6 +10,10 @@
       <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="ep.labUrl" lockedLabel="episode" (markRead)="markRead.emit()" />
     </header>
 
+    @if (quickAnswer(); as answer) {
+      <div class="quick-answer section-body" [innerHTML]="answer"></div>
+    }
+
     @for (section of sections(); track section.title) {
       <section class="episode-section">
         <h2 class="section-title">{{ section.title }}</h2>

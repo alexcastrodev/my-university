@@ -1,3 +1,5 @@
+import { ConceptLinkRef } from '../shared/concept-links';
+
 export interface JvmConceptReference {
   label: string;
   url: string;
@@ -24,4 +26,5 @@ export interface JvmConcept extends JvmConceptSummary {
   updatedAt: string | null;
   sections: JvmConceptSection[];
   references: JvmConceptReference[];
+  related: ConceptLinkRef[];
 }

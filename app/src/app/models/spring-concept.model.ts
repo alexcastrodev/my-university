@@ -1,3 +1,5 @@
+import { ConceptLinkRef } from '../shared/concept-links';
+
 export type SpringConceptCategory = 'Spring Boot' | 'Spring Security' | 'Spring Batch';
 
 export interface SpringConceptReference {
@@ -28,4 +30,5 @@ export interface SpringConcept extends SpringConceptSummary {
   updatedAt: string | null;
   sections: SpringConceptSection[];
   references: SpringConceptReference[];
+  related: ConceptLinkRef[];
 }
