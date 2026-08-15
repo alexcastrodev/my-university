@@ -5,19 +5,21 @@ import { RenderMermaidDirective } from '../../directives/render-mermaid.directiv
 import { AlgorithmsConcept } from '../../models/algorithms-concept.model';
 import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
 import { ConceptActions } from '../concept-actions/concept-actions';
+import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-algorithms-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions],
+  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, Breadcrumbs],
   templateUrl: './algorithms-concept-view.html',
 })
 export class AlgorithmsConceptView implements OnChanges {
   concept = input<AlgorithmsConcept | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
+  breadcrumbs = input<BreadcrumbItem[]>([]);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

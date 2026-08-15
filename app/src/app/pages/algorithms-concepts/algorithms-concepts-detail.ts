@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AlgorithmsConceptView } from '../../components/algorithms-concept-view/algorithms-concept-view';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { AlgorithmsConcept, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
 import { AlgorithmsConceptsService } from '../../services/algorithms-concepts.service';
@@ -42,6 +43,13 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.title } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const concept = this.concept();
+    return [
+      { name: 'Algorithms', path: '/algorithms/algorithms-concepts' },
+      ...(concept ? [{ name: concept.title, path: `/algorithms/algorithms-concepts/${concept.slug}` }] : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -68,6 +76,7 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

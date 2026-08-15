@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
 import { JavaMinuteEpisode, JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
@@ -43,6 +44,13 @@ export class JavaMinuteDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.question } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const episode = this.episode();
+    return [
+      { name: 'Java Minute', path: '/java/java-minute' },
+      ...(episode ? [{ name: episode.question, path: `/java/java-minute/${episode.slug}` }] : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -70,6 +78,7 @@ export class JavaMinuteDetailPage implements OnInit {
           publishedAt: episode.publishedAt,
           modifiedAt: episode.updatedAt,
           qa: { question: episode.question, answerText: this.qaAnswerText(episode) },
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { SpringConceptView } from '../../components/spring-concept-view/spring-concept-view';
 import { SpringConcept, SpringConceptSummary } from '../../models/spring-concept.model';
@@ -42,6 +43,13 @@ export class SpringConceptsDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.title } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const concept = this.concept();
+    return [
+      { name: 'Spring Concepts', path: '/spring-concepts' },
+      ...(concept ? [{ name: concept.title, path: `/spring-concepts/${concept.slug}` }] : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -68,10 +76,7 @@ export class SpringConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
-          breadcrumbs: [
-            { name: 'Spring Concepts', path: '/spring-concepts' },
-            { name: concept.title, path: `/spring-concepts/${concept.slug}` },
-          ],
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

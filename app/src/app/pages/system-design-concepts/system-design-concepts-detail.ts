@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { SystemDesignConceptView } from '../../components/system-design-concept-view/system-design-concept-view';
 import { SystemDesignConcept, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
@@ -44,6 +45,15 @@ export class SystemDesignConceptsDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.title } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const concept = this.concept();
+    return [
+      { name: 'System Design Concepts', path: '/system-design/system-design-concepts' },
+      ...(concept
+        ? [{ name: concept.title, path: `/system-design/system-design-concepts/${concept.slug}` }]
+        : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -69,10 +79,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
           path: `/system-design/system-design-concepts/${concept.slug}`,
           type: 'article',
           publishedAt: concept.publishedAt,
-          breadcrumbs: [
-            { name: 'System Design Concepts', path: '/system-design/system-design-concepts' },
-            { name: concept.title, path: `/system-design/system-design-concepts/${concept.slug}` },
-          ],
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

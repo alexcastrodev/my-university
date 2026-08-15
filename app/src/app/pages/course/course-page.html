@@ -6,6 +6,7 @@
 } @else if (course()) {
   <div class="layout">
     <main class="main-content" id="main-content" tabindex="-1">
+      <app-breadcrumbs [items]="breadcrumbItems()" />
       @if (activeLesson()) {
         <div class="lesson-header">
           <button class="back-btn" (click)="clearLesson()" type="button">

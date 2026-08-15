@@ -8,19 +8,21 @@ import { ConceptLinkItem, toConceptLinkItem } from '../../shared/concept-links';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
+import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-java-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, RouterLink],
+  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, RouterLink, Breadcrumbs],
   templateUrl: './java-concept-view.html',
 })
 export class JavaConceptView implements OnChanges {
   concept = input<JavaConcept | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
+  breadcrumbs = input<BreadcrumbItem[]>([]);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

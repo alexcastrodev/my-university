@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
 import { CourseView } from '../../components/course-view/course-view';
 import { LessonContent } from '../../components/lesson-content/lesson-content';
 import { Playlist } from '../../components/playlist/playlist';
@@ -14,7 +15,7 @@ import { XpService } from '../../services/xp.service';
 @Component({
   selector: 'app-course-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView],
+  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView, Breadcrumbs],
   templateUrl: './course-page.html',
   styleUrl: './course-page.css',
 })
@@ -54,6 +55,17 @@ export class CoursePage implements OnInit {
 
   modules = computed(() => this.course()?.modules ?? []);
   isPracticePlaceholder = computed(() => this.activeLesson()?.type === 'practice' && !this.markdownContent());
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const course = this.course();
+    if (!course) return [];
+    const trail: BreadcrumbItem[] = [
+      { name: 'Certification Exams', path: '/java/exams' },
+      { name: course.title, path: `/java/exam/${course.id}` },
+    ];
+    const lesson = this.activeLesson();
+    if (lesson) trail.push({ name: lesson.title, path: `/java/exam/${course.id}/lesson/${lesson.id}` });
+    return trail;
+  });
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('examId') ?? '';
@@ -154,10 +166,7 @@ export class CoursePage implements OnInit {
       description: course.description,
       path: `/java/exam/${course.id}`,
       course: { moduleCount: course.moduleCount },
-      breadcrumbs: [
-        { name: 'Certification Exams', path: '/java/exams' },
-        { name: course.title, path: `/java/exam/${course.id}` },
-      ],
+      breadcrumbs: this.breadcrumbItems(),
     });
   }
 
@@ -169,11 +178,7 @@ export class CoursePage implements OnInit {
       description: `${lesson.title} — a lesson from the ${course.title} course on My University.`,
       path: `/java/exam/${course.id}/lesson/${lesson.id}`,
       type: 'article',
-      breadcrumbs: [
-        { name: 'Certification Exams', path: '/java/exams' },
-        { name: course.title, path: `/java/exam/${course.id}` },
-        { name: lesson.title, path: `/java/exam/${course.id}/lesson/${lesson.id}` },
-      ],
+      breadcrumbs: this.breadcrumbItems(),
     });
   }
 

@@ -4,19 +4,21 @@ import { TestingConcept } from '../../models/testing-concept.model';
 import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
+import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
 
 @Component({
   selector: 'app-testing-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, ConceptActions],
+  imports: [RenderMermaidDirective, ConceptActions, Breadcrumbs],
   templateUrl: './testing-concept-view.html',
 })
 export class TestingConceptView implements OnChanges {
   concept = input<TestingConcept | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
+  breadcrumbs = input<BreadcrumbItem[]>([]);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

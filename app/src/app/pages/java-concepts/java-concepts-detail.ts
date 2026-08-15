@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaConceptView } from '../../components/java-concept-view/java-concept-view';
 import { JavaConcept, JavaConceptSummary } from '../../models/java-concept.model';
@@ -42,6 +43,13 @@ export class JavaConceptsDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.title } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const concept = this.concept();
+    return [
+      { name: 'Java Concepts', path: '/java/java-concepts' },
+      ...(concept ? [{ name: concept.title, path: `/java/java-concepts/${concept.slug}` }] : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -68,10 +76,7 @@ export class JavaConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
-          breadcrumbs: [
-            { name: 'Java Concepts', path: '/java/java-concepts' },
-            { name: concept.title, path: `/java/java-concepts/${concept.slug}` },
-          ],
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

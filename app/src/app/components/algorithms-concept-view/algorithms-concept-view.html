@@ -1,7 +1,7 @@
 @if (concept(); as c) {
   <article class="concept" appRenderMermaid appRenderConceptViz>
     <header class="concept-header">
-      <span class="concept-kicker">{{ c.category }}</span>
+      <app-breadcrumbs [items]="breadcrumbs()" />
       <h1 class="concept-title">{{ c.title }}</h1>
       <div class="concept-meta">
         <span>Published on {{ c.publishedAt }}</span>

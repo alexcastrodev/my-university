@@ -1,7 +1,7 @@
 @if (episode(); as ep) {
   <article class="episode" appRenderMermaid>
     <header class="episode-header">
-      <span class="episode-kicker">Java Minute</span>
+      <app-breadcrumbs [items]="breadcrumbs()" />
       <h1 class="episode-question">{{ ep.question }}</h1>
       <div class="episode-meta">
         <span>Published on {{ ep.publishedAt }}</span>

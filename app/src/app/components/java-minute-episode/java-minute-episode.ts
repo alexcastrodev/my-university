@@ -5,13 +5,14 @@ import { getReferenceIcon, mapConceptSections, pickLeadSection } from '../../sha
 import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
+import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 const REFERENCES_TITLE = 'References';
 
 @Component({
   selector: 'app-java-minute-episode',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, ConceptActions],
+  imports: [RenderMermaidDirective, ConceptActions, Breadcrumbs],
   templateUrl: './java-minute-episode.html',
   styleUrl: './java-minute-episode.css',
 })
@@ -19,6 +20,7 @@ export class JavaMinuteEpisodeView implements OnChanges {
   episode = input<JavaMinuteEpisode | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
+  breadcrumbs = input<BreadcrumbItem[]>([]);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

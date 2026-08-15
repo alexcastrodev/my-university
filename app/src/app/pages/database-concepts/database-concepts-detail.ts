@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { DatabaseConceptView } from '../../components/database-concept-view/database-concept-view';
 import { DatabaseConcept, DatabaseConceptSummary } from '../../models/database-concept.model';
@@ -42,6 +43,13 @@ export class DatabaseConceptsDetailPage implements OnInit {
     const n = this.nav.nextConcept();
     return n ? { slug: n.slug, label: n.title } : null;
   });
+  breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    const concept = this.concept();
+    return [
+      { name: 'PostgreSQL Concepts', path: '/databases/database-concepts' },
+      ...(concept ? [{ name: concept.title, path: `/databases/database-concepts/${concept.slug}` }] : []),
+    ];
+  });
 
   ngOnInit() {
     this.nav.refetchList();
@@ -68,10 +76,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
-          breadcrumbs: [
-            { name: 'PostgreSQL Concepts', path: '/databases/database-concepts' },
-            { name: concept.title, path: `/databases/database-concepts/${concept.slug}` },
-          ],
+          breadcrumbs: this.breadcrumbItems(),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

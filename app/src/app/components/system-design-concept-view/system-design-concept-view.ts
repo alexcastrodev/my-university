@@ -11,6 +11,7 @@ import {
 import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
+import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 const REFERENCES_TITLE = 'References';
 
@@ -45,7 +46,7 @@ const REFERENCE_TYPE_ICONS: Record<SystemDesignConceptReference['type'], string>
 @Component({
   selector: 'app-system-design-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RenderMermaidDirective, ConceptActions],
+  imports: [RouterLink, RenderMermaidDirective, ConceptActions, Breadcrumbs],
   templateUrl: './system-design-concept-view.html',
   styleUrl: './system-design-concept-view.css',
 })
@@ -54,6 +55,7 @@ export class SystemDesignConceptView implements OnChanges {
   read = input<boolean>(false);
   marking = input<boolean>(false);
   allConcepts = input<SystemDesignConceptSummary[]>([]);
+  breadcrumbs = input<BreadcrumbItem[]>([]);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);
