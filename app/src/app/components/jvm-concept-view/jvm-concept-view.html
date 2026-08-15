@@ -1,7 +1,7 @@
 @if (concept(); as c) {
   <article class="concept" appRenderMermaid>
     <header class="concept-header">
-      <span class="concept-kicker">JVM Concepts</span>
+      <span class="concept-kicker">JVM Concepts · {{ c.topic }}</span>
       <h1 class="concept-title">{{ c.title }}</h1>
       <div class="concept-meta">
         <span>Published on {{ c.publishedAt }}</span>

@@ -15,6 +15,7 @@ export interface JvmConceptSummary {
   slug: string;
   id: number;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;

@@ -21,6 +21,7 @@ export interface JvmConceptSummary {
   slug: string;
   id: number;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;
@@ -80,10 +81,11 @@ export class JvmConceptsService {
 
   findAll(): JvmConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, title, summary, publishedAt, labUrl }) => ({
+      ({ slug, id, title, topic, summary, publishedAt, labUrl }) => ({
         slug,
         id,
         title,
+        topic,
         summary,
         publishedAt,
         ...(labUrl && { labUrl }),
@@ -113,6 +115,7 @@ export class JvmConceptsService {
       slug: meta.slug,
       id: meta.id,
       title: meta.title,
+      topic: meta.topic,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),

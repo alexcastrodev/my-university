@@ -6,18 +6,8 @@
     "topic": "Compilation & Bytecode",
     "related": [
       {
-        "label": "Static Factory Methods and the Builder Pattern",
-        "slug": "static-factory-methods-and-builder-pattern",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "Spring Security: Selecting Requests with Matcher Methods",
-        "slug": "spring-security-authorization-matcher-methods",
-        "feature": "spring-concepts"
-      },
-      {
-        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
-        "slug": "thread-pool-sizing",
+        "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
+        "slug": "jit-tiered-compilation",
         "feature": "jvm-concepts"
       }
     ],
@@ -57,16 +47,6 @@
         "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
         "slug": "class-file-structure",
         "feature": "jvm-concepts"
-      },
-      {
-        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
-        "slug": "choosing-a-garbage-collector",
-        "feature": "jvm-concepts"
-      },
-      {
-        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
-        "slug": "heap-analysis-and-oom-diagnosis",
-        "feature": "jvm-concepts"
       }
     ],
     "summary": "How the JVM compiles bytecode to native code while the program runs, why it waits for code to get \"hot\" before compiling it, and how tiered compilation combines a fast-starting compiler (C1) with a slower, smarter one (C2).",
@@ -96,19 +76,19 @@
     "topic": "Garbage Collection",
     "related": [
       {
-        "label": "Spring Batch Job Repository: Choosing and Configuring the Persistence Layer",
-        "slug": "spring-batch-job-repository-database-configuration",
-        "feature": "spring-concepts"
+        "label": "ZGC Concurrent Collection: Colored Pointers and Allocation Stalls",
+        "slug": "zgc-colored-pointers-and-allocation-stalls",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+        "slug": "g1-regions-and-evacuation-failure",
+        "feature": "jvm-concepts"
       },
       {
         "label": "Scaling Spring Batch Locally: Multithreaded Steps and Parallel Flows",
         "slug": "spring-batch-multithreaded-and-parallel-steps",
         "feature": "spring-concepts"
-      },
-      {
-        "label": "ZGC Concurrent Collection: Colored Pointers and Allocation Stalls",
-        "slug": "zgc-colored-pointers-and-allocation-stalls",
-        "feature": "jvm-concepts"
       }
     ],
     "summary": "How the JVM's generational collectors trade off pause time, throughput, and CPU overhead, and which one the JVM actually defaults to today versus what a 2020-era book assumes.",
@@ -138,19 +118,19 @@
     "topic": "Memory & Performance",
     "related": [
       {
+        "label": "String Performance: Compact Strings, Deduplication, and Concatenation",
+        "slug": "string-performance",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Native Memory and JVM Footprint: Reserved vs. Committed",
+        "slug": "native-memory-and-footprint",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "Varargs: Performance Cost and Generic Heap Pollution",
         "slug": "varargs-pitfalls-and-safe-usage",
         "feature": "java-concepts"
-      },
-      {
-        "label": "Reading Flat Files in Spring Batch",
-        "slug": "spring-batch-reading-flat-files",
-        "feature": "spring-concepts"
-      },
-      {
-        "label": "Reading XML and Multiple Resources in Spring Batch",
-        "slug": "spring-batch-reading-xml-and-multiple-resources",
-        "feature": "spring-concepts"
       }
     ],
     "summary": "How to use heap histograms and heap dumps to find out what's consuming memory, and how to read the different flavors of OutOfMemoryError instead of just adding more heap.",
@@ -180,19 +160,19 @@
     "topic": "Concurrency & I/O",
     "related": [
       {
+        "label": "NIO Servers, Async Responses, and Virtual Threads",
+        "slug": "nio-servers-and-async",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "Configuring and Sizing Thread Pools",
         "slug": "configuring-thread-pool-executor",
         "feature": "java-concepts"
-      },
-      {
-        "label": "Thread Model: Legacy Control vs. Virtual Threads",
-        "slug": "thread-model-legacy-vs-virtual-threads",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "Spring Security: SecurityContext Storage and Thread Propagation",
-        "slug": "spring-security-context-thread-propagation",
-        "feature": "spring-concepts"
       }
     ],
     "summary": "Why sizing a ThreadPoolExecutor for compute-bound work means matching the core count, sizing for I/O-bound work means far exceeding it, and which half of this problem virtual threads actually solved.",
@@ -222,19 +202,9 @@
     "topic": "Profiling & Benchmarking",
     "related": [
       {
-        "label": "HttpClient: The Modern java.net.http API",
-        "slug": "httpclient-and-java-net-http",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "java.io: Streams, Closing Resources, and Serialization",
-        "slug": "io-streams-fundamentals",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
-        "slug": "java-lang-essential-utility-types",
-        "feature": "java-concepts"
+        "label": "Microbenchmarking Pitfalls and JMH",
+        "slug": "microbenchmarking-and-jmh",
+        "feature": "jvm-concepts"
       }
     ],
     "summary": "How JFR's event-based, sub-1%-overhead recording lets you profile a live production JVM continuously, and how to control it entirely from the command line.",
@@ -264,18 +234,8 @@
     "topic": "Profiling & Benchmarking",
     "related": [
       {
-        "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
-        "slug": "class-file-structure",
-        "feature": "jvm-concepts"
-      },
-      {
-        "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
-        "slug": "jit-tiered-compilation",
-        "feature": "jvm-concepts"
-      },
-      {
-        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
-        "slug": "choosing-a-garbage-collector",
+        "label": "Java Flight Recorder: Low-Overhead Production Profiling",
+        "slug": "java-flight-recorder",
         "feature": "jvm-concepts"
       }
     ],
@@ -301,19 +261,19 @@
     "topic": "Memory & Performance",
     "related": [
       {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Native Memory and JVM Footprint: Reserved vs. Committed",
+        "slug": "native-memory-and-footprint",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "The equals(), hashCode(), and toString() Contracts",
         "slug": "equals-hashcode-and-tostring-contracts",
         "feature": "java-concepts"
-      },
-      {
-        "label": "Varargs: Performance Cost and Generic Heap Pollution",
-        "slug": "varargs-pitfalls-and-safe-usage",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "String Parsing and Validation: Stripping, Splitting, and Type-Checking Text",
-        "slug": "sql-string-parsing-and-validation",
-        "feature": "database-concepts"
       }
     ],
     "summary": "How compact strings roughly halve the heap cost of an average String, when G1 string deduplication is worth turning on, and why the compiler's own concatenation optimization usually beats a hand-rolled StringBuilder chain.",
@@ -351,11 +311,6 @@
         "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
         "slug": "spring-jdbc-persistence-with-jdbctemplate",
         "feature": "spring-concepts"
-      },
-      {
-        "label": "Persisting Data with Spring Data JPA Repositories",
-        "slug": "spring-data-jpa-repositories",
-        "feature": "spring-concepts"
       }
     ],
     "summary": "Why prepared statements only pay off when pooled per connection, and why JPA's eager relationship fetching issues one query per related entity instead of a single JOIN — the classic N+1 query problem.",
@@ -380,19 +335,19 @@
     "topic": "Memory & Performance",
     "related": [
       {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "String Performance: Compact Strings, Deduplication, and Concatenation",
+        "slug": "string-performance",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
         "slug": "executor-shutdown-and-jvm-exit",
         "feature": "java-concepts"
-      },
-      {
-        "label": "PostgreSQL Initial Configuration: Connections, Memory, WAL, and Planner Costs",
-        "slug": "postgresql-conf-initial-tuning",
-        "feature": "database-concepts"
-      },
-      {
-        "label": "Native Logical Replication: Publications and Subscriptions",
-        "slug": "postgresql-native-logical-replication",
-        "feature": "database-concepts"
       }
     ],
     "summary": "How the JVM's total footprint (heap plus native memory) works, why reserved memory isn't the same as memory actually in use, and how to break it down with Native Memory Tracking.",
@@ -422,18 +377,18 @@
     "topic": "Concurrency & I/O",
     "related": [
       {
+        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
+        "slug": "thread-pool-sizing",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "Thread Model: Legacy Control vs. Virtual Threads",
         "slug": "thread-model-legacy-vs-virtual-threads",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "NIO.2: The Path and Files API",
-        "slug": "nio2-path-and-files-api",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "Visibility and Safe Publication Across Threads",
-        "slug": "visibility-and-safe-publication",
         "feature": "java-concepts"
       }
     ],
@@ -464,18 +419,18 @@
     "topic": "Concurrency & I/O",
     "related": [
       {
+        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
+        "slug": "thread-pool-sizing",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "NIO Servers, Async Responses, and Virtual Threads",
+        "slug": "nio-servers-and-async",
+        "feature": "jvm-concepts"
+      },
+      {
         "label": "java.io: Streams, Closing Resources, and Serialization",
         "slug": "io-streams-fundamentals",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "Concurrent Collections: Why Thread-Safe Isn't Enough, and What ConcurrentHashMap Does Differently",
-        "slug": "concurrent-collections-and-compound-actions",
-        "feature": "java-concepts"
-      },
-      {
-        "label": "Configuring and Sizing Thread Pools",
-        "slug": "configuring-thread-pool-executor",
         "feature": "java-concepts"
       }
     ],
@@ -501,19 +456,19 @@
     "topic": "Garbage Collection",
     "related": [
       {
-        "label": "DispatcherServlet Internals: Handler Mapping, Adapters, and Message Converters",
-        "slug": "spring-mvc-dispatcherservlet-internals",
-        "feature": "spring-concepts"
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "ZGC Concurrent Collection: Colored Pointers and Allocation Stalls",
+        "slug": "zgc-colored-pointers-and-allocation-stalls",
+        "feature": "jvm-concepts"
       },
       {
         "label": "Mitigating Hardware Failure: Delayed WAL Archiving vs. recovery_min_apply_delay",
         "slug": "postgresql-hardware-failure-mitigation",
         "feature": "database-concepts"
-      },
-      {
-        "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
-        "slug": "class-file-structure",
-        "feature": "jvm-concepts"
       }
     ],
     "summary": "How G1 lays out the heap as regions instead of fixed generations, why a 1MB+ allocation can skip eden and land straight in old, and how to read a GC log line well enough to tell a healthy young collection from an evacuation failure.",
@@ -543,14 +498,14 @@
     "topic": "Garbage Collection",
     "related": [
       {
-        "label": "The Collection Interface",
-        "slug": "collection-interface",
-        "feature": "java-concepts"
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
       },
       {
-        "label": "Comparators and Collection Algorithms",
-        "slug": "comparators-and-collection-algorithms",
-        "feature": "java-concepts"
+        "label": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+        "slug": "g1-regions-and-evacuation-failure",
+        "feature": "jvm-concepts"
       },
       {
         "label": "Concurrent Collections: Why Thread-Safe Isn't Enough, and What ConcurrentHashMap Does Differently",

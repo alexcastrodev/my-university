@@ -68,6 +68,10 @@ export class JvmConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
+          breadcrumbs: [
+            { name: 'JVM Concepts', path: '/java/jvm-concepts' },
+            { name: concept.title, path: `/java/jvm-concepts/${concept.slug}` },
+          ],
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
