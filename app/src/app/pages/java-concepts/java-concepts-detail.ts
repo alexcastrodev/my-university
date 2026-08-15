@@ -68,6 +68,10 @@ export class JavaConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
+          breadcrumbs: [
+            { name: 'Java Concepts', path: '/java/java-concepts' },
+            { name: concept.title, path: `/java/java-concepts/${concept.slug}` },
+          ],
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

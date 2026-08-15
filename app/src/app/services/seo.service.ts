@@ -12,10 +12,20 @@ export interface SeoTags {
   publishedAt?: string;
   /** ISO date the underlying content was last updated. Defaults to publishedAt. */
   modifiedAt?: string | null;
+  /**
+   * Set for content that genuinely is a question the page answers (e.g. Java Minute).
+   * Emits QAPage/Question/Answer structured data instead of Article/WebPage.
+   * `answerText` must be an excerpt of content already visible on the page — Google's
+   * structured data policy requires JSON-LD to match what a visitor actually sees.
+   */
+  qa?: { question: string; answerText: string };
+  /** Home is implicit — pass the trail after it, e.g. [Java Concepts, Collections, HashMap]. */
+  breadcrumbs?: { name: string; path: string }[];
 }
 
 const SITE_NAME = 'My University';
 const JSON_LD_ID = 'seo-json-ld';
+const BREADCRUMB_JSON_LD_ID = 'seo-json-ld-breadcrumbs';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -56,6 +66,7 @@ export class SeoService {
 
     this.setCanonical(url);
     this.setJsonLd(this.buildJsonLd(tags, url, image));
+    this.setBreadcrumbJsonLd(tags.breadcrumbs);
   }
 
   private setCanonical(url: string): void {
@@ -69,6 +80,24 @@ export class SeoService {
   }
 
   private buildJsonLd(tags: SeoTags, url: string, image: string): Record<string, unknown> {
+    if (tags.qa) {
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'QAPage',
+        mainEntity: {
+          '@type': 'Question',
+          name: tags.qa.question,
+          text: tags.qa.question,
+          answerCount: 1,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: tags.qa.answerText,
+            url,
+          },
+        },
+      };
+    }
+
     if (tags.type === 'article') {
       return {
         '@context': 'https://schema.org',
@@ -105,10 +134,34 @@ export class SeoService {
   }
 
   private setJsonLd(data: Record<string, unknown>): void {
-    let script = this.document.getElementById(JSON_LD_ID) as HTMLScriptElement | null;
+    this.writeJsonLdScript(JSON_LD_ID, data);
+  }
+
+  private setBreadcrumbJsonLd(breadcrumbs: { name: string; path: string }[] | undefined): void {
+    const existing = this.document.getElementById(BREADCRUMB_JSON_LD_ID);
+    if (!breadcrumbs || breadcrumbs.length === 0) {
+      existing?.remove();
+      return;
+    }
+
+    const trail = [{ name: 'Home', path: '/' }, ...breadcrumbs];
+    this.writeJsonLdScript(BREADCRUMB_JSON_LD_ID, {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: trail.map((crumb, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: crumb.name,
+        item: this.absoluteUrl(crumb.path),
+      })),
+    });
+  }
+
+  private writeJsonLdScript(id: string, data: Record<string, unknown>): void {
+    let script = this.document.getElementById(id) as HTMLScriptElement | null;
     if (!script) {
       script = this.document.createElement('script');
-      script.id = JSON_LD_ID;
+      script.id = id;
       script.type = 'application/ld+json';
       this.document.head.appendChild(script);
     }

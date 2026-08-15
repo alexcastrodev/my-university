@@ -68,6 +68,7 @@ export class JavaMinuteDetailPage implements OnInit {
           type: 'article',
           publishedAt: episode.publishedAt,
           modifiedAt: episode.updatedAt,
+          qa: { question: episode.question, answerText: this.qaAnswerText(episode) },
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
@@ -90,9 +91,18 @@ export class JavaMinuteDetailPage implements OnInit {
   }
 
   private summarize(episode: JavaMinuteEpisode): string {
-    const shortAnswer = episode.sections.find((s) => s.title === 'Short Answer');
-    const text = shortAnswer?.content ?? episode.question;
+    return this.plainTextFrom(episode, 200);
+  }
+
+  /** Answer text for QAPage structured data — same source as the meta description, just less truncated. */
+  private qaAnswerText(episode: JavaMinuteEpisode): string {
+    return this.plainTextFrom(episode, 600);
+  }
+
+  private plainTextFrom(episode: JavaMinuteEpisode, maxLength: number): string {
+    const shortAnswer = episode.sections.find((s) => /short answer|quick answer/i.test(s.title));
+    const text = shortAnswer?.content ?? episode.sections[0]?.content ?? episode.question;
     const plain = text.replace(/[*_`#]/g, '').replace(/\s+/g, ' ').trim();
-    return plain.length > 200 ? `${plain.slice(0, 197)}...` : plain;
+    return plain.length > maxLength ? `${plain.slice(0, maxLength - 3)}...` : plain;
   }
 }

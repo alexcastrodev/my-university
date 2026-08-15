@@ -3,6 +3,7 @@
     "slug": "iterator-vs-iterable",
     "id": 1,
     "title": "Iterator vs Iterable",
+    "topic": "Collections",
     "summary": "What each interface is for, why Iterable forces you to implement Iterator, and why the JDK collections are built this way.",
     "publishedAt": "2026-07-25",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/iterator-vs-iterable",
@@ -28,6 +29,7 @@
     "slug": "pattern-matching",
     "id": 2,
     "title": "Pattern Matching",
+    "topic": "Language Features",
     "summary": "How instanceof, switch, and record patterns let you test an object's structure and extract its data in one step, instead of casting after a type check.",
     "publishedAt": "2026-07-26",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/pattern-matching",
@@ -43,6 +45,7 @@
     "slug": "collection-interface",
     "id": 3,
     "title": "The Collection Interface",
+    "topic": "Collections",
     "summary": "The generic root interface of the Collections Framework — what add, remove, and bulk operations guarantee, and why several of them can throw at runtime instead of failing to compile.",
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/collection-interface",
@@ -68,6 +71,7 @@
     "slug": "list-interface",
     "id": 4,
     "title": "The List Interface",
+    "topic": "Collections",
     "summary": "How List builds a positional, duplicate-allowing sequence on top of Collection — indexed access, sublists, sort, and the unmodifiable lists produced by List.of().",
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/list-interface",
@@ -88,6 +92,7 @@
     "slug": "set-interface",
     "id": 5,
     "title": "The Set Interface",
+    "topic": "Collections",
     "summary": "How Set forbids duplicates, how SortedSet and NavigableSet layer ordering and closest-match lookups on top of it, and why their range views are backed by the original set.",
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/set-interface",
@@ -113,6 +118,7 @@
     "slug": "queue-interface",
     "id": 6,
     "title": "The Queue Interface",
+    "topic": "Collections",
     "summary": "Why Queue defines two parallel families of methods — one that throws on failure, one that reports it — and what that means for empty and fixed-length queues.",
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/queue-interface",
@@ -133,6 +139,7 @@
     "slug": "deque-interface",
     "id": 7,
     "title": "The Deque Interface",
+    "topic": "Collections",
     "summary": "How Deque extends Queue into a double-ended queue that can also act as a stack, and how its addFirst/addLast, peek, and remove families each split into a throwing and a reporting version.",
     "publishedAt": "2026-07-27",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/deque-interface",
@@ -153,6 +160,7 @@
     "slug": "generics",
     "id": 8,
     "title": "Generics: Bounded Types, Wildcards, and Erasure",
+    "topic": "Language Features",
     "summary": "How parameterized types move casts and type-mismatch checks from runtime to compile time, what bounded types and PECS wildcards (extends/super) actually constrain, and why erasure means there's really only one class file per generic type at runtime.",
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/generics",
@@ -178,6 +186,7 @@
     "slug": "records-and-sealed-types",
     "id": 9,
     "title": "Records and Sealed Types",
+    "topic": "Language Features",
     "summary": "How a record turns a data-holder class into one line (canonical/compact constructors, free equals/hashCode/toString, shallow immutability), and how sealed classes/interfaces replace \"anyone can extend this\" with an explicit, exhaustive permits list — the pairing that makes closed hierarchies safe to model.",
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/records-and-sealed-types",
@@ -213,6 +222,7 @@
     "slug": "comparators-and-collection-algorithms",
     "id": 10,
     "title": "Comparators and Collection Algorithms",
+    "topic": "Collections",
     "summary": "How Comparator decouples ordering from a type entirely (unlike the one fixed Comparable.compareTo()), how comparing()/thenComparing() build multi-key comparators without a hand-written compare(), and what the static algorithms on Collections (sort, shuffle, unmodifiable/synchronized/checked views) actually guarantee.",
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/comparators-and-collection-algorithms",
@@ -243,6 +253,7 @@
     "slug": "httpclient-and-java-net-http",
     "id": 11,
     "title": "HttpClient: The Modern java.net.http API",
+    "topic": "I/O & Networking",
     "summary": "How HttpClient's builder pattern replaced HttpURLConnection's low-level, awkward API — synchronous send() vs. asynchronous sendAsync() returning a CompletableFuture, and how BodyHandlers decides what shape the response body arrives in.",
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/httpclient-and-java-net-http",
@@ -268,6 +279,7 @@
     "slug": "regular-expressions",
     "id": 12,
     "title": "Regular Expressions with Pattern and Matcher",
+    "topic": "Core APIs & Tooling",
     "summary": "Why Pattern.compile() and Matcher exist as two separate objects (compile once, match many), the difference between find()/matches()/lookingAt(), and how capturing groups — numbered and named — pull substrings out of a match instead of just testing yes/no.",
     "publishedAt": "2026-08-02",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/regular-expressions",
@@ -288,6 +300,7 @@
     "slug": "project-valhalla",
     "id": 13,
     "title": "Project Valhalla: Value Classes",
+    "topic": "Language Features",
     "summary": "Why objects cost more than primitives (identity, header, heap allocation, GC pressure), how Value Classes let the JVM drop that overhead for types that are just their data, and why List<int> still doesn't exist because of generics' type erasure.",
     "publishedAt": "2026-08-02",
     "references": [
@@ -317,6 +330,7 @@
     "slug": "lambda-expressions",
     "id": 14,
     "title": "Lambda Expressions",
+    "topic": "Language Features",
     "summary": "How a lambda expression implements a functional interface's single abstract method, the expression- vs. block-body syntax forms, the java.util.function catalogue, the effectively-final rule behind variable capture, and the four kinds of method references.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/lambda-expressions",
@@ -357,6 +371,7 @@
     "slug": "stream-api-fundamentals",
     "id": 15,
     "title": "Stream API Fundamentals",
+    "topic": "Language Features",
     "summary": "Why a stream is a lazy, single-use conduit rather than a data structure, how the pipeline shape (source → intermediate ops → terminal op) makes filter-then-findFirst short-circuit instead of scanning everything, how Collectors and the primitive stream specializations work under the hood, and when parallel streams actually help.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/stream-api-fundamentals",
@@ -402,6 +417,7 @@
     "slug": "thread-model-legacy-vs-virtual-threads",
     "id": 16,
     "title": "Thread Model: Legacy Control vs. Virtual Threads",
+    "topic": "Concurrency",
     "summary": "Why Thread.suspend/resume/stop were deprecated for corrupting shared state, the cooperative-shutdown pattern that replaced them, and why virtual threads solve a different problem (thread cost) rather than that same correctness problem.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/thread-model-legacy-vs-virtual-threads",
@@ -427,6 +443,7 @@
     "slug": "nio2-path-and-files-api",
     "id": 17,
     "title": "NIO.2: The Path and Files API",
+    "topic": "I/O & Networking",
     "summary": "How java.nio.file replaces java.io.File with informative, specific exceptions instead of boolean returns, adds DirectoryStream for closeable/filterable directory iteration, first-class symbolic-link support, and WatchService for reacting to filesystem changes instead of polling.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/nio2-path-and-files-api",
@@ -457,6 +474,7 @@
     "slug": "io-streams-fundamentals",
     "id": 18,
     "title": "java.io: Streams, Closing Resources, and Serialization",
+    "topic": "I/O & Networking",
     "summary": "The byte-stream vs. character-stream split (InputStream/OutputStream vs. Reader/Writer), how Closeable/AutoCloseable/Flushable and try-with-resources guarantee resource cleanup with suppressed exceptions, buffering and PrintWriter, and how Serializable/ObjectInputFilter turn an object graph into bytes while guarding against deserialization attacks.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/io-streams-fundamentals",
@@ -517,6 +535,7 @@
     "slug": "annotations-in-java",
     "id": 19,
     "title": "Annotations: Retention, Meta-Annotations, and Reflection",
+    "topic": "Core APIs & Tooling",
     "summary": "How @Retention/RetentionPolicy control whether an annotation survives past source, the @Target/@Inherited/@Repeatable meta-annotations, reading annotations at runtime via AnnotatedElement, and the built-in @Deprecated/@SafeVarargs/@FunctionalInterface/@Documented annotations.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/annotations-in-java",
@@ -562,6 +581,7 @@
     "slug": "java-lang-essential-utility-types",
     "id": 20,
     "title": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
+    "topic": "Core APIs & Tooling",
     "summary": "The Comparable<T> natural-ordering contract and its equals-consistency recommendation, AutoCloseable vs. Closeable idempotency rules, StackWalker as the lazy, modern replacement for stack-trace inspection, and ProcessBuilder/Process/ProcessHandle for launching and managing OS processes.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/java-lang-essential-utility-types",
@@ -607,6 +627,7 @@
     "slug": "jshell-repl",
     "id": 21,
     "title": "JShell: The Java REPL",
+    "topic": "Core APIs & Tooling",
     "summary": "How JShell lets you evaluate expressions, declare variables/methods/classes, and get immediate feedback without a full class/main-method wrapper — the  result-variable convention, forward references, essential /commands, and how it differs from single-file source-code launching.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/jshell-repl",
@@ -632,6 +653,7 @@
     "slug": "sockets-and-raw-http-anatomy",
     "id": 22,
     "title": "Sockets and the Raw Anatomy of an HTTP Request",
+    "topic": "I/O & Networking",
     "summary": "How ServerSocket/Socket implement the accept-connect-read-write primitive under every web server, and the literal byte-level shape of an HTTP/1.1 request/response (request line, headers, blank-line terminator, Content-Length/chunked bodies, status code classes).",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/sockets-and-raw-http-anatomy",
@@ -662,6 +684,7 @@
     "slug": "classpath-scanning-via-reflection",
     "id": 23,
     "title": "Classpath Scanning via Reflection",
+    "topic": "Core APIs & Tooling",
     "summary": "How a component scan actually works underneath: a recursive directory walk over compiled .class files, Class.forName + isAnnotationPresent to find marker-annotated classes, and why real frameworks read bytecode metadata via ASM instead of loading every candidate class.",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/classpath-scanning-via-reflection",
@@ -692,6 +715,7 @@
     "slug": "http-sessions-under-the-hood",
     "id": 24,
     "title": "HTTP Sessions Under the Hood",
+    "topic": "I/O & Networking",
     "summary": "How session state is faked on top of stateless HTTP: a random session ID, a Set-Cookie/Cookie round trip, and a server-side map keyed by that ID — plus what's missing from the minimal version (expiration, invalidation, externalized storage) and current cookie security attributes (Secure, SameSite).",
     "publishedAt": "2026-08-05",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/http-sessions-under-the-hood",
@@ -727,6 +751,7 @@
     "slug": "array-list",
     "id": 25,
     "title": "The ArrayList Class",
+    "topic": "Collections",
     "summary": "How ArrayList's resizable-array storage gives O(1) indexed access at the cost of O(n) inserts/removes away from the end, and how to manage its capacity directly.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-list",
@@ -747,6 +772,7 @@
     "slug": "linked-list",
     "id": 26,
     "title": "The LinkedList Class",
+    "topic": "Collections",
     "summary": "How LinkedList's node-based storage inverts ArrayList's trade-off — O(n) indexed access in exchange for cheap insert/remove — while implementing List, Deque, and Queue at once.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-list",
@@ -772,6 +798,7 @@
     "slug": "hash-set",
     "id": 27,
     "title": "The HashSet Class",
+    "topic": "Collections",
     "summary": "How HashSet's hash-table storage gives average O(1) add/contains/remove with no iteration-order guarantee, and what breaks lookups when an element's hash-relevant fields mutate.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-set",
@@ -792,6 +819,7 @@
     "slug": "linked-hash-set",
     "id": 28,
     "title": "The LinkedHashSet Class",
+    "topic": "Collections",
     "summary": "How LinkedHashSet adds insertion-order iteration on top of HashSet's lookup performance by threading a linked list through the hash table's entries.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-set",
@@ -812,6 +840,7 @@
     "slug": "tree-set",
     "id": 29,
     "title": "The TreeSet Class",
+    "topic": "Collections",
     "summary": "How TreeSet keeps elements in ascending order via a tree structure, why uniqueness there is decided by compareTo() rather than equals(), and the O(log n) cost that pays for.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-set",
@@ -832,6 +861,7 @@
     "slug": "priority-queue",
     "id": 30,
     "title": "The PriorityQueue Class",
+    "topic": "Collections",
     "summary": "How PriorityQueue orders elements by comparator instead of insertion order via a heap, and why iterating it does not visit elements in priority order the way repeated poll() does.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/priority-queue",
@@ -852,6 +882,7 @@
     "slug": "array-deque",
     "id": 31,
     "title": "The ArrayDeque Class",
+    "topic": "Collections",
     "summary": "How ArrayDeque's array-backed, capacity-unrestricted storage makes it the JDK-recommended stack/queue over legacy Stack or LinkedList when null elements aren't needed.",
     "publishedAt": "2026-08-07",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-deque",
@@ -872,6 +903,7 @@
     "slug": "hash-map",
     "id": 32,
     "title": "The HashMap Class",
+    "topic": "Collections",
     "summary": "How HashMap's hash-table storage gives average O(1) get/put with no iteration-order guarantee, and how put() silently replaces the value of an existing key.",
     "publishedAt": "2026-08-12",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-map",
@@ -892,6 +924,7 @@
     "slug": "tree-map",
     "id": 33,
     "title": "The TreeMap Class",
+    "topic": "Collections",
     "summary": "How TreeMap keeps keys in ascending order via a red-black tree, why key equality there is decided by compareTo() rather than equals()/hashCode(), and the O(log n) cost that pays for.",
     "publishedAt": "2026-08-12",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-map",
@@ -912,6 +945,7 @@
     "slug": "linked-hash-map",
     "id": 34,
     "title": "The LinkedHashMap Class",
+    "topic": "Collections",
     "summary": "How LinkedHashMap adds insertion-order (or access-order) iteration on top of HashMap's lookup performance, and how overriding removeEldestEntry() turns it into a bounded LRU cache.",
     "publishedAt": "2026-08-12",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-map",
@@ -932,6 +966,7 @@
     "slug": "exception-handling-fundamentals",
     "id": 35,
     "title": "Exception Handling Fundamentals",
+    "topic": "API Design & Craft",
     "summary": "Java's structured mechanism for run-time errors — try/catch/finally, throw/throws, checked vs unchecked exceptions, custom exception subclasses, and chained exceptions.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -961,6 +996,7 @@
     "slug": "concurrency-utilities-executors-and-synchronizers",
     "id": 36,
     "title": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+    "topic": "Concurrency",
     "summary": "The java.util.concurrent toolkit — executors and thread pools, Callable/Future, coordination primitives like CountDownLatch and Semaphore, explicit Locks, and atomic variables — as the higher-level alternative to hand-rolled Thread and synchronized code.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1010,6 +1046,7 @@
     "slug": "fork-join-framework",
     "id": 37,
     "title": "The Fork/Join Framework",
+    "topic": "Concurrency",
     "summary": "A divide-and-conquer engine for true multi-core parallelism, where a ForkJoinPool runs recursively-split RecursiveAction/RecursiveTask work via work-stealing.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1043,6 +1080,7 @@
   {
     "slug": "static-factory-methods-and-builder-pattern",
     "title": "Static Factory Methods and the Builder Pattern",
+    "topic": "API Design & Craft",
     "summary": "Named static methods can replace or supplement constructors for clearer, cacheable, subtype-flexible object creation, and the Builder pattern tames classes with many optional fields.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1077,6 +1115,7 @@
   {
     "slug": "singleton-and-noninstantiable-classes",
     "title": "Singletons and Noninstantiable Utility Classes",
+    "topic": "API Design & Craft",
     "summary": "Compare the three ways to write a Java singleton — public field, static factory, single-element enum — and the private-constructor idiom for noninstantiable utility classes.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1116,6 +1155,7 @@
   {
     "slug": "equals-hashcode-and-tostring-contracts",
     "title": "The equals(), hashCode(), and toString() Contracts",
+    "topic": "API Design & Craft",
     "summary": "The documented contracts behind Object's three most-overridden methods, why breaking symmetry or skipping hashCode() fails silently instead of at compile time, and how records satisfy all three for free.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1140,6 +1180,7 @@
   {
     "slug": "immutability-and-defensive-copying",
     "title": "Immutable Classes and Defensive Copying",
+    "topic": "API Design & Craft",
     "summary": "Making a class truly immutable takes more than final fields — it means copying mutable arguments on the way in and mutable fields on the way out, so no other reference into an object's state ever escapes.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1169,6 +1210,7 @@
   {
     "slug": "composition-over-inheritance",
     "title": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+    "topic": "API Design & Craft",
     "summary": "Extending a class you don't control is fragile because it depends on undocumented internal call patterns, and composition with forwarding avoids that risk — the same single-inheritance limitation also explains why interfaces, not abstract classes, are usually the right way to define a public type.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1198,6 +1240,7 @@
   {
     "slug": "enum-patterns-strategy-and-collections",
     "title": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+    "topic": "Language Features",
     "summary": "Use constant-specific method bodies for per-constant behavior, and EnumSet/EnumMap instead of bit fields and ordinal-indexed arrays.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1227,6 +1270,7 @@
   {
     "slug": "varargs-pitfalls-and-safe-usage",
     "title": "Varargs: Performance Cost and Generic Heap Pollution",
+    "topic": "Language Features",
     "summary": "Varargs implicitly allocate an array on every call and, when combined with generics, can let a ClassCastException slip past the compiler — here's why, and what @SafeVarargs actually promises.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1256,6 +1300,7 @@
   {
     "slug": "parameter-validation-and-fail-fast",
     "title": "Parameter Validation and Failing Fast",
+    "topic": "API Design & Craft",
     "summary": "Validate a method's or constructor's parameters at the top of the body and throw immediately with a clear exception, instead of letting a bad argument propagate into confusing failures or corrupted object state.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1305,6 +1350,7 @@
   {
     "slug": "method-overloading-and-signature-design",
     "title": "Method Overloading: Compile-Time Resolution and How It Surprises",
+    "topic": "Language Features",
     "summary": "Overload resolution happens at compile time based on the declared type of arguments, not runtime type — unlike overriding — and that gap shapes how method signatures should be designed.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1334,6 +1380,7 @@
   {
     "slug": "exception-design-philosophy",
     "title": "Exception Design: When to Throw, and Checked vs. Unchecked as a Choice",
+    "topic": "API Design & Craft",
     "summary": "How to decide when a failure should be an exception at all, and whether a new exception type should be checked or unchecked.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1368,6 +1415,7 @@
   {
     "slug": "serialization-risks-and-safer-alternatives",
     "title": "Serialization: Why It's Dangerous and How to Contain It",
+    "topic": "API Design & Craft",
     "summary": "Implementing Serializable bypasses your constructor's invariant checks and exposes internals as permanent API — see why, and how readObject discipline, the serialization proxy pattern, and ObjectInputFilter contain the risk.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1412,6 +1460,7 @@
   {
     "slug": "visibility-and-safe-publication",
     "title": "Visibility and Safe Publication Across Threads",
+    "topic": "Concurrency",
     "summary": "Explains why unsynchronized reads across threads can see stale or torn values, what volatile actually guarantees, and how to publish an object to another thread safely.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1451,6 +1500,7 @@
   {
     "slug": "abstract-queued-synchronizer-and-custom-locks",
     "title": "AbstractQueuedSynchronizer: What's Underneath Lock and Semaphore",
+    "topic": "Concurrency",
     "summary": "The shared internal machinery — a state field, a thread queue, and a handful of overridable hooks — that ReentrantLock, Semaphore, and CountDownLatch are all built on top of.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1490,6 +1540,7 @@
   {
     "slug": "deadlock-lock-ordering-and-avoidance",
     "title": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
+    "topic": "Concurrency",
     "summary": "How lock-ordering deadlocks happen between threads, and how consistent lock ordering, open calls, and timed lock attempts prevent and diagnose them.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1524,6 +1575,7 @@
   {
     "slug": "concurrent-collections-and-compound-actions",
     "title": "Concurrent Collections: Why Thread-Safe Isn't Enough, and What ConcurrentHashMap Does Differently",
+    "topic": "Concurrency",
     "summary": "Why a compound action built from thread-safe calls on a synchronized collection can still race, and how ConcurrentHashMap and CopyOnWriteArrayList solve it with weakly consistent iteration and atomic compound-action methods instead.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1558,6 +1610,7 @@
   {
     "slug": "blocking-queues-and-producer-consumer",
     "title": "BlockingQueue and the Producer-Consumer Pattern",
+    "topic": "Concurrency",
     "summary": "How BlockingQueue's blocking put/take turn the producer-consumer pattern into a few lines of code, and why bounded queues provide real backpressure instead of just delaying an OutOfMemoryError.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1602,6 +1655,7 @@
   {
     "slug": "task-cancellation-and-interruption",
     "title": "Task Cancellation: Interruption Done Right",
+    "topic": "Concurrency",
     "summary": "How Thread.interrupt() actually works as a cooperative status flag, why swallowing InterruptedException is the most common concurrency bug, and how to cancel tasks correctly via interruption policy and Future.cancel().",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1636,6 +1690,7 @@
   {
     "slug": "executor-shutdown-and-jvm-exit",
     "title": "Shutting Down an ExecutorService, and How the JVM Decides to Exit",
+    "topic": "Concurrency",
     "summary": "Compares graceful shutdown() vs aggressive shutdownNow(), the awaitTermination()/close() idiom, poison pills for queue-based consumers, uncaught exception handlers, and JVM shutdown hooks and daemon threads.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1705,6 +1760,7 @@
   {
     "slug": "reducing-lock-contention",
     "title": "Reducing Lock Contention: Scope, Granularity, and Striping",
+    "topic": "Concurrency",
     "summary": "Concrete techniques for shrinking a contended lock's impact — narrowing its scope, splitting or striping it, avoiding hot fields, and when to swap it for a read-write lock or atomic instead.",
     "publishedAt": "2026-08-13",
     "references": [
@@ -1744,6 +1800,7 @@
   {
     "slug": "configuring-thread-pool-executor",
     "title": "Configuring and Sizing Thread Pools",
+    "topic": "Concurrency",
     "summary": "Covers the JCIP formula for computing an optimal thread pool size and the ThreadPoolExecutor API for work queues, saturation policies, thread factories, and extension hooks.",
     "publishedAt": "2026-08-14",
     "references": [
@@ -1768,6 +1825,7 @@
   {
     "slug": "javadoc-and-api-documentation",
     "title": "Writing Doc Comments for Exposed API Elements",
+    "topic": "Core APIs & Tooling",
     "summary": "How to write effective Javadoc doc comments — contracts, tags, summary descriptions, and inheritance — for every exported class, method, and field.",
     "publishedAt": "2026-08-14",
     "references": [
@@ -1787,6 +1845,7 @@
   {
     "slug": "java-naming-conventions",
     "title": "Java Naming Conventions",
+    "topic": "Core APIs & Tooling",
     "summary": "Java's typographical rules (package, class, method, field, and type-parameter casing) and grammatical rules (noun phrases for classes, verb phrases for action methods, is/has for booleans) that keep code readable and predictable.",
     "publishedAt": "2026-08-14",
     "references": [

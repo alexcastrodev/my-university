@@ -6,6 +6,21 @@ import { ConceptCardListComponent } from '../../shared/concept-card-list/concept
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
+export interface JavaConceptTopicGroup {
+  topic: string;
+  concepts: JavaConceptSummary[];
+}
+
+/** Pedagogical order — roughly the order a learner would want to progress through, not alphabetical. */
+const TOPIC_ORDER = [
+  'Collections',
+  'Concurrency',
+  'Language Features',
+  'API Design & Craft',
+  'Core APIs & Tooling',
+  'I/O & Networking',
+];
+
 @Component({
   selector: 'app-java-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +45,19 @@ export class JavaConceptsListPage implements OnInit {
     const all = this.concepts();
     const filtered = showLabs ? all.filter((c) => c.labUrl) : all;
     return sortByRead(filtered, this.readSort());
+  });
+
+  groupedConcepts = computed<JavaConceptTopicGroup[]>(() => {
+    const byTopic = new Map<string, JavaConceptSummary[]>();
+    for (const concept of this.filteredConcepts()) {
+      const group = byTopic.get(concept.topic);
+      if (group) group.push(concept);
+      else byTopic.set(concept.topic, [concept]);
+    }
+
+    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
+    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
+    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
   });
 
   onToggleLabsFilter() {

@@ -17,6 +17,7 @@ export interface JavaConceptSummary {
   slug: string;
   id: number;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;
@@ -73,14 +74,17 @@ export class JavaConceptsService {
     .sort((a, b) => b.id - a.id);
 
   findAll(): JavaConceptSummary[] {
-    return this.conceptsMeta.map(({ slug, id, title, summary, publishedAt, labUrl }) => ({
-      slug,
-      id,
-      title,
-      summary,
-      publishedAt,
-      ...(labUrl && { labUrl }),
-    }));
+    return this.conceptsMeta.map(
+      ({ slug, id, title, topic, summary, publishedAt, labUrl }) => ({
+        slug,
+        id,
+        title,
+        topic,
+        summary,
+        publishedAt,
+        ...(labUrl && { labUrl }),
+      }),
+    );
   }
 
   findBySlug(slug: string): JavaConceptDetail | null {
@@ -105,6 +109,7 @@ export class JavaConceptsService {
       slug: meta.slug,
       id: meta.id,
       title: meta.title,
+      topic: meta.topic,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
