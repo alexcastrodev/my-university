@@ -12,6 +12,24 @@ const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }
   { label: 'SQL', value: 'SQL' },
 ];
 
+export interface DatabaseConceptTopicGroup {
+  topic: string;
+  concepts: DatabaseConceptSummary[];
+}
+
+/** Everyday SQL querying first, then advanced patterns, then Postgres ops/infra. */
+const TOPIC_ORDER = [
+  'Query Techniques',
+  'Joins & Set Operations',
+  'Window Functions & Analytics',
+  'Date & Time',
+  'String & Text Processing',
+  'Advanced Query Patterns',
+  'Configuration & Tuning',
+  'Monitoring & Troubleshooting',
+  'HA & Replication',
+];
+
 @Component({
   selector: 'app-database-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +65,19 @@ export class DatabaseConceptsListPage implements OnInit {
     return sortByRead(filtered, this.readSort());
   });
 
+  groupedConcepts = computed<DatabaseConceptTopicGroup[]>(() => {
+    const byTopic = new Map<string, DatabaseConceptSummary[]>();
+    for (const concept of this.filteredConcepts()) {
+      const group = byTopic.get(concept.topic);
+      if (group) group.push(concept);
+      else byTopic.set(concept.topic, [concept]);
+    }
+
+    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
+    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
+    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
+  });
+
   onFilterChange(category: DatabaseConceptCategory | null) {
     this.selectedCategory.set(category);
   }
@@ -61,7 +92,7 @@ export class DatabaseConceptsListPage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'Database Concepts',
+      title: 'PostgreSQL Concepts',
       description: 'PostgreSQL and SQL concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/databases/database-concepts',
     });

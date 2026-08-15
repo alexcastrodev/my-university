@@ -4,6 +4,7 @@
     "id": 1,
     "category": "PostgreSQL",
     "title": "RPO and RTO Planning for a Highly Available PostgreSQL Cluster",
+    "topic": "HA & Replication",
     "summary": "How Recovery Point Objective (data-loss tolerance) and Recovery Time Objective (downtime tolerance) drive PostgreSQL architecture decisions, and how synchronous replication's quorum commit turns an RPO target into an enforceable guarantee.",
     "publishedAt": "2026-07-27",
     "references": [
@@ -29,6 +30,7 @@
     "id": 2,
     "category": "PostgreSQL",
     "title": "PostgreSQL Node Count and Geographic Placement",
+    "topic": "HA & Replication",
     "summary": "How to derive how many PostgreSQL nodes a highly available cluster needs (backup, replicas, witness) and where to place them across data centers, and how Patroni's DCS-based quorum has replaced the manually placed witness node.",
     "publishedAt": "2026-07-29",
     "references": [
@@ -59,6 +61,7 @@
     "id": 3,
     "category": "PostgreSQL",
     "title": "PostgreSQL Quorum Voting and Connection Indirection",
+    "topic": "HA & Replication",
     "summary": "How witness-node voting rules avoid tied elections during automated failover, and how connection indirection (DNS, VIP, connection multiplexer, or load balancer) keeps applications from needing reconfiguration when the primary changes — today typically HAProxy polling Patroni's own REST health-check API.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -89,6 +92,7 @@
     "id": 4,
     "category": "PostgreSQL",
     "title": "PostgreSQL Split-Brain Prevention: Fencing, STONITH, and SMITH",
+    "topic": "HA & Replication",
     "summary": "How fencing guarantees a demoted or isolated PostgreSQL primary genuinely can't accept writes anymore — STONITH (remote power-off) and SMITH (self-power-off on isolation) — and how Patroni's built-in watchdog now automates the SMITH half via a Linux softdog/hardware watchdog device instead of a hand-rolled isolation check.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -119,6 +123,7 @@
     "id": 5,
     "category": "PostgreSQL",
     "title": "PostgreSQL Multi-Master Clusters: Latency, Mesh Overhead, and Zero-RTO Failover",
+    "topic": "HA & Replication",
     "summary": "How multi-master PostgreSQL trades the failover/quorum problem for a write-conflict-avoidance problem, why mesh topology overhead grows as C = N*(N-1), and how the 2020 book's generic 'proprietary software' framing maps to today's EDB Postgres Distributed and the newly open-source pgEdge/Spock.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -154,6 +159,7 @@
     "id": 6,
     "category": "PostgreSQL",
     "title": "PostgreSQL SLA Design: Defining Acceptable Downtime",
+    "topic": "HA & Replication",
     "summary": "How to translate 'who uses the database and what will they tolerate' into a concrete uptime target expressed in nines, and how the book's ad-hoc SLA checklist maps to today's formal SLI/SLO/SLA/error-budget vocabulary and published managed-Postgres SLA benchmarks (AWS RDS, Google Cloud SQL).",
     "publishedAt": "2026-07-30",
     "references": [
@@ -194,6 +200,7 @@
     "id": 7,
     "category": "PostgreSQL",
     "title": "PostgreSQL Initial Configuration: Connections, Memory, WAL, and Planner Costs",
+    "topic": "Configuration & Tuning",
     "summary": "How to set a defensible starting postgresql.conf for a highly available server — connection/memory sizing, WAL and checkpoint tuning, replication readiness, planner cost estimates, and logging — and which of the book's specific settings were renamed, removed, or became the default since 2020 (wal_level's hot_standby→replica, wal_keep_segments→wal_keep_size, checkpoint_completion_target's default now 0.9).",
     "publishedAt": "2026-07-30",
     "references": [
@@ -229,6 +236,7 @@
     "id": 8,
     "category": "SQL",
     "title": "Limiting and Randomly Sampling Query Results",
+    "topic": "Query Techniques",
     "summary": "How PostgreSQL, MySQL, and SQL Server each cap the number of rows a query returns (LIMIT, TOP, and the ANSI FETCH FIRST standard MySQL doesn't support), how to randomize the sample before capping it, and why TABLESAMPLE beats ORDER BY RANDOM() for large tables.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -264,6 +272,7 @@
     "id": 9,
     "category": "SQL",
     "title": "Handling NULLs and Pattern Matching in SQL",
+    "topic": "Query Techniques",
     "summary": "How IS NULL/IS NOT NULL and COALESCE handle missing data portably across databases, how LIKE's % and _ wildcards match partial text, and the case-sensitivity and indexing gotchas (leading vs trailing wildcards, pg_trgm) that differ across PostgreSQL, MySQL, and SQL Server.",
     "publishedAt": "2026-07-30",
     "references": [
@@ -299,6 +308,7 @@
     "id": 10,
     "category": "SQL",
     "title": "Conditional Sorting: NULLs and Data-Dependent Order in SQL",
+    "topic": "Query Techniques",
     "summary": "How to sort NULLs to a specific position independent of the non-NULL order, and how to sort by a key that depends on another column's value — and why the book's claim that PostgreSQL needs the same workaround as MySQL/SQL Server for NULL sorting is simply wrong (PostgreSQL has had native NULLS FIRST/LAST since 2008).",
     "publishedAt": "2026-07-30",
     "references": [
@@ -329,6 +339,7 @@
     "id": 11,
     "category": "PostgreSQL",
     "title": "PostgreSQL pg_settings: Restart, Reload, and Session-Scope Contexts",
+    "topic": "Configuration & Tuning",
     "summary": "How the pg_settings.context column tells you whether changing a setting needs a full postmaster restart, a SIGHUP reload, or a superuser/user-level SET, how IS DISTINCT FROM safely lists settings changed from their boot_val default, and how PostgreSQL 15's GRANT SET/ALTER SYSTEM ON PARAMETER now lets admins delegate specific superuser-context settings to non-superuser roles without a full superuser grant.",
     "publishedAt": "2026-07-31",
     "references": [
@@ -364,6 +375,7 @@
     "id": 12,
     "category": "SQL",
     "title": "Stacking Rowsets: UNION, UNION ALL, and the Wider Set-Operator Family",
+    "topic": "Query Techniques",
     "summary": "How UNION ALL vertically stacks rowsets and UNION does the same while deduplicating (at the cost of a sort), why column count and type compatibility rules are identical across PostgreSQL, MySQL, and SQL Server, and how MySQL 8.0.31 (2022) closed its long-standing INTERSECT/EXCEPT gap — while SQL Server still has no ALL variant for either.",
     "publishedAt": "2026-07-31",
     "references": [
@@ -399,6 +411,7 @@
     "id": 13,
     "category": "PostgreSQL",
     "title": "Finding Your Busiest Tables: Activity and Bloat Stats in PostgreSQL",
+    "topic": "Monitoring & Troubleshooting",
     "summary": "How to rank tables and indexes by size (pg_total_relation_size), by write/read activity (pg_stat_user_tables, pg_stat_user_indexes), and by bloat (the pgstattuple extension) — and how PostgreSQL 16's last_seq_scan/last_idx_scan columns solve the book's own complaint that activity counters have no associated timestamp.",
     "publishedAt": "2026-08-01",
     "references": [
@@ -429,6 +442,7 @@
     "id": 14,
     "category": "SQL",
     "title": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
+    "topic": "Joins & Set Operations",
     "summary": "How LEFT JOIN + IS NULL (an anti-join) finds rows in one table with no match in another, how the same LEFT JOIN mechanism — or a scalar subquery in the SELECT list — adds optional data to an already-correct query without dropping rows, and why MySQL and PostgreSQL both recognize the anti-join pattern and stop scanning early instead of evaluating it as a naive join-then-filter.",
     "publishedAt": "2026-08-01",
     "references": [
@@ -459,6 +473,7 @@
     "id": 15,
     "category": "PostgreSQL",
     "title": "Defusing Cache Poisoning: Warming PostgreSQL's Cache After a Restart",
+    "topic": "Configuration & Tuning",
     "summary": "Why a cold OS/shared-buffer cache after a crash or restart can make a technically 'up' PostgreSQL server unusably slow, how to snapshot and reload the most active tables and indexes with pgFincore or pg_prewarm, and how pg_prewarm's autoprewarm background worker — already available well before PostgreSQL 12 — automates the entire snapshot/restore recipe without a hand-built active_snap table.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -489,6 +504,7 @@
     "id": 16,
     "category": "SQL",
     "title": "Comparing Two Tables for Equality (Cardinality and Values)",
+    "topic": "Joins & Set Operations",
     "summary": "Use a symmetric set difference (EXCEPT/MINUS, or a correlated-subquery fallback) to prove two tables or views hold exactly the same rows, duplicates included.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -524,6 +540,7 @@
     "id": 17,
     "category": "PostgreSQL",
     "title": "Terminating Rogue Connections: pg_cancel_backend, pg_terminate_backend, and tcpkill",
+    "topic": "Monitoring & Troubleshooting",
     "summary": "The escalation path for evicting a misbehaving PostgreSQL client — from querying pg_stat_activity for long-running or idle-in-transaction sessions, through the gentler pg_cancel_backend() and the forceful pg_terminate_backend(), down to a network-level tcpkill when the client refuses to acknowledge termination — and how PostgreSQL 14's optional timeout argument on pg_terminate_backend() now lets the function itself wait for confirmation instead of requiring a manual re-check query.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -554,6 +571,7 @@
     "id": 18,
     "category": "SQL",
     "title": "Identifying and Avoiding Cartesian Products",
+    "topic": "Joins & Set Operations",
     "summary": "How a missing or incomplete join condition silently multiplies row counts instead of erroring out, why the resulting row count is always the product of the input cardinalities, and why explicit ANSI JOIN syntax catches the mistake at parse time where old-style comma joins let it run.",
     "publishedAt": "2026-08-03",
     "references": [
@@ -584,6 +602,7 @@
     "id": 19,
     "category": "PostgreSQL",
     "title": "Reducing Contention with Concurrent Index Creation",
+    "topic": "Configuration & Tuning",
     "summary": "Why a plain CREATE INDEX locks a table against every write for the whole build, how CREATE INDEX CONCURRENTLY trades a slower, two-scan build for zero write blocking, its hard restrictions (no transaction block, one build per table, OLTP lock-wait pileups), and how today's official docs cover a real gap in the book's recipe: what to do when a concurrent build fails and leaves an INVALID index behind, plus REINDEX CONCURRENTLY — already available in the book's own target version, PostgreSQL 12, but never mentioned in the recipe.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -609,6 +628,7 @@
     "id": 20,
     "category": "SQL",
     "title": "Performing Joins When Using Aggregates: Avoiding Fan-Out",
+    "topic": "Joins & Set Operations",
     "summary": "Why joining before aggregating can silently inflate a SUM by counting a duplicated row more than once, and how to fix it with SUM(DISTINCT ...), pre-aggregating in a subquery before the join, or a window function on DB2/Oracle/SQL Server.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -639,6 +659,7 @@
     "id": 21,
     "category": "PostgreSQL",
     "title": "Migrating a PostgreSQL Server with Streaming Replication",
+    "topic": "HA & Replication",
     "summary": "How to move a PostgreSQL database to new hardware with minimal downtime by building a streaming replica with pg_basebackup, waiting for it to catch up, then promoting it to primary — plus two gaps in the book's own PostgreSQL 12-era recipe: pg_stat_replication's sent_location/replay_location columns were already renamed to sent_lsn/replay_lsn back in PostgreSQL 10, and pg_basebackup's -R flag already automated the manual standby.signal/primary_conninfo setup the recipe walks through by hand.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -669,6 +690,7 @@
     "id": 22,
     "category": "SQL",
     "title": "Performing Outer Joins When Using Aggregates",
+    "topic": "Joins & Set Operations",
     "summary": "How to correctly sum a column across every row of a table when a second, joined table only has matching rows for some of them — outer join instead of inner join, and let the CASE expression treat a NULL match as zero instead of skipping the row.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -699,6 +721,7 @@
     "id": 23,
     "category": "PostgreSQL",
     "title": "Applying PostgreSQL Software Upgrades with Zero Downtime via Node Switching",
+    "topic": "HA & Replication",
     "summary": "How to patch PostgreSQL on both nodes of a primary/replica pair without ever taking the database fully offline, by upgrading the idle replica first, cutting over to it as the new primary, then rebuilding the old primary as a fresh replica — plus why pg_rewind, already available at the book's own PostgreSQL 12 target, replaces the recipe's wasteful full pg_basebackup re-copy of the demoted node.",
     "publishedAt": "2026-08-04",
     "references": [
@@ -729,6 +752,7 @@
     "id": 24,
     "category": "SQL",
     "title": "Returning Missing Data from Both Tables with FULL OUTER JOIN",
+    "topic": "Joins & Set Operations",
     "summary": "How to return unmatched rows from both sides of a join at once — departments with no employees and employees with no department, simultaneously — using FULL OUTER JOIN where it's supported, or a UNION of a LEFT and RIGHT outer join where it isn't (MySQL, and Oracle's proprietary (+) syntax).",
     "publishedAt": "2026-08-04",
     "references": [
@@ -759,6 +783,7 @@
     "id": 25,
     "category": "SQL",
     "title": "Deleting Duplicate Records",
+    "topic": "Joins & Set Operations",
     "summary": "How to arbitrarily keep one row per duplicate group and delete the rest with MIN(id) NOT IN, why MySQL still rejects a DELETE subquery that reads its own target table, and how ROW_NUMBER() over a CTE offers a more portable — though not identically-syntaxed — alternative across PostgreSQL, MySQL, and SQL Server.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -794,6 +819,7 @@
     "id": 26,
     "category": "PostgreSQL",
     "title": "Mitigating Hardware Failure: Delayed WAL Archiving vs. recovery_min_apply_delay",
+    "topic": "HA & Replication",
     "summary": "Why silent CPU/RAM corruption can poison a synchronous primary and standby nearly simultaneously, how archiving WAL to a tertiary server with a deliberate hour-long cron/mtime delay buys time to detect it before it spreads, why the book's own recovery_min_apply_delay example doesn't actually delay by an hour, and why data checksums — not the book's vague 'monitors' — are the real detection mechanism this recipe depends on.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -829,6 +855,7 @@
     "id": 27,
     "category": "PostgreSQL",
     "title": "PostgreSQL Kernel Tuning for Availability: Dirty Pages, Swappiness, and THP",
+    "topic": "Configuration & Tuning",
     "summary": "OS-level sysctl and /sys tuning that keeps PostgreSQL online under stress rather than just faster — byte-based vm.dirty_background_bytes/vm.dirty_bytes to avoid a huge emergency write flush, vm.swappiness=1 to keep backends out of swap, and disabling Transparent Huge Pages, whose khugepaged defragmentation can stall PostgreSQL for tens of seconds — a recommendation current PostgreSQL documentation now states explicitly.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -864,6 +891,7 @@
     "id": 28,
     "category": "SQL",
     "title": "Merging Records: The MERGE Statement and MySQL's Upsert Alternative",
+    "topic": "Query Techniques",
     "summary": "How MERGE conditionally updates, deletes, or inserts rows in one atomic statement across matched/unmatched source rows, why PostgreSQL had no MERGE at all until version 15 (2022) — two years after this book's 2nd edition — and why MySQL's INSERT ... ON DUPLICATE KEY UPDATE can insert-or-update but never delete in the same statement.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -899,6 +927,7 @@
     "id": 29,
     "category": "PostgreSQL",
     "title": "Connection Pooling and Proxying: HAProxy and PgBouncer",
+    "topic": "Configuration & Tuning",
     "summary": "Sizing a connection pool from RAM/CPU/disk first principles, routing writes/reads through HAProxy frontend-backend pairs with leastconn balancing, and multiplexing many clients onto few real PostgreSQL connections with PgBouncer's session/transaction/statement pool_mode trade-offs.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -929,6 +958,7 @@
     "id": 30,
     "category": "PostgreSQL",
     "title": "Troubleshooting with pg_stat_activity, pg_stat_statements, and Locks",
+    "topic": "Monitoring & Troubleshooting",
     "summary": "Reading live connection state via pg_stat_activity, finding high-frequency-not-just-slow queries via pg_stat_statements, and tracing blocker-to-blocked chains with pg_locks + pg_blocking_pids() — plus the predefined pg_monitor role that replaces the book's manual SECURITY DEFINER wrapper functions.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -964,6 +994,7 @@
     "id": 31,
     "category": "PostgreSQL",
     "title": "Monitoring with Telegraf, InfluxDB, and Grafana",
+    "topic": "Monitoring & Troubleshooting",
     "summary": "A push-based monitoring pipeline where Telegraf polls PostgreSQL (including arbitrary custom SQL via the extensible plugin) and pushes to InfluxDB for storage, with Grafana rendering dashboards — replication slot lag, XID wraparound age, and session-state counts as the metrics worth collecting.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -999,6 +1030,7 @@
     "id": 32,
     "category": "PostgreSQL",
     "title": "Streaming Replication, Hot Standby, and Replication Slots",
+    "topic": "HA & Replication",
     "summary": "How PostgreSQL builds log shipping, streaming replication, hot standby, replication slots, and synchronous replication all on top of the WAL — pg_basebackup/pg_receivewal, FIRST vs ANY synchronous_standby_names, hot_standby_feedback, and slot-based WAL retention safety valves.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1049,6 +1081,7 @@
     "id": 33,
     "category": "PostgreSQL",
     "title": "Native Logical Replication: Publications and Subscriptions",
+    "topic": "HA & Replication",
     "summary": "Row-level replication built into PostgreSQL since v10 — CREATE PUBLICATION/CREATE SUBSCRIPTION with no third-party tools, why DDL and sequences don't replicate, the replica-identity requirement for UPDATE/DELETE, and what PostgreSQL 15-19 added (row/column filters, conflict logging, pg_createsubscriber).",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1094,6 +1127,7 @@
     "id": 34,
     "category": "PostgreSQL",
     "title": "Backup Management: Barman and pgBackRest",
+    "topic": "HA & Replication",
     "summary": "How Barman (centralized fleet backup via SSH/streaming, near-zero-RPO capability) and pgBackRest (self-contained, compressed, incremental/differential backups) go beyond pg_basebackup with catalogs, retention policies, and PITR — plus native cloud storage support and the PostgreSQL 15 removal of exclusive backup mode.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1124,6 +1158,7 @@
     "id": 35,
     "category": "PostgreSQL",
     "title": "HA Automation with repmgr",
+    "topic": "HA & Replication",
     "summary": "How repmgr layers cluster metadata, one-command standby cloning, witness-based quorum, and repmgrd-driven automatic failover on top of native streaming replication — SSH/sudo trust requirements, promote_command/follow_command, and how it compares to Patroni for new deployments today.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1159,6 +1194,7 @@
     "id": 36,
     "category": "PostgreSQL",
     "title": "HA Automation with Patroni",
+    "topic": "HA & Replication",
     "summary": "Patroni's DCS-based architecture (etcd/ZooKeeper/Consul for consensus, HAProxy for routing, every node running the same reconciliation loop) for fully automated PostgreSQL failover, patronictl switchover for zero-downtime maintenance, and why Kubernetes operators (CloudNativePG, Zalando postgres-operator) have become a common deployment path today.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1194,6 +1230,7 @@
     "id": 37,
     "category": "PostgreSQL",
     "title": "Data Distribution: Foreign Data Wrappers and DIY Sharding",
+    "topic": "HA & Replication",
     "summary": "Cross-server queries via postgres_fdw (CREATE SERVER, user mappings, foreign tables, IMPORT FOREIGN SCHEMA), building a hand-rolled sharding scheme with a bit-packed unique-ID generator, and why Citus is the more pragmatic path to real horizontal sharding today.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1229,6 +1266,7 @@
     "id": 38,
     "category": "SQL",
     "title": "Deleting Records Referenced from Another Table",
+    "topic": "Joins & Set Operations",
     "summary": "Removing rows identified by their relationship to a second table — the IN/EXISTS subquery form, the NOT IN null trap on the inverse case, and the three incompatible vendor join-DELETE syntaxes.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1264,6 +1302,7 @@
     "id": 39,
     "category": "SQL",
     "title": "Delimited Data: Rows to Lists and Back",
+    "topic": "String & Text Processing",
     "summary": "Collapsing rows into a comma-separated string with STRING_AGG/GROUP_CONCAT, splitting a delimited string back into rows for an IN-list or join, and pulling out the nth token — with the per-vendor differences that still matter.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1304,6 +1343,7 @@
     "id": 40,
     "category": "SQL",
     "title": "String Parsing and Validation: Stripping, Splitting, and Type-Checking Text",
+    "topic": "String & Text Processing",
     "summary": "Clean stray characters out of a string, split mixed alphanumeric data into its numeric and character parts, and prove a text value is castable — the book's TRANSLATE/REPLACE trick versus today's regex and type-driven validators.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1354,6 +1394,7 @@
     "id": 41,
     "category": "SQL",
     "title": "Regex and Pattern Matching in SQL",
+    "topic": "String & Text Processing",
     "summary": "Counting how many times a character or substring occurs in a value, and finding rows that do not match an expected pattern — the portable LENGTH/REPLACE and TRANSLATE techniques, and the native regex functions each vendor has added since.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1389,6 +1430,7 @@
     "id": 42,
     "category": "SQL",
     "title": "Running Totals, Running Products, and Moving Aggregates",
+    "topic": "Window Functions & Analytics",
     "summary": "One window-function shape — SUM/AVG OVER with an ORDER BY and a frame — solves running totals, running products, moving averages, and resettable accumulators, including why a running product has no native aggregate and why the default RANGE frame is a tie-related footgun.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1419,6 +1461,7 @@
     "id": 43,
     "category": "SQL",
     "title": "Mode, Median, and Outlier Detection with MAD",
+    "topic": "Window Functions & Analytics",
     "summary": "Computing the mode, the median, and a median-absolute-deviation outlier score in SQL, and why PostgreSQL, MySQL, and SQL Server each need a different query to do it.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1449,6 +1492,7 @@
     "id": 44,
     "category": "SQL",
     "title": "Date Arithmetic: Shifting Dates and Measuring Intervals",
+    "topic": "Date & Time",
     "summary": "Adding intervals to dates and measuring the distance between two dates in days, months, years, or sub-day units — and why SQL Server counts calendar boundaries where PostgreSQL and MySQL truncate elapsed units.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1484,6 +1528,7 @@
     "id": 45,
     "category": "SQL",
     "title": "Business Days and Weekday Counts in a Date Range",
+    "topic": "Date & Time",
     "summary": "Counting working days between two dates and tallying weekday occurrences across a year — generating one row per day with generate_series, recursive CTEs, or a numbers table, and avoiding SQL Server's session-dependent @@DATEFIRST weekday numbering.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1519,6 +1564,7 @@
     "id": 46,
     "category": "SQL",
     "title": "Date Truncation and Date Parts",
+    "topic": "Date & Time",
     "summary": "Decomposing a date into leap-year status, days-in-year, individual units of time, and month boundaries — and where EOMONTH, LAST_DAY, and DATETRUNC have replaced the manual arithmetic.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1554,6 +1600,7 @@
     "id": 47,
     "category": "SQL",
     "title": "Generating Calendars and Quarter Boundaries",
+    "topic": "Date & Time",
     "summary": "Manufacturing date rows that no table stores — a full calendar grid, or a fiscal quarter's start and end dates — with generate_series, recursive CTEs, and SQL Server 2022's numeric-only GENERATE_SERIES.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1584,6 +1631,7 @@
     "id": 48,
     "category": "SQL",
     "title": "Weekday Search in Date Ranges",
+    "topic": "Date & Time",
     "summary": "Finding every occurrence of a weekday in a year and the first/last occurrence in a month, and navigating the incompatible weekday-numbering conventions across PostgreSQL, MySQL, and SQL Server.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1619,6 +1667,7 @@
     "id": 49,
     "category": "SQL",
     "title": "Date Gaps, Missing Dates, and Overlapping Ranges",
+    "topic": "Date & Time",
     "summary": "Reason about dates as intervals rather than points: measure the gap to the next row with LEAD, fill holes in a date sequence with a generated calendar, and detect colliding date ranges with a self-join condition or PostgreSQL's native range types.",
     "publishedAt": "2026-08-05",
     "references": [
@@ -1659,6 +1708,7 @@
     "id": 50,
     "category": "SQL",
     "title": "Gaps and Islands: Consecutive Values and Sequence Generation",
+    "topic": "Window Functions & Analytics",
     "summary": "Find contiguous runs in a sparse numeric sequence, collapse each run to its start and end, and generate the dense sequence that reveals what's missing.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1704,6 +1754,7 @@
     "id": 51,
     "category": "SQL",
     "title": "Differences Between Adjacent Rows and Filling Gaps",
+    "topic": "Window Functions & Analytics",
     "summary": "Compare a row to its neighbor inside an ordered partition with LEAD/LAG, and carry the last known value forward across NULL gaps with LAST_VALUE or a counted-group FIRST_VALUE — plus the real portability gaps in offset expressions and IGNORE NULLS.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1739,6 +1790,7 @@
     "id": 52,
     "category": "SQL",
     "title": "Pagination, Top-N with Ties, and Extremes per Group",
+    "topic": "Window Functions & Analytics",
     "summary": "A whole family of \"which rows, and how many\" problems past a plain LIMIT — paginating through results, sampling every Nth row, handling ties in a top-N query, and finding the highest/lowest value per group.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1769,6 +1821,7 @@
     "id": 53,
     "category": "SQL",
     "title": "SQL: Window Function Ranking and Row Navigation",
+    "topic": "Window Functions & Analytics",
     "summary": "Use LEAD and LAG to read or shift a neighboring row's value, and RANK, DENSE_RANK, and ROW_NUMBER to assign ordinal positions with three different tie-handling rules.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1804,6 +1857,7 @@
     "id": 54,
     "category": "SQL",
     "title": "Pivoting Rows into Columns",
+    "topic": "Advanced Query Patterns",
     "summary": "Reshape grouped rows into columns with the portable CASE-inside-aggregate technique, and see where SQL Server's PIVOT operator and PostgreSQL's crosstab() actually help.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1834,6 +1888,7 @@
     "id": 55,
     "category": "SQL",
     "title": "Unpivoting Columns to Rows",
+    "topic": "Advanced Query Patterns",
     "summary": "Collapse several same-typed columns into one value column plus a label column — the inverse of pivoting — using UNION ALL, a single-scan LATERAL + VALUES list, or SQL Server's native UNPIVOT operator.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1864,6 +1919,7 @@
     "id": 56,
     "category": "SQL",
     "title": "Bucketing Data and Text Histograms",
+    "topic": "Window Functions & Analytics",
     "summary": "Splitting a result set into fixed-size buckets with ROW_NUMBER and CEILING versus a fixed number of buckets with NTILE, then rendering the distribution as a horizontal or vertical text histogram.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1909,6 +1965,7 @@
     "id": 57,
     "category": "SQL",
     "title": "Subtotals and Grand Totals: ROLLUP, CUBE, and GROUPING SETS",
+    "topic": "Window Functions & Analytics",
     "summary": "Produce subtotal and grand-total rows alongside detail rows in a single query — ROLLUP for a hierarchy, CUBE or GROUPING SETS for every combination of grouping columns — and use GROUPING() to tell a manufactured subtotal NULL apart from a real one, with MySQL Server still limited to ROLLUP alone.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1939,6 +1996,7 @@
     "id": 58,
     "category": "SQL",
     "title": "Multi-Partition and Moving-Range Window Aggregations",
+    "topic": "Window Functions & Analytics",
     "summary": "Computing several different partition-level aggregates side by side in one query, and moving windows framed symmetrically or by value range rather than by trailing row count.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1974,6 +2032,7 @@
     "id": 59,
     "category": "SQL",
     "title": "Hierarchical Parent-Child Relationships with Self-Joins",
+    "topic": "Advanced Query Patterns",
     "summary": "Express a self-referencing parent-child hierarchy with a fixed chain of self-joins — one join per level — and recognize where the chain stops scaling and a recursive CTE takes over.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -1999,6 +2058,7 @@
     "id": 60,
     "category": "SQL",
     "title": "Recursive Hierarchy Queries and Tree Traversal",
+    "topic": "Advanced Query Patterns",
     "summary": "Walk a self-referencing table to arbitrary depth with a recursive CTE — full tree views, all descendants of a given node, and leaf/branch/root classification — plus the vendor recursion-depth limits that decide when it breaks.",
     "publishedAt": "2026-08-06",
     "references": [
@@ -2029,6 +2089,7 @@
     "id": 61,
     "category": "SQL",
     "title": "Why Float Fails for Money: NUMERIC, Cents-as-Integers, and BigDecimal",
+    "topic": "Advanced Query Patterns",
     "summary": "Float and double can't represent most decimal fractions exactly because they're base-2, so 0.1 + 0.2 !== 0.3 and money totals silently drift — the fix is NUMERIC/DECIMAL, integer minor units, or BigDecimal, not rounding harder at every step.",
     "publishedAt": "2026-08-13",
     "references": [

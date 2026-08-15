@@ -42,7 +42,12 @@
         Loading concepts…
       </div>
     } @else {
-      <app-concept-card-list [items]="filteredConcepts()" [routeCommands]="ROUTE_COMMANDS" />
+      @for (group of groupedConcepts(); track group.topic) {
+        <section class="topic-group">
+          <h2 class="topic-heading">{{ group.topic }}</h2>
+          <app-concept-card-list [items]="group.concepts" [routeCommands]="ROUTE_COMMANDS" />
+        </section>
+      }
     }
   </div>
 </div>

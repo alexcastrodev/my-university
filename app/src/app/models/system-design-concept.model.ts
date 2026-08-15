@@ -21,6 +21,7 @@ export interface SystemDesignConceptSummary {
   slug: string;
   id: number;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   difficulty: SystemDesignConceptDifficulty;

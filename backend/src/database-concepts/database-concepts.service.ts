@@ -20,6 +20,7 @@ export interface DatabaseConceptSummary {
   id: number;
   category: DatabaseConceptCategory;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;
@@ -77,11 +78,12 @@ export class DatabaseConceptsService {
 
   findAll(): DatabaseConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, category, title, summary, publishedAt, labUrl }) => ({
+      ({ slug, id, category, title, topic, summary, publishedAt, labUrl }) => ({
         slug,
         id,
         category,
         title,
+        topic,
         summary,
         publishedAt,
         ...(labUrl && { labUrl }),
@@ -112,6 +114,7 @@ export class DatabaseConceptsService {
       id: meta.id,
       category: meta.category,
       title: meta.title,
+      topic: meta.topic,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),

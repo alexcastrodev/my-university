@@ -68,6 +68,10 @@ export class SpringConceptsDetailPage implements OnInit {
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
+          breadcrumbs: [
+            { name: 'Spring Concepts', path: '/spring-concepts' },
+            { name: concept.title, path: `/spring-concepts/${concept.slug}` },
+          ],
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

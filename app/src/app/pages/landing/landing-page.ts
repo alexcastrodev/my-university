@@ -39,7 +39,7 @@ const SESSIONS: LandingSession[] = [
     routerLink: '/spring-concepts',
   },
   {
-    title: 'Databases',
+    title: 'PostgreSQL',
     description: 'PostgreSQL and SQL concepts, built up one book chapter at a time.',
     icon: '🗄️',
     routerLink: '/databases/database-concepts',
@@ -75,8 +75,8 @@ export class LandingPage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'My University',
-      description: 'Practice exams, quick answers, and in-depth concepts for Java, Spring, and Databases.',
+      title: 'My University — Learn Java, Spring Boot, PostgreSQL & System Design',
+      description: 'Learn Java, JVM internals, Spring Boot, PostgreSQL and system design through concepts, quick answers, and certification practice exams.',
       path: '/',
     });
 

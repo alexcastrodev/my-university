@@ -151,3 +151,16 @@
   color: #4f46e5;
 }
 
+.topic-group {
+  margin-bottom: 2rem;
+}
+
+.topic-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+

@@ -16,6 +16,7 @@ export interface SpringConceptSummary {
   id: number;
   category: SpringConceptCategory;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;

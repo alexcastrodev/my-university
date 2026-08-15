@@ -3,7 +3,10 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
 
-export type SystemDesignConceptDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
+export type SystemDesignConceptDifficulty =
+  | 'Beginner'
+  | 'Intermediate'
+  | 'Advanced';
 
 export interface SystemDesignConceptReference {
   label: string;
@@ -26,6 +29,7 @@ export interface SystemDesignConceptSummary {
   slug: string;
   id: number;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   difficulty: SystemDesignConceptDifficulty;
@@ -64,7 +68,8 @@ function parseFrontmatter(raw: string): {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/.exec(raw);
   if (!match) return { body: raw, frontmatter: {} };
   const [, frontmatterBlock, body] = match;
-  const frontmatter = (yaml.load(frontmatterBlock) as SystemDesignConceptFrontmatter) ?? {};
+  const frontmatter =
+    (yaml.load(frontmatterBlock) as SystemDesignConceptFrontmatter) ?? {};
   return { body, frontmatter };
 }
 
@@ -93,10 +98,24 @@ export class SystemDesignConceptsService {
 
   findAll(): SystemDesignConceptSummary[] {
     return this.conceptsMeta.map(
-      ({ slug, id, title, summary, publishedAt, difficulty, readingTime, tags, prerequisites, related, labUrl }) => ({
+      ({
         slug,
         id,
         title,
+        topic,
+        summary,
+        publishedAt,
+        difficulty,
+        readingTime,
+        tags,
+        prerequisites,
+        related,
+        labUrl,
+      }) => ({
+        slug,
+        id,
+        title,
+        topic,
         summary,
         publishedAt,
         difficulty,
@@ -134,6 +153,7 @@ export class SystemDesignConceptsService {
       slug: meta.slug,
       id: meta.id,
       title: meta.title,
+      topic: meta.topic,
       summary: meta.summary,
       publishedAt: meta.publishedAt,
       difficulty: meta.difficulty,

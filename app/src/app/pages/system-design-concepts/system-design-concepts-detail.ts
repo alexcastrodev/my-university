@@ -69,6 +69,10 @@ export class SystemDesignConceptsDetailPage implements OnInit {
           path: `/system-design/system-design-concepts/${concept.slug}`,
           type: 'article',
           publishedAt: concept.publishedAt,
+          breadcrumbs: [
+            { name: 'System Design Concepts', path: '/system-design/system-design-concepts' },
+            { name: concept.title, path: `/system-design/system-design-concepts/${concept.slug}` },
+          ],
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

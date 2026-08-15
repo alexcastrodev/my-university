@@ -6,6 +6,20 @@ import { ConceptCardListComponent } from '../../shared/concept-card-list/concept
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
+export interface SystemDesignConceptTopicGroup {
+  topic: string;
+  concepts: SystemDesignConceptSummary[];
+}
+
+const TOPIC_ORDER = [
+  'Distributed Systems Fundamentals',
+  'Data Storage & Modeling',
+  'Replication & Consistency',
+  'Scaling & Infrastructure',
+  'Messaging & Streaming',
+  'System Design Case Studies',
+];
+
 @Component({
   selector: 'app-system-design-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +76,19 @@ export class SystemDesignConceptsListPage implements OnInit {
     });
 
     return sortByRead(filtered, this.readSort());
+  });
+
+  groupedConcepts = computed<SystemDesignConceptTopicGroup[]>(() => {
+    const byTopic = new Map<string, SystemDesignConceptSummary[]>();
+    for (const concept of this.filteredConcepts()) {
+      const group = byTopic.get(concept.topic);
+      if (group) group.push(concept);
+      else byTopic.set(concept.topic, [concept]);
+    }
+
+    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
+    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
+    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
   });
 
   onFilterChange(tag: string | null) {

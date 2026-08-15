@@ -13,6 +13,21 @@ const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[]
   { label: 'Spring Batch', value: 'Spring Batch' },
 ];
 
+export interface SpringConceptTopicGroup {
+  topic: string;
+  concepts: SpringConceptSummary[];
+}
+
+const TOPIC_ORDER = [
+  'Core Spring & Boot',
+  'Spring MVC & Web',
+  'Data Access',
+  'Reactive',
+  'Messaging',
+  'Spring Security',
+  'Spring Batch',
+];
+
 @Component({
   selector: 'app-spring-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +61,19 @@ export class SpringConceptsListPage implements OnInit {
     });
 
     return sortByRead(filtered, this.readSort());
+  });
+
+  groupedConcepts = computed<SpringConceptTopicGroup[]>(() => {
+    const byTopic = new Map<string, SpringConceptSummary[]>();
+    for (const concept of this.filteredConcepts()) {
+      const group = byTopic.get(concept.topic);
+      if (group) group.push(concept);
+      else byTopic.set(concept.topic, [concept]);
+    }
+
+    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
+    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
+    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
   });
 
   onFilterChange(category: SpringConceptCategory | null) {

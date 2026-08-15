@@ -62,12 +62,16 @@ export class DatabaseConceptsDetailPage implements OnInit {
         this.read.set(concept.read);
         this.loading.set(false);
         this.seo.set({
-          title: `${concept.title} — Database Concepts`,
+          title: `${concept.title} — PostgreSQL Concepts`,
           description: concept.summary,
           path: `/databases/database-concepts/${concept.slug}`,
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
+          breadcrumbs: [
+            { name: 'PostgreSQL Concepts', path: '/databases/database-concepts' },
+            { name: concept.title, path: `/databases/database-concepts/${concept.slug}` },
+          ],
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },

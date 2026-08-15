@@ -16,6 +16,7 @@ export interface DatabaseConceptSummary {
   id: number;
   category: DatabaseConceptCategory;
   title: string;
+  topic: string;
   summary: string;
   publishedAt: string;
   labUrl?: string;
