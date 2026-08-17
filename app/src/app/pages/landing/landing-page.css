@@ -5,21 +5,25 @@
 
 .page-hero {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  padding: 3.5rem 2rem 3rem;
+  padding: 4rem 2rem 3.25rem;
   text-align: center;
 }
 
 .page-title {
+  max-width: 680px;
+  margin: 0 auto 0.85rem;
   font-size: 2.25rem;
   font-weight: 700;
+  line-height: 1.2;
   color: #fff;
-  margin: 0 0 0.5rem;
 }
 
 .page-sub {
-  font-size: 0.9rem;
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: rgba(255,255,255,.65);
-  margin: 0;
 }
 
 .page-body {

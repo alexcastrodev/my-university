@@ -84,8 +84,8 @@ export class LandingPage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'My University — Learn Java, Spring Boot, PostgreSQL & System Design',
-      description: 'Learn Java, JVM internals, Spring Boot, PostgreSQL and system design through concepts, quick answers, and certification practice exams.',
+      title: 'My University — Learn Java, Ruby, Spring, PostgreSQL & System Design',
+      description: 'Learn Java, JVM internals, Spring Boot, Ruby, Ruby on Rails, PostgreSQL, system design, and algorithms through in-depth concepts, hands-on labs, and certification practice exams.',
       path: '/',
     });
 
