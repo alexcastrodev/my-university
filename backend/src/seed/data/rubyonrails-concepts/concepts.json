@@ -7,7 +7,9 @@
     "summary": "The most common source of hidden N+1s isn't a missing includes — it's an ActiveRecord query method quietly living inside an instance method.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" }
+      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" },
+      { "label": "Connection Pooling and pgbouncer Math", "slug": "connection-pooling-and-pgbouncer", "feature": "rubyonrails-concepts" },
+      { "label": "Production Observability: rack-mini-profiler and APM Budgets", "slug": "production-observability", "feature": "rubyonrails-concepts" }
     ],
     "references": [
       { "label": "Active Record Query Interface — Rails Guides", "url": "https://guides.rubyonrails.org/active_record_querying.html", "type": "doc" },
@@ -24,7 +26,8 @@
     "publishedAt": "2026-08-17",
     "related": [
       { "label": "N+1 Queries and Query Methods in Model Instance Methods", "slug": "n-plus-one-and-query-methods-in-models", "feature": "rubyonrails-concepts" },
-      { "label": "Russian Doll Caching and Cache Store Trade-offs", "slug": "russian-doll-caching", "feature": "rubyonrails-concepts" }
+      { "label": "Russian Doll Caching and Cache Store Trade-offs", "slug": "russian-doll-caching", "feature": "rubyonrails-concepts" },
+      { "label": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice", "slug": "background-jobs-idempotency-and-fan-out", "feature": "rubyonrails-concepts" }
     ],
     "references": [
       { "label": "Puma — GitHub (README, concurrency model)", "url": "https://github.com/puma/puma", "type": "doc" },
@@ -39,12 +42,77 @@
     "summary": "Key-based expiration means you never invalidate a cache manually again — but only if the outer fragment's key knows about the inner collection, and only if your cache store is actually fast.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" }
+      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" },
+      { "label": "Resource Hints, HTTP/2, and the CSRF Cache Problem", "slug": "resource-hints-http2-and-the-csrf-cache-problem", "feature": "rubyonrails-concepts" }
     ],
     "references": [
       { "label": "Caching with Rails — Rails Guides", "url": "https://guides.rubyonrails.org/caching_with_rails.html", "type": "doc" },
       { "label": "ActiveSupport::Cache::Store — Rails API docs", "url": "https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html", "type": "doc" },
       { "label": "The Complete Guide to Rails Performance — Caching in Rails", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "connection-pooling-and-pgbouncer",
+    "id": 4,
+    "title": "Connection Pooling and pgbouncer Math",
+    "topic": "Database & ActiveRecord",
+    "summary": "The processes × threads × hosts arithmetic your database pool has to fit under, why deploy-time overlap is the real risk, and how pgbouncer's pool size means something different.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "N+1 Queries and Query Methods in Model Instance Methods", "slug": "n-plus-one-and-query-methods-in-models", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Configuring Rails Applications — Database Pooling", "url": "https://guides.rubyonrails.org/configuring.html#database-pooling", "type": "doc" },
+      { "label": "PgBouncer — Official documentation", "url": "https://www.pgbouncer.org/config.html", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Interacting with (SQL) Databases", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "background-jobs-idempotency-and-fan-out",
+    "id": 5,
+    "title": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice",
+    "topic": "Background Jobs",
+    "summary": "Why a queue's built-in uniqueness feature isn't a correctness guarantee, how to split jobs by duration, and when a Redis-backed queue beats a Postgres-backed one.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Active Job Basics — Rails Guides", "url": "https://guides.rubyonrails.org/active_job_basics.html", "type": "doc" },
+      { "label": "Sidekiq — Best Practices", "url": "https://github.com/sidekiq/sidekiq/wiki/Best-Practices", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Backgrounding Work", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "production-observability",
+    "id": 6,
+    "title": "Production Observability: rack-mini-profiler and APM Budgets",
+    "topic": "Observability",
+    "summary": "Running a profiler safely in production, setting response-time budgets that mean something, and finding exceptions hiding inside 200 OK responses.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "N+1 Queries and Query Methods in Model Instance Methods", "slug": "n-plus-one-and-query-methods-in-models", "feature": "rubyonrails-concepts" },
+      { "label": "Exceptions as Control Flow: What They Actually Cost", "slug": "exceptions-as-control-flow", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "rack-mini-profiler — GitHub", "url": "https://github.com/MiniProfiler/rack-mini-profiler", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — rack-mini-profiler & Performance Monitoring with New Relic", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "resource-hints-http2-and-the-csrf-cache-problem",
+    "id": 7,
+    "title": "Resource Hints, HTTP/2, and the CSRF Cache Problem",
+    "topic": "Front-end & Network",
+    "summary": "Why a script injected via JavaScript is invisible to the browser's preloader, what HTTP/2 actually changes, and why the CSRF token makes Rails HTML pages uncacheable.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Russian Doll Caching and Cache Store Trade-offs", "slug": "russian-doll-caching", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Resource Hints — W3C", "url": "https://www.w3.org/TR/resource-hints/", "type": "doc" },
+      { "label": "Layouts and Rendering in Rails — CSRF meta tags", "url": "https://guides.rubyonrails.org/layouts_and_rendering.html", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Resource Hints, HTTP/2 and You", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
     ]
   }
 ]

@@ -8,7 +8,8 @@
     "publishedAt": "2026-08-17",
     "related": [
       { "label": "The GVL and Ruby's Concurrency Model", "slug": "gvl-and-concurrency-model", "feature": "ruby-concepts" },
-      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" }
+      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" },
+      { "label": "Reflection and Introspection", "slug": "reflection-and-object-space", "feature": "ruby-concepts" }
     ],
     "references": [
       { "label": "Module#include, #prepend, #extend — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Module.html", "type": "doc" },
@@ -24,7 +25,8 @@
     "summary": "Why Ruby threads give you I/O concurrency but not CPU parallelism, and when Ractors are the tool that actually changes that.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" },
+      { "label": "Memory, GC, and the Bloat vs. Leak Model", "slug": "memory-gc-and-fragmentation", "feature": "ruby-concepts" }
     ],
     "references": [
       { "label": "Ractor — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Ractor.html", "type": "doc" },
@@ -41,12 +43,77 @@
     "summary": "The closures that make Ruby's Enumerable idiomatic — and the arity/return-semantics difference between proc and lambda that trips up most newcomers.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" },
+      { "label": "Pattern Matching in Ruby", "slug": "pattern-matching", "feature": "ruby-concepts" }
     ],
     "references": [
       { "label": "Proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Proc.html", "type": "doc" },
       { "label": "Enumerable — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Enumerable.html", "type": "doc" },
       { "label": "Symbol#to_proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_proc", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "memory-gc-and-fragmentation",
+    "id": 4,
+    "title": "Memory, GC, and the Bloat vs. Leak Model",
+    "topic": "Performance & Internals",
+    "summary": "Why the MRI heap never shrinks after a spike, how to tell bloat from a real leak, and when thread-arena fragmentation and jemalloc actually matter.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "The GVL and Ruby's Concurrency Model", "slug": "gvl-and-concurrency-model", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "GC — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/GC.html", "type": "doc" },
+      { "label": "ObjectSpace — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Memory Leaks & Memory Fragmentation", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pattern-matching",
+    "id": 5,
+    "title": "Pattern Matching in Ruby",
+    "topic": "Language Core & Idioms",
+    "summary": "Deconstructing arrays, hashes, and custom objects with case/in — structural matching, binding, guards, and the pin operator.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "Pattern matching — Ruby Core syntax docs", "url": "https://docs.ruby-lang.org/en/3.3/syntax/pattern_matching_rdoc.html", "type": "doc" },
+      { "label": "Object#deconstruct, #deconstruct_keys — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Object.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "exceptions-as-control-flow",
+    "id": 6,
+    "title": "Exceptions as Control Flow: What They Actually Cost",
+    "topic": "Language Core & Idioms",
+    "summary": "The exception hierarchy, ensure/retry, and why catch/throw is the cheaper tool for jumping out of nested code that isn't an error.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Pattern Matching in Ruby", "slug": "pattern-matching", "feature": "ruby-concepts" },
+      { "label": "Production Observability: rack-mini-profiler and APM Budgets", "slug": "production-observability", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Exception handling — Ruby Core syntax docs", "url": "https://docs.ruby-lang.org/en/3.3/syntax/exceptions_rdoc.html", "type": "doc" },
+      { "label": "Kernel#catch, #throw — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Kernel.html#method-i-catch", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Exceptions as Flow Control", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "reflection-and-object-space",
+    "id": 7,
+    "title": "Reflection and Introspection",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "method_missing vs. define_method, source_location, ObjectSpace, and the included/extended hooks behind ActiveSupport::Concern.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "Object#method_missing, #respond_to_missing? — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-method_missing", "type": "doc" },
+      { "label": "Module#define_method — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Module.html#method-i-define_method", "type": "doc" },
+      { "label": "ObjectSpace — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html", "type": "doc" }
     ]
   }
 ]

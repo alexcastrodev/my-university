@@ -17,6 +17,7 @@ const TOPIC_ORDER = [
   'Application Servers & Infra',
   'Caching',
   'Background Jobs',
+  'Observability',
   'Front-end & Network',
 ];
 
