@@ -22,6 +22,8 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'java-minute', sourceType: 'episode-watched', prefix: '', route: (slug) => ['/java/java-minute', slug] },
   { module: 'testing-concepts', sourceType: 'concept-read', prefix: 'testing:', route: (slug) => ['/java/testing', slug] },
   { module: 'algorithms-concepts', sourceType: 'concept-read', prefix: 'algo:', route: (slug) => ['/algorithms/algorithms-concepts', slug] },
+  { module: 'ruby-concepts', sourceType: 'concept-read', prefix: 'ruby:', route: (slug) => ['/ruby-concepts', slug] },
+  { module: 'rubyonrails-concepts', sourceType: 'concept-read', prefix: 'rails:', route: (slug) => ['/rubyonrails-concepts', slug] },
 ];
 
 export interface ResolvedSource {

@@ -86,6 +86,22 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/algorithms-concepts/algorithms-concepts-detail').then((m) => m.AlgorithmsConceptsDetailPage),
   },
   {
+    path: 'ruby-concepts',
+    loadComponent: () => import('./pages/ruby-concepts/ruby-concepts-list').then((m) => m.RubyConceptsListPage),
+  },
+  {
+    path: 'ruby-concepts/:slug',
+    loadComponent: () => import('./pages/ruby-concepts/ruby-concepts-detail').then((m) => m.RubyConceptsDetailPage),
+  },
+  {
+    path: 'rubyonrails-concepts',
+    loadComponent: () => import('./pages/rubyonrails-concepts/rubyonrails-concepts-list').then((m) => m.RubyOnRailsConceptsListPage),
+  },
+  {
+    path: 'rubyonrails-concepts/:slug',
+    loadComponent: () => import('./pages/rubyonrails-concepts/rubyonrails-concepts-detail').then((m) => m.RubyOnRailsConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

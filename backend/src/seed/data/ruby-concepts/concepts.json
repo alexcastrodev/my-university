@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "object-model-and-method-lookup",
+    "id": 1,
+    "title": "The Ruby Object Model and Method Lookup",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "How include, extend, and prepend actually change the method lookup chain, and why that matters more than memorizing the three keywords.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "The GVL and Ruby's Concurrency Model", "slug": "gvl-and-concurrency-model", "feature": "ruby-concepts" },
+      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "Module#include, #prepend, #extend — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Module.html", "type": "doc" },
+      { "label": "Object#method, #singleton_class — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Object.html", "type": "doc" },
+      { "label": "Programming Ruby 3.3 (Pickaxe) — Sharing Functionality: Inheritance, Modules, and Mixins", "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gvl-and-concurrency-model",
+    "id": 2,
+    "title": "The GVL and Ruby's Concurrency Model",
+    "topic": "Concurrency",
+    "summary": "Why Ruby threads give you I/O concurrency but not CPU parallelism, and when Ractors are the tool that actually changes that.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "Ractor — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Ractor.html", "type": "doc" },
+      { "label": "Thread — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Thread.html", "type": "doc" },
+      { "label": "Ruby 4.0.0 Released — ruby-lang.org (Ractor::Port API change)", "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Webservers and I/O models", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "blocks-procs-and-lambdas",
+    "id": 3,
+    "title": "Blocks, Procs, and Lambdas",
+    "topic": "Collections & Blocks",
+    "summary": "The closures that make Ruby's Enumerable idiomatic — and the arity/return-semantics difference between proc and lambda that trips up most newcomers.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+    ],
+    "references": [
+      { "label": "Proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Proc.html", "type": "doc" },
+      { "label": "Enumerable — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Enumerable.html", "type": "doc" },
+      { "label": "Symbol#to_proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_proc", "type": "doc" }
+    ]
+  }
+]

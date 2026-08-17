@@ -46,6 +46,22 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'ruby-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'ruby-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'rubyonrails-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'rubyonrails-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'databases/database-concepts',
     renderMode: RenderMode.Server,
   },

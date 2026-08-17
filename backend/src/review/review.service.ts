@@ -9,6 +9,8 @@ import { DatabaseConceptsService } from '../database-concepts/database-concepts.
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
+import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { fromSourceId, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
@@ -38,6 +40,8 @@ export class ReviewService {
     private javaMinute: JavaMinuteService,
     private testingConcepts: TestingConceptsService,
     private algorithmsConcepts: AlgorithmsConceptsService,
+    private rubyConcepts: RubyConceptsService,
+    private rubyOnRailsConcepts: RubyOnRailsConceptsService,
   ) {}
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
@@ -76,6 +80,8 @@ export class ReviewService {
       'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
       'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
       'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
+      'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
+      'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
     } as Record<string, Map<string, string>>;
 
     const items: ReviewQueueItem[] = [];

@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "n-plus-one-and-query-methods-in-models",
+    "id": 1,
+    "title": "N+1 Queries and Query Methods in Model Instance Methods",
+    "topic": "Database & ActiveRecord",
+    "summary": "The most common source of hidden N+1s isn't a missing includes — it's an ActiveRecord query method quietly living inside an instance method.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Active Record Query Interface — Rails Guides", "url": "https://guides.rubyonrails.org/active_record_querying.html", "type": "doc" },
+      { "label": "Active Record Basics — find_each / in_batches — Rails Guides", "url": "https://guides.rubyonrails.org/active_record_basics.html", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Common ActiveRecord Pitfalls", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "choosing-an-application-server",
+    "id": 2,
+    "title": "Choosing an Application Server: Puma, Unicorn, and Passenger",
+    "topic": "Application Servers & Infra",
+    "summary": "Every Ruby app server picks a trade-off between defending against a slow client and defending against a slow app — knowing which one decides your deploy topology.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "N+1 Queries and Query Methods in Model Instance Methods", "slug": "n-plus-one-and-query-methods-in-models", "feature": "rubyonrails-concepts" },
+      { "label": "Russian Doll Caching and Cache Store Trade-offs", "slug": "russian-doll-caching", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Puma — GitHub (README, concurrency model)", "url": "https://github.com/puma/puma", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Webservers and I/O models", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "russian-doll-caching",
+    "id": 3,
+    "title": "Russian Doll Caching and Cache Store Trade-offs",
+    "topic": "Caching",
+    "summary": "Key-based expiration means you never invalidate a cache manually again — but only if the outer fragment's key knows about the inner collection, and only if your cache store is actually fast.",
+    "publishedAt": "2026-08-17",
+    "related": [
+      { "label": "Choosing an Application Server: Puma, Unicorn, and Passenger", "slug": "choosing-an-application-server", "feature": "rubyonrails-concepts" }
+    ],
+    "references": [
+      { "label": "Caching with Rails — Rails Guides", "url": "https://guides.rubyonrails.org/caching_with_rails.html", "type": "doc" },
+      { "label": "ActiveSupport::Cache::Store — Rails API docs", "url": "https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html", "type": "doc" },
+      { "label": "The Complete Guide to Rails Performance — Caching in Rails", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+    ]
+  }
+]

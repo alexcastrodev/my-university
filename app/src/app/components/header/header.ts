@@ -69,6 +69,7 @@ export class Header {
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
   javaMenuOpen = signal(false);
+  rubyMenuOpen = signal(false);
 
   private debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -110,6 +111,14 @@ export class Header {
 
   closeJavaMenu(): void {
     this.javaMenuOpen.set(false);
+  }
+
+  toggleRubyMenu(): void {
+    this.rubyMenuOpen.update((open) => !open);
+  }
+
+  closeRubyMenu(): void {
+    this.rubyMenuOpen.set(false);
   }
 
   logout(): void {
@@ -181,6 +190,7 @@ export class Header {
     this.closeUserMenu();
     this.closeMobileMenu();
     this.closeJavaMenu();
+    this.closeRubyMenu();
   }
 
   @HostListener('document:click', ['$event'])
@@ -212,6 +222,13 @@ export class Header {
       const javaMenu = this.elementRef.nativeElement.querySelector('.java-menu');
       if (javaMenu && !javaMenu.contains(event.target as Node)) {
         this.closeJavaMenu();
+      }
+    }
+
+    if (this.rubyMenuOpen()) {
+      const rubyMenu = this.elementRef.nativeElement.querySelector('.ruby-menu');
+      if (rubyMenu && !rubyMenu.contains(event.target as Node)) {
+        this.closeRubyMenu();
       }
     }
   }

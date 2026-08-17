@@ -35,6 +35,27 @@
           </div>
         }
       </div>
+      <div class="java-menu ruby-menu">
+        <button
+          type="button"
+          class="nav-link nav-dropdown-trigger"
+          [class.active]="rubyMenuOpen()"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="rubyMenuOpen()"
+          (click)="toggleRubyMenu()"
+        >
+          Ruby
+          <svg class="chevron" [class.open]="rubyMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        @if (rubyMenuOpen()) {
+          <div class="java-menu-dropdown" role="menu">
+            <a routerLink="/ruby-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">Concepts</a>
+            <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">Rails</a>
+          </div>
+        }
+      </div>
       <a routerLink="/databases/database-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">PostgreSQL Concepts</a>
       <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">System Design</a>
       <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Algorithms</a>

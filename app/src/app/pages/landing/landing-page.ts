@@ -39,6 +39,15 @@ const SESSIONS: LandingSession[] = [
     routerLink: '/spring-concepts',
   },
   {
+    title: 'Ruby',
+    description: 'Ruby language internals and Ruby on Rails performance concepts explained in depth.',
+    icon: '💎',
+    links: [
+      { label: 'Concepts', routerLink: '/ruby-concepts' },
+      { label: 'Rails', routerLink: '/rubyonrails-concepts' },
+    ],
+  },
+  {
     title: 'PostgreSQL',
     description: 'PostgreSQL and SQL concepts, built up one book chapter at a time.',
     icon: '🗄️',

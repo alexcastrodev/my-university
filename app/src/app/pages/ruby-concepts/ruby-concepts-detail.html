@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/ruby-concepts" class="back-link">← Ruby Concepts</a>
+      <div class="loading" role="status" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concept…
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/ruby-concepts" class="back-link">← Ruby Concepts</a>
+      <div class="not-found">
+        <p>Concept not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        backHref="/ruby-concepts"
+        backLabel="Ruby Concepts"
+        basePath="/ruby-concepts"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-ruby-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          [breadcrumbs]="breadcrumbItems()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

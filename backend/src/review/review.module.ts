@@ -5,6 +5,8 @@ import { DatabaseConceptsModule } from '../database-concepts/database-concepts.m
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
 import { JvmConceptsModule } from '../jvm-concepts/jvm-concepts.module';
+import { RubyConceptsModule } from '../ruby-concepts/ruby-concepts.module';
+import { RubyOnRailsConceptsModule } from '../rubyonrails-concepts/rubyonrails-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
@@ -23,6 +25,8 @@ import { ReviewService } from './review.service';
     JavaMinuteModule,
     TestingConceptsModule,
     AlgorithmsConceptsModule,
+    RubyConceptsModule,
+    RubyOnRailsConceptsModule,
   ],
   controllers: [ReviewController],
   providers: [ReviewService],
