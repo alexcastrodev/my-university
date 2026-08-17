@@ -3913,5 +3913,62 @@
         "type": "engineering"
       }
     ]
+  },
+  {
+    "slug": "application-level-locks-for-external-io-critical-sections",
+    "id": 61,
+    "title": "Application-Level Locks for External-I/O Critical Sections",
+    "topic": "Distributed Systems Fundamentals",
+    "summary": "How to give mutual exclusion to a critical section that calls a slow external API, using a database row as a lease-based lock instead of a database transaction or a Postgres advisory lock.",
+    "publishedAt": "2026-08-17",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "Distributed Systems",
+      "Concurrency",
+      "Data Consistency",
+      "Databases",
+      "Reliability"
+    ],
+    "prerequisites": [
+      "Transactions, ACID, and Isolation Levels",
+      "Optimistic vs pessimistic locking basics"
+    ],
+    "related": [
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit"
+      },
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      }
+    ],
+    "references": [
+      {
+        "label": "PostgreSQL Documentation — Advisory Locks",
+        "url": "https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 8, \"The Trouble with Distributed Systems\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Martin Kleppmann — \"How to do distributed locking\"",
+        "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+        "type": "engineering"
+      },
+      {
+        "label": "db-scheduler — JDBC-backed task scheduler using the same claim-row technique",
+        "url": "https://github.com/kagkarlsson/db-scheduler",
+        "type": "doc"
+      }
+    ]
   }
 ]
