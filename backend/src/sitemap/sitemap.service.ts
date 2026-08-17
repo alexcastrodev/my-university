@@ -5,6 +5,8 @@ import { ExamService } from '../exam/exam.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
+import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
+import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -30,6 +32,8 @@ export class SitemapService {
     private readonly algorithmsConcepts: AlgorithmsConceptsService,
     private readonly javaMinute: JavaMinuteService,
     private readonly exam: ExamService,
+    private readonly rubyConcepts: RubyConceptsService,
+    private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
   ) {}
 
   async buildUrls(): Promise<SitemapUrl[]> {
@@ -69,6 +73,15 @@ export class SitemapService {
     );
     urls.push(
       ...this.listSection('/java/java-minute', this.javaMinute.findAll()),
+    );
+    urls.push(
+      ...this.listSection('/ruby-concepts', this.rubyConcepts.findAll()),
+    );
+    urls.push(
+      ...this.listSection(
+        '/rubyonrails-concepts',
+        this.rubyOnRailsConcepts.findAll(),
+      ),
     );
 
     const exams = await this.exam.listExams();
