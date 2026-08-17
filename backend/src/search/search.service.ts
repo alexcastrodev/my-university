@@ -8,6 +8,8 @@ import { DatabaseConceptsService } from '../database-concepts/database-concepts.
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
+import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
+import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -23,7 +25,9 @@ export type SearchResultType =
   | 'spring-concept'
   | 'system-design-concept'
   | 'testing-concept'
-  | 'algorithms-concept';
+  | 'algorithms-concept'
+  | 'ruby-concept'
+  | 'rubyonrails-concept';
 
 export interface SearchResult {
   type: SearchResultType;
@@ -47,6 +51,8 @@ export class SearchService implements OnApplicationBootstrap {
     private systemDesignConceptsService: SystemDesignConceptsService,
     private testingConceptsService: TestingConceptsService,
     private algorithmsConceptsService: AlgorithmsConceptsService,
+    private rubyConceptsService: RubyConceptsService,
+    private rubyOnRailsConceptsService: RubyOnRailsConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -176,6 +182,28 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Algorithms',
         url: `/algorithms/algorithms-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.rubyConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `ruby-concept-${concept.slug}`,
+        type: 'ruby-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Ruby Concepts',
+        url: `/ruby-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.rubyOnRailsConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `rubyonrails-concept-${concept.slug}`,
+        type: 'rubyonrails-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Ruby on Rails Concepts',
+        url: `/rubyonrails-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

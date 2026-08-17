@@ -24,6 +24,8 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'system-design-concept': 'System Design',
   'testing-concept': 'Testing Concept',
   'algorithms-concept': 'Algorithms',
+  'ruby-concept': 'Ruby Concept',
+  'rubyonrails-concept': 'Ruby on Rails Concept',
 };
 
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
@@ -38,6 +40,8 @@ const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'System Design', value: 'system-design-concept' },
   { label: 'Testing Concepts', value: 'testing-concept' },
   { label: 'Algorithms', value: 'algorithms-concept' },
+  { label: 'Ruby Concepts', value: 'ruby-concept' },
+  { label: 'Ruby on Rails Concepts', value: 'rubyonrails-concept' },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;

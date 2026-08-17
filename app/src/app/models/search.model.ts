@@ -8,7 +8,9 @@ export type SearchResultType =
   | 'spring-concept'
   | 'system-design-concept'
   | 'testing-concept'
-  | 'algorithms-concept';
+  | 'algorithms-concept'
+  | 'ruby-concept'
+  | 'rubyonrails-concept';
 
 export interface SearchResult {
   type: SearchResultType;
