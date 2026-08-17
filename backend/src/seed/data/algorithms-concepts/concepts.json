@@ -913,5 +913,115 @@
       }
     ],
     "id": 45
+  },
+  {
+    "slug": "online-algorithms-caching-and-competitive-ratio",
+    "category": "Fundamentals",
+    "title": "Online Algorithms: Competitive Ratio, Move-to-Front, and Caching",
+    "summary": "How to evaluate an algorithm that must commit before seeing the rest of its input — the competitive ratio, defined against an algorithm that knows the future, applied to the elevator-versus-stairs decision, the 4-competitive MOVE-TO-FRONT list heuristic, and online caching, where LRU and FIFO are Theta(k), LIFO and LFU are unbounded, every deterministic policy is stuck at Omega(k), and RANDOMIZED-MARKING reaches O(lg k) against an oblivious adversary.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 27 \"Online Algorithms\", Sections 27.1-27.3, pp. 792-815",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 27.3 \"Online caching\" (deterministic bounds, RANDOMIZED-MARKING), pp. 802-814",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 46
+  },
+  {
+    "slug": "np-completeness-proofs-and-problem-catalog",
+    "category": "Fundamentals",
+    "title": "Proving NP-Completeness: Reductions and the Problem Catalog",
+    "summary": "How new problems are actually proven NP-complete: Lemma 34.8's four-step recipe for reducing from a single known NP-complete language instead of all of NP, then the worked catalog of reductions building CIRCUIT-SAT down through SAT, 3-CNF-SAT, CLIQUE, VERTEX-COVER, HAM-CYCLE, TSP, and SUBSET-SUM — plus the gadget technique and the reduction strategies and pitfalls that generalize.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 34 \"NP-Completeness\", Sections 34.4-34.5, pp. 1072-1098",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 47
+  },
+  {
+    "slug": "bipartite-matching-and-assignment-problem",
+    "category": "Graphs",
+    "title": "Maximum Bipartite Matching and the Hungarian Algorithm",
+    "summary": "How M-augmenting paths and symmetric difference solve maximum bipartite matching directly — no max-flow reduction — with Hopcroft-Karp reaching O(√V·E), and how adding edge weights turns it into the assignment problem, which the Hungarian algorithm solves by repeatedly relabeling vertices so that some perfect matching appears inside an equality subgraph.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Section 25.1 \"Maximum bipartite matching (revisited)\" and Section 25.3 \"The Hungarian algorithm for the assignment problem\", pp. 705-716, 723-739",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 48
+  },
+  {
+    "slug": "fast-fourier-transform-and-polynomial-multiplication",
+    "category": "Fundamentals",
+    "title": "The FFT and Polynomial Multiplication in Θ(n lg n)",
+    "summary": "Why multiplying polynomials in coefficient form costs Θ(n²) but only Θ(n) in point-value form, and how the FFT's even/odd divide-and-conquer split over the complex roots of unity makes converting between the two representations — and therefore the whole multiplication — Θ(n lg n).",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 30 \"Polynomials and the FFT\", Sections 30.1-30.3, pp. 879-898",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 49
+  },
+  {
+    "slug": "linear-programming-formulation-and-duality",
+    "category": "Fundamentals",
+    "title": "Linear Programming: Formulating Problems and Duality",
+    "summary": "How to model a problem as a linear program in standard form — shortest paths, max-flow, minimum-cost flow, and multicommodity flow — why an optimal solution always sits at a vertex of the feasible region, and how duality turns a maximization LP into a minimization LP whose matching objective value certifies optimality.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 29 \"Linear Programming\", Sections 29.1-29.3, pp. 853-876",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 50
+  },
+  {
+    "slug": "set-covering-and-lp-rounding",
+    "category": "Fundamentals",
+    "title": "Set Covering, Randomization & LP Rounding",
+    "summary": "GREEDY-SET-COVER repeatedly takes whichever set covers the most still-uncovered elements, giving a logarithmic rather than constant approximation ratio; Section 35.4 then adds two more techniques — a randomized 8/7-approximation for MAX-3-CNF that is pure coin-flipping, and a 2-approximation for weighted vertex cover obtained by relaxing a 0-1 integer program into a linear program and rounding the fractional answer at 1/2.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.3 \"The set-covering problem\" and Section 35.4 \"Randomization and linear programming\", pp. 1115-1124",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 51
+  },
+  {
+    "slug": "subset-sum-approximation-scheme",
+    "category": "Fundamentals",
+    "title": "Subset Sum: A Fully Polynomial-Time Approximation Scheme",
+    "summary": "The exact algorithm for subset sum builds the list of every achievable subset sum and is exponential because that list can double each iteration; trimming it — discarding any value another surviving value already approximates within a factor of 1 + ε/2n — collapses it to polynomial length and turns the algorithm into a fully polynomial-time approximation scheme whose running time is polynomial in both the input size and 1/ε.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 35 \"Approximation Algorithms\", Section 35.5 \"The subset-sum problem\", pp. 1124-1130",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      }
+    ],
+    "id": 52
   }
 ]

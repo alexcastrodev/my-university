@@ -620,5 +620,105 @@
       }
     ],
     "id": 24
+  },
+  {
+    "slug": "unit-test-structure-aaa-and-naming",
+    "category": "Java",
+    "title": "Structuring and Naming Unit Tests: AAA and Plain-English Names",
+    "summary": "The AAA pattern's real rules beyond \"use three sections\": never write multiple act sections or an if statement in a test, treat a multi-line act section as a production-code smell not a test problem, and reject rigid MethodUnderTest_Scenario_Result naming for plain-English test names.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.1, 3.4, pp. 41-48, 54-58",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Writing Tests",
+        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests",
+        "type": "doc"
+      },
+      {
+        "label": "AssertJ — Fluent assertions for Java",
+        "url": "https://assertj.github.io/doc/",
+        "type": "doc"
+      }
+    ],
+    "id": 25
+  },
+  {
+    "slug": "reusing-test-fixtures-and-parameterized-tests",
+    "category": "Java",
+    "title": "Reusing Test Fixtures, Parameterized Tests, and Assertion Libraries",
+    "summary": "Why constructor/@BeforeEach-based fixture reuse couples tests to each other and hurts readability, why private factory methods (Object Mother) are the better default, when to reach for @ParameterizedTest and @MethodSource, and how AssertJ's fluent style avoids the expected/actual argument-order trap.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.3, 3.5-3.6, pp. 50-63",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Parameterized Tests",
+        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests",
+        "type": "doc"
+      },
+      {
+        "label": "AssertJ — Fluent assertions for Java",
+        "url": "https://assertj.github.io/doc/",
+        "type": "doc"
+      }
+    ],
+    "id": 26
+  },
+  {
+    "slug": "database-testing-prerequisites-and-transactions",
+    "category": "Java",
+    "title": "Database Testing Prerequisites and Transaction Management",
+    "summary": "Why schema and reference data belong in source control, why migration-based delivery beats state-based once real data exists (the data-motion argument), and why integration tests need a separate transaction per arrange/act/assert section instead of reusing one session.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 10 \"Testing the database\", Sections 10.1-10.2, pp. 230-243",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Flyway — Database migrations",
+        "url": "https://documentation.red-gate.com/fd",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework — Transaction Management",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction.html",
+        "type": "doc"
+      }
+    ],
+    "id": 27
+  },
+  {
+    "slug": "database-testing-lifecycle-and-scope",
+    "category": "Java",
+    "title": "Test Data Lifecycle and What to Test at the Database Layer",
+    "summary": "Why cleaning up test data at the start beats the end, why in-memory databases still don't belong in integration tests despite Testcontainers changing the container-overhead trade-off, and why reads and repositories deserve a lower testing bar than writes.",
+    "publishedAt": "2026-08-17",
+    "references": [
+      {
+        "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 10 \"Testing the database\", Sections 10.3-10.5, pp. 243-254",
+        "url": "https://www.manning.com/books/unit-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Testcontainers for Java",
+        "url": "https://java.testcontainers.org/",
+        "type": "doc"
+      },
+      {
+        "label": "JUnit 5 User Guide — Parallel Execution",
+        "url": "https://junit.org/junit5/docs/current/user-guide/#writing-tests-parallel-execution",
+        "type": "doc"
+      }
+    ],
+    "id": 28
   }
 ]
