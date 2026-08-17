@@ -64,6 +64,19 @@
   </div>
   <button
     type="button"
+    class="mobile-search-toggle"
+    aria-label="Toggle search"
+    aria-controls="mobile-search-row"
+    [attr.aria-expanded]="mobileSearchOpen()"
+    (click)="toggleMobileSearch()"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+      <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <button
+    type="button"
     class="mobile-menu-toggle"
     aria-label="Toggle navigation menu"
     aria-controls="nav-links"
@@ -80,8 +93,66 @@
       </svg>
     }
   </button>
+  @if (mobileSearchOpen()) {
+    <div class="mobile-search-row" id="mobile-search-row">
+      <div class="search-box" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          placeholder="What do you want to learn?"
+          aria-label="Search courses"
+          role="combobox"
+          [attr.aria-expanded]="searchOpen()"
+          aria-controls="search-results-listbox"
+          [value]="searchQuery()"
+          (input)="onSearchInput($any($event.target).value)"
+          (focus)="onSearchFocus()" />
+
+        @if (searchOpen()) {
+          <div class="search-dropdown" id="search-results-listbox" role="listbox">
+            @if (searchQuery().trim().length > 0) {
+              <div class="search-filters">
+                @for (opt of FILTER_OPTIONS; track opt.value) {
+                  <button
+                    type="button"
+                    class="search-filter-pill"
+                    [class.active]="searchTypeFilter() === opt.value"
+                    (click)="onFilterChange(opt.value)">
+                    {{ opt.label }}
+                  </button>
+                }
+              </div>
+            }
+
+            @if (searchLoading()) {
+              <div class="search-state">Searching…</div>
+            } @else if (searchError()) {
+              <div class="search-state">Something went wrong. Try again.</div>
+            } @else if (searchQuery().trim().length < 2) {
+              <div class="search-state">Keep typing to search…</div>
+            } @else if (searchResults().length === 0) {
+              <div class="search-state">No results for "{{ searchQuery() }}"</div>
+            } @else {
+              @for (result of searchResults(); track result.url) {
+                <a class="search-result" role="option" [routerLink]="result.url" (click)="selectResult(); closeMobileSearch()">
+                  <span class="search-result-type">{{ TYPE_LABELS[result.type] }}</span>
+                  <span class="search-result-title">{{ result.title }}</span>
+                  @if (result.subtitle) {
+                    <span class="search-result-subtitle">{{ result.subtitle }}</span>
+                  }
+                </a>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
   <div class="header-right">
-    <div class="search-box" role="search">
+    <div class="search-box desktop-search-box" role="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
         <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>

@@ -36,7 +36,8 @@
 
 .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 
-.mobile-menu-toggle {
+.mobile-menu-toggle,
+.mobile-search-toggle {
   display: none;
   align-items: center;
   justify-content: center;
@@ -111,7 +112,9 @@
 
 .java-menu-item:hover, .java-menu-item.active { background: #f3f4f6; }
 
-.header-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.header-right { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+
+.header-right > *:not(.search-box) { flex-shrink: 0; }
 
 .search-box {
   display: flex;
@@ -122,7 +125,9 @@
   border-radius: 6px;
   padding: 0.35rem 0.75rem;
   color: #aaa;
-  width: 260px;
+  flex: 1 1 160px;
+  min-width: 120px;
+  max-width: 260px;
   position: relative;
   transition: background .15s;
 }
@@ -143,8 +148,9 @@
 .search-dropdown {
   position: absolute;
   top: calc(100% + 6px);
-  left: 0;
+  right: 0;
   width: 320px;
+  max-width: calc(100vw - 2rem);
   max-height: 400px;
   overflow-y: auto;
   background: #1a1a1a;
@@ -321,9 +327,8 @@
 
 .xp-icon { font-size: 0.8rem; line-height: 1; }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header {
-    flex-wrap: wrap;
     position: relative;
   }
 
@@ -331,14 +336,17 @@
     gap: 0.75rem;
   }
 
-  .mobile-menu-toggle {
+  .mobile-menu-toggle,
+  .mobile-search-toggle {
     display: flex;
-    order: 2;
   }
 
   .header-right {
-    order: 3;
     gap: 0.5rem;
+  }
+
+  .desktop-search-box {
+    display: none;
   }
 
   .nav-links {
@@ -380,8 +388,28 @@
     background: rgba(255,255,255,.08);
   }
 
-  .search-box {
-    display: none;
+  .mobile-search-row {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    padding: 0.6rem 0.75rem;
+  }
+
+  .mobile-search-row .search-box {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .mobile-search-row .search-dropdown {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
   }
 
   .brand-name {

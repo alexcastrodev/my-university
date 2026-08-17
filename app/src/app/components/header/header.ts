@@ -72,6 +72,7 @@ export class Header {
   searchTypeFilter = signal<SearchResultType | null>(null);
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
+  mobileSearchOpen = signal(false);
   javaMenuOpen = signal(false);
   rubyMenuOpen = signal(false);
 
@@ -103,10 +104,20 @@ export class Header {
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen.update((open) => !open);
+    this.mobileSearchOpen.set(false);
   }
 
   closeMobileMenu(): void {
     this.mobileMenuOpen.set(false);
+  }
+
+  toggleMobileSearch(): void {
+    this.mobileSearchOpen.update((open) => !open);
+    this.mobileMenuOpen.set(false);
+  }
+
+  closeMobileSearch(): void {
+    this.mobileSearchOpen.set(false);
   }
 
   toggleJavaMenu(): void {
@@ -195,6 +206,7 @@ export class Header {
     this.closeMobileMenu();
     this.closeJavaMenu();
     this.closeRubyMenu();
+    this.closeMobileSearch();
   }
 
   @HostListener('document:click', ['$event'])
@@ -233,6 +245,15 @@ export class Header {
       const rubyMenu = this.elementRef.nativeElement.querySelector('.ruby-menu');
       if (rubyMenu && !rubyMenu.contains(event.target as Node)) {
         this.closeRubyMenu();
+      }
+    }
+
+    if (this.mobileSearchOpen()) {
+      const mobileSearch = this.elementRef.nativeElement.querySelector('.mobile-search-row');
+      const toggle = this.elementRef.nativeElement.querySelector('.mobile-search-toggle');
+      const target = event.target as Node;
+      if (mobileSearch && toggle && !mobileSearch.contains(target) && !toggle.contains(target)) {
+        this.closeMobileSearch();
       }
     }
   }
