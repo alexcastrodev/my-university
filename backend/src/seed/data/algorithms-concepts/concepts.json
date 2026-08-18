@@ -1138,5 +1138,50 @@
       }
     ],
     "id": 57
+  },
+  {
+    "slug": "bucket-sort",
+    "category": "Sorting",
+    "title": "Bucket Sort: Distribution-Based Sorting",
+    "summary": "A non-comparison sort that scatters n keys — assumed uniformly distributed over a known interval [0, K) — into n equal-width buckets, sorts each bucket individually, and concatenates them; under uniformity each bucket holds O(1) elements on average, giving expected O(n) time, a different structural assumption from the sibling counting-sort (bounded integer range) and radix-sort (fixed-width keys) concepts.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Introduction to Algorithms, 4th Edition — Cormen, Leiserson, Rivest, Stein — Chapter 8 \"Sorting in Linear Time\", Section 8.4 \"Bucket sort\"",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Bucket sort — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bucket_sort",
+        "type": "doc"
+      }
+    ],
+    "id": 58
+  },
+  {
+    "slug": "recursion-and-recurrence-analysis",
+    "category": "Fundamentals",
+    "title": "Recursion and Recurrence Relations: Analyzing Self-Referential Algorithms",
+    "summary": "Recursion is a function defined in terms of itself via a base case and a recursive step; the shape of the resulting recurrence — subtracting a constant from n versus dividing n — is what decides whether the running time is linear, exponential, or logarithmic, as concretely shown by factorial, naive Fibonacci, Towers of Hanoi, and binary search. This is the prerequisite the sibling algorithm-analysis-order-of-growth and dynamic-programming-fundamentals concepts both build on without re-deriving.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms, 4th Edition, Chapter 4 \"Divide-and-Conquer\", Sections 4.3-4.5, pp. 90-106",
+        "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/",
+        "type": "book"
+      },
+      {
+        "label": "Robert Sedgewick, Kevin Wayne — Algorithms, 4th Edition, Section 2.2 \"Mergesort\" (recurrence analysis of the mergesort running time)",
+        "url": "https://algs4.cs.princeton.edu/22mergesort/",
+        "type": "doc"
+      },
+      {
+        "label": "Fibonacci number — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Fibonacci_sequence",
+        "type": "doc"
+      }
+    ],
+    "id": 59
   }
 ]
