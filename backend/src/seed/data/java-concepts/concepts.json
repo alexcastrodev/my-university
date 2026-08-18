@@ -2859,5 +2859,153 @@
       }
     ],
     "id": 59
+  },
+  {
+    "slug": "structured-concurrency",
+    "id": 60,
+    "title": "Structured Concurrency: StructuredTaskScope",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Scoped Values: A Modern Replacement for ThreadLocal",
+        "slug": "scoped-values",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "StructuredTaskScope (still preview in Java 25, JEP 505) makes a fan-out of concurrent subtasks a try-with-resources block that owns their lifetime — no task can outlive its scope, siblings are cancelled automatically on failure, and the whole operation shows up nested in a thread dump instead of as a flat pool of Futures.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "JEP 505: Structured Concurrency (Fifth Preview)",
+        "url": "https://openjdk.org/jeps/505",
+        "type": "doc"
+      },
+      {
+        "label": "StructuredTaskScope — Java SE 25 API docs (preview)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 506: Scoped Values",
+        "url": "https://openjdk.org/jeps/506",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 444: Virtual Threads",
+        "url": "https://openjdk.org/jeps/444",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "scoped-values",
+    "id": 61,
+    "title": "Scoped Values: A Modern Replacement for ThreadLocal",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "Visibility and Safe Publication Across Threads",
+        "slug": "visibility-and-safe-publication",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Structured Concurrency: StructuredTaskScope",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "ScopedValue (finalized in Java 25 by JEP 506) replaces ThreadLocal's mutable, leak-prone per-thread slot with an immutable binding whose lifetime is exactly the dynamic extent of a run()/call() lambda — no set(), no remove() to forget, and automatic inheritance by subtasks forked in a StructuredTaskScope.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "JEP 506 — Scoped Values",
+        "url": "https://openjdk.org/jeps/506",
+        "type": "doc"
+      },
+      {
+        "label": "ScopedValue — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "optional-correct-usage",
+    "id": 62,
+    "title": "Optional: Correct Usage and the API's Own Warnings",
+    "topic": "API Design & Craft",
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Optional exists to make 'this might not have a value' part of a method's return type instead of a null a caller has to remember to check — and why the JDK itself warns against using it as a field, a parameter, or inside a collection, plus the isPresent()-then-get() anti-pattern and the orElse-vs-orElseGet eagerness trap that trip up most first uses.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Optional — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "completablefuture-composition",
+    "id": 63,
+    "title": "CompletableFuture: Composing Asynchronous Work",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Fork/Join Framework",
+        "slug": "fork-join-framework",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Structured Concurrency: StructuredTaskScope",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How thenApply, thenCompose, thenCombine, allOf, and the exception handlers compose async work without blocking — and the nested-future, common-pool, and swallowed-exception traps that come with them.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "CompletableFuture — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html",
+        "type": "doc"
+      },
+      {
+        "label": "CompletionStage — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletionStage.html",
+        "type": "doc"
+      },
+      {
+        "label": "ForkJoinPool.commonPool() — java.util.concurrent",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()",
+        "type": "doc"
+      }
+    ]
   }
 ]
