@@ -7,14 +7,38 @@
     "summary": "How include, extend, and prepend actually change the method lookup chain, and why that matters more than memorizing the three keywords.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The GVL and Ruby's Concurrency Model", "slug": "gvl-and-concurrency-model", "feature": "ruby-concepts" },
-      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" },
-      { "label": "Reflection and Introspection", "slug": "reflection-and-object-space", "feature": "ruby-concepts" }
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Blocks, Procs, and Lambdas",
+        "slug": "blocks-procs-and-lambdas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Reflection and Introspection",
+        "slug": "reflection-and-object-space",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "Module#include, #prepend, #extend — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Module.html", "type": "doc" },
-      { "label": "Object#method, #singleton_class — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Object.html", "type": "doc" },
-      { "label": "Programming Ruby 3.3 (Pickaxe) — Sharing Functionality: Inheritance, Modules, and Mixins", "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/", "type": "doc" }
+      {
+        "label": "Module#include, #prepend, #extend — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Module.html",
+        "type": "doc"
+      },
+      {
+        "label": "Object#method, #singleton_class — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Sharing Functionality: Inheritance, Modules, and Mixins",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -25,14 +49,38 @@
     "summary": "Why Ruby threads give you I/O concurrency but not CPU parallelism, and when Ractors are the tool that actually changes that.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" },
-      { "label": "Memory, GC, and the Bloat vs. Leak Model", "slug": "memory-gc-and-fragmentation", "feature": "ruby-concepts" }
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Memory, GC, and the Bloat vs. Leak Model",
+        "slug": "memory-gc-and-fragmentation",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "Ractor — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Ractor.html", "type": "doc" },
-      { "label": "Thread — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Thread.html", "type": "doc" },
-      { "label": "Ruby 4.0.0 Released — ruby-lang.org (Ractor::Port API change)", "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/", "type": "doc" },
-      { "label": "The Complete Guide to Rails Performance — Webservers and I/O models", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+      {
+        "label": "Ractor — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Ractor.html",
+        "type": "doc"
+      },
+      {
+        "label": "Thread — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Thread.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org (Ractor::Port API change)",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "The Complete Guide to Rails Performance — Webservers and I/O models",
+        "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -43,13 +91,33 @@
     "summary": "The closures that make Ruby's Enumerable idiomatic — and the arity/return-semantics difference between proc and lambda that trips up most newcomers.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" },
-      { "label": "Pattern Matching in Ruby", "slug": "pattern-matching", "feature": "ruby-concepts" }
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Pattern Matching in Ruby",
+        "slug": "pattern-matching",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "Proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Proc.html", "type": "doc" },
-      { "label": "Enumerable — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Enumerable.html", "type": "doc" },
-      { "label": "Symbol#to_proc — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_proc", "type": "doc" }
+      {
+        "label": "Proc — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Proc.html",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Enumerable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Symbol#to_proc — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_proc",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -60,12 +128,28 @@
     "summary": "Why the MRI heap never shrinks after a spike, how to tell bloat from a real leak, and when thread-arena fragmentation and jemalloc actually matter.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The GVL and Ruby's Concurrency Model", "slug": "gvl-and-concurrency-model", "feature": "ruby-concepts" }
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "GC — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/GC.html", "type": "doc" },
-      { "label": "ObjectSpace — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html", "type": "doc" },
-      { "label": "The Complete Guide to Rails Performance — Memory Leaks & Memory Fragmentation", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+      {
+        "label": "GC — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/GC.html",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectSpace — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html",
+        "type": "doc"
+      },
+      {
+        "label": "The Complete Guide to Rails Performance — Memory Leaks & Memory Fragmentation",
+        "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -76,11 +160,23 @@
     "summary": "Deconstructing arrays, hashes, and custom objects with case/in — structural matching, binding, guards, and the pin operator.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "Blocks, Procs, and Lambdas", "slug": "blocks-procs-and-lambdas", "feature": "ruby-concepts" }
+      {
+        "label": "Blocks, Procs, and Lambdas",
+        "slug": "blocks-procs-and-lambdas",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "Pattern matching — Ruby Core syntax docs", "url": "https://docs.ruby-lang.org/en/3.3/syntax/pattern_matching_rdoc.html", "type": "doc" },
-      { "label": "Object#deconstruct, #deconstruct_keys — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Object.html", "type": "doc" }
+      {
+        "label": "Pattern matching — Ruby Core syntax docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/syntax/pattern_matching_rdoc.html",
+        "type": "doc"
+      },
+      {
+        "label": "Object#deconstruct, #deconstruct_keys — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -91,13 +187,33 @@
     "summary": "The exception hierarchy, ensure/retry, and why catch/throw is the cheaper tool for jumping out of nested code that isn't an error.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "Pattern Matching in Ruby", "slug": "pattern-matching", "feature": "ruby-concepts" },
-      { "label": "Production Observability: rack-mini-profiler and APM Budgets", "slug": "production-observability", "feature": "rubyonrails-concepts" }
+      {
+        "label": "Pattern Matching in Ruby",
+        "slug": "pattern-matching",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Production Observability: rack-mini-profiler and APM Budgets",
+        "slug": "production-observability",
+        "feature": "rubyonrails-concepts"
+      }
     ],
     "references": [
-      { "label": "Exception handling — Ruby Core syntax docs", "url": "https://docs.ruby-lang.org/en/3.3/syntax/exceptions_rdoc.html", "type": "doc" },
-      { "label": "Kernel#catch, #throw — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Kernel.html#method-i-catch", "type": "doc" },
-      { "label": "The Complete Guide to Rails Performance — Exceptions as Flow Control", "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/", "type": "doc" }
+      {
+        "label": "Exception handling — Ruby Core syntax docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/syntax/exceptions_rdoc.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kernel#catch, #throw — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Kernel.html#method-i-catch",
+        "type": "doc"
+      },
+      {
+        "label": "The Complete Guide to Rails Performance — Exceptions as Flow Control",
+        "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -108,12 +224,872 @@
     "summary": "method_missing vs. define_method, source_location, ObjectSpace, and the included/extended hooks behind ActiveSupport::Concern.",
     "publishedAt": "2026-08-17",
     "related": [
-      { "label": "The Ruby Object Model and Method Lookup", "slug": "object-model-and-method-lookup", "feature": "ruby-concepts" }
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      }
     ],
     "references": [
-      { "label": "Object#method_missing, #respond_to_missing? — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-method_missing", "type": "doc" },
-      { "label": "Module#define_method — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/Module.html#method-i-define_method", "type": "doc" },
-      { "label": "ObjectSpace — Ruby Core docs", "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html", "type": "doc" }
+      {
+        "label": "Object#method_missing, #respond_to_missing? — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-method_missing",
+        "type": "doc"
+      },
+      {
+        "label": "Module#define_method — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Module.html#method-i-define_method",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectSpace — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "self-and-singleton-classes",
+    "id": 8,
+    "title": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "self controls where @var lives and who receives a bare method call; singleton classes explain why 'class methods' are just methods defined on the class object itself.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "instance_eval, class_eval, and Building Internal DSLs",
+        "slug": "instance-eval-and-dsls",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Reflection and Introspection",
+        "slug": "reflection-and-object-space",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Object#singleton_class, #singleton_methods, #extend — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html",
+        "type": "doc"
+      },
+      {
+        "label": "Module#private_class_method, #attr_accessor, #define_method — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Module.html",
+        "type": "doc"
+      },
+      {
+        "label": "Data — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Data.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — The Ruby Object Model and Metaprogramming",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "instance-eval-and-dsls",
+    "id": 9,
+    "title": "instance_eval, class_eval, and Building Internal DSLs",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "Why class_eval defines instance methods and instance_eval defines class methods, the _exec variants that fix the vanished-ivar trap, and how RSpec-style internal DSLs are built on the same self switch.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Reflection and Introspection",
+        "slug": "reflection-and-object-space",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BasicObject#instance_eval — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-instance_eval",
+        "type": "doc"
+      },
+      {
+        "label": "BasicObject#instance_exec — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-instance_exec",
+        "type": "doc"
+      },
+      {
+        "label": "Module#class_eval, #class_exec, #module_eval — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Module.html#method-i-class_eval",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — The Ruby Object Model and Metaprogramming",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "enumerable-and-enumerator-protocol",
+    "id": 10,
+    "title": "The Enumerable and Enumerator Protocol",
+    "topic": "Collections & Blocks",
+    "summary": "Implement each and get map/select/reduce for free via Enumerable, then drive sequences from the outside with Enumerator — external iteration, custom generators, and .lazy for infinite pipelines.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Blocks, Procs, and Lambdas",
+        "slug": "blocks-procs-and-lambdas",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enumerable — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Enumerable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerator — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Enumerator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerator::Lazy — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Enumerator/Lazy.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Collections, Blocks, and Iterators",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "concurrency-primitives-mutex-and-fibers",
+    "id": 11,
+    "title": "Thread Coordination, Mutex, and Fibers",
+    "topic": "Concurrency",
+    "summary": "Collecting results with join/value, why a thread's exception waits silently until you join it, Mutex beyond synchronize, and Fiber's cooperative pause/resume model.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Thread — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Thread.html",
+        "type": "doc"
+      },
+      {
+        "label": "Thread::Mutex — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Thread/Mutex.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fiber — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Fiber.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Threads, Fibers, and Ractors",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "duck-typing-and-conversion-protocols",
+    "id": 12,
+    "title": "Duck Typing and Conversion Protocols",
+    "topic": "Language Core & Idioms",
+    "summary": "An object's type is the set of messages it responds to, not its class — plus the explicit (to_s) vs. implicit (to_str) conversion split that decides whether Ruby itself will treat your object as substitutable for a built-in type.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Object#respond_to? — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html#method-i-respond_to-3F",
+        "type": "doc"
+      },
+      {
+        "label": "Kernel#Integer, #Array, #String, #Hash — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Kernel.html",
+        "type": "doc"
+      },
+      {
+        "label": "Numeric#coerce — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Numeric.html#method-i-coerce",
+        "type": "doc"
+      },
+      {
+        "label": "Symbol#to_proc — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Symbol.html#method-i-to_proc",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby Style: Duck Typing",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rack-the-interface-under-ruby-web-frameworks",
+    "id": 13,
+    "title": "Rack: The Interface Under Every Ruby Web Framework",
+    "topic": "Web & Frameworks",
+    "summary": "Why Rails, Sinatra, Roda, and Hanami are all, underneath, just objects that respond to call(env) — and how that one-method contract is what makes middleware portable across every one of them.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Choosing an Application Server: Puma, Unicorn, and Passenger",
+        "slug": "choosing-an-application-server",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Rack — GitHub (README and SPEC)",
+        "url": "https://github.com/rack/rack",
+        "type": "doc"
+      },
+      {
+        "label": "Rack API documentation — RubyDoc.info",
+        "url": "https://www.rubydoc.info/github/rack/rack",
+        "type": "doc"
+      },
+      {
+        "label": "Rails on Rack — Ruby on Rails Guides",
+        "url": "https://guides.rubyonrails.org/rails_on_rack.html",
+        "type": "doc"
+      },
+      {
+        "label": "Sinatra — Intro and README",
+        "url": "https://sinatrarb.com/intro.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby and the Web: Rack",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "debugging-ruby-debug-and-pry",
+    "id": 14,
+    "title": "Debugging Ruby: the debug Gem and Pry",
+    "topic": "Tooling & Debugging",
+    "summary": "puts vs. p vs. pp, pausing execution with the official debug gem and rdbg, and Pry's REPL-as-navigation model with show-source for reading a gem's real implementation live.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Reflection and Introspection",
+        "slug": "reflection-and-object-space",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Debugging Ruby",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "ruby/debug — the official Ruby debugger",
+        "url": "https://github.com/ruby/debug",
+        "type": "doc"
+      },
+      {
+        "label": "pry/pry — an IRB alternative and runtime developer console",
+        "url": "https://github.com/pry/pry",
+        "type": "doc"
+      },
+      {
+        "label": "deivid-rodriguez/pry-byebug — step debugging for Pry",
+        "url": "https://github.com/deivid-rodriguez/pry-byebug",
+        "type": "doc"
+      },
+      {
+        "label": "Kernel — Ruby Core docs (p, pp, caller)",
+        "url": "https://docs.ruby-lang.org/en/3.3/Kernel.html",
+        "type": "doc"
+      },
+      {
+        "label": "Benchmark — Ruby Standard Library docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Benchmark.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "common-ruby-gotchas",
+    "id": 15,
+    "title": "Common Ruby Gotchas: Silent Bugs Worth Knowing By Heart",
+    "topic": "Language Core & Idioms",
+    "summary": "The traps that produce no error at all: a setter without self. becoming a local, a misspelled initialize that never runs, {} vs do...end binding the block to the wrong call — plus source_location, sync = true, and freeze as the tools that turn silent bugs loud.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Blocks, Procs, and Lambdas",
+        "slug": "blocks-procs-and-lambdas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Debugging Ruby: the debug Gem and Pry",
+        "slug": "debugging-ruby-debug-and-pry",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Troubleshooting Ruby",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Method#source_location and Method#owner — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Method.html#method-i-source_location",
+        "type": "doc"
+      },
+      {
+        "label": "Object#freeze and Object#frozen? — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html#method-i-freeze",
+        "type": "doc"
+      },
+      {
+        "label": "IO#sync and IO#sync= — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/IO.html#method-i-sync",
+        "type": "doc"
+      },
+      {
+        "label": "BasicObject#method_missing and respond_to_missing? — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/BasicObject.html#method-i-method_missing",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hash-and-set-deep-dive",
+    "id": 16,
+    "title": "Hash and Set: the Non-Obvious Parts",
+    "topic": "Collections & Blocks",
+    "summary": "The Hash.new default-value trap that silently shares one object across every key, fetch/merge-with-block/slice/transform_* and Hash#to_proc, then Set: insertion-ordered uniqueness, the full |, &, -, ^ vocabulary, a <=> that compares by subset and returns nil, and add?/delete? returning nil instead of false.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "The Enumerable and Enumerator Protocol",
+        "slug": "enumerable-and-enumerator-protocol",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Hash — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Hash.html",
+        "type": "doc"
+      },
+      {
+        "label": "Set — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Set.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Enumerators and Containers",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-runtimes-compared",
+    "id": 17,
+    "title": "YJIT, TruffleRuby, and JRuby: Choosing a Ruby Runtime",
+    "topic": "Performance & Internals",
+    "summary": "Why YJIT only pays off in long-running processes, what TruffleRuby and JRuby actually trade away for speed and Java interop, and when a runtime switch is the wrong answer.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Memory, GC, and the Bloat vs. Leak Model",
+        "slug": "memory-gc-and-fragmentation",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "YJIT — Ruby's JIT compiler (ruby/ruby docs)",
+        "url": "https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md",
+        "type": "doc"
+      },
+      {
+        "label": "YJIT Numbers in 2023 — Rails at Scale",
+        "url": "https://railsatscale.com/2023-11-08-yjit-numbers-in-2023/",
+        "type": "doc"
+      },
+      {
+        "label": "Everything you need to know about Ruby 4.0 — Honeybadger",
+        "url": "https://www.honeybadger.io/blog/ruby-4/",
+        "type": "doc"
+      },
+      {
+        "label": "TruffleRuby — GraalVM",
+        "url": "https://www.graalvm.org/ruby/",
+        "type": "doc"
+      },
+      {
+        "label": "JRuby — Ruby on the JVM",
+        "url": "https://www.jruby.org/",
+        "type": "doc"
+      },
+      {
+        "label": "mruby — the lightweight embeddable Ruby",
+        "url": "https://mruby.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby Runtimes",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "advanced-regex-and-redos",
+    "id": 18,
+    "title": "Ruby Regex Beyond the Basics, and the ReDoS Trap",
+    "topic": "Language Core & Idioms",
+    "summary": "The regex features past /pattern/ — %r{} literals, match? vs. the $~ globals, /i /m /x /o, named groups, Hash and block substitution, Regexp.union — plus catastrophic backtracking: why it happens, what Ruby 3.2's linear-time matching does and does not cover, and how Regexp.timeout= turns a pinned CPU into a rescuable exception.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Pattern Matching in Ruby",
+        "slug": "pattern-matching",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Exceptions as Control Flow: What They Actually Cost",
+        "slug": "exceptions-as-control-flow",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Regexp — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Regexp.html",
+        "type": "doc"
+      },
+      {
+        "label": "MatchData — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/MatchData.html",
+        "type": "doc"
+      },
+      {
+        "label": "Regexp.timeout= — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Regexp.html#method-c-timeout-3D",
+        "type": "doc"
+      },
+      {
+        "label": "String#gsub and #sub — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/String.html#method-i-gsub",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 3.2.0 release notes — ReDoS mitigations",
+        "url": "https://www.ruby-lang.org/en/news/2022/12/25/ruby-3-2-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Regular Expressions",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "profiling-ruby-tools-and-technique",
+    "id": 19,
+    "title": "Profiling Ruby: ruby-prof, stackprof, and memory_profiler",
+    "topic": "Performance & Internals",
+    "summary": "Tracing vs. sampling profilers, the bias in each timing mode, the MRI memory toolkit from ObjectSpace to memory_profiler, and why a 12x micro-benchmark win can change nothing.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Memory, GC, and the Bloat vs. Leak Model",
+        "slug": "memory-gc-and-fragmentation",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Production Observability: rack-mini-profiler and APM Budgets",
+        "slug": "production-observability",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Debugging Ruby: the debug Gem and Pry",
+        "slug": "debugging-ruby-debug-and-pry",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ruby-prof",
+        "url": "https://github.com/ruby-prof/ruby-prof",
+        "type": "doc"
+      },
+      {
+        "label": "stackprof",
+        "url": "https://github.com/tmm1/stackprof",
+        "type": "doc"
+      },
+      {
+        "label": "memory_profiler",
+        "url": "https://github.com/SamSaffron/memory_profiler",
+        "type": "doc"
+      },
+      {
+        "label": "derailed_benchmarks",
+        "url": "https://github.com/schneems/derailed_benchmarks",
+        "type": "doc"
+      },
+      {
+        "label": "ObjectSpace — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/ObjectSpace.html",
+        "type": "doc"
+      },
+      {
+        "label": "The Complete Guide to Rails Performance — Profiling and Memory",
+        "url": "https://pragprog.com/titles/nragilperf/the-complete-guide-to-rails-performance/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "method-and-unboundmethod-composition",
+    "id": 20,
+    "title": "Method and UnboundMethod: Objects, Not Just Calls",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "obj.method(:name) hands you a callable value you can compose with >> and <<, curry, and introspect; unbind strips the receiver off so a module's implementation can be bind_call'd onto an object that never included it.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Common Ruby Gotchas: Silent Bugs Worth Knowing By Heart",
+        "slug": "common-ruby-gotchas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "instance_eval, class_eval, and Building Internal DSLs",
+        "slug": "instance-eval-and-dsls",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Method — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Method.html",
+        "type": "doc"
+      },
+      {
+        "label": "UnboundMethod — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/UnboundMethod.html",
+        "type": "doc"
+      },
+      {
+        "label": "Object#method — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Object.html#method-i-method",
+        "type": "doc"
+      },
+      {
+        "label": "Module#instance_method — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Module.html#method-i-instance_method",
+        "type": "doc"
+      },
+      {
+        "label": "Proc#curry and Proc#>> / #<< — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Proc.html#method-i-curry",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby's Object Model",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-box-in-process-isolation",
+    "id": 21,
+    "title": "Ruby::Box: In-Process Namespace Isolation",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "Ruby 4.0's experimental container for isolating constants, monkey patches, and loaded libraries inside a single process — what it actually separates, and why it is namespace isolation rather than parallelism.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org (Ruby Box)",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby::Box — Ruby Core docs",
+        "url": "https://docs.ruby-lang.org/en/4.0/Ruby/Box.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 introduces ZJIT compiler, Ruby Box isolation — InfoWorld",
+        "url": "https://www.infoworld.com/article/4113436/ruby-4-0-0-introduces-zjit-compiler-ruby-box-isolation.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0 Introduces Ruby::Box for In-Process Isolation — Prateek Codes",
+        "url": "https://prateekcodes.com/ruby-4-introduces-ruby-box-for-in-process-isolation-part-1/",
+        "type": "doc"
+      },
+      {
+        "label": "Everything you need to know about Ruby 4.0 — Honeybadger",
+        "url": "https://www.honeybadger.io/blog/ruby-4/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "fiber-scheduler-async-and-falcon",
+    "id": 22,
+    "title": "The Fiber Scheduler, async, and Falcon: Cooperative I/O in Production",
+    "topic": "Concurrency",
+    "summary": "Ruby ships the Fiber::Scheduler interface but no implementation — async is the production one, and it makes concurrent code look like ordinary blocking Ruby. Falcon turns that into a web server where a request costs a fiber instead of a thread, so one worker holds thousands of slow-I/O connections that Puma's thread pool could never fit.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Thread Coordination, Mutex, and Fibers",
+        "slug": "concurrency-primitives-mutex-and-fibers",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Choosing an Application Server: Puma, Unicorn, and Passenger",
+        "slug": "choosing-an-application-server",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Rack: The Interface Under Every Ruby Web Framework",
+        "slug": "rack-the-interface-under-ruby-web-frameworks",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Falcon — a fiber-based web server for Ruby (GitHub)",
+        "url": "https://github.com/socketry/falcon",
+        "type": "doc"
+      },
+      {
+        "label": "Falcon — Getting Started guide",
+        "url": "https://socketry.github.io/falcon/guides/getting-started/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fiber — Ruby Core docs (Fiber::Scheduler)",
+        "url": "https://docs.ruby-lang.org/en/3.3/Fiber.html",
+        "type": "doc"
+      },
+      {
+        "label": "async — GitHub (socketry)",
+        "url": "https://github.com/socketry/async",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "typed-ruby-rbs-and-sorbet",
+    "id": 23,
+    "title": "Typed Ruby: RBS and Sorbet",
+    "topic": "Language Core & Idioms",
+    "summary": "Ruby is dynamically but strongly typed, and two very different optional-typing layers sit on top: RBS ships with Ruby, keeps signatures in separate sig/*.rbs files, and never affects runtime — while Sorbet (Stripe) puts sig blocks inside your .rb files and checks them at runtime too, raising a real TypeError on a wrong argument.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "Duck Typing and Conversion Protocols",
+        "slug": "duck-typing-and-conversion-protocols",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "instance_eval, class_eval, and Building Internal DSLs",
+        "slug": "instance-eval-and-dsls",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RBS — ruby/rbs on GitHub",
+        "url": "https://github.com/ruby/rbs",
+        "type": "doc"
+      },
+      {
+        "label": "Sorbet — official documentation",
+        "url": "https://sorbet.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Tapioca — Shopify/tapioca on GitHub",
+        "url": "https://github.com/Shopify/tapioca",
+        "type": "doc"
+      },
+      {
+        "label": "TypeProf — ruby/typeprof on GitHub",
+        "url": "https://github.com/ruby/typeprof",
+        "type": "doc"
+      },
+      {
+        "label": "Steep: static type checker for Ruby using RBS",
+        "url": "https://github.com/soutaro/steep",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Typed Ruby",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-stdlib-design-patterns",
+    "id": 24,
+    "title": "Design Patterns Built Into the Ruby Standard Library",
+    "topic": "Object Model & Metaprogramming",
+    "summary": "Decorator, Observer, and Singleton already ship with Ruby as delegate, observer, and singleton — yet most codebases hand-roll all three. SimpleDelegator forwards everything you did not override (and lets you swap the target), DelegateClass(Array) is composition where you would have subclassed Array, and Singleton closes the dup/clone/Marshal leaks plus the thread race that a hand-written @instance ||= new always misses.",
+    "publishedAt": "2026-08-18",
+    "related": [
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Duck Typing and Conversion Protocols",
+        "slug": "duck-typing-and-conversion-protocols",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "The Ruby Object Model and Method Lookup",
+        "slug": "object-model-and-method-lookup",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Method and UnboundMethod: Objects, Not Just Calls",
+        "slug": "method-and-unboundmethod-composition",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Delegator, SimpleDelegator, DelegateClass — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Delegator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Observable — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Observable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Singleton — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Singleton.html",
+        "type": "doc"
+      },
+      {
+        "label": "Forwardable — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/Forwardable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby on Ruby",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 3.4.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2024/12/25/ruby-3-4-0-released/",
+        "type": "doc"
+      }
     ]
   }
 ]
