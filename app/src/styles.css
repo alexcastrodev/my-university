@@ -585,6 +585,25 @@ app-concept-actions {
   fill: #f9fafb;
 }
 
+/* Branch-and-bound search-tree states — reuses the same persistent `color` field red-black
+   trees use, since "pruned" and "best-known incumbent" are just as much part of a B&B node's
+   lasting state as red/black is part of a red-black node's. */
+.section-body .concept-viz-tree-node[data-color="pruned"] circle {
+  fill: #f3f4f6;
+  stroke: #9ca3af;
+  opacity: 0.55;
+}
+
+.section-body .concept-viz-tree-node[data-color="pruned"] text {
+  fill: #9ca3af;
+}
+
+.section-body .concept-viz-tree-node[data-color="best"] circle {
+  fill: #d1fae5;
+  stroke: #10b981;
+  stroke-width: 2.5px;
+}
+
 .section-body .concept-viz-tree-node--visited circle {
   fill: #ede9fe;
   stroke: #c4b5fd;

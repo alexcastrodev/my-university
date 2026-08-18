@@ -1023,5 +1023,120 @@
       }
     ],
     "id": 52
+  },
+  {
+    "slug": "avl-trees",
+    "category": "Data Structures",
+    "title": "AVL Trees: Height-Balanced Search Trees via Rotation",
+    "summary": "AVL trees are the first self-balancing binary search tree ever published (1962), fixing a plain BST's worst weakness — height, and every operation's cost, depending on insertion order and degrading to O(n) — by capping every node's balance factor at {-1, 0, 1} and restoring it via single or double rotations after each insert/delete, guaranteeing O(log n) height unconditionally.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "AVL tree — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/AVL_tree",
+        "type": "doc"
+      }
+    ],
+    "id": 53
+  },
+  {
+    "slug": "skip-lists",
+    "category": "Data Structures",
+    "title": "Skip Lists: A Probabilistic Alternative to Balanced Trees",
+    "summary": "A sorted linked list augmented with randomized \"express lane\" levels, where each element is independently promoted to level i+1 with probability 1/d; unlike AVL/red-black trees, which guarantee O(log n) height via deterministic rotations/recoloring, a skip list gets O(log n) expected time from randomness alone, with no rebalancing logic at all.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "William Pugh, \"Skip Lists: A Probabilistic Alternative to Balanced Trees\", Communications of the ACM, Vol. 33, No. 6 (June 1990), pp. 668-676",
+        "url": "https://dl.acm.org/doi/10.1145/78973.78977",
+        "type": "doc"
+      },
+      {
+        "label": "Skip Lists: A Probabilistic Alternative to Balanced Trees — free-hosted copy of Pugh's original paper (cs.umd.edu)",
+        "url": "https://ftp.cs.umd.edu/pub/skipLists/skiplists.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Skip list — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Skip_list",
+        "type": "doc"
+      }
+    ],
+    "id": 54
+  },
+  {
+    "slug": "bloom-filters",
+    "category": "Data Structures",
+    "title": "Bloom Filters: Probabilistic Set Membership",
+    "summary": "A Bloom filter answers \"could this key be in the set?\" using a fixed-size bit array and k independent hash functions instead of storing any keys, guaranteeing zero false negatives while accepting a small, precisely tunable false-positive rate — trading exactness for O(k) lookups and O(m) space that never depends on key size or type.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Burton H. Bloom, \"Space/Time Trade-offs in Hash Coding with Allowable Errors\", Communications of the ACM, Vol. 13, No. 7 (1970), pp. 422-426",
+        "url": "https://dl.acm.org/doi/10.1145/362686.362692",
+        "type": "doc"
+      },
+      {
+        "label": "Adam Kirsch, Michael Mitzenmacher, \"Less Hashing, Same Performance: Building a Better Bloom Filter\", ESA 2006",
+        "url": "https://link.springer.com/chapter/10.1007/11841036_42",
+        "type": "doc"
+      },
+      {
+        "label": "Bloom filter — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bloom_filter",
+        "type": "doc"
+      }
+    ],
+    "id": 55
+  },
+  {
+    "slug": "simplex-tabular-method",
+    "category": "Fundamentals",
+    "title": "The Simplex Method: Solving Linear Programs by Pivoting",
+    "summary": "The tabular simplex method — turning inequality constraints into a starting dictionary via slack/surplus/artificial variables, reading solutions directly off a tableau, and pivoting via Gauss-Jordan elimination until optimal — picking up exactly where the sibling linear-programming-formulation-and-duality concept deliberately stopped short of the algorithm itself; also covers non-standard forms (minimization, >=/= constraints via the two-phase method) and the dual-simplex/generalized-simplex variants built on the same tableau machinery.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Hamdy A. Taha, \"Operations Research: An Introduction\", 8th Edition (Pearson/Prentice Hall, 2007-2008)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/operations-research-an-introduction/P200000003221/9780137625727",
+        "type": "doc"
+      },
+      {
+        "label": "Simplex algorithm — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Simplex_algorithm",
+        "type": "doc"
+      },
+      {
+        "label": "George Dantzig — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/George_Dantzig",
+        "type": "doc"
+      },
+      {
+        "label": "Bland's rule — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bland%27s_rule",
+        "type": "doc"
+      }
+    ],
+    "id": 56
+  },
+  {
+    "slug": "branch-and-bound",
+    "category": "Dynamic Programming & Greedy",
+    "title": "Branch and Bound: Pruning the Search Tree for Integer and Combinatorial Optimization",
+    "summary": "Branch and Bound solves integer and combinatorial optimization problems exactly by organizing the search space as a tree of subproblems, using each subproblem's LP-relaxation value as an upper bound to prune entire branches that cannot beat the best integer solution found so far. Traced by hand on a real 2-variable integer program (root relaxation, one infeasible branch, one bound-pruned integer solution, and the branch that becomes the final incumbent) to make the pruning concrete rather than abstract.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Hamdy A. Taha, \"Operations Research: An Introduction\", 10th Edition (Pearson, 2017) — Chapter on Integer Linear Programming (Branch and Bound and 0-1 implicit enumeration)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/operations-research-an-introduction/P200000003528/9780137526567",
+        "type": "book"
+      },
+      {
+        "label": "Branch and bound — Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Branch_and_bound",
+        "type": "doc"
+      }
+    ],
+    "id": 57
   }
 ]

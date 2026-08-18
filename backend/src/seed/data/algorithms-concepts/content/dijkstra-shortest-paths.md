@@ -70,6 +70,43 @@ A -> C (1)      C -> D (5)      B -> E (7)
 
 Trace this by hand to see relaxation and the greedy choice interact: extracting `A` relaxes `A->B` (4) and `A->C` (1). The queue's minimum is now `C` (1), not `B` — so `C` is finalized next, and relaxing `C->B` finds `1 + 2 = 3 < 4`, lowering `B`'s tentative distance before `B` is ever finalized. That reordering is exactly what a FIFO queue *couldn't* do: BFS would have finalized `B` right after `A` (discovery order), locking in the wrong value.
 
+### Watch it happen: the same trace, as a shortest-path tree
+
+Each `traverse` below fires only once a vertex's `edgeTo[]` is *final* — the edge recorded at the moment that vertex is dequeued and finalized, not every relaxation attempt along the way. `B` is a `mark`ed twice before it's ever `traverse`d: first tentatively via `A->B` (4), then again via `C->B` (3) — only the second, better edge becomes part of the tree, which is exactly the reordering the trace above describes in words.
+
+```viz
+type: graph
+node A A 0 1
+node C C 1 0
+node B B 1 2
+node D D 2 1
+node E E 3 1
+edge A B directed
+edge A C directed
+edge C B directed
+edge C D directed
+edge B D directed
+edge B E directed
+edge D E directed
+---
+visit A | Dequeue "A" (dist 0, the source) -- finalized.
+mark B | Relax A→B: dist(B) tentatively 4.
+mark C | Relax A→C: dist(C) tentatively 1.
+visit C | Dequeue "C" (dist 1) -- closer than B, so it finalizes first.
+traverse A C | Tree edge: A→C is C's final shortest-path edge.
+mark B | Relax C→B: 1 + 2 = 3 < 4 -- B's tentative distance improves before B is ever finalized.
+mark D | Relax C→D: 1 + 5 = 6 tentatively.
+visit B | Dequeue "B" (dist 3) -- finalized.
+traverse C B | Tree edge: C→B, not A→B -- the earlier relaxation never became final.
+mark D | Relax B→D: 3 + 1 = 4 < 6 -- improves again.
+mark E | Relax B→E: 3 + 7 = 10 tentatively.
+visit D | Dequeue "D" (dist 4) -- finalized.
+traverse B D | Tree edge: B→D is D's final shortest-path edge.
+mark E | Relax D→E: 4 + 3 = 7 < 10 -- improves.
+visit E | Dequeue "E" (dist 7) -- finalized. Dijkstra complete.
+traverse D E | Tree edge: D→E is E's final shortest-path edge.
+```
+
 ### Why non-negative weights are non-negotiable
 
 Dijkstra's correctness argument above depends entirely on "no path through an unprocessed vertex can beat the just-finalized distance," and that step relies on weights never being negative — a negative edge can make a longer-looking path shorter later, after the algorithm has already committed to a smaller vertex's distance. Here is a minimal, hand-verified counterexample:

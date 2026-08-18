@@ -3007,5 +3007,190 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "var-local-type-inference",
+    "id": 64,
+    "title": "var: Local Variable Type Inference",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Generics: Bounded Types, Wildcards, and Erasure",
+        "slug": "generics",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "var lets the compiler infer a local variable's static type from its initializer — it is not dynamic typing and not Object, and combining it with the diamond operator quietly yields ArrayList<Object>.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Local Variable Type Inference — Java SE developer guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/language/local-variable-type-inference.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 286: Local-Variable Type Inference",
+        "url": "https://openjdk.org/jeps/286",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "java-time-dates-and-durations",
+    "id": 65,
+    "title": "java.time: Dates, Times, and Durations",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "java.time replaced the mutable, thread-unsafe, 0-indexed-month java.util.Date and Calendar with a family of small immutable types that each model exactly one idea — why an Instant has no getYear(), why Duration and Period genuinely cannot be the same type, what \"plus one day\" means across a DST transition, and why a static final DateTimeFormatter is safe where a shared SimpleDateFormat was a production bug.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "java.time — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Date Time — Java SE developer guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/core/date-time-classes.html",
+        "type": "doc"
+      },
+      {
+        "label": "DateTimeFormatter — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/format/DateTimeFormatter.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "text-blocks",
+    "id": 66,
+    "title": "Text Blocks: Multi-Line String Literals",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Regular Expressions with Pattern and Matcher",
+        "slug": "regular-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How the triple-quote text block writes multi-line SQL, JSON, and HTML without \\n escapes or + concatenation — and the precise incidental-whitespace algorithm behind it, where the closing delimiter's own column decides how much indentation is stripped, trailing spaces vanish unless fenced with \\s, and line terminators are normalized to \\n. Still exactly a String at runtime, with no interpolation and no way to tell it apart from a regular literal.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "JEP 378: Text Blocks",
+        "url": "https://openjdk.org/jeps/378",
+        "type": "doc"
+      },
+      {
+        "label": "Text Blocks — Java SE developer guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/text-blocks/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "switch-expressions",
+    "id": 67,
+    "title": "Switch Expressions: yield, Arrow Labels, and Exhaustiveness",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+        "slug": "enum-patterns-strategy-and-collections",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The switch statement and the switch expression are two constructs sharing one keyword: colon form falls through and produces nothing, while an arrow-form expression runs exactly one arm, produces a value via yield when the arm is a block, and must be provably exhaustive or the compiler rejects it.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "JEP 361: Switch Expressions",
+        "url": "https://openjdk.org/jeps/361",
+        "type": "doc"
+      },
+      {
+        "label": "The switch Statement — Java SE Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "java-platform-module-system",
+    "id": 68,
+    "title": "The Java Platform Module System (JPMS)",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Singletons and Noninstantiable Utility Classes",
+        "slug": "singleton-and-noninstantiable-classes",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Classpath Scanning via Reflection",
+        "slug": "classpath-scanning-via-reflection",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Annotations: Retention, Meta-Annotations, and Reflection",
+        "slug": "annotations-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "What module-info.java actually declares — requires, requires transitive, exports, opens, uses/provides — and why a non-exported package is invisible to other modules even when every type in it is public. Covers the unnamed module (where most application code still runs, with none of the enforcement), automatic modules as a migration bridge, jlink for minimal runtime images, and the honest trade-offs: forbidden split packages, the tension between opens and strong encapsulation, and how slow real-world adoption has been.",
+    "publishedAt": "2026-08-18",
+    "references": [
+      {
+        "label": "Understanding the Module System — Java SE developer guide",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/module-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 261: Module System",
+        "url": "https://openjdk.org/jeps/261",
+        "type": "doc"
+      },
+      {
+        "label": "jlink — Java SE Tools Reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jlink.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
