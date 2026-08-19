@@ -4,6 +4,7 @@ import { JavaMinuteEpisode } from '../../models/java-minute.model';
 import { getReferenceIcon, mapConceptSections, pickLeadSection } from '../../shared/concept-sections';
 import { parseMarkdown } from '../../shared/markdown';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
+import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
 import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
@@ -12,7 +13,7 @@ const REFERENCES_TITLE = 'References';
 @Component({
   selector: 'app-java-minute-episode',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RenderMermaidDirective, ConceptActions, Breadcrumbs],
+  imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, Breadcrumbs],
   templateUrl: './java-minute-episode.html',
   styleUrl: './java-minute-episode.css',
 })
