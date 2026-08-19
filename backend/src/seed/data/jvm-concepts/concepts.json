@@ -9,6 +9,16 @@
         "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
         "slug": "jit-tiered-compilation",
         "feature": "jvm-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: The Operand Stack, Arithmetic, and Type Conversions",
+        "slug": "bytecode-arithmetic-and-conversions",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+        "slug": "bytecode-object-creation-and-method-dispatch",
+        "feature": "jvm-concepts"
       }
     ],
     "summary": "How javac turns Java source into a structured binary .class file — magic number and version in the header, the constant pool's table of symbolic references, access flags, and how fields and methods are laid out for the JVM to load and execute.",
@@ -529,6 +539,80 @@
       {
         "label": "The Z Garbage Collector — HotSpot GC Tuning Guide, Java SE 25",
         "url": "https://docs.oracle.com/en/java/javase/25/gctuning/z-garbage-collector.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bytecode-arithmetic-and-conversions",
+    "id": 15,
+    "title": "Bytecode Instructions: The Operand Stack, Arithmetic, and Type Conversions",
+    "topic": "Compilation & Bytecode",
+    "related": [
+      {
+        "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
+        "slug": "class-file-structure",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+        "slug": "bytecode-object-creation-and-method-dispatch",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "summary": "How bytecode's stack-machine arithmetic works — the i/l/f/d mnemonic prefixes, why float and double comparisons need two opcodes to handle NaN correctly, and why narrowing conversions like d2i and i2b lose data silently instead of throwing.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Chapter 6: The Java Virtual Machine Instruction Set — Java Virtual Machine Specification, SE 25",
+        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-6.html",
+        "type": "doc"
+      },
+      {
+        "label": "javap — Java SE 25 Tool Specifications",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javap.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mastering the Java Virtual Machine — Chapter 3 source code (Packt Publishing)",
+        "url": "https://github.com/PacktPublishing/Mastering-the-Java-Virtual-Machine/tree/main/chapter-03",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bytecode-object-creation-and-method-dispatch",
+    "id": 16,
+    "title": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+    "topic": "Compilation & Bytecode",
+    "related": [
+      {
+        "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
+        "slug": "class-file-structure",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: The Operand Stack, Arithmetic, and Type Conversions",
+        "slug": "bytecode-arithmetic-and-conversions",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "summary": "Why 'new' is allocate-then-construct as two separate instructions, how field and array access split into distinct opcode families, and why the JVM has five different invoke* instructions instead of one — including why modern javac no longer emits invokespecial for private method calls.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Chapter 6: The Java Virtual Machine Instruction Set — Java Virtual Machine Specification, SE 25",
+        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-6.html",
+        "type": "doc"
+      },
+      {
+        "label": "javap — Java SE 25 Tool Specifications",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/javap.html",
+        "type": "doc"
+      },
+      {
+        "label": "Mastering the Java Virtual Machine — Chapter 3 source code (Packt Publishing)",
+        "url": "https://github.com/PacktPublishing/Mastering-the-Java-Virtual-Machine/tree/main/chapter-03",
         "type": "doc"
       }
     ]
