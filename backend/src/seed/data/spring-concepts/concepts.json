@@ -24,6 +24,7 @@
     ],
     "summary": "How @SpringBootApplication, starter dependencies, and conditional beans let Spring Boot wire an application with almost no explicit configuration.",
     "publishedAt": "2026-07-27",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-autoconfiguration",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 1, \"Getting started with Spring\", p. 3-18",
@@ -323,6 +324,7 @@
     ],
     "summary": "How a Spring MVC controller pairs @GetMapping/@PostMapping handlers with a Model to render views and with implicit command-object binding to process form submissions, and how Java records now offer a dependency-free alternative to Lombok for immutable domain types.",
     "publishedAt": "2026-07-30",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-mvc-request-handling",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", sections 2.1-2.2, p. 29-44",
@@ -467,6 +469,7 @@
     ],
     "summary": "How to declare validation rules with Bean Validation annotations on a domain class and enforce them at form-binding time with @Valid and Errors/BindingResult, and why spring-boot-starter-validation is now a separate, explicit dependency instead of a transitive one.",
     "publishedAt": "2026-07-31",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-mvc-bean-validation",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", section 2.3, \"Validating form input\", p. 45-50",
@@ -520,6 +523,7 @@
     ],
     "summary": "How PasswordEncoder's encode()/matches() contract validates passwords without ever reversing a hash, how DelegatingPasswordEncoder lets an app support multiple algorithms at once via a prefix scheme, and why Argon2 is now a more prominent recommendation than the book's bcrypt/scrypt/PBKDF2 trio.",
     "publishedAt": "2026-07-31",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-password-encoding",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 4, \"Dealing with passwords\", section 4.1, \"Understanding the PasswordEncoder contract\", p. 86-96",
@@ -616,6 +620,7 @@
     ],
     "summary": "How JdbcTemplate eliminates JDBC's connection/statement/result-set boilerplate via query()/queryForObject() and a RowMapper, how SimpleJdbcInsert simplifies inserts that need a generated key, and how schema.sql/data.sql auto-initialize a database on startup — plus why Spring Framework 6.1's JdbcClient is now the recommended fluent facade for the same job.",
     "publishedAt": "2026-08-01",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-jdbc-persistence-with-jdbctemplate",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.1, p. 56-74",
@@ -765,6 +770,7 @@
     ],
     "summary": "How annotating domain classes as JPA entities and extending CrudRepository gives you a working persistence layer with zero implementation code, and how Spring Data parses derived query method names (findByDeliveryZip, readOrdersByDeliveryZipAndPlacedAtBetween) into real queries, with @Query as the escape hatch.",
     "publishedAt": "2026-08-03",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-data-jpa-repositories",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.2, p. 75-83",
@@ -909,6 +915,7 @@
     ],
     "summary": "How the Spring environment abstraction aggregates properties from JVM system properties, OS environment variables, command-line arguments, and application.yml/properties into one source, and how a few hundred built-in configuration properties (server.port, spring.datasource.*, logging.level.*) let you tune Spring Boot's autoconfigured beans without writing a single @Bean method.",
     "publishedAt": "2026-08-03",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-configuration-properties",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.1, p. 114-122",
@@ -1106,6 +1113,7 @@
     ],
     "summary": "How httpBasic() and formLogin() configure Spring Security's two built-in authentication methods, how AuthenticationEntryPoint/AuthenticationSuccessHandler/AuthenticationFailureHandler customize their failure and success behavior, and how the two methods can run side by side on the same application.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-http-basic-and-form-login",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 5, \"Implementing authentication\", section 5.3, p. 125-133",
@@ -1250,6 +1258,7 @@
     ],
     "summary": "How Spring Security decides, after authentication succeeds, whether a request is actually allowed — via the GrantedAuthority contract, the hasAuthority()/hasAnyAuthority() methods for fine-grained authorities, hasRole()/hasAnyRole() and the ROLE_ prefix convention for coarser-grained roles, and denyAll() for blanket restrictions — plus the access() method's escape hatch into raw SpEL for anything the named methods can't express.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-authorization-authorities-and-roles",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 7, \"Configuring authorization: Restricting access\", section 7.1, p. 153-171",
@@ -1346,6 +1355,7 @@
     ],
     "summary": "How @RestController and the HTTP-method mapping annotations (@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping) map CRUD operations onto REST endpoints, why PUT and PATCH have genuinely different replace-vs-merge semantics that the annotations alone don't enforce, and how Spring Framework 6's ProblemDetail (RFC 7807) now gives 404s and other error responses a structured body instead of an empty one.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-rest-controllers",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.1, p. 138-149",

@@ -1838,6 +1838,7 @@
     ],
     "summary": "The documented contracts behind Object's three most-overridden methods, why breaking symmetry or skipping hashCode() fails silently instead of at compile time, and how records satisfy all three for free.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/equals-hashcode-and-tostring-contracts",
     "references": [
       {
         "label": "Object — Java SE 25 API",
@@ -2234,6 +2235,7 @@
     ],
     "summary": "Implementing Serializable bypasses your constructor's invariant checks and exposes internals as permanent API — see why, and how readObject discipline, the serialization proxy pattern, and ObjectInputFilter contain the risk.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/serialization-risks-and-safer-alternatives",
     "references": [
       {
         "label": "Serializable — Java SE API",
@@ -2410,6 +2412,7 @@
     ],
     "summary": "How lock-ordering deadlocks happen between threads, and how consistent lock ordering, open calls, and timed lock attempts prevent and diagnose them.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/deadlock-lock-ordering-and-avoidance",
     "references": [
       {
         "label": "ReentrantLock — tryLock(long, TimeUnit)",
@@ -2462,6 +2465,7 @@
     ],
     "summary": "Why a compound action built from thread-safe calls on a synchronized collection can still race, and how ConcurrentHashMap and CopyOnWriteArrayList solve it with weakly consistent iteration and atomic compound-action methods instead.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/concurrent-collections-and-compound-actions",
     "references": [
       {
         "label": "ConcurrentHashMap — Java SE 25 API",
@@ -2514,6 +2518,7 @@
     ],
     "summary": "How BlockingQueue's blocking put/take turn the producer-consumer pattern into a few lines of code, and why bounded queues provide real backpressure instead of just delaying an OutOfMemoryError.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/blocking-queues-and-producer-consumer",
     "references": [
       {
         "label": "BlockingQueue — java.util.concurrent",
@@ -2576,6 +2581,7 @@
     ],
     "summary": "How Thread.interrupt() actually works as a cooperative status flag, why swallowing InterruptedException is the most common concurrency bug, and how to cancel tasks correctly via interruption policy and Future.cancel().",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/task-cancellation-and-interruption",
     "references": [
       {
         "label": "Thread.interrupt() — java.lang.Thread API docs",
@@ -2772,6 +2778,7 @@
     ],
     "summary": "Covers the JCIP formula for computing an optimal thread pool size and the ThreadPoolExecutor API for work queues, saturation policies, thread factories, and extension hooks.",
     "publishedAt": "2026-08-14",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/configuring-thread-pool-executor",
     "references": [
       {
         "label": "ThreadPoolExecutor — Java SE 25 API",
@@ -2958,6 +2965,7 @@
     ],
     "summary": "Optional exists to make 'this might not have a value' part of a method's return type instead of a null a caller has to remember to check — and why the JDK itself warns against using it as a field, a parameter, or inside a collection, plus the isPresent()-then-get() anti-pattern and the orElse-vs-orElseGet eagerness trap that trip up most first uses.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/optional-correct-usage",
     "references": [
       {
         "label": "Optional — Java SE 25 API docs",
@@ -2990,6 +2998,7 @@
     ],
     "summary": "How thenApply, thenCompose, thenCombine, allOf, and the exception handlers compose async work without blocking — and the nested-future, common-pool, and swallowed-exception traps that come with them.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/completablefuture-composition",
     "references": [
       {
         "label": "CompletableFuture — Java SE 25 API docs",
@@ -3069,6 +3078,7 @@
     ],
     "summary": "java.time replaced the mutable, thread-unsafe, 0-indexed-month java.util.Date and Calendar with a family of small immutable types that each model exactly one idea — why an Instant has no getYear(), why Duration and Period genuinely cannot be the same type, what \"plus one day\" means across a DST transition, and why a static final DateTimeFormatter is safe where a shared SimpleDateFormat was a production bug.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/java-time-dates-and-durations",
     "references": [
       {
         "label": "java.time — Java SE 25 API docs",
