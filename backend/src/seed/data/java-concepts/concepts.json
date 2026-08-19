@@ -3239,5 +3239,1011 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "json-processing-in-java",
+    "id": 70,
+    "title": "JSON Processing in Java",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The JDK still has no JSON support, so JSON work means picking a library and one of three processing models — data binding, the tree model, or streaming — all of which Jackson provides as the de facto standard.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Jackson databind — FasterXML/jackson-databind",
+        "url": "https://github.com/FasterXML/jackson-databind",
+        "type": "doc"
+      },
+      {
+        "label": "Migrating to Jackson 3 — FasterXML",
+        "url": "https://github.com/FasterXML/jackson/blob/main/jackson3/MIGRATING_TO_JACKSON_3.md",
+        "type": "doc"
+      },
+      {
+        "label": "Jackson Releases (version and LTS status) — FasterXML wiki",
+        "url": "https://github.com/FasterXML/jackson/wiki/Jackson-Releases",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 540: Simple JSON API (Incubator) — OpenJDK",
+        "url": "https://openjdk.org/jeps/540",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6901: JavaScript Object Notation (JSON) Pointer — IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6901",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format — IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8259",
+        "type": "doc"
+      },
+      {
+        "label": "Gson user guide — Google",
+        "url": "https://github.com/google/gson/blob/main/UserGuide.md",
+        "type": "doc"
+      },
+      {
+        "label": "JSON support in Spring Boot — Spring reference",
+        "url": "https://docs.spring.io/spring-boot/reference/features/json.html",
+        "type": "doc"
+      },
+      {
+        "label": "JSON-Java (org.json) — GitHub",
+        "url": "https://github.com/stleary/JSON-java",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE 25 API — java.base has no JSON package",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/module-summary.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "foreign-function-and-memory-api",
+    "id": 71,
+    "title": "Foreign Function and Memory API",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Method Handles and Runtime Class Generation",
+        "slug": "method-handles-and-runtime-class-generation",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The java.lang.foreign API, standard since JDK 22, lets pure Java call native library functions and manage off-heap memory with arena-scoped lifetimes, replacing JNI's hand-written C glue code.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "java.lang.foreign — Java SE 26 API Specification",
+        "url": "https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/foreign/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Arena — Java SE 26 API Specification",
+        "url": "https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/foreign/Arena.html",
+        "type": "doc"
+      },
+      {
+        "label": "Linker — Java SE 26 API Specification",
+        "url": "https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/foreign/Linker.html",
+        "type": "doc"
+      },
+      {
+        "label": "Foreign Function and Memory API — Java SE 26 Core Libraries Guide",
+        "url": "https://docs.oracle.com/en/java/javase/26/core/foreign-function-and-memory-api.html",
+        "type": "doc"
+      },
+      {
+        "label": "Restricted Methods — Java SE 26 Core Libraries Guide",
+        "url": "https://docs.oracle.com/en/java/javase/26/core/restricted-methods.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 454: Foreign Function and Memory API — OpenJDK",
+        "url": "https://openjdk.org/jeps/454",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jdk-builtin-http-server",
+    "id": 72,
+    "title": "The JDK's Built-in HTTP Server",
+    "topic": "I/O & Networking",
+    "related": [
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The JDK ships an officially supported HTTP server in the jdk.httpserver module — HttpServer, HttpExchange, HttpsServer with an SSLContext for TLS, and SimpleFileServer/jwebserver — giving a zero-dependency HTTP endpoint that the docs scope explicitly to testing, development, and debugging rather than production.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "jdk.httpserver module — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/module-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpServer — com.sun.net.httpserver (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/com/sun/net/httpserver/HttpServer.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpExchange — com.sun.net.httpserver (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/com/sun/net/httpserver/HttpExchange.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpsConfigurator — com.sun.net.httpserver (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/com/sun/net/httpserver/HttpsConfigurator.html",
+        "type": "doc"
+      },
+      {
+        "label": "SimpleFileServer — com.sun.net.httpserver (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/com/sun/net/httpserver/SimpleFileServer.html",
+        "type": "doc"
+      },
+      {
+        "label": "HttpHandlers — com.sun.net.httpserver (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.httpserver/com/sun/net/httpserver/HttpHandlers.html",
+        "type": "doc"
+      },
+      {
+        "label": "jwebserver — JDK 25 tool reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jwebserver.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 408: Simple Web Server",
+        "url": "https://openjdk.org/jeps/408",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-client-servers-and-unix-domain-sockets",
+    "id": 73,
+    "title": "Multi-Client Servers and Unix Domain Sockets",
+    "topic": "I/O & Networking",
+    "related": [
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Splitting a ServerSocket's accept loop from its per-client conversation so a server actually serves clients concurrently, and using Unix domain sockets (JEP 380, JDK 16) as a faster, filesystem-permissioned, strictly local alternative to TCP loopback.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "ServerSocket — java.net API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html",
+        "type": "doc"
+      },
+      {
+        "label": "NetworkInterface — java.net API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/NetworkInterface.html",
+        "type": "doc"
+      },
+      {
+        "label": "UnixDomainSocketAddress — java.net API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/UnixDomainSocketAddress.html",
+        "type": "doc"
+      },
+      {
+        "label": "StandardProtocolFamily — java.net API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/StandardProtocolFamily.html",
+        "type": "doc"
+      },
+      {
+        "label": "ServerSocketChannel — java.nio.channels API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/ServerSocketChannel.html",
+        "type": "doc"
+      },
+      {
+        "label": "SocketChannel — java.nio.channels API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/SocketChannel.html",
+        "type": "doc"
+      },
+      {
+        "label": "ExtendedSocketOptions — jdk.net API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.net/jdk/net/ExtendedSocketOptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 380: Unix-Domain Socket Channels",
+        "url": "https://openjdk.org/jeps/380",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "resource-bundles-and-locale",
+    "id": 74,
+    "title": "Resource Bundles and Locale",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "java.time: Dates, Times, and Durations",
+        "slug": "java-time-dates-and-durations",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How Locale identifies a language and region, how ResourceBundle expands one request into a chain of candidate .properties files, and why the JVM default locale is tried before the language-neutral base bundle.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Locale — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Locale.html",
+        "type": "doc"
+      },
+      {
+        "label": "ResourceBundle — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ResourceBundle.html",
+        "type": "doc"
+      },
+      {
+        "label": "PropertyResourceBundle — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/PropertyResourceBundle.html",
+        "type": "doc"
+      },
+      {
+        "label": "ResourceBundle.Control — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ResourceBundle.Control.html",
+        "type": "doc"
+      },
+      {
+        "label": "ResourceBundleProvider — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/spi/ResourceBundleProvider.html",
+        "type": "doc"
+      },
+      {
+        "label": "MessageFormat — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/text/MessageFormat.html",
+        "type": "doc"
+      },
+      {
+        "label": "Internationalization Overview — Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/intl/internationalization-overview.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+    "id": 75,
+    "title": "Exact Arithmetic with BigDecimal and BigInteger",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How java.math.BigDecimal and BigInteger give arbitrary precision and explicit rounding where double and long silently lose money or overflow.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "BigDecimal — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigDecimal.html",
+        "type": "doc"
+      },
+      {
+        "label": "BigInteger — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigInteger.html",
+        "type": "doc"
+      },
+      {
+        "label": "MathContext — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/MathContext.html",
+        "type": "doc"
+      },
+      {
+        "label": "RoundingMode — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/RoundingMode.html",
+        "type": "doc"
+      },
+      {
+        "label": "Double — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Double.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "vector-api-simd-arithmetic",
+    "id": 76,
+    "title": "Vector API: Explicit SIMD Arithmetic",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "The Fork/Join Framework",
+        "slug": "fork-join-framework",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Using the incubating jdk.incubator.vector API to express array arithmetic as explicit SIMD lane operations instead of relying on the JIT to auto-vectorise a scalar loop.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "jdk.incubator.vector package summary — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.incubator.vector/jdk/incubator/vector/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "Vector — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.incubator.vector/jdk/incubator/vector/Vector.html",
+        "type": "doc"
+      },
+      {
+        "label": "VectorSpecies — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.incubator.vector/jdk/incubator/vector/VectorSpecies.html",
+        "type": "doc"
+      },
+      {
+        "label": "VectorOperators — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.incubator.vector/jdk/incubator/vector/VectorOperators.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 537: Vector API (Twelfth Incubator)",
+        "url": "https://openjdk.org/jeps/537",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 338: Vector API (Incubator)",
+        "url": "https://openjdk.org/jeps/338",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "method-handles-and-runtime-class-generation",
+    "id": 77,
+    "title": "Method Handles and Runtime Class Generation",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Classpath Scanning via Reflection",
+        "slug": "classpath-scanning-via-reflection",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Beyond inspect-and-invoke reflection: method handles with lookup-time access checks, setAccessible against the module system's InaccessibleObjectException and --add-opens, and three ways to manufacture a class at runtime — a custom ClassLoader, the in-memory JavaCompiler, and the standard java.lang.classfile Class-File API.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "MethodHandle — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodHandle.html",
+        "type": "doc"
+      },
+      {
+        "label": "MethodHandles.Lookup — access checking at lookup time (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodHandles.Lookup.html",
+        "type": "doc"
+      },
+      {
+        "label": "MethodHandles.privateLookupIn — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodHandles.html#privateLookupIn(java.lang.Class,java.lang.invoke.MethodHandles.Lookup)",
+        "type": "doc"
+      },
+      {
+        "label": "MethodType — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodType.html",
+        "type": "doc"
+      },
+      {
+        "label": "AccessibleObject.setAccessible — java.lang.reflect API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/AccessibleObject.html#setAccessible(boolean)",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 403: Strongly Encapsulate JDK Internals",
+        "url": "https://openjdk.org/jeps/403",
+        "type": "doc"
+      },
+      {
+        "label": "ClassLoader — java.lang API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ClassLoader.html",
+        "type": "doc"
+      },
+      {
+        "label": "javax.tools.JavaCompiler — Compiler API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.compiler/javax/tools/JavaCompiler.html",
+        "type": "doc"
+      },
+      {
+        "label": "java.lang.classfile package — Class-File API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/classfile/package-summary.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 484: Class-File API (standard in JDK 24)",
+        "url": "https://openjdk.org/jeps/484",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 371: Hidden Classes",
+        "url": "https://openjdk.org/jeps/371",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nested-and-inner-classes",
+    "id": 78,
+    "title": "Nested and Inner Classes",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The four kinds of class-inside-a-class — static nested, inner, local, and anonymous — differ by how much enclosing context each captures, and knowing which you wrote tells you what it can reach, what it keeps alive in memory, and whether a lambda or record would say it better.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Inner Classes and Enclosing Instances — JLS 8.1.3 (Java SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.1.3",
+        "type": "doc"
+      },
+      {
+        "label": "Local Class and Interface Declarations — JLS 14.3 (Java SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-14.html#jls-14.3",
+        "type": "doc"
+      },
+      {
+        "label": "Anonymous Class Declarations — JLS 15.9.5 (Java SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.9.5",
+        "type": "doc"
+      },
+      {
+        "label": "Nested Classes — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html",
+        "type": "doc"
+      },
+      {
+        "label": "Lambda Expressions — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 395: Records — relaxed static members in inner classes, local records",
+        "url": "https://openjdk.org/jeps/395",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "flexible-constructor-bodies",
+    "id": 79,
+    "title": "Flexible Constructor Bodies",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Since JDK 25 a constructor may run statements before super(...) or this(...), splitting its body into a prologue that validates arguments and initializes its own fields and an epilogue that can finally use the object under construction.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Flexible Constructor Bodies — Java Language Updates, Release 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/language/flexible-constructor-bodies.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 513: Flexible Constructor Bodies (final in JDK 25)",
+        "url": "https://openjdk.org/jeps/513",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 447: Statements before super(...) (first preview, JDK 22)",
+        "url": "https://openjdk.org/jeps/447",
+        "type": "doc"
+      },
+      {
+        "label": "Constructor Body — JLS 8.8.7 (Java SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.8.7",
+        "type": "doc"
+      },
+      {
+        "label": "Constructor Invocations — JLS 8.8.7.1 (Java SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.8.7.1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "default-static-private-interface-methods",
+    "id": 80,
+    "title": "Default, Static, and Private Interface Methods",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+        "slug": "enum-patterns-strategy-and-collections",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How default, static, and private interface methods let an interface carry behavior so a published API can grow without breaking implementers, and the exact rules Java uses when two inherited defaults collide.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Java Language Specification — 9.4, Interface Method Declarations",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-9.html#jls-9.4",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — 9.4.1, Inheritance and Overriding",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-9.html#jls-9.4.1",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — 9.4.1.3, Inheriting Methods with Override-Equivalent Signatures",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-9.html#jls-9.4.1.3",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — 8.4.8.4, Inheriting Methods with Override-Equivalent Signatures (classes)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-8.html#jls-8.4.8.4",
+        "type": "doc"
+      },
+      {
+        "label": "Java Language Specification — 15.12.1, Determine Type to Search (TypeName.super)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.12.1",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 213: Milling Project Coin — private interface methods in Java 9",
+        "url": "https://openjdk.org/jeps/213",
+        "type": "doc"
+      },
+      {
+        "label": "Default Methods and Static Methods — The Java Tutorials",
+        "url": "https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html",
+        "type": "doc"
+      },
+      {
+        "label": "Comparator — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "graalvm-native-image-compilation",
+    "id": 81,
+    "title": "GraalVM Native Image Compilation",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "jlink and jdeps: Custom Runtime Images",
+        "slug": "jlink-custom-runtime-images",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "JShell: The Java REPL",
+        "slug": "jshell-repl",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "GraalVM bundles a JIT (the Graal compiler) plus native-image, an ahead-of-time compiler that turns a Java app into a self-contained native executable — trading a closed-world assumption over reflection, proxies, and resources for near-instant startup and a much smaller footprint.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Native Image — GraalVM Reference Manual",
+        "url": "https://www.graalvm.org/latest/reference-manual/native-image/",
+        "type": "doc"
+      },
+      {
+        "label": "Reachability Metadata — GraalVM Native Image",
+        "url": "https://www.graalvm.org/latest/reference-manual/native-image/metadata/",
+        "type": "doc"
+      },
+      {
+        "label": "Collect Metadata with the Tracing Agent — GraalVM Native Image",
+        "url": "https://www.graalvm.org/latest/reference-manual/native-image/metadata/AutomaticMetadataCollection/",
+        "type": "doc"
+      },
+      {
+        "label": "Graal JIT Compiler (Java on GraalVM) — GraalVM Reference Manual",
+        "url": "https://www.graalvm.org/latest/reference-manual/java/",
+        "type": "doc"
+      },
+      {
+        "label": "Download GraalVM — editions and licensing",
+        "url": "https://www.graalvm.org/downloads/",
+        "type": "doc"
+      },
+      {
+        "label": "Introducing GraalVM Native Images — Spring Boot Reference",
+        "url": "https://docs.spring.io/spring-boot/reference/packaging/native-image/introducing-graalvm-native-images.html",
+        "type": "doc"
+      },
+      {
+        "label": "Building a Native Executable — Quarkus Guides",
+        "url": "https://quarkus.io/guides/building-native-image",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 514: Ahead-of-Time Command-Line Ergonomics",
+        "url": "https://openjdk.org/jeps/514",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jlink-custom-runtime-images",
+    "id": 82,
+    "title": "jlink and jdeps: Custom Runtime Images",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "GraalVM Native Image Compilation",
+        "slug": "graalvm-native-image-compilation",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "jlink links JDK and application modules into a self-contained runtime image containing only what's reachable, with jdeps discovering the real module list first — shipping a stripped-down Java runtime instead of a full JDK.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "The jlink Command — Java SE 25 Tools Reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jlink.html",
+        "type": "doc"
+      },
+      {
+        "label": "The jdeps Command — Java SE 25 Tools Reference",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jdeps.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 282: jlink: The Java Linker",
+        "url": "https://openjdk.org/jeps/282",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 493: Linking Run-Time Images without JMODs",
+        "url": "https://openjdk.org/jeps/493",
+        "type": "doc"
+      },
+      {
+        "label": "Creating Runtime and Application Images with jlink — dev.java",
+        "url": "https://dev.java/learn/jlink/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logging-in-java",
+    "id": 83,
+    "title": "Logging in Java: SLF4J, Logback, and java.util.logging",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The JDK's built-in java.util.logging is rarely called directly; real code logs through the SLF4J facade against a swappable backend (usually Logback), using {} placeholders and MDC for structured, correlatable output.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "SLF4J user manual",
+        "url": "https://www.slf4j.org/manual.html",
+        "type": "doc"
+      },
+      {
+        "label": "SLF4J error codes (multiple bindings, no providers, etc.)",
+        "url": "https://www.slf4j.org/codes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Logback manual — configuration",
+        "url": "https://logback.qos.ch/manual/configuration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Logback manual — Mapped Diagnostic Context (MDC)",
+        "url": "https://logback.qos.ch/manual/mdc.html",
+        "type": "doc"
+      },
+      {
+        "label": "java.util.logging.Logger — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.logging/java/util/logging/Logger.html",
+        "type": "doc"
+      },
+      {
+        "label": "CVE-2021-44228 (Log4Shell) — NVD",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+        "type": "doc"
+      },
+      {
+        "label": "Logging — Spring Boot Reference Documentation",
+        "url": "https://docs.spring.io/spring-boot/reference/features/logging.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "data-oriented-programming",
+    "id": 84,
+    "title": "Data-Oriented Programming",
+    "topic": "API Design & Craft",
+    "related": [
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Data-Oriented Programming deliberately separates immutable, transparent data (records inside a sealed hierarchy) from the logic that acts on it, so an exhaustive switch with record patterns lets the compiler guarantee every variant is handled.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Data Oriented Programming in Java — Brian Goetz, InfoQ",
+        "url": "https://www.infoq.com/articles/data-oriented-programming-java/",
+        "type": "doc"
+      },
+      {
+        "label": "Data-Oriented Programming in Java, Version 1.1 — Inside.java",
+        "url": "https://inside.java/2024/05/23/dop-v1-1-introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "Why Update Data-Oriented Programming to Version 1.1? — Inside.java",
+        "url": "https://inside.java/2024/06/26/dop-v1-1-why-update/",
+        "type": "doc"
+      },
+      {
+        "label": "Separate Operations From Data — Data-Oriented Programming v1.1 — Inside.java",
+        "url": "https://inside.java/2024/06/05/dop-v1-1-separate-operations/",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 440: Record Patterns",
+        "url": "https://openjdk.org/jeps/440",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 409: Sealed Classes",
+        "url": "https://openjdk.org/jeps/409",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "uri-url-urn",
+    "id": 85,
+    "title": "URI, URL, and URN",
+    "topic": "I/O & Networking",
+    "related": [
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "URI is pure syntax, URL additionally knows how to locate and open a resource, and URN names a resource without saying where to find it — and since JDK 20 the JDK steers construction through URI.toURL() rather than URL's now-deprecated constructors.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "URI — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/URI.html",
+        "type": "doc"
+      },
+      {
+        "label": "URL — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/URL.html",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax — IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc3986",
+        "type": "doc"
+      },
+      {
+        "label": "JDK-8296385: Release Note — java.net.URL Constructors Are Deprecated",
+        "url": "https://bugs.openjdk.org/browse/JDK-8296385",
+        "type": "doc"
+      },
+      {
+        "label": "Quality Outreach Heads-up — JDK 20: Deprecate URL Public Constructors — Inside.java",
+        "url": "https://inside.java/2023/02/15/quality-heads-up/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sequenced-collections",
+    "id": 86,
+    "title": "Sequenced Collections: SequencedCollection, SequencedSet, SequencedMap",
+    "topic": "Collections",
+    "related": [
+      {
+        "label": "The List Interface",
+        "slug": "list-interface",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Deque Interface",
+        "slug": "deque-interface",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The LinkedHashMap Class",
+        "slug": "linked-hash-map",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "JEP 431's SequencedCollection/SequencedSet/SequencedMap give every collection with a real encounter order — List, Deque, LinkedHashSet, TreeSet, LinkedHashMap, TreeMap — one uniform getFirst/getLast/addFirst/addLast/reversed() API, deliberately excluding HashSet, HashMap, and PriorityQueue since none has a stable encounter order to expose.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "JEP 431: Sequenced Collections",
+        "url": "https://openjdk.org/jeps/431",
+        "type": "doc"
+      },
+      {
+        "label": "SequencedCollection — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html",
+        "type": "doc"
+      },
+      {
+        "label": "SequencedMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "SequencedSet — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedSet.html",
+        "type": "doc"
+      },
+      {
+        "label": "Creating Sequenced Collections, Sets, and Maps — Oracle Java SE 25 documentation",
+        "url": "https://docs.oracle.com/en/java/javase/25/core/creating-sequenced-collections-sets-and-maps.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "runtime-environment-introspection",
+    "id": 87,
+    "title": "Runtime Environment Introspection: System Properties, Environment Variables, and Runtime",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
+        "slug": "java-lang-essential-utility-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Configuring and Sizing Thread Pools",
+        "slug": "configuring-thread-pool-executor",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "System.getenv() (OS environment, inherited by child processes), System.getProperty() (JVM-scoped, set via -D), and Runtime (live facts like availableProcessors() and Runtime.version()) are three distinct channels for asking a JVM what it's running on and how it was configured.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "System — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/System.html",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runtime.html",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime.Version — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runtime.Version.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 223: New Version-String Scheme",
+        "url": "https://openjdk.org/jeps/223",
+        "type": "doc"
+      },
+      {
+        "label": "File — Java SE 25 API (separator, pathSeparator fields)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/File.html",
+        "type": "doc"
+      },
+      {
+        "label": "JDK-8146115: Docker container CPU/memory awareness",
+        "url": "https://bugs.openjdk.org/browse/JDK-8146115",
+        "type": "doc"
+      }
+    ]
   }
 ]
