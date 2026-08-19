@@ -3192,5 +3192,52 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "thread-stack-memory",
+    "id": 69,
+    "title": "Thread Stack Memory: Locals, Frames, and Why It's Not Shared",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Visibility and Safe Publication Across Threads",
+        "slug": "visibility-and-safe-publication",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
+        "slug": "java-lang-essential-utility-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Why each thread's stack — its local variables, parameters, and call frames — is private to that thread and never a source of race conditions, while references stored on the stack can still point to shared, racy state on the heap.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Chapter 2.5.2: Java Virtual Machine Stacks — JVM Specification (SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-2.html#jvms-2.5.2",
+        "type": "doc"
+      },
+      {
+        "label": "StackOverflowError — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/StackOverflowError.html",
+        "type": "doc"
+      },
+      {
+        "label": "Thread — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 444: Virtual Threads",
+        "url": "https://openjdk.org/jeps/444",
+        "type": "doc"
+      }
+    ]
   }
 ]
