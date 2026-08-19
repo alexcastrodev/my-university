@@ -88,6 +88,55 @@ If `errors.hasErrors()` is true, the method returns the form's view name again
 instead of processing the (invalid) data — the same pattern applies to any other
 `@Valid`-annotated command object, such as the `Taco` bound in a separate handler.
 
+### Records and validation: declarative annotations vs. the compact constructor
+
+A record can carry the same constraint annotations a class does:
+
+```java
+public record ReviewRequest(@NotNull @Min(1) @Max(5) Integer rating,
+                             @NotBlank String comment) {}
+```
+
+Since Java 16, an annotation on a record component is copied onto every applicable
+target — the private field, the accessor method, and the canonical constructor's
+parameter — so this compiles and looks identical in spirit to the `Order`/`Taco`
+examples above. But it behaves completely differently unless something actively
+validates it:
+
+```java
+new ReviewRequest(-5, null);   // compiles, runs, throws nothing at all
+```
+
+`@NotNull`/`@Min`/`@Max` are inert metadata — nothing reads them unless a
+`Validator` is invoked over the object. `@Valid` on a controller argument is
+exactly that invocation, which is why this only "works" inside a Spring MVC
+handler: outside one (a `new` call in a service, a test, a message consumer), the
+annotations do nothing at all.
+
+A record's own **compact constructor** is a different mechanism entirely — real,
+imperative code that runs unconditionally on every construction path, with no
+framework involved:
+
+```java
+public record ReviewRequest(Integer rating, String comment) {
+    ReviewRequest {
+        if (rating == null || rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("rating must be between 1 and 5");
+        }
+    }
+}
+```
+
+This throws immediately on `new ReviewRequest(-5, null)`, with no `@Valid` and no
+Spring context required — see `records-and-sealed-types` for why this runs on
+every construction path, including deserialization. The two aren't competing
+solutions to the same problem: a compact constructor is the right place for an
+invariant that must hold *no matter how* the object was built, while `@Valid` +
+constraint annotations exist specifically for the HTTP-boundary case, where
+Spring MVC collects every violation at once and hands the view a `BindingResult`
+with a message per field — something a single thrown exception from a
+constructor can't produce, since it stops at the first failing check.
+
 ### Surfacing field-level errors on re-display
 
 Once the controller redirects back to the form view on failure, the view layer
@@ -107,6 +156,14 @@ template-library-agnostic).
   `@Valid` argument it corresponds to** — Spring MVC resolves it positionally, so
   reordering method parameters silently breaks error capture instead of failing
   loudly at startup.
+- **Constraint annotations validate nothing by themselves.** They're declarative
+  metadata a `Validator` has to actively read — `@Valid` is one trigger, but the
+  same class (or record) can be constructed anywhere else in the codebase, fully
+  invalid, with zero enforcement. A compact constructor's validation, by contrast,
+  is unconditional at the type level. Reach for constraint annotations for
+  request-boundary rules that need field-level error reporting; reach for a
+  compact constructor for an invariant the type itself should never be able to
+  violate.
 - **Book vs. today:** this book (2019) says the Validation API and Hibernate's
   implementation ship transitively with Spring Boot's web starter — true at the
   time, but as of **Spring Boot 2.3** those dependencies were removed from

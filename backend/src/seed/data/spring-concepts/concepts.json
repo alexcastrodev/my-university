@@ -452,6 +452,11 @@
     "topic": "Spring MVC & Web",
     "related": [
       {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
         "label": "Parameter Validation and Failing Fast",
         "slug": "parameter-validation-and-fail-fast",
         "feature": "java-concepts"
