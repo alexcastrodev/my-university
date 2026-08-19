@@ -2,13 +2,13 @@
 version: 1.0
 updatedAt: 2026-05-26
 ---
-# Scoped Values — Now Final (JEP 487)
+# Scoped Values — Now Final (JEP 506)
 
 ---
 
 ## Overview
 
-**Scoped Values** (`java.lang.ScopedValue`) were finalized in **Java 25 (JEP 487)**. They provide a safe, immutable way to share data with a bounded scope across threads — designed as a modern replacement for `ThreadLocal` in virtual-thread and structured-concurrency contexts.
+**Scoped Values** (`java.lang.ScopedValue`) were finalized in **Java 25 (JEP 506)**, the last step in a preview series that ran from JDK 20 through JDK 24's JEP 487 (Fourth Preview). They provide a safe, immutable way to share data with a bounded scope across threads — designed as a modern replacement for `ThreadLocal` in virtual-thread and structured-concurrency contexts.
 
 ---
 
@@ -161,5 +161,6 @@ ScopedValue.where(USER, "alice")
 
 ## References
 
-- [JEP 487 — Scoped Values (Java 25)](https://openjdk.org/jeps/487)
+- [JEP 506 — Scoped Values (Java 25, Final)](https://openjdk.org/jeps/506)
+- [JEP 487 — Scoped Values (Fourth Preview, Java 24)](https://openjdk.org/jeps/487)
 - [Oracle Docs — ScopedValue (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html)

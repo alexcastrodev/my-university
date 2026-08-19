@@ -1,7 +1,8 @@
 # Practice: Streams
 
-> Five exercises grounded in this module's slides: the new Java 25
-> `gather()` / `Gatherers` API (JEP 485), a primitive-vs-object stream
+> Five exercises grounded in this module's slides: the
+> `gather()` / `Gatherers` API (JEP 485, finalized in Java 24, included
+> unchanged in Java 25), a primitive-vs-object stream
 > boxing gotcha, why `sorted()` isn't lazy the way `filter`/`map` are,
 > `Collectors.teeing`, and a parallel-stream thread-safety trap. Try to
 > work out each answer before opening it.
@@ -29,7 +30,7 @@ What does this print, and what is the static type of the expression
 ```
 
 `gather` is the general-purpose intermediate operation added by **JEP
-485** (finalized in Java 25):
+485** (finalized in Java 24, included unchanged in Java 25 LTS):
 
 ```java
 <R> Stream<R> gather(Gatherer<? super T, ?, R> gatherer)

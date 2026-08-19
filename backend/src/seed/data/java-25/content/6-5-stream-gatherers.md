@@ -4,13 +4,13 @@ updatedAt: 2026-05-26
 ---
 # Stream Gatherers — gather() and the Gatherers API (JEP 485)
 
-> **JEP 485** — finalized in Java 25. Adds `Stream.gather(Gatherer)` as a general-purpose intermediate operation.
+> **JEP 485** — finalized in Java 24, included unchanged in Java 25 LTS. Adds `Stream.gather(Gatherer)` as a general-purpose intermediate operation.
 
 ---
 
 ## Motivation
 
-Before Java 25, certain stateful or many-to-many intermediate transformations required awkward workarounds:
+Before JEP 485 (Java 24), certain stateful or many-to-many intermediate transformations required awkward workarounds:
 
 - Sliding windows of N elements
 - Fixed-size batches

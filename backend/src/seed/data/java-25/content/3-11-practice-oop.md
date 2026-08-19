@@ -2,7 +2,7 @@
 
 > Five exercises covering what the slides in this module introduced —
 > overload resolution order with widening/boxing/varargs, flexible
-> constructor bodies (JEP 492), static/field hiding vs. instance method
+> constructor bodies (JEP 513), static/field hiding vs. instance method
 > overriding, exhaustive `switch` over sealed hierarchies, and the
 > write-only nature of unnamed variables (`_`). Try to answer before
 > opening each explanation.
@@ -50,7 +50,7 @@ tried only if the previous one found nothing applicable.
 
 ---
 
-## Exercise 2 — Flexible Constructor Bodies (JEP 492): what can precede `super()`?
+## Exercise 2 — Flexible Constructor Bodies (JEP 513): what can precede `super()`?
 
 ```java
 public class Sensor {
@@ -86,7 +86,7 @@ Does this compile? If not, which line is the problem?
 It does **not** compile — **line A**, `this.type = type;`, is the
 problem, because it executes before `super(id)` on line B.
 
-**JEP 492 (Flexible Constructor Bodies, finalized in Java 25)** relaxed
+**JEP 513 (Flexible Constructor Bodies, finalized in Java 25)** relaxed
 the old rule that `super()`/`this()` must be the textually first
 statement in a constructor. Statements now *can* precede the explicit
 constructor invocation — but only if they don't touch the instance

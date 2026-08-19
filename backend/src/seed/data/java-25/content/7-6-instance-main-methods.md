@@ -2,13 +2,13 @@
 version: 1.0
 updatedAt: 2026-05-26
 ---
-# Instance main Methods — Now Final (JEP 495)
+# Instance main Methods — Now Final (JEP 512)
 
 ---
 
 ## Overview
 
-**JEP 495**, finalised in Java 25, relaxes the rules for the program entry-point method. A `main` method no longer needs to be `public`, `static`, or accept a `String[]` parameter. This removes boilerplate that confused beginners and cluttered simple programs.
+**JEP 512** (Compact Source Files and Instance Main Methods), finalised in Java 25, relaxes the rules for the program entry-point method. A `main` method no longer needs to be `public`, `static`, or accept a `String[]` parameter. This removes boilerplate that confused beginners and cluttered simple programs. JEP 512 is the final step of a preview series that ran JEP 445 (JDK 21) → JEP 463 (JDK 22) → JEP 477 (JDK 23) → JEP 495 (JDK 24, Fourth Preview).
 
 ---
 
@@ -138,7 +138,7 @@ Running `Child` uses `Base.main()` after instantiating `Child`.
 
 ## Deprecation of Old Signature?
 
-The traditional `public static void main(String[] args)` is **not deprecated** and remains fully supported. JEP 495 extends the set of valid signatures; it does not remove any existing ones.
+The traditional `public static void main(String[] args)` is **not deprecated** and remains fully supported. JEP 512 extends the set of valid signatures; it does not remove any existing ones.
 
 ---
 
@@ -150,9 +150,9 @@ The traditional `public static void main(String[] args)` is **not deprecated** a
 - Priority order: static with args > static no args > instance with args > instance no args.
 - Class must have a no-arg constructor when `main` is an instance method.
 - The traditional signature still works and is still highest priority when `String[]` is present.
-- Finalised in Java 25 (previewed as JEP 445, 463, 477).
+- Finalised in Java 25 as JEP 512 (previewed as JEP 445, 463, 477, then JEP 495 as the Fourth Preview in JDK 24).
 
 ## References
 
-- [JEP 495: Simple Source Files and Instance Main Methods (Fifth Preview)](https://openjdk.org/jeps/495)
 - [JEP 512: Compact Source Files and Instance Main Methods (Final)](https://openjdk.org/jeps/512)
+- [JEP 495: Simple Source Files and Instance Main Methods (Fourth Preview, JDK 24)](https://openjdk.org/jeps/495)

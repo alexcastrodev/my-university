@@ -19,6 +19,14 @@
       "contentPath": "java-25/content/3-2-classes-records-fields-methods.md"
     },
     {
+      "id": "j25-3-2b",
+      "title": "Nested and Inner Classes",
+      "duration": "16m",
+      "type": "slide",
+      "status": "new",
+      "contentPath": "java-25/content/3-2b-nested-and-inner-classes.md"
+    },
+    {
       "id": "j25-3-3",
       "title": "Constructors, Flexible Constructor Bodies, and Initializers",
       "duration": "18m",

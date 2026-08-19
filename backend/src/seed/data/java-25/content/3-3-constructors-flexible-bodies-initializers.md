@@ -74,7 +74,7 @@ If `super()` is not written explicitly, the compiler inserts a call to the no-ar
 
 ## Flexible Constructor Bodies (Java 22+, finalized Java 25)
 
-**JEP 492** — Before the explicit `super()` or `this()` call, statements that do not access the instance being created are now allowed. This enables validation and pre-computation:
+**JEP 513** — Before the explicit `super()` or `this()` call, statements that do not access the instance being created are now allowed. This enables validation and pre-computation:
 
 ```java
 public class PositiveNumber {
@@ -166,7 +166,7 @@ new Child();
 
 | Rule | Detail |
 |------|--------|
-| `this()` / `super()` | Must be the first statement (pre-JEP 492) |
+| `this()` / `super()` | Must be the first statement (pre-JEP 513) |
 | Flexible bodies | Statements before `super()`/`this()` cannot touch `this` |
 | Default constructor | Added only when no constructor is declared |
 | Static initializer | Runs once at class load time |

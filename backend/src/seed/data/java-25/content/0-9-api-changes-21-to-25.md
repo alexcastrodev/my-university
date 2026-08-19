@@ -67,6 +67,20 @@ Added in Java 21 and refreshed in 25 to track the latest Unicode emoji database.
     .forEach(cp -> System.out.println(Integer.toHexString(cp)));
 ```
 
+### `CharSequence.getChars(int, int, char[], int)` (JDK 25)
+
+`CharSequence` had no bulk-read method before 25 — `String` and `CharBuffer` each had their own `getChars`, with different signatures, but the interface itself had none. JDK 25 adds a default method so any `CharSequence` implementation can be bulk-copied through one common signature, instead of sequential per-character reads.
+
+```java
+CharSequence cs = "Hello, world";
+char[] dst = new char[5];
+cs.getChars(0, 5, dst, 0);
+System.out.println(new String(dst));   // Hello
+```
+
+- Bug/JEP tracking: <https://bugs.java.com/bugdatabase/view_bug?bug_id=8343111>
+- Javadoc: <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/CharSequence.html>
+
 ### `StringTemplate` removed
 
 A common 21-era exam trap. `StringTemplate` and the `STR."..."` template processor were a **preview in Java 21 and 22**. JEP 459 (the preview) was **withdrawn** in Java 23 and the API was removed. Java 25 has **no** `StringTemplate` class.
@@ -188,6 +202,21 @@ A pure runtime fix — **no API change** — but exam-relevant context. In Java 
 - JEP: <https://openjdk.org/jeps/491>
 
 This means: code that previously needed to be rewritten from `synchronized` to `ReentrantLock` to scale with virtual threads no longer needs to be.
+
+### `ForkJoinPool` now implements `ScheduledExecutorService` (JDK 25)
+
+The common `ForkJoinPool` — the pool backing parallel streams and, by default, virtual threads' carrier scheduling — now implements `ScheduledExecutorService`. This means the common pool can be used directly for delayed and periodic tasks (`schedule`, `scheduleAtFixedRate`, `scheduleWithFixedDelay`) instead of standing up a separate `ScheduledThreadPoolExecutor` just for that.
+
+```java
+ScheduledExecutorService pool = ForkJoinPool.commonPool();
+pool.schedule(() -> System.out.println("delayed"), 500, TimeUnit.MILLISECONDS);
+```
+
+Also new: `submitWithTimeout(Callable, long, TimeUnit, Consumer)`, which cancels a submitted task if it runs past the given timeout. Scheduling methods return a `ForkJoinTask` that also implements `ScheduledFuture`.
+
+- Javadoc: <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinPool.html>
+
+Deeper treatment: [[8-3-executor-services-and-concurrent-api]].
 
 ### `StructuredTaskScope` — still preview as of 25
 
@@ -319,11 +348,13 @@ Deeper treatment: [[0-8-preview-incubator-features]].
 |------|---------|-------|------|
 | `IO.println` / `print` / `readln` | `java.lang` | 25 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IO.html> |
 | `Character.isEmoji` family | `java.lang` | 21 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html> |
+| `CharSequence.getChars` | `java.lang` | 25 | <https://bugs.java.com/bugdatabase/view_bug?bug_id=8343111> |
 | `ScopedValue` final | `java.lang` | 25 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html> |
 | `Stream.gather` / `Gatherers` | `java.util.stream` | 25 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Gatherers.html> |
 | Sequenced collections | `java.util` | 21 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html> |
 | FFM API | `java.lang.foreign` | 22 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/foreign/package-summary.html> |
 | Module import declaration | language feature | 25 | <https://openjdk.org/jeps/511> |
+| `ForkJoinPool` implements `ScheduledExecutorService` | `java.util.concurrent` | 25 | <https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinPool.html> |
 | `Unsafe` memory-access deprecation | `sun.misc` | 23 | <https://openjdk.org/jeps/471> |
 | `SecurityManager` disabled by default | `java.lang` | 24 | <https://openjdk.org/jeps/486> |
 | `Thread.stop/suspend/resume` removed | `java.lang` | 23 | n/a |

@@ -4245,5 +4245,111 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "string-pool-and-interning",
+    "id": 88,
+    "title": "The String Pool and Interning",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "String literals are automatically interned into a shared pool, so == is true between two literals with the same content but false against a new String(...) with identical content — a direct, predictable consequence of where each string came from, not a language quirk.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "String — Java SE 25 API (see intern())",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#intern()",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §3.10.5 — String Literals",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-3.html#jls-3.10.5",
+        "type": "doc"
+      },
+      {
+        "label": "JDK-6962931: Move string pool out of PermGen",
+        "url": "https://bugs.openjdk.org/browse/JDK-6962931",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "scanner-class",
+    "id": 89,
+    "title": "The Scanner Class",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Regular Expressions with Pattern and Matcher",
+        "slug": "regular-expressions",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Scanner tokenizes input from System.in, a String, or a file via hasNextX()/nextX() pairs, with one classic trap: nextInt() leaves the trailing newline unconsumed, so a following nextLine() reads an empty string instead of the next real line.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Scanner — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Scanner.html",
+        "type": "doc"
+      },
+      {
+        "label": "Pattern — Java SE 25 API (used by useDelimiter)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "formatter-and-format-specifiers",
+    "id": 90,
+    "title": "Formatter and Format Specifiers",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Resource Bundles and Locale",
+        "slug": "resource-bundles-and-locale",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Scanner Class",
+        "slug": "scanner-class",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "String.format/printf/Formatter share one conversion engine — width vs. precision mean different things per conversion, the comma/+/space/( flags cover most real formatting needs, and n$/< argument indexing lets one argument be reused across specifiers without repeating it.",
+    "publishedAt": "2026-08-19",
+    "references": [
+      {
+        "label": "Formatter — Java SE 25 API (full conversion and flag reference)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html",
+        "type": "doc"
+      },
+      {
+        "label": "String.format — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)",
+        "type": "doc"
+      },
+      {
+        "label": "PrintStream.printf — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/PrintStream.html#printf(java.lang.String,java.lang.Object...)",
+        "type": "doc"
+      }
+    ]
   }
 ]
