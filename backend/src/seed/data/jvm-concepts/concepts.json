@@ -26,13 +26,18 @@
         "feature": "jvm-concepts"
       }
     ],
-    "summary": "How javac turns Java source into a structured binary .class file — magic number and version in the header, the constant pool's table of symbolic references, access flags, and how fields and methods are laid out for the JVM to load and execute.",
+    "summary": "How javac turns Java source into a structured binary .class file — magic number and version in the header, the constant pool's table of symbolic references, access flags, how fields and methods are laid out for the JVM to load and execute, and the one-letter descriptor codes (B/C/D/F/I/J/S/Z, L...;, [) that encode every type in the file.",
     "publishedAt": "2026-08-10",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/jvm-concepts/class-file-structure",
     "references": [
       {
         "label": "The class File Format — Java Virtual Machine Specification, SE 25",
         "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html",
+        "type": "doc"
+      },
+      {
+        "label": "4.3. Descriptors and Signatures — Java Virtual Machine Specification, SE 25",
+        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.3",
         "type": "doc"
       },
       {

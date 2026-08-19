@@ -37,7 +37,7 @@ describe('GET /jvm-concepts/:slug', () => {
     expect(res.status).toBe(200);
     const body = await json<any>(res);
     expect(body.slug).toBe('class-file-structure');
-    expect(body.version).toBe('1.1');
+    expect(body.version).toBe('1.2');
     expect(body.updatedAt).toBe('2026-08-19');
   });
 
