@@ -152,5 +152,16 @@
       { "label": "Record — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html", "type": "doc" },
       { "label": "ObjectInputStream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/ObjectInputStream.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "stack-of-a-thread",
+    "id": 387,
+    "question": "What is the stack of a thread?",
+    "publishedAt": "2026-08-19",
+    "references": [
+      { "label": "Java Coding Tip #387: What Is the Stack of a Thread?", "url": "https://www.youtube.com/watch?v=pcyxXj-YH4s", "type": "video" },
+      { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" },
+      { "label": "-Xss (Thread Stack Size) — java Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html", "type": "doc" }
+    ]
   }
 ]
