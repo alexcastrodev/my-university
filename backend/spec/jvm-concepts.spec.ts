@@ -37,8 +37,8 @@ describe('GET /jvm-concepts/:slug', () => {
     expect(res.status).toBe(200);
     const body = await json<any>(res);
     expect(body.slug).toBe('class-file-structure');
-    expect(body.version).toBe('1.0');
-    expect(body.updatedAt).toBe('2026-08-10');
+    expect(body.version).toBe('1.2');
+    expect(body.updatedAt).toBe('2026-08-19');
   });
 
   it('splits the markdown body into the fixed concept sections', async () => {

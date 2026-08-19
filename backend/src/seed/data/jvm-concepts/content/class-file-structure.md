@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-10
+version: 1.2
+updatedAt: 2026-08-19
 ---
 ## Objective
 
@@ -12,6 +12,8 @@ Understand the `.class` file: the binary format `javac` produces from Java sourc
 - Diagnosing `UnsupportedClassVersionError` by knowing what the class file's major version number means and how it maps to a Java release.
 - Understanding why decompilers, bytecode-manipulation libraries (ASM, ByteBuddy), and frameworks that do classpath scanning all start by parsing the same fixed layout.
 - Explaining why an object's field or method names show up in error messages and stack traces even though the JVM "doesn't understand Java" — they're stored as UTF-8 entries in the constant pool.
+- Reading a raw descriptor like `[[Ljava/lang/String;` or `(II)I` off a stack trace or disassembly without needing `javap` to spell it out in plain English.
+- Explaining why `List<String>` and `List<Integer>` are indistinguishable at the bytecode level — both compile to the same erased descriptor.
 
 ## Deep Dive
 
@@ -27,22 +29,22 @@ Every `.class` file, regardless of what the source looked like, is laid out as t
 
 ### Magic Number: identifying a valid class file
 
-The first 4 bytes of every `.class` file are a fixed signature, `CAFEBABE`, checked before anything else is parsed:
-
-```
-$ javap -v HelloWorld.class | head -2
-Classfile /home/user/HelloWorld.class
-  Magic: 0xCAFEBABE
-```
-
-The same bytes show up first in a raw hex dump:
+The first 4 bytes of every `.class` file are a fixed signature, `CAFEBABE`, checked before anything else is parsed. It's visible in a raw hex dump, but not as a labeled `Magic:` line in `javap -v` output on current JDKs — verbose `javap` instead reports the file's on-disk metadata (last-modified time, size, and a SHA-256 checksum of the bytes), then moves straight into the class declaration:
 
 ```
 $ xxd HelloWorld.class | head -1
 00000000: cafe babe 0000 0041 0013 0a00 0200 0307  .......A........
 ```
 
-If those first 4 bytes don't match — a truncated download, a text file renamed to `.class` — the JVM throws `ClassFormatError` before attempting to read anything else in the file.
+```
+$ javap -v HelloWorld.class | head -4
+Classfile /home/user/HelloWorld.class
+  Last modified Aug 19, 2026; size 428 bytes
+  SHA-256 checksum 3a1f...e29c
+  Compiled from "HelloWorld.java"
+```
+
+If those first 4 bytes don't match — a truncated download, a text file renamed to `.class` — the JVM throws `ClassFormatError` before attempting to read anything else in the file. `javap`'s SHA-256 line (added via `-sysinfo`, which `-v` implies) is a convenience for confirming file integrity — it plays no role in class loading itself; only the verifier's own checks, starting with the magic number, decide whether the JVM accepts the file.
 
 ### Version: minor and major
 
@@ -155,6 +157,42 @@ $ javap -v Calc.class | grep -A6 'public int add'
 
 The descriptor `(II)I` says "takes two `int`s, returns an `int`" — `V` in that position means `void`, and reference types use the fully-qualified `Lpackage/Class;` form, as seen earlier in `(Ljava/lang/String;)V` for `println`. The `Code` attribute is what the JVM actually executes; everything else in the file exists to let the JVM resolve and verify it correctly.
 
+### Field and method descriptors: the type-code alphabet
+
+Every field and method descriptor in the constant pool is built from a small fixed set of one-letter codes for primitives, plus two structural prefixes for everything that isn't a primitive:
+
+| code | type |
+|---|---|
+| `B` | `byte` |
+| `C` | `char` |
+| `D` | `double` |
+| `F` | `float` |
+| `I` | `int` |
+| `J` | `long` |
+| `S` | `short` |
+| `Z` | `boolean` |
+| `L ClassName ;` | a reference type — fully-qualified, slash-separated, terminated by `;` |
+| `[` | one array dimension — prefixed onto whatever descriptor the element type has |
+
+Compiling a sampler class and reading its field descriptors shows the pattern directly — array types just stack `[` in front of the element descriptor, once per dimension:
+
+```java
+byte b;
+int[] intArray;
+String[][] stringMatrix;
+```
+
+```
+byte b;
+    descriptor: B
+int[] intArray;
+    descriptor: [I
+java.lang.String[][] stringMatrix;
+    descriptor: [[Ljava/lang/String;
+```
+
+Generics don't get their own descriptor syntax at all — `List<String>` and `List<Integer>` both compile to the identical raw descriptor `Ljava/util/List;`. The generic type argument is preserved separately, in an optional `Signature` attribute (`Ljava/util/List<Ljava/lang/String;>;`) that only tools like `javac` and reflection consult; the bytecode itself, and the verifier, only ever see the erased `Ljava/util/List;`. This is type erasure made concrete at the descriptor level: the JVM has no instruction or descriptor code that distinguishes a `List<String>` from a `List<Integer>`.
+
 ## Trade-offs
 
 - **Indirection vs. size** — every symbolic reference in the bytecode is a constant-pool index rather than an inlined value, which lets the same string or method reference be reused across many instructions instead of duplicated, at the cost of a lookup at link/resolution time.
@@ -178,6 +216,7 @@ class file versions up to 61.0
 ## Documentation Links
 
 - [The class File Format — Java Virtual Machine Specification, SE 25](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html) — doc
+- [4.3. Descriptors and Signatures — Java Virtual Machine Specification, SE 25](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html#jvms-4.3) — doc
 - [javap — Java SE 25 Tool Specifications](https://docs.oracle.com/en/java/javase/25/docs/specs/man/javap.html) — doc
 - [ClassFormatError — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ClassFormatError.html) — doc
 - [UnsupportedClassVersionError — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedClassVersionError.html) — doc
