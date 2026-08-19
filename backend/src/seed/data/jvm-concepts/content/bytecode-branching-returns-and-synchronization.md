@@ -1,14 +1,16 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-08-19
 ---
 ## Objective
 
-Understand the bytecode instructions that control execution flow rather than compute values: the conditional branches that implement `if`/`while`/`for`, the type-specific instructions that return from a method, and how `synchronized` compiles to two entirely different mechanisms depending on whether it's a method modifier or a block — including the exception-handling machinery the compiler silently inserts to make a `synchronized` block exception-safe.
+Understand the bytecode instructions that control execution flow rather than compute values: the conditional branches that implement `if`/`while`/`for` (including reference-identity comparisons), the two different instructions a `switch` can compile to, the type-specific instructions that return from a method, and how `synchronized` compiles to two entirely different mechanisms depending on whether it's a method modifier or a block — including the exception-handling machinery the compiler silently inserts to make a `synchronized` block exception-safe.
 
 ## Use Cases
 
 - Reading `javap -c` output to trace which branch a compiled `if`/`else` actually takes, and matching jump targets (`ifne 6`, `goto 27`) back to source lines.
+- Explaining why `==` on two objects never calls `equals()` — it's `if_acmpeq`/`if_acmpne`, an identity comparison, all the way down at the bytecode level.
+- Recognizing whether a `switch` compiled to a `tableswitch` (dense case labels, O(1) jump table) or a `lookupswitch` (sparse labels, O(log n) binary search) when reading a disassembly.
 - Explaining why a method's return statement always compiles to a type-specific opcode, and why mismatching one (e.g. `ireturn` in a method declared to return `long`) is rejected by the bytecode verifier, not just a runtime error.
 - Understanding why a `synchronized` **block** always compiles to more instructions than a `synchronized` **method**, and why that block's bytecode contains an exception handler you never wrote in source.
 - Recognizing `athrow` in a disassembly as the single instruction every `throw` statement — checked or unchecked, yours or the JVM's own `NullPointerException` — compiles down to.
@@ -67,6 +69,73 @@ static boolean isNull(java.lang.String);
     iconst_0
     ireturn
 ```
+
+`if_acmpeq`/`if_acmpne` are the two-value family's reference counterpart to `if_icmpeq`/`if_icmpne` — they compare **identity**, not content, which is exactly why `==` on two objects means "same reference" at the bytecode level regardless of what `equals()` would say:
+
+```java
+static boolean refEquals(Object a, Object b) { return a == b; }
+```
+
+```
+static boolean refEquals(java.lang.Object, java.lang.Object);
+    aload_0
+    aload_1
+    if_acmpne     9      // a == b compiles to "jump away if references differ"
+    iconst_1
+    goto          10
+    iconst_0
+    ireturn
+```
+
+There's no `if_acmpeq`/`if_acmpne` equivalent that calls `.equals()` — content comparison is always an explicit `invokevirtual` call the source code has to write, never something the `==` operator triggers on its own for reference types.
+
+### Multi-way branching: tableswitch vs. lookupswitch
+
+A `switch` on `int` (or a type that reduces to `int` — `char`, `byte`, `short`, or an `enum`'s ordinal) compiles to one of two dedicated instructions, chosen by the compiler based on how the case labels are distributed, not by anything visible in the source syntax:
+
+```java
+static int denseSwitch(int x) {
+    switch (x) {
+        case 0: return 10;
+        case 1: return 20;
+        case 2: return 30;
+        default: return -1;
+    }
+}
+
+static int sparseSwitch(int x) {
+    switch (x) {
+        case 1: return 1;
+        case 100: return 2;
+        case 10000: return 3;
+        default: return -1;
+    }
+}
+```
+
+```
+static int denseSwitch(int);
+    iload_0
+    tableswitch   { // 0 to 2
+                0: 28
+                1: 31
+                2: 34
+          default: 37
+    }
+    ...
+
+static int sparseSwitch(int);
+    iload_0
+    lookupswitch  { // 3
+                1: 36
+              100: 38
+            10000: 40
+          default: 42
+    }
+    ...
+```
+
+`tableswitch` is a direct-indexed jump table — it's O(1): the case value itself is the offset into a contiguous array of branch targets, which is exactly why it only works when the labels are dense enough that building that array isn't wasteful. `lookupswitch` stores explicit (value, target) pairs sorted by value and the JVM binary-searches them — O(log n), but with no wasted table entries for gaps between `1`, `100`, and `10000`. The compiler picks whichever costs less space for the actual label distribution; both compile the same source construct, so nothing about which one you get is under the programmer's control.
 
 ### Type-specific return instructions
 
@@ -175,6 +244,7 @@ synchronized (lock) {
 ```
 
 - **The verifier enforces a `Throwable` on `athrow`, not any particular exception type** — any object assignable to `java.lang.Throwable` can be thrown, which is why `athrow` alone can't distinguish a checked exception from an unchecked one; that distinction is a `javac`-level, not a bytecode-level, concept — the compiler checks `throws` clauses at compile time, but nothing in the `.class` file re-checks it at runtime.
+- **`jsr`/`ret` are documented in the JVMS but no `javac` since Java 6 emits them, and no JVM since class file version 51 (Java 7) will even load them** — older material (and older bytecode-manipulation tooling) still describes them as the mechanism `finally` blocks used to compile to: a subroutine call (`jsr`) that pushed a return address for `ret` to jump back to, letting one copy of the `finally` body serve every exit path. `javac` switched to duplicating the `finally` body inline at every exit instead, and the specification now forbids `jsr`/`ret` outright — a class file targeting a modern release that still contained them would fail verification, not run with reduced performance. `goto_w` (the 32-bit-offset counterpart to `goto`) is unaffected by this and remains legal, but is only ever emitted for a method body large enough that a 16-bit branch offset can't reach the target — effectively never, outside of generated code.
 
 ## Documentation Links
 

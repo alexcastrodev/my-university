@@ -654,7 +654,7 @@
         "feature": "jvm-concepts"
       }
     ],
-    "summary": "How conditional branches always compile to the inverse of the source condition, why return is six type-specific instructions instead of one, and why a synchronized block costs a compiler-generated exception table that a synchronized method never needs.",
+    "summary": "How conditional branches always compile to the inverse of the source condition, why == on objects is if_acmpeq (identity, never equals()), why a switch compiles to tableswitch or lookupswitch depending on label density, why return is six type-specific instructions instead of one, and why a synchronized block costs a compiler-generated exception table that a synchronized method never needs.",
     "publishedAt": "2026-08-19",
     "references": [
       {

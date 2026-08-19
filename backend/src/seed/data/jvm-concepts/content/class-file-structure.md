@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-08-10
+version: 1.1
+updatedAt: 2026-08-19
 ---
 ## Objective
 
@@ -27,22 +27,22 @@ Every `.class` file, regardless of what the source looked like, is laid out as t
 
 ### Magic Number: identifying a valid class file
 
-The first 4 bytes of every `.class` file are a fixed signature, `CAFEBABE`, checked before anything else is parsed:
-
-```
-$ javap -v HelloWorld.class | head -2
-Classfile /home/user/HelloWorld.class
-  Magic: 0xCAFEBABE
-```
-
-The same bytes show up first in a raw hex dump:
+The first 4 bytes of every `.class` file are a fixed signature, `CAFEBABE`, checked before anything else is parsed. It's visible in a raw hex dump, but not as a labeled `Magic:` line in `javap -v` output on current JDKs — verbose `javap` instead reports the file's on-disk metadata (last-modified time, size, and a SHA-256 checksum of the bytes), then moves straight into the class declaration:
 
 ```
 $ xxd HelloWorld.class | head -1
 00000000: cafe babe 0000 0041 0013 0a00 0200 0307  .......A........
 ```
 
-If those first 4 bytes don't match — a truncated download, a text file renamed to `.class` — the JVM throws `ClassFormatError` before attempting to read anything else in the file.
+```
+$ javap -v HelloWorld.class | head -4
+Classfile /home/user/HelloWorld.class
+  Last modified Aug 19, 2026; size 428 bytes
+  SHA-256 checksum 3a1f...e29c
+  Compiled from "HelloWorld.java"
+```
+
+If those first 4 bytes don't match — a truncated download, a text file renamed to `.class` — the JVM throws `ClassFormatError` before attempting to read anything else in the file. `javap`'s SHA-256 line (added via `-sysinfo`, which `-v` implies) is a convenience for confirming file integrity — it plays no role in class loading itself; only the verifier's own checks, starting with the magic number, decide whether the JVM accepts the file.
 
 ### Version: minor and major
 
