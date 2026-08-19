@@ -22,6 +22,33 @@ What lives on the stack is not shared: **each thread has its own stack**. That i
 
 Because the heap is shared, it is where **race conditions** can happen. There is no race condition for what lives on the stack, since no other thread can see or touch it.
 
+```mermaid
+flowchart TB
+    subgraph T1["Thread 1"]
+        R1["Register"]
+        P1["Program Counter"]
+        S1["Stack"]
+    end
+
+    subgraph T2["Thread 2"]
+        R2["Register"]
+        P2["Program Counter"]
+        S2["Stack"]
+    end
+
+    subgraph T3["Thread 3"]
+        R3["Register"]
+        P3["Program Counter"]
+        S3["Stack"]
+    end
+
+    HEAP["Heap<br/>(shared by all threads)"]
+
+    S1 --> HEAP
+    S2 --> HEAP
+    S3 --> HEAP
+```
+
 ## Stack Size
 
 Threads are a system resource, and the size of a thread's stack is fixed at the system level. It may vary from one operating system to another, but it is typically **several megabytes** of memory.
