@@ -1,6 +1,6 @@
 import { ConceptLinkRef } from '../shared/concept-links';
 
-export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL';
+export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL' | 'MongoDB' | 'DynamoDB' | 'Cassandra';
 
 export interface DatabaseConceptReference {
   label: string;

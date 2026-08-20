@@ -10,6 +10,9 @@ const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }
   { label: 'All', value: null },
   { label: 'PostgreSQL', value: 'PostgreSQL' },
   { label: 'SQL', value: 'SQL' },
+  { label: 'MongoDB', value: 'MongoDB' },
+  { label: 'DynamoDB', value: 'DynamoDB' },
+  { label: 'Cassandra', value: 'Cassandra' },
 ];
 
 export interface DatabaseConceptTopicGroup {
@@ -17,7 +20,9 @@ export interface DatabaseConceptTopicGroup {
   concepts: DatabaseConceptSummary[];
 }
 
-/** Everyday SQL querying first, then advanced patterns, then Postgres ops/infra. */
+/** Everyday SQL querying first, then advanced patterns, then MongoDB's document model
+ *  and indexing, then DynamoDB's modeling approach, then Cassandra's distributed core,
+ *  then Postgres ops/infra. */
 const TOPIC_ORDER = [
   'Query Techniques',
   'Joins & Set Operations',
@@ -25,6 +30,12 @@ const TOPIC_ORDER = [
   'Date & Time',
   'String & Text Processing',
   'Advanced Query Patterns',
+  'Document Model',
+  'Indexing & Performance',
+  'Data Modeling',
+  'Key Design & Partitioning',
+  'Relationship Strategies',
+  'Consistency & Replication',
   'Configuration & Tuning',
   'Monitoring & Troubleshooting',
   'HA & Replication',
@@ -92,8 +103,8 @@ export class DatabaseConceptsListPage implements OnInit {
 
   ngOnInit() {
     this.seo.set({
-      title: 'PostgreSQL Concepts',
-      description: 'PostgreSQL and SQL concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
+      title: 'Database Concepts',
+      description: 'PostgreSQL, SQL, MongoDB, and DynamoDB concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
       path: '/databases/database-concepts',
     });
 

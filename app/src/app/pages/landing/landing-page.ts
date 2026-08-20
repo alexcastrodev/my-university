@@ -48,8 +48,8 @@ const SESSIONS: LandingSession[] = [
     ],
   },
   {
-    title: 'PostgreSQL',
-    description: 'PostgreSQL and SQL concepts, built up one book chapter at a time.',
+    title: 'Databases',
+    description: 'PostgreSQL, SQL, MongoDB, and DynamoDB concepts, built up one book chapter at a time.',
     icon: '🗄️',
     routerLink: '/databases/database-concepts',
   },

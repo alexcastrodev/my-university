@@ -46,7 +46,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'PostgreSQL Concepts', path: '/databases/database-concepts' },
+      { name: 'Database Concepts', path: '/databases/database-concepts' },
       ...(concept ? [{ name: concept.title, path: `/databases/database-concepts/${concept.slug}` }] : []),
     ];
   });
@@ -70,7 +70,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
         this.read.set(concept.read);
         this.loading.set(false);
         this.seo.set({
-          title: `${concept.title} — PostgreSQL Concepts`,
+          title: `${concept.title} — Database Concepts`,
           description: concept.summary,
           path: `/databases/database-concepts/${concept.slug}`,
           type: 'article',

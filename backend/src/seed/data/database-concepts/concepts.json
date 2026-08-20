@@ -3151,5 +3151,705 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "mongodb-document-model-and-collections",
+    "id": 62,
+    "category": "MongoDB",
+    "title": "The Document Model: Documents, Collections, and ObjectIds",
+    "topic": "Document Model",
+    "related": [
+      {
+        "label": "MongoDB Writes: Inserts, Update Operators, Upserts, and Deletes",
+        "slug": "mongodb-crud-operations",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Querying: Conditionals, Projections, and Cursors",
+        "slug": "mongodb-querying-and-cursors",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "MongoDB swaps rows and tables for documents and dynamically-schemaed collections, using embedded documents and arrays where a relational model would JOIN, and a 12-byte ObjectId (4-byte timestamp, 5 random bytes, 3-byte counter) to mint unique _id values with no cross-server coordination.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 1-2, \"Introduction\" and \"Getting Started\", p. 24-49",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Documents",
+        "url": "https://www.mongodb.com/docs/manual/core/document/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — ObjectId",
+        "url": "https://www.mongodb.com/docs/manual/reference/method/ObjectId/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Databases and Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/databases-and-collections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — BSON Types",
+        "url": "https://www.mongodb.com/docs/manual/reference/bson-types/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Limits and Thresholds",
+        "url": "https://www.mongodb.com/docs/manual/reference/limits/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Schema Validation",
+        "url": "https://www.mongodb.com/docs/manual/core/schema-validation/",
+        "type": "doc"
+      },
+      {
+        "label": "mongosh Documentation — Compatibility Changes with the Legacy mongo Shell",
+        "url": "https://www.mongodb.com/docs/mongodb-shell/reference/compatibility/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mongodb-crud-operations",
+    "id": 63,
+    "category": "MongoDB",
+    "title": "MongoDB Writes: Inserts, Update Operators, Upserts, and Deletes",
+    "topic": "Document Model",
+    "related": [
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Querying: Conditionals, Projections, and Cursors",
+        "slug": "mongodb-querying-and-cursors",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "MongoDB's write path is insertOne/insertMany, deleteOne/deleteMany/drop, and updateOne/updateMany/replaceOne — and the decisions that actually bite are replacement vs. $-operators, ordered vs. unordered batches, and whether upsert quietly turns a failed match into a brand-new document.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 3, \"Creating, Updating, and Deleting Documents\", p. 29-51",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Insert Documents",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/insert-documents/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Update Documents",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/update-documents/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — db.collection.findOneAndUpdate() (returnDocument vs. returnNewDocument)",
+        "url": "https://www.mongodb.com/docs/manual/reference/method/db.collection.findOneAndUpdate/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $setOnInsert",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/update/setOnInsert/",
+        "type": "doc"
+      },
+      {
+        "label": "mongosh Documentation — Compatibility Changes with Legacy mongo Shell (deprecated insert/update/remove/save)",
+        "url": "https://www.mongodb.com/docs/mongodb-shell/reference/compatibility/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Operational Limits (16 MB BSON document, 100,000 writes per batch)",
+        "url": "https://www.mongodb.com/docs/manual/reference/limits/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mongodb-querying-and-cursors",
+    "id": 64,
+    "category": "MongoDB",
+    "title": "MongoDB Querying: Conditionals, Projections, and Cursors",
+    "topic": "Query Techniques",
+    "related": [
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Writes: Inserts, Update Operators, Upserts, and Deletes",
+        "slug": "mongodb-crud-operations",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Query MongoDB with find — projections, $ conditionals, $in/$or/$not, and the type-specific traps around null, arrays, and embedded documents — then drive the resulting cursor with limit, skip, and sort without falling into large-skip pagination.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 4, \"Querying\", p. 74-93",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Query Documents",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/query-documents/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Query and Projection Operators",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/query/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Iterate a Cursor",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/iterate-a-cursor/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — BSON Comparison Order",
+        "url": "https://www.mongodb.com/docs/manual/reference/bson-type-comparison-order/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $where",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/query/where/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mongodb-indexing-fundamentals",
+    "id": 65,
+    "category": "MongoDB",
+    "title": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+    "topic": "Indexing & Performance",
+    "related": [
+      {
+        "label": "MongoDB Querying: Conditionals, Projections, and Cursors",
+        "slug": "mongodb-querying-and-cursors",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "B-Trees and Disk-Based Search",
+        "slug": "b-trees-disk-based-search",
+        "feature": "algorithms-concepts"
+      }
+    ],
+    "summary": "Every MongoDB index is a real WiredTiger B-tree on disk — which is why a compound index serves any prefix of its keys and nothing else, why equality-sort-range key order swings the book's example query from 4,325 ms to 37 ms, and why every index you add is a tax on every write.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 5, \"Indexes\", p. 96-153",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Indexes",
+        "url": "https://www.mongodb.com/docs/manual/indexes/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Compound Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/index-compound/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — The ESR (Equality, Sort, Range) Rule",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/equality-sort-range-guideline/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Analyze Query Performance and explain Results",
+        "url": "https://www.mongodb.com/docs/manual/reference/explain-results/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Partial Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/index-partial/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — WiredTiger Storage Engine",
+        "url": "https://www.mongodb.com/docs/manual/core/wiredtiger/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dynamodb-data-modeling-approach",
+    "id": 66,
+    "category": "DynamoDB",
+    "title": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB data modeling runs in the opposite direction from relational design — enumerate every access pattern before designing a key, since there are no joins to fall back on — and the book's five-step process (understand the app, ERD, access patterns, primary key, then secondary indexes) is now essentially AWS's own official guidance.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 7, \"How to approach data modeling in DynamoDB\", p. 127-149",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Designing and Architecting with DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — NoSQL Design for DynamoDB (identify access patterns first)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Secondary Indexes in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-indexes.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — PartiQL for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — NoSQL Workbench for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dynamodb-core-concepts-keys-and-item-collections",
+    "id": 67,
+    "category": "DynamoDB",
+    "title": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+    "topic": "Key Design & Partitioning",
+    "related": [
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The vocabulary DynamoDB is built from — tables, items, attributes, simple vs. composite primary keys, LSIs vs. GSIs — and the concept that ties it together: an item collection is every item sharing a partition key, which is why they live on one storage node and why Query is the operation your whole model is designed around.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 2, \"Core Concepts in DynamoDB\", p. 40-50",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Core Components",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Partitions and Data Distribution",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Partitions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Improving Data Access with Secondary Indexes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Service, Account, and Table Quotas in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotasHowItWorks.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Designing Partition Keys to Distribute Your Workload Evenly",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Query API Reference (KeyConditionExpression)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dynamodb-single-table-design",
+    "id": 68,
+    "category": "DynamoDB",
+    "title": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Single-table design packs every entity type into one DynamoDB table so related items share a partition key and can be pre-joined into an item collection readable in a single Query — the only substitute DynamoDB offers for joins — but the book is equally explicit about its three costs and the two situations (fast-evolving greenfield apps, and GraphQL backends) where those costs win.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 8, \"The What, Why, and When of Single-Table Design in DynamoDB\", p. 150-169",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Designing and Using Partition Keys Effectively",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Single-Table vs. Multi-Table Design in DynamoDB",
+        "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/dynamodb-data-modeling/single-table-vs-multi-table.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Managing Many-to-Many Relationships (adjacency list / item collections)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-adjacency-graphs.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Querying Tables and Indexes (the Query API operation)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Exporting DynamoDB Table Data to Amazon S3",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/S3DataExport.HowItWorks.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — PartiQL for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dynamodb-one-to-many-relationship-strategies",
+    "id": 69,
+    "category": "DynamoDB",
+    "title": "DynamoDB One-to-Many Relationships: Five Modeling Strategies",
+    "topic": "Relationship Strategies",
+    "related": [
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "With no joins available, a parent/child relationship in DynamoDB is modeled by picking one of five strategies per access pattern — embed the children in a complex attribute, duplicate the parent's data onto each child, pre-join them in one item collection behind a composite primary key, rebuild that collection in a secondary index, or smash a deep hierarchy into a composite sort key — each gated by a specific question the book makes you answer.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 11, \"Strategies for one-to-many relationships\", p. 182-198",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Modeling Relational Data in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-relational-modeling.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Query",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Sort Keys to Organize Data",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-sort-keys.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Service, Account, and Table Quotas in Amazon DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Managing Complex Workflows with DynamoDB Transactions",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dynamodb-many-to-many-relationship-strategies",
+    "id": 70,
+    "category": "DynamoDB",
+    "title": "DynamoDB Strategies for Many-to-Many Relationships",
+    "topic": "Relationship Strategies",
+    "related": [
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB One-to-Many Relationships: Five Modeling Strategies",
+        "slug": "dynamodb-one-to-many-relationship-strategies",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Many-to-many is DynamoDB's hardest shape because you want to query both directions with no linking table to join through, and the book's four strategies — shallow duplication, adjacency list, materialized graph, and normalization with multiple requests — form a gradient ordered by how much mutable relationship data each can tolerate.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 12, \"Strategies for many-to-many relationships\", p. 200-214",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Modeling Relational Data in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-relational-modeling.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Managing Many-to-Many Relationships (adjacency list, materialized graph)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-adjacency-graphs.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Global Secondary Indexes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — BatchGetItem API reference (100 item / 16 MB limits)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mongodb-choosing-a-shard-key",
+    "id": 73,
+    "category": "MongoDB",
+    "title": "Choosing a MongoDB Shard Key: Ascending, Hashed, and Zoned Distributions",
+    "topic": "Indexing & Performance",
+    "related": [
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The shard key decides which shard every document lands on, and the chapter's three distribution shapes explain the consequences: an ascending key funnels every insert into a single max chunk, a hashed key spreads writes evenly by range-partitioning a 64-bit hash space but can never serve a targeted range query, and a location-based key plus zones buys placement control at the cost of the balancer's help — with cardinality capping how far any of them can ever be split.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 16, \"Choosing a Shard Key\", p. 340-359",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Choose a Shard Key",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-choose-a-shard-key/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Hashed Sharding",
+        "url": "https://www.mongodb.com/docs/manual/core/hashed-sharding/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Shard Keys (cardinality, frequency, monotonicity)",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-shard-key/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Reshard a Collection (reshardCollection)",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-reshard-a-collection/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Refine a Shard Key (refineCollectionShardKey)",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-refine-a-shard-key/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Zones and Zone Sharding",
+        "url": "https://www.mongodb.com/docs/manual/core/zone-sharding/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Sharded Cluster Balancer",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-balancer-administration/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Data Partitioning with Chunks",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-data-partitioning/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Hashed Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/indexes/index-types/index-hashed/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Ranged Sharding",
+        "url": "https://www.mongodb.com/docs/manual/core/ranged-sharding/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Shard a GridFS Data Store",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/shard-gridfs-data/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mongodb-aggregation-pipeline",
+    "id": 71,
+    "category": "MongoDB",
+    "title": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators",
+    "topic": "Query Techniques",
+    "related": [
+      { "label": "MongoDB Querying: Conditionals, Projections, and Cursors", "slug": "mongodb-querying-and-cursors", "feature": "database-concepts" },
+      { "label": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality", "slug": "mongodb-schema-design-patterns", "feature": "database-concepts" }
+    ],
+    "summary": "An aggregation pipeline is a bash-style chain of stages over a stream of documents, and the skill is knowing which stages shrink the stream ($match, $group), which grow it ($unwind), and which merely reshape it ($project, $sort) — then ordering them so field-path expressions, accumulators, and a well-labeled $group _id produce the right number instead of a plausible one.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      { "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 7, \"Introduction to the Aggregation Framework\", p. 182-219", "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/", "type": "doc" },
+      { "label": "MongoDB Documentation — Aggregation Pipeline", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline/", "type": "doc" },
+      { "label": "MongoDB Documentation — Aggregation Pipeline Stages", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/", "type": "doc" },
+      { "label": "MongoDB Documentation — Aggregation Pipeline Optimization", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/", "type": "doc" },
+      { "label": "MongoDB Documentation — Aggregation Pipeline Limits", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-limits/", "type": "doc" },
+      { "label": "MongoDB Documentation — $unwind (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/", "type": "doc" },
+      { "label": "MongoDB Documentation — $group (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/", "type": "doc" },
+      { "label": "MongoDB Documentation — $merge (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/", "type": "doc" },
+      { "label": "MongoDB Documentation — On-Demand Materialized Views", "url": "https://www.mongodb.com/docs/manual/core/materialized-views/", "type": "doc" },
+      { "label": "MongoDB Atlas Documentation — $search aggregation stage", "url": "https://www.mongodb.com/docs/atlas/atlas-search/aggregation-stages/search/", "type": "doc" },
+      { "label": "MongoDB Atlas Documentation — $vectorSearch aggregation stage", "url": "https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "mongodb-schema-design-patterns",
+    "id": 72,
+    "category": "MongoDB",
+    "title": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
+    "topic": "Document Model",
+    "related": [
+      { "label": "The Document Model: Documents, Collections, and ObjectIds", "slug": "mongodb-document-model-and-collections", "feature": "database-concepts" },
+      { "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators", "slug": "mongodb-aggregation-pipeline", "feature": "database-concepts" }
+    ],
+    "summary": "MongoDB schema design starts from the queries rather than the entities, so the chapter's method is to establish constraints, access patterns, relation types, and cardinality first, then reach for a named pattern (Bucket, Subset, Outlier, Extended Reference) and settle the embed-or-reference question per field — with an honest closing section on the joins MongoDB was never designed to do.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      { "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 9, \"Application Design\", p. 228-245", "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/", "type": "doc" },
+      { "label": "MongoDB Documentation — Data Modeling Introduction", "url": "https://www.mongodb.com/docs/manual/core/data-modeling-introduction/", "type": "doc" },
+      { "label": "MongoDB Documentation — Model One-to-Many Relationships with Embedded Documents", "url": "https://www.mongodb.com/docs/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/", "type": "doc" },
+      { "label": "MongoDB Documentation — Model One-to-Many Relationships with Document References", "url": "https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/", "type": "doc" },
+      { "label": "MongoDB Documentation — Schema Validation", "url": "https://www.mongodb.com/docs/manual/core/schema-validation/", "type": "doc" },
+      { "label": "MongoDB Documentation — Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/", "type": "doc" },
+      { "label": "MongoDB Documentation — TTL Indexes", "url": "https://www.mongodb.com/docs/manual/core/index-ttl/", "type": "doc" },
+      { "label": "MongoDB Documentation — Capped Collections", "url": "https://www.mongodb.com/docs/manual/core/capped-collections/", "type": "doc" },
+      { "label": "MongoDB Documentation — Read Concern", "url": "https://www.mongodb.com/docs/manual/reference/read-concern/", "type": "doc" },
+      { "label": "MongoDB Documentation — $lookup (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/", "type": "doc" },
+      { "label": "MongoDB Documentation — $unionWith (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/", "type": "doc" },
+      { "label": "MongoDB Documentation — Limits and Thresholds (16 MB BSON document size)", "url": "https://www.mongodb.com/docs/manual/reference/limits/", "type": "doc" },
+      { "label": "MongoDB Blog — Building with Patterns: A Summary", "url": "https://www.mongodb.com/blog/post/building-with-patterns-a-summary", "type": "doc" },
+      { "label": "MongoDB Drivers — Connection Monitoring and Pooling specification", "url": "https://github.com/mongodb/specifications/blob/master/source/connection-monitoring-and-pooling/connection-monitoring-and-pooling.md", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "mongodb-time-series-collections",
+    "id": 74,
+    "category": "MongoDB",
+    "title": "MongoDB Time Series Collections: Bucketing, Granularity, and What You Give Up",
+    "topic": "Document Model",
+    "related": [
+      { "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner", "slug": "mongodb-indexing-fundamentals", "feature": "database-concepts" }
+    ],
+    "summary": "A time series collection is a MongoDB 5.0 collection type that turns one-document-per-reading into compressed columnar buckets keyed by an immutable metaField plus a rounded time window, buying real storage and query wins for append-only measurement data at the cost of a long and specific list of restrictions: metaField-only updates, no unique or text indexes, no change streams, no writes in transactions, and a metaField choice you cannot change later.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      { "label": "MongoDB Documentation — Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/", "type": "doc" },
+      { "label": "MongoDB Documentation — Time Series Collection Limitations", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-limitations/", "type": "doc" },
+      { "label": "MongoDB Documentation — Set Granularity for Time Series Data", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-granularity/", "type": "doc" },
+      { "label": "MongoDB Documentation — About Time Series Data (bucketing and the bucket catalog)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-bucketing/", "type": "doc" },
+      { "label": "MongoDB Documentation — Create and Query a Time Series Collection (field reference)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-procedures/", "type": "doc" },
+      { "label": "MongoDB Documentation — Time Series Collections Considerations (metaField, cardinality, granularity)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-considerations/", "type": "doc" },
+      { "label": "MongoDB Documentation — Best Practices for Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-best-practices/", "type": "doc" },
+      { "label": "MongoDB Documentation — Set up Automatic Removal for Time Series Collections (TTL)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-automatic-removal/", "type": "doc" },
+      { "label": "MongoDB Documentation — Aggregation and Operator Considerations for Time Series", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-aggregations-operators/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "mongodb-atlas-search-and-vector-search",
+    "id": 75,
+    "category": "MongoDB",
+    "title": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
+    "topic": "Query Techniques",
+    "related": [
+      { "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators", "slug": "mongodb-aggregation-pipeline", "feature": "database-concepts" },
+      { "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner", "slug": "mongodb-indexing-fundamentals", "feature": "database-concepts" }
+    ],
+    "summary": "MongoDB Search and MongoDB Vector Search (formerly Atlas Search / Atlas Vector Search) are Lucene-backed full-text and ANN/HNSW semantic search served by a separate mongot process synchronized via change streams — eventually consistent, memory-bound by the vector index size, and since MongoDB 8.2 available self-managed rather than only on Atlas, though with a materially narrower feature set than the managed platform.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      { "label": "MongoDB Documentation — MongoDB Search (formerly Atlas Search) Overview", "url": "https://www.mongodb.com/docs/search/", "type": "doc" },
+      { "label": "MongoDB Documentation — MongoDB Vector Search Overview", "url": "https://www.mongodb.com/docs/vector-search/", "type": "doc" },
+      { "label": "MongoDB Documentation — $vectorSearch Aggregation Stage", "url": "https://www.mongodb.com/docs/vector-search/query/aggregation-stages/vector-search-stage/", "type": "doc" },
+      { "label": "MongoDB Documentation — $search Aggregation Stage", "url": "https://www.mongodb.com/docs/search/query/aggregation-stages/search/", "type": "doc" },
+      { "label": "MongoDB Documentation — How to Index Fields for Vector Search", "url": "https://www.mongodb.com/docs/vector-search/index/vector-search-type/", "type": "doc" },
+      { "label": "MongoDB Documentation — Retrieval-Augmented Generation (RAG) with MongoDB", "url": "https://www.mongodb.com/docs/vector-search/tutorials/rag/", "type": "doc" },
+      { "label": "MongoDB Documentation — How to Perform Hybrid Search", "url": "https://www.mongodb.com/docs/vector-search/hybrid-search/hybrid-search-overview/", "type": "doc" },
+      { "label": "MongoDB Documentation — Review Deployment Options for Vector Search", "url": "https://www.mongodb.com/docs/vector-search/deployment/deployment-options/", "type": "doc" },
+      { "label": "MongoDB Documentation — MongoDB Search and Vector Search on Self-Managed Deployments", "url": "https://www.mongodb.com/docs/search/self-managed/current/", "type": "doc" },
+      { "label": "MongoDB Documentation — Known Limitations for Self-Managed mongot", "url": "https://www.mongodb.com/docs/search/self-managed/current/limitations/", "type": "doc" },
+      { "label": "MongoDB Documentation — Compatibility and Requirements for mongot", "url": "https://www.mongodb.com/docs/search/self-managed/current/deployment/compatibility-requirements/", "type": "doc" },
+      { "label": "MongoDB Documentation — Vector Quantization", "url": "https://www.mongodb.com/docs/vector-search/about/vector-quantization/", "type": "doc" }
+    ]
   }
 ]
