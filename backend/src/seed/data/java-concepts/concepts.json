@@ -1611,6 +1611,7 @@
     ],
     "summary": "The java.util.concurrent toolkit — executors and thread pools, Callable/Future, coordination primitives like CountDownLatch and Semaphore, explicit Locks, and atomic variables — as the higher-level alternative to hand-rolled Thread and synchronized code.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/concurrency-utilities-executors-and-synchronizers",
     "references": [
       {
         "label": "ExecutorService — java.util.concurrent",
@@ -1678,6 +1679,7 @@
     ],
     "summary": "A divide-and-conquer engine for true multi-core parallelism, where a ForkJoinPool runs recursively-split RecursiveAction/RecursiveTask work via work-stealing.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/fork-join-framework",
     "references": [
       {
         "label": "ForkJoinPool — Java SE 25 API",
@@ -1729,6 +1731,7 @@
     ],
     "summary": "Named static methods can replace or supplement constructors for clearer, cacheable, subtype-flexible object creation, and the Builder pattern tames classes with many optional fields.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/static-factory-methods-and-builder-pattern",
     "references": [
       {
         "label": "Boolean — Java SE 25 API",
@@ -2891,6 +2894,7 @@
     ],
     "summary": "StructuredTaskScope (still preview in Java 25, JEP 505) makes a fan-out of concurrent subtasks a try-with-resources block that owns their lifetime — no task can outlive its scope, siblings are cancelled automatically on failure, and the whole operation shows up nested in a thread dump instead of as a flat pool of Futures.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/structured-concurrency",
     "references": [
       {
         "label": "JEP 505: Structured Concurrency (Fifth Preview)",
@@ -2938,6 +2942,7 @@
     ],
     "summary": "ScopedValue (finalized in Java 25 by JEP 506) replaces ThreadLocal's mutable, leak-prone per-thread slot with an immutable binding whose lifetime is exactly the dynamic extent of a run()/call() lambda — no set(), no remove() to forget, and automatic inheritance by subtasks forked in a StructuredTaskScope.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/scoped-values",
     "references": [
       {
         "label": "JEP 506 — Scoped Values",
@@ -3116,6 +3121,7 @@
     ],
     "summary": "How the triple-quote text block writes multi-line SQL, JSON, and HTML without \\n escapes or + concatenation — and the precise incidental-whitespace algorithm behind it, where the closing delimiter's own column decides how much indentation is stripped, trailing spaces vanish unless fenced with \\s, and line terminators are normalized to \\n. Still exactly a String at runtime, with no interpolation and no way to tell it apart from a regular literal.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/text-blocks",
     "references": [
       {
         "label": "JEP 378: Text Blocks",
@@ -3148,6 +3154,7 @@
     ],
     "summary": "The switch statement and the switch expression are two constructs sharing one keyword: colon form falls through and produces nothing, while an arrow-form expression runs exactly one arm, produces a value via yield when the arm is a block, and must be provably exhaustive or the compiler rejects it.",
     "publishedAt": "2026-08-18",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/switch-expressions",
     "references": [
       {
         "label": "JEP 361: Switch Expressions",
@@ -3269,6 +3276,7 @@
     ],
     "summary": "The JDK still has no JSON support, so JSON work means picking a library and one of three processing models — data binding, the tree model, or streaming — all of which Jackson provides as the de facto standard.",
     "publishedAt": "2026-08-19",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/json-processing-in-java",
     "references": [
       {
         "label": "Jackson databind — FasterXML/jackson-databind",
@@ -3564,6 +3572,7 @@
     ],
     "summary": "How java.math.BigDecimal and BigInteger give arbitrary precision and explicit rounding where double and long silently lose money or overflow.",
     "publishedAt": "2026-08-19",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger",
     "references": [
       {
         "label": "BigDecimal — Java SE 25 API",
@@ -4171,6 +4180,7 @@
     ],
     "summary": "JEP 431's SequencedCollection/SequencedSet/SequencedMap give every collection with a real encounter order — List, Deque, LinkedHashSet, TreeSet, LinkedHashMap, TreeMap — one uniform getFirst/getLast/addFirst/addLast/reversed() API, deliberately excluding HashSet, HashMap, and PriorityQueue since none has a stable encounter order to expose.",
     "publishedAt": "2026-08-19",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/sequenced-collections",
     "references": [
       {
         "label": "JEP 431: Sequenced Collections",

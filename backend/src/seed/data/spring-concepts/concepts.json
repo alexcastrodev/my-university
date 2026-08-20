@@ -1070,6 +1070,7 @@
     ],
     "summary": "How @ConfigurationProperties turns any bean's setters into configuration-driven values, why extracting them into a dedicated holder bean keeps controllers and services clean, and how to generate IDE metadata for custom properties — plus why records with constructor binding are now the preferred alternative to a mutable, Lombok-backed holder class.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-custom-configuration-properties",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.2, p. 122-129",
@@ -1215,6 +1216,7 @@
     ],
     "summary": "How Spring profiles let different properties and beans apply depending on which profile is active, why setting spring.profiles.active outside of application.yml keeps environment-specific config properly separated, and how the book's multi-document spring.profiles: prod YAML syntax has since been replaced by spring.config.activate.on-profile.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-profiles",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.3, p. 129-133",
@@ -1409,6 +1411,7 @@
     ],
     "summary": "How Spring Security's matcher methods (anyRequest(), mvcMatchers()/requestMatchers()) select which requests an authorization rule applies to, why rule order must go from specific to general, how to combine a path with an HTTP method, and why the book's own security argument for preferring MVC matchers over Ant matchers is now built into requestMatchers() by default.",
     "publishedAt": "2026-08-04",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-authorization-matcher-methods",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 8, \"Configuring authorization: Applying restrictions\", sections 8.1-8.2, p. 172-184",
@@ -1664,6 +1667,7 @@
     ],
     "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
     "publishedAt": "2026-08-05",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-data-rest-repositories",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.3 \"Enabling data-backed services\", p. 160-168",
@@ -2083,6 +2087,7 @@
     ],
     "summary": "How Spring for Apache Kafka wraps the raw Kafka client in an autoconfigured KafkaTemplate and @KafkaListener, and why Kafka's log-based, replayable, partition-ordered model behaves differently from JMS and AMQP queue consumption.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-kafka-messaging",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 8, \"Sending messages asynchronously\", section 8.3 \"Messaging with Kafka\", p. 202-208",
@@ -2310,6 +2315,7 @@
     ],
     "summary": "Spring's non-blocking HTTP client — retrieve()/bodyToMono/bodyToFlux, reactive request bodies, onStatus error handling, the exchangeToMono replacement for the leak-prone exchange(), and reactive Spring Security with SecurityWebFilterChain.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-webclient-reactive-consumption",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 11, \"Developing reactive APIs\", sections 11.4-11.5, p. 285-295",
@@ -2363,6 +2369,7 @@
     ],
     "summary": "Actuator adds production-readiness endpoints to a Spring Boot app — /health, /info, /metrics, /env, /beans, /mappings & more — over HTTP and JMX, plus how to expose and consume them safely.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-actuator-endpoints",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 16, \"Working with Spring Boot Actuator\", sections 16.1-16.2, p. 395-415",
@@ -3872,6 +3879,7 @@
     ],
     "summary": "CsrfFilter sits in the filter chain, lets GET/HEAD/TRACE/OPTIONS through untouched and demands a token (handed to the client earlier via a CsrfTokenRepository) for every other method, so a fresh Spring Security project rejecting an authenticated POST with 403 is CSRF protection working as designed, not a bug — the fix is passing the token back (hidden form field for server-rendered apps, a cookie via CookieCsrfTokenRepository for SPAs) or, when genuinely appropriate, excluding specific request matchers or disabling it for bearer-token-only APIs; since Spring Security 6.1 the default handler for reading the token became XorCsrfTokenRequestAttributeHandler (BREACH-resistant, deferred token loading) in place of the book's simpler default.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-csrf-protection",
     "references": [
       {
         "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.1 \"Applying cross-site request forgery (CSRF) protection in applications\" (10.1.1-10.1.3), p. 213-234",
@@ -3935,6 +3943,7 @@
     ],
     "summary": "CORS is a browser mechanism that relaxes the same-origin policy rather than a server-side restriction — an unconfigured cross-origin call still executes on the server and only its response is withheld from JavaScript — configured either per endpoint with Spring MVC's @CrossOrigin or centrally via http.cors() plus a CorsConfigurationSource whose CorsFilter must run before Spring Security's authentication and authorization so credential-less preflight OPTIONS requests are not rejected with 401; the book's WebSecurityConfigurerAdapter.configure(HttpSecurity) container is now a SecurityFilterChain bean and the raw lambda source a UrlBasedCorsConfigurationSource bean, while CorsConfiguration, @CrossOrigin, and http.cors() themselves are unchanged, with today's additions being originPatterns (required instead of the wildcard once allowCredentials is true), preFlightRequestHandler, and the WHATWG Fetch Standard superseding the W3C CORS spec the book cites for simple-request rules.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-cors-configuration",
     "references": [
       {
         "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.2, \"Using cross-origin resource sharing\", p. 235-243",
@@ -4745,6 +4754,7 @@
     ],
     "summary": "How spring-security-test establishes a principal for a test — @WithMockUser fabricating a UserDetails with no lookup (roles auto-prefixed ROLE_, authorities not, usable at class level and overridable per-method with @WithAnonymousUser), @WithUserDetails loading a real user through a UserDetailsService bean so the principal is your own implementation, and a custom annotation wired to a WithSecurityContextFactory via @WithSecurityContext when the concrete Authentication type matters — all three skipping authentication entirely, which is why the AuthenticationProvider/PasswordEncoder/success-and-failure-handler path must be driven separately through MockMvc with httpBasic() or the formLogin() request builder plus the authenticated()/unauthenticated() result matchers; the book's JUnit 4 era idiom is now @ExtendWith(SpringExtension.class)/@SpringJUnitConfig (implied by @SpringBootTest), and springSecurity() is applied automatically under Spring Boot but still explicit via .apply(springSecurity()) outside it.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-testing-mock-users-and-authentication",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 20, \"Spring Security testing\", sections 20.1 \"Using mock users for tests\" (p. 493-500), 20.2 \"Testing with users from a UserDetailsService\" (p. 500-501), 20.3 \"Using custom Authentication objects for testing\" (p. 501-505), and 20.5 \"Testing authentication\" (p. 507-510)",
