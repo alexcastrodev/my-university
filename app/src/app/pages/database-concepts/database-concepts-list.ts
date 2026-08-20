@@ -13,6 +13,7 @@ const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }
   { label: 'MongoDB', value: 'MongoDB' },
   { label: 'DynamoDB', value: 'DynamoDB' },
   { label: 'Cassandra', value: 'Cassandra' },
+  { label: 'Redis', value: 'Redis' },
 ];
 
 export interface DatabaseConceptTopicGroup {
@@ -22,7 +23,7 @@ export interface DatabaseConceptTopicGroup {
 
 /** Everyday SQL querying first, then advanced patterns, then MongoDB's document model
  *  and indexing, then DynamoDB's modeling approach, then Cassandra's distributed core,
- *  then Postgres ops/infra. */
+ *  then Redis's data types/patterns, then Postgres ops/infra. */
 const TOPIC_ORDER = [
   'Query Techniques',
   'Joins & Set Operations',
@@ -32,10 +33,25 @@ const TOPIC_ORDER = [
   'Advanced Query Patterns',
   'Document Model',
   'Indexing & Performance',
+  'Transactions & Consistency',
+  'High Availability',
+  'Scaling & Sharding',
+  'Fundamentals',
   'Data Modeling',
   'Key Design & Partitioning',
   'Relationship Strategies',
+  'Advanced Mechanics',
+  'API & Access Patterns',
+  'Evolution & Migration',
   'Consistency & Replication',
+  'Indexing & Extending Designs',
+  'Data Types & Commands',
+  'Application Patterns',
+  'Coordination Primitives',
+  'Durability & Persistence',
+  'Security',
+  'Modern Redis Capabilities',
+  'Scaling & Topology',
   'Configuration & Tuning',
   'Monitoring & Troubleshooting',
   'HA & Replication',

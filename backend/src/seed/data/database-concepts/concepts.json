@@ -3754,23 +3754,75 @@
     "title": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators",
     "topic": "Query Techniques",
     "related": [
-      { "label": "MongoDB Querying: Conditionals, Projections, and Cursors", "slug": "mongodb-querying-and-cursors", "feature": "database-concepts" },
-      { "label": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality", "slug": "mongodb-schema-design-patterns", "feature": "database-concepts" }
+      {
+        "label": "MongoDB Querying: Conditionals, Projections, and Cursors",
+        "slug": "mongodb-querying-and-cursors",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
+        "slug": "mongodb-schema-design-patterns",
+        "feature": "database-concepts"
+      }
     ],
     "summary": "An aggregation pipeline is a bash-style chain of stages over a stream of documents, and the skill is knowing which stages shrink the stream ($match, $group), which grow it ($unwind), and which merely reshape it ($project, $sort) — then ordering them so field-path expressions, accumulators, and a well-labeled $group _id produce the right number instead of a plausible one.",
     "publishedAt": "2026-08-20",
     "references": [
-      { "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 7, \"Introduction to the Aggregation Framework\", p. 182-219", "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/", "type": "doc" },
-      { "label": "MongoDB Documentation — Aggregation Pipeline", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline/", "type": "doc" },
-      { "label": "MongoDB Documentation — Aggregation Pipeline Stages", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/", "type": "doc" },
-      { "label": "MongoDB Documentation — Aggregation Pipeline Optimization", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/", "type": "doc" },
-      { "label": "MongoDB Documentation — Aggregation Pipeline Limits", "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-limits/", "type": "doc" },
-      { "label": "MongoDB Documentation — $unwind (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/", "type": "doc" },
-      { "label": "MongoDB Documentation — $group (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/", "type": "doc" },
-      { "label": "MongoDB Documentation — $merge (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/", "type": "doc" },
-      { "label": "MongoDB Documentation — On-Demand Materialized Views", "url": "https://www.mongodb.com/docs/manual/core/materialized-views/", "type": "doc" },
-      { "label": "MongoDB Atlas Documentation — $search aggregation stage", "url": "https://www.mongodb.com/docs/atlas/atlas-search/aggregation-stages/search/", "type": "doc" },
-      { "label": "MongoDB Atlas Documentation — $vectorSearch aggregation stage", "url": "https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/", "type": "doc" }
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 7, \"Introduction to the Aggregation Framework\", p. 182-219",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Aggregation Pipeline",
+        "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Aggregation Pipeline Stages",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Aggregation Pipeline Optimization",
+        "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Aggregation Pipeline Limits",
+        "url": "https://www.mongodb.com/docs/manual/core/aggregation-pipeline-limits/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $unwind (aggregation)",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $group (aggregation)",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $merge (aggregation)",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — On-Demand Materialized Views",
+        "url": "https://www.mongodb.com/docs/manual/core/materialized-views/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Atlas Documentation — $search aggregation stage",
+        "url": "https://www.mongodb.com/docs/atlas/atlas-search/aggregation-stages/search/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Atlas Documentation — $vectorSearch aggregation stage",
+        "url": "https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -3780,26 +3832,90 @@
     "title": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
     "topic": "Document Model",
     "related": [
-      { "label": "The Document Model: Documents, Collections, and ObjectIds", "slug": "mongodb-document-model-and-collections", "feature": "database-concepts" },
-      { "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators", "slug": "mongodb-aggregation-pipeline", "feature": "database-concepts" }
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators",
+        "slug": "mongodb-aggregation-pipeline",
+        "feature": "database-concepts"
+      }
     ],
     "summary": "MongoDB schema design starts from the queries rather than the entities, so the chapter's method is to establish constraints, access patterns, relation types, and cardinality first, then reach for a named pattern (Bucket, Subset, Outlier, Extended Reference) and settle the embed-or-reference question per field — with an honest closing section on the joins MongoDB was never designed to do.",
     "publishedAt": "2026-08-20",
     "references": [
-      { "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 9, \"Application Design\", p. 228-245", "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/", "type": "doc" },
-      { "label": "MongoDB Documentation — Data Modeling Introduction", "url": "https://www.mongodb.com/docs/manual/core/data-modeling-introduction/", "type": "doc" },
-      { "label": "MongoDB Documentation — Model One-to-Many Relationships with Embedded Documents", "url": "https://www.mongodb.com/docs/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/", "type": "doc" },
-      { "label": "MongoDB Documentation — Model One-to-Many Relationships with Document References", "url": "https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/", "type": "doc" },
-      { "label": "MongoDB Documentation — Schema Validation", "url": "https://www.mongodb.com/docs/manual/core/schema-validation/", "type": "doc" },
-      { "label": "MongoDB Documentation — Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/", "type": "doc" },
-      { "label": "MongoDB Documentation — TTL Indexes", "url": "https://www.mongodb.com/docs/manual/core/index-ttl/", "type": "doc" },
-      { "label": "MongoDB Documentation — Capped Collections", "url": "https://www.mongodb.com/docs/manual/core/capped-collections/", "type": "doc" },
-      { "label": "MongoDB Documentation — Read Concern", "url": "https://www.mongodb.com/docs/manual/reference/read-concern/", "type": "doc" },
-      { "label": "MongoDB Documentation — $lookup (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/", "type": "doc" },
-      { "label": "MongoDB Documentation — $unionWith (aggregation)", "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/", "type": "doc" },
-      { "label": "MongoDB Documentation — Limits and Thresholds (16 MB BSON document size)", "url": "https://www.mongodb.com/docs/manual/reference/limits/", "type": "doc" },
-      { "label": "MongoDB Blog — Building with Patterns: A Summary", "url": "https://www.mongodb.com/blog/post/building-with-patterns-a-summary", "type": "doc" },
-      { "label": "MongoDB Drivers — Connection Monitoring and Pooling specification", "url": "https://github.com/mongodb/specifications/blob/master/source/connection-monitoring-and-pooling/connection-monitoring-and-pooling.md", "type": "doc" }
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 9, \"Application Design\", p. 228-245",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Data Modeling Introduction",
+        "url": "https://www.mongodb.com/docs/manual/core/data-modeling-introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Model One-to-Many Relationships with Embedded Documents",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Model One-to-Many Relationships with Document References",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Schema Validation",
+        "url": "https://www.mongodb.com/docs/manual/core/schema-validation/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Time Series Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — TTL Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/index-ttl/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Capped Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/capped-collections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Read Concern",
+        "url": "https://www.mongodb.com/docs/manual/reference/read-concern/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $lookup (aggregation)",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $unionWith (aggregation)",
+        "url": "https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Limits and Thresholds (16 MB BSON document size)",
+        "url": "https://www.mongodb.com/docs/manual/reference/limits/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Blog — Building with Patterns: A Summary",
+        "url": "https://www.mongodb.com/blog/post/building-with-patterns-a-summary",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Drivers — Connection Monitoring and Pooling specification",
+        "url": "https://github.com/mongodb/specifications/blob/master/source/connection-monitoring-and-pooling/connection-monitoring-and-pooling.md",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -3809,20 +3925,60 @@
     "title": "MongoDB Time Series Collections: Bucketing, Granularity, and What You Give Up",
     "topic": "Document Model",
     "related": [
-      { "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner", "slug": "mongodb-indexing-fundamentals", "feature": "database-concepts" }
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      }
     ],
     "summary": "A time series collection is a MongoDB 5.0 collection type that turns one-document-per-reading into compressed columnar buckets keyed by an immutable metaField plus a rounded time window, buying real storage and query wins for append-only measurement data at the cost of a long and specific list of restrictions: metaField-only updates, no unique or text indexes, no change streams, no writes in transactions, and a metaField choice you cannot change later.",
     "publishedAt": "2026-08-20",
     "references": [
-      { "label": "MongoDB Documentation — Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/", "type": "doc" },
-      { "label": "MongoDB Documentation — Time Series Collection Limitations", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-limitations/", "type": "doc" },
-      { "label": "MongoDB Documentation — Set Granularity for Time Series Data", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-granularity/", "type": "doc" },
-      { "label": "MongoDB Documentation — About Time Series Data (bucketing and the bucket catalog)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-bucketing/", "type": "doc" },
-      { "label": "MongoDB Documentation — Create and Query a Time Series Collection (field reference)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-procedures/", "type": "doc" },
-      { "label": "MongoDB Documentation — Time Series Collections Considerations (metaField, cardinality, granularity)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-considerations/", "type": "doc" },
-      { "label": "MongoDB Documentation — Best Practices for Time Series Collections", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-best-practices/", "type": "doc" },
-      { "label": "MongoDB Documentation — Set up Automatic Removal for Time Series Collections (TTL)", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-automatic-removal/", "type": "doc" },
-      { "label": "MongoDB Documentation — Aggregation and Operator Considerations for Time Series", "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-aggregations-operators/", "type": "doc" }
+      {
+        "label": "MongoDB Documentation — Time Series Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries-collections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Time Series Collection Limitations",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-limitations/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Set Granularity for Time Series Data",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-granularity/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — About Time Series Data (bucketing and the bucket catalog)",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-bucketing/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Create and Query a Time Series Collection (field reference)",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-procedures/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Time Series Collections Considerations (metaField, cardinality, granularity)",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-considerations/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Best Practices for Time Series Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-best-practices/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Set up Automatic Removal for Time Series Collections (TTL)",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-automatic-removal/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Aggregation and Operator Considerations for Time Series",
+        "url": "https://www.mongodb.com/docs/manual/core/timeseries/timeseries-aggregations-operators/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -3832,24 +3988,2606 @@
     "title": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
     "topic": "Query Techniques",
     "related": [
-      { "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators", "slug": "mongodb-aggregation-pipeline", "feature": "database-concepts" },
-      { "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner", "slug": "mongodb-indexing-fundamentals", "feature": "database-concepts" }
+      {
+        "label": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators",
+        "slug": "mongodb-aggregation-pipeline",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      }
     ],
     "summary": "MongoDB Search and MongoDB Vector Search (formerly Atlas Search / Atlas Vector Search) are Lucene-backed full-text and ANN/HNSW semantic search served by a separate mongot process synchronized via change streams — eventually consistent, memory-bound by the vector index size, and since MongoDB 8.2 available self-managed rather than only on Atlas, though with a materially narrower feature set than the managed platform.",
     "publishedAt": "2026-08-20",
     "references": [
-      { "label": "MongoDB Documentation — MongoDB Search (formerly Atlas Search) Overview", "url": "https://www.mongodb.com/docs/search/", "type": "doc" },
-      { "label": "MongoDB Documentation — MongoDB Vector Search Overview", "url": "https://www.mongodb.com/docs/vector-search/", "type": "doc" },
-      { "label": "MongoDB Documentation — $vectorSearch Aggregation Stage", "url": "https://www.mongodb.com/docs/vector-search/query/aggregation-stages/vector-search-stage/", "type": "doc" },
-      { "label": "MongoDB Documentation — $search Aggregation Stage", "url": "https://www.mongodb.com/docs/search/query/aggregation-stages/search/", "type": "doc" },
-      { "label": "MongoDB Documentation — How to Index Fields for Vector Search", "url": "https://www.mongodb.com/docs/vector-search/index/vector-search-type/", "type": "doc" },
-      { "label": "MongoDB Documentation — Retrieval-Augmented Generation (RAG) with MongoDB", "url": "https://www.mongodb.com/docs/vector-search/tutorials/rag/", "type": "doc" },
-      { "label": "MongoDB Documentation — How to Perform Hybrid Search", "url": "https://www.mongodb.com/docs/vector-search/hybrid-search/hybrid-search-overview/", "type": "doc" },
-      { "label": "MongoDB Documentation — Review Deployment Options for Vector Search", "url": "https://www.mongodb.com/docs/vector-search/deployment/deployment-options/", "type": "doc" },
-      { "label": "MongoDB Documentation — MongoDB Search and Vector Search on Self-Managed Deployments", "url": "https://www.mongodb.com/docs/search/self-managed/current/", "type": "doc" },
-      { "label": "MongoDB Documentation — Known Limitations for Self-Managed mongot", "url": "https://www.mongodb.com/docs/search/self-managed/current/limitations/", "type": "doc" },
-      { "label": "MongoDB Documentation — Compatibility and Requirements for mongot", "url": "https://www.mongodb.com/docs/search/self-managed/current/deployment/compatibility-requirements/", "type": "doc" },
-      { "label": "MongoDB Documentation — Vector Quantization", "url": "https://www.mongodb.com/docs/vector-search/about/vector-quantization/", "type": "doc" }
+      {
+        "label": "MongoDB Documentation — MongoDB Search (formerly Atlas Search) Overview",
+        "url": "https://www.mongodb.com/docs/search/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — MongoDB Vector Search Overview",
+        "url": "https://www.mongodb.com/docs/vector-search/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $vectorSearch Aggregation Stage",
+        "url": "https://www.mongodb.com/docs/vector-search/query/aggregation-stages/vector-search-stage/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — $search Aggregation Stage",
+        "url": "https://www.mongodb.com/docs/search/query/aggregation-stages/search/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — How to Index Fields for Vector Search",
+        "url": "https://www.mongodb.com/docs/vector-search/index/vector-search-type/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Retrieval-Augmented Generation (RAG) with MongoDB",
+        "url": "https://www.mongodb.com/docs/vector-search/tutorials/rag/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — How to Perform Hybrid Search",
+        "url": "https://www.mongodb.com/docs/vector-search/hybrid-search/hybrid-search-overview/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Review Deployment Options for Vector Search",
+        "url": "https://www.mongodb.com/docs/vector-search/deployment/deployment-options/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — MongoDB Search and Vector Search on Self-Managed Deployments",
+        "url": "https://www.mongodb.com/docs/search/self-managed/current/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Known Limitations for Self-Managed mongot",
+        "url": "https://www.mongodb.com/docs/search/self-managed/current/limitations/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Compatibility and Requirements for mongot",
+        "url": "https://www.mongodb.com/docs/search/self-managed/current/deployment/compatibility-requirements/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Vector Quantization",
+        "url": "https://www.mongodb.com/docs/vector-search/about/vector-quantization/",
+        "type": "doc"
+      }
     ]
+  },
+  {
+    "slug": "cassandra-cql-data-model",
+    "id": 76,
+    "category": "Cassandra",
+    "title": "The Cassandra Query Language: Keyspaces, Partitions, Columns, and CQL Types",
+    "topic": "CQL Fundamentals",
+    "related": [
+      {
+        "label": "Cassandra Data Modeling: Query-First Design, Chebotko Diagrams, and Partition Sizing",
+        "slug": "cassandra-data-modeling-methodology",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Cassandra's data model built bottom-up from column to row to partition to table to keyspace to cluster, with the composite primary key (partition key plus clustering columns) that decides both node placement and on-disk order, per-column timestamps and TTL, and the full CQL type system from numeric and textual types through uuid/timeuuid, counters, the three collections, tuples, and frozen user-defined types.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 4, \"The Cassandra Query Language\", p. 94-128",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Data Types",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/types.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Data Definition (keyspaces, tables, primary keys)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/ddl.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Data Manipulation (INSERT, UPDATE, DELETE, USING TTL and TIMESTAMP)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/dml.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Functions (writetime, ttl, uuid, now, toTimestamp)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/functions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Vector CQL Data Type",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/reference/vector-data-type.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cassandra-data-modeling-methodology",
+    "id": 77,
+    "category": "Cassandra",
+    "title": "Cassandra Data Modeling: Query-First Design, Chebotko Diagrams, and Partition Sizing",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Cassandra data modeling runs conceptual model to application queries to logical model to physical model to a sizing pass, producing one denormalized table per query rather than one normalized table per entity — worked end to end on the book's hotel/reservation example, from Q1-Q9 through partition-size and disk-size arithmetic to the final CQL schema.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 5, \"Data Modeling\", p. 130-162",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Data Modeling",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/data_modeling/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Evaluating and Refining Data Models (partition size and disk size formulas)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/data-modeling_refining.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Defining Application Queries",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/data-modeling_queries.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Cassandra Data Modeling Tools",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/data-modeling_tools.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Partitions",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#partitioning",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CREATE TABLE (primary keys, clustering order, static columns)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/ddl.html#create-table",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — Apache Cassandra 5.0 Features: Storage Attached Indexes",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-5.0-Features-Storage-Attached-Indexes.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cassandra-consistency-levels",
+    "id": 78,
+    "category": "Cassandra",
+    "title": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Cassandra separates the replication factor, set once per keyspace by SimpleStrategy or the production-recommended NetworkTopologyStrategy, from the consistency level chosen per query by the client, so a coordinator node forwards each read or write to the replicas that own the partition and returns as soon as ONE, QUORUM (floor(RF/2 + 1)), or ALL of them answer — with R + W > RF the formula for strong consistency, and hinted handoff plus repair covering the replicas that did not answer.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 6, \"The Cassandra Architecture\" (Replication Strategies through Anti-Entropy/Repair), p. 174-185",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Consistency",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#tunable-consistency",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Data Replication",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#replication-strategy",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Data Definition (CREATE KEYSPACE replication options)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/ddl.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — cassandra.yaml Configuration Reference (max_hint_window, guardrails, ideal_consistency_level)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/configuration/cass_yaml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Hints",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/hints.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Repair",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/repair.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Transient Replication (experimental)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/transientreplication.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cassandra-write-path-and-lightweight-transactions",
+    "id": 79,
+    "category": "Cassandra",
+    "title": "Cassandra Write Path and Lightweight Transactions",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Read Path, Last-Write-Wins, and Read Repair",
+        "slug": "cassandra-read-path-and-repair",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "A Cassandra write is fast because the coordinator only waits for the commit-log-then-memtable step on each replica before acknowledging — the SSTable flush happens after the client is already told success — and lightweight transactions trade that speed for linearizability by running a full four-round-trip Paxos negotiation (prepare/promise, read/results, propose/accept, commit/ack) scoped to a single partition.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 9, \"Writing and Reading Data\" (Writing), p. 285-304",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Dynamo: Writes",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#writes",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Lightweight Transactions",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#lightweight-transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Storage Engine (commit log, memtables, SSTables)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/storage-engine.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — cassandra.yaml File Configuration",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/configuration/cass_yaml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Liberating cassandra.yaml Parameters' Names from Their Units",
+        "url": "https://cassandra.apache.org/doc/4.1/cassandra/configuration/configuration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — Apache Cassandra 4.1: New SSTable Identifiers",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-4.1-New-SSTable-Identifiers.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Wiki — CEP-14: Paxos Improvements",
+        "url": "https://cwiki.apache.org/confluence/display/CASSANDRA/CEP-14:+Paxos+Improvements",
+        "type": "doc"
+      },
+      {
+        "label": "CQL Reference — BATCH",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/dml.html#batch",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cassandra-read-path-and-repair",
+    "id": 80,
+    "category": "Cassandra",
+    "title": "Cassandra Read Path, Last-Write-Wins, and Read Repair",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Write Path and Lightweight Transactions",
+        "slug": "cassandra-write-path-and-lightweight-transactions",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "On a read, the coordinator asks the fastest replica for the row and every other replica for only a digest of it, resolves any disagreement by picking the cell with the latest timestamp (last write wins, with a lexicographic tiebreak), and then transparently read-repairs the replicas that answered with obsolete data as part of that same request — a mechanism that is opportunistic by design, is now configured by the Cassandra 4.0 read_repair table option rather than the book's removed read_repair_chance, and never replaces scheduled anti-entropy repair.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 9, \"Writing and Reading Data\" (Reading), p. 305-328",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Reads",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#reads",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Read Repair",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html#read-repair",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Read Repair (table read_repair option, monotonic quorum reads)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/read_repair.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — cassandra.yaml configuration (read_request_timeout)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/configuration/cass_yaml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL SELECT statement and WHERE restrictions",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/dml.html#select-statement",
+        "type": "doc"
+      },
+      {
+        "label": "DataStax Java Driver — Paging",
+        "url": "https://docs.datastax.com/en/developer/java-driver/latest/manual/core/paging/",
+        "type": "doc"
+      },
+      {
+        "label": "CASSANDRA-13910 — Remove read_repair_chance / dclocal_read_repair_chance",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-13910",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "redis-core-data-types-strings-lists-hashes",
+    "title": "Redis Core Data Types: Strings, Lists, and Hashes",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "label": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+        "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis Strings, Lists, and Hashes are three distinct structures, not variations on key-value: Strings hold bytes/integers/floats with atomic SET/GET/INCR and a 512 MB cap; Lists are true linked lists giving O(1) push/pop at either end via LPUSH/RPUSH/LPOP/RPOP/LRANGE (O(N) for anything else) and power queues via BRPOP/RPOPLPUSH; Hashes map String fields to String values via HSET/HGET/HGETALL/HINCRBY, collapsing related fields (an Instagram case study cut 21 GB to roughly 5 GB moving from per-field String keys to Hashes) — and since Redis 7.0 the compact internal encoding both books call ziplist is renamed listpack.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Carlos Da Silva, Marc Bächinger, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 1, \"Getting Started\" (\"Redis data types\": Strings, Lists, Hashes), p. 9-26",
+        "url": "https://www.packtpub.com/en-us/product/redis-essentials-9781784392451",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah L. Carlson, \"Redis in Action\" (Manning Publications, 2013) — Section 1.2, \"What Redis data structures look like\", p. 7-15",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah L. Carlson, \"Redis in Action\" (Manning Publications, 2013) — Chapter 3, \"Commands in Redis\", Sections 3.1 Strings, 3.2 Lists, 3.4 Hashes, p. 40-51",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Strings",
+        "url": "https://redis.io/docs/latest/develop/data-types/strings/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Lists",
+        "url": "https://redis.io/docs/latest/develop/data-types/lists/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Hashes",
+        "url": "https://redis.io/docs/latest/develop/data-types/hashes/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — OBJECT ENCODING (ziplist to listpack rename, Redis 7.0)",
+        "url": "https://redis.io/docs/latest/commands/object-encoding/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SET / GET / INCR / INCRBY",
+        "url": "https://redis.io/docs/latest/commands/set/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — LPUSH / RPUSH / LPOP / RPOP / LRANGE",
+        "url": "https://redis.io/docs/latest/commands/lrange/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — HSET / HGET / HGETALL",
+        "url": "https://redis.io/docs/latest/commands/hgetall/",
+        "type": "doc"
+      }
+    ],
+    "id": 81,
+    "category": "Redis"
+  },
+  {
+    "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+    "title": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "feature": "database-concepts"
+      },
+      {
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Sets, Sorted Sets, Bitmaps, and HyperLogLog are four distinct data structures, not just more commands: Sets give O(1) unique membership with real set algebra (SINTER/SUNION/SDIFF); Sorted Sets keep a skip-list ordering by score that doubles as both a ranked leaderboard and a range index; Bitmaps repurpose a String as one bit per integer ID for compact boolean analytics; and HyperLogLog trades exactness for a fixed ~12 KB cardinality estimate regardless of scale.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Maxwell Dayvson Da Silva and Hugo Lopes Tavares, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 2, \"Advanced Data Types (Earning a Black Belt),\" p. 27-53",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392451",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah L. Carlson, \"Redis in Action\" (Manning Publications, 2013) — Chapter 3, \"Commands in Redis,\" sections 3.3 Sets and 3.5 Sorted sets, p. 46-54",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Sets",
+        "url": "https://redis.io/docs/latest/develop/data-types/sets/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Sorted sets",
+        "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Bitmaps",
+        "url": "https://redis.io/docs/latest/develop/data-types/bitmaps/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — HyperLogLog",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/hyperloglogs/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SINTERCARD",
+        "url": "https://redis.io/docs/latest/commands/sintercard/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Bloom filter",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Cuckoo filter",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/cuckoo-filter/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Open Source 8.0 release notes",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/",
+        "type": "doc"
+      }
+    ],
+    "id": 82,
+    "category": "Redis"
+  },
+  {
+    "slug": "redis-application-patterns-caching-sessions-rate-limiting",
+    "title": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
+    "topic": "Application Patterns",
+    "related": [
+      {
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "feature": "database-concepts"
+      },
+      {
+        "slug": "redis-distributed-locking-and-semaphores",
+        "label": "Redis Distributed Locking and Semaphores",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The Redis patterns that show up in nearly every production web app: a HASH plus a scored ZSET for login/session and shopping-cart storage, cache-aside with SET...EX for rendered pages and a per-row refresh schedule for database rows that can't tolerate a flat TTL, and INCR/sorted sets for view counters, time-series stats, and rate limiting — including how the modern sliding-window-log pattern extends the book's fixed-window counters.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 2, \"Anatomy of a Redis web application,\" p. 24-36",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 5, \"Using Redis for application support,\" sections 5.1-5.2, p. 90-101",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — EXPIRE (TTL semantics, expire accuracy, replication behavior)",
+        "url": "https://redis.io/docs/latest/commands/expire/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SETEX (equivalence to SET key value EX seconds)",
+        "url": "https://redis.io/docs/latest/commands/setex/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SET (EX/PX/NX/XX/GET options)",
+        "url": "https://redis.io/docs/latest/commands/set/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Sorted sets (ZADD, ZINCRBY, ZREMRANGEBYRANK, ZREMRANGEBYSCORE, ZINTERSTORE)",
+        "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis rate limiter use case (fixed window, sliding window, token bucket)",
+        "url": "https://redis.io/docs/latest/develop/use-cases/rate-limiter/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Client-side caching reference (RESP3 tracking and invalidation)",
+        "url": "https://redis.io/docs/latest/develop/reference/client-side-caching/",
+        "type": "doc"
+      }
+    ],
+    "id": 83,
+    "category": "Redis"
+  },
+  {
+    "slug": "redis-distributed-locking-and-semaphores",
+    "title": "Distributed Locking and Semaphores in Redis",
+    "topic": "Coordination Primitives",
+    "related": [
+      {
+        "label": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
+        "slug": "redis-application-patterns-caching-sessions-rate-limiting",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis's WATCH/MULTI/EXEC optimistic locking degrades badly under contention, so Redis in Action walks through building an explicit distributed lock from SETNX — first without a timeout (unsafe: a crashed holder never releases it), then with one via EXPIRE (the book's own manual SETNX-then-EXPIRE workaround is what modern SET key value NX EX makes unnecessary) — and then generalizes that lock into a counting semaphore backed by a ZSET, whose naive clock-trusting version is unfair (a slow client can steal a slot) until a monotonic counter and, ultimately, a reused lock close the remaining race condition; the production-grade descendant of the whole chapter is Redis's own Redlock algorithm, whose safety guarantees remain genuinely disputed between Martin Kleppmann and Redis's creator.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 6, \"Application components in Redis,\" sections 6.2 \"Distributed locking\" and 6.3 \"Counting semaphores,\" p. 116-133",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Distributed Locks with Redis (Redlock algorithm, safety and liveness guarantees, analysis)",
+        "url": "https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SET command (NX, EX/PX options)",
+        "url": "https://redis.io/docs/latest/commands/set/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — EXPIRE command",
+        "url": "https://redis.io/docs/latest/commands/expire/",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann — \"How to do distributed locking\" (Redlock safety critique)",
+        "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
+        "type": "doc"
+      },
+      {
+        "label": "antirez — \"Is Redlock safe?\" (response to the Kleppmann critique)",
+        "url": "https://antirez.com/news/101",
+        "type": "doc"
+      },
+      {
+        "label": "redis-py Documentation — Lock (built-in distributed lock context manager)",
+        "url": "https://redis.readthedocs.io/en/stable/lock.html",
+        "type": "doc"
+      }
+    ],
+    "id": 84,
+    "category": "Redis"
+  },
+  {
+    "slug": "redis-partitioning-and-cluster-fundamentals",
+    "title": "Redis Partitioning and Cluster Fundamentals",
+    "topic": "Scaling & Topology",
+    "related": [
+      {
+        "label": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+        "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Choosing a Shard Key in MongoDB",
+        "slug": "mongodb-choosing-a-shard-key",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis started with no native distribution story, so the book walks the client-side partitioning schemes people used instead — range, hash, presharding, consistent hashing, and hash tagging — before showing the two purpose-built systems that replaced them: Redis Cluster, which shards data across 16384 hash slots via HASH_SLOT = CRC16(key) mod 16384 (with {tag} hash tags forcing related keys into the same slot for multi-key ops), and Redis Sentinel, which handles quorum-based automatic failover on an unsharded master/replica pair without distributing any data.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Vinicius Da Silva, Henrique Cassela, Adhitya Rachman Nugraha, Naga Venkata Sudheer Yaramada, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 8, \"Scaling Redis (Beyond a Single Instance)\", Partitioning through Automatic sharding with twemproxy, p. 148-168; Chapter 9, \"Redis Cluster and Redis Sentinel\", full chapter, p. 169-196",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392503",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Scale with Redis Cluster",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Cluster specification (hash slots, hash tags, CRC16)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — High availability with Redis Sentinel",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — redis-cli cluster management mode",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cli-tools/",
+        "type": "doc"
+      }
+    ],
+    "id": 85,
+    "category": "Redis"
+  },
+  {
+    "slug": "dynamodb-advanced-concepts-streams-ttl-partitions-consistency",
+    "category": "DynamoDB",
+    "title": "DynamoDB Advanced Concepts: Streams, TTL, Partitions, and Consistency",
+    "topic": "Advanced Mechanics",
+    "related": [
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The mechanics beneath the DynamoDB vocabulary: Streams give you change-data-capture for free via a shard-per-partition log consumed by Lambda or Kinesis; TTL deletes items on a background sweep that AWS now describes as 'within a few days,' not the book's 48 hours; partitions turn out to be three physical nodes (one primary, two secondary) whose async replication is the literal source of eventual consistency; and ConsistentRead lets you trade half the read cost for a guarantee that only the base table and LSIs can ever make.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 3, \"Advanced Concepts\", p. 45-61",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Change Data Capture for DynamoDB Streams",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Streams and AWS Lambda Triggers",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Using Time to Live (TTL) in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Partitions and Data Distribution",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Partitions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Read Consistency",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Global Tables: Consistency Modes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes",
+        "type": "doc"
+      }
+    ],
+    "id": 86
+  },
+  {
+    "slug": "dynamodb-api-action-types-query-scan-item-operations",
+    "category": "DynamoDB",
+    "title": "DynamoDB API Action Types: Item Operations, Query, and Scan",
+    "topic": "API & Access Patterns",
+    "related": [
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB's API splits cleanly into three cost tiers — item-based actions (GetItem/PutItem/UpdateItem/DeleteItem, O(1), one item) — Query (hash lookup plus B-tree seek within one item collection, the operation single-table design is built around) — and Scan (a full-table walk the book sums up in three words: 'don't use Scans') — with PartiQL added later as a SQL-shaped syntax over the same three tiers, not a new one.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 4, \"The API\", p. 62-76",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Working with Items: GetItem, PutItem, UpdateItem, DeleteItem",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Query API Reference (KeyConditionExpression)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Scan API Reference",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Batch Operations and Transactions",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — PartiQL for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Querying and Scanning Data",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-query-scan.html",
+        "type": "doc"
+      }
+    ],
+    "id": 87
+  },
+  {
+    "slug": "cassandra-storage-attached-indexes",
+    "category": "Cassandra",
+    "title": "Storage-Attached Indexes: Fixing Cassandra's Secondary Index and Materialized View Problem",
+    "topic": "Indexing & Extending Designs",
+    "related": [
+      {
+        "label": "Cassandra Data Modeling Methodology: Query-First Design",
+        "slug": "cassandra-data-modeling-methodology",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Explains Storage-Attached Indexing (SAI), Cassandra 5.0's storage-engine-integrated secondary index: what it fixes about the older built-in secondary index (2i) and materialized views (cardinality cliffs, tombstone failures, per-column storage cost, denormalization consistency risk), how per-SSTable index attachment works mechanically, CQL syntax, and its newer text-analysis and vector-search (ANN) angles, plus where its limits still push you back toward query-first table design.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Apache Cassandra Documentation — Storage-Attached Indexing (SAI) Overview",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/sai/sai-overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Storage-Attached Indexing (SAI) Concepts",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/sai/sai-concepts.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Storage-Attached Indexing (SAI) Quickstart",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/getting-started/sai-quickstart.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — SAI FAQ",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/sai/sai-faq.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — When to Use an Index (legacy secondary indexes, 2i)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/2i/2i-when-to-use.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Vector Search Quickstart",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/getting-started/vector-search-quickstart.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — Apache Cassandra 5.0 Features: Storage Attached Indexes",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-5.0-Features-Storage-Attached-Indexes.html",
+        "type": "doc"
+      }
+    ],
+    "id": 88
+  },
+  {
+    "slug": "redis-persistence-rdb-vs-aof",
+    "category": "Redis",
+    "title": "Redis Persistence: RDB versus AOF",
+    "topic": "Durability & Persistence",
+    "related": [
+      {
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis offers two independent, combinable persistence mechanisms: RDB forks a child process to write a compact point-in-time binary snapshot (fast restarts and backups, but a hard floor on data loss between saves), and AOF appends every write command to a log replayed on restart (near-zero loss under appendfsync everysec, at the cost of disk I/O, disk space, and slower recovery on large datasets) — Redis Essentials's own comparison and both books converge on running them together for workloads that need full durability, and since Redis 7.0 the single-file AOF both books describe has been replaced by Multi Part AOF (base + incremental files plus a manifest, in a dedicated directory).",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Da Silva, Cassela, Nugraha, Yaramada, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 8, \"Scaling Redis (Beyond a Single Instance),\" section \"Persistence\" (RDB, AOF, RDB versus AOF), p. 141-146",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392503",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 4, \"Keeping data safe and ensuring performance,\" section 4.1 \"Persistence options,\" p. 64-70",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis persistence (RDB, AOF, Multi Part AOF, BACKUP command family)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SAVE command",
+        "url": "https://redis.io/docs/latest/commands/save/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — BGSAVE command",
+        "url": "https://redis.io/docs/latest/commands/bgsave/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — BGREWRITEAOF command",
+        "url": "https://redis.io/docs/latest/commands/bgrewriteaof/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis configuration (save, appendonly, appendfsync directives)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/config/",
+        "type": "doc"
+      },
+      {
+        "label": "antirez — \"Redis persistence demystified\"",
+        "url": "http://oldblog.antirez.com/post/redis-persistence-demystified.html",
+        "type": "doc"
+      }
+    ],
+    "id": 89
+  },
+  {
+    "slug": "redis-acls-and-tls-security",
+    "category": "Redis",
+    "title": "Redis ACLs and Native TLS: From requirepass to Real Access Control",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "Distributed Locking and Semaphores in Redis",
+        "slug": "redis-distributed-locking-and-semaphores",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "Redis's only pre-2020 security tools were a single shared requirepass password, rename-command obscurity, network-level firewalling, and stunnel-wrapped TLS since Redis had none natively — this concept covers why that was inadequate and walks through the real fix: Redis 6.0's ACL system (named users, per-command/category rules, per-key-pattern and per-channel access, selectors) and built-in TLS (tls-port, mutual-TLS-by-default, cluster/replication encryption) that replaced both gaps.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Maxwell Dayvson Da Silva et al., \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 7, \"Security Techniques (Guard Your Data)\", p. 131-140",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392503",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — ACL (rules, categories, selectors, external ACL files, Sentinel/replica user examples)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — TLS (build flags, tls-port, certificate directives, mutual TLS, cluster/replication TLS)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/security/encryption/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — ACL SETUSER command",
+        "url": "https://redis.io/commands/acl-setuser/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — AUTH command (username/password form)",
+        "url": "https://redis.io/commands/auth/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — ACL CAT command",
+        "url": "https://redis.io/commands/acl-cat/",
+        "type": "doc"
+      }
+    ],
+    "id": 90
+  },
+  {
+    "slug": "redis-streams",
+    "category": "Redis",
+    "title": "Redis Streams: Append-Only Logs and Consumer Groups",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "label": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
+        "slug": "redis-application-patterns-caching-sessions-rate-limiting",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+        "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis Streams (5.0, 2018) are a persisted, append-only log with time-ordered entry IDs, read via XADD/XRANGE/XREAD — but the real payoff is consumer groups (XGROUP, XREADGROUP, XACK, XPENDING, XCLAIM/XAUTOCLAIM), which give multiple cooperating consumers per-message acknowledgment and crash recovery via a Pending Entries List, an at-least-once guarantee neither Pub/Sub's fire-and-forget fan-out nor a plain List-based queue provides natively.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Redis Documentation — Redis Streams",
+        "url": "https://redis.io/docs/latest/develop/data-types/streams/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XADD",
+        "url": "https://redis.io/docs/latest/commands/xadd/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XREAD",
+        "url": "https://redis.io/docs/latest/commands/xread/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XGROUP CREATE",
+        "url": "https://redis.io/docs/latest/commands/xgroup-create/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XREADGROUP",
+        "url": "https://redis.io/docs/latest/commands/xreadgroup/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XACK",
+        "url": "https://redis.io/docs/latest/commands/xack/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XPENDING",
+        "url": "https://redis.io/docs/latest/commands/xpending/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XCLAIM",
+        "url": "https://redis.io/docs/latest/commands/xclaim/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — XAUTOCLAIM",
+        "url": "https://redis.io/docs/latest/commands/xautoclaim/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Pub/Sub (delivery semantics)",
+        "url": "https://redis.io/docs/latest/develop/pubsub/",
+        "type": "doc"
+      }
+    ],
+    "id": 91
+  },
+  {
+    "slug": "redis-8-stack-in-core-json-search-vectorsets-timeseries",
+    "category": "Redis",
+    "title": "Redis 8: JSON, Search, Vector Sets, and Time Series in Core",
+    "topic": "Modern Redis Capabilities",
+    "related": [
+      {
+        "label": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+        "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Atlas Search and Vector Search",
+        "slug": "mongodb-atlas-search-and-vector-search",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis 8 (May 2025) folded five formerly-separate, separately-licensed Redis Stack modules directly into core Redis for free: native JSON documents, full-text/vector search via the Redis Query Engine (FT.CREATE/FT.SEARCH), Time Series (TS.*), and five probabilistic structures beyond HyperLogLog (Bloom, Cuckoo, Count-min sketch, Top-K, t-digest) — plus a brand-new native Vector Sets data type (VADD/VSIM) for embedding similarity search, Redis's answer to the same AI/RAG need MongoDB addresses with Atlas Vector Search.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Redis Documentation — JSON",
+        "url": "https://redis.io/docs/latest/develop/data-types/json/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Query Engine (RediSearch)",
+        "url": "https://redis.io/docs/latest/develop/ai/search-and-query/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — FT.CREATE",
+        "url": "https://redis.io/docs/latest/commands/ft.create/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — FT.SEARCH",
+        "url": "https://redis.io/docs/latest/commands/ft.search/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Vector sets",
+        "url": "https://redis.io/docs/latest/develop/data-types/vector-sets/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Time series",
+        "url": "https://redis.io/docs/latest/develop/data-types/timeseries/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Bloom filter",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Cuckoo filter",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/cuckoo-filter/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Count-min sketch",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/count-min-sketch/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Top-K",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/top-k/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — t-digest",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/t-digest/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Blog — Redis 8 is now GA, loaded with new features and more than 30 performance improvements",
+        "url": "https://redis.io/blog/redis-8-ga/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Blog — Redis is now available under the AGPLv3 open source license",
+        "url": "https://redis.io/blog/agplv3/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Open Source 8.0 release notes",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/",
+        "type": "doc"
+      }
+    ],
+    "id": 92
+  },
+  {
+    "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+    "category": "Cassandra",
+    "title": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Write Path and Lightweight Transactions",
+        "slug": "cassandra-write-path-and-lightweight-transactions",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How a Cassandra cluster agrees on membership and data placement without a coordinator: the gossip protocol and Phi Accrual Failure Detector for cluster state, snitches for topology-aware routing, the token ring and consistent hashing for deterministic partition ownership, and virtual nodes for balanced rebalancing.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 6, \"The Cassandra Architecture\" (Data Centers and Racks through Partitioners)",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Dynamo: Gossip, Failure Detection, Snitches, Token Ring, and Virtual Nodes",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Snitch",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/snitch.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — cassandra.yaml Configuration Reference (num_tokens, endpoint_snitch, partitioner)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/configuration/cass_yaml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Adding, Replacing, Moving and Removing Nodes",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/topo_changes.html",
+        "type": "doc"
+      },
+      {
+        "label": "CASSANDRA-13701 — Lower default num_tokens",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-13701",
+        "type": "doc"
+      }
+    ],
+    "id": 93
+  },
+  {
+    "slug": "mongodb-multi-document-transactions",
+    "category": "MongoDB",
+    "title": "MongoDB Transactions: ACID Across Documents, Collections, and Shards",
+    "topic": "Transactions & Consistency",
+    "related": [
+      {
+        "label": "MongoDB Schema Design: Patterns, Normalization, and When Not to Use MongoDB",
+        "slug": "mongodb-schema-design-patterns",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Writes: Inserts, Update Operators, Upserts, and Deletes",
+        "slug": "mongodb-crud-operations",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Multi-document ACID transactions are MongoDB's escape hatch for the genuinely cross-document case, not the default consistency tool the book warns against reaching for: session-scoped, bounded by a 60-second default lifetime and a 5ms lock-wait timeout, driven through a core API you retry by hand or a callback API that retries TransientTransactionError and UnknownTransactionCommitResult for you.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 8, \"Transactions\", p. 199-206",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Transactions",
+        "url": "https://www.mongodb.com/docs/manual/core/transactions/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Production Considerations (Transactions)",
+        "url": "https://www.mongodb.com/docs/manual/core/transactions-production-consideration/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Production Considerations (Sharded Clusters)",
+        "url": "https://www.mongodb.com/docs/manual/core/transactions-sharded-clusters/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Limits and Thresholds (16 MB BSON document size)",
+        "url": "https://www.mongodb.com/docs/manual/reference/limits/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Driver Compatibility Reference",
+        "url": "https://www.mongodb.com/docs/drivers/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Read Concern",
+        "url": "https://www.mongodb.com/docs/manual/reference/read-concern/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Write Concern",
+        "url": "https://www.mongodb.com/docs/manual/reference/write-concern/",
+        "type": "doc"
+      }
+    ],
+    "id": 94
+  },
+  {
+    "slug": "mongodb-replica-sets-topology-and-elections",
+    "category": "MongoDB",
+    "title": "MongoDB Replica Sets: Topology, Elections, and Member Configuration",
+    "topic": "High Availability",
+    "related": [
+      {
+        "label": "MongoDB Document Model, Collections, and Dynamic Schema",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Choosing a Shard Key in MongoDB",
+        "slug": "mongodb-choosing-a-shard-key",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How a MongoDB replica set actually fails over: the primary/secondary/oplog model, majority-based elections and quorum design across data centers, rollback mechanics after a failover, and the priority/hidden/votes/arbiter knobs used to shape which member becomes primary.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 10-11, \"Setting Up a Replica Set\" and \"Components of a Replica Set\", p. 227-259",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Sets",
+        "url": "https://www.mongodb.com/docs/manual/replication/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Elections",
+        "url": "https://www.mongodb.com/docs/manual/core/replica-set-elections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Members",
+        "url": "https://www.mongodb.com/docs/manual/core/replica-set-members/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Arbiter",
+        "url": "https://www.mongodb.com/docs/manual/core/replica-set-arbiter/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Delayed Replica Set Members",
+        "url": "https://www.mongodb.com/docs/manual/core/replica-set-delayed-member/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Rollbacks",
+        "url": "https://www.mongodb.com/docs/manual/core/replica-set-rollbacks/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Limits",
+        "url": "https://www.mongodb.com/docs/manual/reference/limits/#replica-sets",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Configuration Reference",
+        "url": "https://www.mongodb.com/docs/manual/reference/replica-configuration/",
+        "type": "doc"
+      }
+    ],
+    "id": 95
+  },
+  {
+    "slug": "mongodb-sharding-architecture",
+    "category": "MongoDB",
+    "title": "MongoDB Sharding Architecture: mongos, Config Servers, and Shards",
+    "topic": "Scaling & Sharding",
+    "related": [
+      {
+        "label": "Choosing a Shard Key in MongoDB",
+        "slug": "mongodb-choosing-a-shard-key",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Replica Sets: Topology, Elections, and Member Configuration",
+        "slug": "mongodb-replica-sets-topology-and-elections",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How a MongoDB sharded cluster actually routes a query: the mongos router (stateless, dispatches targeted or scatter-gather queries), the config server replica set (holds cluster metadata under majority read/write, the single source of truth every mongos trusts), and the shards themselves (each a replica set since MongoDB 3.6) — plus the chunk-splitting and balancer machinery that migrates data between shards invisibly to the application, with book-vs-today notes on the 6.0 change from chunk-count to data-size balancing and the new 8.0 config shard deployment shape.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 14-15, \"Introduction to Sharding\" and \"Configuring Sharding\", p. 289-317",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Sharded Cluster Components",
+        "url": "https://www.mongodb.com/docs/manual/core/sharded-cluster-components/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Config Servers",
+        "url": "https://www.mongodb.com/docs/manual/core/sharded-cluster-config-servers/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Sharded Cluster Query Routing (mongos)",
+        "url": "https://www.mongodb.com/docs/manual/core/sharded-cluster-query-router/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Sharded Cluster Balancer",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-balancer-administration/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Data Partitioning with Chunks",
+        "url": "https://www.mongodb.com/docs/manual/core/sharding-data-partitioning/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Modify Range Size in a Sharded Cluster",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/modify-chunk-size-in-sharded-cluster/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Convert a Replica Set to a Sharded Cluster",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/convert-replica-set-to-replicated-shard-cluster/",
+        "type": "doc"
+      }
+    ],
+    "id": 96
+  },
+  {
+    "slug": "dynamodb-what-is-dynamodb-and-when-to-use-it",
+    "category": "DynamoDB",
+    "title": "What Is DynamoDB, and When to Use It",
+    "topic": "Fundamentals",
+    "related": [
+      {
+        "label": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
+        "slug": "dynamodb-core-concepts-keys-and-item-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The orienting case for DynamoDB before going deep: a fully-managed key-value-and-wide-column store built for infinite scaling with no performance degradation, an HTTP/IAM connection model that fits serverless compute, and workload-based pricing — driven historically by hyperscale (the 2007 Dynamo paper) and hyper-ephemeral compute (Lambda) — contrasted honestly against relational databases, MongoDB, and Cassandra, including the trade-offs DeBrie doesn't soften: no joins ever, schema enforcement moves to your application, and permanent AWS lock-in.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 1, \"What is DynamoDB?\", p. 11-33",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — What Is Amazon DynamoDB?",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Throughput Capacity: On-Demand vs. Provisioned Mode",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ProvisionedThroughput.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB Reduces Prices for On-Demand Throughput and Global Tables (Nov 2024)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2024/11/amazon-dynamo-db-reduces-prices-on-demand-throughput-global-tables/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Amazon Keyspaces (for Apache Cassandra)",
+        "url": "https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspaces.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Designing and Architecting with DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html",
+        "type": "doc"
+      }
+    ],
+    "id": 97
+  },
+  {
+    "slug": "dynamodb-migration-strategies-for-single-table-design",
+    "category": "DynamoDB",
+    "title": "Migration Strategies for a Live Single-Table Design",
+    "topic": "Evolution & Migration",
+    "related": [
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How to evolve a live single-table design without downtime: the one question that determines migration difficulty (purely additive, or does it require editing existing items?), the Scan-and-UpdateItem backfill pattern for adding new key attributes to old items, and — since a GSI's own automatic backfill only projects existing attributes and can't invent key values your application hasn't written yet — why that AWS-managed indexing step was never a substitute for the migration script the book teaches, then or now, plus newer escape hatches (Import from S3, the key-violation detector) AWS added since 2020.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 15, \"Strategies for Migrations\", p. 254-268",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Managing Global Secondary Indexes in DynamoDB (online index creation, backfilling phases)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Detecting and Correcting Index Key Violations in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.ViolationDetection.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Importing Amazon S3 Data into a New DynamoDB Table",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/S3DataImport.HowItWorks.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Working with Scans (Parallel Scan, TotalSegments/Segment)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Capturing Table Activity with DynamoDB Streams",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html",
+        "type": "doc"
+      }
+    ],
+    "id": 98
+  },
+  {
+    "slug": "cassandra-storage-engine-internals",
+    "category": "Cassandra",
+    "title": "Cassandra Storage Engine Internals: Memtables, SSTables, Compaction, and Bloom Filters",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Write Path and Lightweight Transactions",
+        "slug": "cassandra-write-path-and-lightweight-transactions",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The on-disk machinery underneath Cassandra's write path: how a memtable accumulates writes in memory and flushes to an immutable SSTable, why SSTables must then be merged through compaction (SizeTiered/Leveled/TimeWindow, each a different workload trade-off), how Bloom filters let a read skip an SSTable without touching disk, and how tombstones and gc_grace_seconds interact with compaction to age out deletes — plus a book-vs-today note on Cassandra 5.0's opt-in Unified Compaction Strategy.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 6, \"The Cassandra Architecture\" (\"Memtables, SSTables, and Commit Logs\" through \"Storage Engine\")",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Storage Engine (commit log, memtables, SSTables)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/storage-engine.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Compaction",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/compaction/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — Apache Cassandra 5.0 Features: Unified Compaction Strategy",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-5.0-Features-Unified-Compaction-Strategy.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Bloom Filters",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/bloom_filters.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Compaction: Tombstones and gc_grace_seconds",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/compaction/index.html#tombstones-and-compaction",
+        "type": "doc"
+      }
+    ],
+    "id": 99
+  },
+  {
+    "slug": "mongodb-security-authentication-and-encryption",
+    "category": "MongoDB",
+    "title": "MongoDB Security: SCRAM, x.509 Authentication, RBAC, and TLS",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
+        "slug": "mongodb-atlas-search-and-vector-search",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "MongoDB's older, broader security layer beneath field-level encryption: SCRAM and x.509 certificate authentication (with a full CA-to-cluster tutorial from the book), role-based authorization from built-in roles like readWrite and dbOwner up to root, and TLS for encryption in transit — plus why Atlas enforces TLS by default while self-managed MongoDB still ships with it off.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 19, \"An Introduction to MongoDB Security\", p. 389-404",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 21, \"Setting Up MongoDB in Production\" (Security, Data Encryption, SSL Connections), p. 415-424",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — SCRAM",
+        "url": "https://www.mongodb.com/docs/manual/core/security-scram/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Use x.509 Certificates to Authenticate Clients",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/configure-x509-client-authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Built-In Roles",
+        "url": "https://www.mongodb.com/docs/manual/reference/built-in-roles/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Configure TLS/SSL",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/configure-ssl/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Encryption at Rest",
+        "url": "https://www.mongodb.com/docs/manual/core/security-encryption-at-rest/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Atlas Documentation — Security FAQ (TLS enforcement)",
+        "url": "https://www.mongodb.com/docs/atlas/reference/faq/security/",
+        "type": "doc"
+      }
+    ],
+    "id": 100
+  },
+  {
+    "slug": "cassandra-secondary-indexes-and-materialized-views",
+    "category": "Cassandra",
+    "title": "Secondary Indexes and Materialized Views: Cassandra's Pre-SAI Answers to Non-Partition-Key Queries",
+    "topic": "Indexing & Extending Designs",
+    "related": [
+      {
+        "label": "Storage-Attached Indexes: Fixing Cassandra's Secondary Index and Materialized View Problem",
+        "slug": "cassandra-storage-attached-indexes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Cassandra's original built-in secondary index (2i) and materialized views, the two mechanisms for querying on a non-partition-key column before Storage-Attached Indexing existed: 2i's cluster-wide fan-out and hard cardinality/tombstone limits, SASI's partial per-SSTable fix, and materialized views' automatic-denormalization trade against write-path cost and the book's own admitted immaturity — the exact gap the sibling SAI concept closes.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 7, \"Extending Designs\" (Secondary Indexes, SASI, Materialized Views)",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — When to Use an Index (legacy secondary indexes, 2i)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/2i/2i-when-to-use.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Indexing Overview",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/indexing-overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Materialized Views",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/mvs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Jira — CASSANDRA-9928 (Support multiple non-primary key columns in materialized view primary key)",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-9928",
+        "type": "doc"
+      }
+    ],
+    "id": 101
+  },
+  {
+    "slug": "cassandra-vector-search-and-vector-type",
+    "category": "Cassandra",
+    "title": "Vector Search and the VECTOR Type: Native Embeddings in Cassandra 5.0",
+    "topic": "Indexing & Extending Designs",
+    "related": [
+      {
+        "label": "Storage-Attached Indexes: Fixing Cassandra's Secondary Index and Materialized View Problem",
+        "slug": "cassandra-storage-attached-indexes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
+        "slug": "mongodb-atlas-search-and-vector-search",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Explains Cassandra 5.0's native vector search: the VECTOR<type, dimension> CQL type that stores an embedding as a normal fixed-length column value, and the ORDER BY ... ANN OF ... query that finds its approximate nearest neighbors. Shows that vector search is not a separate subsystem but Storage-Attached Indexing (SAI) applied to vectors — same CREATE INDEX ... USING 'sai' syntax, same per-SSTable attachment and query-planner behavior as SAI's text and numeric indexes, but backed by a JVector graph (a close cousin of HNSW, inspired by DiskANN) instead of a trie or k-d tree.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Apache Cassandra Documentation — Vector Search Overview",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/vector-search/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Vector Search Concepts",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/vector-search/concepts.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Working with Vector Search",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/vector-search/vector-search-working-with.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Vector Search Data Modeling",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/vector-search/data-modeling.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Vector Search Quickstart",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/getting-started/vector-search-quickstart.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — CQL Data Types (VECTOR)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/types.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Storage-Attached Indexing (SAI) Overview",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/developing/cql/indexing/sai/sai-overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Wiki — CEP-30: Approximate Nearest Neighbor (ANN) Vector Search via Storage-Attached Indexes",
+        "url": "https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=255069753",
+        "type": "doc"
+      }
+    ],
+    "id": 102
+  },
+  {
+    "slug": "redis-transactions-and-pipelines",
+    "category": "Redis",
+    "title": "Redis Transactions and Pipelines",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "label": "Distributed Locking and Semaphores in Redis",
+        "slug": "redis-distributed-locking-and-semaphores",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "MULTI/EXEC gives Redis a serialized, uninterrupted run of a queued command sequence, not a SQL-style rollback-on-error transaction — a command that fails during EXEC (e.g. LPOP against a string) does not abort the ones after it, so the app, not Redis, has to decide up front (via DISCARD) whether to run at all; WATCH layers optimistic-locking check-and-set on top, aborting EXEC if a watched key changed since the watch, while pipelines solve an entirely different problem — batching commands to cut network round trips, with no atomicity guarantee of their own — and the two are orthogonal: a pipeline can run without MULTI/EXEC, and MULTI/EXEC is itself always sent as a pipeline under the hood.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Maxwell Dayvson Da Silva & Hugo Lopes Tavares, \"Redis Essentials\" (Packt, 2015) — Chapter 4, \"Commands (Where the Wild Things Are),\" sections \"Transactions\" and \"Pipelines,\" p. 81-85",
+        "url": "https://www.packtpub.com/en-us/product/redis-essentials-9781784392451",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 3.7.2 \"Basic Redis transactions,\" p. 58-60, and Chapter 4.5 \"Non-transactional pipelines,\" p. 84-87",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Transactions (MULTI, EXEC, DISCARD, WATCH, errors inside a transaction, optimistic locking, Redis scripting and transactions)",
+        "url": "https://redis.io/docs/latest/develop/using-commands/transactions/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SET command (IFEQ/IFNE/IFDEQ/IFDNE compare-and-set options, Redis 8.4+)",
+        "url": "https://redis.io/docs/latest/commands/set/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Scripting with Lua (EVAL, atomicity guarantees)",
+        "url": "https://redis.io/docs/latest/develop/programmability/eval-intro/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Functions (FUNCTION LOAD, FCALL, Redis 7.0+)",
+        "url": "https://redis.io/docs/latest/develop/programmability/functions-intro/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Blog — \"You Don't Need Transaction Rollbacks in Redis\"",
+        "url": "https://redis.io/blog/you-dont-need-transaction-rollbacks-in-redis/",
+        "type": "doc"
+      }
+    ],
+    "id": 103
+  },
+  {
+    "slug": "redis-sentinel-for-high-availability",
+    "category": "Redis",
+    "title": "Redis Sentinel for High Availability",
+    "topic": "Scaling & Topology",
+    "related": [
+      {
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Persistence: RDB versus AOF",
+        "slug": "redis-persistence-rdb-vs-aof",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Goes past the one-line summary in redis-partitioning-and-cluster-fundamentals to trace Sentinel's real mechanism: quorum only detects a failed master (SDOWN then ODOWN), a separate majority vote among all Sentinel processes authorizes the failover, and directives like down-after-milliseconds, failover-timeout, and parallel-syncs govern each stage of that sequence — plus the Sentinel-aware client discovery pattern, and current Redis docs' own positioning of Sentinel as high availability specifically for non-clustered Redis, since Redis Cluster provides its own built-in failover once sharding is already in play.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Vinicius Da Silva, Henrique Cassela, Adhitya Rachman Nugraha, Naga Venkata Sudheer Yaramada, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 9, \"Redis Cluster and Redis Sentinel (Collective Intelligence)\", section \"Redis Sentinel\", p. 169-176",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392503",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — High availability with Redis Sentinel",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Sentinel clients guidelines",
+        "url": "https://redis.io/docs/latest/develop/reference/sentinel-clients",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Scale with Redis Cluster",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/",
+        "type": "doc"
+      }
+    ],
+    "id": 104
+  },
+  {
+    "slug": "redis-functions-replacing-ad-hoc-lua-scripting",
+    "category": "Redis",
+    "title": "Redis Functions: Replacing Ad Hoc Lua Scripting",
+    "topic": "Modern Redis Capabilities",
+    "related": [
+      {
+        "label": "Redis 8: JSON, Search, Vector Sets, and Time Series in Core",
+        "slug": "redis-8-stack-in-core-json-search-vectorsets-timeseries",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Distributed Locking and Semaphores in Redis",
+        "slug": "redis-distributed-locking-and-semaphores",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Both source books teach ad hoc Lua scripting via EVAL/EVALSHA and a hand-rolled SCRIPT LOAD cache-miss wrapper because that was the only scripting Redis had in 2013-2015; Redis Functions (Redis 7.0, 2022) replaces it with named, versioned libraries loaded via FUNCTION LOAD and invoked with FCALL/FCALL_RO, which Redis itself persists to the AOF and replicates instead of leaving script durability to each client application.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Maxwell Dayvson Da Silva et al., \"Redis Essentials\" (Packt, 2015) — Chapter 4, \"Commands (Where the Wild Things Are),\" \"Scripting\" and \"Redis meets Lua,\" p. 86-90",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392451",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 11, \"Scripting Redis with Lua,\" section 11.1 \"Adding functionality without writing C,\" p. 250-254",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Introduction to Redis Functions",
+        "url": "https://redis.io/docs/latest/develop/programmability/functions-intro/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — FUNCTION LOAD command",
+        "url": "https://redis.io/docs/latest/commands/function-load/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — FCALL command",
+        "url": "https://redis.io/docs/latest/commands/fcall/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — FCALL_RO command",
+        "url": "https://redis.io/docs/latest/commands/fcall_ro/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Introduction to Eval Scripts",
+        "url": "https://redis.io/docs/latest/develop/programmability/eval-intro/",
+        "type": "doc"
+      }
+    ],
+    "id": 105
+  },
+  {
+    "slug": "mongodb-special-indexes-geospatial-text-ttl-capped-gridfs",
+    "category": "MongoDB",
+    "title": "MongoDB Special Indexes: Geospatial, Text, TTL, Capped Collections, and GridFS",
+    "topic": "Indexing & Performance",
+    "related": [
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
+        "slug": "mongodb-atlas-search-and-vector-search",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Beyond the general-purpose B-tree: 2dsphere geospatial indexes for location queries, text indexes for basic keyword search (now explicitly superseded by MongoDB Search in production), TTL indexes for automatic expiry, capped collections for fixed-size insertion-ordered queues, and GridFS for files over the 16 MB document limit — each with its own sharp edges the book calls out and current docs sharpen further.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 6, \"Special Index and Collection Types\", p. 133-159",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Geospatial Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/indexes/index-types/index-geospatial/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Geospatial Queries",
+        "url": "https://www.mongodb.com/docs/manual/geospatial-queries/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Text Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/index-text/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — TTL Indexes",
+        "url": "https://www.mongodb.com/docs/manual/core/index-ttl/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Capped Collections",
+        "url": "https://www.mongodb.com/docs/manual/core/capped-collections/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — GridFS",
+        "url": "https://www.mongodb.com/docs/manual/core/gridfs/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — MongoDB Search Overview",
+        "url": "https://www.mongodb.com/docs/search/",
+        "type": "doc"
+      }
+    ],
+    "id": 106
+  },
+  {
+    "slug": "mongodb-replica-set-connectivity-and-read-write-concern",
+    "category": "MongoDB",
+    "title": "MongoDB Replica Set Connectivity: Read Preference and Write Concern",
+    "topic": "High Availability",
+    "related": [
+      {
+        "label": "MongoDB Replica Sets: Topology, Elections, and Member Configuration",
+        "slug": "mongodb-replica-sets-topology-and-elections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Transactions: ACID Across Documents, Collections, and Shards",
+        "slug": "mongodb-multi-document-transactions",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How an application driver actually connects to and uses a replica set: seed lists and DNS seedlist connection strings, driver-side primary discovery and failover behavior, write concern (w: 1, w: majority, custom getLastErrorModes rules) as the tool that prevents seeing a false success on a write about to be rolled back, and the five read preference modes that trade consistency for availability or latency.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 12, \"Connecting to a Replica Set from Your Application\", p. 261-270",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Write Concern",
+        "url": "https://www.mongodb.com/docs/manual/reference/write-concern/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Default MongoDB Read Concerns/Write Concerns",
+        "url": "https://www.mongodb.com/docs/manual/reference/mongodb-defaults/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Read Preference",
+        "url": "https://www.mongodb.com/docs/manual/core/read-preference/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Retryable Writes",
+        "url": "https://www.mongodb.com/docs/manual/core/retryable-writes/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Connection String URI Format",
+        "url": "https://www.mongodb.com/docs/manual/reference/connection-string/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Replica Set Configuration Reference",
+        "url": "https://www.mongodb.com/docs/manual/reference/replica-configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Configure Replica Set Tag Sets",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/configure-replica-set-tag-sets/",
+        "type": "doc"
+      }
+    ],
+    "id": 107
+  },
+  {
+    "slug": "dynamodb-using-the-api-well-expressions-and-avoiding-orms",
+    "category": "DynamoDB",
+    "title": "Using the DynamoDB API Well: Expressions and Avoiding ORMs",
+    "topic": "API & Access Patterns",
+    "related": [
+      {
+        "label": "DynamoDB API Action Types: Item Operations, Query, and Scan",
+        "slug": "dynamodb-api-action-types-query-scan-item-operations",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB's whole API is written in five expression types (KeyCondition, Filter, Projection, Condition, Update) glued together by a #name/:value placeholder syntax that exists because attribute values are typed and DynamoDB refuses to parse them out of a string — and the book's sharpest opinion in this pair of chapters, \"I would not recommend using an ODM in DynamoDB,\" because a relational-style ORM hides the exact access-pattern decision that makes a Query cheap in the first place.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 5, \"Using the DynamoDB API\", p. 77-93, and Chapter 6, \"Expressions\", p. 95-119",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Expressions Overview",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Expression Attribute Names and Values",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Update Expressions (SET, REMOVE, ADD, DELETE)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Condition Expressions",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — PartiQL for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS SDK for JavaScript v3 — DynamoDBDocumentClient (lib-dynamodb)",
+        "url": "https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/lib-dynamodb/",
+        "type": "doc"
+      },
+      {
+        "label": "ElectroDB — DynamoDB library documentation",
+        "url": "https://electrodb.dev/",
+        "type": "doc"
+      },
+      {
+        "label": "DynamoDB Toolbox — documentation",
+        "url": "https://www.dynamodbtoolbox.com/",
+        "type": "doc"
+      }
+    ],
+    "id": 108
+  },
+  {
+    "slug": "dynamodb-modeling-to-implementation-practical-rules",
+    "category": "DynamoDB",
+    "title": "From Model to Implementation: DeBrie's Practical Rules for Building the Table",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Once an access-pattern-first entity-relationship model is done, DeBrie gives six concrete rules for turning it into working code: keep indexing attributes (PK/SK) separate from application attributes, implement the data model only at the boundary of the application, never reuse an attribute across multiple indexes, tag every item with a Type attribute, write small CLI scripts to debug access patterns, and only for the largest tables, shorten attribute names to save storage.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 9, \"From modeling to implementation\", p. 164-173",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — CreateTable API Reference (BillingMode, KeySchema, GlobalSecondaryIndexes)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Read/Write Capacity Mode (Provisioned vs. On-Demand)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Secondary Indexes in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-indexes.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Enhanced Client (AWS SDK for Java 2.x)",
+        "url": "https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/dynamodb-enhanced-client.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Exporting DynamoDB Table Data to Amazon S3",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/S3DataExport.HowItWorks.html",
+        "type": "doc"
+      }
+    ],
+    "id": 109
+  },
+  {
+    "slug": "dynamodb-filtering-strategies-sparse-indexes-composite-sort-keys",
+    "category": "DynamoDB",
+    "title": "DynamoDB Filtering Strategies: Sparse Indexes and Composite Sort Keys",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "DynamoDB API Action Types: Item Operations, Query, and Scan",
+        "slug": "dynamodb-api-action-types-query-scan-item-operations",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB filtering is cheapest when it happens via the key condition, not after the read — composite sort keys concatenate a low-cardinality attribute (like an enum status) with a high-cardinality one (like a date) into a single sort key so one Query filters on both, sparse indexes exclude non-matching items at write time so the index itself is the filter, and FilterExpression is a last resort since it is applied after items are read, meaning you pay for all of the items that get filtered out; as of November 2025 AWS added native multi-attribute composite keys to GSIs, which the book's manual-concatenation technique still works identically alongside but no longer strictly requires.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 13, \"Strategies for filtering\", p. 209-232",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Take Advantage of Sparse Indexes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-indexes-general-sparse-indexes.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Sort Keys to Organize Data",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-sort-keys.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Overloading Global Secondary Indexes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-gsi-overloading.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB now supports multi-attribute composite keys in global secondary indexes (November 2025)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2025/11/amazon-dynamodb-multi-attribute-composite-keys-global-secondary-indexes",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Secondary Indexes in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-indexes.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Filter Expressions for Query and Scan",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.FilterExpression.html",
+        "type": "doc"
+      }
+    ],
+    "id": 110
+  },
+  {
+    "slug": "cassandra-beyond-relational-cap-theorem-tradeoffs",
+    "category": "Cassandra",
+    "title": "Beyond Relational Databases: The CAP Theorem and Cassandra's Trade-offs",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Why relational databases hit a wall at web scale, what Brewer's CAP theorem actually forces you to give up during a network partition, and why Cassandra's shared-nothing, AP-by-default architecture with tunable per-query consistency is a deliberate answer to that trade-off rather than a limitation.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 1, \"Beyond Relational Databases\" (\"What's Wrong with Relational Databases?\" through \"The Rise of NoSQL\")",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781098115159/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Guarantees (CAP theorem, Cassandra as AP, eventual consistency)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/guarantees.html",
+        "type": "doc"
+      },
+      {
+        "label": "Seth Gilbert and Nancy Lynch, \"Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services\" (ACM SIGACT News, 2002)",
+        "url": "https://www.comp.nus.edu.sg/~gilbert/pubs/BrewersConjecture-SigAct.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Eric Brewer, \"CAP Twelve Years Later: How the 'Rules' Have Changed\" (IEEE Computer, 2012)",
+        "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/",
+        "type": "doc"
+      },
+      {
+        "label": "Daniel Abadi, \"Consistency Tradeoffs in Modern Distributed Database System Design\" (PACELC, IEEE Computer, 2012)",
+        "url": "https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf",
+        "type": "doc"
+      }
+    ],
+    "id": 111
+  },
+  {
+    "slug": "cassandra-architecture-elevator-pitch",
+    "category": "Cassandra",
+    "title": "The Cassandra Elevator Pitch: Distributed, Decentralized, and Where It Came From",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Beyond Relational Databases: The CAP Theorem and Cassandra's Trade-offs",
+        "slug": "cassandra-beyond-relational-cap-theorem-tradeoffs",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Cassandra's fifty-word elevator pitch unpacked as a high-level orienting map before any single mechanism: distributed and decentralized peer-to-peer architecture with no master, elastic scalability, high availability, tuneable consistency previewed against the CAP theorem, the row-oriented (not column-oriented) wide column data model, the Facebook-Dynamo-Bigtable origin story, and the book's own checklist for whether Cassandra fits a project at all.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 2, \"Introducing Cassandra\", p. 15-35",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Avinash Lakshman and Prashant Malik, \"Cassandra — A Decentralized Structured Storage System\" (LADIS 2009)",
+        "url": "https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "DeCandia et al., \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Chang et al., \"Bigtable: A Distributed Storage System for Structured Data\" (OSDI 2006)",
+        "url": "https://research.google.com/archive/bigtable-osdi06.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Architecture Overview",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "IBM Newsroom — IBM to Acquire DataStax, Deepening watsonx Capabilities (February 2025)",
+        "url": "https://newsroom.ibm.com/2025-02-25-ibm-to-acquire-datastax,-deepening-watsonx-capabilities-and-addressing-generative-ai-data-needs-for-the-enterprise",
+        "type": "doc"
+      }
+    ],
+    "id": 112
+  },
+  {
+    "slug": "cassandra-application-development-with-the-java-driver",
+    "category": "Cassandra",
+    "title": "Cassandra Application Development with the DataStax (Apache) Java Driver",
+    "topic": "CQL Fundamentals",
+    "related": [
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Building a real Cassandra client with the Java driver: a single long-lived CqlSession built with the fluent builder, why PreparedStatement beats SimpleStatement for more than convenience (one-time preparation, token-aware routing, injection protection), the QueryBuilder and annotation-driven object mapper as higher-level alternatives, and async execution with CompletionStage — plus what changed since the book's 4.0-era coverage now that the driver is Apache-governed under org.apache.cassandra on the 4.19.x line.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 8, \"Application Development with Drivers\"",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — official documentation (Apache Software Foundation)",
+        "url": "https://apache.github.io/cassandra-java-driver/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — GitHub repository (org.apache.cassandra, 4.19.x)",
+        "url": "https://github.com/apache/cassandra-java-driver",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — CqlSession API reference",
+        "url": "https://apache.github.io/cassandra-java-driver/4.19.0/api/com/datastax/oss/driver/api/core/CqlSession.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — Object Mapper manual",
+        "url": "https://apache.github.io/cassandra-java-driver/4.19.0/mapper/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — Asynchronous programming manual",
+        "url": "https://apache.github.io/cassandra-java-driver/4.19.0/core/async/",
+        "type": "doc"
+      },
+      {
+        "label": "Java Driver for Apache Cassandra — Configuration reference",
+        "url": "https://apache.github.io/cassandra-java-driver/4.19.0/core/configuration/",
+        "type": "doc"
+      }
+    ],
+    "id": 113
+  },
+  {
+    "slug": "cassandra-security-authentication-rbac-encryption",
+    "category": "Cassandra",
+    "title": "Cassandra Security: Authentication, RBAC, and Encryption",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "Cassandra's opt-in, pluggable security model: PasswordAuthenticator and the default cassandra/cassandra superuser for authentication, CassandraAuthorizer and role-based GRANT/REVOKE for authorization, and TLS via server_encryption_options and client_encryption_options for node-to-node and client-to-node encryption in transit — plus why SSTable-level encryption at rest still isn't in open-source Cassandra even at 5.0.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 14, \"Security\", p. 353-378",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Security (Authentication, Authorization, SSL/TLS, JMX, Audit Logging)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/security.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — cassandra.yaml (authenticator, authorizer, encryption options)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/configuration/cass_yaml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "ASF Jira — CASSANDRA-17457, CEP-24 Password validation/generation",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-17457",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — 4.1 Features: Guardrails Framework",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-4.1-Features-Guardrails-Framework.html",
+        "type": "doc"
+      }
+    ],
+    "id": 114
+  },
+  {
+    "slug": "redis-pubsub-messaging-patterns",
+    "category": "Redis",
+    "title": "Redis Pub/Sub: Channels, Patterns, and Messaging Semantics",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "label": "Redis Streams: Append-Only Logs and Consumer Groups",
+        "slug": "redis-streams",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis Pub/Sub is a live broadcast built on SUBSCRIBE/PUBLISH/PSUBSCRIBE with no storage layer underneath: a message published to a channel with zero subscribers is lost forever, at-most-once, with no queue, no persistence, and no replay for a reconnecting client, and a subscribed connection is dedicated to receiving pushed messages until every channel and pattern is unsubscribed (RESP2) or RESP3 lifts that restriction; Redis 7.0's Sharded Pub/Sub (SSUBSCRIBE/SPUBLISH) scales the broadcast itself across a cluster by hashing shard channels to the same 16384 hash slots as keys, without changing any of those delivery guarantees.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Maxwell Dayvson Da Silva & Hugo Lopes Tavares, \"Redis Essentials\" (Packt Publishing, 2015) — Chapter 4, \"Commands (Where the Wild Things Are),\" section \"Pub/Sub,\" p. 77-80",
+        "url": "https://www.packtpub.com/product/redis-essentials/9781784392503",
+        "type": "doc"
+      },
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 3, \"Commands in Redis,\" section 3.6 \"Publish/subscribe,\" p. 54-56",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Pub/sub",
+        "url": "https://redis.io/docs/latest/develop/pubsub/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SUBSCRIBE",
+        "url": "https://redis.io/docs/latest/commands/subscribe/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — PUBLISH",
+        "url": "https://redis.io/docs/latest/commands/publish/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — PSUBSCRIBE",
+        "url": "https://redis.io/docs/latest/commands/psubscribe/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — PUBSUB",
+        "url": "https://redis.io/docs/latest/commands/pubsub/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SSUBSCRIBE (Sharded Pub/Sub)",
+        "url": "https://redis.io/docs/latest/commands/ssubscribe/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — SPUBLISH (Sharded Pub/Sub)",
+        "url": "https://redis.io/docs/latest/commands/spublish/",
+        "type": "doc"
+      }
+    ],
+    "id": 115
+  },
+  {
+    "slug": "redis-task-queues-and-delayed-jobs",
+    "category": "Redis",
+    "title": "Redis Task Queues and Delayed Jobs",
+    "topic": "Application Patterns",
+    "related": [
+      {
+        "label": "Redis Streams: Append-Only Logs and Consumer Groups",
+        "slug": "redis-streams",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
+        "slug": "redis-application-patterns-caching-sessions-rate-limiting",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis in Action builds two ad hoc task-queue patterns straight from core data types: a FIFO queue on a LIST (RPUSH/BLPOP, with multiple lists giving cheap priority lanes) and a delayed/scheduled queue on a ZSET scored by execution timestamp, manually polled since ZSETs have no blocking pop. Both remain structurally current per Redis's own job-queue docs, but the plain BLPOP consumer this book section uses has no crash recovery for a worker that dies mid-job — the gap Streams' consumer groups (and production libraries like Sidekiq, BullMQ, and Redisson) close natively.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Josiah Carlson, \"Redis in Action\" (Manning, 2013) — Chapter 6, \"Application components in Redis,\" section 6.4 \"Task queues\" (6.4.1 First-in, first-out queues; 6.4.2 Delayed tasks), p. 134-140",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis job queue (use case guide)",
+        "url": "https://redis.io/docs/latest/develop/use-cases/job-queue/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — LPUSH",
+        "url": "https://redis.io/docs/latest/commands/lpush/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — BLPOP",
+        "url": "https://redis.io/docs/latest/commands/blpop/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — BLMOVE (non-deprecated replacement for BRPOPLPUSH)",
+        "url": "https://redis.io/docs/latest/commands/blmove/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — ZADD",
+        "url": "https://redis.io/docs/latest/commands/zadd/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — ZRANGEBYSCORE",
+        "url": "https://redis.io/docs/latest/commands/zrangebyscore/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Streams (consumer groups, at-least-once delivery)",
+        "url": "https://redis.io/docs/latest/develop/data-types/streams/",
+        "type": "doc"
+      }
+    ],
+    "id": 116
+  },
+  {
+    "slug": "redis-licensing-history-and-the-valkey-fork",
+    "category": "Redis",
+    "title": "Redis Licensing History and the Valkey Fork",
+    "topic": "Modern Redis Capabilities",
+    "related": [
+      {
+        "label": "Redis 8: JSON, Search, Vector Sets, and Time Series in Core",
+        "slug": "redis-8-stack-in-core-json-search-vectorsets-timeseries",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Partitioning and Cluster Fundamentals",
+        "slug": "redis-partitioning-and-cluster-fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis shipped under permissive BSD 3-Clause from 2009 through 2023, then Redis Inc. relicensed it to dual RSALv2/SSPLv1 in March 2024 over cloud providers monetizing Redis without contributing back, prompting the Linux Foundation to launch the BSD-licensed, multi-vendor-governed Valkey fork (backed by AWS, Google Cloud, and Oracle) just eight days later; in May 2025 Redis Inc. added the OSI-approved AGPLv3 as a third licensing option for Redis 8, leaving today's Redis-vs-Valkey choice a genuine trade-off between Redis's first-to-ship features and Valkey's permissive license and multi-vendor governance.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Redis Blog — Redis Adopts Dual Source-Available Licensing (March 20, 2024)",
+        "url": "https://redis.io/blog/redis-adopts-dual-source-available-licensing/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Blog — Redis is now available under the AGPLv3 open source license (May 1, 2025)",
+        "url": "https://redis.io/blog/agplv3/",
+        "type": "doc"
+      },
+      {
+        "label": "Linux Foundation Press Release — Linux Foundation Launches Open Source Valkey Community (March 28, 2024)",
+        "url": "https://www.linuxfoundation.org/press/linux-foundation-launches-open-source-valkey-community",
+        "type": "doc"
+      },
+      {
+        "label": "Valkey GitHub — GOVERNANCE.md",
+        "url": "https://github.com/valkey-io/valkey/blob/unstable/GOVERNANCE.md",
+        "type": "doc"
+      },
+      {
+        "label": "TechCrunch — Why AWS, Google and Oracle are backing the Valkey Redis fork",
+        "url": "https://techcrunch.com/2024/03/31/why-aws-google-and-oracle-are-backing-the-valkey-redis-fork/",
+        "type": "doc"
+      }
+    ],
+    "id": 117
   }
 ]
