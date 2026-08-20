@@ -6589,5 +6589,623 @@
       }
     ],
     "id": 117
+  },
+  {
+    "slug": "mongodb-monitoring-and-backup",
+    "category": "MongoDB",
+    "title": "MongoDB Monitoring and Backup Strategies",
+    "topic": "Monitoring & Troubleshooting",
+    "related": [
+      {
+        "label": "MongoDB Replica Sets: Topology, Elections, and Member Configuration",
+        "slug": "mongodb-replica-sets-topology-and-elections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Sharding Architecture: mongos, Config Servers, and Shards",
+        "slug": "mongodb-sharding-architecture",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "What to actually watch on a running MongoDB deployment (mongostat/mongotop/serverStatus, memory and page faults, working set sizing, replication lag and oplog length, WiredTiger's ticketing system as lock-percentage's successor) and how to get data out safely (mongodump/mongorestore vs filesystem/volume snapshots, plus the sharded-cluster caveats), with book-vs-today notes on Atlas displacing Ops Manager as the default path and Cloud Manager's 2024 deprecation of older-version support.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Shannon Bradshaw, Eoin Brazil, and Kristina Chodorow, \"MongoDB: The Definitive Guide\", 3rd Edition (O'Reilly, 2020) — Chapter 22-23, \"Monitoring MongoDB\" and \"Making Backups\", p. 425-447",
+        "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Monitor for and Improve Performance",
+        "url": "https://www.mongodb.com/docs/manual/administration/monitoring/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — mongostat",
+        "url": "https://www.mongodb.com/docs/database-tools/mongostat/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — mongotop",
+        "url": "https://www.mongodb.com/docs/database-tools/mongotop/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — dbCommand serverStatus",
+        "url": "https://www.mongodb.com/docs/manual/reference/command/serverStatus/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Atlas Cloud Backup Overview",
+        "url": "https://www.mongodb.com/docs/atlas/backup/cloud-backup/overview/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — mongodump",
+        "url": "https://www.mongodb.com/docs/manual/reference/program/mongodump/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Back Up a Self-Managed Sharded Cluster with Database Dumps",
+        "url": "https://www.mongodb.com/docs/manual/tutorial/backup-sharded-cluster-with-database-dumps/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Cloud Manager Overview",
+        "url": "https://www.mongodb.com/docs/cloud-manager/",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Documentation — Ops Manager Overview",
+        "url": "https://www.mongodb.com/docs/ops-manager/current/",
+        "type": "doc"
+      }
+    ],
+    "id": 118
+  },
+  {
+    "slug": "cassandra-migration-and-integrations-kafka-spark",
+    "category": "Cassandra",
+    "title": "Migrating to Cassandra and Integrating with Kafka and Spark",
+    "topic": "CQL Fundamentals",
+    "related": [
+      {
+        "label": "The Cassandra Data Modeling Methodology: Queries First, Then Tables",
+        "slug": "cassandra-data-modeling-methodology",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Application Development with the DataStax (Apache) Java Driver",
+        "slug": "cassandra-application-development-with-the-java-driver",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Migrating to Cassandra is a re-modeling exercise, not a table-for-table port: the book's direct-translation patterns (entities to tables, join tables to mapped tables or collapsed UDTs, loose types to UDTs) still have to pass through the query-first methodology, plus the strangler pattern for adapting the application and dual-write/CDC for zero-downtime cutover. Integrating outward, Kafka Connect's DataStax sink connector streams events into Cassandra (with CDC-out remaining the harder, still-partially-solved direction), and the spark-cassandra-connector runs data-local analytics over Cassandra tables without a separate ETL pipeline — plus what changed since 2022 now that the Spark connector has moved to Apache governance and Debezium has largely closed the CDC-out gap the book left open.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 15, \"Migrating and Integrating\"",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "DataStax Kafka Sink Connector — GitHub repository (datastax/kafka-sink)",
+        "url": "https://github.com/datastax/kafka-sink",
+        "type": "doc"
+      },
+      {
+        "label": "DataStax Apache Kafka Connector — Confluent Hub listing",
+        "url": "https://www.confluent.io/hub/datastax/kafka-connect-cassandra-sink",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Spark Connector — GitHub repository (apache/cassandra-spark-connector)",
+        "url": "https://github.com/apache/cassandra-spark-connector",
+        "type": "doc"
+      },
+      {
+        "label": "Debezium Connector for Cassandra — documentation",
+        "url": "https://debezium.io/documentation/reference/stable/connectors/cassandra.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Change Data Capture (CDC)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/cdc.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Kafka Documentation — Kafka Connect",
+        "url": "https://kafka.apache.org/documentation/#connect",
+        "type": "doc"
+      }
+    ],
+    "id": 119
+  },
+  {
+    "slug": "redis-memory-optimization-and-internal-encodings",
+    "category": "Redis",
+    "title": "Redis Memory Optimization and Internal Encodings",
+    "topic": "Data Types & Commands",
+    "related": [
+      {
+        "label": "Redis Core Data Types: Strings, Lists, and Hashes",
+        "slug": "redis-core-data-types-strings-lists-hashes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Redis Advanced Data Types: Sets, Sorted Sets, Bitmaps, and HyperLogLog",
+        "slug": "redis-advanced-data-types-sets-sortedsets-bitmaps-hyperloglog",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Redis in Action's memory-reduction chapter covers three techniques: short-structure encodings (ziplist/intset, whose Redis 7.0 rename to listpack is covered in the Core Data Types concept), sharding one logical HASH or SET across many keyed shards, and packing fixed-width records into Strings with GETRANGE/SETRANGE/GETBIT/SETBIT — the sharded-HASH pattern is still official Redis guidance today, while the sharded-SET-for-unique-counting use case has been substantially superseded by HyperLogLog's fixed ~12KB approximate count.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Josiah L. Carlson, \"Redis in Action\" (Manning Publications, 2013) — Chapter 9, \"Reducing memory use,\" Sections 9.1-9.3, p. 209-226",
+        "url": "https://www.manning.com/books/redis-in-action",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Memory optimization (special encodings, hash-based plain key-value store pattern)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/memory-optimization/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — OBJECT ENCODING",
+        "url": "https://redis.io/docs/latest/commands/object-encoding/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — GETRANGE / SETRANGE",
+        "url": "https://redis.io/docs/latest/commands/getrange/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — GETBIT / SETBIT",
+        "url": "https://redis.io/docs/latest/commands/setbit/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — HyperLogLog",
+        "url": "https://redis.io/docs/latest/develop/data-types/probabilistic/hyperloglogs/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Sets (set-max-listpack-entries, Redis 7.2)",
+        "url": "https://redis.io/docs/latest/develop/data-types/sets/",
+        "type": "doc"
+      }
+    ],
+    "id": 120
+  },
+  {
+    "slug": "dynamodb-sorting-strategies",
+    "category": "DynamoDB",
+    "title": "DynamoDB Sorting Strategies: ScanIndexForward, Zero-Padding, and Hierarchical Sort Keys",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "DynamoDB Filtering Strategies: Sparse Indexes and Composite Sort Keys",
+        "slug": "dynamodb-filtering-strategies-sparse-indexes-composite-sort-keys",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB orders every Query result by the sort key's B-tree order — ascending by default, reversed with ScanIndexForward=False — so sorting strategy is entirely a data-modeling problem: use immutable attributes in the primary key and push changing sort attributes into a GSI, zero-pad numbers embedded in string sort keys so lexicographic UTF-8 comparison matches numeric order, use KSUIDs for IDs that must be both unique and chronologically sortable, and position parent items relative to their children to control which end of an item collection a Query lands on.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 14, \"Strategies for sorting\", p. 234-252",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Query (API Reference), ScanIndexForward and sort-order semantics",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Using Sort Keys to Organize Data",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-sort-keys.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Database Blog — Effective data sorting with Amazon DynamoDB",
+        "url": "https://aws.amazon.com/blogs/database/effective-data-sorting-with-amazon-dynamodb/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Key Condition Expressions for the Query Operation",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.KeyConditionExpressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Segment — ksuid: K-Sortable Globally Unique IDs",
+        "url": "https://github.com/segmentio/ksuid",
+        "type": "doc"
+      },
+      {
+        "label": "ULID Specification — Universally Unique Lexicographically Sortable Identifier",
+        "url": "https://github.com/ulid/spec",
+        "type": "doc"
+      }
+    ],
+    "id": 121
+  },
+  {
+    "slug": "dynamodb-additional-strategies-uniqueness-sequential-ids-pagination",
+    "category": "DynamoDB",
+    "title": "DynamoDB Additional Strategies: Uniqueness, Sequential IDs, and Pagination",
+    "topic": "Data Modeling",
+    "related": [
+      {
+        "label": "Using the DynamoDB API Well: Expressions and Avoiding ORMs",
+        "slug": "dynamodb-using-the-api-well-expressions-and-avoiding-orms",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "DynamoDB has no unique-constraint or auto-increment feature outside the primary key, so uniqueness on a second attribute needs a marker item plus TransactWriteItems, and sequential IDs need an atomic-counter UpdateItem followed by a PutItem — and pagination is cursor-based via LastEvaluatedKey/ExclusiveStartKey rather than SQL's OFFSET/LIMIT, a distinction that still holds in AWS's current docs, though the TransactWriteItems action limit has since grown from 25 to 100.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 16, \"Additional Strategies\", p. 269-278",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Amazon DynamoDB Transactions: How it Works (TransactWriteItems)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB now supports up to 100 actions per transaction (Sept 2022)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2022/09/amazon-dynamodb-supports-100-actions-per-transaction",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Paginating Table Query Results in DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.Pagination.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Update Expressions (SET, REMOVE, ADD, DELETE)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.UpdateExpressions.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Code Library — Use Atomic Counter Operations in DynamoDB with an AWS SDK",
+        "url": "https://docs.aws.amazon.com/code-library/latest/ug/dynamodb_example_dynamodb_Scenario_AtomicCounterOperations_section.html",
+        "type": "doc"
+      }
+    ],
+    "id": 122
+  },
+  {
+    "slug": "dynamodb-worked-case-study-adjacency-list-and-gsi-overloading",
+    "category": "DynamoDB",
+    "title": "DynamoDB Worked Case Study: Recreating GitHub with Adjacency Lists and GSI Overloading",
+    "topic": "Relationship Strategies",
+    "related": [
+      {
+        "label": "DynamoDB Strategies for Many-to-Many Relationships",
+        "slug": "dynamodb-many-to-many-relationship-strategies",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
+        "slug": "dynamodb-single-table-design",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Alex DeBrie's full GitHub data model — nine entity types, 24 access patterns, one table — shows the adjacency list and GSI overloading surviving contact with a real design: three separate GSIs each dedicated to a different relationship, the same Repo item overloading GSI2 with two different meanings depending on whether it's a fork, and Users-to-Organizations split so each many-to-many direction gets a different strategy instead of one pattern forced onto both.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Alex DeBrie, \"The DynamoDB Book\", v1.0.1 (2020) — Chapter 21, \"Recreating GitHub's Backend\", p. 369-412",
+        "url": "https://www.dynamodbbook.com/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Managing Many-to-Many Relationships (adjacency list, materialized graph)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-adjacency-graphs.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Global Secondary Indexes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — DynamoDB Transactions (TransactWriteItems)",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Best Practices for Designing and Using Partition Keys Effectively",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html",
+        "type": "doc"
+      }
+    ],
+    "id": 123
+  },
+  {
+    "slug": "dynamodb-whats-changed-since-2020",
+    "category": "DynamoDB",
+    "title": "What's Changed in DynamoDB Since 2020",
+    "topic": "Fundamentals",
+    "related": [
+      {
+        "label": "What Is DynamoDB, and When to Use It",
+        "slug": "dynamodb-what-is-dynamodb-and-when-to-use-it",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Using the DynamoDB API Well: Expressions and Avoiding ORMs",
+        "slug": "dynamodb-using-the-api-well-expressions-and-avoiding-orms",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "A short addendum with no book source, verified live against current AWS documentation: four genuinely additive DynamoDB changes since 2020 not covered elsewhere in this category — the cost-optimized Standard-IA table class (Dec 2021), resource-based policies for simplified cross-account access (Mar 2024), zero-ETL integrations into Redshift and OpenSearch (2023-2024), and opt-in Multi-Region Strong Consistency for Global Tables (GA June 2025) — each with its real mechanical constraints, not just its marketing framing.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "AWS Documentation — DynamoDB table classes",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.TableClasses.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB Standard-Infrequent Access table class (Dec 2021)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2021/12/amazon-dynamodb-standard-infrequent-access-table-class/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Using resource-based policies for DynamoDB",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/access-control-resource-based.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB now supports resource-based policies (Mar 2024)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2024/03/amazon-dynamodb-resource-based-policies/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — General availability of Amazon DynamoDB zero-ETL integration with Amazon Redshift (Oct 2024)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2024/10/amazon-dynamodb-zero-etl-integration-redshift/",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB zero-ETL integration with Amazon OpenSearch Service (Nov 2023)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2023/11/amazon-dynamodb-zero-etl-integration-amazon-opensearch-service",
+        "type": "doc"
+      },
+      {
+        "label": "AWS Documentation — Global tables: multi-active, multi-Region replication",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html",
+        "type": "doc"
+      },
+      {
+        "label": "AWS What's New — Amazon DynamoDB global tables with multi-Region strong consistency generally available (Jun 2025)",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2025/06/amazon-dynamo-db-global-tables-multi-region-strong-consistency-generally-available/",
+        "type": "doc"
+      }
+    ],
+    "id": 124
+  },
+  {
+    "slug": "cassandra-cluster-deployment-and-sizing",
+    "category": "Cassandra",
+    "title": "Planning a Cassandra Cluster Deployment: Topology, Sizing, and Hardware",
+    "topic": "Consistency & Replication",
+    "related": [
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How to turn data volume, replication factor, and topology into an actual deployment plan: choosing SimpleStrategy vs NetworkTopologyStrategy for rack- and DC-aware replica placement, deriving node count from the book's storage formula and 1 TB/node guideline, and the hardware and network decisions (CPU/RAM, SSD vs HDD, JBOD vs RAID, avoiding load balancers) that back each node.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 10, \"Configuring and Deploying Cassandra\"",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Hardware Choices",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/hardware.html",
+        "type": "doc"
+      },
+      {
+        "label": "DataStax Documentation — Capacity Planning and Hardware Selection",
+        "url": "https://docs.datastax.com/en/planning/oss/capacity-planning.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Data Replication (SimpleStrategy and NetworkTopologyStrategy)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra 5.0 — Trie Memtables and Trie-Indexed SSTables",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-5.0-Features-Trie-Memtables-and-Trie-Indexed-SSTables.html",
+        "type": "doc"
+      },
+      {
+        "label": "CASSANDRA-13701 — Lower default num_tokens",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-13701",
+        "type": "doc"
+      }
+    ],
+    "id": 125
+  },
+  {
+    "slug": "cassandra-monitoring-nodetool-virtual-tables-metrics",
+    "category": "Cassandra",
+    "title": "Cassandra Monitoring: nodetool, Virtual Tables, JMX, and Metrics",
+    "topic": "Monitoring & Troubleshooting",
+    "related": [
+      {
+        "label": "Cassandra Storage Engine Internals: Memtables, SSTables, Compaction, and Bloom Filters",
+        "slug": "cassandra-storage-engine-internals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How to actually look inside a running Cassandra node: the JMX/MBean layer (StorageServiceMBean, CompactionManagerMBean, GossiperMBean) that exposes internal state, the nodetool commands built on it (status, info, tpstats, compactionstats, tablestats), and the virtual tables feature (system_views, system_virtual_schema) that lets you query that same state with plain CQL — plus Dropwizard metrics, log configuration, and full query logging.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 11, \"Monitoring\" (\"Monitoring Cassandra with JMX\" through \"Logging\")",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — nodetool",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/tools/nodetool/nodetool.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Virtual Tables",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/virtualtables.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Monitoring (metrics, JMX, Dropwizard)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/metrics.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — logback.xml file and logging configuration",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/configuration/cass_logback_xml_file.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Blog — Announcing Apache Cassandra 5.0",
+        "url": "https://cassandra.apache.org/_/blog/Apache-Cassandra-5.0-Announcement.html",
+        "type": "doc"
+      }
+    ],
+    "id": 126
+  },
+  {
+    "slug": "cassandra-maintenance-repair-node-operations-backup",
+    "category": "Cassandra",
+    "title": "Cassandra Maintenance: Repair, Node Operations, and Backup",
+    "topic": "Monitoring & Troubleshooting",
+    "related": [
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Covers the operator-run maintenance that keeps a Cassandra cluster healthy: anti-entropy repair via nodetool repair (full vs incremental, sequential vs parallel, primary-range and subrange repair, Merkle trees and overstreaming), the node lifecycle (adding nodes and data centers, diagnosing and replacing failed nodes, decommission/removenode/assassinate in order of preference), and backup/restore via snapshots and incremental backups (hard-linked SSTables, sstableloader, schema exclusion caveat).",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 12, \"Maintenance\"",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Repair",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/repair.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Adding, Replacing, Moving and Removing Nodes",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/operating/topo_changes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Backups",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/backups.html",
+        "type": "doc"
+      },
+      {
+        "label": "CASSANDRA-10302 — Track repair state for more reliable repair",
+        "url": "https://issues.apache.org/jira/browse/CASSANDRA-10302",
+        "type": "doc"
+      }
+    ],
+    "id": 127
+  },
+  {
+    "slug": "cassandra-performance-tuning-caching-compaction-jvm-gc",
+    "category": "Cassandra",
+    "title": "Performance Tuning: Caching, Compaction Throttling, and JVM/GC Settings",
+    "topic": "Monitoring & Troubleshooting",
+    "related": [
+      {
+        "label": "Cassandra Storage Engine Internals: Memtables, SSTables, Compaction, and Bloom Filters",
+        "slug": "cassandra-storage-engine-internals",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Cassandra Distributed Architecture: Gossip, Snitches, Tokens, and Virtual Nodes",
+        "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The tuning levers that sit on top of Cassandra's LSM-tree storage engine: key/row/chunk/counter caches and when each one actually helps, compaction throughput throttling and concurrency for when SSTable backlogs build up, and JVM heap/GC settings, with a book-vs-today check confirming Cassandra 5.0 now ships G1GC as the default (not the book's CMS) since CMS was removed entirely in JDK 14.",
+    "publishedAt": "2026-08-20",
+    "references": [
+      {
+        "label": "Jeff Carpenter and Eben Hewitt, \"Cassandra: The Definitive Guide\", Revised 3rd Edition (O'Reilly, 2022) — Chapter 13, \"Performance Tuning\"",
+        "url": "https://www.oreilly.com/library/view/cassandra-the-definitive/9781492097143/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — Hardware Choices (heap sizing and GC guidance)",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/operating/hardware.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra source — conf/jvm11-server.options (5.0 branch, G1GC enabled by default)",
+        "url": "https://github.com/apache/cassandra/blob/cassandra-5.0/conf/jvm11-server.options",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra source — conf/jvm17-server.options (5.0 branch)",
+        "url": "https://github.com/apache/cassandra/blob/cassandra-5.0/conf/jvm17-server.options",
+        "type": "doc"
+      },
+      {
+        "label": "OpenJDK JEP 363 — Remove the Concurrent Mark Sweep (CMS) Garbage Collector",
+        "url": "https://openjdk.org/jeps/363",
+        "type": "doc"
+      },
+      {
+        "label": "Apache Cassandra Documentation — nodetool compactionstats",
+        "url": "https://cassandra.apache.org/doc/latest/cassandra/managing/tools/nodetool/compactionstats.html",
+        "type": "doc"
+      }
+    ],
+    "id": 128
   }
 ]
