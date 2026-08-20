@@ -7207,5 +7207,393 @@
       }
     ],
     "id": 128
+  },
+  {
+    "slug": "couchdb-document-model-and-mvcc",
+    "id": 129,
+    "category": "CouchDB",
+    "title": "The Document Model: HTTP-Only Access and Revision-Based MVCC",
+    "topic": "Document Model",
+    "related": [
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "CouchDB exposes documents exclusively over HTTP/REST — no wire protocol, no binary driver, every operation is a curl-shaped request — and replaces locking with revision-based MVCC: a stale _rev gets a 409 on a single node, but across replicas both concurrent writes succeed and the resulting conflict is detected and merged by the application, never by the database.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 5, \"CouchDB\", Introduction and Day 1: \"CRUD, Fauxton, and cURL Redux\"",
+        "url": "https://pragprog.com/titles/pwrdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Technical Overview",
+        "url": "https://docs.couchdb.org/en/stable/intro/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Replication and Conflict Model",
+        "url": "https://docs.couchdb.org/en/stable/replication/conflicts.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — HTTP Document API (revisions, _rev, conflict responses)",
+        "url": "https://docs.couchdb.org/en/stable/api/document/common.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Release Notes (What's New in 3.5)",
+        "url": "https://docs.couchdb.org/en/stable/whatsnew/3.5.html",
+        "type": "doc"
+      },
+      {
+        "label": "PouchDB Documentation — Conflicts Guide",
+        "url": "https://pouchdb.com/guides/conflicts.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "neo4j-property-graph-model-and-cypher-crud",
+    "category": "Neo4j",
+    "title": "The Property Graph Model and Cypher CRUD Basics",
+    "topic": "Graph Fundamentals",
+    "related": [],
+    "summary": "How Neo4j's property graph model — nodes with labels and properties, relationships with a type, direction, and properties of their own — differs fundamentally from relational and document models, why it is 'whiteboard friendly', and Cypher's core CRUD vocabulary (CREATE, MATCH, WHERE, RETURN, MERGE, DELETE/DETACH DELETE) for building and querying a graph.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Eric Redmond and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 6, \"Neo4J\", Introduction and Day 1: \"Graphs, Cypher, and CRUD\"",
+        "url": "https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Documentation — Cypher Manual: Clauses (CREATE, MATCH, WHERE, RETURN, MERGE, DELETE, DETACH DELETE)",
+        "url": "https://neo4j.com/docs/cypher-manual/current/clauses/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Documentation — Managing Indexes",
+        "url": "https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/managing-indexes/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Documentation — Constraints: Examples",
+        "url": "https://neo4j.com/docs/cypher-manual/current/constraints/examples/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Documentation — GQL Conformance",
+        "url": "https://neo4j.com/docs/cypher-manual/current/appendix/gql-conformance/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Blog — openCypher, GQL, and the Cypher Implementation",
+        "url": "https://neo4j.com/blog/cypher-and-gql/opencypher-gql-cypher-implementation/",
+        "type": "doc"
+      },
+      {
+        "label": "ISO/IEC 39075:2024 — Information technology — Database languages — GQL",
+        "url": "https://www.iso.org/standard/76120.html",
+        "type": "doc"
+      }
+    ],
+    "id": 130
+  },
+  {
+    "slug": "neo4j-indexes-and-graph-algorithms",
+    "category": "Neo4j",
+    "title": "Neo4j Indexes and Graph Algorithms: From REST Lookups to Dijkstra",
+    "topic": "Graph Fundamentals",
+    "related": [
+      {
+        "label": "The Property Graph Model and Cypher CRUD Basics",
+        "slug": "neo4j-property-graph-model-and-cypher-crud",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How Neo4j's separate indexing service (key-value and full-text/Lucene node indexes) and its native path-finding primitives make lookups and shortest-path queries first-class, not client-side code — traced through the book's Kevin Bacon shortestPath() exercise, a from-scratch Dijkstra weighted-graph trace, and how both the legacy REST indexing API and the single dijkstra option have since given way to schema-backed CREATE INDEX/CREATE FULLTEXT INDEX and the much larger Graph Data Science algorithm library.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 6, \"Neo4J\", Day 2: \"REST, Indexes, and Algorithms\"",
+        "url": "https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Cypher Manual — Create, Show, and Drop Indexes",
+        "url": "https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/managing-indexes/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Upgrade and Migration Guide — Breaking Changes Between Neo4j 4.4 and Neo4j 5 (legacy indexes, REST API removal)",
+        "url": "https://neo4j.com/docs/upgrade-migration-guide/current/version-5/migration/breaking-changes/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Cypher Manual — Deprecations, Additions, Removals, and Compatibility (shortestPath/allShortestPaths vs SHORTEST)",
+        "url": "https://neo4j.com/docs/cypher-manual/current/deprecations-additions-removals-compatibility/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Graph Data Science Documentation — Graph Algorithms (pathfinding, centrality, community detection, similarity)",
+        "url": "https://neo4j.com/docs/graph-data-science/current/algorithms/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Graph Data Science Documentation — Dijkstra Source-Target Shortest Path",
+        "url": "https://neo4j.com/docs/graph-data-science/current/algorithms/dijkstra-source-target/",
+        "type": "doc"
+      }
+    ],
+    "id": 131
+  },
+  {
+    "slug": "neo4j-clustering-and-high-availability",
+    "category": "Neo4j",
+    "title": "Neo4j Clustering: From Master-Slave HA to Causal Clustering",
+    "topic": "High Availability",
+    "related": [
+      {
+        "label": "The Property Graph Model and Cypher CRUD Basics",
+        "slug": "neo4j-property-graph-model-and-cypher-crud",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "The book documents Neo4j's now-removed master-slave HA model, where slaves accepted writes and synced back to an elected master; verified against current Neo4j docs, this walks through what replaced it — Raft-based Causal Clustering with core/read-replica servers, later renamed to per-database primary/secondary roles in Neo4j 5, plus the routing, bookmark, and licensing changes that came with it.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 6, \"Neo4J\", Day 3: \"Distributed High Availability\", p. 202-207",
+        "url": "https://pragprog.com/titles/pwrdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Operations Manual — Introduction: Neo4j clustering architecture",
+        "url": "https://neo4j.com/docs/operations-manual/current/clustering/introduction/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Operations Manual — Leadership, routing, and load balancing",
+        "url": "https://neo4j.com/docs/operations-manual/current/clustering/setup/routing/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j Knowledge Base — Comparing HA and Causal Clusters",
+        "url": "https://neo4j.com/developer/kb/comparing-ha-vs-causal-clusters/",
+        "type": "doc"
+      },
+      {
+        "label": "Neo4j — FAQ: Neo4j Enterprise Edition Is Moving to an Open Core Licensing Model",
+        "url": "https://neo4j.com/open-core-and-neo4j/",
+        "type": "doc"
+      }
+    ],
+    "id": 132
+  },
+  {
+    "slug": "hbase-data-model-and-table-administration",
+    "category": "HBase",
+    "title": "HBase's Data Model, CRUD, and Table Administration",
+    "topic": "Wide-Column Fundamentals",
+    "related": [
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "HBase's sparse, distributed, sorted multidimensional map (row key, column family, column qualifier, timestamp/version to a cell value), CRUD and table administration through the HBase shell (create, put, get, scan, disable, alter, enable), and an explicit comparison to Cassandra's wide-column model: shared Bigtable-paper lineage and column-family vocabulary, but master-coordinated writes over HDFS and ZooKeeper with row-level strong consistency versus Cassandra's leaderless, tunable-consistency architecture, plus a book-vs-today check on HBase's current maintenance status and shifting market position against Cassandra/ScyllaDB and managed Bigtable/DynamoDB.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Eric Redmond and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 3, \"HBase\", Introduction and Day 1",
+        "url": "https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Reference Guide",
+        "url": "https://hbase.apache.org/book.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Downloads",
+        "url": "https://hbase.apache.org/downloads.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase — Project Information",
+        "url": "https://hbase.apache.org/project-info.html",
+        "type": "doc"
+      },
+      {
+        "label": "Google Cloud Bigtable Documentation",
+        "url": "https://cloud.google.com/bigtable/docs",
+        "type": "doc"
+      },
+      {
+        "label": "Pinterest Engineering — HBase Deprecation at Pinterest",
+        "url": "https://medium.com/pinterest-engineering/hbase-deprecation-at-pinterest-8a99e6c8e6b7",
+        "type": "doc"
+      }
+    ],
+    "id": 133
+  },
+  {
+    "slug": "hbase-architecture-regions-and-mapreduce",
+    "category": "HBase",
+    "title": "HBase Architecture: HMaster, Regions, RegionServers, and MapReduce Integration",
+    "topic": "Wide-Column Fundamentals",
+    "related": [
+      {
+        "label": "HBase's Data Model, CRUD, and Table Administration",
+        "slug": "hbase-data-model-and-table-administration",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "How an HBase cluster actually holds a table together underneath the API: regions as contiguous, non-overlapping row-key ranges served by RegionServers, HMaster handling region assignment and failover (not the read/write path itself), HDFS as the durable storage layer every RegionServer writes StoreFiles and WALs through, ZooKeeper coordinating master election and the hbase:meta bootstrap location, and hbase:meta itself as an ordinary, splittable table that maps row keys to owning regions and servers — plus how MapReduce parallelizes batch jobs one map task per region via TableInputFormat/TableOutputFormat, with book-vs-today notes on size-aware split policies, the rise of Spark-on-HBase for new analytics work, and confirmation that HBase remains actively released and maintained.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 3, \"HBase\", Day 2: \"Working with Big Data\", p. 67-82",
+        "url": "https://pragprog.com/titles/pwrdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Reference Guide — Architecture (Regions, RegionServers, Master, ZooKeeper)",
+        "url": "https://hbase.apache.org/book.html#architecture",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Reference Guide — Catalog Tables (hbase:meta)",
+        "url": "https://hbase.apache.org/docs/architecture/catalog-tables/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Reference Guide — HBase and MapReduce",
+        "url": "https://hbase.apache.org/docs/mapreduce/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Reference Guide — HBase and Spark",
+        "url": "https://hbase.apache.org/docs/spark/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase-Connectors project (apache/hbase-connectors)",
+        "url": "https://github.com/apache/hbase-connectors",
+        "type": "doc"
+      },
+      {
+        "label": "Apache HBase Releases",
+        "url": "https://github.com/apache/hbase/releases",
+        "type": "doc"
+      }
+    ],
+    "id": 134
+  },
+  {
+    "slug": "couchdb-views-and-mapreduce-queries",
+    "category": "CouchDB",
+    "title": "CouchDB Views and Map/Reduce Queries",
+    "topic": "Document Model",
+    "related": [
+      {
+        "label": "The Document Model: HTTP-Only Access and Revision-Based MVCC",
+        "slug": "couchdb-document-model-and-mvcc",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
+        "slug": "dynamodb-data-modeling-approach",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "CouchDB has no ad-hoc query language for anything beyond simple key lookups: every non-trivial query is a pre-defined map/reduce view, written in JavaScript with emit(), saved into a design document, and materialized incrementally into a B-tree index as documents change. Since CouchDB 2.0 (2016), Mango's declarative _find queries cover simple lookups without hand-written JavaScript, but they are themselves built on the same MapReduce view infrastructure and still can't replace views for aggregation or fan-out patterns.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 5, \"CouchDB\", Day 2: \"Creating and Querying Views\", p. 145-158",
+        "url": "https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Views Introduction (map/reduce, emit, B-tree indexing)",
+        "url": "https://docs.couchdb.org/en/stable/ddocs/views/intro.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — View Functions Reference (built-in reducers: _sum, _count, _stats)",
+        "url": "https://docs.couchdb.org/en/stable/ddocs/ddocs.html#view-functions",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — /{db}/_find (Mango queries)",
+        "url": "https://docs.couchdb.org/en/stable/api/database/find.html",
+        "type": "doc"
+      },
+      {
+        "label": "CouchDB Blog — \"Feature: Mango Query\" (August 2016, CouchDB 2.0)",
+        "url": "https://blog.couchdb.org/2016/08/03/feature-mango-query/",
+        "type": "doc"
+      }
+    ],
+    "id": 135
+  },
+  {
+    "slug": "couchdb-replication-and-changes-api",
+    "category": "CouchDB",
+    "title": "CouchDB Replication and the Changes API",
+    "topic": "Document Model",
+    "related": [
+      {
+        "label": "The Document Model: HTTP-Only Access and Revision-Based MVCC",
+        "slug": "couchdb-document-model-and-mvcc",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "CouchDB Views and Map/Reduce Queries",
+        "slug": "couchdb-views-and-mapreduce-queries",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "Covers CouchDB's multi-master replication model (no designated primary, any node accepts writes directly, with true bidirectional sync built from two unidirectional replication jobs), ad hoc vs. continuous replication and the _replicator database for durable jobs, how replication conflicts are detected and surfaced via a deterministic winner algorithm and the _conflicts field, and the Changes API's polling/long-polling/continuous/eventsource feed types with filter functions and _selector filtering, plus a book-vs-today check confirming CouchDB 3.x clustering maturity and PouchDB's active status as Apache PouchDB.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\", 2nd Edition (Pragmatic Bookshelf, 2018) — Chapter 5, \"CouchDB\", Day 3",
+        "url": "https://pragprog.com/titles/pwrdata2/seven-databases-in-seven-weeks-second-edition/",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Introduction to Replication",
+        "url": "https://docs.couchdb.org/en/stable/replication/intro.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Replication Protocol",
+        "url": "https://docs.couchdb.org/en/stable/replication/protocol.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Replicator Database",
+        "url": "https://docs.couchdb.org/en/stable/replication/replicator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache CouchDB Documentation — Changes Feed (_changes)",
+        "url": "https://docs.couchdb.org/en/stable/api/database/changes.html",
+        "type": "doc"
+      },
+      {
+        "label": "Apache PouchDB — the JavaScript Database that Syncs",
+        "url": "https://pouchdb.apache.org/",
+        "type": "doc"
+      }
+    ],
+    "id": 136
   }
 ]

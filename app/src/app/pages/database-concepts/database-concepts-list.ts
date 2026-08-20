@@ -14,6 +14,9 @@ const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }
   { label: 'DynamoDB', value: 'DynamoDB' },
   { label: 'Cassandra', value: 'Cassandra' },
   { label: 'Redis', value: 'Redis' },
+  { label: 'Neo4j', value: 'Neo4j' },
+  { label: 'HBase', value: 'HBase' },
+  { label: 'CouchDB', value: 'CouchDB' },
 ];
 
 export interface DatabaseConceptTopicGroup {
@@ -23,7 +26,8 @@ export interface DatabaseConceptTopicGroup {
 
 /** Everyday SQL querying first, then advanced patterns, then MongoDB's document model
  *  and indexing, then DynamoDB's modeling approach, then Cassandra's distributed core,
- *  then Redis's data types/patterns, then Postgres ops/infra. */
+ *  then Redis's data types/patterns, then Neo4j/HBase/CouchDB's own models, then
+ *  Postgres ops/infra. */
 const TOPIC_ORDER = [
   'Query Techniques',
   'Joins & Set Operations',
@@ -33,6 +37,8 @@ const TOPIC_ORDER = [
   'Advanced Query Patterns',
   'Document Model',
   'Indexing & Performance',
+  'Graph Fundamentals',
+  'Wide-Column Fundamentals',
   'Transactions & Consistency',
   'High Availability',
   'Scaling & Sharding',
