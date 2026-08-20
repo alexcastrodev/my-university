@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { hash, nextPow2, spread } from '../src/math-fns';
+import { crc16, hash, nextPow2, redisClusterSlot, spread } from '../src/math-fns';
 
 describe('hash', () => {
   it('matches Java String.hashCode() for known values', () => {
@@ -47,5 +47,45 @@ describe('nextPow2', () => {
     expect(nextPow2(8)).toBe(8);
     expect(nextPow2(9)).toBe(16);
     expect(nextPow2(17)).toBe(32);
+  });
+});
+
+describe('crc16', () => {
+  it('matches the standard CRC-16/XMODEM catalog check value', () => {
+    // The canonical cross-implementation test vector for this exact variant
+    // (poly 0x1021, init 0x0000, no reflection, no final XOR).
+    expect(crc16('123456789')).toBe(0x31c3);
+  });
+
+  it('is deterministic for the same input', () => {
+    expect(crc16('repeatable')).toBe(crc16('repeatable'));
+  });
+
+  it('produces different checksums for different strings (no trivial collisions)', () => {
+    expect(crc16('foo')).not.toBe(crc16('bar'));
+  });
+});
+
+describe('redisClusterSlot', () => {
+  it('matches Redis\'s own documented example (CLUSTER KEYSLOT foo => 12182)', () => {
+    expect(redisClusterSlot('foo')).toBe(12182);
+  });
+
+  it('stays within the 16384-slot range', () => {
+    expect(redisClusterSlot('any-key-at-all')).toBeGreaterThanOrEqual(0);
+    expect(redisClusterSlot('any-key-at-all')).toBeLessThan(16384);
+  });
+
+  it('routes hash-tagged keys to the same slot regardless of the rest of the key', () => {
+    // Redis's own canonical hash-tag example: co-locating a user's related keys.
+    expect(redisClusterSlot('{user1000}.following')).toBe(redisClusterSlot('{user1000}.followers'));
+  });
+
+  it('ignores an empty {} tag and hashes the whole raw key instead', () => {
+    expect(redisClusterSlot('{}foo')).toBe(crc16('{}foo') & 16383);
+  });
+
+  it('uses only the first complete {tag} when a key has multiple braces', () => {
+    expect(redisClusterSlot('{user1000}.{following}')).toBe(redisClusterSlot('user1000'));
   });
 });

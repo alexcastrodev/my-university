@@ -57,6 +57,20 @@ describe('compileFormula', () => {
     }
   });
 
+  it('exposes crc16()/redisClusterSlot() to the slot expression, mirroring Redis Cluster hash-slot placement', () => {
+    const scene = compileFormula('capacity = 16384\nslot = redisClusterSlot(item)')([
+      'foo',
+      '{user1000}.following',
+      '{user1000}.followers',
+    ]);
+    expect(scene.meta).toBe('Capacity: 16384');
+    const slotOf = (token: string) => scene.steps.find((s) => s.place!.token === token)!.place!.slot;
+    // Matches Redis's own documented example: `CLUSTER KEYSLOT foo` => 12182.
+    expect(slotOf('foo')).toBe('12182');
+    // Hash-tagged keys land in the same slot, the whole point of the {tag} syntax.
+    expect(slotOf('{user1000}.following')).toBe(slotOf('{user1000}.followers'));
+  });
+
   it('rank() reflects Java natural ordering — numeric when every item parses as a number', () => {
     const scene = compileFormula('capacity = count\nslot = rank(item)')(['30', '10', '20']);
     // Numeric ordering: 10 -> rank 0, 20 -> rank 1, 30 -> rank 2.
