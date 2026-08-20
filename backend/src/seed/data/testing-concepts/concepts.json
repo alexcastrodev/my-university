@@ -198,6 +198,7 @@
     "title": "Testing Spring with SpringExtension",
     "summary": "Loading a Spring ApplicationContext into a JUnit 5 test with @ExtendWith(SpringExtension.class) and @ContextConfiguration, injecting beans via @Autowired — with a note on today's @SpringJUnitConfig shortcut, from JUnit in Action, Third Edition, Ch. 16.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/spring-testcontext-and-springextension",
     "references": [
       {
         "label": "Spring TestContext Framework — Spring Framework docs",
@@ -223,6 +224,7 @@
     "title": "Testing Spring Boot Applications",
     "summary": "Bootstrapping a full application context with @SpringBootTest — component scanning, auto-configuration, and bean autowiring — plus today's faster test slices (@WebMvcTest, @DataJpaTest) and the @MockBean→@MockitoBean change, from JUnit in Action, Third Edition, Ch. 17.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/spring-boot-testing",
     "references": [
       {
         "label": "Testing Spring Boot Applications — Spring Boot reference",
@@ -253,6 +255,7 @@
     "title": "Testing a REST API with MockMvc",
     "summary": "Driving a Spring REST controller through MockMvc — simulated HTTP requests, status/content-type/jsonPath assertions, and a mocked data layer — with today's @WebMvcTest slice, @MockitoBean (replacing @MockBean), and the Spring 6 NestedServletException change, from JUnit in Action, Third Edition, Ch. 18.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/spring-rest-api-testing-mockmvc",
     "references": [
       {
         "label": "Testing the Web Layer with MockMvc — Spring Boot reference",
@@ -288,6 +291,7 @@
     "title": "Testing JDBC and Spring JDBC",
     "summary": "Testing data-access code against an in-memory database — from raw JDBC (Connection/PreparedStatement/ResultSet) to Spring's JdbcTemplate/NamedParameterJdbcTemplate — with notes on obsolete Class.forName driver loading, injected JdbcTemplate over JdbcDaoSupport, and the @JdbcTest slice, from JUnit in Action, Third Edition, Ch. 19.1–19.3.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/testing-jdbc-and-spring-jdbc",
     "references": [
       {
         "label": "Data Access with JDBC — Spring Framework reference",
@@ -318,6 +322,7 @@
     "title": "Testing JPA and Hibernate",
     "summary": "Testing a JPA/Hibernate persistence layer — entity mapping, persistence.xml, and EntityManager queries against a test database — with the critical javax→jakarta package move (Hibernate 6 / Spring 6), the @DataJpaTest slice, and Testcontainers for real-database integration tests, from JUnit in Action, Third Edition, Ch. 19.4–19.6.",
     "publishedAt": "2026-08-06",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/testing-jpa-hibernate",
     "references": [
       {
         "label": "Jakarta Persistence (JPA) migration — javax to jakarta (Hibernate 6 ORM guide)",
@@ -433,6 +438,7 @@
     "title": "The Four Pillars of a Good Unit Test",
     "summary": "Protection against regressions, resistance to refactoring, fast feedback, and maintainability — the four attributes that judge any automated test, and why no test can maximize all four at once.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/four-pillars-of-a-good-unit-test",
     "references": [
       {
         "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 4 \"The Four Pillars of a Good Unit Test\", pp. 67-86",
@@ -507,6 +513,7 @@
     "title": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
     "summary": "A mock (outgoing command) and a stub (incoming query) answer different questions, and asserting interactions with a stub is a classic overspecification mistake. The deeper principle: mocking itself doesn't cause fragile tests — mocking an interaction that's an implementation detail (intra-system, no client goal behind it) rather than observable behavior (a call that crosses the application boundary and stays visible outside it) does. The fix isn't avoiding mocks, it's mocking only at true system boundaries.",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/observable-behavior-and-mock-fragility",
     "references": [
       {
         "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 5 \"Mocks and Test Fragility\", sections 5.1-5.4, pp. 92-118",
@@ -577,6 +584,7 @@
     "title": "Unit Testing Anti-Patterns: Private Methods, Leaked Domain Knowledge, and Time",
     "summary": "Why testing private methods, exposing private state, reimplementing the SUT's logic in a test, polluting production code with test-only switches, mocking concrete classes, and calling the system clock directly all trace back to the same root cause — from Khorikov, Chapter 11 \"Unit testing anti-patterns\".",
     "publishedAt": "2026-08-13",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/unit-testing-anti-patterns",
     "references": [
       {
         "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 11 \"Unit testing anti-patterns\", pp. 259-273",
@@ -652,6 +660,7 @@
     "title": "Reusing Test Fixtures, Parameterized Tests, and Assertion Libraries",
     "summary": "Why constructor/@BeforeEach-based fixture reuse couples tests to each other and hurts readability, why private factory methods (Object Mother) are the better default, when to reach for @ParameterizedTest and @MethodSource, and how AssertJ's fluent style avoids the expected/actual argument-order trap.",
     "publishedAt": "2026-08-17",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/reusing-test-fixtures-and-parameterized-tests",
     "references": [
       {
         "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 3 \"The anatomy of a unit test\", Sections 3.3, 3.5-3.6, pp. 50-63",
@@ -677,6 +686,7 @@
     "title": "Database Testing Prerequisites and Transaction Management",
     "summary": "Why schema and reference data belong in source control, why migration-based delivery beats state-based once real data exists (the data-motion argument), and why integration tests need a separate transaction per arrange/act/assert section instead of reusing one session.",
     "publishedAt": "2026-08-17",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/testing-concepts/database-testing-prerequisites-and-transactions",
     "references": [
       {
         "label": "Vladimir Khorikov, \"Unit Testing Principles, Practices, and Patterns\" (Manning, 2020) — Chapter 10 \"Testing the database\", Sections 10.1-10.2, pp. 230-243",
