@@ -714,10 +714,10 @@
     "id": 13,
     "title": "Polyglot Persistence",
     "topic": "Data Storage & Modeling",
-    "summary": "Why a system that stores video files, product catalogs, session state, and social graphs shouldn't put all of them in the same kind of database — matching each data shape and access pattern to the storage engine actually built for it.",
+    "summary": "Why a system that stores video files, product catalogs, session state, social graphs, and versioned event history shouldn't put all of them in the same kind of database — matching each data shape and access pattern to the storage engine actually built for it.",
     "publishedAt": "2026-08-04",
     "difficulty": "Intermediate",
-    "readingTime": 10,
+    "readingTime": 14,
     "tags": [
       "Databases",
       "Data Modeling",
@@ -748,12 +748,32 @@
       {
         "label": "Object Storage and the Direct-Upload Pattern",
         "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "The Cassandra Query Language: Keyspaces, Tables, and CQL Types",
+        "slug": "cassandra-cql-data-model",
+        "feature": "database"
+      },
+      {
+        "label": "HBase's Data Model, CRUD, and Table Administration",
+        "slug": "hbase-data-model-and-table-administration",
+        "feature": "database"
+      },
+      {
+        "label": "The Property Graph Model and Cypher CRUD Basics",
+        "slug": "neo4j-property-graph-model-and-cypher-crud",
+        "feature": "database"
       }
     ],
     "references": [
       {
         "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\", 2nd Edition (O'Reilly) — Chapter 2, \"Data Models and Query Languages\"",
         "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Luc Perkins, Eric Redmond, and Jim R. Wilson, \"Seven Databases in Seven Weeks\" (Pragmatic Bookshelf, 2nd Edition, 2018) — Chapter 9, \"Wrapping Up\" (\"Genres Redux\")",
+        "url": "https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/",
         "type": "book"
       },
       {

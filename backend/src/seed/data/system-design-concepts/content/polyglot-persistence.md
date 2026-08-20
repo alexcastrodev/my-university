@@ -1,8 +1,8 @@
 ---
 title: Polyglot Persistence
-description: Why a system that stores video files, product catalogs, session state, and social graphs shouldn't put all of them in the same kind of database — matching each data shape and access pattern to the storage engine actually built for it.
+description: Why a system that stores video files, product catalogs, session state, social graphs, and versioned event history shouldn't put all of them in the same kind of database — matching each data shape and access pattern to the storage engine actually built for it.
 difficulty: Intermediate
-readingTime: 10
+readingTime: 14
 tags:
   - Databases
   - Data Modeling
@@ -15,11 +15,14 @@ related:
   - CAP Theorem
   - Caching Strategies and CDNs
   - Consistent Hashing
+  - The Cassandra Query Language: Keyspaces, Tables, and CQL Types
+  - HBase's Data Model, CRUD, and Table Administration
+  - The Property Graph Model and Cypher CRUD Basics
 ---
 
 ## Overview
 
-"Polyglot persistence" is the practice of using more than one type of database within a single system, each chosen for the access pattern of the data it holds, instead of forcing every kind of data through one general-purpose store. A relational database is excellent at enforcing structure and answering ad-hoc queries across related tables, but it's the wrong tool for a 500 MB video file, and a key-value store is excellent at single-key lookups at massive scale, but it's the wrong tool for "find all orders placed by users in California last month." The question to ask for any given piece of data isn't "which database do we already have," it's "what does this data look like, and how is it actually read and written."
+"Polyglot persistence" is the practice of using more than one type of database within a single system, each chosen for the access pattern of the data it holds, instead of forcing every kind of data through one general-purpose store. A relational database is excellent at enforcing structure and answering ad-hoc queries across related tables, but it's the wrong tool for a 500 MB video file, and a key-value store is excellent at single-key lookups at massive scale, but it's the wrong tool for "find all orders placed by users in California last month." The question to ask for any given piece of data isn't "which database do we already have," it's "what does this data look like, and how is it actually read and written." Six genres show up repeatedly across real systems — relational, object/blob, key-value, document, wide-column (columnar), and graph — each built around a different answer to that question.
 
 ## Relational Databases: Structured, Queryable, Mutable
 
@@ -77,6 +80,34 @@ Document stores (MongoDB, DynamoDB in document mode, Elasticsearch for search-fl
 
 Forcing this into a relational schema means either a sparse table with dozens of mostly-null columns, or an EAV (entity-attribute-value) anti-pattern that turns every query into a self-join. A document store stores each record's actual shape and queries within it directly, at the cost of the strong cross-document consistency and join support a relational database provides by default.
 
+## Columnar (Wide-Column) Stores: Sparse, Versioned, Query-Shaped-Schema
+
+Columnar databases (Cassandra, HBase) store like data by column rather than keeping each record together by row, which makes columns inexpensive to add, versioning trivial, and unpopulated values free of storage cost — a genuinely different physical layout from a document store's per-record JSON blob, even though both are sometimes casually called "schema-flexible":
+
+```
+# Cassandra CQL: a wide row where columns are added per-row, not per-table
+CREATE TABLE page_versions (
+  url text,
+  fetched_at timestamp,
+  html_compressed blob,
+  PRIMARY KEY (url, fetched_at)
+);
+```
+
+The canonical fit is a big, horizontally-scaled dataset that's read and written by a known access pattern and benefits from built-in compression and versioning — indexing web pages is the textbook example: highly textual (compresses well), somewhat interrelated, and changes over time (benefits from keeping old versions cheaply). The catch is the same one single-table DynamoDB design imposes: "it's best to design your schema based on how you plan to query the data," so a workload that needs fast, unplanned ad hoc reporting is a poor fit — you're trading query flexibility for write throughput and storage efficiency at scale, the same trade DynamoDB's access-patterns-first modeling makes explicit in the key-value/document world.
+
+## Graph Databases: Interconnection Over Aggregation
+
+Graph databases (Neo4j) invert the usual database question. Instead of "which bucket does this record belong to," the question is "what is this node connected to, and by what kind of edge" — nodes and the relationships between them are both first-class, queried by traversing edges rather than by grouping like objects into tables or collections. Where a relational join reconstructs a relationship at query time by matching foreign keys across two tables, a graph database stores the relationship itself as a physical edge, so following it is a pointer chase, not a join.
+
+```cypher
+MATCH (user:Person {name: "Alice"})-[:FOLLOWS]->(friend)-[:FOLLOWS]->(fof)
+WHERE NOT (user)-[:FOLLOWS]->(fof)
+RETURN fof.name
+```
+
+Social networks are the textbook fit — "if you can model your data on a whiteboard, you can model it in a graph" — and the same shape shows up in recommendation engines, access-control lists, and fraud-detection networks, anywhere the *relationships* between records carry as much meaning as the records themselves. The trade-off is the mirror image of a wide-column store's: the high interconnectedness that makes traversal cheap on a single machine makes horizontal partitioning genuinely hard, since a query that spiders across the graph can't afford a network hop to a different node for every edge it follows — this is a real architectural limit, not a maturity gap, which is why graph databases historically scale up (bigger machine) more readily than they scale out (more machines), and why clustering solutions for them (see Neo4j's Causal Clustering) are built around read scaling and failover rather than horizontal write partitioning.
+
 ## Choosing: Match the Access Pattern, Not the Familiarity
 
 The mistake polyglot persistence corrects is defaulting to whatever database the team already knows for every kind of data, regardless of fit. The questions that actually decide the right store:
@@ -85,6 +116,8 @@ The mistake polyglot persistence corrects is defaulting to whatever database the
 - **Is the data mutated in place, or written once and read many times?** Mutated frequently → relational or key-value. Write-once → object storage.
 - **Does the record have a fixed, known shape, or does it vary between records?** Fixed → relational. Variable → document store.
 - **How large is a single record?** A few KB → any of the above. Megabytes+ → object storage, with a pointer to it (a URL or object key) stored in whichever metadata store holds the rest of the record's fields — this is why a media platform commonly has both a relational/document metadata store *and* an object store, linked by a key, rather than one store holding everything.
+- **Does the value the query cares about live in the relationships, not the records?** If the interesting question is "who is connected to whom, and how" rather than "give me records matching these fields," reach for a graph database — anything else forces you to reconstruct the relationship at query time via joins or application code.
+- **Is this write-heavy, horizontally-scaled, and known-in-advance in its query shape?** A wide-column store trades ad hoc query flexibility for exactly that combination — cheap column growth, cheap versioning, and near-linear write scaling — the same trade DynamoDB's single-table design makes in the key-value world, just with a different physical layout underneath.
 
 This last point is the shape most systems converge on: the actual media/blob lives in object storage, and a relational or document database holds the metadata (title, owner, tags, permissions) plus a reference to the object's key — each store doing the part of the job it's actually good at.
 
@@ -95,6 +128,8 @@ flowchart TD
     App -->|large, write-once blobs| Obj[("Object Storage<br/>videos, images")]
     App -->|single-key lookups| KV[("Key-Value Store<br/>sessions, cache")]
     App -->|nested, variable schema| Doc[("Document Store<br/>product catalog")]
+    App -->|write-heavy, planned queries| Col[("Wide-Column Store<br/>event/version history")]
+    App -->|relationship traversal| Graph[("Graph DB<br/>social graph, recs")]
     SQL -.->|references object key| Obj
 ```
 
@@ -103,6 +138,7 @@ flowchart TD
 - **More database types means more operational surface area** — each store has its own backup strategy, monitoring, failure modes, and on-call runbook; polyglot persistence is a real cost paid in operational complexity, not a free lunch, and isn't worth it for a system small enough that one general-purpose database handles every access pattern adequately.
 - **Cross-store consistency has to be built, not inherited** — a relational database gives transactions across its own tables for free; keeping a metadata row in Postgres and a blob in S3 in sync (e.g. deleting both when a user deletes a file) requires explicit application logic or a pattern like the outbox pattern, where a single-store system would just wrap it in one transaction.
 - **Query flexibility and write/read performance are usually in tension** — the stores optimized for extreme single-key read/write throughput (key-value, object storage) are the ones that give up ad-hoc query power, and that trade is inherent to how they're built, not a temporary limitation.
+- **Graph databases scale up more readily than they scale out** — the same interconnectedness that makes traversal cheap on one machine is what makes horizontal partitioning genuinely hard, since a multi-hop query can't afford a network round trip per edge; this is a structural property of the model, not an implementation gap any particular graph database is likely to close.
 
 ## Interview Questions
 
@@ -110,10 +146,13 @@ flowchart TD
 - Given a system with user profiles, uploaded videos, and a live leaderboard, which storage type would you pick for each, and why?
 - What does a document store give up relative to a relational database, and when is that an acceptable trade?
 - How would you keep a metadata row in a relational database consistent with the object it references in blob storage, given there's no cross-store transaction?
+- Why do graph databases tend to scale vertically rather than horizontally, and what does that imply about their fit for a huge, partition-tolerant system?
+- A social network needs to store user profiles, posts, and a "who follows whom" graph. Which storage type fits each, and why would forcing the follow-graph into a relational schema become painful at scale?
 
 ## References
 
 - Martin Kleppmann, [*Designing Data-Intensive Applications*](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/) (O'Reilly, 2nd Edition) — Chapter 2, "Data Models and Query Languages"
+- Luc Perkins, Eric Redmond, and Jim R. Wilson, [*Seven Databases in Seven Weeks*](https://pragprog.com/titles/rwdata2/seven-databases-in-seven-weeks-second-edition/) (Pragmatic Bookshelf, 2nd Edition, 2018) — Chapter 9, "Wrapping Up" ("Genres Redux")
 - [AWS — Amazon S3 vs. Amazon RDS: When to Use Which](https://aws.amazon.com/products/storage/)
 - [MongoDB — Relational vs. Document Databases](https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases)
 - [Martin Fowler — Polyglot Persistence](https://martinfowler.com/bliki/PolyglotPersistence.html)
