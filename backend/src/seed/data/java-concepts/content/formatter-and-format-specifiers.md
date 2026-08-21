@@ -92,6 +92,13 @@ System.out.printf("line one%nline two%n");
 - **Width/precision on `%s` truncates strings silently** — a display string longer than the specified precision loses its tail with no indication in the output that truncation happened, which is fine for a fixed-width report column and a real bug source if the full string mattered.
 - **An explicitly constructed `Formatter` holds a resource and should be closed** (it implements `AutoCloseable`) — especially when file-backed, where an unclosed `Formatter` can leave buffered output unflushed; `String.format`/`printf` never expose this concern because they manage their own internal `Formatter` for you.
 - **Relative indexing (`%<`) only reuses the *immediately preceding* specifier's argument** — it isn't a general "go back N arguments" mechanism, so reordering specifiers in a format string can silently change which argument `%<` now refers to; an explicit `n$` index is the more robust choice once a format string gets complex enough that reordering is likely.
+- **An explicit `Formatter` is not thread-safe.** It buffers its output in internal mutable state, so sharing one instance across threads (e.g. caching it in a `static` field to "save resources") corrupts output under concurrent calls. `String.format`/`printf` never hit this because each call constructs its own private `Formatter` internally.
+  ```java
+  static final Formatter shared = new Formatter(); // unsafe: concurrent format() calls race on the buffer
+
+  // safe alternative: no shared state to race on
+  String s = String.format("%s scored %d%%", name, score);
+  ```
 
 ## Documentation Links
 

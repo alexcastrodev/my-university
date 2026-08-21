@@ -163,5 +163,16 @@
       { "label": "java.lang.Thread — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html", "type": "doc" },
       { "label": "-Xss (Thread Stack Size) — java Tool Reference", "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "string-formatting",
+    "id": 388,
+    "question": "How can you format a string of characters?",
+    "publishedAt": "2026-08-21",
+    "references": [
+      { "label": "Java Coding Tip #388: How Can You Format a String of Characters?", "url": "https://youtube.com/shorts/DUX5bEvepbo?is=vDI15IXtwHnAcxGv", "type": "video" },
+      { "label": "String.format — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)", "type": "doc" },
+      { "label": "Formatter — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html", "type": "doc" }
+    ]
   }
 ]
