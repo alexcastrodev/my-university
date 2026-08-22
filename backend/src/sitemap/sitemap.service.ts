@@ -5,6 +5,7 @@ import { ExamService } from '../exam/exam.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
+import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -34,6 +35,7 @@ export class SitemapService {
     private readonly exam: ExamService,
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
+    private readonly quarkusConcepts: QuarkusConceptsService,
   ) {}
 
   async buildUrls(): Promise<SitemapUrl[]> {
@@ -82,6 +84,9 @@ export class SitemapService {
         '/rubyonrails-concepts',
         this.rubyOnRailsConcepts.findAll(),
       ),
+    );
+    urls.push(
+      ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),
     );
 
     const exams = await this.exam.listExams();

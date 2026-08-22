@@ -28,6 +28,34 @@ if (s instanceof Rectangle r) {
 
 `Rectangle r` here is a **type pattern**: a type plus a single pattern variable. If `s` is a `Rectangle`, the test succeeds and `r` is initialized with `s`, already cast — no separate `(Rectangle) s` needed. If it fails, `r` is simply not in scope.
 
+### Type patterns and generics: still only reifiable types
+
+Binding a pattern variable does not relax `instanceof`'s long-standing restriction on generic types: the reference type in a pattern must still be **reifiable** — fully known at runtime — so a parameterized type like `List<String>` is illegal whether or not it binds a variable:
+
+```java
+static void plain(Object obj) {
+    if (obj instanceof List<String>) { }        // error: Object cannot be safely cast to List<String>
+}
+
+static void withPattern(Object obj) {
+    if (obj instanceof List<String> list) { }    // same error — the pattern variable changes nothing
+}
+```
+
+Both fail with the identical compiler error, `Object cannot be safely cast to List<String>` — pattern matching's cast-and-bind convenience doesn't come with a special exemption from erasure. The only generic forms `instanceof` accepts are the unbounded wildcard and the raw type, both of which are reifiable:
+
+```java
+if (obj instanceof List<?> list) {   // legal: unbounded wildcard is reifiable
+    System.out.println(list.size());
+}
+
+if (obj instanceof List list) {      // legal: raw type is reifiable
+    list.add("oops");                // warning: [unchecked] unchecked call to add(E) as a member of the raw type List
+}
+```
+
+The raw-type pattern compiles cleanly on its own — the `unchecked` warning only appears where the raw type is actually *used* in a way that erasure can't verify (here, `add`), the same rule that already applies to any raw-typed variable outside of pattern matching.
+
 ### Record patterns
 
 A **record pattern** pairs a record type with a pattern list matching its components, so it can deconstruct nested data in one step:
@@ -187,6 +215,12 @@ area(new Triangle(3, 4)); // MatchException at runtime
 case Character c:
     // falls through
 case Integer i:   // error: c falls through into this label
+```
+
+- **A pattern variable doesn't grant generics an exemption from erasure** — `obj instanceof List<String> list` fails with the exact same compile error as the pattern-free `obj instanceof List<String>`; only the unbounded wildcard (`List<?>`) or the raw type (`List`) are legal, and reaching for the raw type reintroduces ordinary unchecked-warning territory the moment it's used generically:
+
+```java
+if (obj instanceof List<String> list) { }   // error: Object cannot be safely cast to List<String>
 ```
 
 ## Documentation Links

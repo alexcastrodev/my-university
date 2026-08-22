@@ -70,6 +70,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/spring-concepts/spring-concepts-detail').then((m) => m.SpringConceptsDetailPage),
   },
   {
+    path: 'quarkus-concepts',
+    loadComponent: () => import('./pages/quarkus-concepts/quarkus-concepts-list').then((m) => m.QuarkusConceptsListPage),
+  },
+  {
+    path: 'quarkus-concepts/:slug',
+    loadComponent: () => import('./pages/quarkus-concepts/quarkus-concepts-detail').then((m) => m.QuarkusConceptsDetailPage),
+  },
+  {
     path: 'java/testing',
     loadComponent: () => import('./pages/testing-concepts/testing-concepts-list').then((m) => m.TestingConceptsListPage),
   },

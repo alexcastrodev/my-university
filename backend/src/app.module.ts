@@ -21,6 +21,7 @@ import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
+import { QuarkusConceptsModule } from './quarkus-concepts/quarkus-concepts.module';
 import { ReviewSchedule } from './review/review-schedule.entity';
 import { ReviewModule } from './review/review.module';
 import { RubyConceptsModule } from './ruby-concepts/ruby-concepts.module';
@@ -69,6 +70,7 @@ import { XpModule } from './xp/xp.module';
     AlgorithmsConceptsModule,
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
+    QuarkusConceptsModule,
     ProgressModule,
     ExamModule,
     XpModule,

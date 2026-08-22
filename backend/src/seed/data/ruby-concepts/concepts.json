@@ -58,6 +58,11 @@
         "label": "Memory, GC, and the Bloat vs. Leak Model",
         "slug": "memory-gc-and-fragmentation",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Language Changes: 2.0 Through 4.0",
+        "slug": "ruby-language-changes-2-0-to-4-0",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -163,6 +168,11 @@
       {
         "label": "Blocks, Procs, and Lambdas",
         "slug": "blocks-procs-and-lambdas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Language Changes: 2.0 Through 4.0",
+        "slug": "ruby-language-changes-2-0-to-4-0",
         "feature": "ruby-concepts"
       }
     ],
@@ -317,6 +327,11 @@
         "label": "Reflection and Introspection",
         "slug": "reflection-and-object-space",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Testing Ruby: Minitest, RSpec, and Test Doubles",
+        "slug": "testing-ruby-minitest-and-rspec",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -428,6 +443,21 @@
         "label": "The Ruby Object Model and Method Lookup",
         "slug": "object-model-and-method-lookup",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Testing Ruby: Minitest, RSpec, and Test Doubles",
+        "slug": "testing-ruby-minitest-and-rspec",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Language Changes: 2.0 Through 4.0",
+        "slug": "ruby-language-changes-2-0-to-4-0",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Style: RuboCop, Standard, and Enforcing Conventions",
+        "slug": "ruby-style-rubocop-and-standard",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -517,6 +547,21 @@
         "label": "Reflection and Introspection",
         "slug": "reflection-and-object-space",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Testing Ruby: Minitest, RSpec, and Test Doubles",
+        "slug": "testing-ruby-minitest-and-rspec",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Style: RuboCop, Standard, and Enforcing Conventions",
+        "slug": "ruby-style-rubocop-and-standard",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Command-Line Tooling: Scripts, OptionParser, Rake, and irb",
+        "slug": "ruby-command-line-tooling",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -579,6 +624,21 @@
         "label": "Debugging Ruby: the debug Gem and Pry",
         "slug": "debugging-ruby-debug-and-pry",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Testing Ruby: Minitest, RSpec, and Test Doubles",
+        "slug": "testing-ruby-minitest-and-rspec",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Bundler, Gemfiles, and Dependency Management",
+        "slug": "bundler-gemfiles-and-dependency-management",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Style: RuboCop, Standard, and Enforcing Conventions",
+        "slug": "ruby-style-rubocop-and-standard",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -621,6 +681,11 @@
         "label": "The Enumerable and Enumerator Protocol",
         "slug": "enumerable-and-enumerator-protocol",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Language Changes: 2.0 Through 4.0",
+        "slug": "ruby-language-changes-2-0-to-4-0",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -662,6 +727,11 @@
       {
         "label": "Memory, GC, and the Bloat vs. Leak Model",
         "slug": "memory-gc-and-fragmentation",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Bundler, Gemfiles, and Dependency Management",
+        "slug": "bundler-gemfiles-and-dependency-management",
         "feature": "ruby-concepts"
       }
     ],
@@ -891,6 +961,11 @@
         "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
         "slug": "self-and-singleton-classes",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Bundler, Gemfiles, and Dependency Management",
+        "slug": "bundler-gemfiles-and-dependency-management",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -995,6 +1070,11 @@
         "label": "instance_eval, class_eval, and Building Internal DSLs",
         "slug": "instance-eval-and-dsls",
         "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Language Changes: 2.0 Through 4.0",
+        "slug": "ruby-language-changes-2-0-to-4-0",
+        "feature": "ruby-concepts"
       }
     ],
     "references": [
@@ -1088,6 +1168,296 @@
       {
         "label": "Ruby 3.4.0 Released — ruby-lang.org",
         "url": "https://www.ruby-lang.org/en/news/2024/12/25/ruby-3-4-0-released/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-ruby-minitest-and-rspec",
+    "id": 25,
+    "title": "Testing Ruby: Minitest, RSpec, and Test Doubles",
+    "topic": "Testing",
+    "summary": "Minitest ships in the stdlib and Rails is tested with it internally, but most Rails apps in the wild reach for RSpec instead — knowing both, plus the difference between a bare double and a verified one, is table stakes for reading someone else's suite.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "instance_eval, class_eval, and Building Internal DSLs",
+        "slug": "instance-eval-and-dsls",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Duck Typing and Conversion Protocols",
+        "slug": "duck-typing-and-conversion-protocols",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Common Ruby Gotchas: Silent Bugs Worth Knowing By Heart",
+        "slug": "common-ruby-gotchas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Debugging Ruby: the debug Gem and Pry",
+        "slug": "debugging-ruby-debug-and-pry",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Minitest — GitHub (seattlerb/minitest)",
+        "url": "https://github.com/minitest/minitest",
+        "type": "doc"
+      },
+      {
+        "label": "RSpec — Core documentation (rspec.info)",
+        "url": "https://rspec.info/documentation/",
+        "type": "doc"
+      },
+      {
+        "label": "RSpec Mocks — verifying doubles",
+        "url": "https://rspec.info/features/3-13/rspec-mocks/verifying-doubles/",
+        "type": "doc"
+      },
+      {
+        "label": "RSpec Expectations — built-in matchers",
+        "url": "https://rspec.info/features/3-13/rspec-expectations/built-in-matchers/",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Testing Ruby Code",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bundler-gemfiles-and-dependency-management",
+    "id": 26,
+    "title": "Bundler, Gemfiles, and Dependency Management",
+    "topic": "Tooling & Debugging",
+    "summary": "The Gemfile says what you're willing to run; Gemfile.lock is what you're actually running. Understanding bundle exec, groups, and version constraints is the difference between reproducible deploys and \"works on my machine.\"",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Ruby::Box: In-Process Namespace Isolation",
+        "slug": "ruby-box-in-process-isolation",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "YJIT, TruffleRuby, and JRuby: Choosing a Ruby Runtime",
+        "slug": "ruby-runtimes-compared",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Common Ruby Gotchas: Silent Bugs Worth Knowing By Heart",
+        "slug": "common-ruby-gotchas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Command-Line Tooling: Scripts, OptionParser, Rake, and irb",
+        "slug": "ruby-command-line-tooling",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Bundler — official documentation",
+        "url": "https://bundler.io/docs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Gemfile — man page (bundler.io)",
+        "url": "https://bundler.io/man/gemfile.5.html",
+        "type": "doc"
+      },
+      {
+        "label": "RubyGems Guides — Make Your Own Gem",
+        "url": "https://guides.rubygems.org/make-your-own-gem/",
+        "type": "doc"
+      },
+      {
+        "label": "RubyGems Guides — Specification Reference",
+        "url": "https://guides.rubygems.org/specification-reference/",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby Gems",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-language-changes-2-0-to-4-0",
+    "id": 27,
+    "title": "Ruby Language Changes: 2.0 Through 4.0",
+    "topic": "Language Core & Idioms",
+    "summary": "Keyword-argument separation in 3.0, Ractors, Set becoming core, Prism as the default parser in 3.4, and *nil no longer converting via to_a in 4.0 — the version timeline other Ruby concepts on this platform assume you already know.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "The GVL and Ruby's Concurrency Model",
+        "slug": "gvl-and-concurrency-model",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Pattern Matching in Ruby",
+        "slug": "pattern-matching",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Typed Ruby: RBS and Sorbet",
+        "slug": "typed-ruby-rbs-and-sorbet",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Hash and Set: the Non-Obvious Parts",
+        "slug": "hash-and-set-deep-dive",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Duck Typing and Conversion Protocols",
+        "slug": "duck-typing-and-conversion-protocols",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Ruby 3.0.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2020/12/25/ruby-3-0-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 3.2.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2022/12/25/ruby-3-2-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 3.4.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2024/12/25/ruby-3-4-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby 4.0.0 Released — ruby-lang.org",
+        "url": "https://www.ruby-lang.org/en/news/2025/12/25/ruby-4-0-0-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby Changes — a version-by-version community changelog",
+        "url": "https://rubyreferences.github.io/rubychanges/",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby Changes appendix",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-style-rubocop-and-standard",
+    "id": 28,
+    "title": "Ruby Style: RuboCop, Standard, and Enforcing Conventions",
+    "topic": "Tooling & Debugging",
+    "summary": "Ruby's syntax tolerates almost any formatting choice, which is exactly why real teams run a linter — RuboCop's configurable cops and severities, or Standard's zero-config answer to the same problem, plus how to adopt either on a codebase that's never had one.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Duck Typing and Conversion Protocols",
+        "slug": "duck-typing-and-conversion-protocols",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Common Ruby Gotchas: Silent Bugs Worth Knowing By Heart",
+        "slug": "common-ruby-gotchas",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Debugging Ruby: the debug Gem and Pry",
+        "slug": "debugging-ruby-debug-and-pry",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Command-Line Tooling: Scripts, OptionParser, Rake, and irb",
+        "slug": "ruby-command-line-tooling",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "RuboCop — official documentation",
+        "url": "https://docs.rubocop.org/rubocop/",
+        "type": "doc"
+      },
+      {
+        "label": "RuboCop — cop configuration reference",
+        "url": "https://docs.rubocop.org/rubocop/configuration.html",
+        "type": "doc"
+      },
+      {
+        "label": "Standard — Ruby Style Guide, guides itself",
+        "url": "https://github.com/standardrb/standard",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby Style",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ruby-command-line-tooling",
+    "id": 29,
+    "title": "Ruby Command-Line Tooling: Scripts, OptionParser, Rake, and irb",
+    "topic": "Tooling & Debugging",
+    "summary": "Most Ruby that runs in production isn't a request handler — it's a script, a deploy task, or a Rake job. The -n/-p/-a flags, ARGV vs ARGF, OptionParser, ENV's real scoping rules, and Rake's task graph are the half of the language framework code never touches.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Bundler, Gemfiles, and Dependency Management",
+        "slug": "bundler-gemfiles-and-dependency-management",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Ruby Style: RuboCop, Standard, and Enforcing Conventions",
+        "slug": "ruby-style-rubocop-and-standard",
+        "feature": "ruby-concepts"
+      },
+      {
+        "label": "Debugging Ruby: the debug Gem and Pry",
+        "slug": "debugging-ruby-debug-and-pry",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ruby(1) — command-line options man page",
+        "url": "https://docs.ruby-lang.org/en/3.3/man/ruby.1.html",
+        "type": "doc"
+      },
+      {
+        "label": "OptionParser — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/OptionParser.html",
+        "type": "doc"
+      },
+      {
+        "label": "Rake — GitHub (ruby/rake)",
+        "url": "https://github.com/ruby/rake",
+        "type": "doc"
+      },
+      {
+        "label": "IRB — Ruby stdlib docs",
+        "url": "https://docs.ruby-lang.org/en/3.3/IRB.html",
+        "type": "doc"
+      },
+      {
+        "label": "YARD — getting started guide",
+        "url": "https://rubydoc.info/gems/yard/file/docs/GettingStarted.md",
+        "type": "doc"
+      },
+      {
+        "label": "Programming Ruby 3.3 (Pickaxe) — Ruby from the Command Line",
+        "url": "https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/",
         "type": "doc"
       }
     ]

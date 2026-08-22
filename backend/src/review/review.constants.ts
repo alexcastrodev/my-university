@@ -24,6 +24,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'algorithms-concepts', sourceType: 'concept-read', prefix: 'algo:', route: (slug) => ['/algorithms/algorithms-concepts', slug] },
   { module: 'ruby-concepts', sourceType: 'concept-read', prefix: 'ruby:', route: (slug) => ['/ruby-concepts', slug] },
   { module: 'rubyonrails-concepts', sourceType: 'concept-read', prefix: 'rails:', route: (slug) => ['/rubyonrails-concepts', slug] },
+  { module: 'quarkus-concepts', sourceType: 'concept-read', prefix: 'quarkus:', route: (slug) => ['/quarkus-concepts', slug] },
 ];
 
 export interface ResolvedSource {

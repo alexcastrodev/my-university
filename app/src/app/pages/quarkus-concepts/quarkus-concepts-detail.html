@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/quarkus-concepts" class="back-link">← Quarkus Concepts</a>
+      <div class="loading" role="status" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concept…
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/quarkus-concepts" class="back-link">← Quarkus Concepts</a>
+      <div class="not-found">
+        <p>Concept not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        backHref="/quarkus-concepts"
+        backLabel="Quarkus Concepts"
+        basePath="/quarkus-concepts"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-quarkus-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          [breadcrumbs]="breadcrumbItems()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

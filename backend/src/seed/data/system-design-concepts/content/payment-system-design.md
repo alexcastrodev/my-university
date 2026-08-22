@@ -17,6 +17,8 @@ related:
     slug: outbox-pattern
   - label: "Transactions, ACID, and Isolation Levels"
     slug: transactions-acid-and-isolation-levels
+  - label: "Idempotency in Distributed Systems"
+    slug: idempotency
   - label: "Consensus and Coordination Services"
     slug: consensus-and-coordination-services
   - label: "Designing a Digital Wallet"

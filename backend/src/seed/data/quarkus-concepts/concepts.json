@@ -1,0 +1,236 @@
+[
+  {
+    "slug": "hibernate-dialect-selection-and-database-version-targeting",
+    "id": 1,
+    "category": "Core Configuration",
+    "title": "Hibernate Dialect Selection and Database Version Targeting",
+    "topic": "Core Configuration",
+    "related": [
+      { "label": "Multiple Persistence Units in Quarkus", "slug": "multiple-persistence-units-in-quarkus" }
+    ],
+    "summary": "How Quarkus auto-detects the Hibernate dialect from your datasource, and how to pin an exact database version or override the dialect explicitly.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — dialect and db-version configuration", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multiple-persistence-units-in-quarkus",
+    "id": 2,
+    "category": "Core Configuration",
+    "title": "Multiple Persistence Units in Quarkus",
+    "topic": "Core Configuration",
+    "related": [
+      { "label": "Multitenancy Strategies: Schema, Database, and Discriminator", "slug": "multitenancy-strategies-schema-database-and-discriminator" },
+      { "label": "Programmatic Tenant Resolution with TenantConnectionResolver", "slug": "programmatic-tenant-resolution-with-tenantconnectionresolver" },
+      { "label": "Interceptors and StatementInspector: Hooking into Hibernate's Lifecycle", "slug": "interceptors-and-statementinspector" }
+    ],
+    "summary": "How to declare named persistence units backed by separate datasources, scope entities to them, and inject or extend each unit independently via CDI.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — multiple persistence units, @PersistenceUnit, @PersistenceUnitExtension", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "schema-management-dev-mode-vs-production-mode",
+    "id": 3,
+    "category": "Core Configuration",
+    "title": "Schema Management: Dev Mode vs Production Mode",
+    "topic": "Core Configuration",
+    "related": [
+      { "label": "Flyway Integration with Hibernate ORM", "slug": "flyway-integration-with-hibernate-orm" }
+    ],
+    "summary": "How quarkus.hibernate-orm.schema-management.strategy and sql-load-script differ between dev and production profiles, and why production should hand schema control to a migration tool.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — schema-management strategies, import.sql, %dev/%prod profiles", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "second-level-cache-regions-eviction-and-query-cache",
+    "id": 4,
+    "category": "Caching & Auditing",
+    "title": "Second-Level Cache: Regions, Eviction, and Query Cache",
+    "topic": "Caching & Auditing",
+    "related": [],
+    "summary": "How @Cacheable, per-region memory/expiration properties, and the org.hibernate.cacheable query hint work together to enable Hibernate's second-level and query caches in Quarkus.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — caching, cache regions, query caching", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hibernate-envers-auditing-and-versioning",
+    "id": 5,
+    "category": "Caching & Auditing",
+    "title": "Hibernate Envers: Auditing and Versioning",
+    "topic": "Caching & Auditing",
+    "related": [
+      { "label": "Multitenancy Strategies: Schema, Database, and Discriminator", "slug": "multitenancy-strategies-schema-database-and-discriminator" }
+    ],
+    "summary": "The quarkus-hibernate-envers extension records a full change history per entity via @Audited, revision entities, and the AuditReader query API.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Using Hibernate ORM and Jakarta Persistence — Envers section — Quarkus guide", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" },
+      { "label": "Hibernate Envers overview — hibernate.org", "url": "https://hibernate.org/orm/envers/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multitenancy-strategies-schema-database-and-discriminator",
+    "id": 6,
+    "category": "Multitenancy",
+    "title": "Multitenancy Strategies: Schema, Database, and Discriminator",
+    "topic": "Multitenancy",
+    "related": [
+      { "label": "Programmatic Tenant Resolution with TenantConnectionResolver", "slug": "programmatic-tenant-resolution-with-tenantconnectionresolver" },
+      { "label": "Flyway Integration with Hibernate ORM", "slug": "flyway-integration-with-hibernate-orm" }
+    ],
+    "summary": "Quarkus offers three multitenancy strategies (SCHEMA, DATABASE, DISCRIMINATOR) selected via quarkus.hibernate-orm.multitenant, each trading isolation strength for operational simplicity.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Using Hibernate ORM and Jakarta Persistence — Multitenancy section — Quarkus guide", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "programmatic-tenant-resolution-with-tenantconnectionresolver",
+    "id": 7,
+    "category": "Multitenancy",
+    "title": "Programmatic Tenant Resolution with TenantConnectionResolver",
+    "topic": "Multitenancy",
+    "related": [
+      { "label": "Multitenancy Strategies: Schema, Database, and Discriminator", "slug": "multitenancy-strategies-schema-database-and-discriminator" }
+    ],
+    "summary": "TenantConnectionResolver lets an application build JDBC connection providers per tenant id at runtime instead of relying on statically configured schemas or datasources.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Using Hibernate ORM and Jakarta Persistence — Programmatically Resolving Tenant Connections — Quarkus guide", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "interceptors-and-statementinspector",
+    "id": 8,
+    "category": "Customization & Migration",
+    "title": "Interceptors and StatementInspector: Hooking into Hibernate's Lifecycle",
+    "topic": "Customization & Migration",
+    "related": [],
+    "summary": "Interceptor and StatementInspector CDI beans, registered with @PersistenceUnitExtension, let you observe or rewrite entity lifecycle events and SQL statements without touching entities or queries.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Using Hibernate ORM and Jakarta Persistence — Interceptors and Statement Inspectors — Quarkus guide", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "flyway-integration-with-hibernate-orm",
+    "id": 9,
+    "category": "Customization & Migration",
+    "title": "Flyway Integration with Hibernate ORM",
+    "topic": "Customization & Migration",
+    "related": [
+      { "label": "Schema Management: Dev Mode vs Production Mode", "slug": "schema-management-dev-mode-vs-production-mode" },
+      { "label": "Multitenancy Strategies: Schema, Database, and Discriminator", "slug": "multitenancy-strategies-schema-database-and-discriminator" }
+    ],
+    "summary": "Flyway takes over schema versioning from Hibernate by seeding its first migration from Hibernate-generated DDL, then owning every migration afterward.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — Flyway integration section", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" },
+      { "label": "Quarkus Flyway extension guide", "url": "https://quarkus.io/guides/flyway", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "static-metamodel-with-hibernate-processor",
+    "id": 10,
+    "category": "Modern Data Access",
+    "title": "Static Metamodel with the Hibernate Annotation Processor",
+    "topic": "Modern Data Access",
+    "related": [
+      { "label": "Jakarta Data Repositories", "slug": "jakarta-data-repositories" },
+      { "label": "Panache: Active Record and Repository Patterns", "slug": "panache-active-record-and-repository-patterns" }
+    ],
+    "summary": "The hibernate-processor annotation processor generates type-safe metamodel classes so CriteriaBuilder queries reference entity attributes at compile time instead of by string.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — Static metamodel section", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "jakarta-data-repositories",
+    "id": 11,
+    "category": "Modern Data Access",
+    "title": "Jakarta Data Repositories",
+    "topic": "Modern Data Access",
+    "related": [
+      { "label": "Panache: Active Record and Repository Patterns", "slug": "panache-active-record-and-repository-patterns" },
+      { "label": "Static Metamodel with the Hibernate Annotation Processor", "slug": "static-metamodel-with-hibernate-processor" },
+      { "label": "Multiple Persistence Units in Quarkus", "slug": "multiple-persistence-units-in-quarkus" }
+    ],
+    "summary": "Jakarta Data lets you declare repository interfaces like CrudRepository and get build-time-generated implementations, custom queries via @Query/@Find, and method-level security.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — Jakarta Data repositories section", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "panache-active-record-and-repository-patterns",
+    "id": 12,
+    "category": "Modern Data Access",
+    "title": "Panache: Active Record and Repository Patterns",
+    "topic": "Modern Data Access",
+    "related": [
+      { "label": "Jakarta Data Repositories", "slug": "jakarta-data-repositories" },
+      { "label": "Static Metamodel with the Hibernate Annotation Processor", "slug": "static-metamodel-with-hibernate-processor" }
+    ],
+    "summary": "Panache offers active-record entities and repository-style alternatives on top of plain Hibernate ORM, with simplified query strings, pagination, and sorting built in.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM with Panache guide", "url": "https://quarkus.io/guides/hibernate-orm-panache", "type": "doc" },
+      { "label": "Hibernate ORM guide — Panache reference", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hibernate-spatial-geometry-types-and-postgis-queries",
+    "id": 13,
+    "category": "Extensions & Tooling",
+    "title": "Hibernate Spatial: Geometry Types and PostGIS Queries",
+    "topic": "Extensions & Tooling",
+    "related": [
+      { "label": "Quarkus Dev Services: Zero-Config Containers for Dev and Test", "slug": "quarkus-dev-services" },
+      { "label": "Multiple Persistence Units in Quarkus", "slug": "multiple-persistence-units-in-quarkus" }
+    ],
+    "summary": "Hibernate Spatial maps JTS geometry types (Point, LineString, Polygon) to native PostGIS columns, so routes and areas can be indexed and queried spatially instead of serialized as JSON or scanned row by row.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Hibernate ORM guide — Hibernate Spatial section — Quarkus guide", "url": "https://quarkus.io/guides/hibernate-orm", "type": "doc" },
+      { "label": "Hibernate ORM User Guide — Spatial", "url": "https://docs.hibernate.org/orm/7.4/userguide/html_single/#spatial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "quarkus-dev-services",
+    "id": 14,
+    "category": "Extensions & Tooling",
+    "title": "Quarkus Dev Services: Zero-Config Containers for Dev and Test",
+    "topic": "Extensions & Tooling",
+    "related": [
+      { "label": "Hibernate Spatial: Geometry Types and PostGIS Queries", "slug": "hibernate-spatial-geometry-types-and-postgis-queries" },
+      { "label": "Schema Management: Dev Mode vs Production Mode", "slug": "schema-management-dev-mode-vs-production-mode" },
+      { "label": "Flyway Integration with Hibernate ORM", "slug": "flyway-integration-with-hibernate-orm" }
+    ],
+    "summary": "Dev Services auto-launches Testcontainers-backed infrastructure (Postgres, Kafka, Redis, and more) whenever an extension is present but no connection is configured, including privileged init scripts for things like CREATE EXTENSION.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Dev Services guide — Quarkus", "url": "https://quarkus.io/guides/dev-services", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multipart-file-uploads-with-resteasy-reactive",
+    "id": 15,
+    "category": "Extensions & Tooling",
+    "title": "Multipart File Uploads with RESTEasy Reactive",
+    "topic": "Extensions & Tooling",
+    "related": [],
+    "summary": "Quarkus REST handles multipart/form-data uploads via @RestForm and FileUpload, deserializing mixed text/JSON/file parts in one request with configurable size limits and upload-directory cleanup.",
+    "publishedAt": "2026-08-22",
+    "references": [
+      { "label": "Quarkus REST guide — multipart form data section", "url": "https://quarkus.io/guides/rest", "type": "doc" }
+    ]
+  }
+]

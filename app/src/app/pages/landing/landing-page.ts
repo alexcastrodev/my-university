@@ -39,6 +39,12 @@ const SESSIONS: LandingSession[] = [
     routerLink: '/spring-concepts',
   },
   {
+    title: 'Quarkus',
+    description: 'Hibernate ORM, persistence, and data access in Quarkus, explained in depth.',
+    icon: '⚛️',
+    routerLink: '/quarkus-concepts',
+  },
+  {
     title: 'Ruby',
     description: 'Ruby language internals and Ruby on Rails performance concepts explained in depth.',
     icon: '💎',

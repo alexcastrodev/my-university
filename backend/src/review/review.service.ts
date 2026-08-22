@@ -4,6 +4,7 @@ import { LessThanOrEqual, Repository } from 'typeorm';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
+import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
@@ -42,6 +43,7 @@ export class ReviewService {
     private algorithmsConcepts: AlgorithmsConceptsService,
     private rubyConcepts: RubyConceptsService,
     private rubyOnRailsConcepts: RubyOnRailsConceptsService,
+    private quarkusConcepts: QuarkusConceptsService,
   ) {}
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
@@ -82,6 +84,7 @@ export class ReviewService {
       'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
       'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
       'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
+      'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
     } as Record<string, Map<string, string>>;
 
     const items: ReviewQueueItem[] = [];

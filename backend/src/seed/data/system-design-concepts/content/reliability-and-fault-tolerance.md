@@ -17,6 +17,8 @@ related:
     slug: cap-theorem
   - label: Load Balancing Strategies
     slug: load-balancing-strategies
+  - label: Chaos Engineering
+    slug: chaos-engineering
 ---
 
 ## Overview
@@ -58,7 +60,7 @@ flowchart LR
 
 Note that the fault happens either way. You do not prevent faults; you prevent them from *propagating*. And tolerance is always bounded to a certain number of a certain type of fault — two disks, one node out of three, one AZ out of three. It makes no sense to tolerate an unbounded number: if every node is gone, there is nothing left to serve from.
 
-Counterintuitively, once you have fault-tolerance machinery, it's often correct to *increase* the fault rate deliberately — killing processes at random, severing network links, filling disks. This is **fault injection**, and the discipline built around it is **chaos engineering**. The reasoning is simple: many critical bugs live in error-handling paths, and error-handling paths that never run in production are error-handling paths nobody has tested. A failover you've triggered a thousand times on purpose is a failover you can trust at 3 a.m.
+Counterintuitively, once you have fault-tolerance machinery, it's often correct to *increase* the fault rate deliberately — killing processes at random, severing network links, filling disks. This is **fault injection**, and the discipline built around it is [chaos engineering](chaos-engineering). The reasoning is simple: many critical bugs live in error-handling paths, and error-handling paths that never run in production are error-handling paths nobody has tested. A failover you've triggered a thousand times on purpose is a failover you can trust at 3 a.m.
 
 One exception to "prefer tolerating over preventing": security. If an attacker exfiltrates sensitive data, there is no cure to apply afterward — that fault has to be prevented, not absorbed.
 

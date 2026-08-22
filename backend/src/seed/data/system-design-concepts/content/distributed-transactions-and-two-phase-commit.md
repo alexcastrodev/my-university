@@ -16,6 +16,8 @@ related:
     slug: transactions-acid-and-isolation-levels
   - label: "Outbox Pattern"
     slug: outbox-pattern
+  - label: "The Saga Pattern"
+    slug: saga-pattern
   - label: "Consensus and Coordination Services"
     slug: consensus-and-coordination-services
   - label: "Message Brokers: Queues vs Logs"

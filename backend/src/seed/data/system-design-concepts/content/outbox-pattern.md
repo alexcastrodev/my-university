@@ -14,10 +14,14 @@ prerequisites:
   - Message queues / brokers basics
   - Eventual consistency
 related:
-  - Change Data Capture (CDC)
-  - Saga Pattern
-  - Event Sourcing
-  - Two-Phase Commit (2PC)
+  - label: "Change Data Capture (CDC)"
+    slug: change-data-capture
+  - label: "The Saga Pattern"
+    slug: saga-pattern
+  - label: "Event Sourcing and CQRS"
+    slug: event-sourcing-and-cqrs
+  - label: "Distributed Transactions and Two-Phase Commit"
+    slug: distributed-transactions-and-two-phase-commit
 ---
 
 ## Overview

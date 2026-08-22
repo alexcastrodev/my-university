@@ -415,5 +415,496 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "authorization-mass-assignment-and-encryption",
+    "id": 12,
+    "title": "Authorization, Mass Assignment, and ActiveRecord Encryption",
+    "topic": "Security",
+    "summary": "Pundit vs CanCanCan is an architecture choice, `permit!` is a mass-assignment hole with a one-character name, and `cookies_serializer = :marshal` turns a leaked secret_key_base into remote code execution instead of just session forgery.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Resource Hints, HTTP/2, and the CSRF Cache Problem",
+        "slug": "resource-hints-http2-and-the-csrf-cache-problem",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "N+1 Queries and Query Methods in Model Instance Methods",
+        "slug": "n-plus-one-and-query-methods-in-models",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Postgres Indexing Through Rails Migrations",
+        "slug": "postgres-indexing-for-rails",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Pundit — GitHub",
+        "url": "https://github.com/varvet/pundit",
+        "type": "doc"
+      },
+      {
+        "label": "CanCanCan — GitHub",
+        "url": "https://github.com/CanCanCommunity/cancancan",
+        "type": "doc"
+      },
+      {
+        "label": "Action Controller Overview — Strong Parameters, Session — Rails Guides",
+        "url": "https://guides.rubyonrails.org/action_controller_overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Active Record Encryption — Rails Guides",
+        "url": "https://guides.rubyonrails.org/active_record_encryption.html",
+        "type": "doc"
+      },
+      {
+        "label": "Security — Rails Guides",
+        "url": "https://guides.rubyonrails.org/security.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActionController::Parameters — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActionController/Parameters.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActionDispatch::Cookies — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "solid-queue-cache-and-cable",
+    "id": 13,
+    "title": "Solid Queue, Solid Cache, and Solid Cable: Rails 8's Redis-Free Defaults",
+    "topic": "Application Servers & Infra",
+    "summary": "Rails 8 defaults to database-backed job, cache, and pubsub adapters instead of Redis — 37signals cut Basecamp's cache cost 80% and its P95 latency in half doing this, but polling isn't push, and the honest ceiling for each adapter is documented, not assumed.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Russian Doll Caching and Cache Store Trade-offs",
+        "slug": "russian-doll-caching",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Choosing an Application Server: Puma, Unicorn, and Passenger",
+        "slug": "choosing-an-application-server",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Connection Pooling and pgbouncer Math",
+        "slug": "connection-pooling-and-pgbouncer",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Production Observability: rack-mini-profiler and APM Budgets",
+        "slug": "production-observability",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "rails/solid_queue — README",
+        "url": "https://github.com/rails/solid_queue",
+        "type": "doc"
+      },
+      {
+        "label": "rails/solid_cache — README",
+        "url": "https://github.com/rails/solid_cache",
+        "type": "doc"
+      },
+      {
+        "label": "rails/solid_cable — README",
+        "url": "https://github.com/rails/solid_cable",
+        "type": "doc"
+      },
+      {
+        "label": "Rails 8.0: No PaaS Required — rubyonrails.org",
+        "url": "https://rubyonrails.org/2024/11/7/rails-8-no-paas-required",
+        "type": "doc"
+      },
+      {
+        "label": "Introducing Solid Queue — 37signals Dev",
+        "url": "https://dev.37signals.com/introducing-solid-queue/",
+        "type": "doc"
+      },
+      {
+        "label": "Solid Cache — 37signals Dev",
+        "url": "https://dev.37signals.com/solid-cache/",
+        "type": "doc"
+      },
+      {
+        "label": "Ruby on Rails 8.0 Release Notes — Rails Guides",
+        "url": "https://guides.rubyonrails.org/8_0_release_notes.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-database-sharding-and-read-replicas",
+    "id": 14,
+    "title": "Multiple Databases, Read Replicas, and Horizontal Sharding in Rails",
+    "topic": "Database & ActiveRecord",
+    "summary": "A read replica offloads query load but does nothing for write throughput or storage on the primary — sharding is the much bigger, much harder step for when the primary itself is the bottleneck. Rails 6+ gives you connects_to, connected_to, and automatic DatabaseSelector/ShardSelector middleware for both, but the 2-second staleness window and cross-shard joins each carry real, easy-to-miss failure modes.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Connection Pooling and pgbouncer Math",
+        "slug": "connection-pooling-and-pgbouncer",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Postgres Indexing Through Rails Migrations",
+        "slug": "postgres-indexing-for-rails",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "N+1 Queries and Query Methods in Model Instance Methods",
+        "slug": "n-plus-one-and-query-methods-in-models",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Eager Loading Strategy and Bulk Database Operations",
+        "slug": "eager-loading-and-bulk-operations",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Production Observability: rack-mini-profiler and APM Budgets",
+        "slug": "production-observability",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Little's Law and Capacity Planning",
+        "slug": "littles-law-and-capacity-planning",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Active Record Multiple Databases — Rails Guides",
+        "url": "https://guides.rubyonrails.org/active_record_multiple_databases.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActiveRecord::Middleware::DatabaseSelector — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActiveRecord/Middleware/DatabaseSelector.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActiveRecord::Middleware::ShardSelector — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActiveRecord/Middleware/ShardSelector.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActiveRecord::ConnectionHandling#connects_to — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActiveRecord/ConnectionHandling.html#method-i-connects_to",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "zero-downtime-schema-migrations",
+    "id": 15,
+    "title": "Zero-Downtime Schema Migrations at Scale",
+    "topic": "Database & ActiveRecord",
+    "summary": "A migration that runs in 40ms in dev can hold an ACCESS EXCLUSIVE lock on a production table for minutes — this concept covers exactly which DDL locks what, how strong_migrations catches it before it ships, and the multi-deploy pattern for changes that are unsafe no matter how you write them.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Postgres Indexing Through Rails Migrations",
+        "slug": "postgres-indexing-for-rails",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Connection Pooling and pgbouncer Math",
+        "slug": "connection-pooling-and-pgbouncer",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Production Observability: rack-mini-profiler and APM Budgets",
+        "slug": "production-observability",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Eager Loading Strategy and Bulk Database Operations",
+        "slug": "eager-loading-and-bulk-operations",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "strong_migrations — README",
+        "url": "https://github.com/ankane/strong_migrations",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — ALTER TABLE",
+        "url": "https://www.postgresql.org/docs/current/sql-altertable.html",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Documentation — lock_timeout (Client Connection Defaults)",
+        "url": "https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-LOCK-TIMEOUT",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL 11 Release Notes",
+        "url": "https://www.postgresql.org/docs/11/release-11.html",
+        "type": "doc"
+      },
+      {
+        "label": "Active Record Migrations — Rails Guides",
+        "url": "https://guides.rubyonrails.org/active_record_migrations.html",
+        "type": "doc"
+      },
+      {
+        "label": "ActiveRecord::Batches — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActiveRecord/Batches.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rate-limiting-and-abuse-protection",
+    "id": 16,
+    "title": "Rate Limiting and Abuse Protection with rack-attack",
+    "topic": "Security",
+    "summary": "rack-attack's defaults look finished the moment they boot, but a per-process memory cache store on a multi-worker Puma deployment silently under-counts requests and makes a throttle limit meaningless. This concept covers the DSL, the shared-cache-store requirement that actually makes throttling work, the fixed-window algorithm's boundary burst, and why per-IP blocking is a false-positive risk behind shared NAT.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Authorization, Mass Assignment, and ActiveRecord Encryption",
+        "slug": "authorization-mass-assignment-and-encryption",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Reducing Rails' Per-Request Framework Overhead",
+        "slug": "reducing-per-request-framework-overhead",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Solid Queue, Solid Cache, and Solid Cable: Rails 8's Redis-Free Defaults",
+        "slug": "solid-queue-cache-and-cable",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Russian Doll Caching and Cache Store Trade-offs",
+        "slug": "russian-doll-caching",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "rack-attack — GitHub",
+        "url": "https://github.com/rack/rack-attack",
+        "type": "doc"
+      },
+      {
+        "label": "rack-attack — Advanced Configuration",
+        "url": "https://github.com/rack/rack-attack/blob/main/docs/advanced_configuration.md",
+        "type": "doc"
+      },
+      {
+        "label": "rack-attack — Example Configuration",
+        "url": "https://github.com/rack/rack-attack/blob/main/docs/example_configuration.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "api-versioning-serialization-and-pagination",
+    "id": 17,
+    "title": "API Versioning, Serialization, and Pagination in Rails",
+    "topic": "API Design",
+    "summary": "Versioning, serializing, and paginating an API are the same decision made three times — what contract you're willing to break and when — and getting any of them wrong breaks clients silently instead of loudly. Covers URL-path vs header-based versioning, Jbuilder vs PORO vs dedicated serializer gems (including active_model_serializers' genuinely ambiguous maintenance status vs current alternatives like Blueprinter, Alba, and Panko), and offset vs cursor/keyset pagination with Kaminari and Pagy.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "N+1 Queries and Query Methods in Model Instance Methods",
+        "slug": "n-plus-one-and-query-methods-in-models",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Reducing Rails' Per-Request Framework Overhead",
+        "slug": "reducing-per-request-framework-overhead",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Postgres Indexing Through Rails Migrations",
+        "slug": "postgres-indexing-for-rails",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Routing constraints — Rails Guides",
+        "url": "https://guides.rubyonrails.org/routing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Jbuilder",
+        "url": "https://github.com/rails/jbuilder",
+        "type": "doc"
+      },
+      {
+        "label": "Kaminari",
+        "url": "https://github.com/kaminari/kaminari",
+        "type": "doc"
+      },
+      {
+        "label": "Pagy",
+        "url": "https://github.com/ddnexus/pagy",
+        "type": "doc"
+      },
+      {
+        "label": "Blueprinter",
+        "url": "https://github.com/procore-oss/blueprinter",
+        "type": "doc"
+      },
+      {
+        "label": "Alba",
+        "url": "https://github.com/okuramasafumi/alba",
+        "type": "doc"
+      },
+      {
+        "label": "Panko",
+        "url": "https://panko.dev/",
+        "type": "doc"
+      },
+      {
+        "label": "active_model_serializers — status and alternatives",
+        "url": "https://github.com/rails-api/active_model_serializers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-tenancy-patterns-in-rails",
+    "id": 18,
+    "title": "Multi-Tenancy Patterns in Rails",
+    "topic": "Application Architecture",
+    "summary": "Row-based, schema-based, and database-based tenancy buy wildly different isolation guarantees at wildly different operational cost, and the cheapest one — a shared schema with a tenant_id column — enforces isolation entirely in application code, where a single forgotten scope is a full cross-tenant data leak.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Multiple Databases, Read Replicas, and Horizontal Sharding in Rails",
+        "slug": "multi-database-sharding-and-read-replicas",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Background Jobs: Idempotency, Fan-out/Fan-in, and Queue Choice",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Connection Pooling and pgbouncer Math",
+        "slug": "connection-pooling-and-pgbouncer",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Authorization, Mass Assignment, and ActiveRecord Encryption",
+        "slug": "authorization-mass-assignment-and-encryption",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Zero-Downtime Schema Migrations at Scale",
+        "slug": "zero-downtime-schema-migrations",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Postgres Indexing Through Rails Migrations",
+        "slug": "postgres-indexing-for-rails",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ActiveSupport::CurrentAttributes — Rails API",
+        "url": "https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html",
+        "type": "doc"
+      },
+      {
+        "label": "acts_as_tenant — GitHub",
+        "url": "https://github.com/ErwinM/acts_as_tenant",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL Schemas — postgresql.org",
+        "url": "https://www.postgresql.org/docs/current/ddl-schemas.html",
+        "type": "doc"
+      },
+      {
+        "label": "ros-apartment (maintained Apartment fork) — GitHub",
+        "url": "https://github.com/rails-on-services/apartment",
+        "type": "doc"
+      },
+      {
+        "label": "Active Record Multiple Databases — Rails Guides",
+        "url": "https://guides.rubyonrails.org/active_record_multiple_databases.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "zeitwerk-autoloading-and-modularizing-rails-apps",
+    "id": 19,
+    "title": "Zeitwerk Autoloading and Modularizing Large Rails Apps",
+    "topic": "Application Architecture",
+    "summary": "Zeitwerk's file-path-mirrors-namespace rule is a runtime contract, not a style guide — violate it and you get a Zeitwerk::NameError, often on the first eager load in CI or production rather than in local development. This concept covers the contract itself, the acronym and STI-naming collisions that break it at scale, and the two real tools for drawing module boundaries — Rails Engines and Packwerk — with the concrete trade-offs between them.",
+    "publishedAt": "2026-08-21",
+    "related": [
+      {
+        "label": "Reducing Rails' Per-Request Framework Overhead",
+        "slug": "reducing-per-request-framework-overhead",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "self, Singleton Classes, and Why Class Methods Don't Really Exist",
+        "slug": "self-and-singleton-classes",
+        "feature": "ruby-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Zeitwerk README — fxn/zeitwerk",
+        "url": "https://github.com/fxn/zeitwerk",
+        "type": "doc"
+      },
+      {
+        "label": "Autoloading and Reloading Constants — Rails Guides",
+        "url": "https://guides.rubyonrails.org/autoloading_and_reloading_constants.html",
+        "type": "doc"
+      },
+      {
+        "label": "Engines — Rails Guides",
+        "url": "https://guides.rubyonrails.org/engines.html",
+        "type": "doc"
+      },
+      {
+        "label": "Packwerk README and USAGE — Shopify/packwerk",
+        "url": "https://github.com/Shopify/packwerk",
+        "type": "doc"
+      }
+    ]
   }
 ]

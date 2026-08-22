@@ -9,6 +9,7 @@ related:
   - {label: "Designing a Payment System", slug: payment-system-design}
   - {label: "The Transactional Outbox Pattern", slug: outbox-pattern}
   - {label: "Transactions, ACID, and Isolation Levels", slug: transactions-acid-and-isolation-levels}
+  - {label: "Idempotency in Distributed Systems", slug: idempotency}
 ---
 
 ## Overview

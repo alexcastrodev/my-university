@@ -8,6 +8,7 @@ import { DatabaseConceptsService } from '../database-concepts/database-concepts.
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
+import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -27,7 +28,8 @@ export type SearchResultType =
   | 'testing-concept'
   | 'algorithms-concept'
   | 'ruby-concept'
-  | 'rubyonrails-concept';
+  | 'rubyonrails-concept'
+  | 'quarkus-concept';
 
 export interface SearchResult {
   type: SearchResultType;
@@ -53,6 +55,7 @@ export class SearchService implements OnApplicationBootstrap {
     private algorithmsConceptsService: AlgorithmsConceptsService,
     private rubyConceptsService: RubyConceptsService,
     private rubyOnRailsConceptsService: RubyOnRailsConceptsService,
+    private quarkusConceptsService: QuarkusConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -204,6 +207,17 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Ruby on Rails Concepts',
         url: `/rubyonrails-concepts/${concept.slug}`,
+        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+      });
+    }
+
+    for (const concept of this.quarkusConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `quarkus-concept-${concept.slug}`,
+        type: 'quarkus-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Quarkus Concepts',
+        url: `/quarkus-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
     }

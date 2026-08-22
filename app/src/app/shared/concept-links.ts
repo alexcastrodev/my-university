@@ -1,4 +1,4 @@
-export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts';
+export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts' | 'quarkus-concepts';
 
 /** A plain string is a free-text mention with no page yet; the object form links to a real concept page. */
 export type ConceptLinkRef = string | { label: string; slug: string; feature?: ConceptFeature };
@@ -11,6 +11,7 @@ export const FEATURE_ROUTES: Record<ConceptFeature, string> = {
   'system-design': '/system-design/system-design-concepts',
   'ruby-concepts': '/ruby-concepts',
   'rubyonrails-concepts': '/rubyonrails-concepts',
+  'quarkus-concepts': '/quarkus-concepts',
 };
 
 export interface ConceptLinkItem {

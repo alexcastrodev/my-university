@@ -13,10 +13,13 @@ export interface SystemDesignConceptTopicGroup {
 
 const TOPIC_ORDER = [
   'Distributed Systems Fundamentals',
+  'Resilience & Operability',
+  'Security in Distributed Systems',
   'Data Storage & Modeling',
   'Replication & Consistency',
   'Scaling & Infrastructure',
   'Messaging & Streaming',
+  'Observability & SRE',
   'System Design Case Studies',
 ];
 

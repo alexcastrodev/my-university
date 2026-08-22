@@ -46,6 +46,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'quarkus-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'quarkus-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'ruby-concepts',
     renderMode: RenderMode.Server,
   },

@@ -21,10 +21,22 @@
       "Eventual consistency"
     ],
     "related": [
-      "Change Data Capture (CDC)",
-      "Saga Pattern",
-      "Event Sourcing",
-      "Two-Phase Commit (2PC)"
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      },
+      {
+        "label": "The Saga Pattern",
+        "slug": "saga-pattern"
+      },
+      {
+        "label": "Event Sourcing and CQRS",
+        "slug": "event-sourcing-and-cqrs"
+      },
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit"
+      }
     ],
     "references": [
       {
@@ -2365,6 +2377,10 @@
         "slug": "transactions-acid-and-isolation-levels"
       },
       {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency"
+      },
+      {
         "label": "Consensus and Coordination Services",
         "slug": "consensus-and-coordination-services"
       },
@@ -2427,6 +2443,10 @@
       {
         "label": "Transactions, ACID, and Isolation Levels",
         "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency"
       }
     ],
     "references": [
@@ -2704,6 +2724,10 @@
       {
         "label": "Load Balancing Strategies",
         "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Chaos Engineering",
+        "slug": "chaos-engineering"
       }
     ],
     "references": [
@@ -3395,6 +3419,10 @@
         "slug": "outbox-pattern"
       },
       {
+        "label": "The Saga Pattern",
+        "slug": "saga-pattern"
+      },
+      {
         "label": "Consensus and Coordination Services",
         "slug": "consensus-and-coordination-services"
       },
@@ -3936,7 +3964,7 @@
   },
   {
     "slug": "application-level-locks-for-external-io-critical-sections",
-    "id": 61,
+    "id": 67,
     "title": "Application-Level Locks for External-I/O Critical Sections",
     "topic": "Distributed Systems Fundamentals",
     "summary": "How to give mutual exclusion to a critical section that calls a slow external API, using a database row as a lease-based lock instead of a database transaction or a Postgres advisory lock.",
@@ -3988,6 +4016,907 @@
         "label": "db-scheduler — JDBC-backed task scheduler using the same claim-row technique",
         "url": "https://github.com/kagkarlsson/db-scheduler",
         "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "saga-pattern",
+    "id": 68,
+    "title": "The Saga Pattern",
+    "topic": "Distributed Systems Fundamentals",
+    "summary": "How to keep a business operation that spans multiple services consistent without a distributed transaction — sequencing local transactions with compensating actions instead, and paying for it with the isolation anomalies 2PC would have prevented.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Distributed Systems",
+      "Microservices",
+      "Data Consistency",
+      "Event-Driven Architecture",
+      "Fault Tolerance"
+    ],
+    "prerequisites": [
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      }
+    ],
+    "related": [
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "Event Sourcing and CQRS",
+        "slug": "event-sourcing-and-cqrs"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency"
+      }
+    ],
+    "references": [
+      {
+        "label": "Hector Garcia-Molina and Kenneth Salem, \"Sagas\" (ACM SIGMOD Record, 1987)",
+        "url": "https://dl.acm.org/doi/10.1145/38714.38742",
+        "type": "paper"
+      },
+      {
+        "label": "Chris Richardson, \"Microservices Patterns\" (Manning, 2018) — Chapter 4, \"Managing transactions with sagas\"",
+        "url": "https://www.manning.com/books/microservices-patterns",
+        "type": "book"
+      },
+      {
+        "label": "Chris Richardson — \"Pattern: Saga\" (microservices.io)",
+        "url": "https://microservices.io/patterns/data/saga.html",
+        "type": "doc"
+      },
+      {
+        "label": "Emily Fortuna, \"Compensating Actions: Part of a Complete Breakfast (with Sagas)\" (Temporal blog, 2023)",
+        "url": "https://temporal.io/blog/compensating-actions-part-of-a-complete-breakfast-with-sagas",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "idempotency",
+    "id": 69,
+    "title": "Idempotency in Distributed Systems",
+    "topic": "Distributed Systems Fundamentals",
+    "summary": "Why at-least-once is the only delivery guarantee a distributed system gets for free, and how idempotency keys, natural idempotency, and idempotent consumers turn that into something that behaves like exactly-once.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Intermediate",
+    "readingTime": 14,
+    "tags": [
+      "Distributed Systems",
+      "Fault Tolerance",
+      "API Design",
+      "Data Consistency",
+      "Messaging"
+    ],
+    "prerequisites": [
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      }
+    ],
+    "related": [
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern"
+      },
+      {
+        "label": "The Saga Pattern",
+        "slug": "saga-pattern"
+      },
+      {
+        "label": "Designing a Payment System",
+        "slug": "payment-system-design"
+      },
+      {
+        "label": "Retries, Backoff, and Hedged Requests",
+        "slug": "retries-backoff-and-hedged-requests"
+      }
+    ],
+    "references": [
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Chapter 11, \"Stream Processing,\" section on exactly-once semantics",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "Stripe — \"Idempotent requests\" (Stripe API Reference)",
+        "url": "https://docs.stripe.com/api/idempotent_requests",
+        "type": "doc"
+      },
+      {
+        "label": "Brandur Leach (Stripe) — \"Designing robust and predictable APIs with idempotency\"",
+        "url": "https://stripe.com/blog/idempotency",
+        "type": "engineering"
+      },
+      {
+        "label": "Malcolm Featonby — \"Making retries safe with idempotent APIs\" (Amazon Builders' Library, 2021)",
+        "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-apis/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "circuit-breakers-and-bulkheads",
+    "id": 70,
+    "title": "Circuit Breakers and Bulkheads",
+    "topic": "Resilience & Operability",
+    "summary": "How circuit breakers stop callers from wasting resources on an unhealthy dependency, and how bulkheads isolate per-dependency resource pools, so one failing dependency can't cascade into a system-wide outage.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Resilience",
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Microservices",
+      "Reliability"
+    ],
+    "prerequisites": [
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures"
+      },
+      {
+        "label": "Reliability and Fault Tolerance: Faults vs. Failures",
+        "slug": "reliability-and-fault-tolerance"
+      }
+    ],
+    "related": [
+      {
+        "label": "Retries, Backoff, and Hedged Requests",
+        "slug": "retries-backoff-and-hedged-requests"
+      },
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      }
+    ],
+    "references": [
+      {
+        "label": "Michael Nygard, \"Release It!\" 2nd Edition (Pragmatic Bookshelf, 2018)",
+        "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+        "type": "book"
+      },
+      {
+        "label": "Martin Fowler — \"CircuitBreaker\" (martinfowler.com)",
+        "url": "https://martinfowler.com/bliki/CircuitBreaker.html",
+        "type": "engineering"
+      },
+      {
+        "label": "resilience4j Documentation — CircuitBreaker",
+        "url": "https://resilience4j.readme.io/docs/circuitbreaker",
+        "type": "doc"
+      },
+      {
+        "label": "Netflix/Hystrix (GitHub) — now in maintenance mode; superseded by resilience4j",
+        "url": "https://github.com/Netflix/Hystrix",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "retries-backoff-and-hedged-requests",
+    "id": 71,
+    "title": "Retries, Backoff, and Hedged Requests",
+    "topic": "Resilience & Operability",
+    "summary": "Explains why naive retries synchronize into thundering herds, how capped exponential backoff with Full/Equal Jitter and idempotency/retry budgets fix that, and how hedged requests use a small amount of extra load to cut tail latency.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Resilience",
+      "Distributed Systems",
+      "Fault Tolerance",
+      "Performance",
+      "Reliability"
+    ],
+    "prerequisites": [
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles"
+      }
+    ],
+    "related": [
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Idempotency in Distributed Systems",
+        "slug": "idempotency"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Reliability and Fault Tolerance: Faults vs. Failures",
+        "slug": "reliability-and-fault-tolerance"
+      }
+    ],
+    "references": [
+      {
+        "label": "AWS Builders' Library — Marc Brooker, \"Timeouts, retries, and backoff with jitter\"",
+        "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+        "type": "engineering"
+      },
+      {
+        "label": "AWS Architecture Blog — Marc Brooker, \"Exponential Backoff and Jitter\"",
+        "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/",
+        "type": "engineering"
+      },
+      {
+        "label": "Jeffrey Dean and Luiz André Barroso — \"The Tail at Scale\" (Communications of the ACM 56(2), 2013)",
+        "url": "https://www.barroso.org/publications/TheTailAtScale.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Google SRE Book — Chapter 22, \"Addressing Cascading Failures\"",
+        "url": "https://sre.google/sre-book/addressing-cascading-failures/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "distributed-tracing-and-observability",
+    "id": 72,
+    "title": "Distributed Tracing and Observability",
+    "topic": "Observability & SRE",
+    "summary": "How a trace — a causally-ordered tree of spans sharing one propagated context across every service hop — lets you answer where the time went for one specific request, why sampling is unavoidable at scale, and why observability means answering questions you didn't know to ask in advance, not just watching dashboards for known failure modes.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Observability",
+      "Distributed Systems",
+      "Microservices",
+      "Monitoring",
+      "Reliability"
+    ],
+    "prerequisites": [
+      {
+        "label": "Reliability and Fault Tolerance: Faults vs. Failures",
+        "slug": "reliability-and-fault-tolerance"
+      },
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      }
+    ],
+    "related": [
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles"
+      },
+      {
+        "label": "Designing a Metrics Monitoring and Alerting System",
+        "slug": "metrics-monitoring-and-alerting-system"
+      }
+    ],
+    "references": [
+      {
+        "label": "Sigelman, Barroso, Burrows, et al. — \"Dapper, a Large-Scale Distributed Systems Tracing Infrastructure\" (Google Technical Report, 2010)",
+        "url": "https://research.google/pubs/dapper-a-large-scale-distributed-systems-tracing-infrastructure/",
+        "type": "paper"
+      },
+      {
+        "label": "Charity Majors, Liz Fong-Jones, George Miranda, \"Observability Engineering\" (O'Reilly, 2022)",
+        "url": "https://www.oreilly.com/library/view/observability-engineering/9781492076445/",
+        "type": "book"
+      },
+      {
+        "label": "OpenTelemetry Documentation — Traces",
+        "url": "https://opentelemetry.io/docs/concepts/signals/traces/",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry Documentation — Sampling",
+        "url": "https://opentelemetry.io/docs/concepts/sampling/",
+        "type": "doc"
+      },
+      {
+        "label": "W3C Recommendation — Trace Context",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "slos-slis-and-error-budgets",
+    "id": 73,
+    "title": "SLIs, SLOs, and Error Budgets",
+    "topic": "Observability & SRE",
+    "summary": "Explains how the SRE model — a measured SLI, a target SLO, and the resulting error budget — turns reliability from an argument into a shared, quantitative number that both product and operations teams can negotiate against.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Reliability",
+      "Observability",
+      "SRE",
+      "Monitoring",
+      "Distributed Systems"
+    ],
+    "prerequisites": [
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles"
+      },
+      {
+        "label": "Reliability and Fault Tolerance: Faults vs. Failures",
+        "slug": "reliability-and-fault-tolerance"
+      }
+    ],
+    "related": [
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability"
+      },
+      {
+        "label": "Scalability and Maintainability: Load Parameters and the Operability-Simplicity-Evolvability Triad",
+        "slug": "scalability-and-maintainability-principles"
+      },
+      {
+        "label": "Designing a Metrics Monitoring and Alerting System",
+        "slug": "metrics-monitoring-and-alerting-system"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      }
+    ],
+    "references": [
+      {
+        "label": "Chris Jones, John Wilkes, and Niall Murphy with Cody Smith — Google SRE Book, Chapter 4, \"Service Level Objectives\"",
+        "url": "https://sre.google/sre-book/service-level-objectives/",
+        "type": "book"
+      },
+      {
+        "label": "Steven Thurgood and David Ferguson with Alex Hidalgo and Betsy Beyer — Google SRE Workbook, Chapter 2, \"Implementing SLOs\"",
+        "url": "https://sre.google/workbook/implementing-slos/",
+        "type": "book"
+      },
+      {
+        "label": "Steven Thurgood with Jess Frame, Anthony Lenton, Carmela Quinito, Anton Tolchanov, and Nejc Trdin — Google SRE Workbook, Chapter 5, \"Alerting on SLOs\"",
+        "url": "https://sre.google/workbook/alerting-on-slos/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "authentication-and-authorization-at-scale",
+    "id": 74,
+    "title": "Authentication and Authorization at Scale",
+    "topic": "Security in Distributed Systems",
+    "summary": "How a distributed system decides who someone is and what they're allowed to do once that decision has to hold across dozens of services instead of one login page — OAuth 2.0, OpenID Connect, real JWT validation pitfalls, mTLS between services, and zero trust replacing network location with per-call verification.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 15,
+    "tags": [
+      "Security",
+      "Distributed Systems",
+      "Microservices",
+      "API Design",
+      "Authentication"
+    ],
+    "prerequisites": [
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      }
+    ],
+    "related": [
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability"
+      },
+      {
+        "label": "Service Mesh and the Sidecar Pattern",
+        "slug": "service-mesh-and-sidecar-pattern"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      }
+    ],
+    "references": [
+      {
+        "label": "RFC 6749 — The OAuth 2.0 Authorization Framework",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6749",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9700 — Best Current Practice for OAuth 2.0 Security",
+        "url": "https://datatracker.ietf.org/doc/html/rfc9700",
+        "type": "doc"
+      },
+      {
+        "label": "OpenID Connect Core 1.0 incorporating errata set 2",
+        "url": "https://openid.net/specs/openid-connect-core-1_0.html",
+        "type": "doc"
+      },
+      {
+        "label": "NIST SP 800-207 — Zero Trust Architecture",
+        "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+        "type": "doc"
+      },
+      {
+        "label": "Evan Gilman and Doug Barth, \"Zero Trust Networks: Building Secure Systems in Untrusted Networks\" (O'Reilly, 2017)",
+        "url": "https://www.oreilly.com/library/view/zero-trust-networks/9781491962183/",
+        "type": "book"
+      },
+      {
+        "label": "Tim McLean — \"Critical vulnerabilities in JSON Web Token libraries\" (Auth0 blog)",
+        "url": "https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "multi-region-architecture-and-disaster-recovery",
+    "id": 75,
+    "title": "Multi-Region Architecture and Disaster Recovery",
+    "topic": "Scaling & Infrastructure",
+    "summary": "Explains how to design systems that survive a full cloud-region failure, covering active-passive vs. active-active topologies, RTO/RPO trade-offs across replication strategies, split-brain failover risk, and disaster-recovery testing practices like Google's DiRT.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Reliability",
+      "Distributed Systems",
+      "Scalability",
+      "Replication",
+      "SRE"
+    ],
+    "prerequisites": [
+      {
+        "label": "Single-Leader Replication",
+        "slug": "single-leader-replication"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem"
+      }
+    ],
+    "related": [
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication"
+      },
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      }
+    ],
+    "references": [
+      {
+        "label": "Site Reliability Engineering — Data Integrity: What You Read Is What You Wrote",
+        "url": "https://sre.google/sre-book/data-integrity/",
+        "type": "book"
+      },
+      {
+        "label": "The Site Reliability Workbook — Data Processing Pipelines",
+        "url": "https://sre.google/workbook/data-processing/",
+        "type": "book"
+      },
+      {
+        "label": "AWS Well-Architected Framework — Reliability Pillar",
+        "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html",
+        "type": "doc"
+      },
+      {
+        "label": "Disaster Recovery of Workloads on AWS: Recovery in the Cloud",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html",
+        "type": "doc"
+      },
+      {
+        "label": "Architecting disaster recovery for cloud infrastructure outages",
+        "url": "https://docs.cloud.google.com/architecture/disaster-recovery",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "progressive-delivery-canary-blue-green-and-feature-flags",
+    "id": 76,
+    "title": "Progressive Delivery: Canary, Blue-Green, and Feature Flags",
+    "topic": "Scaling & Infrastructure",
+    "summary": "How blue-green's instant all-or-nothing switch, canary's gradual metrics-gated traffic shift, and feature flags' deploy/release decoupling each bound the blast radius of a bad change differently, and why mature pipelines compose all three.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Intermediate",
+    "readingTime": 13,
+    "tags": [
+      "Deployment",
+      "Reliability",
+      "SRE",
+      "Distributed Systems",
+      "Operability"
+    ],
+    "prerequisites": [
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      }
+    ],
+    "related": [
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Load Balancing Strategies",
+        "slug": "load-balancing-strategies"
+      },
+      {
+        "label": "Chaos Engineering",
+        "slug": "chaos-engineering"
+      }
+    ],
+    "references": [
+      {
+        "label": "Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation — Jez Humble and David Farley (Addison-Wesley, 2010)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/continuous-delivery-reliable-software-releases-through-build-test-and-deployment-automation/P200000009113/9780321670229",
+        "type": "book"
+      },
+      {
+        "label": "Google SRE Workbook — Chapter 16, \"Canarying Releases\"",
+        "url": "https://sre.google/workbook/canarying-releases/",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Fowler — \"BlueGreenDeployment\"",
+        "url": "https://martinfowler.com/bliki/BlueGreenDeployment.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Pete Hodgson — \"Feature Toggles (aka Feature Flags)\" (martinfowler.com)",
+        "url": "https://martinfowler.com/articles/feature-toggles.html",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "chaos-engineering",
+    "id": 77,
+    "title": "Chaos Engineering",
+    "topic": "Resilience & Operability",
+    "summary": "Chaos engineering is the disciplined, hypothesis-driven practice of injecting real failure into production to verify that resilience machinery (retries, failover, replication) actually works before an uncontrolled outage proves otherwise.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 13,
+    "tags": [
+      "Resilience",
+      "SRE",
+      "Reliability",
+      "Distributed Systems",
+      "Testing"
+    ],
+    "prerequisites": [
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Reliability and Fault Tolerance: Faults vs. Failures",
+        "slug": "reliability-and-fault-tolerance"
+      }
+    ],
+    "related": [
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Retries, Backoff, and Hedged Requests",
+        "slug": "retries-backoff-and-hedged-requests"
+      },
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets"
+      },
+      {
+        "label": "Multi-Region Architecture and Disaster Recovery",
+        "slug": "multi-region-architecture-and-disaster-recovery"
+      }
+    ],
+    "references": [
+      {
+        "label": "Principles of Chaos Engineering",
+        "url": "https://principlesofchaos.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Casey Rosenthal and Nora Jones, \"Chaos Engineering: System Resiliency in Practice\" (O'Reilly, 2020)",
+        "url": "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/",
+        "type": "book"
+      },
+      {
+        "label": "The Netflix Simian Army",
+        "url": "https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116",
+        "type": "engineering"
+      },
+      {
+        "label": "Netflix/chaosmonkey (GitHub)",
+        "url": "https://github.com/Netflix/chaosmonkey",
+        "type": "engineering"
+      },
+      {
+        "label": "AWS Well-Architected Framework — REL12-BP05 Conduct game days regularly",
+        "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_testing_resiliency_game_days_resiliency.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "back-of-envelope-capacity-estimation",
+    "id": 78,
+    "title": "Back-of-the-Envelope Capacity Estimation",
+    "topic": "System Design Case Studies",
+    "summary": "How to convert a vague scale prompt into concrete QPS, storage, and bandwidth numbers using powers-of-two shortcuts and memorized latency figures — the point isn't precision, it's catching an order-of-magnitude mistake before it drives a design.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Intermediate",
+    "readingTime": 12,
+    "tags": [
+      "System Design",
+      "Performance",
+      "Scalability",
+      "Distributed Systems",
+      "Estimation"
+    ],
+    "prerequisites": [
+      {
+        "label": "Describing Performance: Latency, Response Time, and Percentiles",
+        "slug": "describing-performance-latency-and-percentiles"
+      },
+      {
+        "label": "Horizontal vs. Vertical Scaling",
+        "slug": "horizontal-vs-vertical-scaling"
+      }
+    ],
+    "related": [
+      {
+        "label": "Designing a URL Shortener",
+        "slug": "url-shortener"
+      },
+      {
+        "label": "Scalability and Maintainability: Load Parameters and the Operability-Simplicity-Evolvability Triad",
+        "slug": "scalability-and-maintainability-principles"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Designing a Distributed Key-Value Store",
+        "slug": "key-value-store-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 2, \"Back-of-the-Envelope Estimation\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Colin Scott — \"Latency Numbers Every Programmer Should Know\" (interactive visualization, based on Peter Norvig's and Jeff Dean's figures)",
+        "url": "https://colin-scott.github.io/personal_website/research/interactive_latency.html",
+        "type": "engineering"
+      },
+      {
+        "label": "Jonas Bonér et al. — \"Latency Numbers Every Programmer Should Know\" (GitHub Gist)",
+        "url": "https://gist.github.com/jboner/2841832",
+        "type": "engineering"
+      },
+      {
+        "label": "Google SRE Book — Chapter 4: Service Level Objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "service-mesh-and-sidecar-pattern",
+    "id": 79,
+    "title": "Service Mesh and the Sidecar Pattern",
+    "topic": "Scaling & Infrastructure",
+    "summary": "How to move mTLS, retries, circuit breaking, load balancing, and observability out of every service and into a sidecar proxy plus a fleet-wide control plane — and when that trade is (and isn't) worth its latency and operational cost.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 14,
+    "tags": [
+      "Microservices",
+      "Networking",
+      "Distributed Systems",
+      "Observability",
+      "Security"
+    ],
+    "prerequisites": [
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      }
+    ],
+    "related": [
+      {
+        "label": "The API Gateway",
+        "slug": "api-gateway"
+      },
+      {
+        "label": "Circuit Breakers and Bulkheads",
+        "slug": "circuit-breakers-and-bulkheads"
+      },
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale"
+      }
+    ],
+    "references": [
+      {
+        "label": "Istio — Architecture (Data Plane and Control Plane)",
+        "url": "https://istio.io/latest/docs/ops/deployment/architecture/",
+        "type": "doc"
+      },
+      {
+        "label": "Envoy Proxy — What is Envoy?",
+        "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/what_is_envoy",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes Documentation — Sidecar Containers",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/",
+        "type": "doc"
+      },
+      {
+        "label": "William Morgan, \"Service Mesh: A Critical Component of the Cloud Native Stack\" (originally Buoyant, republished by CNCF, 2017)",
+        "url": "https://www.cncf.io/blog/2017/04/26/service-mesh-critical-component-cloud-native-stack/",
+        "type": "engineering"
+      }
+    ]
+  },
+  {
+    "slug": "designing-a-file-storage-and-sync-service",
+    "id": 80,
+    "title": "Designing a File Storage and Sync Service",
+    "topic": "System Design Case Studies",
+    "summary": "How a Dropbox/Google Drive-style product keeps a file identical across every device via a metadata service (namespace + versioning) decoupled from block storage, a notification channel that tells other devices to pull a delta, and a deliberate product choice (conflicted copies over silent last-write-wins) for handling offline sync conflicts.",
+    "publishedAt": "2026-08-21",
+    "difficulty": "Advanced",
+    "readingTime": 16,
+    "tags": [
+      "Distributed Systems",
+      "Storage",
+      "Scalability",
+      "Consistency",
+      "Object Storage"
+    ],
+    "prerequisites": [
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync"
+      }
+    ],
+    "related": [
+      {
+        "label": "Chunked Upload, Deduplication, and Delta Sync",
+        "slug": "chunked-upload-deduplication-and-delta-sync"
+      },
+      {
+        "label": "Object Storage and the Direct-Upload Pattern",
+        "slug": "object-storage-and-direct-upload"
+      },
+      {
+        "label": "Designing a Notification System",
+        "slug": "notification-system-design"
+      },
+      {
+        "label": "Change Data Capture (CDC)",
+        "slug": "change-data-capture"
+      }
+    ],
+    "references": [
+      {
+        "label": "Alex Xu and Sahn Lam, \"System Design Interview – An Insider's Guide, Volume 1\" (ByteByteGo, 2020) — Chapter 15, \"Design Google Drive\"",
+        "url": "https://bytebytego.com",
+        "type": "book"
+      },
+      {
+        "label": "Dropbox Tech Blog — \"Rewriting the heart of our sync engine\"",
+        "url": "https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine",
+        "type": "engineering"
+      },
+      {
+        "label": "Dropbox Tech Blog — \"Low-latency notification of Dropbox file changes\"",
+        "url": "https://dropbox.tech/developers/low-latency-notification-of-dropbox-file-changes",
+        "type": "engineering"
+      },
+      {
+        "label": "Dropbox Help — \"What's a conflicted copy?\"",
+        "url": "https://help.dropbox.com/organize/conflicted-copy",
+        "type": "doc"
+      },
+      {
+        "label": "Google Drive API Documentation — \"Notifications for resource changes\"",
+        "url": "https://developers.google.com/workspace/drive/api/guides/push",
+        "type": "doc"
+      },
+      {
+        "label": "Shapiro, Preguiça, Baquero, Zawirski — \"Conflict-Free Replicated Data Types\" (INRIA Research Report, 2011)",
+        "url": "https://hal.science/inria-00609399",
+        "type": "paper"
       }
     ]
   }

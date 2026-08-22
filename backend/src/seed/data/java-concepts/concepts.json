@@ -4371,5 +4371,436 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "java-memory-model-and-happens-before",
+    "id": 91,
+    "title": "The Java Memory Model: Happens-Before and Reordering",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "Visibility and Safe Publication Across Threads",
+        "slug": "visibility-and-safe-publication",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "The formal happens-before rules from JLS Chapter 17 that determine when a write in one thread is guaranteed visible to a read in another.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Chapter 17. Threads and Locks — Java Language Specification (JLS SE 25)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.4.5 Happens-before Order",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4.5",
+        "type": "doc"
+      },
+      {
+        "label": "JLS §17.5 final Field Semantics",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.5",
+        "type": "doc"
+      },
+      {
+        "label": "Thread — java.lang (Java SE 25 & JDK 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "classloading-and-the-delegation-model",
+    "id": 92,
+    "title": "Classloading: The Delegation Model and Custom Class Loaders",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How the JVM loads, links, and initializes classes through a parent-first delegation hierarchy, and what happens when you write a custom class loader or load the same class twice.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "The Java Virtual Machine Specification — Chapter 5: Loading, Linking, and Initializing",
+        "url": "https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-5.html",
+        "type": "doc"
+      },
+      {
+        "label": "ClassLoader — Java SE 25 API Documentation",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ClassLoader.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cryptography-in-java-security-apis",
+    "id": 93,
+    "title": "Cryptography in Java: MessageDigest, Cipher, and KeyStore",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Covers the JCA/JCE provider architecture and the correct use of MessageDigest, SecureRandom, Cipher, Signature, and KeyStore, including why plain hashing and Random are unsafe substitutes for password hashing and secure token generation.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "MessageDigest — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/MessageDigest.html",
+        "type": "doc"
+      },
+      {
+        "label": "Cipher — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/Cipher.html",
+        "type": "doc"
+      },
+      {
+        "label": "SecureRandom — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/SecureRandom.html",
+        "type": "doc"
+      },
+      {
+        "label": "Signature — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/Signature.html",
+        "type": "doc"
+      },
+      {
+        "label": "KeyStore — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/KeyStore.html",
+        "type": "doc"
+      },
+      {
+        "label": "KeyPairGenerator — Java SE API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/KeyPairGenerator.html",
+        "type": "doc"
+      },
+      {
+        "label": "Java Cryptography Architecture (JCA) Reference Guide — Oracle",
+        "url": "https://docs.oracle.com/en/java/javase/25/security/java-cryptography-architecture-jca-reference-guide.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nio-channels-and-buffers",
+    "id": 94,
+    "title": "NIO Channels and Buffers: The Non-Blocking I/O Model",
+    "topic": "I/O & Networking",
+    "related": [
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sockets and the Raw Anatomy of an HTTP Request",
+        "slug": "sockets-and-raw-http-anatomy",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Explains the buffer-oriented Channel model in java.nio.channels, covering ByteBuffer state, direct vs heap buffers, FileChannel zero-copy and memory-mapped I/O, non-blocking sockets, and scatter/gather reads and writes.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "ByteBuffer — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/ByteBuffer.html",
+        "type": "doc"
+      },
+      {
+        "label": "FileChannel — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/FileChannel.html",
+        "type": "doc"
+      },
+      {
+        "label": "SocketChannel — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/SocketChannel.html",
+        "type": "doc"
+      },
+      {
+        "label": "ServerSocketChannel — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/ServerSocketChannel.html",
+        "type": "doc"
+      },
+      {
+        "label": "MappedByteBuffer — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/MappedByteBuffer.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "stream-collectors-and-parallel-streams",
+    "id": 95,
+    "title": "Stream Collectors and Parallel Streams",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Fork/Join Framework",
+        "slug": "fork-join-framework",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Deep dive into multi-level Collectors (groupingBy, partitioningBy, toMap, teeing, custom Collector.of) and the mechanics and pitfalls of parallel streams.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Collectors — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collector — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html",
+        "type": "doc"
+      },
+      {
+        "label": "Stream — Java SE 25 API (Parallelism section)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html",
+        "type": "doc"
+      },
+      {
+        "label": "java.util.stream package summary — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "weak-soft-and-phantom-references",
+    "id": 96,
+    "title": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+    "topic": "Core APIs & Tooling",
+    "related": [],
+    "summary": "Explains the strong/soft/weak/phantom reference hierarchy, ReferenceQueue polling, and how Cleaner replaces Object.finalize() for deterministic native-resource cleanup.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Reference — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/Reference.html",
+        "type": "doc"
+      },
+      {
+        "label": "WeakReference — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/WeakReference.html",
+        "type": "doc"
+      },
+      {
+        "label": "SoftReference — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/SoftReference.html",
+        "type": "doc"
+      },
+      {
+        "label": "PhantomReference — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/PhantomReference.html",
+        "type": "doc"
+      },
+      {
+        "label": "ReferenceQueue — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/ReferenceQueue.html",
+        "type": "doc"
+      },
+      {
+        "label": "Cleaner — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/Cleaner.html",
+        "type": "doc"
+      },
+      {
+        "label": "WeakHashMap — java.util",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/WeakHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 421: Deprecate Finalization for Removal",
+        "url": "https://openjdk.org/jeps/421",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "threadlocal-and-inheritable-threadlocal",
+    "id": 97,
+    "title": "ThreadLocal: Per-Thread State, Leaks, and InheritableThreadLocal",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "Scoped Values: A Modern Replacement for ThreadLocal",
+        "slug": "scoped-values",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "ThreadLocal gives each thread its own isolated copy of a variable via a per-thread map, which is powerful but leaks on pooled threads unless paired with remove, and InheritableThreadLocal copies that value into child threads only at creation time.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "ThreadLocal — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ThreadLocal.html",
+        "type": "doc"
+      },
+      {
+        "label": "InheritableThreadLocal — Java SE 25 API docs",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/InheritableThreadLocal.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "object-clone-and-cloneable",
+    "id": 98,
+    "title": "Object.clone() and the Cloneable Anti-Pattern",
+    "topic": "API Design & Craft",
+    "related": [
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Static Factory Methods and the Builder Pattern",
+        "slug": "static-factory-methods-and-builder-pattern",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Object.clone() and the Cloneable marker interface perform a shallow, constructor-bypassing copy with structural pitfalls around inheritance and final fields, which copy constructors and static factories avoid.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Object#clone() — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()",
+        "type": "doc"
+      },
+      {
+        "label": "Cloneable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Cloneable.html",
+        "type": "doc"
+      },
+      {
+        "label": "CloneNotSupportedException — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/CloneNotSupportedException.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "unicode-code-points-and-surrogate-pairs",
+    "id": 99,
+    "title": "Unicode Code Points and Surrogate Pairs in String",
+    "topic": "Language Features",
+    "related": [
+      {
+        "label": "The String Pool and Interning",
+        "slug": "string-pool-and-interning",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "String stores text as 16-bit UTF-16 code units, so characters outside the Basic Multilingual Plane like most emoji need a two-char surrogate pair to represent a single Unicode code point.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Character — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html",
+        "type": "doc"
+      },
+      {
+        "label": "String — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "arrays-sorting-searching-and-comparison",
+    "id": 100,
+    "title": "Arrays: Sorting, Searching, and Deep Comparison",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "Varargs: Performance Cost and Generic Heap Pollution",
+        "slug": "varargs-pitfalls-and-safe-usage",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Covers Arrays.sort's primitive-vs-Comparator split, the silent undefined behavior of binarySearch on unsorted data, and why equals/toString need their deep variants for nested arrays.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "Arrays — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays.sort(Object[]) — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#sort(java.lang.Object%5B%5D)",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays.binarySearch(int[], int) — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#binarySearch(int%5B%5D,int)",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays.deepEquals(Object[], Object[]) — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#deepEquals(java.lang.Object%5B%5D,java.lang.Object%5B%5D)",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays.deepToString(Object[]) — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html#deepToString(java.lang.Object%5B%5D)",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "varhandle-lock-free-field-access",
+    "id": 101,
+    "title": "VarHandle: Lock-Free Access to Ordinary Fields",
+    "topic": "Concurrency",
+    "related": [
+      {
+        "label": "The Java Memory Model: Happens-Before and Reordering",
+        "slug": "java-memory-model-and-happens-before",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Method Handles and Runtime Class Generation",
+        "slug": "method-handles-and-runtime-class-generation",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "VarHandle (JEP 193) lets a program apply atomic and volatile-strength access to a plain field or array element, at a chosen memory-ordering strength, without wrapping it in a class like AtomicInteger.",
+    "publishedAt": "2026-08-21",
+    "references": [
+      {
+        "label": "VarHandle — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/VarHandle.html",
+        "type": "doc"
+      },
+      {
+        "label": "MethodHandles.Lookup.findVarHandle — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodHandles.Lookup.html#findVarHandle(java.lang.Class,java.lang.String,java.lang.Class)",
+        "type": "doc"
+      },
+      {
+        "label": "MethodHandles.arrayElementVarHandle — java.lang.invoke API (Java SE 25)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/invoke/MethodHandles.html#arrayElementVarHandle(java.lang.Class)",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 193: Variable Handles",
+        "url": "https://openjdk.org/jeps/193",
+        "type": "doc"
+      }
+    ]
   }
 ]
