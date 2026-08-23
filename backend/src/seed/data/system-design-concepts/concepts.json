@@ -4919,5 +4919,137 @@
         "type": "paper"
       }
     ]
+  },
+  {
+    "slug": "merkle-trees",
+    "id": 81,
+    "title": "Merkle Trees: Hash Trees for Efficient Verification and Anti-Entropy",
+    "topic": "Replication & Consistency",
+    "summary": "How a tree of hashes lets two parties agree that gigabytes of data are identical by comparing one hash, prove a single record's membership in O(log n), and repair only what actually diverged -- with the domain-separation bug that broke Bitcoin along the way.",
+    "publishedAt": "2026-08-23",
+    "difficulty": "Intermediate",
+    "readingTime": 19,
+    "tags": [
+      "Data Integrity",
+      "Cryptography",
+      "Distributed Systems",
+      "Replication",
+      "Blockchain",
+      "Zero-Knowledge Proofs",
+      "Post-Quantum Cryptography"
+    ],
+    "prerequisites": [
+      "Cryptographic hash functions (SHA-256 or similar, at a conceptual level)",
+      "Basic binary tree traversal",
+      "Big-O notation"
+    ],
+    "related": [
+      {
+        "label": "Designing a Distributed Key-Value Store",
+        "slug": "key-value-store-design"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Cassandra Maintenance: Repair, Node Operations, and Backup",
+        "slug": "cassandra-maintenance-repair-node-operations-backup",
+        "feature": "database"
+      },
+      {
+        "label": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
+        "slug": "cassandra-consistency-levels",
+        "feature": "database"
+      },
+      "Git internals and content-addressed storage",
+      "Blockchain transaction integrity"
+    ],
+    "references": [
+      {
+        "label": "Ralph C. Merkle, \"Protocols for Public Key Cryptosystems\" (IEEE Symposium on Security and Privacy, 1980) — the original hash-tree construction",
+        "url": "https://www.ralphmerkle.com/papers/Protocols.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Laurie, Langley, Kasper, RFC 6962 — \"Certificate Transparency\"",
+        "url": "https://www.rfc-editor.org/rfc/rfc6962",
+        "type": "doc"
+      },
+      {
+        "label": "Crosby & Wallach, \"Efficient Data Structures for Tamper-Evident Logging\" (USENIX Security 2009)",
+        "url": "https://www.usenix.org/legacy/event/sec09/tech/full_papers/crosby.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "DeCandia et al., \"Dynamo: Amazon's Highly Available Key-value Store\" (SOSP 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Satoshi Nakamoto, \"Bitcoin: A Peer-to-Peer Electronic Cash System\" (2008)",
+        "url": "https://bitcoin.org/bitcoin.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Pro Git — \"Git Internals: Git Objects\"",
+        "url": "https://git-scm.com/book/en/v2/Git-Internals-Git-Objects",
+        "type": "doc"
+      },
+      {
+        "label": "IPFS Docs — \"Merkle DAGs\"",
+        "url": "https://docs.ipfs.tech/concepts/merkle-dag/",
+        "type": "doc"
+      },
+      {
+        "label": "Martin Kleppmann, \"Designing Data-Intensive Applications\" (O'Reilly, 2017) — Ch. 5, anti-entropy and read repair",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",
+        "type": "book"
+      },
+      {
+        "label": "Alex Petrov, \"Database Internals\" (O'Reilly, 2019) — Merkle trees for replica synchronization",
+        "url": "https://www.oreilly.com/library/view/database-internals/9781492040330/",
+        "type": "book"
+      },
+      {
+        "label": "Andreas M. Antonopoulos, \"Mastering Bitcoin\" (free online edition) — Ch. 9, Merkle trees",
+        "url": "https://github.com/bitcoinbook/bitcoinbook",
+        "type": "book"
+      },
+      {
+        "label": "Gavin Wood, \"Ethereum: A Secure Decentralised Generalised Transaction Ledger\" (Yellow Paper) — Appendix D, the Merkle-Patricia trie",
+        "url": "https://ethereum.github.io/yellowpaper/paper.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ethereum.org Docs — \"Merkle Patricia Trie\"",
+        "url": "https://ethereum.org/en/developers/docs/data-structures-and-encoding/patricia-merkle-trie/",
+        "type": "doc"
+      },
+      {
+        "label": "Huelsing, Butin, Gazdag, Rijneveld, Mohaisen, RFC 8391 — \"XMSS: eXtended Merkle Signature Scheme\"",
+        "url": "https://www.rfc-editor.org/rfc/rfc8391",
+        "type": "doc"
+      },
+      {
+        "label": "McGrew, Curcio, Fluhrer, RFC 8554 — \"Leighton-Micali Hash-Based Signatures\" (LMS)",
+        "url": "https://www.rfc-editor.org/rfc/rfc8554",
+        "type": "doc"
+      },
+      {
+        "label": "Ethereum.org Docs — \"ZK-Rollups\"",
+        "url": "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
+        "type": "doc"
+      },
+      {
+        "label": "Wikipedia — Merkle tree",
+        "url": "https://en.wikipedia.org/wiki/Merkle_tree",
+        "type": "doc"
+      }
+    ]
   }
 ]
