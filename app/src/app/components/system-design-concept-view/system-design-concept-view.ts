@@ -9,6 +9,7 @@ import {
   SystemDesignConceptSummary,
 } from '../../models/system-design-concept.model';
 import { parseMarkdown } from '../../shared/markdown';
+import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
 import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
@@ -46,7 +47,7 @@ const REFERENCE_TYPE_ICONS: Record<SystemDesignConceptReference['type'], string>
 @Component({
   selector: 'app-system-design-concept-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RenderMermaidDirective, ConceptActions, Breadcrumbs],
+  imports: [RouterLink, RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, Breadcrumbs],
   templateUrl: './system-design-concept-view.html',
   styleUrl: './system-design-concept-view.css',
 })
