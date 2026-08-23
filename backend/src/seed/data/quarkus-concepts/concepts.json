@@ -232,5 +232,25 @@
     "references": [
       { "label": "Quarkus REST guide — multipart form data section", "url": "https://quarkus.io/guides/rest", "type": "doc" }
     ]
+  },
+  {
+    "slug": "openapi-generator-quarkus-server-stubs-with-gradle",
+    "id": 16,
+    "category": "Extensions & Tooling",
+    "title": "OpenAPI Generator: Quarkus Server Stubs with the Gradle Plugin",
+    "topic": "Extensions & Tooling",
+    "related": [
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "How the openapi-generator-gradle-plugin generates JAX-RS resource stubs for a Quarkus server using generatorName=jaxrs-spec and library=quarkus, including Jakarta EE namespacing, MicroProfile OpenAPI annotations, and Mutiny-typed reactive signatures.",
+    "publishedAt": "2026-08-24",
+    "references": [
+      { "label": "OpenAPI Generator — Plugins (Maven, Gradle, Mill)", "url": "https://openapi-generator.tech/docs/plugins/", "type": "doc" },
+      { "label": "OpenAPI Generator — jaxrs-spec generator reference", "url": "https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/jaxrs-spec.md", "type": "doc" }
+    ]
   }
 ]

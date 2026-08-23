@@ -4875,5 +4875,25 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "openapi-generator-contract-first-code-generation-with-maven",
+    "id": 88,
+    "category": "Spring Boot",
+    "title": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+    "topic": "Spring MVC & Web",
+    "related": [
+      {
+        "label": "OpenAPI Generator: Quarkus Server Stubs with the Gradle Plugin",
+        "slug": "openapi-generator-quarkus-server-stubs-with-gradle",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "summary": "How the openapi-generator-maven-plugin turns an OpenAPI spec into Spring controller interfaces and DTOs during the build, using generatorName=spring, library selection, and interfaceOnly plus the delegate pattern to keep hand-written logic out of generated code.",
+    "publishedAt": "2026-08-24",
+    "references": [
+      { "label": "OpenAPI Generator — Plugins (Maven, Gradle, Mill)", "url": "https://openapi-generator.tech/docs/plugins/", "type": "doc" },
+      { "label": "OpenAPI Generator — Spring generator reference", "url": "https://openapi-generator.tech/docs/generators/spring", "type": "doc" }
+    ]
   }
 ]
