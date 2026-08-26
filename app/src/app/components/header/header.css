@@ -285,36 +285,68 @@
 
 .user-menu-item:hover { background: #f3f4f6; }
 
-.language-toggle {
-  display: flex;
-  align-items: stretch;
+.language-menu {
+  position: relative;
+}
+
+.language-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 100%;
   border-radius: 20px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, .14);
   background: rgba(255, 255, 255, .04);
+  color: rgba(255, 255, 255, .85);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
 }
 
-.language-option {
-  border: none;
+.language-menu-trigger:hover {
+  background: rgba(255, 255, 255, .09);
+}
+
+.language-icon {
+  flex-shrink: 0;
+}
+
+.language-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 110;
+}
+
+.language-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
   background: none;
-  color: rgba(255, 255, 255, .6);
-  font-size: 0.72rem;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 0.3rem 0.65rem;
+  color: #111827;
   cursor: pointer;
   font-family: inherit;
-  transition: background .15s, color .15s;
 }
 
-.language-option:hover {
-  background: rgba(255, 255, 255, .07);
-}
+.language-menu-item:hover { background: #f3f4f6; }
 
-.language-option.active {
-  background: rgba(199, 70, 52, .28);
-  color: #f4b3a4;
-}
+.language-menu-item.active { background: #fbe4df; color: #a8321f; }
 
 .xp-level-badge {
   display: flex;

@@ -30,6 +30,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-minute/java-minute-detail').then((m) => m.JavaMinuteDetailPage),
   },
   {
+    path: 'pt-BR/java/java-minute',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/java-minute/java-minute-list').then((m) => m.JavaMinuteListPage),
+  },
+  {
+    path: 'pt-BR/java/java-minute/:slug',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/java-minute/java-minute-detail').then((m) => m.JavaMinuteDetailPage),
+  },
+  {
     path: 'java/java-concepts',
     loadComponent: () => import('./pages/java-concepts/java-concepts-list').then((m) => m.JavaConceptsListPage),
   },

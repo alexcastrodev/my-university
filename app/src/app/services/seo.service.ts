@@ -1,6 +1,7 @@
 import { Injectable, REQUEST, RESPONSE_INIT, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
+import { Language } from '../models/language.model';
 
 export interface SeoTags {
   title: string;
@@ -23,6 +24,10 @@ export interface SeoTags {
   breadcrumbs?: { name: string; path: string }[];
   /** Set on exam/course overview pages — emits Course structured data instead of Article/WebPage. */
   course?: { moduleCount: number };
+  /** Language actually served on this page. Defaults to 'en'. Drives <html lang>. */
+  language?: Language;
+  /** Other language versions of this exact page, for hreflang. Only pass a language when that translation genuinely exists — never the fallback. */
+  alternates?: { lang: Language; path: string }[];
 }
 
 const SITE_NAME = 'My University';
@@ -66,9 +71,33 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:description', content: tags.description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
 
+    this.document.documentElement.lang = tags.language ?? 'en';
+
     this.setCanonical(url);
+    this.setAlternateLinks(tags.alternates);
     this.setJsonLd(this.buildJsonLd(tags, url, image));
     this.setBreadcrumbJsonLd(tags.breadcrumbs);
+  }
+
+  /** Writes one <link rel="alternate" hreflang="..."> per language variant, plus x-default pointing at the unprefixed (English) URL. */
+  private setAlternateLinks(alternates: { lang: Language; path: string }[] | undefined): void {
+    this.document
+      .querySelectorAll('link[rel="alternate"][data-seo-alternate]')
+      .forEach((link) => link.remove());
+
+    if (!alternates || alternates.length === 0) return;
+
+    const xDefaultPath = alternates.find((a) => a.lang === 'en')?.path ?? alternates[0].path;
+    const links: { lang: string; path: string }[] = [...alternates, { lang: 'x-default', path: xDefaultPath }];
+
+    for (const alt of links) {
+      const link = this.document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', alt.lang);
+      link.setAttribute('href', this.absoluteUrl(alt.path));
+      link.setAttribute('data-seo-alternate', 'true');
+      this.document.head.appendChild(link);
+    }
   }
 
   private setCanonical(url: string): void {

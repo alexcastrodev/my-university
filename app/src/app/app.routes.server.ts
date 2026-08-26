@@ -22,6 +22,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'pt-BR/java/java-minute',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'pt-BR/java/java-minute/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'java/java-concepts',
     renderMode: RenderMode.Server,
   },

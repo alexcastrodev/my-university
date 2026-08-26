@@ -14,6 +14,7 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../shared/language';
 import { MeilisearchClient } from './meilisearch.client';
 
 export type SearchResultType =
@@ -110,6 +111,24 @@ export class SearchService implements OnApplicationBootstrap {
         url: `/java/java-minute/${episode.slug}`,
         content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
       });
+    }
+
+    // Also index each non-English translation that actually exists, so searching in that
+    // language finds it too. English above keeps its original id; translations get a
+    // language-suffixed id so they're purely additive (no stale docs from an id rename).
+    for (const language of SUPPORTED_LANGUAGES) {
+      if (language === DEFAULT_LANGUAGE) continue;
+      for (const episode of this.javaMinuteService.findAllDetailed(language)) {
+        if (episode.language !== language) continue; // no translation for this slug — already indexed as English
+        documents.push({
+          id: `java-minute-${episode.slug}-${language}`,
+          type: 'java-minute' satisfies SearchResultType,
+          title: episode.question,
+          subtitle: 'Java Minute',
+          url: `/java/java-minute/${episode.slug}`,
+          content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
+        });
+      }
     }
 
     for (const concept of this.javaConceptsService.findAllDetailed()) {
@@ -232,7 +251,16 @@ export class SearchService implements OnApplicationBootstrap {
     const filter = type ? `type = "${type}"` : undefined;
     const hits = await this.meili.search(term, filter);
 
-    return hits.map((hit) => ({
+    // Content indexed in multiple languages (e.g. Java Minute) can produce more than one hit
+    // for the same page — keep only the highest-ranked (first) one per url.
+    const seenUrls = new Set<string>();
+    const deduped = hits.filter((hit) => {
+      if (seenUrls.has(hit.url)) return false;
+      seenUrls.add(hit.url);
+      return true;
+    });
+
+    return deduped.map((hit) => ({
       type: hit.type as SearchResultType,
       title: hit.title,
       subtitle: hit.subtitle,

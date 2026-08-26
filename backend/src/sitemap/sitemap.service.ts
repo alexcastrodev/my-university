@@ -11,12 +11,15 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { Language } from '../shared/language';
 
 export interface SitemapUrl {
   path: string;
   lastmod: string | null;
   changefreq?: 'daily' | 'weekly' | 'monthly';
   priority?: string;
+  /** Other language versions of this same page, for hreflang. */
+  alternates?: { lang: Language; path: string }[];
 }
 
 const SITE_ORIGIN = 'https://university.kurz.fyi';
@@ -73,9 +76,7 @@ export class SitemapService {
         this.algorithmsConcepts.findAll(),
       ),
     );
-    urls.push(
-      ...this.listSection('/java/java-minute', this.javaMinute.findAll()),
-    );
+    urls.push(...this.javaMinuteUrls(this.javaMinute.findAll()));
     urls.push(
       ...this.listSection('/ruby-concepts', this.rubyConcepts.findAll()),
     );
@@ -126,6 +127,53 @@ export class SitemapService {
     return urls;
   }
 
+  /** Java Minute has real pt-BR translations, so — unlike other sections — it gets its own locale-prefixed URLs and hreflang alternates. */
+  private javaMinuteUrls(
+    episodes: { slug: string; publishedAt: string; availableLanguages: Language[] }[],
+  ): SitemapUrl[] {
+    const EN_BASE = '/java/java-minute';
+    const PT_BR_BASE = '/pt-BR/java/java-minute';
+
+    const urls: SitemapUrl[] = [
+      {
+        path: EN_BASE,
+        lastmod: null,
+        changefreq: 'weekly',
+        priority: '0.8',
+        alternates: [{ lang: 'pt-BR', path: PT_BR_BASE }],
+      },
+      {
+        path: PT_BR_BASE,
+        lastmod: null,
+        changefreq: 'weekly',
+        priority: '0.8',
+        alternates: [{ lang: 'en', path: EN_BASE }],
+      },
+    ];
+
+    for (const episode of episodes) {
+      const hasPtBr = episode.availableLanguages.includes('pt-BR');
+      urls.push({
+        path: `${EN_BASE}/${episode.slug}`,
+        lastmod: episode.publishedAt,
+        changefreq: 'monthly',
+        priority: '0.6',
+        ...(hasPtBr && { alternates: [{ lang: 'pt-BR', path: `${PT_BR_BASE}/${episode.slug}` }] }),
+      });
+      if (hasPtBr) {
+        urls.push({
+          path: `${PT_BR_BASE}/${episode.slug}`,
+          lastmod: episode.publishedAt,
+          changefreq: 'monthly',
+          priority: '0.6',
+          alternates: [{ lang: 'en', path: `${EN_BASE}/${episode.slug}` }],
+        });
+      }
+    }
+
+    return urls;
+  }
+
   async toXml(): Promise<string> {
     const urls = await this.buildUrls();
     const entries = urls
@@ -140,11 +188,17 @@ export class SitemapService {
         const priority = url.priority
           ? `\n    <priority>${url.priority}</priority>`
           : '';
-        return `  <url>\n    <loc>${this.escape(loc)}</loc>${lastmod}${changefreq}${priority}\n  </url>`;
+        const alternates = (url.alternates ?? [])
+          .map(
+            (alt) =>
+              `\n    <xhtml:link rel="alternate" hreflang="${alt.lang}" href="${this.escape(`${SITE_ORIGIN}${alt.path}`)}" />`,
+          )
+          .join('');
+        return `  <url>\n    <loc>${this.escape(loc)}</loc>${lastmod}${changefreq}${priority}${alternates}\n  </url>`;
       })
       .join('\n');
 
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries}\n</urlset>\n`;
   }
 
   private toDate(isoLike: string): string {

@@ -30,6 +30,25 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'rubyonrails-concept': 'Ruby on Rails Concept',
 };
 
+const LANGUAGE_LABELS: Record<Language, string> = {
+  en: 'English',
+  'pt-BR': 'Português (Brasil)',
+};
+
+/** Topics with a locale-prefixed URL for pt-BR — extend this as more topics get translations. */
+const LOCALIZED_ROUTE_PREFIXES: { en: string; ptBR: string }[] = [
+  { en: '/java/java-minute', ptBR: '/pt-BR/java/java-minute' },
+];
+
+/** Rewrites `url` to its equivalent in `target`, or null when the current route has no localized variant. */
+function localizedUrl(url: string, target: Language): string | null {
+  for (const { en, ptBR } of LOCALIZED_ROUTE_PREFIXES) {
+    if (target === 'pt-BR' && url.startsWith(en)) return ptBR + url.slice(en.length);
+    if (target === 'en' && url.startsWith(ptBR)) return en + url.slice(ptBR.length);
+  }
+  return null;
+}
+
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'All', value: null },
   { label: 'Courses', value: 'course' },
@@ -66,6 +85,7 @@ export class Header {
 
   protected readonly TYPE_LABELS = TYPE_LABELS;
   protected readonly FILTER_OPTIONS = FILTER_OPTIONS;
+  protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
 
   searchQuery = signal('');
   searchResults = signal<SearchResult[]>([]);
@@ -78,6 +98,7 @@ export class Header {
   mobileSearchOpen = signal(false);
   javaMenuOpen = signal(false);
   rubyMenuOpen = signal(false);
+  languageMenuOpen = signal(false);
 
   private debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -139,8 +160,20 @@ export class Header {
     this.rubyMenuOpen.set(false);
   }
 
+  toggleLanguageMenu(): void {
+    this.languageMenuOpen.update((open) => !open);
+  }
+
+  closeLanguageMenu(): void {
+    this.languageMenuOpen.set(false);
+  }
+
   setLanguage(lang: Language): void {
     this.languageService.setLanguage(lang);
+    this.closeLanguageMenu();
+
+    const target = localizedUrl(this.router.url, lang);
+    if (target) void this.router.navigateByUrl(target);
   }
 
   logout(): void {
@@ -213,6 +246,7 @@ export class Header {
     this.closeMobileMenu();
     this.closeJavaMenu();
     this.closeRubyMenu();
+    this.closeLanguageMenu();
     this.closeMobileSearch();
   }
 
@@ -252,6 +286,13 @@ export class Header {
       const rubyMenu = this.elementRef.nativeElement.querySelector('.ruby-menu');
       if (rubyMenu && !rubyMenu.contains(event.target as Node)) {
         this.closeRubyMenu();
+      }
+    }
+
+    if (this.languageMenuOpen()) {
+      const languageMenu = this.elementRef.nativeElement.querySelector('.language-menu');
+      if (languageMenu && !languageMenu.contains(event.target as Node)) {
+        this.closeLanguageMenu();
       }
     }
 

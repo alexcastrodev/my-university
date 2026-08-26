@@ -4,6 +4,7 @@ import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
 import { JavaMinuteEpisode, JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
+import { Language } from '../../models/language.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
 import { LanguageService } from '../../services/language.service';
 import { ReviewService } from '../../services/review.service';
@@ -34,6 +35,10 @@ export class JavaMinuteDetailPage implements OnInit {
   marking = signal(false);
   private slugSignal = signal('');
 
+  /** Set when this route is a locale-prefixed variant (e.g. /pt-BR/java/java-minute/:slug) — the URL, not localStorage, decides the language for this page. */
+  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
+  protected readonly basePath = this.urlLocale === 'pt-BR' ? '/pt-BR/java/java-minute' : '/java/java-minute';
+
   nav = createConceptNavigation<JavaMinuteEpisodeSummary>(() => this.javaMinuteService.listEpisodes());
 
   showFallbackNotice = computed(() => {
@@ -55,12 +60,14 @@ export class JavaMinuteDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const episode = this.episode();
     return [
-      { name: 'Java Minute', path: '/java/java-minute' },
-      ...(episode ? [{ name: episode.question, path: `/java/java-minute/${episode.slug}` }] : []),
+      { name: 'Java Minute', path: this.basePath },
+      ...(episode ? [{ name: episode.question, path: `${this.basePath}/${episode.slug}` }] : []),
     ];
   });
 
   constructor() {
+    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
+
     effect(() => {
       this.languageService.language();
       this.nav.refetchList();
@@ -94,12 +101,14 @@ export class JavaMinuteDetailPage implements OnInit {
         this.seo.set({
           title: `${episode.question} — Java Minute`,
           description: this.summarize(episode),
-          path: `/java/java-minute/${episode.slug}`,
+          path: `${this.basePath}/${episode.slug}`,
           type: 'article',
           publishedAt: episode.publishedAt,
           modifiedAt: episode.updatedAt,
           qa: { question: episode.question, answerText: this.qaAnswerText(episode) },
           breadcrumbs: this.breadcrumbItems(),
+          language: episode.language,
+          alternates: this.alternatesFor(episode),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
@@ -119,6 +128,15 @@ export class JavaMinuteDetailPage implements OnInit {
       },
       error: () => this.marking.set(false),
     });
+  }
+
+  /** Alternate-language URLs for hreflang — only for translations that actually exist, never the fallback. */
+  private alternatesFor(episode: JavaMinuteEpisode): { lang: Language; path: string }[] {
+    const alternates: { lang: Language; path: string }[] = [{ lang: 'en', path: `/java/java-minute/${episode.slug}` }];
+    if (episode.availableLanguages.includes('pt-BR')) {
+      alternates.push({ lang: 'pt-BR', path: `/pt-BR/java/java-minute/${episode.slug}` });
+    }
+    return alternates;
   }
 
   private summarize(episode: JavaMinuteEpisode): string {

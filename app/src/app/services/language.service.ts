@@ -41,6 +41,16 @@ export class LanguageService {
     }
   }
 
+  /**
+   * Applies a language for this URL/session without touching the user's saved account
+   * preference. Used when a locale-prefixed route (e.g. /pt-BR/...) determines the language
+   * from the URL itself — landing there shouldn't silently overwrite what a logged-in user
+   * chose to save as their preference.
+   */
+  setLanguageFromUrl(lang: Language): void {
+    this.applyLocal(lang);
+  }
+
   private applyLocal(lang: Language): void {
     this.language.set(lang);
     if (typeof localStorage === 'undefined') return;

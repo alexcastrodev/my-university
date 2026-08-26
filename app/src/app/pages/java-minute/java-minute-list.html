@@ -26,7 +26,7 @@
     } @else {
       <div class="cards-grid">
         @for (episode of sortedEpisodes(); track episode.slug) {
-          <a [routerLink]="['/java/java-minute', episode.slug]" class="episode-card" [class.is-read]="episode.read">
+          <a [routerLink]="[basePath, episode.slug]" class="episode-card" [class.is-read]="episode.read">
             <div class="card-header">
               <span class="card-order">#{{ episode.id }}</span>
             </div>
