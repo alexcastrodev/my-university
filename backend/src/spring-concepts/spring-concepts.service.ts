@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { DEFAULT_LANGUAGE, Language, SUPPORTED_LANGUAGES, normalizeLanguage } from '../shared/language';
 
 export type SpringConceptCategory =
   | 'Spring Boot'
@@ -31,6 +32,8 @@ export interface SpringConceptSummary {
   summary: string;
   publishedAt: string;
   labUrl?: string;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface SpringConceptDetail extends SpringConceptSummary {
@@ -41,25 +44,45 @@ export interface SpringConceptDetail extends SpringConceptSummary {
   related: ConceptLinkRef[];
 }
 
-interface ConceptMeta extends SpringConceptSummary {
+interface ConceptMeta {
+  slug: string;
+  id: number;
+  category: SpringConceptCategory;
+  title: string;
+  topic: string;
+  summary: string;
+  publishedAt: string;
+  labUrl?: string;
   references: SpringConceptReference[];
   related: ConceptLinkRef[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/spring-concepts');
 
+/** Strips a wrapping pair of double quotes — needed because a YAML scalar containing `:` (e.g. a title) must be quoted, but this frontmatter reader is a plain regex, not a YAML parser. */
+function unquote(value: string | null): string | null {
+  if (value && value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
+    return value.slice(1, -1);
+  }
+  return value;
+}
+
 function parseFrontmatter(raw: string): {
   body: string;
   version: string | null;
   updatedAt: string | null;
+  title: string | null;
+  summary: string | null;
 } {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/.exec(raw);
-  if (!match) return { body: raw, version: null, updatedAt: null };
+  if (!match) return { body: raw, version: null, updatedAt: null, title: null, summary: null };
   const [, frontmatter, body] = match;
   const version = /^version:\s*(.+)$/m.exec(frontmatter)?.[1]?.trim() ?? null;
   const updatedAt =
     /^updatedAt:\s*(.+)$/m.exec(frontmatter)?.[1]?.trim() ?? null;
-  return { body, version, updatedAt };
+  const title = unquote(/^title:\s*(.+)$/m.exec(frontmatter)?.[1]?.trim() ?? null);
+  const summary = unquote(/^summary:\s*(.+)$/m.exec(frontmatter)?.[1]?.trim() ?? null);
+  return { body, version, updatedAt, title, summary };
 }
 
 function splitSections(body: string): SpringConceptSection[] {
@@ -77,6 +100,14 @@ function splitSections(body: string): SpringConceptSection[] {
   });
 }
 
+/** Which supported languages have a content file for this slug, discovered from what's actually in its folder. */
+function readAvailableLanguages(slug: string): Language[] {
+  const dir = join(DATA_DIR, 'content', slug);
+  if (!existsSync(dir)) return [];
+  const files = new Set(readdirSync(dir));
+  return SUPPORTED_LANGUAGES.filter((lang) => files.has(`${lang}.md`));
+}
+
 @Injectable()
 export class SpringConceptsService {
   private readonly conceptsMeta: ConceptMeta[] = (
@@ -85,48 +116,68 @@ export class SpringConceptsService {
     .slice()
     .sort((a, b) => b.id - a.id);
 
-  findAll(): SpringConceptSummary[] {
-    return this.conceptsMeta.map(
-      ({ slug, id, category, title, topic, summary, publishedAt, labUrl }) => ({
-        slug,
-        id,
-        category,
-        title,
-        topic,
-        summary,
-        publishedAt,
-        ...(labUrl && { labUrl }),
-      }),
-    );
+  findAll(lang: Language = DEFAULT_LANGUAGE): SpringConceptSummary[] {
+    const language = normalizeLanguage(lang);
+    return this.conceptsMeta.map((meta) => this.readSummary(meta, language));
   }
 
-  findBySlug(slug: string): SpringConceptDetail | null {
+  findBySlug(slug: string, lang: Language = DEFAULT_LANGUAGE): SpringConceptDetail | null {
     const meta = this.conceptsMeta.find((concept) => concept.slug === slug);
     if (!meta) return null;
 
-    return this.readDetail(meta);
+    return this.readDetail(meta, normalizeLanguage(lang));
   }
 
-  findAllDetailed(): SpringConceptDetail[] {
-    return this.conceptsMeta.map((meta) => this.readDetail(meta));
+  findAllDetailed(lang: Language = DEFAULT_LANGUAGE): SpringConceptDetail[] {
+    const language = normalizeLanguage(lang);
+    return this.conceptsMeta.map((meta) => this.readDetail(meta, language));
   }
 
-  private readDetail(meta: ConceptMeta): SpringConceptDetail {
-    const raw = readFileSync(
-      join(DATA_DIR, 'content', meta.slug, 'en.md'),
-      'utf-8',
-    );
-    const { body, version, updatedAt } = parseFrontmatter(raw);
+  /** Resolves the content file to serve for a slug/language, falling back to English when the translation is missing. */
+  private resolveContentPath(slug: string, lang: Language): { path: string; language: Language } {
+    const preferred = join(DATA_DIR, 'content', slug, `${lang}.md`);
+    if (lang !== DEFAULT_LANGUAGE && existsSync(preferred)) {
+      return { path: preferred, language: lang };
+    }
+    return { path: join(DATA_DIR, 'content', slug, `${DEFAULT_LANGUAGE}.md`), language: DEFAULT_LANGUAGE };
+  }
+
+  private readSummary(meta: ConceptMeta, lang: Language): SpringConceptSummary {
+    const availableLanguages = readAvailableLanguages(meta.slug);
+    const { path, language } = this.resolveContentPath(meta.slug, lang);
+    const { title, summary } = parseFrontmatter(readFileSync(path, 'utf-8'));
 
     return {
       slug: meta.slug,
       id: meta.id,
       category: meta.category,
-      title: meta.title,
+      title: title ?? meta.title,
       topic: meta.topic,
-      summary: meta.summary,
+      summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
+      language,
+      availableLanguages,
+    };
+  }
+
+  private readDetail(meta: ConceptMeta, lang: Language): SpringConceptDetail {
+    const availableLanguages = readAvailableLanguages(meta.slug);
+    const { path, language } = this.resolveContentPath(meta.slug, lang);
+    const raw = readFileSync(path, 'utf-8');
+    const { body, version, updatedAt, title, summary } = parseFrontmatter(raw);
+
+    return {
+      slug: meta.slug,
+      id: meta.id,
+      category: meta.category,
+      title: title ?? meta.title,
+      topic: meta.topic,
+      summary: summary ?? meta.summary,
+      publishedAt: meta.publishedAt,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
+      language,
+      availableLanguages,
       version,
       updatedAt,
       sections: splitSections(body),
