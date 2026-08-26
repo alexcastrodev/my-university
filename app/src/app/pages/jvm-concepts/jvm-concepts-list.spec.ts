@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -11,18 +13,24 @@ const FIXTURES: JvmConceptSummary[] = [
     slug: 'class-file-structure',
     id: 1,
     title: 'The .class File Format',
+    topic: 'Class Loading',
     summary: 'Header, constant pool, fields and methods of a compiled .class file.',
     publishedAt: '2026-08-10',
     labUrl: 'https://example.com/lab',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'garbage-collection-basics',
     id: 2,
     title: 'Garbage Collection Basics',
+    topic: 'Garbage Collection',
     summary: 'Generational heaps and how the JVM reclaims unreachable objects.',
     publishedAt: '2026-08-11',
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
   },
 ];
 
@@ -39,6 +47,8 @@ describe('JvmConceptsListPage', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: JvmConceptsService, useClass: MockJvmConceptsService },
       ],
     }).compileComponents();

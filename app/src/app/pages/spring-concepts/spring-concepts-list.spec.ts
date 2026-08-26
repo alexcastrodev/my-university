@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -12,29 +14,38 @@ const FIXTURES: SpringConceptSummary[] = [
     id: 1,
     category: 'Spring Security',
     title: 'Spring Security Crypto Module',
+    topic: 'Spring Security',
     summary: 'Password encoding, key generation and encryptors in Spring Security.',
     publishedAt: '2026-07-29',
     labUrl: 'https://example.com/lab',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'spring-batch-fault-tolerant-step-configuration',
     id: 2,
     category: 'Spring Batch',
     title: 'Fault Tolerant Step Configuration',
+    topic: 'Spring Batch',
     summary: 'Skip, retry and no-rollback policies for resilient batch steps.',
     publishedAt: '2026-07-20',
     labUrl: 'https://example.com/lab',
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'spring-jdbc-persistence-with-jdbctemplate',
     id: 3,
     category: 'Spring Boot',
     title: 'JdbcTemplate Persistence',
+    topic: 'Core Spring & Boot',
     summary: 'Persisting data with Spring JDBC and JdbcTemplate.',
     publishedAt: '2026-07-10',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
 ];
 
@@ -51,6 +62,8 @@ describe('SpringConceptsListPage', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: SpringConceptsService, useClass: MockSpringConceptsService },
       ],
     }).compileComponents();

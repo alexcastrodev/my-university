@@ -38,6 +38,9 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 /** Topics with a locale-prefixed URL for pt-BR — extend this as more topics get translations. */
 const LOCALIZED_ROUTE_PREFIXES: { en: string; ptBR: string }[] = [
   { en: '/java/java-minute', ptBR: '/pt-BR/java/java-minute' },
+  { en: '/java/java-concepts', ptBR: '/pt-BR/java/java-concepts' },
+  { en: '/java/jvm-concepts', ptBR: '/pt-BR/java/jvm-concepts' },
+  { en: '/spring-concepts', ptBR: '/pt-BR/spring-concepts' },
 ];
 
 /** Rewrites `url` to its equivalent in `target`, or null when the current route has no localized variant. */

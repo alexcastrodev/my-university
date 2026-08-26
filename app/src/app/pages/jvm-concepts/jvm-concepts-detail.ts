@@ -1,14 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JvmConceptView } from '../../components/jvm-concept-view/jvm-concept-view';
 import { JvmConcept, JvmConceptSummary } from '../../models/jvm-concept.model';
+import { Language } from '../../models/language.model';
 import { JvmConceptsService } from '../../services/jvm-concepts.service';
+import { LanguageService } from '../../services/language.service';
 import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+
+const EN_PATH = '/java/jvm-concepts';
+const PT_BR_PATH = '/pt-BR/java/jvm-concepts';
 
 @Component({
   selector: 'app-jvm-concepts-detail',
@@ -20,6 +25,7 @@ import { createConceptNavigation } from '../../shared/concept-navigation';
 export class JvmConceptsDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private jvmConceptsService = inject(JvmConceptsService);
+  private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
@@ -29,8 +35,18 @@ export class JvmConceptsDetailPage implements OnInit {
   notFound = signal(false);
   read = signal(false);
   marking = signal(false);
+  private slugSignal = signal('');
+
+  /** Set when this route is the locale-prefixed variant (/pt-BR/java/jvm-concepts) — the URL, not localStorage, decides the language for this page. */
+  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
+  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
 
   nav = createConceptNavigation<JvmConceptSummary>(() => this.jvmConceptsService.listConcepts());
+
+  showFallbackNotice = computed(() => {
+    const concept = this.concept();
+    return concept != null && concept.language !== this.languageService.language();
+  });
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
@@ -46,15 +62,30 @@ export class JvmConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'JVM Concepts', path: '/java/jvm-concepts' },
-      ...(concept ? [{ name: concept.title, path: `/java/jvm-concepts/${concept.slug}` }] : []),
+      { name: 'JVM Concepts', path: this.basePath },
+      ...(concept ? [{ name: concept.title, path: `${this.basePath}/${concept.slug}` }] : []),
     ];
   });
 
+  constructor() {
+    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
+
+    effect(() => {
+      this.languageService.language();
+      this.nav.refetchList();
+    });
+
+    effect(() => {
+      const slug = this.slugSignal();
+      this.languageService.language();
+      if (!slug) return;
+      this.loadConcept(slug);
+    });
+  }
+
   ngOnInit() {
-    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
-      this.loadConcept(params.get('slug') ?? '');
+      this.slugSignal.set(params.get('slug') ?? '');
     });
   }
 
@@ -72,11 +103,13 @@ export class JvmConceptsDetailPage implements OnInit {
         this.seo.set({
           title: `${concept.title} — JVM Concepts`,
           description: concept.summary,
-          path: `/java/jvm-concepts/${concept.slug}`,
+          path: `${this.basePath}/${concept.slug}`,
           type: 'article',
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
           breadcrumbs: this.breadcrumbItems(),
+          language: concept.language,
+          alternates: this.alternatesFor(concept),
         });
       },
       error: () => { this.loading.set(false); this.notFound.set(true); this.seo.setNotFound(); },
@@ -96,5 +129,14 @@ export class JvmConceptsDetailPage implements OnInit {
       },
       error: () => this.marking.set(false),
     });
+  }
+
+  /** Alternate-language URLs for hreflang — only for translations that actually exist, never the fallback. */
+  private alternatesFor(concept: JvmConcept): { lang: Language; path: string }[] {
+    const alternates: { lang: Language; path: string }[] = [{ lang: 'en', path: `${EN_PATH}/${concept.slug}` }];
+    if (concept.availableLanguages.includes('pt-BR')) {
+      alternates.push({ lang: 'pt-BR', path: `${PT_BR_PATH}/${concept.slug}` });
+    }
+    return alternates;
   }
 }

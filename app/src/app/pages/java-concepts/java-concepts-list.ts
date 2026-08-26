@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { JavaConceptSummary } from '../../models/java-concept.model';
+import { Language } from '../../models/language.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
+import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
@@ -21,6 +24,9 @@ const TOPIC_ORDER = [
   'I/O & Networking',
 ];
 
+const EN_PATH = '/java/java-concepts';
+const PT_BR_PATH = '/pt-BR/java/java-concepts';
+
 @Component({
   selector: 'app-java-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,11 +35,17 @@ const TOPIC_ORDER = [
   styleUrl: './java-concepts-list.css',
 })
 export class JavaConceptsListPage implements OnInit {
+  private route = inject(ActivatedRoute);
   private javaConceptsService = inject(JavaConceptsService);
+  private languageService = inject(LanguageService);
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
-  protected readonly ROUTE_COMMANDS = ['/java/java-concepts'];
+
+  /** Set when this route is the locale-prefixed variant (/pt-BR/java/java-concepts) — the URL, not localStorage, decides the language for this page. */
+  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
+  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
+  protected readonly ROUTE_COMMANDS = [this.basePath];
 
   concepts = signal<JavaConceptSummary[]>([]);
   loading = signal(true);
@@ -60,6 +72,19 @@ export class JavaConceptsListPage implements OnInit {
     return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
   });
 
+  constructor() {
+    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
+
+    effect(() => {
+      this.languageService.language();
+      this.loading.set(true);
+      this.javaConceptsService.listConcepts().subscribe({
+        next: (list) => { this.concepts.set(list); this.loading.set(false); },
+        error: () => this.loading.set(false),
+      });
+    });
+  }
+
   onToggleLabsFilter() {
     this.showOnlyLabs.update((v) => !v);
   }
@@ -69,15 +94,18 @@ export class JavaConceptsListPage implements OnInit {
   }
 
   ngOnInit() {
+    const isPtBr = this.urlLocale === 'pt-BR';
     this.seo.set({
       title: 'Java Concepts',
-      description: 'Core Java concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
-      path: '/java/java-concepts',
-    });
-
-    this.javaConceptsService.listConcepts().subscribe({
-      next: (list) => { this.concepts.set(list); this.loading.set(false); },
-      error: () => this.loading.set(false),
+      description: isPtBr
+        ? 'Conceitos essenciais de Java explicados a fundo — objetivo, casos de uso, deep dive e trade-offs.'
+        : 'Core Java concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
+      path: this.basePath,
+      language: isPtBr ? 'pt-BR' : 'en',
+      alternates: [
+        { lang: 'en', path: EN_PATH },
+        { lang: 'pt-BR', path: PT_BR_PATH },
+      ],
     });
   }
 }

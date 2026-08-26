@@ -1,4 +1,5 @@
 import { ConceptLinkRef } from '../shared/concept-links';
+import { Language } from './language.model';
 
 export type SpringConceptCategory = 'Spring Boot' | 'Spring Security' | 'Spring Batch';
 
@@ -23,6 +24,8 @@ export interface SpringConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface SpringConcept extends SpringConceptSummary {

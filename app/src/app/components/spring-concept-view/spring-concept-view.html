@@ -10,6 +10,10 @@
       <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
     </header>
 
+    @if (fallbackNotice()) {
+      <p class="fallback-notice">This article isn't available in Portuguese yet — showing the English version.</p>
+    }
+
     @for (section of sections(); track section.title) {
       <section class="concept-section">
         <h2 class="section-title">{{ section.title }}</h2>

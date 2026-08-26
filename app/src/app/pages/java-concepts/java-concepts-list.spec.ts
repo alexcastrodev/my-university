@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -11,18 +13,24 @@ const FIXTURES: JavaConceptSummary[] = [
     slug: 'generics',
     id: 1,
     title: 'Generics',
+    topic: 'Language Features',
     summary: 'Type erasure, bounded wildcards and variance in Java generics.',
     publishedAt: '2026-07-28',
     labUrl: 'https://example.com/lab',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'records-and-sealed-types',
     id: 2,
     title: 'Records and Sealed Types',
+    topic: 'Language Features',
     summary: 'Modeling data and closed hierarchies with records and sealed interfaces.',
     publishedAt: '2026-07-18',
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
   },
 ];
 
@@ -39,6 +47,8 @@ describe('JavaConceptsListPage', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: JavaConceptsService, useClass: MockJavaConceptsService },
       ],
     }).compileComponents();

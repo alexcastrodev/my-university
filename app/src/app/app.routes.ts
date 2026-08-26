@@ -48,11 +48,31 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
   },
   {
+    path: 'pt-BR/java/java-concepts',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/java-concepts/java-concepts-list').then((m) => m.JavaConceptsListPage),
+  },
+  {
+    path: 'pt-BR/java/java-concepts/:slug',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/java-concepts/java-concepts-detail').then((m) => m.JavaConceptsDetailPage),
+  },
+  {
     path: 'java/jvm-concepts',
     loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-list').then((m) => m.JvmConceptsListPage),
   },
   {
     path: 'java/jvm-concepts/:slug',
+    loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-detail').then((m) => m.JvmConceptsDetailPage),
+  },
+  {
+    path: 'pt-BR/java/jvm-concepts',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-list').then((m) => m.JvmConceptsListPage),
+  },
+  {
+    path: 'pt-BR/java/jvm-concepts/:slug',
+    data: { locale: 'pt-BR' },
     loadComponent: () => import('./pages/jvm-concepts/jvm-concepts-detail').then((m) => m.JvmConceptsDetailPage),
   },
   {
@@ -77,6 +97,16 @@ export const routes: Routes = [
   },
   {
     path: 'spring-concepts/:slug',
+    loadComponent: () => import('./pages/spring-concepts/spring-concepts-detail').then((m) => m.SpringConceptsDetailPage),
+  },
+  {
+    path: 'pt-BR/spring-concepts',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/spring-concepts/spring-concepts-list').then((m) => m.SpringConceptsListPage),
+  },
+  {
+    path: 'pt-BR/spring-concepts/:slug',
+    data: { locale: 'pt-BR' },
     loadComponent: () => import('./pages/spring-concepts/spring-concepts-detail').then((m) => m.SpringConceptsDetailPage),
   },
   {

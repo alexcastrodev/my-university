@@ -1,21 +1,21 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/java/jvm-concepts" class="back-link">← JVM Concepts</a>
+      <a [routerLink]="basePath" class="back-link">← JVM Concepts</a>
       <div class="loading" role="status" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         Loading concept…
       </div>
     } @else if (notFound()) {
-      <a routerLink="/java/jvm-concepts" class="back-link">← JVM Concepts</a>
+      <a [routerLink]="basePath" class="back-link">← JVM Concepts</a>
       <div class="not-found">
         <p>Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout
-        backHref="/java/jvm-concepts"
+        [backHref]="basePath"
         backLabel="JVM Concepts"
-        basePath="/java/jvm-concepts"
+        [basePath]="basePath"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"
         [prevItem]="prevItem()"
@@ -26,6 +26,7 @@
           [read]="read()"
           [marking]="marking()"
           [breadcrumbs]="breadcrumbItems()"
+          [fallbackNotice]="showFallbackNotice()"
           (markRead)="onMarkRead()"
         />
       </app-concept-detail-layout>

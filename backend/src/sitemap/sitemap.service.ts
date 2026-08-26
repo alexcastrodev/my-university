@@ -47,10 +47,10 @@ export class SitemapService {
     ];
 
     urls.push(
-      ...this.listSection('/java/java-concepts', this.javaConcepts.findAll()),
+      ...this.localizedSectionUrls('/java/java-concepts', '/pt-BR/java/java-concepts', this.javaConcepts.findAll()),
     );
     urls.push(
-      ...this.listSection('/java/jvm-concepts', this.jvmConcepts.findAll()),
+      ...this.localizedSectionUrls('/java/jvm-concepts', '/pt-BR/java/jvm-concepts', this.jvmConcepts.findAll()),
     );
     urls.push(
       ...this.listSection(
@@ -59,7 +59,7 @@ export class SitemapService {
       ),
     );
     urls.push(
-      ...this.listSection('/spring-concepts', this.springConcepts.findAll()),
+      ...this.localizedSectionUrls('/spring-concepts', '/pt-BR/spring-concepts', this.springConcepts.findAll()),
     );
     urls.push(
       ...this.listSection(
@@ -76,7 +76,9 @@ export class SitemapService {
         this.algorithmsConcepts.findAll(),
       ),
     );
-    urls.push(...this.javaMinuteUrls(this.javaMinute.findAll()));
+    urls.push(
+      ...this.localizedSectionUrls('/java/java-minute', '/pt-BR/java/java-minute', this.javaMinute.findAll()),
+    );
     urls.push(
       ...this.listSection('/ruby-concepts', this.rubyConcepts.findAll()),
     );
@@ -127,46 +129,45 @@ export class SitemapService {
     return urls;
   }
 
-  /** Java Minute has real pt-BR translations, so — unlike other sections — it gets its own locale-prefixed URLs and hreflang alternates. */
-  private javaMinuteUrls(
-    episodes: { slug: string; publishedAt: string; availableLanguages: Language[] }[],
+  /** For a section with real pt-BR translations: emits both locale-prefixed URLs and reciprocal hreflang alternates, only for items that actually have a pt-BR version. */
+  private localizedSectionUrls(
+    enBase: string,
+    ptBrBase: string,
+    items: { slug: string; publishedAt: string; availableLanguages: Language[] }[],
   ): SitemapUrl[] {
-    const EN_BASE = '/java/java-minute';
-    const PT_BR_BASE = '/pt-BR/java/java-minute';
-
     const urls: SitemapUrl[] = [
       {
-        path: EN_BASE,
+        path: enBase,
         lastmod: null,
         changefreq: 'weekly',
         priority: '0.8',
-        alternates: [{ lang: 'pt-BR', path: PT_BR_BASE }],
+        alternates: [{ lang: 'pt-BR', path: ptBrBase }],
       },
       {
-        path: PT_BR_BASE,
+        path: ptBrBase,
         lastmod: null,
         changefreq: 'weekly',
         priority: '0.8',
-        alternates: [{ lang: 'en', path: EN_BASE }],
+        alternates: [{ lang: 'en', path: enBase }],
       },
     ];
 
-    for (const episode of episodes) {
-      const hasPtBr = episode.availableLanguages.includes('pt-BR');
+    for (const item of items) {
+      const hasPtBr = item.availableLanguages.includes('pt-BR');
       urls.push({
-        path: `${EN_BASE}/${episode.slug}`,
-        lastmod: episode.publishedAt,
+        path: `${enBase}/${item.slug}`,
+        lastmod: item.publishedAt,
         changefreq: 'monthly',
         priority: '0.6',
-        ...(hasPtBr && { alternates: [{ lang: 'pt-BR', path: `${PT_BR_BASE}/${episode.slug}` }] }),
+        ...(hasPtBr && { alternates: [{ lang: 'pt-BR', path: `${ptBrBase}/${item.slug}` }] }),
       });
       if (hasPtBr) {
         urls.push({
-          path: `${PT_BR_BASE}/${episode.slug}`,
-          lastmod: episode.publishedAt,
+          path: `${ptBrBase}/${item.slug}`,
+          lastmod: item.publishedAt,
           changefreq: 'monthly',
           priority: '0.6',
-          alternates: [{ lang: 'en', path: `${EN_BASE}/${episode.slug}` }],
+          alternates: [{ lang: 'en', path: `${enBase}/${item.slug}` }],
         });
       }
     }

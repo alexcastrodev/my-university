@@ -142,6 +142,21 @@ export class SearchService implements OnApplicationBootstrap {
       });
     }
 
+    for (const language of SUPPORTED_LANGUAGES) {
+      if (language === DEFAULT_LANGUAGE) continue;
+      for (const concept of this.javaConceptsService.findAllDetailed(language)) {
+        if (concept.language !== language) continue;
+        documents.push({
+          id: `java-concept-${concept.slug}-${language}`,
+          type: 'java-concept' satisfies SearchResultType,
+          title: concept.title,
+          subtitle: 'Java Concepts',
+          url: `/java/java-concepts/${concept.slug}`,
+          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        });
+      }
+    }
+
     for (const concept of this.jvmConceptsService.findAllDetailed()) {
       documents.push({
         id: `jvm-concept-${concept.slug}`,
@@ -151,6 +166,21 @@ export class SearchService implements OnApplicationBootstrap {
         url: `/java/jvm-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
+    }
+
+    for (const language of SUPPORTED_LANGUAGES) {
+      if (language === DEFAULT_LANGUAGE) continue;
+      for (const concept of this.jvmConceptsService.findAllDetailed(language)) {
+        if (concept.language !== language) continue;
+        documents.push({
+          id: `jvm-concept-${concept.slug}-${language}`,
+          type: 'jvm-concept' satisfies SearchResultType,
+          title: concept.title,
+          subtitle: 'JVM Concepts',
+          url: `/java/jvm-concepts/${concept.slug}`,
+          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        });
+      }
     }
 
     for (const concept of this.databaseConceptsService.findAllDetailed()) {
@@ -173,6 +203,21 @@ export class SearchService implements OnApplicationBootstrap {
         url: `/spring-concepts/${concept.slug}`,
         content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
       });
+    }
+
+    for (const language of SUPPORTED_LANGUAGES) {
+      if (language === DEFAULT_LANGUAGE) continue;
+      for (const concept of this.springConceptsService.findAllDetailed(language)) {
+        if (concept.language !== language) continue;
+        documents.push({
+          id: `spring-concept-${concept.slug}-${language}`,
+          type: 'spring-concept' satisfies SearchResultType,
+          title: concept.title,
+          subtitle: 'Spring Concepts',
+          url: `/spring-concepts/${concept.slug}`,
+          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        });
+      }
     }
 
     for (const concept of this.systemDesignConceptsService.findAllDetailed()) {

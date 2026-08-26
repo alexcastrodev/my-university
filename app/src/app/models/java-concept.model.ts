@@ -1,4 +1,5 @@
 import { ConceptLinkRef } from '../shared/concept-links';
+import { Language } from './language.model';
 
 export interface JavaConceptReference {
   label: string;
@@ -20,6 +21,8 @@ export interface JavaConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface JavaConcept extends JavaConceptSummary {

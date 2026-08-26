@@ -1,4 +1,5 @@
 import { ConceptLinkRef } from '../shared/concept-links';
+import { Language } from './language.model';
 
 export interface JvmConceptReference {
   label: string;
@@ -20,6 +21,8 @@ export interface JvmConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface JvmConcept extends JvmConceptSummary {

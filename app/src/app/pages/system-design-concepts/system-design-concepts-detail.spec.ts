@@ -13,6 +13,7 @@ function makeConcept(slug: string): SystemDesignConcept {
     slug,
     id: 1,
     title: `Title for ${slug}`,
+    topic: 'Scalability',
     summary: 'summary',
     publishedAt: '2026-07-24',
     difficulty: 'Intermediate',
