@@ -9,9 +9,8 @@ describe('GET /sitemap.xml', () => {
 
     const body = await res.text();
     expect(body).toContain('<?xml version="1.0" encoding="UTF-8"?>');
-    expect(body).toContain(
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    );
+    expect(body).toContain('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"');
+    expect(body).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"');
   });
 
   it('includes the homepage and a known concept detail page', async () => {
@@ -19,6 +18,19 @@ describe('GET /sitemap.xml', () => {
     expect(body).toContain('<loc>https://university.kurz.fyi/</loc>');
     expect(body).toContain(
       '<loc>https://university.kurz.fyi/java/java-concepts/iterator-vs-iterable</loc>',
+    );
+  });
+
+  it('lists Java Minute pt-BR translations with reciprocal hreflang alternates', async () => {
+    const body = await (await get('/sitemap.xml')).text();
+    expect(body).toContain(
+      '<loc>https://university.kurz.fyi/pt-BR/java/java-minute/context-switching</loc>',
+    );
+    expect(body).toContain(
+      '<xhtml:link rel="alternate" hreflang="pt-BR" href="https://university.kurz.fyi/pt-BR/java/java-minute/context-switching" />',
+    );
+    expect(body).toContain(
+      '<xhtml:link rel="alternate" hreflang="en" href="https://university.kurz.fyi/java/java-minute/context-switching" />',
     );
   });
 
