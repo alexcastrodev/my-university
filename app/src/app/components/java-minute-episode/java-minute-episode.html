@@ -10,6 +10,10 @@
       <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="ep.labUrl" lockedLabel="episode" (markRead)="markRead.emit()" />
     </header>
 
+    @if (fallbackNotice()) {
+      <p class="fallback-notice">This article isn't available in Portuguese yet — showing the English version.</p>
+    }
+
     @if (quickAnswer(); as answer) {
       <div class="quick-answer section-body" [innerHTML]="answer"></div>
     }

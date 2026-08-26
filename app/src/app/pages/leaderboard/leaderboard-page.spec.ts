@@ -6,7 +6,13 @@ import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 import { LeaderboardPage } from './leaderboard-page';
 
-const USER: User = { id: 1, displayName: 'Ana', githubLogin: 'ana', avatarUrl: 'https://example.com/ana.png' };
+const USER: User = {
+  id: 1,
+  displayName: 'Ana',
+  githubLogin: 'ana',
+  avatarUrl: 'https://example.com/ana.png',
+  preferredLanguage: null,
+};
 
 function makeEntry(userId: number, displayName: string, total: number): LeaderboardEntry {
   return { userId, displayName, avatarUrl: 'https://example.com/a.png', total, levelNumber: 1 };

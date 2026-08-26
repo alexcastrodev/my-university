@@ -27,6 +27,10 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   displayNameOverride: string | null;
 
+  /** User's saved content-language preference (e.g. 'en', 'pt-BR'). Null means no preference saved yet. */
+  @Column({ type: 'varchar', nullable: true })
+  preferredLanguage: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

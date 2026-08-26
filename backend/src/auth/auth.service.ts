@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { normalizeLanguage } from '../shared/language';
 import { GithubProfile } from './github-oauth.service';
 import { User } from './user.entity';
 
@@ -50,6 +51,15 @@ export class AuthService {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException();
     user.displayNameOverride = displayName?.trim() || null;
+    await this.repo.save(user);
+    return withEffectiveDisplayName(user);
+  }
+
+  /** Sets the user's saved content-language preference (e.g. 'en', 'pt-BR'). Invalid values normalize to English. */
+  async updatePreferredLanguage(id: number, language: string): Promise<User> {
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException();
+    user.preferredLanguage = normalizeLanguage(language);
     await this.repo.save(user);
     return withEffectiveDisplayName(user);
   }

@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
+import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
@@ -14,6 +15,7 @@ import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-
 })
 export class JavaMinuteListPage implements OnInit {
   private javaMinuteService = inject(JavaMinuteService);
+  private languageService = inject(LanguageService);
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
@@ -24,6 +26,17 @@ export class JavaMinuteListPage implements OnInit {
 
   sortedEpisodes = computed(() => sortByRead(this.episodes(), this.readSort()));
 
+  constructor() {
+    effect(() => {
+      this.languageService.language();
+      this.loading.set(true);
+      this.javaMinuteService.listEpisodes().subscribe({
+        next: (list) => { this.episodes.set(list); this.loading.set(false); },
+        error: () => this.loading.set(false),
+      });
+    });
+  }
+
   onSortChange(order: ReadSortOrder) {
     this.readSort.set(order);
   }
@@ -33,11 +46,6 @@ export class JavaMinuteListPage implements OnInit {
       title: 'Java Minute',
       description: 'Short, sharp answers to tricky Java questions — one episode at a time.',
       path: '/java/java-minute',
-    });
-
-    this.javaMinuteService.listEpisodes().subscribe({
-      next: (list) => { this.episodes.set(list); this.loading.set(false); },
-      error: () => this.loading.set(false),
     });
   }
 }

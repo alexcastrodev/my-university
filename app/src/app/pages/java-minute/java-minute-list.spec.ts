@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -13,6 +15,8 @@ const FIXTURES: JavaMinuteEpisodeSummary[] = [
     question: 'Why does a switch on String use hashCode()?',
     publishedAt: '2026-07-27',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'what-is-the-diamond-operator',
@@ -20,6 +24,8 @@ const FIXTURES: JavaMinuteEpisodeSummary[] = [
     question: 'What is the diamond operator?',
     publishedAt: '2026-07-26',
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
   },
 ];
 
@@ -36,6 +42,8 @@ describe('JavaMinuteListPage', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: JavaMinuteService, useClass: MockJavaMinuteService },
       ],
     }).compileComponents();

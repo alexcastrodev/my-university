@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaMinuteEpisodeView } from '../../components/java-minute-episode/java-minute-episode';
 import { JavaMinuteEpisode, JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
+import { LanguageService } from '../../services/language.service';
 import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -21,6 +22,7 @@ import { createConceptNavigation } from '../../shared/concept-navigation';
 export class JavaMinuteDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private javaMinuteService = inject(JavaMinuteService);
+  private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
@@ -30,8 +32,14 @@ export class JavaMinuteDetailPage implements OnInit {
   notFound = signal(false);
   read = signal(false);
   marking = signal(false);
+  private slugSignal = signal('');
 
   nav = createConceptNavigation<JavaMinuteEpisodeSummary>(() => this.javaMinuteService.listEpisodes());
+
+  showFallbackNotice = computed(() => {
+    const episode = this.episode();
+    return episode != null && episode.language !== this.languageService.language();
+  });
 
   sidebarItems = computed(() =>
     this.nav.allConcepts().map((e) => ({ slug: e.slug, label: e.question, read: e.read })),
@@ -52,10 +60,23 @@ export class JavaMinuteDetailPage implements OnInit {
     ];
   });
 
+  constructor() {
+    effect(() => {
+      this.languageService.language();
+      this.nav.refetchList();
+    });
+
+    effect(() => {
+      const slug = this.slugSignal();
+      this.languageService.language();
+      if (!slug) return;
+      this.loadEpisode(slug);
+    });
+  }
+
   ngOnInit() {
-    this.nav.refetchList();
     this.route.paramMap.subscribe((params) => {
-      this.loadEpisode(params.get('slug') ?? '');
+      this.slugSignal.set(params.get('slug') ?? '');
     });
   }
 

@@ -9,9 +9,11 @@ import {
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LanguageService } from '../../services/language.service';
 import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
+import { Language } from '../../models/language.model';
 
 const TYPE_LABELS: Record<SearchResultType, string> = {
   course: 'Course',
@@ -57,6 +59,7 @@ const MIN_QUERY_LENGTH = 2;
 export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
+  protected languageService = inject(LanguageService);
   private router = inject(Router);
   private searchService = inject(SearchService);
   private elementRef = inject(ElementRef);
@@ -134,6 +137,10 @@ export class Header {
 
   closeRubyMenu(): void {
     this.rubyMenuOpen.set(false);
+  }
+
+  setLanguage(lang: Language): void {
+    this.languageService.setLanguage(lang);
   }
 
   logout(): void {

@@ -6,7 +6,13 @@ import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 import { ProfilePage } from './profile-page';
 
-const USER: User = { id: 1, displayName: 'Ana', githubLogin: 'ana', avatarUrl: 'https://example.com/ana.png' };
+const USER: User = {
+  id: 1,
+  displayName: 'Ana',
+  githubLogin: 'ana',
+  avatarUrl: 'https://example.com/ana.png',
+  preferredLanguage: null,
+};
 
 const SUMMARY: XpSummary = {
   total: 150,

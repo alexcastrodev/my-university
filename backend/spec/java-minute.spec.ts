@@ -79,6 +79,28 @@ describe('GET /java-minute/:slug', () => {
   });
 });
 
+describe('GET /java-minute/:slug?lang=', () => {
+  it('serves the Portuguese translation when requested and available', async () => {
+    const res = await get('/java-minute/context-switching?lang=pt-BR');
+    const body = await json<any>(res);
+    expect(body.language).toBe('pt-BR');
+    expect(body.availableLanguages).toEqual(expect.arrayContaining(['en', 'pt-BR']));
+    expect(body.question).not.toBe('What is context switching?');
+  });
+
+  it('falls back to English for an unsupported language', async () => {
+    const res = await get('/java-minute/context-switching?lang=fr');
+    const body = await json<any>(res);
+    expect(body.language).toBe('en');
+    expect(body.question).toBe('What is context switching?');
+  });
+
+  it('defaults to English when no lang is given', async () => {
+    const body = await json<any>(await get('/java-minute/context-switching'));
+    expect(body.language).toBe('en');
+  });
+});
+
 describe('PUT /java-minute/:slug/read', () => {
   it('returns 404 for an unknown slug', async () => {
     const { cookie } = await login(`episode-404-${Date.now()}`);

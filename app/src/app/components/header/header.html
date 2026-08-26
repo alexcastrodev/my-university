@@ -222,6 +222,22 @@
         </span>
       </a>
     }
+    <div class="language-toggle" role="group" aria-label="Content language">
+      <button
+        type="button"
+        class="language-option"
+        [class.active]="languageService.language() === 'en'"
+        [attr.aria-pressed]="languageService.language() === 'en'"
+        (click)="setLanguage('en')"
+      >EN</button>
+      <button
+        type="button"
+        class="language-option"
+        [class.active]="languageService.language() === 'pt-BR'"
+        [attr.aria-pressed]="languageService.language() === 'pt-BR'"
+        (click)="setLanguage('pt-BR')"
+      >PT-BR</button>
+    </div>
     <div class="user-menu">
       <button
         class="avatar"

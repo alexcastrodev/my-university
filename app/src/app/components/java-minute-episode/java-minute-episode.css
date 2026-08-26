@@ -48,6 +48,16 @@ app-concept-actions {
   margin-bottom: 2rem;
 }
 
+.fallback-notice {
+  font-size: 0.82rem;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  margin: 0 0 1.5rem;
+}
+
 .quick-answer {
   background: #fff8f6;
   border: 1px solid #fde3dc;

@@ -74,13 +74,20 @@ export class AuthController {
     return this.service.findById(userId);
   }
 
-  /** Sets or clears (empty/whitespace body) the caller's display name override. */
+  /** Sets or clears (empty/whitespace body) the caller's display name override, and/or their preferred content language. */
   @Put('settings')
-  updateSettings(
+  async updateSettings(
     @CurrentUserId() userId: number,
-    @Body('displayName') displayName: string | null,
+    @Body('displayName') displayName: string | null | undefined,
+    @Body('language') language: string | undefined,
   ) {
-    return this.service.updateDisplayNameOverride(userId, displayName);
+    if (displayName !== undefined) {
+      await this.service.updateDisplayNameOverride(userId, displayName);
+    }
+    if (language !== undefined) {
+      await this.service.updatePreferredLanguage(userId, language);
+    }
+    return this.service.findById(userId);
   }
 
   /** Lets the login page know whether the dev-login shortcut is available. */

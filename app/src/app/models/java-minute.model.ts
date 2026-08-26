@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 export interface JavaMinuteReference {
   label: string;
   url: string;
@@ -16,6 +18,8 @@ export interface JavaMinuteEpisodeSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface JavaMinuteEpisode extends JavaMinuteEpisodeSummary {

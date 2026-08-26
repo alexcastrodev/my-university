@@ -22,6 +22,7 @@ export class JavaMinuteEpisodeView implements OnChanges {
   read = input<boolean>(false);
   marking = input<boolean>(false);
   breadcrumbs = input<BreadcrumbItem[]>([]);
+  fallbackNotice = input<boolean>(false);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

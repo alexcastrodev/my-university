@@ -1,5 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Put } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Put, Query } from '@nestjs/common';
 import { CurrentUserId, OptionalUserId } from '../auth/session';
+import { normalizeLanguage } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { JavaMinuteService } from './java-minute.service';
 
@@ -11,8 +12,8 @@ export class JavaMinuteController {
   ) {}
 
   @Get()
-  async findAll(@OptionalUserId() userId: number | null) {
-    const episodes = this.service.findAll();
+  async findAll(@OptionalUserId() userId: number | null, @Query('lang') lang?: string) {
+    const episodes = this.service.findAll(normalizeLanguage(lang));
     const readSlugs =
       userId === null
         ? new Set<string>()
@@ -27,8 +28,9 @@ export class JavaMinuteController {
   async findOne(
     @Param('slug') slug: string,
     @OptionalUserId() userId: number | null,
+    @Query('lang') lang?: string,
   ) {
-    const episode = this.service.findBySlug(slug);
+    const episode = this.service.findBySlug(slug, normalizeLanguage(lang));
     if (!episode) throw new NotFoundException();
     const read =
       userId !== null &&

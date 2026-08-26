@@ -97,4 +97,38 @@ describe('PUT /auth/settings', () => {
     const body = await json<any>(res);
     expect(body.displayName).toBe(rawName);
   });
+
+  it('sets a preferred language and reflects it on /auth/me', async () => {
+    const { cookie, id } = await login(`lang-user-${Date.now()}`);
+
+    const res = await put('/auth/settings', { language: 'pt-BR' }, { Cookie: cookie });
+    expect(res.status).toBe(200);
+    const body = await json<any>(res);
+    expect(body.id).toBe(id);
+    expect(body.preferredLanguage).toBe('pt-BR');
+
+    const me = await json<any>(await get('/auth/me', { Cookie: cookie }));
+    expect(me.preferredLanguage).toBe('pt-BR');
+  });
+
+  it('normalizes an unsupported language to English', async () => {
+    const { cookie } = await login(`lang-invalid-${Date.now()}`);
+
+    const res = await put('/auth/settings', { language: 'fr' }, { Cookie: cookie });
+    const body = await json<any>(res);
+    expect(body.preferredLanguage).toBe('en');
+  });
+
+  it('updates displayName and language independently in the same call', async () => {
+    const { cookie } = await login(`lang-both-${Date.now()}`);
+
+    const res = await put(
+      '/auth/settings',
+      { displayName: 'Both Fields', language: 'pt-BR' },
+      { Cookie: cookie },
+    );
+    const body = await json<any>(res);
+    expect(body.displayName).toBe('Both Fields');
+    expect(body.preferredLanguage).toBe('pt-BR');
+  });
 });

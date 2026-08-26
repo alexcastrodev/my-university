@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { User } from '../models/auth.model';
+import { Language } from '../models/language.model';
 
 const STORAGE_KEY = 'ocp-user';
 
@@ -40,6 +41,13 @@ export class AuthService {
   updateDisplayName(displayName: string | null): Observable<User> {
     return this.http
       .put<User>('/api/auth/settings', { displayName })
+      .pipe(tap((user) => this.setUser(user)));
+  }
+
+  /** Sets the caller's saved content-language preference and syncs the cached user on success. */
+  updateLanguage(language: Language): Observable<User> {
+    return this.http
+      .put<User>('/api/auth/settings', { language })
       .pipe(tap((user) => this.setUser(user)));
   }
 

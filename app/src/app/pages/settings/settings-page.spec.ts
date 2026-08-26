@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { SettingsPage } from './settings-page';
 
 function makeUser(overrides: Partial<User> = {}): User {
-  return { id: 1, displayName: 'Ana', githubLogin: 'ana-gh', avatarUrl: '', ...overrides };
+  return { id: 1, displayName: 'Ana', githubLogin: 'ana-gh', avatarUrl: '', preferredLanguage: null, ...overrides };
 }
 
 describe('SettingsPage', () => {
