@@ -141,7 +141,7 @@ export class SystemDesignConceptsService {
 
   private readDetail(meta: ConceptMeta): SystemDesignConceptDetail {
     const raw = readFileSync(
-      join(DATA_DIR, 'content', `${meta.slug}.md`),
+      join(DATA_DIR, 'content', meta.slug, 'en.md'),
       'utf-8',
     );
     // js-yaml parses the frontmatter block so it can be typed/validated; the

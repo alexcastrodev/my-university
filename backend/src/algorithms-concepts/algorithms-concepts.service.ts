@@ -99,7 +99,7 @@ export class AlgorithmsConceptsService {
   }
 
   private readDetail(meta: ConceptMeta): AlgorithmsConceptDetail {
-    const raw = readFileSync(join(DATA_DIR, 'content', `${meta.slug}.md`), 'utf-8');
+    const raw = readFileSync(join(DATA_DIR, 'content', meta.slug, 'en.md'), 'utf-8');
     const { body, version, updatedAt } = parseFrontmatter(raw);
 
     return {

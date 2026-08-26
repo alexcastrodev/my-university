@@ -106,7 +106,7 @@ export class RubyOnRailsConceptsService {
 
   private readDetail(meta: ConceptMeta): RubyOnRailsConceptDetail {
     const raw = readFileSync(
-      join(DATA_DIR, 'content', `${meta.slug}.md`),
+      join(DATA_DIR, 'content', meta.slug, 'en.md'),
       'utf-8',
     );
     const { body, version, updatedAt } = parseFrontmatter(raw);
