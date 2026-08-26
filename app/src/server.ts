@@ -37,13 +37,20 @@ app.use(
 
 /**
  * Handle all other requests by rendering the Angular application.
+ *
+ * The rendered HTML references the current build's hashed chunk filenames, so it must never be
+ * cached — a cached page from a previous deploy would point at chunks that no longer exist on
+ * the server. The hashed chunks themselves stay cacheable forever (see express.static above);
+ * only this per-request document needs `no-store`.
  */
 app.use((req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => {
+      if (!response) return next();
+      response.headers.set('Cache-Control', 'no-store');
+      return writeResponseToNodeResponse(response, res);
+    })
     .catch(next);
 });
 
