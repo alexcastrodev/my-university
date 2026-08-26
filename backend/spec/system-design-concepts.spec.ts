@@ -23,7 +23,9 @@ describe('GET /system-design-concepts', () => {
       readingTime: expect.any(Number),
       tags: expect.arrayContaining([expect.any(String)]),
       prerequisites: expect.arrayContaining([expect.any(String)]),
-      related: expect.arrayContaining([expect.any(String)]),
+      related: expect.arrayContaining([
+        expect.objectContaining({ label: expect.any(String), slug: expect.any(String) }),
+      ]),
     });
     expect(concept.sections).toBeUndefined();
     expect(concept.references).toBeUndefined();
