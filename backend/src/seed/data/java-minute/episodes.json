@@ -174,5 +174,16 @@
       { "label": "String.format — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)", "type": "doc" },
       { "label": "Formatter — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "replace-all-elements-of-a-list",
+    "id": 389,
+    "question": "How can you replace all the elements of a list?",
+    "publishedAt": "2026-08-26",
+    "references": [
+      { "label": "Java Coding Tip #389: How Can You Replace All the Elements of a List?", "url": "https://youtube.com/shorts/eRRKMgEBsHQ?is=Swn3DDxijA91ljpd", "type": "video" },
+      { "label": "Collections.replaceAll — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#replaceAll(java.util.List,java.lang.Object,java.lang.Object)", "type": "doc" },
+      { "label": "List — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html", "type": "doc" }
+    ]
   }
 ]
