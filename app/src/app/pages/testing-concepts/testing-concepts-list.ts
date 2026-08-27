@@ -5,17 +5,19 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKey } from '../../shared/i18n/translations';
 
-const CATEGORY_OPTIONS: { label: string; value: TestingConceptCategory | null }[] = [
-  { label: 'All', value: null },
-  { label: 'Java', value: 'Java' },
-  { label: 'Spring', value: 'Spring' },
+const CATEGORY_OPTIONS: { label: TranslationKey; value: TestingConceptCategory | null }[] = [
+  { label: 'concepts.filters.all', value: null },
+  { label: 'testingConcepts.category.java', value: 'Java' },
+  { label: 'testingConcepts.category.spring', value: 'Spring' },
 ];
 
 @Component({
   selector: 'app-testing-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './testing-concepts-list.html',
   styleUrl: './testing-concepts-list.css',
 })

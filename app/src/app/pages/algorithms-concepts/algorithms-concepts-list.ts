@@ -5,21 +5,23 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKey } from '../../shared/i18n/translations';
 
-const CATEGORY_OPTIONS: { label: string; value: AlgorithmsConceptCategory | null }[] = [
-  { label: 'All', value: null },
-  { label: 'Fundamentals', value: 'Fundamentals' },
-  { label: 'Sorting', value: 'Sorting' },
-  { label: 'Data Structures', value: 'Data Structures' },
-  { label: 'Graphs', value: 'Graphs' },
-  { label: 'Strings', value: 'Strings' },
-  { label: 'Dynamic Programming & Greedy', value: 'Dynamic Programming & Greedy' },
+const CATEGORY_OPTIONS: { label: TranslationKey; value: AlgorithmsConceptCategory | null }[] = [
+  { label: 'concepts.filters.all', value: null },
+  { label: 'algorithmsConcepts.category.fundamentals', value: 'Fundamentals' },
+  { label: 'algorithmsConcepts.category.sorting', value: 'Sorting' },
+  { label: 'algorithmsConcepts.category.dataStructures', value: 'Data Structures' },
+  { label: 'algorithmsConcepts.category.graphs', value: 'Graphs' },
+  { label: 'algorithmsConcepts.category.strings', value: 'Strings' },
+  { label: 'algorithmsConcepts.category.dynamicProgrammingGreedy', value: 'Dynamic Programming & Greedy' },
 ];
 
 @Component({
   selector: 'app-algorithms-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './algorithms-concepts-list.html',
   styleUrl: './algorithms-concepts-list.css',
 })

@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/ruby-concepts" class="back-link">← Ruby Concepts</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a routerLink="/ruby-concepts" class="back-link">← {{ 'rubyConcepts.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'rubyConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'rubyConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a routerLink="/ruby-concepts" class="back-link">← Ruby Concepts</a>
+      <a routerLink="/ruby-concepts" class="back-link">← {{ 'rubyConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'rubyConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         backHref="/ruby-concepts"
-        backLabel="Ruby Concepts"
+        [backLabel]="'rubyConcepts.title' | t"
         basePath="/ruby-concepts"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

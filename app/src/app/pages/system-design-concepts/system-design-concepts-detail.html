@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a [routerLink]="basePath" class="back-link">← System Design</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a [routerLink]="basePath" class="back-link">← {{ 'header.nav.systemDesign' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'systemDesignConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'systemDesignConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a [routerLink]="basePath" class="back-link">← System Design</a>
+      <a [routerLink]="basePath" class="back-link">← {{ 'header.nav.systemDesign' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'systemDesignConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         [backHref]="basePath"
-        backLabel="System Design"
+        [backLabel]="'header.nav.systemDesign' | t"
         [basePath]="basePath"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

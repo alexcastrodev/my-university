@@ -1,14 +1,14 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">Certification Exams</h1>
-    <p class="page-sub">Choose an exam to start practising. Questions are randomised every session.</p>
+    <h1 class="page-title">{{ 'examList.title' | t }}</h1>
+    <p class="page-sub">{{ 'examList.subtitle' | t }}</p>
   </div>
 
   <div class="page-body">
     @if (loading()) {
-      <div class="loading" role="status" aria-label="Loading exams">
+      <div class="loading" role="status" [attr.aria-label]="'examList.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading exams…
+        {{ 'examList.loading' | t }}
       </div>
     } @else {
       <div class="cards-grid">
@@ -19,12 +19,12 @@
             </div>
             <h3 class="card-title">{{ exam.title }}</h3>
             <div class="card-meta">
-              <span>{{ exam.questionCount }} questions</span>
-              <span>{{ exam.durationMinutes }} minutes</span>
-              <span>{{ exam.passingScore }}% pass</span>
+              <span>{{ 'examList.card.questions' | t:{ count: exam.questionCount } }}</span>
+              <span>{{ 'examList.card.minutes' | t:{ count: exam.durationMinutes } }}</span>
+              <span>{{ 'examList.card.passPercent' | t:{ percent: exam.passingScore } }}</span>
             </div>
             <div class="card-footer">
-              <span class="card-cta">Start Practice →</span>
+              <span class="card-cta">{{ 'examList.card.cta' | t }}</span>
             </div>
           </a>
         }

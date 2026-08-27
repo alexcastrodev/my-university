@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/quarkus-concepts" class="back-link">← Quarkus Concepts</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a routerLink="/quarkus-concepts" class="back-link">← {{ 'quarkusConcepts.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'quarkusConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'quarkusConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a routerLink="/quarkus-concepts" class="back-link">← Quarkus Concepts</a>
+      <a routerLink="/quarkus-concepts" class="back-link">← {{ 'quarkusConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'quarkusConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         backHref="/quarkus-concepts"
-        backLabel="Quarkus Concepts"
+        [backLabel]="'quarkusConcepts.title' | t"
         basePath="/quarkus-concepts"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

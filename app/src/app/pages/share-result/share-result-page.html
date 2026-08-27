@@ -2,12 +2,12 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      Loading result…
+      {{ 'shareResult.loading' | t }}
     </div>
   } @else if (notFound() || !summary()) {
     <div class="center-message">
-      <p>This result link is invalid, or the exam attempt hasn't been finished yet.</p>
-      <a routerLink="/" class="action-btn secondary">Go to homepage</a>
+      <p>{{ 'shareResult.invalid' | t }}</p>
+      <a routerLink="/" class="action-btn secondary">{{ 'shareResult.goHome' | t }}</a>
     </div>
   } @else {
     <div class="share-card" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
@@ -21,7 +21,7 @@
       <div class="exam-title">{{ summary()!.examTitle }}</div>
 
       <span class="verdict-badge" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
-        {{ summary()!.passed ? 'PASS' : 'FAIL' }}
+        {{ (summary()!.passed ? 'resultPage.verdict.pass' : 'resultPage.verdict.fail') | t }}
       </span>
 
       <div class="score-display">
@@ -30,20 +30,20 @@
       </div>
 
       <div class="score-detail">
-        {{ summary()!.score }} correct out of {{ summary()!.total }} questions
+        {{ 'resultPage.scoreDetail' | t:{ score: summary()!.score, total: summary()!.total } }}
       </div>
 
       <div class="passing-note">
-        Passing score: {{ summary()!.passingScore }}%
+        {{ 'resultPage.passingScore' | t:{ percent: summary()!.passingScore } }}
       </div>
 
       @if (summary()!.finishedAt) {
-        <div class="attempt-date">Completed {{ formatDate(summary()!.finishedAt) }}</div>
+        <div class="attempt-date">{{ 'shareResult.completed' | t:{ date: formatDate(summary()!.finishedAt) } }}</div>
       }
     </div>
 
     <div class="share-footer">
-      <a routerLink="/" class="action-btn secondary">Try this exam yourself →</a>
+      <a routerLink="/" class="action-btn secondary">{{ 'shareResult.tryYourself' | t }}</a>
     </div>
   }
 </div>

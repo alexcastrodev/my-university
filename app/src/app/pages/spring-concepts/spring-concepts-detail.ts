@@ -11,6 +11,8 @@ import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 const EN_PATH = '/spring-concepts';
 const PT_BR_PATH = '/pt-BR/spring-concepts';
@@ -18,7 +20,7 @@ const PT_BR_PATH = '/pt-BR/spring-concepts';
 @Component({
   selector: 'app-spring-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpringConceptView, RouterLink, ConceptDetailLayout],
+  imports: [SpringConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
   templateUrl: './spring-concepts-detail.html',
   styleUrl: './spring-concepts-detail.css',
 })
@@ -29,6 +31,7 @@ export class SpringConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
+  private translate = inject(TranslateService);
 
   concept = signal<SpringConcept | null>(null);
   loading = signal(true);
@@ -62,7 +65,7 @@ export class SpringConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'Spring Concepts', path: this.basePath },
+      { name: this.translate.t('springConcepts.title'), path: this.basePath },
       ...(concept ? [{ name: concept.title, path: `${this.basePath}/${concept.slug}` }] : []),
     ];
   });

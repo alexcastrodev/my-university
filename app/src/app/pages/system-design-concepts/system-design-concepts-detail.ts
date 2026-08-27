@@ -11,6 +11,8 @@ import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 const EN_PATH = '/system-design/system-design-concepts';
 const PT_BR_PATH = '/pt-BR/system-design/system-design-concepts';
@@ -18,7 +20,7 @@ const PT_BR_PATH = '/pt-BR/system-design/system-design-concepts';
 @Component({
   selector: 'app-system-design-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SystemDesignConceptView, RouterLink, ConceptDetailLayout],
+  imports: [SystemDesignConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
   templateUrl: './system-design-concepts-detail.html',
   styleUrl: './system-design-concepts-detail.css',
 })
@@ -29,6 +31,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
+  private translate = inject(TranslateService);
 
   concept = signal<SystemDesignConcept | null>(null);
   loading = signal(true);
@@ -64,7 +67,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'System Design Concepts', path: this.basePath },
+      { name: this.translate.t('systemDesignConcepts.title'), path: this.basePath },
       ...(concept ? [{ name: concept.title, path: `${this.basePath}/${concept.slug}` }] : []),
     ];
   });

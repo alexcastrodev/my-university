@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a [routerLink]="basePath" class="back-link">← Spring Concepts</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a [routerLink]="basePath" class="back-link">← {{ 'springConcepts.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'springConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'springConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a [routerLink]="basePath" class="back-link">← Spring Concepts</a>
+      <a [routerLink]="basePath" class="back-link">← {{ 'springConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'springConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         [backHref]="basePath"
-        backLabel="Spring Concepts"
+        [backLabel]="'springConcepts.title' | t"
         [basePath]="basePath"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

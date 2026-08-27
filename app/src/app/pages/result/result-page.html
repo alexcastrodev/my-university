@@ -8,11 +8,11 @@
         </svg>
       </div>
 
-      <div class="exam-label">Oracle Certification Practice Exam</div>
+      <div class="exam-label">{{ 'resultPage.examLabel' | t }}</div>
 
       <div class="verdict-row">
         <span class="verdict-badge" [class.pass]="passed()" [class.fail]="!passed()">
-          {{ passed() ? 'PASS' : 'FAIL' }}
+          {{ (passed() ? 'resultPage.verdict.pass' : 'resultPage.verdict.fail') | t }}
         </span>
       </div>
 
@@ -22,23 +22,23 @@
       </div>
 
       <div class="score-detail">
-        {{ score() }} correct out of {{ total() }} questions
+        {{ 'resultPage.scoreDetail' | t:{ score: score(), total: total() } }}
       </div>
 
       <div class="passing-note">
-        Passing score: {{ passingScore() }}% &nbsp;·&nbsp; {{ passed() ? 'You met the passing score.' : 'You did not meet the passing score.' }}
+        {{ 'resultPage.passingScore' | t:{ percent: passingScore() } }} &nbsp;·&nbsp; {{ (passed() ? 'resultPage.metPassing' : 'resultPage.notMetPassing') | t }}
       </div>
 
       <div class="xp-earned">
         <span class="xp-earned-icon">⚡</span>
-        <span class="xp-earned-text">+{{ xpEarned() }} XP earned</span>
+        <span class="xp-earned-text">{{ 'resultPage.xpEarned' | t:{ xp: xpEarned() } }}</span>
       </div>
     </div>
   </div>
 
   <div class="breakdown-section">
-    <h2 class="breakdown-title">Section Analysis</h2>
-    <p class="breakdown-sub">Performance breakdown by exam topic</p>
+    <h2 class="breakdown-title">{{ 'resultPage.breakdown.title' | t }}</h2>
+    <p class="breakdown-sub">{{ 'resultPage.breakdown.subtitle' | t }}</p>
 
     <div class="topics-list">
       @for (t of breakdown(); track t.topic) {
@@ -62,13 +62,13 @@
   </div>
 
   <div class="actions-section">
-    <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">← Back to Course</a>
+    <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">{{ 'resultPage.actions.backToCourse' | t }}</a>
     @if (hasReview()) {
-      <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary">Review Answers</a>
+      <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary">{{ 'review.title' | t }}</a>
     }
-    <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">Retake Exam</a>
+    <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">{{ 'resultPage.actions.retake' | t }}</a>
     <button type="button" class="action-btn secondary" (click)="copyShareLink()">
-      {{ copied() ? 'Copied!' : 'Copy share link' }}
+      {{ (copied() ? 'resultPage.actions.copied' : 'resultPage.actions.copyShareLink') | t }}
     </button>
   </div>
 </div>

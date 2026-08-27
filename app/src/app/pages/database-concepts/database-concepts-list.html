@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">Database Concepts</h1>
-    <p class="page-sub">PostgreSQL, SQL, MongoDB, and DynamoDB — core concepts explained in depth.</p>
+    <h1 class="page-title">{{ 'databaseConcepts.title' | t }}</h1>
+    <p class="page-sub">{{ 'databaseConcepts.subtitle' | t }}</p>
   </div>
 
   <div class="page-body">
@@ -11,25 +11,25 @@
           <button type="button" class="category-filter-pill"
             [class.active]="selectedCategory() === opt.value"
             (click)="onFilterChange(opt.value)">
-            {{ opt.label }}
+            {{ opt.label | t }}
           </button>
         }
       </div>
       <button type="button" class="labs-filter-btn"
         [class.active]="showOnlyLabs()"
         (click)="onToggleLabsFilter()">
-        🔬 Labs only
+        {{ 'concepts.filters.labsOnly' | t }}
       </button>
     </div>
 
     <div class="sort-row">
-      <span class="sort-row-label">Sort</span>
+      <span class="sort-row-label">{{ 'concepts.sort.label' | t }}</span>
       <div class="sort-filters">
         @for (opt of READ_SORT_OPTIONS; track opt.value) {
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label }}
+            {{ opt.label | t }}
           </button>
         }
       </div>
@@ -37,9 +37,9 @@
     </div>
 
     @if (loading()) {
-      <div class="loading" role="status" aria-label="Loading concepts">
+      <div class="loading" role="status" [attr.aria-label]="'concepts.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concepts…
+        {{ 'concepts.loading' | t }}
       </div>
     } @else {
       @for (group of groupedConcepts(); track group.topic) {

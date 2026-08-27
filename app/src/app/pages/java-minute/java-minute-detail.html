@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a [routerLink]="basePath" class="back-link">← Java Minute</a>
-      <div class="loading" role="status" aria-label="Loading episode">
+      <a [routerLink]="basePath" class="back-link">← {{ 'javaMinute.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'javaMinuteDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading episode…
+        {{ 'javaMinuteDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a [routerLink]="basePath" class="back-link">← Java Minute</a>
+      <a [routerLink]="basePath" class="back-link">← {{ 'javaMinute.title' | t }}</a>
       <div class="not-found">
-        <p>Episode not found.</p>
+        <p>{{ 'javaMinuteDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         [backHref]="basePath"
-        backLabel="Java Minute"
+        [backLabel]="'javaMinute.title' | t"
         [basePath]="basePath"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

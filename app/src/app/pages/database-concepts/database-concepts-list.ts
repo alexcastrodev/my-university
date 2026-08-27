@@ -5,18 +5,20 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKey } from '../../shared/i18n/translations';
 
-const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }[] = [
-  { label: 'All', value: null },
-  { label: 'PostgreSQL', value: 'PostgreSQL' },
-  { label: 'SQL', value: 'SQL' },
-  { label: 'MongoDB', value: 'MongoDB' },
-  { label: 'DynamoDB', value: 'DynamoDB' },
-  { label: 'Cassandra', value: 'Cassandra' },
-  { label: 'Redis', value: 'Redis' },
-  { label: 'Neo4j', value: 'Neo4j' },
-  { label: 'HBase', value: 'HBase' },
-  { label: 'CouchDB', value: 'CouchDB' },
+const CATEGORY_OPTIONS: { label: TranslationKey; value: DatabaseConceptCategory | null }[] = [
+  { label: 'concepts.filters.all', value: null },
+  { label: 'databaseConcepts.category.postgresql', value: 'PostgreSQL' },
+  { label: 'databaseConcepts.category.sql', value: 'SQL' },
+  { label: 'databaseConcepts.category.mongodb', value: 'MongoDB' },
+  { label: 'databaseConcepts.category.dynamodb', value: 'DynamoDB' },
+  { label: 'databaseConcepts.category.cassandra', value: 'Cassandra' },
+  { label: 'databaseConcepts.category.redis', value: 'Redis' },
+  { label: 'databaseConcepts.category.neo4j', value: 'Neo4j' },
+  { label: 'databaseConcepts.category.hbase', value: 'HBase' },
+  { label: 'databaseConcepts.category.couchdb', value: 'CouchDB' },
 ];
 
 export interface DatabaseConceptTopicGroup {
@@ -66,7 +68,7 @@ const TOPIC_ORDER = [
 @Component({
   selector: 'app-database-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './database-concepts-list.html',
   styleUrl: './database-concepts-list.css',
 })

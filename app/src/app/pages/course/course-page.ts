@@ -11,11 +11,13 @@ import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-course-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView, Breadcrumbs],
+  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView, Breadcrumbs, TranslatePipe],
   templateUrl: './course-page.html',
   styleUrl: './course-page.css',
 })
@@ -26,6 +28,7 @@ export class CoursePage implements OnInit {
   protected auth = inject(AuthService);
   private xpService = inject(XpService);
   private seo = inject(SeoService);
+  private translate = inject(TranslateService);
   private courseLoader = effect(() => {
     const id = this.examId();
     this.auth.currentUser();
@@ -59,7 +62,7 @@ export class CoursePage implements OnInit {
     const course = this.course();
     if (!course) return [];
     const trail: BreadcrumbItem[] = [
-      { name: 'Certification Exams', path: '/java/exams' },
+      { name: this.translate.t('examList.title'), path: '/java/exams' },
       { name: course.title, path: `/java/exam/${course.id}` },
     ];
     const lesson = this.activeLesson();

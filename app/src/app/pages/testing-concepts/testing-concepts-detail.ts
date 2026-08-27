@@ -9,11 +9,13 @@ import { TestingConceptsService } from '../../services/testing-concepts.service'
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-testing-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TestingConceptView, RouterLink, ConceptDetailLayout],
+  imports: [TestingConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
   templateUrl: './testing-concepts-detail.html',
   styleUrl: './testing-concepts-detail.css',
 })
@@ -23,6 +25,7 @@ export class TestingConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
+  private translate = inject(TranslateService);
 
   concept = signal<TestingConcept | null>(null);
   loading = signal(true);
@@ -46,7 +49,7 @@ export class TestingConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'Testing Concepts', path: '/java/testing' },
+      { name: this.translate.t('testingConcepts.title'), path: '/java/testing' },
       ...(concept ? [{ name: concept.title, path: `/java/testing/${concept.slug}` }] : []),
     ];
   });

@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/databases/database-concepts" class="back-link">← Database Concepts</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a routerLink="/databases/database-concepts" class="back-link">← {{ 'databaseConcepts.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'databaseConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'databaseConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a routerLink="/databases/database-concepts" class="back-link">← Database Concepts</a>
+      <a routerLink="/databases/database-concepts" class="back-link">← {{ 'databaseConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'databaseConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         backHref="/databases/database-concepts"
-        backLabel="Database Concepts"
+        [backLabel]="'databaseConcepts.title' | t"
         basePath="/databases/database-concepts"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"

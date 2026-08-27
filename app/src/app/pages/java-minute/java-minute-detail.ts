@@ -12,11 +12,13 @@ import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { pickLeadSection } from '../../shared/concept-sections';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-java-minute-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout],
+  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout, TranslatePipe],
   templateUrl: './java-minute-detail.html',
   styleUrl: './java-minute-detail.css',
 })
@@ -27,6 +29,7 @@ export class JavaMinuteDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
+  private translate = inject(TranslateService);
 
   episode = signal<JavaMinuteEpisode | null>(null);
   loading = signal(true);
@@ -60,7 +63,7 @@ export class JavaMinuteDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const episode = this.episode();
     return [
-      { name: 'Java Minute', path: this.basePath },
+      { name: this.translate.t('javaMinute.title'), path: this.basePath },
       ...(episode ? [{ name: episode.question, path: `${this.basePath}/${episode.slug}` }] : []),
     ];
   });

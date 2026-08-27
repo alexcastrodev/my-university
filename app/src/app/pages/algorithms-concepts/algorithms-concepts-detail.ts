@@ -9,11 +9,13 @@ import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-algorithms-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AlgorithmsConceptView, RouterLink, ConceptDetailLayout],
+  imports: [AlgorithmsConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
   templateUrl: './algorithms-concepts-detail.html',
   styleUrl: './algorithms-concepts-detail.css',
 })
@@ -23,6 +25,7 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
+  private translate = inject(TranslateService);
 
   concept = signal<AlgorithmsConcept | null>(null);
   loading = signal(true);
@@ -46,7 +49,7 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: 'Algorithms', path: '/algorithms/algorithms-concepts' },
+      { name: this.translate.t('algorithmsConcepts.title'), path: '/algorithms/algorithms-concepts' },
       ...(concept ? [{ name: concept.title, path: `/algorithms/algorithms-concepts/${concept.slug}` }] : []),
     ];
   });

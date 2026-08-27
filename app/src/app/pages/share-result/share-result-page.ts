@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PublicAttemptSummary } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 /**
  * Public, unauthenticated page for a shareable exam-result link. Anyone with the URL can
@@ -11,7 +12,7 @@ import { ExamService } from '../../services/exam.service';
 @Component({
   selector: 'app-share-result-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './share-result-page.html',
   styleUrl: './share-result-page.css',
 })

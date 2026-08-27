@@ -1,7 +1,7 @@
 <div class="attempts-page">
   <div class="attempts-header">
-    <a [routerLink]="['/java/exam', examId()]" class="back-link">← Back to course</a>
-    <h1 class="attempts-title">Attempt History</h1>
+    <a [routerLink]="['/java/exam', examId()]" class="back-link">{{ 'exam.backToCourse' | t }}</a>
+    <h1 class="attempts-title">{{ 'attemptsPage.title' | t }}</h1>
     @if (examTitle()) {
       <p class="attempts-sub">{{ examTitle() }}</p>
     }
@@ -10,17 +10,17 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      Loading attempts…
+      {{ 'attemptsPage.loading' | t }}
     </div>
   } @else if (!auth.currentUser()) {
     <div class="center-message">
-      <p>Log in to see your past attempts — anonymous attempts aren't saved to a history.</p>
-      <a routerLink="/login" class="action-btn primary">Log In</a>
+      <p>{{ 'attemptsPage.loginPrompt' | t }}</p>
+      <a routerLink="/login" class="action-btn primary">{{ 'reviewQueue.logIn' | t }}</a>
     </div>
   } @else if (finishedAttempts().length === 0) {
     <div class="center-message">
-      <p>No completed attempts yet.</p>
-      <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">Start Practice Exam →</a>
+      <p>{{ 'attemptsPage.empty' | t }}</p>
+      <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">{{ 'exam.startPractice' | t }}</a>
     </div>
   } @else {
     <div class="attempts-list">
@@ -32,7 +32,7 @@
             <span class="attempt-count">{{ a.score }}/{{ a.total }}</span>
           </div>
           <span class="attempt-badge" [class.pass]="passed(a)" [class.fail]="!passed(a)">
-            {{ passed(a) ? 'Pass' : 'Fail' }}
+            {{ (passed(a) ? 'attemptsPage.badge.pass' : 'attemptsPage.badge.fail') | t }}
           </span>
         </a>
       }

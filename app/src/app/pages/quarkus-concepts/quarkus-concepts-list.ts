@@ -5,15 +5,17 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKey } from '../../shared/i18n/translations';
 
-const CATEGORY_OPTIONS: { label: string; value: QuarkusConceptCategory | null }[] = [
-  { label: 'All', value: null },
-  { label: 'Core Configuration', value: 'Core Configuration' },
-  { label: 'Caching & Auditing', value: 'Caching & Auditing' },
-  { label: 'Multitenancy', value: 'Multitenancy' },
-  { label: 'Customization & Migration', value: 'Customization & Migration' },
-  { label: 'Modern Data Access', value: 'Modern Data Access' },
-  { label: 'Extensions & Tooling', value: 'Extensions & Tooling' },
+const CATEGORY_OPTIONS: { label: TranslationKey; value: QuarkusConceptCategory | null }[] = [
+  { label: 'concepts.filters.all', value: null },
+  { label: 'quarkusConcepts.category.coreConfiguration', value: 'Core Configuration' },
+  { label: 'quarkusConcepts.category.cachingAuditing', value: 'Caching & Auditing' },
+  { label: 'quarkusConcepts.category.multitenancy', value: 'Multitenancy' },
+  { label: 'quarkusConcepts.category.customizationMigration', value: 'Customization & Migration' },
+  { label: 'quarkusConcepts.category.modernDataAccess', value: 'Modern Data Access' },
+  { label: 'quarkusConcepts.category.extensionsTooling', value: 'Extensions & Tooling' },
 ];
 
 export interface QuarkusConceptTopicGroup {
@@ -33,7 +35,7 @@ const TOPIC_ORDER = [
 @Component({
   selector: 'app-quarkus-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './quarkus-concepts-list.html',
   styleUrl: './quarkus-concepts-list.css',
 })

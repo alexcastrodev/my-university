@@ -1,20 +1,20 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/java/testing" class="back-link">← Testing Concepts</a>
-      <div class="loading" role="status" aria-label="Loading concept">
+      <a routerLink="/java/testing" class="back-link">← {{ 'testingConcepts.title' | t }}</a>
+      <div class="loading" role="status" [attr.aria-label]="'testingConceptsDetail.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concept…
+        {{ 'testingConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
-      <a routerLink="/java/testing" class="back-link">← Testing Concepts</a>
+      <a routerLink="/java/testing" class="back-link">← {{ 'testingConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>Concept not found.</p>
+        <p>{{ 'testingConceptsDetail.notFound' | t }}</p>
       </div>
     } @else {
       <app-concept-detail-layout
         backHref="/java/testing"
-        backLabel="Testing Concepts"
+        [backLabel]="'testingConcepts.title' | t"
         basePath="/java/testing"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"
