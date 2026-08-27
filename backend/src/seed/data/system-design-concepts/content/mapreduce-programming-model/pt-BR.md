@@ -35,7 +35,7 @@ flowchart LR
     subgraph Unix pipeline em uma única máquina
         A1[linhas de log] --> A2["awk '{print $7}'<br/>(map)"] --> A3["sort<br/>(shuffle implícito)"] --> A4["uniq -c<br/>(reduce)"]
     end
-    subgraph MapReduce cluster
+    subgraph Cluster MapReduce
         B1[registros de entrada<br/>HDFS / S3] --> B2["Mapper<br/>(paralelo, por registro)"] --> B3["Ordenar por chave<br/>(gerenciado pelo framework)"] --> B4["Reducer<br/>(paralelo, por chave)"]
     end
 ```
@@ -66,7 +66,7 @@ Essa segunda limitação é a que o resto do capítulo — e motores de lote mod
 
 ## Onde Isso Aparece Hoje
 
-A forma de quatro passos do MapReduce não desapareceu — ela foi absorvida em algo mais geral. O **Apache Spark** é o exemplo mais claro: sua abstração fundacional, o RDD (Resilient Distributed Dataset, Conjunto de Dados Distribuído Resiliente), e a API DataFrame de nível mais alto construída sobre ele, ainda expressam computação como cadeias de transformações estilo map e estilo reduce — mas o escalonador do Spark consegue manter resultados intermediários em memória (ou derramar em disco só quando precisa) e transmitir dados diretamente de um estágio para o próximo dentro de um único job, em vez de forçar uma materialização completa em disco e reinício entre cada passo. Essa é uma resposta direta ao problema de I/O baseado em arquivo com que este conceito termina: o modelo de programação (map, depois agregar por chave) sobreviveu; a estratégia de execução "escreva tudo em disco entre jobs" não. O modelo de dataflow do Flink e motores de data warehouse como BigQuery e Snowflake levam a mesma ideia mais longe com seus próprios planejadores de consulta, mas a linhagem de volta a "extrair uma chave, agrupar por ela, agregar" ainda é visível em todos eles.
+A forma de quatro passos do MapReduce não desapareceu — ela foi absorvida em algo mais geral. O **Apache Spark** é o exemplo mais claro: sua abstração fundacional, o RDD (Resilient Distributed Dataset), e a API DataFrame de nível mais alto construída sobre ele, ainda expressam computação como cadeias de transformações estilo map e estilo reduce — mas o escalonador do Spark consegue manter resultados intermediários em memória (ou derramar em disco só quando precisa) e transmitir dados diretamente de um estágio para o próximo dentro de um único job, em vez de forçar uma materialização completa em disco e reinício entre cada passo. Essa é uma resposta direta ao problema de I/O baseado em arquivo com que este conceito termina: o modelo de programação (map, depois agregar por chave) sobreviveu; a estratégia de execução "escreva tudo em disco entre jobs" não. O modelo de dataflow do Flink e motores de data warehouse como BigQuery e Snowflake levam a mesma ideia mais longe com seus próprios planejadores de consulta, mas a linhagem de volta a "extrair uma chave, agrupar por ela, agregar" ainda é visível em todos eles.
 
 ## Trade-offs
 

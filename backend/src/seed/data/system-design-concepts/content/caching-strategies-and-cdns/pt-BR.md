@@ -35,7 +35,7 @@ def get_user(user_id):
     return user                          # cache miss, agora populado
 ```
 
-Este é o padrão padrão para dados intensivos em leitura: o cache só mantém o que realmente foi requisitado (sem memória desperdiçada em dados frios), e uma queda do cache degrada para "toda leitura atinge o banco de dados" em vez de perder dados — o banco de dados continua sendo a fonte da verdade e nada foi escrito cache-first.
+Este é o padrão default para dados intensivos em leitura: o cache só mantém o que realmente foi requisitado (sem memória desperdiçada em dados frios), e uma queda do cache degrada para "toda leitura atinge o banco de dados" em vez de perder dados — o banco de dados continua sendo a fonte da verdade e nada foi escrito cache-first.
 
 ```mermaid
 flowchart LR
@@ -129,4 +129,3 @@ Um lock de curta duração por chave garante que apenas uma requisição repopul
 - Rajesh Nishtala et al., ["Scaling Memcache at Facebook"](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala) (NSDI 2013)
 - [AWS — Caching Best Practices](https://aws.amazon.com/caching/best-practices/)
 - [Cloudflare Learning Center — What is a CDN?](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/)
-</content>

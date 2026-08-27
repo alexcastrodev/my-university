@@ -129,4 +129,3 @@ Ler os resultados, não apenas produzi-los, é a habilidade real. A proporção 
 - [Colin Scott — "Latency Numbers Every Programmer Should Know" (visualização interativa, baseada nos números de Peter Norvig e Jeff Dean)](https://colin-scott.github.io/personal_website/research/interactive_latency.html)
 - [Jonas Bonér et al. — "Latency Numbers Every Programmer Should Know" (GitHub Gist)](https://gist.github.com/jboner/2841832)
 - [Google SRE Book — Capítulo 4: Service Level Objectives](https://sre.google/sre-book/service-level-objectives/)
-</content>

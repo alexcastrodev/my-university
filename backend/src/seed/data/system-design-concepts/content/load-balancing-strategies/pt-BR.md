@@ -43,7 +43,7 @@ Isso é um encaixe comum para um pool com tamanhos de instância mistos (ex.: no
 
 ## Least Connections
 
-Em vez de ciclar cegamente, **least-connections** roteia cada nova requisição para qualquer que seja o backend com atualmente o menor número de conexões abertas:
+Em vez de ciclar cegamente, **least-connections** roteia cada nova requisição para o backend que atualmente tem o menor número de conexões abertas:
 
 ```
 def pick_server(servers):
@@ -136,4 +136,3 @@ Isso faz o estado local do servidor funcionar sem nenhuma coordenação distribu
 - [AWS — Elastic Load Balancing: Application, Network, and Gateway Load Balancers](https://aws.amazon.com/elasticloadbalancing/)
 - [Google Cloud Architecture Center — Load Balancing Overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview)
 - Martin Kleppmann, [*Designing Data-Intensive Applications*](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/) (O'Reilly, 2nd Edition) — Capítulo 6, "Partitioning" (aborda roteamento de requisições e hot spots)
-</content>

@@ -123,14 +123,14 @@ Dois limites diferentes se aplicam, por duas razões diferentes.
 
 **Throttling por provedor** existe para proteger o relacionamento com o provedor. Exceder a taxa de envio documentada de um gateway ganha 429s, deliverability degradada, ou suspensão de conta. Esse limite vive no pool de workers como um token bucket compartilhado entre todos os workers daquele canal, não por worker, já que cinquenta workers cada um educadamente abaixo de seu próprio limite local ainda martelam o provedor cinquenta vezes mais.
 
-Preferências são verificadas antes de ambos. Uma tabela `notification_setting` chaveada por `(user_id, channel, category)` com um booleano `opt_in` é consultada no servidor de notificação, antes de enfileirar — filtrar cedo mantém notificações opt-out de consumirem capacidade de fila e worker completamente. Fazer a verificação tarde (no worker) também é um risco de correção: um usuário que opta por sair enquanto uma mensagem está na fila não deveria recebê-la, então o worker reverificando estado em cache barato antes de enviar é um segundo portão razoável para qualquer coisa com um atraso de fila longo.
+Preferências são verificadas antes de ambos. Uma tabela `notification_setting` chaveada por `(user_id, channel, category)` com um booleano `opt_in` é consultada no servidor de notificação, antes de enfileirar — filtrar cedo mantém notificações opt-out de sequer consumir capacidade de fila e worker. Fazer a verificação tarde (no worker) também é um risco de correção: um usuário que opta por sair enquanto uma mensagem está na fila não deveria recebê-la, então o worker reverificando estado em cache barato antes de enviar é um segundo portão razoável para qualquer coisa com um atraso de fila longo.
 
 ## Segurança
 
 A API de notificações é um alvo incomumente atraente: quem quer que consiga chamá-la pode enviar uma notificação push com aparência autenticada para a tela de bloqueio de seus usuários. Três controles:
 
 - **Acesso apenas interno.** A API de envio não é exposta publicamente. Chamadores são serviços internos autenticados com um par de credenciais por serviço (appKey/appSecret, mTLS, ou tokens de serviço assinados), e toda requisição é atribuível a um chamador específico para auditoria e rate limits por chamador.
-- **Autorização no destinatário.** Um chamador passa um `user_id`, nunca um token de dispositivo bruto ou número de telefone. O sistema resolve as informações de contato sozinho, o que significa que um serviço comprometido ou com bug não pode exfiltrar detalhes de contato ou endereçar um usuário que não tem negócio para endereçar.
+- **Autorização no destinatário.** Um chamador passa um `user_id`, nunca um token de dispositivo bruto ou número de telefone. O sistema resolve as informações de contato sozinho, o que significa que um serviço comprometido ou com bug não pode exfiltrar detalhes de contato nem endereçar um usuário que não deveria endereçar.
 - **Higiene de payload.** Payloads de push atravessam a infraestrutura da Apple e do Google e pousam em uma tela de bloqueio visível sem desbloquear o dispositivo. Conteúdo sensível não pertence lá — envie "Você tem uma nova mensagem," não o corpo da mensagem, e deixe o app buscar o conteúdo por um canal autenticado uma vez aberto.
 
 ## Trade-offs

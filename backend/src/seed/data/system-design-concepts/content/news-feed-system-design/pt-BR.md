@@ -144,7 +144,7 @@ Isso importa desproporcionalmente para feeds: o payload JSON de uma página de 2
 | **Conteúdo** | Objetos de postagem; postagens quentes mantidas em um cache quente separado | Muito lido, escrito uma vez |
 | **Grafo Social** | Arestas de seguidor/seguido, listas de silenciamento e bloqueio | Lido a cada fan-out; muda raramente |
 | **Ação** | Se um dado usuário curtiu/respondeu a uma dada postagem | Lido por postagem renderizada, escrito na interação |
-| **Contadores** | Contagens de curtidas, respostas, seguidores, e seguidos | Extremamente escrito com frequência; geralmente aproximado |
+| **Contadores** | Contagens de curtidas, respostas, seguidores, e seguidos | Extremamente intenso em escrita; geralmente aproximado |
 
 Separá-los permite que cada um seja dimensionado, fragmentado, e despejado independentemente. Contadores mudam constantemente e toleram aproximação; o grafo social é lido em cada fan-out e é quase estático; conteúdo é escrito uma vez e lido milhões de vezes, então as postagens mais quentes são promovidas para um cache quente dedicado em vez de competir por espaço com as frias. Um cache único e indiferenciado deixaria o churn de contadores despejar dados de grafo dos quais todo o caminho de escrita depende.
 

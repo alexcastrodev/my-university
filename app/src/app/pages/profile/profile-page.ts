@@ -1,17 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKeyLike } from '../../shared/i18n/translations';
 
-const SOURCE_LABELS: Record<string, string> = {
-  lesson: 'Lessons',
-  'skill-check': 'Skill Checks',
-  'concept-read': 'Java Concepts',
-  'episode-watched': 'Java Minute',
+const SOURCE_LABELS: Record<string, TranslationKeyLike> = {
+  lesson: 'profile.source.lessons',
+  'skill-check': 'profile.source.skillChecks',
+  'concept-read': 'profile.source.javaConcepts',
+  'episode-watched': 'profile.source.javaMinute',
 };
 
 @Component({
   selector: 'app-profile-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
 })
@@ -51,7 +54,7 @@ export class ProfilePage implements OnInit {
     this.xpService.loadDailyGoal();
   }
 
-  sourceLabel(sourceType: string): string {
+  sourceLabel(sourceType: string): TranslationKeyLike {
     return SOURCE_LABELS[sourceType] ?? sourceType;
   }
 }

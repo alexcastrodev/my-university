@@ -71,7 +71,7 @@ O caso do encurtador de URL se encaixa no máximo nos primeiros dois níveis; re
 ## Quando Particionar o Armazenamento Realmente É Justificado
 
 - A consulta "quem esse usuário segue, ranqueado por atividade recente" de um feed social precisa de um formato de fan-out/agregação que um schema OLTP normalizado trata mal em escala — um armazenamento de leitura separado e feito sob medida (ou um cache de feed pré-computado) está ganhando seu espaço aqui.
-- Um catálogo de produtos com busca facetada (filtrar por faixa de preço, marca, avaliação, em estoque) é um padrão de acesso genuinamente diferente de "inserir este novo produto" — Elasticsearch ou similar ao lado do banco de dados SQL de sistema de registro é padrão, não over-engineering.
+- Um catálogo de produtos com busca facetada (filtrar por faixa de preço, marca, avaliação, em estoque) é um padrão de acesso genuinamente diferente de "inserir este novo produto" — Elasticsearch ou similar ao lado do banco de dados SQL que é o sistema de registro é padrão, não over-engineering.
 - Um dashboard de analytics consultando agregados sobre milhões de linhas não deveria rodar essas consultas contra o mesmo banco de dados que atende o tráfego de usuário ao vivo, independentemente da proporção leitura/escrita — um armazenamento OLAP separado ou uma réplica de leitura dedicada à carga analítica protege o caminho transacional de consultas de varredura de longa duração, independentemente da questão de CQRS.
 
 Em cada um desses casos, a justificativa é um *formato de consulta específico que o armazenamento primário não consegue servir bem* — o mesmo teste que uma simples busca key-value (o redirecionamento do encurtador de URL) reprova.

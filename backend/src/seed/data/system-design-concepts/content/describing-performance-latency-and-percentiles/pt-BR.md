@@ -9,7 +9,7 @@ tags:
   - Monitoramento
   - SLAs
 prerequisites:
-  - Basic statistics (mean, median)
+  - Estatística básica (média, mediana)
 related:
   - label: Rate Limiting
     slug: rate-limiting
@@ -43,7 +43,7 @@ flowchart LR
     end
 ```
 
-O atraso de enfileiramento não é um erro de arredondamento — ele geralmente responde pela *maioria* da variabilidade nos tempos de resposta, e cresce acentuadamente à medida que a vazão se aproxima da capacidade do hardware. Um servidor só consegue processar uns poucos requisições genuinamente em paralelo (limitado por núcleos, threads de worker, tamanho do pool de conexões), então bastam poucas requisições lentas para segurar tudo que está enfileirado atrás delas. Isso é **bloqueio na cabeça da fila** (head-of-line blocking): uma requisição com tempo de serviço de 2 ms ainda pode mostrar um tempo de resposta de 300 ms porque ficou atrás da consulta lenta de outra pessoa.
+O atraso de enfileiramento não é um erro de arredondamento — ele geralmente responde pela *maioria* da variabilidade nos tempos de resposta, e cresce acentuadamente à medida que a vazão se aproxima da capacidade do hardware. Um servidor só consegue processar umas poucas requisições genuinamente em paralelo (limitado por núcleos, threads de worker, tamanho do pool de conexões), então bastam poucas requisições lentas para segurar tudo que está enfileirado atrás delas. Isso é **bloqueio na cabeça da fila** (head-of-line blocking): uma requisição com tempo de serviço de 2 ms ainda pode mostrar um tempo de resposta de 300 ms porque ficou atrás da consulta lenta de outra pessoa.
 
 A consequência prática é uma regra de medição: **o atraso de enfileiramento não é parte do tempo de serviço, então você deve medir tempos de resposta no lado do cliente.** Um servidor que reporta "p99 = 15 ms" de dentro de seu próprio handler de requisição está reportando tempo de serviço e é cego para a fila em que está sentado atrás. Sistemas sobrecarregados parecem saudáveis em métricas do lado do servidor até o exato momento em que usuários começam a dar timeout.
 
@@ -92,7 +92,7 @@ Há um ponto de retorno decrescente. A Amazon julgou que otimizar o p9999 (as 1 
 
 Eis por que a latência de cauda é desproporcionalmente perigosa: páginas modernas fazem fan-out. Uma única requisição de usuário final dispara muitas chamadas de backend, e mesmo quando elas rodam em paralelo, **a página é tão lenta quanto sua chamada mais lenta.** Uma chamada azarada arruína a resposta inteira.
 
-Se cada chamada de backend tem independentemente 1% de chance de exceder seu p99, a probabilidade de que um carregamento de página escape ilesa é `0,99^N`:
+Se cada chamada de backend tem independentemente 1% de chance de exceder seu p99, a probabilidade de que um carregamento de página escape ileso é `0,99^N`:
 
 ```
  chamadas de backend por página   P(todas as chamadas sob o p99)   P(página atinge a cauda)

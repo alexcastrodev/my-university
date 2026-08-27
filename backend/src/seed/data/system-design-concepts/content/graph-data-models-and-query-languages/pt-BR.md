@@ -207,7 +207,7 @@ SELECT ?personName WHERE {
 }
 ```
 
-`?person :bornIn / :within* ?location` é exatamente `(person) -[:BORN_IN]-> () -[:WITHIN*0..]-> (location)`. Como o RDF não faz distinção entre propriedades e arestas — ambos são só predicados — a mesma sintaxe corresponde a ambos, o que é arguivelmente mais arrumado que a divisão do Cypher. SPARQL é suportado por Amazon Neptune, AllegroGraph, Blazegraph, OpenLink Virtuoso, e Apache Jena.
+`?person :bornIn / :within* ?location` é exatamente `(person) -[:BORN_IN]-> () -[:WITHIN*0..]-> (location)`. Como o RDF não faz distinção entre propriedades e arestas — ambos são só predicados — a mesma sintaxe corresponde a ambos, o que é discutivelmente mais arrumado que a divisão do Cypher. SPARQL é suportado por Amazon Neptune, AllegroGraph, Blazegraph, OpenLink Virtuoso, e Apache Jena.
 
 ## Datalog, Brevemente
 

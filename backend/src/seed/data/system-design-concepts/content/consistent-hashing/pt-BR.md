@@ -138,4 +138,3 @@ flowchart LR
 - Giuseppe DeCandia et al., ["Dynamo: Amazon's Highly Available Key-value Store"](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf) (SOSP 2007) — introduz nós virtuais para balanceamento de carga
 - Martin Kleppmann, [*Designing Data-Intensive Applications*](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) (O'Reilly, 2017) — Capítulo 6, "Partitioning"
 - [Wikipedia — Chord (peer-to-peer)](https://en.wikipedia.org/wiki/Chord_(peer-to-peer)) — uma DHT construída diretamente sobre o modelo de anel de hash
-</content>

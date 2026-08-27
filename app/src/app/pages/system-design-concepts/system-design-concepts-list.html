@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">System Design Concepts</h1>
-    <p class="page-sub">Distributed systems and architecture patterns explained in depth.</p>
+    <h1 class="page-title">{{ 'systemDesignConcepts.title' | t }}</h1>
+    <p class="page-sub">{{ 'systemDesignConcepts.subtitle' | t }}</p>
   </div>
 
   <div class="page-body">
@@ -10,7 +10,7 @@
         <button type="button" class="tag-filter-pill"
           [class.active]="selectedTag() === null"
           (click)="onFilterChange(null)">
-          All
+          {{ 'concepts.filters.all' | t }}
         </button>
         @for (opt of visibleTagOptions(); track opt.value) {
           <button type="button" class="tag-filter-pill"
@@ -21,25 +21,25 @@
         }
         @if (hasMoreTags()) {
           <button type="button" class="tag-filter-pill tag-filter-more" (click)="onToggleShowAllTags()">
-            {{ showAllTags() ? 'Show less' : '+' + hiddenTagCount() + ' more' }}
+            {{ showAllTags() ? ('concepts.filters.showLess' | t) : ('concepts.filters.moreCount' | t: { count: hiddenTagCount() }) }}
           </button>
         }
       </div>
       <button type="button" class="labs-filter-btn"
         [class.active]="showOnlyLabs()"
         (click)="onToggleLabsFilter()">
-        🔬 Labs only
+        {{ 'concepts.filters.labsOnly' | t }}
       </button>
     </div>
 
     <div class="sort-row">
-      <span class="sort-row-label">Sort</span>
+      <span class="sort-row-label">{{ 'concepts.sort.label' | t }}</span>
       <div class="sort-filters">
         @for (opt of READ_SORT_OPTIONS; track opt.value) {
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label }}
+            {{ opt.label | t }}
           </button>
         }
       </div>
@@ -47,9 +47,9 @@
     </div>
 
     @if (loading()) {
-      <div class="loading" role="status" aria-label="Loading concepts">
+      <div class="loading" role="status" [attr.aria-label]="'concepts.loading.ariaLabel' | t">
         <span class="spinner" aria-hidden="true"></span>
-        Loading concepts…
+        {{ 'concepts.loading' | t }}
       </div>
     } @else {
       @for (group of groupedConcepts(); track group.topic) {

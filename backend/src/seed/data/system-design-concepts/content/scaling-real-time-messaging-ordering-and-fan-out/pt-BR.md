@@ -33,9 +33,9 @@ O [design de alto nível para um sistema de chat estilo Slack](designing-a-large
 
 ## Por Que Ordenação de Mensagens É Difícil em Escala
 
-Duas mensagens enviadas momentos separadas — "festa às 17h, você consegue vir?" seguida de "sim, combinado" — mudam completamente de significado se entregues fora de ordem. Três opções existem para garantir ordenação por chat:
+Duas mensagens enviadas com poucos instantes de diferença — "festa às 17h, você consegue vir?" seguida de "sim, combinado" — mudam completamente de significado se entregues fora de ordem. Três opções existem para garantir ordenação por chat:
 
-1. **Timestamps do lado do cliente.** Frágil: relógios de cliente são descentralizados e não sincronizados, então ordenar por timestamp do cliente pode silenciosamente desordenar mensagens sempre que os relógios de dois dispositivos derivam.
+1. **Timestamps do lado do cliente.** Frágil: relógios de cliente são descentralizados e não sincronizados, então ordenar por timestamp do cliente pode silenciosamente desordenar mensagens sempre que os relógios de dois dispositivos perdem sincronia entre si.
 2. **Número de sequência do lado do servidor por chat.** Funciona, mas exige um contador consistente entre todo nó tratando aquele chat — coordenar esse contador entre múltiplos data centers adiciona complexidade de infraestrutura real e se torna um gargalo em escala.
 3. **Ingestão ordenada baseada em Kafka por chat (recomendado).** Particione um tópico Kafka por `chat_id`. Toda mensagem para um dado chat sempre cai na mesma partição, e o Kafka garante ordem *dentro de* uma partição. À medida que o volume de chat cresce, adicione mais partições; a própria replicação e rastreamento de offset do Kafka trata recuperação de falha (um consumidor que trava reentrega a partir do seu último offset commitado sem perda de mensagem) — veja [Message Brokers: Queues vs. Log-Based Streaming](message-brokers-queues-vs-logs) para entender por que um broker baseado em log, não uma fila simples, é o que fornece essa garantia.
 
@@ -87,7 +87,7 @@ Usuários trocam de dispositivo, perdem conectividade, e reconectam — frequent
 - **Inscrever-se em tudo, indefinidamente** — simples mas desperdiçador: a maioria dos canais em que um servidor se inscreve pode não ter cliente conectado atualmente para aquele chat, especialmente uma vez que um cliente se moveu para outro nó.
 - **Arrendar a subscrição com um TTL (recomendado)** — a subscrição de canal de um servidor WebSocket expira depois de uma janela curta (por exemplo, 10 segundos) e é renovada apenas enquanto ele ainda tem uma conexão ao vivo interessada naquele canal. Se um cliente se moveu para outro lugar, a subscrição obsoleta expira em vez de continuar recebendo (e potencialmente entregar em duplicidade) mensagens para uma conexão que não existe mais ali.
 
-Subscrições arrendadas previnem que conexões obsoletas se acumulem silenciosamente e reduzem o risco da mesma mensagem ser enviada a mais de uma conexão agora defunta.
+Subscrições arrendadas previnem que conexões obsoletas se acumulem silenciosamente e reduzem o risco da mesma mensagem ser enviada a mais de uma conexão que já não existe mais.
 
 ## Particionando e Replicando o Armazenamento de Chat
 
@@ -106,7 +106,7 @@ Alguns dados mudam raramente mas são lidos constantemente: membership de chat (
 
 ## Deduplicação do Lado do Cliente via IDs de Mensagem Monotônicos
 
-Como sessões se movem entre dispositivos e redes são não confiáveis, a mesma mensagem pode ocasionalmente ser reenviada a um cliente que já a recebeu (por exemplo, uma condição de corrida de reconexão). Em vez de resolver isso puramente do lado do servidor, o cliente rastreia o maior `message_id` que já processou para um chat (IDs de mensagem são cunhados pelo servidor de chat e são monotonicamente comparáveis, mesmo que não sejam inteiros estritamente sequenciais); qualquer mensagem recebida com um ID que o cliente já viu ou substituiu é seguramente ignorada. Isso empurra uma checagem barata de idempotência para a borda em vez de exigir escrituração de deduplicação do lado do servidor por dispositivo.
+Como sessões se movem entre dispositivos e redes são não confiáveis, a mesma mensagem pode ocasionalmente ser reenviada a um cliente que já a recebeu (por exemplo, uma condição de corrida de reconexão). Em vez de resolver isso puramente do lado do servidor, o cliente rastreia o maior `message_id` que já processou para um chat (IDs de mensagem são cunhados pelo servidor de chat e são monotonicamente comparáveis, mesmo que não sejam inteiros estritamente sequenciais); qualquer mensagem recebida com um ID que o cliente já viu ou substituiu é seguramente ignorada. Isso empurra uma checagem barata de idempotência para a borda em vez de exigir controle de deduplicação do lado do servidor por dispositivo.
 
 ## Trade-offs
 

@@ -32,7 +32,7 @@ Antes de construir para confiabilidade você precisa responder duas perguntas es
 1. **O que "funcionar corretamente" significa aqui?** Tipicamente alguma combinação de: a aplicação faz o que o usuário esperava, ela tolera usuários cometendo erros ou usando-a de formas inesperadas, seu desempenho é bom o suficiente sob a carga e o volume de dados esperados, e ela previne acesso não autorizado e abuso. Para a maioria dos serviços isso é codificado como um **SLO** — um alvo explícito como "99,9% das requisições têm sucesso com latência p99 abaixo de 300 ms, medido em uma janela móvel de 30 dias."
 2. **Quais coisas dando errado estão no escopo?** Falha de disco, crash de nó, perda de zona de disponibilidade, uma dependência retornando lixo, um operador implantando uma configuração ruim. Cada um que você reivindica tolerar é um compromisso de design com um custo.
 
-O SLO importa porque converte uma aspiração vaga em uma linha mensurável. Sem ele, "o sistema está fora do ar" é uma questão de opinião; com ele, "violamos o SLO" é um fato, e você consegue raciocinar sobre quanto orçamento de indisponibilidade resta antes de você dever parar de lançar features e começar a consertar coisas.
+O SLO importa porque converte uma aspiração vaga em uma linha mensurável. Sem ele, "o sistema está fora do ar" é uma questão de opinião; com ele, "violamos o SLO" é um fato, e você consegue raciocinar sobre quanto orçamento de indisponibilidade resta antes de você precisar parar de lançar features e começar a consertar coisas.
 
 ## Fault vs. Failure
 

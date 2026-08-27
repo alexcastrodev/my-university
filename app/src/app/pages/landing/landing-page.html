@@ -1,17 +1,17 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">Master the Backend Stack Engineers Actually Use</h1>
-    <p class="page-sub">In-depth concepts, hands-on labs, and certification practice — Java, Ruby, Spring, Rails, PostgreSQL, system design, and algorithms, all in one place.</p>
+    <h1 class="page-title">{{ 'landing.hero.title' | t }}</h1>
+    <p class="page-sub">{{ 'landing.hero.subtitle' | t }}</p>
   </div>
 
   <div class="page-body">
     @if (resumePoint(); as point) {
       <a [routerLink]="resumeLink()" class="resume-banner">
-        <span class="resume-label">Continue where you left off</span>
+        <span class="resume-label">{{ 'landing.resume.label' | t }}</span>
         <span class="resume-title">
-          {{ point.lessonTitle ?? (point.courseTitle + ' — course complete') }}
+          {{ point.lessonTitle ?? ('landing.resume.courseComplete' | t: { course: point.courseTitle }) }}
         </span>
-        <span class="resume-cta">Resume →</span>
+        <span class="resume-cta">{{ 'landing.resume.cta' | t }}</span>
       </a>
     }
 
@@ -20,20 +20,20 @@
         @if (session.links; as links) {
           <div class="session-card session-card-multi">
             <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
-            <h2 class="session-title">{{ session.title }}</h2>
-            <p class="session-description">{{ session.description }}</p>
+            <h2 class="session-title">{{ session.title | t }}</h2>
+            <p class="session-description">{{ session.description | t }}</p>
             <div class="session-links">
               @for (link of links; track link.routerLink) {
-                <a [routerLink]="link.routerLink" class="session-link">{{ link.label }} →</a>
+                <a [routerLink]="link.routerLink" class="session-link">{{ link.label | t }} →</a>
               }
             </div>
           </div>
         } @else {
           <a [routerLink]="session.routerLink" class="session-card">
             <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
-            <h2 class="session-title">{{ session.title }}</h2>
-            <p class="session-description">{{ session.description }}</p>
-            <span class="session-cta">Explore →</span>
+            <h2 class="session-title">{{ session.title | t }}</h2>
+            <p class="session-description">{{ session.description | t }}</p>
+            <span class="session-cta">{{ 'landing.session.explore' | t }}</span>
           </a>
         }
       }

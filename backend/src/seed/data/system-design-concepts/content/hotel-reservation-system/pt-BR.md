@@ -1,6 +1,6 @@
 ---
 title: "Projetando um Sistema de Reservas de Hotel"
-description: Por que um sistema de reservas é um dos raros designs onde correção supera throughput — o modelo de inventário por tipo de quarto, a corrida de overbooking entre dois usuários comprando o último quarto, e os mecanismos pessimistas, otimistas e baseados em restrições que de fato a impedem.
+description: Por que um sistema de reservas é um dos raros designs onde correção supera throughput — o modelo de inventário por tipo de quarto, a corrida de reserva dupla entre dois usuários comprando o último quarto, e os mecanismos pessimistas, otimistas e baseados em restrições que de fato a impedem.
 difficulty: Intermediate
 readingTime: 13
 tags:
@@ -46,7 +46,7 @@ Um hóspede não reserva o quarto 412. Um hóspede reserva *um quarto king com v
 |---|---|---|
 | `hotel` | `hotel_id`, `name`, `address` | Estática; fortemente cacheada. |
 | `room_type` | `room_type_id`, `hotel_id`, `name`, `max_occupancy` | Ex.: standard, king, duas queens. |
-| `room` | `room_id`, `room_type_id`, `hotel_id`, `floor`, `status` | Quartos físicos; necessários para governança e check-in, *não* para reserva. |
+| `room` | `room_id`, `room_type_id`, `hotel_id`, `floor`, `status` | Quartos físicos; necessários para limpeza (housekeeping) e check-in, *não* para reserva. |
 | `room_type_rate` | `(hotel_id, room_type_id, date)`, `rate` | O preço varia por dia. |
 | `room_type_inventory` | `(hotel_id, room_type_id, date)` PK, `total_inventory`, `total_reserved` | A tabela contestada. Uma linha por tipo de quarto por **única data**. |
 | `reservation` | `reservation_id` PK, `hotel_id`, `room_type_id`, `start_date`, `end_date`, `room_count`, `status` | `status ∈ {pending, paid, refunded, canceled, rejected}`. |
@@ -71,7 +71,7 @@ Dois usuários clicam em "Reservar" no mesmo instante no último quarto king de 
 
 Sob qualquer nível de isolamento abaixo de serializável, ambas as leituras veem `total_reserved = 99, total_inventory = 100`. Ambos os predicados avaliam verdadeiro. Ambas as escritas definem `total_reserved = 100`. Ambas commitam. Dois e-mails de confirmação, um quarto. Este é um **lost update** de livro-texto: o ciclo de leitura-modificação-escrita de uma transação é atropelado pela outra, e nenhuma nunca observou o conflito. [Transactions, ACID, and Isolation Levels](transactions-acid-and-isolation-levels) cobre por que Read Committed e snapshot isolation ambos permitem isso, e por que `SERIALIZABLE` (via SSI no PostgreSQL) é o nível que não permite — a versão curta é que a checagem e a escrita não são atômicas uma em relação à outra, e níveis de isolamento abaixo de serializável não fazem promessa de que serão.
 
-Há uma segunda fonte de overbooking, mais boba, que vale a pena nomear porque entrevistadores perguntam por ela: **o mesmo usuário clicando duas vezes em Enviar**. Deixar o botão cinza no lado do cliente ajuda e não é uma solução — uma retentativa, uma rede instável, ou um cliente com JS desabilitado contorna isso. A correção é uma **chave de idempotência**: gere um `reservation_id` no servidor quando o usuário chega na página de confirmação, envie-o como parte do corpo de `POST /v1/reservations`, e faça dele a chave primária da tabela `reservation`. A segunda submissão viola a restrição de chave primária e é rejeitada pelo banco de dados, não pela lógica esperançosa da aplicação. Idempotência resolve *requisições duplicadas*; não faz nada por *requisições distintas concorrentes*, que é do que trata o resto desta seção.
+Há uma segunda fonte de reserva dupla, mais boba, que vale a pena nomear porque entrevistadores perguntam por ela: **o mesmo usuário clicando duas vezes em Enviar**. Deixar o botão cinza no lado do cliente ajuda e não é uma solução — uma retentativa, uma rede instável, ou um cliente com JS desabilitado contorna isso. A correção é uma **chave de idempotência**: gere um `reservation_id` no servidor quando o usuário chega na página de confirmação, envie-o como parte do corpo de `POST /v1/reservations`, e faça dele a chave primária da tabela `reservation`. A segunda submissão viola a restrição de chave primária e é rejeitada pelo banco de dados, não pela lógica esperançosa da aplicação. Idempotência resolve *requisições duplicadas*; não faz nada por *requisições distintas concorrentes*, que é do que trata o resto desta seção.
 
 ## Três Mecanismos Que Realmente Previnem Isso
 
@@ -189,7 +189,7 @@ Histórico de reservas também cresce sem limite enquanto só dados atuais e fut
 
 ## Trade-offs
 
-- **Consistência forte na escrita de reserva é acessível precisamente porque a taxa de escrita é baixa** — 3 TPS justifica isolamento serializável, locks de linha, e retentativas de uma forma que uma ingestão de eventos de 100 mil TPS nunca justificaria. A estimativa não é cerimônia; é o que licencia a escolha cara, e pulá-la é como candidatos acabam defendendo um pipeline de reserva eventualmente consistente que reintroduz overbooking por construção.
+- **Consistência forte na escrita de reserva é acessível precisamente porque a taxa de escrita é baixa** — 3 TPS justifica isolamento serializável, locks de linha, e retentativas de uma forma que uma ingestão de eventos de 100 mil TPS nunca justificaria. A estimativa não é cerimônia; é o que licencia a escolha cara, e pulá-la é como candidatos acabam defendendo um pipeline de reserva eventualmente consistente que reintroduz reserva dupla por construção.
 - **Controle de concorrência otimista é a escolha padrão certa e tem um penhasco de contenção acentuado** — sem locks, sem deadlocks, e custo quase zero quando conflitos são raros, mas durante uma promoção relâmpago em um hotel todo cliente tenta de novo na mesma corrida perdedora, então o throughput degrada exatamente quando a demanda atinge o pico. Limite as retentativas, adicione jitter, e mostre "esgotado" em vez de repetir em loop.
 - **Bloqueio pessimista enfileira em vez de se debater, ao custo de serializar o caminho quente** — melhor que OCC sob contenção pesada, mas locks mantidos através de uma viagem de ida e volta da aplicação (e, catastroficamente, através de uma chamada de pagamento) convertem uma dependência lenta em uma parada do hotel inteiro, e locks multi-linha de intervalo de datas causam deadlock a menos que adquiridos em ordem determinística.
 - **Uma restrição de banco de dados é o único mecanismo que não pode ser contornado, e o único que não pode passar por code review como código** — uma restrição de exclusão em `(room_id, daterange)` torna reservas sobrepostas irrepresentáveis independentemente de qual serviço ou script ad-hoc escreve a linha, mas é específica do motor, desajeitada de versionar junto com lógica de aplicação, e como o controle otimista, reporta conflitos como erros em vez de enfileirar.

@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 @Component({
   selector: 'app-leaderboard-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe],
   templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
 })

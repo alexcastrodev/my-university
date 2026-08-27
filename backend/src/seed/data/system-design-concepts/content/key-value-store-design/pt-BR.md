@@ -86,7 +86,7 @@ A regra que importa é **W + R > N**. Quando o conjunto de leitura e o conjunto 
 |---|---|---|
 | W = 3, R = 1 | 4 | Leituras rápidas, escritas caras e frágeis (qualquer réplica fora do ar bloqueia escritas) |
 | W = 1, R = 3 | 4 | Escritas rápidas, leituras caras |
-| W = 2, R = 2 | 4 | Equilibrado; o padrão "meio-forte" padrão |
+| W = 2, R = 2 | 4 | Equilibrado; o padrão "meio-forte" habitual |
 | W = 1, R = 1 | 2 | Menor latência, apenas consistência eventual |
 
 Este é o trade-off do [Teorema CAP](cap-theorem) tornado ajustável por requisição em vez de decidido uma vez para o sistema inteiro. Com `W + R > N` e um quórum estrito, uma partição que deixa menos de W réplicas alcançáveis faz escritas falharem — você escolheu CP para aquela operação. Com `W = R = 1`, a mesma partição ainda aceita escritas e ainda serve leituras, possivelmente desatualizadas — AP. Dynamo e Cassandra usam o extremo AP por padrão e deixam o chamador pagar por consistência onde importa, o que serve um store cujo alvo de disponibilidade é 99,99%.
@@ -198,4 +198,6 @@ Replicação entre data centers é o que torna uma falha regional sobrevivível,
 ## Referências
 
 - [Alex Xu, "System Design Interview – An Insider's Guide, Volume 1" (ByteByteGo, 2020) — Capítulo 6, "Design A Key-value Store"](https://bytebytego.com)
-</content>
+- [DeCandia et al., "Dynamo: Amazon's Highly Available Key-value Store" (SOSP 2007)](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+- [Documentação do Apache Cassandra](https://cassandra.apache.org/doc/latest/)
+- [Wikipedia — Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree)

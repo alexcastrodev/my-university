@@ -10,9 +10,9 @@ tags:
   - Mensageria
   - Design de API
 prerequisites:
-  - Basic client-server networking
-  - REST APIs
-  - Relational vs. NoSQL databases basics
+  - Noções básicas de rede cliente-servidor
+  - APIs REST
+  - Noções básicas de bancos de dados relacionais vs. NoSQL
 related:
   - label: "Scaling Real-Time Messaging: Ordering, Fan-out, and Presence"
     slug: scaling-real-time-messaging-ordering-and-fan-out
@@ -43,7 +43,7 @@ Requisitos não funcionais descrevem as *qualidades* do sistema, e cada um deles
 
 - **Escalabilidade** — assuma 1 bilhão de usuários ativos diários e 100 mil chats concorrentes. A 1B DAU, isso é aproximadamente 12 mil queries por segundo de carga sustentada. Sempre esclareça usuários ativos diários vs. mensais; os dois implicam infraestruturas muito diferentes.
 - **Baixa latência** — a entrega de chat em tempo real deveria ficar abaixo de ~200ms para evitar um atraso perceptível; qualquer coisa cruzando 500ms é tratada como um caminho degradado que recorre a batching.
-- **Consistência vs. disponibilidade** — partições de rede são um dado em qualquer sistema distribuído (veja [CAP Theorem](cap-theorem)), então a escolha real é CP ou AP, nunca CA. Um sistema de chat prioriza **disponibilidade** sobre consistência estrita: mostrar uma lista de mensagens um pouco desatualizada vence recusar a servir uma.
+- **Consistência vs. disponibilidade** — partições de rede são um dado em qualquer sistema distribuído (veja [CAP Theorem](cap-theorem)), então a escolha real é CP ou AP, nunca CA. Um sistema de chat prioriza **disponibilidade** sobre consistência estrita: mostrar uma lista de mensagens um pouco desatualizada é melhor do que simplesmente recusar servir uma.
 - **Durabilidade de mensagens** — mensagens precisam sobreviver a falha de nó e ser recuperáveis para auditoria/conformidade e recuperação de desastre (RPO/RTO), não apenas cacheadas em memória.
 - **Consistência entre múltiplos dispositivos** — uma mensagem, sua exclusão, um indicador de digitação, uma confirmação de leitura, e uma atualização de presença todos precisam se propagar para todo dispositivo em que o usuário está logado, não apenas aquele que disparou o evento.
 
@@ -154,7 +154,7 @@ A exclusão espelha o fluxo de envio: o servidor de chat exclui (ou faz soft-del
 
 ## Trade-offs
 
-- **Priorizar disponibilidade sobre consistência (AP) significa que destinatários podem brevemente ver um estado de mensagem diferente em dispositivos diferentes.** Essa é uma troca aceitável para chat (uma lista de mensagens um pouco desatualizada) mas seria inaceitável para, digamos, um razão financeiro — sempre nomeie de qual subsistema você está descrevendo a troca.
+- **Priorizar disponibilidade sobre consistência (AP) significa que destinatários podem brevemente ver um estado de mensagem diferente em dispositivos diferentes.** Essa é uma troca aceitável para chat (uma lista de mensagens um pouco desatualizada) mas seria inaceitável para, digamos, um ledger financeiro — sempre deixe explícito de qual subsistema você está descrevendo o trade-off.
 - **Armazenar apenas um ponteiro de mídia (não o binário) na tabela de mensagens mantém o caminho quente rápido, mas acopla a integridade da mensagem a dois sistemas (o armazenamento relacional/NoSQL e o armazenamento de objetos) em vez de um.** Um `media_url` pendurado com um objeto S3 ausente é um modo de falha que tem que ser tratado (ex.: um job de reconciliação em segundo plano).
 - **URLs de upload pré-assinadas removem o servidor de chat do caminho crítico do upload de mídia, melhorando a vazão, mas empurram lógica de autorização (quem tem permissão para enviar o quê, limites de tamanho) para o servidor de mídia e a própria política do bucket de armazenamento, não para a validação de requisição do servidor de chat.**
 

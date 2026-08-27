@@ -122,7 +122,7 @@ Supplier<StockLevel> inventoryCall = Bulkhead.decorateSupplier(
     inventoryBulkhead, () -> inventoryClient.getStock(sku));
 ```
 
-O `pricingService` ficando sem seus 20 slots tem efeito zero em `inventoryService`'s 30 — são pools inteiramente separados. O mesmo princípio se aplica um nível abaixo na camada de infraestrutura: pools de conexão JDBC separados por banco de dados, pools de threads separados por API externa, e — no nível de processo — serviços ou containers deployáveis separados para que o vazamento de memória da biblioteca client de uma dependência não possa derrubar uma frota inteira de serviços não relacionados, que é o argumento mais amplo de Nygard para por que bulkheading deveria ser uma postura arquitetural padrão, não uma reflexão tardia acrescentada após um incidente.
+O `pricingService` ficando sem seus 20 slots tem efeito zero nos 30 slots do `inventoryService` — são pools inteiramente separados. O mesmo princípio se aplica um nível abaixo na camada de infraestrutura: pools de conexão JDBC separados por banco de dados, pools de threads separados por API externa, e — no nível de processo — serviços ou containers deployáveis separados para que o vazamento de memória da biblioteca client de uma dependência não possa derrubar uma frota inteira de serviços não relacionados, que é o argumento mais amplo de Nygard para por que bulkheading deveria ser uma postura arquitetural padrão, não uma reflexão tardia acrescentada após um incidente.
 
 ## Circuit Breakers + Bulkheads Juntos
 

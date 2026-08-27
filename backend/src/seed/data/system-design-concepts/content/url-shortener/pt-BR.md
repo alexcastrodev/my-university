@@ -154,4 +154,3 @@ Todo 302 te dá um evento: código, timestamp, referrer, user agent, país deriv
 - [MDN Web Docs — Redirections in HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections)
 - [IETF RFC 9110 — HTTP Semantics, §15.4 Redirection 3xx](https://www.rfc-editor.org/rfc/rfc9110#name-redirection-3xx)
 - [Google Search Central — Redirects and Google Search](https://developers.google.com/search/docs/crawling-indexing/301-redirects)
-</content>

@@ -9,7 +9,7 @@ tags:
   - Design de API
   - Compatibilidade Retroativa
 prerequisites:
-  - Basic JSON/binary format concepts
+  - Noções básicas de formatos JSON/binários
 related:
   - label: "Relational vs. Document Data Models"
     slug: relational-vs-document-data-models
@@ -148,7 +148,7 @@ A resolução combina campos **por nome**, então a ordem dos campos pode diferi
 - **`null` não é um padrão universal.** Para tornar um campo anulável você usa uma union, `union { null, long }`, e `null` só pode ser o padrão se for o primeiro branch. Verboso, mas torna a nulidade explícita em vez de ambiente.
 - **Renomear é assimétrico.** O schema do reader pode declarar aliases para nomes antigos, então uma renomeação é compatível para trás mas não para frente. Adicionar um branch a uma union tem a mesma assimetria.
 
-Isso deixa a pergunta óbvia: como um reader obtém o schema do writer? Não enviando-o junto com cada registro — o schema geralmente ofusca o tamanho do registro. Depende do contexto: um arquivo grande com milhões de registros (um arquivo de contêiner de objetos Avro) escreve o schema uma vez no cabeçalho; um banco de dados ou stream de eventos escreve um **número de versão** de schema por registro e o consulta em um registro de schemas (o registro da Confluent para Kafka funciona exatamente assim); dois processos em uma conexão de longa duração negociam o schema uma vez na configuração.
+Isso deixa a pergunta óbvia: como um reader obtém o schema do writer? Não enviando-o junto com cada registro — o schema geralmente é muito maior que o próprio registro. Depende do contexto: um arquivo grande com milhões de registros (um arquivo de contêiner de objetos Avro) escreve o schema uma vez no cabeçalho; um banco de dados ou stream de eventos escreve um **número de versão** de schema por registro e o consulta em um registro de schemas (o registro da Confluent para Kafka funciona exatamente assim); dois processos em uma conexão de longa duração negociam o schema uma vez na configuração.
 
 O ganho de não ter números de tag é que o Avro é amigável a **schemas gerados dinamicamente**. Faça um dump de um banco de dados relacional para Avro e você pode gerar o schema mecanicamente a partir das definições de tabela — cada coluna vira um campo, indexado por nome. Quando alguém adiciona uma coluna e remove outra, você regenera o schema e reexporta; os readers combinam por nome e simplesmente lidam com isso. Fazer o mesmo em Protobuf significa um administrador mantendo manualmente um mapeamento de nome-de-coluna para número-de-tag e nunca reutilizando um número aposentado. É por isso que o Avro aparece tanto nos pipelines e streams de eventos discutidos no conceito irmão: são exatamente os lugares onde schemas mudam com frequência, são gerados em vez de escritos à mão, e são compartilhados entre muitos consumidores implantados independentemente.
 

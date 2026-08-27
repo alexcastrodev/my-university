@@ -110,4 +110,3 @@ Um limitador só é tão bom quanto sua capacidade de distinguir clientes entre 
 - [Stripe Engineering — Scaling your API with rate limiters](https://stripe.com/blog/rate-limiters)
 - [Redis Documentation — Rate limiting patterns](https://redis.io/glossary/rate-limiting/)
 - [AWS — Throttling a tiered, multi-tenant REST API](https://aws.amazon.com/blogs/compute/throttling-a-tiered-multi-tenant-rest-api-at-scale-using-api-gateway/)
-</content>

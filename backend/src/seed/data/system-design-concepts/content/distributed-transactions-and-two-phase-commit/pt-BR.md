@@ -90,7 +90,7 @@ As promessas são o que torna 2PC atômico. Participantes prometem que podem obe
 
 ### Transações em dúvida mantêm locks
 
-Um participante preparado está **em dúvida**: sabe que prometeu confirmar se solicitado, mas não sabe se o coordenador escolheu commit ou abort. Não pode abortar com segurança, porque outro participante pode já ter confirmado depois de receber a decisão do coordenador. Não pode confirmar com segurança, porque o coordenador pode ter decidido abortar depois que outro participante votou não. A única ação correta no 2PC puro é esperar o coordenador se recuperar.
+Um participante preparado está **em dúvida**: sabe que prometeu confirmar se solicitado, mas não sabe se o coordenador escolheu confirmar ou abortar. Não pode abortar com segurança, porque outro participante pode já ter confirmado depois de receber a decisão do coordenador. Não pode confirmar com segurança, porque o coordenador pode ter decidido abortar depois que outro participante votou não. A única ação correta no 2PC puro é esperar o coordenador se recuperar.
 
 Enquanto espera, o participante precisa manter os locks da transação e o estado preparado durável. Linhas escritas pela transação podem ficar não modificáveis, e sob isolamento mais rígido até leituras podem ser bloqueadas. Se o log do coordenador for perdido ou corrompido, um administrador pode ter que inspecionar os participantes e resolver manualmente a transação. Sistemas XA às vezes expõem commit ou rollback **heurístico** como uma válvula de escape de emergência, mas isso é uma forma controlada de arriscar atomicidade, não um caminho de recuperação normal.
 
@@ -162,4 +162,3 @@ Use transações distribuídas internas de banco de dados quando o invariante re
 - [Google Cloud Spanner Whitepaper — "Life of Spanner Reads and Writes"](https://cloud.google.com/spanner/docs/whitepapers/life-of-reads-and-writes)
 - [CockroachDB Docs — "Transaction Layer"](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer)
 - [YugabyteDB Docs — "DocDB transactions layer"](https://docs.yugabyte.com/stable/architecture/transactions/)
-</content>

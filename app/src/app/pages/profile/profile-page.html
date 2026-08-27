@@ -2,8 +2,8 @@
   <div class="page-body">
     @if (!auth.currentUser()) {
       <div class="login-prompt">
-        <p>Log in with GitHub to track your progress.</p>
-        <a class="btn github-btn" href="/api/auth/github">Continue with GitHub</a>
+        <p>{{ 'profile.loginPrompt' | t }}</p>
+        <a class="btn github-btn" href="/api/auth/github">{{ 'profile.continueGithub' | t }}</a>
       </div>
     } @else if (xpService.summary(); as summary) {
       <div class="profile-header">
@@ -16,17 +16,17 @@
 
       <div class="level-card">
         <div class="level-info">
-          <span class="level-number">Level {{ summary.level.number }}</span>
+          <span class="level-number">{{ 'profile.level' | t: { number: summary.level.number } }}</span>
           <span class="level-title">{{ summary.level.title }}</span>
         </div>
-        <div class="xp-total">{{ summary.total }} XP</div>
+        <div class="xp-total">{{ 'profile.xpTotal' | t: { total: summary.total } }}</div>
         <div class="progress-bar">
           <div class="progress-fill" [style.width.%]="progressPercent()"></div>
         </div>
         @if (summary.level.nextLevelXp !== null) {
-          <span class="progress-label">{{ summary.level.nextLevelXp - summary.total }} XP to next level</span>
+          <span class="progress-label">{{ 'profile.xpToNextLevel' | t: { amount: summary.level.nextLevelXp - summary.total } }}</span>
         } @else {
-          <span class="progress-label">Max level reached</span>
+          <span class="progress-label">{{ 'profile.maxLevel' | t }}</span>
         }
       </div>
 
@@ -35,20 +35,20 @@
           <div class="card streak-card">
             <div class="stat-card-header">
               <span class="stat-card-icon">🔥</span>
-              <h2 class="section-title">Streak</h2>
+              <h2 class="section-title">{{ 'profile.streak.title' | t }}</h2>
             </div>
             <div class="streak-stats-row">
               <div class="streak-stat">
-                <span class="streak-stat-label">Current</span>
+                <span class="streak-stat-label">{{ 'profile.streak.current' | t }}</span>
                 <span class="streak-stat-value" [class.streak-zero]="streak.current === 0">
-                  {{ streak.current }} <span class="streak-stat-unit">{{ streak.current === 1 ? 'day' : 'days' }}</span>
+                  {{ streak.current }} <span class="streak-stat-unit">{{ (streak.current === 1 ? 'profile.streak.day' : 'profile.streak.days') | t }}</span>
                 </span>
               </div>
               <div class="streak-stat-divider"></div>
               <div class="streak-stat">
-                <span class="streak-stat-label">Longest</span>
+                <span class="streak-stat-label">{{ 'profile.streak.longest' | t }}</span>
                 <span class="streak-stat-value">
-                  {{ streak.longest }} <span class="streak-stat-unit">{{ streak.longest === 1 ? 'day' : 'days' }}</span>
+                  {{ streak.longest }} <span class="streak-stat-unit">{{ (streak.longest === 1 ? 'profile.streak.day' : 'profile.streak.days') | t }}</span>
                 </span>
               </div>
             </div>
@@ -58,42 +58,42 @@
         <div class="card favorite-topic-card">
           <div class="stat-card-header">
             <span class="stat-card-icon">⭐</span>
-            <h2 class="section-title">Favorite Topic</h2>
+            <h2 class="section-title">{{ 'profile.favoriteTopic.title' | t }}</h2>
           </div>
           @if (favoriteTopic(); as favorite) {
-            <span class="favorite-topic-value">{{ favorite.label }}</span>
-            <span class="favorite-topic-sub">{{ favorite.total }} XP earned</span>
+            <span class="favorite-topic-value">{{ favorite.label | t }}</span>
+            <span class="favorite-topic-sub">{{ 'profile.favoriteTopic.xpEarned' | t: { total: favorite.total } }}</span>
           } @else {
-            <span class="favorite-topic-empty">Not enough data yet</span>
+            <span class="favorite-topic-empty">{{ 'profile.favoriteTopic.empty' | t }}</span>
           }
         </div>
       </div>
 
       @if (xpService.dailyGoal(); as goal) {
         <div class="card">
-          <h2 class="section-title">Daily Goal</h2>
-          <div class="xp-total">{{ goal.earnedToday }} / {{ goal.goal }} XP today</div>
+          <h2 class="section-title">{{ 'profile.dailyGoal.title' | t }}</h2>
+          <div class="xp-total">{{ 'profile.dailyGoal.progress' | t: { earned: goal.earnedToday, goal: goal.goal } }}</div>
           <div class="progress-bar">
             <div class="progress-fill" [style.width.%]="dailyGoalPercent()"></div>
           </div>
           @if (goal.earnedToday >= goal.goal) {
-            <span class="progress-label">Goal reached — nice work!</span>
+            <span class="progress-label">{{ 'profile.dailyGoal.reached' | t }}</span>
           } @else {
-            <span class="progress-label">{{ goal.goal - goal.earnedToday }} XP to go</span>
+            <span class="progress-label">{{ 'profile.dailyGoal.toGo' | t: { amount: goal.goal - goal.earnedToday } }}</span>
           }
         </div>
       }
 
       <div class="card">
-        <h2 class="section-title">XP Breakdown</h2>
+        <h2 class="section-title">{{ 'profile.breakdown.title' | t }}</h2>
         @if (summary.breakdown.length === 0) {
-          <p class="empty-state">No XP earned yet — complete a lesson or mark something as read to get started.</p>
+          <p class="empty-state">{{ 'profile.breakdown.empty' | t }}</p>
         } @else {
           <ul class="breakdown-list">
             @for (entry of summary.breakdown; track entry.sourceType) {
               <li class="breakdown-item">
-                <span>{{ sourceLabel(entry.sourceType) }}</span>
-                <span>{{ entry.total }} XP</span>
+                <span>{{ sourceLabel(entry.sourceType) | t }}</span>
+                <span>{{ 'profile.xpTotal' | t: { total: entry.total } }}</span>
               </li>
             }
           </ul>
@@ -101,16 +101,16 @@
       </div>
 
       <div class="card">
-        <h2 class="section-title">Recent Activity</h2>
+        <h2 class="section-title">{{ 'profile.activity.title' | t }}</h2>
         @if (xpService.history().length === 0) {
-          <p class="empty-state">Nothing here yet.</p>
+          <p class="empty-state">{{ 'profile.activity.empty' | t }}</p>
         } @else {
           <ul class="history-list">
             @for (entry of xpService.history(); track entry.id) {
               <li class="history-item">
-                <span class="history-source">{{ sourceLabel(entry.sourceType) }}</span>
+                <span class="history-source">{{ sourceLabel(entry.sourceType) | t }}</span>
                 <span class="history-id">{{ entry.sourceId }}</span>
-                <span class="history-exp">+{{ entry.exp }} XP</span>
+                <span class="history-exp">{{ 'profile.activity.exp' | t: { exp: entry.exp } }}</span>
               </li>
             }
           </ul>

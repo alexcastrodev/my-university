@@ -1,6 +1,6 @@
 ---
 title: "Árvores de Merkle: Árvores de Hash para Verificação Eficiente e Anti-Entropia"
-description: Como uma árvore de hashes permite que duas partes concordem que gigabytes de dados são idênticos comparando um único hash, provar a associação de um único registro em O(log n), e reparar apenas o que realmente divergiu -- com o bug de separação de domínio que quebrou o Bitcoin pelo caminho.
+description: Como uma árvore de hashes permite que duas partes concordem que gigabytes de dados são idênticos comparando um único hash, provar o pertencimento de um único registro em O(log n), e reparar apenas o que realmente divergiu -- com o bug de separação de domínio que quebrou o Bitcoin pelo caminho.
 difficulty: Intermediate
 readingTime: 19
 tags:
@@ -34,7 +34,7 @@ related:
 
 ## Visão Geral
 
-Uma **árvore de Merkle** (Ralph Merkle, 1979) é uma árvore binária onde toda folha guarda o hash de um pedaço de dado, e todo nó não-folha guarda o hash da concatenação dos hashes de seus filhos. O retorno é que um único hash na raiz -- 32 bytes, para SHA-256 -- identifica um conjunto de dados arbitrariamente grande, e a estrutura de árvore permite fazer duas coisas que um hash simples do conjunto de dados inteiro não consegue: provar que um registro específico pertence ao conjunto sem transmitir o resto dele, e encontrar exatamente o que mudou entre duas versões do conjunto de dados sem compará-las byte a byte. Essas duas propriedades são por que a mesma estrutura de dados aparece, quase inalterada, no armazenamento de objetos do Git, em todo bloco do Bitcoin e Ethereum, nos logs de Certificate Transparency, no reparo de réplicas do Cassandra e DynamoDB, nos checksums do ZFS e Btrfs, e no endereçamento de conteúdo do IPFS.
+Uma **árvore de Merkle** (Ralph Merkle, 1979) é uma árvore binária onde toda folha guarda o hash de um pedaço de dado, e todo nó não-folha guarda o hash da concatenação dos hashes de seus filhos. O benefício é que um único hash na raiz -- 32 bytes, para SHA-256 -- identifica um conjunto de dados arbitrariamente grande, e a estrutura de árvore permite fazer duas coisas que um hash simples do conjunto de dados inteiro não consegue: provar que um registro específico pertence ao conjunto sem transmitir o resto dele, e encontrar exatamente o que mudou entre duas versões do conjunto de dados sem compará-las byte a byte. Essas duas propriedades são por que a mesma estrutura de dados aparece, quase inalterada, no armazenamento de objetos do Git, em todo bloco do Bitcoin e Ethereum, nos logs de Certificate Transparency, no reparo de réplicas do Cassandra e DynamoDB, nos checksums do ZFS e Btrfs, e no endereçamento de conteúdo do IPFS.
 
 ## Como a Árvore É Construída
 
@@ -82,7 +82,7 @@ flowchart TB
     H23 -.-> HD
 ```
 
-Para verificar que "B" está realmente na árvore, o verificador recebe a prova `[hA, h23]` mais o valor reivindicado de B. Ele recomputa `h01' = h(hA + h(B))`, depois `root' = h(h01' + h23)`, e compara `root'` ao hash raiz em que já confia. Dois hashes provaram associação em um conjunto de qualquer tamanho -- esse é exatamente o mecanismo por trás de um cliente SPV (leve) do Bitcoin confirmando que uma transação está em um bloco sem baixar o bloco, e por trás do Certificate Transparency provando que um certificado está em um log público sem baixar o log inteiro.
+Para verificar que "B" está realmente na árvore, o verificador recebe a prova `[hA, h23]` mais o valor reivindicado de B. Ele recomputa `h01' = h(hA + h(B))`, depois `root' = h(h01' + h23)`, e compara `root'` ao hash raiz em que já confia. Dois hashes provaram pertencimento a um conjunto de qualquer tamanho -- esse é exatamente o mecanismo por trás de um cliente SPV (leve) do Bitcoin confirmando que uma transação está em um bloco sem baixar o bloco, e por trás do Certificate Transparency provando que um certificado está em um log público sem baixar o log inteiro.
 
 Aqui está essa mesma recomputação como um traço, sobre a mesma árvore de sete nós, para tornar concreta em vez de diagramática a afirmação de "o verificador só recomputa o caminho":
 
@@ -102,7 +102,7 @@ mark h23 | O provador fornece h23 como o segundo hash irmão -- de novo só o ha
 recolor root red | O verificador computa root' = h(h01' + h23) e compara com a raiz em que já confiava. Elas coincidem: "B" está provado como pertencente à árvore, usando dois hashes fornecidos e zero acesso às outras três folhas.
 ```
 
-Coloque um número nisso: para uma árvore com `n = 1.000.000` folhas, uma prova são `⌈log2 1.000.000⌉ = 20` hashes irmãos. A 32 bytes por hash SHA-256, isso é uma prova de 640 bytes independentemente de as outras 999.999 folhas serem gigabytes ou terabytes. Dobre `n` para dois milhões e a prova cresce exatamente mais um hash -- 21 -- que é todo o ponto do `O(log n)`: a prova mal percebe o conjunto de dados crescendo.
+Coloque um número nisso: para uma árvore com `n = 1.000.000` folhas, uma prova são `⌈log2 1.000.000⌉ = 20` hashes irmãos. A 32 bytes por hash SHA-256, isso é uma prova de 640 bytes independentemente de as outras 999.999 folhas serem gigabytes ou terabytes. Dobre `n` para dois milhões e a prova cresce exatamente mais um hash -- 21 -- que é exatamente a razão de ser do `O(log n)`: a prova mal percebe o conjunto de dados crescendo.
 
 ## Comparando Duas Réplicas: Reparo por Anti-Entropia
 
@@ -166,7 +166,7 @@ O Bitcoin inicial errou nisso de uma forma relacionada e pagou por isso: seu cá
 | zk-Rollups (Arbitrum, zkSync, StarkNet, Polygon zkEVM) | Estado de conta em lote da Camada 2 | Uma nova raiz de Merkle mais uma prova sucinta permite que a Camada 1 verifique milhares de transações sem re-executar nenhuma delas |
 | Certificate Transparency (RFC 6962) | Certificados TLS emitidos, em um log append-only | Auditores obtêm provas de inclusão O(log n) e provas de consistência de que o log nunca foi reescrito |
 | Amazon Dynamo, Cassandra, Riak | Intervalos de chave (buckets) por réplica | O reparo por anti-entropia transfere dados proporcionais à *diferença* entre réplicas, não ao seu tamanho |
-| IPFS | Blocos endereçados por conteúdo formando um DAG de Merkle | Deduplicação e endereçamento de conteúdo verificável e à prova de adulteração através de uma rede P2P |
+| IPFS | Blocos endereçados por conteúdo formando um DAG de Merkle | Deduplicação e endereçamento de conteúdo verificável, com qualquer adulteração sempre detectável, em uma rede P2P |
 | ZFS, Btrfs | Blocos de dados, até ponteiros de bloco indireto | Checksums de ponta a ponta que capturam apodrecimento de bit silencioso em qualquer lugar na árvore, não só nas folhas |
 | Assinatura e firmware XMSS / LMS (RFC 8391, RFC 8554) | Chaves públicas de assinatura de uso único, uma por folha | Uma única chave pública raiz autentica muitas assinaturas de uso único, com segurança pós-quântica repousando apenas na resistência a pré-imagem de hash |
 
@@ -192,7 +192,7 @@ O reaproveitamento mais recente da mesma forma está nos **zk-rollups**, uma té
 
 - **Provas e reparos O(log n) só são baratos se a árvore for reconstruída assim** -- uma árvore de Merkle ingênua recomputa todo hash no caminho de uma folha alterada até a raiz em cada escrita, o que é bom para o Git (conteúdo é imutável, então árvores são construídas uma vez e nunca mutadas) mas caro demais para um banco de dados vivo manter incrementalmente. É por isso que Cassandra e Dynamo constroem árvores de Merkle **sob demanda** para uma sessão de reparo em vez de manter uma continuamente atualizada, trocando um custo periódico de reconstrução por não pagar um rehash a cada escrita.
 - **Granularidade de bucket/folha troca overhead de comparação por precisão de reparo** -- folhas menores em número e maiores em tamanho significam uma árvore mais rasa e menos viagens de ida e volta, mas uma divergência de um único byte dentro de um bucket grande força a ressincronização do bucket inteiro; mais folhas, menores, localizam uma divergência precisamente mas fazem crescer a árvore e o overhead por comparação. O padrão comum do Cassandra de aproximadamente um milhão de buckets por bilhão de chaves é uma resposta específica a essa troca, não uma constante arbitrária.
-- **Uma prova de Merkle só é confiável quanto o hash raiz que o verificador já tem** -- a árvore prova consistência com uma raiz, não a correção da própria raiz; um cliente SPV que aceita um hash raiz de um par não confiável pode ser convencido de uma mentira tão convincentemente quanto da verdade. A raiz tem que chegar por um canal que seja independentemente confiável (um nó completo que você roda, uma cadeia de cabeçalhos de bloco com prova de trabalho, o tree head assinado de um log CT).
+- **Uma prova de Merkle só é tão confiável quanto o hash raiz que o verificador já tem** -- a árvore prova consistência com uma raiz, não a correção da própria raiz; um cliente SPV que aceita um hash raiz de um par não confiável pode ser convencido de uma mentira tão convincentemente quanto da verdade. A raiz tem que chegar por um canal que seja independentemente confiável (um nó completo que você roda, uma cadeia de cabeçalhos de bloco com prova de trabalho, o tree head assinado de um log CT).
 - **Pular separação de domínio é um bug silencioso e explorável, não uma escolha de estilo** -- como o CVE-2012-2459 mostra, tratar hashes de folha e hashes internos como o mesmo espaço de hash abre construções de forjamento/colisão que são baratas de construir e fáceis de perder em revisão, porque a árvore ainda "parece correta" até que alguém construa a entrada colidente.
 - **Árvores Verkle trocam uma suposição familiar (uma função de hash é um oráculo aleatório) por uma menos familiar (compromissos polinomiais e emparelhamentos)** -- provas menores, de tamanho quase constante, são uma vitória real na escala do trie de estado de blockchain, mas a maquinaria criptográfica é mais pesada de implementar corretamente e de raciocinar sobre do que "chame SHA-256 duas vezes".
 - **A compressão de prefixo do Merkle-Patricia trie compra eficiência de chave esparsa ao custo de quatro tipos de nó em vez de um** -- uma árvore de Merkle simples sobre um array denso precisa de um tipo de nó e uma regra de inserção; nós branch/extension/leaf tornam toda leitura, escrita, e prova uma pequena máquina de estados, que é exatamente a complexidade que árvores Verkle estão tentando trocar na próxima iteração do Ethereum.

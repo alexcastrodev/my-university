@@ -69,7 +69,7 @@ sequenceDiagram
     Server->>Server: monta o manifesto [h1,h2,h3,h4] -> arquivo
 ```
 
-Isso é o que torna possível deduplicação entre usuários e entre versões: dois usuários que têm o mesmo template de PDF estoque o armazenam uma vez no nível de chunk, e um usuário que salva dez versões de um documento enquanto edita paga pela *união* de chunks que já existiram através dessas versões, não dez cópias completas. O trade-off é que o servidor agora precisa de um modelo de contagem de referências de chunk (um chunk não pode ser excluído até que nenhum manifesto de arquivo mais o referencie) — exclusão vira garbage collection em vez de uma exclusão direta.
+Isso é o que torna possível deduplicação entre usuários e entre versões: dois usuários que têm o mesmo template de PDF padrão o armazenam uma vez no nível de chunk, e um usuário que salva dez versões de um documento enquanto edita paga pela *união* de chunks que já existiram através dessas versões, não dez cópias completas. O trade-off é que o servidor agora precisa de um modelo de contagem de referências de chunk (um chunk não pode ser excluído até que nenhum manifesto de arquivo mais o referencie) — exclusão vira garbage collection em vez de uma exclusão direta.
 
 ## Delta Sync
 
@@ -86,7 +86,7 @@ Estado de sincronização após edição:
               h1, h2, h4 não requerem I/O de rede
 ```
 
-O mesmo diff de manifesto roda em reverso para outros dispositivos: em vez de rebaixar o arquivo inteiro, um dispositivo compara seu manifesto local ao novo, descobre que já tem três dos quatro chunks, e só busca o chunk que falta — o que é por que editar um único parágrafo em um documento grande sincroniza para outros dispositivos em segundos em vez de minutos.
+O mesmo diff de manifesto roda em reverso para outros dispositivos: em vez de baixar o arquivo inteiro de novo, um dispositivo compara seu manifesto local ao novo, descobre que já tem três dos quatro chunks, e só busca o chunk que falta — por isso editar um único parágrafo em um documento grande sincroniza para outros dispositivos em segundos em vez de minutos.
 
 ## Compressão no Lado do Client
 

@@ -51,7 +51,7 @@ As pegadinhas são reais. Sharding por tenant assume que cada tenant cabe em um 
 
 ## Sharding por Key Range
 
-Atribua a cada shard um intervalo contíguo de chaves de partição, de um mínimo a um máximo — o modelo de enciclopédia impressa, onde o volume 1 tem A–B e o volume 12 tem T–Z. Intervalos deliberadamente *não* são igualmente espaçados, porque os dados não são: um volume a cada duas letras tornaria alguns volumes enormes. Limites precisam se adaptar à distribuição real de chaves, ou escolhidos por um administrador (o Vitess faz isso para MySQL) ou mantidos automaticamente (Bigtable, HBase, CockroachDB, FoundationDB, sharding em intervalo do MongoDB; YugabyteDB oferece ambos).
+Atribua a cada shard um intervalo contíguo de chaves de partição, de um mínimo a um máximo — o modelo de enciclopédia impressa, onde o volume 1 tem A–B e o volume 12 tem T–Z. Intervalos deliberadamente *não* são igualmente espaçados, porque os dados não são: um volume a cada duas letras tornaria alguns volumes enormes. Limites precisam se adaptar à distribuição real de chaves, seja escolhidos por um administrador (o Vitess faz isso para MySQL), seja mantidos automaticamente (Bigtable, HBase, CockroachDB, FoundationDB, sharding em intervalo do MongoDB; YugabyteDB oferece ambos).
 
 O benefício é que chaves são armazenadas em ordem dentro de cada shard, então **varreduras de intervalo são baratas e locais**. Armazene leituras de sensor chaveadas por timestamp e "me dê toda leitura em julho" é uma varredura sequencial em um shard. Você também pode tratar a chave como um índice concatenado e puxar um conjunto de registros relacionados em uma única consulta.
 
@@ -63,7 +63,7 @@ Isso vale a pena observar sempre que a chave de partição é monotonicamente cr
 
 ### Rebalanceando Shards de Key-Range
 
-Um banco de dados vazio não tem intervalos de chave para dividir, então sistemas como HBase e MongoDB deixam você configurar um conjunto inicial de shards (**pre-splitting**), o que requer que você já tenha um chute sobre a distribuição de chaves. Depois disso, crescimento acontece por **splitting** um shard em dois subintervalos contíguos que podem ser colocados em nós diferentes; excluir muitos dados pode requerer **merging** shards pequenos adjacentes de volta juntos. Estruturalmente é a mesma operação que uma B-tree realiza em seu nível superior.
+Um banco de dados vazio não tem intervalos de chave para dividir, então sistemas como HBase e MongoDB deixam você configurar um conjunto inicial de shards (**pre-splitting**), o que requer que você já tenha um chute sobre a distribuição de chaves. Depois disso, o crescimento acontece dividindo (**splitting**) um shard em dois subintervalos contíguos que podem ser colocados em nós diferentes; excluir muitos dados pode exigir reunir (**merging**) shards pequenos adjacentes de volta em um só. Estruturalmente é a mesma operação que uma B-tree realiza em seu nível superior.
 
 Sistemas automáticos disparam um split quando um shard excede um limiar de tamanho (HBase usa 10 GB por padrão) ou, em alguns sistemas, quando seu throughput de escrita permanece acima de um limite — então um shard quente pode ser dividido por razões de carga mesmo quando não é grande. A propriedade boa desse esquema é que o número de shards se adapta ao volume de dados em vez de ser fixado de antemão.
 
@@ -75,10 +75,10 @@ Se você não se importa com adjacência de chave — IDs de tenant, IDs de usu�
 
 Mapear o hash para um shard é onde as escolhas interessantes estão, e [Consistent Hashing](consistent-hashing) cobre esse mecanismo em profundidade — por que `hash(key) % N` remapeia quase toda chave no momento em que `N` muda, o anel de hash, e nós virtuais. Duas variantes de produção que vale a pena nomear aqui:
 
-- **Número fixo de shards.** Crie muito mais shards que nós (1.000 shards através de 10 nós) e armazene a chave `k` no shard `hash(k) % 1000`, rastreando separadamente qual shard vive em qual nó. Adicionar um nó move *shards inteiros*, nunca os divide, o que é muito mais barato. Usado por Citus, Riak, Elasticsearch, e Couchbase. Os limites: você nunca pode ter mais nós que shards, e se sua estimativa original estava errada, resharding significa reescrever tudo.
+- **Número fixo de shards.** Crie muito mais shards que nós (1.000 shards em 10 nós) e armazene a chave `k` no shard `hash(k) % 1000`, rastreando separadamente qual shard vive em qual nó. Adicionar um nó move *shards inteiros*, nunca os divide, o que é muito mais barato. Usado por Citus, Riak, Elasticsearch, e Couchbase. Os limites: você nunca pode ter mais nós que shards, e se sua estimativa original estava errada, resharding significa reescrever tudo.
 - **Sharding por hash-range.** Cada shard possui um *intervalo contíguo de valores de hash* em vez de um slot fixo, então shards ainda podem ser divididos quando ficam grandes demais — o número de shards se adapta aos dados. DynamoDB e YugabyteDB usam isso; é uma opção no MongoDB. Cassandra e ScyllaDB usam uma variante com limites de intervalo posicionados aleatoriamente e muitos intervalos por nó (16 por padrão no Cassandra, 256 no ScyllaDB) para que desequilíbrios se compensem.
 
-O que você abre mão é exatamente o que sharding por key-range era bom: **consultas de intervalo sobre a chave de partição agora precisam atingir todo shard**, porque chaves adjacentes são deliberadamente espalhadas. A mitigação padrão é uma chave composta — faça apenas a *primeira* coluna a chave de partição e ordene pelo resto dentro do shard. Então uma varredura sobre as colunas posteriores, para uma chave de partição fixa, ainda é uma única varredura local. Isso é precisamente por que o DynamoDB divide uma chave primária em uma chave de partição e uma chave de ordenação.
+O que você abre mão é exatamente aquilo em que sharding por key-range era bom: **consultas de intervalo sobre a chave de partição agora precisam atingir todo shard**, porque chaves adjacentes são deliberadamente espalhadas. A mitigação padrão é uma chave composta — faça apenas a *primeira* coluna a chave de partição e ordene pelo resto dentro do shard. Então uma varredura sobre as colunas posteriores, para uma chave de partição fixa, ainda é uma única varredura local. Isso é precisamente por que o DynamoDB divide uma chave primária em uma chave de partição e uma chave de ordenação.
 
 ```mermaid
 flowchart TB
@@ -114,7 +114,7 @@ Grandes serviços em nuvem automatizam partes disso — a Amazon chama de *heat 
 
 ## Rebalanceamento: Automático Versus Manual
 
-Todo esquema acima eventualmente precisa de shards movidos entre nós. A pergunta que determina como suas 3 da manhã se parecem é se isso acontece por si só.
+Todo esquema acima eventualmente precisa de shards movidos entre nós. A pergunta que determina como serão suas 3 da manhã é se isso acontece por si só.
 
 Rebalanceamento totalmente automático é conveniente e permite autoscaling real — o DynamoDB anuncia adicionar e remover capacidade dentro de minutos de uma mudança de carga. Mas rebalanceamento é uma operação inerentemente cara: reroteia requisições e move grandes volumes de dados pela rede enquanto o sistema precisa continuar servindo escritas. Se um cluster já está perto de seu throughput máximo de escrita, um split de shard pode nem conseguir acompanhar a taxa de escrita recebida.
 
@@ -194,4 +194,3 @@ flowchart TB
 - [MongoDB Manual — Shard Keys: ranged vs. hashed sharding](https://www.mongodb.com/docs/manual/core/sharding-shard-key/)
 - [AWS — Using Global Secondary Indexes in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html)
 - [Vitess Docs — Resharding](https://vitess.io/docs/user-guides/configuration-advanced/resharding/)
-</content>

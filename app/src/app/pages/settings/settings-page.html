@@ -2,16 +2,16 @@
   <div class="page-body">
     @if (!auth.currentUser()) {
       <div class="login-prompt">
-        <p>Log in with GitHub to change your settings.</p>
-        <a class="btn github-btn" href="/api/auth/github">Continue with GitHub</a>
+        <p>{{ 'settings.loginPrompt' | t }}</p>
+        <a class="btn github-btn" href="/api/auth/github">{{ 'profile.continueGithub' | t }}</a>
       </div>
     } @else {
-      <h1 class="page-title">Settings</h1>
+      <h1 class="page-title">{{ 'settings.title' | t }}</h1>
 
       <div class="card">
-        <h2 class="section-title">Display name</h2>
+        <h2 class="section-title">{{ 'settings.displayName.title' | t }}</h2>
         <p class="hint">
-          By default your name comes from GitHub (&#64;{{ auth.currentUser()!.githubLogin }}). You can override it below.
+          {{ 'settings.displayName.hint' | t: { login: auth.currentUser()!.githubLogin } }}
         </p>
 
         <input
@@ -20,15 +20,15 @@
           [value]="displayName()"
           (input)="displayName.set($any($event.target).value)"
           maxlength="80"
-          aria-label="Display name"
+          [attr.aria-label]="'settings.displayName.ariaLabel' | t"
         />
 
         <div class="actions">
           <button type="button" class="btn primary-btn" [disabled]="saving()" (click)="save()">
-            {{ saving() ? 'Saving…' : 'Save' }}
+            {{ (saving() ? 'settings.saving' : 'settings.save') | t }}
           </button>
           <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()">
-            Reset to GitHub name
+            {{ 'settings.resetGithub' | t }}
           </button>
         </div>
 
@@ -38,9 +38,9 @@
       </div>
 
       <div class="card">
-        <h2 class="section-title">Theme</h2>
-        <p class="hint">Coming soon.</p>
-        <button type="button" class="btn secondary-btn" disabled>Dark mode</button>
+        <h2 class="section-title">{{ 'settings.theme.title' | t }}</h2>
+        <p class="hint">{{ 'settings.theme.comingSoon' | t }}</p>
+        <button type="button" class="btn secondary-btn" disabled>{{ 'settings.theme.darkMode' | t }}</button>
       </div>
     }
   </div>

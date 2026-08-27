@@ -4,15 +4,17 @@ import { ResumePoint } from '../../models/course.model';
 import { AuthService } from '../../services/auth.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslationKey } from '../../shared/i18n/translations';
 
 interface LandingSessionLink {
-  label: string;
+  label: TranslationKey;
   routerLink: string;
 }
 
 interface LandingSession {
-  title: string;
-  description: string;
+  title: TranslationKey;
+  description: TranslationKey;
   icon: string;
   /** Single destination for the whole card — used when there is only one place to go. */
   routerLink?: string;
@@ -22,52 +24,52 @@ interface LandingSession {
 
 const SESSIONS: LandingSession[] = [
   {
-    title: 'Java',
-    description: 'Certification practice exams, Java Minute quick answers, and in-depth Java Concepts.',
+    title: 'landing.sessions.java.title',
+    description: 'landing.sessions.java.description',
     icon: '☕',
     links: [
-      { label: 'Exams', routerLink: '/java/exams' },
-      { label: 'Concepts', routerLink: '/java/java-concepts' },
-      { label: 'JVM Concepts', routerLink: '/java/jvm-concepts' },
-      { label: 'Java Minute', routerLink: '/java/java-minute' },
+      { label: 'landing.link.exams', routerLink: '/java/exams' },
+      { label: 'landing.link.concepts', routerLink: '/java/java-concepts' },
+      { label: 'landing.link.jvmConcepts', routerLink: '/java/jvm-concepts' },
+      { label: 'landing.link.javaMinute', routerLink: '/java/java-minute' },
     ],
   },
   {
-    title: 'Spring',
-    description: 'Spring Boot, Spring Security, and Spring Batch concepts explained in depth.',
+    title: 'landing.sessions.spring.title',
+    description: 'landing.sessions.spring.description',
     icon: '🌱',
     routerLink: '/spring-concepts',
   },
   {
-    title: 'Quarkus',
-    description: 'Hibernate ORM, persistence, and data access in Quarkus, explained in depth.',
+    title: 'landing.sessions.quarkus.title',
+    description: 'landing.sessions.quarkus.description',
     icon: '⚛️',
     routerLink: '/quarkus-concepts',
   },
   {
-    title: 'Ruby',
-    description: 'Ruby language internals and Ruby on Rails performance concepts explained in depth.',
+    title: 'landing.sessions.ruby.title',
+    description: 'landing.sessions.ruby.description',
     icon: '💎',
     links: [
-      { label: 'Concepts', routerLink: '/ruby-concepts' },
-      { label: 'Rails', routerLink: '/rubyonrails-concepts' },
+      { label: 'landing.link.concepts', routerLink: '/ruby-concepts' },
+      { label: 'landing.link.rails', routerLink: '/rubyonrails-concepts' },
     ],
   },
   {
-    title: 'Databases',
-    description: 'PostgreSQL, SQL, MongoDB, and DynamoDB concepts, built up one book chapter at a time.',
+    title: 'landing.sessions.databases.title',
+    description: 'landing.sessions.databases.description',
     icon: '🗄️',
     routerLink: '/databases/database-concepts',
   },
   {
-    title: 'System Design',
-    description: 'Distributed systems and architecture patterns explained in depth.',
+    title: 'landing.sessions.systemDesign.title',
+    description: 'landing.sessions.systemDesign.description',
     icon: '🧩',
     routerLink: '/system-design/system-design-concepts',
   },
   {
-    title: 'Algorithms',
-    description: 'Core algorithms and data structures, with visualizations to build intuition.',
+    title: 'landing.sessions.algorithms.title',
+    description: 'landing.sessions.algorithms.description',
     icon: '📈',
     routerLink: '/algorithms/algorithms-concepts',
   },
@@ -76,7 +78,7 @@ const SESSIONS: LandingSession[] = [
 @Component({
   selector: 'app-landing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })

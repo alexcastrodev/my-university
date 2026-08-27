@@ -14,20 +14,23 @@ import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
 import { Language } from '../../models/language.model';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
+import { TranslateService } from '../../shared/i18n/translate.service';
+import { TranslationKey } from '../../shared/i18n/translations';
 
-const TYPE_LABELS: Record<SearchResultType, string> = {
-  course: 'Course',
-  lesson: 'Lesson',
-  'java-minute': 'Java Minute',
-  'java-concept': 'Java Concept',
-  'jvm-concept': 'JVM Concept',
-  'database-concept': 'Database Concept',
-  'spring-concept': 'Spring Concept',
-  'system-design-concept': 'System Design',
-  'testing-concept': 'Testing Concept',
-  'algorithms-concept': 'Algorithms',
-  'ruby-concept': 'Ruby Concept',
-  'rubyonrails-concept': 'Ruby on Rails Concept',
+const TYPE_LABELS: Record<SearchResultType, TranslationKey> = {
+  course: 'header.search.type.course',
+  lesson: 'header.search.type.lesson',
+  'java-minute': 'header.search.type.javaMinute',
+  'java-concept': 'header.search.type.javaConcept',
+  'jvm-concept': 'header.search.type.jvmConcept',
+  'database-concept': 'header.search.type.databaseConcept',
+  'spring-concept': 'header.search.type.springConcept',
+  'system-design-concept': 'header.search.type.systemDesignConcept',
+  'testing-concept': 'header.search.type.testingConcept',
+  'algorithms-concept': 'header.search.type.algorithmsConcept',
+  'ruby-concept': 'header.search.type.rubyConcept',
+  'rubyonrails-concept': 'header.search.type.rubyonrailsConcept',
 };
 
 const LANGUAGE_LABELS: Record<Language, string> = {
@@ -53,20 +56,20 @@ function localizedUrl(url: string, target: Language): string | null {
   return null;
 }
 
-const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
-  { label: 'All', value: null },
-  { label: 'Courses', value: 'course' },
-  { label: 'Lessons', value: 'lesson' },
-  { label: 'Java Minute', value: 'java-minute' },
-  { label: 'Java Concepts', value: 'java-concept' },
-  { label: 'JVM Concepts', value: 'jvm-concept' },
-  { label: 'Database Concepts', value: 'database-concept' },
-  { label: 'Spring Concepts', value: 'spring-concept' },
-  { label: 'System Design', value: 'system-design-concept' },
-  { label: 'Testing Concepts', value: 'testing-concept' },
-  { label: 'Algorithms', value: 'algorithms-concept' },
-  { label: 'Ruby Concepts', value: 'ruby-concept' },
-  { label: 'Ruby on Rails Concepts', value: 'rubyonrails-concept' },
+const FILTER_OPTIONS: { label: TranslationKey; value: SearchResultType | null }[] = [
+  { label: 'header.search.filter.all', value: null },
+  { label: 'header.search.filter.courses', value: 'course' },
+  { label: 'header.search.filter.lessons', value: 'lesson' },
+  { label: 'header.search.filter.javaMinute', value: 'java-minute' },
+  { label: 'header.search.filter.javaConcepts', value: 'java-concept' },
+  { label: 'header.search.filter.jvmConcepts', value: 'jvm-concept' },
+  { label: 'header.search.filter.databaseConcepts', value: 'database-concept' },
+  { label: 'header.search.filter.springConcepts', value: 'spring-concept' },
+  { label: 'header.search.filter.systemDesign', value: 'system-design-concept' },
+  { label: 'header.search.filter.testingConcepts', value: 'testing-concept' },
+  { label: 'header.search.filter.algorithms', value: 'algorithms-concept' },
+  { label: 'header.search.filter.rubyConcepts', value: 'ruby-concept' },
+  { label: 'header.search.filter.rubyRailsConcepts', value: 'rubyonrails-concept' },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -75,7 +78,7 @@ const MIN_QUERY_LENGTH = 2;
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -83,6 +86,7 @@ export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   protected languageService = inject(LanguageService);
+  protected translate = inject(TranslateService);
   private router = inject(Router);
   private searchService = inject(SearchService);
   private elementRef = inject(ElementRef);
@@ -108,7 +112,7 @@ export class Header {
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
-    if (!user) return 'Sign in';
+    if (!user) return this.translate.t('header.signIn');
 
     return user.displayName
       .split(/\s+/)

@@ -20,11 +20,11 @@ related:
 
 ## Visão Geral
 
-Um banco de dados relacional é construído para indexar e consultar linhas pequenas e estruturadas rapidamente — não é construído para manter um arquivo de vídeo de 2 GB como uma coluna blob, e transmitir uploads grandes através de um servidor de aplicação antes de pousarem em algum lugar permanente desperdiça memória do servidor, slots de conexão, e tempo em trabalho que não tem nada a ver com o real trabalho do servidor. **Armazenamento de objetos** (S3, Google Cloud Storage, Azure Blob Storage) é um sistema separado construído com o propósito de armazenar arquivos grandes e quase-imutáveis de forma barata e servi-los de volta eficientemente. O padrão que faz isso funcionar de ponta a ponta é: os *bytes* do arquivo vão diretamente do cliente para o armazenamento de objetos, e apenas os *metadados* do arquivo — nome, tamanho, dono, localização de armazenamento — jamais tocam seu banco de dados.
+Um banco de dados relacional é construído para indexar e consultar linhas pequenas e estruturadas rapidamente — não é construído para manter um arquivo de vídeo de 2 GB como uma coluna blob, e transmitir uploads grandes através de um servidor de aplicação antes de pousarem em algum lugar permanente desperdiça memória do servidor, slots de conexão, e tempo em trabalho que não tem nada a ver com o trabalho real do servidor. **Armazenamento de objetos** (S3, Google Cloud Storage, Azure Blob Storage) é um sistema separado construído com o propósito de armazenar arquivos grandes e quase-imutáveis de forma barata e servi-los de volta eficientemente. O padrão que faz isso funcionar de ponta a ponta é: os *bytes* do arquivo vão diretamente do cliente para o armazenamento de objetos, e apenas os *metadados* do arquivo — nome, tamanho, dono, localização de armazenamento — jamais tocam seu banco de dados.
 
 ## Por Que Não Fazer Upload Através do Servidor
 
-Rotear um arquivo grande através do servidor de aplicação a caminho do armazenamento tem três custos concretos: o servidor mantém uma conexão e faz buffer (ou transmite) o corpo da requisição pelo tempo que o upload durar, o que para um arquivo grande em uma conexão lenta pode ser minutos; o timeout de requisição do próprio servidor tem que ser ajustado para tolerar uploads em vez das chamadas de API rápidas que ele normalmente lida; e cada byte que o cliente envia passa por infraestrutura que não ganha nada em vê-lo, já que um arquivo de vídeo não vai ser validado, transformado, ou unido a nada nessa camada. Fazer isso em escala significa que o tráfego de upload compete diretamente com — e pode sufocar — o compute que o servidor precisa para tudo mais que ele faz, que é exatamente a reclamação de "uploads deixaram nossa API lenta" que motiva esse padrão na prática.
+Rotear um arquivo grande através do servidor de aplicação a caminho do armazenamento tem três custos concretos: o servidor mantém uma conexão e faz buffer (ou transmite) o corpo da requisição pelo tempo que o upload durar, o que para um arquivo grande em uma conexão lenta pode ser minutos; o timeout de requisição do próprio servidor tem que ser ajustado para tolerar uploads em vez das chamadas de API rápidas que ele normalmente atende; e cada byte que o cliente envia passa por infraestrutura que não ganha nada em vê-lo, já que um arquivo de vídeo não vai ser validado, transformado, ou unido a nada nessa camada. Fazer isso em escala significa que o tráfego de upload compete diretamente com — e pode sufocar — a capacidade computacional que o servidor precisa para tudo mais que ele faz, que é exatamente a reclamação de "uploads deixaram nossa API lenta" que motiva esse padrão na prática.
 
 ## O Fluxo de URL Pré-Assinada
 
@@ -84,7 +84,7 @@ flowchart LR
 
 - **Upload direto mantém o servidor de aplicação sem estado e rápido, ao custo de um cliente mais elaborado** — o cliente (ou seu SDK) tem que implementar um fluxo de duas etapas (solicitar uma URL, depois fazer upload para ela) em vez de um único POST, e tem que lidar com o upload falhando independentemente do sucesso da requisição de metadados.
 - **URLs pré-assinadas evitam distribuir credenciais de armazenamento, mas uma URL vazada é válida até expirar** — escopo restrito (TTL curto, uma chave de objeto, um teto de tamanho) limita o raio de explosão mas não o elimina da forma que um upload totalmente mediado pelo servidor faria.
-- **Pós-processamento orientado a eventos desacopla o armazenamento de todo consumidor, mas significa que "enviado" e "totalmente processado" (ex.: miniatura existe) são pontos diferentes no tempo** — o cliente e qualquer UI têm que considerar um arquivo existindo antes de sua miniatura existir, tipicamente via o campo `status` ou um evento subsequente.
+- **Pós-processamento orientado a eventos desacopla o armazenamento de todo consumidor, mas significa que "uploaded" e "totalmente processado" (ex.: miniatura existe) são pontos diferentes no tempo** — o cliente e qualquer UI têm que considerar um arquivo existindo antes de sua miniatura existir, tipicamente via o campo `status` ou um evento subsequente.
 - **Manter apenas metadados no banco de dados relacional o mantém rápido e pequeno, mas significa que a existência do arquivo e a correção dos metadados podem divergir do que realmente está no bucket** — um upload que nunca completou mas deixou uma linha de metadados `pending`, ou um objeto do bucket excluído fora de banda, ambos exigem lógica de reconciliação em algum lugar.
 
 ## Perguntas de Entrevista
@@ -93,7 +93,7 @@ flowchart LR
 - O que uma URL pré-assinada realmente concede, e o que especificamente limita o risco se uma vazar antes de expirar?
 - Por que o banco de dados armazena apenas uma `storage_key` em vez do próprio arquivo, e o que isso tem em comum com o raciocínio por trás da polyglot persistence?
 - Por que chamar o serviço de miniatura diretamente a partir do evento de armazenamento de objetos é um design pior do que publicar em um broker, e contra qual falha específica o broker protege?
-- O que significa um arquivo estar "enviado" mas ainda não "processado," e como você representaria essa distinção no modelo de dados?
+- O que significa um arquivo estar "uploaded" mas ainda não "processado", e como você representaria essa distinção no modelo de dados?
 
 ## Referências
 

@@ -125,4 +125,3 @@ Isso transforma "todo serviço precisa implementar sua própria autenticação e
 - [Auth0 — What Is an API Gateway?](https://auth0.com/blog/what-is-an-api-gateway/)
 - [IETF RFC 7519 — JSON Web Token (JWT)](https://datatracker.ietf.org/doc/html/rfc7519)
 - Sam Newman, *Building Microservices* (O'Reilly, 2nd Edition) — Capítulo sobre comunicação entre serviços e gateways
-</content>

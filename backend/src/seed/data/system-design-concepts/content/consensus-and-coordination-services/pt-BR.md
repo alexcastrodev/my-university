@@ -29,7 +29,7 @@ Fazer múltiplos nós concordarem sobre um único valor soa quase trivial até v
 
 Um algoritmo de consenso precisa satisfazer quatro propriedades, e a interessante é a última:
 
-- **Acordo uniforme** — nenhum dois nós decidem diferentemente.
+- **Acordo uniforme** — dois nós nunca decidem valores diferentes.
 - **Integridade** — uma vez que um nó decide um valor, não pode mudar de ideia.
 - **Validade** — o valor decidido precisa realmente ter sido proposto por algum nó (descarta um algoritmo que apenas sempre retorna `null`).
 - **Terminação** — todo nó que não trava eventualmente decide um valor. Esta é a que requer tolerância a falhas real — um único nó "ditador" trivialmente satisfaz as três primeiras, mas se falhar, o sistema não pode mais decidir nada, que é exatamente replicação de líder único sem failover.
@@ -109,4 +109,3 @@ O Kubernetes armazena todo o estado do seu cluster — todo pod, serviço, deplo
 - [etcd Documentation — Why etcd](https://etcd.io/docs/v3.5/learning/why/)
 - [Apache ZooKeeper — ZooKeeper Recipes and Solutions](https://zookeeper.apache.org/doc/current/recipes.html) (locks, eleição de líder)
 - [Kubernetes Documentation — Operating etcd clusters for Kubernetes](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/)
-</content>

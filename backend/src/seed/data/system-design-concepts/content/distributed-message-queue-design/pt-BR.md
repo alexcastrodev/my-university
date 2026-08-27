@@ -61,7 +61,7 @@ partition-1/
 
 A mensagem em si é projetada para viajar **inalterada** do produtor através do broker até o consumidor: `key`, `value` (bytes opacos), `topic`, `partition`, `offset`, `timestamp`, `size`, `crc`. Se qualquer camada precisar remodelar uma mensagem, o sistema paga por uma cópia a cada salto, e copiar é o que mata o throughput em volume. O broker trata `value` como bytes que nunca analisa.
 
-**Batching é onipresente** e é a maior alavanca de throughput única: produtores acumulam mensagens na memória e as enviam em uma requisição, o broker as anexa ao log em blocos contíguos grandes, e consumidores buscam um intervalo em uma única viagem de ida e volta. Batching amortiza viagens de rede e transforma muitas escritas pequenas em poucas grandes sequenciais. Seu custo é latência — um lote maior significa esperar mais para preenchê-lo — que é exatamente o ajuste throughput/latência que os requisitos não funcionais pediram.
+**Batching é onipresente** e é a maior alavanca de throughput única: produtores acumulam mensagens na memória e as enviam em uma requisição, o broker as anexa ao log em blocos contíguos grandes, e consumidores buscam um intervalo em uma única viagem de ida e volta. Batching amortiza idas e voltas de rede e transforma muitas escritas pequenas em poucas grandes sequenciais. Seu custo é latência — um lote maior significa esperar mais para preenchê-lo — que é exatamente o ajuste throughput/latência que os requisitos não funcionais pediram.
 
 ## Particionamento: A Unidade de Paralelismo e Ordenação
 
@@ -91,7 +91,7 @@ O produtor escolhe onde nesse espectro ele se posiciona, por tópico:
 
 `ack=0` é defensável para métricas e envio de logs onde o volume é enorme e um registro perdido é ruído; `ack=all` é a única escolha honesta quando a mensagem representa dinheiro ou estado.
 
-Consumidores leem do **líder** também, não dos seguidores. Isso parece que deveria sobrecarregar o líder, mas uma partição é lida por no máximo um consumidor por grupo, então a contagem de conexões permanece proporcional ao número de grupos, não ao número de máquinas. Onde isso realmente machuca é em leituras entre datacenters — um consumidor pagando uma viagem WAN para um líder em outra região é um caso para permitir leituras da réplica em sincronia mais próxima em vez disso.
+Consumidores leem do **líder** também, não dos seguidores. Isso parece que deveria sobrecarregar o líder, mas uma partição é lida por no máximo um consumidor por grupo, então a contagem de conexões permanece proporcional ao número de grupos, não ao número de máquinas. Onde isso realmente machuca é em leituras entre datacenters — um consumidor pagando uma ida e volta via WAN até um líder em outra região é um caso para permitir leituras da réplica em sincronia mais próxima em vez disso.
 
 ## Grupos de Consumidores, Offsets e Rebalanceamento
 
@@ -108,7 +108,7 @@ Consumidores **puxam**; o broker não empurra. Um modelo push dá menor latênci
 
 A associação ao grupo é gerenciada por um **coordenador** — um broker, escolhido fazendo hash do nome do grupo, então todo membro de um grupo fala com o mesmo. Consumidores enviam heartbeat para ele. O **rebalanceamento** dispara sempre que a associação ou a contagem de partições muda:
 
-1. Um consumidor entra, sai, ou para de enviar heartbeat (uma queda parece uma falta de heartbeat e nada mais — veja [The Trouble with Distributed Systems](distributed-systems-partial-failures) para entender por que "travado" e "lento" são indistinguíveis de fora).
+1. Um consumidor entra, sai, ou para de enviar heartbeat (uma queda parece uma falta de heartbeat e nada mais — veja [The Trouble with Distributed Systems](distributed-systems-partial-failures) para entender por que "caiu" e "lento" são indistinguíveis de fora).
 2. O coordenador pede que todos os membros se reintegrem no próximo heartbeat.
 3. Uma vez que todos se reintegraram, o coordenador escolhe um consumidor como o **líder do grupo**.
 4. Esse líder computa a nova atribuição de partições (round-robin, range, sticky) e a entrega ao coordenador, que a transmite.
@@ -122,7 +122,7 @@ Várias perguntas neste design não têm resposta local: quais brokers estão vi
 
 A estrutura padrão elege **um broker como o controlador do cluster**, e ele possui o **plano de distribuição de réplicas**: quais brokers guardam quais partições, e qual réplica lidera cada uma. Ele persiste esse plano no armazenamento de metadados, e todo broker trabalha a partir dele. Quando o controlador detecta que um broker está fora do ar, ele produz um novo plano — promovendo uma réplica sobrevivente em sincronia para líder de cada partição afetada, e agendando novos seguidores em nós saudáveis para restaurar o fator de replicação.
 
-Eleger esse único controlador, e detectar falha sem que dois nós discordem, é o problema de consenso — veja [Consensus and Coordination Services](consensus-and-coordination-services). Historicamente isso significava um ensemble externo do ZooKeeper (ou etcd) guardando metadados do cluster, offsets, e o lease do controlador. O Kafka agora roda seu próprio quorum Raft interno através de nós controladores dedicados (**KRaft**), e o suporte ao ZooKeeper foi removido inteiramente no Kafka 4.0 — o log de metadados virou apenas mais um log replicado dentro do sistema que ele coordena. O requisito não mudou; só onde o algoritmo de consenso roda.
+Eleger esse único controlador, e detectar falha sem que dois nós discordem, é o problema de consenso — veja [Consensus and Coordination Services](consensus-and-coordination-services). Historicamente isso significava um ensemble externo do ZooKeeper (ou etcd) guardando metadados do cluster, offsets, e o lease do controlador. O Kafka agora roda seu próprio quorum Raft interno através de nós controladores dedicados (**KRaft**), e o suporte ao ZooKeeper foi removido inteiramente no Kafka 4.0 — o log de metadados virou apenas mais um log replicado dentro do sistema que ele coordena. O requisito não mudou; só onde o algoritmo de consenso roda, isso mudou.
 
 Três responsabilidades de armazenamento surgem, e elas têm padrões de acesso genuinamente diferentes:
 
@@ -179,18 +179,18 @@ A garantia não é uma propriedade que o broker fornece sozinho — é o produto
 **Exatamente uma vez.** Todo registro afeta o estado final uma vez, não importa o que falhe. Nada nisso é de graça:
 
 - **Idempotência do produtor** — cada produtor recebe um id e carimba um número de sequência monotônico por partição, então o broker pode reconhecer e descartar uma duplicata retentada em vez de anexá-la duas vezes.
-- **Transações através de partições** — escritas em múltiplas partições, mais a confirmação de offset do próprio consumidor, são embrulhadas em uma transação que confirma atomicamente. Um coordenador de transação escreve marcadores no log, e consumidores configurados para ler dados confirmados pulam registros de transações abortadas.
-- **A fronteira é a borda do sistema.** Exatamente uma vez se mantém *dentro* do broker — ler, processar, escrever resultado, confirmar offset, tudo uma unidade atômica. No momento em que o efeito colateral de um consumidor é uma chamada HTTP externa ou uma escrita para um sistema que não está na transação, a garantia para naquela fronteira e você está de volta precisando de idempotência downstream.
+- **Transações através de partições** — escritas em múltiplas partições, mais a confirmação de offset do próprio consumidor, são envolvidas em uma transação que confirma atomicamente. Um coordenador de transação escreve marcadores no log, e consumidores configurados para ler dados confirmados pulam registros de transações abortadas.
+- **A fronteira é a borda do sistema.** Exatamente uma vez se mantém *dentro* do broker — ler, processar, escrever resultado, confirmar offset, tudo uma unidade atômica. No momento em que o efeito colateral de um consumidor é uma chamada HTTP externa ou uma escrita para um sistema que não está na transação, a garantia termina nessa fronteira e você volta a precisar de idempotência downstream.
 
-O custo é viagens de rede extras, estado do coordenador, marcadores de transação no log, e consumidores que precisam armazenar em buffer até que um marcador de commit chegue — o que é por que sistemas que poderiam habilitá-lo frequentemente entregam pelo menos-uma-vez mais consumidores idempotentes em vez disso, e obtêm o mesmo estado final por uma fração da maquinaria.
+O custo é idas e voltas extras, estado do coordenador, marcadores de transação no log, e consumidores que precisam armazenar em buffer até que um marcador de commit chegue — o que é por que sistemas que poderiam habilitá-lo frequentemente entregam pelo menos uma vez mais consumidores idempotentes em vez disso, e obtêm o mesmo estado final por uma fração da maquinaria.
 
 ## Trade-offs
 
 - **Partições compram paralelismo e custam ordenação global** — a única ordem total é por partição, então um sistema que genuinamente precisa de uma ordem através de tudo está limitado a uma única partição e portanto ao throughput de uma única máquina. Na prática, a correção é estreitar o requisito de ordenação para uma chave (por usuário, por pedido) em vez de alargar a partição.
-- **Tamanho do lote é um único ajuste que troca latência por throughput, e não há configuração que ganhe ambos** — lotes grandes amortizam viagens de rede e produzem grandes escritas sequenciais em disco; lotes pequenos enviam antes. Ajustar para baixa latência significa lotes menores e geralmente mais partições para recuperar o throughput perdido.
+- **Tamanho do lote é um único ajuste que troca latência por throughput, e não há configuração que ganhe ambos** — lotes grandes amortizam idas e voltas de rede e produzem grandes escritas sequenciais em disco; lotes pequenos enviam antes. Ajustar para baixa latência significa lotes menores e geralmente mais partições para recuperar o throughput perdido.
 - **O ISR é um compromisso deliberado entre as duas definições ruins de durável** — esperar por todas as réplicas torna o disco mais lento do cluster a latência de escrita da partição; esperar por nenhuma perde silenciosamente dados confirmados no failover. Rastrear o conjunto que realmente está acompanhando dá durabilidade forte sem deixar um nó doente parar uma partição.
 - **Consumidores baseados em pull trocam um pouco de latência por controle total da taxa de consumo** — o broker nunca precisa modelar a capacidade do consumidor, um consumidor atrasado degrada sozinho em vez de ser sobrecarregado, e buscas fazem batching naturalmente; o preço é um intervalo de polling de latência adicionada, parcialmente recuperado com long polling.
-- **Exatamente uma vez é real mas seu escopo é menor do que o nome sugere** — cobre ler-processar-escrever dentro da fronteira transacional do broker, não efeitos colaterais arbitrários. Se o consumidor chama uma API externa, você ainda precisa de idempotência ali, ponto em que pelo menos-uma-vez mais um destino idempotente é frequentemente o design mais barato com o mesmo resultado.
+- **Exatamente uma vez é real mas seu escopo é menor do que o nome sugere** — cobre ler-processar-escrever dentro da fronteira transacional do broker, não efeitos colaterais arbitrários. Se o consumidor chama uma API externa, você ainda precisa de idempotência ali, ponto em que pelo menos uma vez mais um destino idempotente é frequentemente o design mais barato com o mesmo resultado.
 - **Retenção transforma o broker em um sistema de registro, com o peso operacional que isso implica** — reproduzir após uma correção de bug se torna rotina, mas agora você está fazendo planejamento de capacidade, replicando e protegendo semanas de dados de negócio nos discos do broker, e consumidores podem silenciosamente cair além da borda de retenção e perder dados que nunca leram.
 
 ## Perguntas de Entrevista
@@ -199,7 +199,7 @@ O custo é viagens de rede extras, estado do coordenador, marcadores de transaç
 - Por que um log segmentado append-only é mais adequado aqui do que uma tabela relacional, dado que ambos podem armazenar as mensagens de forma durável?
 - Uma partição tem 3 réplicas e o produtor usa `ack=all`. O disco de um seguidor fica lento. O que acontece com a latência de escrita, e como o mecanismo de ISR muda o resultado versus um design que espera por todas as réplicas incondicionalmente?
 - Seu grupo de consumidores tem 12 consumidores e o tópico tem 4 partições. Qual é o paralelismo real, e o que você muda para aumentá-lo?
-- Um consumidor processa uma mensagem, escreve o resultado no Postgres, e trava antes de confirmar seu offset. O que acontece na reinicialização, e o que você mudaria para tornar o estado final correto sem habilitar semântica de exatamente-uma-vez?
+- Um consumidor processa uma mensagem, escreve o resultado no Postgres, e trava antes de confirmar seu offset. O que acontece na reinicialização, e o que você mudaria para tornar o estado final correto sem habilitar semântica de exatamente uma vez?
 
 ## Referências
 

@@ -152,4 +152,3 @@ Todo passo de uma saga é, por baixo, exatamente o problema que [o padrão outbo
 - Chris Richardson, [*Microservices Patterns*](https://www.manning.com/books/microservices-patterns) (Manning, 2018) — Capítulo 4, "Managing transactions with sagas": orquestração vs. coreografia, transações compensatórias, e as contramedidas de isolamento (lock semântico, atualizações comutativas, visão pessimista, reler valor, arquivo de versão).
 - [Chris Richardson — "Pattern: Saga" (microservices.io)](https://microservices.io/patterns/data/saga.html)
 - [Emily Fortuna, "Compensating Actions: Part of a Complete Breakfast (with Sagas)" (Temporal blog, 2023)](https://temporal.io/blog/compensating-actions-part-of-a-complete-breakfast-with-sagas) — o tratamento prático de um motor de execução durável para registrar e rodar compensações.
-</content>

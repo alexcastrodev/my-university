@@ -171,4 +171,3 @@ O meta-ponto através dos três: anomalias de lag de replicação são *corrigí
 - [PostgreSQL Documentation — Log-Shipping Standby Servers and Streaming Replication](https://www.postgresql.org/docs/current/warm-standby.html)
 - [PostgreSQL Documentation — Logical Replication](https://www.postgresql.org/docs/current/logical-replication.html)
 - [MySQL 8.4 Reference Manual — Replication Formats (statement-based vs. row-based)](https://dev.mysql.com/doc/refman/8.4/en/replication-formats.html)
-</content>

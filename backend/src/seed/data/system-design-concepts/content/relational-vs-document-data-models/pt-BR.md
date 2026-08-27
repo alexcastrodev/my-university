@@ -149,7 +149,7 @@ flowchart TD
     FS["fact_sales<br/>uma linha por item vendido<br/>preço, custo, qtd + FKs"]
 ```
 
-Um **snowflake schema** normaliza mais, dividindo dimensões em subdimensões (uma tabela `brands` separada referenciada por `dim_product`). É mais organizado e analistas geralmente preferem o star mais achatado de qualquer forma. Empurre na outra direção e você obtém **one big table (OBT)**: dobre as dimensões dentro da própria tabela de fatos, pré-computando todo join ao custo de armazenamento.
+Um **snowflake schema** normaliza mais, dividindo dimensões em subdimensões (uma tabela `brands` separada referenciada por `dim_product`). É mais organizado e analistas geralmente preferem o star mais achatado de qualquer forma. Empurre na outra direção e você obtém **one big table (OBT)**: incorpore as dimensões inteiramente à própria tabela de fatos, pré-computando todo join ao custo de armazenamento.
 
 O motivo pelo qual essa desnormalização é segura aqui — e perigosa em um sistema operacional — é que os dados de data warehouse são um log histórico imutável. Nada é atualizado, então não há anomalias de atualização com que se preocupar, e a sobrecarga de escrita que torna a desnormalização dolorosa em OLTP não se aplica a uma carga em massa. Veja [Operational vs. Analytical Systems](operational-vs-analytical-systems) para entender por que essas cargas de trabalho recebem sistemas separados desde o início.
 
@@ -162,7 +162,7 @@ O enquadramento do próprio livro: documentos argumentam flexibilidade de schema
 - Os dados são uma árvore de relacionamentos um-para-muitos e você tipicamente carrega a árvore inteira de uma vez. Fragmentá-la em tabelas produz schemas incômodos e código complicado sem benefício.
 - Os registros são genuinamente heterogêneos — muitos tipos de objeto que não podem ter cada um sua própria tabela, ou uma estrutura ditada por um sistema externo que muda sem aviso. Impor um schema aqui atrapalha mais do que ajuda.
 - Você precisa de ordenação definida pelo usuário. Uma lista de tarefas com arrastar-para-reordenar é um array JSON; em SQL é uma coluna de ordenação inteira exigindo renumeração, uma lista encadeada de IDs, ou indexação fracionária.
-- Mudanças de schema precisam ser instantâneas. `schema-on-read` permite que você comece a escrever novos campos imediatamente e trate formatos antigos em código de aplicação — sendo a troca que todo leitor agora precisa lidar com todo formato histórico, para sempre.
+- Mudanças de schema precisam ser instantâneas. `schema-on-read` permite que você comece a escrever novos campos imediatamente e trate formatos antigos em código de aplicação — ao custo de todo leitor agora precisar lidar com todo formato histórico, para sempre.
 
 **Recorra a relacional quando:**
 

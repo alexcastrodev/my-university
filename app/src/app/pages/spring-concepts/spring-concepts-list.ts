@@ -8,6 +8,7 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[] = [
   { label: 'All', value: null },
@@ -37,7 +38,7 @@ const PT_BR_PATH = '/pt-BR/spring-concepts';
 @Component({
   selector: 'app-spring-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './spring-concepts-list.html',
   styleUrl: './spring-concepts-list.css',
 })

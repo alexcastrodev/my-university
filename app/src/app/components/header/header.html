@@ -1,6 +1,6 @@
 <header class="header" role="banner">
   <div class="header-left">
-    <a routerLink="/" class="brand" aria-label="My University Home">
+    <a routerLink="/" class="brand" [attr.aria-label]="'header.aria.home' | t">
       <span class="brand-icon" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="currentColor"/>
@@ -9,7 +9,7 @@
       </span>
       <span class="brand-name">My<strong>University</strong></span>
     </a>
-    <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" aria-label="Main navigation">
+    <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" [attr.aria-label]="'header.aria.mainNav' | t">
       <div class="java-menu">
         <button
           type="button"
@@ -19,20 +19,20 @@
           [attr.aria-expanded]="javaMenuOpen()"
           (click)="toggleJavaMenu()"
         >
-          Java
+          {{ 'header.nav.java' | t }}
           <svg class="chevron" [class.open]="javaMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
         @if (javaMenuOpen()) {
           <div class="java-menu-dropdown" role="menu">
-            <a routerLink="/java/exams" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Exams</a>
-            <a routerLink="/spring-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Spring</a>
-            <a routerLink="/quarkus-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Quarkus</a>
-            <a routerLink="/java/java-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Concepts</a>
-            <a routerLink="/java/jvm-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">JVM Concepts</a>
-            <a routerLink="/java/java-minute" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Java Minute</a>
-            <a routerLink="/java/testing" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">Testing</a>
+            <a routerLink="/java/exams" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.exams' | t }}</a>
+            <a routerLink="/spring-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.spring' | t }}</a>
+            <a routerLink="/quarkus-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.quarkus' | t }}</a>
+            <a routerLink="/java/java-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.concepts' | t }}</a>
+            <a routerLink="/java/jvm-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.jvmConcepts' | t }}</a>
+            <a routerLink="/java/java-minute" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.javaMinute' | t }}</a>
+            <a routerLink="/java/testing" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()">{{ 'header.nav.testing' | t }}</a>
           </div>
         }
       </div>
@@ -45,28 +45,28 @@
           [attr.aria-expanded]="rubyMenuOpen()"
           (click)="toggleRubyMenu()"
         >
-          Ruby
+          {{ 'header.nav.ruby' | t }}
           <svg class="chevron" [class.open]="rubyMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
         @if (rubyMenuOpen()) {
           <div class="java-menu-dropdown" role="menu">
-            <a routerLink="/ruby-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">Concepts</a>
-            <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">Rails</a>
+            <a routerLink="/ruby-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">{{ 'header.nav.concepts' | t }}</a>
+            <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()">{{ 'header.nav.rails' | t }}</a>
           </div>
         }
       </div>
-      <a routerLink="/databases/database-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Database Concepts</a>
-      <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">System Design</a>
-      <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Algorithms</a>
-      <a routerLink="/leaderboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Leaderboard</a>
+      <a routerLink="/databases/database-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'header.nav.databaseConcepts' | t }}</a>
+      <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'header.nav.systemDesign' | t }}</a>
+      <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'header.nav.algorithms' | t }}</a>
+      <a routerLink="/leaderboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'header.nav.leaderboard' | t }}</a>
     </nav>
   </div>
   <button
     type="button"
     class="mobile-search-toggle"
-    aria-label="Toggle search"
+    [attr.aria-label]="'header.aria.toggleSearch' | t"
     aria-controls="mobile-search-row"
     [attr.aria-expanded]="mobileSearchOpen()"
     (click)="toggleMobileSearch()"
@@ -79,7 +79,7 @@
   <button
     type="button"
     class="mobile-menu-toggle"
-    aria-label="Toggle navigation menu"
+    [attr.aria-label]="'header.aria.toggleNav' | t"
     aria-controls="nav-links"
     [attr.aria-expanded]="mobileMenuOpen()"
     (click)="toggleMobileMenu()"
@@ -103,8 +103,8 @@
         </svg>
         <input
           type="search"
-          placeholder="What do you want to learn?"
-          aria-label="Search courses"
+          [attr.placeholder]="'header.search.placeholder' | t"
+          [attr.aria-label]="'header.aria.searchCourses' | t"
           role="combobox"
           [attr.aria-expanded]="searchOpen()"
           aria-controls="search-results-listbox"
@@ -122,24 +122,24 @@
                     class="search-filter-pill"
                     [class.active]="searchTypeFilter() === opt.value"
                     (click)="onFilterChange(opt.value)">
-                    {{ opt.label }}
+                    {{ opt.label | t }}
                   </button>
                 }
               </div>
             }
 
             @if (searchLoading()) {
-              <div class="search-state">Searching…</div>
+              <div class="search-state">{{ 'header.search.searching' | t }}</div>
             } @else if (searchError()) {
-              <div class="search-state">Something went wrong. Try again.</div>
+              <div class="search-state">{{ 'header.search.error' | t }}</div>
             } @else if (searchQuery().trim().length < 2) {
-              <div class="search-state">Keep typing to search…</div>
+              <div class="search-state">{{ 'header.search.keepTyping' | t }}</div>
             } @else if (searchResults().length === 0) {
-              <div class="search-state">No results for "{{ searchQuery() }}"</div>
+              <div class="search-state">{{ 'header.search.noResults' | t: { query: searchQuery() } }}</div>
             } @else {
               @for (result of searchResults(); track result.url) {
                 <a class="search-result" role="option" [routerLink]="result.url" (click)="selectResult(); closeMobileSearch()">
-                  <span class="search-result-type">{{ TYPE_LABELS[result.type] }}</span>
+                  <span class="search-result-type">{{ TYPE_LABELS[result.type] | t }}</span>
                   <span class="search-result-title">{{ result.title }}</span>
                   @if (result.subtitle) {
                     <span class="search-result-subtitle">{{ result.subtitle }}</span>
@@ -160,8 +160,8 @@
       </svg>
       <input
         type="search"
-        placeholder="What do you want to learn?"
-        aria-label="Search courses"
+        [attr.placeholder]="'header.search.placeholder' | t"
+        [attr.aria-label]="'header.aria.searchCourses' | t"
         role="combobox"
         [attr.aria-expanded]="searchOpen()"
         aria-controls="search-results-listbox"
@@ -179,24 +179,24 @@
                   class="search-filter-pill"
                   [class.active]="searchTypeFilter() === opt.value"
                   (click)="onFilterChange(opt.value)">
-                  {{ opt.label }}
+                  {{ opt.label | t }}
                 </button>
               }
             </div>
           }
 
           @if (searchLoading()) {
-            <div class="search-state">Searching…</div>
+            <div class="search-state">{{ 'header.search.searching' | t }}</div>
           } @else if (searchError()) {
-            <div class="search-state">Something went wrong. Try again.</div>
+            <div class="search-state">{{ 'header.search.error' | t }}</div>
           } @else if (searchQuery().trim().length < 2) {
-            <div class="search-state">Keep typing to search…</div>
+            <div class="search-state">{{ 'header.search.keepTyping' | t }}</div>
           } @else if (searchResults().length === 0) {
-            <div class="search-state">No results for "{{ searchQuery() }}"</div>
+            <div class="search-state">{{ 'header.search.noResults' | t: { query: searchQuery() } }}</div>
           } @else {
             @for (result of searchResults(); track result.url) {
               <a class="search-result" role="option" [routerLink]="result.url" (click)="selectResult()">
-                <span class="search-result-type">{{ TYPE_LABELS[result.type] }}</span>
+                <span class="search-result-type">{{ TYPE_LABELS[result.type] | t }}</span>
                 <span class="search-result-title">{{ result.title }}</span>
                 @if (result.subtitle) {
                   <span class="search-result-subtitle">{{ result.subtitle }}</span>
@@ -208,17 +208,17 @@
       }
     </div>
     @if (auth.currentUser()) {
-      <a routerLink="/review" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">Review</a>
+      <a routerLink="/review" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()">{{ 'header.nav.review' | t }}</a>
       <a
         routerLink="/profile"
         class="xp-level-badge"
-        aria-label="Level and experience points"
+        [attr.aria-label]="'header.aria.levelXp' | t"
         [attr.title]="xpService.summary()?.level?.title ?? null"
       >
-        <span class="level-part">Lv {{ xpService.summary()?.level?.number ?? 1 }}</span>
+        <span class="level-part">{{ 'header.xp.level' | t: { number: xpService.summary()?.level?.number ?? 1 } }}</span>
         <span class="xp-part">
           <span class="xp-icon" aria-hidden="true">⚡</span>
-          {{ xpService.xp() }} XP
+          {{ 'header.xp.points' | t: { xp: xpService.xp() } }}
         </span>
       </a>
     }
@@ -228,7 +228,7 @@
         class="language-menu-trigger"
         aria-haspopup="menu"
         [attr.aria-expanded]="languageMenuOpen()"
-        aria-label="Content language"
+        [attr.aria-label]="'header.aria.contentLanguage' | t"
         (click)="toggleLanguageMenu()"
       >
         <svg class="language-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -261,7 +261,7 @@
       <button
         class="avatar"
         [class.has-avatar]="!!auth.currentUser()?.avatarUrl"
-        aria-label="User account menu"
+        [attr.aria-label]="'header.aria.userMenu' | t"
         aria-haspopup="menu"
         [attr.aria-expanded]="userMenuOpen()"
         type="button"
@@ -276,9 +276,9 @@
 
       @if (userMenuOpen() && auth.currentUser()) {
         <div class="user-menu-dropdown" role="menu">
-          <a routerLink="/profile" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">Profile</a>
-          <a routerLink="/settings" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">Settings</a>
-          <button type="button" class="user-menu-item" role="menuitem" (click)="logout()">Logout</button>
+          <a routerLink="/profile" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">{{ 'header.userMenu.profile' | t }}</a>
+          <a routerLink="/settings" class="user-menu-item" role="menuitem" (click)="closeUserMenu()">{{ 'header.userMenu.settings' | t }}</a>
+          <button type="button" class="user-menu-item" role="menuitem" (click)="logout()">{{ 'header.userMenu.logout' | t }}</button>
         </div>
       }
     </div>

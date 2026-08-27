@@ -8,6 +8,7 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 export interface JavaConceptTopicGroup {
   topic: string;
@@ -30,7 +31,7 @@ const PT_BR_PATH = '/pt-BR/java/java-concepts';
 @Component({
   selector: 'app-java-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
   templateUrl: './java-concepts-list.html',
   styleUrl: './java-concepts-list.css',
 })

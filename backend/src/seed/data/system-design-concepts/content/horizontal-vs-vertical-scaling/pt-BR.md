@@ -99,4 +99,3 @@ O piso `min` existe para disponibilidade de linha de base e para absorver o temp
 - [Google Cloud — Autoscaling groups of instances](https://cloud.google.com/compute/docs/autoscaler)
 - [Kubernetes Documentation — Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 - Martin L. Abbott e Michael T. Fisher, *The Art of Scalability* (Addison-Wesley, 2nd Edition) — sobre o AKF Scale Cube e eixos de escala
-</content>

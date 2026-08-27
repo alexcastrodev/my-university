@@ -42,7 +42,7 @@ Explicitamente fora de escopo: armazenar números de cartão brutos (o PSP faz i
 
 ## Requisitos Não Funcionais
 
-Os números de guardanapo são deliberadamente pouco impressionantes. Um milhão de transações por dia é cerca de 10 TPS — um número que qualquer instância única do Postgres lida sem suar. **Throughput não é o problema aqui**, e um candidato que gasta a entrevista fragmentando para escala leu mal o prompt. O que importa em vez disso:
+Os números de guardanapo são deliberadamente pouco impressionantes. Um milhão de transações por dia é cerca de 10 TPS — um número que qualquer instância única do Postgres lida sem suar. **Throughput não é o problema aqui**, e um candidato que gasta a entrevista fazendo sharding para escalar leu mal o prompt. O que importa em vez disso:
 
 - **Consistência forte é inegociável para saldos.** Um saldo de carteira ou entrada de ledger lida como "eventualmente correta" é uma perda financeira real ou um double-spend real. Isso descarta os padrões AP que um sistema de chat ou feed busca reflexivamente.
 - **Correção vence latência, e vence disponibilidade.** Se o sistema não pode ter certeza de que uma cobrança é segura, a resposta certa é travar o pagamento — deixá-lo `EXECUTING`, mostrar ao usuário uma página pendente, alertar um operador — não adivinhar e seguir em frente. Recusar servir uma requisição é recuperável; cobrar um cartão duas vezes é um chargeback, um ticket de suporte, e um problema de credibilidade.
@@ -66,7 +66,7 @@ flowchart LR
 - **Serviço de pagamento** — aceita o evento de pagamento do cliente e orquestra tudo a jusante. Sua primeira ação é uma **verificação de risco**: triagem de conformidade AML/CFT e avaliação de fraude, quase sempre delegada a um terceiro especializado. Apenas pagamentos que passam na verificação prosseguem.
 - **Executor de pagamento** — executa exatamente uma ordem de pagamento contra o PSP. Um evento de pagamento (um checkout) pode conter várias ordens de pagamento, e o executor é invocado uma vez por ordem.
 - **PSP** — move dinheiro da conta A para a conta B. No fluxo de pay-in, isso significa puxar do cartão do comprador para a conta bancária do marketplace.
-- **Bandeiras de cartão** — Visa, Mastercard, e afins, sentados atrás do PSP. Integração direta com bandeiras de cartão ou bancos é possível mas é reservada para empresas grandes o suficiente para justificar o investimento especializado e caro; todo mundo mais integra um PSP.
+- **Bandeiras de cartão** — Visa, Mastercard, e afins, sentados atrás do PSP. Integração direta com bandeiras de cartão ou bancos é possível mas é reservada para empresas grandes o suficiente para justificar o investimento especializado e caro; todos os demais integram um PSP.
 - **Ledger** — o registro financeiro append-only do que aconteceu. Análise pós-pagamento (receita, previsão, auditoria) é lida do ledger, nunca das tabelas de pagamento operacionais.
 - **Carteira** — o saldo atual do vendedor. Coberta em profundidade em [Designing a Digital Wallet](digital-wallet-design); aqui é apenas outro serviço com estado que o serviço de pagamento tem que manter em concordância com o ledger.
 
@@ -149,7 +149,7 @@ Armazenar o *resultado* da primeira tentativa (código de status e corpo) ao lad
 
 O mesmo mecanismo deve se estender através da fronteira até o PSP, e isso é o que salva o cenário dois. Porque o nonce enviado no registro representa unicamente a ordem de pagamento, o token derivado dele também representa — então quando o usuário clica em pagar de novo, o *mesmo* token vai para o PSP, o PSP reconhece sua própria chave de idempotência, e retorna o status da execução anterior em vez de cobrar o cartão uma segunda vez. O Stripe implementa exatamente isso: um `Idempotency-Key` repetido reproduz o código de status e corpo salvos da requisição original em vez de reexecutá-la.
 
-Uma consequência de se apoiar em restrições únicas merece atenção: registros de idempotência devem ser lidos e escritos na **primária**, nunca em uma réplica de leitura. Uma réplica atrasada mesmo por algumas centenas de milissegundos alegremente reportará que nunca viu uma chave que a primária commitou momentos atrás, o que reintroduz exatamente a duplicata que o mecanismo foi construído para prevenir.
+Uma consequência de se apoiar em restrições únicas merece atenção: registros de idempotência devem ser lidos e escritos na **primária**, nunca em uma réplica de leitura. Uma réplica atrasada mesmo por algumas centenas de milissegundos alegremente reportará que nunca viu uma chave que a primária confirmou momentos atrás, o que reintroduz exatamente a duplicata que o mecanismo foi construído para prevenir.
 
 ## O Fluxo de Pagamento de Ponta a Ponta
 
@@ -178,7 +178,7 @@ sequenceDiagram
             PSP-->>P: SUCCESS, reproduzido não recobrado
         end
         P->>DB: uma TX local: status = SUCCESS<br/>+ INSERT outbox PaymentSucceeded
-        DB-->>P: commitado
+        DB-->>P: confirmado
         P-->>C: 200 SUCCESS
         R->>DB: faz polling de linhas de outbox não publicadas
         R->>L: PaymentSucceeded
@@ -268,7 +268,7 @@ Estruturalmente, o fluxo de pay-out espelha o pay-in, com a direção do dinheir
 
 ## Referências
 
-- [Alex Xu e Sahn Lam, "System Design Interview – An Insider's Guide, Volume 2" (ByteByteGo, 2022) — Capítulo 11, "Payment System"](https://bytebytego.com)
-- [Referência da API do Stripe — Idempotent requests](https://docs.stripe.com/api/idempotent_requests)
+- [Alex Xu and Sahn Lam, "System Design Interview – An Insider's Guide, Volume 2" (ByteByteGo, 2022) — Chapter 11, "Payment System"](https://bytebytego.com)
+- [Stripe API Reference — Idempotent requests](https://docs.stripe.com/api/idempotent_requests)
 - [Airbnb Engineering — "Avoiding double payments in a distributed payments system"](https://medium.com/airbnb-engineering/avoiding-double-payments-in-a-distributed-payments-system-2981f6b070bb)
 - [Square Engineering — "Books, an immutable double-entry accounting database service"](https://developer.squareup.com/blog/books-an-immutable-double-entry-accounting-database-service/)

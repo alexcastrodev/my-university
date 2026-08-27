@@ -51,7 +51,7 @@ while (true) {
 }
 ```
 
-Isso parece seguro — um buffer de 10 segundos deveria ser tempo mais que suficiente para perceber que o lease está perto de expirar. Mas assume que quase nenhum tempo passa entre a verificação e `process(request)` realmente rodar. Se a thread é pausada por, digamos, 15 segundos exatamente naquela linha — uma pausa stop-the-world de GC, uma pausa de live-migration de VM, uma troca de contexto de SO sob carga, um page fault disparando swap-para-disco, ou até o `SIGSTOP`/`Ctrl-Z` de alguém — o lease pode expirar *durante* a pausa. Outro nó, não vendo heartbeat, assume como líder. A thread original acorda sem ideia alguma de que algum tempo passou, e procede a processar a requisição como se ainda fosse líder — dois nós agora acreditam que são o líder do mesmo shard ao mesmo tempo.
+Isso parece seguro — um buffer de 10 segundos deveria ser tempo mais que suficiente para perceber que o lease está perto de expirar. Mas assume que quase nenhum tempo passa entre a verificação e `process(request)` realmente rodar. Se a thread é pausada por, digamos, 15 segundos exatamente naquela linha — uma pausa stop-the-world de GC, uma pausa de live-migration de VM, uma troca de contexto de SO sob carga, um page fault disparando swap-para-disco, ou até o `SIGSTOP`/`Ctrl-Z` de alguém — o lease pode expirar *durante* a pausa. Outro nó, não vendo heartbeat, assume a liderança. A thread original acorda sem ideia alguma de que algum tempo passou, e procede a processar a requisição como se ainda fosse líder — dois nós agora acreditam que são o líder do mesmo shard ao mesmo tempo.
 
 A correção não é uma mudança inteligente de código; é aceitar que uma thread pode ser preemptada por uma quantidade de tempo ilimitada e imprevisível, e construir o protocolo (tokens de fencing que incrementam a cada aquisição de lease, verificados por qualquer coisa que o líder escreve) para que as escritas de um líder "zumbi" sejam rejeitadas mesmo que ele nunca perceba que parou de ser líder.
 
@@ -94,4 +94,3 @@ sequenceDiagram
 - Google Research, ["Spanner: Google's Globally-Distributed Database"](https://research.google/pubs/spanner-googles-globally-distributed-database/) (OSDI 2012) — a API TrueTime
 - [AWS — Amazon Time Sync Service](https://docs.aws.amazon.com/AmazonElasticComputeCloud/latest/UserGuide/set-time.html) — orientação atual de sincronização de relógio de provedor de nuvem
 - [Java Platform — Understanding G1 GC pause times](https://docs.oracle.com/en/java/javase/25/gctuning/garbage-first-g1-garbage-collector1.html)
-</content>

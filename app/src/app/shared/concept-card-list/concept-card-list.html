@@ -10,10 +10,10 @@
             <span class="card-difficulty">{{ item.difficulty }}</span>
           }
           @if (item.readingTime != null) {
-            <span class="card-reading-time">{{ item.readingTime }} min</span>
+            <span class="card-reading-time">{{ item.readingTime }} {{ 'conceptCard.minutes' | t }}</span>
           }
           @if (item.labUrl) {
-            <span class="card-badge lab-badge" title="This concept has a lab">🔬 Lab</span>
+            <span class="card-badge lab-badge" [attr.title]="'conceptCard.labBadge' | t">🔬 Lab</span>
           }
         </div>
       </div>
@@ -27,9 +27,9 @@
         </div>
       }
       <div class="card-footer">
-        <span class="card-cta">Read →</span>
+        <span class="card-cta">{{ 'conceptCard.read' | t }}</span>
         @if (item.read) {
-          <span class="read-check" title="You've marked this as read">✓</span>
+          <span class="read-check" [attr.title]="'conceptCard.readCheck' | t">✓</span>
         }
       </div>
     </a>

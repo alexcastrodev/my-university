@@ -72,7 +72,7 @@ O Lucene — o motor dentro do Elasticsearch e do Solr — armazena seu mapeamen
 
 ### Substrings, erros de digitação e correspondência aproximada
 
-Dividir por palavras é uma escolha, não uma lei. Uma alternativa é indexar **n-grams** — cada substring de comprimento *n*. Os trigramas de `olá` são `olá`... na verdade `hel`, `ell`, `llo` (para `hello`); um índice invertido sobre trigramas suporta busca de substring arbitrária, e até expressões regulares, ao custo de um índice substancialmente maior. (Segmentação de palavras é em si específica de idioma: várias línguas asiáticas são escritas sem espaços, então decidir o que é uma "palavra" exige um modelo.)
+Dividir por palavras é uma escolha, não uma lei. Uma alternativa é indexar **n-grams** — cada substring de comprimento *n*. Os trigramas de `hello` são `hel`, `ell`, `llo`; um índice invertido sobre trigramas suporta busca de substring arbitrária, e até expressões regulares, ao custo de um índice substancialmente maior. (Segmentação de palavras é em si específica de idioma: várias línguas asiáticas são escritas sem espaços, então decidir o que é uma "palavra" exige um modelo.)
 
 Tolerância a erros de digitação é tratada de forma diferente. O Lucene armazena o dicionário de termos como um **autômato de estado finito** sobre os caracteres das chaves — estruturalmente um trie — e o converte em um **autômato de Levenshtein**, que aceita exatamente as strings dentro de uma distância de edição dada da consulta. Buscar `aple~1` então se torna uma caminhada de dois autômatos em lockstep em vez de uma comparação contra cada termo no dicionário. Essa é a maquinaria por trás de "você quis dizer", e é por isso que busca aproximada é um custo limitado em vez de uma varredura completa do dicionário.
 
@@ -96,7 +96,7 @@ Modelos reais emitem vetores de 768, 1.024, 1.536 dimensões ou mais. Ninguém i
 
 O tempo de consulta funciona da mesma forma: o texto da consulta do usuário (mais contexto, como sua localização) passa pelo *mesmo* modelo de embedding, e a busca se torna "encontrar os vetores armazenados mais próximos deste vetor de consulta". Modelos de embedding iniciais como Word2Vec, BERT, e GPT eram apenas texto; o campo avançou para áudio, vídeo e imagens, e modelos atuais são tipicamente **multimodais** — um modelo embutindo texto e imagens em um espaço compartilhado, então uma consulta de texto pode recuperar uma imagem.
 
-Isso agora é infraestrutura de carga essencial em vez de uma curiosidade de pesquisa, porque é a metade de recuperação da **geração aumentada por recuperação (RAG)**: embutir o corpus, embutir a pergunta do usuário, buscar os top-k pedaços mais próximos, e colá-los no prompt de um LLM como contexto. A qualidade de uma resposta de LLM sobre dados privados é limitada pela qualidade dessa busca por vizinho mais próximo.
+Isso agora é infraestrutura estrutural em vez de uma curiosidade de pesquisa, porque é a metade de recuperação da **geração aumentada por recuperação (RAG)**: embutir o corpus, embutir a pergunta do usuário, buscar os top-k pedaços mais próximos, e colá-los no prompt de um LLM como contexto. A qualidade de uma resposta de LLM sobre dados privados é limitada pela qualidade dessa busca por vizinho mais próximo.
 
 ## Busca Aproximada de Vizinhos Mais Próximos
 

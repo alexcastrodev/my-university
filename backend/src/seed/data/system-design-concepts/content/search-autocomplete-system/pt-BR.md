@@ -119,7 +119,7 @@ O shard map é uma tabela pequena e de mudança lenta que cada servidor de API l
 
 ## Cacheando Prefixos Quentes
 
-O Trie Cache não é uma otimização adicionada no final — é o caminho de leitura primário. Servidores de API leem do cache, e o Trie DB existe principalmente para repopular o cache depois que um nó é reiniciado, evicted, ou fica sem memória. Em um miss, o servidor carrega do Trie DB e escreve de volta no cache para que requisições subsequentes para aquele prefixo acertem quente.
+O Trie Cache não é uma otimização adicionada no final — é o caminho de leitura primário. Servidores de API leem do cache, e o Trie DB existe principalmente para repopular o cache depois que um nó é reiniciado, sofre eviction, ou fica sem memória. Em um miss, o servidor carrega do Trie DB e escreve de volta no cache para que requisições subsequentes para aquele prefixo já encontrem o cache aquecido.
 
 As taxas de acerto de cache aqui são incomumente boas, porque prefixos de consulta seguem uma lei de potência acentuada: um pequeno conjunto de prefixos curtos responde por uma fração enorme de todas as buscas, e — criticamente — toda consulta longa *passa por* esses prefixos curtos no caminho de ser digitada. Todo usuário buscando `dinner`, `dinosaur` ou `dining table` passa primeiro pelo nó `di`. As chaves mais quentes também são o menor conjunto, que é a forma ideal para um cache. Veja [Caching Strategies and CDNs](caching-strategies-and-cdns) para política de evicção e mecânica de write-back.
 

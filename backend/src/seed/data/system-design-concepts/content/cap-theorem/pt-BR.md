@@ -96,4 +96,3 @@ Daniel Abadi apontou em 2010 que o CAP só descreve o comportamento *durante uma
 - Daniel Abadi, ["Problems with CAP, and Yahoo's Little Known NoSQL System"](http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html) (DBMS Musings, 2010) — o post que introduziu o PACELC
 - [Wikipedia — CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) — visão geral e histórico, incluindo a prova de Gilbert & Lynch
 - Martin Kleppmann, [*Designing Data-Intensive Applications*](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) (O'Reilly, 2017) — Capítulo 9, "Consistency and Consensus"
-</content>
