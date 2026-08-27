@@ -57,6 +57,7 @@ export class SystemDesignConceptView implements OnChanges {
   marking = input<boolean>(false);
   allConcepts = input<SystemDesignConceptSummary[]>([]);
   breadcrumbs = input<BreadcrumbItem[]>([]);
+  fallbackNotice = input<boolean>(false);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);

@@ -41,6 +41,7 @@ const LOCALIZED_ROUTE_PREFIXES: { en: string; ptBR: string }[] = [
   { en: '/java/java-concepts', ptBR: '/pt-BR/java/java-concepts' },
   { en: '/java/jvm-concepts', ptBR: '/pt-BR/java/jvm-concepts' },
   { en: '/spring-concepts', ptBR: '/pt-BR/spring-concepts' },
+  { en: '/system-design/system-design-concepts', ptBR: '/pt-BR/system-design/system-design-concepts' },
 ];
 
 /** Rewrites `url` to its equivalent in `target`, or null when the current route has no localized variant. */

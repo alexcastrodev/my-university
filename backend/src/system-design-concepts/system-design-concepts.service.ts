@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import yaml from 'js-yaml';
+import { DEFAULT_LANGUAGE, Language, SUPPORTED_LANGUAGES, normalizeLanguage } from '../shared/language';
 
 export type SystemDesignConceptDifficulty =
   | 'Beginner'
@@ -38,6 +39,8 @@ export interface SystemDesignConceptSummary {
   prerequisites: SystemDesignConceptLinkRef[];
   related: SystemDesignConceptLinkRef[];
   labUrl?: string;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface SystemDesignConceptDetail extends SystemDesignConceptSummary {
@@ -60,6 +63,14 @@ interface SystemDesignConceptFrontmatter {
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/system-design-concepts');
+
+/** Which supported languages have a content file for this slug, discovered from what's actually in its folder. */
+function readAvailableLanguages(slug: string): Language[] {
+  const dir = join(DATA_DIR, 'content', slug);
+  if (!existsSync(dir)) return [];
+  const files = new Set(readdirSync(dir));
+  return SUPPORTED_LANGUAGES.filter((lang) => files.has(`${lang}.md`));
+}
 
 function parseFrontmatter(raw: string): {
   body: string;
@@ -96,65 +107,43 @@ export class SystemDesignConceptsService {
     .slice()
     .sort((a, b) => b.id - a.id);
 
-  findAll(): SystemDesignConceptSummary[] {
-    return this.conceptsMeta.map(
-      ({
-        slug,
-        id,
-        title,
-        topic,
-        summary,
-        publishedAt,
-        difficulty,
-        readingTime,
-        tags,
-        prerequisites,
-        related,
-        labUrl,
-      }) => ({
-        slug,
-        id,
-        title,
-        topic,
-        summary,
-        publishedAt,
-        difficulty,
-        readingTime,
-        tags,
-        prerequisites,
-        related,
-        ...(labUrl && { labUrl }),
-      }),
-    );
+  findAll(lang: Language = DEFAULT_LANGUAGE): SystemDesignConceptSummary[] {
+    const language = normalizeLanguage(lang);
+    return this.conceptsMeta.map((meta) => this.readSummary(meta, language));
   }
 
-  findBySlug(slug: string): SystemDesignConceptDetail | null {
+  findBySlug(slug: string, lang: Language = DEFAULT_LANGUAGE): SystemDesignConceptDetail | null {
     const meta = this.conceptsMeta.find((concept) => concept.slug === slug);
     if (!meta) return null;
 
-    return this.readDetail(meta);
+    return this.readDetail(meta, normalizeLanguage(lang));
   }
 
-  findAllDetailed(): SystemDesignConceptDetail[] {
-    return this.conceptsMeta.map((meta) => this.readDetail(meta));
+  findAllDetailed(lang: Language = DEFAULT_LANGUAGE): SystemDesignConceptDetail[] {
+    const language = normalizeLanguage(lang);
+    return this.conceptsMeta.map((meta) => this.readDetail(meta, language));
   }
 
-  private readDetail(meta: ConceptMeta): SystemDesignConceptDetail {
-    const raw = readFileSync(
-      join(DATA_DIR, 'content', meta.slug, 'en.md'),
-      'utf-8',
-    );
-    // js-yaml parses the frontmatter block so it can be typed/validated; the
-    // structured metadata below still comes from concepts.json (same source
-    // of truth as the other concept modules), matching this module's frontmatter.
-    const { body } = parseFrontmatter(raw);
+  /** Resolves the content file to serve for a slug/language, falling back to English when the translation is missing. */
+  private resolveContentPath(slug: string, lang: Language): { path: string; language: Language } {
+    const preferred = join(DATA_DIR, 'content', slug, `${lang}.md`);
+    if (lang !== DEFAULT_LANGUAGE && existsSync(preferred)) {
+      return { path: preferred, language: lang };
+    }
+    return { path: join(DATA_DIR, 'content', slug, `${DEFAULT_LANGUAGE}.md`), language: DEFAULT_LANGUAGE };
+  }
+
+  private readSummary(meta: ConceptMeta, lang: Language): SystemDesignConceptSummary {
+    const availableLanguages = readAvailableLanguages(meta.slug);
+    const { path, language } = this.resolveContentPath(meta.slug, lang);
+    const { frontmatter } = parseFrontmatter(readFileSync(path, 'utf-8'));
 
     return {
       slug: meta.slug,
       id: meta.id,
-      title: meta.title,
+      title: frontmatter.title ?? meta.title,
       topic: meta.topic,
-      summary: meta.summary,
+      summary: frontmatter.description ?? meta.summary,
       publishedAt: meta.publishedAt,
       difficulty: meta.difficulty,
       readingTime: meta.readingTime,
@@ -162,6 +151,35 @@ export class SystemDesignConceptsService {
       prerequisites: meta.prerequisites,
       related: meta.related,
       ...(meta.labUrl && { labUrl: meta.labUrl }),
+      language,
+      availableLanguages,
+    };
+  }
+
+  private readDetail(meta: ConceptMeta, lang: Language): SystemDesignConceptDetail {
+    const availableLanguages = readAvailableLanguages(meta.slug);
+    const { path, language } = this.resolveContentPath(meta.slug, lang);
+    const raw = readFileSync(path, 'utf-8');
+    // js-yaml parses the frontmatter block so it can be typed/validated; the
+    // structured metadata below still comes from concepts.json (same source
+    // of truth as the other concept modules), matching this module's frontmatter.
+    const { body, frontmatter } = parseFrontmatter(raw);
+
+    return {
+      slug: meta.slug,
+      id: meta.id,
+      title: frontmatter.title ?? meta.title,
+      topic: meta.topic,
+      summary: frontmatter.description ?? meta.summary,
+      publishedAt: meta.publishedAt,
+      difficulty: meta.difficulty,
+      readingTime: meta.readingTime,
+      tags: meta.tags,
+      prerequisites: meta.prerequisites,
+      related: meta.related,
+      ...(meta.labUrl && { labUrl: meta.labUrl }),
+      language,
+      availableLanguages,
       sections: splitSections(body),
       references: meta.references,
     };

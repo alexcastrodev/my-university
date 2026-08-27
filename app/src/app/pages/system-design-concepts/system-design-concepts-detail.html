@@ -1,21 +1,21 @@
 <div class="page">
   <div class="page-body">
     @if (loading()) {
-      <a routerLink="/system-design/system-design-concepts" class="back-link">← System Design</a>
+      <a [routerLink]="basePath" class="back-link">← System Design</a>
       <div class="loading" role="status" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         Loading concept…
       </div>
     } @else if (notFound()) {
-      <a routerLink="/system-design/system-design-concepts" class="back-link">← System Design</a>
+      <a [routerLink]="basePath" class="back-link">← System Design</a>
       <div class="not-found">
         <p>Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout
-        backHref="/system-design/system-design-concepts"
+        [backHref]="basePath"
         backLabel="System Design"
-        basePath="/system-design/system-design-concepts"
+        [basePath]="basePath"
         [items]="sidebarItems()"
         [activeSlug]="nav.slug()"
         [prevItem]="prevItem()"
@@ -27,6 +27,7 @@
           [marking]="marking()"
           [allConcepts]="nav.allConcepts()"
           [breadcrumbs]="breadcrumbItems()"
+          [fallbackNotice]="showFallbackNotice()"
           (markRead)="onMarkRead()"
         />
       </app-concept-detail-layout>

@@ -118,6 +118,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'pt-BR/system-design/system-design-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'pt-BR/system-design/system-design-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'algorithms/algorithms-concepts',
     renderMode: RenderMode.Server,
   },

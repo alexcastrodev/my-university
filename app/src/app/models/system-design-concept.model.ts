@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 export type SystemDesignConceptDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export interface SystemDesignConceptReference {
@@ -31,6 +33,8 @@ export interface SystemDesignConceptSummary {
   related: SystemDesignConceptLinkRef[];
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface SystemDesignConcept extends SystemDesignConceptSummary {

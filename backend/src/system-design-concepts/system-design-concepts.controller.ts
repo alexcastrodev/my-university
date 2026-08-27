@@ -1,5 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Put } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Put, Query } from '@nestjs/common';
 import { CurrentUserId, OptionalUserId } from '../auth/session';
+import { normalizeLanguage } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { SystemDesignConceptsService } from './system-design-concepts.service';
 
@@ -11,8 +12,8 @@ export class SystemDesignConceptsController {
   ) {}
 
   @Get()
-  async findAll(@OptionalUserId() userId: number | null) {
-    const concepts = this.service.findAll();
+  async findAll(@OptionalUserId() userId: number | null, @Query('lang') lang?: string) {
+    const concepts = this.service.findAll(normalizeLanguage(lang));
     const readSlugs =
       userId === null
         ? new Set<string>()
@@ -27,8 +28,9 @@ export class SystemDesignConceptsController {
   async findOne(
     @Param('slug') slug: string,
     @OptionalUserId() userId: number | null,
+    @Query('lang') lang?: string,
   ) {
-    const concept = this.service.findBySlug(slug);
+    const concept = this.service.findBySlug(slug, normalizeLanguage(lang));
     if (!concept) throw new NotFoundException();
     const read =
       userId !== null &&

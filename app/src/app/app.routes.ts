@@ -92,6 +92,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/system-design-concepts/system-design-concepts-detail').then((m) => m.SystemDesignConceptsDetailPage),
   },
   {
+    path: 'pt-BR/system-design/system-design-concepts',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/system-design-concepts/system-design-concepts-list').then((m) => m.SystemDesignConceptsListPage),
+  },
+  {
+    path: 'pt-BR/system-design/system-design-concepts/:slug',
+    data: { locale: 'pt-BR' },
+    loadComponent: () => import('./pages/system-design-concepts/system-design-concepts-detail').then((m) => m.SystemDesignConceptsDetailPage),
+  },
+  {
     path: 'spring-concepts',
     loadComponent: () => import('./pages/spring-concepts/spring-concepts-list').then((m) => m.SpringConceptsListPage),
   },

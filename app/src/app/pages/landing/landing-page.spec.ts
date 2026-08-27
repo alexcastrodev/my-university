@@ -32,11 +32,14 @@ describe('LandingPage', () => {
 
   it('exposes separate links for each Java topic instead of jumping straight to exams', () => {
     const fixture = setup(false);
-    const links: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('.session-link');
+    const cards: HTMLElement[] = fixture.nativeElement.querySelectorAll('.session-card');
+    const javaCard = Array.from(cards).find((c) => c.textContent?.includes('Java'));
+    const links: NodeListOf<HTMLAnchorElement> = javaCard!.querySelectorAll('.session-link');
 
-    expect(links.length).toBe(3);
+    expect(links.length).toBe(4);
     expect(fixture.nativeElement.textContent).toContain('Exams');
     expect(fixture.nativeElement.textContent).toContain('Concepts');
+    expect(fixture.nativeElement.textContent).toContain('JVM Concepts');
     expect(fixture.nativeElement.textContent).toContain('Java Minute');
   });
 

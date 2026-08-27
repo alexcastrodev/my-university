@@ -22,6 +22,8 @@ function makeConcept(slug: string): SystemDesignConcept {
     prerequisites: [],
     related: [],
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
     sections: [],
     references: [],
   };
@@ -41,7 +43,7 @@ describe('SystemDesignConceptsDetailPage', () => {
         provideZonelessChangeDetection(),
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ActivatedRoute, useValue: { paramMap: paramMap$, snapshot: { paramMap: paramMap$.value } } },
+        { provide: ActivatedRoute, useValue: { paramMap: paramMap$, snapshot: { paramMap: paramMap$.value, data: {} } } },
         {
           provide: SystemDesignConceptsService,
           useValue: { getConcept: getConceptSpy, markRead: () => of({ read: true }), listConcepts: () => of([]) },

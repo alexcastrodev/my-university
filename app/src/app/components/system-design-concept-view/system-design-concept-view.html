@@ -18,6 +18,10 @@
       <app-concept-actions [read]="read()" [marking]="marking()" [labUrl]="c.labUrl" (markRead)="markRead.emit()" />
     </header>
 
+    @if (fallbackNotice()) {
+      <p class="fallback-notice">This article isn't available in Portuguese yet — showing the English version.</p>
+    }
+
     @if (c.prerequisites.length || c.related.length) {
       <section class="concept-section side-info">
         @if (c.prerequisites.length) {

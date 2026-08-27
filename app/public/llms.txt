@@ -7,14 +7,14 @@ My University is a free study platform. Each concept page is a focused, self-con
 ## Java
 
 - [Java Certification Exams](https://university.kurz.fyi/java/exams): Practice exams for Oracle Java certifications with topic-scoped question sets.
-- [Java Concepts](https://university.kurz.fyi/java/java-concepts): Core Java language and API concepts explained in depth, grouped by topic (Collections, Concurrency, Language Features, API Design & Craft, Core APIs & Tooling, I/O & Networking).
-- [JVM Concepts](https://university.kurz.fyi/java/jvm-concepts): JVM internals — memory model, garbage collection, class loading, and performance.
+- [Java Concepts](https://university.kurz.fyi/java/java-concepts): Core Java language and API concepts explained in depth, grouped by topic (Collections, Concurrency, Language Features, API Design & Craft, Core APIs & Tooling, I/O & Networking). Also available in Brazilian Portuguese at [/pt-BR/java/java-concepts](https://university.kurz.fyi/pt-BR/java/java-concepts).
+- [JVM Concepts](https://university.kurz.fyi/java/jvm-concepts): JVM internals — memory model, garbage collection, class loading, and performance. Also available in Brazilian Portuguese at [/pt-BR/java/jvm-concepts](https://university.kurz.fyi/pt-BR/java/jvm-concepts).
 - [Java Minute](https://university.kurz.fyi/java/java-minute): Short, direct answers to specific Java questions. Also available in Brazilian Portuguese at [/pt-BR/java/java-minute](https://university.kurz.fyi/pt-BR/java/java-minute).
 - [Testing Concepts](https://university.kurz.fyi/java/testing): Unit and integration testing practices for the JVM ecosystem.
 
 ## Spring
 
-- [Spring Concepts](https://university.kurz.fyi/spring-concepts): Spring Boot, Spring Security, and Spring Batch explained in depth, grouped by topic.
+- [Spring Concepts](https://university.kurz.fyi/spring-concepts): Spring Boot, Spring Security, and Spring Batch explained in depth, grouped by topic. Also available in Brazilian Portuguese at [/pt-BR/spring-concepts](https://university.kurz.fyi/pt-BR/spring-concepts).
 
 ## PostgreSQL
 
@@ -22,7 +22,7 @@ My University is a free study platform. Each concept page is a focused, self-con
 
 ## System Design
 
-- [System Design Concepts](https://university.kurz.fyi/system-design/system-design-concepts): Distributed systems building blocks — scalability, consistency, caching, messaging — plus real design-interview case studies.
+- [System Design Concepts](https://university.kurz.fyi/system-design/system-design-concepts): Distributed systems building blocks — scalability, consistency, caching, messaging — plus real design-interview case studies. Also available in Brazilian Portuguese at [/pt-BR/system-design/system-design-concepts](https://university.kurz.fyi/pt-BR/system-design/system-design-concepts).
 
 ## Algorithms
 

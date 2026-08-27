@@ -21,6 +21,8 @@ const FIXTURES: SystemDesignConceptSummary[] = [
     related: [],
     labUrl: 'https://example.com/lab',
     read: true,
+    language: 'en',
+    availableLanguages: ['en'],
   },
   {
     slug: 'cap-theorem',
@@ -35,6 +37,8 @@ const FIXTURES: SystemDesignConceptSummary[] = [
     prerequisites: [],
     related: [],
     read: false,
+    language: 'en',
+    availableLanguages: ['en'],
   },
 ];
 
