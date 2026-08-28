@@ -4802,5 +4802,47 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "solid-principles",
+    "id": 102,
+    "title": "SOLID: Five Principles of Object-Oriented Design",
+    "topic": "API Design & Craft",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Immutable Classes and Defensive Copying",
+        "slug": "immutability-and-defensive-copying",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Five rules — single responsibility, open/closed, Liskov substitution, interface segregation, and dependency inversion — for keeping a class hierarchy cheap to change and safe to extend.",
+    "publishedAt": "2026-08-28",
+    "references": [
+      {
+        "label": "UnsupportedOperationException — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedOperationException.html",
+        "type": "doc"
+      },
+      {
+        "label": "List — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html",
+        "type": "doc"
+      },
+      {
+        "label": "Comparable — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
