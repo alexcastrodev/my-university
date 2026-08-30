@@ -10,8 +10,8 @@
 
       <div class="card">
         <h2 class="section-title" i18n="@@settings.displayName.title">Display name</h2>
-        <p class="hint">
-          {{ 'settings.displayName.hint' | t: { login: auth.currentUser()!.githubLogin } }}
+        <p class="hint" i18n="@@settings.displayName.hint">
+          By default your name comes from GitHub (&#64;{{ auth.currentUser()!.githubLogin }}). You can override it below.
         </p>
 
         <input

@@ -9,24 +9,22 @@ import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-database-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatabaseConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [DatabaseConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './database-concepts-detail.html',
   styleUrl: './database-concepts-detail.css',
 })
 export class DatabaseConceptsDetailPage implements OnInit {
+  protected readonly backLabelText = $localize`:@@databaseConcepts.title:Database Concepts`;
   private route = inject(ActivatedRoute);
   private databaseConceptsService = inject(DatabaseConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   concept = signal<DatabaseConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -49,7 +47,7 @@ export class DatabaseConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: this.translate.t('databaseConcepts.title'), path: '/databases/database-concepts' },
+      { name: $localize`:@@databaseConcepts.title:Database Concepts`, path: '/databases/database-concepts' },
       ...(concept ? [{ name: concept.title, path: `/databases/database-concepts/${concept.slug}` }] : []),
     ];
   });

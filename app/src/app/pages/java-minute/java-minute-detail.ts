@@ -12,13 +12,11 @@ import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { pickLeadSection } from '../../shared/concept-sections';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-java-minute-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [JavaMinuteEpisodeView, RouterLink, ConceptDetailLayout],
   templateUrl: './java-minute-detail.html',
   styleUrl: './java-minute-detail.css',
 })
@@ -29,8 +27,7 @@ export class JavaMinuteDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   episode = signal<JavaMinuteEpisode | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -41,6 +38,7 @@ export class JavaMinuteDetailPage implements OnInit {
   /** Set when this route is a locale-prefixed variant (e.g. /pt-BR/java/java-minute/:slug) — the URL, not localStorage, decides the language for this page. */
   private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
   protected readonly basePath = this.urlLocale === 'pt-BR' ? '/pt-BR/java/java-minute' : '/java/java-minute';
+  protected readonly backLabelText = $localize`:@@javaMinute.title:Java Minute`;
 
   nav = createConceptNavigation<JavaMinuteEpisodeSummary>(() => this.javaMinuteService.listEpisodes());
 
@@ -63,7 +61,7 @@ export class JavaMinuteDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const episode = this.episode();
     return [
-      { name: this.translate.t('javaMinute.title'), path: this.basePath },
+      { name: $localize`:@@javaMinute.title:Java Minute`, path: this.basePath },
       ...(episode ? [{ name: episode.question, path: `${this.basePath}/${episode.slug}` }] : []),
     ];
   });

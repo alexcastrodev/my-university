@@ -9,24 +9,22 @@ import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-ruby-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RubyConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [RubyConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './ruby-concepts-detail.html',
   styleUrl: './ruby-concepts-detail.css',
 })
 export class RubyConceptsDetailPage implements OnInit {
+  protected readonly backLabelText = $localize`:@@rubyConcepts.title:Ruby Concepts`;
   private route = inject(ActivatedRoute);
   private rubyConceptsService = inject(RubyConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   concept = signal<RubyConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -49,7 +47,7 @@ export class RubyConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: this.translate.t('rubyConcepts.title'), path: '/ruby-concepts' },
+      { name: $localize`:@@rubyConcepts.title:Ruby Concepts`, path: '/ruby-concepts' },
       ...(concept ? [{ name: concept.title, path: `/ruby-concepts/${concept.slug}` }] : []),
     ];
   });

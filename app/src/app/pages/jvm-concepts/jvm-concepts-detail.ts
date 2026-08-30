@@ -11,8 +11,6 @@ import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 const EN_PATH = '/java/jvm-concepts';
 const PT_BR_PATH = '/pt-BR/java/jvm-concepts';
@@ -20,7 +18,7 @@ const PT_BR_PATH = '/pt-BR/java/jvm-concepts';
 @Component({
   selector: 'app-jvm-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JvmConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [JvmConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './jvm-concepts-detail.html',
   styleUrl: './jvm-concepts-detail.css',
 })
@@ -31,8 +29,7 @@ export class JvmConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   concept = signal<JvmConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -43,6 +40,7 @@ export class JvmConceptsDetailPage implements OnInit {
   /** Set when this route is the locale-prefixed variant (/pt-BR/java/jvm-concepts) — the URL, not localStorage, decides the language for this page. */
   private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
   protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
+  protected readonly backLabelText = $localize`:@@jvmConcepts.title:JVM Concepts`;
 
   nav = createConceptNavigation<JvmConceptSummary>(() => this.jvmConceptsService.listConcepts());
 
@@ -65,7 +63,7 @@ export class JvmConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: this.translate.t('jvmConcepts.title'), path: this.basePath },
+      { name: $localize`:@@jvmConcepts.title:JVM Concepts`, path: this.basePath },
       ...(concept ? [{ name: concept.title, path: `${this.basePath}/${concept.slug}` }] : []),
     ];
   });

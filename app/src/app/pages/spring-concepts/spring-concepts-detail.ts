@@ -11,8 +11,6 @@ import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 const EN_PATH = '/spring-concepts';
 const PT_BR_PATH = '/pt-BR/spring-concepts';
@@ -20,7 +18,7 @@ const PT_BR_PATH = '/pt-BR/spring-concepts';
 @Component({
   selector: 'app-spring-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpringConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [SpringConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './spring-concepts-detail.html',
   styleUrl: './spring-concepts-detail.css',
 })
@@ -31,8 +29,7 @@ export class SpringConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   concept = signal<SpringConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -43,6 +40,7 @@ export class SpringConceptsDetailPage implements OnInit {
   /** Set when this route is the locale-prefixed variant (/pt-BR/spring-concepts) — the URL, not localStorage, decides the language for this page. */
   private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
   protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
+  protected readonly backLabelText = $localize`:@@springConcepts.title:Spring Concepts`;
 
   nav = createConceptNavigation<SpringConceptSummary>(() => this.springConceptsService.listConcepts());
 
@@ -65,7 +63,7 @@ export class SpringConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: this.translate.t('springConcepts.title'), path: this.basePath },
+      { name: $localize`:@@springConcepts.title:Spring Concepts`, path: this.basePath },
       ...(concept ? [{ name: concept.title, path: `${this.basePath}/${concept.slug}` }] : []),
     ];
   });

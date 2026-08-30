@@ -3,13 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExamQuestion } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 import { QuizQuestion } from '../../components/quiz-question/quiz-question';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-quiz-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [QuizQuestion, TranslatePipe],
+  imports: [QuizQuestion],
   templateUrl: './quiz-page.html',
   styleUrl: './quiz-page.css',
 })
@@ -17,7 +15,6 @@ export class QuizPage implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private examService = inject(ExamService);
-  private translate = inject(TranslateService);
 
   examId = signal('');
   questions = signal<ExamQuestion[]>([]);
@@ -91,7 +88,7 @@ export class QuizPage implements OnInit, OnDestroy {
   next(): void { if (this.currentIndex() < this.questions().length - 1) this.currentIndex.update((i) => i + 1); }
 
   confirmExit(): void {
-    if (confirm(this.translate.t('quizPage.confirmExit'))) {
+    if (confirm($localize`:@@quizPage.confirmExit:Exit the exam? Your progress will be lost.`)) {
       this.stopTimer();
       this.router.navigate(['/java/exam', this.examId()]);
     }

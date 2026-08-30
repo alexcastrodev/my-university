@@ -9,24 +9,22 @@ import { QuarkusConceptsService } from '../../services/quarkus-concepts.service'
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-quarkus-concepts-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [QuarkusConceptView, RouterLink, ConceptDetailLayout, TranslatePipe],
+  imports: [QuarkusConceptView, RouterLink, ConceptDetailLayout],
   templateUrl: './quarkus-concepts-detail.html',
   styleUrl: './quarkus-concepts-detail.css',
 })
 export class QuarkusConceptsDetailPage implements OnInit {
+  protected readonly backLabelText = $localize`:@@quarkusConcepts.title:Quarkus Concepts`;
   private route = inject(ActivatedRoute);
   private quarkusConceptsService = inject(QuarkusConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
-
+  
   concept = signal<QuarkusConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -49,7 +47,7 @@ export class QuarkusConceptsDetailPage implements OnInit {
   breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     const concept = this.concept();
     return [
-      { name: this.translate.t('quarkusConcepts.title'), path: '/quarkus-concepts' },
+      { name: $localize`:@@quarkusConcepts.title:Quarkus Concepts`, path: '/quarkus-concepts' },
       ...(concept ? [{ name: concept.title, path: `/quarkus-concepts/${concept.slug}` }] : []),
     ];
   });
