@@ -6,18 +6,18 @@
     </div>
   } @else if (notFound()) {
     <div class="center-message">
-      <p>{{ 'review.notFound' | t }}</p>
-      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">{{ 'review.backToCourse' | t }}</a>
+      <p i18n="@@review.notFound">This attempt couldn't be found.</p>
+      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary" i18n="@@review.backToCourse">← Back to Course</a>
     </div>
   } @else if (reviewUnavailable()) {
     <div class="center-message">
-      <p>{{ 'review.unavailable' | t }}</p>
-      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">{{ 'review.backToCourse' | t }}</a>
+      <p i18n="@@review.unavailable">No review is available for this attempt — it was submitted before answer review existed.</p>
+      <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary" i18n="@@review.backToCourse">← Back to Course</a>
     </div>
   } @else {
     <div class="review-header">
-      <a [routerLink]="['/java/exam', examId(), 'result', attemptId()]" class="back-link">{{ 'review.backToResults' | t }}</a>
-      <h1 class="review-title">{{ 'review.title' | t }}</h1>
+      <a [routerLink]="['/java/exam', examId(), 'result', attemptId()]" class="back-link" i18n="@@review.backToResults">← Back to results</a>
+      <h1 class="review-title" i18n="@@review.title">Review Answers</h1>
       <div class="filter-toggle">
         <button
           type="button"

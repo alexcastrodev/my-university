@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostListener, computed, signal } from '@angular/core';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 @Component({
   selector: 'app-reading-progress-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe],
   templateUrl: './reading-progress-bar.html',
   styleUrl: './reading-progress-bar.css',
 })

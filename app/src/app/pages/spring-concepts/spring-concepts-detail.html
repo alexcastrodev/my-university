@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a [routerLink]="basePath" class="back-link">← {{ 'springConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'springConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@springConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'springConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a [routerLink]="basePath" class="back-link">← {{ 'springConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'springConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@springConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

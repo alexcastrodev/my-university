@@ -8,7 +8,7 @@
         </svg>
       </div>
 
-      <div class="exam-label">{{ 'resultPage.examLabel' | t }}</div>
+      <div class="exam-label" i18n="@@resultPage.examLabel">Oracle Certification Practice Exam</div>
 
       <div class="verdict-row">
         <span class="verdict-badge" [class.pass]="passed()" [class.fail]="!passed()">
@@ -37,8 +37,8 @@
   </div>
 
   <div class="breakdown-section">
-    <h2 class="breakdown-title">{{ 'resultPage.breakdown.title' | t }}</h2>
-    <p class="breakdown-sub">{{ 'resultPage.breakdown.subtitle' | t }}</p>
+    <h2 class="breakdown-title" i18n="@@resultPage.breakdown.title">Section Analysis</h2>
+    <p class="breakdown-sub" i18n="@@resultPage.breakdown.subtitle">Performance breakdown by exam topic</p>
 
     <div class="topics-list">
       @for (t of breakdown(); track t.topic) {
@@ -62,11 +62,11 @@
   </div>
 
   <div class="actions-section">
-    <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary">{{ 'resultPage.actions.backToCourse' | t }}</a>
+    <a [routerLink]="['/java/exam', examId()]" class="action-btn secondary" i18n="@@resultPage.actions.backToCourse">← Back to Course</a>
     @if (hasReview()) {
-      <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary">{{ 'review.title' | t }}</a>
+      <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary" i18n="@@review.title">Review Answers</a>
     }
-    <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">{{ 'resultPage.actions.retake' | t }}</a>
+    <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary" i18n="@@resultPage.actions.retake">Retake Exam</a>
     <button type="button" class="action-btn secondary" (click)="copyShareLink()">
       {{ (copied() ? 'resultPage.actions.copied' : 'resultPage.actions.copyShareLink') | t }}
     </button>

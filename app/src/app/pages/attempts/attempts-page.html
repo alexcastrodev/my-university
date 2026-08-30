@@ -1,7 +1,7 @@
 <div class="attempts-page">
   <div class="attempts-header">
-    <a [routerLink]="['/java/exam', examId()]" class="back-link">{{ 'exam.backToCourse' | t }}</a>
-    <h1 class="attempts-title">{{ 'attemptsPage.title' | t }}</h1>
+    <a [routerLink]="['/java/exam', examId()]" class="back-link" i18n="@@exam.backToCourse">← Back to course</a>
+    <h1 class="attempts-title" i18n="@@attemptsPage.title">Attempt History</h1>
     @if (examTitle()) {
       <p class="attempts-sub">{{ examTitle() }}</p>
     }
@@ -14,13 +14,13 @@
     </div>
   } @else if (!auth.currentUser()) {
     <div class="center-message">
-      <p>{{ 'attemptsPage.loginPrompt' | t }}</p>
-      <a routerLink="/login" class="action-btn primary">{{ 'reviewQueue.logIn' | t }}</a>
+      <p i18n="@@attemptsPage.loginPrompt">Log in to see your past attempts — anonymous attempts aren't saved to a history.</p>
+      <a routerLink="/login" class="action-btn primary" i18n="@@reviewQueue.logIn">Log In</a>
     </div>
   } @else if (finishedAttempts().length === 0) {
     <div class="center-message">
-      <p>{{ 'attemptsPage.empty' | t }}</p>
-      <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary">{{ 'exam.startPractice' | t }}</a>
+      <p i18n="@@attemptsPage.empty">No completed attempts yet.</p>
+      <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary" i18n="@@exam.startPractice">Start Practice Exam →</a>
     </div>
   } @else {
     <div class="attempts-list">

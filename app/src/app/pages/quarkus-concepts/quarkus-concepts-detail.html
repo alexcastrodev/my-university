@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a routerLink="/quarkus-concepts" class="back-link">← {{ 'quarkusConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'quarkusConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@quarkusConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'quarkusConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a routerLink="/quarkus-concepts" class="back-link">← {{ 'quarkusConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'quarkusConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@quarkusConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

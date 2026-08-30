@@ -1,7 +1,7 @@
 <div class="review-queue-page">
   <div class="review-queue-header">
-    <h1 class="review-queue-title">{{ 'reviewQueue.title' | t }}</h1>
-    <p class="review-queue-sub">{{ 'reviewQueue.subtitle' | t }}</p>
+    <h1 class="review-queue-title" i18n="@@reviewQueue.title">Review Queue</h1>
+    <p class="review-queue-sub" i18n="@@reviewQueue.subtitle">Spaced repetition for concepts and episodes you've marked as read.</p>
   </div>
 
   @if (loading()) {
@@ -11,8 +11,8 @@
     </div>
   } @else if (!auth.currentUser()) {
     <div class="center-message">
-      <p>{{ 'reviewQueue.loginPrompt' | t }}</p>
-      <a routerLink="/login" class="action-btn primary">{{ 'reviewQueue.logIn' | t }}</a>
+      <p i18n="@@reviewQueue.loginPrompt">Log in to build a review queue — it's tied to what you've marked as read.</p>
+      <a routerLink="/login" class="action-btn primary" i18n="@@reviewQueue.logIn">Log In</a>
     </div>
   } @else if (current(); as item) {
     <div class="card-wrap">
@@ -21,9 +21,9 @@
       <div class="review-card">
         <span class="review-module-badge">{{ item.module }}</span>
         <h2 class="review-card-title">{{ item.title }}</h2>
-        <a [routerLink]="item.route" class="review-open-link" target="_blank">{{ 'reviewQueue.openLink' | t }}</a>
+        <a [routerLink]="item.route" class="review-open-link" target="_blank" i18n="@@reviewQueue.openLink">Open to re-read →</a>
 
-        <p class="review-prompt">{{ 'reviewQueue.prompt' | t }}</p>
+        <p class="review-prompt" i18n="@@reviewQueue.prompt">Did you remember this?</p>
 
         @if (lastResultText(); as text) {
           <div class="review-feedback">{{ text }}</div>
@@ -45,7 +45,7 @@
   } @else {
     <div class="center-message">
       <p>{{ (totalCount() > 0 ? 'reviewQueue.allCaughtUp' : 'reviewQueue.nothingDue') | t }}</p>
-      <a routerLink="/" class="action-btn secondary">{{ 'reviewQueue.backHome' | t }}</a>
+      <a routerLink="/" class="action-btn secondary" i18n="@@reviewQueue.backHome">← Back home</a>
     </div>
   }
 </div>

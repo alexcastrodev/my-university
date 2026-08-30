@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (!auth.currentUser()) {
       <div class="login-prompt">
-        <p>{{ 'settings.loginPrompt' | t }}</p>
-        <a class="btn github-btn" href="/api/auth/github">{{ 'profile.continueGithub' | t }}</a>
+        <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>
+        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
       </div>
     } @else {
-      <h1 class="page-title">{{ 'settings.title' | t }}</h1>
+      <h1 class="page-title" i18n="@@settings.title">Settings</h1>
 
       <div class="card">
-        <h2 class="section-title">{{ 'settings.displayName.title' | t }}</h2>
+        <h2 class="section-title" i18n="@@settings.displayName.title">Display name</h2>
         <p class="hint">
           {{ 'settings.displayName.hint' | t: { login: auth.currentUser()!.githubLogin } }}
         </p>
@@ -20,16 +20,14 @@
           [value]="displayName()"
           (input)="displayName.set($any($event.target).value)"
           maxlength="80"
-          [attr.aria-label]="'settings.displayName.ariaLabel' | t"
+          i18n-aria-label="@@settings.displayName.ariaLabel" aria-label="Display name"
         />
 
         <div class="actions">
           <button type="button" class="btn primary-btn" [disabled]="saving()" (click)="save()">
             {{ (saving() ? 'settings.saving' : 'settings.save') | t }}
           </button>
-          <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()">
-            {{ 'settings.resetGithub' | t }}
-          </button>
+          <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()" i18n="@@settings.resetGithub">Reset to GitHub name</button>
         </div>
 
         @if (message(); as msg) {
@@ -38,9 +36,9 @@
       </div>
 
       <div class="card">
-        <h2 class="section-title">{{ 'settings.theme.title' | t }}</h2>
-        <p class="hint">{{ 'settings.theme.comingSoon' | t }}</p>
-        <button type="button" class="btn secondary-btn" disabled>{{ 'settings.theme.darkMode' | t }}</button>
+        <h2 class="section-title" i18n="@@settings.theme.title">Theme</h2>
+        <p class="hint" i18n="@@settings.theme.comingSoon">Coming soon.</p>
+        <button type="button" class="btn secondary-btn" disabled i18n="@@settings.theme.darkMode">Dark mode</button>
       </div>
     }
   </div>

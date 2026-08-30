@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a routerLink="/algorithms/algorithms-concepts" class="back-link">← {{ 'algorithmsConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'algorithmsConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@algorithmsConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'algorithmsConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a routerLink="/algorithms/algorithms-concepts" class="back-link">← {{ 'algorithmsConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'algorithmsConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@algorithmsConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

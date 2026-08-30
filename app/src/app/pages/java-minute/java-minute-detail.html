@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a [routerLink]="basePath" class="back-link">← {{ 'javaMinute.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'javaMinuteDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@javaMinuteDetail.loading.ariaLabel" aria-label="Loading episode">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'javaMinuteDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a [routerLink]="basePath" class="back-link">← {{ 'javaMinute.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'javaMinuteDetail.notFound' | t }}</p>
+        <p i18n="@@javaMinuteDetail.notFound">Episode not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

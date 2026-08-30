@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a routerLink="/rubyonrails-concepts" class="back-link">← {{ 'rubyonrailsConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'rubyonrailsConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@rubyonrailsConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'rubyonrailsConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a routerLink="/rubyonrails-concepts" class="back-link">← {{ 'rubyonrailsConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'rubyonrailsConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@rubyonrailsConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

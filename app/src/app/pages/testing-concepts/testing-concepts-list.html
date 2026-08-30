@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">{{ 'testingConcepts.title' | t }}</h1>
-    <p class="page-sub">{{ 'testingConcepts.subtitle' | t }}</p>
+    <h1 class="page-title" i18n="@@testingConcepts.title">Testing Concepts</h1>
+    <p class="page-sub" i18n="@@testingConcepts.subtitle">JUnit 5, Mockito, and Spring testing — core concepts explained in depth.</p>
   </div>
 
   <div class="page-body">
@@ -17,13 +17,11 @@
       </div>
       <button type="button" class="labs-filter-btn"
         [class.active]="showOnlyLabs()"
-        (click)="onToggleLabsFilter()">
-        {{ 'concepts.filters.labsOnly' | t }}
-      </button>
+        (click)="onToggleLabsFilter()" i18n="@@concepts.filters.labsOnly">🔬 Labs only</button>
     </div>
 
     <div class="sort-row">
-      <span class="sort-row-label">{{ 'concepts.sort.label' | t }}</span>
+      <span class="sort-row-label" i18n="@@concepts.sort.label">Sort</span>
       <div class="sort-filters">
         @for (opt of READ_SORT_OPTIONS; track opt.value) {
           <button type="button" class="sort-filter-pill"
@@ -37,7 +35,7 @@
     </div>
 
     @if (loading()) {
-      <div class="loading" role="status" [attr.aria-label]="'concepts.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@concepts.loading.ariaLabel" aria-label="Loading concepts">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'concepts.loading' | t }}
       </div>

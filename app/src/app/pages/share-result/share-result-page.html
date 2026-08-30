@@ -6,8 +6,8 @@
     </div>
   } @else if (notFound() || !summary()) {
     <div class="center-message">
-      <p>{{ 'shareResult.invalid' | t }}</p>
-      <a routerLink="/" class="action-btn secondary">{{ 'shareResult.goHome' | t }}</a>
+      <p i18n="@@shareResult.invalid">This result link is invalid, or the exam attempt hasn't been finished yet.</p>
+      <a routerLink="/" class="action-btn secondary" i18n="@@shareResult.goHome">Go to homepage</a>
     </div>
   } @else {
     <div class="share-card" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
@@ -43,7 +43,7 @@
     </div>
 
     <div class="share-footer">
-      <a routerLink="/" class="action-btn secondary">{{ 'shareResult.tryYourself' | t }}</a>
+      <a routerLink="/" class="action-btn secondary" i18n="@@shareResult.tryYourself">Try this exam yourself →</a>
     </div>
   }
 </div>

@@ -1,12 +1,12 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">{{ 'examList.title' | t }}</h1>
-    <p class="page-sub">{{ 'examList.subtitle' | t }}</p>
+    <h1 class="page-title" i18n="@@examList.title">Certification Exams</h1>
+    <p class="page-sub" i18n="@@examList.subtitle">Choose an exam to start practising. Questions are randomised every session.</p>
   </div>
 
   <div class="page-body">
     @if (loading()) {
-      <div class="loading" role="status" [attr.aria-label]="'examList.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@examList.loading.ariaLabel" aria-label="Loading exams">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'examList.loading' | t }}
       </div>
@@ -24,7 +24,7 @@
               <span>{{ 'examList.card.passPercent' | t:{ percent: exam.passingScore } }}</span>
             </div>
             <div class="card-footer">
-              <span class="card-cta">{{ 'examList.card.cta' | t }}</span>
+              <span class="card-cta" i18n="@@examList.card.cta">Start Practice →</span>
             </div>
           </a>
         }

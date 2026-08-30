@@ -1,5 +1,5 @@
-<nav class="breadcrumbs" [attr.aria-label]="'breadcrumbs.ariaLabel' | t">
-  <a routerLink="/" class="breadcrumb-link">{{ 'breadcrumbs.home' | t }}</a>
+<nav class="breadcrumbs" i18n-aria-label="@@breadcrumbs.ariaLabel" aria-label="Breadcrumb">
+  <a routerLink="/" class="breadcrumb-link" i18n="@@breadcrumbs.home">Home</a>
   @for (item of items(); track item.path; let last = $last) {
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
     @if (last) {

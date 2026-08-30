@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a routerLink="/java/testing" class="back-link">← {{ 'testingConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'testingConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@testingConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'testingConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a routerLink="/java/testing" class="back-link">← {{ 'testingConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'testingConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@testingConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

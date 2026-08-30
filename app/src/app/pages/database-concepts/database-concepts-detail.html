@@ -2,14 +2,14 @@
   <div class="page-body">
     @if (loading()) {
       <a routerLink="/databases/database-concepts" class="back-link">← {{ 'databaseConcepts.title' | t }}</a>
-      <div class="loading" role="status" [attr.aria-label]="'databaseConceptsDetail.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@databaseConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'databaseConceptsDetail.loading' | t }}
       </div>
     } @else if (notFound()) {
       <a routerLink="/databases/database-concepts" class="back-link">← {{ 'databaseConcepts.title' | t }}</a>
       <div class="not-found">
-        <p>{{ 'databaseConceptsDetail.notFound' | t }}</p>
+        <p i18n="@@databaseConceptsDetail.notFound">Concept not found.</p>
       </div>
     } @else {
       <app-concept-detail-layout

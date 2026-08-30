@@ -1,8 +1,8 @@
 <div class="page">
   <div class="page-body">
     <p class="code">404</p>
-    <h1>{{ 'notFoundPage.title' | t }}</h1>
-    <p class="hint">{{ 'notFoundPage.hint' | t }}</p>
-    <a routerLink="/" class="home-link">{{ 'notFoundPage.backHome' | t }}</a>
+    <h1 i18n="@@notFoundPage.title">Page not found</h1>
+    <p class="hint" i18n="@@notFoundPage.hint">The page you were looking for doesn't exist or may have moved.</p>
+    <a routerLink="/" class="home-link" i18n="@@notFoundPage.backHome">← Back to home</a>
   </div>
 </div>

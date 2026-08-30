@@ -1,13 +1,13 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">{{ 'leaderboard.title' | t }}</h1>
-    <p class="page-sub">{{ 'leaderboard.subtitle' | t }}</p>
+    <h1 class="page-title" i18n="@@leaderboard.title">Leaderboard</h1>
+    <p class="page-sub" i18n="@@leaderboard.subtitle">Top learners by total XP — open to everyone, no login required to view.</p>
   </div>
 
   <div class="page-body">
     <div class="card">
       @if (xpService.leaderboard().length === 0) {
-        <p class="empty-state">{{ 'leaderboard.empty' | t }}</p>
+        <p class="empty-state" i18n="@@leaderboard.empty">No one's earned XP yet — be the first.</p>
       } @else {
         <ul class="leaderboard-list">
           @for (entry of xpService.leaderboard(); track entry.userId; let rank = $index) {

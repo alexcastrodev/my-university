@@ -1,12 +1,12 @@
 <div class="page">
   <div class="page-hero">
-    <h1 class="page-title">{{ 'javaMinute.title' | t }}</h1>
-    <p class="page-sub">{{ 'javaMinute.subtitle' | t }}</p>
+    <h1 class="page-title" i18n="@@javaMinute.title">Java Minute</h1>
+    <p class="page-sub" i18n="@@javaMinute.subtitle">Quick answers to common Java questions, one episode at a time.</p>
   </div>
 
   <div class="page-body">
     <div class="sort-row">
-      <span class="sort-row-label">{{ 'concepts.sort.label' | t }}</span>
+      <span class="sort-row-label" i18n="@@concepts.sort.label">Sort</span>
       <div class="sort-filters">
         @for (opt of READ_SORT_OPTIONS; track opt.value) {
           <button type="button" class="sort-filter-pill"
@@ -19,7 +19,7 @@
     </div>
 
     @if (loading()) {
-      <div class="loading" role="status" [attr.aria-label]="'javaMinute.loading.ariaLabel' | t">
+      <div class="loading" role="status" i18n-aria-label="@@javaMinute.loading.ariaLabel" aria-label="Loading episodes">
         <span class="spinner" aria-hidden="true"></span>
         {{ 'javaMinute.loading' | t }}
       </div>
@@ -32,9 +32,9 @@
             </div>
             <h3 class="card-title">{{ episode.question }}</h3>
             <div class="card-footer">
-              <span class="card-cta">{{ 'javaMinute.watch' | t }}</span>
+              <span class="card-cta" i18n="@@javaMinute.watch">Watch →</span>
               @if (episode.read) {
-                <span class="read-check" [attr.title]="'javaMinute.watchedCheck' | t">✓</span>
+                <span class="read-check" i18n-title="@@javaMinute.watchedCheck" title="You've watched this episode">✓</span>
               }
             </div>
           </a>
