@@ -196,5 +196,27 @@
       { "label": "Interfaces — The Java Tutorials", "url": "https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html", "type": "doc" },
       { "label": "Abstract Methods and Classes — The Java Tutorials", "url": "https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "solid-principles",
+    "id": 370,
+    "question": "What are the SOLID principles?",
+    "publishedAt": "2026-08-30",
+    "references": [
+      { "label": "Java Coding Tip #370: What Are the SOLID Principles?", "url": "https://youtube.com/shorts/WkZF3uOA9hA?is=AfegoVaia0RGE20Q", "type": "video" },
+      { "label": "SOLID — Wikipedia", "url": "https://en.wikipedia.org/wiki/SOLID", "type": "doc" },
+      { "label": "Liskov Substitution Principle — Wikipedia", "url": "https://en.wikipedia.org/wiki/Liskov_substitution_principle", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "favor-immutability",
+    "id": 390,
+    "question": "Why should you favor immutability?",
+    "publishedAt": "2026-08-30",
+    "references": [
+      { "label": "Java Coding Tip #390: Why Should You Favor Immutability?", "url": "https://www.youtube.com/shorts/p9jdVv0BOzI", "type": "video" },
+      { "label": "Record Classes — The Java Tutorials", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
+      { "label": "JEP 401: Value Classes and Objects (Preview)", "url": "https://openjdk.org/jeps/401", "type": "doc" }
+    ]
   }
 ]
