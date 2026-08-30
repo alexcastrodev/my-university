@@ -19,7 +19,7 @@
           [attr.aria-expanded]="javaMenuOpen()"
           (click)="toggleJavaMenu()"
         >
-          {{ 'header.nav.java' | t }}
+          <ng-container i18n="@@header.nav.java">Java</ng-container>
           <svg class="chevron" [class.open]="javaMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -45,7 +45,7 @@
           [attr.aria-expanded]="rubyMenuOpen()"
           (click)="toggleRubyMenu()"
         >
-          {{ 'header.nav.ruby' | t }}
+          <ng-container i18n="@@header.nav.ruby">Ruby</ng-container>
           <svg class="chevron" [class.open]="rubyMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -122,7 +122,21 @@
                     class="search-filter-pill"
                     [class.active]="searchTypeFilter() === opt.value"
                     (click)="onFilterChange(opt.value)">
-                    {{ opt.label | t }}
+                    @switch (opt.label) {
+    @case ('header.search.filter.all') { <ng-container i18n="@@header.search.filter.all">All</ng-container> }
+    @case ('header.search.filter.courses') { <ng-container i18n="@@header.search.filter.courses">Courses</ng-container> }
+    @case ('header.search.filter.lessons') { <ng-container i18n="@@header.search.filter.lessons">Lessons</ng-container> }
+    @case ('header.search.filter.javaMinute') { <ng-container i18n="@@header.search.filter.javaMinute">Java Minute</ng-container> }
+    @case ('header.search.filter.javaConcepts') { <ng-container i18n="@@header.search.filter.javaConcepts">Java Concepts</ng-container> }
+    @case ('header.search.filter.jvmConcepts') { <ng-container i18n="@@header.search.filter.jvmConcepts">JVM Concepts</ng-container> }
+    @case ('header.search.filter.databaseConcepts') { <ng-container i18n="@@header.search.filter.databaseConcepts">Database Concepts</ng-container> }
+    @case ('header.search.filter.springConcepts') { <ng-container i18n="@@header.search.filter.springConcepts">Spring Concepts</ng-container> }
+    @case ('header.search.filter.systemDesign') { <ng-container i18n="@@header.search.filter.systemDesign">System Design</ng-container> }
+    @case ('header.search.filter.testingConcepts') { <ng-container i18n="@@header.search.filter.testingConcepts">Testing Concepts</ng-container> }
+    @case ('header.search.filter.algorithms') { <ng-container i18n="@@header.search.filter.algorithms">Algorithms</ng-container> }
+    @case ('header.search.filter.rubyConcepts') { <ng-container i18n="@@header.search.filter.rubyConcepts">Ruby Concepts</ng-container> }
+    @case ('header.search.filter.rubyRailsConcepts') { <ng-container i18n="@@header.search.filter.rubyRailsConcepts">Ruby on Rails Concepts</ng-container> }
+    }
                   </button>
                 }
               </div>
@@ -135,11 +149,24 @@
             } @else if (searchQuery().trim().length < 2) {
               <div class="search-state" i18n="@@header.search.keepTyping">Keep typing to search…</div>
             } @else if (searchResults().length === 0) {
-              <div class="search-state">{{ 'header.search.noResults' | t: { query: searchQuery() } }}</div>
+              <div class="search-state" i18n="@@header.search.noResults">No results for "{{ searchQuery() }}"</div>
             } @else {
               @for (result of searchResults(); track result.url) {
                 <a class="search-result" role="option" [routerLink]="result.url" (click)="selectResult(); closeMobileSearch()">
-                  <span class="search-result-type">{{ TYPE_LABELS[result.type] | t }}</span>
+                  <span class="search-result-type">@switch (result.type) {
+      @case ('course') { <ng-container i18n="@@header.search.type.course">Course</ng-container> }
+      @case ('lesson') { <ng-container i18n="@@header.search.type.lesson">Lesson</ng-container> }
+      @case ('java-minute') { <ng-container i18n="@@header.search.type.javaMinute">Java Minute</ng-container> }
+      @case ('java-concept') { <ng-container i18n="@@header.search.type.javaConcept">Java Concept</ng-container> }
+      @case ('jvm-concept') { <ng-container i18n="@@header.search.type.jvmConcept">JVM Concept</ng-container> }
+      @case ('database-concept') { <ng-container i18n="@@header.search.type.databaseConcept">Database Concept</ng-container> }
+      @case ('spring-concept') { <ng-container i18n="@@header.search.type.springConcept">Spring Concept</ng-container> }
+      @case ('system-design-concept') { <ng-container i18n="@@header.search.type.systemDesignConcept">System Design</ng-container> }
+      @case ('testing-concept') { <ng-container i18n="@@header.search.type.testingConcept">Testing Concept</ng-container> }
+      @case ('algorithms-concept') { <ng-container i18n="@@header.search.type.algorithmsConcept">Algorithms</ng-container> }
+      @case ('ruby-concept') { <ng-container i18n="@@header.search.type.rubyConcept">Ruby Concept</ng-container> }
+      @case ('rubyonrails-concept') { <ng-container i18n="@@header.search.type.rubyonrailsConcept">Ruby on Rails Concept</ng-container> }
+                    }</span>
                   <span class="search-result-title">{{ result.title }}</span>
                   @if (result.subtitle) {
                     <span class="search-result-subtitle">{{ result.subtitle }}</span>
@@ -179,7 +206,21 @@
                   class="search-filter-pill"
                   [class.active]="searchTypeFilter() === opt.value"
                   (click)="onFilterChange(opt.value)">
-                  {{ opt.label | t }}
+                  @switch (opt.label) {
+    @case ('header.search.filter.all') { <ng-container i18n="@@header.search.filter.all">All</ng-container> }
+    @case ('header.search.filter.courses') { <ng-container i18n="@@header.search.filter.courses">Courses</ng-container> }
+    @case ('header.search.filter.lessons') { <ng-container i18n="@@header.search.filter.lessons">Lessons</ng-container> }
+    @case ('header.search.filter.javaMinute') { <ng-container i18n="@@header.search.filter.javaMinute">Java Minute</ng-container> }
+    @case ('header.search.filter.javaConcepts') { <ng-container i18n="@@header.search.filter.javaConcepts">Java Concepts</ng-container> }
+    @case ('header.search.filter.jvmConcepts') { <ng-container i18n="@@header.search.filter.jvmConcepts">JVM Concepts</ng-container> }
+    @case ('header.search.filter.databaseConcepts') { <ng-container i18n="@@header.search.filter.databaseConcepts">Database Concepts</ng-container> }
+    @case ('header.search.filter.springConcepts') { <ng-container i18n="@@header.search.filter.springConcepts">Spring Concepts</ng-container> }
+    @case ('header.search.filter.systemDesign') { <ng-container i18n="@@header.search.filter.systemDesign">System Design</ng-container> }
+    @case ('header.search.filter.testingConcepts') { <ng-container i18n="@@header.search.filter.testingConcepts">Testing Concepts</ng-container> }
+    @case ('header.search.filter.algorithms') { <ng-container i18n="@@header.search.filter.algorithms">Algorithms</ng-container> }
+    @case ('header.search.filter.rubyConcepts') { <ng-container i18n="@@header.search.filter.rubyConcepts">Ruby Concepts</ng-container> }
+    @case ('header.search.filter.rubyRailsConcepts') { <ng-container i18n="@@header.search.filter.rubyRailsConcepts">Ruby on Rails Concepts</ng-container> }
+    }
                 </button>
               }
             </div>
@@ -192,11 +233,24 @@
           } @else if (searchQuery().trim().length < 2) {
             <div class="search-state" i18n="@@header.search.keepTyping">Keep typing to search…</div>
           } @else if (searchResults().length === 0) {
-            <div class="search-state">{{ 'header.search.noResults' | t: { query: searchQuery() } }}</div>
+            <div class="search-state" i18n="@@header.search.noResults">No results for "{{ searchQuery() }}"</div>
           } @else {
             @for (result of searchResults(); track result.url) {
               <a class="search-result" role="option" [routerLink]="result.url" (click)="selectResult()">
-                <span class="search-result-type">{{ TYPE_LABELS[result.type] | t }}</span>
+                <span class="search-result-type">@switch (result.type) {
+      @case ('course') { <ng-container i18n="@@header.search.type.course">Course</ng-container> }
+      @case ('lesson') { <ng-container i18n="@@header.search.type.lesson">Lesson</ng-container> }
+      @case ('java-minute') { <ng-container i18n="@@header.search.type.javaMinute">Java Minute</ng-container> }
+      @case ('java-concept') { <ng-container i18n="@@header.search.type.javaConcept">Java Concept</ng-container> }
+      @case ('jvm-concept') { <ng-container i18n="@@header.search.type.jvmConcept">JVM Concept</ng-container> }
+      @case ('database-concept') { <ng-container i18n="@@header.search.type.databaseConcept">Database Concept</ng-container> }
+      @case ('spring-concept') { <ng-container i18n="@@header.search.type.springConcept">Spring Concept</ng-container> }
+      @case ('system-design-concept') { <ng-container i18n="@@header.search.type.systemDesignConcept">System Design</ng-container> }
+      @case ('testing-concept') { <ng-container i18n="@@header.search.type.testingConcept">Testing Concept</ng-container> }
+      @case ('algorithms-concept') { <ng-container i18n="@@header.search.type.algorithmsConcept">Algorithms</ng-container> }
+      @case ('ruby-concept') { <ng-container i18n="@@header.search.type.rubyConcept">Ruby Concept</ng-container> }
+      @case ('rubyonrails-concept') { <ng-container i18n="@@header.search.type.rubyonrailsConcept">Ruby on Rails Concept</ng-container> }
+                    }</span>
                 <span class="search-result-title">{{ result.title }}</span>
                 @if (result.subtitle) {
                   <span class="search-result-subtitle">{{ result.subtitle }}</span>
@@ -215,10 +269,10 @@
         i18n-aria-label="@@header.aria.levelXp" aria-label="Level and experience points"
         [attr.title]="xpService.summary()?.level?.title ?? null"
       >
-        <span class="level-part">{{ 'header.xp.level' | t: { number: xpService.summary()?.level?.number ?? 1 } }}</span>
+        <span class="level-part" i18n="@@header.xp.level">Lv {{ xpService.summary()?.level?.number ?? 1 }}</span>
         <span class="xp-part">
           <span class="xp-icon" aria-hidden="true">⚡</span>
-          {{ 'header.xp.points' | t: { xp: xpService.xp() } }}
+          <ng-container i18n="@@header.xp.points">{{ xpService.xp() }} XP</ng-container>
         </span>
       </a>
     }

@@ -14,24 +14,7 @@ import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
 import { Language } from '../../models/language.model';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 import { TranslationKey } from '../../shared/i18n/translations';
-
-const TYPE_LABELS: Record<SearchResultType, TranslationKey> = {
-  course: 'header.search.type.course',
-  lesson: 'header.search.type.lesson',
-  'java-minute': 'header.search.type.javaMinute',
-  'java-concept': 'header.search.type.javaConcept',
-  'jvm-concept': 'header.search.type.jvmConcept',
-  'database-concept': 'header.search.type.databaseConcept',
-  'spring-concept': 'header.search.type.springConcept',
-  'system-design-concept': 'header.search.type.systemDesignConcept',
-  'testing-concept': 'header.search.type.testingConcept',
-  'algorithms-concept': 'header.search.type.algorithmsConcept',
-  'ruby-concept': 'header.search.type.rubyConcept',
-  'rubyonrails-concept': 'header.search.type.rubyonrailsConcept',
-};
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   en: 'English',
@@ -78,7 +61,7 @@ const MIN_QUERY_LENGTH = 2;
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, TranslatePipe],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -86,12 +69,10 @@ export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   protected languageService = inject(LanguageService);
-  protected translate = inject(TranslateService);
   private router = inject(Router);
   private searchService = inject(SearchService);
   private elementRef = inject(ElementRef);
 
-  protected readonly TYPE_LABELS = TYPE_LABELS;
   protected readonly FILTER_OPTIONS = FILTER_OPTIONS;
   protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
 
@@ -112,7 +93,7 @@ export class Header {
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
-    if (!user) return this.translate.t('header.signIn');
+    if (!user) return $localize`:@@header.signIn:Sign in`;
 
     return user.displayName
       .split(/\s+/)
