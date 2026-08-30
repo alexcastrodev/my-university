@@ -12,13 +12,13 @@ export class JvmConceptsService {
 
   listConcepts(): Observable<JvmConceptSummary[]> {
     return this.http.get<JvmConceptSummary[]>(this.base, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 
   getConcept(slug: string): Observable<JvmConcept> {
     return this.http.get<JvmConcept>(`${this.base}/${slug}`, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 

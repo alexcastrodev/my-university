@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JavaMinuteEpisodeSummary } from '../../models/java-minute.model';
 import { JavaMinuteService } from '../../services/java-minute.service';
@@ -31,13 +31,10 @@ export class JavaMinuteListPage implements OnInit {
   sortedEpisodes = computed(() => sortByRead(this.episodes(), this.readSort()));
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.loading.set(true);
-      this.javaMinuteService.listEpisodes().subscribe({
-        next: (list) => { this.episodes.set(list); this.loading.set(false); },
-        error: () => this.loading.set(false),
-      });
+    this.loading.set(true);
+    this.javaMinuteService.listEpisodes().subscribe({
+      next: (list) => { this.episodes.set(list); this.loading.set(false); },
+      error: () => this.loading.set(false),
     });
   }
 

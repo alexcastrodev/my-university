@@ -12,13 +12,13 @@ export class JavaMinuteService {
 
   listEpisodes(): Observable<JavaMinuteEpisodeSummary[]> {
     return this.http.get<JavaMinuteEpisodeSummary[]>(this.base, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 
   getEpisode(slug: string): Observable<JavaMinuteEpisode> {
     return this.http.get<JavaMinuteEpisode>(`${this.base}/${slug}`, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 

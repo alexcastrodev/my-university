@@ -12,13 +12,13 @@ export class SystemDesignConceptsService {
 
   listConcepts(): Observable<SystemDesignConceptSummary[]> {
     return this.http.get<SystemDesignConceptSummary[]>(this.base, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 
   getConcept(slug: string): Observable<SystemDesignConcept> {
     return this.http.get<SystemDesignConcept>(`${this.base}/${slug}`, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 

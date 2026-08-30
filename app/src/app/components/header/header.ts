@@ -20,24 +20,6 @@ const LANGUAGE_LABELS: Record<Language, string> = {
   'pt-BR': 'Português (Brasil)',
 };
 
-/** Topics with a locale-prefixed URL for pt-BR — extend this as more topics get translations. */
-const LOCALIZED_ROUTE_PREFIXES: { en: string; ptBR: string }[] = [
-  { en: '/java/java-minute', ptBR: '/pt-BR/java/java-minute' },
-  { en: '/java/java-concepts', ptBR: '/pt-BR/java/java-concepts' },
-  { en: '/java/jvm-concepts', ptBR: '/pt-BR/java/jvm-concepts' },
-  { en: '/spring-concepts', ptBR: '/pt-BR/spring-concepts' },
-  { en: '/system-design/system-design-concepts', ptBR: '/pt-BR/system-design/system-design-concepts' },
-];
-
-/** Rewrites `url` to its equivalent in `target`, or null when the current route has no localized variant. */
-function localizedUrl(url: string, target: Language): string | null {
-  for (const { en, ptBR } of LOCALIZED_ROUTE_PREFIXES) {
-    if (target === 'pt-BR' && url.startsWith(en)) return ptBR + url.slice(en.length);
-    if (target === 'en' && url.startsWith(ptBR)) return en + url.slice(ptBR.length);
-  }
-  return null;
-}
-
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'header.search.filter.all', value: null },
   { label: 'header.search.filter.courses', value: 'course' },
@@ -157,11 +139,8 @@ export class Header {
   }
 
   setLanguage(lang: Language): void {
-    this.languageService.setLanguage(lang);
     this.closeLanguageMenu();
-
-    const target = localizedUrl(this.router.url, lang);
-    if (target) void this.router.navigateByUrl(target);
+    this.languageService.setLanguage(lang);
   }
 
   logout(): void {

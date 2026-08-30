@@ -42,7 +42,7 @@ export class JavaMinuteDetailPage implements OnInit {
 
   showFallbackNotice = computed(() => {
     const episode = this.episode();
-    return episode != null && episode.language !== this.languageService.language();
+    return episode != null && episode.language !== this.languageService.language;
   });
 
   sidebarItems = computed(() =>
@@ -65,14 +65,10 @@ export class JavaMinuteDetailPage implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.nav.refetchList();
-    });
+    this.nav.refetchList();
 
     effect(() => {
       const slug = this.slugSignal();
-      this.languageService.language();
       if (!slug) return;
       this.loadEpisode(slug);
     });

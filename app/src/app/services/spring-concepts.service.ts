@@ -12,13 +12,13 @@ export class SpringConceptsService {
 
   listConcepts(): Observable<SpringConceptSummary[]> {
     return this.http.get<SpringConceptSummary[]>(this.base, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 
   getConcept(slug: string): Observable<SpringConcept> {
     return this.http.get<SpringConcept>(`${this.base}/${slug}`, {
-      params: { lang: this.language.language() },
+      params: { lang: this.language.language },
     });
   }
 

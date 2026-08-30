@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { JvmConceptSummary } from '../../models/jvm-concept.model';
 import { JvmConceptsService } from '../../services/jvm-concepts.service';
 import { LanguageService } from '../../services/language.service';
@@ -38,13 +38,10 @@ export class JvmConceptsListPage implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.loading.set(true);
-      this.jvmConceptsService.listConcepts().subscribe({
-        next: (list) => { this.concepts.set(list); this.loading.set(false); },
-        error: () => this.loading.set(false),
-      });
+    this.loading.set(true);
+    this.jvmConceptsService.listConcepts().subscribe({
+      next: (list) => { this.concepts.set(list); this.loading.set(false); },
+      error: () => this.loading.set(false),
     });
   }
 

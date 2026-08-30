@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { LanguageService } from '../../services/language.service';
@@ -116,13 +116,10 @@ export class SystemDesignConceptsListPage implements OnInit {
   }
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.loading.set(true);
-      this.systemDesignConceptsService.listConcepts().subscribe({
-        next: (list) => { this.concepts.set(list); this.loading.set(false); },
-        error: () => this.loading.set(false),
-      });
+    this.loading.set(true);
+    this.systemDesignConceptsService.listConcepts().subscribe({
+      next: (list) => { this.concepts.set(list); this.loading.set(false); },
+      error: () => this.loading.set(false),
     });
   }
 

@@ -1,59 +1,65 @@
-import { Injectable, effect, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, LOCALE_ID, effect, inject } from '@angular/core';
 import { DEFAULT_LANGUAGE, Language, isSupportedLanguage } from '../models/language.model';
 import { AuthService } from './auth.service';
 
 const LANGUAGE_STORAGE_KEY = 'preferred-language';
-
-function readStoredLanguage(): Language {
-  if (typeof localStorage === 'undefined') return DEFAULT_LANGUAGE;
-  const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  return isSupportedLanguage(stored) ? stored : DEFAULT_LANGUAGE;
-}
+const PT_BR_PREFIX = '/pt-BR';
 
 /**
- * Anonymous visitors keep their language choice in localStorage only. Once logged in, the
- * user's saved preference takes over; if they don't have one yet, their current local choice
- * becomes it, so it follows them across devices from then on.
+ * The language a page renders in is now a build-time fact (@angular/localize produces one
+ * bundle per locale, dispatched by URL prefix — see the /pt-BR/ base href), not something
+ * chosen at runtime. `language` is fixed for the lifetime of the request/session: reading it
+ * doesn't establish a reactive dependency the way the old signal-based version did, which is
+ * exactly right, since it can no longer change without a full navigation to the other locale's
+ * bundle.
+ *
+ * This service's remaining job is bookkeeping: keep the user's saved preference (localStorage
+ * for anonymous visitors, the account's preferredLanguage once logged in) in sync with whichever
+ * locale they're actually browsing, so a future visit or another device defaults to the same
+ * language; and drive the header's language switcher, which now works by navigating to the
+ * equivalent path in the other locale's bundle rather than flipping a signal.
  */
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   private auth = inject(AuthService);
+  private document = inject(DOCUMENT);
+  private localeId = inject(LOCALE_ID);
 
-  readonly language = signal<Language>(readStoredLanguage());
+  readonly language: Language = isSupportedLanguage(this.localeId) ? this.localeId : DEFAULT_LANGUAGE;
 
   constructor() {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, this.language);
+    }
+
     effect(() => {
       const user = this.auth.currentUser();
       if (!user) return;
-
-      if (user.preferredLanguage && isSupportedLanguage(user.preferredLanguage)) {
-        this.applyLocal(user.preferredLanguage);
-      } else {
-        this.auth.updateLanguage(this.language()).subscribe({ error: () => {} });
-      }
+      if (user.preferredLanguage === this.language) return;
+      this.auth.updateLanguage(this.language).subscribe({ error: () => {} });
     });
   }
 
+  /** Navigates to the equivalent path in the other locale's bundle — a full page load, since switching locale means switching bundles. */
   setLanguage(lang: Language): void {
-    this.applyLocal(lang);
-    if (this.auth.currentUser()) {
-      this.auth.updateLanguage(lang).subscribe({ error: () => {} });
-    }
-  }
+    if (lang === this.language) return;
 
-  /**
-   * Applies a language for this URL/session without touching the user's saved account
-   * preference. Used when a locale-prefixed route (e.g. /pt-BR/...) determines the language
-   * from the URL itself — landing there shouldn't silently overwrite what a logged-in user
-   * chose to save as their preference.
-   */
-  setLanguageFromUrl(lang: Language): void {
-    this.applyLocal(lang);
-  }
+    if (typeof localStorage !== 'undefined') localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    if (this.auth.currentUser()) this.auth.updateLanguage(lang).subscribe({ error: () => {} });
 
-  private applyLocal(lang: Language): void {
-    this.language.set(lang);
-    if (typeof localStorage === 'undefined') return;
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    const location = this.document.location;
+    const path = location.pathname;
+    const isPtBrPath = path === PT_BR_PREFIX || path.startsWith(`${PT_BR_PREFIX}/`);
+    const target =
+      lang === 'pt-BR'
+        ? isPtBrPath
+          ? path
+          : `${PT_BR_PREFIX}${path}`
+        : isPtBrPath
+          ? path.slice(PT_BR_PREFIX.length) || '/'
+          : path;
+
+    location.assign(`${target}${location.search}${location.hash}`);
   }
 }

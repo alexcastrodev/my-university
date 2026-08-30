@@ -46,7 +46,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
 
   showFallbackNotice = computed(() => {
     const concept = this.concept();
-    return concept != null && concept.language !== this.languageService.language();
+    return concept != null && concept.language !== this.languageService.language;
   });
 
   sidebarItems = computed(() =>
@@ -69,14 +69,10 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.nav.refetchList();
-    });
+    this.nav.refetchList();
 
     effect(() => {
       const slug = this.slugSignal();
-      this.languageService.language();
       if (!slug) return;
       this.loadConcept(slug);
     });

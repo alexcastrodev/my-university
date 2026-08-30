@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { JavaConceptSummary } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { LanguageService } from '../../services/language.service';
@@ -66,13 +66,10 @@ export class JavaConceptsListPage implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      this.languageService.language();
-      this.loading.set(true);
-      this.javaConceptsService.listConcepts().subscribe({
-        next: (list) => { this.concepts.set(list); this.loading.set(false); },
-        error: () => this.loading.set(false),
-      });
+    this.loading.set(true);
+    this.javaConceptsService.listConcepts().subscribe({
+      next: (list) => { this.concepts.set(list); this.loading.set(false); },
+      error: () => this.loading.set(false),
     });
   }
 
