@@ -2,7 +2,7 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      {{ 'review.loading' | t }}
+      <ng-container i18n="@@review.loading">Loading review…</ng-container>
     </div>
   } @else if (notFound()) {
     <div class="center-message">
@@ -24,13 +24,13 @@
           class="filter-btn"
           [class.active]="filter() === 'wrong'"
           (click)="setFilter('wrong')"
-        >{{ 'review.filter.wrong' | t: { count: wrongCount() } }}</button>
+        ><ng-container i18n="@@review.filter.wrong">Wrong only ({{ wrongCount() }})</ng-container></button>
         <button
           type="button"
           class="filter-btn"
           [class.active]="filter() === 'all'"
           (click)="setFilter('all')"
-        >{{ 'review.filter.all' | t: { count: review().length } }}</button>
+        ><ng-container i18n="@@review.filter.all">All ({{ review().length }})</ng-container></button>
       </div>
     </div>
 

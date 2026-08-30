@@ -1,6 +1,6 @@
 <aside class="sidebar-nav" i18n-aria-label="@@concept.sidebarNav.ariaLabel" aria-label="Concept navigation">
   <div class="sidebar-progress">
-    <span class="sidebar-progress-label">{{ 'concept.sidebarNav.readCount' | t:{ count: readCount(), total: items().length } }}</span>
+    <span class="sidebar-progress-label" i18n="@@concept.sidebarNav.readCount">{{ readCount() }} / {{ items().length }} read</span>
     <div class="sidebar-progress-track">
       <div class="sidebar-progress-fill" [style.width.%]="progressPercent()"></div>
     </div>

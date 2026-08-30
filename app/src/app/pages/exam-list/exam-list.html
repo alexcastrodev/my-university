@@ -8,7 +8,7 @@
     @if (loading()) {
       <div class="loading" role="status" i18n-aria-label="@@examList.loading.ariaLabel" aria-label="Loading exams">
         <span class="spinner" aria-hidden="true"></span>
-        {{ 'examList.loading' | t }}
+        <ng-container i18n="@@examList.loading">Loading exams…</ng-container>
       </div>
     } @else {
       <div class="cards-grid">
@@ -19,9 +19,9 @@
             </div>
             <h3 class="card-title">{{ exam.title }}</h3>
             <div class="card-meta">
-              <span>{{ 'examList.card.questions' | t:{ count: exam.questionCount } }}</span>
-              <span>{{ 'examList.card.minutes' | t:{ count: exam.durationMinutes } }}</span>
-              <span>{{ 'examList.card.passPercent' | t:{ percent: exam.passingScore } }}</span>
+              <span i18n="@@examList.card.questions">{{ exam.questionCount }} questions</span>
+              <span i18n="@@examList.card.minutes">{{ exam.durationMinutes }} minutes</span>
+              <span i18n="@@examList.card.passPercent">{{ exam.passingScore }}% pass</span>
             </div>
             <div class="card-footer">
               <span class="card-cta" i18n="@@examList.card.cta">Start Practice →</span>

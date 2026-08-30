@@ -10,7 +10,7 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      {{ 'attemptsPage.loading' | t }}
+      <ng-container i18n="@@attemptsPage.loading">Loading attempts…</ng-container>
     </div>
   } @else if (!auth.currentUser()) {
     <div class="center-message">

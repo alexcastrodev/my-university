@@ -15,8 +15,8 @@
               <span class="leaderboard-rank">#{{ rank + 1 }}</span>
               <img class="avatar-sm" [src]="entry.avatarUrl" [alt]="entry.displayName" />
               <span class="leaderboard-name">{{ entry.displayName }}</span>
-              <span class="leaderboard-level">{{ 'leaderboard.level' | t: { number: entry.levelNumber } }}</span>
-              <span class="leaderboard-total">{{ 'leaderboard.xp' | t: { total: entry.total } }}</span>
+              <span class="leaderboard-level" i18n="@@leaderboard.level">Lvl {{ entry.levelNumber }}</span>
+              <span class="leaderboard-total" i18n="@@leaderboard.xp">{{ entry.total }} XP</span>
             </li>
           }
         </ul>

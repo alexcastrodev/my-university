@@ -4,12 +4,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ExamAttemptSummary } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 @Component({
   selector: 'app-attempts-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, TranslatePipe],
+  imports: [RouterLink, DatePipe],
   templateUrl: './attempts-page.html',
   styleUrl: './attempts-page.css',
 })

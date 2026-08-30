@@ -3,12 +3,11 @@ import { RouterLink } from '@angular/router';
 import { Exam } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 import { SeoService } from '../../services/seo.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 @Component({
   selector: 'app-exam-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink],
   templateUrl: './exam-list.html',
   styleUrl: './exam-list.css',
 })

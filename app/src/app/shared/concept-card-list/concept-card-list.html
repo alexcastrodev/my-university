@@ -10,7 +10,7 @@
             <span class="card-difficulty">{{ item.difficulty }}</span>
           }
           @if (item.readingTime != null) {
-            <span class="card-reading-time">{{ item.readingTime }} {{ 'conceptCard.minutes' | t }}</span>
+            <span class="card-reading-time">{{ item.readingTime }} <ng-container i18n="@@conceptCard.minutes">min</ng-container></span>
           }
           @if (item.labUrl) {
             <span class="card-badge lab-badge" i18n-title="@@conceptCard.labBadge" title="This concept has a lab">🔬 Lab</span>

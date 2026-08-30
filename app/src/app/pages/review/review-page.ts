@@ -3,14 +3,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ExamQuestion, QuestionReview } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 import { QuizQuestion } from '../../components/quiz-question/quiz-question';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 type Filter = 'wrong' | 'all';
 
 @Component({
   selector: 'app-review-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, QuizQuestion, TranslatePipe],
+  imports: [RouterLink, QuizQuestion],
   templateUrl: './review-page.html',
   styleUrl: './review-page.css',
 })
