@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConceptSidebarItem, ConceptSidebarNav } from '../concept-sidebar-nav/concept-sidebar-nav';
 import { ReadingProgressBar } from '../reading-progress-bar/reading-progress-bar';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 export interface ConceptPagerItem {
   slug: string;
@@ -11,7 +12,7 @@ export interface ConceptPagerItem {
 @Component({
   selector: 'app-concept-detail-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ReadingProgressBar, ConceptSidebarNav],
+  imports: [RouterLink, ReadingProgressBar, ConceptSidebarNav, TranslatePipe],
   templateUrl: './concept-detail-layout.html',
   styleUrl: './concept-detail-layout.css',
 })

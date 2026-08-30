@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 export interface ConceptSidebarItem {
   slug: string;
@@ -11,7 +12,7 @@ export interface ConceptSidebarItem {
 @Component({
   selector: 'app-concept-sidebar-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './concept-sidebar-nav.html',
   styleUrl: './concept-sidebar-nav.css',
 })

@@ -7,7 +7,7 @@
     <ng-content />
 
     @if (prevItem() || nextItem()) {
-      <nav class="concept-pager" aria-label="Concept navigation">
+      <nav class="concept-pager" [attr.aria-label]="'concept.sidebarNav.ariaLabel' | t">
         @if (prevItem(); as p) {
           <a [routerLink]="[basePath(), p.slug]" class="pager-link prev">← {{ p.label }}</a>
         } @else {

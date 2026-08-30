@@ -374,6 +374,40 @@ export const TRANSLATIONS = {
   'notFoundPage.title': { en: 'Page not found', 'pt-BR': 'Página não encontrada' },
   'notFoundPage.hint': { en: "The page you were looking for doesn't exist or may have moved.", 'pt-BR': 'A página que você procurava não existe ou pode ter sido movida.' },
   'notFoundPage.backHome': { en: '← Back to home', 'pt-BR': '← Voltar para o início' },
+
+  'breadcrumbs.home': { en: 'Home', 'pt-BR': 'Início' },
+  'breadcrumbs.ariaLabel': { en: 'Breadcrumb', 'pt-BR': 'Trilha de navegação' },
+
+  'concept.publishedOn': { en: 'Published on {date}', 'pt-BR': 'Publicado em {date}' },
+  'concept.fallbackNotice': { en: "This article isn't available in Portuguese yet — showing the English version.", 'pt-BR': 'Este artigo ainda não está disponível em português — mostrando a versão em inglês.' },
+  'concept.documentationLinks': { en: 'Documentation Links', 'pt-BR': 'Links de Documentação' },
+  'concept.references': { en: 'References', 'pt-BR': 'Referências' },
+  'concept.prerequisites': { en: 'Prerequisites', 'pt-BR': 'Pré-requisitos' },
+  'concept.related': { en: 'Related', 'pt-BR': 'Relacionado' },
+  'concept.relatedConcepts': { en: 'Related concepts', 'pt-BR': 'Conceitos relacionados' },
+  'concept.minRead': { en: '{min} min read', 'pt-BR': '{min} min de leitura' },
+  'concept.alreadyRead': { en: 'Already read', 'pt-BR': 'Já lido' },
+  'concept.refType.book': { en: 'Books', 'pt-BR': 'Livros' },
+  'concept.refType.paper': { en: 'Papers', 'pt-BR': 'Artigos' },
+  'concept.refType.engineering': { en: 'Engineering Blogs', 'pt-BR': 'Blogs de Engenharia' },
+  'concept.refType.doc': { en: 'Documentation', 'pt-BR': 'Documentação' },
+  'concept.refType.video': { en: 'Videos', 'pt-BR': 'Vídeos' },
+
+  'concept.deepDive.kicker': { en: 'Deep Dive', 'pt-BR': 'Aprofundamento' },
+  'concept.deepDive.closeAriaLabel': { en: 'Close deep dive panel', 'pt-BR': 'Fechar painel de aprofundamento' },
+  'concept.deepDive.others': { en: 'Other deep dives in this article', 'pt-BR': 'Outros aprofundamentos neste artigo' },
+
+  'concept.actions.gotIt': { en: 'Got it!', 'pt-BR': 'Entendi!' },
+  'concept.actions.gotItXp': { en: 'Got it +10 XP', 'pt-BR': 'Entendi +10 XP' },
+  'concept.actions.openLab': { en: 'Open Lab', 'pt-BR': 'Abrir Lab' },
+  'concept.actions.loginToMarkRead': { en: 'Log in to mark this {label} as read', 'pt-BR': 'Entre para marcar {label} como lido' },
+  'concept.actions.labelConcept': { en: 'concept', 'pt-BR': 'conceito' },
+  'concept.actions.labelEpisode': { en: 'episode', 'pt-BR': 'episódio' },
+
+  'concept.sidebarNav.ariaLabel': { en: 'Concept navigation', 'pt-BR': 'Navegação de conceitos' },
+  'concept.sidebarNav.readCount': { en: '{count} / {total} read', 'pt-BR': '{count} / {total} lidos' },
+
+  'concept.progressBar.ariaLabel': { en: 'Reading progress', 'pt-BR': 'Progresso de leitura' },
 } as const satisfies Record<string, TranslationEntry>;
 
 export type TranslationKey = keyof typeof TRANSLATIONS;
