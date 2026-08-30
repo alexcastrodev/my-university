@@ -9,7 +9,11 @@
       <a [routerLink]="resumeLink()" class="resume-banner">
         <span class="resume-label" i18n="@@landing.resume.label">Continue where you left off</span>
         <span class="resume-title">
-          {{ point.lessonTitle ?? ('landing.resume.courseComplete' | t: { course: point.courseTitle }) }}
+          @if (point.lessonTitle) {
+            {{ point.lessonTitle }}
+          } @else {
+            <ng-container i18n="@@landing.resume.courseComplete">{{ point.courseTitle }} — course complete</ng-container>
+          }
         </span>
         <span class="resume-cta" i18n="@@landing.resume.cta">Resume →</span>
       </a>
@@ -20,19 +24,67 @@
         @if (session.links; as links) {
           <div class="session-card session-card-multi">
             <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
-            <h2 class="session-title">{{ session.title | t }}</h2>
-            <p class="session-description">{{ session.description | t }}</p>
+            <h2 class="session-title">
+              @switch (session.title) {
+                @case ('landing.sessions.java.title') { <ng-container i18n="@@landing.sessions.java.title">Java</ng-container> }
+                @case ('landing.sessions.spring.title') { <ng-container i18n="@@landing.sessions.spring.title">Spring</ng-container> }
+                @case ('landing.sessions.quarkus.title') { <ng-container i18n="@@landing.sessions.quarkus.title">Quarkus</ng-container> }
+                @case ('landing.sessions.ruby.title') { <ng-container i18n="@@landing.sessions.ruby.title">Ruby</ng-container> }
+                @case ('landing.sessions.databases.title') { <ng-container i18n="@@landing.sessions.databases.title">Databases</ng-container> }
+                @case ('landing.sessions.systemDesign.title') { <ng-container i18n="@@landing.sessions.systemDesign.title">System Design</ng-container> }
+                @case ('landing.sessions.algorithms.title') { <ng-container i18n="@@landing.sessions.algorithms.title">Algorithms</ng-container> }
+              }
+            </h2>
+            <p class="session-description">
+              @switch (session.description) {
+                @case ('landing.sessions.java.description') { <ng-container i18n="@@landing.sessions.java.description">Certification practice exams, Java Minute quick answers, and in-depth Java Concepts.</ng-container> }
+                @case ('landing.sessions.spring.description') { <ng-container i18n="@@landing.sessions.spring.description">Spring Boot, Spring Security, and Spring Batch concepts explained in depth.</ng-container> }
+                @case ('landing.sessions.quarkus.description') { <ng-container i18n="@@landing.sessions.quarkus.description">Hibernate ORM, persistence, and data access in Quarkus, explained in depth.</ng-container> }
+                @case ('landing.sessions.ruby.description') { <ng-container i18n="@@landing.sessions.ruby.description">Ruby language internals and Ruby on Rails performance concepts explained in depth.</ng-container> }
+                @case ('landing.sessions.databases.description') { <ng-container i18n="@@landing.sessions.databases.description">PostgreSQL, SQL, MongoDB, and DynamoDB concepts, built up one book chapter at a time.</ng-container> }
+                @case ('landing.sessions.systemDesign.description') { <ng-container i18n="@@landing.sessions.systemDesign.description">Distributed systems and architecture patterns explained in depth.</ng-container> }
+                @case ('landing.sessions.algorithms.description') { <ng-container i18n="@@landing.sessions.algorithms.description">Core algorithms and data structures, with visualizations to build intuition.</ng-container> }
+              }
+            </p>
             <div class="session-links">
               @for (link of links; track link.routerLink) {
-                <a [routerLink]="link.routerLink" class="session-link">{{ link.label | t }} →</a>
+                <a [routerLink]="link.routerLink" class="session-link">
+                  @switch (link.label) {
+                    @case ('landing.link.exams') { <ng-container i18n="@@landing.link.exams">Exams</ng-container> }
+                    @case ('landing.link.concepts') { <ng-container i18n="@@landing.link.concepts">Concepts</ng-container> }
+                    @case ('landing.link.jvmConcepts') { <ng-container i18n="@@landing.link.jvmConcepts">JVM Concepts</ng-container> }
+                    @case ('landing.link.javaMinute') { <ng-container i18n="@@landing.link.javaMinute">Java Minute</ng-container> }
+                    @case ('landing.link.rails') { <ng-container i18n="@@landing.link.rails">Rails</ng-container> }
+                  } →
+                </a>
               }
             </div>
           </div>
         } @else {
           <a [routerLink]="session.routerLink" class="session-card">
             <span class="session-icon" aria-hidden="true">{{ session.icon }}</span>
-            <h2 class="session-title">{{ session.title | t }}</h2>
-            <p class="session-description">{{ session.description | t }}</p>
+            <h2 class="session-title">
+              @switch (session.title) {
+                @case ('landing.sessions.java.title') { <ng-container i18n="@@landing.sessions.java.title">Java</ng-container> }
+                @case ('landing.sessions.spring.title') { <ng-container i18n="@@landing.sessions.spring.title">Spring</ng-container> }
+                @case ('landing.sessions.quarkus.title') { <ng-container i18n="@@landing.sessions.quarkus.title">Quarkus</ng-container> }
+                @case ('landing.sessions.ruby.title') { <ng-container i18n="@@landing.sessions.ruby.title">Ruby</ng-container> }
+                @case ('landing.sessions.databases.title') { <ng-container i18n="@@landing.sessions.databases.title">Databases</ng-container> }
+                @case ('landing.sessions.systemDesign.title') { <ng-container i18n="@@landing.sessions.systemDesign.title">System Design</ng-container> }
+                @case ('landing.sessions.algorithms.title') { <ng-container i18n="@@landing.sessions.algorithms.title">Algorithms</ng-container> }
+              }
+            </h2>
+            <p class="session-description">
+              @switch (session.description) {
+                @case ('landing.sessions.java.description') { <ng-container i18n="@@landing.sessions.java.description">Certification practice exams, Java Minute quick answers, and in-depth Java Concepts.</ng-container> }
+                @case ('landing.sessions.spring.description') { <ng-container i18n="@@landing.sessions.spring.description">Spring Boot, Spring Security, and Spring Batch concepts explained in depth.</ng-container> }
+                @case ('landing.sessions.quarkus.description') { <ng-container i18n="@@landing.sessions.quarkus.description">Hibernate ORM, persistence, and data access in Quarkus, explained in depth.</ng-container> }
+                @case ('landing.sessions.ruby.description') { <ng-container i18n="@@landing.sessions.ruby.description">Ruby language internals and Ruby on Rails performance concepts explained in depth.</ng-container> }
+                @case ('landing.sessions.databases.description') { <ng-container i18n="@@landing.sessions.databases.description">PostgreSQL, SQL, MongoDB, and DynamoDB concepts, built up one book chapter at a time.</ng-container> }
+                @case ('landing.sessions.systemDesign.description') { <ng-container i18n="@@landing.sessions.systemDesign.description">Distributed systems and architecture patterns explained in depth.</ng-container> }
+                @case ('landing.sessions.algorithms.description') { <ng-container i18n="@@landing.sessions.algorithms.description">Core algorithms and data structures, with visualizations to build intuition.</ng-container> }
+              }
+            </p>
             <span class="session-cta" i18n="@@landing.session.explore">Explore →</span>
           </a>
         }

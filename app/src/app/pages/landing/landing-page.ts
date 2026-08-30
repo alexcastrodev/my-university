@@ -4,7 +4,6 @@ import { ResumePoint } from '../../models/course.model';
 import { AuthService } from '../../services/auth.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 import { TranslationKey } from '../../shared/i18n/translations';
 
 interface LandingSessionLink {
@@ -78,7 +77,7 @@ const SESSIONS: LandingSession[] = [
 @Component({
   selector: 'app-landing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })
