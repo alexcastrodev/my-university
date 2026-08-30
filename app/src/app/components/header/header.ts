@@ -14,7 +14,6 @@ import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
 import { Language } from '../../models/language.model';
-import { TranslationKey } from '../../shared/i18n/translations';
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   en: 'English',
@@ -39,7 +38,7 @@ function localizedUrl(url: string, target: Language): string | null {
   return null;
 }
 
-const FILTER_OPTIONS: { label: TranslationKey; value: SearchResultType | null }[] = [
+const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'header.search.filter.all', value: null },
   { label: 'header.search.filter.courses', value: 'course' },
   { label: 'header.search.filter.lessons', value: 'lesson' },

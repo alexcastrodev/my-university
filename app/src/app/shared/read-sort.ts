@@ -1,8 +1,6 @@
-import { TranslationKey } from './i18n/translations';
-
 export type ReadSortOrder = 'default' | 'unread-first' | 'read-first';
 
-export const READ_SORT_OPTIONS: { label: TranslationKey; value: ReadSortOrder }[] = [
+export const READ_SORT_OPTIONS: { label: string; value: ReadSortOrder }[] = [
   { label: 'sort.default', value: 'default' },
   { label: 'sort.unreadFirst', value: 'unread-first' },
   { label: 'sort.readFirst', value: 'read-first' },

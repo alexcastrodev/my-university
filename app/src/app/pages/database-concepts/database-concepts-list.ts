@@ -5,9 +5,8 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-import { TranslationKey } from '../../shared/i18n/translations';
 
-const CATEGORY_OPTIONS: { label: TranslationKey; value: DatabaseConceptCategory | null }[] = [
+const CATEGORY_OPTIONS: { label: string; value: DatabaseConceptCategory | null }[] = [
   { label: 'concepts.filters.all', value: null },
   { label: 'databaseConcepts.category.postgresql', value: 'PostgreSQL' },
   { label: 'databaseConcepts.category.sql', value: 'SQL' },

@@ -3,9 +3,8 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ReviewQueueItem, ReviewRating } from '../../models/review.model';
 import { ReviewService } from '../../services/review.service';
-import { TranslationKey } from '../../shared/i18n/translations';
 
-const RATINGS: { rating: ReviewRating; label: TranslationKey }[] = [
+const RATINGS: { rating: ReviewRating; label: string }[] = [
   { rating: 'again', label: 'reviewQueue.rating.again' },
   { rating: 'hard', label: 'reviewQueue.rating.hard' },
   { rating: 'good', label: 'reviewQueue.rating.good' },

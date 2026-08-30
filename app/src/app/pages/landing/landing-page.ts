@@ -4,16 +4,15 @@ import { ResumePoint } from '../../models/course.model';
 import { AuthService } from '../../services/auth.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
-import { TranslationKey } from '../../shared/i18n/translations';
 
 interface LandingSessionLink {
-  label: TranslationKey;
+  label: string;
   routerLink: string;
 }
 
 interface LandingSession {
-  title: TranslationKey;
-  description: TranslationKey;
+  title: string;
+  description: string;
   icon: string;
   /** Single destination for the whole card — used when there is only one place to go. */
   routerLink?: string;

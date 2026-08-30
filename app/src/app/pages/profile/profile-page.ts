@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
-import { TranslationKeyLike } from '../../shared/i18n/translations';
 
-const SOURCE_LABELS: Record<string, TranslationKeyLike> = {
+const SOURCE_LABELS: Record<string, string> = {
   lesson: 'profile.source.lessons',
   'skill-check': 'profile.source.skillChecks',
   'concept-read': 'profile.source.javaConcepts',
@@ -52,7 +51,7 @@ export class ProfilePage implements OnInit {
     this.xpService.loadDailyGoal();
   }
 
-  sourceLabel(sourceType: string): TranslationKeyLike {
+  sourceLabel(sourceType: string): string {
     return SOURCE_LABELS[sourceType] ?? sourceType;
   }
 }
