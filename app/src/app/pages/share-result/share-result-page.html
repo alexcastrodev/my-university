@@ -31,9 +31,7 @@
         {{ summary()!.score }} correct out of {{ summary()!.total }} questions
       </div>
 
-      <div class="passing-note" i18n="@@resultPage.passingScore">
-        Passing score: {{ summary()!.passingScore }}%
-      </div>
+      <div class="passing-note" i18n="@@resultPage.passingScore">Passing score: {{ summary()!.passingScore }}%</div>
 
       @if (summary()!.finishedAt) {
         <div class="attempt-date" i18n="@@shareResult.completed">Completed {{ formatDate(summary()!.finishedAt) }}</div>

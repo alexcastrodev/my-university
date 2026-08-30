@@ -3,8 +3,6 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ReviewQueueItem, ReviewRating } from '../../models/review.model';
 import { ReviewService } from '../../services/review.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 import { TranslationKey } from '../../shared/i18n/translations';
 
 const RATINGS: { rating: ReviewRating; label: TranslationKey }[] = [
@@ -14,23 +12,24 @@ const RATINGS: { rating: ReviewRating; label: TranslationKey }[] = [
   { rating: 'easy', label: 'reviewQueue.rating.easy' },
 ];
 
-const RATING_LABELS: Record<ReviewRating, TranslationKey> = {
-  again: 'reviewQueue.rating.again',
-  hard: 'reviewQueue.rating.hard',
-  good: 'reviewQueue.rating.good',
-  easy: 'reviewQueue.rating.easy',
-};
+function ratingLabel(rating: ReviewRating): string {
+  switch (rating) {
+    case 'again': return $localize`:@@reviewQueue.rating.again:Again`;
+    case 'hard': return $localize`:@@reviewQueue.rating.hard:Hard`;
+    case 'good': return $localize`:@@reviewQueue.rating.good:Good`;
+    case 'easy': return $localize`:@@reviewQueue.rating.easy:Easy`;
+  }
+}
 
 @Component({
   selector: 'app-review-queue-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink],
   templateUrl: './review-queue-page.html',
   styleUrl: './review-queue-page.css',
 })
 export class ReviewQueuePage implements OnInit {
   private reviewService = inject(ReviewService);
-  private translate = inject(TranslateService);
   protected auth = inject(AuthService);
 
   protected readonly RATINGS = RATINGS;
@@ -47,12 +46,11 @@ export class ReviewQueuePage implements OnInit {
   lastResultText = computed(() => {
     const result = this.lastResult();
     if (!result) return null;
-    const dayWord = this.translate.t(result.intervalDays === 1 ? 'reviewQueue.day' : 'reviewQueue.days');
-    return this.translate.t('reviewQueue.feedback', {
-      rating: this.translate.t(RATING_LABELS[result.rating]),
-      days: result.intervalDays,
-      dayWord,
-    });
+    const rating = ratingLabel(result.rating);
+    const dayWord = result.intervalDays === 1
+      ? $localize`:@@reviewQueue.day:day`
+      : $localize`:@@reviewQueue.days:days`;
+    return $localize`:@@reviewQueue.feedback:Rated "${rating}:rating:" — next review in ${result.intervalDays}:days: ${dayWord}:dayWord:.`;
   });
 
   ngOnInit() {

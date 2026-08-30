@@ -7,7 +7,7 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      {{ 'reviewQueue.loading' | t }}
+      <ng-container i18n="@@reviewQueue.loading">Loading your review queue…</ng-container>
     </div>
   } @else if (!auth.currentUser()) {
     <div class="center-message">
@@ -16,7 +16,7 @@
     </div>
   } @else if (current(); as item) {
     <div class="card-wrap">
-      <div class="progress-label">{{ 'reviewQueue.progress' | t: { remaining: remaining(), total: totalCount() } }}</div>
+      <div class="progress-label" i18n="@@reviewQueue.progress">{{ remaining() }} of {{ totalCount() }} due</div>
 
       <div class="review-card">
         <span class="review-module-badge">{{ item.module }}</span>
@@ -37,7 +37,12 @@
               [class]="r.rating"
               [disabled]="answering()"
               (click)="rate(r.rating)"
-            >{{ r.label | t }}</button>
+            >@switch (r.label) {
+              @case ('reviewQueue.rating.again') { <ng-container i18n="@@reviewQueue.rating.again">Again</ng-container> }
+              @case ('reviewQueue.rating.hard') { <ng-container i18n="@@reviewQueue.rating.hard">Hard</ng-container> }
+              @case ('reviewQueue.rating.good') { <ng-container i18n="@@reviewQueue.rating.good">Good</ng-container> }
+              @case ('reviewQueue.rating.easy') { <ng-container i18n="@@reviewQueue.rating.easy">Easy</ng-container> }
+            }</button>
           }
         </div>
       </div>
