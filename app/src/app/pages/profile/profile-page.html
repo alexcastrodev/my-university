@@ -16,15 +16,15 @@
 
       <div class="level-card">
         <div class="level-info">
-          <span class="level-number">{{ 'profile.level' | t: { number: summary.level.number } }}</span>
+          <span class="level-number" i18n="@@profile.level">Level {{ summary.level.number }}</span>
           <span class="level-title">{{ summary.level.title }}</span>
         </div>
-        <div class="xp-total">{{ 'profile.xpTotal' | t: { total: summary.total } }}</div>
+        <div class="xp-total" i18n="@@profile.xpTotal">{{ summary.total }} XP</div>
         <div class="progress-bar">
           <div class="progress-fill" [style.width.%]="progressPercent()"></div>
         </div>
         @if (summary.level.nextLevelXp !== null) {
-          <span class="progress-label">{{ 'profile.xpToNextLevel' | t: { amount: summary.level.nextLevelXp - summary.total } }}</span>
+          <span class="progress-label" i18n="@@profile.xpToNextLevel">{{ summary.level.nextLevelXp - summary.total }} XP to next level</span>
         } @else {
           <span class="progress-label" i18n="@@profile.maxLevel">Max level reached</span>
         }
@@ -61,8 +61,16 @@
             <h2 class="section-title" i18n="@@profile.favoriteTopic.title">Favorite Topic</h2>
           </div>
           @if (favoriteTopic(); as favorite) {
-            <span class="favorite-topic-value">{{ favorite.label | t }}</span>
-            <span class="favorite-topic-sub">{{ 'profile.favoriteTopic.xpEarned' | t: { total: favorite.total } }}</span>
+            <span class="favorite-topic-value">
+              @switch (favorite.label) {
+                @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
+                @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
+                @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
+                @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
+                @default { {{ favorite.label }} }
+              }
+            </span>
+            <span class="favorite-topic-sub" i18n="@@profile.favoriteTopic.xpEarned">{{ favorite.total }} XP earned</span>
           } @else {
             <span class="favorite-topic-empty" i18n="@@profile.favoriteTopic.empty">Not enough data yet</span>
           }
@@ -72,14 +80,14 @@
       @if (xpService.dailyGoal(); as goal) {
         <div class="card">
           <h2 class="section-title" i18n="@@profile.dailyGoal.title">Daily Goal</h2>
-          <div class="xp-total">{{ 'profile.dailyGoal.progress' | t: { earned: goal.earnedToday, goal: goal.goal } }}</div>
+          <div class="xp-total" i18n="@@profile.dailyGoal.progress">{{ goal.earnedToday }} / {{ goal.goal }} XP today</div>
           <div class="progress-bar">
             <div class="progress-fill" [style.width.%]="dailyGoalPercent()"></div>
           </div>
           @if (goal.earnedToday >= goal.goal) {
             <span class="progress-label" i18n="@@profile.dailyGoal.reached">Goal reached — nice work!</span>
           } @else {
-            <span class="progress-label">{{ 'profile.dailyGoal.toGo' | t: { amount: goal.goal - goal.earnedToday } }}</span>
+            <span class="progress-label" i18n="@@profile.dailyGoal.toGo">{{ goal.goal - goal.earnedToday }} XP to go</span>
           }
         </div>
       }
@@ -92,8 +100,14 @@
           <ul class="breakdown-list">
             @for (entry of summary.breakdown; track entry.sourceType) {
               <li class="breakdown-item">
-                <span>{{ sourceLabel(entry.sourceType) | t }}</span>
-                <span>{{ 'profile.xpTotal' | t: { total: entry.total } }}</span>
+                <span>@switch (sourceLabel(entry.sourceType)) {
+                  @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
+                  @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
+                  @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
+                  @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
+                  @default { {{ sourceLabel(entry.sourceType) }} }
+                }</span>
+                <span i18n="@@profile.xpTotal">{{ entry.total }} XP</span>
               </li>
             }
           </ul>
@@ -108,9 +122,15 @@
           <ul class="history-list">
             @for (entry of xpService.history(); track entry.id) {
               <li class="history-item">
-                <span class="history-source">{{ sourceLabel(entry.sourceType) | t }}</span>
+                <span class="history-source">@switch (sourceLabel(entry.sourceType)) {
+                  @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
+                  @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
+                  @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
+                  @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
+                  @default { {{ sourceLabel(entry.sourceType) }} }
+                }</span>
                 <span class="history-id">{{ entry.sourceId }}</span>
-                <span class="history-exp">{{ 'profile.activity.exp' | t: { exp: entry.exp } }}</span>
+                <span class="history-exp" i18n="@@profile.activity.exp">+{{ entry.exp }} XP</span>
               </li>
             }
           </ul>

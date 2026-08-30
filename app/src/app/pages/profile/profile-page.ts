@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 import { TranslationKeyLike } from '../../shared/i18n/translations';
 
 const SOURCE_LABELS: Record<string, TranslationKeyLike> = {
@@ -14,7 +13,6 @@ const SOURCE_LABELS: Record<string, TranslationKeyLike> = {
 @Component({
   selector: 'app-profile-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
 })
