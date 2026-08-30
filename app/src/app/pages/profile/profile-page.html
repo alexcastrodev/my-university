@@ -41,14 +41,14 @@
               <div class="streak-stat">
                 <span class="streak-stat-label" i18n="@@profile.streak.current">Current</span>
                 <span class="streak-stat-value" [class.streak-zero]="streak.current === 0">
-                  {{ streak.current }} <span class="streak-stat-unit">{{ (streak.current === 1 ? 'profile.streak.day' : 'profile.streak.days') | t }}</span>
+                  {{ streak.current }} <span class="streak-stat-unit">@if (streak.current === 1) { <ng-container i18n="@@profile.streak.day">day</ng-container> } @else { <ng-container i18n="@@profile.streak.days">days</ng-container> }</span>
                 </span>
               </div>
               <div class="streak-stat-divider"></div>
               <div class="streak-stat">
                 <span class="streak-stat-label" i18n="@@profile.streak.longest">Longest</span>
                 <span class="streak-stat-value">
-                  {{ streak.longest }} <span class="streak-stat-unit">{{ (streak.longest === 1 ? 'profile.streak.day' : 'profile.streak.days') | t }}</span>
+                  {{ streak.longest }} <span class="streak-stat-unit">@if (streak.longest === 1) { <ng-container i18n="@@profile.streak.day">day</ng-container> } @else { <ng-container i18n="@@profile.streak.days">days</ng-container> }</span>
                 </span>
               </div>
             </div>

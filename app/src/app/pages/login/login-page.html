@@ -21,9 +21,7 @@
     </a>
 
     @if (devModeEnabled()) {
-      <button class="btn dev-btn" type="button" [disabled]="devLoggingIn()" (click)="devLogin()">
-        {{ (devLoggingIn() ? 'loginPage.cta.devSigningIn' : 'loginPage.cta.devUser') | t }}
-      </button>
+      <button class="btn dev-btn" type="button" [disabled]="devLoggingIn()" (click)="devLogin()">@if (devLoggingIn()) { <ng-container i18n="@@loginPage.cta.devSigningIn">Signing in…</ng-container> } @else { <ng-container i18n="@@loginPage.cta.devUser">Continue as Dev User (local only)</ng-container> }</button>
     }
   </div>
 </div>

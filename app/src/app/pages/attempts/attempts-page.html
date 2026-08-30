@@ -31,9 +31,7 @@
             <span class="attempt-percent" [class.pass]="passed(a)" [class.fail]="!passed(a)">{{ percentOf(a) }}%</span>
             <span class="attempt-count">{{ a.score }}/{{ a.total }}</span>
           </div>
-          <span class="attempt-badge" [class.pass]="passed(a)" [class.fail]="!passed(a)">
-            {{ (passed(a) ? 'attemptsPage.badge.pass' : 'attemptsPage.badge.fail') | t }}
-          </span>
+          <span class="attempt-badge" [class.pass]="passed(a)" [class.fail]="!passed(a)">@if (passed(a)) { <ng-container i18n="@@attemptsPage.badge.pass">Pass</ng-container> } @else { <ng-container i18n="@@attemptsPage.badge.fail">Fail</ng-container> }</span>
         </a>
       }
     </div>

@@ -44,7 +44,7 @@
     </div>
   } @else {
     <div class="center-message">
-      <p>{{ (totalCount() > 0 ? 'reviewQueue.allCaughtUp' : 'reviewQueue.nothingDue') | t }}</p>
+      <p>@if (totalCount() > 0) { <ng-container i18n="@@reviewQueue.allCaughtUp">You're all caught up! 🎉</ng-container> } @else { <ng-container i18n="@@reviewQueue.nothingDue">Nothing due for review right now.</ng-container> }</p>
       <a routerLink="/" class="action-btn secondary" i18n="@@reviewQueue.backHome">← Back home</a>
     </div>
   }

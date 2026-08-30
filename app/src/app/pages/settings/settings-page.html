@@ -24,9 +24,7 @@
         />
 
         <div class="actions">
-          <button type="button" class="btn primary-btn" [disabled]="saving()" (click)="save()">
-            {{ (saving() ? 'settings.saving' : 'settings.save') | t }}
-          </button>
+          <button type="button" class="btn primary-btn" [disabled]="saving()" (click)="save()">@if (saving()) { <ng-container i18n="@@settings.saving">Saving…</ng-container> } @else { <ng-container i18n="@@settings.save">Save</ng-container> }</button>
           <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()" i18n="@@settings.resetGithub">Reset to GitHub name</button>
         </div>
 

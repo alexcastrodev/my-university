@@ -11,9 +11,7 @@
       <div class="exam-label" i18n="@@resultPage.examLabel">Oracle Certification Practice Exam</div>
 
       <div class="verdict-row">
-        <span class="verdict-badge" [class.pass]="passed()" [class.fail]="!passed()">
-          {{ (passed() ? 'resultPage.verdict.pass' : 'resultPage.verdict.fail') | t }}
-        </span>
+        <span class="verdict-badge" [class.pass]="passed()" [class.fail]="!passed()">@if (passed()) { <ng-container i18n="@@resultPage.verdict.pass">PASS</ng-container> } @else { <ng-container i18n="@@resultPage.verdict.fail">FAIL</ng-container> }</span>
       </div>
 
       <div class="score-display">
@@ -67,8 +65,6 @@
       <a [routerLink]="['/java/exam', examId(), 'review', attemptId()]" class="action-btn secondary" i18n="@@review.title">Review Answers</a>
     }
     <a [routerLink]="['/java/exam', examId(), 'quiz']" class="action-btn primary" i18n="@@resultPage.actions.retake">Retake Exam</a>
-    <button type="button" class="action-btn secondary" (click)="copyShareLink()">
-      {{ (copied() ? 'resultPage.actions.copied' : 'resultPage.actions.copyShareLink') | t }}
-    </button>
+    <button type="button" class="action-btn secondary" (click)="copyShareLink()">@if (copied()) { <ng-container i18n="@@resultPage.actions.copied">Copied!</ng-container> } @else { <ng-container i18n="@@resultPage.actions.copyShareLink">Copy share link</ng-container> }</button>
   </div>
 </div>

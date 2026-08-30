@@ -20,9 +20,7 @@
 
       <div class="exam-title">{{ summary()!.examTitle }}</div>
 
-      <span class="verdict-badge" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">
-        {{ (summary()!.passed ? 'resultPage.verdict.pass' : 'resultPage.verdict.fail') | t }}
-      </span>
+      <span class="verdict-badge" [class.pass]="summary()!.passed" [class.fail]="!summary()!.passed">@if (summary()!.passed) { <ng-container i18n="@@resultPage.verdict.pass">PASS</ng-container> } @else { <ng-container i18n="@@resultPage.verdict.fail">FAIL</ng-container> }</span>
 
       <div class="score-display">
         <span class="score-number">{{ scorePercent() }}</span>

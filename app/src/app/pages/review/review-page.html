@@ -36,7 +36,7 @@
 
     @if (visibleReview().length === 0) {
       <div class="center-message">
-        <p>{{ (filter() === 'wrong' ? 'review.empty.wrong' : 'review.empty.none') | t }}</p>
+        <p>@if (filter() === 'wrong') { <ng-container i18n="@@review.empty.wrong">No wrong answers — nice work!</ng-container> } @else { <ng-container i18n="@@review.empty.none">No questions in this attempt.</ng-container> }</p>
       </div>
     } @else {
       <div class="review-list">

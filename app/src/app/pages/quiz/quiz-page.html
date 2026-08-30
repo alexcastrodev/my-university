@@ -63,9 +63,7 @@
           (click)="submitExam()"
           [disabled]="submitting()"
           type="button"
-        >
-          {{ (submitting() ? 'quizPage.submit.submitting' : 'quizPage.submit.button') | t }}
-        </button>
+        >@if (submitting()) { <ng-container i18n="@@quizPage.submit.submitting">Submitting…</ng-container> } @else { <ng-container i18n="@@quizPage.submit.button">Submit Exam</ng-container> }</button>
       }
     </div>
   </div>
