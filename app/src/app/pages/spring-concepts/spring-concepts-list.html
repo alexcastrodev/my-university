@@ -11,7 +11,11 @@
           <button type="button" class="category-filter-pill"
             [class.active]="selectedCategory() === opt.value"
             (click)="onFilterChange(opt.value)">
-            {{ opt.value === null ? ('concepts.filters.all' | t) : opt.label }}
+            @if (opt.value === null) {
+              <ng-container i18n="@@concepts.filters.all">All</ng-container>
+            } @else {
+              {{ opt.label }}
+            }
           </button>
         }
       </div>
@@ -41,7 +45,7 @@
     @if (loading()) {
       <div class="loading" role="status" i18n-aria-label="@@concepts.loading.ariaLabel" aria-label="Loading concepts">
         <span class="spinner" aria-hidden="true"></span>
-        {{ 'concepts.loading' | t }}
+        <ng-container i18n="@@concepts.loading">Loading concepts…</ng-container>
       </div>
     } @else {
       @for (group of groupedConcepts(); track group.topic) {

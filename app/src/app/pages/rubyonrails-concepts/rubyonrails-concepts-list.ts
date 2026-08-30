@@ -5,7 +5,6 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 export interface RubyOnRailsConceptTopicGroup {
   topic: string;
@@ -25,7 +24,7 @@ const TOPIC_ORDER = [
 @Component({
   selector: 'app-rubyonrails-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './rubyonrails-concepts-list.html',
   styleUrl: './rubyonrails-concepts-list.css',
 })

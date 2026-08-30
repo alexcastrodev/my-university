@@ -5,7 +5,6 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 import { TranslationKey } from '../../shared/i18n/translations';
 
 const CATEGORY_OPTIONS: { label: TranslationKey; value: AlgorithmsConceptCategory | null }[] = [
@@ -21,7 +20,7 @@ const CATEGORY_OPTIONS: { label: TranslationKey; value: AlgorithmsConceptCategor
 @Component({
   selector: 'app-algorithms-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './algorithms-concepts-list.html',
   styleUrl: './algorithms-concepts-list.css',
 })

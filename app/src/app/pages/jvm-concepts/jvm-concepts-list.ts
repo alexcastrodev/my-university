@@ -8,7 +8,6 @@ import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 const EN_PATH = '/java/jvm-concepts';
 const PT_BR_PATH = '/pt-BR/java/jvm-concepts';
@@ -16,7 +15,7 @@ const PT_BR_PATH = '/pt-BR/java/jvm-concepts';
 @Component({
   selector: 'app-jvm-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent, TranslatePipe],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent],
   templateUrl: './jvm-concepts-list.html',
   styleUrl: './jvm-concepts-list.css',
 })

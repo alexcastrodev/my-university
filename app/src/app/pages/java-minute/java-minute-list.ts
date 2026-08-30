@@ -6,7 +6,6 @@ import { JavaMinuteService } from '../../services/java-minute.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 const EN_PATH = '/java/java-minute';
 const PT_BR_PATH = '/pt-BR/java/java-minute';
@@ -14,7 +13,7 @@ const PT_BR_PATH = '/pt-BR/java/java-minute';
 @Component({
   selector: 'app-java-minute-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink],
   templateUrl: './java-minute-list.html',
   styleUrl: './java-minute-list.css',
 })

@@ -71,6 +71,7 @@
             },
             "production-i18n": {
               "localize": true,
+              "i18nMissingTranslation": "error",
               "budgets": [
                 {
                   "type": "initial",
