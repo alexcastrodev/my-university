@@ -27,7 +27,11 @@
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+              @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+              @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+              @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+            }
           </button>
         }
       </div>

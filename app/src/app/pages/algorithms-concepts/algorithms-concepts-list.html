@@ -11,7 +11,15 @@
           <button type="button" class="category-filter-pill"
             [class.active]="selectedCategory() === opt.value"
             (click)="onFilterChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('concepts.filters.all') { <ng-container i18n="@@concepts.filters.all">All</ng-container> }
+    @case ('algorithmsConcepts.category.fundamentals') { <ng-container i18n="@@algorithmsConcepts.category.fundamentals">Fundamentals</ng-container> }
+    @case ('algorithmsConcepts.category.sorting') { <ng-container i18n="@@algorithmsConcepts.category.sorting">Sorting</ng-container> }
+    @case ('algorithmsConcepts.category.dataStructures') { <ng-container i18n="@@algorithmsConcepts.category.dataStructures">Data Structures</ng-container> }
+    @case ('algorithmsConcepts.category.graphs') { <ng-container i18n="@@algorithmsConcepts.category.graphs">Graphs</ng-container> }
+    @case ('algorithmsConcepts.category.strings') { <ng-container i18n="@@algorithmsConcepts.category.strings">Strings</ng-container> }
+    @case ('algorithmsConcepts.category.dynamicProgrammingGreedy') { <ng-container i18n="@@algorithmsConcepts.category.dynamicProgrammingGreedy">Dynamic Programming &amp; Greedy</ng-container> }
+    }
           </button>
         }
       </div>
@@ -27,7 +35,11 @@
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+    @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+    @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+    }
           </button>
         }
       </div>

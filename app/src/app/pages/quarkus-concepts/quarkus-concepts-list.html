@@ -11,7 +11,15 @@
           <button type="button" class="category-filter-pill"
             [class.active]="selectedCategory() === opt.value"
             (click)="onFilterChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('concepts.filters.all') { <ng-container i18n="@@concepts.filters.all">All</ng-container> }
+    @case ('quarkusConcepts.category.coreConfiguration') { <ng-container i18n="@@quarkusConcepts.category.coreConfiguration">Core Configuration</ng-container> }
+    @case ('quarkusConcepts.category.cachingAuditing') { <ng-container i18n="@@quarkusConcepts.category.cachingAuditing">Caching &amp; Auditing</ng-container> }
+    @case ('quarkusConcepts.category.multitenancy') { <ng-container i18n="@@quarkusConcepts.category.multitenancy">Multitenancy</ng-container> }
+    @case ('quarkusConcepts.category.customizationMigration') { <ng-container i18n="@@quarkusConcepts.category.customizationMigration">Customization &amp; Migration</ng-container> }
+    @case ('quarkusConcepts.category.modernDataAccess') { <ng-container i18n="@@quarkusConcepts.category.modernDataAccess">Modern Data Access</ng-container> }
+    @case ('quarkusConcepts.category.extensionsTooling') { <ng-container i18n="@@quarkusConcepts.category.extensionsTooling">Extensions &amp; Tooling</ng-container> }
+    }
           </button>
         }
       </div>
@@ -27,7 +35,11 @@
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+    @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+    @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+    }
           </button>
         }
       </div>

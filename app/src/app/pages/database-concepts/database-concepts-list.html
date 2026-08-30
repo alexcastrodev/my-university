@@ -11,7 +11,18 @@
           <button type="button" class="category-filter-pill"
             [class.active]="selectedCategory() === opt.value"
             (click)="onFilterChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('concepts.filters.all') { <ng-container i18n="@@concepts.filters.all">All</ng-container> }
+    @case ('databaseConcepts.category.postgresql') { <ng-container i18n="@@databaseConcepts.category.postgresql">PostgreSQL</ng-container> }
+    @case ('databaseConcepts.category.sql') { <ng-container i18n="@@databaseConcepts.category.sql">SQL</ng-container> }
+    @case ('databaseConcepts.category.mongodb') { <ng-container i18n="@@databaseConcepts.category.mongodb">MongoDB</ng-container> }
+    @case ('databaseConcepts.category.dynamodb') { <ng-container i18n="@@databaseConcepts.category.dynamodb">DynamoDB</ng-container> }
+    @case ('databaseConcepts.category.cassandra') { <ng-container i18n="@@databaseConcepts.category.cassandra">Cassandra</ng-container> }
+    @case ('databaseConcepts.category.redis') { <ng-container i18n="@@databaseConcepts.category.redis">Redis</ng-container> }
+    @case ('databaseConcepts.category.neo4j') { <ng-container i18n="@@databaseConcepts.category.neo4j">Neo4j</ng-container> }
+    @case ('databaseConcepts.category.hbase') { <ng-container i18n="@@databaseConcepts.category.hbase">HBase</ng-container> }
+    @case ('databaseConcepts.category.couchdb') { <ng-container i18n="@@databaseConcepts.category.couchdb">CouchDB</ng-container> }
+    }
           </button>
         }
       </div>
@@ -27,7 +38,11 @@
           <button type="button" class="sort-filter-pill"
             [class.active]="readSort() === opt.value"
             (click)="onSortChange(opt.value)">
-            {{ opt.label | t }}
+            @switch (opt.label) {
+    @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+    @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+    @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+    }
           </button>
         }
       </div>
