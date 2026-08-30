@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
-import { Language } from '../../models/language.model';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
@@ -31,7 +29,7 @@ const TOPIC_ORDER = [
   'Spring Batch',
 ];
 
-const EN_PATH = '/spring-concepts';
+const PATH = '/spring-concepts';
 const PT_BR_PATH = '/pt-BR/spring-concepts';
 
 @Component({
@@ -42,18 +40,13 @@ const PT_BR_PATH = '/pt-BR/spring-concepts';
   styleUrl: './spring-concepts-list.css',
 })
 export class SpringConceptsListPage implements OnInit {
-  private route = inject(ActivatedRoute);
   private springConceptsService = inject(SpringConceptsService);
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
 
   protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
-
-  /** Set when this route is the locale-prefixed variant (/pt-BR/spring-concepts) — the URL, not localStorage, decides the language for this page. */
-  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
-  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
-  protected readonly ROUTE_COMMANDS = [this.basePath];
+  protected readonly ROUTE_COMMANDS = [PATH];
 
   concepts = signal<SpringConceptSummary[]>([]);
   loading = signal(true);
@@ -89,8 +82,6 @@ export class SpringConceptsListPage implements OnInit {
   });
 
   constructor() {
-    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
-
     effect(() => {
       this.languageService.language();
       this.loading.set(true);
@@ -114,16 +105,12 @@ export class SpringConceptsListPage implements OnInit {
   }
 
   ngOnInit() {
-    const isPtBr = this.urlLocale === 'pt-BR';
     this.seo.set({
       title: 'Spring Concepts',
-      description: isPtBr
-        ? 'Conceitos de Spring Boot, Spring Security e Spring Batch explicados a fundo — objetivo, casos de uso, deep dive e trade-offs.'
-        : 'Spring Boot, Spring Security, and Spring Batch concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
-      path: this.basePath,
-      language: isPtBr ? 'pt-BR' : 'en',
+      description: $localize`:@@springConceptsList.seo.description:Spring Boot, Spring Security, and Spring Batch concepts explained in depth — objective, use cases, deep dive, and trade-offs.`,
+      path: PATH,
       alternates: [
-        { lang: 'en', path: EN_PATH },
+        { lang: 'en', path: PATH },
         { lang: 'pt-BR', path: PT_BR_PATH },
       ],
     });

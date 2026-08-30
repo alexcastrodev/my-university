@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SystemDesignConceptSummary } from '../../models/system-design-concept.model';
-import { Language } from '../../models/language.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
@@ -14,7 +12,7 @@ export interface SystemDesignConceptTopicGroup {
   concepts: SystemDesignConceptSummary[];
 }
 
-const EN_PATH = '/system-design/system-design-concepts';
+const PATH = '/system-design/system-design-concepts';
 const PT_BR_PATH = '/pt-BR/system-design/system-design-concepts';
 
 const TOPIC_ORDER = [
@@ -39,17 +37,12 @@ const TOPIC_ORDER = [
 export class SystemDesignConceptsListPage implements OnInit {
   private static readonly VISIBLE_TAG_LIMIT = 10;
 
-  private route = inject(ActivatedRoute);
   private systemDesignConceptsService = inject(SystemDesignConceptsService);
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
-
-  /** Set when this route is the locale-prefixed variant (/pt-BR/system-design/system-design-concepts) — the URL, not localStorage, decides the language for this page. */
-  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
-  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
-  protected readonly ROUTE_COMMANDS = [this.basePath];
+  protected readonly ROUTE_COMMANDS = [PATH];
 
   concepts = signal<SystemDesignConceptSummary[]>([]);
   loading = signal(true);
@@ -123,8 +116,6 @@ export class SystemDesignConceptsListPage implements OnInit {
   }
 
   constructor() {
-    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
-
     effect(() => {
       this.languageService.language();
       this.loading.set(true);
@@ -136,16 +127,12 @@ export class SystemDesignConceptsListPage implements OnInit {
   }
 
   ngOnInit() {
-    const isPtBr = this.urlLocale === 'pt-BR';
     this.seo.set({
       title: 'System Design Concepts',
-      description: isPtBr
-        ? 'Conceitos de sistemas distribuídos e arquitetura explicados a fundo — visão geral, arquitetura, garantias, trade-offs e perguntas de entrevista.'
-        : 'Distributed systems and architecture concepts explained in depth — overview, architecture, guarantees, trade-offs, and interview questions.',
-      path: this.basePath,
-      language: isPtBr ? 'pt-BR' : 'en',
+      description: $localize`:@@systemDesignConceptsList.seo.description:Distributed systems and architecture concepts explained in depth — overview, architecture, guarantees, trade-offs, and interview questions.`,
+      path: PATH,
       alternates: [
-        { lang: 'en', path: EN_PATH },
+        { lang: 'en', path: PATH },
         { lang: 'pt-BR', path: PT_BR_PATH },
       ],
     });

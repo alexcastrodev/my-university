@@ -24,8 +24,6 @@ export interface SeoTags {
   breadcrumbs?: { name: string; path: string }[];
   /** Set on exam/course overview pages — emits Course structured data instead of Article/WebPage. */
   course?: { moduleCount: number };
-  /** Language actually served on this page. Defaults to 'en'. Drives <html lang>. */
-  language?: Language;
   /** Other language versions of this exact page, for hreflang. Only pass a language when that translation genuinely exists — never the fallback. */
   alternates?: { lang: Language; path: string }[];
 }
@@ -70,8 +68,6 @@ export class SeoService {
     this.meta.updateTag({ name: 'twitter:title', content: tags.title });
     this.meta.updateTag({ name: 'twitter:description', content: tags.description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
-
-    this.document.documentElement.lang = tags.language ?? 'en';
 
     this.setCanonical(url);
     this.setAlternateLinks(tags.alternates);

@@ -12,7 +12,7 @@ import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
 
-const EN_PATH = '/java/java-concepts';
+const PATH = '/java/java-concepts';
 const PT_BR_PATH = '/pt-BR/java/java-concepts';
 
 @Component({
@@ -29,7 +29,7 @@ export class JavaConceptsDetailPage implements OnInit {
   private seo = inject(SeoService);
   private xpService = inject(XpService);
   private reviewService = inject(ReviewService);
-  
+
   concept = signal<JavaConcept | null>(null);
   loading = signal(true);
   notFound = signal(false);
@@ -37,9 +37,7 @@ export class JavaConceptsDetailPage implements OnInit {
   marking = signal(false);
   private slugSignal = signal('');
 
-  /** Set when this route is the locale-prefixed variant (/pt-BR/java/java-concepts) — the URL, not localStorage, decides the language for this page. */
-  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
-  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
+  protected readonly basePath = PATH;
   protected readonly backLabelText = $localize`:@@javaConcepts.title:Java Concepts`;
 
   nav = createConceptNavigation<JavaConceptSummary>(() => this.javaConceptsService.listConcepts());
@@ -69,8 +67,6 @@ export class JavaConceptsDetailPage implements OnInit {
   });
 
   constructor() {
-    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
-
     effect(() => {
       this.languageService.language();
       this.nav.refetchList();
@@ -109,7 +105,6 @@ export class JavaConceptsDetailPage implements OnInit {
           publishedAt: concept.publishedAt,
           modifiedAt: concept.updatedAt,
           breadcrumbs: this.breadcrumbItems(),
-          language: concept.language,
           alternates: this.alternatesFor(concept),
         });
       },
@@ -134,7 +129,7 @@ export class JavaConceptsDetailPage implements OnInit {
 
   /** Alternate-language URLs for hreflang — only for translations that actually exist, never the fallback. */
   private alternatesFor(concept: JavaConcept): { lang: Language; path: string }[] {
-    const alternates: { lang: Language; path: string }[] = [{ lang: 'en', path: `${EN_PATH}/${concept.slug}` }];
+    const alternates: { lang: Language; path: string }[] = [{ lang: 'en', path: `${PATH}/${concept.slug}` }];
     if (concept.availableLanguages.includes('pt-BR')) {
       alternates.push({ lang: 'pt-BR', path: `${PT_BR_PATH}/${concept.slug}` });
     }

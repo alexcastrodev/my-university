@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { JavaConceptSummary } from '../../models/java-concept.model';
-import { Language } from '../../models/language.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
@@ -24,7 +22,7 @@ const TOPIC_ORDER = [
   'I/O & Networking',
 ];
 
-const EN_PATH = '/java/java-concepts';
+const PATH = '/java/java-concepts';
 const PT_BR_PATH = '/pt-BR/java/java-concepts';
 
 @Component({
@@ -35,17 +33,12 @@ const PT_BR_PATH = '/pt-BR/java/java-concepts';
   styleUrl: './java-concepts-list.css',
 })
 export class JavaConceptsListPage implements OnInit {
-  private route = inject(ActivatedRoute);
   private javaConceptsService = inject(JavaConceptsService);
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
 
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
-
-  /** Set when this route is the locale-prefixed variant (/pt-BR/java/java-concepts) — the URL, not localStorage, decides the language for this page. */
-  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
-  protected readonly basePath = this.urlLocale === 'pt-BR' ? PT_BR_PATH : EN_PATH;
-  protected readonly ROUTE_COMMANDS = [this.basePath];
+  protected readonly ROUTE_COMMANDS = [PATH];
 
   concepts = signal<JavaConceptSummary[]>([]);
   loading = signal(true);
@@ -73,8 +66,6 @@ export class JavaConceptsListPage implements OnInit {
   });
 
   constructor() {
-    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
-
     effect(() => {
       this.languageService.language();
       this.loading.set(true);
@@ -94,16 +85,12 @@ export class JavaConceptsListPage implements OnInit {
   }
 
   ngOnInit() {
-    const isPtBr = this.urlLocale === 'pt-BR';
     this.seo.set({
       title: 'Java Concepts',
-      description: isPtBr
-        ? 'Conceitos essenciais de Java explicados a fundo — objetivo, casos de uso, deep dive e trade-offs.'
-        : 'Core Java concepts explained in depth — objective, use cases, deep dive, and trade-offs.',
-      path: this.basePath,
-      language: isPtBr ? 'pt-BR' : 'en',
+      description: $localize`:@@javaConceptsList.seo.description:Core Java concepts explained in depth — objective, use cases, deep dive, and trade-offs.`,
+      path: PATH,
       alternates: [
-        { lang: 'en', path: EN_PATH },
+        { lang: 'en', path: PATH },
         { lang: 'pt-BR', path: PT_BR_PATH },
       ],
     });

@@ -1,6 +1,11 @@
 {
   "locale": "pt-BR",
   "translations": {
+    "javaConceptsList.seo.description": "Conceitos essenciais de Java explicados a fundo — objetivo, casos de uso, deep dive e trade-offs.",
+    "jvmConceptsList.seo.description": "Como a JVM funciona por baixo dos panos, explicado a fundo — objetivo, casos de uso, deep dive e trade-offs.",
+    "javaMinuteList.seo.description": "Respostas curtas e diretas pra perguntas específicas de Java — um episódio de cada vez.",
+    "systemDesignConceptsList.seo.description": "Conceitos de sistemas distribuídos e arquitetura explicados a fundo — visão geral, arquitetura, garantias, trade-offs e perguntas de entrevista.",
+    "springConceptsList.seo.description": "Conceitos de Spring Boot, Spring Security e Spring Batch explicados a fundo — objetivo, casos de uso, deep dive e trade-offs.",
     "header.aria.home": "Página inicial da My University",
     "header.aria.mainNav": "Navegação principal",
     "header.aria.toggleSearch": "Alternar busca",

@@ -35,9 +35,7 @@ export class JavaMinuteDetailPage implements OnInit {
   marking = signal(false);
   private slugSignal = signal('');
 
-  /** Set when this route is a locale-prefixed variant (e.g. /pt-BR/java/java-minute/:slug) — the URL, not localStorage, decides the language for this page. */
-  private readonly urlLocale = this.route.snapshot.data['locale'] as Language | undefined;
-  protected readonly basePath = this.urlLocale === 'pt-BR' ? '/pt-BR/java/java-minute' : '/java/java-minute';
+  protected readonly basePath = '/java/java-minute';
   protected readonly backLabelText = $localize`:@@javaMinute.title:Java Minute`;
 
   nav = createConceptNavigation<JavaMinuteEpisodeSummary>(() => this.javaMinuteService.listEpisodes());
@@ -67,8 +65,6 @@ export class JavaMinuteDetailPage implements OnInit {
   });
 
   constructor() {
-    if (this.urlLocale) this.languageService.setLanguageFromUrl(this.urlLocale);
-
     effect(() => {
       this.languageService.language();
       this.nav.refetchList();
@@ -108,7 +104,6 @@ export class JavaMinuteDetailPage implements OnInit {
           modifiedAt: episode.updatedAt,
           qa: { question: episode.question, answerText: this.qaAnswerText(episode) },
           breadcrumbs: this.breadcrumbItems(),
-          language: episode.language,
           alternates: this.alternatesFor(episode),
         });
       },
