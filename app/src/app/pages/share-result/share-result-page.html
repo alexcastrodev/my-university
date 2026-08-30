@@ -2,7 +2,7 @@
   @if (loading()) {
     <div class="center">
       <span class="spinner" aria-hidden="true"></span>
-      {{ 'shareResult.loading' | t }}
+      <ng-container i18n="@@shareResult.loading">Loading result…</ng-container>
     </div>
   } @else if (notFound() || !summary()) {
     <div class="center-message">
@@ -27,16 +27,16 @@
         <span class="score-unit">%</span>
       </div>
 
-      <div class="score-detail">
-        {{ 'resultPage.scoreDetail' | t:{ score: summary()!.score, total: summary()!.total } }}
+      <div class="score-detail" i18n="@@resultPage.scoreDetail">
+        {{ summary()!.score }} correct out of {{ summary()!.total }} questions
       </div>
 
-      <div class="passing-note">
-        {{ 'resultPage.passingScore' | t:{ percent: summary()!.passingScore } }}
+      <div class="passing-note" i18n="@@resultPage.passingScore">
+        Passing score: {{ summary()!.passingScore }}%
       </div>
 
       @if (summary()!.finishedAt) {
-        <div class="attempt-date">{{ 'shareResult.completed' | t:{ date: formatDate(summary()!.finishedAt) } }}</div>
+        <div class="attempt-date" i18n="@@shareResult.completed">Completed {{ formatDate(summary()!.finishedAt) }}</div>
       }
     </div>
 

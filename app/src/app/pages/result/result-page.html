@@ -19,17 +19,17 @@
         <span class="score-unit">%</span>
       </div>
 
-      <div class="score-detail">
-        {{ 'resultPage.scoreDetail' | t:{ score: score(), total: total() } }}
+      <div class="score-detail" i18n="@@resultPage.scoreDetail">
+        {{ score() }} correct out of {{ total() }} questions
       </div>
 
       <div class="passing-note">
-        {{ 'resultPage.passingScore' | t:{ percent: passingScore() } }} &nbsp;·&nbsp; {{ (passed() ? 'resultPage.metPassing' : 'resultPage.notMetPassing') | t }}
+        <span i18n="@@resultPage.passingScore">Passing score: {{ passingScore() }}%</span> &nbsp;·&nbsp; @if (passed()) { <ng-container i18n="@@resultPage.metPassing">You met the passing score.</ng-container> } @else { <ng-container i18n="@@resultPage.notMetPassing">You did not meet the passing score.</ng-container> }
       </div>
 
       <div class="xp-earned">
         <span class="xp-earned-icon">⚡</span>
-        <span class="xp-earned-text">{{ 'resultPage.xpEarned' | t:{ xp: xpEarned() } }}</span>
+        <span class="xp-earned-text" i18n="@@resultPage.xpEarned">+{{ xpEarned() }} XP earned</span>
       </div>
     </div>
   </div>

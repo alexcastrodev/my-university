@@ -1,7 +1,7 @@
 @if (loading()) {
   <div class="loading" role="status">
     <span class="spinner" aria-hidden="true"></span>
-    {{ 'coursePage.loading' | t }}
+    <ng-container i18n="@@coursePage.loading">Loading course…</ng-container>
   </div>
 } @else if (course()) {
   <div class="layout">
@@ -16,21 +16,25 @@
             [class.completed]="activeLesson()!.status === 'completed'"
             [class.locked]="!auth.currentUser()"
             [disabled]="!auth.currentUser()"
-            [attr.title]="!auth.currentUser() ? ('coursePage.markCompleted.tooltip' | t) : null"
-            [attr.aria-label]="!auth.currentUser() ? ('coursePage.markCompleted.tooltip' | t) : null"
+            [attr.title]="!auth.currentUser() ? markCompletedTooltip : null"
+            [attr.aria-label]="!auth.currentUser() ? markCompletedTooltip : null"
             (click)="toggleCompleted()"
             type="button"
           >
             @if (!auth.currentUser()) {
               <span aria-hidden="true">🔒</span>
             }
-            {{ (activeLesson()!.status === 'completed' ? 'coursePage.markCompleted.completed' : 'coursePage.markCompleted.mark') | t }}
+            @if (activeLesson()!.status === 'completed') {
+              <ng-container i18n="@@coursePage.markCompleted.completed">Completed</ng-container>
+            } @else {
+              <ng-container i18n="@@coursePage.markCompleted.mark">Mark completed</ng-container>
+            }
           </button>
         </div>
         @if (markdownLoading()) {
           <div class="loading" role="status">
             <span class="spinner" aria-hidden="true"></span>
-            {{ 'coursePage.loadingLesson' | t }}
+            <ng-container i18n="@@coursePage.loadingLesson">Loading lesson…</ng-container>
           </div>
         } @else if (isPracticePlaceholder()) {
           <div class="practice-placeholder">
@@ -52,7 +56,7 @@
           <div class="quiz-banner">
             <div class="quiz-banner-text">
               <strong i18n="@@coursePage.quizBanner.ready">Ready to test your knowledge?</strong>
-              <span>{{ 'coursePage.quizBanner.meta' | t:{ questions: questionCount(), minutes: durationMinutes(), percent: passingScore() } }}</span>
+              <span i18n="@@coursePage.quizBanner.meta">{{ questionCount() }} questions · {{ durationMinutes() }} minutes · {{ passingScore() }}% passing score</span>
               @if (!auth.currentUser()) {
                 <span class="quiz-anon-warning" i18n="@@coursePage.quizBanner.anonWarning">⚠️ You're not logged in — this attempt won't be saved to your profile or count toward XP.</span>
               }

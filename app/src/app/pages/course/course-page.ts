@@ -11,13 +11,11 @@ import { Exam } from '../../models/exam.model';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
-import { TranslateService } from '../../shared/i18n/translate.service';
 
 @Component({
   selector: 'app-course-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView, Breadcrumbs, TranslatePipe],
+  imports: [CourseView, LessonContent, Playlist, RouterLink, SkillCheckView, Breadcrumbs],
   templateUrl: './course-page.html',
   styleUrl: './course-page.css',
 })
@@ -28,12 +26,13 @@ export class CoursePage implements OnInit {
   protected auth = inject(AuthService);
   private xpService = inject(XpService);
   private seo = inject(SeoService);
-  private translate = inject(TranslateService);
   private courseLoader = effect(() => {
     const id = this.examId();
     this.auth.currentUser();
     if (id) this.loadCourse(id);
   });
+
+  protected readonly markCompletedTooltip = $localize`:@@coursePage.markCompleted.tooltip:Log in to mark this lesson as completed`;
 
   examId = signal('');
   course = signal<Course | null>(null);
@@ -62,7 +61,7 @@ export class CoursePage implements OnInit {
     const course = this.course();
     if (!course) return [];
     const trail: BreadcrumbItem[] = [
-      { name: this.translate.t('examList.title'), path: '/java/exams' },
+      { name: $localize`:@@examList.title:Certification Exams`, path: '/java/exams' },
       { name: course.title, path: `/java/exam/${course.id}` },
     ];
     const lesson = this.activeLesson();

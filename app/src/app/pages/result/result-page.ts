@@ -3,7 +3,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QuestionReview } from '../../models/exam.model';
 import { ExamService } from '../../services/exam.service';
 import { XpService } from '../../services/xp.service';
-import { TranslatePipe } from '../../shared/i18n/translate.pipe';
 
 interface TopicBreakdown {
   topic: string;
@@ -15,7 +14,7 @@ interface TopicBreakdown {
 @Component({
   selector: 'app-result-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink],
   templateUrl: './result-page.html',
   styleUrl: './result-page.css',
 })
