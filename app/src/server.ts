@@ -25,6 +25,32 @@ const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
  */
 
 /**
+ * The `en` locale owns the root `/` (its subPath is `''`), so Angular's own Accept-Language
+ * redirect never triggers — `/` already matches an entry point. This is the replacement, for
+ * first-time visitors only: it never fires once the user has actually navigated, since from then
+ * on they're on a URL that already carries the right prefix.
+ */
+function prefersPortuguese(acceptLanguage: string | undefined): boolean {
+  if (!acceptLanguage) return false;
+  const top = acceptLanguage
+    .split(',')
+    .map((part) => {
+      const [tag, qPart] = part.trim().split(';q=');
+      return { tag: tag.trim().toLowerCase(), q: qPart ? parseFloat(qPart) : 1 };
+    })
+    .sort((a, b) => b.q - a.q)[0]?.tag;
+  return top?.startsWith('pt') ?? false;
+}
+
+app.use((req, res, next) => {
+  if (req.path === '/' && prefersPortuguese(req.headers['accept-language'])) {
+    res.redirect(302, `/pt-BR${req.url}`);
+    return;
+  }
+  next();
+});
+
+/**
  * Serve static files from /browser
  */
 app.use(
