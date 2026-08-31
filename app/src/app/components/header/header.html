@@ -61,6 +61,9 @@
       <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.systemDesign">System Design</a>
       <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.algorithms">Algorithms</a>
       <a routerLink="/leaderboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.leaderboard">Leaderboard</a>
+      @if (auth.currentUser()) {
+        <a routerLink="/review" routerLinkActive="active" class="nav-link mobile-review-link" (click)="closeMobileMenu()" i18n="@@header.nav.review">Review</a>
+      }
     </nav>
   </div>
   <button
@@ -262,7 +265,7 @@
       }
     </div>
     @if (auth.currentUser()) {
-      <a routerLink="/review" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.review">Review</a>
+      <a routerLink="/review" routerLinkActive="active" class="nav-link header-review-link" (click)="closeMobileMenu()" i18n="@@header.nav.review">Review</a>
       <a
         routerLink="/profile"
         class="xp-level-badge"
