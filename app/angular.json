@@ -50,6 +50,8 @@
           },
           "configurations": {
             "production": {
+              "localize": true,
+              "i18nMissingTranslation": "error",
               "budgets": [
                 {
                   "type": "initial",
@@ -68,23 +70,6 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
-            },
-            "production-i18n": {
-              "localize": true,
-              "i18nMissingTranslation": "error",
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kB",
-                  "maximumError": "10kB"
-                }
-              ],
-              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
