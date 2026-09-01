@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 export type AlgorithmsConceptCategory =
   | 'Fundamentals'
   | 'Sorting'
@@ -26,6 +28,8 @@ export interface AlgorithmsConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface AlgorithmsConcept extends AlgorithmsConceptSummary {
