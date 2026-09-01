@@ -5,21 +5,12 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
   normalizeLanguage,
 } from '../shared/language';
-
-export interface JavaConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
-
-export type ConceptLinkRef =
-  | string
-  | { label: string; slug: string; feature?: string };
 
 export interface JavaConceptSummary {
   slug: string;
@@ -37,12 +28,12 @@ export interface JavaConceptDetail extends JavaConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: JavaConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends JavaConceptSummary {
-  references: JavaConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 

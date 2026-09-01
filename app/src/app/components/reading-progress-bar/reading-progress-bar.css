@@ -9,7 +9,7 @@
 
 /* Header switches from sticky to relative below this breakpoint (see header.css)
    — it scrolls away, so pin the bar to the real viewport top instead of top: 52px. */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   :host {
     top: 0;
   }

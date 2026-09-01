@@ -5,21 +5,12 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
   normalizeLanguage,
 } from '../shared/language';
-
-export interface RubyConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
-
-export type ConceptLinkRef =
-  | string
-  | { label: string; slug: string; feature?: string };
 
 export interface RubyConceptSummary {
   slug: string;
@@ -37,12 +28,12 @@ export interface RubyConceptDetail extends RubyConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: RubyConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 
 interface ConceptMeta extends RubyConceptSummary {
-  references: RubyConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 

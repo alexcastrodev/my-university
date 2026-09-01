@@ -5,6 +5,7 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -12,12 +13,6 @@ import {
 } from '../shared/language';
 
 export type TestingConceptCategory = 'Java' | 'Spring';
-
-export interface TestingConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
 
 export interface TestingConceptSummary {
   slug: string;
@@ -35,7 +30,7 @@ export interface TestingConceptDetail extends TestingConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: TestingConceptReference[];
+  references: ConceptReference[];
 }
 
 interface ConceptMeta {
@@ -46,7 +41,7 @@ interface ConceptMeta {
   summary: string;
   publishedAt: string;
   labUrl?: string;
-  references: TestingConceptReference[];
+  references: ConceptReference[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/testing-concepts');

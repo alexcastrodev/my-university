@@ -5,6 +5,7 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -15,16 +16,6 @@ export type SpringConceptCategory =
   | 'Spring Boot'
   | 'Spring Security'
   | 'Spring Batch';
-
-export interface SpringConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
-
-export type ConceptLinkRef =
-  | string
-  | { label: string; slug: string; feature?: string };
 
 export interface SpringConceptSummary {
   slug: string;
@@ -43,7 +34,7 @@ export interface SpringConceptDetail extends SpringConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: SpringConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 
@@ -56,7 +47,7 @@ interface ConceptMeta {
   summary: string;
   publishedAt: string;
   labUrl?: string;
-  references: SpringConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 

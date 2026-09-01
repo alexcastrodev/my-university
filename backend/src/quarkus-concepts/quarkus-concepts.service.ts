@@ -5,6 +5,7 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -18,16 +19,6 @@ export type QuarkusConceptCategory =
   | 'Customization & Migration'
   | 'Modern Data Access'
   | 'Extensions & Tooling';
-
-export interface QuarkusConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
-
-export type ConceptLinkRef =
-  | string
-  | { label: string; slug: string; feature?: string };
 
 export interface QuarkusConceptSummary {
   slug: string;
@@ -46,7 +37,7 @@ export interface QuarkusConceptDetail extends QuarkusConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: QuarkusConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 
@@ -59,7 +50,7 @@ interface ConceptMeta {
   summary: string;
   publishedAt: string;
   labUrl?: string;
-  references: QuarkusConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 

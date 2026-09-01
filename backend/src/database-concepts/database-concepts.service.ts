@@ -5,6 +5,7 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -21,16 +22,6 @@ export type DatabaseConceptCategory =
   | 'Neo4j'
   | 'HBase'
   | 'CouchDB';
-
-export interface DatabaseConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
-
-export type ConceptLinkRef =
-  | string
-  | { label: string; slug: string; feature?: string };
 
 export interface DatabaseConceptSummary {
   slug: string;
@@ -49,7 +40,7 @@ export interface DatabaseConceptDetail extends DatabaseConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: DatabaseConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 
@@ -62,7 +53,7 @@ interface ConceptMeta {
   summary: string;
   publishedAt: string;
   labUrl?: string;
-  references: DatabaseConceptReference[];
+  references: ConceptReference[];
   related: ConceptLinkRef[];
 }
 

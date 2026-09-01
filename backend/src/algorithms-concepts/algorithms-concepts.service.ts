@@ -5,6 +5,7 @@ import {
   splitSections,
   ConceptSection,
 } from '../shared/concept-content';
+import { ConceptReference } from '../shared/concept-types';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -18,12 +19,6 @@ export type AlgorithmsConceptCategory =
   | 'Graphs'
   | 'Strings'
   | 'Dynamic Programming & Greedy';
-
-export interface AlgorithmsConceptReference {
-  label: string;
-  url: string;
-  type: 'video' | 'doc';
-}
 
 export interface AlgorithmsConceptSummary {
   slug: string;
@@ -41,11 +36,11 @@ export interface AlgorithmsConceptDetail extends AlgorithmsConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
-  references: AlgorithmsConceptReference[];
+  references: ConceptReference[];
 }
 
 interface ConceptMeta extends AlgorithmsConceptSummary {
-  references: AlgorithmsConceptReference[];
+  references: ConceptReference[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/algorithms-concepts');
