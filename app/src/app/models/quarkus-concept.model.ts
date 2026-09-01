@@ -1,4 +1,5 @@
 import { ConceptLinkRef } from '../shared/concept-links';
+import { Language } from './language.model';
 
 export type QuarkusConceptCategory =
   | 'Core Configuration'
@@ -29,6 +30,8 @@ export interface QuarkusConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface QuarkusConcept extends QuarkusConceptSummary {

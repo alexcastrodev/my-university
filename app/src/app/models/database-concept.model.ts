@@ -1,4 +1,5 @@
 import { ConceptLinkRef } from '../shared/concept-links';
+import { Language } from './language.model';
 
 export type DatabaseConceptCategory = 'PostgreSQL' | 'SQL' | 'MongoDB' | 'DynamoDB' | 'Cassandra' | 'Redis' | 'Neo4j' | 'HBase' | 'CouchDB';
 
@@ -23,6 +24,8 @@ export interface DatabaseConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface DatabaseConcept extends DatabaseConceptSummary {

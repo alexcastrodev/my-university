@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 export type TestingConceptCategory = 'Java' | 'Spring';
 
 export interface TestingConceptReference {
@@ -20,6 +22,8 @@ export interface TestingConceptSummary {
   publishedAt: string;
   labUrl?: string;
   read: boolean;
+  language: Language;
+  availableLanguages: Language[];
 }
 
 export interface TestingConcept extends TestingConceptSummary {
