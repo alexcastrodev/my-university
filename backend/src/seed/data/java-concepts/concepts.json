@@ -1541,6 +1541,43 @@
     ]
   },
   {
+    "slug": "weak-hash-map",
+    "id": 102,
+    "title": "The WeakHashMap Class",
+    "topic": "Collections",
+    "related": [
+      {
+        "label": "The HashMap Class",
+        "slug": "hash-map",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+        "slug": "weak-soft-and-phantom-references",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How WeakHashMap wraps each key in a WeakReference so entries are removed automatically once nothing outside the map holds the key strongly, and why a value referencing its own key or an interned key defeats that.",
+    "publishedAt": "2026-09-01",
+    "references": [
+      {
+        "label": "WeakHashMap — Java SE 25 API",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/WeakHashMap.html",
+        "type": "doc"
+      },
+      {
+        "label": "WeakReference — java.lang.ref",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ref/WeakReference.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "exception-handling-fundamentals",
     "id": 35,
     "title": "Exception Handling Fundamentals",
@@ -4582,7 +4619,13 @@
     "id": 96,
     "title": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
     "topic": "Core APIs & Tooling",
-    "related": [],
+    "related": [
+      {
+        "label": "The WeakHashMap Class",
+        "slug": "weak-hash-map",
+        "feature": "java-concepts"
+      }
+    ],
     "summary": "Explains the strong/soft/weak/phantom reference hierarchy, ReferenceQueue polling, and how Cleaner replaces Object.finalize() for deterministic native-resource cleanup.",
     "publishedAt": "2026-08-21",
     "references": [
