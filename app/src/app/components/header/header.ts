@@ -66,11 +66,11 @@ export class Header {
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
   mobileSearchOpen = signal(false);
-  javaMenuOpen = signal(false);
-  rubyMenuOpen = signal(false);
+  exploreMenuOpen = signal(false);
   languageMenuOpen = signal(false);
 
   private debounceTimer: ReturnType<typeof setTimeout> | undefined;
+  private exploreCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
@@ -114,20 +114,24 @@ export class Header {
     this.mobileSearchOpen.set(false);
   }
 
-  toggleJavaMenu(): void {
-    this.javaMenuOpen.update((open) => !open);
+  toggleExploreMenu(): void {
+    this.exploreMenuOpen.update((open) => !open);
   }
 
-  closeJavaMenu(): void {
-    this.javaMenuOpen.set(false);
+  closeExploreMenu(): void {
+    this.exploreMenuOpen.set(false);
   }
 
-  toggleRubyMenu(): void {
-    this.rubyMenuOpen.update((open) => !open);
+  /** Opens on hover (desktop mega-menu, mirroring Coursera); cancels any pending close from a prior mouseleave. */
+  onExploreMouseEnter(): void {
+    clearTimeout(this.exploreCloseTimer);
+    this.exploreMenuOpen.set(true);
   }
 
-  closeRubyMenu(): void {
-    this.rubyMenuOpen.set(false);
+  /** Small delay before closing so moving the cursor from the trigger to the dropdown doesn't close it mid-transit. */
+  onExploreMouseLeave(): void {
+    clearTimeout(this.exploreCloseTimer);
+    this.exploreCloseTimer = setTimeout(() => this.exploreMenuOpen.set(false), 200);
   }
 
   toggleLanguageMenu(): void {
@@ -211,8 +215,7 @@ export class Header {
     this.closeSearch();
     this.closeUserMenu();
     this.closeMobileMenu();
-    this.closeJavaMenu();
-    this.closeRubyMenu();
+    this.closeExploreMenu();
     this.closeLanguageMenu();
     this.closeMobileSearch();
   }
@@ -242,17 +245,10 @@ export class Header {
       }
     }
 
-    if (this.javaMenuOpen()) {
-      const javaMenu = this.elementRef.nativeElement.querySelector('.java-menu');
-      if (javaMenu && !javaMenu.contains(event.target as Node)) {
-        this.closeJavaMenu();
-      }
-    }
-
-    if (this.rubyMenuOpen()) {
-      const rubyMenu = this.elementRef.nativeElement.querySelector('.ruby-menu');
-      if (rubyMenu && !rubyMenu.contains(event.target as Node)) {
-        this.closeRubyMenu();
+    if (this.exploreMenuOpen()) {
+      const exploreMenu = this.elementRef.nativeElement.querySelector('.explore-menu');
+      if (exploreMenu && !exploreMenu.contains(event.target as Node)) {
+        this.closeExploreMenu();
       }
     }
 

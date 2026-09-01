@@ -9,6 +9,8 @@
     "footer.githubLink": "View on GitHub",
     "header.aria.home": "My University Home",
     "header.aria.mainNav": "Main navigation",
+    "header.nav.explore": "Explore",
+    "header.nav.fundamentals": "Fundamentals",
     "header.nav.java": "Java",
     "header.nav.exams": "Exams",
     "header.nav.spring": "Spring",

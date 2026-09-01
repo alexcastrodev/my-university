@@ -10,56 +10,46 @@
       <span class="brand-name">My<strong>University</strong></span>
     </a>
     <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" i18n-aria-label="@@header.aria.mainNav" aria-label="Main navigation">
-      <div class="java-menu">
+      <div class="explore-menu" (mouseenter)="onExploreMouseEnter()" (mouseleave)="onExploreMouseLeave()">
         <button
           type="button"
           class="nav-link nav-dropdown-trigger"
-          [class.active]="javaMenuOpen()"
+          [class.active]="exploreMenuOpen()"
           aria-haspopup="menu"
-          [attr.aria-expanded]="javaMenuOpen()"
-          (click)="toggleJavaMenu()"
+          [attr.aria-expanded]="exploreMenuOpen()"
+          (click)="toggleExploreMenu()"
         >
-          <ng-container i18n="@@header.nav.java">Java</ng-container>
-          <svg class="chevron" [class.open]="javaMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <ng-container i18n="@@header.nav.explore">Explore</ng-container>
+          <svg class="chevron" [class.open]="exploreMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        @if (javaMenuOpen()) {
-          <div class="java-menu-dropdown" role="menu">
-            <a routerLink="/java/exams" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.exams">Exams</a>
-            <a routerLink="/spring-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.spring">Spring</a>
-            <a routerLink="/quarkus-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.quarkus">Quarkus</a>
-            <a routerLink="/java/java-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-            <a routerLink="/java/jvm-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.jvmConcepts">JVM Concepts</a>
-            <a routerLink="/java/java-minute" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.javaMinute">Java Minute</a>
-            <a routerLink="/java/testing" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeJavaMenu(); closeMobileMenu()" i18n="@@header.nav.testing">Testing</a>
+        @if (exploreMenuOpen()) {
+          <div class="explore-menu-dropdown" role="menu">
+            <div class="explore-menu-column">
+              <span class="explore-menu-heading" i18n="@@header.nav.java">Java</span>
+              <a routerLink="/java/exams" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.exams">Exams</a>
+              <a routerLink="/java/java-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
+              <a routerLink="/java/jvm-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.jvmConcepts">JVM Concepts</a>
+              <a routerLink="/java/java-minute" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.javaMinute">Java Minute</a>
+              <a routerLink="/java/testing" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.testing">Testing</a>
+              <a routerLink="/spring-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.spring">Spring</a>
+              <a routerLink="/quarkus-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.quarkus">Quarkus</a>
+            </div>
+            <div class="explore-menu-column">
+              <span class="explore-menu-heading" i18n="@@header.nav.ruby">Ruby</span>
+              <a routerLink="/ruby-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
+              <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.rails">Rails</a>
+            </div>
+            <div class="explore-menu-column">
+              <span class="explore-menu-heading" i18n="@@header.nav.fundamentals">Fundamentals</span>
+              <a routerLink="/databases/database-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.databaseConcepts">Database Concepts</a>
+              <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.systemDesign">System Design</a>
+              <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.algorithms">Algorithms</a>
+            </div>
           </div>
         }
       </div>
-      <div class="java-menu ruby-menu">
-        <button
-          type="button"
-          class="nav-link nav-dropdown-trigger"
-          [class.active]="rubyMenuOpen()"
-          aria-haspopup="menu"
-          [attr.aria-expanded]="rubyMenuOpen()"
-          (click)="toggleRubyMenu()"
-        >
-          <ng-container i18n="@@header.nav.ruby">Ruby</ng-container>
-          <svg class="chevron" [class.open]="rubyMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        @if (rubyMenuOpen()) {
-          <div class="java-menu-dropdown" role="menu">
-            <a routerLink="/ruby-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-            <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="java-menu-item" role="menuitem" (click)="closeRubyMenu(); closeMobileMenu()" i18n="@@header.nav.rails">Rails</a>
-          </div>
-        }
-      </div>
-      <a routerLink="/databases/database-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.databaseConcepts">Database Concepts</a>
-      <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.systemDesign">System Design</a>
-      <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.algorithms">Algorithms</a>
       <a routerLink="/leaderboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.leaderboard">Leaderboard</a>
       @if (auth.currentUser()) {
         <a routerLink="/review" routerLinkActive="active" class="nav-link mobile-review-link" (click)="closeMobileMenu()" i18n="@@header.nav.review">Review</a>
