@@ -218,5 +218,16 @@
       { "label": "Record Classes — The Java Tutorials", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
       { "label": "JEP 401: Value Classes and Objects (Preview)", "url": "https://openjdk.org/jeps/401", "type": "doc" }
     ]
+  },
+  {
+    "slug": "read-write-lock",
+    "id": 162,
+    "question": "What is a ReadWriteLock?",
+    "publishedAt": "2026-09-02",
+    "references": [
+      { "label": "Java Coding Tip #162: What Is a ReadWriteLock?", "url": "https://www.youtube.com/shorts/ubmAvn-8QTM", "type": "video" },
+      { "label": "ReadWriteLock — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html", "type": "doc" },
+      { "label": "ReentrantReadWriteLock — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html", "type": "doc" }
+    ]
   }
 ]
