@@ -229,5 +229,16 @@
       { "label": "ReadWriteLock — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html", "type": "doc" },
       { "label": "ReentrantReadWriteLock — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "reverse-elements-of-a-list",
+    "id": 391,
+    "question": "How can you reverse the elements of a list?",
+    "publishedAt": "2026-09-03",
+    "references": [
+      { "label": "Java Coding Tip #391: How Can You Reverse the Elements of a List?", "url": "https://youtube.com/shorts/zlEC4rVx6uA?is=jNVHRKysDO1etyh7", "type": "video" },
+      { "label": "Collections.reverse — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#reverse(java.util.List)", "type": "doc" },
+      { "label": "SequencedCollection.reversed — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html#reversed()", "type": "doc" }
+    ]
   }
 ]
