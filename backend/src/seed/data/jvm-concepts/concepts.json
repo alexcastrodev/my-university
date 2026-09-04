@@ -678,5 +678,94 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "gc-ram-cpu-tradeoff",
+    "id": 18,
+    "title": "Moving Garbage Collectors and the RAM/CPU Trade-off",
+    "topic": "Garbage Collection",
+    "related": [
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Foreign Function and Memory API",
+        "slug": "foreign-function-and-memory-api",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Sizing the JVM Heap: RAM/CPU Economics in Practice",
+        "slug": "heap-sizing-economics",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "summary": "Why the JVM's moving, generational collectors never actually free an object the way malloc/free or reference counting do, and how that design turns GC's CPU cost into a direct function of heap headroom you control with -Xmx.",
+    "publishedAt": "2026-09-04",
+    "references": [
+      {
+        "label": "HotSpot Virtual Machine Garbage Collection Tuning Guide — Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/gctuning/introduction-garbage-collection-tuning.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 439: Generational ZGC",
+        "url": "https://openjdk.org/jeps/439",
+        "type": "doc"
+      },
+      {
+        "label": "Andrew W. Appel, \"Garbage Collection Can Be Faster Than Stack Allocation\", Information Processing Letters 25(4), 1987",
+        "url": "https://www.cs.princeton.edu/~appel/papers/45.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "heap-sizing-economics",
+    "id": 19,
+    "title": "Sizing the JVM Heap: RAM/CPU Economics in Practice",
+    "topic": "Memory & Performance",
+    "related": [
+      {
+        "label": "Moving Garbage Collectors and the RAM/CPU Trade-off",
+        "slug": "gc-ram-cpu-tradeoff",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Heap Analysis and Reading OutOfMemoryError Correctly",
+        "slug": "heap-analysis-and-oom-diagnosis",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Java Flight Recorder: Low-Overhead Production Profiling",
+        "slug": "java-flight-recorder",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "summary": "Why trading RAM for CPU is usually the economically correct call given how cloud and consumer hardware price RAM per core, how to measure real allocation rate and GC CPU cost instead of guessing, why naive cross-language memory benchmarks mislead, and what adaptive heap sizing is proposing to automate next.",
+    "publishedAt": "2026-09-04",
+    "references": [
+      {
+        "label": "JDK Flight Recorder documentation — Java SE 25",
+        "url": "https://docs.oracle.com/en/java/javase/25/jfapi/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadMXBean — Java SE 25 & JDK 25 (com.sun.management)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/jdk.management/com/sun/management/ThreadMXBean.html",
+        "type": "doc"
+      },
+      {
+        "label": "MemoryMXBean — Java SE 26 & JDK 26 (getTotalGcCpuTime)",
+        "url": "https://docs.oracle.com/en/java/javase/26/docs/api/java.management/java/lang/management/MemoryMXBean.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP draft 8377305: Adaptive Heap Sizing for ZGC",
+        "url": "https://openjdk.org/jeps/8377305",
+        "type": "doc"
+      }
+    ]
   }
 ]
