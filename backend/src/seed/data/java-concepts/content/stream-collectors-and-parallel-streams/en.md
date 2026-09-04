@@ -137,6 +137,25 @@ NameList names = Stream.of("Alice", "Bob", "Carol").collect(toNameList);
 
 Because the finisher does real work here (`StringJoiner` is not itself the result type), this collector does *not* declare `Characteristics.IDENTITY_FINISH` — contrast with `Collectors.toList()`, where the accumulation container already *is* the result and the finisher is skipped.
 
+### `Collector.Characteristics`: the three hints a `Collector` declares
+
+`Collector.of` takes an optional varargs tail of `Characteristics` — hints the Stream API implementation reads to decide *how* it's allowed to drive a given collector. There are exactly three, defined in the `Collector.Characteristics` enum:
+
+```java
+public interface Collector<T, A, R> {
+    // ...
+    Set<Characteristics> characteristics();
+
+    enum Characteristics { CONCURRENT, UNORDERED, IDENTITY_FINISH }
+}
+```
+
+- **`CONCURRENT`** — the accumulator can be safely called from multiple threads at once on the *same* shared accumulation container, so a parallel stream is allowed to skip splitting into per-thread containers and combining them, and instead feed every element into one shared container concurrently. `Collectors.toConcurrentMap(...)` declares it, because its container is a `ConcurrentHashMap`.
+- **`UNORDERED`** — the collector doesn't care what order elements arrive in. `Collectors.toSet()` declares it, since a `HashSet` has no notion of insertion order to preserve; this lets a parallel (or ordered) stream relax encounter-order guarantees around the collect step specifically.
+- **`IDENTITY_FINISH`** — the finisher is the identity function, so the accumulation container `A` and the result type `R` are literally the same object, and the implementation can skip calling the finisher and cast the container straight to `R`. `Collectors.toList()` and `Collectors.toSet()` declare it (the `List`/`Set` being built already *is* the result); `Collectors.joining()` does not, because its finisher converts an internal `StringBuilder` into the final `String`.
+
+Declaring `CONCURRENT` is a promise, not an implementation: the Stream API trusts the flag and starts sharing one container across threads accordingly, but nothing checks that the container backing it actually tolerates that. Building a custom collector around a plain `HashMap` and marking it `CONCURRENT` compiles fine and corrupts data under a parallel stream, because a plain `HashMap` was never built to be written from multiple threads at once — declaring the characteristic doesn't make the container thread-safe, providing a genuinely thread-safe accumulator is still on the caller.
+
 ### How a parallel stream actually splits work
 
 `parallelStream()` doesn't hand-roll thread management: it obtains a `Spliterator` from the source, which recursively splits the data into chunks (`trySplit()`), and submits those chunks as tasks to the common `ForkJoinPool` — the same divide-and-conquer engine covered in [Fork/Join Framework](/java-concepts/fork-join-framework). A source that splits cheaply and evenly (an `ArrayList`, an array) parallelizes well; one that can only be split by walking it node-by-node (a `LinkedList`) or that has no genuine random-access structure (an I/O-backed stream) gains little or nothing, because the `Spliterator` can't divide it efficiently.
@@ -207,6 +226,11 @@ List.of(1, 2, 3, 4, 5).parallelStream()
   // IllegalStateException: Duplicate key a
   ```
 - **`teeing` is a single-pass optimization, not a readability win by itself.** It earns its place when two aggregates genuinely need to share one traversal of an expensive-to-produce or single-use stream; for a source that's cheap to traverse twice, two separate `collect()` calls are often clearer.
+- **Declaring `Characteristics.CONCURRENT` doesn't make a collector concurrent — it's just a claim the Stream API takes on faith.** The flag only changes *how* the stream drives the collector (one shared container across threads instead of split-then-combine); whether that container actually survives concurrent writes is entirely on the implementation.
+  ```java
+  // marking a plain HashMap-backed collector CONCURRENT compiles fine
+  // and silently corrupts entries once a parallel stream actually shares it across threads
+  ```
 - **A custom `Collector`'s combiner is only exercised under parallel execution.** A `Collector.of(...)` whose combiner is subtly wrong (not truly associative, or mutates its first argument in a way the finisher doesn't expect) can pass every test run sequentially and only misbehave once the same collector is used with `parallelStream()`.
 - **Parallelizing a small or cheap-per-element stream is a net loss, not neutral.** The fork/split/merge coordination has a real, fixed cost that a short sequential loop simply doesn't pay.
 - **Sharing mutable state inside a parallel stream's lambda is a data race, not a slowdown.** It corrupts results (lost writes, `ArrayIndexOutOfBoundsException`, `ConcurrentModificationException`) rather than just running slower, because the parallelism contract assumes non-interfering operations and the JVM does nothing to enforce it.
@@ -217,4 +241,5 @@ List.of(1, 2, 3, 4, 5).parallelStream()
 - [Collectors — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html) — doc
 - [Collector — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html) — doc
 - [Stream — Java SE 25 API (see the "Parallelism" section)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html) — doc
+- [Collector.Characteristics — what are the characteristics of a Collector?](https://youtube.com/shorts/zsSblXfes88) — video
 - [java.util.stream package summary — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html) — doc

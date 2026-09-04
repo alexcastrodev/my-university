@@ -139,6 +139,25 @@ NameList names = Stream.of("Alice", "Bob", "Carol").collect(toNameList);
 
 Como o finisher aqui faz trabalho de verdade (`StringJoiner` não é ele mesmo o tipo de resultado), esse collector *não* declara `Characteristics.IDENTITY_FINISH` — em contraste com `Collectors.toList()`, onde o container de acumulação já *é* o resultado e o finisher é pulado.
 
+### `Collector.Characteristics`: as três dicas que um `Collector` declara
+
+`Collector.of` aceita uma cauda varargs opcional de `Characteristics` — dicas que a implementação da Stream API lê para decidir *como* ela pode conduzir um determinado collector. São exatamente três, definidas no enum `Collector.Characteristics`:
+
+```java
+public interface Collector<T, A, R> {
+    // ...
+    Set<Characteristics> characteristics();
+
+    enum Characteristics { CONCURRENT, UNORDERED, IDENTITY_FINISH }
+}
+```
+
+- **`CONCURRENT`** — o accumulator pode ser chamado com segurança a partir de múltiplas threads ao mesmo tempo sobre o *mesmo* container de acumulação compartilhado, então uma stream paralela pode pular a divisão em containers por thread e a combinação posterior, alimentando um único container compartilhado concorrentemente. `Collectors.toConcurrentMap(...)` declara essa característica, porque seu container é um `ConcurrentHashMap`.
+- **`UNORDERED`** — o collector não se importa com a ordem em que os elementos chegam. `Collectors.toSet()` a declara, já que um `HashSet` não tem noção de ordem de inserção a preservar; isso permite que uma stream paralela (ou ordenada) relaxe garantias de ordem de encontro especificamente na etapa de collect.
+- **`IDENTITY_FINISH`** — o finisher é a função identidade, então o container de acumulação `A` e o tipo de resultado `R` são literalmente o mesmo objeto, e a implementação pode pular a chamada ao finisher e apenas fazer o cast do container direto para `R`. `Collectors.toList()` e `Collectors.toSet()` a declaram (a `List`/`Set` sendo construída já *é* o resultado); `Collectors.joining()` não, porque seu finisher converte um `StringBuilder` interno na `String` final.
+
+Declarar `CONCURRENT` é uma promessa, não uma implementação: a Stream API confia na flag e passa a compartilhar um único container entre threads de acordo com ela, mas nada verifica se o container por trás realmente tolera isso. Construir um collector customizado em torno de um `HashMap` comum e marcá-lo como `CONCURRENT` compila normalmente e corrompe dados sob uma stream paralela, porque um `HashMap` comum nunca foi feito para ser escrito por múltiplas threads ao mesmo tempo — declarar a característica não torna o container thread-safe; fornecer um accumulator genuinamente thread-safe continua sendo responsabilidade de quem chama.
+
 ### Como uma stream paralela de fato divide o trabalho
 
 `parallelStream()` não implementa gerenciamento de threads na mão: ela obtém um `Spliterator` da fonte, que divide recursivamente os dados em pedaços (`trySplit()`), e submete esses pedaços como tarefas ao `ForkJoinPool` comum — o mesmo motor de dividir-para-conquistar coberto em [Fork/Join Framework](/java-concepts/fork-join-framework). Uma fonte que se divide de forma barata e uniforme (um `ArrayList`, um array) paraleliza bem; uma que só pode ser dividida percorrendo-a nó a nó (uma `LinkedList`) ou que não tem uma estrutura genuína de acesso aleatório (uma stream apoiada em I/O) ganha pouco ou nada, porque o `Spliterator` não consegue dividi-la eficientemente.
@@ -209,6 +228,11 @@ List.of(1, 2, 3, 4, 5).parallelStream()
   // IllegalStateException: Duplicate key a
   ```
 - **`teeing` é uma otimização de passagem única, não um ganho de legibilidade por si só.** Ela se justifica quando dois agregados genuinamente precisam compartilhar uma única travessia de uma stream cara de produzir ou de uso único; para uma fonte barata de percorrer duas vezes, duas chamadas `collect()` separadas costumam ser mais claras.
+- **Declarar `Characteristics.CONCURRENT` não torna um collector concorrente por si só — é apenas uma afirmação que a Stream API aceita por confiança.** A flag só muda *como* a stream conduz o collector (um único container compartilhado entre threads em vez de dividir-e-combinar); se esse container de fato sobrevive a escritas concorrentes é responsabilidade inteira da implementação.
+  ```java
+  // marcar um collector apoiado em HashMap comum como CONCURRENT compila normalmente
+  // e corrompe entradas silenciosamente assim que uma stream paralela de fato o compartilha entre threads
+  ```
 - **O combiner de um `Collector` customizado só é exercitado sob execução paralela.** Um `Collector.of(...)` cujo combiner esteja sutilmente errado (não verdadeiramente associativo, ou que mute seu primeiro argumento de um jeito que o finisher não espera) pode passar em toda execução sequencial de testes e só se comportar mal quando o mesmo collector for usado com `parallelStream()`.
 - **Paralelizar uma stream pequena ou barata por elemento é uma perda líquida, não algo neutro.** A coordenação de fork/split/merge tem um custo real e fixo que um laço sequencial curto simplesmente não paga.
 - **Compartilhar estado mutável dentro da lambda de uma stream paralela é uma data race, não uma lentidão.** Isso corrompe resultados (escritas perdidas, `ArrayIndexOutOfBoundsException`, `ConcurrentModificationException`) em vez de apenas rodar mais devagar, porque o contrato de paralelismo assume operações non-interfering e a JVM não faz nada para impor isso.
@@ -220,3 +244,4 @@ List.of(1, 2, 3, 4, 5).parallelStream()
 - [Collector — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html) — doc
 - [Stream — Java SE 25 API (see the "Parallelism" section)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html) — doc
 - [java.util.stream package summary — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html) — doc
+- [Collector.Characteristics — what are the characteristics of a Collector?](https://youtube.com/shorts/zsSblXfes88) — video

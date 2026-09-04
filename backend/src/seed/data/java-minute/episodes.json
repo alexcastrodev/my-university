@@ -240,5 +240,15 @@
       { "label": "Collections.reverse — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#reverse(java.util.List)", "type": "doc" },
       { "label": "SequencedCollection.reversed — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/SequencedCollection.html#reversed()", "type": "doc" }
     ]
+  },
+  {
+    "slug": "collector-characteristics",
+    "id": 392,
+    "question": "What are the characteristics of a Collector?",
+    "publishedAt": "2026-09-04",
+    "references": [
+      { "label": "Java Coding Tip #392: What Are the Characteristics of a Collector?", "url": "https://www.youtube.com/shorts/zsSblXfes88", "type": "video" },
+      { "label": "Collector — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html", "type": "doc" }
+    ]
   }
 ]
