@@ -270,6 +270,10 @@
       {
         "label": "Rate Limiting",
         "slug": "rate-limiting"
+      },
+      {
+        "label": "Redis vs. Memcached: Choosing an In-Memory Cache",
+        "slug": "redis-vs-memcached"
       }
     ],
     "references": [
@@ -5048,6 +5052,71 @@
       {
         "label": "Wikipedia — Merkle tree",
         "url": "https://en.wikipedia.org/wiki/Merkle_tree",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "redis-vs-memcached",
+    "id": 82,
+    "title": "Redis vs. Memcached: Choosing an In-Memory Cache",
+    "topic": "Scaling & Infrastructure",
+    "summary": "Why \"just use Redis\" skips the part worth understanding: how Redis's single-threaded, rich-data-structure design and Memcached's multi-threaded, pure-key-value design actually differ in architecture, persistence, and how each one scales out.",
+    "publishedAt": "2026-09-04",
+    "difficulty": "Intermediate",
+    "readingTime": 11,
+    "tags": [
+      "Caching",
+      "Redis",
+      "Memcached",
+      "Scalability"
+    ],
+    "prerequisites": [
+      "Caching Strategies and CDNs",
+      "Basic hash table and consistent hashing concepts"
+    ],
+    "related": [
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing"
+      },
+      {
+        "label": "Message Brokers: Queues vs. Log-Based Streaming",
+        "slug": "message-brokers-queues-vs-logs"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting"
+      }
+    ],
+    "references": [
+      {
+        "label": "Redis Documentation — Redis data types",
+        "url": "https://redis.io/docs/latest/develop/data-types/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Persistence (RDB and AOF)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/",
+        "type": "doc"
+      },
+      {
+        "label": "Redis Documentation — Redis Cluster specification",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/",
+        "type": "doc"
+      },
+      {
+        "label": "Rajesh Nishtala et al. — \"Scaling Memcache at Facebook\" (NSDI 2013)",
+        "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala",
+        "type": "paper"
+      },
+      {
+        "label": "Martin Kleppmann — \"How to do distributed locking\" (on Redlock's correctness gaps)",
+        "url": "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html",
         "type": "doc"
       }
     ]
