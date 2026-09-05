@@ -1,78 +1,43 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ResumePoint } from '../../models/course.model';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import { AuthService } from '../../services/auth.service';
-import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
+import { XpService } from '../../services/xp.service';
 
-interface LandingSessionLink {
-  label: string;
+interface TopicCard {
+  icon: string;
+  title: string;
+  tagline: string;
   routerLink: string;
 }
 
-interface LandingSession {
-  title: string;
-  description: string;
-  icon: string;
-  /** Single destination for the whole card — used when there is only one place to go. */
-  routerLink?: string;
-  /** Multiple destinations — rendered as separate links so each promised topic is reachable. */
-  links?: LandingSessionLink[];
-}
+const AREA_ICONS: Record<string, string> = {
+  'java-concepts': '☕',
+  'java-minute': '⏱️',
+  'jvm-concepts': '⚙️',
+  'testing-concepts': '🧪',
+  'spring-concepts': '🌱',
+  'quarkus-concepts': '⚛️',
+  'ruby-concepts': '💎',
+  'rubyonrails-concepts': '🛤️',
+  'database-concepts': '🗄️',
+  'system-design-concepts': '🧩',
+  'algorithms-concepts': '📈',
+};
 
-const SESSIONS: LandingSession[] = [
-  {
-    title: 'landing.sessions.java.title',
-    description: 'landing.sessions.java.description',
-    icon: '☕',
-    links: [
-      { label: 'landing.link.exams', routerLink: '/java/exams' },
-      { label: 'landing.link.concepts', routerLink: '/java/java-concepts' },
-      { label: 'landing.link.jvmConcepts', routerLink: '/java/jvm-concepts' },
-      { label: 'landing.link.javaMinute', routerLink: '/java/java-minute' },
-    ],
-  },
-  {
-    title: 'landing.sessions.spring.title',
-    description: 'landing.sessions.spring.description',
-    icon: '🌱',
-    routerLink: '/spring-concepts',
-  },
-  {
-    title: 'landing.sessions.quarkus.title',
-    description: 'landing.sessions.quarkus.description',
-    icon: '⚛️',
-    routerLink: '/quarkus-concepts',
-  },
-  {
-    title: 'landing.sessions.ruby.title',
-    description: 'landing.sessions.ruby.description',
-    icon: '💎',
-    links: [
-      { label: 'landing.link.concepts', routerLink: '/ruby-concepts' },
-      { label: 'landing.link.rails', routerLink: '/rubyonrails-concepts' },
-    ],
-  },
-  {
-    title: 'landing.sessions.databases.title',
-    description: 'landing.sessions.databases.description',
-    icon: '🗄️',
-    routerLink: '/databases/database-concepts',
-  },
-  {
-    title: 'landing.sessions.systemDesign.title',
-    description: 'landing.sessions.systemDesign.description',
-    icon: '🧩',
-    routerLink: '/system-design/system-design-concepts',
-  },
-  {
-    title: 'landing.sessions.algorithms.title',
-    description: 'landing.sessions.algorithms.description',
-    icon: '📈',
-    routerLink: '/algorithms/algorithms-concepts',
-  },
-];
+/** Simple one-card-per-area grid — no nested sub-links, no per-card paragraph. The
+ *  reference data (title, route, one-line relationship) is the same registry the
+ *  Computer Science Track page uses for "Complementary Studies", so both stay in sync. */
+const TOPIC_CARDS: TopicCard[] = COMPLEMENTARY_AREAS.map((area) => ({
+  icon: AREA_ICONS[area.slug] ?? '📘',
+  title: area.title,
+  tagline: area.relationship,
+  routerLink: area.routerLink,
+}));
 
+/** Logged-out marketing page only — a logged-in user is redirected straight to
+ *  /dashboard in ngOnInit, so this component never renders content for them. */
 @Component({
   selector: 'app-landing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,31 +48,25 @@ const SESSIONS: LandingSession[] = [
 export class LandingPage implements OnInit {
   private seo = inject(SeoService);
   private auth = inject(AuthService);
-  private resumeService = inject(ResumeService);
+  private router = inject(Router);
+  protected readonly xpService = inject(XpService);
 
-  sessions = SESSIONS;
-  resumePoint = signal<ResumePoint | null>(null);
+  protected readonly topics = TOPIC_CARDS;
 
   ngOnInit() {
+    if (this.auth.currentUser()) {
+      this.router.navigate(['/dashboard'], { replaceUrl: true });
+      return;
+    }
+
     this.seo.set({
-      title: 'My University — Learn Java, Ruby, Spring, PostgreSQL & System Design',
-      description: 'Learn Java, JVM internals, Spring Boot, Ruby, Ruby on Rails, PostgreSQL, system design, and algorithms through in-depth concepts, hands-on labs, and certification practice exams.',
+      title: 'My University — A Computer Science curriculum, one topic at a time',
+      description: 'A from-scratch Computer Science curriculum plus Java, Ruby, Spring, PostgreSQL, system design, and algorithms — tracked by XP, one topic at a time.',
       path: '/',
     });
 
-    if (this.auth.currentUser()) {
-      this.resumeService.getResumePoint().subscribe({
-        next: (point) => this.resumePoint.set(point),
-        error: () => {},
-      });
-    }
-  }
-
-  resumeLink(): string[] {
-    const point = this.resumePoint();
-    if (!point) return [];
-    return point.lessonId
-      ? ['/java/exam', point.courseId, 'lesson', point.lessonId]
-      : ['/java/exam', point.courseId];
+    // Public endpoint — safe to show to a logged-out visitor as real, live proof
+    // the platform has real learners, without fabricating testimonials.
+    this.xpService.loadLeaderboard();
   }
 }

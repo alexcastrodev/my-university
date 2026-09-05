@@ -10,6 +10,10 @@
       <span class="brand-name">My<strong>University</strong></span>
     </a>
     <nav id="nav-links" class="nav-links" [class.open]="mobileMenuOpen()" i18n-aria-label="@@header.aria.mainNav" aria-label="Main navigation">
+      @if (auth.currentUser()) {
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.dashboard">Dashboard</a>
+      }
+      <a routerLink="/computer-science" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.computerScience">Computer Science</a>
       <div class="explore-menu" (mouseenter)="onExploreMouseEnter()" (mouseleave)="onExploreMouseLeave()">
         <button
           type="button"
@@ -19,7 +23,7 @@
           [attr.aria-expanded]="exploreMenuOpen()"
           (click)="toggleExploreMenu()"
         >
-          <ng-container i18n="@@header.nav.explore">Explore</ng-container>
+          <ng-container i18n="@@header.nav.complementaryStudies">Complementary Studies</ng-container>
           <svg class="chevron" [class.open]="exploreMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -263,10 +267,7 @@
         [attr.title]="xpService.summary()?.level?.title ?? null"
       >
         <span class="level-part" i18n="@@header.xp.level">Lv {{ xpService.summary()?.level?.number ?? 1 }}</span>
-        <span class="xp-part">
-          <span class="xp-icon" aria-hidden="true">⚡</span>
-          <ng-container i18n="@@header.xp.points">{{ xpService.xp() }} XP</ng-container>
-        </span>
+        <span class="xp-part" i18n="@@header.xp.points">{{ xpService.xp() }} XP</span>
       </a>
     }
     <div class="language-menu">

@@ -14,11 +14,17 @@ const PT_BR_PREFIX = '/pt-BR';
  * exactly right, since it can no longer change without a full navigation to the other locale's
  * bundle.
  *
- * This service's remaining job is bookkeeping: keep the user's saved preference (localStorage
- * for anonymous visitors, the account's preferredLanguage once logged in) in sync with whichever
- * locale they're actually browsing, so a future visit or another device defaults to the same
- * language; and drive the header's language switcher, which now works by navigating to the
- * equivalent path in the other locale's bundle rather than flipping a signal.
+ * Language precedence is, in order: (1) the HTTP `Accept-Language` header — decided server-side,
+ * before this ever loads (see `server.ts`'s redirect); (2) the logged-in account's saved
+ * `preferredLanguage`; (3) the site default (`en`). This service's constructor effect implements
+ * tier 2: once the account is known, if the visitor is sitting on the site default only because
+ * the header didn't have an opinion, it escalates them to their saved language — it never
+ * downgrades a locale the header already picked, since that outranks the account setting. Once a
+ * visitor is on a non-default locale for any reason, their account is kept in sync with it (a
+ * future visit or another device should default to the same language).
+ *
+ * This service also drives the header's language switcher, which works by navigating to the
+ * equivalent path in the other locale's bundle rather than flipping a runtime signal.
  */
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
@@ -37,6 +43,12 @@ export class LanguageService {
       const user = this.auth.currentUser();
       if (!user) return;
       if (user.preferredLanguage === this.language) return;
+
+      if (this.language === DEFAULT_LANGUAGE && user.preferredLanguage) {
+        this.setLanguage(user.preferredLanguage);
+        return;
+      }
+
       this.auth.updateLanguage(this.language).subscribe({ error: () => {} });
     });
   }

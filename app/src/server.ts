@@ -5,9 +5,19 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
+
+/**
+ * A `development`-configuration build (e.g. `ng serve`'s default) never sets `localize`, so
+ * only the source (`en`) bundle exists — no `pt-BR/` subfolder. Redirecting to `/pt-BR` in
+ * that case sends every Portuguese-speaking visitor into a 404 the app can never resolve.
+ * Checked once at startup, not per-request: whether the locale bundle exists doesn't change
+ * while the server is running.
+ */
+const hasPtBrBundle = existsSync(join(browserDistFolder, 'pt-BR'));
 
 const app = express();
 const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
@@ -43,7 +53,7 @@ function prefersPortuguese(acceptLanguage: string | undefined): boolean {
 }
 
 app.use((req, res, next) => {
-  if (req.path === '/' && prefersPortuguese(req.headers['accept-language'])) {
+  if (hasPtBrBundle && req.path === '/' && prefersPortuguese(req.headers['accept-language'])) {
     res.redirect(302, `/pt-BR${req.url}`);
     return;
   }
