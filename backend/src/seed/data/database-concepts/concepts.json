@@ -1949,6 +1949,7 @@
     "category": "SQL",
     "title": "Delimited Data: Rows to Lists and Back",
     "topic": "String & Text Processing",
+    "requires": ["sql-string-parsing-and-validation"],
     "related": [
       {
         "label": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
@@ -2075,6 +2076,7 @@
     "category": "SQL",
     "title": "Regex and Pattern Matching in SQL",
     "topic": "String & Text Processing",
+    "requires": ["sql-string-parsing-and-validation"],
     "related": [
       {
         "label": "Handling NULLs and Pattern Matching in SQL",
@@ -2128,6 +2130,7 @@
     "category": "SQL",
     "title": "Running Totals, Running Products, and Moving Aggregates",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Identifying and Avoiding Cartesian Products",
@@ -2176,6 +2179,7 @@
     "category": "SQL",
     "title": "Mode, Median, and Outlier Detection with MAD",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Running Totals, Running Products, and Moving Aggregates",
@@ -2542,6 +2546,7 @@
     "category": "SQL",
     "title": "Gaps and Islands: Consecutive Values and Sequence Generation",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-differences-between-adjacent-rows"],
     "related": [
       {
         "label": "Comparing Two Tables for Equality (Cardinality and Values)",
@@ -2605,6 +2610,7 @@
     "category": "SQL",
     "title": "Differences Between Adjacent Rows and Filling Gaps",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
@@ -2658,6 +2664,7 @@
     "category": "SQL",
     "title": "Pagination, Top-N with Ties, and Extremes per Group",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Running Totals, Running Products, and Moving Aggregates",
@@ -2807,6 +2814,7 @@
     "category": "SQL",
     "title": "Unpivoting Columns to Rows",
     "topic": "Advanced Query Patterns",
+    "requires": ["sql-pivoting-rows-to-columns"],
     "related": [
       {
         "label": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
@@ -2855,6 +2863,7 @@
     "category": "SQL",
     "title": "Bucketing Data and Text Histograms",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Spring MVC Request Handling and Data Binding",
@@ -2918,6 +2927,7 @@
     "category": "SQL",
     "title": "Subtotals and Grand Totals: ROLLUP, CUBE, and GROUPING SETS",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-window-function-ranking-and-navigation"],
     "related": [
       {
         "label": "Running Totals, Running Products, and Moving Aggregates",
@@ -2966,6 +2976,7 @@
     "category": "SQL",
     "title": "Multi-Partition and Moving-Range Window Aggregations",
     "topic": "Window Functions & Analytics",
+    "requires": ["sql-running-totals-and-moving-aggregates"],
     "related": [
       {
         "label": "Running Totals, Running Products, and Moving Aggregates",
@@ -3062,6 +3073,7 @@
     "category": "SQL",
     "title": "Recursive Hierarchy Queries and Tree Traversal",
     "topic": "Advanced Query Patterns",
+    "requires": ["sql-hierarchical-parent-child-relationships"],
     "related": [
       {
         "label": "The TreeSet Class",

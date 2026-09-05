@@ -6,6 +6,7 @@ import {
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
+import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -33,6 +34,8 @@ export interface RubyConceptDetail extends RubyConceptSummary {
 }
 
 interface ConceptMeta extends RubyConceptSummary {
+  /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
+  requires?: string[];
   references: ConceptReference[];
   related: ConceptLinkRef[];
 }
@@ -47,11 +50,9 @@ const FRONTMATTER_FIELDS = [
 
 @Injectable()
 export class RubyConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = (
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[]
-  )
-    .slice()
-    .sort((a, b) => b.id - a.id);
+  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
+    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
+  );
 
   findAll(lang: Language = DEFAULT_LANGUAGE): RubyConceptSummary[] {
     const language = normalizeLanguage(lang);

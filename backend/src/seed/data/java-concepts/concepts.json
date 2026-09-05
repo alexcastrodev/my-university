@@ -123,6 +123,7 @@
     "id": 4,
     "title": "The List Interface",
     "topic": "Collections",
+    "requires": ["collection-interface"],
     "related": [
       {
         "label": "The Collection Interface",
@@ -161,6 +162,7 @@
     "id": 5,
     "title": "The Set Interface",
     "topic": "Collections",
+    "requires": ["collection-interface"],
     "related": [
       {
         "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
@@ -204,6 +206,7 @@
     "id": 6,
     "title": "The Queue Interface",
     "topic": "Collections",
+    "requires": ["collection-interface"],
     "related": [
       {
         "label": "BlockingQueue and the Producer-Consumer Pattern",
@@ -242,6 +245,7 @@
     "id": 7,
     "title": "The Deque Interface",
     "topic": "Collections",
+    "requires": ["queue-interface"],
     "related": [
       {
         "label": "The Collection Interface",
@@ -1160,6 +1164,7 @@
     "id": 25,
     "title": "The ArrayList Class",
     "topic": "Collections",
+    "requires": ["list-interface"],
     "related": [
       {
         "label": "The List Interface",
@@ -1198,6 +1203,7 @@
     "id": 26,
     "title": "The LinkedList Class",
     "topic": "Collections",
+    "requires": ["list-interface", "deque-interface"],
     "related": [
       {
         "label": "The List Interface",
@@ -1241,6 +1247,7 @@
     "id": 27,
     "title": "The HashSet Class",
     "topic": "Collections",
+    "requires": ["set-interface"],
     "related": [
       {
         "label": "The equals(), hashCode(), and toString() Contracts",
@@ -1279,6 +1286,7 @@
     "id": 28,
     "title": "The LinkedHashSet Class",
     "topic": "Collections",
+    "requires": ["hash-set"],
     "related": [
       {
         "label": "The equals(), hashCode(), and toString() Contracts",
@@ -1317,6 +1325,7 @@
     "id": 29,
     "title": "The TreeSet Class",
     "topic": "Collections",
+    "requires": ["set-interface"],
     "related": [
       {
         "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
@@ -1355,6 +1364,7 @@
     "id": 30,
     "title": "The PriorityQueue Class",
     "topic": "Collections",
+    "requires": ["queue-interface"],
     "related": [
       {
         "label": "BlockingQueue and the Producer-Consumer Pattern",
@@ -1393,6 +1403,7 @@
     "id": 31,
     "title": "The ArrayDeque Class",
     "topic": "Collections",
+    "requires": ["deque-interface"],
     "related": [
       {
         "label": "The Deque Interface",
@@ -1507,6 +1518,7 @@
     "id": 34,
     "title": "The LinkedHashMap Class",
     "topic": "Collections",
+    "requires": ["hash-map"],
     "related": [
       {
         "label": "Concurrent Collections: Why Thread-Safe Isn't Enough, and What ConcurrentHashMap Does Differently",
@@ -4198,6 +4210,7 @@
     "id": 86,
     "title": "Sequenced Collections: SequencedCollection, SequencedSet, SequencedMap",
     "topic": "Collections",
+    "requires": ["list-interface", "set-interface"],
     "related": [
       {
         "label": "The List Interface",

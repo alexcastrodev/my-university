@@ -23,11 +23,32 @@ describe('GET /java-concepts', () => {
     expect(concept.sections).toBeUndefined();
   });
 
-  it('is ordered by id, highest first', async () => {
+  it('falls back to id, highest first, for concepts with no authored prerequisite', async () => {
     const body = await json<any[]>(await get('/java-concepts'));
-    const ids = body.map((c) => c.id);
+    const hasRequires = new Set([
+      'list-interface', 'set-interface', 'queue-interface', 'deque-interface',
+      'array-list', 'linked-list', 'hash-set', 'linked-hash-set', 'tree-set',
+      'priority-queue', 'array-deque', 'linked-hash-map', 'sequenced-collections',
+    ]);
+    const ids = body.filter((c) => !hasRequires.has(c.slug)).map((c) => c.id);
     const sorted = [...ids].sort((a, b) => b - a);
     expect(ids).toEqual(sorted);
+  });
+
+  it('never places a concept before something it requires (Collections family)', async () => {
+    const body = await json<any[]>(await get('/java-concepts'));
+    const indexOf = (slug: string) => body.findIndex((c) => c.slug === slug);
+
+    expect(indexOf('collection-interface')).toBeLessThan(indexOf('list-interface'));
+    expect(indexOf('collection-interface')).toBeLessThan(indexOf('set-interface'));
+    expect(indexOf('collection-interface')).toBeLessThan(indexOf('queue-interface'));
+    expect(indexOf('queue-interface')).toBeLessThan(indexOf('deque-interface'));
+    expect(indexOf('set-interface')).toBeLessThan(indexOf('tree-set'));
+    expect(indexOf('set-interface')).toBeLessThan(indexOf('hash-set'));
+    expect(indexOf('hash-set')).toBeLessThan(indexOf('linked-hash-set'));
+    expect(indexOf('list-interface')).toBeLessThan(indexOf('array-list'));
+    expect(indexOf('list-interface')).toBeLessThan(indexOf('linked-list'));
+    expect(indexOf('deque-interface')).toBeLessThan(indexOf('linked-list'));
   });
 });
 

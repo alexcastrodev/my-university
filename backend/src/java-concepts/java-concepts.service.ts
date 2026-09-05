@@ -6,6 +6,7 @@ import {
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
+import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -35,6 +36,8 @@ export interface JavaConceptDetail extends JavaConceptSummary {
 interface ConceptMeta extends JavaConceptSummary {
   references: ConceptReference[];
   related: ConceptLinkRef[];
+  /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
+  requires?: string[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/java-concepts');
@@ -47,11 +50,9 @@ const FRONTMATTER_FIELDS = [
 
 @Injectable()
 export class JavaConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = (
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[]
-  )
-    .slice()
-    .sort((a, b) => b.id - a.id);
+  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
+    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
+  );
 
   findAll(lang: Language = DEFAULT_LANGUAGE): JavaConceptSummary[] {
     const language = normalizeLanguage(lang);

@@ -6,6 +6,7 @@ import {
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptReference } from '../shared/concept-types';
+import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -36,6 +37,8 @@ interface EpisodeMeta {
   publishedAt: string;
   labUrl?: string;
   references: ConceptReference[];
+  /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
+  requires?: string[];
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/java-minute');
@@ -43,11 +46,9 @@ const FRONTMATTER_FIELDS = ['question', 'version', 'updatedAt'] as const;
 
 @Injectable()
 export class JavaMinuteService {
-  private readonly episodesMeta: EpisodeMeta[] = (
-    require(join(DATA_DIR, 'episodes.json')) as EpisodeMeta[]
-  )
-    .slice()
-    .sort((a, b) => b.id - a.id);
+  private readonly episodesMeta: EpisodeMeta[] = sortByPrerequisites(
+    require(join(DATA_DIR, 'episodes.json')) as EpisodeMeta[],
+  );
 
   findAll(lang: Language = DEFAULT_LANGUAGE): JavaMinuteEpisodeSummary[] {
     const language = normalizeLanguage(lang);

@@ -6,6 +6,7 @@ import {
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptReference } from '../shared/concept-types';
+import { sortByPrerequisites } from '../shared/concept-order';
 import {
   DEFAULT_LANGUAGE,
   Language,
@@ -36,6 +37,8 @@ export interface TestingConceptDetail extends TestingConceptSummary {
 interface ConceptMeta {
   slug: string;
   id: number;
+  /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
+  requires?: string[];
   category: TestingConceptCategory;
   title: string;
   summary: string;
@@ -54,11 +57,9 @@ const FRONTMATTER_FIELDS = [
 
 @Injectable()
 export class TestingConceptsService {
-  private readonly conceptsMeta: ConceptMeta[] = (
-    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[]
-  )
-    .slice()
-    .sort((a, b) => b.id - a.id);
+  private readonly conceptsMeta: ConceptMeta[] = sortByPrerequisites(
+    require(join(DATA_DIR, 'concepts.json')) as ConceptMeta[],
+  );
 
   findAll(lang: Language = DEFAULT_LANGUAGE): TestingConceptSummary[] {
     const language = normalizeLanguage(lang);

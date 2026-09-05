@@ -26,11 +26,52 @@ describe('GET /database-concepts', () => {
     expect(concept.sections).toBeUndefined();
   });
 
-  it('is ordered by id, highest first', async () => {
+  it('falls back to id, highest first, for concepts with no authored prerequisite', async () => {
     const body = await json<any[]>(await get('/database-concepts'));
-    const ids = body.map((c) => c.id);
+    const hasRequires = new Set([
+      'sql-pagination-top-n-and-extremes-per-group', 'sql-running-totals-and-moving-aggregates',
+      'sql-moving-window-aggregations', 'sql-differences-between-adjacent-rows',
+      'sql-gaps-and-islands', 'sql-median-mode-and-outliers', 'sql-buckets-and-histograms',
+      'sql-subtotals-and-rollup', 'sql-recursive-hierarchy-queries',
+      'sql-unpivoting-columns-to-rows', 'sql-delimited-data-and-lists',
+      'sql-regex-pattern-matching-in-sql',
+    ]);
+    const ids = body.filter((c) => !hasRequires.has(c.slug)).map((c) => c.id);
     const sorted = [...ids].sort((a, b) => b - a);
     expect(ids).toEqual(sorted);
+  });
+
+  it('never places a concept before something it requires (SQL families)', async () => {
+    const body = await json<any[]>(await get('/database-concepts'));
+    const indexOf = (slug: string) => body.findIndex((c) => c.slug === slug);
+
+    expect(indexOf('sql-window-function-ranking-and-navigation')).toBeLessThan(
+      indexOf('sql-pagination-top-n-and-extremes-per-group'),
+    );
+    expect(indexOf('sql-window-function-ranking-and-navigation')).toBeLessThan(
+      indexOf('sql-running-totals-and-moving-aggregates'),
+    );
+    expect(indexOf('sql-running-totals-and-moving-aggregates')).toBeLessThan(
+      indexOf('sql-moving-window-aggregations'),
+    );
+    expect(indexOf('sql-window-function-ranking-and-navigation')).toBeLessThan(
+      indexOf('sql-differences-between-adjacent-rows'),
+    );
+    expect(indexOf('sql-differences-between-adjacent-rows')).toBeLessThan(
+      indexOf('sql-gaps-and-islands'),
+    );
+    expect(indexOf('sql-hierarchical-parent-child-relationships')).toBeLessThan(
+      indexOf('sql-recursive-hierarchy-queries'),
+    );
+    expect(indexOf('sql-pivoting-rows-to-columns')).toBeLessThan(
+      indexOf('sql-unpivoting-columns-to-rows'),
+    );
+    expect(indexOf('sql-string-parsing-and-validation')).toBeLessThan(
+      indexOf('sql-delimited-data-and-lists'),
+    );
+    expect(indexOf('sql-string-parsing-and-validation')).toBeLessThan(
+      indexOf('sql-regex-pattern-matching-in-sql'),
+    );
   });
 });
 
