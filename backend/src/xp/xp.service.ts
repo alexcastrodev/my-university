@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
+import { fromSourceId } from '../review/review.constants';
 import { getLevelForXp, LevelProgress } from './levels';
 import { computeStreak, StreakResult, toUtcDateKey } from './streak';
 import { UserXpEntry } from './user-xp.entity';
@@ -27,6 +28,12 @@ export interface LeaderboardEntry {
   avatarUrl: string;
   total: number;
   levelNumber: number;
+}
+
+export interface AreaXpBreakdownEntry {
+  module: string;
+  xp: number;
+  lastActivityAt: string;
 }
 
 @Injectable()
@@ -136,6 +143,15 @@ export class XpService {
     });
   }
 
+  /** All entries since a given instant — unlike `getHistory`, not capped by count, so a "this
+   *  week" view doesn't silently truncate for a very active user. */
+  async getHistorySince(userId: number, since: Date): Promise<UserXpEntry[]> {
+    return this.repo.find({
+      where: { userId, updatedAt: MoreThanOrEqual(since) },
+      order: { updatedAt: 'DESC' },
+    });
+  }
+
   /** Current + longest consecutive-UTC-day study streak, derived from distinct activity days in `user_xp_entry`. */
   async getStreak(userId: number): Promise<StreakResult> {
     const rows = await this.repo
@@ -163,6 +179,42 @@ export class XpService {
       .getRawOne<{ total: string }>();
 
     return { earnedToday: Number(result?.total ?? 0), goal: DAILY_XP_GOAL };
+  }
+
+  /**
+   * XP and last-activity timestamp per Complementary Studies area (java-concepts,
+   * jvm-concepts, ...), derived from real `user_xp_entry` rows — reuses the same
+   * module/prefix registry `ReviewService` already resolves due-queue items with, so
+   * there's one source of truth for "which area does this sourceId belong to."
+   * Entries that don't resolve to a known area (course lessons, skill checks) are
+   * skipped — they're tracked separately via the course resume point.
+   */
+  async getAreaBreakdown(userId: number): Promise<AreaXpBreakdownEntry[]> {
+    const rows = await this.repo.find({
+      where: { userId },
+      select: { sourceType: true, sourceId: true, exp: true, updatedAt: true },
+    });
+
+    const byModule = new Map<string, { xp: number; lastActivityAt: Date }>();
+    for (const row of rows) {
+      if (row.sourceType !== 'concept-read' && row.sourceType !== 'episode-watched') continue;
+      const resolved = fromSourceId(row.sourceType, row.sourceId);
+      if (!resolved) continue;
+
+      const existing = byModule.get(resolved.module);
+      if (existing) {
+        existing.xp += row.exp;
+        if (row.updatedAt > existing.lastActivityAt) existing.lastActivityAt = row.updatedAt;
+      } else {
+        byModule.set(resolved.module, { xp: row.exp, lastActivityAt: row.updatedAt });
+      }
+    }
+
+    return Array.from(byModule.entries()).map(([module, v]) => ({
+      module,
+      xp: v.xp,
+      lastActivityAt: v.lastActivityAt.toISOString(),
+    }));
   }
 
   /** Top users by total XP across all sources, for the profile leaderboard. */

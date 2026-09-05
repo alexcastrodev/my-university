@@ -14,6 +14,7 @@ import { CourseModule as CourseModuleEntity } from './lesson/course-module.entit
 import { Lesson } from './lesson/lesson.entity';
 import { Course } from './course/course.entity';
 import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
+import { CurriculumModule } from './curriculum/curriculum.module';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
@@ -71,6 +72,7 @@ import { XpModule } from './xp/xp.module';
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     QuarkusConceptsModule,
+    CurriculumModule,
     ProgressModule,
     ExamModule,
     XpModule,

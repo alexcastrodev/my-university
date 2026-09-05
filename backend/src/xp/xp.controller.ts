@@ -31,6 +31,11 @@ export class XpController {
     return this.service.getDailyGoalStatus(userId);
   }
 
+  @Get('areas')
+  getAreaBreakdown(@CurrentUserId() userId: number) {
+    return this.service.getAreaBreakdown(userId);
+  }
+
   /** Public — anyone can see the leaderboard, logged in or not. */
   @Get('leaderboard')
   getLeaderboard() {

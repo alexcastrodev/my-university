@@ -1,0 +1,40 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title">{{ disciplineTitle() }}</h1>
+    <p class="page-sub">Part of the Computer Science curriculum.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="sort-row">
+      <span class="sort-row-label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            @switch (opt.label) {
+              @case ('sort.default') { Default }
+              @case ('sort.unreadFirst') { Unread first }
+              @case ('sort.readFirst') { Read first }
+            }
+          </button>
+        }
+      </div>
+      <app-concept-view-toggle />
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        Loading concepts…
+      </div>
+    } @else if (filteredConcepts().length === 0) {
+      <p class="empty-state">
+        Nothing published in this discipline yet — it's on the curriculum, just not
+        written.
+      </p>
+    } @else {
+      <app-concept-card-list [items]="filteredConcepts()" [routeCommands]="routeCommands()" />
+    }
+  </div>
+</div>

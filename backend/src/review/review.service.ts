@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThan, Repository } from 'typeorm';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
@@ -15,6 +15,8 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { fromSourceId, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
+import { XpService } from '../xp/xp.service';
+import { toUtcDateKey } from '../xp/streak';
 
 const INITIAL_INTERVAL_DAYS = 1;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -29,10 +31,20 @@ export interface ReviewQueueItem {
   dueAt: Date;
 }
 
+export interface RecentActivityItem {
+  date: string;
+  module: string;
+  slug: string;
+  title: string;
+  route: string[];
+  exp: number;
+}
+
 @Injectable()
 export class ReviewService {
   constructor(
     @InjectRepository(ReviewSchedule) private repo: Repository<ReviewSchedule>,
+    private xp: XpService,
     private javaConcepts: JavaConceptsService,
     private jvmConcepts: JvmConceptsService,
     private springConcepts: SpringConceptsService,
@@ -45,6 +57,24 @@ export class ReviewService {
     private rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
   ) {}
+
+  /** Module -> slug -> human title, for every Complementary Studies area — the single lookup
+   *  `getDueQueue` and `getRecentActivity` both resolve a sourceId's display title through. */
+  private buildTitlesByModule(): Record<string, Map<string, string>> {
+    return {
+      'java-concepts': new Map(this.javaConcepts.findAll().map((c) => [c.slug, c.title])),
+      'jvm-concepts': new Map(this.jvmConcepts.findAll().map((c) => [c.slug, c.title])),
+      'spring-concepts': new Map(this.springConcepts.findAll().map((c) => [c.slug, c.title])),
+      'database-concepts': new Map(this.databaseConcepts.findAll().map((c) => [c.slug, c.title])),
+      'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),
+      'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
+      'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
+      'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
+      'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
+      'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
+      'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
+    };
+  }
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
   async scheduleFirstReview(userId: number, module: string, slug: string): Promise<void> {
@@ -73,19 +103,7 @@ export class ReviewService {
       order: { dueAt: 'ASC' },
     });
 
-    const titlesByModule = {
-      'java-concepts': new Map(this.javaConcepts.findAll().map((c) => [c.slug, c.title])),
-      'jvm-concepts': new Map(this.jvmConcepts.findAll().map((c) => [c.slug, c.title])),
-      'spring-concepts': new Map(this.springConcepts.findAll().map((c) => [c.slug, c.title])),
-      'database-concepts': new Map(this.databaseConcepts.findAll().map((c) => [c.slug, c.title])),
-      'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),
-      'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
-      'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
-      'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
-      'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
-      'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
-      'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
-    } as Record<string, Map<string, string>>;
+    const titlesByModule = this.buildTitlesByModule();
 
     const items: ReviewQueueItem[] = [];
     for (const row of rows) {
@@ -105,6 +123,52 @@ export class ReviewService {
       });
     }
     return items;
+  }
+
+  /**
+   * "What you learned this week" — real `user_xp_entry` rows from the last `days` days,
+   * resolved to a human title through the same lookup `getDueQueue` uses. An entry whose
+   * module/slug doesn't resolve (a course lesson, a skill check, content since removed) is
+   * skipped rather than shown with a placeholder title.
+   */
+  async getRecentActivity(userId: number, days = 7): Promise<RecentActivityItem[]> {
+    const since = new Date(Date.now() - days * DAY_MS);
+    const entries = await this.xp.getHistorySince(userId, since);
+    const titlesByModule = this.buildTitlesByModule();
+
+    const items: RecentActivityItem[] = [];
+    for (const entry of entries) {
+      if (entry.sourceType !== 'concept-read' && entry.sourceType !== 'episode-watched') continue;
+      const resolved = fromSourceId(entry.sourceType, entry.sourceId);
+      if (!resolved) continue;
+      const title = titlesByModule[resolved.module]?.get(resolved.slug);
+      if (title === undefined) continue;
+
+      items.push({
+        date: toUtcDateKey(entry.updatedAt),
+        module: resolved.module,
+        slug: resolved.slug,
+        title,
+        route: resolved.route,
+        exp: entry.exp,
+      });
+    }
+    return items;
+  }
+
+  /**
+   * "Got it" mark counts: `active` marks aren't due yet (still holding); `expired` marks are
+   * due now — the concept comes back as a review question, matching the "a mark expires after
+   * 6 months and comes back as a question" framing on the dashboard, expressed here in terms
+   * of the real SM2 `dueAt` this app already tracks rather than a literal 6-month timer.
+   */
+  async getMarkCounts(userId: number): Promise<{ active: number; expired: number }> {
+    const now = new Date();
+    const [active, expired] = await Promise.all([
+      this.repo.count({ where: { userId, dueAt: MoreThan(now) } }),
+      this.repo.count({ where: { userId, dueAt: LessThanOrEqual(now) } }),
+    ]);
+    return { active, expired };
   }
 
   async recordAnswer(

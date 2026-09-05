@@ -6,6 +6,22 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/landing/landing-page').then((m) => m.LandingPage),
   },
   {
+    path: 'dashboard',
+    loadComponent: () => import('./pages/dashboard/dashboard-page').then((m) => m.DashboardPage),
+  },
+  {
+    path: 'computer-science',
+    loadComponent: () => import('./pages/computer-science/computer-science-page').then((m) => m.ComputerSciencePage),
+  },
+  {
+    path: 'computer-science/:module/:discipline',
+    loadComponent: () => import('./pages/curriculum-concepts/curriculum-concepts-list').then((m) => m.CurriculumConceptsListPage),
+  },
+  {
+    path: 'computer-science/:module/:discipline/:slug',
+    loadComponent: () => import('./pages/curriculum-concepts/curriculum-concepts-detail').then((m) => m.CurriculumConceptsDetailPage),
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
   },

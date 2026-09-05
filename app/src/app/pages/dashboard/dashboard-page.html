@@ -1,0 +1,168 @@
+<div class="page">
+  @if (!auth.currentUser()) {
+    <div class="page-body">
+      <div class="login-prompt">
+        <p>Log in with GitHub to see your dashboard.</p>
+        <a class="btn github-btn" href="/api/auth/github">Continue with GitHub</a>
+      </div>
+    </div>
+  } @else if (xpService.summary(); as summary) {
+    <div class="page-body">
+      <div class="greeting-row">
+        <div>
+          <span class="greeting-label">{{ greeting() }}, {{ auth.currentUser()!.displayName }}</span>
+          @if (headline(); as h) {
+            <h1 class="greeting-title">
+              @switch (h.kind) {
+                @case ('concept') { You left off inside {{ h.title }} }
+                @case ('lesson') { You left off inside {{ h.title }} }
+                @case ('courseComplete') { {{ h.title }} — course complete }
+              }
+            </h1>
+          } @else {
+            <h1 class="greeting-title">Welcome back</h1>
+          }
+        </div>
+        <div class="greeting-meta">
+          <span>{{ weekRangeLabel() }}</span>
+          @if (recentActivity().length > 0) {
+            <span>{{ areasTouched() }} areas touched · +{{ weekTotal() }} XP</span>
+          }
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-head">
+            <span class="stat-label">Level {{ summary.level.number }}</span>
+            <span class="stat-value">{{ summary.total }} @if (summary.level.nextLevelXp) { / {{ summary.level.nextLevelXp }} }</span>
+          </div>
+          <div class="stat-title">{{ summary.level.title }}</div>
+          <div class="progress-bar"><div class="progress-fill" [style.width.%]="levelPercent()"></div></div>
+          @if (summary.level.nextLevelXp) {
+            <span class="stat-foot">{{ summary.level.nextLevelXp - summary.total }} XP to the next level</span>
+          }
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-label">Streak</span>
+          @if (xpService.streak(); as streak) {
+            <div class="streak-row">
+              <span class="stat-big">{{ streak.current }}</span>
+              <span class="stat-foot">days now</span>
+              <span class="stat-big stat-big-muted">{{ streak.longest }}</span>
+              <span class="stat-foot">record</span>
+            </div>
+          }
+          <span class="stat-foot">Reading counts. Marking "Got it" counts more.</span>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-head">
+            <span class="stat-label">Daily goal</span>
+            @if (xpService.dailyGoal(); as goal) {
+              <span class="stat-value">{{ goal.earnedToday }} / {{ goal.goal }} XP</span>
+            }
+          </div>
+          <div class="progress-bar"><div class="progress-fill progress-fill-green" [style.width.%]="dailyGoalPercent()"></div></div>
+          <span class="stat-foot">One more topic marked, or one paper finished.</span>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-label">Got it marks</span>
+          @if (markCounts(); as marks) {
+            <div class="streak-row">
+              <span class="stat-big">{{ marks.active }}</span>
+              <span class="stat-foot">active</span>
+              <span class="stat-big stat-big-accent">{{ marks.expired }}</span>
+              <span class="stat-foot">expired</span>
+            </div>
+          }
+          <span class="stat-foot">A mark comes back as a question once its review is due.</span>
+        </div>
+      </div>
+
+      <div class="row-grid">
+        <div class="main-col">
+          <section class="panel">
+            <div class="panel-head">
+              <h2 class="panel-title">Your areas</h2>
+              <span class="panel-note">Depth and recency, not completion</span>
+            </div>
+            <div class="areas-table" role="table">
+              <div class="areas-head" role="row">
+                <span role="columnheader">Area</span>
+                <span role="columnheader">Read</span>
+                <span role="columnheader">Last visit</span>
+                <span role="columnheader">XP</span>
+                <span role="columnheader">Connects to</span>
+              </div>
+              @for (row of areaRows(); track row.area.slug) {
+                <a [routerLink]="row.area.routerLink" class="areas-row" role="row">
+                  <span class="areas-title" role="cell">{{ row.area.title }}</span>
+                  <span class="areas-read" role="cell">
+                    @if (areaProgressLoading()) { … } @else { {{ row.read }} / {{ row.total }} }
+                  </span>
+                  <span class="areas-last-visit" role="cell">{{ formatRelative(row.lastActivityAt) }}</span>
+                  <span class="areas-xp" role="cell">{{ row.xp }}</span>
+                  <span class="areas-connects" role="cell">{{ row.area.touchesTitle }}</span>
+                </a>
+              }
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2 class="panel-title">What you learned this week</h2>
+              @if (weekTotal() > 0) {
+                <span class="panel-note panel-note-accent">+{{ weekTotal() }} XP</span>
+              }
+            </div>
+            @if (recentActivity().length === 0) {
+              <p class="panel-empty">Nothing marked yet this week — start with any area above.</p>
+            } @else {
+              <div class="activity-table">
+                @for (item of recentActivity(); track item.date + item.module + item.slug) {
+                  <a [routerLink]="item.route" class="activity-row">
+                    <span class="activity-day">{{ dayLabel(item.date) }}</span>
+                    <span class="activity-title">{{ item.title }}</span>
+                    <span class="activity-area">{{ item.module }}</span>
+                    <span class="activity-xp">+{{ item.exp }}</span>
+                  </a>
+                }
+              </div>
+            }
+          </section>
+        </div>
+
+        <div class="side-col">
+          <section class="panel panel-dark">
+            <h2 class="panel-title panel-title-light">Review due</h2>
+            @if (reviewQueue().length === 0) {
+              <p class="panel-empty">Nothing due right now — nice work.</p>
+            } @else {
+              <p class="panel-lead">{{ reviewQueue()[0].title }}</p>
+              <a [routerLink]="reviewQueue()[0].route" class="panel-cta">Answer now →</a>
+              @if (reviewQueue().length > 1) {
+                <span class="panel-foot">+{{ reviewQueue().length - 1 }} more due</span>
+              }
+            }
+          </section>
+
+          <section class="panel">
+            <h2 class="panel-title">Ranking</h2>
+            <ol class="ranking-list">
+              @for (entry of xpService.leaderboard().slice(0, 5); track entry.userId; let i = $index) {
+                <li class="ranking-row" [class.ranking-row-me]="entry.userId === auth.currentUser()!.id">
+                  <span class="ranking-position">{{ i + 1 }}</span>
+                  <span class="ranking-name">{{ entry.displayName }}</span>
+                  <span class="ranking-total">{{ entry.total }}</span>
+                </li>
+              }
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+  }
+</div>

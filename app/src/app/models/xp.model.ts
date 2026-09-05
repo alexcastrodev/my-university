@@ -43,3 +43,9 @@ export interface LeaderboardEntry {
   total: number;
   levelNumber: number;
 }
+
+export interface AreaXpBreakdownEntry {
+  module: string;
+  xp: number;
+  lastActivityAt: string;
+}

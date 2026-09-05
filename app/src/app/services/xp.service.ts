@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import {
+  AreaXpBreakdownEntry,
   DailyGoalStatus,
   LeaderboardEntry,
   StreakInfo,
@@ -21,6 +22,7 @@ export class XpService {
   streak = signal<StreakInfo | null>(null);
   dailyGoal = signal<DailyGoalStatus | null>(null);
   leaderboard = signal<LeaderboardEntry[]>([]);
+  areas = signal<AreaXpBreakdownEntry[]>([]);
   xp = computed(() => this.summary()?.total ?? 0);
 
   private hasLoadedOnce = false;
@@ -72,6 +74,15 @@ export class XpService {
   loadLeaderboard(): void {
     this.http.get<LeaderboardEntry[]>('/api/xp/leaderboard').subscribe({
       next: (entries) => this.leaderboard.set(entries),
+    });
+  }
+
+  loadAreas(): void {
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    this.http.get<AreaXpBreakdownEntry[]>('/api/xp/areas').subscribe({
+      next: (entries) => this.areas.set(entries),
     });
   }
 }

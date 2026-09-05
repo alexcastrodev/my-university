@@ -10,6 +10,20 @@ export interface ReviewQueueItem {
   dueAt: string;
 }
 
+export interface MarkCounts {
+  active: number;
+  expired: number;
+}
+
+export interface RecentActivityItem {
+  date: string;
+  module: string;
+  slug: string;
+  title: string;
+  route: string[];
+  exp: number;
+}
+
 export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
 
 export interface ReviewAnswerResult {

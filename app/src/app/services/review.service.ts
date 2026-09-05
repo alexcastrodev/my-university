@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReviewAnswerResult, ReviewQueueItem, ReviewRating, ReviewSourceType } from '../models/review.model';
+import { MarkCounts, RecentActivityItem, ReviewAnswerResult, ReviewQueueItem, ReviewRating, ReviewSourceType } from '../models/review.model';
 
 @Injectable({ providedIn: 'root' })
 export class ReviewService {
@@ -15,6 +15,14 @@ export class ReviewService {
 
   getDueQueue(): Observable<ReviewQueueItem[]> {
     return this.http.get<ReviewQueueItem[]>(`${this.base}/due`);
+  }
+
+  getMarkCounts(): Observable<MarkCounts> {
+    return this.http.get<MarkCounts>(`${this.base}/marks`);
+  }
+
+  getRecentActivity(): Observable<RecentActivityItem[]> {
+    return this.http.get<RecentActivityItem[]>(`${this.base}/recent-activity`);
   }
 
   answer(sourceType: ReviewSourceType, sourceId: string, rating: ReviewRating): Observable<ReviewAnswerResult> {

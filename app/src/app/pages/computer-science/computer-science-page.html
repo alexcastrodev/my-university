@@ -1,0 +1,157 @@
+<div class="page">
+  <div class="page-hero">
+    <span class="page-eyebrow">Two tracks, one graph</span>
+    <h1 class="page-title">Computer Science holds the order; Complementary Studies keeps its own</h1>
+    <p class="page-sub">
+      Computer Science is the recommended path — modules in order, then specialization,
+      then research. Everything you already study lives in Complementary Studies, with
+      its own order and its own XP, linked to the path instead of duplicated into it.
+    </p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" class="tab" [class.active]="activeTab() === 'cs'" (click)="setTab('cs')">
+      Computer Science
+    </button>
+    <button type="button" role="tab" class="tab" [class.active]="activeTab() === 'complementary'" (click)="setTab('complementary')">
+      Complementary Studies
+    </button>
+    <button type="button" role="tab" class="tab" [class.active]="activeTab() === 'parallel'" (click)="setTab('parallel')">
+      Parallel Fields
+    </button>
+  </div>
+
+  <div class="page-body">
+    @if (activeTab() === 'cs') {
+      <div class="cs-table">
+        <div class="cs-row cs-head" role="row">
+          <span class="cs-head-cell">Stage · Your State</span>
+          <span class="cs-head-cell">Knowledge</span>
+          <span class="cs-head-cell">Laboratory and Questions</span>
+        </div>
+        @for (mod of tableModules; track mod.slug) {
+          <div class="cs-row">
+            <div class="cs-stage">
+              <span class="cs-stage-label">Module</span>
+              <h2 class="cs-stage-title">{{ mod.title }}</h2>
+              @if (totalHours(mod) > 0) {
+                <span class="cs-stage-hours">{{ totalHours(mod) }}h planned</span>
+              }
+              <span class="discipline-status">Not started</span>
+            </div>
+            <div class="cs-knowledge">
+              @for (d of mod.disciplines; track d.slug) {
+                <div class="knowledge-group">
+                  <h3 class="knowledge-group-title">
+                    <a [routerLink]="['/computer-science', mod.slug, d.slug]">{{ d.title }}</a>
+                  </h3>
+                  <ul class="discipline-topics">
+                    @for (topic of d.topics; track topic) {
+                      <li>{{ topic }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+            <div class="cs-lab">
+              <span class="cs-lab-heading">Laboratory</span>
+              <span class="cs-lab-placeholder">Not written yet</span>
+              <span class="cs-lab-heading">Questions</span>
+              <span class="cs-lab-placeholder">Not written yet</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <section class="module">
+        <h2 class="module-title">{{ specializationModule.title }}</h2>
+        <p class="module-sub">Choose one track of depth after the modules above.</p>
+        <div class="track-grid">
+          @for (track of specializationModule.tracks; track track.slug) {
+            <div class="track-card">
+              <h3 class="track-title">
+                <a [routerLink]="['/computer-science', specializationModule.slug, track.slug]">{{ track.title }}</a>
+              </h3>
+              @for (d of track.disciplines; track d.slug) {
+                <ul class="discipline-topics">
+                  @for (topic of d.topics; track topic) {
+                    <li>{{ topic }}</li>
+                  }
+                </ul>
+              }
+              <span class="discipline-status">Not started</span>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="module">
+        <h2 class="module-title">{{ researchModule.title }}</h2>
+        <p class="module-sub">No final subject. One question of your own.</p>
+        <div class="research-card">
+          <ul class="discipline-topics research-cycle">
+            @for (topic of researchTopics; track topic; let last = $last) {
+              <li>{{ topic }}</li>
+              @if (!last) {
+                <li class="cycle-arrow" aria-hidden="true">→</li>
+              }
+            }
+          </ul>
+          <a [routerLink]="['/computer-science', researchModule.slug, 'independent-research']" class="research-link">Enter →</a>
+        </div>
+      </section>
+    }
+
+    @if (activeTab() === 'complementary') {
+      <section class="module">
+        <h2 class="module-title">Areas you already study</h2>
+        <p class="module-sub">
+          Their own reading order, their own XP, no module number. Each one names the
+          Computer Science module it touches, and the path links back to it instead of
+          duplicating it.
+        </p>
+
+        <div class="complementary-table" role="table">
+          <div class="complementary-head" role="row">
+            <span role="columnheader">Area</span>
+            <span role="columnheader">Read</span>
+            <span role="columnheader">Touches</span>
+            <span role="columnheader">Relationship</span>
+          </div>
+          @for (area of complementaryAreas; track area.slug) {
+            <a [routerLink]="area.routerLink" class="complementary-row" role="row">
+              <span class="complementary-title" role="cell">{{ area.title }}</span>
+              <span class="complementary-read" role="cell">
+                @if (complementaryLoading()) {
+                  …
+                } @else if (progressFor(area.slug); as p) {
+                  {{ p.read }} / {{ p.total }}
+                }
+              </span>
+              <span class="complementary-touches" role="cell">{{ area.touchesTitle }}</span>
+              <span class="complementary-relationship" role="cell">{{ area.relationship }}</span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+
+    @if (activeTab() === 'parallel') {
+      <section class="module">
+        <h2 class="module-title">Where Computer Science sits</h2>
+        <p class="module-sub">
+          These fields have no modules, no completion and no order. Computer Science is
+          one of them, and each keeps sending questions into the others.
+        </p>
+        <div class="fields-grid">
+          @for (field of otherFields; track field.title) {
+            <div class="field-card" [class.field-card-active]="field.isCs">
+              <h3 class="field-title">{{ field.title }}</h3>
+              <p class="field-description">{{ field.description }}</p>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

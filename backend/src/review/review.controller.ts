@@ -23,6 +23,16 @@ export class ReviewController {
     return this.review.getDueQueue(userId);
   }
 
+  @Get('marks')
+  getMarkCounts(@CurrentUserId() userId: number) {
+    return this.review.getMarkCounts(userId);
+  }
+
+  @Get('recent-activity')
+  getRecentActivity(@CurrentUserId() userId: number) {
+    return this.review.getRecentActivity(userId);
+  }
+
   @Post('answer')
   answer(
     @CurrentUserId() userId: number,

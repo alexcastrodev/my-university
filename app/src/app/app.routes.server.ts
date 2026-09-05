@@ -10,6 +10,18 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
+    path: 'computer-science',
+    renderMode: RenderMode.Prerender,
+  },
+  {
+    path: 'computer-science/:module/:discipline',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'computer-science/:module/:discipline/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'java/exams',
     renderMode: RenderMode.Server,
   },
@@ -103,6 +115,10 @@ export const serverRoutes: ServerRoute[] = [
   },
   // Personalized / app-only routes — unchanged Client rendering, listed explicitly so the
   // catch-all below (used to serve a real 404 status) doesn't accidentally start SSR-ing them.
+  {
+    path: 'dashboard',
+    renderMode: RenderMode.Client,
+  },
   {
     path: 'profile',
     renderMode: RenderMode.Client,
