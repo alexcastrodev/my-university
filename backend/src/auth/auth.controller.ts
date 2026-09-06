@@ -118,4 +118,12 @@ export class AuthController {
     setSession(reply, user.id);
     return { id: user.id };
   }
+
+  /** Test-only: wipes every user created via `_test/login`, so a spec run starts from a clean leaderboard. */
+  @Post('_test/reset')
+  async testReset() {
+    if (process.env.NODE_ENV === 'production') throw new NotFoundException();
+    await this.service.deleteTestUsers();
+    return { ok: true };
+  }
 }

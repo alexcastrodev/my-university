@@ -76,6 +76,15 @@ export class AuthService {
     );
   }
 
+  /** Test-only: deletes every user created via `createTestUser`, and their XP/review rows via cascade, so repeated spec runs don't pollute things like the leaderboard. */
+  async deleteTestUsers(): Promise<void> {
+    await this.repo
+      .createQueryBuilder()
+      .delete()
+      .where('githubId LIKE :prefix', { prefix: 'test-%' })
+      .execute();
+  }
+
   /** Dev-only: finds or creates a single stable local account so XP/progress survive across dev logins. */
   async upsertDevUser(): Promise<User> {
     const githubId = 'local-dev';
