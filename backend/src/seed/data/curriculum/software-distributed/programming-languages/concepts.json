@@ -1,1 +1,267 @@
-[]
+[
+  {
+    "slug": "language-implementation-vs-language-features",
+    "id": 1,
+    "title": "Language Implementation vs. Language Features",
+    "topic": "Framing",
+    "requires": [],
+    "related": [
+      { "label": "What Is a Programming Paradigm?", "slug": "what-is-a-programming-paradigm", "feature": "curriculum/algorithms-software/programming-paradigms" }
+    ],
+    "summary": "Programming Paradigms compared what languages let you SAY — OOP vs. functional vs. logic, as features you choose between. This discipline asks a different question: once a language exists on paper, how does a machine actually make a program written in it run?",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "operational-semantics-and-small-step-evaluation",
+    "id": 2,
+    "title": "Operational Semantics and Small-Step Evaluation",
+    "topic": "Formal Semantics",
+    "requires": ["language-implementation-vs-language-features"],
+    "related": [],
+    "summary": "Before building an interpreter, a language needs a precise, on-paper definition of what each expression actually evaluates to — small-step operational semantics gives exactly that, one inference rule at a time, on a language small enough to write every rule down in full.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 3-4 (Untyped Arithmetic Expressions)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-untyped-lambda-calculus",
+    "id": 3,
+    "title": "The Untyped Lambda Calculus",
+    "topic": "The Lambda Calculus",
+    "requires": ["operational-semantics-and-small-step-evaluation"],
+    "related": [],
+    "summary": "Three constructs — a variable, a function, and a function call — turn out to be enough to build every programming language construct that exists; the lambda calculus is that minimal core, stripped of everything else so its evaluation rules can be studied directly.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 5 (The Untyped Lambda-Calculus)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "beta-reduction-and-evaluation-strategies",
+    "id": 4,
+    "title": "Beta Reduction and Evaluation Strategies",
+    "topic": "The Lambda Calculus",
+    "requires": ["the-untyped-lambda-calculus"],
+    "related": [],
+    "summary": "Beta reduction — substituting an argument for a bound variable — is the lambda calculus's one and only computation rule; the real design choice is WHEN to apply it, and call-by-value vs. call-by-name is that choice, made concrete on a term that behaves differently under each.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 5 (The Untyped Lambda-Calculus)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "lambda-calculus-as-a-model-of-computation",
+    "id": 5,
+    "title": "The Lambda Calculus as a Model of Computation",
+    "topic": "The Lambda Calculus",
+    "requires": ["beta-reduction-and-evaluation-strategies"],
+    "related": [
+      { "label": "The Church-Turing Thesis and What \"Computable\" Means", "slug": "the-church-turing-thesis", "feature": "curriculum/algorithms-software/computability-complexity" }
+    ],
+    "summary": "Church encodings show that booleans, numbers, and even recursion can be built from nothing but functions — real evidence for the Church-Turing thesis's claim that the lambda calculus, despite having no built-in data types at all, computes exactly what a Turing machine computes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 5 (The Untyped Lambda-Calculus)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "lexical-analysis-scanning-source-into-tokens",
+    "id": 6,
+    "title": "Lexical Analysis: Scanning Source into Tokens",
+    "topic": "Building an Interpreter",
+    "requires": ["lambda-calculus-as-a-model-of-computation"],
+    "related": [],
+    "summary": "The first step from raw source text to a running program: a scanner walks the character stream once, left to right, and groups characters into tokens — numbers, identifiers, operators — the smallest units a parser is willing to work with.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 4 (Scanning)", "url": "https://craftinginterpreters.com/scanning.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "parsing-expressions-into-an-abstract-syntax-tree",
+    "id": 7,
+    "title": "Parsing Expressions into an Abstract Syntax Tree",
+    "topic": "Building an Interpreter",
+    "requires": ["lexical-analysis-scanning-source-into-tokens"],
+    "related": [
+      { "label": "Context-Free Grammars and Derivations", "slug": "context-free-grammars-and-derivations", "feature": "curriculum/algorithms-software/formal-languages-automata" }
+    ],
+    "summary": "A parser takes the token stream and recovers its grammatical structure — literally applying the context-free grammar derivations already covered, but now building a tree instead of just deciding accept-or-reject.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 5-6 (Representing Code, Parsing Expressions)", "url": "https://craftinginterpreters.com/parsing-expressions.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "evaluating-an-ast-a-tree-walking-interpreter",
+    "id": 8,
+    "title": "Evaluating an AST: A Tree-Walking Interpreter",
+    "topic": "Building an Interpreter",
+    "requires": ["parsing-expressions-into-an-abstract-syntax-tree"],
+    "related": [],
+    "summary": "An `eval` function that recurses over the AST, one node type at a time, is small-step operational semantics made runnable — every evaluation rule written on paper earlier becomes one case of a real function here.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 7 (Evaluating Expressions)", "url": "https://craftinginterpreters.com/evaluating-expressions.html", "type": "doc" },
+      { "label": "Pierce — Types and Programming Languages, Ch. 4 (An ML Implementation of Arithmetic Expressions)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "environments-and-variable-scope",
+    "id": 9,
+    "title": "Environments and Variable Scope",
+    "topic": "Building an Interpreter",
+    "requires": ["evaluating-an-ast-a-tree-walking-interpreter"],
+    "related": [],
+    "summary": "A variable name is not the value it holds — an environment is the runtime data structure (a chain of mappings) that actually connects the two, and lexical vs. dynamic scope is a real design choice about which environment a variable resolves against.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 8 (Statements and State)", "url": "https://craftinginterpreters.com/statements-and-state.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "implementing-closures-the-environment-that-outlives-its-frame",
+    "id": 10,
+    "title": "Implementing Closures: The Environment That Outlives Its Frame",
+    "topic": "Building an Interpreter",
+    "requires": ["environments-and-variable-scope"],
+    "related": [
+      { "label": "Closures", "slug": "closures", "feature": "curriculum/algorithms-software/programming-paradigms" }
+    ],
+    "summary": "Closures were already shown as a language FEATURE — a function that keeps working after its enclosing scope returns. Here is the implementation underneath: a function value is a pair of its code and the environment it was created in, kept alive by that pairing alone.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 10 (Functions)", "url": "https://craftinginterpreters.com/functions.html", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "control-flow-and-statements-in-an-interpreter",
+    "id": 11,
+    "title": "Control Flow and Statements in an Interpreter",
+    "topic": "Building an Interpreter",
+    "requires": ["implementing-closures-the-environment-that-outlives-its-frame"],
+    "related": [],
+    "summary": "An `if` or a `while` is not a special magic case for an interpreter — it is one more AST node type whose evaluation rule decides which of its children to evaluate, and how many times, entirely in terms of machinery already built.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 9 (Control Flow)", "url": "https://craftinginterpreters.com/control-flow.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "functions-and-the-call-stack-at-runtime",
+    "id": 12,
+    "title": "Functions and the Call Stack at Runtime",
+    "topic": "Runtime Systems",
+    "requires": ["control-flow-and-statements-in-an-interpreter"],
+    "related": [
+      { "label": "Stack Frames: Prologue and Epilogue", "slug": "stack-frames-prologue-and-epilogue", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "The interpreter's own call stack (tree-walk recursion calling itself for a function call) and the real hardware call stack already covered are the same idea at two different levels: one frame per active call, torn down on return either way.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Ch. 10 (Functions)", "url": "https://craftinginterpreters.com/functions.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "static-vs-dynamic-typing",
+    "id": 13,
+    "title": "Static vs. Dynamic Typing",
+    "topic": "Type Systems",
+    "requires": ["functions-and-the-call-stack-at-runtime"],
+    "related": [],
+    "summary": "A static type system rejects some programs before they ever run; a dynamic one only discovers a type error the moment it happens at runtime — the same tradeoff (caught early vs. more flexible) that shows up in every real language's design.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 1 (Introduction)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "type-checking-progress-and-preservation",
+    "id": 14,
+    "title": "Type Checking: Progress and Preservation",
+    "topic": "Type Systems",
+    "requires": ["static-vs-dynamic-typing"],
+    "related": [],
+    "summary": "\"Well-typed programs don't go wrong\" is not a slogan — it is exactly two provable properties: progress (a well-typed term is either done or can still take a step) and preservation (taking a step never changes a term's type).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 8-9 (Typed Arithmetic Expressions, Simply Typed Lambda-Calculus)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-simply-typed-lambda-calculus",
+    "id": 15,
+    "title": "The Simply Typed Lambda Calculus",
+    "topic": "Type Systems",
+    "requires": ["type-checking-progress-and-preservation"],
+    "related": [],
+    "summary": "Adding one typing rule per lambda-calculus construct turns the untyped calculus into a small, real type system — a typing judgment written directly under a function, checked against a context, exactly like the progress/preservation properties it's designed to satisfy.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 9 (Simply Typed Lambda-Calculus)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "Stanford CS242 — Programming Languages", "url": "https://web.stanford.edu/class/cs242/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "type-inference-and-the-need-for-unification",
+    "id": 16,
+    "title": "Type Inference and the Need for Unification",
+    "topic": "Type Systems",
+    "requires": ["the-simply-typed-lambda-calculus"],
+    "related": [],
+    "summary": "Writing every type annotation by hand gets tedious fast — type inference recovers the same typing judgments without them, by generating constraints between unknown types and solving those constraints by unification.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Pierce — Types and Programming Languages, Ch. 22 (Type Reconstruction)", "url": "https://www.cis.upenn.edu/~bcpierce/tapl/contents.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "automatic-memory-management-reference-counting-and-tracing-gc",
+    "id": 17,
+    "title": "Automatic Memory Management: Reference Counting and Tracing GC",
+    "topic": "Runtime Systems",
+    "requires": ["type-inference-and-the-need-for-unification"],
+    "related": [
+      { "label": "The Heap and Dynamic Allocation", "slug": "the-heap-and-dynamic-allocation", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "Common Memory Bugs: Leaks and Dangling Pointers", "slug": "common-memory-bugs-leaks-and-dangling-pointers", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "Manual heap management already showed exactly how a leak or a dangling pointer happens — a language runtime with automatic memory management exists specifically to make that entire bug class structurally impossible, at the cost of runtime work a C program never pays.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" },
+      { "label": "Nystrom — Crafting Interpreters, Ch. 26 (Garbage Collection)", "url": "https://craftinginterpreters.com/garbage-collection.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-assembling-a-complete-tree-walking-interpreter",
+    "id": 18,
+    "title": "Capstone: Assembling a Complete Tree-Walking Interpreter",
+    "topic": "Capstone",
+    "requires": ["automatic-memory-management-reference-counting-and-tracing-gc"],
+    "related": [],
+    "summary": "Every piece built in this discipline — scanner, parser, AST, environment, closures, control flow, a type checker — wired together into one small, working interpreter, mirroring how the CPU discipline's own capstone assembled gates and a datapath into a working machine.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nystrom — Crafting Interpreters, Part II (A Tree-Walk Interpreter)", "url": "https://craftinginterpreters.com/a-tree-walk-interpreter.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  }
+]
