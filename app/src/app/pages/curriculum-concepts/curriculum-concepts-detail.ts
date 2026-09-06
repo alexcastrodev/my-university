@@ -5,6 +5,7 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { CurriculumConceptView } from '../../components/curriculum-concept-view/curriculum-concept-view';
 import { CurriculumConceptDetail, CurriculumConceptSummary } from '../../models/curriculum-concept.model';
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
+import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -20,6 +21,7 @@ import { CURRICULUM } from '../computer-science/curriculum.data';
 export class CurriculumConceptsDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private curriculumConceptsService = inject(CurriculumConceptsService);
+  private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
 
@@ -35,6 +37,11 @@ export class CurriculumConceptsDetailPage implements OnInit {
   protected readonly basePath = computed(
     () => `/computer-science/${this.moduleSignal()}/${this.disciplineSignal()}`,
   );
+  showFallbackNotice = computed(() => {
+    const concept = this.concept();
+    return concept != null && concept.language !== this.languageService.language;
+  });
+
   protected readonly disciplineTitle = computed(() => {
     const mod = CURRICULUM.find((m) => m.slug === this.moduleSignal());
     const disc =

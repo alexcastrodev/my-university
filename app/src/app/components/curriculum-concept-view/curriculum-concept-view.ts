@@ -31,6 +31,7 @@ export class CurriculumConceptView implements OnChanges {
   marking = input<boolean>(false);
   breadcrumbs = input<BreadcrumbItem[]>([]);
   basePath = input.required<string>();
+  fallbackNotice = input<boolean>(false);
   markRead = output<void>();
 
   private sanitizer = inject(DomSanitizer);
