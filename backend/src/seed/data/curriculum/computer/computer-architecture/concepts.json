@@ -1,1 +1,336 @@
-[]
+[
+  {
+    "slug": "cpu-performance-and-the-iron-law-of-performance",
+    "id": 1,
+    "title": "CPU Performance and the Iron Law",
+    "topic": "Performance Fundamentals",
+    "requires": [],
+    "related": [
+      { "label": "The Fetch-Decode-Execute Cycle", "slug": "the-fetch-decode-execute-cycle", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "CPU time = Instruction Count × CPI × Clock Cycle Time — the \"Iron Law\" of processor performance, splitting speed into three independently movable levers (the ISA/compiler, the microarchitecture, and the silicon) that every design decision in this discipline trades off against.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Cornell CS3410 — Pipelining & Performance Notes", "url": "https://www.cs.cornell.edu/courses/cs3410/2025sp/notes/pipelining.html", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "why-pipeline-latency-vs-throughput",
+    "id": 2,
+    "title": "Why Pipeline: Latency vs. Throughput",
+    "topic": "Pipelining",
+    "requires": ["cpu-performance-and-the-iron-law-of-performance"],
+    "related": [
+      { "label": "Assembling a Complete Single-Cycle CPU", "slug": "assembling-a-complete-single-cycle-cpu", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "The single-cycle CPU already built in Digital Logic & Computer Organization is correct but wasteful — every instruction's clock cycle must be as long as the slowest instruction ever needs. Pipelining overlaps instructions in flight, trading a longer per-instruction latency for a dramatically higher throughput.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Pipelining the Beta", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c15/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-5-stage-risc-pipeline",
+    "id": 3,
+    "title": "The 5-Stage RISC Pipeline: IF-ID-EX-MEM-WB",
+    "topic": "Pipelining",
+    "requires": ["why-pipeline-latency-vs-throughput"],
+    "related": [
+      { "label": "The Datapath: Registers, ALU, and Buses", "slug": "the-datapath-registers-alu-and-buses", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "Splitting the single-cycle datapath at five natural points — Fetch, Decode, Execute, Memory, Write-Back — with a pipeline register latching state between each stage, so five different instructions can occupy the five stages simultaneously, one cycle apart.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "MIT 6.004 — Pipelining the Beta", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c15/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "structural-hazards",
+    "id": 4,
+    "title": "Structural Hazards",
+    "topic": "Pipelining",
+    "requires": ["the-5-stage-risc-pipeline"],
+    "related": [],
+    "summary": "Two instructions in different stages want the same physical resource in the same cycle — classically, one instruction's Fetch and another's Memory access both wanting the one memory port — resolved in real designs by giving instructions and data their own separate caches.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "Berkeley CS61C — Great Ideas in Computer Architecture", "url": "https://cs61c.org/fa26/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "data-hazards-and-forwarding",
+    "id": 5,
+    "title": "Data Hazards and Forwarding",
+    "topic": "Pipelining",
+    "requires": ["structural-hazards"],
+    "related": [],
+    "summary": "A register written by one instruction is read by the very next one before the write has actually reached the register file — a read-after-write hazard fixed not by waiting, but by forwarding the not-yet-written-back result directly into the dependent instruction's ALU input.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-load-use-hazard-and-pipeline-stalls",
+    "id": 6,
+    "title": "The Load-Use Hazard and Pipeline Stalls",
+    "topic": "Pipelining",
+    "requires": ["data-hazards-and-forwarding"],
+    "related": [],
+    "summary": "One data hazard forwarding cannot fully erase: a load's value isn't available until after the Memory stage, so an immediately-dependent instruction still needs one bubble cycle — a stall that a smart compiler can often hide entirely by reordering independent instructions into that gap.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "control-hazards-and-branch-penalties",
+    "id": 7,
+    "title": "Control Hazards and Branch Penalties",
+    "topic": "Pipelining",
+    "requires": ["the-load-use-hazard-and-pipeline-stalls"],
+    "related": [
+      { "label": "Instruction Formats and Addressing Modes", "slug": "instruction-formats-and-addressing-modes", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "A branch's taken/not-taken outcome isn't known until well after the next instructions have already been fetched — naively flushing the pipeline on every branch costs real, quantifiable cycles, and is the exact problem branch prediction exists to reduce.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "MIT 6.004 — Pipelining the Beta", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c15/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "branch-prediction",
+    "id": 8,
+    "title": "Branch Prediction",
+    "topic": "Performance Enhancements",
+    "requires": ["control-hazards-and-branch-penalties"],
+    "related": [],
+    "summary": "Guessing a branch's outcome before it's known — static prediction (always/backward-taken), and dynamic prediction with a branch history table of 1-bit or 2-bit saturating counters — turns most branch penalties into the common case of a correct guess instead of a guaranteed stall.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Berkeley CS61C — Great Ideas in Computer Architecture", "url": "https://cs61c.org/fa26/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "speculative-and-out-of-order-execution",
+    "id": 9,
+    "title": "Speculative and Out-of-Order Execution",
+    "topic": "Performance Enhancements",
+    "requires": ["branch-prediction"],
+    "related": [],
+    "summary": "Executing past a predicted branch before its outcome is confirmed, and letting independent instructions issue out of program order around one that's stalled — covered here only at the concept level (what problem it solves and what a misprediction rollback costs), with the full mechanics (reorder buffers, Tomasulo-style scheduling) left to a more advanced course.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-memory-hierarchy-and-locality",
+    "id": 10,
+    "title": "The Memory Hierarchy and Locality",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["speculative-and-out-of-order-execution"],
+    "related": [
+      { "label": "RAM Organization and Address Decoding", "slug": "ram-organization-and-address-decoding", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "A pyramid of storage technologies — registers, on-chip cache, main memory, disk — trading capacity for speed at every level; temporal and spatial locality are the empirical properties of real programs that let a small, fast cache behave, most of the time, as if all of memory were that fast.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cache-organization-blocks-and-mapping",
+    "id": 11,
+    "title": "Cache Organization: Blocks, Tags, and Direct Mapping",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["the-memory-hierarchy-and-locality"],
+    "related": [],
+    "summary": "An address splits into a tag, an index, and a block offset; a direct-mapped cache uses the index to pick exactly one slot per address and the tag to check whether the resident block is actually the one being asked for.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "set-associative-and-fully-associative-caches",
+    "id": 12,
+    "title": "Set-Associative and Fully Associative Caches",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["cache-organization-blocks-and-mapping"],
+    "related": [],
+    "summary": "Relaxing direct mapping's one-slot-per-address rigidity to N possible slots (\"ways\") per set trades extra comparison hardware for far fewer conflict misses; a fully associative cache is the limiting case of one giant set with every line a candidate.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cache-replacement-policies",
+    "id": 13,
+    "title": "Cache Replacement Policies",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["set-associative-and-fully-associative-caches"],
+    "related": [],
+    "summary": "When a set is full and a new block must be brought in, something has to be evicted — least-recently-used (and its cheaper hardware approximations), FIFO, and random are the real policies in use, each a different bet on which resident line is least likely to be reused soon.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "write-policies-write-through-and-write-back",
+    "id": 14,
+    "title": "Write Policies: Write-Through and Write-Back",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["cache-replacement-policies"],
+    "related": [],
+    "summary": "A write can either update main memory immediately every time (write-through) or only mark the line dirty and defer the update until it's evicted (write-back) — paired with write-allocate/no-write-allocate for what happens on a write miss; this exact dirty-line bookkeeping is what a multicore coherence protocol later has to generalize across several caches at once.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "average-memory-access-time-and-multilevel-caches",
+    "id": 15,
+    "title": "Average Memory Access Time and Multilevel Caches",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["write-policies-write-through-and-write-back"],
+    "related": [],
+    "summary": "AMAT = Hit Time + Miss Rate × Miss Penalty, applied recursively across a real L1/L2/L3/DRAM hierarchy with representative latency numbers — the single formula this whole cluster has been building toward, and the one CS2013 names directly as a required computational skill.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cache-friendly-code-and-locality-in-practice",
+    "id": 16,
+    "title": "Cache-Friendly Code and Locality in Practice",
+    "topic": "Memory Hierarchy & Cache",
+    "requires": ["average-memory-access-time-and-multilevel-caches"],
+    "related": [
+      { "label": "Static Arrays and Random Access", "slug": "static-arrays-and-random-access", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Row-major traversal order and cache blocking (tiling) turn everything in this cluster into a measurable, real-world effect: the same algorithm, the same asymptotic complexity, and a dramatically different wall-clock time depending only on the order memory is touched.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "CMU 15-213 — Cache Memories Lecture", "url": "http://www.cs.cmu.edu/afs/cs/academic/class/15213-s14/www/lectures/11-cache-memories.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "why-multicore-the-power-wall",
+    "id": 17,
+    "title": "Why Multicore: The Power Wall and the End of Free Frequency Scaling",
+    "topic": "Multicore & Cache Coherence",
+    "requires": ["cache-friendly-code-and-locality-in-practice", "cpu-performance-and-the-iron-law-of-performance"],
+    "related": [],
+    "summary": "Around 2004-2005, chipmakers hit a real physical wall: Pollack's Rule (performance scales only with the square root of added logic, while power scales linearly with it) made single-core designs increasingly power-inefficient, prompting the industry-wide pivot to multiple simpler cores — the historical turn Herb Sutter named \"the free lunch is over\" for software.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Herb Sutter — The Free Lunch Is Over", "url": "http://www.gotw.ca/publications/concurrency-ddj.htm", "type": "doc" },
+      { "label": "Cambridge ACS — Performance Prediction: Pollack's Rule", "url": "https://www.cl.cam.ac.uk/research/srg/han/ACS-P35/obj-5.1/zhp3123b9dbe.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multicore-architectures-and-shared-memory",
+    "id": 18,
+    "title": "Multicore Architectures and Shared Memory",
+    "topic": "Multicore & Cache Coherence",
+    "requires": ["why-multicore-the-power-wall"],
+    "related": [],
+    "summary": "A typical multicore chip gives each core its own private L1 (and often L2) cache but shares one L3 and one main memory across all of them — a layout that immediately raises a new correctness question this discipline hasn't had to face yet: what happens when two cores cache the same line?",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "CMU 15-418 — Snooping Cache Coherence Lecture", "url": "https://www.cs.cmu.edu/afs/cs/academic/class/15418-s12/www/lectures/11_coherence2.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cache-coherence-and-the-mesi-protocol",
+    "id": 19,
+    "title": "Cache Coherence and the MESI Protocol",
+    "topic": "Multicore & Cache Coherence",
+    "requires": ["multicore-architectures-and-shared-memory", "write-policies-write-through-and-write-back"],
+    "related": [],
+    "summary": "The coherence problem, precisely stated: every core must eventually observe every write to a shared line, in some consistent order. MESI's four per-line states — Modified, Exclusive, Shared, Invalid — and the snooped bus messages between them are the standard protocol real multicore chips use to guarantee exactly that.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "CMU 15-418 — Snooping Cache Coherence Lecture", "url": "https://www.cs.cmu.edu/afs/cs/academic/class/15418-s12/www/lectures/11_coherence2.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "false-sharing",
+    "id": 20,
+    "title": "False Sharing",
+    "topic": "Multicore & Cache Coherence",
+    "requires": ["cache-coherence-and-the-mesi-protocol"],
+    "related": [],
+    "summary": "Two threads touching two completely unrelated variables can still fight over the same cache line if those variables happen to land in it — MESI keeps the data correct, but the line ping-pongs Modified/Invalid between cores on every access, turning a correctness protocol into a real, measurable performance bug.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "CoffeeBeforeArch — Performance Implications of False Sharing", "url": "https://coffeebeforearch.github.io/2019/12/28/false-sharing-tutorial.html", "type": "doc" },
+      { "label": "CMU 15-418 — Snooping Cache Coherence Lecture", "url": "https://www.cs.cmu.edu/afs/cs/academic/class/15418-s12/www/lectures/11_coherence2.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "flynns-taxonomy-and-simd",
+    "id": 21,
+    "title": "Flynn's Taxonomy and SIMD",
+    "topic": "Parallel Architectures: SIMD & GPUs",
+    "requires": ["false-sharing"],
+    "related": [],
+    "summary": "Flynn's classification of machines by instruction and data streams — SISD, SIMD, MISD, MIMD — places the multicore chip just covered squarely in MIMD (many independent instruction streams); SIMD is the different axis this cluster turns to next: one instruction stream driving many data lanes at once.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gpu-architecture-and-the-simt-execution-model",
+    "id": 22,
+    "title": "GPU Architecture and the SIMT Execution Model",
+    "topic": "Parallel Architectures: SIMD & GPUs",
+    "requires": ["flynns-taxonomy-and-simd"],
+    "related": [],
+    "summary": "A GPU packs thousands of simple lanes into streaming multiprocessors, executing groups of 32 threads (a warp) in lockstep under SIMT — SIMD's more flexible cousin, which lets individual threads take different branches at the cost of serializing the divergent paths. Scoped to the hardware execution model only; the CUDA/OpenCL programming model belongs to `systems/parallel-computing`.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "NVIDIA CUDA Programming Guide — Advanced Kernel Programming (SIMT/Warps)", "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/03-advanced/advanced-kernel-programming.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-the-memory-and-power-walls-a-history-of-tradeoffs",
+    "id": 23,
+    "title": "Capstone: The Memory and Power Walls — A History of Tradeoffs",
+    "topic": "Putting It Together",
+    "requires": ["gpu-architecture-and-the-simt-execution-model", "speculative-and-out-of-order-execution"],
+    "related": [],
+    "summary": "Three real historical walls, tied together: the ILP wall (speculation and out-of-order issue ran out of independent work to exploit), the memory wall (AMAT increasingly dominated by DRAM latency no cache level fully hides), and the power wall (Pollack's Rule) — the same three forces that ended the single-core \"free lunch\" and made pipelining depth, cache hierarchy, multicore, and SIMD/GPU architecture the four real answers this discipline covered, in the order it covered them.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Herb Sutter — The Free Lunch Is Over", "url": "http://www.gotw.ca/publications/concurrency-ddj.htm", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  }
+]
