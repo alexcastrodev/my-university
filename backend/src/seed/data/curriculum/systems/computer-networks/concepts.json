@@ -1,1 +1,329 @@
-[]
+[
+  {
+    "slug": "network-edge-core-and-packet-switching",
+    "id": 1,
+    "title": "The Network Edge, the Network Core, and Packet Switching",
+    "topic": "Network Foundations",
+    "requires": [],
+    "related": [],
+    "summary": "The Internet as two parts — end systems at the edge running applications, and a mesh of routers and links in the core moving their data — and packet switching, the core's strategy of chopping messages into small units and forwarding each one independently instead of reserving an end-to-end circuit.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Networking and Communication Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "protocol-layering-and-the-internet-stack",
+    "id": 2,
+    "title": "Protocol Layering and the Internet Stack",
+    "topic": "Network Foundations",
+    "requires": ["network-edge-core-and-packet-switching"],
+    "related": [
+      { "label": "Information Hiding and Abstraction", "slug": "information-hiding-and-abstraction", "feature": "curriculum/algorithms-software/software-construction" }
+    ],
+    "summary": "Splitting the impossibly complex job of networking into five layers — application, transport, network, link, physical — each hiding its own machinery behind a fixed service to the layer above, the exact same information-hiding discipline already covered as a software-design principle, now applied to protocol design.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Introduction to Computer Networking", "url": "https://www.scs.stanford.edu/10au-cs144/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "delay-loss-and-throughput-in-packet-switched-networks",
+    "id": 3,
+    "title": "Delay, Loss, and Throughput in Packet-Switched Networks",
+    "topic": "Network Foundations",
+    "requires": ["protocol-layering-and-the-internet-stack"],
+    "related": [],
+    "summary": "Four kinds of delay a packet accumulates at every hop — processing, queuing, transmission, propagation — plus loss from full buffers and throughput as the actual rate data moves, with the bandwidth-delay product giving the real numbers behind why a single slow link anywhere on a path can dominate an entire connection's performance.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Networking and Communication Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-client-server-and-p2p-architectures",
+    "id": 4,
+    "title": "The Client-Server and P2P Application Architectures",
+    "topic": "Application Layer",
+    "requires": ["delay-loss-and-throughput-in-packet-switched-networks"],
+    "related": [],
+    "summary": "Two structural answers to \"who talks to whom\": a client-server architecture with an always-on server all clients address, versus a peer-to-peer architecture where intermittently-connected end systems serve each other directly — a real design choice with real scalability tradeoffs, not just a historical curiosity.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Introduction to Computer Networking", "url": "https://www.scs.stanford.edu/10au-cs144/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "http-and-the-web",
+    "id": 5,
+    "title": "HTTP and the Web",
+    "topic": "Application Layer",
+    "requires": ["the-client-server-and-p2p-architectures"],
+    "related": [],
+    "summary": "HTTP's request-response cycle, its deliberate statelessness (and cookies as the bolted-on workaround), and persistent versus non-persistent connections — the concrete application-layer protocol every worked example later in this discipline traces down through every lower layer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Lecture Schedule (\"Application protocols\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dns-the-internets-directory-service",
+    "id": 6,
+    "title": "DNS: The Internet's Directory Service",
+    "topic": "Application Layer",
+    "requires": ["http-and-the-web"],
+    "related": [],
+    "summary": "A distributed, hierarchical database — root, top-level-domain, and authoritative servers — that translates a human-readable name into the IP address every lower layer actually needs, resolved through a chain of iterative and recursive queries and made fast in practice almost entirely by caching.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"DNS\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "transport-services-udp-vs-tcp",
+    "id": 7,
+    "title": "Transport Services: Multiplexing, UDP, and TCP",
+    "topic": "Transport Layer",
+    "requires": ["dns-the-internets-directory-service"],
+    "related": [],
+    "summary": "The transport layer's job is process-to-process delivery on top of the network layer's host-to-host delivery — multiplexing/demultiplexing via port numbers, and a real choice between UDP (bare-minimum, no guarantees) and TCP (reliable, ordered, congestion-controlled), with real applications on each side of that choice.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Lecture Schedule (\"Transport & reliability\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "reliable-data-transfer-principles",
+    "id": 8,
+    "title": "Reliable Data Transfer Principles",
+    "topic": "Transport Layer",
+    "requires": ["transport-services-udp-vs-tcp"],
+    "related": [],
+    "summary": "Building reliability on top of an unreliable channel from first principles — acknowledgments, sequence numbers, timers, and retransmission — then pipelining multiple in-flight packets for throughput, with Go-Back-N and Selective Repeat as the two real strategies for what a receiver does when packets arrive out of order.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tcp-segment-structure-and-the-three-way-handshake",
+    "id": 9,
+    "title": "TCP Segment Structure and the Three-Way Handshake",
+    "topic": "Transport Layer",
+    "requires": ["reliable-data-transfer-principles"],
+    "related": [],
+    "summary": "TCP's real segment header (sequence and acknowledgment numbers, SYN/ACK/FIN flags, window size), and the three-way handshake — SYN, SYN-ACK, ACK — that establishes a connection's initial sequence numbers before a single byte of application data moves.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"TCP & Congestion control\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tcp-reliable-data-transfer-in-practice",
+    "id": 10,
+    "title": "TCP Reliable Data Transfer in Practice",
+    "topic": "Transport Layer",
+    "requires": ["tcp-segment-structure-and-the-three-way-handshake"],
+    "related": [],
+    "summary": "How the general reliable-data-transfer principles become TCP's actual mechanism: cumulative acknowledgments, fast retransmit on triple duplicate ACKs, and adaptive timeout computed from a running estimate of round-trip time — real formulas, not just the concept of \"retransmit if it's late\".",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tcp-flow-control-the-sliding-window",
+    "id": 11,
+    "title": "TCP Flow Control: The Sliding Window",
+    "topic": "Transport Layer",
+    "requires": ["tcp-reliable-data-transfer-in-practice"],
+    "related": [],
+    "summary": "Flow control protects a slow receiver from a fast sender — the receiver advertises how much free buffer space it has, and the sender's window shrinks or grows to match, a distinct concern from congestion control (which protects the network, not the receiver) even though both use the word \"window\".",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tcp-congestion-control-aimd-slow-start-and-fairness",
+    "id": 12,
+    "title": "TCP Congestion Control: AIMD, Slow Start, and Fairness",
+    "topic": "Transport Layer",
+    "requires": ["tcp-flow-control-the-sliding-window"],
+    "related": [],
+    "summary": "TCP treats the network itself as fragile and infers congestion from loss — slow start grows the congestion window exponentially until a loss event, then additive-increase/multiplicative-decrease (AIMD) probes gently and backs off hard, a real cwnd-over-time sawtooth traced across several round trips, and the reason independently-run TCP connections converge toward sharing a bottleneck link fairly.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"TCP & Congestion control\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-network-layer-data-vs-control-plane",
+    "id": 13,
+    "title": "The Network Layer: Data Plane vs. Control Plane",
+    "topic": "Network Layer",
+    "requires": ["tcp-congestion-control-aimd-slow-start-and-fairness"],
+    "related": [],
+    "summary": "Forwarding (the data plane: a router's per-packet, local decision of which outgoing link to use, made in nanoseconds by consulting a table) is a fundamentally different job from routing (the control plane: the network-wide, much slower algorithm that computes what that table should contain) — a distinction every following concept in this cluster depends on keeping straight.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Networking and Communication Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ipv4-addressing-and-cidr",
+    "id": 14,
+    "title": "IPv4 Addressing and CIDR",
+    "topic": "Network Layer",
+    "requires": ["the-network-layer-data-vs-control-plane"],
+    "related": [],
+    "summary": "A 32-bit address split into a network prefix and a host suffix, with CIDR notation (e.g. 128.11.3.0/24) replacing the old rigid class-based scheme with an arbitrary-length prefix — worked subnetting arithmetic showing exactly how many usable host addresses a given prefix length leaves, and why address space had to be rationed this carefully before IPv6.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Lecture Schedule (\"IP and Forwarding\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "datagram-forwarding-and-longest-prefix-match",
+    "id": 15,
+    "title": "Datagram Forwarding and Longest-Prefix Match",
+    "topic": "Network Layer",
+    "requires": ["ipv4-addressing-and-cidr"],
+    "related": [],
+    "summary": "A router forwards a packet by finding, among every prefix in its table, the longest one that matches the destination address — worked by hand against a small concrete forwarding table — the rule that lets one entry cover millions of addresses while a more specific entry still takes precedence when it applies.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"IP and Forwarding\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "nat-and-address-translation",
+    "id": 16,
+    "title": "NAT and Network Address Translation",
+    "topic": "Network Layer",
+    "requires": ["datagram-forwarding-and-longest-prefix-match"],
+    "related": [],
+    "summary": "A NAT router rewrites every outgoing packet's private source address and port into its own single public address and a fresh port, keeping a translation table to route replies back to the right internal host — a pragmatic, widely-deployed fix for address scarcity that also, honestly, breaks the end-to-end principle the Internet was originally designed around.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"DCCP & NAT\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "routing-algorithms-link-state-vs-distance-vector",
+    "id": 17,
+    "title": "Routing Algorithms: Link-State vs. Distance-Vector",
+    "topic": "Network Layer",
+    "requires": ["nat-and-address-translation"],
+    "related": [
+      { "label": "Dijkstra's Algorithm", "slug": "dijkstras-algorithm", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "The Bellman-Ford Algorithm", "slug": "bellman-ford-algorithm", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "The two families of routing algorithm are not new graph theory — link-state routing runs Dijkstra's algorithm, already covered in full, over a globally-known topology graph, while distance-vector routing runs the Bellman-Ford algorithm, also already covered, with each router knowing only its neighbors' costs; distance-vector's real, honest weakness is the count-to-infinity problem when a link fails.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"Routing 1\", \"Routing 2\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "intra-vs-inter-domain-routing-ospf-and-bgp",
+    "id": 18,
+    "title": "Intra- vs. Inter-Domain Routing: OSPF and BGP",
+    "topic": "Network Layer",
+    "requires": ["routing-algorithms-link-state-vs-distance-vector"],
+    "related": [],
+    "summary": "The Internet is not one flat routing domain but thousands of independently-administered autonomous systems — OSPF (link-state) runs the routing algorithm already covered inside one AS, while BGP (path-vector, a policy-driven cousin of distance-vector) glues autonomous systems together at the Internet's actual scale, where routing decisions are as much about business agreements as about shortest paths.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Networking and Communication Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-link-layer-framing-and-error-detection",
+    "id": 19,
+    "title": "The Link Layer: Framing and Error Detection",
+    "topic": "Link & Physical Layer",
+    "requires": ["intra-vs-inter-domain-routing-ospf-and-bgp"],
+    "related": [],
+    "summary": "One hop below the network layer, the link layer moves a frame across a single physical link — framing marks where one frame ends and the next begins, and a checksum (a cyclic redundancy check, in practice) lets the receiver detect, though not always correct, bit errors introduced by real, noisy physical media.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"Physical and Link layers\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multiple-access-protocols-and-ethernet",
+    "id": 20,
+    "title": "Multiple Access Protocols and Ethernet",
+    "topic": "Link & Physical Layer",
+    "requires": ["the-link-layer-framing-and-error-detection"],
+    "related": [],
+    "summary": "When many hosts share one physical medium, something has to decide who transmits when — CSMA/CD (carrier sense, collision detection, exponential random backoff) is classic Ethernet's answer, and a switch's ability to isolate each link into its own collision domain is the real reason modern switched Ethernet barely needs it anymore.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Lecture Schedule (\"Physical and Link layers\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "arp-and-address-resolution",
+    "id": 21,
+    "title": "ARP and Address Resolution",
+    "topic": "Link & Physical Layer",
+    "requires": ["multiple-access-protocols-and-ethernet"],
+    "related": [
+      { "label": "Hashing and Hash Functions", "slug": "hashing-and-hash-functions", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "IP addresses route a packet across networks, but a link-layer frame needs the destination's MAC address for this one hop — ARP resolves one into the other by broadcasting a query and caching the answer, and that cache is, mechanically, exactly the hash table already covered: IP address as key, MAC address as value, with a real timeout instead of an eviction policy.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "wireless-and-mobile-networking-basics",
+    "id": 22,
+    "title": "Wireless and Mobile Networking Basics",
+    "topic": "Link & Physical Layer",
+    "requires": ["arp-and-address-resolution"],
+    "related": [],
+    "summary": "Wireless breaks a quiet assumption of wired Ethernet — that every node can hear every collision — so CSMA/CA (collision avoidance, not detection) and the hidden-terminal problem replace CSMA/CD, and mobility adds the further question of how a moving host keeps its connections alive as it hands off between access points.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS144 — Lecture Schedule (\"Wireless\")", "url": "https://www.scs.stanford.edu/10au-cs144/sched/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Networking and Communication Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-one-http-request-end-to-end",
+    "id": 23,
+    "title": "Capstone: Tracing One HTTP Request End-to-End",
+    "topic": "Capstone",
+    "requires": ["wireless-and-mobile-networking-basics"],
+    "related": [
+      { "label": "Capstone: Tracing a TLS Handshake", "slug": "capstone-tracing-a-tls-handshake", "feature": "curriculum/software-distributed/security-cryptography" }
+    ],
+    "summary": "One `GET` request, typed into a browser, walked down through every layer this discipline covered and back up again — DNS resolution, TCP's three-way handshake, HTTP's request/response, IP forwarding hop by hop guided by routing's precomputed tables, ARP resolving the final hop, and framing/error-detection on the wire — naming, at each step, exactly which concept explains it, and closing with an honest scope boundary against `distributed-systems-i`.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)", "url": "https://gaia.cs.umass.edu/kurose_ross/index.php", "type": "doc" },
+      { "label": "Stanford CS144 — Introduction to Computer Networking", "url": "https://www.scs.stanford.edu/10au-cs144/", "type": "doc" }
+    ]
+  }
+]
