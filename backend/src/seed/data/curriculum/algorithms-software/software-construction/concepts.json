@@ -1,1 +1,288 @@
-[]
+[
+  {
+    "slug": "safe-easy-ready-a-framework-for-good-code",
+    "id": 1,
+    "title": "Safe, Easy, Ready: A Framework for Good Code",
+    "topic": "Design Goals",
+    "requires": [],
+    "related": [],
+    "summary": "MIT's own organizing objective for teaching software construction — safe from bugs, easy to understand, ready for change — three lenses this entire discipline keeps returning to.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 — General Info & FAQ (SFB/ETU/RFC objective)", "url": "https://web.mit.edu/6.031/www/sp17/general/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "specifications-preconditions-and-postconditions",
+    "id": 2,
+    "title": "Specifications: Preconditions and Postconditions",
+    "topic": "Design Goals",
+    "requires": ["safe-easy-ready-a-framework-for-good-code"],
+    "related": [],
+    "summary": "Writing down precisely what a function promises to its caller — what it requires to be true going in (precondition) and what it guarantees coming out (postcondition) — before a single line of its body is written.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "information-hiding-and-abstraction",
+    "id": 3,
+    "title": "Information Hiding and Abstraction",
+    "topic": "Modularity & Design",
+    "requires": ["specifications-preconditions-and-postconditions"],
+    "related": [
+      { "label": "What Is an Abstract Data Type?", "slug": "what-is-an-abstract-data-type", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "The design-level reason an ADT's interface is kept separate from its implementation — hiding a decision a caller doesn't need lets that decision change later without breaking anyone who depends on it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "coupling-and-cohesion",
+    "id": 4,
+    "title": "Coupling and Cohesion",
+    "topic": "Modularity & Design",
+    "requires": ["information-hiding-and-abstraction"],
+    "related": [],
+    "summary": "Two dials that measure a module's design quality — how tightly it depends on other modules (coupling, want it low) and how tightly its own responsibilities belong together (cohesion, want it high).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "design-patterns-an-introduction",
+    "id": 5,
+    "title": "Design Patterns: An Introduction",
+    "topic": "Modularity & Design",
+    "requires": ["coupling-and-cohesion"],
+    "related": [],
+    "summary": "Named, reusable solutions to problems that recur across many different programs — a shared vocabulary for design decisions, not a library to import.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "software-architecture-styles",
+    "id": 6,
+    "title": "Software Architecture Styles",
+    "topic": "Modularity & Design",
+    "requires": ["design-patterns-an-introduction"],
+    "related": [],
+    "summary": "Zooming out from a single module's design to a whole system's shape — client-server and layered (n-tier) architecture as the two most common styles worth recognizing by name and by trade-off.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-solid-principles",
+    "id": 7,
+    "title": "The SOLID Principles",
+    "topic": "Design Principles",
+    "requires": ["coupling-and-cohesion"],
+    "related": [],
+    "summary": "Five widely-adopted design guidelines, first articulated by Robert C. Martin, aimed directly at keeping coupling low and cohesion high in object-oriented designs specifically.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Texas A&M CSCE 315 — SOLID Principles Lecture Slides", "url": "https://people.engr.tamu.edu/choe/choe/courses/14summer/315/lectures/slide23.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "unit-integration-and-system-testing",
+    "id": 8,
+    "title": "Unit, Integration, and System Testing",
+    "topic": "Testing Strategy",
+    "requires": ["specifications-preconditions-and-postconditions"],
+    "related": [
+      { "label": "Testing and Debugging", "slug": "testing-and-debugging", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Writing a test case for one function in isolation is only the smallest of three levels — integration testing checks that modules work together, and system testing checks the whole assembled program.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "black-box-and-white-box-testing",
+    "id": 9,
+    "title": "Black-Box and White-Box Testing",
+    "topic": "Testing Strategy",
+    "requires": ["unit-integration-and-system-testing"],
+    "related": [],
+    "summary": "Designing test cases from a specification alone, with no look at the implementation (black-box), versus designing them to exercise specific paths through the actual code (white-box) — two different, complementary sources of test cases.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "test-coverage",
+    "id": 10,
+    "title": "Test Coverage",
+    "topic": "Testing Strategy",
+    "requires": ["black-box-and-white-box-testing"],
+    "related": [],
+    "summary": "A measurable answer to \"how much of my code did my tests actually exercise?\" — and why 100% coverage is a floor for confidence, not a ceiling proving the code is correct.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "test-driven-development",
+    "id": 11,
+    "title": "Test-Driven Development",
+    "topic": "Testing Strategy",
+    "requires": ["test-coverage"],
+    "related": [],
+    "summary": "Writing a failing test before the code that makes it pass — a discipline that turns \"did I test this?\" from an afterthought into the very thing that drives what gets written next.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "systematic-debugging",
+    "id": 12,
+    "title": "Systematic Debugging",
+    "topic": "Debugging & Tools",
+    "requires": ["unit-integration-and-system-testing"],
+    "related": [
+      { "label": "Testing and Debugging", "slug": "testing-and-debugging", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Going beyond the basic isolate-and-fix process already covered — reliably reproducing a bug first, then bisecting the problem space in half repeatedly, the same divide-and-conquer idea applied to finding a fault instead of sorting a list.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" },
+      { "label": "The Missing Semester of Your CS Education (MIT)", "url": "https://missing.csail.mit.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "version-control-with-git",
+    "id": 13,
+    "title": "Version Control with Git",
+    "topic": "Debugging & Tools",
+    "requires": [],
+    "related": [],
+    "summary": "Tracking every change to a codebase as a sequence of commits, branching to work on something without disturbing the main line of development, and merging that work back in — the tool that makes collaborative software construction possible at all.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "The Missing Semester of Your CS Education (MIT)", "url": "https://missing.csail.mit.edu/", "type": "doc" },
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "branching-and-merging-strategies",
+    "id": 14,
+    "title": "Branching and Merging Strategies",
+    "topic": "Debugging & Tools",
+    "requires": ["version-control-with-git"],
+    "related": [],
+    "summary": "Beyond the mechanics of a single branch and merge — real conventions (feature branches, a shared main line kept always working) that keep a team's history readable instead of a tangle of conflicting changes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "The Missing Semester of Your CS Education (MIT)", "url": "https://missing.csail.mit.edu/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "commit-hygiene",
+    "id": 15,
+    "title": "Commit Hygiene",
+    "topic": "Debugging & Tools",
+    "requires": ["branching-and-merging-strategies"],
+    "related": [],
+    "summary": "A commit is a unit of communication, not just a save point — small, focused commits with a clear message make a project's history something a future reader (often yourself) can actually use.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "The Missing Semester of Your CS Education (MIT)", "url": "https://missing.csail.mit.edu/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "code-review",
+    "id": 16,
+    "title": "Code Review",
+    "topic": "Debugging & Tools",
+    "requires": ["commit-hygiene"],
+    "related": [],
+    "summary": "Having another person read a change before it's merged — catching bugs, design problems, and unclear code a lone author stops being able to see in their own work.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "refactoring",
+    "id": 17,
+    "title": "Refactoring",
+    "topic": "Change & Evolution",
+    "requires": ["coupling-and-cohesion", "unit-integration-and-system-testing"],
+    "related": [],
+    "summary": "Changing a program's internal structure without changing what it does — made safe specifically by the test suite already covered, which proves external behavior hasn't shifted underneath the redesign.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "software-reuse",
+    "id": 18,
+    "title": "Software Reuse",
+    "topic": "Change & Evolution",
+    "requires": ["software-architecture-styles"],
+    "related": [],
+    "summary": "Building on an existing library or component instead of writing new code from scratch — and the real cost that comes with it: a dependency you didn't write is a piece of your system you don't fully control.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031 Spring 2017 — Course Site (lecture list)", "url": "http://web.mit.edu/6.031/www/sp17/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "individual-vs-team-software-process",
+    "id": 19,
+    "title": "Individual vs. Team Software Process",
+    "topic": "Change & Evolution",
+    "requires": ["code-review", "software-reuse"],
+    "related": [],
+    "summary": "Practices that scale from one developer to a team don't stay the same size — code review, commit conventions, and shared architecture decisions all matter more, not just proportionally more, once more than one person touches the same code.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.031/6.005 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "a-design-goals-decision-guide",
+    "id": 20,
+    "title": "A Design Goals Decision Guide",
+    "topic": "Capstone",
+    "requires": ["the-solid-principles", "test-driven-development", "individual-vs-team-software-process", "refactoring"],
+    "related": [],
+    "summary": "Closing the discipline by running every practice covered — specifications, modularity, testing strategy, version control discipline, refactoring — back through the same three lenses it opened with: does this make the code safer, easier to understand, or more ready for change?",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.031 — General Info & FAQ (SFB/ETU/RFC objective)", "url": "https://web.mit.edu/6.031/www/sp17/general/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Engineering Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/", "type": "doc" }
+    ]
+  }
+]
