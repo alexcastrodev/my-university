@@ -1,1 +1,273 @@
-[]
+[
+  {
+    "slug": "pointers-addresses-and-dereferencing",
+    "id": 1,
+    "title": "Pointers: Addresses, Dereferencing, and the Address-Of Operator",
+    "topic": "Pointers & Memory Model",
+    "requires": [],
+    "related": [
+      { "label": "Singly Linked Lists", "slug": "singly-linked-lists", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A pointer is an ordinary variable whose value happens to be a memory address — `&` asks an object for its address, `*` follows an address back to the object living there, and every indirect access in C reduces to just these two operators.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pointer-arithmetic-and-array-decay",
+    "id": 2,
+    "title": "Pointer Arithmetic and Array Decay",
+    "topic": "Pointers & Memory Model",
+    "requires": ["pointers-addresses-and-dereferencing"],
+    "related": [
+      { "label": "Static Arrays and Random Access", "slug": "static-arrays-and-random-access", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Adding 1 to a pointer moves it forward by one whole element, not one byte — arithmetic is scaled by the pointee's size — and in nearly every expression an array's name silently decays into a pointer to its first element.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "structs-unions-and-memory-layout",
+    "id": 3,
+    "title": "Structs, Unions, and Memory Layout",
+    "topic": "Pointers & Memory Model",
+    "requires": ["pointers-addresses-and-dereferencing"],
+    "related": [],
+    "summary": "A struct lays its fields out contiguously in declaration order, with compiler-inserted padding to keep each field aligned; a union overlays every member at the very same starting address, one at a time.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "function-pointers",
+    "id": 4,
+    "title": "Function Pointers",
+    "topic": "Pointers & Memory Model",
+    "requires": ["pointers-addresses-and-dereferencing"],
+    "related": [],
+    "summary": "A pointer whose pointee is executable code rather than data — the mechanism behind callbacks and dispatch tables in a language with no first-class functions of its own.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "void-pointers-and-generic-code",
+    "id": 5,
+    "title": "void* and Generic Code",
+    "topic": "Pointers & Memory Model",
+    "requires": ["pointers-addresses-and-dereferencing"],
+    "related": [],
+    "summary": "A typeless pointer that can point at anything but be dereferenced as nothing until it's cast — the trick `malloc`, `qsort`, and `memcpy` all use to stay generic in a language without templates.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-process-address-space",
+    "id": 6,
+    "title": "The Process Address Space",
+    "topic": "Process Memory Layout",
+    "requires": [],
+    "related": [
+      { "label": "RAM Organization and Address Decoding", "slug": "ram-organization-and-address-decoding", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "Every running program sees its own private layout of memory — code, initialized and uninitialized globals, a heap growing upward, a stack growing downward — a view the operating system constructs, not the raw physical RAM the machine actually has.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Systems Fundamentals Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-systems-fundamentals-sf-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-stack-and-automatic-storage",
+    "id": 7,
+    "title": "The Stack and Automatic Storage",
+    "topic": "Process Memory Layout",
+    "requires": ["the-process-address-space"],
+    "related": [
+      { "label": "The Stack ADT (LIFO)", "slug": "the-stack-adt", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A LIFO region of memory that holds every function's local variables and call bookkeeping, growing downward one frame at a time and shrinking automatically the instant a function returns — the exact hardware structure the Stack ADT was named after.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-heap-and-dynamic-allocation",
+    "id": 8,
+    "title": "The Heap and Dynamic Allocation",
+    "topic": "Process Memory Layout",
+    "requires": ["the-process-address-space", "pointers-addresses-and-dereferencing"],
+    "related": [
+      { "label": "Dynamic Arrays and Amortized Resizing", "slug": "dynamic-arrays-and-amortized-resizing", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Memory requested explicitly at runtime with `malloc` and released explicitly with `free`, for data whose size or lifetime can't be pinned to any single function call — the actual heap that a dynamic array's doubling reallocation calls down into.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "common-memory-bugs-leaks-and-dangling-pointers",
+    "id": 9,
+    "title": "Common Memory Bugs: Leaks, Double Frees, and Dangling Pointers",
+    "topic": "Process Memory Layout",
+    "requires": ["the-heap-and-dynamic-allocation"],
+    "related": [],
+    "summary": "Manual memory management fails in three distinct, well-known shapes — forgetting to free (a leak), freeing twice (a double free), and using memory after it's been freed (a dangling pointer / use-after-free) — each with its own symptom and its own fix.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — General Information and Syllabus", "url": "https://web.stanford.edu/class/cs107/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "stack-smashing-and-buffer-overflows",
+    "id": 10,
+    "title": "Stack Smashing and Buffer Overflows",
+    "topic": "Process Memory Layout",
+    "requires": ["the-stack-and-automatic-storage", "pointer-arithmetic-and-array-decay"],
+    "related": [],
+    "summary": "Writing past the end of a stack-allocated buffer doesn't just corrupt a neighboring variable — pushed far enough, it overwrites the saved return address itself, the classic first step toward hijacking a program's control flow.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — x86-64 Reference Sheet", "url": "https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "x86-64-registers-and-data-movement",
+    "id": 11,
+    "title": "x86-64 Registers and Data Movement",
+    "topic": "x86-64 Assembly",
+    "requires": [],
+    "related": [
+      { "label": "From Flip-Flops to a Register File", "slug": "from-flip-flops-to-a-register-file", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "16 general-purpose 64-bit registers, each with addressable 32-, 16-, and 8-bit sub-portions, moved between with `mov` and its zero-/sign-extending variants — the same register file already built from flip-flops, now under its real x86-64 names.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "arithmetic-and-logical-instructions",
+    "id": 12,
+    "title": "Arithmetic and Logical Instructions",
+    "topic": "x86-64 Assembly",
+    "requires": ["x86-64-registers-and-data-movement"],
+    "related": [
+      { "label": "Designing an Arithmetic Logic Unit", "slug": "designing-an-arithmetic-logic-unit", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "`add`, `sub`, `imul`, `and`, `or`, `xor`, and the shifts operate directly on registers or memory, plus `lea` — load effective address — computes an address arithmetic expression without ever touching the memory it points at.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "condition-codes-and-conditional-branches",
+    "id": 13,
+    "title": "Condition Codes and Conditional Branches",
+    "topic": "x86-64 Assembly",
+    "requires": ["arithmetic-and-logical-instructions"],
+    "related": [
+      { "label": "ALU Operation Selection and Flags", "slug": "alu-operation-selection-and-flags", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "`cmp` and `test` silently set the zero, sign, overflow, and carry flags; `jcc`, `setcc`, and `cmovcc` are the instructions that actually read them back — the exact ALU flags already covered in hardware, now driving real control flow.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "translating-control-flow-if-while-for",
+    "id": 14,
+    "title": "Translating Control Flow: if, while, and for",
+    "topic": "x86-64 Assembly",
+    "requires": ["condition-codes-and-conditional-branches"],
+    "related": [],
+    "summary": "A compiler lowers every `if`, `while`, and `for` into the same small vocabulary of comparisons and conditional jumps — the mechanical translation ACM/IEEE CS2013 names directly as a core learning outcome for assembly language.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-x86-64-runtime-stack-call-and-ret",
+    "id": 15,
+    "title": "The x86-64 Runtime Stack: call and ret",
+    "topic": "Procedures & the ABI",
+    "requires": ["x86-64-registers-and-data-movement", "the-stack-and-automatic-storage"],
+    "related": [],
+    "summary": "`call` pushes the return address onto the stack and jumps to the callee; `ret` pops that same address back into the instruction pointer — the entire mechanism a procedure uses to hand control back to wherever it was invoked from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "stack-frames-prologue-and-epilogue",
+    "id": 16,
+    "title": "Stack Frames: Prologue and Epilogue",
+    "topic": "Procedures & the ABI",
+    "requires": ["the-x86-64-runtime-stack-call-and-ret"],
+    "related": [],
+    "summary": "A short, fixed sequence of instructions — the prologue — carves out a frame for a function's locals on entry, and a matching epilogue tears it down before returning, leaving the stack exactly as the caller left it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-system-v-amd64-calling-convention",
+    "id": 17,
+    "title": "The System V AMD64 Calling Convention",
+    "topic": "Procedures & the ABI",
+    "requires": ["stack-frames-prologue-and-epilogue"],
+    "related": [],
+    "summary": "The exact, binding agreement compilers on Linux/macOS follow so independently-compiled functions can call each other correctly: which registers carry the first six arguments, which register carries the return value, which registers a callee may clobber freely, and how the stack must stay aligned at every call.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS107 — Guide to x86-64", "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-from-c-source-to-a-traced-function-call",
+    "id": 18,
+    "title": "Capstone: From C Source to a Traced Function Call",
+    "topic": "Putting It Together",
+    "requires": ["the-system-v-amd64-calling-convention", "translating-control-flow-if-while-for"],
+    "related": [
+      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" },
+      { "label": "The Fetch-Decode-Execute Cycle", "slug": "the-fetch-decode-execute-cycle", "feature": "curriculum/computer/digital-logic-computer-organization" }
+    ],
+    "summary": "A small recursive C function compiled all the way down to real x86-64 assembly, then traced call by call — every pointer, stack frame, and calling-convention rule covered in this discipline shown working together to make recursion, taken on faith since Programming & Computational Thinking, physically happen.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" },
+      { "label": "CMU 15-213 — Introduction to Computer Systems", "url": "https://www.cs.cmu.edu/~213/", "type": "doc" }
+    ]
+  }
+]
