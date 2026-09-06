@@ -1,5 +1,23 @@
 <div class="cards-grid" [class.list-view]="viewModeService.mode() === 'list'">
-  @for (item of items(); track item.slug) {
+  @for (item of items(); track item.slug; let last = $last) {
+    @if (viewModeService.mode() === 'list' && item.sequence != null) {
+      <div class="sequence-rail" [class.is-last]="last">
+        <span
+          class="sequence-marker"
+          [class.is-read]="item.read"
+          [class.is-next]="isNextUp(item)"
+        >
+          @if (item.read) {
+            <span aria-hidden="true">✓</span>
+          } @else {
+            {{ item.sequence }}
+          }
+        </span>
+        @if (!last) {
+          <span class="sequence-line" aria-hidden="true"></span>
+        }
+      </div>
+    }
     <a [routerLink]="cardLink(item)" class="concept-card" [class.is-read]="item.read">
       <div class="card-header">
         <div class="card-meta">

@@ -1,11 +1,12 @@
 <div class="page">
   <div class="page-hero">
-    <app-breadcrumbs [items]="breadcrumbItems()" />
     <h1 class="page-title">{{ disciplineTitle() }}</h1>
     <p class="page-sub">Part of the Computer Science curriculum.</p>
   </div>
 
   <div class="page-body">
+    <app-breadcrumbs [items]="breadcrumbItems()" />
+
     <div class="sort-row">
       <span class="sort-row-label">Sort</span>
       <div class="sort-filters">

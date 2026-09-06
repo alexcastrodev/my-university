@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConceptViewModeService } from './concept-view-mode.service';
 
@@ -12,6 +12,8 @@ export interface ConceptCardItem {
   difficulty?: string;
   readingTime?: number;
   tags?: string[];
+  /** 1-based position in the curriculum's real prerequisite order — stamped by `sortByRead`, stable even when the list is visually re-sorted by read status. */
+  sequence?: number;
 }
 
 @Component({
@@ -26,6 +28,18 @@ export class ConceptCardListComponent {
 
   items = input.required<ConceptCardItem[]>();
   routeCommands = input.required<unknown[]>();
+
+  /** The lowest curriculum sequence number among unread items — "read here next", independent of how the list is currently visually sorted. */
+  protected readonly nextUpSequence = computed(() => {
+    const unreadSequences = this.items()
+      .filter((item) => !item.read && item.sequence != null)
+      .map((item) => item.sequence!);
+    return unreadSequences.length ? Math.min(...unreadSequences) : null;
+  });
+
+  isNextUp(item: ConceptCardItem): boolean {
+    return item.sequence != null && item.sequence === this.nextUpSequence();
+  }
 
   cardLink(item: ConceptCardItem): unknown[] {
     return [...this.routeCommands(), item.slug];

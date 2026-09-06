@@ -161,17 +161,61 @@
   color: #c74634;
 }
 
-/* List view — one full-width card per row instead of a multi-column grid */
+/* List view — a numbered, connected sequence (rail + card per row) instead of a multi-column grid */
 
 .cards-grid.list-view {
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
+  grid-template-columns: auto 1fr;
+  row-gap: 0;
+  column-gap: 0.9rem;
+  align-items: stretch;
 }
 
 .list-view .concept-card {
   padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .list-view .card-summary {
   -webkit-line-clamp: 6;
+}
+
+.sequence-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sequence-marker {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #d1d5db;
+  background: #fff;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sequence-marker.is-read {
+  border-color: #2e7d32;
+  background: #2e7d32;
+  color: #fff;
+}
+
+.sequence-marker.is-next {
+  border-color: #c74634;
+  color: #c74634;
+  box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.14);
+}
+
+.sequence-line {
+  flex: 1;
+  width: 2px;
+  min-height: 0.75rem;
+  margin: 0.25rem 0;
+  background: #e5e7eb;
 }

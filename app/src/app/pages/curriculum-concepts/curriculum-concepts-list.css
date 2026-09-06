@@ -61,6 +61,7 @@
 }
 
 .sort-row {
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
