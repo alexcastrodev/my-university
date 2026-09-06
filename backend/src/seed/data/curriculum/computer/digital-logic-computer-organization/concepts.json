@@ -1,1 +1,386 @@
-[]
+[
+  {
+    "slug": "bits-bytes-and-number-bases",
+    "id": 1,
+    "title": "Bits, Bytes, and Number Bases",
+    "topic": "Number Representation",
+    "requires": [],
+    "related": [],
+    "summary": "A bit as the smallest unit of information a machine can hold, and binary, octal, and hexadecimal as three different ways of writing down the exact same underlying pattern of bits.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "unsigned-and-twos-complement-integers",
+    "id": 2,
+    "title": "Unsigned and Two's-Complement Integers",
+    "topic": "Number Representation",
+    "requires": ["bits-bytes-and-number-bases"],
+    "related": [],
+    "summary": "Representing negative numbers in binary without a separate sign bit — two's complement, the scheme every real machine actually uses, chosen specifically because it makes addition and subtraction use the exact same circuit.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ieee-754-floating-point",
+    "id": 3,
+    "title": "IEEE 754 Floating-Point",
+    "topic": "Number Representation",
+    "requires": ["unsigned-and-twos-complement-integers"],
+    "related": [],
+    "summary": "Representing a fraction in binary using a sign, an exponent, and a mantissa — the same standard every real machine follows, and the exact reason 0.1 + 0.2 doesn't print as 0.3.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "from-propositional-logic-to-boolean-algebra",
+    "id": 4,
+    "title": "From Propositional Logic to Boolean Algebra",
+    "topic": "Boolean Logic & Gates",
+    "requires": [],
+    "related": [
+      { "label": "Propositions, Connectives, and Truth Tables", "slug": "propositions-connectives-and-truth-tables", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "The same ∧, ∨, ¬ connectives already covered as formal logic, now studied as an algebraic system in their own right — the exact mathematics every digital circuit in this discipline is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "boolean-algebra-laws-and-de-morgans",
+    "id": 5,
+    "title": "Boolean Algebra Laws and De Morgan's Laws",
+    "topic": "Boolean Logic & Gates",
+    "requires": ["from-propositional-logic-to-boolean-algebra"],
+    "related": [
+      { "label": "Logical Equivalence and Tautologies", "slug": "logical-equivalence-and-tautologies", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "The algebraic rules — commutativity, associativity, distributivity, and De Morgan's laws — that let a boolean expression be rewritten into a different, equally correct, but often cheaper-to-build form.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "logic-gates-and-truth-tables",
+    "id": 6,
+    "title": "Logic Gates and Truth Tables",
+    "topic": "Boolean Logic & Gates",
+    "requires": ["boolean-algebra-laws-and-de-morgans"],
+    "related": [],
+    "summary": "AND, OR, NOT, NAND, NOR, and XOR as physical circuits — each one a direct, tiny hardware realization of a boolean connective, with a truth table as both its specification and its test.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" },
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "nand-as-a-universal-gate",
+    "id": 7,
+    "title": "NAND as a Universal Gate",
+    "topic": "Boolean Logic & Gates",
+    "requires": ["logic-gates-and-truth-tables"],
+    "related": [],
+    "summary": "Every other gate — AND, OR, NOT, everything — can be built from NAND gates alone, a genuinely surprising fact that's the entire reason real chips are manufactured from one repeated building block.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "building-circuits-from-gates",
+    "id": 8,
+    "title": "Building Circuits from Gates",
+    "topic": "Combinational Circuit Design",
+    "requires": ["nand-as-a-universal-gate"],
+    "related": [],
+    "summary": "Wiring individual gates together into a larger circuit that computes a more complex boolean function — the same divide-and-conquer idea already familiar, applied to hardware instead of code.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" },
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "karnaugh-maps-and-boolean-simplification",
+    "id": 9,
+    "title": "Karnaugh Maps and Boolean Simplification",
+    "topic": "Combinational Circuit Design",
+    "requires": ["building-circuits-from-gates"],
+    "related": [],
+    "summary": "A grid laid out so that adjacent cells differ in exactly one input bit — a visual technique for spotting which terms of a boolean expression can be merged away, turning a large circuit into a genuinely smaller one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Karnaugh Maps Worked Example", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/resources/karnaugh-maps/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multiplexers-and-decoders",
+    "id": 10,
+    "title": "Multiplexers and Decoders",
+    "topic": "Combinational Circuit Design",
+    "requires": ["building-circuits-from-gates"],
+    "related": [],
+    "summary": "A multiplexer selects one of several inputs to pass through based on a control signal; a decoder does the reverse, activating exactly one output line based on a binary input — two small, reusable circuits that show up everywhere in a real CPU.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Combinational Logic Unit", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "binary-adders",
+    "id": 11,
+    "title": "Binary Adders: Half, Full, and Ripple-Carry",
+    "topic": "Combinational Circuit Design",
+    "requires": ["multiplexers-and-decoders"],
+    "related": [],
+    "summary": "A half adder adds two bits; a full adder adds two bits plus a carry-in; chaining full adders together, one per bit position, builds an adder for numbers of any width — arithmetic, entirely from gates.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "latches-and-flip-flops",
+    "id": 12,
+    "title": "Latches and Flip-Flops",
+    "topic": "Sequential Circuits",
+    "requires": ["binary-adders"],
+    "related": [],
+    "summary": "Every circuit so far has had no memory — its output depends only on its current input. A latch, and its clock-synchronized cousin the flip-flop, is the smallest circuit that can hold a single bit of state over time.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "clocking-and-timing-basics",
+    "id": 13,
+    "title": "Clocking and Timing Basics",
+    "topic": "Sequential Circuits",
+    "requires": ["latches-and-flip-flops"],
+    "related": [],
+    "summary": "A shared clock signal that tells every flip-flop in a circuit exactly when to update — without it, different parts of a circuit could disagree about the current state at the same instant.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "registers",
+    "id": 14,
+    "title": "Registers",
+    "topic": "Sequential Circuits",
+    "requires": ["clocking-and-timing-basics"],
+    "related": [],
+    "summary": "A group of flip-flops, one per bit, clocked together — a single circuit that holds an entire word of state at once, and the smallest unit of storage a CPU actually reads from and writes to directly.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "finite-state-machines-design-and-analysis",
+    "id": 15,
+    "title": "Finite State Machines: Design and Analysis",
+    "topic": "Sequential Circuits",
+    "requires": ["registers"],
+    "related": [],
+    "summary": "A register holding the current state, plus combinational logic computing the next state and the outputs — the general pattern every sequential circuit with real behavior, including a CPU itself, is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "from-flip-flops-to-a-register-file",
+    "id": 16,
+    "title": "From Flip-Flops to a Register File",
+    "topic": "Memory as a Circuit",
+    "requires": ["finite-state-machines-design-and-analysis"],
+    "related": [],
+    "summary": "A small, fast bank of registers, each individually addressable and selected by a decoder — the CPU's own scratch space, and the direct hardware ancestor of the array already familiar as a data structure.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ram-organization-and-address-decoding",
+    "id": 17,
+    "title": "RAM Organization and Address Decoding",
+    "topic": "Memory as a Circuit",
+    "requires": ["from-flip-flops-to-a-register-file"],
+    "related": [
+      { "label": "Static Arrays and Random Access", "slug": "static-arrays-and-random-access", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Scaling a register file up to a much larger memory array using a decoder tree to select one row from millions — the actual circuit behind the O(1) random access already taken for granted as an array's defining property.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "designing-an-arithmetic-logic-unit",
+    "id": 18,
+    "title": "Designing an Arithmetic Logic Unit",
+    "topic": "The ALU",
+    "requires": ["binary-adders"],
+    "related": [],
+    "summary": "A single circuit that can perform many different operations — add, subtract, AND, OR, compare — on two inputs, with a control signal selecting which one to actually produce this cycle.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "alu-operation-selection-and-flags",
+    "id": 19,
+    "title": "ALU Operation Selection and Flags",
+    "topic": "The ALU",
+    "requires": ["designing-an-arithmetic-logic-unit"],
+    "related": [],
+    "summary": "Beyond the main result, an ALU also reports a handful of one-bit flags — zero, negative, overflow, carry — the exact signals a CPU's control logic reads to decide whether a conditional branch should actually jump.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "what-is-an-isa",
+    "id": 20,
+    "title": "What Is an ISA — the Hardware/Software Contract",
+    "topic": "Instruction Set Architecture",
+    "requires": ["alu-operation-selection-and-flags", "ram-organization-and-address-decoding"],
+    "related": [],
+    "summary": "An instruction set architecture is the exact vocabulary of operations a processor promises to support — the boundary that lets software be written without knowing how the hardware underneath actually implements any of it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "a-simple-risc-v-style-isa",
+    "id": 21,
+    "title": "A Simple RISC-V-Style ISA",
+    "topic": "Instruction Set Architecture",
+    "requires": ["what-is-an-isa"],
+    "related": [],
+    "summary": "A small, real, open teaching instruction set — a handful of loads, stores, arithmetic, and branch instructions — small enough to fully implement in hardware, and the concrete ISA this discipline's CPU actually executes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "instruction-formats-and-addressing-modes",
+    "id": 22,
+    "title": "Instruction Formats and Addressing Modes",
+    "topic": "Instruction Set Architecture",
+    "requires": ["a-simple-risc-v-style-isa"],
+    "related": [],
+    "summary": "How an instruction's 32 bits are carved up into an opcode, register numbers, and an immediate value or offset — and the different ways an instruction can specify where its actual data lives.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Architecture and Organization Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-architecture-and-organization-ar-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "assembly-to-machine-code-translation",
+    "id": 23,
+    "title": "Assembly-to-Machine-Code Translation",
+    "topic": "Instruction Set Architecture",
+    "requires": ["instruction-formats-and-addressing-modes"],
+    "related": [],
+    "summary": "Translating a human-readable assembly instruction into the exact bit pattern a CPU actually fetches and decodes — the mechanical, one-to-one process an assembler automates.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" },
+      { "label": "MIT 6.004 — OCW Syllabus", "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-datapath-registers-alu-and-buses",
+    "id": 24,
+    "title": "The Datapath: Registers, ALU, and Buses",
+    "topic": "Building a CPU",
+    "requires": ["assembly-to-machine-code-translation"],
+    "related": [],
+    "summary": "Wiring the register file, the ALU, and the memory together with buses and multiplexers — the physical path data actually flows through on its way to becoming an instruction's result.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Building the Beta", "url": "https://computationstructures.org/lectures/beta/beta.html", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-control-unit",
+    "id": 25,
+    "title": "The Control Unit",
+    "topic": "Building a CPU",
+    "requires": ["the-datapath-registers-alu-and-buses"],
+    "related": [],
+    "summary": "A finite state machine, built from exactly the sequential-circuit ideas already covered, that reads an instruction's opcode and sets every multiplexer and control line in the datapath to make that specific instruction happen.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Building the Beta", "url": "https://computationstructures.org/lectures/beta/beta.html", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-fetch-decode-execute-cycle",
+    "id": 26,
+    "title": "The Fetch-Decode-Execute Cycle",
+    "topic": "Building a CPU",
+    "requires": ["the-control-unit"],
+    "related": [],
+    "summary": "Every single cycle, a CPU fetches the next instruction, decodes which operation it names, executes it through the datapath, and updates the program counter — the same three-step loop, repeated billions of times a second.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Building the Beta", "url": "https://computationstructures.org/lectures/beta/beta.html", "type": "doc" },
+      { "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition", "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "assembling-a-complete-single-cycle-cpu",
+    "id": 27,
+    "title": "Assembling a Complete Single-Cycle CPU",
+    "topic": "Building a CPU",
+    "requires": ["the-fetch-decode-execute-cycle"],
+    "related": [],
+    "summary": "Every piece built in this discipline — gates, the ALU, registers, memory, the datapath, the control unit — wired together into one working, if simple, general-purpose computer, capable of running real programs from this ISA.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.004 — Building the Beta", "url": "https://computationstructures.org/lectures/beta/beta.html", "type": "doc" },
+      { "label": "Nand2Tetris — Build a Modern Computer from First Principles", "url": "https://www.coursera.org/learn/build-a-computer", "type": "doc" }
+    ]
+  }
+]
