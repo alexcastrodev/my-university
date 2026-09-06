@@ -1,1 +1,260 @@
-[]
+[
+  {
+    "slug": "from-curiosity-to-a-question",
+    "id": 1,
+    "title": "From Curiosity to a Question",
+    "topic": "Asking Questions",
+    "requires": [],
+    "related": [],
+    "summary": "Noticing something puzzling is not the same as having a question you can actually investigate — the first, often-skipped step of turning a vague \"huh, that's odd\" into something precise enough to act on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "what-makes-a-question-well-formed",
+    "id": 2,
+    "title": "What Makes a Question Well-Formed",
+    "topic": "Asking Questions",
+    "requires": ["from-curiosity-to-a-question"],
+    "related": [],
+    "summary": "A question is well-formed when it names what would count as an answer — the difference between \"why is this slow?\" and \"which of these three operations dominates the running time?\"",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Peyton Jones, \"How to Write a Great Research Paper\"", "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "computational-questions-vs-questions-in-general",
+    "id": 3,
+    "title": "Computational Questions vs. Questions in General",
+    "topic": "Asking Questions",
+    "requires": ["what-makes-a-question-well-formed"],
+    "related": [
+      { "label": "What Is Computation?", "slug": "what-is-computation", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Computational thinking (already covered) is about solving a problem once it's posed — this is about posing one in the first place, specifically the kind a program, an experiment, or a measurement can answer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Peyton Jones, \"How to Write a Great Research Paper\"", "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "picking-problems-worth-working-on",
+    "id": 4,
+    "title": "Picking Problems Worth Working On",
+    "topic": "Asking Questions",
+    "requires": ["what-makes-a-question-well-formed"],
+    "related": [],
+    "summary": "Hamming's famous challenge — if the answer to your question wouldn't matter to anyone, why work on it? — and how to weigh a question's importance against how tractable it actually is right now.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "turning-a-question-into-a-testable-hypothesis",
+    "id": 5,
+    "title": "Turning a Question into a Testable Hypothesis",
+    "topic": "Hypotheses & Falsifiability",
+    "requires": ["computational-questions-vs-questions-in-general"],
+    "related": [],
+    "summary": "A question (\"why is this slow?\") isn't yet something you can test — a hypothesis (\"the slowdown is caused by repeated re-allocation\") is a specific, checkable guess at an answer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "falsifiability-what-makes-a-claim-scientific",
+    "id": 6,
+    "title": "Falsifiability: What Makes a Claim Scientific",
+    "topic": "Hypotheses & Falsifiability",
+    "requires": ["turning-a-question-into-a-testable-hypothesis"],
+    "related": [],
+    "summary": "Popper's criterion: a claim counts as scientific only if some conceivable observation could prove it wrong — a hypothesis that can't fail any possible test isn't explaining anything.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "distinguishing-a-claim-from-an-assumption",
+    "id": 7,
+    "title": "Distinguishing a Claim from an Assumption",
+    "topic": "Hypotheses & Falsifiability",
+    "requires": ["falsifiability-what-makes-a-claim-scientific"],
+    "related": [],
+    "summary": "An assumption is something taken for granted to make a hypothesis testable at all — confusing the two means \"testing\" a hypothesis while quietly never questioning the assumption doing the real work.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "designing-a-minimal-experiment",
+    "id": 8,
+    "title": "Designing a Minimal Experiment",
+    "topic": "Designing Experiments",
+    "requires": ["falsifiability-what-makes-a-claim-scientific"],
+    "related": [
+      { "label": "Confidence Intervals", "slug": "confidence-intervals", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "The smallest test that could actually distinguish your hypothesis from its alternative — cutting every measurement that wouldn't change your conclusion either way.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "controls-and-isolating-variables",
+    "id": 9,
+    "title": "Controls and Isolating Variables",
+    "topic": "Designing Experiments",
+    "requires": ["designing-a-minimal-experiment"],
+    "related": [],
+    "summary": "Holding everything constant except the one thing you're actually testing — without a control, a measured difference could be caused by the thing you changed, or by something else entirely.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" },
+      { "label": "Judea Pearl — The Book of Why (UCLA Causality Lab)", "url": "https://bayes.cs.ucla.edu/WHY/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "correlation-vs-causation",
+    "id": 10,
+    "title": "Correlation vs. Causation",
+    "topic": "Evidence & Reasoning",
+    "requires": ["controls-and-isolating-variables"],
+    "related": [],
+    "summary": "Two things moving together doesn't mean one causes the other — Judea Pearl's \"ladder of causation\" separates merely seeing a pattern from actively intervening on it, the real test of a causal claim.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Judea Pearl — The Book of Why (UCLA Causality Lab)", "url": "https://bayes.cs.ucla.edu/WHY/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "confounding-variables",
+    "id": 11,
+    "title": "Confounding Variables",
+    "topic": "Evidence & Reasoning",
+    "requires": ["correlation-vs-causation"],
+    "related": [],
+    "summary": "A hidden third factor that influences both things you're comparing, creating a correlation neither one actually causes — the single most common way a causal claim goes wrong.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Judea Pearl — The Book of Why (UCLA Causality Lab)", "url": "https://bayes.cs.ucla.edu/WHY/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "collecting-and-weighing-evidence",
+    "id": 12,
+    "title": "Collecting and Weighing Evidence",
+    "topic": "Evidence & Reasoning",
+    "requires": ["designing-a-minimal-experiment"],
+    "related": [
+      { "label": "Hypothesis Testing and p-Values", "slug": "hypothesis-testing-and-p-values", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Not all evidence counts equally — how much a single result should shift your confidence in a hypothesis depends on how surprising that result would be if the hypothesis were false.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Science and Pseudo-Science", "url": "https://plato.stanford.edu/entries/pseudo-science/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "when-evidence-contradicts-the-hypothesis",
+    "id": 13,
+    "title": "When Evidence Contradicts the Hypothesis",
+    "topic": "Evidence & Reasoning",
+    "requires": ["collecting-and-weighing-evidence", "falsifiability-what-makes-a-claim-scientific"],
+    "related": [],
+    "summary": "A falsified hypothesis is a real result, not a failure — the honest, and genuinely harder, move is changing the hypothesis instead of quietly explaining away the evidence that broke it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Karl Popper", "url": "https://plato.stanford.edu/entries/popper/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Thomas Kuhn", "url": "https://plato.stanford.edu/entries/thomas-kuhn/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "normal-science-and-paradigm-shifts",
+    "id": 14,
+    "title": "Normal Science and Paradigm Shifts",
+    "topic": "The Research Cycle",
+    "requires": ["when-evidence-contradicts-the-hypothesis"],
+    "related": [],
+    "summary": "Kuhn's picture of how scientific understanding actually changes — long stretches of refining an accepted framework, punctuated by rare shifts when that framework itself is replaced.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Thomas Kuhn", "url": "https://plato.stanford.edu/entries/thomas-kuhn/", "type": "doc" },
+      { "label": "Stanford Encyclopedia of Philosophy — Scientific Revolutions", "url": "https://plato.stanford.edu/entries/scientific-revolutions/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "iterating-from-result-to-new-question",
+    "id": 15,
+    "title": "Iterating: From Result to New Question",
+    "topic": "The Research Cycle",
+    "requires": ["when-evidence-contradicts-the-hypothesis"],
+    "related": [],
+    "summary": "Every real result — confirming or falsifying — sharpens or redirects the next question, which is why scientific inquiry is a cycle, never a single pass from question to final answer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford Encyclopedia of Philosophy — Scientific Revolutions", "url": "https://plato.stanford.edu/entries/scientific-revolutions/", "type": "doc" },
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "reading-and-building-on-prior-work",
+    "id": 16,
+    "title": "Reading and Building on Prior Work",
+    "topic": "The Research Cycle",
+    "requires": ["picking-problems-worth-working-on"],
+    "related": [],
+    "summary": "Almost no worthwhile question is being asked for the first time — knowing what's already been tried, and why it did or didn't work, is what separates a fresh angle from wasted repetition.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Peyton Jones, \"How to Write a Great Research Paper\"", "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "communicating-a-question-and-its-answer",
+    "id": 17,
+    "title": "Communicating a Question and Its Answer",
+    "topic": "The Research Cycle",
+    "requires": ["iterating-from-result-to-new-question"],
+    "related": [],
+    "summary": "A result nobody can understand or verify might as well not exist — stating the question, why it matters, and what was actually found, clearly enough for someone else to check it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Peyton Jones, \"How to Write a Great Research Paper\"", "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/", "type": "doc" },
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-research-cycle-end-to-end",
+    "id": 18,
+    "title": "The Research Cycle, End to End",
+    "topic": "The Research Cycle",
+    "requires": ["iterating-from-result-to-new-question", "reading-and-building-on-prior-work", "communicating-a-question-and-its-answer"],
+    "related": [],
+    "summary": "Tying every piece of this discipline into one loop — question, hypothesis, experiment, evidence, iteration, communication — the same cycle this curriculum's own Research module will ask you to run for real, at length, later on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Hamming, \"You and Your Research\" (1986 transcript)", "url": "https://www.cs.virginia.edu/~robins/YouAndYourResearch.pdf", "type": "doc" },
+      { "label": "Peyton Jones, \"How to Write a Great Research Paper\"", "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/", "type": "doc" }
+    ]
+  }
+]
