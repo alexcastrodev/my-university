@@ -1,1 +1,315 @@
-[]
+[
+  {
+    "slug": "what-is-an-intelligent-agent",
+    "id": 1,
+    "title": "What Is an Intelligent Agent?",
+    "topic": "Intelligent Agents",
+    "requires": [],
+    "related": [
+      { "label": "Breadth-First Search", "slug": "graph-traversal-bfs", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Depth-First Search", "slug": "graph-traversal-dfs", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Dijkstra's Algorithm", "slug": "dijkstras-algorithm", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Lab: A* Pathfinding", "slug": "a-star-pathfinding", "feature": "curriculum/algorithms-software/algorithm-laboratory" }
+    ],
+    "summary": "An agent as anything that perceives its environment through sensors and acts on it through actuators — and rationality as choosing, at every step, the action expected to best achieve the agent's goals given what it has perceived so far, not the action that is provably optimal in hindsight.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "environments-and-agent-types",
+    "id": 2,
+    "title": "Task Environments and Agent Types",
+    "topic": "Intelligent Agents",
+    "requires": ["what-is-an-intelligent-agent"],
+    "related": [],
+    "summary": "The PEAS framework (Performance, Environment, Actuators, Sensors) for specifying a task precisely, the properties that make one environment harder than another (partially observable, stochastic, sequential, dynamic, continuous, multi-agent), and the four-level hierarchy of agent designs — reflex, model-based, goal-based, utility-based — each adding machinery the previous one lacked.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "minimax-and-adversarial-game-trees",
+    "id": 3,
+    "title": "Minimax and Adversarial Game Trees",
+    "topic": "Adversarial Search & Games",
+    "requires": ["environments-and-agent-types"],
+    "related": [
+      { "label": "Depth-First Search", "slug": "graph-traversal-dfs", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Searching a game tree the same way DFS explores a graph, except two players alternate turns with opposite goals — MAX tries to maximize the final utility, MIN tries to minimize it, and minimax computes the value each rational player can guarantee against a worst-case opponent.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "alpha-beta-pruning",
+    "id": 4,
+    "title": "Alpha-Beta Pruning",
+    "topic": "Adversarial Search & Games",
+    "requires": ["minimax-and-adversarial-game-trees"],
+    "related": [],
+    "summary": "Minimax computes the exact same value while exploring only a fraction of the tree, by tracking the best guarantee each player already has and cutting off any branch that cannot possibly change the outcome — a pruning idea, not an approximation, that never changes the final decision.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "expectimax-for-stochastic-and-suboptimal-opponents",
+    "id": 5,
+    "title": "Expectimax for Stochastic and Suboptimal Opponents",
+    "topic": "Adversarial Search & Games",
+    "requires": ["alpha-beta-pruning"],
+    "related": [],
+    "summary": "Minimax assumes a perfectly rational adversary, but dice, cards, and imperfect opponents call for a chance node that averages over outcomes weighted by probability instead of taking a worst case — the same tree-search skeleton, one node type swapped, and pruning largely lost as a consequence.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "formulating-constraint-satisfaction-problems",
+    "id": 6,
+    "title": "Formulating Constraint Satisfaction Problems",
+    "topic": "Constraint Satisfaction",
+    "requires": ["expectimax-for-stochastic-and-suboptimal-opponents"],
+    "related": [],
+    "summary": "A CSP factors a search problem into variables, each with a domain of possible values, and constraints that restrict which combinations are allowed — map coloring, Sudoku, and scheduling are all the same problem shape once written this way, exposing structure a generic state-space search would never see.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "backtracking-search-and-forward-checking",
+    "id": 7,
+    "title": "Backtracking Search and Forward Checking",
+    "topic": "Constraint Satisfaction",
+    "requires": ["formulating-constraint-satisfaction-problems"],
+    "related": [],
+    "summary": "Backtracking assigns variables one at a time and undoes a choice the instant it violates a constraint; forward checking goes further, eagerly deleting now-impossible values from every unassigned neighbor's domain so a dead end is caught long before backtracking would otherwise reach it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "arc-consistency-and-variable-ordering-heuristics",
+    "id": 8,
+    "title": "Arc Consistency (AC-3) and Variable-Ordering Heuristics",
+    "topic": "Constraint Satisfaction",
+    "requires": ["backtracking-search-and-forward-checking"],
+    "related": [],
+    "summary": "AC-3 propagates constraints further than forward checking by enforcing that every value remaining for one variable has at least one compatible value for each neighbor, while the minimum-remaining-values and least-constraining-value heuristics decide which variable and value to try next — the difference between a CSP solver that thrashes and one that barely searches at all.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "propositional-logic-as-a-knowledge-base",
+    "id": 9,
+    "title": "Propositional Logic as a Knowledge Base",
+    "topic": "Logic & Knowledge Representation",
+    "requires": ["arc-consistency-and-variable-ordering-heuristics"],
+    "related": [
+      { "label": "Propositions, Connectives, and Truth Tables", "slug": "propositions-connectives-and-truth-tables", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "The same propositional connectives already covered as formal logic, now put to work as a knowledge base an agent can query — TELL adds a sentence, ASK checks whether a sentence is entailed by everything told so far, and model checking answers that question by brute-force truth-table enumeration.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "inference-by-resolution",
+    "id": 10,
+    "title": "Inference by Resolution",
+    "topic": "Logic & Knowledge Representation",
+    "requires": ["propositional-logic-as-a-knowledge-base"],
+    "related": [],
+    "summary": "Model checking scales terribly, so real reasoners convert every sentence to conjunctive normal form and apply a single inference rule, resolution, repeatedly — proof by contradiction over and over until the empty clause appears, the same refutation idea that proved the Halting Problem, now automated as a search procedure.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "first-order-logic-for-richer-knowledge",
+    "id": 11,
+    "title": "First-Order Logic for Richer Knowledge",
+    "topic": "Logic & Knowledge Representation",
+    "requires": ["inference-by-resolution"],
+    "related": [
+      { "label": "Predicates and Quantifiers", "slug": "predicates-and-quantifiers", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "Propositional logic can only say individual facts are true or false; first-order logic adds the objects, relations, functions, and quantifiers already covered as pure mathematics, letting a knowledge base state a single sentence — \"every student who studies passes\" — that stands for infinitely many propositional facts at once.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "unification-and-inference-in-first-order-logic",
+    "id": 12,
+    "title": "Unification and Inference in First-Order Logic",
+    "topic": "Logic & Knowledge Representation",
+    "requires": ["first-order-logic-for-richer-knowledge"],
+    "related": [
+      { "label": "Logic Programming: Facts, Rules, and Queries", "slug": "logic-programming-facts-rules-and-queries", "feature": "curriculum/algorithms-software/programming-paradigms" }
+    ],
+    "summary": "Unification finds the variable bindings that make two first-order sentences match — the exact same binding-and-backtracking machinery already traced step by step in Prolog — and forward/backward chaining reuse it to drive both propositional resolution and real logic-programming query engines.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "classical-planning-with-strips",
+    "id": 13,
+    "title": "Classical Planning with STRIPS",
+    "topic": "Logic & Knowledge Representation",
+    "requires": ["unification-and-inference-in-first-order-logic"],
+    "related": [],
+    "summary": "STRIPS represents a planning problem as a set of first-order-logic states and actions with explicit preconditions and effects, turning \"find a sequence of actions from start to goal\" into a search problem over the space of world-states an agent's own actions can reach.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "quantifying-uncertainty-and-conditional-independence",
+    "id": 14,
+    "title": "Quantifying Uncertainty and Conditional Independence",
+    "topic": "Reasoning Under Uncertainty",
+    "requires": ["classical-planning-with-strips"],
+    "related": [
+      { "label": "Bayes' Theorem", "slug": "bayes-theorem", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Real agents rarely have the certainty logic assumes, so this returns to the probability axioms and Bayes' theorem already covered and adds the one idea logic alone cannot express — conditional independence — the assumption that makes probabilistic reasoning about many variables tractable instead of exponential.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bayesian-networks-representation",
+    "id": 15,
+    "title": "Bayesian Networks: A Factored Representation",
+    "topic": "Reasoning Under Uncertainty",
+    "requires": ["quantifying-uncertainty-and-conditional-independence"],
+    "related": [],
+    "summary": "A Bayesian network is a directed acyclic graph where each node's conditional probability table depends only on its parents — a factored way of writing a full joint distribution that would otherwise need exponentially many numbers, exploiting exactly the conditional-independence structure most real domains actually have.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "exact-inference-in-bayesian-networks",
+    "id": 16,
+    "title": "Exact Inference in Bayesian Networks",
+    "topic": "Reasoning Under Uncertainty",
+    "requires": ["bayesian-networks-representation"],
+    "related": [],
+    "summary": "Answering a query against a Bayesian network — enumerating the joint distribution directly, or the far cheaper variable-elimination algorithm that sums out irrelevant variables one at a time, caching intermediate factors instead of recomputing the whole joint.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "temporal-reasoning-and-hidden-markov-models",
+    "id": 17,
+    "title": "Temporal Reasoning and Hidden Markov Models",
+    "topic": "Reasoning Under Uncertainty",
+    "requires": ["exact-inference-in-bayesian-networks"],
+    "related": [
+      { "label": "Markov Matrices and Stationary Distributions", "slug": "markov-matrices-and-stationary-distributions", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "A hidden Markov model chains Bayesian networks across time steps under the same Markov assumption already used for PageRank's transition matrix — except now the true state is never observed directly, only a noisy sensor reading, and filtering asks the exact question a robot with an unreliable sensor actually needs answered: what state am I probably in right now?",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "utility-theory-and-rational-preferences",
+    "id": 18,
+    "title": "Utility Theory and Rational Preferences",
+    "topic": "Decision-Theoretic Planning",
+    "requires": ["temporal-reasoning-and-hidden-markov-models"],
+    "related": [],
+    "summary": "Given beliefs as probabilities and preferences as a utility function, the principle of maximum expected utility says a rational agent should pick the action whose probability-weighted average payoff is highest — a single decision rule that subsumes both certain and uncertain choices as special cases.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "Stanford CS221 — Artificial Intelligence: Principles and Techniques", "url": "https://cs221.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "markov-decision-processes-and-the-bellman-equation",
+    "id": 19,
+    "title": "Markov Decision Processes and the Bellman Equation",
+    "topic": "Decision-Theoretic Planning",
+    "requires": ["utility-theory-and-rational-preferences"],
+    "related": [
+      { "label": "The Dynamic Programming Paradigm", "slug": "the-dynamic-programming-paradigm", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "An MDP extends a Markov chain with actions and rewards, and the Bellman equation expresses the value of a state recursively in terms of the values of the states reachable from it — the same optimal-substructure idea already seen in dynamic programming, applied to sequential decisions instead of a fixed input array.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "value-iteration-and-policy-iteration",
+    "id": 20,
+    "title": "Value Iteration and Policy Iteration",
+    "topic": "Decision-Theoretic Planning",
+    "requires": ["markov-decision-processes-and-the-bellman-equation"],
+    "related": [],
+    "summary": "Two algorithms that solve an MDP's Bellman equation by iterating instead of solving it in closed form — value iteration repeatedly updates every state's value until it converges, policy iteration alternates between evaluating a fixed policy exactly and improving it — both provably converging to the same optimal policy.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Russell & Norvig — Artificial Intelligence: A Modern Approach", "url": "https://aima.cs.berkeley.edu/contents.html", "type": "doc" },
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "choosing-an-ai-technique-a-decision-guide",
+    "id": 21,
+    "title": "Choosing an AI Technique: A Decision Guide",
+    "topic": "Synthesis",
+    "requires": ["value-iteration-and-policy-iteration"],
+    "related": [],
+    "summary": "A capstone comparing every technique this discipline covered — adversarial search, CSPs, logic, Bayesian networks, MDPs — by the shape of problem each one actually fits, and an honest map of where this discipline stops: reinforcement learning and the machine-learning techniques that estimate these models from data belong to the disciplines that follow it, not this one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS188 — Introduction to Artificial Intelligence", "url": "https://inst.eecs.berkeley.edu/~cs188/sp24/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — AI and the Intelligent Systems Knowledge Area", "url": "https://dl.acm.org/doi/abs/10.1145/2735392.2735394", "type": "doc" }
+    ]
+  }
+]
