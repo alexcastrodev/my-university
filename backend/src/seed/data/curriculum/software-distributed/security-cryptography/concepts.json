@@ -1,1 +1,233 @@
-[]
+[
+  {
+    "slug": "security-goals-and-the-cia-triad",
+    "id": 1,
+    "title": "Security Goals and the CIA Triad",
+    "topic": "Foundations of Security",
+    "requires": [],
+    "related": [],
+    "summary": "Confidentiality, integrity, and availability as the three properties any security mechanism is ultimately built to protect — and why a system that trades away one to strengthen another has usually made a real, sometimes entirely correct, engineering tradeoff rather than a mistake.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" },
+      { "label": "MIT 6.858 — Computer Systems Security (OCW)", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "authentication-vs-authorization",
+    "id": 2,
+    "title": "Authentication vs. Authorization",
+    "topic": "Foundations of Security",
+    "requires": ["security-goals-and-the-cia-triad"],
+    "related": [],
+    "summary": "Authentication answers \"who are you\"; authorization answers \"what are you allowed to do\" — two genuinely separate questions a system can get right on one axis while failing catastrophically on the other, plus mandatory vs. discretionary access control as two different answers to who gets to grant permissions in the first place.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" },
+      { "label": "MIT 6.858 — Computer Systems Security (OCW)", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "threat-modeling-with-stride",
+    "id": 3,
+    "title": "Threat Modeling with STRIDE",
+    "topic": "Foundations of Security",
+    "requires": ["authentication-vs-authorization"],
+    "related": [],
+    "summary": "A systematic way to ask \"what could go wrong\" before writing a line of code — six attacker-goal categories, Spoofing/Tampering/Repudiation/Information disclosure/Denial of service/Elevation of privilege, walked concretely against a small login feature.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.858 — Computer Systems Security (OCW)", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "perfect-secrecy-and-the-one-time-pad",
+    "id": 4,
+    "title": "Perfect Secrecy and the One-Time Pad",
+    "topic": "Symmetric Cryptography",
+    "requires": ["threat-modeling-with-stride"],
+    "related": [],
+    "summary": "XOR a message with a truly random key exactly as long as the message, use that key exactly once, and the result is mathematically proven unbreakable — Shannon's perfect secrecy, and the two impractical conditions, true randomness and single use, that keep the one-time pad from being how any real system actually encrypts.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "Boneh & Shoup — A Graduate Course in Applied Cryptography", "url": "https://toc.cryptobook.us/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "block-ciphers-and-modes-of-operation",
+    "id": 5,
+    "title": "Block Ciphers and Modes of Operation",
+    "topic": "Symmetric Cryptography",
+    "requires": ["perfect-secrecy-and-the-one-time-pad"],
+    "related": [],
+    "summary": "AES encrypts one fixed-size block at a time; a mode of operation is the separate, independent rule for stitching many blocks into a real message — and ECB, the naive mode, leaks every repeated block of plaintext in the ciphertext, the famous \"ECB penguin\", which is exactly why CBC and CTR exist.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "NIST FIPS 197 — Advanced Encryption Standard (AES)", "url": "https://csrc.nist.gov/pubs/fips/197/final", "type": "doc" },
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cryptographic-hash-functions",
+    "id": 6,
+    "title": "Cryptographic Hash Functions",
+    "topic": "Symmetric Cryptography",
+    "requires": ["block-ciphers-and-modes-of-operation"],
+    "related": [
+      { "label": "Hashing and Hash Functions", "slug": "hashing-and-hash-functions", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Preimage resistance, second-preimage resistance, and collision resistance are the three properties SHA-256 promises — a genuinely different, much stronger contract than the hash functions already covered for hash tables, which only ever promised speed and a low collision rate, never resistance to a deliberate, computationally-bounded attacker.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "NIST FIPS 180-4 — Secure Hash Standard (SHS)", "url": "https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.180-4.pdf", "type": "doc" },
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "message-authentication-and-authenticated-encryption",
+    "id": 7,
+    "title": "Message Authentication and Authenticated Encryption",
+    "topic": "Symmetric Cryptography",
+    "requires": ["cryptographic-hash-functions"],
+    "related": [],
+    "summary": "Encryption alone hides a message's content but says nothing about whether it was tampered with in transit — a MAC built from a hash function (HMAC) adds an integrity guarantee, and authenticated encryption (AEAD) bundles confidentiality and integrity into one primitive so a program can't accidentally use one without the other.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "Boneh & Shoup — A Graduate Course in Applied Cryptography", "url": "https://toc.cryptobook.us/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "modular-arithmetic-for-public-key-cryptography",
+    "id": 8,
+    "title": "Modular Arithmetic for Public-Key Cryptography",
+    "topic": "Public-Key Cryptography",
+    "requires": ["message-authentication-and-authenticated-encryption"],
+    "related": [
+      { "label": "Divisibility, Primes, and the Euclidean Algorithm", "slug": "divisibility-primes-and-euclidean-algorithm", "feature": "curriculum/foundations/discrete-math-logic" },
+      { "label": "Modular Arithmetic", "slug": "modular-arithmetic", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "Every public-key scheme in this discipline is built on a small, fixed set of facts about arithmetic modulo a prime — modular exponentiation, multiplicative inverses via the extended Euclidean algorithm, and Fermat's little theorem — already covered as pure number theory, now doing the actual work of encryption.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "Boneh & Shoup — A Graduate Course in Applied Cryptography", "url": "https://toc.cryptobook.us/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "diffie-hellman-key-exchange",
+    "id": 9,
+    "title": "Diffie-Hellman Key Exchange",
+    "topic": "Public-Key Cryptography",
+    "requires": ["modular-arithmetic-for-public-key-cryptography"],
+    "related": [],
+    "summary": "Two parties who have never met and share no secret can agree on one in full view of an eavesdropper who sees every message — a worked example with small, real numbers, and the discrete logarithm problem that makes recovering the shared secret from the public exchange computationally hard.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "Boneh & Shoup — A Graduate Course in Applied Cryptography", "url": "https://toc.cryptobook.us/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "rsa-public-key-cryptography",
+    "id": 10,
+    "title": "RSA Public-Key Cryptography",
+    "topic": "Public-Key Cryptography",
+    "requires": ["diffie-hellman-key-exchange"],
+    "related": [],
+    "summary": "A full worked key-generation, encryption, and decryption example with genuinely small primes — small enough to compute by hand, and explicitly nowhere near the 2048-bit primes a real deployment requires — built directly on Fermat's little theorem and the modular inverses already covered.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "Boneh & Shoup — A Graduate Course in Applied Cryptography", "url": "https://toc.cryptobook.us/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "digital-signatures-and-certificates",
+    "id": 11,
+    "title": "Digital Signatures and Certificates",
+    "topic": "Public-Key Cryptography",
+    "requires": ["rsa-public-key-cryptography"],
+    "related": [],
+    "summary": "Signing with RSA is encryption run in reverse — the private key proves authorship, the public key lets anyone verify it — and a certificate is just a trusted third party's own digital signature vouching that a given public key really belongs to the name printed on it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "memory-safety-and-injection-vulnerabilities",
+    "id": 12,
+    "title": "Memory-Safety and Injection Vulnerabilities",
+    "topic": "Applied & Systems Security",
+    "requires": ["digital-signatures-and-certificates"],
+    "related": [
+      { "label": "Stack Smashing and Buffer Overflows", "slug": "stack-smashing-and-buffer-overflows", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "A stack buffer overflow, already covered as a memory bug, and a SQL injection are structurally the exact same mistake surfacing in two different layers of a system — untrusted input treated as if it could never be anything but inert data, when in both cases it can be crafted to be interpreted as code or commands instead.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.858 — Computer Systems Security (OCW)", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/", "type": "doc" },
+      { "label": "OWASP Top Ten — Web Application Security Risks", "url": "https://owasp.org/www-project-top-ten/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "control-hijacking-defenses",
+    "id": 13,
+    "title": "Control-Hijacking Defenses",
+    "topic": "Applied & Systems Security",
+    "requires": ["memory-safety-and-injection-vulnerabilities"],
+    "related": [],
+    "summary": "Stack canaries, non-executable memory (W^X / DEP), and address-space layout randomization each close off one specific step of the classic buffer-overflow-to-code-execution attack — and no single one is a complete fix by itself, which is exactly why real systems layer all three and attackers still occasionally get past them with techniques like return-oriented programming.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.858 — Computer Systems Security (OCW)", "url": "https://ocw.mit.edu/courses/6-858-computer-systems-security-fall-2014/", "type": "doc" },
+      { "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)", "url": "https://csapp.cs.cmu.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "web-security-fundamentals-xss-and-csrf",
+    "id": 14,
+    "title": "Web Security Fundamentals: XSS and CSRF",
+    "topic": "Applied & Systems Security",
+    "requires": ["control-hijacking-defenses"],
+    "related": [],
+    "summary": "Cross-site scripting smuggles an attacker's JavaScript into a page another user trusts; cross-site request forgery tricks a logged-in user's own browser into sending a request the attacker chose — two different vulnerability classes that both exploit the same underlying fact, that a browser attaches a user's cookies to a request regardless of which site asked for it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OWASP Top Ten — Web Application Security Risks", "url": "https://owasp.org/www-project-top-ten/", "type": "doc" },
+      { "label": "Stanford CS155 — Computer and Network Security", "url": "https://cs155.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "network-security-and-firewalls",
+    "id": 15,
+    "title": "Network Security and Firewalls",
+    "topic": "Applied & Systems Security",
+    "requires": ["web-security-fundamentals-xss-and-csrf"],
+    "related": [],
+    "summary": "A firewall enforces a policy about which packets are allowed to cross a boundary at all — a genuinely earlier line of defense than anything else covered in this discipline, which mostly assumed an attacker's traffic had already been allowed to arrive.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS155 — Computer and Network Security", "url": "https://cs155.stanford.edu/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-tls-handshake",
+    "id": 16,
+    "title": "Capstone: Tracing a TLS Handshake",
+    "topic": "Putting It Together",
+    "requires": ["network-security-and-firewalls", "digital-signatures-and-certificates"],
+    "related": [],
+    "summary": "Every primitive covered in this discipline — Diffie-Hellman key exchange, RSA/certificate-based authentication, AES in an authenticated mode, and a hash function inside an HMAC — working together, step by step, in the exact protocol that secures the padlock icon in a browser's address bar.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS255 — Introduction to Cryptography, Course Syllabus", "url": "https://cs255.stanford.edu/syllabus.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Information Assurance and Security (Privacy and Security) Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-privacy-and-security-ps-cs2013/", "type": "doc" }
+    ]
+  }
+]
