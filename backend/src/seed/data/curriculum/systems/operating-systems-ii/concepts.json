@@ -1,1 +1,224 @@
-[]
+[
+  {
+    "slug": "dual-mode-execution-and-privilege-rings",
+    "id": 1,
+    "title": "Dual-Mode Execution and Privilege Rings",
+    "topic": "Kernel/User Boundary",
+    "requires": [],
+    "related": [
+      { "label": "Address Spaces and Memory Virtualization", "slug": "address-spaces-and-memory-virtualization", "feature": "curriculum/computer/operating-systems-i" }
+    ],
+    "summary": "The hardware distinguishes exactly two execution modes — kernel and user — and enforces which instructions and memory each one can touch, the single mechanism every other OS-level protection guarantee in this discipline is ultimately built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Direct Execution", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf", "type": "doc" },
+      { "label": "MIT 6.S081 — OS Organization and System Calls", "url": "https://pdos.csail.mit.edu/6.S081/2021/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "traps-interrupts-and-exceptions",
+    "id": 2,
+    "title": "Traps, Interrupts, and Exceptions",
+    "topic": "Kernel/User Boundary",
+    "requires": ["dual-mode-execution-and-privilege-rings"],
+    "related": [],
+    "summary": "A system call, a hardware interrupt, and a page fault look completely different to the programmer, but the CPU handles all three with the exact same trap mechanism — save the current state, jump to a fixed kernel entry point, and let the kernel sort out why it was called.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Direct Execution", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf", "type": "doc" },
+      { "label": "MIT 6.S081 xv6 book — Traps, Interrupts, and Drivers", "url": "https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "anatomy-of-a-system-call",
+    "id": 3,
+    "title": "Anatomy of a System Call",
+    "topic": "Kernel/User Boundary",
+    "requires": ["traps-interrupts-and-exceptions"],
+    "related": [
+      { "label": "The Process API: fork() and exec()", "slug": "the-process-api-fork-and-exec", "feature": "curriculum/computer/operating-systems-i" }
+    ],
+    "summary": "Tracing a single call like write() from a user-space library wrapper through the trap instruction, into the kernel's system-call table, through the actual kernel routine, and back — the concrete machinery behind every OS service a program ever asks for.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.S081 xv6 book — Traps, Interrupts, and Drivers", "url": "https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf", "type": "doc" },
+      { "label": "MIT 6.S081 — Lab: System Calls", "url": "https://pdos.csail.mit.edu/6.S081/2021/labs/syscall.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "validating-user-input-at-the-kernel-boundary",
+    "id": 4,
+    "title": "Validating User Input at the Kernel Boundary",
+    "topic": "Kernel/User Boundary",
+    "requires": ["anatomy-of-a-system-call"],
+    "related": [
+      { "label": "Stack Smashing and Buffer Overflows", "slug": "stack-smashing-and-buffer-overflows", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "Memory Safety and Injection Vulnerabilities", "slug": "memory-safety-and-injection-vulnerabilities", "feature": "curriculum/software-distributed/security-cryptography" }
+    ],
+    "summary": "Every pointer and length a user program hands to a system call is a claim the kernel cannot trust — the same memory-safety failure mode already seen at the application level becomes catastrophic here, because the code trusting bad input is running with full privilege.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.S081 xv6 book — Traps, Interrupts, and Drivers", "url": "https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf", "type": "doc" },
+      { "label": "OSTEP — Intro to Security", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/security-intro.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pipes-and-anonymous-communication",
+    "id": 5,
+    "title": "Pipes and Anonymous Communication",
+    "topic": "Interprocess Communication",
+    "requires": ["validating-user-input-at-the-kernel-boundary"],
+    "related": [],
+    "summary": "The shell's | operator connects one process's standard output directly to another's standard input through a kernel-managed byte buffer — the simplest, oldest, and still most common form of IPC on any Unix-like system.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" },
+      { "label": "MIT 6.S081 — Lab: Unix Utilities (pipe)", "url": "https://pdos.csail.mit.edu/6.S081/2021/labs/util.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "shared-memory-ipc",
+    "id": 6,
+    "title": "Shared Memory IPC",
+    "topic": "Interprocess Communication",
+    "requires": ["pipes-and-anonymous-communication"],
+    "related": [
+      { "label": "Address Spaces and Memory Virtualization", "slug": "address-spaces-and-memory-virtualization", "feature": "curriculum/computer/operating-systems-i" },
+      { "label": "Semaphores", "slug": "semaphores", "feature": "curriculum/computer/operating-systems-i" }
+    ],
+    "summary": "The kernel maps the exact same physical page into two otherwise-isolated address spaces, giving both processes direct, zero-copy access to the same bytes — the fastest IPC mechanism there is, and the one that hands all synchronization responsibility straight back to the already-covered lock and semaphore mechanics.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Address Spaces", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "message-queues-and-structured-ipc",
+    "id": 7,
+    "title": "Message Queues and Structured IPC",
+    "topic": "Interprocess Communication",
+    "requires": ["shared-memory-ipc"],
+    "related": [],
+    "summary": "Instead of a raw shared buffer or an undifferentiated byte stream, the kernel manages discrete, typed messages with their own delivery and ordering guarantees — trading shared memory's raw speed for safety, since the kernel mediates every access instead of trusting processes to coordinate correctly on their own.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" },
+      { "label": "OSTEP — Address Spaces", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sockets-as-a-uniform-ipc-abstraction",
+    "id": 8,
+    "title": "Sockets as a Uniform IPC Abstraction",
+    "topic": "Interprocess Communication",
+    "requires": ["message-queues-and-structured-ipc"],
+    "related": [],
+    "summary": "The Berkeley sockets API presents communication with a process on the same machine and a process on the other side of the planet through the exact same read/write interface — the abstraction this discipline's IPC mechanisms converge on, and the one a future networking discipline builds directly on top of.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" },
+      { "label": "MIT 6.S081 — OS Organization and System Calls", "url": "https://pdos.csail.mit.edu/6.S081/2021/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "full-system-virtualization-and-hypervisors",
+    "id": 9,
+    "title": "Full-System Virtualization and Hypervisors",
+    "topic": "Virtualization & Containers",
+    "requires": ["sockets-as-a-uniform-ipc-abstraction"],
+    "related": [],
+    "summary": "A hypervisor runs an entire guest operating system — kernel, drivers, and all — as if it had a whole machine to itself, by intercepting every privileged instruction the guest tries to execute and emulating its effect instead of letting it touch the real hardware.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Virtual Machines", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf", "type": "doc" },
+      { "label": "Popek & Goldberg — Formal Requirements for Virtualizable Third Generation Architectures", "url": "https://dl.acm.org/doi/10.1145/361011.361073", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hardware-assisted-virtualization",
+    "id": 10,
+    "title": "Hardware-Assisted Virtualization",
+    "topic": "Virtualization & Containers",
+    "requires": ["full-system-virtualization-and-hypervisors"],
+    "related": [],
+    "summary": "Trap-and-emulate alone could not virtualize the real x86 instruction set, because a handful of privileged instructions failed to trap at all when run in user mode — the real reason Intel VT-x and AMD-V added a second privilege dimension purpose-built for hypervisors.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Virtual Machines", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf", "type": "doc" },
+      { "label": "Popek & Goldberg — Formal Requirements for Virtualizable Third Generation Architectures", "url": "https://dl.acm.org/doi/10.1145/361011.361073", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "containers-and-os-level-virtualization",
+    "id": 11,
+    "title": "Containers and OS-Level Virtualization",
+    "topic": "Virtualization & Containers",
+    "requires": ["hardware-assisted-virtualization"],
+    "related": [],
+    "summary": "A container shares the host's single kernel and gets its isolated view of processes, network interfaces, and mounts entirely from namespaces, with cgroups capping the resources it can consume — no guest kernel to boot, which is exactly why containers start in milliseconds where a virtual machine takes seconds.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Virtual Machines", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "access-control-lists-and-unix-permissions",
+    "id": 12,
+    "title": "Access Control Lists and Unix Permissions",
+    "topic": "OS-Level Protection",
+    "requires": ["containers-and-os-level-virtualization"],
+    "related": [
+      { "label": "Authentication vs. Authorization", "slug": "authentication-vs-authorization", "feature": "curriculum/software-distributed/security-cryptography" }
+    ],
+    "summary": "An access control list attaches to each object the exact list of subjects allowed to touch it and how — Unix's read/write/execute permission bits are a deliberately simplified, three-bucket version of this idea, and the concrete mechanism the OS uses to enforce the authorization policies already discussed abstractly elsewhere.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Access Control", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capability-based-security",
+    "id": 13,
+    "title": "Capability-Based Security",
+    "topic": "OS-Level Protection",
+    "requires": ["access-control-lists-and-unix-permissions"],
+    "related": [],
+    "summary": "Instead of asking an object's ACL whether a subject may act on it, a capability is an unforgeable ticket a process already holds that proves it may — a genuinely different model, real in systems like seL4, that sidesteps the classic confused-deputy problem an ACL-based design is prone to.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Access Control", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sandboxing-and-the-principle-of-least-privilege",
+    "id": 14,
+    "title": "Sandboxing and the Principle of Least Privilege",
+    "topic": "OS-Level Protection",
+    "requires": ["capability-based-security"],
+    "related": [],
+    "summary": "chroot, seccomp, and dropping setuid privileges are all the same real idea applied at different granularities — give a running process the absolute minimum access it needs to do its job, so that if it is ever compromised, the blast radius is small on purpose, not by luck.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Access Control", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Schedule", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-container-launch-and-comparing-isolation-boundaries",
+    "id": 15,
+    "title": "Capstone: Tracing a Container Launch and Comparing Isolation Boundaries",
+    "topic": "Putting It Together",
+    "requires": ["sandboxing-and-the-principle-of-least-privilege"],
+    "related": [],
+    "summary": "Following a single `docker run` from the shell's fork/exec through namespace and cgroup setup to the sandboxed process's first system call ties together every cluster in this discipline — and closes with an honest, numeric comparison of how much isolation a container, a VM, and a bare process each actually buy, and at what cost.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "OSTEP — Virtual Machines", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf", "type": "doc" },
+      { "label": "MIT 6.S081 xv6 book — Traps, Interrupts, and Drivers", "url": "https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf", "type": "doc" }
+    ]
+  }
+]
