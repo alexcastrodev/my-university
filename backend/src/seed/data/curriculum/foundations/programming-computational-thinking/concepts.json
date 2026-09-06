@@ -1,1 +1,324 @@
-[]
+[
+  {
+    "slug": "what-is-computation",
+    "id": 1,
+    "title": "What Is Computation",
+    "topic": "Computational Thinking",
+    "requires": [],
+    "related": [],
+    "summary": "The four pillars of computational thinking — decomposition, pattern recognition, abstraction, and algorithm design — and why they're a way of thinking, not a way of coding.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Wing, \"Computational Thinking\" — Communications of the ACM (2006)", "url": "https://dl.acm.org/doi/10.1145/1118178.1118215", "type": "doc" },
+      { "label": "ISTE/CSTA Operational Definition of Computational Thinking", "url": "https://iste.org/standards/computational-thinking-competencies", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "problem-decomposition-and-algorithmic-thinking",
+    "id": 2,
+    "title": "Problem Decomposition and Algorithmic Thinking",
+    "topic": "Computational Thinking",
+    "requires": ["what-is-computation"],
+    "related": [],
+    "summary": "Breaking a problem into an ordered sequence of unambiguous steps before writing a single line of real code, using a toy grid-world/robot example to separate algorithmic thinking from syntax.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Wing, \"Computational Thinking\" — Communications of the ACM (2006)", "url": "https://dl.acm.org/doi/10.1145/1118178.1118215", "type": "doc" },
+      { "label": "Stanford CS106A — Course Schedule", "url": "https://web.stanford.edu/class/cs106a/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "variables-and-primitive-types",
+    "id": 3,
+    "title": "Variables and Primitive Types",
+    "topic": "Building Blocks",
+    "requires": ["problem-decomposition-and-algorithmic-thinking"],
+    "related": [],
+    "summary": "Naming a piece of memory to hold a value, and the primitive types (int, float, bool, str) every program is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — An Informal Introduction to Python", "url": "https://docs.python.org/3/tutorial/introduction.html", "type": "doc" },
+      { "label": "MIT 6.100L — Syllabus", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "expressions-and-assignment",
+    "id": 4,
+    "title": "Expressions and Assignment",
+    "topic": "Building Blocks",
+    "requires": ["variables-and-primitive-types"],
+    "related": [],
+    "summary": "Combining values and operators into expressions, and the difference between mathematical equality and assignment's 'store the result here'.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — An Informal Introduction to Python", "url": "https://docs.python.org/3/tutorial/introduction.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "input-and-output",
+    "id": 5,
+    "title": "Input and Output",
+    "topic": "Building Blocks",
+    "requires": ["expressions-and-assignment"],
+    "related": [],
+    "summary": "Reading a value from the user and printing a result back — the smallest possible feedback loop a program can have.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Built-in Functions", "url": "https://docs.python.org/3/library/functions.html", "type": "doc" },
+      { "label": "CS50x 2025 — Weeks", "url": "https://cs50.harvard.edu/x/2025/weeks/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "conditional-control-flow",
+    "id": 6,
+    "title": "Conditional Control Flow",
+    "topic": "Building Blocks",
+    "requires": ["expressions-and-assignment"],
+    "related": [],
+    "summary": "Branching a program's execution with if/elif/else based on a boolean condition.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — More Control Flow Tools", "url": "https://docs.python.org/3/tutorial/controlflow.html", "type": "doc" },
+      { "label": "CS50x 2025 — Weeks", "url": "https://cs50.harvard.edu/x/2025/weeks/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "iteration-and-loops",
+    "id": 7,
+    "title": "Iteration and Loops",
+    "topic": "Building Blocks",
+    "requires": ["conditional-control-flow"],
+    "related": [],
+    "summary": "Repeating a block of code with while and for, and the loop invariants that keep a repeated computation correct.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — More Control Flow Tools", "url": "https://docs.python.org/3/tutorial/controlflow.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "floating-point-and-approximation",
+    "id": 8,
+    "title": "Floating-Point and Approximation",
+    "topic": "Numeric Methods",
+    "requires": ["variables-and-primitive-types"],
+    "related": [],
+    "summary": "Why floating-point numbers are an approximation of the reals, not the reals themselves, and what that means for equality checks and accumulated error.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Library Reference — Built-in Types", "url": "https://docs.python.org/3/library/stdtypes.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "guess-and-check-and-bisection-search",
+    "id": 9,
+    "title": "Guess-and-Check and Bisection Search",
+    "topic": "Numeric Methods",
+    "requires": ["floating-point-and-approximation", "iteration-and-loops"],
+    "related": [],
+    "summary": "Solving equations no closed form covers by successive approximation — exhaustive guess-and-check first, then bisection search cutting the search space in half each step.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" },
+      { "label": "MIT 6.100L — Syllabus", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "decomposition-and-abstraction-via-functions",
+    "id": 10,
+    "title": "Decomposition and Abstraction via Functions",
+    "topic": "Functions",
+    "requires": ["iteration-and-loops"],
+    "related": [],
+    "summary": "Wrapping a block of logic behind a name so a caller can use it without knowing how it works inside — the mechanism behind computational thinking's abstraction pillar.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Wing, \"Computational Thinking\" — Communications of the ACM (2006)", "url": "https://dl.acm.org/doi/10.1145/1118178.1118215", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals KA", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "parameters-and-return-values",
+    "id": 11,
+    "title": "Parameters and Return Values",
+    "topic": "Functions",
+    "requires": ["decomposition-and-abstraction-via-functions"],
+    "related": [],
+    "summary": "Passing data into a function and getting a result back out — parameter binding, default values, and what a function returns when it doesn't say.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — More Control Flow Tools", "url": "https://docs.python.org/3/tutorial/controlflow.html", "type": "doc" },
+      { "label": "Python Built-in Functions", "url": "https://docs.python.org/3/library/functions.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "functions-as-first-class-objects",
+    "id": 12,
+    "title": "Functions as First-Class Objects",
+    "topic": "Functions",
+    "requires": ["parameters-and-return-values"],
+    "related": [],
+    "summary": "Treating a function itself as a value — assigning it to a variable, passing it as an argument, or writing one inline as a lambda.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Data Model", "url": "https://docs.python.org/3/reference/datamodel.html", "type": "doc" },
+      { "label": "Python Tutorial — More Control Flow Tools", "url": "https://docs.python.org/3/tutorial/controlflow.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "lists-and-mutability",
+    "id": 13,
+    "title": "Lists and Mutability",
+    "topic": "Compound Data",
+    "requires": ["iteration-and-loops"],
+    "related": [],
+    "summary": "Storing an ordered, growable sequence of values in a list, and the difference between a mutable list and an immutable value like a number or string.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html", "type": "doc" },
+      { "label": "Python Library Reference — Built-in Types", "url": "https://docs.python.org/3/library/stdtypes.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "aliasing-and-cloning",
+    "id": 14,
+    "title": "Aliasing and Cloning",
+    "topic": "Compound Data",
+    "requires": ["lists-and-mutability"],
+    "related": [],
+    "summary": "Two variables can point at the same mutable list in memory — mutating through one changes what the other sees, unless you clone instead of alias.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Data Model", "url": "https://docs.python.org/3/reference/datamodel.html", "type": "doc" },
+      { "label": "Python Tutorial — Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tuples",
+    "id": 15,
+    "title": "Tuples",
+    "topic": "Compound Data",
+    "requires": ["lists-and-mutability"],
+    "related": [],
+    "summary": "An immutable, fixed-size sequence — when to reach for a tuple instead of a list, and how tuple unpacking reads cleaner than manual indexing.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Library Reference — Built-in Types", "url": "https://docs.python.org/3/library/stdtypes.html", "type": "doc" },
+      { "label": "Python Tutorial — Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dictionaries",
+    "id": 16,
+    "title": "Dictionaries",
+    "topic": "Compound Data",
+    "requires": ["lists-and-mutability"],
+    "related": [],
+    "summary": "Storing key-value pairs for near-constant-time lookup by key instead of by position, backed by a hash table.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html", "type": "doc" },
+      { "label": "Python Library Reference — Built-in Types", "url": "https://docs.python.org/3/library/stdtypes.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "testing-and-debugging",
+    "id": 17,
+    "title": "Testing and Debugging",
+    "topic": "Robustness",
+    "requires": ["decomposition-and-abstraction-via-functions"],
+    "related": [],
+    "summary": "Writing test cases before you trust a function, and a systematic process for isolating a bug instead of guessing at print statements.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals KA", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "exceptions-and-assertions",
+    "id": 18,
+    "title": "Exceptions and Assertions",
+    "topic": "Robustness",
+    "requires": ["testing-and-debugging"],
+    "related": [],
+    "summary": "Raising and catching exceptions for conditions a caller must handle, and assertions for conditions that should never happen at all.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — Errors and Exceptions", "url": "https://docs.python.org/3/tutorial/errors.html", "type": "doc" },
+      { "label": "Python Library Reference — Built-in Exceptions", "url": "https://docs.python.org/3/library/exceptions.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "recursion",
+    "id": 19,
+    "title": "Recursion",
+    "topic": "Recursion",
+    "requires": ["decomposition-and-abstraction-via-functions"],
+    "related": [],
+    "summary": "A function that solves a problem by calling itself on a smaller version of the same problem, bottoming out at a base case.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Data Model", "url": "https://docs.python.org/3/reference/datamodel.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "recursion-on-structural-data",
+    "id": 20,
+    "title": "Recursion on Structural Data",
+    "topic": "Recursion",
+    "requires": ["recursion", "lists-and-mutability"],
+    "related": [],
+    "summary": "Applying recursion to a value's shape — walking a nested list or a string letter-by-letter — rather than to a shrinking number.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python Tutorial — Data Structures", "url": "https://docs.python.org/3/tutorial/datastructures.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "timing-and-counting-operations",
+    "id": 21,
+    "title": "Timing and Counting Operations",
+    "topic": "Complexity",
+    "requires": ["iteration-and-loops"],
+    "related": [],
+    "summary": "Measuring how a program's actual running time grows as its input grows, by timing it and by counting its operations.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" },
+      { "label": "MIT 6.100L — Syllabus", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "big-o-and-asymptotic-complexity",
+    "id": 22,
+    "title": "Big-O and Asymptotic Complexity",
+    "topic": "Complexity",
+    "requires": ["timing-and-counting-operations"],
+    "related": [],
+    "summary": "Describing an algorithm's growth rate independent of any specific machine, using Big-O to bound its worst case.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals KA", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sorting-algorithms-intro",
+    "id": 23,
+    "title": "Sorting Algorithms: An Introduction",
+    "topic": "Complexity",
+    "requires": ["big-o-and-asymptotic-complexity", "lists-and-mutability"],
+    "related": [],
+    "summary": "A first pass at sorting: comparing simple quadratic sorts (bubble/selection/insertion) against a divide-and-conquer sort (merge sort), and why the comparison matters once Big-O is on the table.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Python HOWTO — Sorting Techniques", "url": "https://docs.python.org/3/howto/sorting.html", "type": "doc" },
+      { "label": "MIT 6.100L — Materials by Lecture", "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/", "type": "doc" }
+    ]
+  }
+]
