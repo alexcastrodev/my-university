@@ -1,1 +1,174 @@
-[]
+[
+  {
+    "slug": "the-church-turing-thesis",
+    "id": 1,
+    "title": "The Church-Turing Thesis and What \"Computable\" Means",
+    "topic": "Computability Foundations",
+    "requires": [],
+    "related": [],
+    "summary": "The claim — not a theorem, a thesis — that anything intuitively \"computable\" by any mechanical procedure at all can be computed by a Turing machine, and why this quietly settles what \"algorithm\" even means.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "MIT 18.404J — OCW Course Home", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-turing-machine-as-a-formal-model",
+    "id": 2,
+    "title": "The Turing Machine as a Formal Model",
+    "topic": "Computability Foundations",
+    "requires": ["the-church-turing-thesis"],
+    "related": [],
+    "summary": "An infinite tape, a read/write head, and a table of rules — just enough mechanics to define precisely what it means for a machine to accept, reject, or loop forever on an input.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" },
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "decidable-and-turing-recognizable-languages",
+    "id": 3,
+    "title": "Decidable and Turing-Recognizable Languages",
+    "topic": "Computability Foundations",
+    "requires": ["the-turing-machine-as-a-formal-model"],
+    "related": [],
+    "summary": "A machine that halts and correctly answers yes-or-no on every input DECIDES a language — one that halts and says yes on every string that belongs, but may loop forever on ones that don't, only RECOGNIZES it, and the gap between these two is not a technicality.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-halting-problem",
+    "id": 4,
+    "title": "The Halting Problem",
+    "topic": "Decidability",
+    "requires": ["decidable-and-turing-recognizable-languages"],
+    "related": [
+      { "label": "Proof by Contradiction", "slug": "proof-by-contradiction", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "No algorithm can decide, for every possible program and input, whether that program eventually halts — Turing's original diagonalization argument, structurally a proof by contradiction, proved here in full, and shown to be recognizable but not decidable.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "reductions-and-other-undecidable-problems",
+    "id": 5,
+    "title": "Reductions and Other Undecidable Problems",
+    "topic": "Decidability",
+    "requires": ["the-halting-problem"],
+    "related": [],
+    "summary": "Proving a new problem undecidable without repeating the diagonalization argument from scratch — by showing that solving it would let you solve the Halting Problem, which is already known to be impossible.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" },
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "rices-theorem",
+    "id": 6,
+    "title": "Rice's Theorem",
+    "topic": "Decidability",
+    "requires": ["reductions-and-other-undecidable-problems"],
+    "related": [],
+    "summary": "Every non-trivial question about what a program's behavior actually DOES (not how it's written) is undecidable — a single, sweeping theorem that instantly settles an entire universe of \"is this decidable?\" questions at once.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-complexity-class-p",
+    "id": 7,
+    "title": "The Complexity Class P",
+    "topic": "Complexity Classes",
+    "requires": ["the-turing-machine-as-a-formal-model"],
+    "related": [
+      { "label": "Big-O and Asymptotic Complexity", "slug": "big-o-and-asymptotic-complexity", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "The class of problems solvable in polynomial time — a precise, formal home for the Big-O vocabulary already covered, and the standard, if imperfect, dividing line between \"efficiently solvable\" and \"not.\"",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-complexity-class-np",
+    "id": 8,
+    "title": "The Complexity Class NP",
+    "topic": "Complexity Classes",
+    "requires": ["the-complexity-class-p"],
+    "related": [],
+    "summary": "Not \"exponential time\" — the class of problems whose SOLUTIONS can be checked in polynomial time, even if no one knows how to find one quickly, and why P is provably contained inside it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" },
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "np-completeness-and-cook-levin",
+    "id": 9,
+    "title": "NP-Completeness and the Cook-Levin Theorem",
+    "topic": "Complexity Classes",
+    "requires": ["the-complexity-class-np"],
+    "related": [],
+    "summary": "A problem is NP-complete when it's both in NP and at least as hard as every other problem in NP — and the Cook-Levin theorem's real, historic payoff: at least one such problem (SAT) provably exists at all.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "proving-np-completeness-via-reduction",
+    "id": 10,
+    "title": "Proving NP-Completeness via Reduction",
+    "topic": "Complexity Classes",
+    "requires": ["np-completeness-and-cook-levin"],
+    "related": [],
+    "summary": "Once one NP-complete problem is known, proving a new one is NP-complete never requires repeating Cook-Levin's argument — a polynomial-time reduction from an already-known NP-complete problem is enough.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-complexity-class-conp",
+    "id": 11,
+    "title": "The Complexity Class coNP and the Asymmetry of Verification",
+    "topic": "Complexity Classes",
+    "requires": ["proving-np-completeness-via-reduction"],
+    "related": [],
+    "summary": "NP is built to verify a YES answer quickly — coNP is its mirror image, built to verify a NO answer quickly instead — and whether the two classes are actually the same is a real, still-open question in its own right.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "Stanford CS154 — Course Home", "url": "https://cs154.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-p-vs-np-question",
+    "id": 12,
+    "title": "The P vs. NP Question: Real Stakes",
+    "topic": "Capstone",
+    "requires": ["the-complexity-class-conp", "rices-theorem"],
+    "related": [],
+    "summary": "The single most famous open problem in computer science — does every problem whose solution can be checked quickly also admit one that can be FOUND quickly — and why a resolution either way would upend cryptography and optimization overnight.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404/6.5400 — Course Information (Sipser)", "url": "https://math.mit.edu/~sipser/18404/info.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  }
+]
