@@ -1,1 +1,237 @@
-[]
+[
+  {
+    "slug": "why-parallelism-picking-up-where-multicore-left-off",
+    "id": 1,
+    "title": "Why Parallelism: Picking Up Where Multicore Left Off",
+    "topic": "Parallel Architectures & Models",
+    "requires": [],
+    "related": [
+      { "label": "Why Multicore: The Power Wall and the End of Free Frequency Scaling", "slug": "why-multicore-the-power-wall", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "Computer Architecture explained why chipmakers stopped making single cores faster and started shipping more of them; this discipline picks up exactly there, asking a different question — given many cores (or many machines), how does a programmer actually get a program to use them?",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Parallel and Distributed Computing Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "parallel-computer-memory-architectures",
+    "id": 2,
+    "title": "Parallel Computer Memory Architectures: Shared, Distributed, and Hybrid",
+    "topic": "Parallel Architectures & Models",
+    "requires": ["why-parallelism-picking-up-where-multicore-left-off"],
+    "related": [
+      { "label": "Multicore Architectures and Shared Memory", "slug": "multicore-architectures-and-shared-memory", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "Shared memory (UMA or NUMA) gives every processor a single address space it can all read and write directly; distributed memory gives each processor its own private memory and forces communication through explicit messages — the single hardware distinction that determines which programming model a parallel program can even use.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "task-parallelism-vs-data-parallelism",
+    "id": 3,
+    "title": "Task Parallelism vs. Data Parallelism",
+    "topic": "Decomposition & Design",
+    "requires": ["parallel-computer-memory-architectures"],
+    "related": [],
+    "summary": "Two different axes along which a program can be split: task parallelism runs different operations concurrently (each thread does something different), while data parallelism runs the same operation concurrently over different pieces of data — the axis CS2013 names explicitly as the two core decomposition strategies.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Parallel and Distributed Computing Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/", "type": "doc" },
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "domain-and-functional-decomposition",
+    "id": 4,
+    "title": "Domain Decomposition and Functional Decomposition",
+    "topic": "Decomposition & Design",
+    "requires": ["task-parallelism-vs-data-parallelism"],
+    "related": [
+      { "label": "The Divide-and-Conquer Paradigm", "slug": "the-divide-and-conquer-paradigm", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Domain decomposition splits the data into chunks and gives each processor the same code to run on its own chunk (a direct data-parallel realization); functional decomposition splits the problem into distinct stages or roles, each running different code — the same partitioning question divide-and-conquer already asked, now applied across processors instead of recursive calls.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "communication-synchronization-and-data-dependencies",
+    "id": 5,
+    "title": "Communication, Synchronization, and Data Dependencies",
+    "topic": "Decomposition & Design",
+    "requires": ["domain-and-functional-decomposition"],
+    "related": [],
+    "summary": "Splitting work is the easy part; a real parallel program also has to move data between the pieces (communication), keep operations that depend on each other's results in the right order (synchronization), and identify exactly which operations have those dependencies in the first place — three separate, unavoidable costs every decomposition has to pay.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "granularity-and-load-balancing",
+    "id": 6,
+    "title": "Granularity and Load Balancing",
+    "topic": "Decomposition & Design",
+    "requires": ["communication-synchronization-and-data-dependencies"],
+    "related": [],
+    "summary": "Granularity is the ratio of computation to communication in each parallel chunk — too fine and communication overhead dominates, too coarse and processors sit idle waiting for a few slow chunks; load balancing is the companion problem of making sure every processor actually gets a fair, similarly-sized share of the work.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "speedup-and-efficiency",
+    "id": 7,
+    "title": "Speedup and Efficiency",
+    "topic": "Performance & Scalability",
+    "requires": ["granularity-and-load-balancing"],
+    "related": [],
+    "summary": "Speedup = T(1) / T(p), the ratio of sequential to parallel running time on p processors; efficiency = Speedup / p, the fraction of each processor's time actually spent on useful work — the two numbers every parallel performance claim ultimately has to be measured against.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" },
+      { "label": "UC Berkeley CS267 — Applications of Parallel Computers", "url": "https://sites.google.com/lbl.gov/cs267-spr2024", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "amdahls-law",
+    "id": 8,
+    "title": "Amdahl's Law",
+    "topic": "Performance & Scalability",
+    "requires": ["speedup-and-efficiency"],
+    "related": [],
+    "summary": "If a fraction f of a program is inherently sequential, no number of processors can push speedup past 1/f — a hard ceiling that turns \"just add more cores\" into a question that always has to start with \"how much of this can even run in parallel?\"",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gustafsons-law",
+    "id": 9,
+    "title": "Gustafson's Law",
+    "topic": "Performance & Scalability",
+    "requires": ["amdahls-law"],
+    "related": [],
+    "summary": "Amdahl's Law assumes the problem size is fixed while processors grow; Gustafson's reframing assumes the opposite — in practice, more processors are used to solve a bigger problem in the same time, not the same problem faster — and under that assumption, speedup scales almost linearly instead of hitting a hard ceiling.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" },
+      { "label": "UC Berkeley CS267 — Applications of Parallel Computers", "url": "https://sites.google.com/lbl.gov/cs267-spr2024", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "strong-scaling-vs-weak-scaling",
+    "id": 10,
+    "title": "Strong Scaling vs. Weak Scaling",
+    "topic": "Performance & Scalability",
+    "requires": ["gustafsons-law"],
+    "related": [],
+    "summary": "Strong scaling holds the problem size fixed and adds processors — the exact regime Amdahl's Law bounds; weak scaling grows the problem size in proportion to the processors — the exact regime Gustafson's Law describes. Real HPC performance reports name which one they mean, because the two questions have very different honest answers.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-openmp-programming-model-and-fork-join",
+    "id": 11,
+    "title": "The OpenMP Programming Model and Fork-Join",
+    "topic": "Shared-Memory Programming: OpenMP",
+    "requires": ["strong-scaling-vs-weak-scaling"],
+    "related": [],
+    "summary": "A single master thread runs sequentially until it hits a `#pragma omp parallel` region, at which point it forks a team of worker threads that all execute that region together, then joins back into one thread at the region's end — the fork-join model every OpenMP program is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — OpenMP", "url": "https://hpc-tutorials.llnl.gov/openmp/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "openmp-work-sharing-and-reductions",
+    "id": 12,
+    "title": "OpenMP Work-Sharing and Reductions",
+    "topic": "Shared-Memory Programming: OpenMP",
+    "requires": ["the-openmp-programming-model-and-fork-join"],
+    "related": [],
+    "summary": "`#pragma omp for` splits loop iterations across the threads already forked by an enclosing parallel region, and a `reduction` clause gives every thread its own private accumulator that OpenMP combines safely at the end — the standard, directive-only way to data-parallelize an ordinary loop without touching its body's logic.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — OpenMP", "url": "https://hpc-tutorials.llnl.gov/openmp/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "synchronization-in-openmp-critical-atomic-and-locks",
+    "id": 13,
+    "title": "Synchronization in OpenMP: Critical, Atomic, and Locks",
+    "topic": "Shared-Memory Programming: OpenMP",
+    "requires": ["openmp-work-sharing-and-reductions"],
+    "related": [],
+    "summary": "When a reduction clause isn't expressive enough, `critical` and `atomic` give threads mutually exclusive access to a shared update — `atomic` compiling to a single fast hardware instruction where possible, `critical` covering arbitrary blocks of code at a higher cost — the two directive-level tools that keep a shared-memory program correct without hand-writing a lock.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — OpenMP", "url": "https://hpc-tutorials.llnl.gov/openmp/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-mpi-programming-model-processes-and-ranks",
+    "id": 14,
+    "title": "The MPI Programming Model: Processes and Ranks",
+    "topic": "Distributed-Memory Programming: MPI",
+    "requires": ["synchronization-in-openmp-critical-atomic-and-locks"],
+    "related": [],
+    "summary": "MPI has no shared address space to fork threads into — instead, a fixed number of independent processes are launched together (SPMD: the same program, running on every process), each one identified by a unique integer rank within a communicator, and every bit of coordination between them has to happen through explicit messages.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — MPI", "url": "https://hpc-tutorials.llnl.gov/mpi/", "type": "doc" },
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "point-to-point-communication-blocking-and-non-blocking",
+    "id": 15,
+    "title": "Point-to-Point Communication: Blocking and Non-Blocking",
+    "topic": "Distributed-Memory Programming: MPI",
+    "requires": ["the-mpi-programming-model-processes-and-ranks"],
+    "related": [],
+    "summary": "`MPI_Send`/`MPI_Recv` block the calling process until the message transfer is safe to consider complete — simple, but a matching pair with the wrong order can deadlock the whole program; `MPI_Isend`/`MPI_Irecv` return immediately and let the process do other work while the message is still in flight, at the cost of needing an explicit `MPI_Wait` before touching the buffer again.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — MPI", "url": "https://hpc-tutorials.llnl.gov/mpi/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "collective-communication-broadcast-reduce-scatter-gather",
+    "id": 16,
+    "title": "Collective Communication: Broadcast, Reduce, Scatter, Gather",
+    "topic": "Distributed-Memory Programming: MPI",
+    "requires": ["point-to-point-communication-blocking-and-non-blocking"],
+    "related": [],
+    "summary": "Most real MPI programs barely use raw send/recv pairs directly — `MPI_Bcast` sends one process's data to every process, `MPI_Reduce` combines every process's data back into one with an operator like sum or max, and `MPI_Scatter`/`MPI_Gather` split and reassemble an array across all ranks, each one a communication pattern general enough to be implemented far more efficiently than a hand-written loop of point-to-point calls.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL HPC Tutorials — MPI", "url": "https://hpc-tutorials.llnl.gov/mpi/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-choosing-a-parallel-programming-model",
+    "id": 17,
+    "title": "Capstone: Choosing a Parallel Programming Model",
+    "topic": "Putting It Together",
+    "requires": ["collective-communication-broadcast-reduce-scatter-gather"],
+    "related": [
+      { "label": "GPU Architecture and the SIMT Execution Model", "slug": "gpu-architecture-and-the-simt-execution-model", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "One machine with several cores and a real memory bottleneck usually calls for OpenMP; a cluster of many machines with no shared memory calls for MPI; a problem with thousands of independent, simple, identical operations calls for the GPU's SIMT model already covered in Computer Architecture — a decision guide that ties memory architecture, decomposition, Amdahl/Gustafson, and the two programming models covered here into one real choice, made honestly (many real HPC codes use more than one of these together).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "LLNL — Introduction to Parallel Computing Tutorial", "url": "https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial", "type": "doc" },
+      { "label": "UC Berkeley CS267 — Applications of Parallel Computers", "url": "https://sites.google.com/lbl.gov/cs267-spr2024", "type": "doc" }
+    ]
+  }
+]
