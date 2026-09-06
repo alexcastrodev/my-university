@@ -77,6 +77,33 @@ export class CurriculumService {
     return sortByPrerequisites(require(file) as ConceptMeta[]);
   }
 
+  /** Every (module, discipline) pair that actually exists on disk — for callers, like search indexing, that need to walk the whole curriculum tree rather than one discipline at a time. */
+  listDisciplines(): { module: string; discipline: string }[] {
+    return readdirSync(DATA_ROOT, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .flatMap((moduleEntry) => {
+        const moduleDir = join(DATA_ROOT, moduleEntry.name);
+        return readdirSync(moduleDir, { withFileTypes: true })
+          .filter((entry) => entry.isDirectory())
+          .map((disciplineEntry) => ({
+            module: moduleEntry.name,
+            discipline: disciplineEntry.name,
+          }));
+      });
+  }
+
+  findAllDetailed(
+    mod: string,
+    discipline: string,
+    lang: Language = DEFAULT_LANGUAGE,
+  ): CurriculumConceptDetail[] {
+    const dataDir = this.disciplineDir(mod, discipline);
+    const language = normalizeLanguage(lang);
+    return this.loadMeta(dataDir).map((meta) =>
+      this.readDetail(dataDir, meta, language),
+    );
+  }
+
   findAll(
     mod: string,
     discipline: string,

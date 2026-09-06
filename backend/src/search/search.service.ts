@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
+import { CurriculumService } from '../curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
@@ -23,6 +24,7 @@ export type SearchResultType =
   | 'java-minute'
   | 'java-concept'
   | 'jvm-concept'
+  | 'curriculum-concept'
   | 'database-concept'
   | 'spring-concept'
   | 'system-design-concept'
@@ -39,6 +41,14 @@ export interface SearchResult {
   url: string;
 }
 
+/** "programming-computational-thinking" -> "Programming Computational Thinking" — a discipline slug has no separate human title stored on the backend (that mapping lives only in the frontend's static registry), so search subtitles derive one directly. */
+function titleCase(slug: string): string {
+  return slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 @Injectable()
 export class SearchService implements OnApplicationBootstrap {
   private readonly log = new Logger(SearchService.name);
@@ -49,6 +59,7 @@ export class SearchService implements OnApplicationBootstrap {
     private javaConceptsService: JavaConceptsService,
     private jvmConceptsService: JvmConceptsService,
     private javaMinuteService: JavaMinuteService,
+    private curriculumService: CurriculumService,
     private databaseConceptsService: DatabaseConceptsService,
     private springConceptsService: SpringConceptsService,
     private systemDesignConceptsService: SystemDesignConceptsService,
@@ -109,7 +120,9 @@ export class SearchService implements OnApplicationBootstrap {
         title: episode.question,
         subtitle: 'Java Minute',
         url: `/java/java-minute/${episode.slug}`,
-        content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
+        content: episode.sections
+          .map((s) => `${s.title} ${s.content}`)
+          .join(' '),
       });
     }
 
@@ -126,7 +139,9 @@ export class SearchService implements OnApplicationBootstrap {
           title: episode.question,
           subtitle: 'Java Minute',
           url: `/java/java-minute/${episode.slug}`,
-          content: episode.sections.map((s) => `${s.title} ${s.content}`).join(' '),
+          content: episode.sections
+            .map((s) => `${s.title} ${s.content}`)
+            .join(' '),
         });
       }
     }
@@ -138,13 +153,18 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Java Concepts',
         url: `/java/java-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
     for (const language of SUPPORTED_LANGUAGES) {
       if (language === DEFAULT_LANGUAGE) continue;
-      for (const concept of this.javaConceptsService.findAllDetailed(language)) {
+      for (const concept of this.javaConceptsService.findAllDetailed(
+        language,
+      )) {
         if (concept.language !== language) continue;
         documents.push({
           id: `java-concept-${concept.slug}-${language}`,
@@ -152,7 +172,10 @@ export class SearchService implements OnApplicationBootstrap {
           title: concept.title,
           subtitle: 'Java Concepts',
           url: `/java/java-concepts/${concept.slug}`,
-          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+          content: [
+            concept.summary,
+            ...concept.sections.map((s) => `${s.title} ${s.content}`),
+          ].join(' '),
         });
       }
     }
@@ -164,7 +187,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'JVM Concepts',
         url: `/java/jvm-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -178,8 +204,56 @@ export class SearchService implements OnApplicationBootstrap {
           title: concept.title,
           subtitle: 'JVM Concepts',
           url: `/java/jvm-concepts/${concept.slug}`,
-          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+          content: [
+            concept.summary,
+            ...concept.sections.map((s) => `${s.title} ${s.content}`),
+          ].join(' '),
         });
+      }
+    }
+
+    for (const {
+      module,
+      discipline,
+    } of this.curriculumService.listDisciplines()) {
+      const subtitle = titleCase(discipline);
+      for (const concept of this.curriculumService.findAllDetailed(
+        module,
+        discipline,
+      )) {
+        documents.push({
+          id: `curriculum-concept-${module}-${discipline}-${concept.slug}`,
+          type: 'curriculum-concept' satisfies SearchResultType,
+          title: concept.title,
+          subtitle,
+          url: `/computer-science/${module}/${discipline}/${concept.slug}`,
+          content: [
+            concept.summary,
+            ...concept.sections.map((s) => `${s.title} ${s.content}`),
+          ].join(' '),
+        });
+      }
+
+      for (const language of SUPPORTED_LANGUAGES) {
+        if (language === DEFAULT_LANGUAGE) continue;
+        for (const concept of this.curriculumService.findAllDetailed(
+          module,
+          discipline,
+          language,
+        )) {
+          if (concept.language !== language) continue;
+          documents.push({
+            id: `curriculum-concept-${module}-${discipline}-${concept.slug}-${language}`,
+            type: 'curriculum-concept' satisfies SearchResultType,
+            title: concept.title,
+            subtitle,
+            url: `/computer-science/${module}/${discipline}/${concept.slug}`,
+            content: [
+              concept.summary,
+              ...concept.sections.map((s) => `${s.title} ${s.content}`),
+            ].join(' '),
+          });
+        }
       }
     }
 
@@ -190,7 +264,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Database Concepts',
         url: `/databases/database-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -201,13 +278,18 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Spring Concepts',
         url: `/spring-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
     for (const language of SUPPORTED_LANGUAGES) {
       if (language === DEFAULT_LANGUAGE) continue;
-      for (const concept of this.springConceptsService.findAllDetailed(language)) {
+      for (const concept of this.springConceptsService.findAllDetailed(
+        language,
+      )) {
         if (concept.language !== language) continue;
         documents.push({
           id: `spring-concept-${concept.slug}-${language}`,
@@ -215,7 +297,10 @@ export class SearchService implements OnApplicationBootstrap {
           title: concept.title,
           subtitle: 'Spring Concepts',
           url: `/spring-concepts/${concept.slug}`,
-          content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+          content: [
+            concept.summary,
+            ...concept.sections.map((s) => `${s.title} ${s.content}`),
+          ].join(' '),
         });
       }
     }
@@ -227,7 +312,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'System Design',
         url: `/system-design/system-design-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -238,7 +326,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Testing Concepts',
         url: `/java/testing/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -249,7 +340,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Algorithms',
         url: `/algorithms/algorithms-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -260,7 +354,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Ruby Concepts',
         url: `/ruby-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -271,7 +368,10 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Ruby on Rails Concepts',
         url: `/rubyonrails-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
@@ -282,14 +382,20 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Quarkus Concepts',
         url: `/quarkus-concepts/${concept.slug}`,
-        content: [concept.summary, ...concept.sections.map((s) => `${s.title} ${s.content}`)].join(' '),
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
       });
     }
 
     await this.meili.replaceDocuments(documents);
   }
 
-  async search(query: string, type?: SearchResultType): Promise<SearchResult[]> {
+  async search(
+    query: string,
+    type?: SearchResultType,
+  ): Promise<SearchResult[]> {
     const term = query.trim();
     if (term.length < 2) return [];
 
