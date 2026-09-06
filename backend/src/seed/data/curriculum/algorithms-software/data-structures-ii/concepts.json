@@ -1,1 +1,288 @@
-[]
+[
+  {
+    "slug": "why-balance-matters",
+    "id": 1,
+    "title": "Why Balance Matters",
+    "topic": "Self-Balancing Trees",
+    "requires": [],
+    "related": [
+      { "label": "BST Performance: Why Balance Matters", "slug": "bst-performance-and-balance", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Picking up exactly where Data Structures I left off: a plain BST degrades to O(n) on a lopsided tree, and this discipline exists to fix that guarantee for good.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "avl-trees-the-balance-invariant",
+    "id": 2,
+    "title": "AVL Trees: The Balance Invariant",
+    "topic": "Self-Balancing Trees",
+    "requires": ["why-balance-matters"],
+    "related": [],
+    "summary": "A binary search tree that enforces one simple rule after every insertion or deletion — the heights of any node's two subtrees never differ by more than one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "avl-rotations",
+    "id": 3,
+    "title": "AVL Rotations: Single and Double",
+    "topic": "Self-Balancing Trees",
+    "requires": ["avl-trees-the-balance-invariant"],
+    "related": [],
+    "summary": "The local, constant-time restructuring operation — a rotation — that restores AVL's balance invariant after an insertion or deletion knocks it out of alignment.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "red-black-trees",
+    "id": 4,
+    "title": "Red-Black Trees: An Alternative Balance Scheme",
+    "topic": "Self-Balancing Trees",
+    "requires": ["avl-rotations"],
+    "related": [],
+    "summary": "A looser balance invariant, enforced with a color on every node instead of a strict height check — the scheme most production libraries (Java's TreeMap, C++'s std::map) actually use.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "comparing-avl-and-red-black-trees",
+    "id": 5,
+    "title": "Comparing AVL and Red-Black Trees in Practice",
+    "topic": "Self-Balancing Trees",
+    "requires": ["red-black-trees"],
+    "related": [],
+    "summary": "Both guarantee O(log n) operations — the real difference is in the constants: AVL's stricter balance means faster lookups but more rotations; red-black's looser balance means the reverse.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-heap-property",
+    "id": 6,
+    "title": "The Heap Property",
+    "topic": "Heaps & Priority Queues",
+    "requires": [],
+    "related": [
+      { "label": "Binary Trees: Terminology and Representation", "slug": "binary-trees-terminology-and-representation", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A binary tree where every node is at least as large as (or at least as small as) both of its children — weaker than a BST's ordering, but exactly enough to make \"find the max\" instant.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "array-representation-of-a-binary-heap",
+    "id": 7,
+    "title": "Array Representation of a Binary Heap",
+    "topic": "Heaps & Priority Queues",
+    "requires": ["the-heap-property"],
+    "related": [],
+    "summary": "Storing a complete binary tree in a plain array — a node at index i has children at 2i+1 and 2i+2 — avoiding pointers entirely and packing the tree with zero wasted space.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "heapify-building-a-heap-in-linear-time",
+    "id": 8,
+    "title": "Heapify: Building a Heap in Linear Time",
+    "topic": "Heaps & Priority Queues",
+    "requires": ["array-representation-of-a-binary-heap"],
+    "related": [],
+    "summary": "Turning an arbitrary array into a valid heap in O(n) time, not the O(n log n) a naive one-at-a-time insertion would cost — a genuinely surprising result worth deriving carefully.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "heap-insert-and-extract",
+    "id": 9,
+    "title": "Heap Insert and Extract-Max/Min",
+    "topic": "Heaps & Priority Queues",
+    "requires": ["array-representation-of-a-binary-heap"],
+    "related": [],
+    "summary": "The two operations a priority queue actually needs — adding an element and removing the highest (or lowest) priority one — each done in O(log n) by bubbling along a single root-to-leaf path.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "heapsort",
+    "id": 10,
+    "title": "Heapsort",
+    "topic": "Heaps & Priority Queues",
+    "requires": ["heapify-building-a-heap-in-linear-time", "heap-insert-and-extract"],
+    "related": [],
+    "summary": "Heapify the whole array once, then repeatedly extract the max into the back of the array — an O(n log n), in-place sort that falls directly out of the heap operations already covered.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-union-find-adt",
+    "id": 11,
+    "title": "The Union-Find (Disjoint-Set) ADT",
+    "topic": "Union-Find",
+    "requires": [],
+    "related": [],
+    "summary": "A structure for tracking a collection of disjoint groups, supporting exactly two operations — merge two groups, and ask whether two elements are in the same one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "quick-find-and-quick-union",
+    "id": 12,
+    "title": "Quick-Find and Quick-Union",
+    "topic": "Union-Find",
+    "requires": ["the-union-find-adt"],
+    "related": [],
+    "summary": "Two naive first attempts at implementing union-find — one makes membership-checking instant but merging slow, the other the reverse — neither good enough on its own.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "union-by-rank-and-size",
+    "id": 13,
+    "title": "Union by Rank and Size",
+    "topic": "Union-Find",
+    "requires": ["quick-find-and-quick-union"],
+    "related": [],
+    "summary": "The first key optimization: always attach the smaller (or shallower) tree under the bigger one's root, which alone caps every tree's height at O(log n).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "path-compression",
+    "id": 14,
+    "title": "Path Compression",
+    "topic": "Union-Find",
+    "requires": ["union-by-rank-and-size"],
+    "related": [],
+    "summary": "The second key optimization: while walking up to find a group's root, point every node visited along the way directly at that root, flattening the tree for every future lookup.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "amortized-analysis-of-union-find",
+    "id": 15,
+    "title": "Amortized Analysis of Union-Find",
+    "topic": "Union-Find",
+    "requires": ["path-compression"],
+    "related": [],
+    "summary": "Combined, union by rank and path compression make a sequence of operations run in almost — but not quite exactly — constant time each, a famous result involving the inverse Ackermann function.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tries-prefix-trees-for-string-keys",
+    "id": 16,
+    "title": "Tries: Prefix Trees for String Keys",
+    "topic": "Tries",
+    "requires": [],
+    "related": [
+      { "label": "Hashing and Hash Functions", "slug": "hashing-and-hash-functions", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A tree where a key's characters are spelled out one per edge along a root-to-node path — keys sharing a prefix share that prefix's path, something no hash table can offer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "trie-operations-insert-search-prefix-match",
+    "id": 17,
+    "title": "Trie Operations: Insert, Search, Prefix-Match",
+    "topic": "Tries",
+    "requires": ["tries-prefix-trees-for-string-keys"],
+    "related": [],
+    "summary": "Inserting and searching a trie one character at a time, and the operation a hash table fundamentally cannot do efficiently — listing every key that starts with a given prefix.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ternary-search-tries",
+    "id": 18,
+    "title": "Ternary Search Tries",
+    "topic": "Tries",
+    "requires": ["trie-operations-insert-search-prefix-match"],
+    "related": [],
+    "summary": "A space-efficient trie variant using three children per node instead of one per alphabet character, trading a little search speed for a dramatically smaller memory footprint.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "Stanford CS166 — Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "real-applications-autocomplete-and-routing-tables",
+    "id": 19,
+    "title": "Real Applications: Autocomplete and Routing Tables",
+    "topic": "Tries",
+    "requires": ["ternary-search-tries"],
+    "related": [],
+    "summary": "Two genuine, well-known uses of prefix trees — a search box's autocomplete suggestions, and a router's longest-prefix-match lookup for forwarding IP packets.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "choosing-a-data-structure-a-decision-guide",
+    "id": 20,
+    "title": "Choosing a Data Structure: A Decision Guide",
+    "topic": "Capstone",
+    "requires": ["comparing-avl-and-red-black-trees", "heapsort", "amortized-analysis-of-union-find", "real-applications-autocomplete-and-routing-tables"],
+    "related": [],
+    "summary": "A side-by-side decision guide across every structure covered in Data Structures I and II — hash table, BST, AVL/red-black tree, heap, union-find, trie — organized by what each one is actually good at.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  }
+]
