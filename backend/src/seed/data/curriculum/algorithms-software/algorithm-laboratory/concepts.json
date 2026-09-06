@@ -1,1 +1,159 @@
-[]
+[
+  {
+    "slug": "hash-table-from-scratch",
+    "id": 1,
+    "title": "Lab: Hash Table From Scratch",
+    "topic": "Warm-Up Labs",
+    "requires": [],
+    "related": [
+      { "label": "Hashing and Hash Functions", "slug": "hashing-and-hash-functions", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Build a real hash table from a plain array — your own hash function, your own collision handling, your own resizing — and put every guarantee that theory promised to an actual, measured test.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" },
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "percolation-union-find-in-practice",
+    "id": 2,
+    "title": "Lab: Percolation — Union-Find in Practice",
+    "topic": "Warm-Up Labs",
+    "requires": [],
+    "related": [
+      { "label": "The Union-Find (Disjoint-Set) ADT", "slug": "the-union-find-adt", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "Princeton's own famous union-find assignment: model a grid of sites opening one at a time, and use union-find to answer, after every single opening, whether the grid now percolates top to bottom.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Princeton — Percolation Assignment Specification", "url": "https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php", "type": "doc" },
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "boggle-style-word-search-trie-in-practice",
+    "id": 3,
+    "title": "Lab: Boggle-Style Word Search — Trie in Practice",
+    "topic": "Warm-Up Labs",
+    "requires": [],
+    "related": [
+      { "label": "Tries: Prefix Trees for String Keys", "slug": "tries-prefix-trees-for-string-keys", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "Load a large dictionary into a trie, then search a letter grid for every valid word — the exact prefix-pruning trick a trie enables, and a hash-set-based version to measure why it isn't fast enough.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dijkstras-shortest-path-implemented",
+    "id": 4,
+    "title": "Lab: Dijkstra's Shortest Path, Implemented",
+    "topic": "Graph & Search Labs",
+    "requires": [],
+    "related": [
+      { "label": "Dijkstra's Algorithm", "slug": "dijkstras-algorithm", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Heap Insert and Extract-Max/Min", "slug": "heap-insert-and-extract", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "Implement Dijkstra's algorithm for real, on a real weighted graph, backed by the heap already built — and verify its output against a graph small enough to check by hand.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" },
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "a-star-pathfinding",
+    "id": 5,
+    "title": "Lab: A* Pathfinding",
+    "topic": "Graph & Search Labs",
+    "requires": ["dijkstras-shortest-path-implemented"],
+    "related": [],
+    "summary": "Dijkstra explores blindly outward in every direction — A* adds a heuristic estimate of remaining distance, exploring toward the goal instead, and stays exact as long as that heuristic never overestimates.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Red Blob Games — Introduction to A*", "url": "https://www.redblobgames.com/pathfinding/a-star/introduction.html", "type": "doc" },
+      { "label": "Princeton — 8 Puzzle Assignment Specification", "url": "https://coursera.cs.princeton.edu/algs4/assignments/8puzzle/specification.php", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "shortest-common-ancestor-in-a-dag",
+    "id": 6,
+    "title": "Lab: Shortest Common Ancestor in a DAG",
+    "topic": "Graph & Search Labs",
+    "requires": [],
+    "related": [
+      { "label": "Depth-First Search", "slug": "graph-traversal-dfs", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Princeton's WordNet-style problem: given a directed acyclic graph of hypernym relationships, find the shortest ancestral path connecting any two nodes — two BFS traversals combined into one real answer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pagerank-via-power-iteration",
+    "id": 7,
+    "title": "Lab: PageRank via Power Iteration",
+    "topic": "Graph & Search Labs",
+    "requires": [],
+    "related": [
+      { "label": "Markov Matrices and Stationary Distributions", "slug": "markov-matrices-and-stationary-distributions", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "The same PageRank already solved as a 4-page toy eigenvector problem — reimplemented the way Google's original paper actually describes computing it at scale: no eigendecomposition, just repeated matrix-vector multiplication until it settles.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Brin & Page — The Anatomy of a Large-Scale Hypertextual Web Search Engine", "url": "http://infolab.stanford.edu/pub/papers/google.pdf", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "kd-trees-for-2d-range-search",
+    "id": 8,
+    "title": "Lab: Kd-Trees for 2D Range Search",
+    "topic": "Advanced Structures Labs",
+    "requires": [],
+    "related": [
+      { "label": "Binary Search Trees: Search, Insert, Delete", "slug": "binary-search-trees", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A BST that alternates which coordinate it splits on at each level — the natural, already-familiar tree-search idea, extended to answer \"which points fall inside this rectangle\" far faster than checking every point.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Princeton algs4 Assignments Index", "url": "https://coursera.cs.princeton.edu/algs4/assignments/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "b-trees-implemented",
+    "id": 9,
+    "title": "Lab: B-Trees, Implemented",
+    "topic": "Advanced Structures Labs",
+    "requires": [],
+    "related": [
+      { "label": "Comparing AVL and Red-Black Trees in Practice", "slug": "comparing-avl-and-red-black-trees", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "AVL and red-black trees stay balanced by keeping at most 2 children per node — a B-tree instead lets each node hold many keys and many children, the specific shape that makes it the structure real databases and filesystems actually use.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.046J — Recitation 2: 2-3 Trees and B-Trees (PDF)", "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/8fd15588f584c518b6ec83aedb2b96c9_MIT6_046JS15_Recitation2.pdf", "type": "doc" },
+      { "label": "MIT 6.046J — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "empirical-performance-analysis",
+    "id": 10,
+    "title": "Capstone: Empirical Performance Analysis",
+    "topic": "Capstone",
+    "requires": ["a-star-pathfinding", "pagerank-via-power-iteration", "hash-table-from-scratch", "b-trees-implemented", "kd-trees-for-2d-range-search"],
+    "related": [],
+    "summary": "Every Big-O claim made across this entire curriculum, put to an actual timed test — measuring real running times against growing input sizes for the structures built in this lab, and checking whether the numbers actually behave the way the theory promised.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Princeton — Percolation Assignment Specification", "url": "https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, 4th ed. Companion Site", "url": "https://algs4.cs.princeton.edu/home/", "type": "doc" }
+    ]
+  }
+]
