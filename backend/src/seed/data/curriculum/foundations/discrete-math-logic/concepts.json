@@ -1,1 +1,368 @@
-[]
+[
+  {
+    "slug": "what-is-a-mathematical-proof",
+    "id": 1,
+    "title": "What Is a Mathematical Proof?",
+    "topic": "Proof Techniques",
+    "requires": [],
+    "related": [],
+    "summary": "What separates a convincing argument from a rigorous mathematical proof, and why computer science leans on proof the same way it leans on code.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.042J — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/syllabus/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "direct-proof-and-contraposition",
+    "id": 2,
+    "title": "Direct Proof and Proof by Contraposition",
+    "topic": "Proof Techniques",
+    "requires": ["what-is-a-mathematical-proof"],
+    "related": [],
+    "summary": "Proving \"if P then Q\" directly by assuming P and deriving Q, or equivalently by proving the contrapositive \"if not Q then not P\".",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "proof-by-contradiction",
+    "id": 3,
+    "title": "Proof by Contradiction",
+    "topic": "Proof Techniques",
+    "requires": ["direct-proof-and-contraposition"],
+    "related": [],
+    "summary": "Assuming a statement is false and deriving an absurdity, which forces the original statement to be true.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-well-ordering-principle",
+    "id": 4,
+    "title": "The Well-Ordering Principle",
+    "topic": "Proof Techniques",
+    "requires": ["what-is-a-mathematical-proof"],
+    "related": [],
+    "summary": "Every non-empty set of non-negative integers has a least element — the quiet assumption underneath induction and many number-theoretic proofs.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.042J — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/syllabus/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "propositions-connectives-and-truth-tables",
+    "id": 5,
+    "title": "Propositions, Connectives, and Truth Tables",
+    "topic": "Propositional Logic",
+    "requires": ["what-is-a-mathematical-proof"],
+    "related": [],
+    "summary": "Formalizing true/false statements with logical connectives (¬, ∧, ∨, →, ↔) and the truth tables that pin down exactly what each one means.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "logical-equivalence-and-tautologies",
+    "id": 6,
+    "title": "Logical Equivalence and Tautologies",
+    "topic": "Propositional Logic",
+    "requires": ["propositions-connectives-and-truth-tables"],
+    "related": [],
+    "summary": "Two formulas that always agree in truth value, and the identities (De Morgan's laws among them) that let you rewrite one into the other.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "predicates-and-quantifiers",
+    "id": 7,
+    "title": "Predicates and Quantifiers",
+    "topic": "Predicate Logic",
+    "requires": ["logical-equivalence-and-tautologies"],
+    "related": [],
+    "summary": "Statements that depend on a variable (predicates), and the universal (∀) and existential (∃) quantifiers that turn them into full propositions.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "negating-quantified-statements",
+    "id": 8,
+    "title": "Negating Quantified Statements",
+    "topic": "Predicate Logic",
+    "requires": ["predicates-and-quantifiers"],
+    "related": [],
+    "summary": "The precise rule for negating a quantified statement — ∀ becomes ∃ (and vice versa) as the negation moves inward — and why getting this wrong is one of the most common proof-writing mistakes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sets-subsets-and-set-operations",
+    "id": 9,
+    "title": "Sets, Subsets, and Set Operations",
+    "topic": "Set Theory",
+    "requires": ["predicates-and-quantifiers"],
+    "related": [],
+    "summary": "Sets, subsets, and the operations — union, intersection, difference, complement — that combine them.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "venn-diagrams-and-set-identities",
+    "id": 10,
+    "title": "Venn Diagrams and Set Identities",
+    "topic": "Set Theory",
+    "requires": ["sets-subsets-and-set-operations"],
+    "related": [],
+    "summary": "Visualizing set operations with Venn diagrams, and proving set identities like De Morgan's laws for sets rigorously rather than just from the picture.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" },
+      { "label": "ACM/IEEE Curricular Mapping — Discrete Structures", "url": "https://curricula.cs.luc.edu/12-discrete-structures/content.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "power-sets-and-cartesian-products",
+    "id": 11,
+    "title": "Power Sets and Cartesian Products",
+    "topic": "Set Theory",
+    "requires": ["sets-subsets-and-set-operations"],
+    "related": [],
+    "summary": "The power set (the set of all subsets) and the Cartesian product (the set of ordered pairs) — the two constructions that make relations and functions possible.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "relations-and-their-properties",
+    "id": 12,
+    "title": "Relations and Their Properties",
+    "topic": "Relations & Functions",
+    "requires": ["power-sets-and-cartesian-products"],
+    "related": [],
+    "summary": "A relation as a subset of a Cartesian product, and the properties — reflexive, symmetric, transitive — that classify how its elements relate to one another.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "equivalence-relations-and-partitions",
+    "id": 13,
+    "title": "Equivalence Relations and Partitions",
+    "topic": "Relations & Functions",
+    "requires": ["relations-and-their-properties"],
+    "related": [],
+    "summary": "A relation that is reflexive, symmetric, and transitive splits its set into disjoint equivalence classes — one idea with two equivalent descriptions.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE Curricular Mapping — Discrete Structures", "url": "https://curricula.cs.luc.edu/12-discrete-structures/content.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "partial-orders",
+    "id": 14,
+    "title": "Partial Orders",
+    "topic": "Relations & Functions",
+    "requires": ["relations-and-their-properties"],
+    "related": [],
+    "summary": "A relation that is reflexive, antisymmetric, and transitive — capturing \"comes before\" relationships that don't have to compare every pair of elements.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "functions-injective-surjective-bijective",
+    "id": 15,
+    "title": "Functions: Injective, Surjective, Bijective",
+    "topic": "Relations & Functions",
+    "requires": ["relations-and-their-properties"],
+    "related": [],
+    "summary": "A function as a special kind of relation, and the three properties — injective, surjective, bijective — that describe how its inputs map to its outputs.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "mathematical-induction",
+    "id": 16,
+    "title": "Mathematical Induction",
+    "topic": "Induction & Recursion",
+    "requires": ["the-well-ordering-principle"],
+    "related": [],
+    "summary": "Proving a statement holds for every natural number by proving a base case and a step that carries truth from n to n+1.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.042J — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/syllabus/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "strong-induction",
+    "id": 17,
+    "title": "Strong Induction",
+    "topic": "Induction & Recursion",
+    "requires": ["mathematical-induction"],
+    "related": [],
+    "summary": "A variant of induction where the inductive step gets to assume the statement holds for every smaller case, not just the one immediately before it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "recursive-definitions-and-structural-induction",
+    "id": 18,
+    "title": "Recursive Definitions and Structural Induction",
+    "topic": "Induction & Recursion",
+    "requires": ["strong-induction"],
+    "related": [
+      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Defining an object in terms of smaller instances of itself, and proving properties about it by induction on that same structure — the same idea behind recursion in code.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "MIT 6.042J — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "divisibility-primes-and-euclidean-algorithm",
+    "id": 19,
+    "title": "Divisibility, Primes, and the Euclidean Algorithm",
+    "topic": "Number Theory",
+    "requires": ["mathematical-induction"],
+    "related": [],
+    "summary": "Divisibility, prime numbers, and the Euclidean algorithm for computing the greatest common divisor without factoring.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "modular-arithmetic",
+    "id": 20,
+    "title": "Modular Arithmetic",
+    "topic": "Number Theory",
+    "requires": ["divisibility-primes-and-euclidean-algorithm"],
+    "related": [],
+    "summary": "Arithmetic that wraps around after reaching a modulus — the mathematics behind clocks, hashing, and cryptography.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-pigeonhole-principle",
+    "id": 21,
+    "title": "The Pigeonhole Principle",
+    "topic": "Combinatorics",
+    "requires": ["functions-injective-surjective-bijective"],
+    "related": [],
+    "summary": "If more items are placed into containers than there are containers, some container must hold more than one — a simple idea with surprisingly powerful consequences.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS103 — Mathematical Foundations of Computing", "url": "https://web.stanford.edu/class/cs103/", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "permutations-and-combinations",
+    "id": 22,
+    "title": "Permutations and Combinations",
+    "topic": "Combinatorics",
+    "requires": ["functions-injective-surjective-bijective"],
+    "related": [],
+    "summary": "Counting the number of ways to arrange (permutations) or choose (combinations) elements from a set, with or without order mattering.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" },
+      { "label": "ACM/IEEE Curricular Mapping — Discrete Structures", "url": "https://curricula.cs.luc.edu/12-discrete-structures/content.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-inclusion-exclusion-principle",
+    "id": 23,
+    "title": "The Inclusion-Exclusion Principle",
+    "topic": "Combinatorics",
+    "requires": ["permutations-and-combinations"],
+    "related": [],
+    "summary": "Counting the size of a union of overlapping sets by adding and subtracting the sizes of their intersections.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" },
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "graphs-terminology-and-representations",
+    "id": 24,
+    "title": "Graphs: Terminology and Representations",
+    "topic": "Graph Theory",
+    "requires": ["relations-and-their-properties"],
+    "related": [],
+    "summary": "Vertices and edges, directed and undirected graphs, and the two standard ways — adjacency matrix, adjacency list — to represent one in a program.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "trees",
+    "id": 25,
+    "title": "Trees",
+    "topic": "Graph Theory",
+    "requires": ["graphs-terminology-and-representations"],
+    "related": [],
+    "summary": "A connected graph with no cycles — the structure behind hierarchies, and the properties (n vertices, n-1 edges) that make a tree a tree.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" },
+      { "label": "ACM/IEEE Curricular Mapping — Discrete Structures", "url": "https://curricula.cs.luc.edu/12-discrete-structures/content.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "planar-graphs",
+    "id": 26,
+    "title": "Planar Graphs",
+    "topic": "Graph Theory",
+    "requires": ["graphs-terminology-and-representations"],
+    "related": [],
+    "summary": "A graph that can be drawn on a plane with no edges crossing, and Euler's formula relating its vertices, edges, and faces.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Lehman, Leighton & Meyer — Mathematics for Computer Science (full text)", "url": "https://people.csail.mit.edu/meyer/mcs.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  }
+]
