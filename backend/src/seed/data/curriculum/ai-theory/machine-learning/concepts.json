@@ -1,1 +1,346 @@
-[]
+[
+  {
+    "slug": "the-supervised-unsupervised-and-reinforcement-taxonomy",
+    "id": 1,
+    "title": "The Supervised, Unsupervised, and Reinforcement Taxonomy",
+    "topic": "Foundations of Learning",
+    "requires": [],
+    "related": [
+      { "label": "Markov Decision Processes and the Bellman Equation", "slug": "markov-decision-processes-and-the-bellman-equation", "feature": "curriculum/ai-theory/artificial-intelligence" }
+    ],
+    "summary": "The three-way split that organizes the entire field of machine learning — supervised (learning from labeled examples), unsupervised (finding structure with no labels at all), and reinforcement (learning from reward through interaction) — and why this discipline covers the first two in depth while pointing to material already published for the third.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "is-learning-feasible-generalization-and-the-hoeffding-bound",
+    "id": 2,
+    "title": "Is Learning Feasible? Generalization and the Hoeffding Bound",
+    "topic": "Foundations of Learning",
+    "requires": ["the-supervised-unsupervised-and-reinforcement-taxonomy"],
+    "related": [
+      { "label": "The Law of Large Numbers", "slug": "the-law-of-large-numbers", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Before writing a single learning algorithm, the honest question this discipline opens with: can a rule learned from a finite sample of data ever be trusted to work on data it has never seen? The Hoeffding bound gives a real, quantitative answer.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 2: Is Learning Feasible?", "url": "https://work.caltech.edu/telecourse.html", "type": "video" },
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "training-test-and-validation-splits",
+    "id": 3,
+    "title": "Training, Test, and Validation Splits",
+    "topic": "Foundations of Learning",
+    "requires": ["is-learning-feasible-generalization-and-the-hoeffding-bound"],
+    "related": [],
+    "summary": "The practical discipline that turns the generalization question into something you can actually measure: holding out data the model never trains on, and never touching the true test set until every other decision is already made.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 13: Validation", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "linear-regression-as-least-squares",
+    "id": 4,
+    "title": "Linear Regression as Least Squares",
+    "topic": "Regression",
+    "requires": ["training-test-and-validation-splits"],
+    "related": [
+      { "label": "Least Squares via Linear Algebra", "slug": "least-squares-via-linear-algebra", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "The single most-used model in all of statistics and machine learning, arriving here as no new mathematics at all — it is exactly the normal-equation problem already solved geometrically and via optimization in this curriculum's linear algebra discipline, now reframed as prediction on unseen data.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-probabilistic-view-of-linear-regression",
+    "id": 5,
+    "title": "The Probabilistic View of Linear Regression",
+    "topic": "Regression",
+    "requires": ["linear-regression-as-least-squares"],
+    "related": [
+      { "label": "The Normal Distribution", "slug": "the-normal-distribution", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Why minimizing squared error is not an arbitrary choice: assuming the noise around the true line is normally distributed, maximizing the likelihood of the observed data produces exactly the same least-squares solution already derived geometrically.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 3: The Linear Model I", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "gradient-descent-as-a-general-optimizer",
+    "id": 6,
+    "title": "Gradient Descent as a General Optimizer",
+    "topic": "Regression",
+    "requires": ["the-probabilistic-view-of-linear-regression"],
+    "related": [
+      { "label": "Gradients: Extending Derivatives to Several Variables", "slug": "gradients-extending-derivatives-to-several-variables", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "Turning the informal gradient already introduced in this curriculum's linear algebra discipline into a full iterative algorithm — repeatedly stepping opposite the gradient until a loss function's minimum is reached, the one optimization technique nearly every model in this discipline ultimately reduces to.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "MIT 18.065 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "logistic-regression-and-decision-boundaries",
+    "id": 7,
+    "title": "Logistic Regression and Decision Boundaries",
+    "topic": "Classification",
+    "requires": ["gradient-descent-as-a-general-optimizer"],
+    "related": [],
+    "summary": "Adapting the linear-model-plus-gradient-descent machinery just built to a fundamentally different task — predicting a category, not a number — by squashing a linear score through a sigmoid and drawing the boundary where it crosses one-half.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gaussian-discriminant-analysis-and-naive-bayes",
+    "id": 8,
+    "title": "Generative Classifiers: Gaussian Discriminant Analysis and Naive Bayes",
+    "topic": "Classification",
+    "requires": ["logistic-regression-and-decision-boundaries"],
+    "related": [
+      { "label": "Bayes' Theorem", "slug": "bayes-theorem", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "A second, genuinely different way to classify: instead of directly modeling the decision boundary (as logistic regression does), model how each class generates its data and let Bayes' theorem — already covered in full with a real diagnostic-test example — turn that into a prediction.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part II: Classification and Logistic Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-bias-variance-tradeoff",
+    "id": 9,
+    "title": "The Bias-Variance Tradeoff",
+    "topic": "Model Complexity",
+    "requires": ["gaussian-discriminant-analysis-and-naive-bayes"],
+    "related": [],
+    "summary": "Decomposing a model's prediction error into two competing sources — bias, from a model too simple to capture the true pattern, and variance, from a model so flexible it fits the noise — with a real worked numeric decomposition, not just the qualitative story.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 8: Bias-Variance Tradeoff", "url": "https://work.caltech.edu/telecourse.html", "type": "video" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "overfitting-and-the-vc-dimension",
+    "id": 10,
+    "title": "Overfitting and the VC Dimension",
+    "topic": "Model Complexity",
+    "requires": ["the-bias-variance-tradeoff"],
+    "related": [],
+    "summary": "A precise measure of how much a model class can possibly overfit, before it ever sees any data — the VC dimension counts the largest set of points a model can shatter, and directly predicts how much data it takes to learn reliably.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 7: The VC Dimension", "url": "https://work.caltech.edu/telecourse.html", "type": "video" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 11: Overfitting", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "regularization-ridge-and-lasso",
+    "id": 11,
+    "title": "Regularization: Ridge and Lasso",
+    "topic": "Model Complexity",
+    "requires": ["overfitting-and-the-vc-dimension"],
+    "related": [],
+    "summary": "Fighting overfitting directly by penalizing large weights in the loss function — ridge regression's smooth circular penalty shrinks every weight a little, while lasso's diamond-shaped penalty can shrink some weights to exactly zero, a real geometric difference with real consequences.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 12: Regularization", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "cross-validation",
+    "id": 12,
+    "title": "Cross-Validation",
+    "topic": "Model Evaluation",
+    "requires": ["regularization-ridge-and-lasso"],
+    "related": [
+      { "label": "Sampling and Sampling Distributions", "slug": "sampling-and-sampling-distributions", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Squeezing a reliable estimate of a model's true generalization error out of a single, finite dataset — k-fold cross-validation trains and validates on every possible split, then averages, so no single lucky or unlucky split decides which model wins.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 13: Validation", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "evaluation-metrics-precision-recall-and-roc",
+    "id": 13,
+    "title": "Evaluation Metrics: Precision, Recall, and ROC",
+    "topic": "Model Evaluation",
+    "requires": ["cross-validation"],
+    "related": [],
+    "summary": "Why raw accuracy lies on imbalanced data, and the confusion-matrix-derived metrics — precision, recall, F1, and the ROC curve's true-positive-vs-false-positive tradeoff — that a real classifier must actually be judged on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Stanford CS229 — Lecture Notes, Part II: Classification and Logistic Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "decision-trees",
+    "id": 14,
+    "title": "Decision Trees",
+    "topic": "Tree and Ensemble Methods",
+    "requires": ["evaluation-metrics-precision-recall-and-roc"],
+    "related": [
+      { "label": "Binary Trees: Terminology and Representation", "slug": "binary-trees-terminology-and-representation", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "A classifier built from nothing more exotic than the binary tree already covered as a data structure — here, each split is chosen by the feature and threshold that most reduces impurity, producing a model a human can read straight off the page.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ensembles-bagging-boosting-and-random-forests",
+    "id": 15,
+    "title": "Ensembles: Bagging, Boosting, and Random Forests",
+    "topic": "Tree and Ensemble Methods",
+    "requires": ["decision-trees"],
+    "related": [],
+    "summary": "Combining many individually weak or overfit trees into one strong model — bagging averages many independent, high-variance trees to cancel out their noise, while boosting builds trees in sequence, each one correcting the last one's mistakes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 8: Bias-Variance Tradeoff", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "maximal-margin-classifiers-and-support-vector-machines",
+    "id": 16,
+    "title": "Maximal-Margin Classifiers and Support Vector Machines",
+    "topic": "Support Vector Machines",
+    "requires": ["ensembles-bagging-boosting-and-random-forests"],
+    "related": [],
+    "summary": "Choosing not just any separating line between two classes, but the one with the widest possible margin on both sides — the handful of points that margin actually touches, the support vectors, are the only data the final classifier depends on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 14: Support Vector Machines", "url": "https://work.caltech.edu/telecourse.html", "type": "video" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-kernel-trick",
+    "id": 17,
+    "title": "The Kernel Trick",
+    "topic": "Support Vector Machines",
+    "requires": ["maximal-margin-classifiers-and-support-vector-machines"],
+    "related": [
+      { "label": "The Dot Product and Vector Norms", "slug": "the-dot-product-and-vector-norms", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "Making a linear classifier separate data that is not linearly separable at all, by replacing every dot product — the one operation SVMs actually use — with a kernel function that computes the same value as if the data had been mapped into a much higher-dimensional space, without ever building that space.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 15: Kernel Methods", "url": "https://work.caltech.edu/telecourse.html", "type": "video" },
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "k-means-clustering",
+    "id": 18,
+    "title": "K-Means Clustering",
+    "topic": "Unsupervised Learning",
+    "requires": ["the-kernel-trick"],
+    "related": [],
+    "summary": "The first unsupervised algorithm in this discipline: with no labels at all, alternately assign each point to its nearest of k cluster centers and recompute each center as the mean of its assigned points, until nothing moves.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gaussian-mixture-models-and-the-em-algorithm",
+    "id": 19,
+    "title": "Gaussian Mixture Models and the EM Algorithm",
+    "topic": "Unsupervised Learning",
+    "requires": ["k-means-clustering"],
+    "related": [
+      { "label": "The Normal Distribution", "slug": "the-normal-distribution", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "A softer, probabilistic generalization of k-means — every point gets a probability of belonging to each of several overlapping normal distributions, fit by alternating between guessing those probabilities (E-step) and re-fitting the distributions to match (M-step).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "principal-component-analysis",
+    "id": 20,
+    "title": "Principal Component Analysis",
+    "topic": "Unsupervised Learning",
+    "requires": ["gaussian-mixture-models-and-the-em-algorithm"],
+    "related": [
+      { "label": "Eigenvalues of Symmetric Matrices", "slug": "eigenvalues-of-symmetric-matrices", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "Compressing high-dimensional data down to its most informative few directions — literally the eigenvectors of the data's own covariance matrix, the exact guarantee about symmetric matrices already proven in this curriculum's linear algebra discipline, now put to direct use.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" },
+      { "label": "MIT 18.065 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-perceptron",
+    "id": 21,
+    "title": "The Perceptron",
+    "topic": "Toward Neural Networks",
+    "requires": ["principal-component-analysis"],
+    "related": [],
+    "summary": "The oldest learning algorithm in this cluster and the direct ancestor of every neural network — a single linear threshold unit that adjusts its own weights, one misclassified example at a time, until (if the data is linearly separable) it converges exactly.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression", "url": "https://cs229.stanford.edu/main_notes.pdf", "type": "doc" },
+      { "label": "Caltech CS 156 — Learning From Data, Lecture 3: The Linear Model I", "url": "https://work.caltech.edu/telecourse.html", "type": "video" }
+    ]
+  },
+  {
+    "slug": "from-perceptrons-to-neural-networks",
+    "id": 22,
+    "title": "From Perceptrons to Neural Networks",
+    "topic": "Toward Neural Networks",
+    "requires": ["the-perceptron"],
+    "related": [],
+    "summary": "Stacking perceptron-like units into layers and replacing the hard threshold with a smooth activation function — enough to escape the single perceptron's fundamental limit of only ever drawing a straight line, and the exact point where this discipline deliberately stops, handing off to a dedicated deep learning discipline.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" },
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "choosing-and-validating-a-model-a-decision-guide",
+    "id": 23,
+    "title": "Choosing and Validating a Model: A Decision Guide",
+    "topic": "Capstone",
+    "requires": ["from-perceptrons-to-neural-networks"],
+    "related": [],
+    "summary": "A capstone walkthrough comparing every model family covered in this discipline — regression, generative and discriminative classifiers, trees and ensembles, SVMs, clustering, and neural networks — by interpretability, data size, and nonlinearity, and validating the final choice end to end.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning", "url": "https://www.statlearning.com/", "type": "doc" },
+      { "label": "Stanford CS229 — Course Syllabus", "url": "https://cs229.stanford.edu/syllabus-autumn2018.html", "type": "doc" }
+    ]
+  }
+]
