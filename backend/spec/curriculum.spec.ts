@@ -96,10 +96,12 @@ describe('GET /curriculum/:module/:discipline/:slug', () => {
     const body = await json<any>(await get(`${BASE_PATH}/recursion`));
     expect(Array.isArray(body.sections)).toBe(true);
     expect(body.sections.map((s: any) => s.title)).toEqual([
-      'Objective',
-      'Use Cases',
-      'Deep Dive',
-      'Trade-offs',
+      'Learning Objectives',
+      'Context & Motivation',
+      'Core Theory',
+      'Worked Examples',
+      'Common Misconceptions & Pitfalls',
+      'Summary',
       'Documentation Links',
     ]);
   });
