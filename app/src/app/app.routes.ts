@@ -10,6 +10,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/dashboard/dashboard-page').then((m) => m.DashboardPage),
   },
   {
+    path: 'daily',
+    loadComponent: () => import('./pages/daily/daily-home-page').then((m) => m.DailyHomePage),
+  },
+  {
+    path: 'daily/session',
+    loadComponent: () => import('./pages/daily/daily-session-page').then((m) => m.DailySessionPage),
+  },
+  {
+    path: 'daily/sources',
+    loadComponent: () => import('./pages/daily/daily-sources-page').then((m) => m.DailySourcesPage),
+  },
+  {
     path: 'computer-science',
     loadComponent: () => import('./pages/computer-science/computer-science-page').then((m) => m.ComputerSciencePage),
   },

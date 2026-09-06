@@ -1,0 +1,43 @@
+<div class="daily-home">
+  <header class="hero">
+    @if (auth.currentUser() && xpService.summary(); as summary) {
+      <div class="hero-badge">
+        <span class="lv">LV {{ summary.level.number }}</span>
+        <span class="xp">{{ summary.total }}</span>
+      </div>
+    }
+    <p class="hero-date">{{ dateLabel() }}</p>
+    <h1 class="hero-title">{{ cards().length }} cards.<br />About {{ session()?.estimatedMinutes ?? 5 }} minutes.</h1>
+    <p class="hero-meta">
+      <span class="hero-xp">+{{ potentialXp() }} XP</span>
+      @if (auth.currentUser() && xpService.streak(); as streak) {
+        <span class="sep">|</span>
+        <span i18n="@@daily.streak">Streak · day {{ streak.current }}</span>
+      }
+    </p>
+  </header>
+
+  <ol class="card-list">
+    @for (card of cards(); track $index) {
+      <li class="preview-card">
+        <span class="preview-index">{{ ($index + 1).toString().padStart(2, '0') }}</span>
+        <div class="preview-main">
+          <div class="preview-top">
+            <span class="preview-type type-{{ card.type }}">{{ cardTypeLabel(card.type) }}</span>
+            <span class="preview-xp">+{{ card.xp }}</span>
+          </div>
+          <p class="preview-title">{{ card.previewTitle }}</p>
+          <p class="preview-sub">{{ card.previewSubtitle }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <button type="button" class="start-btn" (click)="start()">
+    <ng-container i18n="@@daily.start">Start · {{ session()?.estimatedMinutes ?? 5 }} min</ng-container>
+  </button>
+
+  <a class="sources-link" routerLink="/daily/sources" i18n="@@daily.whereFrom"
+    >Where the cards come from</a
+  >
+</div>

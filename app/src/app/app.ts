@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, effect } from '@ang
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
+import { BottomNav } from './components/bottom-nav/bottom-nav';
 import { XpToast } from './components/xp-toast/xp-toast';
 import { ChunkReloadToast } from './components/chunk-reload-toast/chunk-reload-toast';
 import { AskAiTooltip } from './components/ask-ai-tooltip/ask-ai-tooltip';
@@ -12,7 +13,7 @@ import { XpService } from './services/xp.service';
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Header, Footer, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, RouterOutlet],
+  imports: [Header, Footer, BottomNav, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

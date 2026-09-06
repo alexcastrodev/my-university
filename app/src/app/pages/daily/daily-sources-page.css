@@ -1,0 +1,125 @@
+.daily-sources {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: calc(100vh - 52px);
+  background: var(--mu-bg);
+  padding: 1.5rem 1.25rem 2.5rem;
+}
+
+/* Header (mockup screen 07) */
+.src-head {
+  padding: 0 0.25rem 0.5rem;
+}
+
+.src-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mu-faint);
+  margin: 0 0 0.5rem;
+}
+
+.src-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--mu-ink);
+  margin: 0;
+}
+
+/* Source group cards */
+.src-card {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius);
+  box-shadow: var(--mu-shadow-card);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.src-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--mu-ink);
+  margin: 0 0 0.6rem;
+}
+
+.bullet {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--mu-ink);
+  flex: none;
+}
+
+.bullet.accent {
+  background: var(--mu-accent);
+}
+
+.src-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--mu-muted);
+  margin: 0 0 1rem;
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius-sm);
+  padding: 0.35rem 0.65rem;
+}
+
+.chip.accent {
+  color: var(--mu-accent-strong);
+  background: var(--mu-accent-soft);
+  border-color: #f6d8d2;
+}
+
+/* Selection rules */
+.rules-card {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius);
+  box-shadow: var(--mu-shadow-card);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.rules-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mu-faint);
+  margin: 0 0 0.75rem;
+}
+
+.rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: rule;
+}
+
+.rules li {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--mu-ink-soft);
+  padding: 0.3rem 0;
+}

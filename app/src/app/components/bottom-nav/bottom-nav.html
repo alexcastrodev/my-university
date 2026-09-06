@@ -1,0 +1,58 @@
+@if (!hidden()) {
+  <nav class="bottom-nav" role="navigation" aria-label="Primary" i18n-aria-label="@@bottomNav.aria">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="tab"
+      i18n-aria-label="@@bottomNav.home"
+      aria-label="Home"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 10.5 12 3l9 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 9.5V20h14V9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span i18n="@@bottomNav.home">Home</span>
+    </a>
+
+    <a
+      routerLink="/daily"
+      routerLinkActive="active"
+      class="tab"
+      i18n-aria-label="@@bottomNav.daily"
+      aria-label="Daily"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M13 8l-4 5h3l-1 3 4-5h-3l1-3z" fill="currentColor"/>
+      </svg>
+      <span i18n="@@bottomNav.daily">Daily</span>
+    </a>
+
+    <a
+      routerLink="/computer-science"
+      routerLinkActive="active"
+      class="tab"
+      i18n-aria-label="@@bottomNav.track"
+      aria-label="Track"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span i18n="@@bottomNav.track">Track</span>
+    </a>
+
+    <button
+      type="button"
+      class="tab tab-soon"
+      disabled
+      i18n-aria-label="@@bottomNav.mapSoon"
+      aria-label="Map — coming soon"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 4v13M15 6.5v13" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+      <span i18n="@@bottomNav.map">Map</span>
+    </button>
+  </nav>
+}

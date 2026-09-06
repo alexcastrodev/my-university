@@ -1,0 +1,30 @@
+<div class="daily-sources">
+  <header class="src-head">
+    <p class="src-eyebrow">{{ sources.eyebrow }}</p>
+    <h1 class="src-title">{{ sources.title }}</h1>
+  </header>
+
+  @for (group of sources.groups; track group.label) {
+    <section class="src-card" [class.accent]="group.accent">
+      <h2 class="src-group">
+        <span class="bullet" [class.accent]="group.accent" aria-hidden="true"></span>
+        {{ group.label }}
+      </h2>
+      <p class="src-desc">{{ group.description }}</p>
+      <ul class="chips">
+        @for (chip of group.chips; track chip) {
+          <li class="chip" [class.accent]="group.accent">{{ chip }}</li>
+        }
+      </ul>
+    </section>
+  }
+
+  <section class="rules-card">
+    <p class="rules-label">{{ sources.rulesLabel }}</p>
+    <ol class="rules">
+      @for (rule of sources.rules; track rule) {
+        <li>{{ rule }}</li>
+      }
+    </ol>
+  </section>
+</div>

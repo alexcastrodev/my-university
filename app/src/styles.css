@@ -1,5 +1,38 @@
+:root {
+  /* MyUniversity mobile design tokens (mockups in tmp/mobile/). Centralizes
+     the palette/spacing/radius that were previously hardcoded per component. */
+  --mu-navy: #14233b;         /* hero + session-done background */
+  --mu-navy-deep: #0e1a2e;
+  --mu-ink: #111827;          /* primary text */
+  --mu-ink-soft: #374151;
+  --mu-muted: #6b7280;
+  --mu-faint: #9ca3af;
+  --mu-line: #e5e7eb;
+  --mu-surface: #ffffff;
+  --mu-bg: #f9fafb;
+  --mu-bg-alt: #f3f4f6;
+  --mu-accent: #c74634;       /* terracotta */
+  --mu-accent-strong: #b23c2b;
+  --mu-accent-soft: #fff1ef;
+  --mu-radius-sm: 8px;
+  --mu-radius: 14px;
+  --mu-radius-lg: 20px;
+  --mu-shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --mu-shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.18);
+  --mu-nav-h: 60px;           /* bottom tab bar height */
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+/* Clear the fixed mobile bottom-nav so page content is never hidden behind it.
+   The full-screen daily runner covers the viewport (position: fixed) and so is
+   unaffected. */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(var(--mu-nav-h) + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 html {

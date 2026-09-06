@@ -1,0 +1,7 @@
+/* On phones the fixed bottom tab bar replaces the footer, which would
+   otherwise sit on top of it. The desktop keeps the footer. */
+@media (max-width: 768px) {
+  app-footer {
+    display: none;
+  }
+}

@@ -1,0 +1,182 @@
+<div class="runner" [class.runner-done]="phase() === 'done'">
+  @if (phase() === 'card') {
+    @if (current(); as card) {
+      <div class="runner-top">
+        <button type="button" class="close-btn" (click)="close()" aria-label="Close session" i18n-aria-label="@@daily.close">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="segments" role="progressbar" [attr.aria-valuenow]="index() + 1" [attr.aria-valuemax]="total()">
+          @for (filled of segments(); track $index) {
+            <span class="seg" [class.filled]="filled"></span>
+          }
+        </div>
+        <span class="count">{{ index() + 1 }}/{{ total() }}</span>
+      </div>
+
+      <div class="card-scroll">
+        <div class="card-body">
+          @switch (card.type) {
+            @case ('recall') {
+              @let rc = asRecall(card);
+              <p class="kicker">{{ rc.kicker }}</p>
+              <h2 class="card-title">{{ rc.title }}</h2>
+              @if (rc.context) {
+                <p class="card-context">{{ rc.context }}</p>
+              }
+              <div class="options">
+                @for (opt of rc.options; track $index) {
+                  <button
+                    type="button"
+                    class="option state-{{ optionState(rc, $index) }}"
+                    [disabled]="checked()"
+                    (click)="selectOption($index)"
+                  >
+                    {{ opt }}
+                  </button>
+                }
+              </div>
+              @if (rc.wrongNote) {
+                <p class="reassure">{{ rc.wrongNote }}</p>
+              }
+              <div class="card-foot">
+                @if (checked()) {
+                  <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+                } @else {
+                  <button type="button" class="primary-btn" [disabled]="selectedOption() === null" (click)="check()" i18n="@@daily.check">Check</button>
+                  <button type="button" class="ghost-link" (click)="showAnswer()" i18n="@@daily.showMe">I do not remember — show me</button>
+                }
+              </div>
+            }
+
+            @case ('read') {
+              @let rd = asRead(card);
+              @if (rd.breadcrumb) {
+                <p class="breadcrumb">{{ rd.breadcrumb }}</p>
+              }
+              <h2 class="card-title">{{ rd.title }}</h2>
+              @for (p of paragraphs(rd.body); track $index) {
+                <p class="prose">{{ p }}</p>
+              }
+              @if (rd.code; as code) {
+                <div class="code-block">
+                  <div class="code-head">
+                    <span>{{ code.header }}</span>
+                    @if (code.badge) { <span class="code-badge">{{ code.badge }}</span> }
+                  </div>
+                  <pre><code>{{ code.source }}</code></pre>
+                </div>
+              }
+              @if (rd.note) {
+                <p class="read-note">{{ rd.note }}</p>
+              }
+              <div class="card-foot">
+                <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+                @if (rd.fullTopicRoute) {
+                  <a class="ghost-link" [routerLink]="rd.fullTopicRoute" i18n="@@daily.openFull">Open the full topic instead</a>
+                }
+              </div>
+            }
+
+            @case ('notice') {
+              @let nt = asNotice(card);
+              <p class="kicker">{{ nt.kicker }}</p>
+              <h2 class="card-title">{{ nt.title }}</h2>
+              <div class="code-block">
+                <div class="code-head">
+                  <span>{{ nt.code.header }}</span>
+                  @if (nt.code.badge) { <span class="code-badge">{{ nt.code.badge }}</span> }
+                </div>
+                <pre><code>{{ nt.code.source }}</code></pre>
+              </div>
+              @if (nt.lead) {
+                <p class="prose">{{ nt.lead }}</p>
+              }
+              <div class="takeaway">
+                @if (nt.takeawayLabel) {
+                  <span class="takeaway-label">{{ nt.takeawayLabel }}</span>
+                }
+                <p>{{ nt.takeaway }}</p>
+              </div>
+              <div class="card-foot">
+                <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+              </div>
+            }
+
+            @case ('write') {
+              @let wr = asWrite(card);
+              <p class="kicker">{{ wr.kicker }}</p>
+              <h2 class="card-title">{{ wr.title }}</h2>
+              <textarea
+                class="write-input"
+                [attr.maxlength]="wr.maxLength"
+                [value]="writeText()"
+                (input)="onWriteInput($event)"
+                rows="3"
+                i18n-placeholder="@@daily.writePlaceholder"
+                placeholder="Type your answer…"
+              ></textarea>
+              <div class="write-meta">
+                <span>{{ wr.placeholderHint }}</span>
+                <span>{{ writeText().length }} / {{ wr.maxLength }}</span>
+              </div>
+              @if (wr.pastAnswer; as past) {
+                <div class="past-answer">
+                  <span class="past-when">{{ past.when }}</span>
+                  <p class="past-text">{{ past.text }}</p>
+                  @if (past.note) { <p class="past-note">{{ past.note }}</p> }
+                </div>
+              }
+              @if (wr.footnote) {
+                <p class="prose write-foot">{{ wr.footnote }}</p>
+              }
+              <div class="card-foot">
+                <button type="button" class="primary-btn accent" (click)="next()">
+                  <ng-container i18n="@@daily.saveFinish">Save and finish · +{{ wr.xp }} XP</ng-container>
+                </button>
+                <button type="button" class="ghost-link" (click)="next()" i18n="@@daily.keepOpen">Keep the topic open, do not mark it</button>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="done">
+      <p class="done-eyebrow">{{ session()?.estimatedMinutes }} MIN · {{ total() }} OF {{ total() }}</p>
+      <h1 class="done-headline">{{ session()?.summary?.headline }}</h1>
+
+      <ul class="recap">
+        @for (card of cards(); track $index) {
+          <li class="recap-row" [class.accent]="$index === total() - 1">
+            <span>{{ card.recap }}</span>
+            <span class="recap-xp">+{{ card.xp }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="done-stats">
+        <div class="stat">
+          <span class="stat-num">{{ xpService.summary()?.total ?? totalXp() }}</span>
+          <span class="stat-label" i18n="@@daily.xpLevel">XP · Level {{ xpService.summary()?.level?.number ?? 1 }}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">{{ xpService.streak()?.current ?? 1 }}</span>
+          <span class="stat-label" i18n="@@daily.dayStreak">Day streak · record</span>
+        </div>
+      </div>
+
+      @if (session()?.summary?.tomorrow; as tomorrow) {
+        <div class="tomorrow">
+          <p class="tomorrow-label" i18n="@@daily.tomorrow">TOMORROW, PROBABLY</p>
+          <p class="tomorrow-title">{{ tomorrow.title }}</p>
+          <p class="tomorrow-body">{{ tomorrow.body }}</p>
+        </div>
+      }
+
+      <button type="button" class="done-primary" (click)="backToTrack()" i18n="@@daily.backToTrack">Back to my track</button>
+      <button type="button" class="done-ghost" (click)="restart()" i18n="@@daily.keepGoing">Keep going · {{ total() }} more cards</button>
+    </div>
+  }
+</div>
