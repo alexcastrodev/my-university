@@ -1,1 +1,258 @@
-[]
+[
+  {
+    "slug": "what-is-an-abstract-data-type",
+    "id": 1,
+    "title": "What Is an Abstract Data Type?",
+    "topic": "ADTs & Arrays",
+    "requires": [],
+    "related": [],
+    "summary": "The distinction between an Abstract Data Type — what operations a structure supports — and a data structure — how it's actually built in memory to support them.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "static-arrays-and-random-access",
+    "id": 2,
+    "title": "Static Arrays and Random Access",
+    "topic": "ADTs & Arrays",
+    "requires": ["what-is-an-abstract-data-type"],
+    "related": [],
+    "summary": "A fixed-size, contiguous block of memory that supports O(1) access to any element by index — and why that contiguity is exactly what makes random access fast.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals (SDF)", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dynamic-arrays-and-amortized-resizing",
+    "id": 3,
+    "title": "Dynamic Arrays and Amortized Resizing",
+    "topic": "ADTs & Arrays",
+    "requires": ["static-arrays-and-random-access"],
+    "related": [],
+    "summary": "An array that grows by doubling its capacity when full — and why that doubling strategy makes appending an element O(1) on average (amortized), even though any single append can be O(n).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Stacks and Queues (Princeton lecture slides)", "url": "https://algs4.cs.princeton.edu/lectures/keynote/13StacksAndQueues.pdf", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "singly-linked-lists",
+    "id": 4,
+    "title": "Singly Linked Lists",
+    "topic": "Linked Lists",
+    "requires": ["what-is-an-abstract-data-type"],
+    "related": [],
+    "summary": "A sequence built from nodes scattered anywhere in memory, each pointing to the next — trading array's O(1) random access for O(1) insertion at a known position.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals (SDF)", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "doubly-linked-lists",
+    "id": 5,
+    "title": "Doubly Linked Lists",
+    "topic": "Linked Lists",
+    "requires": ["singly-linked-lists"],
+    "related": [],
+    "summary": "A linked list whose nodes also point backward, enabling O(1) removal of a known node and O(1) traversal in either direction, at the cost of an extra pointer per node.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals (SDF)", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "arrays-vs-linked-lists",
+    "id": 6,
+    "title": "Arrays vs. Linked Lists: Choosing a Sequence",
+    "topic": "Linked Lists",
+    "requires": ["dynamic-arrays-and-amortized-resizing", "doubly-linked-lists"],
+    "related": [],
+    "summary": "Neither structure dominates the other — a side-by-side comparison of access, insertion, deletion, and memory locality to decide which sequence fits a given problem.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-stack-adt",
+    "id": 7,
+    "title": "The Stack ADT (LIFO)",
+    "topic": "Stacks & Queues",
+    "requires": ["arrays-vs-linked-lists"],
+    "related": [],
+    "summary": "A Last-In-First-Out structure exposing only push and pop — and how the same ADT can be implemented equally well atop a resizing array or a linked list.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Stacks and Queues (Princeton lecture slides)", "url": "https://algs4.cs.princeton.edu/lectures/keynote/13StacksAndQueues.pdf", "type": "doc" },
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-queue-adt",
+    "id": 8,
+    "title": "The Queue ADT (FIFO)",
+    "topic": "Stacks & Queues",
+    "requires": ["arrays-vs-linked-lists"],
+    "related": [],
+    "summary": "A First-In-First-Out structure exposing enqueue and dequeue — and why a naive array implementation needs a circular buffer to keep both operations O(1).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Stacks and Queues (Princeton lecture slides)", "url": "https://algs4.cs.princeton.edu/lectures/keynote/13StacksAndQueues.pdf", "type": "doc" },
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "deques",
+    "id": 9,
+    "title": "Deques",
+    "topic": "Stacks & Queues",
+    "requires": ["the-queue-adt"],
+    "related": [],
+    "summary": "A double-ended queue supporting O(1) insertion and removal at both ends — a strict generalization that subsumes both the stack and the queue.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Stacks and Queues (Princeton lecture slides)", "url": "https://algs4.cs.princeton.edu/lectures/keynote/13StacksAndQueues.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals (SDF)", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "iterators",
+    "id": 10,
+    "title": "Iterators: Traversing a Collection Uniformly",
+    "topic": "Stacks & Queues",
+    "requires": ["the-stack-adt", "the-queue-adt"],
+    "related": [],
+    "summary": "A uniform way to walk through any collection's elements one at a time without exposing how that collection is actually stored underneath.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Stacks and Queues (Princeton lecture slides)", "url": "https://algs4.cs.princeton.edu/lectures/keynote/13StacksAndQueues.pdf", "type": "doc" },
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hashing-and-hash-functions",
+    "id": 11,
+    "title": "Hashing and Hash Functions",
+    "topic": "Hash Tables",
+    "requires": ["what-is-an-abstract-data-type"],
+    "related": [],
+    "summary": "Mapping a key to an array index via a hash function, aiming for near-constant-time lookup — and the properties (determinism, uniformity) a good hash function needs.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "collision-resolution-separate-chaining",
+    "id": 12,
+    "title": "Collision Resolution: Separate Chaining",
+    "topic": "Hash Tables",
+    "requires": ["hashing-and-hash-functions"],
+    "related": [],
+    "summary": "Resolving two keys that hash to the same index by storing a small list at each array slot — simple to implement, degrading gracefully as collisions accumulate.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Software Development Fundamentals (SDF)", "url": "https://csed.acm.org/wp-content/uploads/2023/09/SDF-Version-Gamma.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "collision-resolution-open-addressing",
+    "id": 13,
+    "title": "Collision Resolution: Open Addressing",
+    "topic": "Hash Tables",
+    "requires": ["hashing-and-hash-functions"],
+    "related": [],
+    "summary": "Resolving a collision by probing for the next open slot in the array itself, rather than chaining elsewhere — and the clustering problems that come with it.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "load-factor-and-rehashing",
+    "id": 14,
+    "title": "Load Factor and Rehashing",
+    "topic": "Hash Tables",
+    "requires": ["collision-resolution-separate-chaining", "collision-resolution-open-addressing"],
+    "related": [],
+    "summary": "The ratio of stored elements to table capacity, and why a hash table must resize (rehash) once that ratio grows too large to keep operations close to O(1).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "binary-trees-terminology-and-representation",
+    "id": 15,
+    "title": "Binary Trees: Terminology and Representation",
+    "topic": "Binary Trees",
+    "requires": ["what-is-an-abstract-data-type"],
+    "related": [
+      { "label": "Trees", "slug": "trees", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "A tree where every node has at most two children — how the graph-theoretic tree from discrete math becomes a concrete node-and-pointer data structure.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "tree-traversals",
+    "id": 16,
+    "title": "Tree Traversals: Preorder, Inorder, Postorder, Level-Order",
+    "topic": "Binary Trees",
+    "requires": ["binary-trees-terminology-and-representation"],
+    "related": [
+      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Four standard orders for visiting every node in a binary tree exactly once — three defined recursively, one defined by processing level by level with a queue.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS106B — Lecture Schedule", "url": "https://web.stanford.edu/class/cs106b/schedule", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "binary-search-trees",
+    "id": 17,
+    "title": "Binary Search Trees: Search, Insert, Delete",
+    "topic": "Binary Trees",
+    "requires": ["tree-traversals"],
+    "related": [],
+    "summary": "A binary tree with an ordering invariant — everything in a node's left subtree is smaller, everything in its right subtree is larger — that turns search into following one path from the root.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bst-performance-and-balance",
+    "id": 18,
+    "title": "BST Performance: Why Balance Matters",
+    "topic": "Binary Trees",
+    "requires": ["binary-search-trees"],
+    "related": [],
+    "summary": "A binary search tree's operations are O(log n) on average but degrade to O(n) on a lopsided tree — the exact problem that motivates the self-balancing trees covered later, in Data Structures II.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sedgewick & Wayne — Algorithms, Part I (Princeton, Coursera)", "url": "https://www.coursera.org/learn/algorithms-part1", "type": "doc" },
+      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" }
+    ]
+  }
+]
