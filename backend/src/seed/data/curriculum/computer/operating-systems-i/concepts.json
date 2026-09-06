@@ -1,1 +1,349 @@
-[]
+[
+  {
+    "slug": "what-is-a-process",
+    "id": 1,
+    "title": "What Is a Process?",
+    "topic": "Processes",
+    "requires": [],
+    "related": [],
+    "summary": "The process abstraction turns one physical CPU into the illusion of many — a running program's memory, registers, and open files packaged into a single unit the OS can pause, resume, and juggle among many others.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"The Abstraction: The Process\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-process-api-fork-and-exec",
+    "id": 2,
+    "title": "The Process API: fork() and exec()",
+    "topic": "Processes",
+    "requires": ["what-is-a-process"],
+    "related": [
+      { "label": "The Process Address Space", "slug": "the-process-address-space", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "Unix's separation of \"create a copy of me\" (fork) from \"replace my memory with a different program\" (exec) — a genuinely strange two-step design whose strangeness is exactly what makes shells and pipes possible.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Interlude: Process API\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-api.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "process-states-and-context-switching",
+    "id": 3,
+    "title": "Process States and Context Switching",
+    "topic": "Processes",
+    "requires": ["the-process-api-fork-and-exec"],
+    "related": [],
+    "summary": "A process is always in exactly one of a handful of states — running, ready, or blocked — and the mechanism that lets the OS save one process's CPU state and load another's is the context switch, the machinery limited direct execution is built on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Mechanism: Limited Direct Execution\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cpu-scheduling-goals-and-metrics",
+    "id": 4,
+    "title": "CPU Scheduling: Goals and Metrics",
+    "topic": "CPU Scheduling",
+    "requires": ["process-states-and-context-switching"],
+    "related": [],
+    "summary": "Before comparing scheduling policies, fixing what \"good\" even means — turnaround time, response time, and throughput often trade off against each other, so no single policy wins on every metric at once.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Scheduling: Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "fcfs-sjf-and-the-convoy-effect",
+    "id": 5,
+    "title": "FCFS, SJF, and the Convoy Effect",
+    "topic": "CPU Scheduling",
+    "requires": ["cpu-scheduling-goals-and-metrics"],
+    "related": [],
+    "summary": "First-come-first-served is trivially fair but lets one long job block every short job behind it — the convoy effect — while shortest-job-first fixes average turnaround time provably, at the cost of needing to know the future.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Scheduling: Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "round-robin-and-time-slicing",
+    "id": 6,
+    "title": "Round-Robin and Time-Slicing",
+    "topic": "CPU Scheduling",
+    "requires": ["fcfs-sjf-and-the-convoy-effect"],
+    "related": [],
+    "summary": "Giving every job a small, fixed time slice and cycling through them in turn — excellent for response time, worse for turnaround time than SJF, and the first policy in this discipline that doesn't need to predict the future.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Scheduling: Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "priority-scheduling-and-starvation",
+    "id": 7,
+    "title": "Priority Scheduling and Starvation",
+    "topic": "CPU Scheduling",
+    "requires": ["round-robin-and-time-slicing"],
+    "related": [],
+    "summary": "Letting some jobs jump the queue solves the problem of urgent work waiting behind trivial work, but opens a new one — a low-priority job can wait forever if higher-priority work never stops arriving.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "multi-level-feedback-queue-scheduling",
+    "id": 8,
+    "title": "Multi-Level Feedback Queue Scheduling",
+    "topic": "CPU Scheduling",
+    "requires": ["priority-scheduling-and-starvation"],
+    "related": [],
+    "summary": "The scheduler real operating systems actually approximate: multiple priority queues, jobs demoted for using too much CPU and promoted periodically to prevent starvation — learning a job's behavior from its recent history instead of asking it up front.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Scheduling: The Multi-Level Feedback Queue\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "threads-and-the-shared-address-space",
+    "id": 9,
+    "title": "Threads and the Shared Address Space",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["multi-level-feedback-queue-scheduling"],
+    "related": [
+      { "label": "Concurrent Programming: Shared-State vs. Message-Passing", "slug": "concurrent-programming-shared-state-vs-message-passing", "feature": "curriculum/algorithms-software/programming-paradigms" }
+    ],
+    "summary": "A thread is a separately schedulable stream of execution that shares its process's address space with its sibling threads — the exact systems-level mechanics that the shared-state concurrency model, introduced conceptually elsewhere, is actually built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Concurrency: An Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-critical-section-problem-and-mutual-exclusion",
+    "id": 10,
+    "title": "The Critical Section Problem and Mutual Exclusion",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["threads-and-the-shared-address-space"],
+    "related": [],
+    "summary": "The formal statement of the race-condition hazard already met as a mental model: a critical section is any code touching shared state, and mutual exclusion is the guarantee that at most one thread is inside it at a time.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Concurrency: An Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "locks-and-atomic-hardware-primitives",
+    "id": 11,
+    "title": "Locks and Atomic Hardware Primitives",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["the-critical-section-problem-and-mutual-exclusion"],
+    "related": [],
+    "summary": "A lock only works if acquiring it is itself immune to the same race condition it prevents — which is why real locks are built on hardware-provided atomic instructions like test-and-set and compare-and-swap, not on ordinary load/store.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Locks\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "condition-variables",
+    "id": 12,
+    "title": "Condition Variables",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["locks-and-atomic-hardware-primitives"],
+    "related": [],
+    "summary": "A lock alone can't let a thread wait for some condition to become true without busy-spinning — a condition variable adds exactly that: a queue a thread can sleep on, and a signal another thread sends when the wait is over.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Condition Variables\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "semaphores",
+    "id": 13,
+    "title": "Semaphores",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["condition-variables"],
+    "related": [],
+    "summary": "A single integer counter with two atomic operations, wait and signal, general enough to implement a lock, a condition variable's signaling, or a bound on how many threads may proceed at once — Dijkstra's one primitive that does the job of several.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Semaphores\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-sema.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "deadlock-conditions-and-detection",
+    "id": 14,
+    "title": "Deadlock: Conditions and Detection",
+    "topic": "Concurrency & Synchronization",
+    "requires": ["semaphores"],
+    "related": [
+      { "label": "Cycle Detection and Topological Sort", "slug": "cycle-detection-and-topological-sort", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Locks and semaphores solve races but open a new failure mode: threads waiting on each other in a cycle, forever — deadlock, detectable by building a resource-allocation graph and running the exact same cycle-detection algorithm already covered for graphs in general.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Concurrency Bugs\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-bugs.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "address-spaces-and-memory-virtualization",
+    "id": 15,
+    "title": "Address Spaces and Memory Virtualization",
+    "topic": "Virtual Memory",
+    "requires": ["deadlock-conditions-and-detection"],
+    "related": [
+      { "label": "The Process Address Space", "slug": "the-process-address-space", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "The Memory Hierarchy and Locality", "slug": "the-memory-hierarchy-and-locality", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "Every process sees its own private, contiguous address space starting at address zero — an illusion the OS maintains on top of one shared physical RAM, and the reason a bug in one program's pointers can't corrupt another program's memory.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Address Spaces\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "address-translation-base-and-bound",
+    "id": 16,
+    "title": "Address Translation: Base and Bound",
+    "topic": "Virtual Memory",
+    "requires": ["address-spaces-and-memory-virtualization"],
+    "related": [],
+    "summary": "The simplest possible hardware support for virtualized memory: one register holding where a process's memory starts, another holding how big it is — every address a program uses gets relocated and checked against the bound automatically.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Mechanism: Address Translation\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "segmentation-and-free-space-management",
+    "id": 17,
+    "title": "Segmentation and Free-Space Management",
+    "topic": "Virtual Memory",
+    "requires": ["address-translation-base-and-bound"],
+    "related": [],
+    "summary": "Splitting an address space into independently relocated segments (code, stack, heap) avoids wasting memory on the unused gap between a small heap and a small stack — at the cost of external fragmentation, the same free-space-management problem a general-purpose allocator faces.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Segmentation\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-segmentation.pdf", "type": "doc" },
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Free-Space Management\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "paging-and-page-tables",
+    "id": 18,
+    "title": "Paging and Page Tables",
+    "topic": "Virtual Memory",
+    "requires": ["segmentation-and-free-space-management"],
+    "related": [],
+    "summary": "Instead of a few large, variable-sized segments, chop memory into many small, fixed-size pages — eliminating external fragmentation entirely, at the cost of needing a page table to record where every single page actually lives in physical memory.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Paging: Introduction\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-translation-lookaside-buffer",
+    "id": 19,
+    "title": "The Translation Lookaside Buffer",
+    "topic": "Virtual Memory",
+    "requires": ["paging-and-page-tables"],
+    "related": [
+      { "label": "Set-Associative and Fully Associative Caches", "slug": "set-associative-and-fully-associative-caches", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "Looking up a page table entry in memory on every single memory access would make paging catastrophically slow — the TLB is a small, fully associative hardware cache of recent translations, applying the same caching idea already covered for data, now to address translation itself.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Paging: Faster Translations (TLBs)\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-tlbs.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "page-replacement-policies",
+    "id": 20,
+    "title": "Page Replacement Policies",
+    "topic": "Virtual Memory",
+    "requires": ["the-translation-lookaside-buffer"],
+    "related": [],
+    "summary": "When physical memory is full and a new page must be brought in, something has to be evicted — FIFO, optimal, and LRU are three different answers to \"which page,\" compared on the exact same reference string to see how many page faults each one actually causes.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Beyond Physical Memory: Policies\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "demand-paging-and-thrashing",
+    "id": 21,
+    "title": "Demand Paging and Thrashing",
+    "topic": "Virtual Memory",
+    "requires": ["page-replacement-policies"],
+    "related": [],
+    "summary": "Loading pages only when they're actually touched lets a process run with less physical memory than its full address space needs — until too many processes compete for too little memory and the system spends more time paging than computing, a collapse called thrashing.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Complete Virtual Memory Systems\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-complete.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "files-directories-and-inodes",
+    "id": 22,
+    "title": "Files, Directories, and Inodes",
+    "topic": "File Systems",
+    "requires": ["demand-paging-and-thrashing"],
+    "related": [],
+    "summary": "A file system's real job is turning a flat array of disk blocks into named, hierarchical files — an inode holds one file's metadata and the block pointers that locate its data, while a directory is just a special file mapping names to inode numbers.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Files and Directories\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "file-system-implementation-and-journaling",
+    "id": 23,
+    "title": "File System Implementation and Journaling",
+    "topic": "File Systems",
+    "requires": ["files-directories-and-inodes"],
+    "related": [],
+    "summary": "A crash in the middle of a multi-block update (a new inode, a new data block, an updated bitmap) can leave a file system's on-disk structures inconsistent — journaling fixes this by writing the intended changes to a log first, making the whole update recoverable as a single atomic step.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"File System Implementation\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Operating Systems Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-process-from-fork-to-page-fault-to-disk",
+    "id": 24,
+    "title": "Capstone: Tracing a Process from fork() to Page Fault to Disk",
+    "topic": "Putting It Together",
+    "requires": ["file-system-implementation-and-journaling"],
+    "related": [],
+    "summary": "Every mechanism in this discipline working together on one concrete timeline: a shell forks and execs a program, the scheduler picks it, it touches a page that isn't resident yet, and the resulting page fault ends in a real disk read through the file system.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Complete Virtual Memory Systems\"", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-complete.pdf", "type": "doc" },
+      { "label": "UC Berkeley CS162 — Operating Systems and Systems Programming", "url": "https://cs162.org/", "type": "doc" }
+    ]
+  }
+]
