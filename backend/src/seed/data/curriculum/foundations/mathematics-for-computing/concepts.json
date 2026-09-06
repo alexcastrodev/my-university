@@ -1,1 +1,282 @@
-[]
+[
+  {
+    "slug": "vectors-and-vector-operations",
+    "id": 1,
+    "title": "Vectors and Vector Operations",
+    "topic": "Foundations",
+    "requires": [],
+    "related": [],
+    "summary": "A vector as an ordered list of numbers, and the two operations — addition and scalar multiplication — every other idea in this discipline is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-dot-product-and-vector-norms",
+    "id": 2,
+    "title": "The Dot Product and Vector Norms",
+    "topic": "Foundations",
+    "requires": ["vectors-and-vector-operations"],
+    "related": [],
+    "summary": "Multiplying two vectors into a single number (the dot product), and measuring a vector's own length (its norm) — the geometric building blocks behind angle, similarity, and distance.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "linear-combinations-and-span",
+    "id": 3,
+    "title": "Linear Combinations and Span",
+    "topic": "Foundations",
+    "requires": ["vectors-and-vector-operations"],
+    "related": [],
+    "summary": "Scaling and adding a set of vectors together (a linear combination), and the span — every vector reachable that way — which turns out to be exactly the set of solutions a system of equations can produce.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "systems-of-linear-equations",
+    "id": 4,
+    "title": "Systems of Linear Equations as Ax = b",
+    "topic": "Foundations",
+    "requires": ["linear-combinations-and-span"],
+    "related": [],
+    "summary": "Rewriting a whole system of linear equations as one matrix-vector equation Ax = b, and the two complementary ways to picture it — a row at a time, or a linear combination of columns.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gaussian-elimination",
+    "id": 5,
+    "title": "Gaussian Elimination and Row Echelon Form",
+    "topic": "Foundations",
+    "requires": ["systems-of-linear-equations"],
+    "related": [],
+    "summary": "A systematic algorithm for solving Ax = b by eliminating variables row by row — the mechanical procedure underneath every solver, from a hand calculation to a numerical library.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "matrix-operations",
+    "id": 6,
+    "title": "Matrix Operations: Addition, Scaling, Multiplication",
+    "topic": "Matrices",
+    "requires": ["gaussian-elimination"],
+    "related": [],
+    "summary": "Formalizing what elimination was already doing implicitly — the precise rules for adding, scaling, and multiplying matrices, including why matrix multiplication isn't commutative.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "matrices-as-linear-transformations",
+    "id": 7,
+    "title": "Matrices as Linear Transformations",
+    "topic": "Matrices",
+    "requires": ["matrix-operations"],
+    "related": [],
+    "summary": "A matrix isn't just a grid of numbers — multiplying by it rotates, scales, or reflects space, which is exactly the mechanism behind every 2D and 3D graphics transformation.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-identity-matrix-and-matrix-inverses",
+    "id": 8,
+    "title": "The Identity Matrix and Matrix Inverses",
+    "topic": "Matrices",
+    "requires": ["matrix-operations"],
+    "related": [],
+    "summary": "The matrix that does nothing (the identity), and the matrix that undoes another one entirely (its inverse) — and precisely when that inverse fails to exist.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-transpose-and-symmetric-matrices",
+    "id": 9,
+    "title": "The Transpose and Symmetric Matrices",
+    "topic": "Matrices",
+    "requires": ["matrix-operations"],
+    "related": [],
+    "summary": "Flipping a matrix across its diagonal (the transpose), and the special case — symmetric matrices, equal to their own transpose — that turns out to have unusually well-behaved eigenvalues later on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "linear-independence-basis-and-dimension",
+    "id": 10,
+    "title": "Linear Independence, Basis, and Dimension",
+    "topic": "Vector Spaces",
+    "requires": ["linear-combinations-and-span"],
+    "related": [],
+    "summary": "When no vector in a set is redundant (linear independence), the minimal spanning set that results (a basis), and the one number — dimension — that every basis of the same space agrees on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "column-space-and-null-space",
+    "id": 11,
+    "title": "Column Space and Null Space",
+    "topic": "Vector Spaces",
+    "requires": ["linear-independence-basis-and-dimension", "the-identity-matrix-and-matrix-inverses"],
+    "related": [],
+    "summary": "The set of every vector a matrix can produce (its column space), and the set of inputs it collapses to zero (its null space) — together, these say exactly which systems Ax = b can and cannot be solved.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "rank-of-a-matrix",
+    "id": 12,
+    "title": "Rank of a Matrix",
+    "topic": "Vector Spaces",
+    "requires": ["column-space-and-null-space"],
+    "related": [],
+    "summary": "The number of genuinely independent rows (equivalently, columns) a matrix has — a single number that predicts how many solutions Ax = b has, before any elimination is even attempted.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "orthogonality-and-orthogonal-matrices",
+    "id": 13,
+    "title": "Orthogonality and Orthogonal Matrices",
+    "topic": "Vector Spaces",
+    "requires": ["the-dot-product-and-vector-norms", "the-transpose-and-symmetric-matrices"],
+    "related": [],
+    "summary": "Vectors at right angles to one another (orthogonality), and matrices built entirely from such vectors — whose inverse turns out to be nothing more than their own transpose.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "determinants",
+    "id": 14,
+    "title": "Determinants",
+    "topic": "Determinants",
+    "requires": ["the-identity-matrix-and-matrix-inverses"],
+    "related": [],
+    "summary": "A single number computed from a square matrix that tells you, immediately, whether it has an inverse at all — and geometrically, the volume-scaling factor of the transformation it represents.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "eigenvalues-and-eigenvectors",
+    "id": 15,
+    "title": "Eigenvalues and Eigenvectors",
+    "topic": "Eigenvalues",
+    "requires": ["determinants", "matrices-as-linear-transformations"],
+    "related": [],
+    "summary": "The special directions a matrix's transformation only stretches or shrinks, never rotates away from (eigenvectors), and the factor by which it stretches them (eigenvalues).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "diagonalization-and-powers-of-a-matrix",
+    "id": 16,
+    "title": "Diagonalization and Powers of a Matrix",
+    "topic": "Eigenvalues",
+    "requires": ["eigenvalues-and-eigenvectors"],
+    "related": [],
+    "summary": "Rewriting a matrix in terms of its own eigenvectors and eigenvalues — a change of perspective that turns the otherwise painful task of computing a matrix's 100th power into simple arithmetic.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "eigenvalues-of-symmetric-matrices",
+    "id": 17,
+    "title": "Eigenvalues of Symmetric Matrices",
+    "topic": "Eigenvalues",
+    "requires": ["diagonalization-and-powers-of-a-matrix", "orthogonality-and-orthogonal-matrices"],
+    "related": [],
+    "summary": "Why a symmetric matrix's eigenvalues are always real and its eigenvectors always orthogonal — a special guarantee that underlies PCA and every optimization problem built on a symmetric matrix.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.065 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "markov-matrices-and-stationary-distributions",
+    "id": 18,
+    "title": "Markov Matrices and Stationary Distributions",
+    "topic": "Eigenvalues",
+    "requires": ["eigenvalues-and-eigenvectors"],
+    "related": [],
+    "summary": "A matrix whose columns are each a probability distribution, whose long-run behavior settles into a stationary distribution that is nothing more than its dominant eigenvector — the exact mechanism behind PageRank.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" },
+      { "label": "MIT 18.06SC — Syllabus (OCW)", "url": "https://www.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/syllabus", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gradients-extending-derivatives-to-several-variables",
+    "id": 19,
+    "title": "Gradients: Extending Derivatives to Several Variables",
+    "topic": "Matrix Calculus",
+    "requires": ["the-dot-product-and-vector-norms"],
+    "related": [],
+    "summary": "The vector of steepest ascent for a function of several variables — a direct generalization of a single-variable derivative's slope, introduced here purely through vector notation, with no calculus prerequisite assumed.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.065 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "least-squares-via-linear-algebra",
+    "id": 20,
+    "title": "Least Squares via Linear Algebra",
+    "topic": "Matrix Calculus",
+    "requires": ["gradients-extending-derivatives-to-several-variables", "column-space-and-null-space"],
+    "related": [],
+    "summary": "Finding the best-fit line through data that has no exact solution, by projecting onto a column space and setting a gradient to zero — the capstone that ties projections and gradients into a single, genuinely useful algorithm.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS229 — Linear Algebra Review and Reference", "url": "https://cs229.stanford.edu/section/cs229-linalg.pdf", "type": "doc" },
+      { "label": "MIT 18.06 — Course Home (OCW)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "doc" }
+    ]
+  }
+]
