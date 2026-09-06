@@ -1,1 +1,248 @@
-[]
+[
+  {
+    "slug": "the-chomsky-hierarchy",
+    "id": 1,
+    "title": "The Chomsky Hierarchy",
+    "topic": "Framing",
+    "requires": [],
+    "related": [],
+    "summary": "Four nested levels of grammar and language complexity — regular, context-free, context-sensitive, and unrestricted — that organize everything the rest of this discipline develops in real depth for the first two.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Syllabus", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/syllabus/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "deterministic-finite-automata",
+    "id": 2,
+    "title": "Deterministic Finite Automata (DFA)",
+    "topic": "Finite Automata",
+    "requires": ["the-chomsky-hierarchy"],
+    "related": [],
+    "summary": "A machine with a finite set of states, no memory beyond which state it's in, and exactly one transition per symbol — the simplest formal model of computation, and the one that recognizes exactly the regular languages.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "regular-expressions-syntax-and-semantics",
+    "id": 3,
+    "title": "Regular Expressions: Syntax and Semantics",
+    "topic": "Regular Expressions",
+    "requires": ["deterministic-finite-automata"],
+    "related": [],
+    "summary": "A compact notation for describing a language directly, built from single symbols, concatenation, union, and repetition — the same expressive power as a DFA, in a form that reads like a pattern instead of a machine.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "nondeterministic-finite-automata",
+    "id": 4,
+    "title": "Nondeterministic Finite Automata (NFA)",
+    "topic": "Finite Automata",
+    "requires": ["deterministic-finite-automata"],
+    "related": [],
+    "summary": "A machine allowed to have several transitions for the same symbol at once, or none at all — accepting when SOME choice of path leads to acceptance, a looser rule that turns out not to add any real power.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dfa-nfa-equivalence-subset-construction",
+    "id": 5,
+    "title": "DFA-NFA Equivalence: The Subset Construction",
+    "topic": "Finite Automata",
+    "requires": ["nondeterministic-finite-automata"],
+    "related": [
+      { "label": "Mathematical Induction", "slug": "mathematical-induction", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "Every NFA, however tangled its nondeterminism looks, can be converted into an equivalent DFA by tracking every state the NFA COULD be in at once as a single new state — a genuinely surprising result, proved here in full.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "regular-language-closure-properties",
+    "id": 6,
+    "title": "Regular Language Closure Properties",
+    "topic": "Finite Automata",
+    "requires": ["dfa-nfa-equivalence-subset-construction"],
+    "related": [],
+    "summary": "Combining two regular languages with union, concatenation, or Kleene star always produces another regular language — a set of guarantees that make it possible to build a complex regular language out of simple, already-known-regular pieces.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "regular-expressions-to-finite-automata",
+    "id": 7,
+    "title": "From Regular Expressions to Finite Automata",
+    "topic": "Regular Expressions",
+    "requires": ["regular-expressions-syntax-and-semantics", "regular-language-closure-properties"],
+    "related": [],
+    "summary": "Building an NFA for a regular expression piece by piece, mirroring its structure exactly — the constructive, straightforward half of Kleene's theorem, proving every regex has an equivalent automaton.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-pumping-lemma-for-regular-languages",
+    "id": 8,
+    "title": "The Pumping Lemma for Regular Languages",
+    "topic": "Proving Non-Regularity",
+    "requires": ["regular-expressions-to-finite-automata"],
+    "related": [
+      { "label": "Proof by Contradiction", "slug": "proof-by-contradiction", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "Every regular language has a length past which any long enough string must contain a repeatable middle section — a precise, provable structural fact whose contrapositive is the standard tool for proving a language is NOT regular.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "finite-automata-to-regular-expressions",
+    "id": 9,
+    "title": "From Finite Automata to Regular Expressions",
+    "topic": "Regular Expressions",
+    "requires": ["the-pumping-lemma-for-regular-languages"],
+    "related": [],
+    "summary": "The harder direction of Kleene's theorem — eliminating a DFA's states one at a time, building up a regular expression that captures the same language, until only the expression itself remains.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "context-free-grammars-and-derivations",
+    "id": 10,
+    "title": "Context-Free Grammars and Derivations",
+    "topic": "Context-Free Grammars",
+    "requires": ["the-chomsky-hierarchy"],
+    "related": [
+      { "label": "Recursion on Structural Data", "slug": "recursion-on-structural-data", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "A set of production rules — some referencing themselves, exactly the self-referential shape already familiar from recursion — that generate every string in a language one substitution at a time.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "ambiguity-in-grammars",
+    "id": 11,
+    "title": "Ambiguity in Grammars",
+    "topic": "Context-Free Grammars",
+    "requires": ["context-free-grammars-and-derivations"],
+    "related": [],
+    "summary": "A grammar is ambiguous when some string it generates has more than one valid derivation tree — a real, practical problem for anything built on a grammar, from a calculator's operator precedence to a compiler's parser.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "chomsky-normal-form",
+    "id": 12,
+    "title": "Chomsky Normal Form",
+    "topic": "Context-Free Grammars",
+    "requires": ["ambiguity-in-grammars"],
+    "related": [],
+    "summary": "Every context-free grammar can be rewritten into one where every rule has exactly one of two fixed shapes — a standardized form that makes later proofs and parsing algorithms possible without losing any generating power.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" },
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pushdown-automata",
+    "id": 13,
+    "title": "Pushdown Automata",
+    "topic": "Pushdown Automata",
+    "requires": ["context-free-grammars-and-derivations", "nondeterministic-finite-automata"],
+    "related": [],
+    "summary": "An NFA given exactly one extra resource — a single stack — which is precisely enough additional memory to recognize every context-free language, and not one language more.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pda-cfg-equivalence",
+    "id": 14,
+    "title": "PDA-CFG Equivalence",
+    "topic": "Pushdown Automata",
+    "requires": ["pushdown-automata", "chomsky-normal-form"],
+    "related": [],
+    "summary": "Pushdown automata and context-free grammars recognize exactly the same class of languages — two very different-looking formalisms, one procedural and one generative, that turn out to be two views of the same thing.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-pumping-lemma-for-context-free-languages",
+    "id": 15,
+    "title": "The Pumping Lemma for Context-Free Languages",
+    "topic": "Proving Non-Context-Freeness",
+    "requires": ["chomsky-normal-form", "the-pumping-lemma-for-regular-languages"],
+    "related": [],
+    "summary": "The same pumping idea, one level up the Chomsky hierarchy — a long enough string in a context-free language must have two repeatable pieces, pumped together, giving a standard tool for proving a language is not even context-free.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "real-applications-regex-and-grammars",
+    "id": 16,
+    "title": "Real Applications: Regex in Text Processing, Grammars in Parsers",
+    "topic": "Capstone",
+    "requires": ["finite-automata-to-regular-expressions", "pda-cfg-equivalence"],
+    "related": [],
+    "summary": "Two everyday, extremely well-known payoffs of everything covered so far — search-and-replace tools running compiled regular expressions, and a programming language's own syntax defined and parsed by a context-free grammar.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Site", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "from-automata-to-general-computation",
+    "id": 17,
+    "title": "From Automata to General Computation",
+    "topic": "Capstone",
+    "requires": ["the-pumping-lemma-for-context-free-languages", "real-applications-regex-and-grammars"],
+    "related": [
+      { "label": "The Church-Turing Thesis and What \"Computable\" Means", "slug": "the-church-turing-thesis", "feature": "curriculum/algorithms-software/computability-complexity" }
+    ],
+    "summary": "Every model covered here — DFA, NFA, PDA — is fundamentally limited: a fixed amount of memory, or memory shaped only like a single stack. The next discipline removes that limit entirely with the Turing machine.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 18.404J — OCW Calendar", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/pages/calendar/", "type": "doc" },
+      { "label": "Sipser — Introduction to the Theory of Computation, 3rd ed.", "url": "https://cs.brown.edu/courses/csci1810/fall-2023/resources/ch2_readings/Sipser_Introduction.to.the.Theory.of.Computation.3E.pdf", "type": "doc" }
+    ]
+  }
+]
