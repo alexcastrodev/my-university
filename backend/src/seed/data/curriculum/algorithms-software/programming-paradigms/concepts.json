@@ -1,1 +1,206 @@
-[]
+[
+  {
+    "slug": "what-is-a-programming-paradigm",
+    "id": 1,
+    "title": "What Is a Programming Paradigm?",
+    "topic": "What Is a Paradigm",
+    "requires": [],
+    "related": [],
+    "summary": "A paradigm is a way of thinking about computation — what a program IS, not just what syntax it's written in — and every language you've used so far has quietly been making paradigm choices for you.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "imperative-programming-as-one-paradigm-among-several",
+    "id": 2,
+    "title": "Imperative Programming as One Paradigm Among Several",
+    "topic": "What Is a Paradigm",
+    "requires": ["what-is-a-programming-paradigm"],
+    "related": [],
+    "summary": "Every program you've written so far — variables, assignment, loops, mutation — was imperative all along, without ever being named as a CHOICE; here it finally gets named, and its defining trait (state that changes over time) gets held up against the alternatives that follow.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "classes-objects-and-encapsulation",
+    "id": 3,
+    "title": "Classes, Objects, and Encapsulation",
+    "topic": "Object-Oriented Programming",
+    "requires": ["imperative-programming-as-one-paradigm-among-several"],
+    "related": [
+      { "label": "What Is an Abstract Data Type?", "slug": "what-is-an-abstract-data-type", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "The object-oriented paradigm's founding move: bundle data and the operations on it together into one unit — a real formalization of the ADT interface/implementation split already covered, now with a name and a language construct of its own.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "inheritance",
+    "id": 4,
+    "title": "Inheritance",
+    "topic": "Object-Oriented Programming",
+    "requires": ["classes-objects-and-encapsulation"],
+    "related": [],
+    "summary": "Defining a new class as an extension of an existing one — reusing what already works, overriding only what needs to differ, and inheriting a real, well-known trade-off along with the reuse.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "polymorphism",
+    "id": 5,
+    "title": "Polymorphism",
+    "topic": "Object-Oriented Programming",
+    "requires": ["inheritance"],
+    "related": [],
+    "summary": "Writing code that works uniformly over objects of different types, each responding to the same call in its own way — the payoff that makes inheritance more than just a code-reuse shortcut.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pure-functions-and-immutability",
+    "id": 6,
+    "title": "Pure Functions and Immutability",
+    "topic": "Functional Programming",
+    "requires": ["polymorphism"],
+    "related": [],
+    "summary": "A pure function's output depends only on its inputs, with no side effects and no mutation — the functional paradigm's founding move, exactly opposite to the mutable state imperative programming was built on.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" },
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "higher-order-functions-and-map-filter-reduce",
+    "id": 7,
+    "title": "Higher-Order Functions and Map/Filter/Reduce",
+    "topic": "Functional Programming",
+    "requires": ["pure-functions-and-immutability"],
+    "related": [
+      { "label": "Functions as First-Class Objects", "slug": "functions-as-first-class-objects", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Treating a function as a value — already covered as a language feature — becomes the functional paradigm's central idiom here: map, filter, and reduce replace explicit loops with functions that take other functions as arguments.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "closures",
+    "id": 8,
+    "title": "Closures",
+    "topic": "Functional Programming",
+    "requires": ["higher-order-functions-and-map-filter-reduce"],
+    "related": [],
+    "summary": "A function that remembers the variables from the scope it was created in, even after that scope has finished executing — the mechanism that makes returning a customized function from another function actually work.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" },
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pattern-matching-and-algebraic-data-types",
+    "id": 9,
+    "title": "Pattern Matching and Algebraic Data Types",
+    "topic": "Functional Programming",
+    "requires": ["closures"],
+    "related": [],
+    "summary": "Describing data as one of several distinct shapes, and branching on which shape a value actually has in one construct — real, structural pattern matching, not just a chain of type checks in disguise.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "recursion-as-the-primary-loop",
+    "id": 10,
+    "title": "Recursion as the Primary Loop",
+    "topic": "Functional Programming",
+    "requires": ["pattern-matching-and-algebraic-data-types"],
+    "related": [
+      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" }
+    ],
+    "summary": "Without mutation, a `for` loop's incrementing counter has nowhere to live — functional languages lean on the recursion already covered as their DEFAULT way of repeating an action, not just one option among several.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" },
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "logic-programming-facts-rules-and-queries",
+    "id": 11,
+    "title": "Logic Programming: Facts, Rules, and Queries",
+    "topic": "Logic Programming",
+    "requires": ["what-is-a-programming-paradigm"],
+    "related": [
+      { "label": "Predicates and Quantifiers", "slug": "predicates-and-quantifiers", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "A program as a set of facts and logical rules, with the answer to a question found by unification — the predicate logic already covered, turned into something a machine can search over directly.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" },
+      { "label": "Stanford CS242 — Course Site", "url": "https://stanford-cs242.github.io/f19/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "concurrent-programming-shared-state-vs-message-passing",
+    "id": 12,
+    "title": "Concurrent Programming: Shared State vs. Message Passing",
+    "topic": "Concurrent & Declarative",
+    "requires": ["what-is-a-programming-paradigm"],
+    "related": [],
+    "summary": "Two different ways of thinking about multiple things happening at once — several tasks reading and writing the same shared memory, versus tasks that never share memory at all and only exchange messages.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS242 — Course Site", "url": "https://stanford-cs242.github.io/f19/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "declarative-programming-what-not-how",
+    "id": 13,
+    "title": "Declarative Programming: What, Not How",
+    "topic": "Concurrent & Declarative",
+    "requires": ["logic-programming-facts-rules-and-queries"],
+    "related": [],
+    "summary": "Describing the result you want and letting the system figure out how to get there — SQL as the single most widely-used real example, and the same underlying idea logic programming already introduced.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" },
+      { "label": "MIT SICP — Wikipedia (course/book overview)", "url": "https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "choosing-a-paradigm-for-a-problem",
+    "id": 14,
+    "title": "Choosing a Paradigm for a Problem",
+    "topic": "Capstone",
+    "requires": ["recursion-as-the-primary-loop", "concurrent-programming-shared-state-vs-message-passing", "declarative-programming-what-not-how"],
+    "related": [],
+    "summary": "A closing, side-by-side guide across every paradigm covered — imperative, object-oriented, functional, logic, concurrent, declarative — organized by the shape of problem each one fits most naturally, and the real reminder that most languages in practice mix more than one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "University of Washington / Coursera — Programming Languages, Part A (Grossman)", "url": "https://www.coursera.org/learn/programming-languages", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  }
+]
