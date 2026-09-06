@@ -1,1 +1,286 @@
-[]
+[
+  {
+    "slug": "sample-spaces-and-events",
+    "id": 1,
+    "title": "Sample Spaces and Events",
+    "topic": "Foundations",
+    "requires": [],
+    "related": [
+      { "label": "Permutations and Combinations", "slug": "permutations-and-combinations", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "The set of every possible outcome of an experiment (the sample space), and an event as a subset of it — the vocabulary every probability statement is built from.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/syllabus/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "axioms-of-probability",
+    "id": 2,
+    "title": "Axioms of Probability",
+    "topic": "Foundations",
+    "requires": ["sample-spaces-and-events"],
+    "related": [],
+    "summary": "The three axioms (non-negativity, normalization, additivity) that any function must satisfy to count as a probability measure — and the rules (like unions and complements) that follow from them.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "conditional-probability-and-independence",
+    "id": 3,
+    "title": "Conditional Probability and Independence",
+    "topic": "Foundations",
+    "requires": ["axioms-of-probability"],
+    "related": [],
+    "summary": "How the probability of an event updates once another event is known to have occurred, and the special case — independence — where knowing one event tells you nothing about the other.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bayes-theorem",
+    "id": 4,
+    "title": "Bayes' Theorem",
+    "topic": "Foundations",
+    "requires": ["conditional-probability-and-independence"],
+    "related": [],
+    "summary": "Reversing a conditional probability — going from P(evidence | cause) to P(cause | evidence) — the single most consequential formula in this discipline for spam filters, diagnostics, and machine learning alike.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "discrete-random-variables-and-pmfs",
+    "id": 5,
+    "title": "Discrete Random Variables and PMFs",
+    "topic": "Random Variables",
+    "requires": ["axioms-of-probability"],
+    "related": [],
+    "summary": "A function mapping outcomes to numbers, and the probability mass function (PMF) that describes exactly how likely each of its possible values is.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "expectation-and-variance",
+    "id": 6,
+    "title": "Expectation and Variance",
+    "topic": "Random Variables",
+    "requires": ["discrete-random-variables-and-pmfs"],
+    "related": [],
+    "summary": "The long-run average value a random variable produces (expectation), and how spread out its values typically are around that average (variance).",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "joint-distributions-and-independence-of-random-variables",
+    "id": 7,
+    "title": "Joint Distributions and Independence of Random Variables",
+    "topic": "Random Variables",
+    "requires": ["expectation-and-variance"],
+    "related": [],
+    "summary": "Describing two or more random variables together with a single joint PMF, and what it means for random variables — not just events — to be independent of one another.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "Harvard Stat 110 — Course Home", "url": "https://stat110.hsites.harvard.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-bernoulli-and-binomial-distributions",
+    "id": 8,
+    "title": "The Bernoulli and Binomial Distributions",
+    "topic": "Named Distributions",
+    "requires": ["expectation-and-variance"],
+    "related": [
+      { "label": "Permutations and Combinations", "slug": "permutations-and-combinations", "feature": "curriculum/foundations/discrete-math-logic" }
+    ],
+    "summary": "A single yes/no trial (Bernoulli), and the count of successes across many independent repetitions of it (Binomial) — whose formula leans directly on the combinations already covered in discrete math.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Harvard Stat 110 — Course Home", "url": "https://stat110.hsites.harvard.edu/", "type": "doc" },
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-poisson-distribution",
+    "id": 9,
+    "title": "The Poisson Distribution",
+    "topic": "Named Distributions",
+    "requires": ["the-bernoulli-and-binomial-distributions"],
+    "related": [],
+    "summary": "The distribution of the number of independent events occurring in a fixed interval, derived as the limit of the Binomial distribution as the number of trials grows and success probability shrinks.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "continuous-random-variables-and-pdfs",
+    "id": 10,
+    "title": "Continuous Random Variables and PDFs",
+    "topic": "Named Distributions",
+    "requires": ["joint-distributions-and-independence-of-random-variables"],
+    "related": [],
+    "summary": "A random variable that can take any value in a continuous range, described by a probability density function (PDF) whose height is not itself a probability — only the area under it is.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-uniform-distribution",
+    "id": 11,
+    "title": "The Uniform Distribution",
+    "topic": "Named Distributions",
+    "requires": ["continuous-random-variables-and-pdfs"],
+    "related": [],
+    "summary": "A continuous distribution where every value in an interval is equally likely — the simplest possible PDF, and a natural first example of integrating a density to get a probability.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Full Curriculum Guidelines", "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-normal-distribution",
+    "id": 12,
+    "title": "The Normal (Gaussian) Distribution",
+    "topic": "Named Distributions",
+    "requires": ["continuous-random-variables-and-pdfs"],
+    "related": [],
+    "summary": "The bell-shaped distribution that shows up constantly in nature and statistics — and the reason it shows up so often is exactly the Central Limit Theorem covered next.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "Harvard Stat 110 — Course Home", "url": "https://stat110.hsites.harvard.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-law-of-large-numbers",
+    "id": 13,
+    "title": "The Law of Large Numbers",
+    "topic": "Limit Theorems",
+    "requires": ["expectation-and-variance"],
+    "related": [],
+    "summary": "Why the average of many independent samples converges to the true expectation as the sample count grows — the mathematical reason \"averaging out noise\" actually works.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "MIT 6.041 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-central-limit-theorem",
+    "id": 14,
+    "title": "The Central Limit Theorem",
+    "topic": "Limit Theorems",
+    "requires": ["the-law-of-large-numbers", "the-normal-distribution"],
+    "related": [],
+    "summary": "Why the sum (or average) of many independent random variables tends toward a Normal distribution, regardless of the shape of the individual variables being summed.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "descriptive-statistics-mean-median-and-spread",
+    "id": 15,
+    "title": "Descriptive Statistics: Mean, Median, and Spread",
+    "topic": "Statistics",
+    "requires": ["expectation-and-variance"],
+    "related": [],
+    "summary": "Summarizing a real dataset you've actually collected — sample mean, median, and sample variance — and how these mirror, but are not identical to, the expectation and variance of a random variable.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "Stanford CS109 — Course Home", "url": "https://web.stanford.edu/class/cs109/index.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "sampling-and-sampling-distributions",
+    "id": 16,
+    "title": "Sampling and Sampling Distributions",
+    "topic": "Statistics",
+    "requires": ["descriptive-statistics-mean-median-and-spread", "the-central-limit-theorem"],
+    "related": [],
+    "summary": "Why a statistic computed from a random sample is itself a random variable with its own distribution — and how the Central Limit Theorem predicts that distribution's shape.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "point-estimation-and-the-sample-mean",
+    "id": 17,
+    "title": "Point Estimation and the Sample Mean",
+    "topic": "Statistics",
+    "requires": ["sampling-and-sampling-distributions"],
+    "related": [],
+    "summary": "Using a single number computed from data to estimate an unknown quantity about the population it came from, and what makes an estimator (like the sample mean) a good one.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "MIT 6.041 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "confidence-intervals",
+    "id": 18,
+    "title": "Confidence Intervals",
+    "topic": "Statistics",
+    "requires": ["point-estimation-and-the-sample-mean"],
+    "related": [],
+    "summary": "A range of plausible values for an unknown quantity, built from a sample, that would contain the true value a specified percentage of the time if the sampling were repeated.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "MIT 6.041 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "hypothesis-testing-and-p-values",
+    "id": 19,
+    "title": "Hypothesis Testing and p-Values",
+    "topic": "Statistics",
+    "requires": ["confidence-intervals"],
+    "related": [],
+    "summary": "Formally testing a claim about data by asking how surprising the observed result would be if a specific \"null\" hypothesis were true — and what a p-value does and doesn't tell you.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "Stanford CS109 — Course Schedule", "url": "http://web.stanford.edu/class/cs109/schedule.html", "type": "doc" },
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bayesian-vs-frequentist-inference",
+    "id": 20,
+    "title": "Bayesian vs. Frequentist Inference",
+    "topic": "Statistics",
+    "requires": ["hypothesis-testing-and-p-values", "bayes-theorem"],
+    "related": [],
+    "summary": "Two different philosophies for reasoning under uncertainty from data — updating a prior belief with Bayes' theorem versus treating the unknown quantity as fixed and the data as random — and when each is the more natural fit.",
+    "publishedAt": "2026-09-06",
+    "references": [
+      { "label": "MIT 6.041 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/lecture-notes/", "type": "doc" },
+      { "label": "MIT 6.041 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/pages/syllabus/", "type": "doc" }
+    ]
+  }
+]
