@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { fromSourceId, toSourceId, REVIEW_MODULES } from '../src/review/review.constants';
+import {
+  curriculumSourceId,
+  fromSourceId,
+  parseCurriculumSourceId,
+  toSourceId,
+  REVIEW_MODULES,
+} from '../src/review/review.constants';
 
 describe('toSourceId / fromSourceId round-trip', () => {
   for (const { module } of REVIEW_MODULES) {
@@ -36,5 +42,34 @@ describe('toSourceId / fromSourceId round-trip', () => {
 
   it('returns null for a sourceType with no matching module', () => {
     expect(fromSourceId('lesson' as any, 'whatever')).toBeNull();
+  });
+});
+
+describe('curriculumSourceId / parseCurriculumSourceId (Computer Science tracks)', () => {
+  it('encodes the three-part CS identity behind a cc: prefix', () => {
+    expect(curriculumSourceId('foundations', 'mathematics-for-computing', 'sets-and-relations')).toBe(
+      'cc:foundations:mathematics-for-computing:sets-and-relations',
+    );
+  });
+
+  it('round-trips module/discipline/slug and builds the concept route', () => {
+    const sourceId = curriculumSourceId('algorithms-software', 'algorithms', 'binary-search');
+    expect(parseCurriculumSourceId(sourceId)).toEqual({
+      module: 'algorithms-software',
+      discipline: 'algorithms',
+      slug: 'binary-search',
+      route: ['/computer-science', 'algorithms-software', 'algorithms', 'binary-search'],
+    });
+  });
+
+  it('returns null for a non-curriculum sourceId (so Complementary ids still resolve via fromSourceId)', () => {
+    expect(parseCurriculumSourceId('spring:generics')).toBeNull();
+    expect(parseCurriculumSourceId('records-and-sealed-types')).toBeNull();
+  });
+
+  it('returns null when any of the three parts is missing', () => {
+    expect(parseCurriculumSourceId('cc:foundations:mathematics-for-computing')).toBeNull();
+    expect(parseCurriculumSourceId('cc:foundations')).toBeNull();
+    expect(parseCurriculumSourceId('cc:')).toBeNull();
   });
 });

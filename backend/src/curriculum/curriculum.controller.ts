@@ -7,6 +7,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CurrentUserId, OptionalUserId } from '../auth/session';
+import { curriculumSourceId } from '../review/review.constants';
 import { normalizeLanguage } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from './curriculum.service';
@@ -19,7 +20,7 @@ export class CurriculumController {
   ) {}
 
   private sourceId(mod: string, discipline: string, slug: string): string {
-    return `cc:${mod}:${discipline}:${slug}`;
+    return curriculumSourceId(mod, discipline, slug);
   }
 
   @Get(':module/:discipline')

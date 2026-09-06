@@ -60,3 +60,33 @@ export function fromSourceId(sourceType: ReviewSourceType, sourceId: string): Re
   if (!bare) return null;
   return { module: bare.module, slug: sourceId, route: bare.route(sourceId) };
 }
+
+/**
+ * Computer Science curriculum concepts are identified by three parts (module +
+ * discipline + slug), unlike the flat module/slug of the Complementary tracks
+ * above, so they get their own `cc:` sourceId convention rather than an entry in
+ * REVIEW_MODULES. This is the single place that convention is written — reused by
+ * CurriculumController for read-tracking XP so the review row and the XP row share
+ * one identity.
+ */
+const CURRICULUM_PREFIX = 'cc:';
+
+export function curriculumSourceId(mod: string, discipline: string, slug: string): string {
+  return `${CURRICULUM_PREFIX}${mod}:${discipline}:${slug}`;
+}
+
+export interface ResolvedCurriculum {
+  module: string;
+  discipline: string;
+  slug: string;
+  route: string[];
+}
+
+/** Parse a `cc:module:discipline:slug` sourceId back to its parts + route; null if not a CC id. */
+export function parseCurriculumSourceId(sourceId: string): ResolvedCurriculum | null {
+  if (!sourceId.startsWith(CURRICULUM_PREFIX)) return null;
+  const [mod, discipline, ...slugParts] = sourceId.slice(CURRICULUM_PREFIX.length).split(':');
+  const slug = slugParts.join(':');
+  if (!mod || !discipline || !slug) return null;
+  return { module: mod, discipline, slug, route: ['/computer-science', mod, discipline, slug] };
+}

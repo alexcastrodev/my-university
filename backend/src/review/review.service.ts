@@ -13,9 +13,10 @@ import { TestingConceptsService } from '../testing-concepts/testing-concepts.ser
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
-import { fromSourceId, toSourceId } from './review.constants';
+import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
 import { XpService } from '../xp/xp.service';
+import { CurriculumService } from '../curriculum/curriculum.service';
 import { toUtcDateKey } from '../xp/streak';
 
 const INITIAL_INTERVAL_DAYS = 1;
@@ -56,6 +57,7 @@ export class ReviewService {
     private rubyConcepts: RubyConceptsService,
     private rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
+    private curriculum: CurriculumService,
   ) {}
 
   /** Module -> slug -> human title, for every Complementary Studies area — the single lookup
@@ -76,9 +78,17 @@ export class ReviewService {
     };
   }
 
-  /** Schedules the first review, one day after the item is marked read. No-op if already scheduled. */
-  async scheduleFirstReview(userId: number, module: string, slug: string): Promise<void> {
-    const resolved = toSourceId(module, slug);
+  /** Schedules the first review, one day after the item is marked read. No-op if already scheduled.
+   *  A Computer Science curriculum concept passes its `discipline` (three-part identity); the flat
+   *  Complementary tracks omit it and resolve through REVIEW_MODULES. */
+  async scheduleFirstReview(userId: number, module: string, slug: string, discipline?: string): Promise<void> {
+    let resolved: ResolvedSource | null;
+    if (discipline) {
+      if (!this.curriculum.findBySlug(module, discipline, slug)) throw new NotFoundException();
+      resolved = { sourceType: 'concept-read' as ReviewSourceType, sourceId: curriculumSourceId(module, discipline, slug) };
+    } else {
+      resolved = toSourceId(module, slug);
+    }
     if (!resolved) throw new NotFoundException();
 
     const dueAt = new Date(Date.now() + INITIAL_INTERVAL_DAYS * DAY_MS);
@@ -97,6 +107,16 @@ export class ReviewService {
       .execute();
   }
 
+  /** Human title for a Computer Science curriculum concept, or undefined if its discipline/content
+   *  was removed since the review was scheduled (mirrors the "content since removed" skip below). */
+  private curriculumTitle(cc: ResolvedCurriculum): string | undefined {
+    try {
+      return this.curriculum.findBySlug(cc.module, cc.discipline, cc.slug)?.title;
+    } catch {
+      return undefined;
+    }
+  }
+
   async getDueQueue(userId: number): Promise<ReviewQueueItem[]> {
     const rows = await this.repo.find({
       where: { userId, dueAt: LessThanOrEqual(new Date()) },
@@ -107,6 +127,22 @@ export class ReviewService {
 
     const items: ReviewQueueItem[] = [];
     for (const row of rows) {
+      const cc = parseCurriculumSourceId(row.sourceId);
+      if (cc) {
+        const title = this.curriculumTitle(cc);
+        if (title === undefined) continue; // discipline/content since removed
+        items.push({
+          sourceType: row.sourceType,
+          sourceId: row.sourceId,
+          module: cc.module,
+          slug: cc.slug,
+          title,
+          route: cc.route,
+          dueAt: row.dueAt,
+        });
+        continue;
+      }
+
       const resolved = fromSourceId(row.sourceType, row.sourceId);
       if (!resolved) continue;
       const title = titlesByModule[resolved.module]?.get(resolved.slug);
@@ -139,6 +175,22 @@ export class ReviewService {
     const items: RecentActivityItem[] = [];
     for (const entry of entries) {
       if (entry.sourceType !== 'concept-read' && entry.sourceType !== 'episode-watched') continue;
+
+      const cc = parseCurriculumSourceId(entry.sourceId);
+      if (cc) {
+        const title = this.curriculumTitle(cc);
+        if (title === undefined) continue;
+        items.push({
+          date: toUtcDateKey(entry.updatedAt),
+          module: cc.module,
+          slug: cc.slug,
+          title,
+          route: cc.route,
+          exp: entry.exp,
+        });
+        continue;
+      }
+
       const resolved = fromSourceId(entry.sourceType, entry.sourceId);
       if (!resolved) continue;
       const title = titlesByModule[resolved.module]?.get(resolved.slug);

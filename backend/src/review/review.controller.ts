@@ -13,8 +13,9 @@ export class ReviewController {
     @CurrentUserId() userId: number,
     @Body('module') module: string,
     @Body('slug') slug: string,
+    @Body('discipline') discipline?: string,
   ) {
-    await this.review.scheduleFirstReview(userId, module, slug);
+    await this.review.scheduleFirstReview(userId, module, slug, discipline);
     return { scheduled: true };
   }
 

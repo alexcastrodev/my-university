@@ -8,9 +8,11 @@ export class ReviewService {
   private http = inject(HttpClient);
   private base = '/api/review';
 
-  /** Schedules the first spaced-repetition review for a concept/episode just marked read. */
-  scheduleReview(module: string, slug: string): Observable<{ scheduled: boolean }> {
-    return this.http.post<{ scheduled: boolean }>(`${this.base}/schedule`, { module, slug });
+  /** Schedules the first spaced-repetition review for a concept/episode just marked read.
+   *  Computer Science curriculum concepts pass their `discipline` (three-part identity). */
+  scheduleReview(module: string, slug: string, discipline?: string): Observable<{ scheduled: boolean }> {
+    const body = discipline ? { module, slug, discipline } : { module, slug };
+    return this.http.post<{ scheduled: boolean }>(`${this.base}/schedule`, body);
   }
 
   getDueQueue(): Observable<ReviewQueueItem[]> {

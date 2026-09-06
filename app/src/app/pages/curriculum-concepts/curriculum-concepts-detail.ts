@@ -6,6 +6,7 @@ import { CurriculumConceptView } from '../../components/curriculum-concept-view/
 import { CurriculumConceptDetail, CurriculumConceptSummary } from '../../models/curriculum-concept.model';
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
 import { LanguageService } from '../../services/language.service';
+import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -24,6 +25,7 @@ export class CurriculumConceptsDetailPage implements OnInit {
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
+  private reviewService = inject(ReviewService);
 
   concept = signal<CurriculumConceptDetail | null>(null);
   loading = signal(true);
@@ -146,6 +148,9 @@ export class CurriculumConceptsDetailPage implements OnInit {
           this.marking.set(false);
           this.nav.refetchList();
           this.xpService.loadSummary();
+          this.reviewService
+            .scheduleReview(this.moduleSignal(), this.nav.slug(), this.disciplineSignal())
+            .subscribe({ error: () => {} });
         },
         error: () => this.marking.set(false),
       });

@@ -50,6 +50,54 @@ describe('POST /review/schedule + GET /review/due', () => {
   });
 });
 
+describe('POST /review/schedule (Computer Science curriculum / cc:)', () => {
+  async function firstCcSlug(): Promise<string> {
+    const concepts = await json<any[]>(
+      await get('/curriculum/foundations/mathematics-for-computing'),
+    );
+    return concepts[0].slug;
+  }
+
+  it('schedules a CS curriculum concept (with discipline) and it is not immediately due', async () => {
+    const { cookie } = await login(`review-cc-schedule-${Date.now()}`);
+    const slug = await firstCcSlug();
+
+    const res = await post(
+      '/review/schedule',
+      { module: 'foundations', slug, discipline: 'mathematics-for-computing' },
+      { Cookie: cookie },
+    );
+    expect(res.status).toBe(201);
+    expect(await json<any>(res)).toEqual({ scheduled: true });
+
+    // Freshly scheduled items are due tomorrow, not immediately.
+    const dueNow = await json<any[]>(await get('/review/due', { Cookie: cookie }));
+    const sourceId = `cc:foundations:mathematics-for-computing:${slug}`;
+    expect(dueNow.some((item) => item.sourceId === sourceId)).toBe(false);
+  });
+
+  it('rejects an unknown discipline', async () => {
+    const { cookie } = await login(`review-cc-baddisc-${Date.now()}`);
+    const slug = await firstCcSlug();
+    const res = await post(
+      '/review/schedule',
+      { module: 'foundations', slug, discipline: 'not-a-discipline' },
+      { Cookie: cookie },
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it('rejects a known discipline but unknown slug', async () => {
+    const { cookie } = await login(`review-cc-badslug-${Date.now()}`);
+    const res = await post(
+      '/review/schedule',
+      { module: 'foundations', slug: 'not-a-real-concept', discipline: 'mathematics-for-computing' },
+      { Cookie: cookie },
+    );
+    expect(res.status).toBe(404);
+  });
+});
+
 describe('POST /review/answer', () => {
   it('requires a session', async () => {
     const res = await post('/review/answer', { sourceType: 'concept-read', sourceId: 'x', rating: 'good' });
