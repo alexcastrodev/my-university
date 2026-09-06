@@ -43,7 +43,10 @@
               @for (d of mod.disciplines; track d.slug) {
                 <div class="knowledge-group">
                   <h3 class="knowledge-group-title">
-                    <a [routerLink]="['/computer-science', mod.slug, d.slug]">{{ d.title }}</a>
+                    <a [routerLink]="['/computer-science', mod.slug, d.slug]">
+                      {{ d.title }}
+                      <span class="knowledge-group-arrow" aria-hidden="true">→</span>
+                    </a>
                   </h3>
                   <ul class="discipline-topics">
                     @for (topic of d.topics; track topic) {

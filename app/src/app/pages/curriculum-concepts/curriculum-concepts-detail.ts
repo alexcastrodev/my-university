@@ -50,6 +50,10 @@ export class CurriculumConceptsDetailPage implements OnInit {
     return disc?.title ?? this.disciplineSignal();
   });
 
+  protected readonly moduleTitle = computed(
+    () => CURRICULUM.find((m) => m.slug === this.moduleSignal())?.title ?? this.moduleSignal(),
+  );
+
   nav = createConceptNavigation<CurriculumConceptSummary>(() =>
     this.curriculumConceptsService.listConcepts(this.moduleSignal(), this.disciplineSignal()),
   );
@@ -69,6 +73,7 @@ export class CurriculumConceptsDetailPage implements OnInit {
     const concept = this.concept();
     return [
       { name: 'Computer Science', path: '/computer-science' },
+      { name: this.moduleTitle(), path: '/computer-science' },
       { name: this.disciplineTitle(), path: this.basePath() },
       ...(concept ? [{ name: concept.title, path: `${this.basePath()}/${concept.slug}` }] : []),
     ];
