@@ -15,6 +15,8 @@ import { Lesson } from './lesson/lesson.entity';
 import { Course } from './course/course.entity';
 import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
+import { DailyModule } from './daily/daily.module';
+import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
@@ -54,6 +56,7 @@ import { XpModule } from './xp/xp.module';
         ExamAttempt,
         UserXpEntry,
         ReviewSchedule,
+        DailyWriteAnswer,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       migrationsRun: true,
@@ -77,6 +80,7 @@ import { XpModule } from './xp/xp.module';
     ExamModule,
     XpModule,
     ReviewModule,
+    DailyModule,
     SeedModule,
     SearchModule,
     SitemapModule,

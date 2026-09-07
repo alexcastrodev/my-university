@@ -1,5 +1,16 @@
 <div class="runner" [class.runner-done]="phase() === 'done'">
-  @if (phase() === 'card') {
+  @if (session() && total() === 0) {
+    <div class="empty-session">
+      <button type="button" class="close-btn" (click)="close()" aria-label="Close session" i18n-aria-label="@@daily.close">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h2 class="card-title" i18n="@@daily.emptyTitle">Nothing to review yet</h2>
+      <p class="prose" i18n="@@daily.emptyBody">Read one concept first — a session assembles itself from what you last read and what is due.</p>
+      <a class="primary-btn" routerLink="/computer-science" i18n="@@daily.emptyCta">Go read something</a>
+    </div>
+  } @else if (phase() === 'card') {
     @if (current(); as card) {
       <div class="runner-top">
         <button type="button" class="close-btn" (click)="close()" aria-label="Close session" i18n-aria-label="@@daily.close">
@@ -25,27 +36,33 @@
               @if (rc.context) {
                 <p class="card-context">{{ rc.context }}</p>
               }
-              <div class="options">
-                @for (opt of rc.options; track $index) {
-                  <button
-                    type="button"
-                    class="option state-{{ optionState(rc, $index) }}"
-                    [disabled]="checked()"
-                    (click)="selectOption($index)"
-                  >
-                    {{ opt }}
-                  </button>
+              @if (recallAnswered() === null) {
+                <div class="options">
+                  <button type="button" class="option" (click)="answerRecall(true)" i18n="@@daily.remember">I remember</button>
+                  <button type="button" class="option" (click)="answerRecall(false)" i18n="@@daily.showMe">I do not remember — show me</button>
+                </div>
+              } @else {
+                <div class="options">
+                  <span class="option option-feedback state-{{ recallAnswered() === 'remembered' ? 'correct' : 'wrong' }}">
+                    @if (recallAnswered() === 'remembered') {
+                      <ng-container i18n="@@daily.rememberedNote">Good — marked as remembered.</ng-container>
+                    } @else {
+                      <ng-container i18n="@@daily.forgotNote">No worries — it comes back in a future session.</ng-container>
+                    }
+                  </span>
+                </div>
+                @if (recallAnswered() === 'forgot') {
+                  @if (rc.wrongNote) {
+                    <p class="reassure">{{ rc.wrongNote }}</p>
+                  }
+                  @if (rc.route) {
+                    <a class="ghost-link" [routerLink]="rc.route" i18n="@@daily.openFull">Open the full topic instead</a>
+                  }
                 }
-              </div>
-              @if (rc.wrongNote) {
-                <p class="reassure">{{ rc.wrongNote }}</p>
               }
               <div class="card-foot">
-                @if (checked()) {
+                @if (recallAnswered() !== null) {
                   <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
-                } @else {
-                  <button type="button" class="primary-btn" [disabled]="selectedOption() === null" (click)="check()" i18n="@@daily.check">Check</button>
-                  <button type="button" class="ghost-link" (click)="showAnswer()" i18n="@@daily.showMe">I do not remember — show me</button>
                 }
               </div>
             }
@@ -57,7 +74,7 @@
               }
               <h2 class="card-title">{{ rd.title }}</h2>
               @for (p of paragraphs(rd.body); track $index) {
-                <p class="prose">{{ p }}</p>
+                <p class="prose" [innerHTML]="inline(p)"></p>
               }
               @if (rd.code; as code) {
                 <div class="code-block">
@@ -72,7 +89,7 @@
                 <p class="read-note">{{ rd.note }}</p>
               }
               <div class="card-foot">
-                <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+                <button type="button" class="primary-btn" (click)="markSeen(rd); next()" i18n="@@daily.next">Next</button>
                 @if (rd.fullTopicRoute) {
                   <a class="ghost-link" [routerLink]="rd.fullTopicRoute" i18n="@@daily.openFull">Open the full topic instead</a>
                 }
@@ -91,16 +108,18 @@
                 <pre><code>{{ nt.code.source }}</code></pre>
               </div>
               @if (nt.lead) {
-                <p class="prose">{{ nt.lead }}</p>
+                <p class="prose" [innerHTML]="inline(nt.lead)"></p>
               }
-              <div class="takeaway">
-                @if (nt.takeawayLabel) {
-                  <span class="takeaway-label">{{ nt.takeawayLabel }}</span>
-                }
-                <p>{{ nt.takeaway }}</p>
-              </div>
+              @if (nt.takeaway) {
+                <div class="takeaway">
+                  @if (nt.takeawayLabel) {
+                    <span class="takeaway-label">{{ nt.takeawayLabel }}</span>
+                  }
+                  <p [innerHTML]="inline(nt.takeaway)"></p>
+                </div>
+              }
               <div class="card-foot">
-                <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+                <button type="button" class="primary-btn" (click)="markSeen(nt); next()" i18n="@@daily.next">Next</button>
               </div>
             }
 
@@ -132,7 +151,7 @@
                 <p class="prose write-foot">{{ wr.footnote }}</p>
               }
               <div class="card-foot">
-                <button type="button" class="primary-btn accent" (click)="next()">
+                <button type="button" class="primary-btn accent" (click)="saveWrite(wr)">
                   <ng-container i18n="@@daily.saveFinish">Save and finish · +{{ wr.xp }} XP</ng-container>
                 </button>
                 <button type="button" class="ghost-link" (click)="next()" i18n="@@daily.keepOpen">Keep the topic open, do not mark it</button>

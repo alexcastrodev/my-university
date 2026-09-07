@@ -69,6 +69,24 @@ export class XpService {
     await this.awardOnce(userId, 'episode-watched', slug, 10);
   }
 
+  /**
+   * Daily-session card completion. Unlike `concept-read`/`episode-watched` (awarded once ever),
+   * a daily card is re-eligible once per UTC calendar day — the same underlying concept can
+   * resurface in a later day's session and still earn XP, while replaying today's session a
+   * second time does not. The day key lives inside `sourceId` itself (`awardOnce`'s uniqueness
+   * is per raw sourceId, there's no separate "day" column), so the caller never needs a second
+   * table just to express that.
+   */
+  async grantDailyCardXp(
+    userId: number,
+    cardType: string,
+    underlyingSourceId: string,
+    exp: number,
+  ): Promise<void> {
+    const dayKey = `${cardType}:${toUtcDateKey(new Date())}:${underlyingSourceId}`;
+    await this.awardOnce(userId, 'daily-card', dayKey, exp);
+  }
+
   async grantSkillCheckXp(
     userId: number,
     examId: string,

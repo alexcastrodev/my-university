@@ -71,6 +71,21 @@
   padding: 1.75rem 1.5rem 2rem;
 }
 
+.empty-session {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.empty-session .primary-btn {
+  width: auto;
+  padding: 0.85rem 1.5rem;
+}
+
 /* Shared card typography */
 .kicker {
   font-size: 0.72rem;
@@ -107,6 +122,15 @@
   line-height: 1.7;
   color: var(--mu-ink-soft);
   margin: 0 0 1rem;
+}
+
+.prose code,
+.takeaway code {
+  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  font-size: 0.9em;
+  background: var(--mu-surface-soft, #f3f4f6);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
 }
 
 /* Recall options */
@@ -152,6 +176,11 @@
   cursor: default;
 }
 
+.option.option-feedback {
+  cursor: default;
+  display: block;
+}
+
 .reassure {
   font-size: 0.85rem;
   color: var(--mu-muted);
@@ -169,6 +198,7 @@
 }
 
 .primary-btn {
+  display: block;
   width: 100%;
   padding: 1rem;
   border: none;
@@ -177,8 +207,11 @@
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
   transition: opacity 0.15s;
+  box-sizing: border-box;
 }
 
 .primary-btn:hover:not(:disabled) {

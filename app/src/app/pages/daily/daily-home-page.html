@@ -7,9 +7,15 @@
       </div>
     }
     <p class="hero-date">{{ dateLabel() }}</p>
-    <h1 class="hero-title">{{ cards().length }} cards.<br />About {{ session()?.estimatedMinutes ?? 5 }} minutes.</h1>
+    @if (isEmpty()) {
+      <h1 class="hero-title" i18n="@@daily.emptyHeroTitle">Nothing to review yet.</h1>
+    } @else {
+      <h1 class="hero-title">{{ cards().length }} {{ cardWord() }}.<br />About {{ session()?.estimatedMinutes ?? 5 }} {{ minuteWord() }}.</h1>
+    }
     <p class="hero-meta">
-      <span class="hero-xp">+{{ potentialXp() }} XP</span>
+      @if (!isEmpty()) {
+        <span class="hero-xp">+{{ potentialXp() }} XP</span>
+      }
       @if (auth.currentUser() && xpService.streak(); as streak) {
         <span class="sep">|</span>
         <span i18n="@@daily.streak">Streak · day {{ streak.current }}</span>
@@ -17,25 +23,30 @@
     </p>
   </header>
 
-  <ol class="card-list">
-    @for (card of cards(); track $index) {
-      <li class="preview-card">
-        <span class="preview-index">{{ ($index + 1).toString().padStart(2, '0') }}</span>
-        <div class="preview-main">
-          <div class="preview-top">
-            <span class="preview-type type-{{ card.type }}">{{ cardTypeLabel(card.type) }}</span>
-            <span class="preview-xp">+{{ card.xp }}</span>
+  @if (isEmpty()) {
+    <p class="empty-hint" i18n="@@daily.emptyHomeHint">Read one concept first — a session assembles itself from what you last read and what is due.</p>
+    <a class="start-btn" routerLink="/computer-science" i18n="@@daily.emptyCta">Go read something</a>
+  } @else {
+    <ol class="card-list">
+      @for (card of cards(); track $index) {
+        <li class="preview-card">
+          <span class="preview-index">{{ ($index + 1).toString().padStart(2, '0') }}</span>
+          <div class="preview-main">
+            <div class="preview-top">
+              <span class="preview-type type-{{ card.type }}">{{ cardTypeLabel(card.type) }}</span>
+              <span class="preview-xp">+{{ card.xp }}</span>
+            </div>
+            <p class="preview-title">{{ card.previewTitle }}</p>
+            <p class="preview-sub">{{ card.previewSubtitle }}</p>
           </div>
-          <p class="preview-title">{{ card.previewTitle }}</p>
-          <p class="preview-sub">{{ card.previewSubtitle }}</p>
-        </div>
-      </li>
-    }
-  </ol>
+        </li>
+      }
+    </ol>
 
-  <button type="button" class="start-btn" (click)="start()">
-    <ng-container i18n="@@daily.start">Start · {{ session()?.estimatedMinutes ?? 5 }} min</ng-container>
-  </button>
+    <button type="button" class="start-btn" (click)="start()">
+      <ng-container i18n="@@daily.start">Start · {{ session()?.estimatedMinutes ?? 5 }} min</ng-container>
+    </button>
+  }
 
   <a class="sources-link" routerLink="/daily/sources" i18n="@@daily.whereFrom"
     >Where the cards come from</a

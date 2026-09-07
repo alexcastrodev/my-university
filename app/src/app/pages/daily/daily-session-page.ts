@@ -13,14 +13,34 @@ import {
 } from '../../models/daily.model';
 
 type Phase = 'card' | 'done';
+type RecallAnswer = 'remembered' | 'forgot' | null;
+
+/** Card prose is a real excerpt of a concept's markdown, which routinely uses backtick
+ *  spans for identifiers (`WeakHashMap`) — rendering it as plain text leaves the
+ *  backticks visible. This renders only that one inline construct, not full markdown, to
+ *  avoid pulling in the heavy shared concept pipeline (mermaid/wiki-links/deep-dives)
+ *  for what is a 1-2 paragraph excerpt. Escaped first, so no other markup can slip in. */
+function renderInlineCode(text: string): string {
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
+}
 
 /**
  * The full-screen card runner (mockups tmp/mobile/, screens 02–06):
  * a segmented progress bar, a close button, one card at a time
  * (recall / read / notice / write), then the session-done summary.
  *
- * XP is not awarded here yet — that requires the backend session endpoint
- * (tasks.md · grupo F). The done screen reflects the user's live Xp/streak.
+ * A session can legitimately have fewer than 4 cards, or zero (see
+ * `daily.model.ts`) — the empty state is handled explicitly below rather
+ * than assuming a card always exists.
+ *
+ * Recall is self-rating (no real MCQ — see `daily.model.ts`): "I remember"
+ * posts SM2 rating `good`, "I do not remember" posts `again`, both via
+ * `DailySessionService.complete`, which also grants XP for every card type
+ * as the user finishes it.
  */
 @Component({
   selector: 'app-daily-session-page',
@@ -40,12 +60,14 @@ export class DailySessionPage implements OnInit {
   protected readonly phase = signal<Phase>('card');
 
   // Recall per-card state
-  protected readonly selectedOption = signal<number | null>(null);
-  protected readonly checked = signal(false);
-  protected readonly gaveUp = signal(false);
+  protected readonly recallAnswered = signal<RecallAnswer>(null);
+
+  // Read/Notice per-card state — guards against double-firing the completion POST on repeat "Next" clicks.
+  private readonly completedSourceIds = new Set<string>();
 
   // Write per-card state
   protected readonly writeText = signal('');
+  protected readonly writeSaved = signal(false);
 
   protected readonly cards = computed<DailyCard[]>(() => this.session()?.cards ?? []);
   protected readonly total = computed(() => this.cards().length);
@@ -85,41 +107,57 @@ export class DailySessionPage implements OnInit {
     return body.split('\n\n');
   }
 
-  selectOption(i: number): void {
-    if (this.checked()) return;
-    this.selectedOption.set(i);
+  inline(text: string): string {
+    return renderInlineCode(text);
   }
 
-  check(): void {
-    if (this.selectedOption() === null) return;
-    this.checked.set(true);
-  }
+  answerRecall(remembered: boolean): void {
+    if (this.recallAnswered() !== null) return;
+    const card = this.asRecall(this.current()!);
+    this.recallAnswered.set(remembered ? 'remembered' : 'forgot');
 
-  showAnswer(): void {
-    this.gaveUp.set(true);
-    this.checked.set(true);
-  }
-
-  /** Style state for a recall option once checked: correct / wrong / neutral. */
-  optionState(card: RecallCard, i: number): 'idle' | 'selected' | 'correct' | 'wrong' {
-    if (!this.checked()) {
-      return this.selectedOption() === i ? 'selected' : 'idle';
+    if (this.auth.currentUser()) {
+      this.dailyService
+        .complete('recall', card.sourceId, {
+          sourceType: card.sourceType,
+          rating: remembered ? 'good' : 'again',
+        })
+        .subscribe({ next: () => this.refreshXp(), error: () => {} });
     }
-    if (i === card.correctIndex) return 'correct';
-    if (i === this.selectedOption()) return 'wrong';
-    return 'idle';
   }
 
-  recallResolved(card: RecallCard): boolean {
-    return this.checked();
-  }
-
-  recallWrong(card: RecallCard): boolean {
-    return this.checked() && (this.gaveUp() || this.selectedOption() !== card.correctIndex);
+  /** Fires the completion POST for Read/Notice at most once per card (a "Next" click can't
+   *  double-grant XP even if pressed more than once before navigation). Keyed by
+   *  `type:sourceId`, not bare `sourceId` — Notice falls back to reusing Read's own
+   *  concept when no second source is available (`DailyService.pickNoticeEntry`), so the
+   *  two cards can legitimately share a sourceId and must still be tracked separately or
+   *  Notice's completion is wrongly seen as a repeat of Read's and silently dropped. */
+  markSeen(card: ReadCard | NoticeCard): void {
+    const key = `${card.type}:${card.sourceId}`;
+    if (!this.auth.currentUser() || this.completedSourceIds.has(key)) return;
+    this.completedSourceIds.add(key);
+    this.dailyService
+      .complete(card.type, card.sourceId)
+      .subscribe({ next: () => this.refreshXp(), error: () => {} });
   }
 
   onWriteInput(event: Event): void {
     this.writeText.set((event.target as HTMLTextAreaElement).value);
+  }
+
+  saveWrite(card: WriteCard): void {
+    const text = this.writeText().trim();
+    if (!text || this.writeSaved()) {
+      this.next();
+      return;
+    }
+    this.writeSaved.set(true);
+    if (this.auth.currentUser()) {
+      this.dailyService
+        .complete('write', card.sourceId, { text })
+        .subscribe({ next: () => this.refreshXp(), error: () => {} });
+    }
+    this.next();
   }
 
   next(): void {
@@ -131,11 +169,19 @@ export class DailySessionPage implements OnInit {
     this.resetCardState();
   }
 
+  /** Refreshes the XP/streak signals after a completion POST resolves — the done screen
+   *  reads them live, so without this it would show whatever ngOnInit loaded before this
+   *  session's cards were completed, missing the XP just earned. */
+  private refreshXp(): void {
+    if (!this.auth.currentUser()) return;
+    this.xpService.loadSummary();
+    this.xpService.loadStreak();
+  }
+
   private resetCardState(): void {
-    this.selectedOption.set(null);
-    this.checked.set(false);
-    this.gaveUp.set(false);
+    this.recallAnswered.set(null);
     this.writeText.set('');
+    this.writeSaved.set(false);
   }
 
   close(): void {
@@ -144,6 +190,7 @@ export class DailySessionPage implements OnInit {
 
   restart(): void {
     this.index.set(0);
+    this.completedSourceIds.clear();
     this.resetCardState();
     this.phase.set('card');
   }

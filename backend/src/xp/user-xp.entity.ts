@@ -19,7 +19,7 @@ export class UserXpEntry {
   user: User;
 
   @Column()
-  sourceType: 'lesson' | 'skill-check' | 'concept-read' | 'episode-watched';
+  sourceType: 'lesson' | 'skill-check' | 'concept-read' | 'episode-watched' | 'daily-card';
 
   @Column()
   sourceId: string;

@@ -1,25 +1,48 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { DailySession } from '../models/daily.model';
+import { DailyCardType, DailySession } from '../models/daily.model';
+import { ReviewRating, ReviewSourceType } from '../models/review.model';
+import { AuthService } from './auth.service';
 
 /**
  * Assembles the daily session.
  *
- * For now this returns a curated session client-side so the whole mobile
- * flow is functional and demonstrable end-to-end. It is the single seam
- * where a backend "session builder" endpoint (tasks.md · grupo F —
- * GET /api/daily/session) will plug in: it must return the same
- * `DailySession` shape, mixing marks-due (recall), last-read (read),
- * real source (notice) and a write prompt. XP/streak are NOT part of this
- * payload — they stay owned by XpService and are read live by the pages.
+ * Logged-in: `GET /api/daily/session` (`DailyController`/`DailyService`, tasks.md · grupo F) —
+ * built from the user's real due reviews (Recall) and read history (Read/Notice/Write), never
+ * fabricated. `POST /api/daily/complete` records each card's outcome (rating, write text) and
+ * grants XP, called by `DailySessionPage` as the user finishes each card.
+ *
+ * Logged-out: there is no session to build (no user, no history, no due reviews), so this
+ * serves a static, clearly-illustrative preview instead of a 401 — same shape, so the page
+ * renders identically either way.
  */
 @Injectable({ providedIn: 'root' })
 export class DailySessionService {
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
+
   build(): Observable<DailySession> {
-    return of(this.sampleSession());
+    if (!this.auth.currentUser()) {
+      return of(this.previewSession());
+    }
+    return this.http.get<DailySession>('/api/daily/session');
   }
 
-  private sampleSession(): DailySession {
+  complete(
+    type: DailyCardType,
+    sourceId: string,
+    extra: { sourceType?: ReviewSourceType; rating?: ReviewRating; text?: string } = {},
+  ): Observable<{ xpAwarded: number }> {
+    return this.http.post<{ xpAwarded: number }>('/api/daily/complete', {
+      type,
+      sourceId,
+      ...extra,
+    });
+  }
+
+  /** Logged-out-only illustrative sample — never persisted, never posted back. */
+  private previewSession(): DailySession {
     return {
       estimatedMinutes: 5,
       summary: {
@@ -37,18 +60,13 @@ export class DailySessionService {
           previewSubtitle: 'Marked in March · Java Concepts',
           recap: 'Recall · reference reachability',
           kicker: 'RECALL · NO LOOKING BACK',
-          title: 'When does a weakly reachable object become eligible for collection?',
-          context:
-            'You marked this "got it" 6 months ago. Answer from memory first — the mark renews only if you still can.',
-          options: [
-            'As soon as the garbage collector runs',
-            'When no strong reference to it exists anywhere',
-            'When the map holding it is cleared',
-            'Immediately after the reference is created',
-          ],
-          correctIndex: 1,
+          title: 'Reference reachability',
+          context: 'You marked "Reference reachability" as "Got it" before. Does it still hold?',
+          sourceType: 'concept-read',
+          sourceId: 'reference-reachability',
+          route: ['/java/java-concepts', 'reference-reachability'],
           wrongNote:
-            "Getting it wrong is not a penalty. It reopens the topic and puts the reading back in tomorrow's session.",
+            "Getting it wrong is not a penalty. It reopens the topic and puts it back in a future session.",
         },
         {
           type: 'read',
@@ -69,6 +87,7 @@ export class DailySessionService {
           },
           note: 'This is the whole card. The full topic stays in Java Concepts.',
           fullTopicRoute: ['/java/java-concepts'],
+          sourceId: 'weakhashmap',
         },
         {
           type: 'notice',
@@ -94,6 +113,7 @@ export class DailySessionService {
           takeawayLabel: 'SO',
           takeaway:
             'The map shrinks when you touch it, not when the object dies. An untouched WeakHashMap holds stale entries indefinitely.',
+          sourceId: 'weakhashmap',
         },
         {
           type: 'write',
@@ -112,6 +132,7 @@ export class DailySessionService {
           },
           footnote:
             'Marking this topic renews it for six months and adds 20 XP. The lab in JVM Internals is worth 120, when you want proof rather than a claim.',
+          sourceId: 'weakhashmap',
         },
       ],
     };

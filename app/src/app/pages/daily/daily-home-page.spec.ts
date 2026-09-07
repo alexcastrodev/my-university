@@ -22,8 +22,8 @@ const SESSION: DailySession = {
       recap: 'Recall',
       kicker: 'RECALL',
       title: 'Q?',
-      options: ['a', 'b'],
-      correctIndex: 1,
+      sourceType: 'concept-read',
+      sourceId: 'reference-reachability',
     },
     {
       type: 'write',
@@ -34,8 +34,15 @@ const SESSION: DailySession = {
       kicker: 'WRITE',
       title: 'In your own words?',
       maxLength: 240,
+      sourceId: 'reference-reachability',
     },
   ],
+};
+
+const EMPTY_SESSION: DailySession = {
+  estimatedMinutes: 1,
+  summary: { headline: 'Nothing to review yet', tomorrow: { title: 'Read one concept first', body: 'B' } },
+  cards: [],
 };
 
 const SUMMARY: XpSummary = {
@@ -46,8 +53,8 @@ const SUMMARY: XpSummary = {
 
 const STREAK: StreakInfo = { current: 3, longest: 9 };
 
-function setup(options: { loggedIn?: boolean } = {}) {
-  const { loggedIn = true } = options;
+function setup(options: { loggedIn?: boolean; session?: DailySession } = {}) {
+  const { loggedIn = true, session = SESSION } = options;
 
   TestBed.configureTestingModule({
     imports: [DailyHomePage],
@@ -55,7 +62,7 @@ function setup(options: { loggedIn?: boolean } = {}) {
       provideZonelessChangeDetection(),
       provideRouter([]),
       { provide: AuthService, useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) } },
-      { provide: DailySessionService, useValue: { build: () => of(SESSION) } },
+      { provide: DailySessionService, useValue: { build: () => of(session) } },
       { provide: SeoService, useValue: { set: () => {} } },
       {
         provide: XpService,
@@ -126,5 +133,13 @@ describe('DailyHomePage', () => {
     const link: HTMLAnchorElement = fixture.nativeElement.querySelector('.sources-link');
     expect(link).toBeTruthy();
     expect(link.getAttribute('href')).toBe('/daily/sources');
+  });
+
+  it('shows an honest empty state instead of a fake 4-card promise', () => {
+    const fixture = setup({ session: EMPTY_SESSION });
+
+    expect(fixture.nativeElement.textContent).toContain('Nothing to review yet');
+    expect(fixture.nativeElement.querySelector('.preview-card')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.start-btn').getAttribute('href')).toBe('/computer-science');
   });
 });

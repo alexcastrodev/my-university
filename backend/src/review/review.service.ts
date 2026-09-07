@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, MoreThan, Repository } from 'typeorm';
+import { ConceptSection } from '../shared/concept-content';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
@@ -76,6 +77,90 @@ export class ReviewService {
       'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
     };
+  }
+
+  /** Full content (title + sections) for one module's concept, or undefined if the module
+   *  isn't a recognized Complementary Studies area or the slug doesn't resolve — the
+   *  per-module fan-out `buildTitlesByModule` also needs, but returning the whole detail
+   *  instead of just a title, and looked up by slug directly instead of pre-loading every
+   *  concept in the module. `java-minute` has no `title` field (its detail exposes
+   *  `question` instead), handled the same way `buildTitlesByModule` already does. */
+  private conceptDetailByModule(
+    module: string,
+    slug: string,
+  ): { title: string; sections: ConceptSection[] } | undefined {
+    switch (module) {
+      case 'java-concepts': {
+        const d = this.javaConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'jvm-concepts': {
+        const d = this.jvmConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'spring-concepts': {
+        const d = this.springConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'database-concepts': {
+        const d = this.databaseConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'system-design-concepts': {
+        const d = this.systemDesignConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'java-minute': {
+        const d = this.javaMinute.findBySlug(slug);
+        return d ? { title: d.question, sections: d.sections } : undefined;
+      }
+      case 'testing-concepts': {
+        const d = this.testingConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'algorithms-concepts': {
+        const d = this.algorithmsConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'ruby-concepts': {
+        const d = this.rubyConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'rubyonrails-concepts': {
+        const d = this.rubyOnRailsConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'quarkus-concepts': {
+        const d = this.quarkusConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      default:
+        return undefined;
+    }
+  }
+
+  /**
+   * Full content behind a sourceId — the same resolution `getDueQueue`/`getRecentActivity`
+   * do for a display title, but returning `sections` too. This is the one seam
+   * `DailyService` (grupo F session builder) reads real Read/Notice card content through,
+   * instead of `DailyModule` re-importing all eleven concept modules itself.
+   */
+  resolveConceptDetail(
+    sourceType: ReviewSourceType,
+    sourceId: string,
+  ): { title: string; sections: ConceptSection[]; route: string[] } | null {
+    const cc = parseCurriculumSourceId(sourceId);
+    if (cc) {
+      const detail = this.curriculum.findBySlug(cc.module, cc.discipline, cc.slug);
+      if (!detail) return null;
+      return { title: detail.title, sections: detail.sections, route: cc.route };
+    }
+
+    const resolved = fromSourceId(sourceType, sourceId);
+    if (!resolved) return null;
+    const detail = this.conceptDetailByModule(resolved.module, resolved.slug);
+    if (!detail) return null;
+    return { title: detail.title, sections: detail.sections, route: resolved.route };
   }
 
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled.

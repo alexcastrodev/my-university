@@ -14,6 +14,8 @@ const FIXTURES: RubyConceptSummary[] = [
     topic: 'Object Model & Metaprogramming',
     summary: 'How include, extend, and prepend change the method lookup chain.',
     publishedAt: '2026-08-17',
+    language: 'en',
+    availableLanguages: ['en'],
     labUrl: 'https://example.com/lab',
     read: true,
   },
@@ -24,6 +26,8 @@ const FIXTURES: RubyConceptSummary[] = [
     topic: 'Concurrency',
     summary: 'Why Ruby threads give you I/O concurrency but not CPU parallelism.',
     publishedAt: '2026-08-17',
+    language: 'en',
+    availableLanguages: ['en'],
     read: false,
   },
 ];

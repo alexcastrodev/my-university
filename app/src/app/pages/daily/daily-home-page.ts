@@ -24,11 +24,18 @@ export class DailyHomePage implements OnInit {
   private router = inject(Router);
 
   protected readonly session = signal<DailySession | null>(null);
+  protected readonly loaded = computed(() => this.session() !== null);
+  protected readonly isEmpty = computed(() => this.loaded() && this.cards().length === 0);
 
   protected readonly cards = computed<DailyCard[]>(() => this.session()?.cards ?? []);
   protected readonly potentialXp = computed(() =>
     this.cards().reduce((sum, card) => sum + card.xp, 0),
   );
+  protected readonly cardWord = computed(() => (this.cards().length === 1 ? 'card' : 'cards'));
+  protected readonly minuteWord = computed(() => {
+    const minutes = this.session()?.estimatedMinutes ?? 5;
+    return minutes === 1 ? 'minute' : 'minutes';
+  });
 
   protected readonly dateLabel = computed(() => {
     const d = new Date();

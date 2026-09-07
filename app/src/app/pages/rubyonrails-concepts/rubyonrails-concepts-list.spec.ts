@@ -14,6 +14,8 @@ const FIXTURES: RubyOnRailsConceptSummary[] = [
     topic: 'Database & ActiveRecord',
     summary: 'Why a query method inside an instance method is a hidden N+1 risk.',
     publishedAt: '2026-08-17',
+    language: 'en',
+    availableLanguages: ['en'],
     labUrl: 'https://example.com/lab',
     read: true,
   },
@@ -24,6 +26,8 @@ const FIXTURES: RubyOnRailsConceptSummary[] = [
     topic: 'Application Servers & Infra',
     summary: 'Slow client vs. slow app, and which server protects against which.',
     publishedAt: '2026-08-17',
+    language: 'en',
+    availableLanguages: ['en'],
     read: false,
   },
 ];

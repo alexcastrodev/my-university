@@ -140,6 +140,7 @@
 /* Start button */
 .start-btn {
   display: block;
+  box-sizing: border-box;
   width: calc(100% - 3rem);
   margin: 1.25rem 1.5rem 0.75rem;
   padding: 1rem;
@@ -149,12 +150,21 @@
   border-radius: var(--mu-radius);
   font-size: 1rem;
   font-weight: 700;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .start-btn:hover {
   background: var(--mu-accent-strong);
+}
+
+.empty-hint {
+  margin: 1rem 1.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--mu-muted);
 }
 
 .sources-link {

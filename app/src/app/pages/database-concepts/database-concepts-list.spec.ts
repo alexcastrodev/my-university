@@ -15,6 +15,8 @@ const FIXTURES: DatabaseConceptSummary[] = [
     topic: 'Operations',
     summary: 'Inspecting pg_stat_user_tables and pgstattuple for bloat.',
     publishedAt: '2026-07-25',
+    language: 'en',
+    availableLanguages: ['en'],
     labUrl: 'https://example.com/lab',
     read: true,
   },
@@ -26,6 +28,8 @@ const FIXTURES: DatabaseConceptSummary[] = [
     topic: 'Query Techniques',
     summary: 'NOT EXISTS, LEFT JOIN / IS NULL and their trade-offs.',
     publishedAt: '2026-07-15',
+    language: 'en',
+    availableLanguages: ['en'],
     read: false,
   },
 ];
