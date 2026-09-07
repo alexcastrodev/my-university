@@ -1,1 +1,546 @@
-[]
+[
+  {
+    "slug": "swebok-and-the-scope-beyond-construction",
+    "id": 1,
+    "title": "SWEBOK and the Scope Beyond Software Construction",
+    "topic": "Framing the Discipline",
+    "requires": [],
+    "related": [
+      {
+        "label": "Safe, Easy, Ready: A Framework for Good Code",
+        "slug": "safe-easy-ready-a-framework-for-good-code",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "The IEEE Computer Society's SWEBOK Guide splits software engineering into eighteen knowledge areas, and Software Construction (writing, testing, and debugging individual units of code, already covered in full by this curriculum's sibling discipline) is only one of them: this concept draws the real, citable boundary between that already-published discipline and the four knowledge areas this one actually covers, Software Requirements, Software Engineering Process, Software Engineering Management, and the newly added Software Engineering Operations, plus Software Engineering Economics for the technical-debt closing concept.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE: CS2013 Software Engineering Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "requirements-elicitation-specification-and-validation",
+    "id": 2,
+    "title": "Requirements Elicitation, Specification, and Validation",
+    "topic": "Software Requirements",
+    "requires": [
+      "swebok-and-the-scope-beyond-construction"
+    ],
+    "related": [
+      {
+        "label": "Specifications: Preconditions and Postconditions",
+        "slug": "specifications-preconditions-and-postconditions",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Requirements engineering, per Sommerville's standard textbook treatment, is not a single step but three distinct activities performed in a loop, elicitation (discovering what stakeholders actually need, often despite stakeholders themselves not knowing precisely), specification (writing that need down in a form precise enough to build against), and validation (checking the written specification actually matches the real need before a single line of implementation code exists), and this concept works through why skipping any one of the three, not just skipping requirements altogether, is the failure mode that actually shows up on real projects.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE: CS2013 Software Engineering Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "functional-vs-non-functional-requirements",
+    "id": 3,
+    "title": "Functional vs. Non-Functional Requirements",
+    "topic": "Software Requirements",
+    "requires": [
+      "requirements-elicitation-specification-and-validation"
+    ],
+    "related": [
+      {
+        "label": "Scalability and Maintainability: Load Parameters and the Operability-Simplicity-Evolvability Triad",
+        "slug": "scalability-and-maintainability-principles",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "A functional requirement states what a system must do (a specific behavior, given a specific input), while a non-functional requirement constrains how well or under what conditions it must do it (latency, availability, security, maintainability), and the two fail differently in practice: a missed functional requirement produces a visible, reportable bug, while a missed non-functional requirement often produces a system that passes every functional test and still cannot survive its first real week in production.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "requirements-traceability-and-change-management",
+    "id": 4,
+    "title": "Requirements Traceability and Change Management",
+    "topic": "Software Requirements",
+    "requires": [
+      "requirements-elicitation-specification-and-validation",
+      "functional-vs-non-functional-requirements"
+    ],
+    "related": [
+      {
+        "label": "Commit Hygiene",
+        "slug": "commit-hygiene",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Requirements do not hold still once written down, they change as stakeholders learn more, and requirements management is the discipline of tracking a live link from each requirement forward to the design decisions, code, and tests that satisfy it, and backward from any proposed change to every requirement it would affect, through a traceability matrix and a change control process that decides, deliberately, whether a given change is worth its ripple effect.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-cost-of-defects-found-late",
+    "id": 5,
+    "title": "The Cost of Defects Found Late",
+    "topic": "Software Requirements",
+    "requires": [
+      "requirements-elicitation-specification-and-validation"
+    ],
+    "related": [
+      {
+        "label": "Test-Driven Development",
+        "slug": "test-driven-development",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Barry Boehm's data from TRW, IBM, GTE, and the Bell Labs Safeguard program, gathered across dozens of real waterfall projects and published in Software Engineering Economics (1981), showed the cost of fixing a defect rising roughly an order of magnitude at each phase it goes undetected, but the popularized 1:10:100 rule oversimplifies a real range (roughly 3x to 8x by design, 30x to 200x by operations, varying by project type), and this concept states the honest version of the finding, including why the specific multipliers should never be quoted as a fixed law.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "ReworkCost.com: Boehm Cost of Change Curve, What the 1981 Data Actually Shows",
+        "url": "https://reworkcost.com/boehm-cost-of-change-curve",
+        "type": "doc"
+      },
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "software-process-models-waterfall-and-its-real-history",
+    "id": 6,
+    "title": "Software Process Models: Waterfall and Its Real History",
+    "topic": "Software Engineering Process",
+    "requires": [
+      "swebok-and-the-scope-beyond-construction"
+    ],
+    "related": [
+      {
+        "label": "Individual vs. Team Software Process",
+        "slug": "individual-vs-team-software-process",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Winston Royce's 1970 paper is the source everyone cites for the waterfall model (requirements, then design, then implementation, then testing, then maintenance, strictly in sequence with no going back), but Royce's own paper described that strict sequential version as risky and recommended against it in the very same document, an irony worth stating honestly rather than repeating the misattribution, before this concept turns to why the model nonetheless spread, what it actually gets right (a shared vocabulary for phases every later model still uses), and where iterative and incremental models arose specifically as its correction.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Royce (1970): Managing the Development of Large Software Systems",
+        "url": "https://www.praxisframework.org/files/royce1970.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "agile-processes-scrum-in-practice",
+    "id": 7,
+    "title": "Agile Processes: Scrum in Practice",
+    "topic": "Software Engineering Process",
+    "requires": [
+      "software-process-models-waterfall-and-its-real-history"
+    ],
+    "related": [
+      {
+        "label": "Unit, Integration, and System Testing",
+        "slug": "unit-integration-and-system-testing",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Scrum, as defined precisely by its own official guide rather than by how a certification course markets it, prescribes exactly three accountabilities (Developers, Product Owner, Scrum Master), five events (the Sprint itself as a timebox, Sprint Planning, the Daily Scrum, Sprint Review, Sprint Retrospective), and three artifacts (Product Backlog, Sprint Backlog, Increment), and this concept walks through what each one actually requires and, honestly, what tradeoff Scrum's fixed timebox makes against a continuously flowing alternative.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Schwaber & Sutherland: The Scrum Guide (2020)",
+        "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-US.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE: CS2013 Software Engineering Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kanban-and-flow-based-process",
+    "id": 8,
+    "title": "Kanban and Flow-Based Process",
+    "topic": "Software Engineering Process",
+    "requires": [
+      "software-process-models-waterfall-and-its-real-history"
+    ],
+    "related": [
+      {
+        "label": "Branching and Merging Strategies",
+        "slug": "branching-and-merging-strategies",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "David Anderson's Kanban Method, formalized in his 2010 book after years of applying manufacturing-style kanban systems to knowledge work at Corbis and Microsoft, replaces Scrum's fixed timebox with a continuous pull system limited by explicit work-in-progress (WIP) limits per stage, and this concept works through why a WIP limit, not a burndown chart, is the mechanism that actually surfaces a bottleneck, using a cumulative flow diagram to make a stalled stage visible before it becomes a missed deadline.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Anderson (2010): Kanban, Successful Evolutionary Change for Your Technology Business",
+        "url": "https://archive.org/details/kanbansuccessful0000ande",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE: CS2013 Software Engineering Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "estimation-and-risk-in-software-projects",
+    "id": 9,
+    "title": "Estimation and Risk in Software Projects",
+    "topic": "Software Engineering Management",
+    "requires": [
+      "software-process-models-waterfall-and-its-real-history"
+    ],
+    "related": [
+      {
+        "label": "Back-of-the-Envelope Capacity Estimation",
+        "slug": "back-of-envelope-capacity-estimation",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Software Engineering Management, SWEBOK's knowledge area for the activities that plan and control a project rather than the code inside it, treats estimation and risk as two sides of the same problem: an estimate is a probability distribution, not a single number, and a risk register turns unknowns identified during estimation into tracked items with a likelihood, an impact, and an owner, which this concept demonstrates against a small, concrete project plan rather than leaving both ideas at the level of vocabulary.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "ACM/IEEE: CS2013 Software Engineering Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/",
+        "type": "doc"
+      },
+      {
+        "label": "Sommerville: Software Engineering (10th Edition, Pearson)",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/software-engineering/P200000003258/9780137503148",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "from-requirements-to-architecture-decisions",
+    "id": 10,
+    "title": "From Requirements to Architecture Decisions",
+    "topic": "Bridging to Design and Construction",
+    "requires": [
+      "functional-vs-non-functional-requirements"
+    ],
+    "related": [
+      {
+        "label": "Software Architecture Styles",
+        "slug": "software-architecture-styles",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "Why Distributed Systems Are Hard: Partial Failure and No Shared State",
+        "slug": "why-distributed-systems-are-hard-partial-failure-and-no-shared-state",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Service Mesh and the Sidecar Pattern",
+        "slug": "service-mesh-and-sidecar-pattern",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "A non-functional requirement (a target latency, an availability number, an expected request volume) is what actually forces an architecture decision, not taste or fashion, and this concept treats the moment a team commits to client-server versus layered versus something more distributed as a decision that should be written down as an Architecture Decision Record naming the requirement that drove it, deliberately not re-deriving architecture styles this curriculum already covers elsewhere, at two different depths, in two different sibling disciplines.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: Microservice Trade-Offs",
+        "url": "https://martinfowler.com/articles/microservice-trade-offs.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "continuous-integration",
+    "id": 11,
+    "title": "Continuous Integration",
+    "topic": "CI/CD and Software Engineering Operations",
+    "requires": [
+      "swebok-and-the-scope-beyond-construction"
+    ],
+    "related": [
+      {
+        "label": "Unit, Integration, and System Testing",
+        "slug": "unit-integration-and-system-testing",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "The Test Pyramid Strategy",
+        "slug": "test-pyramid-strategy",
+        "feature": "testing-concepts"
+      }
+    ],
+    "summary": "Martin Fowler credits Kent Beck's Extreme Programming with the practice and defines Continuous Integration precisely: every team member merges changes into a shared mainline at least daily, and every merge triggers an automated, self-testing build that must stay fast enough to give feedback within minutes, and this concept works through why each of Fowler's eleven practices (a single source repository, a fully automated and self-testing build, fixing a broken build immediately) exists to defend that one property, fast feedback on whether the mainline still works.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Fowler: Continuous Integration",
+        "url": "https://martinfowler.com/articles/continuousIntegration.html",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "continuous-delivery-and-continuous-deployment",
+    "id": 12,
+    "title": "Continuous Delivery vs. Continuous Deployment",
+    "topic": "CI/CD and Software Engineering Operations",
+    "requires": [
+      "continuous-integration"
+    ],
+    "related": [
+      {
+        "label": "Branching and Merging Strategies",
+        "slug": "branching-and-merging-strategies",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Fowler draws the exact line between two terms routinely used as synonyms: Continuous Delivery means every change that passes the pipeline is proven ready to release, but a human still decides when to actually release it, while Continuous Deployment removes that decision and releases every change that passes the pipeline straight to production automatically, and this concept works through why Continuous Deployment is strictly a stronger, riskier commitment built on top of Continuous Delivery, never a separate, independent choice.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Fowler: Continuous Delivery vs. Continuous Deployment",
+        "url": "https://martinfowler.com/bliki/ContinuousDelivery.html",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ci-cd-pipeline-stages-and-containerized-builds",
+    "id": 13,
+    "title": "CI/CD Pipeline Stages and Containerized Builds",
+    "topic": "CI/CD and Software Engineering Operations",
+    "requires": [
+      "continuous-delivery-and-continuous-deployment"
+    ],
+    "related": [
+      {
+        "label": "Containers and OS-Level Virtualization",
+        "slug": "containers-and-os-level-virtualization",
+        "feature": "curriculum/systems/operating-systems-ii"
+      }
+    ],
+    "summary": "A real CI/CD pipeline is a strict sequence of gated stages, typically build, then automated test, then package, then deploy, where each stage's job is to fail fast and cheaply on the kind of problem it is best positioned to catch, and this concept traces a commit through all four stages of a concrete pipeline, including why the package stage packaging the application into a container image is the step that finally makes the tested artifact and the deployed artifact provably identical.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: Continuous Integration",
+        "url": "https://martinfowler.com/articles/continuousIntegration.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "deployment-strategies-blue-green-and-canary",
+    "id": 14,
+    "title": "Deployment Strategies: Blue-Green and Canary",
+    "topic": "CI/CD and Software Engineering Operations",
+    "requires": [
+      "ci-cd-pipeline-stages-and-containerized-builds"
+    ],
+    "related": [
+      {
+        "label": "Progressive Delivery: Canary, Blue-Green, and Feature Flags",
+        "slug": "progressive-delivery-canary-blue-green-and-feature-flags",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Blue-green deployment, per Fowler, keeps two complete production environments and cuts traffic from one to the other in a single switch, buying an instant, clean rollback at the cost of running double the infrastructure during the switch, while canary release routes only a small slice of real traffic to the new version first and grows that slice as confidence builds, buying earlier detection of a bad release at the cost of running two versions side by side for longer, and this concept lays out honestly which real failure each strategy actually catches and which it does not.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Fowler: Blue-Green Deployment",
+        "url": "https://martinfowler.com/bliki/BlueGreenDeployment.html",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: Canary Release",
+        "url": "https://martinfowler.com/bliki/CanaryRelease.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "observability-the-three-pillars",
+    "id": 15,
+    "title": "Observability: The Three Pillars",
+    "topic": "Production Observability",
+    "requires": [
+      "deployment-strategies-blue-green-and-canary"
+    ],
+    "related": [
+      {
+        "label": "Spring Boot Actuator: Built-in Endpoints",
+        "slug": "spring-boot-actuator-endpoints",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Designing a Metrics Monitoring and Alerting System",
+        "slug": "metrics-monitoring-and-alerting-system",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Cindy Sridharan's practitioner writing popularized the now-standard framing of observability as three complementary data types, logs (discrete, timestamped events), metrics (aggregated numeric measurements over time), and traces (the causal path of one request across every service it touched), and this concept works through why a production incident that only one of the three can actually explain is common, then grounds the framing in two real, already-published applied examples at two different scales, a single Spring Boot service's health endpoint and a distributed system's tracing infrastructure.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Sridharan: Monitoring and Observability",
+        "url": "https://copyconstruct.medium.com/monitoring-and-observability-8417d1952e1c",
+        "type": "doc"
+      },
+      {
+        "label": "Sridharan: Distributed Systems Observability (O'Reilly)",
+        "url": "https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "technical-debt-and-engineering-economics",
+    "id": 16,
+    "title": "Technical Debt and Engineering Economics",
+    "topic": "Software Engineering Economics",
+    "requires": [
+      "swebok-and-the-scope-beyond-construction"
+    ],
+    "related": [
+      {
+        "label": "Refactoring",
+        "slug": "refactoring",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Ward Cunningham coined the technical debt metaphor in a 1992 OOPSLA experience report about a real system, WyCash, writing that shipping not-quite-right code is like going into debt, tolerable only if it gets paid back promptly, because every minute spent afterward working around not-quite-right code counts as interest, and this concept treats that metaphor as a genuine tool of Software Engineering Economics (SWEBOK's own name for the knowledge area), not a vague complaint, giving debt a concrete owner, a concrete interest rate, and a concrete payoff point, with refactoring named honestly as the real repayment mechanism.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cunningham (1992): The WyCash Portfolio Management System, OOPSLA Experience Report",
+        "url": "http://c2.com/doc/oopsla92.html",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-from-requirement-to-production",
+    "id": 17,
+    "title": "Capstone: From Requirement to Production and Back",
+    "topic": "Capstone",
+    "requires": [
+      "functional-vs-non-functional-requirements",
+      "from-requirements-to-architecture-decisions",
+      "ci-cd-pipeline-stages-and-containerized-builds",
+      "deployment-strategies-blue-green-and-canary",
+      "observability-the-three-pillars",
+      "technical-debt-and-engineering-economics"
+    ],
+    "related": [
+      {
+        "label": "A Design Goals Decision Guide",
+        "slug": "a-design-goals-decision-guide",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "SLIs, SLOs, and Error Budgets",
+        "slug": "slos-slis-and-error-budgets",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "This capstone traces one written requirement through the entire lifecycle this discipline has covered end to end: elicited and specified, turned into a non-functional target that forces an architecture decision, built and tested at the unit level (handed off explicitly to the sibling discipline that owns that step), carried through a CI/CD pipeline into a canary deployment, watched in production by exactly the observability signal that would catch its specific failure mode, and finally closed with a deliberate, logged technical debt entry for a shortcut taken under real deadline pressure, the same amarra-tudo pattern every capstone on this platform uses, applied here to the surrounding process rather than to the code.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "IEEE Computer Society: SWEBOK v4.0 Guide (Software Engineering Body of Knowledge)",
+        "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering",
+        "type": "doc"
+      },
+      {
+        "label": "Fowler: Continuous Delivery vs. Continuous Deployment",
+        "url": "https://martinfowler.com/bliki/ContinuousDelivery.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
