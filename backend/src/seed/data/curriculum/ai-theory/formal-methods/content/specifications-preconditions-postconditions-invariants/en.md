@@ -4,87 +4,63 @@ updatedAt: 2026-09-07
 ---
 ## Learning Objectives
 
-- Define preconditions, postconditions, representation invariants, and loop invariants as predicates over states.
-- Separate caller obligations from implementation promises in a software contract.
-- Judge whether a specification is too weak, too strong, or too implementation-specific.
-- Use invariants to express facts that must survive internal steps, not just hold at the end.
-- Connect specification writing to the predicate logic already developed in Discrete Math and Logic.
+- Define preconditions, postconditions, representation invariants, and loop invariants as predicates over program states.
+- Separate the caller's obligations from the implementation's promises in a software contract.
+- Judge whether a candidate specification is too weak, too strong, or too tied to implementation detail.
+- Explain why invariants are needed to express facts that must survive internal steps, not just facts that hold at the very end.
+- Connect specification-writing to the predicate logic already developed in Discrete Math and Logic.
 
 ## Context & Motivation
 
-Testing practice already used expected outputs. Formal methods generalize that habit into contracts precise enough for a proof engine, solver, or human proof to check.
+`testing-shows-presence-proof-shows-absence` established that every proof is a proof of *something specific* — a property, stated precisely, relative to a fixed model of execution. This concept supplies the vocabulary that "something specific" is actually built from. Ordinary testing practice already implicitly used expected outputs — "given this input, the function should return that value" — but that habit only ever describes a handful of concrete examples. Formal methods generalize the same instinct into contracts precise enough for a proof engine, an SMT solver, or a human writing a Hoare-logic derivation to check mechanically, against every input a precondition allows, not just the ones someone happened to write down.
 
-A precondition says what may be assumed before execution; a postcondition says what must be true after execution; an invariant says what remains true through a region of computation. Without these, “correct” is only a compliment, not a theorem.
+The three pieces of that contract each play a distinct role. A precondition states what may be assumed true before execution begins — it is an obligation placed on the caller. A postcondition states what must be true after execution completes — it is a promise made by the implementation, conditional on the caller having honored the precondition. An invariant states what must remain true throughout a region of computation that testing has no natural way to inspect in the middle of — the body of a loop, the internal state of an abstract data type across many operations. Without these three pieces stated explicitly, "correct" is only ever an informal compliment paid to code that happened to behave well on the examples someone tried; with them, "correct" becomes a specific mathematical claim someone can actually attempt to prove or refute.
 
-The computability boundary matters here too: because a tool cannot infer every semantic intention automatically, useful verification begins with humans stating the right predicates.
+The connection to the computability boundary from the previous concept is direct and worth making explicit here rather than leaving implicit: because no tool can infer a programmer's full semantic intention automatically — that would require solving exactly the kind of undecidable problem Rice's Theorem rules out — useful verification has to begin with a human stating the right predicates. A verifier can check whether a program satisfies a stated specification; it cannot conjure the specification itself out of nothing. This is why specification-writing, the subject of this concept, is treated as prerequisite work rather than an afterthought bolted onto the proof.
 
 ## Core Theory
 
 ### States and predicates
 
-- A state maps program variables to values.
-- A predicate over states is a true-or-false assertion such as n ≥ 0 ∧ i ≤ n.
-- Specifications are predicates over many possible states, not examples of one state.
-- The same predicate can be true before one command and false after another.
+A program state is, at heart, a mapping from every variable currently in scope to the value it holds at some particular moment during execution. A predicate over states is nothing more exotic than a proposition, built from the connectives and quantifiers already available from Discrete Math and Logic, that a given state either satisfies or does not — an assertion like `n ≥ 0 ∧ i ≤ n` is simply a rule for classifying states into two piles, "yes" and "no," with no ambiguity about which pile any particular state belongs to. This is a subtle but important shift in perspective from ordinary programming: a specification is not a description of *one* state, the way a single test's expected output is; it is a description of a whole set of states, potentially an infinite one, characterized by which predicates its members satisfy. The same predicate, evaluated at different points during execution, can flip from true to false or back — `i ≤ n` might hold before a loop body runs and fail afterward if the body increments `i` past `n` — which is exactly why specifications must say *at which point* in execution a given assertion is claimed to hold, rather than treating "true" as a timeless property of the program.
 
 ### Preconditions
 
-- A precondition records what the caller must establish before calling or executing code.
-- A weak precondition accepts more callers but can make proof harder.
-- A strong precondition can make proof easy while making the operation less useful.
-- Missing preconditions often appear as division by zero, array bounds failures, or invalid protocol states.
+A precondition records the assumptions a piece of code is entitled to make about the state it starts in, and correspondingly, the obligations placed on whoever calls it. There is a genuine engineering tradeoff buried in how a precondition is chosen: a weak precondition — one that accepts a large set of possible starting states — makes the operation usable by more callers, but correspondingly gives the implementer less to work with, which can make the postcondition harder or even impossible to establish. A strong precondition — one that rules out most starting states — can make the internal proof trivial, at the cost of an operation so restrictively specified that few real callers can actually satisfy it. Missing or under-specified preconditions are not a cosmetic documentation gap; they are exactly where real bugs live in practice — division by zero, array-bounds violations, and protocol operations invoked in the wrong state are, almost without exception, cases where a precondition that should have been checked and enforced was instead left implicit, assumed, or simply forgotten.
 
 ### Postconditions
 
-- A postcondition records what the command promises if it returns normally.
-- Good postconditions express externally visible behavior, not private implementation details.
-- For sorting, “output is sorted and is a permutation of input” is stronger and more useful than “the first element is small”.
-- For security, “secret never appears on the public channel” is a trace property, not just a final-state condition.
+A postcondition records the promise an operation makes to its caller, provided the operation returns normally from a state that satisfied the precondition. A well-chosen postcondition describes externally observable behavior — what a caller can rely on without knowing anything about how the operation is implemented — rather than leaking private implementation details a caller has no business depending on and that a future refactor might legitimately change. The strength of a postcondition matters enormously and is easy to get wrong in the direction of being too weak to be useful: for a sorting routine, "the output is sorted and is a permutation of the input" pins down the intended behavior completely, while "the first element of the output is less than or equal to the second" is technically a true postcondition of any correct sort but is satisfied by vastly many incorrect implementations too, so proving it establishes almost nothing of practical value. Some postconditions, moreover, cannot be phrased purely as a predicate over the final state at all — a security property like "the secret value never appears on the publicly observable channel, at any point during execution" is a claim about the entire trace of the computation, not just its endpoint, and specifying it correctly requires exactly the trace-based reasoning that temporal logic and model checking, covered much later in this discipline, are built for.
 
 ### Invariants
 
-- A loop invariant must hold before the loop guard and after every body execution.
-- A representation invariant must hold before and after every public operation of an abstract data type.
-- A protocol invariant must hold in every reachable state of a transition system.
-- Invariants are how local reasoning scales to unbounded repetition or many operations.
+Invariants exist because some facts need to survive computation that isn't visible from the outside at all — the middle of a loop, or the interior of an abstract data type across a long sequence of public operations nobody outside the type ever gets to inspect directly. A loop invariant must hold immediately before the loop's guard is checked and again immediately after every execution of the loop body — this is precisely the property that will let `loop-invariants-and-the-while-rule` turn unboundedly many possible iteration counts into one finite proof obligation. A representation invariant plays the analogous role for an abstract data type: it must hold before and after every public operation, capturing the internal consistency conditions — "the stack's top index never exceeds its capacity," say — that the type's implementation relies on internally even though no client ever sees the raw representation directly. A protocol invariant generalizes the same idea to a transition system: a fact that must hold in every reachable state, which is exactly the notion `transition-systems-and-kripke-structures` will formalize for model checking. In every one of these three cases, the invariant is doing the same essential job: it is how local reasoning about one step of computation — one loop iteration, one operation on an abstract data type, one transition of a protocol — is made to scale up to a claim about arbitrarily long or unbounded sequences of such steps, without ever having to reason about each individual sequence separately.
 
 ## Worked Examples
 
 ### Integer division contract
 
-- Procedure: div(n, d).
-- Necessary precondition: d ≠ 0.
-- If exact division is intended, one postcondition is result * d = n.
-- If truncating division is intended, the contract must instead mention quotient, remainder, and bounds on the remainder.
-- The phrase “divide n by d” is not precise enough to verify.
+Consider a procedure `div(n, d)` intended to divide `n` by `d`. Before any postcondition can even be stated meaningfully, the precondition `d ≠ 0` is not optional — dividing by zero is mathematically undefined, so any contract that omits this precondition is implicitly (and incorrectly) claiming the operation is total when it isn't. Once that precondition is in place, the postcondition still depends on a design decision the informal phrase "divide n by d" leaves completely open: if exact division is intended, one adequate postcondition is `result * d = n`, which pins the semantics down completely for the case where `d` evenly divides `n`. If truncating integer division is intended instead — the behavior most programming languages actually give for the `/` operator on integers — the contract must say something richer, mentioning both a quotient and a remainder and constraining the remainder's magnitude and sign relative to `d`, because "truncating division" is a genuinely different mathematical operation from exact division and deserves a genuinely different postcondition. The lesson generalizes well beyond this one example: an English sentence describing what an operation does is very often ambiguous between two or more mathematically distinct behaviors, and writing the precondition and postcondition down explicitly is exactly the step that forces that ambiguity to be resolved before any proof attempt can even begin.
 
 ### Stack representation invariant
 
-- Representation: array data and integer top.
-- Invariant: 0 ≤ top ≤ capacity.
-- Push precondition: top < capacity.
-- Push postcondition: top increases by one and the new element is at the old top position.
-- Pop precondition: top > 0.
-- Every operation must preserve 0 ≤ top ≤ capacity.
+Consider a stack implemented as a fixed-size array `data` together with an integer `top` recording how many elements are currently stored. The representation invariant `0 ≤ top ≤ capacity` is the fact that every single public operation on this stack must both assume on entry and guarantee on exit — it is the internal consistency condition that makes `data[0..top-1]` a meaningful description of "the elements currently on the stack" at all. `push`'s precondition is `top < capacity`, because pushing onto a full stack has no sensible meaning under this representation; its postcondition is that `top` increases by exactly one and the newly pushed element now occupies what was, just before the call, the old value of `top`. `pop`'s precondition, symmetrically, is `top > 0`, since popping an empty stack is equally meaningless. The invariant `0 ≤ top ≤ capacity` is what every single one of these operations is individually responsible for preserving — if `push` were ever allowed to violate it by letting `top` exceed `capacity`, every subsequent operation's reasoning, no matter how carefully proved in isolation, would silently become unsound, because each operation's own proof implicitly assumed the invariant was still intact when it started.
 
 ### Strengthening a weak postcondition
 
-- Weak postcondition for absolute value: result ≥ 0.
-- Problem: a function that always returns 0 satisfies it but is not absolute value.
-- Better postcondition: result ≥ 0 ∧ (result = x ∨ result = -x).
-- That relates output to input and rules out the constant-zero implementation for most inputs.
+Suppose an absolute-value function is specified only by the postcondition `result ≥ 0`. This looks plausible at first glance, but it is satisfied by the function `abs(x) = 0` for every input `x` whatsoever — a function that is obviously not computing absolute value, yet one for which the stated postcondition holds unconditionally. The postcondition is too weak precisely because it says something about the *shape* of the output (nonnegative) without saying anything at all about how the output relates to the input, and it is exactly that missing relationship that makes absolute value the specific function it is rather than an arbitrary nonnegative-valued function. Strengthening the postcondition to `result ≥ 0 ∧ (result = x ∨ result = -x)` closes this gap: it now requires the output to actually be one of the two values that could plausibly be "the absolute value of x," which rules out the constant-zero implementation for every nonzero `x` (since neither `0 = x` nor `0 = -x` holds when `x ≠ 0`) while still permitting the correct implementation. The general principle this illustrates: a postcondition that only constrains the *shape* of the result, without relating the result back to the inputs the operation actually received, is almost always too weak to pin down the intended behavior, no matter how natural it looks on first reading.
 
 ## Common Misconceptions & Pitfalls
 
-- **Writing** examples when a universal predicate is needed.
-- **Making** the precondition so strong that almost no caller may use the operation.
-- **Letting** the postcondition mention private implementation details clients should not depend on.
-- **Calling** the loop guard an invariant; the guard and invariant play different roles.
-- **Omitting** frame conditions, so it is unclear which variables must not change.
+- **Writing examples when a universal predicate is needed.** "It should return 4 when given 2" is a test case, not a specification — a real precondition and postcondition must characterize *every* input the operation is meant to handle at once, using variables and predicates, not a finite list of illustrative input-output pairs, however representative those pairs feel.
+- **Making the precondition so strong that almost no realistic caller can satisfy it.** A precondition like "the array is already sorted and contains no duplicates and has length exactly a power of two" might make an internal proof trivial, but if real callers routinely violate one of those conjuncts, the specification has quietly moved the actual problem — handling the general case — outside of what the verified code covers at all, without making that narrowing visible anywhere except in fine print.
+- **Letting the postcondition mention private implementation details clients should never depend on.** A postcondition that promises "the internal cache array has exactly this layout" ties client code to an implementation choice that a future refactor is entitled to change; postconditions should describe externally observable behavior only, exactly the same discipline that keeps an abstraction's implementation free to evolve without breaking its contract.
+- **Calling the loop guard an invariant.** The guard (`i < n`, say) is the condition checked to decide whether to keep looping; the invariant is a separate assertion that must be true both when the guard holds and again once it becomes false. Confusing the two is a common early mistake, and it matters because the invariant, not the guard, is what carries the proof from "true before the loop" to "true after arbitrarily many iterations."
+- **Omitting frame conditions, so it's unclear which variables are allowed to change.** A postcondition that says "the target array is now sorted" but never says whether other, unrelated fields of the same object are permitted to change leaves a caller unable to reason about what else might have been silently modified — an implicit frame condition ("nothing else changes") is often assumed but should be stated, especially once mutable shared state or aliasing enters the picture.
 
 ## Summary
 
-Specifications are the contract layer of formal verification: preconditions state assumptions, postconditions state promises, and invariants state facts preserved across internal computation.
+Specifications are the contract layer that everything else in formal verification is built on top of: a precondition states what a caller must establish before invoking an operation, a postcondition states what the operation promises in return, and an invariant states what must survive computation that happens out of the caller's sight — inside a loop body or across a long sequence of operations on an abstract data type. Choosing these predicates well is a genuine design skill with real tradeoffs, not a mechanical transcription of intent: preconditions that are too strong needlessly exclude legitimate callers, postconditions that are too weak fail to pin down the behavior actually intended, and invariants are the specific mechanism that turns local, single-step reasoning into a proof that scales to unboundedly long executions. Because no tool can infer these predicates automatically from an English description of intent, writing them down precisely is unavoidably a human responsibility — one that every technique introduced later in this discipline, from Hoare logic's inference rules to a model checker's temporal properties, takes as its starting point rather than trying to work around.
 
 ## Documentation Links
 

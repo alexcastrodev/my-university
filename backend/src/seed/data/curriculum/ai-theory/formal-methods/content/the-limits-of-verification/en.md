@@ -4,88 +4,60 @@ updatedAt: 2026-09-07
 ---
 ## Learning Objectives
 
-- Define the role of The Limits of Verification in a formal-verification workflow.
-- Explain how understanding what verification can and cannot promise changes a vague correctness claim into a precise mathematical obligation.
-- Connect the concept back to propositional logic, first-order predicates, or induction from Discrete Math and Logic.
-- Identify where automation is sound, where it is incomplete, and where a human-supplied specification or invariant is required.
-- Work through a small program or transition-system example without relying on unstated assumptions.
+- State Rice's Theorem's consequence for program verification precisely, and give two concrete examples of properties it rules out deciding in general.
+- Distinguish soundness from completeness, and explain why most practical tools choose to guarantee soundness at the cost of completeness.
+- Explain the difference between over-approximation and under-approximation, and what kind of mistake each one risks.
+- Enumerate the ways a verified program can still fail a real-world requirement despite a fully correct proof.
+- Reconstruct, from first principles, why a universal termination-and-correctness verifier cannot exist, using the Halting Problem as the underlying impossibility.
 
 ## Context & Motivation
 
-The goal of formal methods is not to defeat Computability and Complexity. It is to work honestly within their boundaries.
+Every technique this discipline has built — Hoare-logic proof, SAT and SMT solving, model checking, proof assistants — has been introduced alongside an honest account of where it stops working, from the vacuous triples in `the-hoare-triple`, to the undecidable arithmetic fragments in `smt-solvers-and-decision-procedures`, to the exponential state-space growth in `state-space-explosion-and-symbolic-model-checking`, to the trust-base caveats around proof assistants in `theorem-proving-and-proof-assistants`. This concept is where those individually-scattered limitations are drawn together into the discipline's single, unifying statement about what formal verification can and cannot ultimately promise — not as a discouraging coda, but as the honest closing argument that makes everything already built trustworthy precisely because its scope has been stated precisely.
 
-The Halting Problem rules out a universal termination oracle, and Rice’s Theorem rules out deciding every nontrivial semantic property of arbitrary programs.
-
-Good verification practice therefore states assumptions, chooses decidable fragments, and distinguishes sound proof from bounded evidence.
+The goal of formal methods was never to defeat the undecidability results Computability and Complexity already proved; it was, from `testing-shows-presence-proof-shows-absence` onward, to work honestly and productively within their boundaries. The Halting Problem rules out a universal termination oracle, and Rice's Theorem generalizes that impossibility dramatically: it rules out deciding *any* nontrivial semantic property of the function an arbitrary program computes, not merely termination specifically. Good verification practice, as this concept develops, responds to these facts not by pretending they don't apply, but by stating assumptions explicitly, choosing decidable fragments deliberately, and being precise about the difference between a fully sound proof and merely bounded, partial evidence — the same distinction `testing-shows-presence-proof-shows-absence` drew between proof and testing at the very beginning of this discipline, now generalized to distinguish among the different *kinds* of formal evidence this discipline has since built.
 
 ## Core Theory
 
-### Rice’s Theorem impact
+### Rice's Theorem impact
 
-- Any nontrivial property of the function computed by an arbitrary program is undecidable.
-- “Always returns zero”, “never leaks a secret”, and “sorts every input” are semantic properties.
-- A complete automatic verifier for all such claims cannot exist.
+Rice's Theorem, proved in full generality in Computability and Complexity, states that any nontrivial property of the function computed by an arbitrary program is undecidable — nontrivial meaning the property is true of some computable functions and false of others, ruling out only the degenerate cases of a property that is trivially always-true or always-false regardless of the program. Concrete examples of exactly the kind of property this rules out deciding automatically for *every* possible program: "always returns zero" is nontrivial (some programs do, some don't), and so is "never leaks a secret value on a public channel," and so is "sorts every input correctly" — every one of these is a genuine, meaningful semantic claim, and Rice's Theorem says no algorithm can exist that decides it correctly for an arbitrary program handed to it. This means a complete, general-purpose automatic verifier — one that could take literally any program and any nontrivial semantic claim and always correctly decide whether the claim holds — cannot exist, full stop, for the exact same reason no universal halting-decider can exist; the two impossibilities share their essential mathematical structure.
 
 ### Soundness versus completeness
 
-- Sound means no false proofs are accepted.
-- Complete means every true property in the scope can be proved.
-- Many practical tools choose soundness and accept that they may fail to prove true programs.
+Two distinct properties a verification tool might or might not have are worth separating carefully, because conflating them is one of the most consequential misunderstandings a user of formal tools can make. Soundness means the tool never accepts a false proof — if it reports a property holds, the property really does hold, with no exceptions. Completeness means the tool can prove every property that is actually true within its intended scope — no true fact ever eludes it. Given Rice's Theorem, no tool can be both sound and complete for arbitrary nontrivial semantic properties of arbitrary programs; something has to give. The overwhelming majority of practical, deployed verification tools choose to preserve soundness and sacrifice completeness — accepting that the tool may sometimes fail to prove a property that is, in fact, true, rather than ever risk accepting a false one — because a sound-but-incomplete tool's "yes" answers remain fully trustworthy even though its "I don't know" answers carry no useful information either way, whereas an unsound tool's "yes" answers cannot be trusted at all, which undermines the entire point of formal verification from the ground up.
 
 ### Approximations
 
-- Static analyzers may over-approximate possible behaviors, causing false alarms.
-- Bug finders may under-approximate by bounding depth, missing deeper bugs.
-- Both choices are useful when communicated clearly.
+Tools that choose incompleteness over unsoundness typically do so through one of two characteristic strategies, and recognizing which one a given tool uses is essential to reading its output correctly. Static analyzers commonly over-approximate: they consider a superset of the behaviors a program could genuinely exhibit, in order to stay sound even when precise reasoning about the real, exact behavior would be too expensive or too undecidable to attempt — the cost of this choice is false alarms, warnings about behaviors that the over-approximation admits as possible but that the concrete program could never actually produce. Bug finders commonly under-approximate instead: they explore only a bounded portion of a program's actual behavior — paths up to some fixed depth, executions within some fixed bound — in order to stay fast and concrete, at the cost of potentially missing genuine bugs that only manifest deeper than the chosen bound reaches. Neither approximation strategy is a flaw to be embarrassed about; both are useful, principled engineering choices, provided the tool's users understand which one is in play and read the tool's "no bug found" or "possible violation" output with that specific approximation's specific blind spot in mind.
 
 ### Specification limits
 
-- A verified program can satisfy the wrong specification.
-- A verified model can omit a real-world behavior.
-- A verified component can fail when its environment violates assumptions.
-
-### Verification workflow checklist
-
-- Name the program variables or model state components.
-- State the precondition, invariant, temporal property, or theorem before starting the proof.
-- Decide whether the claim is about one final state, all reachable states, or entire execution traces.
-- Record the execution model: mathematical integers, bit-vectors, nondeterministic scheduling, finite bounds, or abstract transitions.
-- Generate the local proof obligations or state-space search target.
-- Inspect counterexamples as structured evidence, not just failure messages.
+Even a fully sound proof, executed flawlessly against a fully well-specified property, can still fail to deliver the confidence a stakeholder actually wanted, for reasons that have nothing to do with any flaw in the proof technique itself. A verified program can satisfy an incorrectly-chosen specification — exactly the gap `specifications-preconditions-postconditions-invariants` warned about, where a proof of the wrong property provides misplaced confidence about the right one. A verified model, similarly, can simply omit some real-world behavior the actual deployed system exhibits — a model that never represents hardware faults, or clock skew, or an adversarial network, proves nothing about a system's resilience to exactly those omitted possibilities. And a verified component can fail once deployed if its actual environment violates the assumptions the verification relied on — a proof that a function is correct *given* certain preconditions is silent about what happens when a caller, in the real deployed system, violates those preconditions, whether through a bug of its own or through circumstances the specification never anticipated.
 
 ## Worked Examples
 
 ### Impossible universal verifier
 
-- Suppose a tool decided whether every program terminates on every input.
-- Then it could solve the Halting Problem by wrapping one program and input as a new program.
-- But the Halting Problem is undecidable.
-- Therefore such a verifier cannot exist.
+A direct, self-contained argument for why a universal termination-and-correctness verifier cannot exist, built entirely from the Halting Problem: suppose, for contradiction, that some tool `V` could decide, for every program and every input, whether that program terminates on that input. This assumed tool could then be used to solve the Halting Problem directly: given any program `M` and input `w` whose halting behavior is in question, simply hand `M` and `w` to `V` and report whatever answer `V` gives — `V`, by the contradiction hypothesis, decides this correctly for *every* program and input, including `M` and `w`. But the Halting Problem is already proved undecidable in Computability and Complexity, meaning no algorithm can solve it for every program and input. A tool `V` that decided it for every case would therefore contradict an already-established impossibility result, so no such `V` can exist. This is not a new proof technique invented for this discipline — it is exactly the reduction-based argument style Computability and Complexity already used repeatedly, now applied to show that program verification cannot escape the same undecidability that governs Turing machines generally, because a sufficiently powerful verifier would itself amount to a halting decider.
 
 ### Sound analyzer with false alarms
 
-- An analyzer cannot prove i < n at an array access.
-- It reports a possible out-of-bounds access.
-- The program may be safe because of a complex relation the analyzer cannot infer.
-- The warning is a limitation of approximation, not necessarily a real bug.
+Consider a static analyzer attempting to prove that an array access `a[i]` is always safe, given only that the program's available invariants establish `i ≤ n` (the same setup already used in `smt-solvers-and-decision-procedures`'s array-bounds worked example) but where the *actual* concrete program, through some complex combination of conditions the analyzer's chosen abstraction cannot represent precisely, in fact never reaches this access with `i = n`. Because the analyzer is sound and therefore refuses to claim safety it cannot actually derive from the invariants it has available, it reports a possible out-of-bounds access — a warning that, in this specific case, does not correspond to a real bug in the actual program, precisely because the real program's genuine safety depends on a relationship the analyzer's over-approximation was not precise enough to capture. This is the direct, concrete cost of over-approximation described in the Core Theory section: the warning is a limitation of the chosen abstraction's precision, not evidence of an actual defect, and a sound tool's honest response to "I cannot prove this is safe" is to say so, rather than to silently guess that it probably is.
 
 ### Bounded checker
 
-- A bounded model checker explores traces up to length 20.
-- No counterexample is found.
-- This proves absence only within the bound unless additional induction or completeness arguments are supplied.
-- A length 21 bug may still exist.
+Consider a bounded model checker exploring every trace of a system up to length 20 and finding no counterexample anywhere within that bound. This result genuinely proves the property holds for every trace of length 20 or less — that much is a real, sound, and useful fact. But without an additional argument establishing that traces longer than 20 steps cannot behave differently — an inductive argument, or a completeness threshold specific to the model showing that 20 steps already covers every behaviorally-distinct case — the result says nothing at all, one way or the other, about a bug that first manifests at step 21 or beyond. This is exactly the under-approximation tradeoff from the Core Theory section made concrete: the check is entirely sound within its stated bound, and entirely silent beyond it, and treating "no counterexample within 20 steps" as equivalent to "no counterexample, period" mistakes a bounded, honest result for an unbounded one it never claimed to be.
 
 ## Common Misconceptions & Pitfalls
 
-- **Interpreting** undecidability as “verification is useless”.
-- **Interpreting** one successful proof as “the whole system is correct”.
-- **Hiding** assumptions because they look inconvenient.
-- **Comparing** tools without asking whether they are sound, complete, bounded, or approximate.
+- **Interpreting undecidability as "verification is useless."** Rice's Theorem rules out a single, universal, fully automatic verifier for arbitrary nontrivial properties of arbitrary programs — it says nothing against the very real, sound guarantees this discipline's specific, more restricted techniques deliver every day: bounded model checking within a stated bound, SMT-discharged verification conditions within a decidable theory, Hoare-logic proofs with a human-supplied invariant. Undecidability is a boundary on universality, not a verdict against the entire enterprise.
+- **Interpreting one successful proof as "the whole system is correct."** A proof establishes exactly the property it was aimed at, for exactly the model it was checked against — as the specification-limits discussion makes clear, this leaves entirely open whether the specification itself was the right one, whether the model faithfully represents the deployed system, and whether the deployment environment actually satisfies whatever assumptions the proof relied on.
+- **Hiding assumptions because they look inconvenient or undermine confidence in the result.** A verification result's real value comes specifically from its stated scope being explicit and honest — a bounded checker's bound, an over-approximating analyzer's source of false alarms, a proof assistant's trust-base assumptions from `theorem-proving-and-proof-assistants` — and omitting these details to make a result sound more impressive than it actually is defeats the entire purpose of formal methods, which is to replace vague confidence with precisely-scoped, honestly-stated guarantees.
+- **Comparing tools without first asking whether they are sound, complete, bounded, or approximate.** Two tools that both report "no bug found" on the same program can mean very different things — one might be a sound-and-exhaustive proof, another a bounded search that only covered part of the behavior, and yet another an under-approximating bug-finder that never claimed to check for absence at all — and comparing their outputs at face value, without first establishing which of these very different guarantees each one is actually offering, is comparing incomparable things.
 
 ## Summary
 
-The limits of verification are mathematical and practical: undecidability blocks universal automation, while modeling and specification choices bound every successful proof.
+The limits of formal verification are mathematical, not merely practical or temporary: Rice's Theorem, generalizing the Halting Problem, rules out a universal automatic verifier for any nontrivial semantic property of arbitrary programs, which is why every real verification tool this discipline has built — Hoare-logic proof, SAT and SMT solving, model checking, proof assistants — deliberately trades some combination of automation, generality, or completeness for soundness within an explicitly stated, restricted scope. Beyond that mathematical boundary sits a second, equally real limitation that has nothing to do with undecidability: even a fully sound proof of a fully correct specification can fail to deliver real-world assurance if the specification, the model, or the deployment environment's assumptions were wrong. The discipline's honest response to both limitations, running through everything built here, is not retreat but precision — stating exactly what was proved, about exactly what model, under exactly what assumptions — which is exactly the discipline the capstone concept applies next, tracing one small program through both a Hoare-logic proof and a model-checking analysis to make every one of these scope-defining choices fully concrete.
 
 ## Documentation Links
 

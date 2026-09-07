@@ -4,91 +4,62 @@ updatedAt: 2026-09-07
 ---
 ## Learning Objectives
 
-- Define the role of Theorem Proving and Proof Assistants in a formal-verification workflow.
-- Explain how building machine-checked proofs with human guidance changes a vague correctness claim into a precise mathematical obligation.
-- Connect the concept back to propositional logic, first-order predicates, or induction from Discrete Math and Logic.
-- Identify where automation is sound, where it is incomplete, and where a human-supplied specification or invariant is required.
-- Work through a small program or transition-system example without relying on unstated assumptions.
+- Explain what interactive theorem proving adds when a proof obligation falls outside what SAT, SMT, or explicit-state model checking can automate.
+- State the Curry-Howard correspondence between propositions and types, and between proofs and programs.
+- Explain why a proof assistant's kernel is its trusted core, and why keeping that kernel small matters.
+- Carry out a small structural induction proof in the style a proof assistant would require, with every case made explicit.
+- Enumerate the actual components of a proof assistant's trust base, and explain why "machine-checked" does not mean "assumption-free."
 
 ## Context & Motivation
 
-Automated solvers are strongest when obligations fall inside well-engineered decidable fragments. Proof assistants address the larger space by letting humans write the proof while the machine checks every step.
+Every automated technique covered so far in this discipline — SAT and SMT solving, explicit-state and symbolic model checking — is strongest precisely when a proof obligation falls inside some well-engineered decidable fragment: bounded arithmetic, a finite state space, a formula with a known-terminating decision procedure. Real specifications very often reach beyond all of these fragments at once — a claim quantified over every list of every length, or a general inductive property of an unbounded family of data structures, is neither a finite SAT instance nor a finite Kripke structure, and no decision procedure covers it in full generality, for exactly the undecidability reasons already established throughout this discipline.
 
-Software Foundations exemplifies this style: definitions, programs, theorems, and proofs live in one formal environment.
+Proof assistants respond to this by changing who supplies the proof's structure. Rather than a solver searching automatically for a certificate, a human writes out the proof itself — the induction scheme, the case split, the key lemma — and the machine's job narrows to something it can do completely reliably: checking that every single step of that human-supplied proof is actually valid, according to a small, fixed set of trusted inference rules, with no step skipped and no gap papered over. Software Foundations, the anchor text this discipline has cited throughout the Hoare-logic cluster, is itself written in exactly this style: its definitions, its example programs, its theorems, and its proofs of those theorems all live inside one single formal environment, checked mechanically end to end rather than presented as prose that a reader has to trust on faith.
 
-The connection to type checking is deep because Curry-Howard reads propositions as types and proofs as programs inhabiting those types.
+The connection to programming-language theory here is not a loose analogy — it is a precise mathematical correspondence, developed below, between propositions and types, and between proofs and the programs that inhabit those types. This is exactly why proof assistants and the study of type systems turn out to be two views of the same underlying mathematics, and why `type-checking-progress-and-preservation`, from Programming Languages, is cited as a direct, substantive cross-link here rather than a coincidental one.
 
 ## Core Theory
 
 ### Interactive theorem proving
 
-- The user states definitions and theorems.
-- The assistant checks each proof step against a small trusted kernel.
-- Automation helps with routine goals but does not replace proof design.
+Working with a proof assistant follows a distinctive rhythm, different from either writing an ordinary program or running an automated solver. The user first states definitions — of data types, of functions operating on them — and then states theorems as formal claims about those definitions. The assistant checks every subsequent proof step the user proposes against its own small, trusted kernel of inference rules, accepting a step only if it follows validly from what has already been established; nothing is taken on the user's word alone. Automation still plays a real, valuable role inside this process — many proof assistants include tactics that can automatically discharge routine subgoals, simple arithmetic facts, or mechanical rewriting steps — but that automation assists a human-directed proof rather than replacing the need for one; genuinely novel proof structure, the choice of which induction to perform or which lemma to introduce, remains something the human proof author has to design.
 
 ### Curry-Howard
 
-- A proposition corresponds to a type.
-- A proof corresponds to a term of that type.
-- Checking a proof resembles type checking a program.
-- This is why proof assistants and programming-language theory are tightly linked.
+The Curry-Howard correspondence is the precise mathematical fact underlying why proof assistants can be built out of the same machinery as programming-language type checkers at all. Under this correspondence, a logical proposition corresponds directly to a type, and a proof of that proposition corresponds directly to a term (a program) that inhabits — has — that type. Checking whether a purported proof is actually valid becomes, under this correspondence, exactly the same activity as checking whether a purported program actually has the type it claims to have — ordinary type checking, the same kind of judgment `type-checking-progress-and-preservation` develops for programming languages generally, now aimed at proofs instead of at conventional programs. This is precisely why proof assistants and programming-language theory are so tightly bound together as fields: a proof assistant's trusted kernel is, structurally, a type checker, and its notion of "this proof is valid" is, structurally, the same notion as "this program is well-typed."
 
 ### Program verification in assistants
 
-- Programs can be modeled as functions, relations, or commands with Hoare rules.
-- Theorems state their correctness.
-- Loop invariants and lemmas become explicit proof artifacts.
+Once a proof assistant is available, ordinary program verification can be conducted entirely inside it, rather than through an external Hoare-logic derivation on paper. Programs are modeled as functions, as relations, or as commands equipped with an explicit semantics and Hoare-style inference rules, all formalized as definitions inside the assistant itself; correctness claims are then stated as theorems about those definitions, in exactly the same style as any other mathematical theorem the assistant might check. Loop invariants and the auxiliary lemmas a Hoare-logic proof needs — exactly the kind of artifacts `loop-invariants-and-the-while-rule` and `hoare-logic-rules-of-inference` developed by hand earlier in this discipline — become explicit, checked proof artifacts inside the assistant rather than informal reasoning steps a reader is asked to trust on the page; nothing is left as "clearly true" without an actual, checked derivation backing it.
 
 ### Trust base
 
-- The kernel, parser, libraries, extraction mechanism, and model assumptions all matter.
-- A small kernel reduces the most critical trusted code.
-- Machine-checked does not mean assumption-free.
-
-### Verification workflow checklist
-
-- Name the program variables or model state components.
-- State the precondition, invariant, temporal property, or theorem before starting the proof.
-- Decide whether the claim is about one final state, all reachable states, or entire execution traces.
-- Record the execution model: mathematical integers, bit-vectors, nondeterministic scheduling, finite bounds, or abstract transitions.
-- Generate the local proof obligations or state-space search target.
-- Inspect counterexamples as structured evidence, not just failure messages.
+"Machine-checked" is a genuinely strong guarantee, but it is not synonymous with "assumption-free," and being precise about exactly what is and isn't being trusted matters. The kernel — the small core that actually implements the fundamental inference rules and performs the type-checking judgment described above — is the most safety-critical piece, and proof-assistant designers go to considerable lengths to keep it as small and as simple as possible, on the theory that a smaller trusted kernel is easier to review, audit, and have real confidence in than a larger one. But the kernel is not the whole trust base: the parser that turns the user's written syntax into the internal representation the kernel actually checks, any libraries of previously-proved lemmas the current proof depends on, an extraction mechanism that turns a verified definition into runnable code in some target language, and — perhaps most consequentially — the assumptions built into how the real-world system being modeled was represented in the first place, all sit outside the kernel and all have to be trusted separately. "Machine-checked, all the way down to a small kernel" is a precise and valuable claim; "assumption-free" is not a claim any real proof assistant can honestly make.
 
 ## Worked Examples
 
 ### Proof as a checked object
 
-- Claim: appending an empty list does not change a list.
-- A proof assistant requires induction on the list structure.
-- Base case: empty list.
-- Step case: preserve the head and apply the induction hypothesis to the tail.
-- The machine checks that no case is skipped.
+Consider the claim that appending an empty list to any list leaves that list unchanged. Because a list is built inductively — either the empty list, or one element attached to a smaller list — a proof assistant requires this claim to be proved by structural induction on the list, mirroring the same structural-induction principle already developed in Discrete Math and Logic. The base case handles the empty list directly: appending the empty list to the empty list yields the empty list, which the assistant checks by simply evaluating both sides of the equation and confirming they coincide. The step case handles a list built from a head element attached to some smaller tail: it must preserve the head element unchanged and apply the induction hypothesis — the already-assumed fact that appending the empty list to the (smaller) tail leaves the tail unchanged — to the tail itself, then confirm the two sides of the equation match once that hypothesis is applied. What the machine actually verifies here, and what a human reviewing an informal proof might overlook, is that these two cases really are exhaustive — every possible list is either empty or built from a head and a tail, with no third possibility — and that neither case was left unproved or silently assumed; skipping either case, or asserting the step case's conclusion without actually invoking the induction hypothesis, is exactly the kind of gap a proof assistant's kernel refuses to accept.
 
 ### Hoare proof in a library
 
-- Define commands and states.
-- Define `{P} C {Q}` semantically.
-- Prove assignment, sequence, and while rules once.
-- Use those rules to verify individual programs.
-- The rules themselves become trusted theorems, not informal diagrams.
+Building program verification inside a proof assistant typically follows a fixed sequence of formal definitions before any individual program gets verified. First, commands and program states are defined formally, as data types the assistant can reason about directly. Second, the meaning of a Hoare triple `{P} C {Q}` is defined semantically in terms of those commands and states — precisely and completely, the same definition `the-hoare-triple` gave informally, now expressed as a formal proposition the assistant can check claims about. Third, the assignment, sequence, and while rules from `hoare-logic-rules-of-inference` and `loop-invariants-and-the-while-rule` are each proved, once, as genuine theorems about that semantic definition, rather than being taken as informally-justified axioms the way they were introduced earlier in this discipline. Once those rules exist as checked theorems, verifying an individual program becomes a matter of applying them — exactly as `hoare-logic-rules-of-inference`'s worked examples applied the rules by hand, except now every application is itself checked by the assistant's kernel, and the rules themselves carry the full weight of a proved theorem rather than an informally-argued claim a reader is asked to accept.
 
 ### Progress and preservation echo
 
-- A type-safety proof has progress and preservation lemmas.
-- Each lemma is stated and checked in the assistant.
-- The final theorem combines them.
-- This mirrors program-correctness proofs that combine local lemmas into a global guarantee.
+A type-safety proof for a programming language, developed fully in Programming Languages, typically rests on exactly two lemmas working together: progress (a well-typed program in a non-final state can always take a further step) and preservation (taking a step from a well-typed program yields another well-typed program). Each of these two lemmas is stated and checked independently inside a proof assistant, and the overall type-safety theorem — "a well-typed program never gets stuck in an ill-defined state" — is assembled by combining them, exactly the way a Hoare-logic proof assembles smaller triples via the sequence and consequence rules into a proof about a whole program. This is a direct structural echo, not a superficial similarity: both proof styles decompose one large correctness claim into several smaller, independently-checkable lemmas, and both rely on the same underlying discipline of never letting the final theorem claim more than what its component lemmas actually, individually, established.
 
 ## Common Misconceptions & Pitfalls
 
-- **Thinking** proof assistants automatically find the whole proof.
-- **Ignoring** the assumptions imported from libraries or models.
-- **Equating** type checking with full functional correctness.
-- **Writing** definitions that are convenient to prove but do not match the intended system.
+- **Thinking proof assistants automatically find the whole proof for you.** Automated tactics can discharge routine subgoals and mechanical simplifications, but designing the overall proof strategy — which induction to perform, which lemma to introduce, how to split into cases — remains, for anything beyond the most routine claims, work the human proof author has to do; a proof assistant checks a proof's validity far more reliably than it invents one.
+- **Ignoring the assumptions imported from libraries or from how the real system was modeled.** As the trust-base discussion makes explicit, a beautifully checked proof about a formal model is only as trustworthy, in the end, as the model itself is faithful to the real system it claims to represent — a subtly wrong definition of "list" or "state" can make an impeccably machine-checked proof about that definition say something different from what was actually intended about the real system.
+- **Equating type checking with full functional correctness.** Curry-Howard makes proof checking structurally identical to type checking, but this does not mean an ordinary program's type-checking success says anything about its full functional correctness — type checking confirms a program has a certain shape, while proving a Hoare-logic-style correctness theorem inside the assistant is a separate, additional undertaking that happens to use the same underlying checking machinery.
+- **Writing definitions that are convenient to prove things about rather than definitions that actually match the intended system.** It is entirely possible to formalize a simplified or subtly incorrect version of a real system specifically because it is easier to prove nice theorems about — the resulting proofs are genuinely, mechanically valid, but valid about the wrong thing, which is exactly why the trust base's real-world-modeling assumptions matter as much as the kernel's soundness.
 
 ## Summary
 
-Proof assistants support formal verification beyond push-button automation by checking human-guided proofs as precise, reusable mathematical artifacts.
+Proof assistants extend formal verification beyond what SAT, SMT, and model checking can automate, by having a human supply the proof's structure — inductions, case splits, key lemmas — while the machine's small, trusted kernel checks every step's validity, an arrangement made mathematically precise by the Curry-Howard correspondence between propositions and types and between proofs and programs. "Machine-checked" is a genuinely strong guarantee about the kernel's own soundness, but the full trust base — parser, libraries, extraction mechanism, and above all the fidelity of the formal model to the real system being described — extends well beyond the kernel, and "assumption-free" is a claim no real proof assistant can honestly make. `the-limits-of-verification`, next, takes this same honesty about assumptions and scope and generalizes it into the discipline's broadest statement about what formal verification can and cannot ultimately promise.
 
 ## Documentation Links
 

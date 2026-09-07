@@ -4,90 +4,62 @@ updatedAt: 2026-09-07
 ---
 ## Learning Objectives
 
-- Define the role of Model Checking: Exhaustive State-Space Exploration in a formal-verification workflow.
-- Explain how checking finite models by exhaustive reachability search changes a vague correctness claim into a precise mathematical obligation.
-- Connect the concept back to propositional logic, first-order predicates, or induction from Discrete Math and Logic.
-- Identify where automation is sound, where it is incomplete, and where a human-supplied specification or invariant is required.
-- Work through a small program or transition-system example without relying on unstated assumptions.
+- Describe explicit-state model checking as a graph-search algorithm operating over reachable states, rather than a sampling procedure.
+- Explain how safety checking reduces to a plain reachability search, and reconstruct a counterexample from the search's own predecessor information.
+- Explain why liveness checking requires reasoning about cycles, and connect this to the lasso counterexamples introduced for LTL.
+- Explain what "on-the-fly" checking buys in practice, and why it matters when a counterexample is much smaller than the full state space.
+- Distinguish a random simulation run from genuine exhaustive model checking.
 
 ## Context & Motivation
 
-Once a finite transition system and temporal property are available, model checking turns verification into graph search.
+`transition-systems-and-kripke-structures` supplied the object being checked — a finite, labeled graph of states and transitions — and `linear-temporal-logic-ltl` together with `ctl-and-branching-time-logic` supplied the languages for stating what should be true of it. This concept is where those two pieces actually meet: model checking is the algorithm that takes a finite transition system and a temporal-logic property and turns their combination into a concrete question a computer can answer completely, by search rather than by symbolic proof.
 
-Unlike testing, the search is exhaustive over the modeled reachable states, not sampled over hand-picked executions.
+The word "exhaustive" here is not marketing language, and it is worth dwelling on exactly what it buys, because it is the entire reason model checking is categorically different from testing in the same way a Hoare-logic proof is. Unlike testing, which samples a hand-chosen subset of a system's possible behaviors and can never, by construction, rule out a fault hiding somewhere outside that sample, an explicit-state model checker visits *every* state reachable from the model's initial states, with no sampling involved anywhere in the process — if the search completes and reports the property holds, that really does mean the property holds of every reachable state and every reachable path, not merely of the states someone happened to think to check.
 
-SPIN’s on-the-fly LTL checking illustrates the practical value: counterexamples are generated as traces that engineers can inspect.
+SPIN's on-the-fly LTL model checking is the concrete illustration this discipline anchors on for what this looks like as an actual, usable engineering tool rather than a purely theoretical algorithm: it takes a model of a concurrent system, an LTL property, and produces either a proof that the property holds across the entire explored state space, or a genuine, concrete counterexample trace that an engineer can step through directly — exactly the kind of actionable evidence `testing-shows-presence-proof-shows-absence` already argued is more valuable than an abstract "verification failed" message.
 
 ## Core Theory
 
 ### Explicit-state exploration
 
-- Start from the initial states.
-- Repeatedly visit successors.
-- Record visited states to avoid infinite revisiting of cycles.
-- Check bad-state or automaton-product conditions during the search.
+The algorithmic skeleton underneath explicit-state model checking is an ordinary graph search, adapted to the specific structure of a Kripke structure. It begins at the model's initial states, and repeatedly computes successors — the states reachable by one transition from states already discovered — adding each newly discovered state to a visited set. That visited set is not an incidental bookkeeping detail; it is what keeps the search from revisiting states endlessly whenever the transition graph contains cycles, which real systems' state spaces very often do (a system that can return to a state it was already in is, after all, exactly what makes long-running or reactive behavior possible in the first place). At each state the search visits, it checks whatever bad-state condition or temporal-automaton-product condition the property being verified translates into, and the search terminates once every reachable state has been visited and checked.
 
 ### Safety checking
 
-- For AG ¬bad or □ ¬bad, search for reachable states labeled bad.
-- If one is found, reconstruct the predecessor chain as a counterexample.
-- If exploration finishes with no bad state, the finite model satisfies the safety property.
+Checking a safety property such as `AG ¬bad` or `□ ¬bad` reduces, as `ctl-and-branching-time-logic`'s global-safety example already showed for CTL, to a single reachability question: is any state labeled `bad` reachable at all from the initial states? If the search visits every reachable state and never encounters one labeled `bad`, the safety property holds, fully and exhaustively, with the search itself constituting the proof. If a `bad`-labeled state is found, the search doesn't merely report failure — because the search naturally tracks, for each state it visits, which state it was reached *from*, that predecessor chain can be walked back from the discovered bad state all the way to an initial state, reconstructing a concrete, step-by-step counterexample trace exactly matching the finite-bad-prefix pattern already established for safety violations in `linear-temporal-logic-ltl`.
 
 ### Liveness checking
 
-- Liveness requires reasoning about cycles.
-- A counterexample often reaches a loop that avoids the desired event forever.
-- Nested depth-first search is a classic explicit-state technique for this.
+Liveness properties resist this same reduction because their violation, as already established, is not a fact about any single finite prefix — it is a fact about an entire infinite tail of a path, witnessed concretely by a lasso: a finite prefix leading into a cycle in which the promised event never occurs. Finding such a lasso is a genuinely different search problem from finding a single bad state, because it requires the search to recognize not just "this state is bad" but "this cycle, taken as a whole, avoids the good event forever." Nested depth-first search is the classic explicit-state technique purpose-built for exactly this: it performs an outer depth-first search over the reachable states, and for each state along the way that could plausibly begin a bad cycle, it performs an inner depth-first search specifically looking for a path back to that same state (or an equivalent one) that never passes through the good event — finding such a cycle is precisely finding the lasso that witnesses the liveness violation.
 
 ### On-the-fly checking
 
-- The checker need not build the whole graph before finding a bug.
-- It can generate successors as needed.
-- This is crucial when the complete state space is much larger than the part containing a counterexample.
-
-### Verification workflow checklist
-
-- Name the program variables or model state components.
-- State the precondition, invariant, temporal property, or theorem before starting the proof.
-- Decide whether the claim is about one final state, all reachable states, or entire execution traces.
-- Record the execution model: mathematical integers, bit-vectors, nondeterministic scheduling, finite bounds, or abstract transitions.
-- Generate the local proof obligations or state-space search target.
-- Inspect counterexamples as structured evidence, not just failure messages.
+A model checker need not build the entire state graph up front, all at once, before it can begin looking for a violation — this is the specific efficiency idea "on-the-fly" refers to, and it is exactly what SPIN's approach is named for. Instead, successors are generated lazily, only as the search actually needs them, and the search can report a counterexample the moment it finds one, without ever having explored the remainder of a state space that might be vastly larger than the portion actually needed to locate the bug. This distinction turns out to matter enormously in practice, not just as an implementation nicety: many real bugs are reachable via a comparatively short sequence of transitions from the initial state, even inside models whose *total* reachable state space is far too large to ever fully enumerate — on-the-fly search can find such a bug quickly by exploring only the relevant portion of the graph, while an approach that insisted on building the complete graph first would need to pay the full cost of the state-space-explosion problem `state-space-explosion-and-symbolic-model-checking` treats as the discipline's central engineering obstacle, before it could even begin looking.
 
 ## Worked Examples
 
 ### Reachable error
 
-- Initial: Idle.
-- Transitions: Idle → Busy, Busy → Error, Busy → Idle.
-- Property: never Error.
-- Search visits Idle, then Busy, then Error.
-- The counterexample trace is Idle, Busy, Error.
+Consider a transition system with initial state `Idle`, and transitions `Idle → Busy` and `Busy → Error` (plus, say, `Busy → Idle` for a normal completion path, though it is irrelevant to this particular check). Checking the safety property "never `Error`" via explicit-state search: the algorithm visits `Idle` first, discovers `Busy` as a successor and visits it, then discovers `Error` as a successor of `Busy` and visits it too — at which point the search notices `Error` carries the forbidden label. Walking the predecessor chain back from `Error` — `Error` was reached from `Busy`, which was reached from `Idle`, the initial state — reconstructs the concrete counterexample trace `Idle, Busy, Error`, exactly matching the finite bad-prefix pattern for a safety violation, and giving an engineer the precise sequence of transitions that leads to the forbidden state.
 
 ### Two-process mutual exclusion
 
-- State records each process location: Outside, Waiting, Critical.
-- Bad state: both locations are Critical.
-- The model checker explores all interleavings of process steps.
-- If no bad state is reachable, mutual exclusion holds for the finite abstraction.
+Consider modeling two processes, each of which can be in one of three locations: `Outside` (not attempting to enter its critical section), `Waiting` (attempting to enter), or `Critical` (inside its critical section). A single combined state records both processes' locations simultaneously, and the model checker explores every possible interleaving of the two processes' individual steps — every order in which either process might advance, since a correct mutual-exclusion protocol must hold under *any* interleaving a scheduler might choose, not merely under one convenient ordering. The bad state being searched for is any combined state where both processes' locations are simultaneously `Critical`. If the exhaustive search visits every reachable combined state, across every interleaving the model permits, and never finds one where both locations are `Critical` at once, mutual exclusion is proved to hold for this finite abstraction of the protocol — a guarantee that covers every possible scheduling interleaving the model allows, not merely the interleavings someone happened to test by hand.
 
 ### Liveness lasso
 
-- Trace prefix: Idle, Requested.
-- Loop: Requested, Waiting, Requested, Waiting.
-- Acknowledged never appears in the loop.
-- This lasso refutes “every request is eventually acknowledged”.
+Consider a trace beginning with the prefix `Idle, Requested`, after which the system enters a repeating cycle `Requested, Waiting, Requested, Waiting, ...` that continues forever, with the label `Acknowledged` never appearing anywhere within that cycle. This is precisely a lasso in the sense already developed for LTL: a finite prefix (`Idle, Requested`) leading into a cycle (`Requested, Waiting`) that avoids the promised event (`Acknowledged`) forever once entered. This lasso refutes the liveness property "every request is eventually acknowledged" completely, because the infinite path it represents — the prefix followed by the cycle repeated endlessly — genuinely never reaches an `Acknowledged`-labeled state at any point, satisfying exactly the semantic condition for a liveness violation, and it is exactly the kind of object nested depth-first search is built to discover directly, by finding a cycle reachable from the prefix that revisits an already-seen state without the required event occurring along the way.
 
 ## Common Misconceptions & Pitfalls
 
-- **Calling** a random simulation run model checking.
-- **Forgetting** to include environment transitions.
-- **Checking** only safety when the requirement is liveness.
-- **Assuming** no counterexample in a bounded search proves the unbounded property.
+- **Calling a random simulation run "model checking."** A simulation run — even a very long one, or many of them run repeatedly — explores exactly one path (or a hand-chosen sample of paths) through the state space, which is fundamentally a sampling activity in the same sense testing is; it cannot, by construction, rule out a fault hiding along a path the simulation never happened to take, whereas genuine model checking's exhaustiveness is precisely what testing and simulation both lack.
+- **Forgetting to include environment transitions in the modeled state space.** A model that only represents the system under test, while silently omitting the range of moves an unpredictable environment or scheduler could actually make, is checking a narrower and easier claim than the real system's actual guarantee requires — any property proved against such an incomplete model carries no assurance about behavior the omitted environment transitions could have triggered.
+- **Checking only a safety property when the actual requirement is a liveness property, or vice versa.** As the algorithmic contrast above makes clear, these require genuinely different search techniques — a safety check that never looks for cycles will never catch a liveness violation, no matter how thoroughly it explores reachable states, because the fault a liveness violation represents is a property of an infinite tail, not of any single reachable state.
+- **Assuming that finding no counterexample within a bounded search proves the unbounded property.** An on-the-fly or otherwise incomplete search that has only explored part of the reachable state space (whether due to an explicit depth bound, a timeout, or an incomplete exploration strategy) and found no violation has not thereby proved the property holds everywhere — genuine model-checking exhaustiveness requires the search to have actually covered every reachable state, a distinction `the-limits-of-verification` returns to explicitly when distinguishing sound-and-complete results from merely sound-but-bounded ones.
 
 ## Summary
 
-Explicit-state model checking exhaustively explores the reachable graph of a finite model, proving properties or returning concrete counterexample traces.
+Explicit-state model checking turns a temporal property and a finite Kripke structure into a graph-search problem: safety checking reduces to plain reachability, with a violating state's predecessor chain reconstructing a concrete finite counterexample trace, while liveness checking requires the genuinely different technique of searching for a lasso — a cycle, reachable from the initial states, that avoids the promised event forever — using algorithms like nested depth-first search purpose-built for exactly that structure. On-the-fly exploration, exemplified by SPIN, generates successors only as needed rather than building the entire state graph up front, letting a search find a comparatively short counterexample quickly even inside a model whose total reachable state space is enormous. That enormity of the reachable state space, only gestured at here, becomes the discipline's central engineering obstacle in the very next concept, `state-space-explosion-and-symbolic-model-checking`.
 
 ## Documentation Links
 

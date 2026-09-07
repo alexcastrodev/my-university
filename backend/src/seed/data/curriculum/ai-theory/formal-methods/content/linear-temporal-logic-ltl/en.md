@@ -4,91 +4,62 @@ updatedAt: 2026-09-07
 ---
 ## Learning Objectives
 
-- Define the role of Linear Temporal Logic (LTL) in a formal-verification workflow.
-- Explain how writing path-based temporal properties changes a vague correctness claim into a precise mathematical obligation.
-- Connect the concept back to propositional logic, first-order predicates, or induction from Discrete Math and Logic.
-- Identify where automation is sound, where it is incomplete, and where a human-supplied specification or invariant is required.
-- Work through a small program or transition-system example without relying on unstated assumptions.
+- Interpret an LTL formula as a claim about a single infinite path through a Kripke structure.
+- Use the four core temporal operators — □, ◇, ○, and 𝖴 — to state safety and liveness properties precisely.
+- Distinguish safety properties (nothing bad ever happens) from liveness properties (something good eventually happens).
+- Explain concretely what a lasso counterexample trace is, why it is the characteristic witness for a false liveness claim, and why safety counterexamples look different.
+- Translate informal requirements such as mutual exclusion and request-response into LTL formulas over labeled atomic propositions.
 
 ## Context & Motivation
 
-Some requirements are not about one final state. “Every request is eventually answered” and “the alarm never sounds while the door is closed” talk about whole executions.
+`transition-systems-and-kripke-structures` supplied the semantic object — states labeled with atomic propositions, connected by a transition relation — but stopped short of a language for stating properties *about* the paths through that structure. Some of the most important requirements in software and hardware are not statements about a single final state at all; "every request is eventually answered" and "the alarm never sounds while the door is closed" are both claims about an entire, potentially unbounded execution trace, and neither can be phrased as an ordinary Hoare-logic postcondition, which only ever talks about the state at the very end of a terminating command.
 
-LTL is a path logic: it evaluates formulas along a single linear future. This matches traces produced by programs, schedulers, and model checkers.
+Linear Temporal Logic is built specifically to fill this gap: it is a *path* logic, meaning every formula is interpreted with respect to one single, linear, infinite sequence of states unfolding into the future — exactly the shape traces produced by long-running programs, reactive systems, and schedulers naturally take, and exactly the shape a model checker explores when it walks a Kripke structure looking for a path that violates some property. The word "linear" in the name is doing real work and is worth holding onto now, because `ctl-and-branching-time-logic`, the very next concept, introduces a genuinely different logic built around branching futures rather than single linear ones, and the contrast between the two only makes sense once LTL's linear commitment is clear.
 
-The Stanford temporal-logic tradition supplies the operators; SPIN shows their practical use in on-the-fly model checking.
+The two anchor sources behind this concept's formal apparatus split the work naturally: the Stanford Encyclopedia of Philosophy's treatment of temporal logic supplies the operators and their precise semantics, tracing back to work originally motivated by philosophical questions about time and modality; SPIN's on-the-fly LTL model checking shows the exact same operators put to concrete, practical use, checking real concurrent-system properties by searching Kripke structures for paths that violate an LTL formula.
 
 ## Core Theory
 
 ### Path view
 
-- An LTL formula is interpreted over an infinite path of states.
-- At each position, atomic propositions are true or false.
-- Temporal operators describe positions later on the same path.
+An LTL formula is always interpreted over a single infinite path — a sequence of states `s0, s1, s2, ...` where each `s(i+1)` follows `s(i)` by the transition relation of some underlying Kripke structure. At each position along this path, every atomic proposition is simply true or false, exactly as the labeling function from the previous concept specifies. Temporal operators are what let a formula reach forward from the current position to talk about later positions on the same path — without them, a formula could only ever describe the single state it's evaluated at, with no way to say anything about what comes next.
 
 ### Core operators
 
-- □ P means P holds always from now on.
-- ◇ P means P holds sometime in the future.
-- ○ P means P holds at the next state.
-- P 𝖴 Q means P holds until Q holds.
+Four operators carry almost all of the expressive weight LTL needs for the properties this discipline cares about. `□ P` (read "always P," sometimes written `G P`) holds at a position exactly when `P` holds at that position and at every later position on the path — a claim about the entire remaining future, with no exception permitted anywhere along it. `◇ P` (read "eventually P," sometimes written `F P`) holds at a position exactly when `P` holds at that position or at some later position — a existential claim about the future, satisfied by finding even one point, however far off, where `P` becomes true. `○ P` (read "next P," sometimes written `X P`) holds at a position exactly when `P` holds at the very next position on the path, and only there — the one operator among the four that reaches exactly one step forward rather than an unbounded distance. `P 𝖴 Q` (read "P until Q") holds at a position exactly when `Q` eventually holds at some later-or-current position, and `P` holds at every position strictly before that one — critically, this operator requires `Q` to actually occur eventually, so `P 𝖴 Q` is a strictly stronger claim than merely "P holds until, if ever, Q occurs."
 
 ### Safety and liveness
 
-- Safety: nothing bad ever happens.
-- Liveness: something good eventually happens.
-- Many real requirements combine both, such as “requests are never duplicated and every request eventually completes”.
+Nearly every property this discipline deals with, once translated into LTL, falls into one of two broad shapes, and recognizing which shape a requirement has is often the single most useful step in getting its LTL formula right on the first attempt. A safety property says nothing bad ever happens — its natural LTL shape is `□ ¬bad` for whatever `bad` names the undesired condition, and its violation is always witnessed by *reaching* the bad condition at some finite point, after which nothing more about the path matters. A liveness property says something good eventually happens — its natural shape involves `◇` somewhere, often nested inside a `□`, as in `□ (request → ◇ acknowledge)`, and its violation is a fundamentally different kind of fact: it requires the good thing to *never* happen, all the way out to infinity, which is a claim about the path's entire unbounded tail, not about any single finite prefix of it. Many genuinely important real-world requirements are conjunctions of both shapes at once — "requests are never duplicated, and every request eventually completes" pairs a safety half with a liveness half in a single specification, and each half, in general, needs to be checked by a different kind of argument.
 
 ### Counterexamples
 
-- A safety counterexample is usually a finite bad prefix.
-- A liveness counterexample is often a lasso: a prefix leading to a loop that avoids the promised event forever.
-- Model checkers return these traces for diagnosis.
-
-### Verification workflow checklist
-
-- Name the program variables or model state components.
-- State the precondition, invariant, temporal property, or theorem before starting the proof.
-- Decide whether the claim is about one final state, all reachable states, or entire execution traces.
-- Record the execution model: mathematical integers, bit-vectors, nondeterministic scheduling, finite bounds, or abstract transitions.
-- Generate the local proof obligations or state-space search target.
-- Inspect counterexamples as structured evidence, not just failure messages.
+The asymmetry between safety and liveness properties, introduced above at the level of their formula shape, shows up just as sharply in what a *counterexample* to each one actually looks like. A safety violation is witnessed by a finite bad prefix: some finite sequence of transitions that reaches a state where the forbidden condition holds — once that state is reached, the violation is already complete, and nothing about how the path continues afterward changes that fact, so a finite trace fully suffices as a counterexample. A liveness violation is a genuinely different, and at first counterintuitive, kind of object: because the claim being violated is "the good thing eventually happens, no matter how far out," a counterexample has to demonstrate that the good thing *never* happens, which a finite trace alone cannot do — how would a finite prefix prove that nothing good ever appears afterward, all the way to infinity? The standard resolution is what's called a lasso: a finite prefix of transitions leading into a cycle — a loop back to a state already visited earlier in the trace — such that the promised good event never occurs anywhere within that repeating cycle. Because the cycle repeats forever once entered, the path formed by following the prefix and then looping around the cycle indefinitely is a genuine infinite path through the model, and since the good event never appears anywhere in the cycle, it never appears anywhere on this infinite path at all — which is exactly what's needed to witness a liveness violation concretely and finitely, by exhibiting a finite object (prefix plus cycle) that *represents* an infinite bad path rather than trying to write the infinite path out directly.
 
 ## Worked Examples
 
 ### Mutual exclusion
 
-- Atomic propositions: c1 means process 1 is in critical section; c2 means process 2 is in critical section.
-- LTL safety property:
-- □ ¬(c1 ∧ c2)
-- Read: at every point on the path, not both processes are critical.
-- One state with both labels refutes it.
+Let `c1` and `c2` be atomic propositions meaning "process 1 is in its critical section" and "process 2 is in its critical section," respectively. The mutual-exclusion safety property is written `□ ¬(c1 ∧ c2)`: at every point along the path, it is not the case that both processes are simultaneously critical. This reads directly as intended — "always, not both" — and, being a safety property, its violation is witnessed by finding just one single state, anywhere reachable, where both `c1` and `c2` happen to hold together; no cycle or infinite reasoning is needed, a single bad state suffices as a complete counterexample, exactly matching the safety-violation pattern from the Core Theory section.
 
 ### Request response
 
-- Atomic propositions: req and ack.
-- Property:
-- □ (req → ◇ ack)
-- Read: whenever a request occurs, an acknowledgement eventually occurs later.
-- A lasso that repeats forever after req without ack is a counterexample.
+Let `req` and `ack` be atomic propositions for "a request has occurred" and "an acknowledgement has occurred." The property `□ (req → ◇ ack)` reads: always, if a request occurs, then an acknowledgement eventually occurs afterward — a paradigmatic liveness property, since it demands something good (`ack`) eventually happen in response to something else, with no bound on how long "eventually" is allowed to take. Because this is a liveness claim, its counterexample is exactly the lasso structure just introduced: a finite prefix that reaches a state where `req` has become true, followed by a cycle of states in which the path loops forever without `ack` ever occurring anywhere in that cycle. Concretely, imagine a prefix `Idle → Requested`, followed by a two-state cycle `Requested → Waiting → Requested → Waiting → ...` that repeats indefinitely with `ack` never labeled true at either `Requested` or `Waiting`. This lasso is a complete, finite representation of the infinite bad path "request happens, then the system loops forever in a Requested/Waiting cycle, never acknowledging" — exactly the kind of trace a model checker like SPIN would report when this property fails, giving an engineer something concrete and finite to inspect even though the underlying violation is fundamentally a fact about infinite behavior.
 
 ### Until
 
-- Property: ¬grant 𝖴 ready.
-- Read: grant is absent until ready becomes true.
-- This also requires ready to eventually occur.
-- If ready never happens, the formula is false.
+The property `¬grant 𝖴 ready` reads: `grant` is absent for as long as `ready` has not yet become true, and — this is the demanding part of `𝖴`'s semantics — `ready` is required to actually become true eventually. It is not enough for `grant` to simply stay absent forever while `ready` also never occurs; if `ready` never happens anywhere on the path, the until-formula is false regardless of what `grant` does, because the operator's semantics explicitly requires its right-hand side to eventually hold. This is precisely the subtlety flagged as a common misconception below: `𝖴` is a strictly stronger commitment than an informal reading of "until" as ordinary English might suggest, and treating it as equivalent to a weaker "P holds up to whenever, if ever, Q occurs" formula (a genuinely different LTL operator, sometimes called weak-until) silently changes what's actually being claimed.
 
 ## Common Misconceptions & Pitfalls
 
-- **Using** ◇ when □ is needed, turning an invariant into a one-time eventuality.
-- **Forgetting** that LTL speaks about one path at a time.
-- **Assuming** liveness failures always have short finite counterexamples.
-- **Writing** fairness assumptions as comments instead of formal assumptions.
+- **Using ◇ when □ is actually needed, turning an intended invariant into a one-time eventuality.** `◇ safe` only requires the system to be safe at *some* point, possibly briefly and possibly only once before becoming unsafe forever afterward — this is a dramatically weaker claim than `□ safe`, which the property author almost always actually meant, and confusing the two silently converts an intended always-property into an accidental sometimes-property.
+- **Forgetting that LTL speaks about one path at a time.** Every LTL formula's truth is defined relative to a single fixed path — statements about "all possible executions" require checking the formula against *every* path the model admits, one at a time (or via an algorithm that effectively does so), not against some single representative execution chosen arbitrarily.
+- **Assuming liveness failures always have short, easily-found finite counterexamples.** As the lasso discussion makes explicit, a liveness violation is fundamentally a claim about infinite behavior, and its minimal witness — prefix plus cycle — can require exploring a substantially larger portion of the state space than a comparable safety violation would, which is part of why liveness checking is algorithmically more demanding than safety checking, a distinction `model-checking-exhaustive-state-space-exploration` returns to directly.
+- **Writing fairness assumptions as comments or informal notes instead of formal assumptions inside the model or property.** Many liveness properties are only true under a fairness assumption — for instance, "if a process repeatedly attempts to enter its critical section, it is eventually scheduled" — and if that assumption is left unstated formally, a model checker will (correctly, given what it was actually asked) find a lasso counterexample built entirely out of unfair scheduling, one that would never occur under any fairness-respecting scheduler in the real system; the fix is to encode the fairness assumption explicitly, not to distrust the counterexample.
 
 ## Summary
 
-LTL describes linear execution traces with temporal operators for always, eventually, next, and until, making safety and liveness requirements precise.
+Linear Temporal Logic gives safety and liveness requirements — "nothing bad ever happens" and "something good eventually happens" — a precise mathematical shape, using the operators □, ◇, ○, and 𝖴 to describe properties of a single infinite execution path rather than a single final state. Safety violations are witnessed by a finite bad prefix, while liveness violations require the genuinely different notion of a lasso — a finite prefix leading into a cycle that avoids the promised event forever, standing in for an infinite bad path that no finite trace alone could represent directly. `ctl-and-branching-time-logic` picks up next by asking what changes when a system's future is not a single path at all but a branching tree of possibilities, a distinction that matters enormously once nondeterminism represents genuine scheduling or environment choice rather than something a single fixed path can capture.
 
 ## Documentation Links
 
