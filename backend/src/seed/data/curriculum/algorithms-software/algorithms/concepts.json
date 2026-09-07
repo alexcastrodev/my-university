@@ -6,13 +6,25 @@
     "topic": "Divide & Conquer",
     "requires": [],
     "related": [
-      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" }
+      {
+        "label": "Recursion",
+        "slug": "recursion",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      }
     ],
     "summary": "Solving a problem by breaking it into smaller instances of itself, solving each independently, and combining their results — the general pattern recursion already introduced, now studied as a design strategy in its own right.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Syllabus (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -20,13 +32,23 @@
     "id": 2,
     "title": "Solving Recurrences",
     "topic": "Divide & Conquer",
-    "requires": ["the-divide-and-conquer-paradigm"],
+    "requires": [
+      "the-divide-and-conquer-paradigm"
+    ],
     "related": [],
     "summary": "Turning a divide-and-conquer algorithm's self-referential running time — T(n) = 2T(n/2) + O(n), for example — into a closed-form bound, by recursion trees and pattern-matching against a few canonical shapes.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -34,15 +56,34 @@
     "id": 3,
     "title": "Merge Sort Revisited",
     "topic": "Divide & Conquer",
-    "requires": ["solving-recurrences"],
+    "requires": [
+      "solving-recurrences"
+    ],
     "related": [
-      { "label": "Sorting Algorithms: An Introduction", "slug": "sorting-algorithms-intro", "feature": "curriculum/foundations/programming-computational-thinking" }
+      {
+        "label": "Sorting Algorithms: An Introduction",
+        "slug": "sorting-algorithms-intro",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      },
+      {
+        "label": "Mergesort: Guaranteed O(n log n) via Divide and Merge",
+        "slug": "mergesort",
+        "feature": "algorithms-concepts"
+      }
     ],
     "summary": "The same merge sort already met as one option among several — now studied rigorously as the canonical divide-and-conquer algorithm, with its T(n) = 2T(n/2) + O(n) recurrence solved in full.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -50,13 +91,23 @@
     "id": 4,
     "title": "The Comparison-Sort Lower Bound",
     "topic": "Divide & Conquer",
-    "requires": ["merge-sort-revisited"],
+    "requires": [
+      "merge-sort-revisited"
+    ],
     "related": [],
     "summary": "Why no algorithm that sorts purely by comparing elements can beat O(n log n) in the worst case — a genuine impossibility proof, via a decision-tree argument, not just an unmet goal.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -64,13 +115,29 @@
     "id": 5,
     "title": "Quicksort: Partitioning",
     "topic": "Quicksort",
-    "requires": ["merge-sort-revisited"],
-    "related": [],
+    "requires": [
+      "merge-sort-revisited"
+    ],
+    "related": [
+      {
+        "label": "Quicksort: Partitioning, Pivots, and Two Textbook Schemes",
+        "slug": "quicksort",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "A different divide-and-conquer sort — pick a pivot, partition everything smaller to its left and everything larger to its right, then recurse on each side — all done in place, unlike merge sort.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -78,13 +145,23 @@
     "id": 6,
     "title": "Quicksort: Average-Case Analysis and Randomization",
     "topic": "Quicksort",
-    "requires": ["quicksort-partitioning"],
+    "requires": [
+      "quicksort-partitioning"
+    ],
     "related": [],
     "summary": "Quicksort's worst case is O(n²) on an already-sorted or adversarial input, but choosing the pivot at random makes that worst case astronomically unlikely, giving expected O(n log n) on any input.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Syllabus (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -92,13 +169,24 @@
     "id": 7,
     "title": "Quicksort vs. Merge Sort: Choosing a Sort",
     "topic": "Quicksort",
-    "requires": ["quicksort-average-case-and-randomization", "the-comparison-sort-lower-bound"],
+    "requires": [
+      "quicksort-average-case-and-randomization",
+      "the-comparison-sort-lower-bound"
+    ],
     "related": [],
     "summary": "Both hit the O(n log n) lower bound on average, but for genuinely different reasons and with genuinely different trade-offs — in-place vs. extra memory, stable vs. not, worst-case guarantee vs. expected performance.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -106,13 +194,29 @@
     "id": 8,
     "title": "Searching Beyond Binary Search",
     "topic": "Searching",
-    "requires": ["the-divide-and-conquer-paradigm"],
-    "related": [],
+    "requires": [
+      "the-divide-and-conquer-paradigm"
+    ],
+    "related": [
+      {
+        "label": "Binary Search: O(log n) Lookup on a Sorted Array",
+        "slug": "binary-search",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Binary search's divide-and-conquer idea generalizes past a plain sorted array — searching a rotated sorted array in O(log n) is a genuinely different, worth-solving puzzle built on the exact same pattern.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -121,12 +225,26 @@
     "title": "The Greedy Paradigm",
     "topic": "Greedy Algorithms",
     "requires": [],
-    "related": [],
+    "related": [
+      {
+        "label": "Greedy Algorithms: Activity Selection and Why the Right Greedy Choice Matters",
+        "slug": "greedy-algorithms-activity-selection",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Building a solution by always taking the locally best-looking choice and never reconsidering it — a strategy that is sometimes provably optimal and sometimes simply wrong, with no way to tell which without a proof.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -134,13 +252,23 @@
     "id": 10,
     "title": "Proving Greedy Optimality: Activity Selection",
     "topic": "Greedy Algorithms",
-    "requires": ["the-greedy-paradigm"],
+    "requires": [
+      "the-greedy-paradigm"
+    ],
     "related": [],
     "summary": "Scheduling the maximum number of non-overlapping activities by always picking the one that finishes earliest — and a full exchange-argument proof that this greedy choice never costs you the optimal solution.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -150,13 +278,30 @@
     "topic": "Graph Traversal",
     "requires": [],
     "related": [
-      { "label": "Graphs: Terminology and Representations", "slug": "graphs-terminology-and-representations", "feature": "curriculum/foundations/discrete-math-logic" }
+      {
+        "label": "Graphs: Terminology and Representations",
+        "slug": "graphs-terminology-and-representations",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Breadth-First Search",
+        "slug": "breadth-first-search",
+        "feature": "algorithms-concepts"
+      }
     ],
     "summary": "Exploring a graph level by level with a queue, from a chosen source — the algorithm that finds shortest paths, measured in number of edges, in any unweighted graph.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -164,13 +309,23 @@
     "id": 12,
     "title": "Connected Components via BFS",
     "topic": "Graph Traversal",
-    "requires": ["graph-traversal-bfs"],
+    "requires": [
+      "graph-traversal-bfs"
+    ],
     "related": [],
     "summary": "Running BFS from every not-yet-visited vertex partitions an undirected graph into its connected components — a direct, practical payoff of the traversal just covered.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -178,13 +333,29 @@
     "id": 13,
     "title": "Depth-First Search",
     "topic": "Graph Traversal",
-    "requires": ["graph-traversal-bfs"],
-    "related": [],
+    "requires": [
+      "graph-traversal-bfs"
+    ],
+    "related": [
+      {
+        "label": "Depth-First Search: Recursive Traversal, Components, and Edge Classification",
+        "slug": "depth-first-search",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Exploring a graph by plunging as deep as possible before backtracking — a different traversal order than BFS, naturally recursive, and the foundation for cycle detection and topological ordering.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -192,13 +363,29 @@
     "id": 14,
     "title": "Cycle Detection and Topological Sort",
     "topic": "Graph Traversal",
-    "requires": ["graph-traversal-dfs"],
-    "related": [],
+    "requires": [
+      "graph-traversal-dfs"
+    ],
+    "related": [
+      {
+        "label": "Topological Sort: Ordering a DAG via DFS Finish Times",
+        "slug": "topological-sort",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "DFS timestamps reveal a cycle the instant one exists, and — when there isn't one — the same traversal produces a valid dependency order for every vertex in a directed acyclic graph.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -206,13 +393,23 @@
     "id": 15,
     "title": "Weighted Shortest Paths: Problem Setup",
     "topic": "Shortest Paths",
-    "requires": ["cycle-detection-and-topological-sort"],
+    "requires": [
+      "cycle-detection-and-topological-sort"
+    ],
     "related": [],
     "summary": "Once edges carry weights, BFS's \"fewest edges\" answer stops being the same as \"cheapest path\" — the setup that motivates every shortest-path algorithm that follows.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -220,15 +417,34 @@
     "id": 16,
     "title": "Dijkstra's Algorithm",
     "topic": "Shortest Paths",
-    "requires": ["weighted-shortest-paths"],
+    "requires": [
+      "weighted-shortest-paths"
+    ],
     "related": [
-      { "label": "Heap Insert and Extract-Max/Min", "slug": "heap-insert-and-extract", "feature": "curriculum/algorithms-software/data-structures-ii" }
+      {
+        "label": "Heap Insert and Extract-Max/Min",
+        "slug": "heap-insert-and-extract",
+        "feature": "curriculum/algorithms-software/data-structures-ii"
+      },
+      {
+        "label": "Dijkstra's Algorithm: BFS Generalized to Weighted Graphs",
+        "slug": "dijkstra-shortest-paths",
+        "feature": "algorithms-concepts"
+      }
     ],
     "summary": "Always expanding the closest not-yet-finalized vertex next, using the binary heap already covered as its priority queue — correct whenever every edge weight is non-negative.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -236,13 +452,29 @@
     "id": 17,
     "title": "The Bellman-Ford Algorithm",
     "topic": "Shortest Paths",
-    "requires": ["dijkstras-algorithm"],
-    "related": [],
+    "requires": [
+      "dijkstras-algorithm"
+    ],
+    "related": [
+      {
+        "label": "Bellman-Ford: Shortest Paths with Negative Edges and Cycle Detection",
+        "slug": "bellman-ford-shortest-paths",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Dijkstra's algorithm breaks the instant an edge weight goes negative — Bellman-Ford trades speed for correctness in that case, and can even detect a negative-weight cycle that makes \"shortest path\" meaningless.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -250,13 +482,29 @@
     "id": 18,
     "title": "Shortest Paths in a DAG",
     "topic": "Shortest Paths",
-    "requires": ["bellman-ford-algorithm"],
-    "related": [],
+    "requires": [
+      "bellman-ford-algorithm"
+    ],
+    "related": [
+      {
+        "label": "Shortest Paths in a DAG: Topological Order Beats a Priority Queue",
+        "slug": "dag-shortest-paths",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "When the graph is guaranteed acyclic, the topological order already covered lets shortest paths be computed in a single linear pass — no priority queue, no repeated relaxation, faster than either general algorithm.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -264,13 +512,29 @@
     "id": 19,
     "title": "Minimum Spanning Trees: Problem Framing",
     "topic": "Minimum Spanning Trees",
-    "requires": ["the-greedy-paradigm"],
-    "related": [],
+    "requires": [
+      "the-greedy-paradigm"
+    ],
+    "related": [
+      {
+        "label": "Minimum Spanning Trees: The Cut Property, Prim's, and Kruskal's",
+        "slug": "minimum-spanning-trees",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Connecting every vertex of a weighted graph as cheaply as possible, using exactly the spanning-tree structure already covered in discrete math, now with a cost to minimize.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -278,15 +542,29 @@
     "id": 20,
     "title": "Kruskal's Algorithm",
     "topic": "Minimum Spanning Trees",
-    "requires": ["minimum-spanning-trees-problem"],
+    "requires": [
+      "minimum-spanning-trees-problem"
+    ],
     "related": [
-      { "label": "The Union-Find (Disjoint-Set) ADT", "slug": "the-union-find-adt", "feature": "curriculum/algorithms-software/data-structures-ii" }
+      {
+        "label": "The Union-Find (Disjoint-Set) ADT",
+        "slug": "the-union-find-adt",
+        "feature": "curriculum/algorithms-software/data-structures-ii"
+      }
     ],
     "summary": "Sort every edge by weight and add each one greedily, skipping any that would close a cycle — a connectivity check answered instantly by the union-find structure already covered.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Syllabus (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -294,15 +572,29 @@
     "id": 21,
     "title": "Prim's Algorithm",
     "topic": "Minimum Spanning Trees",
-    "requires": ["kruskals-algorithm"],
+    "requires": [
+      "kruskals-algorithm"
+    ],
     "related": [
-      { "label": "Heap Insert and Extract-Max/Min", "slug": "heap-insert-and-extract", "feature": "curriculum/algorithms-software/data-structures-ii" }
+      {
+        "label": "Heap Insert and Extract-Max/Min",
+        "slug": "heap-insert-and-extract",
+        "feature": "curriculum/algorithms-software/data-structures-ii"
+      }
     ],
     "summary": "A second, equally correct way to grow a minimum spanning tree — one vertex at a time from a single starting point, always adding the cheapest edge leaving the tree so far, using the same heap Dijkstra's algorithm relies on.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" },
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -312,13 +604,30 @@
     "topic": "Dynamic Programming",
     "requires": [],
     "related": [
-      { "label": "Recursion", "slug": "recursion", "feature": "curriculum/foundations/programming-computational-thinking" }
+      {
+        "label": "Recursion",
+        "slug": "recursion",
+        "feature": "curriculum/foundations/programming-computational-thinking"
+      },
+      {
+        "label": "Dynamic Programming: Memoization, Tabulation, and Rod Cutting",
+        "slug": "dynamic-programming-fundamentals",
+        "feature": "algorithms-concepts"
+      }
     ],
     "summary": "A problem qualifies for dynamic programming when it has overlapping subproblems (naive recursion redoes the same work over and over) and optimal substructure (an optimal solution is built from optimal solutions to its subproblems).",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -326,13 +635,23 @@
     "id": 23,
     "title": "Memoization: Top-Down Dynamic Programming",
     "topic": "Dynamic Programming",
-    "requires": ["the-dynamic-programming-paradigm"],
+    "requires": [
+      "the-dynamic-programming-paradigm"
+    ],
     "related": [],
     "summary": "Take the exact naive recursive solution already familiar, cache each subproblem's answer the first time it's computed, and reuse it instead of recomputing — turning exponential time into polynomial with one small change.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "MIT 6.006 — Syllabus (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.006 — Syllabus (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -340,13 +659,23 @@
     "id": 24,
     "title": "Tabulation: Bottom-Up Dynamic Programming",
     "topic": "Dynamic Programming",
-    "requires": ["memoization-top-down-dp"],
+    "requires": [
+      "memoization-top-down-dp"
+    ],
     "related": [],
     "summary": "Instead of recursing downward and caching along the way, fill a table of subproblem answers starting from the smallest and building up — the same subproblems, computed in the opposite direction, with no recursion at all.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -354,13 +683,29 @@
     "id": 25,
     "title": "DP in Practice: Longest Common Subsequence",
     "topic": "Dynamic Programming",
-    "requires": ["tabulation-bottom-up-dp"],
-    "related": [],
+    "requires": [
+      "tabulation-bottom-up-dp"
+    ],
+    "related": [
+      {
+        "label": "Longest Common Subsequence: The 2D DP Table",
+        "slug": "longest-common-subsequence",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Finding the longest sequence appearing (in order, not necessarily contiguously) in both of two strings — a two-dimensional table filled from a two-way recurrence, the canonical worked example of DP with more than one shrinking dimension.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -368,13 +713,29 @@
     "id": 26,
     "title": "DP in Practice: 0/1 Knapsack",
     "topic": "Dynamic Programming",
-    "requires": ["dp-longest-common-subsequence"],
-    "related": [],
+    "requires": [
+      "dp-longest-common-subsequence"
+    ],
+    "related": [
+      {
+        "label": "0-1 vs. Fractional Knapsack: Why the Same Structure Needs Different Techniques",
+        "slug": "knapsack-01-vs-fractional",
+        "feature": "algorithms-concepts"
+      }
+    ],
     "summary": "Choosing which items to pack, each either fully taken or fully left behind, to maximize value under a weight limit — the canonical worked example of DP where greedy provably fails and a full table is required.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -382,13 +743,23 @@
     "id": 27,
     "title": "DP in Practice: Longest Increasing Subsequence",
     "topic": "Dynamic Programming",
-    "requires": ["dp-01-knapsack"],
+    "requires": [
+      "dp-01-knapsack"
+    ],
     "related": [],
     "summary": "Finding the longest strictly increasing subsequence of a list — a one-dimensional DP whose naive O(n²) solution hides an O(n log n) speed-up built on the searching techniques already covered.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
     ]
   },
   {
@@ -396,13 +767,27 @@
     "id": 28,
     "title": "Choosing a Paradigm: A Decision Guide",
     "topic": "Capstone",
-    "requires": ["quicksort-vs-merge-sort", "proving-greedy-optimality-activity-selection", "shortest-paths-in-a-dag", "prims-algorithm", "dp-longest-increasing-subsequence"],
+    "requires": [
+      "quicksort-vs-merge-sort",
+      "proving-greedy-optimality-activity-selection",
+      "shortest-paths-in-a-dag",
+      "prims-algorithm",
+      "dp-longest-increasing-subsequence"
+    ],
     "related": [],
     "summary": "A closing, side-by-side guide across every paradigm covered — divide-and-conquer, greedy, and dynamic programming — organized by the tell-tale signs that point to each one, and worked through on problems that could plausibly go more than one way.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+      {
+        "label": "MIT 6.006 — Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area",
+        "url": "https://csed.acm.org/cs2013-version/",
+        "type": "doc"
+      }
     ]
   }
 ]
