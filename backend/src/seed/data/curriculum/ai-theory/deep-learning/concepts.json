@@ -1,1 +1,295 @@
-[]
+[
+  {
+    "slug": "multilayer-networks-as-composed-linear-transformations",
+    "id": 1,
+    "title": "Multilayer Networks as Composed Linear Transformations",
+    "topic": "From Perceptrons to Deep Networks",
+    "requires": [],
+    "related": [
+      { "label": "From Perceptrons to Neural Networks", "slug": "from-perceptrons-to-neural-networks", "feature": "curriculum/ai-theory/machine-learning" },
+      { "label": "Matrices as Linear Transformations", "slug": "matrices-as-linear-transformations", "feature": "curriculum/foundations/mathematics-for-computing" },
+      { "label": "Matrix Operations", "slug": "matrix-operations", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "This discipline picks up exactly where `machine-learning` deliberately stopped — a network of layered perceptron-like units with nonlinear activations — and gives it real, precise machinery: every dense layer is literally a matrix multiply followed by a nonlinearity, and the entire forward pass is one composed function ready to be trained at scale.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 1: Setting up the Architecture", "url": "https://cs231n.github.io/neural-networks-1/", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "backpropagation-the-chain-rule-through-a-computational-graph",
+    "id": 2,
+    "title": "Backpropagation: The Chain Rule Through a Computational Graph",
+    "topic": "From Perceptrons to Deep Networks",
+    "requires": ["multilayer-networks-as-composed-linear-transformations"],
+    "related": [
+      { "label": "Gradients: Extending Derivatives to Several Variables", "slug": "gradients-extending-derivatives-to-several-variables", "feature": "curriculum/foundations/mathematics-for-computing" },
+      { "label": "Gradient Descent as a General Optimizer", "slug": "gradient-descent-as-a-general-optimizer", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "The algorithm every network in this discipline is trained by: represent the forward pass as a computational graph of small, locally-differentiable operations, then walk that graph backward applying the multivariable chain rule one node at a time, so a single backward pass computes the gradient of the loss with respect to every weight in every layer at once.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Backpropagation, Intuitions", "url": "https://cs231n.github.io/optimization-2/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Forward Propagation, Backward Propagation, and Computational Graphs", "url": "https://d2l.ai/chapter_multilayer-perceptrons/backprop.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "softmax-and-cross-entropy-loss",
+    "id": 3,
+    "title": "Softmax and Cross-Entropy Loss",
+    "topic": "From Perceptrons to Deep Networks",
+    "requires": ["backpropagation-the-chain-rule-through-a-computational-graph"],
+    "related": [
+      { "label": "The Probabilistic View of Linear Regression", "slug": "the-probabilistic-view-of-linear-regression", "feature": "curriculum/ai-theory/machine-learning" },
+      { "label": "Logistic Regression and Decision Boundaries", "slug": "logistic-regression-and-decision-boundaries", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "The loss function nearly every classifier in this discipline is actually trained against: softmax turns a network's raw output scores into a probability distribution over classes, and cross-entropy — derived here directly from maximum likelihood on that distribution, the same MLE argument already used for logistic regression — measures exactly how far that distribution is from the true label.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 2: Setting up the Data and the Loss", "url": "https://cs231n.github.io/neural-networks-2/", "type": "doc" },
+      { "label": "Eaton & Epstein — Artificial Intelligence in the CS2023 Undergraduate Computer Science Curriculum", "url": "https://ojs.aaai.org/index.php/AAAI/article/view/30352/32394", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "weight-initialization-and-the-vanishing-exploding-gradient-problem",
+    "id": 4,
+    "title": "Weight Initialization and the Vanishing/Exploding Gradient Problem",
+    "topic": "Training Deep Networks",
+    "requires": ["softmax-and-cross-entropy-loss"],
+    "related": [],
+    "summary": "Why a deep network cannot simply be initialized with all-zero or arbitrary random weights: backpropagation multiplies many layers' worth of derivatives together, so a systematic bias in the scale of those derivatives compounds multiplicatively with depth, shrinking gradients toward zero or blowing them up — and why calibrated schemes like Xavier and He initialization exist specifically to keep that product stable.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 2: Weight Initialization", "url": "https://cs231n.github.io/neural-networks-2/", "type": "doc" },
+      { "label": "CS231n — Neural Networks Part 1: Setting up the Architecture", "url": "https://cs231n.github.io/neural-networks-1/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "optimizers-beyond-gradient-descent-momentum-and-adam",
+    "id": 5,
+    "title": "Optimizers Beyond Gradient Descent: Momentum and Adam",
+    "topic": "Training Deep Networks",
+    "requires": ["weight-initialization-and-the-vanishing-exploding-gradient-problem"],
+    "related": [
+      { "label": "Gradient Descent as a General Optimizer", "slug": "gradient-descent-as-a-general-optimizer", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "Plain gradient descent, already covered in full in `machine-learning`, is not re-derived here — it is extended: momentum accumulates a running velocity across steps to smooth out noisy gradients and speed through shallow regions, and Adam combines that momentum with a per-parameter adaptive learning rate, the default optimizer for nearly every architecture the rest of this discipline covers.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 3: Parameter Updates", "url": "https://cs231n.github.io/neural-networks-3/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Adam", "url": "https://d2l.ai/chapter_optimization/adam.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "regularization-in-deep-networks-dropout-and-weight-decay",
+    "id": 6,
+    "title": "Regularization in Deep Networks: Dropout and Weight Decay",
+    "topic": "Training Deep Networks",
+    "requires": ["optimizers-beyond-gradient-descent-momentum-and-adam"],
+    "related": [
+      { "label": "The Bias-Variance Tradeoff", "slug": "the-bias-variance-tradeoff", "feature": "curriculum/ai-theory/machine-learning" },
+      { "label": "Regularization: Ridge and Lasso", "slug": "regularization-ridge-and-lasso", "feature": "curriculum/ai-theory/machine-learning" },
+      { "label": "Overfitting and the VC Dimension", "slug": "overfitting-and-the-vc-dimension", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "The same bias-variance tradeoff and overfitting already covered for linear models applies to deep networks with millions of parameters, only more urgently — weight decay is exactly the ridge penalty already covered, applied to a network's weights, while dropout is a technique with no shallow-model analogue at all: randomly deleting units during training to prevent any one of them from co-adapting into an overly specific, fragile feature detector.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 2: Regularization", "url": "https://cs231n.github.io/neural-networks-2/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Dropout", "url": "https://d2l.ai/chapter_multilayer-perceptrons/dropout.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "batch-normalization",
+    "id": 7,
+    "title": "Batch Normalization",
+    "topic": "Training Deep Networks",
+    "requires": ["regularization-in-deep-networks-dropout-and-weight-decay"],
+    "related": [],
+    "summary": "A layer that does nothing but recenter and rescale its input to unit-Gaussian statistics using each mini-batch's own mean and variance — inserted between a linear layer and its activation specifically to keep the input distribution to every layer stable as the weights below it change during training, letting much larger learning rates converge reliably.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Neural Networks Part 2: Batch Normalization", "url": "https://cs231n.github.io/neural-networks-2/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Batch Normalization", "url": "https://d2l.ai/chapter_convolutional-modern/batch-norm.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "convolution-as-a-sliding-dot-product",
+    "id": 8,
+    "title": "Convolution as a Sliding Dot Product",
+    "topic": "Convolutional Neural Networks",
+    "requires": ["batch-normalization"],
+    "related": [
+      { "label": "The Dot Product and Vector Norms", "slug": "the-dot-product-and-vector-norms", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "The operation this discipline's anchor course (CS231n) exists to teach in depth: a small learned filter slides across an image computing a dot product — the exact operation already covered as a scalar vector-algebra fact — at every position, producing a feature map that lights up wherever the pattern the filter learned to detect appears.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Convolutional Neural Networks: Architectures, Convolution / Pooling Layers", "url": "https://cs231n.github.io/convolutional-networks/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Convolutions for Images", "url": "https://d2l.ai/chapter_convolutional-neural-networks/conv-layer.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pooling-strides-padding-and-weight-sharing",
+    "id": 9,
+    "title": "Pooling, Strides, Padding, and Weight Sharing",
+    "topic": "Convolutional Neural Networks",
+    "requires": ["convolution-as-a-sliding-dot-product"],
+    "related": [],
+    "summary": "The mechanics that turn a single convolution into a practical, trainable layer — stride controls how far the filter jumps between positions, padding controls what happens at the border, pooling discards spatial detail on purpose to build in some translation tolerance — and the deeper reason a convolutional layer needs orders of magnitude fewer parameters than a fully-connected one: every position on the image reuses the exact same filter weights.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Convolutional Neural Networks: Architectures, Convolution / Pooling Layers", "url": "https://cs231n.github.io/convolutional-networks/", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "cnn-architectures-and-residual-connections",
+    "id": 10,
+    "title": "CNN Architectures and Residual Connections",
+    "topic": "Convolutional Neural Networks",
+    "requires": ["pooling-strides-padding-and-weight-sharing"],
+    "related": [
+      { "label": "GPU Architecture and the SIMT Execution Model", "slug": "gpu-architecture-and-the-simt-execution-model", "feature": "curriculum/computer/computer-architecture" },
+      { "label": "Flynn's Taxonomy and SIMD", "slug": "flynns-taxonomy-and-simd", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "How stacking convolution/pooling blocks evolved from LeNet to AlexNet, VGG, and ResNet — and why simply stacking more layers eventually made accuracy worse until residual (skip) connections let a layer learn a correction to its input rather than a whole new representation, directly fighting the vanishing-gradient problem for very deep networks — plus why this entire discipline's core operation, the matrix multiply, is exactly the kind of massively data-parallel workload GPUs were built for.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" },
+      { "label": "CS231n — Transfer Learning and Fine-tuning Convolutional Neural Networks", "url": "https://cs231n.github.io/transfer-learning/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "recurrent-neural-networks-and-backpropagation-through-time",
+    "id": 11,
+    "title": "Recurrent Neural Networks and Backpropagation Through Time",
+    "topic": "Sequence Models",
+    "requires": ["cnn-architectures-and-residual-connections"],
+    "related": [],
+    "summary": "The architecture built for data with an inherent order — text, audio, time series — where a single hidden state is carried forward and updated at every timestep using the same shared weights, and training unrolls that recurrence into one long computational graph so backpropagation (already covered in full) can run across time as well as across layers.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Recurrent Neural Networks", "url": "https://cs231n.github.io/rnn/", "type": "doc" },
+      { "label": "Dive into Deep Learning — Recurrent Neural Networks", "url": "https://d2l.ai/chapter_recurrent-neural-networks/rnn.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-vanishing-gradient-in-time-lstm-and-gru-gating",
+    "id": 12,
+    "title": "The Vanishing Gradient in Time: LSTM and GRU Gating",
+    "topic": "Sequence Models",
+    "requires": ["recurrent-neural-networks-and-backpropagation-through-time"],
+    "related": [],
+    "summary": "The same vanishing-gradient problem already diagnosed for very deep feedforward networks reappears in an even sharper form once a recurrent network is unrolled across a long sequence — and the gating mechanism that fixes it: LSTM's forget, input, and output gates (with GRU as a simplified variant) maintain a memory cell with a near-constant error-carrying path across time, letting gradients survive dozens or hundreds of timesteps instead of vanishing.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Dive into Deep Learning — Long Short-Term Memory (LSTM)", "url": "https://d2l.ai/chapter_recurrent-modern/lstm.html", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-attention-mechanism-query-key-and-value",
+    "id": 13,
+    "title": "The Attention Mechanism: Query, Key, and Value",
+    "topic": "Attention and Transformers",
+    "requires": ["the-vanishing-gradient-in-time-lstm-and-gru-gating"],
+    "related": [
+      { "label": "The Dot Product and Vector Norms", "slug": "the-dot-product-and-vector-norms", "feature": "curriculum/foundations/mathematics-for-computing" }
+    ],
+    "summary": "A different answer to the same problem LSTM/GRU gating manages only partially — letting every output position look directly at every input position, rather than compressing the whole sequence's history through one hidden state — computed with nothing more exotic than the dot product: a query vector is compared against every key vector, and the resulting scores weight a sum of value vectors.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Dive into Deep Learning — Attention Mechanisms and Transformers: Queries, Keys, and Values", "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "self-attention-parallelism-and-positional-encoding",
+    "id": 14,
+    "title": "Self-Attention, Parallelism, and Positional Encoding",
+    "topic": "Attention and Transformers",
+    "requires": ["the-attention-mechanism-query-key-and-value"],
+    "related": [],
+    "summary": "Applying attention to a sequence's own tokens, all at once, removes the strict left-to-right dependency that forces a recurrent network to process one timestep at a time — every position's attention can be computed in parallel — but that same parallelism throws away word order entirely unless it is reinjected explicitly, which is exactly what positional encoding does.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Dive into Deep Learning — Self-Attention and Positional Encoding", "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-transformer-architecture",
+    "id": 15,
+    "title": "The Transformer Architecture",
+    "topic": "Attention and Transformers",
+    "requires": ["self-attention-parallelism-and-positional-encoding"],
+    "related": [],
+    "summary": "Assembling self-attention, multi-head attention, residual connections (the same skip-connection idea already covered for very deep CNNs), and per-position feed-forward layers into the architecture that now dominates language, vision, and multimodal models alike — the model this entire attention cluster was building toward.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Dive into Deep Learning — The Transformer Architecture", "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html", "type": "doc" },
+      { "label": "CS231n — Notes Index", "url": "https://cs231n.github.io/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "representation-learning-the-network-learns-its-own-features",
+    "id": 16,
+    "title": "Representation Learning: The Network Learns Its Own Features",
+    "topic": "Representation and Generative Models",
+    "requires": ["the-transformer-architecture"],
+    "related": [],
+    "summary": "The unifying idea underneath every architecture this discipline has covered: a CNN's early layers learn generic edge and color detectors while its later layers learn increasingly task-specific features, and a transformer's embeddings play exactly the same role for tokens — in both cases, the network is not being handed features by a human, it is learning its own representation of the input directly from data, which is precisely why a model trained on one large dataset transfers so well to a new, related task.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Transfer Learning and Fine-tuning Convolutional Neural Networks", "url": "https://cs231n.github.io/transfer-learning/", "type": "doc" },
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "autoencoders-and-learned-latent-spaces",
+    "id": 17,
+    "title": "Autoencoders and Learned Latent Spaces",
+    "topic": "Representation and Generative Models",
+    "requires": ["representation-learning-the-network-learns-its-own-features"],
+    "related": [
+      { "label": "Principal Component Analysis", "slug": "principal-component-analysis", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "The first generative model in this discipline: an encoder compresses an input down to a small bottleneck vector and a decoder reconstructs the original from just that bottleneck, trained end-to-end to minimize reconstruction error — a direct, nonlinear generalization of PCA (already covered as the linear case of exactly this same compression idea), and the foundation the more elaborate generative architectures that follow are built on.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" },
+      { "label": "Eaton & Epstein — Artificial Intelligence in the CS2023 Undergraduate Computer Science Curriculum", "url": "https://ojs.aaai.org/index.php/AAAI/article/view/30352/32394", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "beyond-autoencoders-gans-and-diffusion-models-a-survey",
+    "id": 18,
+    "title": "Beyond Autoencoders: GANs and Diffusion Models, A Survey",
+    "topic": "Representation and Generative Models",
+    "requires": ["autoencoders-and-learned-latent-spaces"],
+    "related": [],
+    "summary": "A deliberately survey-level look at the two generative families that most visibly define today's AI applications — a generative adversarial network's generator and discriminator locked in a minimax game, and a diffusion model's iterative denoising process — covering the core idea and why each moved past a plain autoencoder's blurrier reconstructions, while explicitly leaving the full training dynamics and mathematical derivations to a future, more advanced discipline.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Dive into Deep Learning — Generative Adversarial Networks", "url": "https://d2l.ai/chapter_generative-adversarial-networks/gan.html", "type": "doc" },
+      { "label": "Eaton & Epstein — Artificial Intelligence in the CS2023 Undergraduate Computer Science Curriculum", "url": "https://ojs.aaai.org/index.php/AAAI/article/view/30352/32394", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-designing-a-deep-learning-model-for-a-new-task",
+    "id": 19,
+    "title": "Capstone: Designing a Deep Learning Model for a New Task",
+    "topic": "Capstone",
+    "requires": ["beyond-autoencoders-gans-and-diffusion-models-a-survey"],
+    "related": [
+      { "label": "Choosing and Validating a Model: A Decision Guide", "slug": "choosing-and-validating-a-model-a-decision-guide", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "A capstone walkthrough comparing every architecture family covered in this discipline — plain multilayer networks, CNNs, RNN/LSTM/GRU, and Transformers — by the structure of the data they assume (grid, sequence, set) and the training concerns (initialization, regularization, optimizer, compute) that apply to all of them, extending the analogous decision guide that closed `machine-learning` from classical models into the deep architectures this discipline added.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "CS231n — Course Schedule (Stanford, Spring 2026)", "url": "https://cs231n.stanford.edu/schedule.html", "type": "doc" },
+      { "label": "Dive into Deep Learning — Home", "url": "https://d2l.ai/", "type": "doc" }
+    ]
+  }
+]
