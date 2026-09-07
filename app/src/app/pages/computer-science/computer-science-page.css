@@ -452,3 +452,76 @@
     display: none;
   }
 }
+
+/* Phone width: the layout above is already single-column, but it still carries
+   desktop-table leftovers (column-header row, column-divider borders, generous
+   padding) that read as clutter once everything is stacked. */
+@media (max-width: 480px) {
+  .page-hero {
+    padding: 2.25rem 1.25rem 2rem;
+  }
+
+  .page-title {
+    font-size: 1.35rem;
+  }
+
+  .page-sub {
+    font-size: 0.85rem;
+  }
+
+  .tabs {
+    gap: 0.4rem;
+    padding: 1rem 1rem 0;
+  }
+
+  .tab {
+    flex: 1;
+    font-size: 0.72rem;
+    padding: 0.55rem 0.5rem;
+  }
+
+  .page-body {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  /* The three-column "Stage / Knowledge / Lab" header only means something next
+     to the columns it labels — stacked on its own above the content, it just
+     reads as three unexplained labels. Each row already repeats its own
+     "Laboratory" / "Questions" mini-headings inline. */
+  .cs-head {
+    display: none;
+  }
+
+  .cs-row {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .cs-stage,
+  .cs-knowledge {
+    padding-right: 0;
+    border-right: none;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .cs-lab {
+    padding-top: 0.1rem;
+  }
+
+  .track-grid,
+  .fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .complementary-head,
+  .complementary-row {
+    grid-template-columns: 1fr auto;
+    padding: 0.85rem 1rem;
+  }
+
+  .complementary-touches {
+    grid-column: 1 / -1;
+  }
+}

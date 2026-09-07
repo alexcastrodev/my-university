@@ -119,7 +119,7 @@
             <span role="columnheader">Area</span>
             <span role="columnheader">Read</span>
             <span role="columnheader">Touches</span>
-            <span role="columnheader">Relationship</span>
+            <span role="columnheader" class="complementary-relationship">Relationship</span>
           </div>
           @for (area of complementaryAreas; track area.slug) {
             <a [routerLink]="area.routerLink" class="complementary-row" role="row">
