@@ -1,1 +1,493 @@
-[]
+[
+  {
+    "slug": "the-limits-of-compression-a-counting-argument",
+    "id": 1,
+    "title": "The Limits of Compression: A Counting Argument",
+    "topic": "Measuring Information",
+    "requires": [],
+    "related": [
+      {
+        "label": "The Pigeonhole Principle",
+        "slug": "the-pigeonhole-principle",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Permutations and Combinations",
+        "slug": "permutations-and-combinations",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Before any entropy math: a simple pigeonhole counting argument proves no algorithm can losslessly compress every possible input, and in fact the overwhelming majority of inputs of a given length cannot be compressed at all — the ceiling this whole discipline explores is a hard mathematical limit, not a matter of finding a cleverer algorithm.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "ACM/IEEE — Computer Science Curricula 2023 (CS2023)",
+        "url": "https://csed.acm.org/wp-content/uploads/2023/03/Version-Beta-v2.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "information-content-and-self-information",
+    "id": 2,
+    "title": "Information Content and Self-Information",
+    "topic": "Measuring Information",
+    "requires": [
+      "the-limits-of-compression-a-counting-argument"
+    ],
+    "related": [
+      {
+        "label": "Discrete Random Variables and PMFs",
+        "slug": "discrete-random-variables-and-pmfs",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "Defines Shannon's self-information I(x) = −log₂p(x), the log-based measure of how surprising a single outcome is, and derives why the logarithm — additive across independent events, and matching the intuition that rarer outcomes carry more information — is the only measure with the properties Shannon required, not an arbitrary choice.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 (formerly EE376A) — Reading List",
+        "url": "https://web.stanford.edu/class/ee376a/reading.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "entropy-the-expected-information-content",
+    "id": 3,
+    "title": "Entropy: The Expected Information Content",
+    "topic": "Measuring Information",
+    "requires": [
+      "information-content-and-self-information"
+    ],
+    "related": [
+      {
+        "label": "Discrete Random Variables and PMFs",
+        "slug": "discrete-random-variables-and-pmfs",
+        "feature": "curriculum/foundations/probability-statistics"
+      },
+      {
+        "label": "Expectation and Variance",
+        "slug": "expectation-and-variance",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "Entropy H(X) = ∑ₓ p(x)·I(x) is exactly the expected self-information of a random variable — computed here by hand for several small alphabets — and is proved to be maximized by the uniform distribution and bounded between 0 and log₂(n), making it the single number that captures how uncertain, and therefore how compressible, a source really is.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "joint-entropy-and-conditional-entropy",
+    "id": 4,
+    "title": "Joint Entropy and Conditional Entropy",
+    "topic": "Measuring Information",
+    "requires": [
+      "entropy-the-expected-information-content"
+    ],
+    "related": [
+      {
+        "label": "Joint Distributions and Independence of Random Variables",
+        "slug": "joint-distributions-and-independence-of-random-variables",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "Extends entropy to pairs of random variables: joint entropy H(X,Y) measures the uncertainty of the pair together, conditional entropy H(Y|X) measures what's left once X is known, and the chain rule H(X,Y) = H(X) + H(Y|X) ties the two together — proved in general and checked by hand against a real joint distribution.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.441 — Information Theory, Syllabus",
+        "url": "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/syllabus/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kl-divergence-relative-entropy-and-cross-entropy",
+    "id": 5,
+    "title": "KL Divergence, Relative Entropy, and Cross-Entropy",
+    "topic": "Measuring Information",
+    "requires": [
+      "entropy-the-expected-information-content"
+    ],
+    "related": [
+      {
+        "label": "Softmax and Cross-Entropy Loss",
+        "slug": "softmax-and-cross-entropy-loss",
+        "feature": "curriculum/ai-theory/deep-learning"
+      },
+      {
+        "label": "Axioms of Probability",
+        "slug": "axioms-of-probability",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "KL divergence D(p‖q) is derived as the expected number of extra bits paid for encoding data from p with a code built for q instead — worked through concretely with two differently-biased coins — and its non-negativity (Gibbs' inequality) is proved via Jensen's inequality; cross-entropy H(p,q) = H(p) + D(p‖q) is then identified as exactly the loss `deep-learning`'s `softmax-and-cross-entropy-loss` derived independently and self-contained, closing the loop that concept deliberately left open.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      },
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mutual-information-information-shared-between-variables",
+    "id": 6,
+    "title": "Mutual Information: Information Shared Between Variables",
+    "topic": "Measuring Information",
+    "requires": [
+      "joint-entropy-and-conditional-entropy",
+      "kl-divergence-relative-entropy-and-cross-entropy"
+    ],
+    "related": [
+      {
+        "label": "Joint Distributions and Independence of Random Variables",
+        "slug": "joint-distributions-and-independence-of-random-variables",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "Mutual information I(X;Y) = D(p(x,y) ‖ p(x)p(y)) is defined as the KL divergence between the true joint distribution and the product of the marginals — equivalently H(X) − H(X|Y) — quantifying exactly how many bits knowing Y saves when describing X, and proved equal to zero precisely when X and Y are independent.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.441 — Information Theory, Syllabus",
+        "url": "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/syllabus/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-source-coding-theorem",
+    "id": 7,
+    "title": "The Source Coding Theorem",
+    "topic": "Source Coding & Compression",
+    "requires": [
+      "mutual-information-information-shared-between-variables"
+    ],
+    "related": [
+      {
+        "label": "The Comparison Sort Lower Bound",
+        "slug": "the-comparison-sort-lower-bound",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "Shannon's source coding theorem — no lossless code can beat an average length of H(X) bits per symbol, and entropy is asymptotically achievable by some code — is stated and motivated with a real proof sketch, in the same counting-argument spirit already used for `algorithms`'s comparison-sort lower bound.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.441 — Information Theory, Syllabus",
+        "url": "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/syllabus/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kraft-inequality-and-prefix-free-codes",
+    "id": 8,
+    "title": "Kraft's Inequality and Prefix-Free Codes",
+    "topic": "Source Coding & Compression",
+    "requires": [
+      "the-source-coding-theorem"
+    ],
+    "related": [
+      {
+        "label": "Trees",
+        "slug": "trees",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Binary Trees: Terminology and Representation",
+        "slug": "binary-trees-terminology-and-representation",
+        "feature": "curriculum/foundations/data-structures-i"
+      }
+    ],
+    "summary": "Kraft's inequality ∑ᵢ 2^(−lᵢ) ≤ 1 characterizes exactly which sets of codeword lengths admit a prefix-free code, proved directly from the one-to-one correspondence between a prefix-free code and a binary tree with symbols at the leaves — the same tree structure already covered in `trees` and `binary-trees-terminology-and-representation`, now put to a genuinely new use.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "huffman-coding-construction",
+    "id": 9,
+    "title": "Huffman Coding: Construction",
+    "topic": "Source Coding & Compression",
+    "requires": [
+      "kraft-inequality-and-prefix-free-codes"
+    ],
+    "related": [
+      {
+        "label": "Binary Trees: Terminology and Representation",
+        "slug": "binary-trees-terminology-and-representation",
+        "feature": "curriculum/foundations/data-structures-i"
+      },
+      {
+        "label": "The Greedy Paradigm",
+        "slug": "the-greedy-paradigm",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "The Huffman coding algorithm — repeatedly merge the two least-probable symbols into a new combined node — is built and traced by hand into a complete binary tree for a small real alphabet with real frequencies, producing a concrete prefix-free code and its exact average codeword length.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Huffman — A Method for the Construction of Minimum-Redundancy Codes (1952)",
+        "url": "https://www.cse.iitd.ac.in/~pkalra/siv864/huffman_1952.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "proving-huffman-optimality-an-exchange-argument",
+    "id": 10,
+    "title": "Proving Huffman Optimality: An Exchange Argument",
+    "topic": "Source Coding & Compression",
+    "requires": [
+      "huffman-coding-construction"
+    ],
+    "related": [
+      {
+        "label": "Proving Greedy Optimality: Activity Selection",
+        "slug": "proving-greedy-optimality-activity-selection",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "Huffman coding is proved optimal among all prefix-free codes via an exchange argument built on the same template `algorithms` already established for activity selection — showing the two least-probable symbols can always be placed as siblings at maximum depth in some optimal code tree without any loss in expected length.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Huffman — A Method for the Construction of Minimum-Redundancy Codes (1952)",
+        "url": "https://www.cse.iitd.ac.in/~pkalra/siv864/huffman_1952.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE — Computer Science Curricula 2023 (CS2023)",
+        "url": "https://csed.acm.org/wp-content/uploads/2023/03/Version-Beta-v2.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "beyond-huffman-arithmetic-coding-and-dictionary-methods",
+    "id": 11,
+    "title": "Beyond Huffman: Arithmetic Coding and Dictionary Methods",
+    "topic": "Source Coding & Compression",
+    "requires": [
+      "proving-huffman-optimality-an-exchange-argument"
+    ],
+    "related": [],
+    "summary": "A survey of what real systems use after Huffman: arithmetic coding removes Huffman's integer-bits-per-symbol restriction to get arbitrarily close to the entropy limit, and LZ77-style dictionary compression — combined with Huffman coding itself inside DEFLATE, the algorithm behind gzip and PNG — exploits repeated substrings that a single fixed symbol-frequency table can never capture.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "RFC 1951 — DEFLATE Compressed Data Format Specification",
+        "url": "https://www.rfc-editor.org/rfc/rfc1951",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.441 — Information Theory, Syllabus",
+        "url": "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/syllabus/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "modeling-noisy-channels-the-binary-symmetric-channel",
+    "id": 12,
+    "title": "Modeling Noisy Channels: The Binary Symmetric Channel",
+    "topic": "Channels & Capacity",
+    "requires": [
+      "beyond-huffman-arithmetic-coding-and-dictionary-methods"
+    ],
+    "related": [
+      {
+        "label": "The Bernoulli and Binomial Distributions",
+        "slug": "the-bernoulli-and-binomial-distributions",
+        "feature": "curriculum/foundations/probability-statistics"
+      }
+    ],
+    "summary": "The binary symmetric channel — each transmitted bit independently flipped with probability p, a genuine Bernoulli trial applied per bit — is introduced as the canonical toy noisy channel that makes every capacity and coding-theorem argument in this cluster concrete and computable by hand.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "channel-capacity",
+    "id": 13,
+    "title": "Channel Capacity",
+    "topic": "Channels & Capacity",
+    "requires": [
+      "modeling-noisy-channels-the-binary-symmetric-channel"
+    ],
+    "related": [],
+    "summary": "Channel capacity C = maxₚ₍ₓ₎ I(X;Y), the largest mutual information achievable over all possible input distributions, is defined and computed by hand for the binary symmetric channel, yielding the exact closed form C = 1 − H(p) and confirming that a noisier channel (larger crossover probability) has strictly lower capacity.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-noisy-channel-coding-theorem",
+    "id": 14,
+    "title": "The Noisy-Channel Coding Theorem",
+    "topic": "Channels & Capacity",
+    "requires": [
+      "channel-capacity"
+    ],
+    "related": [],
+    "summary": "Shannon's noisy-channel coding theorem — reliable communication at any rate below capacity is possible, and impossible above it — is stated with its real-world implication made concrete, with the achievability direction motivated at the intuition level of typical sequences and random coding appropriate for a CS audience, rather than the full graduate-level proof machinery.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.441 — Information Theory, Syllabus",
+        "url": "https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/syllabus/",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "error-detection-and-correction-in-practice",
+    "id": 15,
+    "title": "Error Detection and Correction in Practice",
+    "topic": "Channels & Capacity",
+    "requires": [
+      "the-noisy-channel-coding-theorem"
+    ],
+    "related": [
+      {
+        "label": "The Link Layer: Framing and Error Detection",
+        "slug": "the-link-layer-framing-and-error-detection",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "Connects the abstract capacity and coding-theorem machinery to real error-correcting codes — parity bits and Hamming codes worked by hand — developing the forward-error-correction technique that `computer-networks`'s link-layer concept explicitly named but declined to develop, closing that discipline's deferred thread.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE — Computer Science Curricula 2023 (CS2023)",
+        "url": "https://csed.acm.org/wp-content/uploads/2023/03/Version-Beta-v2.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-message-through-compression-and-a-noisy-channel",
+    "id": 16,
+    "title": "Capstone: Tracing a Message Through Compression and a Noisy Channel",
+    "topic": "Capstone",
+    "requires": [
+      "error-detection-and-correction-in-practice"
+    ],
+    "related": [
+      {
+        "label": "Capstone: Tracing One HTTP Request End-to-End",
+        "slug": "capstone-tracing-one-http-request-end-to-end",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "A capstone tracing one small real message end-to-end: computing its source entropy by hand, building its Huffman code and measuring the real compression ratio achieved against the theoretical entropy limit, then pushing the compressed bits through a binary symmetric channel and checking the message's transmission rate against the channel's real capacity.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Shannon — A Mathematical Theory of Communication (1948)",
+        "url": "https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford EE276 — Course Outline",
+        "url": "https://web.stanford.edu/class/ee276/outline.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
