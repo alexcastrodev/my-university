@@ -1,20 +1,22 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-import { of } from 'rxjs';
-import { ResumePoint } from '../../models/course.model';
+import { Router, provideRouter } from '@angular/router';
+import { LeaderboardEntry } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
-import { ResumeService } from '../../services/resume.service';
+import { XpService } from '../../services/xp.service';
 import { LandingPage } from './landing-page';
 
-function setup(loggedIn: boolean, resumePoint: ResumePoint | null = null) {
+function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
   TestBed.configureTestingModule({
     imports: [LandingPage],
     providers: [
       provideZonelessChangeDetection(),
-      provideRouter([]),
+      provideRouter([{ path: 'dashboard', component: LandingPage }]),
       { provide: AuthService, useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) } },
-      { provide: ResumeService, useValue: { getResumePoint: () => of(resumePoint) } },
+      {
+        provide: XpService,
+        useValue: { leaderboard: signal(leaderboard), loadLeaderboard: () => {} },
+      },
     ],
   }).compileComponents();
 
@@ -24,65 +26,54 @@ function setup(loggedIn: boolean, resumePoint: ResumePoint | null = null) {
 }
 
 describe('LandingPage', () => {
-  it('renders the session cards', () => {
+  it('redirects a logged-in visitor straight to /dashboard instead of rendering', async () => {
+    const fixture = setup(true);
+    await fixture.whenStable();
+    const router = TestBed.inject(Router);
+
+    expect(router.url).toBe('/dashboard');
+  });
+
+  it('renders the Complementary Studies topic cards for a logged-out visitor', () => {
     const fixture = setup(false);
-    expect(fixture.nativeElement.textContent).toContain('Java');
+
+    expect(fixture.nativeElement.textContent).toContain('Java Concepts');
     expect(fixture.nativeElement.textContent).toContain('Spring');
+
+    const cards: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('.topic-card');
+    expect(cards.length).toBeGreaterThan(0);
+
+    const javaCard = Array.from(cards).find((c) => c.textContent?.includes('Java Concepts'));
+    expect(javaCard?.getAttribute('href')).toBe('/java/java-concepts');
   });
 
-  it('exposes separate links for each Java topic instead of jumping straight to exams', () => {
+  it('links to the Computer Science roadmap', () => {
     const fixture = setup(false);
-    const cards: HTMLElement[] = fixture.nativeElement.querySelectorAll('.session-card');
-    const javaCard = Array.from(cards).find((c) => c.textContent?.includes('Java'));
-    const links: NodeListOf<HTMLAnchorElement> = javaCard!.querySelectorAll('.session-link');
 
-    expect(links.length).toBe(4);
-    expect(fixture.nativeElement.textContent).toContain('Exams');
-    expect(fixture.nativeElement.textContent).toContain('Concepts');
-    expect(fixture.nativeElement.textContent).toContain('JVM Concepts');
-    expect(fixture.nativeElement.textContent).toContain('Java Minute');
+    const banner: HTMLAnchorElement = fixture.nativeElement.querySelector('.cs-banner');
+    expect(banner).toBeTruthy();
+    expect(banner.getAttribute('href')).toBe('/computer-science');
   });
 
-  it('does not wrap the whole Java card in a single link', () => {
-    const fixture = setup(false);
-    const cards: HTMLElement[] = fixture.nativeElement.querySelectorAll('.session-card');
-    const javaCard = Array.from(cards).find((c) => c.textContent?.includes('Java'));
-    expect(javaCard?.tagName).toBe('DIV');
+  it('hides the "Learners on the platform" section when the leaderboard is empty', () => {
+    const fixture = setup(false, []);
+
+    expect(fixture.nativeElement.querySelector('.community-grid')).toBeNull();
   });
 
-  it('does not show a resume banner for logged-out visitors', () => {
-    const fixture = setup(false);
-    expect(fixture.nativeElement.querySelector('.resume-banner')).toBeNull();
-  });
+  it('shows up to 4 real leaderboard entries once loaded, never fabricated ones', () => {
+    const entries: LeaderboardEntry[] = Array.from({ length: 6 }, (_, i) => ({
+      userId: i + 1,
+      displayName: `Learner ${i + 1}`,
+      avatarUrl: `https://example.com/${i + 1}.png`,
+      total: 100 - i,
+      levelNumber: 2,
+    }));
+    const fixture = setup(false, entries);
 
-  it('does not show a resume banner when nothing has been completed yet', () => {
-    const fixture = setup(true, null);
-    expect(fixture.nativeElement.querySelector('.resume-banner')).toBeNull();
-  });
-
-  it('shows the next lesson title when a resume point exists', () => {
-    const fixture = setup(true, {
-      courseId: 'java-21',
-      courseTitle: 'OCP Java SE 21 Developer Complete',
-      lessonId: 'j21-1-2',
-      lessonTitle: 'Understanding the Class Structure',
-    });
-
-    const banner = fixture.nativeElement.querySelector('.resume-banner');
-    expect(banner).not.toBeNull();
-    expect(banner.textContent).toContain('Understanding the Class Structure');
-  });
-
-  it('falls back to a course-complete message when there is no next lesson', () => {
-    const fixture = setup(true, {
-      courseId: 'java-21',
-      courseTitle: 'OCP Java SE 21 Developer Complete',
-      lessonId: null,
-      lessonTitle: null,
-    });
-
-    const banner = fixture.nativeElement.querySelector('.resume-banner');
-    expect(banner.textContent).toContain('OCP Java SE 21 Developer Complete');
-    expect(banner.textContent).toContain('course complete');
+    const cards = fixture.nativeElement.querySelectorAll('.community-card');
+    expect(cards.length).toBe(4);
+    expect(fixture.nativeElement.textContent).toContain('Learner 1');
+    expect(fixture.nativeElement.textContent).not.toContain('Learner 5');
   });
 });
