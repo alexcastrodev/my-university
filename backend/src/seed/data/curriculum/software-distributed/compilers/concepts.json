@@ -1,1 +1,352 @@
-[]
+[
+  {
+    "slug": "from-interpreter-to-compiler-the-shape-of-a-real-pipeline",
+    "id": 1,
+    "title": "From Interpreter to Compiler: The Shape of a Real Pipeline",
+    "topic": "Framing",
+    "requires": [],
+    "related": [
+      { "label": "Lexical Analysis: Scanning Source into Tokens", "slug": "lexical-analysis-scanning-source-into-tokens", "feature": "curriculum/software-distributed/programming-languages" },
+      { "label": "Parsing Expressions into an Abstract Syntax Tree", "slug": "parsing-expressions-into-an-abstract-syntax-tree", "feature": "curriculum/software-distributed/programming-languages" },
+      { "label": "Evaluating an AST: A Tree-Walking Interpreter", "slug": "evaluating-an-ast-a-tree-walking-interpreter", "feature": "curriculum/software-distributed/programming-languages" }
+    ],
+    "summary": "Programming Languages built a tree-walking interpreter that scans, parses, and evaluates an AST directly at runtime. A real compiler reuses exactly those same front-end stages — this discipline picks up right after the AST exists, asking what happens when a program is translated ahead of time into another language instead of run node by node.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "symbol-tables-and-scope-resolution",
+    "id": 2,
+    "title": "Symbol Tables and Scope Resolution",
+    "topic": "Semantic Analysis",
+    "requires": ["from-interpreter-to-compiler-the-shape-of-a-real-pipeline"],
+    "related": [
+      { "label": "Environments and Variable Scope", "slug": "environments-and-variable-scope", "feature": "curriculum/software-distributed/programming-languages" }
+    ],
+    "summary": "An interpreter resolves a variable's scope operationally, by walking a live chain of environments while the program runs. A compiler must answer the exact same question — which declaration does this name refer to? — as a static, one-pass-over-the-AST computation, before a single instruction is ever generated, using a symbol table instead of a runtime environment.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Syllabus", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "static-type-checking-as-a-compiler-pass",
+    "id": 3,
+    "title": "Static Type Checking as a Compiler Pass",
+    "topic": "Semantic Analysis",
+    "requires": ["symbol-tables-and-scope-resolution"],
+    "related": [
+      { "label": "Static vs. Dynamic Typing", "slug": "static-vs-dynamic-typing", "feature": "curriculum/software-distributed/programming-languages" },
+      { "label": "Type Checking: Progress and Preservation", "slug": "type-checking-progress-and-preservation", "feature": "curriculum/software-distributed/programming-languages" }
+    ],
+    "summary": "Progress and preservation, as covered in Programming Languages, were proved about a small calculus one evaluation step at a time. A compiler needs the same guarantee delivered differently: a single batch pass over the whole AST that either type-checks completely before any code exists, or rejects the program outright — the static, ahead-of-time vantage point on the exact same static-typing tradeoff.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "syntax-directed-translation-and-attribute-grammars",
+    "id": 4,
+    "title": "Syntax-Directed Translation and Attribute Grammars",
+    "topic": "Semantic Analysis",
+    "requires": ["static-type-checking-as-a-compiler-pass"],
+    "related": [
+      { "label": "Context-Free Grammars and Derivations", "slug": "context-free-grammars-and-derivations", "feature": "curriculum/algorithms-software/formal-languages-automata" }
+    ],
+    "summary": "A context-free grammar was already shown to generate a derivation tree, no semantics attached. Attribute grammars attach a semantic action to each production — inherited and synthesized attributes flowing up and down the same parse tree — which is exactly the mechanism a real semantic analyzer and code generator run to turn syntax into meaning.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Syllabus", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/syllabus/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "why-intermediate-representations-exist",
+    "id": 5,
+    "title": "Why Intermediate Representations Exist",
+    "topic": "Intermediate Representations",
+    "requires": ["syntax-directed-translation-and-attribute-grammars"],
+    "related": [],
+    "summary": "Translating an AST directly to machine code would tie every optimization and every code generator to one specific source language and one specific target architecture. An intermediate representation (IR) is the deliberate layer in between — write N front ends and M back ends instead of N×M, and run every optimization pass once, on the IR, regardless of source language or target machine.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "three-address-code",
+    "id": 6,
+    "title": "Three-Address Code",
+    "topic": "Intermediate Representations",
+    "requires": ["why-intermediate-representations-exist"],
+    "related": [],
+    "summary": "Three-address code is the linear IR most textbook compilers pick: every instruction has at most one operator and at most three operands (two sources, one destination), so an AST expression tree gets flattened into a sequence a later pass can scan, reorder, and rewrite one instruction at a time.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "control-flow-graphs-and-basic-blocks",
+    "id": 7,
+    "title": "Control-Flow Graphs and Basic Blocks",
+    "topic": "Intermediate Representations",
+    "requires": ["three-address-code"],
+    "related": [],
+    "summary": "A basic block is a maximal run of three-address instructions with one entry and one exit — no jumps in the middle, no jumps into the middle. Wiring basic blocks together with edges for every possible jump produces the control-flow graph, the structure every data-flow analysis and every optimization pass in this discipline is actually defined over.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "static-single-assignment-form",
+    "id": 8,
+    "title": "Static Single Assignment Form",
+    "topic": "Intermediate Representations",
+    "requires": ["control-flow-graphs-and-basic-blocks"],
+    "related": [],
+    "summary": "SSA form renames every variable so it is assigned exactly once in the text of the program, inserting a Φ (phi) function wherever two control-flow paths merge with different definitions still live. That single restructuring is why almost every modern optimizing compiler — LLVM foremost among them — builds its middle end on SSA: many data-flow facts collapse into simple properties of the renamed variables themselves.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-data-flow-analysis-framework-lattices-and-fixed-points",
+    "id": 9,
+    "title": "The Data-Flow Analysis Framework: Lattices and Fixed Points",
+    "topic": "Data-Flow Analysis",
+    "requires": ["static-single-assignment-form"],
+    "related": [],
+    "summary": "Every classic data-flow analysis — reaching definitions, live variables, available expressions — is one instance of the same general recipe: a lattice of possible facts, a transfer function per basic block, and an iterative algorithm that runs to a fixed point over the control-flow graph. Learning the recipe once means every specific analysis after this one is just a choice of lattice and transfer function.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "reaching-definitions",
+    "id": 10,
+    "title": "Reaching Definitions",
+    "topic": "Data-Flow Analysis",
+    "requires": ["the-data-flow-analysis-framework-lattices-and-fixed-points"],
+    "related": [],
+    "summary": "Reaching definitions asks, for every program point, which assignments could possibly have produced the value currently sitting in a variable — the first concrete instance of the general framework, and the analysis constant propagation needs to know it is even safe to substitute a value in.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "live-variable-analysis",
+    "id": 11,
+    "title": "Live-Variable Analysis",
+    "topic": "Data-Flow Analysis",
+    "requires": ["reaching-definitions"],
+    "related": [],
+    "summary": "A variable is live at a point if some path from there still reads its current value before overwriting it. Live-variable analysis runs backward instead of forward through the control-flow graph — the direction flip that makes it the one analysis register allocation and dead-code elimination cannot do without.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "available-expressions-analysis",
+    "id": 12,
+    "title": "Available Expressions Analysis",
+    "topic": "Data-Flow Analysis",
+    "requires": ["live-variable-analysis"],
+    "related": [],
+    "summary": "An expression is available at a point if every path leading there has already computed it, and none of its operands has been reassigned since. Available expressions is the forward, must-flow analysis that tells common subexpression elimination exactly which recomputations are safe to delete.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "constant-folding-and-constant-propagation",
+    "id": 13,
+    "title": "Constant Folding and Constant Propagation",
+    "topic": "Optimization",
+    "requires": ["available-expressions-analysis"],
+    "related": [],
+    "summary": "Constant folding evaluates a purely constant expression once, at compile time, instead of on every execution; constant propagation is what feeds it real inputs to fold, substituting a variable's known constant value (justified by reaching definitions) wherever it is used, often exposing further folds in a single pass.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "common-subexpression-elimination",
+    "id": 14,
+    "title": "Common Subexpression Elimination",
+    "topic": "Optimization",
+    "requires": ["constant-folding-and-constant-propagation"],
+    "related": [],
+    "summary": "When available-expressions analysis reports that an expression was already computed on every path reaching this point, recomputing it is pure waste — common subexpression elimination replaces the second computation with a reference to the first result, the direct optimization payoff of the analysis from the previous concept.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dead-code-elimination",
+    "id": 15,
+    "title": "Dead Code Elimination",
+    "topic": "Optimization",
+    "requires": ["common-subexpression-elimination"],
+    "related": [],
+    "summary": "An assignment whose target is never live afterward — reported directly by live-variable analysis — computes a value nothing will ever read; dead code elimination deletes it outright, and often uncovers a fresh round of dead code once its own operands lose their last use.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "loop-optimizations-invariant-code-motion-and-strength-reduction",
+    "id": 16,
+    "title": "Loop Optimizations: Invariant Code Motion and Strength Reduction",
+    "topic": "Optimization",
+    "requires": ["dead-code-elimination"],
+    "related": [],
+    "summary": "A loop runs its body far more times than any other code in a typical program, so moving a loop-invariant computation out to before the loop (invariant code motion) and replacing an expensive operation with a cheaper one that yields the same sequence of values (strength reduction — a multiply-by-loop-counter becoming a running addition) pay off disproportionately for a small, local rewrite.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-undecidability-of-optimization",
+    "id": 17,
+    "title": "The Undecidability of Optimization",
+    "topic": "Optimization",
+    "requires": ["loop-optimizations-invariant-code-motion-and-strength-reduction"],
+    "related": [
+      { "label": "The Halting Problem", "slug": "the-halting-problem", "feature": "curriculum/algorithms-software/computability-complexity" },
+      { "label": "Rice's Theorem", "slug": "rices-theorem", "feature": "curriculum/algorithms-software/computability-complexity" }
+    ],
+    "summary": "\"Is this branch ever taken?\", \"does this pointer ever alias that one?\", \"does this loop always terminate?\" are all genuinely undecidable in general — direct instances of Rice's theorem, since each asks a nontrivial semantic question about a program's behavior. Every data-flow analysis in this discipline is therefore a deliberately conservative APPROXIMATION, safe to use precisely because it only ever answers \"maybe, so don't optimize\" instead of guessing wrong.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "instruction-selection-tree-pattern-matching",
+    "id": 18,
+    "title": "Instruction Selection: Tree Pattern Matching",
+    "topic": "Code Generation",
+    "requires": ["the-undecidability-of-optimization"],
+    "related": [
+      { "label": "x86-64 Registers and Data Movement", "slug": "x86-64-registers-and-data-movement", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "Arithmetic and Logical Instructions", "slug": "arithmetic-and-logical-instructions", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "Optimized IR still isn't machine code — instruction selection is the pass that covers an IR expression tree with a set of tiles, each tile a template for one real target instruction (already covered concretely in `c-and-assembly`'s registers and arithmetic instructions), picking the tiling that covers the tree at lowest total cost, exactly the kind of tree pattern matching maximal-munch algorithms automate.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "register-allocation-via-graph-coloring",
+    "id": 19,
+    "title": "Register Allocation via Graph Coloring",
+    "topic": "Code Generation",
+    "requires": ["instruction-selection-tree-pattern-matching"],
+    "related": [],
+    "summary": "Instruction selection assumes an unlimited supply of virtual registers; real hardware has a handful. Register allocation builds an interference graph from live-variable analysis (two values that are simultaneously live can't share a register), colors it with K colors for K real registers, and — when no valid coloring exists — spills a value to the stack or coalesces registers made redundant by a move, the Chaitin-style algorithm real compilers still use.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "instruction-scheduling",
+    "id": 20,
+    "title": "Instruction Scheduling",
+    "topic": "Code Generation",
+    "requires": ["register-allocation-via-graph-coloring"],
+    "related": [
+      { "label": "Data Hazards and Forwarding", "slug": "data-hazards-and-forwarding", "feature": "curriculum/computer/computer-architecture" },
+      { "label": "The Load-Use Hazard and Pipeline Stalls", "slug": "the-load-use-hazard-and-pipeline-stalls", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "The load-use hazard already showed that a pipelined CPU stalls when an instruction needs a value its immediate predecessor hasn't produced yet. Instruction scheduling is the compiler-side answer: reorder independent instructions (register allocation already fixed WHICH registers, this pass only changes WHEN each instruction runs) to put unrelated work between a load and its first use, hiding the stall without changing what the program computes.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "stack-frame-generation-and-the-calling-convention",
+    "id": 21,
+    "title": "Stack Frame Generation and the Calling Convention",
+    "topic": "Code Generation",
+    "requires": ["instruction-scheduling"],
+    "related": [
+      { "label": "The System V AMD64 Calling Convention", "slug": "the-system-v-amd64-calling-convention", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "Stack Frames: Prologue and Epilogue", "slug": "stack-frames-prologue-and-epilogue", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "The x86-64 Runtime Stack: call and ret", "slug": "the-x86-64-runtime-stack-call-and-ret", "feature": "curriculum/computer/c-and-assembly" }
+    ],
+    "summary": "Every prologue/epilogue and every argument-passing rule in the System V AMD64 calling convention, already covered concretely in `c-and-assembly`, is a TARGET a code generator must hit, not a fact about hand-written assembly alone — this concept is the compiler-side generation logic that decides frame size from the register allocator's spill count and emits exactly the prologue/epilogue that convention requires, for every function, automatically.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "Cooper & Torczon — Engineering a Compiler (companion site)", "url": "https://shop.elsevier.com/books/book-companion/9780120884780", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "jit-vs-aot-compilation",
+    "id": 22,
+    "title": "JIT vs. AOT Compilation",
+    "topic": "Closing",
+    "requires": ["stack-frame-generation-and-the-calling-convention"],
+    "related": [],
+    "summary": "Every pass in this discipline can run once, ahead of time, producing a static binary (AOT) — or the exact same passes can run at runtime, on a running program, with the added option of specializing code for values only observed while it executes (JIT) at the cost of paying compilation time out of the program's own execution budget; real systems (the JVM, V8, PyPy) routinely mix both, running an interpreter first and promoting only the hot code an actual profile identifies.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 — Programming Languages Knowledge Area", "url": "https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-an-expression-from-ast-to-x86-64",
+    "id": 23,
+    "title": "Capstone: Tracing an Expression from AST to x86-64",
+    "topic": "Capstone",
+    "requires": ["jit-vs-aot-compilation"],
+    "related": [
+      { "label": "Translating Control Flow: if/while/for", "slug": "translating-control-flow-if-while-for", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "x86-64 Registers and Data Movement", "slug": "x86-64-registers-and-data-movement", "feature": "curriculum/computer/c-and-assembly" },
+      { "label": "Evaluating an AST: A Tree-Walking Interpreter", "slug": "evaluating-an-ast-a-tree-walking-interpreter", "feature": "curriculum/software-distributed/programming-languages" }
+    ],
+    "summary": "Every stage built in this discipline, applied in order to one small real expression inside a loop: parsed into an AST already covered in `programming-languages`, checked and resolved via a symbol table, lowered to three-address code and a control-flow graph, tightened by reaching definitions into a constant fold, register-allocated by graph coloring, and finally emitted as the real x86-64 instructions and calling-convention frame `c-and-assembly` already covers in isolation — the full front-to-back pipeline, named stage by stage.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      { "label": "Stanford CS143 — Compilers", "url": "http://web.stanford.edu/class/cs143/", "type": "doc" },
+      { "label": "MIT 6.035 — Computer Language Engineering, Calendar", "url": "https://ocw.mit.edu/courses/6-035-computer-language-engineering-sma-5502-fall-2005/pages/calendar/", "type": "doc" }
+    ]
+  }
+]
