@@ -1,1 +1,543 @@
-[]
+[
+  {
+    "slug": "testing-shows-presence-proof-shows-absence",
+    "id": 1,
+    "title": "Testing Shows the Presence of Bugs; Proof Shows Their Absence",
+    "topic": "Framing",
+    "requires": [],
+    "related": [
+      {
+        "label": "The Halting Problem",
+        "slug": "the-halting-problem",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      },
+      {
+        "label": "Unit, Integration, and System Testing",
+        "slug": "unit-integration-and-system-testing",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "Test-Driven Development",
+        "slug": "test-driven-development",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Testing can find concrete failures, but formal verification asks for a mathematical argument that every behavior allowed by the model satisfies a specification. This frames the discipline by connecting software testing to logic and to the Halting Problem limits already proved in Computability and Complexity.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "specifications-preconditions-postconditions-invariants",
+    "id": 2,
+    "title": "Specifications: Preconditions, Postconditions, and Invariants",
+    "topic": "Specifications",
+    "requires": [
+      "testing-shows-presence-proof-shows-absence"
+    ],
+    "related": [
+      {
+        "label": "Specifications: Preconditions and Postconditions",
+        "slug": "specifications-preconditions-and-postconditions",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "A verifier cannot prove “the program is good” until “good” is written as predicates over the states before, after, and during execution. Preconditions, postconditions, and invariants turn informal intent into objects Hoare logic and model checking can manipulate.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logic-for-specification-propositional-and-first-order",
+    "id": 3,
+    "title": "Logic for Specification: Propositional and First-Order",
+    "topic": "Specification Logic",
+    "requires": [
+      "specifications-preconditions-postconditions-invariants"
+    ],
+    "related": [
+      {
+        "label": "Predicates and Quantifiers",
+        "slug": "predicates-and-quantifiers",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Propositions, Connectives, and Truth Tables",
+        "slug": "propositions-connectives-and-truth-tables",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Logical Equivalence and Tautologies",
+        "slug": "logical-equivalence-and-tautologies",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Formal specifications are built from the connectives, predicates, and quantifiers introduced in Discrete Math and Logic. The new step is interpreting those formulas over program states, heaps, arrays, and traces.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-hoare-triple",
+    "id": 4,
+    "title": "The Hoare Triple",
+    "topic": "Hoare Logic",
+    "requires": [
+      "logic-for-specification-propositional-and-first-order"
+    ],
+    "related": [
+      {
+        "label": "Operational Semantics and Small-Step Evaluation",
+        "slug": "operational-semantics-and-small-step-evaluation",
+        "feature": "curriculum/software-distributed/programming-languages"
+      }
+    ],
+    "summary": "The Hoare triple `{P} C {Q}` is the central judgment of axiomatic program verification: if command C starts in a state satisfying P and terminates, it ends in a state satisfying Q. It separates specification from implementation while staying tied to operational semantics.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hoare-logic-rules-of-inference",
+    "id": 5,
+    "title": "Hoare Logic: Rules of Inference",
+    "topic": "Hoare Logic",
+    "requires": [
+      "the-hoare-triple"
+    ],
+    "related": [],
+    "summary": "Hoare logic becomes useful because triples can be derived compositionally: assignment, sequencing, conditionals, loops, and consequence each have local rules. These rules let a proof follow the structure of the program instead of enumerating executions.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "loop-invariants-and-the-while-rule",
+    "id": 6,
+    "title": "Loop Invariants and the While Rule",
+    "topic": "Hoare Logic",
+    "requires": [
+      "hoare-logic-rules-of-inference"
+    ],
+    "related": [
+      {
+        "label": "Mathematical Induction",
+        "slug": "mathematical-induction",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Proving Greedy Optimality: Activity Selection",
+        "slug": "proving-greedy-optimality-activity-selection",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "A loop invariant is the assertion that makes unbounded repetition finite enough to reason about. The while rule turns initialization, preservation, and exit reasoning into a proof for every number of iterations.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "weakest-preconditions",
+    "id": 7,
+    "title": "Weakest Preconditions",
+    "topic": "Hoare Logic",
+    "requires": [
+      "loop-invariants-and-the-while-rule"
+    ],
+    "related": [],
+    "summary": "Weakest preconditions run a specification backward through code: given a desired postcondition, compute the least restrictive condition that must hold before the command. This turns proof search into calculational verification-condition generation.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "total-correctness-and-termination",
+    "id": 8,
+    "title": "Total Correctness and Termination",
+    "topic": "Hoare Logic",
+    "requires": [
+      "weakest-preconditions"
+    ],
+    "related": [
+      {
+        "label": "The Halting Problem",
+        "slug": "the-halting-problem",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      }
+    ],
+    "summary": "Total correctness strengthens partial correctness by also proving termination. Variants and ranking functions connect program loops to well-founded descent, while the Halting Problem explains why no automatic method can always find them.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "boolean-satisfiability-and-cook-levin-connection",
+    "id": 9,
+    "title": "Boolean Satisfiability and the Cook-Levin Connection",
+    "topic": "Automated Reasoning",
+    "requires": [
+      "total-correctness-and-termination"
+    ],
+    "related": [
+      {
+        "label": "NP-Completeness and the Cook-Levin Theorem",
+        "slug": "np-completeness-and-cook-levin",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      },
+      {
+        "label": "The Complexity Class NP",
+        "slug": "the-complexity-class-np",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      }
+    ],
+    "summary": "SAT asks whether a Boolean formula has any satisfying assignment, and Cook-Levin explains why that problem is a universal meeting point for efficient verification. Formal tools exploit SAT by reducing finite proof obligations and bounded executions to Boolean search.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "smt-solvers-and-decision-procedures",
+    "id": 10,
+    "title": "SMT Solvers and Decision Procedures",
+    "topic": "Automated Reasoning",
+    "requires": [
+      "boolean-satisfiability-and-cook-levin-connection"
+    ],
+    "related": [],
+    "summary": "SMT extends SAT with background theories such as integers, arrays, bit-vectors, and uninterpreted functions. Decision procedures make many verification conditions automatic while preserving the boundary between decidable fragments and general program behavior.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "transition-systems-and-kripke-structures",
+    "id": 11,
+    "title": "Transition Systems and Kripke Structures",
+    "topic": "Model Checking",
+    "requires": [
+      "smt-solvers-and-decision-procedures"
+    ],
+    "related": [
+      {
+        "label": "Recursive Definitions and Structural Induction",
+        "slug": "recursive-definitions-and-structural-induction",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Model checking begins by replacing a program or protocol with a finite graph of states and transitions. A Kripke structure adds atomic propositions to states so temporal-logic formulas can be evaluated over executions.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford Encyclopedia of Philosophy — Temporal Logic",
+        "url": "https://plato.stanford.edu/entries/logic-temporal/",
+        "type": "doc"
+      },
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linear-temporal-logic-ltl",
+    "id": 12,
+    "title": "Linear Temporal Logic (LTL)",
+    "topic": "Temporal Logic",
+    "requires": [
+      "transition-systems-and-kripke-structures"
+    ],
+    "related": [],
+    "summary": "LTL describes properties of individual execution paths using operators such as □, ◇, ○, and 𝖴. It is the natural language for saying that bad things never happen and good things eventually happen along a run.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford Encyclopedia of Philosophy — Temporal Logic",
+        "url": "https://plato.stanford.edu/entries/logic-temporal/",
+        "type": "doc"
+      },
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ctl-and-branching-time-logic",
+    "id": 13,
+    "title": "CTL and Branching-Time Logic",
+    "topic": "Temporal Logic",
+    "requires": [
+      "linear-temporal-logic-ltl"
+    ],
+    "related": [],
+    "summary": "CTL adds explicit path quantifiers, separating what must hold on all possible futures from what may hold on at least one future. Branching time is especially useful when nondeterminism represents scheduling, environment choices, or underspecified components.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Stanford Encyclopedia of Philosophy — Temporal Logic",
+        "url": "https://plato.stanford.edu/entries/logic-temporal/",
+        "type": "doc"
+      },
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "model-checking-exhaustive-state-space-exploration",
+    "id": 14,
+    "title": "Model Checking: Exhaustive State-Space Exploration",
+    "topic": "Model Checking",
+    "requires": [
+      "ctl-and-branching-time-logic"
+    ],
+    "related": [],
+    "summary": "Explicit-state model checking explores all reachable states of a finite model and reports either that a temporal property holds or that a counterexample trace exists. This is proof by exhaustive graph search, automated where the state space is finite enough.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "state-space-explosion-and-symbolic-model-checking",
+    "id": 15,
+    "title": "State-Space Explosion and Symbolic Model Checking",
+    "topic": "Model Checking",
+    "requires": [
+      "model-checking-exhaustive-state-space-exploration"
+    ],
+    "related": [],
+    "summary": "State-space explosion is the central engineering obstacle in model checking: variables, components, and interleavings multiply reachable states. Symbolic model checking, abstraction, partial-order reduction, and BDDs attack that explosion by representing sets of states compactly.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "theorem-proving-and-proof-assistants",
+    "id": 16,
+    "title": "Theorem Proving and Proof Assistants",
+    "topic": "Proof Assistants",
+    "requires": [
+      "state-space-explosion-and-symbolic-model-checking"
+    ],
+    "related": [
+      {
+        "label": "Type Checking: Progress and Preservation",
+        "slug": "type-checking-progress-and-preservation",
+        "feature": "curriculum/software-distributed/programming-languages"
+      }
+    ],
+    "summary": "Proof assistants turn mathematical proofs into checkable artifacts, often using the Curry-Howard correspondence between propositions and types. They complement automation by letting humans supply invariants, lemmas, and structure that solvers cannot discover reliably.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-limits-of-verification",
+    "id": 17,
+    "title": "The Limits of Verification",
+    "topic": "Limits",
+    "requires": [
+      "theorem-proving-and-proof-assistants"
+    ],
+    "related": [
+      {
+        "label": "Rice's Theorem",
+        "slug": "rices-theorem",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      },
+      {
+        "label": "The Halting Problem",
+        "slug": "the-halting-problem",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      },
+      {
+        "label": "Decidable and Turing-Recognizable Languages",
+        "slug": "decidable-and-turing-recognizable-languages",
+        "feature": "curriculum/algorithms-software/computability-complexity"
+      }
+    ],
+    "summary": "Formal verification is limited not by lack of ambition but by precise theorems: the Halting Problem and Rice’s Theorem rule out a complete automatic verifier for nontrivial semantic properties of arbitrary programs. Sound tools remain valuable by making their assumptions and scope explicit.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-414 — Automated Program Verification",
+        "url": "https://www.cs.cmu.edu/~15414/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-verifying-a-small-program-two-ways",
+    "id": 18,
+    "title": "Capstone: Verifying a Small Program Two Ways",
+    "topic": "Capstone",
+    "requires": [
+      "the-limits-of-verification"
+    ],
+    "related": [
+      {
+        "label": "Specifications: Preconditions and Postconditions",
+        "slug": "specifications-preconditions-and-postconditions",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "The capstone verifies one small program both deductively and by finite-state exploration. Seeing the same requirement as a Hoare proof and as a model-checking property makes the tradeoff between symbolic reasoning and exhaustive search concrete.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Hoare — An Axiomatic Basis for Computer Programming (1969)",
+        "url": "https://www.cs.cmu.edu/~crary/819-f09/Hoare69.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Pierce et al. — Software Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/",
+        "type": "doc"
+      },
+      {
+        "label": "SPIN — On-the-Fly LTL Model Checking",
+        "url": "https://spinroot.com/spin/whatispin.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
