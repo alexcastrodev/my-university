@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { get, put, json, login } from './helpers';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { get, post, put, json, login } from './helpers';
 
 const CONCEPT_SLUG = 'iterator-vs-iterable';
 
@@ -60,6 +60,19 @@ describe('GET /xp/daily-goal', () => {
 });
 
 describe('GET /xp/leaderboard', () => {
+  // The leaderboard query is capped at the top 10 by total XP (real product behavior, not a
+  // test artifact). `setup.ts`'s reset only runs once, before the whole suite — by the time
+  // this file runs, dozens of other spec files have already created their own `test-*` users
+  // and granted them real XP (lessons, skill checks, concept reads), any number of which can
+  // legitimately outrank the single low-XP user each test below creates. Resetting again
+  // right before this block empties the leaderboard for its own duration: safe, because
+  // `fileParallelism: false` runs spec files strictly one at a time, so no earlier file's
+  // assertions are still pending against a test-* user this wipes, and no later file depends
+  // on one of *this* file's users surviving past it.
+  beforeAll(async () => {
+    await post('/auth/_test/reset', {});
+  });
+
   it('is public — works without a session cookie', async () => {
     const res = await get('/xp/leaderboard');
     expect(res.status).toBe(200);
