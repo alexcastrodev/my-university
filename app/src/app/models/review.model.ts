@@ -24,6 +24,15 @@ export interface RecentActivityItem {
   exp: number;
 }
 
+export interface RevisitItem {
+  oldTitle: string;
+  oldRoute: string[];
+  oldReadAt: string;
+  newTitle: string;
+  newRoute: string[];
+  newPublishedAt: string;
+}
+
 export type ReviewRating = 'again' | 'hard' | 'good' | 'easy';
 
 export interface ReviewAnswerResult {

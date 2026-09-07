@@ -34,6 +34,11 @@ export class ReviewController {
     return this.review.getRecentActivity(userId);
   }
 
+  @Get('revisit')
+  getRevisitFeed(@CurrentUserId() userId: number) {
+    return this.review.getRevisitFeed(userId);
+  }
+
   @Post('answer')
   answer(
     @CurrentUserId() userId: number,

@@ -85,6 +85,30 @@ export class CurriculumService {
     return buildCurriculumGraph(DATA_ROOT);
   }
 
+  /** Every CC concept's slug, `publishedAt` and raw `related` links, flattened across every
+   *  discipline — the "revisit" feed's real, un-fabricated trigger data (tasks.md · "Fase
+   *  futura — Knowledge Graph"): a concept published *after* a user read something it points
+   *  at, via `related`, is genuinely new material touching what they already learned. Reuses
+   *  the same per-discipline `loadMeta` (topological order doesn't matter here, but the
+   *  parsing does) rather than re-reading `concepts.json` a second way. */
+  listAllConceptRelations(): {
+    module: string;
+    discipline: string;
+    slug: string;
+    publishedAt: string;
+    related: ConceptLinkRef[];
+  }[] {
+    return this.listDisciplines().flatMap(({ module, discipline }) =>
+      this.loadMeta(join(DATA_ROOT, module, discipline)).map((meta) => ({
+        module,
+        discipline,
+        slug: meta.slug,
+        publishedAt: meta.publishedAt,
+        related: meta.related,
+      })),
+    );
+  }
+
   /** Every (module, discipline) pair that actually exists on disk — for callers, like search indexing, that need to walk the whole curriculum tree rather than one discipline at a time. */
   listDisciplines(): { module: string; discipline: string }[] {
     return readdirSync(DATA_ROOT, { withFileTypes: true })

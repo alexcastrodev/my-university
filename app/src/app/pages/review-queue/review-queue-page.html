@@ -53,4 +53,22 @@
       <a routerLink="/" class="action-btn secondary" i18n="@@reviewQueue.backHome">← Back home</a>
     </div>
   }
+
+  @if (revisitItems().length > 0) {
+    <div class="revisit-section">
+      <h2 class="revisit-title" i18n="@@reviewQueue.revisitTitle">New content touches what you've read</h2>
+      <p class="revisit-sub" i18n="@@reviewQueue.revisitSubtitle">
+        Something newer now links back to a topic you already covered.
+      </p>
+      <ul class="revisit-list">
+        @for (item of revisitItems(); track item.oldRoute.join('/')) {
+          <li class="revisit-item">
+            <a [routerLink]="item.newRoute" class="revisit-new-title">{{ item.newTitle }}</a>
+            <span class="revisit-arrow" aria-hidden="true">→</span>
+            <a [routerLink]="item.oldRoute" class="revisit-old-title" i18n="@@reviewQueue.revisitBackTo">revisit {{ item.oldTitle }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </div>

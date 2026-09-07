@@ -2,7 +2,7 @@ import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
-import { ReviewQueueItem } from '../../models/review.model';
+import { RevisitItem, ReviewQueueItem } from '../../models/review.model';
 import { AuthService } from '../../services/auth.service';
 import { ReviewService } from '../../services/review.service';
 import { ReviewQueuePage } from './review-queue-page';
@@ -20,7 +20,12 @@ function makeItem(sourceId: string, title: string): ReviewQueueItem {
 }
 
 describe('ReviewQueuePage', () => {
-  function setup(queue: ReviewQueueItem[], loggedIn: boolean, answerFn?: () => ReturnType<typeof of>) {
+  function setup(
+    queue: ReviewQueueItem[],
+    loggedIn: boolean,
+    answerFn?: () => ReturnType<typeof of>,
+    revisitItems: RevisitItem[] = [],
+  ) {
     TestBed.configureTestingModule({
       imports: [ReviewQueuePage],
       providers: [
@@ -31,6 +36,7 @@ describe('ReviewQueuePage', () => {
           useValue: {
             getDueQueue: () => of(queue),
             answer: answerFn ?? (() => of({ dueAt: '2026-01-02T00:00:00.000Z', intervalDays: 6 })),
+            getRevisitFeed: () => of(revisitItems),
           },
         },
         { provide: AuthService, useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) } },
@@ -82,5 +88,37 @@ describe('ReviewQueuePage', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain("You're all caught up");
+  });
+
+  it('shows nothing revisit-related when the feed is empty', () => {
+    const fixture = setup([], true, undefined, []);
+
+    expect(fixture.nativeElement.querySelector('.revisit-section')).toBeFalsy();
+  });
+
+  it('surfaces a real revisit item with links to both the new and the old concept', () => {
+    const revisit: RevisitItem = {
+      oldTitle: 'x86-64 Registers and Data Movement',
+      oldRoute: ['/computer-science', 'computer', 'c-and-assembly', 'x86-64-registers-and-data-movement'],
+      oldReadAt: '2026-08-01T00:00:00.000Z',
+      newTitle: 'Instruction Selection: Tree Pattern Matching',
+      newRoute: ['/computer-science', 'software-distributed', 'compilers', 'instruction-selection-tree-pattern-matching'],
+      newPublishedAt: '2026-09-07',
+    };
+    const fixture = setup([], true, undefined, [revisit]);
+
+    const section = fixture.nativeElement.querySelector('.revisit-section');
+    expect(section).toBeTruthy();
+    expect(section.textContent).toContain('Instruction Selection: Tree Pattern Matching');
+    expect(section.textContent).toContain('x86-64 Registers and Data Movement');
+
+    const newLink: HTMLAnchorElement = section.querySelector('.revisit-new-title');
+    const oldLink: HTMLAnchorElement = section.querySelector('.revisit-old-title');
+    expect(newLink.getAttribute('href')).toBe(
+      '/computer-science/software-distributed/compilers/instruction-selection-tree-pattern-matching',
+    );
+    expect(oldLink.getAttribute('href')).toBe(
+      '/computer-science/computer/c-and-assembly/x86-64-registers-and-data-movement',
+    );
   });
 });

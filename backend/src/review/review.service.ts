@@ -16,6 +16,7 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
+import { buildRevisitIndex, newestCandidateAfter, targetKey } from './revisit';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
 import { toUtcDateKey } from '../xp/streak';
@@ -41,6 +42,20 @@ export interface RecentActivityItem {
   route: string[];
   exp: number;
 }
+
+export interface RevisitItem {
+  oldTitle: string;
+  oldRoute: string[];
+  oldReadAt: Date;
+  newTitle: string;
+  newRoute: string[];
+  newPublishedAt: string;
+}
+
+const MAX_REVISIT_ITEMS = 10;
+/** How far back into read history to look for revisit candidates — a bound, not a real
+ *  business rule, purely to keep this a cheap per-request computation. */
+const REVISIT_HISTORY_LIMIT = 200;
 
 @Injectable()
 export class ReviewService {
@@ -291,6 +306,54 @@ export class ReviewService {
       });
     }
     return items;
+  }
+
+  /**
+   * "New content touches something you already read" — the "revisit" links tasks.md's
+   * Knowledge Graph phase calls for, without a new table: a CC concept's `related` link is a
+   * real, already-authored signal that it builds on an older concept, so a *newer* concept
+   * pointing at something a user read *before* that concept existed is genuinely new material
+   * relevant to them, not a fabricated notification. One item per old concept (the single
+   * newest thing that now points at it), newest-first, capped at `MAX_REVISIT_ITEMS`. The
+   * matching itself (`buildRevisitIndex`/`newestCandidateAfter`) is pure and unit-tested with
+   * synthetic data in `revisit.spec.ts`; this method is just real-data plumbing around it.
+   */
+  async getRevisitFeed(userId: number): Promise<RevisitItem[]> {
+    const index = buildRevisitIndex(this.curriculum.listAllConceptRelations());
+    const titlesByModule = this.buildTitlesByModule();
+    const history = await this.xp.getHistory(userId, REVISIT_HISTORY_LIMIT);
+
+    const items: RevisitItem[] = [];
+    for (const entry of history) {
+      if (entry.sourceType !== 'concept-read' && entry.sourceType !== 'episode-watched') continue;
+
+      const cc = parseCurriculumSourceId(entry.sourceId);
+      const resolved = cc ? null : fromSourceId(entry.sourceType, entry.sourceId);
+      if (!cc && !resolved) continue;
+
+      const key = cc ? targetKey(cc.module, cc.slug, cc.discipline) : targetKey(resolved!.module, resolved!.slug);
+      const newest = newestCandidateAfter(index, key, toUtcDateKey(entry.updatedAt));
+      if (!newest) continue;
+
+      const newTitle = this.curriculum.findBySlug(newest.module, newest.discipline, newest.slug)?.title;
+      if (newTitle === undefined) continue; // content since removed
+
+      const oldTitle = cc ? this.curriculumTitle(cc) : titlesByModule[resolved!.module]?.get(resolved!.slug);
+      if (oldTitle === undefined) continue; // content since removed
+
+      items.push({
+        oldTitle,
+        oldRoute: cc ? cc.route : resolved!.route,
+        oldReadAt: entry.updatedAt,
+        newTitle,
+        newRoute: ['/computer-science', newest.module, newest.discipline, newest.slug],
+        newPublishedAt: newest.publishedAt,
+      });
+    }
+
+    return items
+      .sort((a, b) => (b.newPublishedAt > a.newPublishedAt ? 1 : -1))
+      .slice(0, MAX_REVISIT_ITEMS);
   }
 
   /**

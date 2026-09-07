@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { ReviewQueueItem, ReviewRating } from '../../models/review.model';
+import { RevisitItem, ReviewQueueItem, ReviewRating } from '../../models/review.model';
 import { ReviewService } from '../../services/review.service';
 
 const RATINGS: { rating: ReviewRating; label: string }[] = [
@@ -42,6 +42,8 @@ export class ReviewQueuePage implements OnInit {
   current = computed(() => this.queue()[0] ?? null);
   remaining = computed(() => this.queue().length);
 
+  revisitItems = signal<RevisitItem[]>([]);
+
   lastResultText = computed(() => {
     const result = this.lastResult();
     if (!result) return null;
@@ -65,6 +67,11 @@ export class ReviewQueuePage implements OnInit {
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
+    });
+
+    this.reviewService.getRevisitFeed().subscribe({
+      next: (items) => this.revisitItems.set(items),
+      error: () => {},
     });
   }
 

@@ -162,3 +162,63 @@
 .rating-btn.hard { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
 .rating-btn.good { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
 .rating-btn.easy { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+
+.revisit-section {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.revisit-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem;
+}
+
+.revisit-sub {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0 0 1rem;
+}
+
+.revisit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.revisit-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.revisit-new-title {
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+
+.revisit-new-title:hover { text-decoration: underline; }
+
+.revisit-arrow {
+  color: #c74634;
+  font-weight: 700;
+}
+
+.revisit-old-title {
+  color: #6b7280;
+  text-decoration: underline;
+}
+
+.revisit-old-title:hover { color: #374151; }
