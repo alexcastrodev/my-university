@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "O Que É Computação"
-description: "Os quatro pilares do pensamento computacional (decomposição, reconhecimento de padrões, abstração e design de algoritmos) e por que eles são uma forma de pensar, não uma forma de programar."
+summary: "Os quatro pilares do pensamento computacional (decomposição, reconhecimento de padrões, abstração e design de algoritmos) e por que eles são uma forma de pensar, não uma forma de programar."
 ---
 ## Objetivos de Aprendizagem
 

@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Expressões e Atribuição"
-description: "Combinar valores e operadores em expressões, e a diferença entre a igualdade matemática e o 'armazene o resultado aqui' da atribuição."
+summary: "Combinar valores e operadores em expressões, e a diferença entre a igualdade matemática e o 'armazene o resultado aqui' da atribuição."
 ---
 ## Objetivos de Aprendizagem
 

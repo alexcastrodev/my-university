@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Variáveis e Tipos Primitivos"
-description: "Nomear um espaço de memória para guardar um valor, e os tipos primitivos (int, float, bool, str) a partir dos quais todo programa é construído."
+summary: "Nomear um espaço de memória para guardar um valor, e os tipos primitivos (int, float, bool, str) a partir dos quais todo programa é construído."
 ---
 ## Objetivos de Aprendizagem
 

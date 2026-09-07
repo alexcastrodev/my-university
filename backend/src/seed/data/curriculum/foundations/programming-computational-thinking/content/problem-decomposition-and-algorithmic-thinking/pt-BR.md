@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Decomposição de Problemas e Pensamento Algorítmico"
-description: "Quebrar um problema em uma sequência ordenada de passos inequívocos antes de escrever qualquer linha de código real, usando um exemplo de robô num mundo-grade de brinquedo para separar o pensamento algorítmico da sintaxe."
+summary: "Quebrar um problema em uma sequência ordenada de passos inequívocos antes de escrever qualquer linha de código real, usando um exemplo de robô num mundo-grade de brinquedo para separar o pensamento algorítmico da sintaxe."
 ---
 ## Objetivos de Aprendizagem
 

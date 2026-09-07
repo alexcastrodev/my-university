@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Entrada e Saída"
-description: "Ler um valor digitado pelo usuário e imprimir um resultado de volta: o menor loop de feedback possível que um programa pode ter."
+summary: "Ler um valor digitado pelo usuário e imprimir um resultado de volta: o menor loop de feedback possível que um programa pode ter."
 ---
 ## Objetivos de Aprendizagem
 
