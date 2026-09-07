@@ -1,1 +1,578 @@
-[]
+[
+  {
+    "slug": "what-is-a-database-management-system",
+    "id": 1,
+    "title": "What Is a Database Management System, and Why Build One?",
+    "topic": "Framing & the Relational Model",
+    "requires": [],
+    "related": [],
+    "summary": "Distinguishes a DBMS's real job — atomic and durable writes, concurrent shared access from many applications at once, surviving a crash mid-write, and a declarative query interface over raw disk pages — from what an application-level flat-file scheme (one CSV per entity, parsed by hand) can ever offer, using CMU 15-445's own framing of the discipline ('this course is about the design/implementation of DBMSs... not about how to use a DBMS to build applications') to set the scope for everything that follows: this discipline builds the engine, it does not teach SQL usage.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Relational Model & Course Overview Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/01-relationalmodel.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Data Management (DM) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-data-management-dm-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-relational-model-and-relational-algebra",
+    "id": 2,
+    "title": "The Relational Model and Relational Algebra",
+    "topic": "Framing & the Relational Model",
+    "requires": ["what-is-a-database-management-system"],
+    "related": [
+      {
+        "label": "Relations and Their Properties",
+        "slug": "relations-and-their-properties",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      },
+      {
+        "label": "Power Sets and Cartesian Products",
+        "slug": "power-sets-and-cartesian-products",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Defines a relation the way Codd originally did — a subset of the Cartesian product of a list of domains, exactly the set-theoretic relation and Cartesian product already built in `relations-and-their-properties` and `power-sets-and-cartesian-products`, now reapplied to rows and columns instead of abstract pairs — then builds relational algebra's core closed operators (σ select, π project, ∪, ∩, −, ×, ⋈ join) by hand over a small two-table schema, establishing the declarative target every query plan in this discipline eventually compiles down to.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Relational Model & Relational Algebra Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/01-relationalmodel.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "disk-based-storage-pages-and-tuples",
+    "id": 3,
+    "title": "Disk-Based Storage: Pages, Heap Files, and Tuple Layout",
+    "topic": "Storage",
+    "requires": ["the-relational-model-and-relational-algebra"],
+    "related": [
+      {
+        "label": "Files, Directories, and Inodes",
+        "slug": "files-directories-and-inodes",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "Introduces the database page as the fixed-size unit of I/O against disk, the exact same block-based reasoning `files-directories-and-inodes` already used to explain why a file system reads and writes in fixed blocks rather than byte-by-byte, then works through heap-file organization (an unordered collection of pages plus a page directory tracking their locations) and the slotted-page layout real systems use so a page of fixed-size slots can hold variable-length tuples and survive deletes without shifting every later tuple.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Database Storage I Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/03-storage1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (Disks and Files)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "buffer-pool-management",
+    "id": 4,
+    "title": "Buffer Pool Management",
+    "topic": "Storage",
+    "requires": ["disk-based-storage-pages-and-tuples"],
+    "related": [
+      {
+        "label": "Address Spaces and Memory Virtualization",
+        "slug": "address-spaces-and-memory-virtualization",
+        "feature": "curriculum/computer/operating-systems-i"
+      },
+      {
+        "label": "Page Replacement Policies",
+        "slug": "page-replacement-policies",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "The buffer pool is the DBMS's own page cache sitting between the query engine and disk, deliberately duplicating what an OS file cache already does — pin counts, dirty bits, and a replacement policy (clock/LRU, the exact same eviction decision `page-replacement-policies` already solved for physical frames) decide which pages stay resident — and names STEAL (evict a dirty page before its transaction commits) and NO-FORCE (don't force a dirty page to disk at commit) as the two buffer-pool policy choices that make crash recovery, several concepts ahead, a real problem instead of a trivial one.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Database Storage I Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/03-storage1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (Buffer Management)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hash-indexes",
+    "id": 5,
+    "title": "Hash Indexes",
+    "topic": "Indexing",
+    "requires": ["buffer-pool-management"],
+    "related": [
+      {
+        "label": "Hashing and Hash Functions",
+        "slug": "hashing-and-hash-functions",
+        "feature": "curriculum/foundations/data-structures-i"
+      },
+      {
+        "label": "Collision Resolution: Open Addressing",
+        "slug": "collision-resolution-open-addressing",
+        "feature": "curriculum/foundations/data-structures-i"
+      }
+    ],
+    "summary": "Builds a disk-resident hash index directly on the in-memory hash-table machinery `hashing-and-hash-functions` and `collision-resolution-open-addressing` already established, showing exactly what changes when a bucket is a disk page instead of an array slot (bucket overflow pages chained off a full bucket, extendible/linear hashing schemes that grow the directory incrementally instead of forcing one giant rehash of every page) and why a hash index answers an equality lookup in O(1) page I/Os but cannot support a range query at all.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Hash Tables Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/07-hashtables.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (Hashing)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "b-plus-trees-structure-and-search",
+    "id": 6,
+    "title": "B+Trees: Structure and Search",
+    "topic": "Indexing",
+    "requires": ["buffer-pool-management"],
+    "related": [
+      {
+        "label": "BST Performance: Why Balance Matters",
+        "slug": "bst-performance-and-balance",
+        "feature": "curriculum/foundations/data-structures-i"
+      },
+      {
+        "label": "AVL Trees: The Balance Invariant",
+        "slug": "avl-trees-the-balance-invariant",
+        "feature": "curriculum/algorithms-software/data-structures-ii"
+      }
+    ],
+    "summary": "A B+Tree keeps exactly the same kind of explicit balance invariant `avl-trees-the-balance-invariant` already proved necessary to avoid the degenerate-height problem `bst-performance-and-balance` raised for an unbalanced binary tree — but applies it to a genuinely different structural family: an m-way (not binary) tree, every node at least half-full and every leaf at identical depth, with fanout chosen to match a disk page's size so descending one level costs exactly one page I/O, directly resolving the disk-I/O angle a binary tree's balance alone was never designed to address.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Indexes & Filters I Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/08-indexes1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "b-plus-tree-insertion-and-splits",
+    "id": 7,
+    "title": "B+Tree Insertion and Node Splits",
+    "topic": "Indexing",
+    "requires": ["b-plus-trees-structure-and-search"],
+    "related": [],
+    "summary": "Traces a full B+Tree insertion by hand into a small real tree, covering the case that overflows a leaf and forces a split (redistribute its entries evenly across two leaves, copy the middle key up into the parent as a separator) and the case where that split propagates into an inner node (redistribute evenly, but push the middle key up instead of copying it, since inner nodes don't store data), preserving the half-full invariant at every level without ever rebalancing the whole tree.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Indexes & Filters I Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/08-indexes1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-445/645 — Indexes & Filters II Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "b-plus-tree-deletion-and-merges",
+    "id": 8,
+    "title": "B+Tree Deletion, Redistribution, and Merges",
+    "topic": "Indexing",
+    "requires": ["b-plus-tree-insertion-and-splits"],
+    "related": [],
+    "summary": "Completes the B+Tree by tracing a deletion that drops a leaf below the half-full minimum on the same tree built in the previous concept: the node first tries to borrow (redistribute) an entry from a sibling that has room to spare, and falls back to merging with a sibling and removing the now-empty separator key from the parent only when borrowing isn't possible — including the case where a merge propagates upward and shrinks the tree's height by one level.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Indexes & Filters II Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "choosing-an-index-hash-vs-b-plus-tree",
+    "id": 9,
+    "title": "Choosing an Index: Hash vs. B+Tree",
+    "topic": "Indexing",
+    "requires": ["hash-indexes", "b-plus-tree-deletion-and-merges"],
+    "related": [
+      {
+        "label": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
+        "slug": "mongodb-indexing-fundamentals",
+        "feature": "database-concepts"
+      }
+    ],
+    "summary": "A concrete decision guide built from the previous four concepts' real cost numbers: an equality-only workload with no range queries favors a hash index's O(1) lookup, while anything needing range scans, ordered iteration, or sorted output needs a B+Tree's O(log n) traversal instead — cross-checked against `database-concepts`'s `mongodb-indexing-fundamentals`, which documents a real production system defaulting to B+Tree indexes for precisely this reason, the same structural family built here from scratch.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Indexes & Filters I Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/08-indexes1.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (B+Trees, Hashing)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "query-execution-the-iterator-model-and-scans",
+    "id": 10,
+    "title": "Query Execution: The Iterator Model and Table Scans",
+    "topic": "Query Processing",
+    "requires": ["choosing-an-index-hash-vs-b-plus-tree"],
+    "related": [
+      {
+        "label": "Iterators: Traversing a Collection Uniformly",
+        "slug": "iterators",
+        "feature": "curriculum/foundations/data-structures-i"
+      }
+    ],
+    "summary": "A query plan is a tree of physical operators, each implementing the exact same pull-based next()-until-exhausted interface `iterators` already established for traversing any collection uniformly — a sequential scan pulls tuples page by page through the buffer pool, an index scan instead pulls them through the B+Tree or hash index built in the previous cluster, and the whole plan runs lazily, one tuple at a time, driven entirely by the root operator repeatedly pulling from its children.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Schedule (Query Execution I & II)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (Iterators and Joins)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "join-algorithms-nested-loop-and-block-nested-loop",
+    "id": 11,
+    "title": "Join Algorithms I: Nested-Loop and Block Nested-Loop",
+    "topic": "Query Processing",
+    "requires": ["query-execution-the-iterator-model-and-scans"],
+    "related": [],
+    "summary": "Implements the simple tuple-at-a-time nested-loop join and counts its exact page-I/O cost on a small two-table example, then improves it to block nested-loop join by reading the outer relation a full buffer's worth of pages at a time instead of one tuple at a time — the same worked numbers showing concretely why the naive version costs (pages of R) × (pages of S) page fetches while the blocked version amortizes that cost across an entire buffer of outer pages per pass.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Schedule (Joins Algorithms)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "join-algorithms-sort-merge-and-hash-join",
+    "id": 12,
+    "title": "Join Algorithms II: Sort-Merge and Hash Join",
+    "topic": "Query Processing",
+    "requires": ["join-algorithms-nested-loop-and-block-nested-loop"],
+    "related": [
+      {
+        "label": "Merge Sort Revisited",
+        "slug": "merge-sort-revisited",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "Sort-merge join reuses exactly the merge step `merge-sort-revisited` already built, now applied to two relations that are already sorted (or externally sorted first) on the join key, walking both sorted streams forward together; hash join instead builds an in-memory hash table on the smaller relation's join key and probes it once per tuple of the larger relation — both worked on the same dataset as the previous concept, with the real trade-off made concrete: sort-merge wins when an input is already sorted or the output must come out ordered, hash join wins otherwise unless the build side can't fit in the buffer pool.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Schedule (Sorting & Aggregations, Joins Algorithms)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "query-optimization-cost-based-and-rule-based",
+    "id": 13,
+    "title": "Query Optimization: Cost-Based and Rule-Based",
+    "topic": "Query Processing",
+    "requires": ["join-algorithms-sort-merge-and-hash-join"],
+    "related": [],
+    "summary": "A single declarative query has many equivalent physical plans with wildly different real costs — this concept builds a cost estimate from the same table cardinalities and page counts already used in the join concepts, compares two join orderings for a small three-table query by hand and shows one is cheaper, and distinguishes rule-based optimization (fixed heuristics, e.g. always push selections below joins) from cost-based optimization (estimate and compare costs across a search space of plans) at the Core-Tier2 depth ACM/IEEE CS2013 assigns this specific topic, not a full research-level treatment of query optimizer internals.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "ACM/IEEE CS2013 — Data Management (DM) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-data-management-dm-cs2013-version/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-445/645 — Schedule (Query Planning & Optimization I & II)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "acid-properties-precisely-defined",
+    "id": 14,
+    "title": "ACID Properties, Precisely Defined",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["query-optimization-cost-based-and-rule-based"],
+    "related": [],
+    "summary": "Gives Atomicity, Consistency, Isolation, and Durability their real, precise definitions rather than just the acronym — Atomicity as all of a transaction's writes taking effect or none of them, Consistency as an application-level invariant the DBMS enforces only indirectly (by giving the other three guarantees, not by understanding the invariant itself), Isolation as concurrent transactions producing a result equivalent to some serial (one-at-a-time) execution, Durability as a committed write surviving any subsequent crash — pinning down exactly which guarantee each of the next five concepts is individually responsible for delivering.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-445/645 — Schedule (Concurrency Control Theory)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "concurrency-anomalies-dirty-reads-and-lost-updates",
+    "id": 15,
+    "title": "Concurrency Anomalies: Why Interleaving Transactions Is Dangerous",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["acid-properties-precisely-defined"],
+    "related": [],
+    "summary": "Before any protocol is introduced, this concept shows concretely why isolation is hard: a worked two-transaction schedule over a bank-account pair (A, B) — one transaction moving money from A to B, another summing the total balance — that, run with no concurrency control at all, reads a stale value mid-transfer and reports a wrong total, a real lost-update/dirty-read anomaly with real numbers, establishing the exact concrete failure mode the next three concepts exist to prevent.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Two-Phase Locking Concurrency Control Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/18-twophaselocking.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "two-phase-locking-and-conflict-serializability",
+    "id": 16,
+    "title": "Two-Phase Locking and Conflict Serializability",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["concurrency-anomalies-dirty-reads-and-lost-updates"],
+    "related": [
+      {
+        "label": "Locks and Atomic Hardware Primitives",
+        "slug": "locks-and-atomic-hardware-primitives",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "Two-Phase Locking (2PL) — a growing phase that only ever acquires shared/exclusive locks (the same lock primitive `locks-and-atomic-hardware-primitives` already built, now applied per database tuple/page instead of per shared-memory variable), followed by a shrinking phase that only releases them — is applied to the exact account-transfer schedule from the previous concept, this time correctly serialized, and Strict 2PL (hold every lock until commit/abort, not just until the shrinking phase starts) is introduced as the version real systems use to additionally avoid cascading aborts.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Two-Phase Locking Concurrency Control Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/18-twophaselocking.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Berkeley CS186 — Course Notes (Transactions & Concurrency)",
+        "url": "https://cs186berkeley.net/notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "deadlocks-in-two-phase-locking",
+    "id": 17,
+    "title": "Deadlocks in Two-Phase Locking",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["two-phase-locking-and-conflict-serializability"],
+    "related": [
+      {
+        "label": "Deadlock: Conditions and Detection",
+        "slug": "deadlock-conditions-and-detection",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "2PL's growing phase can deadlock exactly the way `deadlock-conditions-and-detection` already defined a deadlock — a cycle of transactions, each holding a lock the next one in the cycle needs — just at the granularity of database tuples/pages instead of OS-managed resources; this concept builds the same waits-for-graph cycle-detection technique on a real three-transaction schedule, then adds the deadlock-prevention alternative (wait-die / wound-wait, using transaction start timestamps to decide who aborts instead of waiting) a system can use in place of detecting cycles after the fact.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Two-Phase Locking Concurrency Control Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/18-twophaselocking.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013 — Data Management (DM) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-data-management-dm-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "isolation-levels-and-what-serializable-guarantees",
+    "id": 18,
+    "title": "Isolation Levels: What SERIALIZABLE Actually Guarantees",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["deadlocks-in-two-phase-locking"],
+    "related": [],
+    "summary": "The SQL standard's four isolation levels — READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE — are defined here by exactly which anomaly each one still permits, with a real worked schedule for each: a dirty read (READ UNCOMMITTED only), a non-repeatable read (permitted below REPEATABLE READ), and a phantom read (a new row satisfying a previous query's predicate appearing on re-query, permitted below SERIALIZABLE) — closing with an honest statement of what SERIALIZABLE actually promises (equivalence to some serial execution) against what it costs in reduced concurrency relative to the weaker levels.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      },
+      {
+        "label": "CMU 15-445/645 — Two-Phase Locking Concurrency Control Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/18-twophaselocking.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "optimistic-concurrency-control-and-mvcc",
+    "id": 19,
+    "title": "Optimistic Concurrency Control and Multi-Version Concurrency Control",
+    "topic": "Transactions & Concurrency Control",
+    "requires": ["isolation-levels-and-what-serializable-guarantees"],
+    "related": [],
+    "summary": "Locking is pessimistic — it pays the cost of coordination up front on the assumption that conflicts are common; this concept covers the two real alternatives production systems actually use instead: Optimistic Concurrency Control (a transaction reads and computes freely, then validates against concurrent writers only at commit time, aborting and retrying on a detected conflict rather than blocking), and Multi-Version Concurrency Control (keeping several timestamped versions of a tuple so a reader is simply routed to the version consistent with its own start time, never blocking on a concurrent writer) — the real mechanism behind snapshot isolation in production systems like PostgreSQL.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Schedule (Timestamp Ordering & Multi-Version Concurrency Control)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "write-ahead-logging",
+    "id": 20,
+    "title": "Write-Ahead Logging",
+    "topic": "Recovery",
+    "requires": ["optimistic-concurrency-control-and-mvcc"],
+    "related": [
+      {
+        "label": "File System Implementation and Journaling",
+        "slug": "file-system-implementation-and-journaling",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "The Write-Ahead Logging rule — a change's log record must reach durable storage before the data page it describes does — is exactly the same durability guarantee `file-system-implementation-and-journaling` already built for a file system's own journal, now applied to database pages instead of filesystem metadata; this concept builds the real log-record format (a globally unique LSN per record, a pageLSN recording the most recent change applied to each page, a flushedLSN tracking how far the log itself has been durably written) that lets a DBMS safely run with the STEAL and NO-FORCE buffer-pool policies named back in `buffer-pool-management` without ever losing a committed write.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Database Logging / Recovery Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/22-recovery.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ARIES: A Transaction Recovery Method (Mohan et al., 1992) — IBM Research",
+        "url": "https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "aries-style-crash-recovery",
+    "id": 21,
+    "title": "ARIES-Style Crash Recovery: Analysis, Redo, Undo",
+    "topic": "Recovery",
+    "requires": ["write-ahead-logging"],
+    "related": [],
+    "summary": "Builds the three-phase ARIES recovery algorithm on a small real log with a real crash point: Analysis replays the log forward from the last checkpoint to reconstruct exactly which transactions and which pages were still in flight the instant the system crashed; Redo repeats history, reapplying every logged change regardless of whether it had already reached disk, to reconstruct the precise pre-crash state (not just the committed one); Undo then rolls back the transactions that were still active at crash time, writing compensation log records as it goes so that a second crash in the middle of undo does not redo the same rollback twice.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Database Logging / Recovery Slides",
+        "url": "https://15445.courses.cs.cmu.edu/fall2025/slides/22-recovery.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "ARIES: A Transaction Recovery Method (Mohan et al., 1992) — IBM Research",
+        "url": "https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-an-update-through-the-database-engine",
+    "id": 22,
+    "title": "Capstone: Tracing One UPDATE Through the Database Engine",
+    "topic": "Capstone",
+    "requires": ["aries-style-crash-recovery"],
+    "related": [
+      {
+        "label": "Capstone: Tracing a Process from fork() to Page Fault to Disk",
+        "slug": "capstone-tracing-a-process-from-fork-to-page-fault-to-disk",
+        "feature": "curriculum/computer/operating-systems-i"
+      }
+    ],
+    "summary": "Traces `UPDATE accounts SET balance = balance - 100 WHERE id = 42` end to end through every layer built in this discipline — parsed against the relational schema and planned into an index-scan-then-mutate physical plan, the target page pulled through the buffer pool, an exclusive lock acquired under Strict 2PL, the tuple mutated in place, a WAL record flushed before the now-dirty page, and a crash-and-recovery coda showing ARIES's analysis/redo/undo bringing the same update back correctly after a mid-transaction crash — the same complete-pipeline capstone pattern `capstone-tracing-a-process-from-fork-to-page-fault-to-disk` already used to trace a single OS-level operation through every layer of an operating system.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "CMU 15-445/645 — Schedule (Full Course Structure)",
+        "url": "https://15445.courses.cs.cmu.edu/fall2026/schedule.html",
+        "type": "doc"
+      },
+      {
+        "label": "Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site",
+        "url": "https://www.db-book.com/",
+        "type": "doc"
+      }
+    ]
+  }
+]
