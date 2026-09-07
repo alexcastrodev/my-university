@@ -1,1 +1,532 @@
-[]
+[
+  {
+    "slug": "why-distributed-systems-are-hard-partial-failure-and-no-shared-state",
+    "id": 1,
+    "title": "Why Distributed Systems Are Hard: Partial Failure and No Shared State",
+    "topic": "Foundations of Distributed Systems",
+    "requires": [],
+    "related": [
+      {
+        "label": "Locks and Atomic Hardware Primitives",
+        "slug": "locks-and-atomic-hardware-primitives",
+        "feature": "curriculum/computer/operating-systems-i"
+      },
+      {
+        "label": "Deadlock Conditions and Detection",
+        "slug": "deadlock-conditions-and-detection",
+        "feature": "curriculum/computer/operating-systems-i"
+      },
+      {
+        "label": "The Trouble with Distributed Systems: Partial Failures, Clocks, and Pauses",
+        "slug": "distributed-systems-partial-failures",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "A single machine that crashes, crashes entirely and stops; a distributed system can have some machines running fine while others have failed, and the survivors usually cannot tell the difference between “that machine is dead” and “that machine (or the network to it) is just slow” — this concept names partial failure, the absence of shared memory, and the absence of a shared clock as the three properties that make distributed systems a genuinely different, harder problem than concurrent programming on one machine, not just concurrent programming with extra latency.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "MIT 6.5840 (Distributed Systems) — Course Overview",
+        "url": "https://pdos.csail.mit.edu/6.824/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "remote-procedure-calls-and-the-illusion-of-a-local-call",
+    "id": 2,
+    "title": "Remote Procedure Calls and the Illusion of a Local Call",
+    "topic": "Remote Procedure Calls",
+    "requires": [
+      "why-distributed-systems-are-hard-partial-failure-and-no-shared-state"
+    ],
+    "related": [
+      {
+        "label": "Sockets as a Uniform IPC Abstraction",
+        "slug": "sockets-as-a-uniform-ipc-abstraction",
+        "feature": "curriculum/systems/operating-systems-ii"
+      },
+      {
+        "label": "Transport Services: UDP vs. TCP",
+        "slug": "transport-services-udp-vs-tcp",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "RPC makes a call to another machine look syntactically like an ordinary function call, but Birrell & Nelson's original design already had to confront everything that distinguishes it from one: arguments must be marshalled into bytes and sent over a socket, the callee may not exist or may crash mid-call, and the network between caller and callee can drop, delay, or reorder messages in ways a local call never can — the abstraction is genuinely useful, but only once its cracks are understood.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Birrell & Nelson — Implementing Remote Procedure Calls (1984)",
+        "url": "http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 — Lecture Schedule",
+        "url": "https://pdos.csail.mit.edu/6.824/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "at-least-once-at-most-once-and-exactly-once-semantics",
+    "id": 3,
+    "title": "At-Least-Once, At-Most-Once, and Exactly-Once Semantics",
+    "topic": "Remote Procedure Calls",
+    "requires": [
+      "remote-procedure-calls-and-the-illusion-of-a-local-call"
+    ],
+    "related": [
+      {
+        "label": "Reliable Data Transfer: Principles",
+        "slug": "reliable-data-transfer-principles",
+        "feature": "curriculum/systems/computer-networks"
+      },
+      {
+        "label": "TCP: Reliable Data Transfer in Practice",
+        "slug": "tcp-reliable-data-transfer-in-practice",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "When an RPC caller times out waiting for a reply it faces a genuinely ambiguous situation — the request may never have arrived, the server may have executed it and the reply was lost, or the server may still be executing it — and this concept works through the three precise, commonly-confused contracts a system can offer in response (at-least-once via blind retry, at-most-once via de-duplication, and the much harder exactly-once), showing why TCP's own reliable byte-stream delivery, one layer down, solves a related but different problem and does not by itself give an RPC library exactly-once semantics for free.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Birrell & Nelson — Implementing Remote Procedure Calls (1984)",
+        "url": "http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "physical-clock-synchronization-and-drift",
+    "id": 4,
+    "title": "Physical Clock Synchronization and Drift",
+    "topic": "Time and Ordering",
+    "requires": [
+      "at-least-once-at-most-once-and-exactly-once-semantics"
+    ],
+    "related": [],
+    "summary": "Every machine's local clock is a physical oscillator that drifts at its own slightly different rate, so two machines' clocks disagree more and more the longer they go unsynchronized — this concept works through why synchronizing physical clocks over a network is fundamentally limited by uncertain, asymmetric message delay (you can measure round-trip time, but not how that time splits between the outbound and inbound leg), which is exactly the practical problem Lamport's 1978 paper addresses in its second half, and exactly why a distributed system that needs to order events reliably cannot simply timestamp them with wall-clock time and trust the ordering.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM 1978)",
+        "url": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 (Distributed Systems) — Course Overview",
+        "url": "https://pdos.csail.mit.edu/6.824/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lamport-logical-clocks-and-the-happens-before-relation",
+    "id": 5,
+    "title": "Lamport Logical Clocks and the Happens-Before Relation",
+    "topic": "Time and Ordering",
+    "requires": [
+      "physical-clock-synchronization-and-drift"
+    ],
+    "related": [
+      {
+        "label": "Partial Orders",
+        "slug": "partial-orders",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Lamport's 1978 paper sidesteps physical clocks entirely: it defines “happens-before” (→) directly from what a distributed system can actually observe — program order within one process, and message send always happening before the corresponding receive — producing exactly a partial order (irreflexive and transitive, but not total: two events on different processes with no message chain between them are simply incomparable, i.e. concurrent), then gives a simple integer-counter algorithm satisfying the Clock Condition (a→b implies C(a)<C(b)) and shows how breaking ties with process IDs extends that partial order into a total order whenever one is needed.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM 1978)",
+        "url": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linearizability-a-rigorous-definition",
+    "id": 6,
+    "title": "Linearizability: A Rigorous Definition",
+    "topic": "Consistency Models",
+    "requires": [
+      "lamport-logical-clocks-and-the-happens-before-relation"
+    ],
+    "related": [],
+    "summary": "Herlihy & Wing's 1990 definition is precise where the popular intuition (“it looks like there's just one copy of the data”) is vague: a concurrent history is linearizable if every operation can be assigned a single point in real time, strictly between its invocation and its response, such that the operations' return values match what a legal sequential execution at those points would produce — the requirement that the point fall inside the real, wall-clock invocation/response interval (not just “some consistent order”) is exactly what makes linearizability the strongest common consistency model and exactly what the next concept's weaker model gives up.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Herlihy & Wing — Linearizability: A Correctness Condition for Concurrent Objects (1990)",
+        "url": "https://cs.brown.edu/people/mph/HerlihyW90/p463-herlihy.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 — Lecture Schedule",
+        "url": "https://pdos.csail.mit.edu/6.824/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sequential-consistency-and-why-it-is-weaker",
+    "id": 7,
+    "title": "Sequential Consistency and Why It Is Weaker",
+    "topic": "Consistency Models",
+    "requires": [
+      "linearizability-a-rigorous-definition"
+    ],
+    "related": [],
+    "summary": "Sequential consistency keeps the part of linearizability that preserves each process's own program order and requires all processes to agree on one single global interleaving of every operation, but drops the real-time constraint entirely — an interleaving is legal even if it reorders two non-overlapping operations from different processes into the “wrong” real-time order, as long as each process's own operations stay in its own program order — making every linearizable history also sequentially consistent, but not the reverse, with a concrete counterexample worked by hand to show exactly where the two models diverge.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Herlihy & Wing — Linearizability: A Correctness Condition for Concurrent Objects (1990)",
+        "url": "https://cs.brown.edu/people/mph/HerlihyW90/p463-herlihy.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "eventual-consistency-and-its-real-guarantees",
+    "id": 8,
+    "title": "Eventual Consistency and Its Real Guarantees",
+    "topic": "Consistency Models",
+    "requires": [
+      "sequential-consistency-and-why-it-is-weaker"
+    ],
+    "related": [
+      {
+        "label": "Routing Algorithms: Link-State vs. Distance-Vector",
+        "slug": "routing-algorithms-link-state-vs-distance-vector",
+        "feature": "curriculum/systems/computer-networks"
+      }
+    ],
+    "summary": "Eventual consistency makes a far weaker, purely liveness-style promise — if no new writes arrive, all replicas will eventually converge to the same value — with no bound on how long “eventually” takes and no guarantee about what any single read returns in the meantime, which is exactly the trade real systems make deliberately for availability during network partitions; the gossip / anti-entropy protocols that spread updates between replicas to reach that eventual convergence are a genuine structural parallel (not a metaphor) to distance-vector routing's own local-information, eventually-converging propagation, including an analogous risk of temporarily stale or contradictory information mid-convergence.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-cap-theorem-a-precise-statement",
+    "id": 9,
+    "title": "The CAP Theorem: A Precise Statement",
+    "topic": "The CAP Theorem",
+    "requires": [
+      "eventual-consistency-and-its-real-guarantees"
+    ],
+    "related": [
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Proof by Contradiction",
+        "slug": "proof-by-contradiction",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Gilbert & Lynch's 2002 proof gives Brewer's conjecture a precise statement and a real proof by contradiction — assume a system provides linearizable Consistency and total Availability, then construct a network partition and show two nodes on opposite sides must either disagree (violating Consistency) or refuse to answer (violating Availability) — and this concept also carries Brewer's own 2012 retrospective nuance that partition tolerance is not a symmetric third option alongside C and A: real networks do partition, so the only genuine, moment-by-moment choice a system makes is between C and A during an actual partition, with the popular “pick two of three” slogan flagged explicitly as the oversimplification it is.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Gilbert & Lynch — Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services (2002)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Brewer — CAP Twelve Years Later: How the “Rules” Have Changed (2012)",
+        "url": "https://sites.cs.ucsb.edu/~rich/class/cs293b-cloud/papers/brewer-cap.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-replicated-state-machine-approach",
+    "id": 10,
+    "title": "The Replicated State Machine Approach",
+    "topic": "Replication Architectures",
+    "requires": [
+      "the-cap-theorem-a-precise-statement"
+    ],
+    "related": [],
+    "summary": "Schneider's 1990 tutorial names the architecture that every protocol in the rest of this discipline implements: if every replica starts in the same state, is deterministic, and applies the exact same sequence of commands, then every replica ends up in the exact same state — which reduces “keep replicas consistent despite failures” to exactly two properties, Agreement (every replica applies the same set of commands) and Order (every replica applies them in the same sequence), the second of which is precisely the consensus problem this discipline builds up to next.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Schneider — Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial (1990)",
+        "url": "https://cdn.nakamotoinstitute.org/docs/implementing-fault-tolerant-services.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "primary-backup-vs-quorum-based-replication",
+    "id": 11,
+    "title": "Primary-Backup vs. Quorum-Based Replication",
+    "topic": "Replication Architectures",
+    "requires": [
+      "the-replicated-state-machine-approach"
+    ],
+    "related": [
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Primary-backup replication designates one replica as the primary that orders every write and forwards it to backups — simple and cheap, but the whole system stalls (or needs a separate, equally hard failure-detection-and-promotion mechanism) the moment the primary is unreachable; quorum-based replication instead requires only a majority (or, in an R+W>N register scheme, an overlapping read/write quorum) of some replica set to participate in each operation, tolerating individual node failures without a single designated leader stalling everything, at the real cost of needing an actual majority-agreement protocol — exactly what Paxos and Raft, next, provide — rather than one primary's say-so; when that replica set is chosen dynamically at scale, it is typically the same N nodes a consistent-hashing ring already assigns to a given key.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Schneider — Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial (1990)",
+        "url": "https://cdn.nakamotoinstitute.org/docs/implementing-fault-tolerant-services.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 — Lecture Schedule",
+        "url": "https://pdos.csail.mit.edu/6.824/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-consensus-problem-agreement-validity-and-termination",
+    "id": 12,
+    "title": "The Consensus Problem: Agreement, Validity, and Termination",
+    "topic": "Consensus",
+    "requires": [
+      "primary-backup-vs-quorum-based-replication"
+    ],
+    "related": [
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Fischer, Lynch & Paterson give consensus its formal shape before proving anything hard about it: every non-faulty process proposes a value, and a correct protocol must guarantee Agreement (no two non-faulty processes decide differently), Validity (the decided value was actually proposed by someone, ruling out a trivial always-decide-0 protocol), and Termination (every non-faulty process eventually decides) — real coordination services like ZooKeeper and etcd exist precisely because applications need exactly this guarantee (agreement on a leader, a lock holder, or a configuration value) as a reusable building block rather than re-solving it themselves.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Fischer, Lynch & Paterson — Impossibility of Distributed Consensus with One Faulty Process (JACM 1985)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "the-flp-impossibility-result",
+    "id": 13,
+    "title": "The FLP Impossibility Result",
+    "topic": "Consensus",
+    "requires": [
+      "the-consensus-problem-agreement-validity-and-termination"
+    ],
+    "related": [],
+    "summary": "FLP's 1985 theorem is a real, honest limit, not a popularization: in a completely asynchronous system (no bound at all on message delay or relative processing speed) where even a single process may crash, no deterministic protocol can guarantee all three of Agreement, Validity, and Termination — proved not by simple contradiction but by a subtler adversary argument, showing that from any “bivalent” starting configuration (one where either 0 or 1 could still be decided) an adversary that controls message scheduling can always find some next step keeping the system bivalent forever, so termination can always be postponed; every real consensus protocol (Paxos, Raft included) survives this result only by giving up strict asynchrony in practice — via timeouts and randomization that make termination merely probable, not by refuting the theorem.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Fischer, Lynch & Paterson — Impossibility of Distributed Consensus with One Faulty Process (JACM 1985)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "paxos-the-original-consensus-protocol",
+    "id": 14,
+    "title": "Paxos: The Original Consensus Protocol",
+    "topic": "Consensus",
+    "requires": [
+      "the-flp-impossibility-result"
+    ],
+    "related": [],
+    "summary": "Paxos, Lamport's original 1989 solution to consensus (published as “The Part-Time Parliament” in 1998, then re-explained in the much more readable “Paxos Made Simple” in 2001), assigns three roles — proposers, acceptors, and learners — and runs two phases per attempt (Prepare/Promise, then Accept/Accepted) built entirely on the fact that any two majorities of acceptors must overlap in at least one member; that overlap is exactly what proves Paxos's core safety property, that once any value is chosen, no different value can ever be chosen afterward, and this concept covers Paxos at exactly this level — real roles, real phases, the real safety argument by name — without re-deriving every liveness and reconfiguration detail, deferring the fuller worked treatment to Raft, which the next three concepts build from the ground up specifically because Lamport's own algorithm was, by wide agreement including his own paper's title, unusually hard to teach.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Lamport — Paxos Made Simple (2001)",
+        "url": "https://lamport.azurewebsites.net/pubs/paxos-simple.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "raft-leader-election",
+    "id": 15,
+    "title": "Raft: Leader Election",
+    "topic": "Consensus",
+    "requires": [
+      "paxos-the-original-consensus-protocol"
+    ],
+    "related": [],
+    "summary": "Raft decomposes consensus into leader election, log replication, and safety specifically to be more understandable than Paxos, starting here with election: time is divided into terms (monotonically increasing integers, at most one leader per term), each server is a Follower, Candidate, or Leader, and a Follower that hears no heartbeat before its randomized election timeout elapses becomes a Candidate, increments its term, and sends RequestVote RPCs to every other server — the randomization is the actual mechanism that makes split votes (two candidates timing out simultaneously) rare rather than impossible, and a candidate becomes leader only upon collecting votes from a majority of the full cluster, the same majority-overlap property Paxos relies on.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 — Lecture Schedule",
+        "url": "https://pdos.csail.mit.edu/6.824/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raft-log-replication-and-commitment",
+    "id": 16,
+    "title": "Raft: Log Replication and Commitment",
+    "topic": "Consensus",
+    "requires": [
+      "raft-leader-election"
+    ],
+    "related": [],
+    "summary": "Once elected, a Raft leader is the only server that accepts client requests: it appends each new command to its own log as an uncommitted entry, then replicates it to followers via AppendEntries RPCs (which double as heartbeats), and only advances its commit index — marking that entry, and by construction every entry before it, as safely committed — once a majority of the cluster (leader included) has stored it; the Log Matching Property, that two logs agreeing on the term of an entry at some index are guaranteed identical in every entry up to and including that index, is what lets AppendEntries' consistency check (comparing just one previous index/term pair) stand in for comparing the entire log history.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "raft-safety-the-election-restriction-and-log-completeness",
+    "id": 17,
+    "title": "Raft Safety: The Election Restriction and Log Completeness",
+    "topic": "Consensus",
+    "requires": [
+      "raft-log-replication-and-commitment"
+    ],
+    "related": [
+      {
+        "label": "Proof by Contradiction",
+        "slug": "proof-by-contradiction",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "Raft's whole safety case rests on one restriction enforced during voting — RequestVote is refused unless the candidate's log is at least as up-to-date as the voter's own (compared by last entry's term, then length) — which forces every future leader's log to already contain every entry any past leader ever committed, the Leader Completeness Property; the paper proves this the same way Raft's own leader-election restriction motivates, by contradiction: assume some leader with the highest committed term does NOT hold an already-committed entry, note that entry's original committing leader needed a majority of acceptors to have it, note the new leader also needed a majority of voters, and since any two majorities overlap, some single server must have both voted for the new leader AND already stored the committed entry — but the election restriction would then have refused that vote unless the new leader's log was already at least that up to date, a direct contradiction.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "crash-faults-vs-byzantine-faults",
+    "id": 18,
+    "title": "Crash Faults vs. Byzantine Faults",
+    "topic": "Fault Models",
+    "requires": [
+      "raft-safety-the-election-restriction-and-log-completeness"
+    ],
+    "related": [
+      {
+        "label": "Byzantine Faults and System Models",
+        "slug": "byzantine-faults-and-system-models",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Every protocol this discipline covered — FLP, Paxos, Raft — assumes the crash-fault (fail-stop) model: a faulty process simply stops, and never sends a corrupted, contradictory, or actively misleading message; the Byzantine fault model is strictly harder and assumes exactly the opposite, that a faulty process may behave arbitrarily, including lying differently to different peers, which is precisely why Raft's simple majority-vote and quorum-overlap arguments do not carry over unmodified and real Byzantine-tolerant protocols need a larger quorum and a different safety argument — named honestly here as a real, distinct problem this discipline does not re-derive, since the applied protocol-level treatment (the Byzantine Generals Problem, PBFT) already exists in `system-design-concepts`.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Fischer, Lynch & Paterson — Impossibility of Distributed Consensus with One Faulty Process (JACM 1985)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-client-write-through-a-raft-replicated-system",
+    "id": 19,
+    "title": "Capstone: Tracing a Client Write Through a Raft-Replicated System",
+    "topic": "Capstone",
+    "requires": [
+      "crash-faults-vs-byzantine-faults"
+    ],
+    "related": [
+      {
+        "label": "Consensus and Coordination Services",
+        "slug": "consensus-and-coordination-services",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "This capstone traces one concrete client write end to end through a 3-node Raft cluster — an RPC arrives at the current leader, the leader appends it to its log as uncommitted, AppendEntries replicates it to both followers, the leader advances its commit index the instant a majority (itself plus one follower) has stored it, the entry is applied to the replicated state machine, and only then does the client receive its reply — naming the exact concept responsible for each step, tracing what changes when a follower is slow, when the leader crashes mid-replication, and closing with an honest account of where this discipline's rigor ends and the applied, production-scale coordination services (ZooKeeper, etcd) built on exactly this mechanism begin.",
+    "publishedAt": "2026-09-07",
+    "references": [
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 (Distributed Systems) — Course Overview",
+        "url": "https://pdos.csail.mit.edu/6.824/index.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
