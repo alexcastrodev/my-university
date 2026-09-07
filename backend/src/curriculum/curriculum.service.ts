@@ -13,6 +13,7 @@ import {
   Language,
   normalizeLanguage,
 } from '../shared/language';
+import { buildCurriculumGraph, CurriculumGraph } from './curriculum-graph';
 
 export interface CurriculumConceptSummary {
   slug: string;
@@ -75,6 +76,13 @@ export class CurriculumService {
     const file = join(dataDir, 'concepts.json');
     if (!existsSync(file)) return [];
     return sortByPrerequisites(require(file) as ConceptMeta[]);
+  }
+
+  /** The whole curriculum as a module/discipline graph — real `requires`/`related` edges only,
+   *  aggregated from every `concepts.json` on disk. Powers the `/map` knowledge-graph page
+   *  (tasks.md · "Fase futura — Knowledge Graph"); never gates anything, purely descriptive. */
+  getGraph(): CurriculumGraph {
+    return buildCurriculumGraph(DATA_ROOT);
   }
 
   /** Every (module, discipline) pair that actually exists on disk — for callers, like search indexing, that need to walk the whole curriculum tree rather than one discipline at a time. */

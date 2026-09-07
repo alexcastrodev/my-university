@@ -23,6 +23,13 @@ export class CurriculumController {
     return curriculumSourceId(mod, discipline, slug);
   }
 
+  /** A single path segment, so it never collides with the 2+-segment `:module/:discipline`
+   *  routes below — declared first anyway, matching the static-before-dynamic convention. */
+  @Get('graph')
+  getGraph() {
+    return this.service.getGraph();
+  }
+
   @Get(':module/:discipline')
   async findAll(
     @Param('module') mod: string,

@@ -38,12 +38,15 @@ describe('BottomNav', () => {
     expect(text).toContain('Map');
   });
 
-  it('marks Map as coming soon (disabled)', async () => {
+  it('links Map to the curriculum graph page', async () => {
     const { fixture } = await setup('/dashboard');
 
-    const soon: HTMLButtonElement = fixture.nativeElement.querySelector('.tab-soon');
-    expect(soon).toBeTruthy();
-    expect(soon.disabled).toBe(true);
+    const mapTab: HTMLAnchorElement | null = Array.from(
+      fixture.nativeElement.querySelectorAll('a.tab'),
+    ).find((a) => (a as HTMLAnchorElement).textContent?.includes('Map')) as HTMLAnchorElement | null;
+
+    expect(mapTab).toBeTruthy();
+    expect(mapTab!.getAttribute('href')).toBe('/map');
   });
 
   it('is visible on regular routes', async () => {

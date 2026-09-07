@@ -120,6 +120,16 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Renders an interactive Cytoscape graph — a canvas-manipulating widget outside
+    // Angular's own DOM reactivity, which SSR+hydration doesn't handle: the server-rendered
+    // markup has no canvas (guarded off during SSR, see MapPage's own platform check), and
+    // hydration's DOM-repair step for a mismatched subtree can orphan whatever the client
+    // mounts into it afterward. Client rendering sidesteps the whole class of bug, matching
+    // the pattern the "personalized / app-only routes" above already establish.
+    path: 'map',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'profile',
     renderMode: RenderMode.Client,
   },

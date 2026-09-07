@@ -1,0 +1,141 @@
+.map-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  position: relative;
+}
+
+.map-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.35rem;
+}
+
+.map-sub {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin: 0 0 1rem;
+  max-width: 620px;
+}
+
+.back-btn {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c74634;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 0.75rem;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.map-status {
+  font-size: 0.9rem;
+  color: #6b7280;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.map-error {
+  color: #b91c1c;
+}
+
+.cy-container {
+  width: 100%;
+  height: 560px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cy-container.hidden {
+  display: none;
+}
+
+.node-detail {
+  position: absolute;
+  top: 6rem;
+  right: 1.5rem;
+  width: 240px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
+}
+
+.node-detail h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem;
+}
+
+.node-detail dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.3rem 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.node-detail dt {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.node-detail dd {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  text-align: right;
+}
+
+.open-btn {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  background: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem;
+  cursor: pointer;
+}
+
+.open-btn:hover {
+  background: #1f2937;
+}
+
+@media (max-width: 640px) {
+  .node-detail {
+    position: static;
+    width: auto;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-page {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .cy-container {
+    height: 420px;
+  }
+}

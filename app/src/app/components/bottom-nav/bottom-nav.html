@@ -41,18 +41,18 @@
       <span i18n="@@bottomNav.track">Track</span>
     </a>
 
-    <button
-      type="button"
-      class="tab tab-soon"
-      disabled
-      i18n-aria-label="@@bottomNav.mapSoon"
-      aria-label="Map — coming soon"
+    <a
+      routerLink="/map"
+      routerLinkActive="active"
+      class="tab"
+      i18n-aria-label="@@bottomNav.map"
+      aria-label="Map"
     >
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
         <path d="M9 4v13M15 6.5v13" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
       </svg>
       <span i18n="@@bottomNav.map">Map</span>
-    </button>
+    </a>
   </nav>
 }

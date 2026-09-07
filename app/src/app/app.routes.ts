@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/daily/daily-home-page').then((m) => m.DailyHomePage),
   },
   {
+    path: 'map',
+    loadComponent: () => import('./pages/map/map-page').then((m) => m.MapPage),
+  },
+  {
     path: 'daily/session',
     loadComponent: () => import('./pages/daily/daily-session-page').then((m) => m.DailySessionPage),
   },
