@@ -115,8 +115,7 @@ class PostsController < ApplicationController
   load_and_authorize_resource
 
   def update
-    # @post already loaded via Post.find(params[:id]) AND authorized —
-    # a CanCan::AccessDenied is raised before this line runs if it fails.
+    # @post already loaded via Post.find(params[:id]) AND authorized, # a CanCan::AccessDenied is raised before this line runs if it fails.
     @post.update(post_params)
   end
 
@@ -361,7 +360,7 @@ de acordo.
   class PostsController < ApplicationController
     load_and_authorize_resource  # covers index/show/create/update/destroy
 
-    def publish  # custom action — NOT covered, no authorization check at all
+    def publish  # custom action, NOT covered, no authorization check at all
       @post.update!(published: true)
     end
   end

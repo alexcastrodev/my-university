@@ -233,7 +233,7 @@ pesquisável do que um `unscoped` nu:
 
 ```ruby
 ActsAsTenant.without_tenant do
-  Invoice.all # every tenant's invoices — for an admin report, say
+  Invoice.all # every tenant's invoices, for an admin report, say
 end
 ```
 
@@ -274,7 +274,7 @@ pool sem ser resetada carrega essa configuração para qualquer requisição
 que a pegue em seguida:
 
 ```ruby
-# The footgun — no reset on the way out
+# The footgun, no reset on the way out
 class ApplicationController < ActionController::Base
   before_action { ActiveRecord::Base.connection.schema_search_path = current_tenant.schema_name }
   # request finishes, connection returns to the pool still set to this tenant's schema
@@ -282,7 +282,7 @@ end
 ```
 
 ```ruby
-# The fix — always reset, including on the exception path
+# The fix, always reset, including on the exception path
 class ApplicationController < ActionController::Base
   around_action :switch_tenant_schema
 
@@ -372,7 +372,7 @@ fronteira do job, que aquele conceito assume já resolvida.
   ```ruby
   ActiveRecord::Base.connection.execute(
     "SELECT * FROM invoices WHERE id = #{params[:id]}"
-  ) # no tenant_id anywhere — default_scope never runs on raw SQL
+  ) # no tenant_id anywhere, default_scope never runs on raw SQL
   ```
 - **Tenancy baseada em schema multiplica toda migration pela contagem de
   tenants.** `bin/rails db:migrate` contra um schema não toca nos outros
@@ -394,7 +394,7 @@ fronteira do job, que aquele conceito assume já resolvida.
   definido para o *próximo* exemplo, porque nada dispara o reset fora dos
   callbacks de executor que o Rails conecta para requisições e jobs:
   ```ruby
-  # spec/support/current_attributes.rb — without this, tenant state leaks between examples
+  # spec/support/current_attributes.rb, without this, tenant state leaks between examples
   RSpec.configure do |config|
     config.after { Current.reset }
   end

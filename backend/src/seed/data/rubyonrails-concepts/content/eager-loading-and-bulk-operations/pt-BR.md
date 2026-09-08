@@ -37,16 +37,16 @@ em um punhado de instruções.
 ### Três estratégias, não uma
 
 ```ruby
-# 1. preload — one query per association, stitched together in Ruby
+# 1. preload, one query per association, stitched together in Ruby
 Book.preload(:author)
 # SELECT * FROM books
 # SELECT * FROM authors WHERE id IN (1, 2, 3, ...)
 
-# 2. eager_load — a single LEFT OUTER JOIN
+# 2. eager_load, a single LEFT OUTER JOIN
 Book.eager_load(:author)
 # SELECT books.*, authors.* FROM books LEFT OUTER JOIN authors ON authors.id = books.author_id
 
-# 3. includes — Rails picks one of the two above
+# 3. includes, Rails picks one of the two above
 Book.includes(:author)                                   # behaves as preload
 Book.includes(:author).where(authors: { country: "BR" })
     .references(:authors)                                # behaves as eager_load
@@ -205,7 +205,7 @@ Book.where(discontinued: true).update_all("price = price * 0.5")
 # One DELETE statement:
 Book.where(discontinued: true).delete_all
 
-# Instantiates each record and runs its destroy callbacks — N statements,
+# Instantiates each record and runs its destroy callbacks, N statements,
 # but dependent: :destroy associations and callbacks are honoured:
 Book.where(discontinued: true).destroy_all
 ```

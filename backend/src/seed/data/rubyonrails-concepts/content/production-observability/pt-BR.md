@@ -55,7 +55,7 @@ bastante para distorcer as próprias medições que está fazendo;
 ```
 ?pp=flamegraph        millisecond-by-millisecond flamegraph of the whole request
 ?pp=profile-memory     allocated vs. retained memory, per line of code
-?pp=profile-gc         GC.stat delta across the request — catches abnormal allocation spikes
+?pp=profile-gc         GC.stat delta across the request, catches abnormal allocation spikes
 ?pp=trace-exceptions   exceptions raised and silently rescued during a 200 OK request
 ```
 
@@ -88,7 +88,7 @@ aplicação".
 begin
   ExternalPricingAPI.fetch(sku)
 rescue Timeout::Error
-  fallback_price(sku)   # request still returns 200 — but an exception was raised
+  fallback_price(sku)   # request still returns 200, but an exception was raised
 end
 ```
 

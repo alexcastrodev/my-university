@@ -49,7 +49,7 @@ O `config/application.rb` gerado usa `rails/all`, que dá `require` em todo
 framework Rails, seja ele usado pela aplicação ou não:
 
 ```ruby
-# config/application.rb — the default
+# config/application.rb, the default
 require "rails/all"
 ```
 
@@ -60,7 +60,7 @@ worker em toda instância. Escolher a dedo é uma mudança de uma linha por
 framework:
 
 ```ruby
-# config/application.rb — only what this app actually uses
+# config/application.rb, only what this app actually uses
 require "rails"
 
 require "active_model/railtie"
@@ -268,7 +268,7 @@ Rails que você já tinha.
   avisar, porque você optou por sair do módulo que faria isso.
   ```ruby
   class UnsafeController < ActionController::Metal
-    # No protect_from_forgery here — and no error telling you it's missing.
+    # No protect_from_forgery here, and no error telling you it's missing.
     def update; end
   end
   ```

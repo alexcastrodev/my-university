@@ -132,7 +132,7 @@ coluna, renomear uma coluna ou tabela, e mais algumas. Quando pega o caso
 check para você:
 
 ```ruby
-# Migration 1: add the constraint unvalidated — fast, no full scan
+# Migration 1: add the constraint unvalidated, fast, no full scan
 class AddNotNullCheckToOrdersCustomerId < ActiveRecord::Migration[7.1]
   def change
     add_check_constraint :orders, "customer_id IS NOT NULL",
@@ -140,7 +140,7 @@ class AddNotNullCheckToOrdersCustomerId < ActiveRecord::Migration[7.1]
   end
 end
 
-# Migration 2: validate it — scans, but with a non-blocking lock
+# Migration 2: validate it, scans, but with a non-blocking lock
 class ValidateNotNullCheckOnOrdersCustomerId < ActiveRecord::Migration[7.1]
   def change
     validate_check_constraint :orders, name: "orders_customer_id_null"
@@ -192,7 +192,7 @@ código antigo e código novo rodando contra o mesmo banco de dados
 simultaneamente. A correção é dividir a mudança entre múltiplos deploys:
 
 ```ruby
-# Deploy 1 — add the new column, don't touch the old one
+# Deploy 1, add the new column, don't touch the old one
 class AddNewEmailToUsers < ActiveRecord::Migration[7.1]
   def change
     add_column :users, :new_email, :string
@@ -201,7 +201,7 @@ end
 ```
 
 ```ruby
-# Deploy 1 (app code) — dual-write: every write goes to both columns
+# Deploy 1 (app code), dual-write: every write goes to both columns
 class User < ApplicationRecord
   before_save :sync_new_email
 
@@ -214,12 +214,12 @@ end
 ```
 
 ```ruby
-# Deploy 1 or 2 — backfill existing rows (see next section for how, at scale)
+# Deploy 1 or 2, backfill existing rows (see next section for how, at scale)
 User.where(new_email: nil).in_batches.update_all("new_email = email")
 ```
 
 ```ruby
-# Deploy 2 — reads move to the new column once backfill is confirmed complete
+# Deploy 2, reads move to the new column once backfill is confirmed complete
 class User < ApplicationRecord
   before_save :sync_new_email
 
@@ -236,8 +236,7 @@ end
 ```
 
 ```ruby
-# Deploy 3, separately, once nothing reads or writes the old column —
-# drop it, ideally still behind strong_migrations' remove_column check
+# Deploy 3, separately, once nothing reads or writes the old column, # drop it, ideally still behind strong_migrations' remove_column check
 class RemoveOldEmailFromUsers < ActiveRecord::Migration[7.1]
   def change
     safety_assured { remove_column :users, :email }
@@ -267,7 +266,7 @@ usando a chave primária em vez de carregá-la na memória ou atualizá-la em
 uma única passagem:
 
 ```ruby
-# lib/tasks/backfill.rake — run as a rake task or background job, not inside a migration
+# lib/tasks/backfill.rake, run as a rake task or background job, not inside a migration
 namespace :backfill do
   task orders_status: :environment do
     Order.where(status: nil).in_batches(of: 2_000) do |batch|

@@ -151,7 +151,7 @@ envolvendo e precisa optar explicitamente:
 class SendWelcomeEmailJob < ApplicationJob
   def perform(user_id)
     ActiveRecord::Base.connected_to(role: :writing) do
-      user = User.find(user_id) # force primary — this job just wrote `user` moments ago
+      user = User.find(user_id) # force primary, this job just wrote `user` moments ago
       UserMailer.welcome(user).deliver_now
     end
   end
@@ -282,8 +282,7 @@ qualquer forma:
   recurso causar um bug de produção em vez de prevenir um:
   ```ruby
   def perform(order_id)
-    order = Order.find(order_id) # created moments ago by the enqueuing request —
-                                  # this may hit a replica that hasn't seen it yet
+    order = Order.find(order_id) # created moments ago by the enqueuing request, # this may hit a replica that hasn't seen it yet
     ChargeCustomerJob.perform_now(order)
   end
   ```

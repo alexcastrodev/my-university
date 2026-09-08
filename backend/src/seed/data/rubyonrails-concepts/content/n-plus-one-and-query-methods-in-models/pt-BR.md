@@ -85,7 +85,7 @@ User.all.each { |u| u.update!(normalized_email: u.email.downcase) }
 # Loads and processes in batches of 1000 by default:
 User.find_each { |u| u.update!(normalized_email: u.email.downcase) }
 
-# Same batching, but yields an ActiveRecord::Relation per batch — good for update_all:
+# Same batching, but yields an ActiveRecord::Relation per batch, good for update_all:
 User.in_batches { |batch| batch.update_all("normalized_email = LOWER(email)") }
 ```
 

@@ -200,7 +200,7 @@ diferença uma da outra no momento desta escrita, ambas com adoção real:
 Blueprinter ~1.3k estrelas no GitHub, Alba ~1.2k):
 
 ```ruby
-# Blueprinter — github.com/procore-oss/blueprinter
+# Blueprinter, github.com/procore-oss/blueprinter
 class OrderBlueprint < Blueprinter::Base
   identifier :id
   fields :total_cents, :status
@@ -212,7 +212,7 @@ OrderBlueprint.render(order)
 ```
 
 ```ruby
-# Alba — github.com/okuramasafumi/alba
+# Alba, github.com/okuramasafumi/alba
 class OrderResource
   include Alba::Resource
 

@@ -34,7 +34,7 @@ página que de fato parece rápida de carregar.
 ### O preloader, e o único padrão que o derrota
 
 ```html
-<!-- Invisible to the preloader — parser can't see this coming: -->
+<!-- Invisible to the preloader, parser can't see this coming: -->
 <script>
   var s = document.createElement("script");
   s.src = "https://analytics.example.com/a.js";
