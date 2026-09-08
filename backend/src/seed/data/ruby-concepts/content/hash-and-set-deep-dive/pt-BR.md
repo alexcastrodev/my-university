@@ -73,7 +73,7 @@ h[:b] << 2
 h[:a]        # => [1]
 h[:b]        # => [2]
 h.keys       # => [:a, :b]
-h[:c]        # => []      and :c now exists — merely reading created it
+h[:c]        # => []      and :c now exists, merely reading created it
 h.keys       # => [:a, :b, :c]
 ```
 
@@ -322,7 +322,7 @@ Set[1, 2]    <=> Set[1, 2, 3]   # => -1    proper subset
 Set[1, 2, 3] <=> Set[1, 2]      # => 1     proper superset
 Set[1, 2]    <=> Set[2, 1]      # => 0     equal (order irrelevant to equality)
 Set[1, 2]    <=> Set[2, 3]      # => nil   overlapping, neither contains the other
-Set[1, 2]    <=> Set[8, 9]      # => nil   disjoint — still nil, not -1
+Set[1, 2]    <=> Set[8, 9]      # => nil   disjoint, still nil, not -1
 ```
 
 Note esse último par: `Set[1, 2]` e `Set[8, 9]` têm o mesmo tamanho e não
@@ -376,9 +376,9 @@ O retorno `nil` funciona bem para `if`/`unless`/`next unless`, já que `nil`
 explicitamente:
 
 ```ruby
-s.add?(4) == false    # => false  — WRONG, nothing was added but this says "false"
-s.add?(4).nil?        # => true   — correct test for "no change"
-!s.add?(4)            # => true   — correct, nil is falsy
+s.add?(4) == false    # => false, WRONG, nothing was added but this says "false"
+s.add?(4).nil?        # => true, correct test for "no change"
+!s.add?(4)            # => true, correct, nil is falsy
 ```
 
 Então `if set.add?(x) == false` é um bug que parece correto. Teste

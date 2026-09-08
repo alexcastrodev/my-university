@@ -1,1 +1,349 @@
-[]
+[
+  {
+    "slug": "the-graphics-pipeline-from-vertices-to-pixels",
+    "id": 1,
+    "title": "The Graphics Pipeline: From Vertices to Pixels",
+    "topic": "The Rendering Pipeline",
+    "requires": [],
+    "related": [],
+    "summary": "Every real-time graphics system, from a mobile game to a AAA engine, answers the same question the same way: how does a list of 3D coordinates become a grid of colored pixels on a screen. This concept lays out the standard pipeline stage by stage (vertex data, transformations, rasterization, fragment shading, the framebuffer) as the shared vocabulary CS2013's Graphics and Interactive Techniques knowledge area expects every graphics course to teach first, and as the map every later concept in this discipline fills in one stage at a time.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "ACM/IEEE CS2013: Graphics and Interactive Techniques (GV) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-graphics-and-interactive-techniques-git-cs2013-version/",
+        "type": "doc"
+      },
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "homogeneous-coordinates-and-2d-affine-transformations",
+    "id": 2,
+    "title": "Homogeneous Coordinates and 2D Affine Transformations",
+    "topic": "Geometric Transformations",
+    "requires": ["the-graphics-pipeline-from-vertices-to-pixels"],
+    "related": [
+      {
+        "label": "Matrices as Linear Transformations",
+        "slug": "matrices-as-linear-transformations",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "`matrices-as-linear-transformations` (`mathematics-for-computing`) already proved that a matrix rotates, scales, or reflects a vector, but pointed out, honestly, that a plain 2x2 or 3x3 linear map cannot move a point (translation is not linear: it does not fix the origin). This concept builds the actual fix every graphics system uses: pad every 2D point to three homogeneous coordinates (x, y, 1) so that translation, rotation, and scale all become the same operation, a single matrix multiply, letting the pipeline compose them uniformly instead of special-casing translation.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "MIT 18.06: Linear Algebra (OCW course home, Gilbert Strang)",
+        "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/",
+        "type": "doc"
+      },
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "3d-transformations-and-composing-the-model-matrix",
+    "id": 3,
+    "title": "3D Transformations and Composing the Model Matrix",
+    "topic": "Geometric Transformations",
+    "requires": ["homogeneous-coordinates-and-2d-affine-transformations"],
+    "related": [
+      {
+        "label": "Matrices as Linear Transformations",
+        "slug": "matrices-as-linear-transformations",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "Extends the previous concept's 2D homogeneous trick to 4x4 matrices over (x, y, z, 1), then answers the question that made `matrices-as-linear-transformations` matter in the first place: matrix multiplication is function composition, so a model transformed by scale, then rotation, then translation is one matrix, S then R then T multiplied together (right to left), applied to every vertex once. Building this single model matrix, correctly ordered (order genuinely changes the result, since matrix multiplication does not commute), is the mechanism every 3D scene graph and every animated object in this discipline's pipeline depends on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "MIT 18.06: Linear Algebra (OCW course home, Gilbert Strang)",
+        "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/",
+        "type": "doc"
+      },
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-view-matrix-and-camera-space",
+    "id": 4,
+    "title": "The View Matrix and Camera Space",
+    "topic": "Geometric Transformations",
+    "requires": ["3d-transformations-and-composing-the-model-matrix"],
+    "related": [],
+    "summary": "A scene built entirely in world space still needs a camera before it can be drawn: this concept treats the camera itself as an object with a position and orientation, built with exactly the same rotation-and-translation machinery the previous concept just composed, then inverts that transform to get the view matrix, the one that re-expresses every vertex in the scene relative to the camera instead of the world. This is the second link of the model-view-projection chain this discipline builds toward, and the reason a moving camera and a moving object use the identical mathematical mechanism from two different sides.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-projection-matrix-perspective-and-clipping",
+    "id": 5,
+    "title": "The Projection Matrix: Perspective and Clipping",
+    "topic": "Geometric Transformations",
+    "requires": ["the-view-matrix-and-camera-space"],
+    "related": [],
+    "summary": "Closes the model-view-projection chain: the projection matrix maps camera-space coordinates into a normalized clip-space cube, doing two jobs at once, encoding perspective (distant objects shrink, via a divide by the vertex's own depth) for a perspective projection, or skipping that divide entirely for an orthographic one, and defining the exact frustum boundary a graphics system clips geometry against before anything is rasterized. This is the last purely geometric stage before the pipeline crosses into rasterization proper.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013: Graphics and Interactive Techniques (GV) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-graphics-and-interactive-techniques-git-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "triangle-rasterization-edge-functions-and-barycentric-coordinates",
+    "id": 6,
+    "title": "Triangle Rasterization: Edge Functions and Barycentric Coordinates",
+    "topic": "Rasterization",
+    "requires": ["the-projection-matrix-perspective-and-clipping"],
+    "related": [
+      {
+        "label": "GPU Architecture and the SIMT Execution Model",
+        "slug": "gpu-architecture-and-the-simt-execution-model",
+        "feature": "curriculum/computer/computer-architecture"
+      }
+    ],
+    "summary": "This is the real, concrete answer to \"how does a GPU actually draw a triangle\": Pineda's 1988 edge-function test decides, for any pixel, which side of each of a triangle's three edges it falls on with three linear evaluations, and the same three values, normalized, are the triangle's barycentric coordinates, which both classify inside-vs-outside with one sign check and interpolate any per-vertex attribute (color, depth, texture coordinate) smoothly across the triangle's interior. `gpu-architecture-and-the-simt-execution-model` already showed that a GPU executes many independent lanes in lockstep; this per-pixel edge test is exactly the embarrassingly parallel, branch-free workload that execution model was built for.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Pineda: A Parallel Algorithm for Polygon Rasterization (SIGGRAPH, 1988)",
+        "url": "https://history.siggraph.org/learning/a-parallel-algorithm-for-polygon-rasterization-by-pineda/",
+        "type": "paper"
+      },
+      {
+        "label": "NVIDIA CUDA Programming Guide: SIMT Execution and Warps",
+        "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/03-advanced/advanced-kernel-programming.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "z-buffering-and-visibility-determination",
+    "id": 7,
+    "title": "Z-Buffering and Visibility Determination",
+    "topic": "Rasterization",
+    "requires": ["triangle-rasterization-edge-functions-and-barycentric-coordinates"],
+    "related": [],
+    "summary": "Rasterizing every triangle in a scene, in any order, produces overlapping fragments for the same pixel; this concept covers the mechanism that makes draw order irrelevant, a per-pixel depth buffer that keeps only the closest fragment seen so far, computed with the exact barycentric interpolation of per-vertex depth the previous concept just built. Z-buffering is the real, standard visibility algorithm every rasterization-based pipeline uses, and this concept states its actual cost (one extra read-compare-write per fragment, plus its own honest failure mode with transparent surfaces) rather than presenting it as a free abstraction.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "local-illumination-lambertian-diffuse-reflection",
+    "id": 8,
+    "title": "Local Illumination: Lambertian Diffuse Reflection",
+    "topic": "Shading and Illumination",
+    "requires": ["z-buffering-and-visibility-determination"],
+    "related": [],
+    "summary": "The pipeline can now decide which fragment is visible; this concept starts answering what color that fragment actually is, with the simplest real local illumination model: Lambert's cosine law, light reflected off a perfectly matte surface is proportional to the cosine of the angle between the surface normal and the direction to the light, computed with a single dot product between two unit vectors. Every shading model this discipline covers after this one is diffuse reflection plus an additional term, never a replacement for it.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "specular-reflection-the-phong-and-blinn-phong-models",
+    "id": 9,
+    "title": "Specular Reflection: The Phong and Blinn-Phong Models",
+    "topic": "Shading and Illumination",
+    "requires": ["local-illumination-lambertian-diffuse-reflection"],
+    "related": [],
+    "summary": "Diffuse reflection alone never produces a highlight, the bright, view-dependent glint a shiny surface actually shows; this concept adds the classic, real, historically named fix, Phong's 1975 specular term (a cosine power of the angle between the reflection vector and the viewer) and Blinn's 1977 refinement (the same shape computed from a cheaper halfway vector instead of an explicit reflection), the two local illumination models nearly every real-time renderer built for the following three decades actually shipped.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Phong: Illumination for Computer Generated Pictures (Commun. ACM, 1975) — history via SIGGRAPH",
+        "url": "https://history.siggraph.org/learning/the-life-and-legacy-of-bui-tuong-phong-by-kim-oh-and-tran/",
+        "type": "paper"
+      },
+      {
+        "label": "Blinn: Models of Light Reflection for Computer Synthesized Pictures (SIGGRAPH, 1977)",
+        "url": "https://history.siggraph.org/learning/models-of-light-reflection-for-computer-synthesized-pictures-by-blinn/",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "shading-interpolation-flat-gouraud-and-phong-shading",
+    "id": 10,
+    "title": "Shading Interpolation: Flat, Gouraud, and Phong Shading",
+    "topic": "Shading and Illumination",
+    "requires": ["specular-reflection-the-phong-and-blinn-phong-models"],
+    "related": [],
+    "summary": "The previous two concepts define a lighting equation at a single point; this one covers the real, separate question of where in the pipeline that equation actually gets evaluated per triangle, per vertex with the result interpolated across the face (Gouraud), or per fragment with the normal itself interpolated and the full lighting equation re-evaluated at every pixel (Phong shading, not to be confused with the Phong reflection model the previous concept named), with flat shading (one evaluation per whole triangle) as the cheap, faceted baseline both improve on. The honest trade-off is entirely about where highlights get lost: Gouraud shading can miss a specular highlight that falls between a triangle's vertices, a real, visible artifact Phong shading fixes at real extra per-fragment cost.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-rendering-equation-and-the-limits-of-real-time-shading",
+    "id": 11,
+    "title": "The Rendering Equation and the Limits of Real-Time Shading",
+    "topic": "Shading and Illumination",
+    "requires": ["shading-interpolation-flat-gouraud-and-phong-shading"],
+    "related": [],
+    "summary": "Every shading model built so far computes light arriving directly from named light sources only; this concept states, honestly, the full physical problem those models approximate, Kajiya's 1986 rendering equation, which says outgoing light at a point equals emitted light plus an integral, over every direction, of incoming light scattered by the surface, incoming light that itself may have bounced off any other surface in the scene. Real-time rendering does not solve this integral, it truncates it (direct light only, plus a constant \"ambient\" fudge term for everything else), a deliberate, named, cost-driven approximation this concept makes explicit rather than leaving implicit, and the honest bridge to why ray tracing, covered next, is the technique built to approximate more of this integral directly.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) — history via SIGGRAPH",
+        "url": "https://history.siggraph.org/learning/the-rendering-equation-by-kajiya/",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "ray-casting-generating-and-intersecting-rays",
+    "id": 12,
+    "title": "Ray Casting: Generating and Intersecting Rays",
+    "topic": "Ray Tracing",
+    "requires": ["the-rendering-equation-and-the-limits-of-real-time-shading"],
+    "related": [],
+    "summary": "Instead of pushing triangles through a pipeline, ray tracing works backward from the pixel: for every pixel, cast one ray from the camera through that pixel into the scene (reusing exactly the camera-space geometry `the-view-matrix-and-camera-space` built), find the nearest surface it intersects by solving a simple quadratic or linear system per candidate object, and shade that hit point. This concept builds the real, minimal algorithm (ray generation plus ray-sphere and ray-triangle intersection) that every ray tracer, from a weekend toy renderer to a offline film renderer, starts from.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Shirley, Black, and Hollasch: Ray Tracing in One Weekend",
+        "url": "https://raytracing.github.io/books/RayTracingInOneWeekend.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bounding-volume-hierarchies-and-ray-tracing-acceleration",
+    "id": 13,
+    "title": "Bounding Volume Hierarchies and Ray Tracing Acceleration",
+    "topic": "Ray Tracing",
+    "requires": ["ray-casting-generating-and-intersecting-rays"],
+    "related": [
+      {
+        "label": "The Divide-and-Conquer Paradigm",
+        "slug": "the-divide-and-conquer-paradigm",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "Testing every ray against every object in a scene is linear in scene size per ray, hopeless for anything but a handful of objects; this concept covers the real, standard fix, a bounding volume hierarchy, a binary tree of nested boxes built by exactly the same recursive, top-down, axis-splitting idea `the-divide-and-conquer-paradigm` already proved in the abstract, applied here to spatial subdivision instead of a sorted array, that lets a ray skip an entire subtree with one box test and turns per-ray cost from linear into roughly logarithmic in practice.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Shirley, Black, and Hollasch: Ray Tracing: The Next Week (Bounding Volume Hierarchies chapter)",
+        "url": "https://raytracing.github.io/books/RayTracingTheNextWeek.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "recursive-ray-tracing-reflection-refraction-and-shadows",
+    "id": 14,
+    "title": "Recursive Ray Tracing: Reflection, Refraction, and Shadows",
+    "topic": "Ray Tracing",
+    "requires": ["bounding-volume-hierarchies-and-ray-tracing-acceleration"],
+    "related": [],
+    "summary": "A single primary ray only finds the nearest visible surface, the same job `z-buffering-and-visibility-determination` already did for rasterization; this concept covers what ray tracing can do that rasterization cannot do naturally, recurse: from a hit point, cast a shadow ray toward each light (occluded means the point is genuinely in shadow, not just approximated), and cast reflection and refraction rays that bounce further into the scene and get shaded recursively, each recursive bounce approximating one more step of the light-transport integral `the-rendering-equation-and-the-limits-of-real-time-shading` stated but real-time rasterization truncated after the first.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Shirley, Black, and Hollasch: Ray Tracing in One Weekend",
+        "url": "https://raytracing.github.io/books/RayTracingInOneWeekend.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) — history via SIGGRAPH",
+        "url": "https://history.siggraph.org/learning/the-rendering-equation-by-kajiya/",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "rasterization-vs-ray-tracing-tradeoffs-and-real-time-hardware",
+    "id": 15,
+    "title": "Rasterization vs. Ray Tracing: Trade-offs and Real-Time Hardware",
+    "topic": "Ray Tracing",
+    "requires": ["recursive-ray-tracing-reflection-refraction-and-shadows"],
+    "related": [
+      {
+        "label": "GPU Architecture and the SIMT Execution Model",
+        "slug": "gpu-architecture-and-the-simt-execution-model",
+        "feature": "curriculum/computer/computer-architecture"
+      }
+    ],
+    "summary": "States honestly, side by side, what the previous fourteen concepts already showed in pieces: rasterization is fast because it processes triangles through a fixed, embarrassingly parallel SIMT-friendly pipeline (per `gpu-architecture-and-the-simt-execution-model`) but only approximates the rendering equation, while ray tracing is more physically accurate, shadows, reflections, and refractions fall out of the same recursive algorithm rather than needing separate hacks, but was traditionally far too slow for real time because BVH traversal and recursive shading do not map onto fixed-function rasterization hardware at all. The honest, recent development this concept closes on is dedicated hardware, NVIDIA's Turing-generation RT Cores, built specifically to accelerate BVH traversal and ray-triangle intersection, that made real-time ray tracing a shipping reality rather than a purely offline technique, without pretending rasterization is now obsolete.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "NVIDIA Turing Architecture In-Depth (NVIDIA Developer Blog, 2018)",
+        "url": "https://developer.nvidia.com/blog/nvidia-turing-architecture-in-depth/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE CS2013: Graphics and Interactive Techniques (GV) Knowledge Area",
+        "url": "https://csed.acm.org/knowledge-areas-graphics-and-interactive-techniques-git-cs2013-version/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-one-triangle-through-both-pipelines",
+    "id": 16,
+    "title": "Capstone: Tracing One Triangle Through Both Pipelines",
+    "topic": "Capstone",
+    "requires": ["rasterization-vs-ray-tracing-tradeoffs-and-real-time-hardware"],
+    "related": [],
+    "summary": "Traces one concrete triangle, three object-space vertices and one point light, through every stage this discipline built, model matrix into view matrix into projection matrix, edge-function rasterization, z-buffer visibility, and Blinn-Phong shading, all the way to one final pixel color, then traces the identical scene a second way, a camera ray cast at that same pixel, intersected with the same triangle, shaded with the same lighting equation plus a recursive shadow ray, and states honestly where the two final colors agree, where they differ, and why, tying transformations, rasterization, and shading into one worked, end-to-end comparison in the same closing pattern `database-systems` and `distributed-systems-i` already used for their own capstones.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cornell CS4620: Introduction to Computer Graphics (course page, Fall 2025)",
+        "url": "https://www.cs.cornell.edu/courses/cs4620/2025fa/",
+        "type": "doc"
+      },
+      {
+        "label": "Shirley, Black, and Hollasch: Ray Tracing in One Weekend",
+        "url": "https://raytracing.github.io/books/RayTracingInOneWeekend.html",
+        "type": "doc"
+      }
+    ]
+  }
+]

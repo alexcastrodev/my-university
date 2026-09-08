@@ -251,7 +251,7 @@ void approvingRecordsTheFixedInstant() {
 ```
 
 ```java
-// production wiring — a normal @Bean, no test concept involved
+// production wiring, a normal @Bean, no test concept involved
 Clock systemClock() {
     return Clock.systemDefaultZone();
 }

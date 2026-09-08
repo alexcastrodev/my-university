@@ -1,1 +1,328 @@
-[]
+[
+  {
+    "slug": "digital-images-as-discrete-functions",
+    "id": 1,
+    "title": "Digital Images as Discrete Functions",
+    "topic": "Digital Image Representation",
+    "requires": [],
+    "related": [],
+    "summary": "This discipline's opening concept, and its honest scope boundary against `ai-theory/deep-learning`: a digital image is a discrete, two-dimensional function f(x, y), sampled on a pixel grid (spatial resolution) and quantized into a finite set of intensity levels (intensity resolution, or bit depth), and every technique in this discipline, from a hand-designed blur kernel to the JPEG pipeline, operates directly on that matrix of numbers using fixed, human-derived rules, not on weights learned from data, which is the actual, precise line this discipline draws against the CNNs `ai-theory/deep-learning` already teaches as a learned-filter technique.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), the field's standard textbook",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      },
+      {
+        "label": "ACM/IEEE-CS: Computer Science Curricula 2013 (CS2013), full report",
+        "url": "https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "grayscale-color-and-color-spaces",
+    "id": 2,
+    "title": "Grayscale, Color, and Color Spaces",
+    "topic": "Digital Image Representation",
+    "requires": ["digital-images-as-discrete-functions"],
+    "related": [],
+    "summary": "Builds directly on `digital-images-as-discrete-functions`'s single-channel f(x, y) by showing a color image is three such functions stacked (R, G, B channels), each an independent discrete function on the same pixel grid, covers the real, standard luminance-weighted formula used to collapse RGB to a single grayscale channel (the same weighting nearly every real image library uses, not an arbitrary average), and previews, honestly and briefly, why a perceptual color space like HSV separates hue from intensity in a way RGB cannot, useful context for later thresholding and segmentation work in this discipline without re-deriving color science from scratch.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Color Image Processing",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-convolution-and-correlation-operation",
+    "id": 3,
+    "title": "The Convolution and Correlation Operation",
+    "topic": "Spatial Filtering",
+    "requires": ["digital-images-as-discrete-functions"],
+    "related": [
+      {
+        "label": "Convolution as a Sliding Dot Product",
+        "slug": "convolution-as-a-sliding-dot-product",
+        "feature": "curriculum/ai-theory/deep-learning"
+      }
+    ],
+    "summary": "The core mechanical operation of this whole discipline: sliding a small kernel over the pixel grid of `digital-images-as-discrete-functions`'s image matrix, at each position taking the sum of element-wise products between the kernel and the underlying pixel neighborhood, covers the real distinction between true (flipped-kernel) convolution and correlation (most image-processing libraries actually implement correlation and call it convolution, a genuinely common naming looseness this concept names honestly), and the real boundary-handling strategies a border pixel forces (zero-padding, edge replication, reflection). This is the exact same sliding-dot-product mechanic `convolution-as-a-sliding-dot-product` (`ai-theory/deep-learning`) builds a CNN layer from, and the honest scope line for this entire discipline sits right here: every kernel in this discipline is fixed and hand-designed by a human before the image is ever seen, while that concept's kernel starts random and is learned from data by gradient descent, the same operation, two entirely different ways of choosing its numbers.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Spatial Filtering",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "spatial-filtering-box-and-gaussian-blur",
+    "id": 4,
+    "title": "Spatial Filtering: Box and Gaussian Blur",
+    "topic": "Spatial Filtering",
+    "requires": ["the-convolution-and-correlation-operation"],
+    "related": [],
+    "summary": "The first concrete, real fixed kernels run through `the-convolution-and-correlation-operation`'s sliding-window mechanic: the box blur (a uniform, normalized averaging kernel) and the Gaussian blur (a kernel sampled from the 2D Gaussian function, weighting nearby pixels more than distant ones), covers why kernel normalization (weights summing to 1) is what keeps a blur from darkening or brightening the image, and the real, practically important separability of the Gaussian kernel into two 1D passes, which turns an O(k^2) per-pixel cost into O(2k), the specific efficiency reason real libraries implement Gaussian blur this way rather than as a single 2D pass.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Spatial Filtering",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-sobel-operator-and-gradient-based-edge-detection",
+    "id": 5,
+    "title": "The Sobel Operator and Gradient-Based Edge Detection",
+    "topic": "Edge Detection",
+    "requires": ["spatial-filtering-box-and-gaussian-blur"],
+    "related": [],
+    "summary": "The same fixed-kernel convolution machinery `spatial-filtering-box-and-gaussian-blur` used for smoothing, pointed at a different goal: the Sobel operator's two 3x3 kernels, Gx and Gy, approximate the image's horizontal and vertical intensity gradients (each kernel also bakes in a small amount of smoothing along the perpendicular axis, historically attributed to Irwin Sobel and Gary Feldman's unpublished 1968 talk at the Stanford Artificial Intelligence Laboratory, a real, consistently cited attribution this concept states honestly rather than overclaiming a clean primary source), from which gradient magnitude and direction identify where intensity changes sharply, the classic, direct definition of an edge this whole discipline's edge-detection line of work is built on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Wikipedia: Sobel Operator, including the Sobel and Feldman 1968 attribution history",
+        "url": "https://en.wikipedia.org/wiki/Sobel_operator",
+        "type": "doc"
+      },
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Segmentation",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-canny-edge-detector",
+    "id": 6,
+    "title": "The Canny Edge Detector",
+    "topic": "Edge Detection",
+    "requires": ["the-sobel-operator-and-gradient-based-edge-detection"],
+    "related": [],
+    "summary": "Canny's 1986 algorithm is the real, historically named, four-stage answer to `the-sobel-operator-and-gradient-based-edge-detection`'s honest limitation, a raw gradient magnitude map alone produces thick, noisy edge blobs, not clean lines: Gaussian smoothing (reusing `spatial-filtering-box-and-gaussian-blur`'s kernel) to suppress noise first, gradient computation (reusing the Sobel kernels directly), non-maximum suppression to thin a blob down to a single-pixel-wide ridge along the true edge direction, and hysteresis thresholding with two thresholds (a high one that seeds confirmed edges, a low one that extends them along connected weak-gradient pixels) to close gaps a single threshold would either over- or under-detect, the real, still-standard pipeline that made edge detection precise enough for downstream segmentation work.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Canny, J.: A Computational Approach to Edge Detection (IEEE Transactions on Pattern Analysis and Machine Intelligence, 1986)",
+        "url": "https://ieeexplore.ieee.org/document/4767851",
+        "type": "paper"
+      },
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Segmentation",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "thresholding-and-otsus-method",
+    "id": 7,
+    "title": "Thresholding and Otsu's Method",
+    "topic": "Segmentation",
+    "requires": ["grayscale-color-and-color-spaces"],
+    "related": [],
+    "summary": "The simplest classical segmentation technique, operating directly on `grayscale-color-and-color-spaces`'s single-channel image: a global threshold splits pixels into two classes, foreground and background, by intensity alone, and Otsu's 1979 method removes the need to guess that threshold by hand, choosing, from the image's own intensity histogram, the exact threshold that maximizes the between-class variance (equivalently minimizes the within-class variance) between the two resulting pixel populations, a real, provably optimal-for-that-criterion, still widely used automatic thresholding algorithm this concept works by hand on a small concrete histogram.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Otsu, N.: A Threshold Selection Method from Gray-Level Histograms (IEEE Transactions on Systems, Man, and Cybernetics, 1979)",
+        "url": "https://engineering.purdue.edu/kak/computervision/ECE661.08/OTSU_paper.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Segmentation",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "region-growing-and-connected-component-labeling",
+    "id": 8,
+    "title": "Region Growing and Connected-Component Labeling",
+    "topic": "Segmentation",
+    "requires": ["thresholding-and-otsus-method"],
+    "related": [
+      {
+        "label": "Connected Components via BFS",
+        "slug": "connected-components-via-bfs",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "The region-based counterpart to `thresholding-and-otsus-method`'s purely intensity-based split: region growing starts from one or more seed pixels and repeatedly absorbs neighboring pixels whose intensity stays within a similarity tolerance of the growing region, and connected-component labeling, the step almost always run on a thresholded binary image right after `thresholding-and-otsus-method`, is exactly `connected-components-via-bfs` (`algorithms-software/algorithms`)'s own breadth-first flood-fill applied to a pixel grid instead of an abstract graph, reused directly here rather than re-derived, each pixel a node, each 4- or 8-neighbor adjacency an edge, exactly the graph BFS already proved.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Segmentation",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "morphological-erosion-and-dilation",
+    "id": 9,
+    "title": "Morphological Erosion and Dilation",
+    "topic": "Morphological Operations",
+    "requires": ["thresholding-and-otsus-method"],
+    "related": [],
+    "summary": "Operates on the binary image `thresholding-and-otsus-method` (or connected-component labeling) already produced, using a small structuring element instead of a numeric kernel: erosion keeps a foreground pixel only if the entire structuring element fits inside the foreground region at that position, shrinking regions and removing small isolated specks, while dilation sets a pixel to foreground if the structuring element overlaps the foreground at all, growing regions and filling small holes, the two real, dual, foundational binary operations every more complex morphological technique in this discipline composes.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Morphological Image Processing",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "morphological-opening-and-closing",
+    "id": 10,
+    "title": "Morphological Opening and Closing",
+    "topic": "Morphological Operations",
+    "requires": ["morphological-erosion-and-dilation"],
+    "related": [],
+    "summary": "The two real, practically important compositions of `morphological-erosion-and-dilation`'s primitives: opening (erosion followed by dilation, with the same structuring element) removes small noise specks and thin protrusions while leaving the overall size of larger regions roughly intact, and closing (dilation followed by erosion) fills small holes and gaps while similarly preserving overall region size, worked here on a concrete small binary grid showing exactly why running erosion or dilation alone, without its paired inverse, would shrink or grow every region indiscriminately rather than cleaning up noise selectively.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Morphological Image Processing",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-2d-discrete-fourier-transform-and-the-frequency-domain",
+    "id": 11,
+    "title": "The 2D Discrete Fourier Transform and the Frequency Domain",
+    "topic": "Frequency Domain Processing",
+    "requires": ["digital-images-as-discrete-functions"],
+    "related": [
+      {
+        "label": "The Dot Product and Vector Norms",
+        "slug": "the-dot-product-and-vector-norms",
+        "feature": "curriculum/foundations/mathematics-for-computing"
+      }
+    ],
+    "summary": "A genuinely different way of looking at `digital-images-as-discrete-functions`'s pixel matrix: the 2D Discrete Fourier Transform re-expresses the image as a weighted sum of 2D sinusoidal basis patterns of varying spatial frequency, each DFT coefficient computed as exactly `the-dot-product-and-vector-norms` (`foundations/mathematics-for-computing`)'s own inner product between the image and one complex sinusoidal basis function, reused directly rather than re-derived, and covers the real, concrete intuition every later frequency-domain concept in this discipline depends on: low frequencies carry the image's smooth, slowly varying regions, and high frequencies carry its edges, fine texture, and noise.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Filtering in the Frequency Domain",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-fast-fourier-transform",
+    "id": 12,
+    "title": "The Fast Fourier Transform",
+    "topic": "Frequency Domain Processing",
+    "requires": ["the-2d-discrete-fourier-transform-and-the-frequency-domain"],
+    "related": [],
+    "summary": "The real, historic reason `the-2d-discrete-fourier-transform-and-the-frequency-domain`'s DFT is practical on actual images rather than a purely theoretical tool: computing an N-point DFT directly by its definition costs O(N^2) multiplications, but Cooley and Tukey's 1965 divide-and-conquer algorithm recursively splits the transform into smaller DFTs on even- and odd-indexed samples, reducing the cost to O(N log N), a difference that is the entire reason frequency-domain image filtering is computationally feasible at all, worked here on a small concrete input to show exactly where the recursive split happens and why the savings compound.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Cooley, J.W. and Tukey, J.W.: An Algorithm for the Machine Calculation of Complex Fourier Series (Mathematics of Computation, 1965)",
+        "url": "https://www.ece.ucdavis.edu/~bbaas/281/papers/CooleyTukey.1965.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "the-convolution-theorem-and-frequency-domain-filtering",
+    "id": 13,
+    "title": "The Convolution Theorem and Frequency-Domain Filtering",
+    "topic": "Frequency Domain Processing",
+    "requires": ["the-fast-fourier-transform", "spatial-filtering-box-and-gaussian-blur"],
+    "related": [],
+    "summary": "The real, provable bridge connecting this discipline's two halves: the convolution theorem states that convolving two functions in the spatial domain (exactly `the-convolution-and-correlation-operation`'s sliding-kernel operation `spatial-filtering-box-and-gaussian-blur`'s blur kernels use) is mathematically equivalent to multiplying their Fourier transforms pointwise in the frequency domain `the-2d-discrete-fourier-transform-and-the-frequency-domain` and `the-fast-fourier-transform` built, which is the precise, honest reason a low-pass filter (zeroing out an image's high-frequency DFT coefficients before transforming back) produces exactly the same blurring effect as spatial-domain Gaussian convolution, not a coincidence or an approximation but the same operation viewed through two different, provably equivalent lenses.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), Chapter on Filtering in the Frequency Domain",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "block-based-dct-and-quantization-in-jpeg",
+    "id": 14,
+    "title": "Block-Based DCT and Quantization in JPEG",
+    "topic": "Compression",
+    "requires": ["the-2d-discrete-fourier-transform-and-the-frequency-domain"],
+    "related": [],
+    "summary": "JPEG's real, standard first two pipeline stages, using a close relative of `the-2d-discrete-fourier-transform-and-the-frequency-domain`'s DFT chosen specifically for compression, the Discrete Cosine Transform, which concentrates a natural image's energy into few, low-frequency coefficients more efficiently than the DFT for this purpose: the image is split into 8x8 pixel blocks, each block's 2D DCT is computed, and the resulting frequency coefficients are divided by a quantization table and rounded, the one genuinely lossy step in the entire pipeline, discarding high-frequency detail the human eye is least sensitive to, worked here on one concrete 8x8-style block with real numbers showing exactly where information is thrown away and why it is chosen to be the least visually noticeable information.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Wallace, G.K.: The JPEG Still Picture Compression Standard (IEEE Transactions on Consumer Electronics, 1992)",
+        "url": "https://web.stanford.edu/class/ee398a/handouts/papers/Wallace%20-%20JPEG%20-%201992.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "entropy-coding-and-the-jpeg-pipeline",
+    "id": 15,
+    "title": "Entropy Coding and the Full JPEG Pipeline",
+    "topic": "Compression",
+    "requires": ["block-based-dct-and-quantization-in-jpeg"],
+    "related": [
+      {
+        "label": "Huffman Coding: Construction",
+        "slug": "huffman-coding-construction",
+        "feature": "curriculum/ai-theory/information-theory"
+      },
+      {
+        "label": "Entropy: The Expected Information Content",
+        "slug": "entropy-the-expected-information-content",
+        "feature": "curriculum/ai-theory/information-theory"
+      }
+    ],
+    "summary": "Closes the real JPEG pipeline `block-based-dct-and-quantization-in-jpeg` began: the quantized DCT coefficients are reordered by a zigzag scan (grouping similar frequencies together), run-length encoded, and then entropy-coded, exactly `huffman-coding-construction`'s own optimal prefix-free code (`ai-theory/information-theory`), reused directly here rather than re-derived, exploiting the same skewed symbol-frequency structure `entropy-the-expected-information-content` already proved a Huffman code compresses close to the theoretical entropy bound, and closes with an honest, brief, survey-level contrast against lossless approaches, PNG's DEFLATE (dictionary matching plus Huffman coding, no quantization step, so no information is ever discarded), for a reader to see clearly what lossy compression's DCT-and-quantization step actually buys in return for that loss.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Wallace, G.K.: The JPEG Still Picture Compression Standard (IEEE Transactions on Consumer Electronics, 1992)",
+        "url": "https://web.stanford.edu/class/ee398a/handouts/papers/Wallace%20-%20JPEG%20-%201992.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-a-classical-image-processing-pipeline",
+    "id": 16,
+    "title": "Capstone: A Classical Image Processing Pipeline",
+    "topic": "Capstone",
+    "requires": [
+      "the-canny-edge-detector",
+      "region-growing-and-connected-component-labeling",
+      "morphological-opening-and-closing",
+      "entropy-coding-and-the-jpeg-pipeline"
+    ],
+    "related": [],
+    "summary": "This discipline's closing capstone, in the same amarra-tudo pattern `database-systems` and `distributed-systems-i`'s own capstones already used: traces one concrete, noisy grayscale photograph through a full, real, coherent classical pipeline, naming the exact concept responsible for every stage, Gaussian smoothing (`spatial-filtering-box-and-gaussian-blur`) to suppress sensor noise before anything else runs, `the-canny-edge-detector`'s full four-stage pipeline to find clean object boundaries, `thresholding-and-otsus-method` plus `region-growing-and-connected-component-labeling` to segment the thresholded regions into distinct labeled objects, `morphological-opening-and-closing` to clean up the segmentation's small speckle noise and gaps, and finally `entropy-coding-and-the-jpeg-pipeline`'s full DCT-quantize-entropy-code sequence to produce a compressed output file, showing concretely that these are not six unrelated techniques but one real, ordered, composable pipeline, and states honestly, in closing, the one thing this discipline deliberately never covers: learning any of these stages' parameters from data, which is exactly where `ai-theory/deep-learning`'s CNN material picks up.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gonzalez and Woods: Digital Image Processing, 4th Edition (Pearson, 2018), the field's standard textbook",
+        "url": "https://www.pearson.com/en-us/subject-catalog/p/Gonzalez-Digital-Image-Processing-4th-Edition/P200000003224?view=educator",
+        "type": "doc"
+      }
+    ]
+  }
+]

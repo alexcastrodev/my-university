@@ -125,7 +125,7 @@ Então um patch aplicado dentro de uma box simplesmente não existe fora
 dela:
 
 ```ruby
-# patches.rb — loaded into a box
+# patches.rb, loaded into a box
 class String
   def shout = upcase + "!"
 end

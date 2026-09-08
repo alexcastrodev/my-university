@@ -44,10 +44,10 @@ Given-When-Then é o mesmo padrão com nomes diferentes (Given = arrange, When =
 ### Uma seção de act com múltiplas linhas é um mau cheiro no código de produção, não no teste
 
 ```java
-// One-line act — a well-encapsulated API:
+// One-line act, a well-encapsulated API:
 boolean success = customer.purchase(store, Product.SHAMPOO, 5);
 
-// Two-line act — a leaking API:
+// Two-line act, a leaking API:
 boolean success = customer.purchase(store, Product.SHAMPOO, 5);
 store.removeInventory(success, Product.SHAMPOO, 5);
 ```
@@ -74,10 +74,10 @@ Separe as três seções ou com comentários `// Arrange` / `// Act` / `// Asser
 ### Nomeando um teste unitário: rejeite a convenção rígida
 
 ```java
-// Rigid convention — optimizes for describing code, not behavior:
+// Rigid convention, optimizes for describing code, not behavior:
 void isDeliveryValid_invalidDate_returnsFalse() { ... }
 
-// Plain English — optimizes for describing behavior:
+// Plain English, optimizes for describing behavior:
 void deliveryWithAPastDateIsInvalid() { ... }
 ```
 

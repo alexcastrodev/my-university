@@ -78,10 +78,10 @@ end
 log = []
 inv = AuditedInvoice.new(Invoice.new("A-1", 12_50), log)
 
-inv.total    # => 12.5   — our override, which logged first
-inv.number   # => "A-1"  — forwarded, we never defined it
-inv.cents    # => 1250   — forwarded
-inv.to_s     # => "Invoice A-1 (12.50)" — forwarded
+inv.total    # => 12.5, our override, which logged first
+inv.number   # => "A-1", forwarded, we never defined it
+inv.cents    # => 1250, forwarded
+inv.to_s     # => "Invoice A-1 (12.50)", forwarded
 log          # => ["read total of A-1"]
 ```
 
@@ -107,7 +107,7 @@ alvo.
 ```ruby
 inv.class            # => AuditedInvoice
 inv.is_a?(Invoice)   # => false
-inv.respond_to?(:number) # => true — Delegator overrides respond_to? properly
+inv.respond_to?(:number) # => true, Delegator overrides respond_to? properly
 ```
 
 Código que despacha em `is_a?` não vai enxergar através do wrapper; código
@@ -146,7 +146,7 @@ list = SortedList.new([3, 1, 2])
 list.to_a          # => [1, 2, 3]
 list << 0
 list.to_a          # => [0, 1, 2, 3]
-list.first         # => 0    — Array's method, on our target
+list.first         # => 0, Array's method, on our target
 list.include?(2)   # => true
 list.sum           # => 6
 list.map { _1 * 10 }        # => [0, 10, 20, 30] (a plain Array)
@@ -183,10 +183,10 @@ end
 
 b = BadList.new
 b << 3
-b << 1                    # => [1, 3]  — our override ran
-b.push(0)                 # => [1, 3, 0] — bypassed it entirely
-(b + [9]).class           # => Array   — not BadList
-b.select { _1 > 1 }.class # => Array   — not BadList
+b << 1                    # => [1, 3], our override ran
+b.push(0)                 # => [1, 3, 0], bypassed it entirely
+(b + [9]).class           # => Array, not BadList
+b.select { _1 > 1 }.class # => Array, not BadList
 ```
 
 **Seu tipo continua seu.** `SortedList` não é um `Array`, então nada
@@ -253,7 +253,7 @@ ticker.add_observer(Alarm.new(180))
 ticker.add_observer(log)
 ticker.count_observers   # => 2
 
-ticker.price = 190       # (no alarm — above the limit)
+ticker.price = 190       # (no alarm, above the limit)
 ticker.price = 175       # prints: ALARM: AAPL at 175 (limit 180)
 log.entries              # => [["AAPL", 190], ["AAPL", 175]]
 ```
@@ -271,13 +271,13 @@ class Broken
   include Observable
 
   def fire(v)
-    notify_observers(v)     # no `changed` first — silently does nothing
+    notify_observers(v)     # no `changed` first, silently does nothing
   end
 
   def fire_twice(v)
     changed
     notify_observers(v)     # runs
-    notify_observers(v)     # flag already reset — silently does nothing
+    notify_observers(v)     # flag already reset, silently does nothing
   end
 end
 ```
@@ -350,8 +350,8 @@ memoizada por `||=`. Mas compare as brechas:
 
 ```ruby
 # hand-rolled
-HandRolled.new.equal?(HandRolled.instance)             # => false — `new` is public
-HandRolled.instance.dup.equal?(HandRolled.instance)    # => false — a second instance
+HandRolled.new.equal?(HandRolled.instance)             # => false, `new` is public
+HandRolled.instance.dup.equal?(HandRolled.instance)    # => false, a second instance
 HandRolled.instance.clone.equal?(HandRolled.instance)  # => false
 Marshal.load(Marshal.dump(HandRolled.instance))
   .equal?(HandRolled.instance)                         # => false
@@ -374,8 +374,8 @@ com `new` privado.
 class Base; include Singleton; end
 class Sub < Base; end
 
-Base.instance.equal?(Sub.instance)  # => false — Sub has its own
-Sub.new                             # NoMethodError — still private
+Base.instance.equal?(Sub.instance)  # => false, Sub has its own
+Sub.new                             # NoMethodError, still private
 ```
 
 E o que de fato importa em um servidor com threads: `Singleton.instance` é

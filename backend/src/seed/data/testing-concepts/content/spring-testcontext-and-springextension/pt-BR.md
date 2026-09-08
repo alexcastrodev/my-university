@@ -73,7 +73,7 @@ public class SpringAppTest { /* ... */ }
 ```
 
 ```java
-// JUnit 5 + Spring 5 — same @ContextConfiguration, extension instead of runner
+// JUnit 5 + Spring 5, same @ContextConfiguration, extension instead of runner
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:application-context.xml")
 public class SpringAppTest { /* ... */ }

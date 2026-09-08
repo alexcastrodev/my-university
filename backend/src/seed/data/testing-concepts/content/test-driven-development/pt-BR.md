@@ -23,9 +23,9 @@ O `test-driven development` (TDD) inverte a ordem usual de trabalho: em vez de `
 O TDD é um loop de três passos curtos:
 
 ```
-1. RED       — escreva um teste para um comportamento que ainda não existe; rode-o; veja-o falhar.
-2. GREEN     — escreva o código mínimo para passar aquele teste; rode-o; veja-o passar.
-3. REFACTOR  — melhore a estrutura do código sem mudar comportamento; os testes continuam verdes.
+1. RED: escreva um teste para um comportamento que ainda não existe; rode-o; veja-o falhar.
+2. GREEN: escreva o código mínimo para passar aquele teste; rode-o; veja-o passar.
+3. REFACTOR: melhore a estrutura do código sem mudar comportamento; os testes continuam verdes.
 ```
 
 O teste que falha vem *primeiro*: ele prova que o teste consegue falhar (para que um sucesso posterior seja significativo) e fixa o requisito antes de qualquer implementação existir.

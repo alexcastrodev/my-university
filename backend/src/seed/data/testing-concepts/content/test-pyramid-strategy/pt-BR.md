@@ -23,10 +23,10 @@ A `pirâmide de testes` é uma estratégia sobre *quantos* testes de cada tipo e
 Do mais barato/numeroso ao mais caro/escasso (os próprios níveis são definidos no conceito "Princípios de Teste de Software"):
 
 ```
-        ▲  Aceitação     — satisfaz o usuário final? (cenários Cucumber)
-       ▲▲  Sistema       — sistema inteiro vs. spec, sem conhecimento de código (Selenium/UI)
-      ▲▲▲  Integração    — unidades verificadas, combinadas e testadas juntas (JUnit 5 + Spring)
-     ▲▲▲▲  Unidade       — cada classe/método isoladamente (JUnit 5 + Mockito)
+        ▲  Aceitação    : satisfaz o usuário final? (cenários Cucumber)
+       ▲▲  Sistema      : sistema inteiro vs. spec, sem conhecimento de código (Selenium/UI)
+      ▲▲▲  Integração   : unidades verificadas, combinadas e testadas juntas (JUnit 5 + Spring)
+     ▲▲▲▲  Unidade      : cada classe/método isoladamente (JUnit 5 + Mockito)
 ```
 
 Testes de nível baixo são detalhados e rápidos; testes de nível alto são abstratos, mais próximos do usuário, e mais lentos. A pirâmide diz: empurre o teste para *baixo*: prefira um teste unitário a um de integração, e um de integração a um de ponta a ponta, sempre que um nível puder dar a mesma confiança.
@@ -60,10 +60,10 @@ A checklist: **lógica de negócio**, **valores de entrada ruins**, **condiçõe
 A pirâmide é construída com as ferramentas do livro todo, cada uma no seu nível:
 
 ```
-Unidade       JUnit 5 + Mockito      — isola uma classe, mocka seus colaboradores
-Integração    JUnit 5 (+ Spring)     — carrega colaboradores reais juntos (@SpringBootTest, DB)
-Sistema       Selenium WebDriver     — controla a UI rodando de ponta a ponta
-Aceitação     Cucumber (Gherkin)     — verifica cenários de negócio na linguagem das partes interessadas
+Unidade       JUnit 5 + Mockito     : isola uma classe, mocka seus colaboradores
+Integração    JUnit 5 (+ Spring)    : carrega colaboradores reais juntos (@SpringBootTest, DB)
+Sistema       Selenium WebDriver    : controla a UI rodando de ponta a ponta
+Aceitação     Cucumber (Gherkin)    : verifica cenários de negócio na linguagem das partes interessadas
 ```
 
 Uma suíte saudável roda a base larga de unidades a cada mudança (segundos), e o topo estreito (Selenium/Cucumber) com menos frequência (minutos); o formato mantém o feedback rápido de fato rápido.

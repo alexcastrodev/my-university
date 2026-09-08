@@ -60,7 +60,7 @@ Async do
     end
   end
 end
-# task 2 / task 1 / task 0, total elapsed ~3s — not 6s
+# task 2 / task 1 / task 0, total elapsed ~3s, not 6s
 ```
 
 Três chamadas `sleep` que se serializariam em seis segundos se sobrepõem em

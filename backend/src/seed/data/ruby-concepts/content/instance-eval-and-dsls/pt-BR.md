@@ -68,7 +68,7 @@ definee padrão.
 
 ```ruby
 Widget.instance_eval { define_method(:oops) { 1 } }
-Widget.new.oops  # => 1  — an INSTANCE method, despite instance_eval
+Widget.new.oops  # => 1, an INSTANCE method, despite instance_eval
 ```
 
 Dentro de `instance_eval`, `def` segue a classe singleton, mas

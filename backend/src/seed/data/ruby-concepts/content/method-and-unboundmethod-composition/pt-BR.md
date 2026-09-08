@@ -53,16 +53,16 @@ pipe  = TextPipeline.new
 strip = pipe.method(:strip_tags)
 
 strip.class    # => Method
-strip.receiver # => the pipe object itself — the binding is baked in
+strip.receiver # => the pipe object itself, the binding is baked in
 strip.owner    # => TextPipeline
 ```
 
 Três sintaxes de chamada o invocam, e são intercambiáveis:
 
 ```ruby
-strip.call("<b>hi</b>")  # => "hi"   — explicit
-strip.("<b>hi</b>")      # => "hi"   — the .() shorthand
-strip["<b>hi</b>"]       # => "hi"   — the [] shorthand
+strip.call("<b>hi</b>")  # => "hi", explicit
+strip.("<b>hi</b>")      # => "hi", the .() shorthand
+strip["<b>hi</b>"]       # => "hi", the [] shorthand
 ```
 
 Como um `Method` responde a `to_proc`, ele também se encaixa direto em
@@ -135,9 +135,9 @@ def two(a, b)                  = nil
 def opt(a, b = 1)              = nil
 def tag(name, content, *attrs) = nil
 
-method(:two).arity   # =>  2   — exactly 2
-method(:opt).arity   # => -2   — 1 required, then optional  (-1-1)
-method(:tag).arity   # => -3   — 2 required, then a splat   (-2-1)
+method(:two).arity   # =>  2, exactly 2
+method(:opt).arity   # => -2, 1 required, then optional  (-1-1)
+method(:tag).arity   # => -3, 2 required, then a splat   (-2-1)
 ```
 
 `method(:tag).arity == -3` significa, portanto, "dois argumentos
@@ -151,8 +151,8 @@ algum nomeado for obrigatório:
 def kw(a, b:)     = nil
 def kwopt(a, b: 1) = nil
 
-method(:kw).arity     # =>  2   — a, plus one mandatory keyword bundle
-method(:kwopt).arity  # => -2   — a required, the keyword bundle optional
+method(:kw).arity     # =>  2, a, plus one mandatory keyword bundle
+method(:kwopt).arity  # => -2, a required, the keyword bundle optional
 ```
 
 Quando você precisa de detalhe real em vez de uma contagem, `parameters` te
@@ -181,8 +181,8 @@ deliver = Notifier.new("billing@acme.io").method(:deliver)
 deliver.arity   # => 3
 
 curried = deliver.curry          # a Proc awaiting 3 arguments
-email   = curried[:email]        # a Proc awaiting 2  — channel pinned
-invoice = email["Invoice #42"]   # a Proc awaiting 1  — subject pinned too
+email   = curried[:email]        # a Proc awaiting 2, channel pinned
+invoice = email["Invoice #42"]   # a Proc awaiting 1, subject pinned too
 
 invoice.call("Due in 7 days")
 # => "[email] billing@acme.io -> Invoice #42: Due in 7 days"
@@ -280,7 +280,7 @@ end
 fmt = Money.instance_method(:formatted)
 
 class Discounted < Money; end
-fmt.bind_call(Discounted.new(1999))  # => "$19.99" — a subclass instance is fine
+fmt.bind_call(Discounted.new(1999))  # => "$19.99", a subclass instance is fine
 
 fmt.bind_call(Object.new)
 # TypeError: bind argument must be an instance of Money

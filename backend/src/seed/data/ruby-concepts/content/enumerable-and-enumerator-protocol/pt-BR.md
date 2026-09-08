@@ -137,7 +137,7 @@ end
 # ada: 95
 # grace: 88
 # alan: 72
-# (exits cleanly — "turing" is never consumed)
+# (exits cleanly, "turing" is never consumed)
 ```
 
 Quando um Enumerator se esgota, `next` levanta `StopIteration`.

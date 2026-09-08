@@ -136,8 +136,8 @@ Array / Hash de verdade."
 > def nil.to_a = [1, 2, 3]
 > def m(*args) = args
 >
-> m(*nil)   # Ruby 3.4: [1, 2, 3] — silently ran nil.to_a
->           # Ruby 4.0: []        — *nil is just "no arguments," to_a never runs
+> m(*nil)   # Ruby 3.4: [1, 2, 3], silently ran nil.to_a
+>           # Ruby 4.0: [], *nil is just "no arguments," to_a never runs
 > ```
 > O Ruby 4.0 corrigiu isso: `*nil` agora é tratado como "nada", sem nenhuma
 > chamada de conversão, alinhando `*` com o jeito que `**nil` já pulava
@@ -166,7 +166,7 @@ end
 
 xiv = RomanNumeral.new("XIV")
 xiv.to_i         # => 14
-[1, 2, 3][xiv]   # nil — Array#[] called to_int for us, no explicit conversion written
+[1, 2, 3][xiv]   # nil, Array#[] called to_int for us, no explicit conversion written
 "ab" * xiv       # works: String#* wants an Integer, finds to_int
 ```
 
@@ -205,8 +205,8 @@ silenciosamente produzir lixo:
 ```ruby
 Integer("42")      # => 42
 Integer("0x1f", 16) # => 31
-Integer("42abc")   # ArgumentError — unlike "42abc".to_i, which returns 42
-Integer(nil)       # TypeError    — unlike nil.to_i, which returns 0
+Integer("42abc")   # ArgumentError, unlike "42abc".to_i, which returns 42
+Integer(nil)       # TypeError, unlike nil.to_i, which returns 0
 Integer(xiv)       # => 14, via to_int
 
 Array(nil)         # => []
@@ -274,7 +274,7 @@ class RomanNumeral
 end
 
 xiv = RomanNumeral.new("XIV")
-xiv.to_i * 3   # => 42, trivially — your class is the receiver
+xiv.to_i * 3   # => 42, trivially, your class is the receiver
 3 * xiv        # => 42, only because Integer#* asked xiv.coerce(3)
 ```
 
