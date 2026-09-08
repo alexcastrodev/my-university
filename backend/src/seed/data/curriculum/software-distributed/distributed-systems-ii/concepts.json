@@ -1,1 +1,464 @@
-[]
+[
+  {
+    "slug": "the-byzantine-generals-problem",
+    "id": 1,
+    "title": "The Byzantine Generals Problem",
+    "topic": "Byzantine Fault Tolerance",
+    "requires": [],
+    "related": [
+      {
+        "label": "Crash Faults vs. Byzantine Faults",
+        "slug": "crash-faults-vs-byzantine-faults",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Byzantine Faults and System Models",
+        "slug": "byzantine-faults-and-system-models",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "`crash-faults-vs-byzantine-faults` named the Byzantine fault model but deliberately stopped at the definition; this concept builds the actual problem Lamport, Shostak, and Pease formalized in 1982, generals who must agree on attack-or-retreat by exchanging only messengers that a traitor can forge or a traitor general can lie about, proves with a concrete three-general, one-traitor scenario that no solution exists with oral (unsigned) messages unless there are strictly more than three times the number of traitors in total participants, and sketches the recursive Oral Message algorithm that meets that bound exactly, the formal foundation every practical Byzantine-tolerant protocol in this discipline builds on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Lamport, Shostak, and Pease: The Byzantine Generals Problem (ACM TOPLAS, 1982)",
+        "url": "https://lamport.azurewebsites.net/pubs/byz.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 (Distributed Systems): Course Overview",
+        "url": "https://pdos.csail.mit.edu/6.824/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "practical-byzantine-fault-tolerance-pbft",
+    "id": 2,
+    "title": "Practical Byzantine Fault Tolerance (PBFT)",
+    "topic": "Byzantine Fault Tolerance",
+    "requires": ["the-byzantine-generals-problem"],
+    "related": [
+      {
+        "label": "The Consensus Problem: Agreement, Validity, and Termination",
+        "slug": "the-consensus-problem-agreement-validity-and-termination",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Byzantine Faults and System Models",
+        "slug": "byzantine-faults-and-system-models",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Castro and Liskov's 1999 algorithm is the real, practical answer to the theoretical bound the previous concept proved: a cluster of 3f+1 replicas tolerates f Byzantine replicas by running three message phases per request, pre-prepare (the primary assigns an order), prepare (every replica broadcasts and collects 2f+1 matching prepares to agree on that order without trusting the primary alone), and commit (2f+1 matching commits before any replica executes), plus a view-change sub-protocol that replaces a primary that stalls or behaves suspiciously, delivering, for the first time, a Byzantine-tolerant state machine replication protocol fast enough for real systems rather than a purely theoretical construction.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Castro and Liskov: Practical Byzantine Fault Tolerance (OSDI, 1999)",
+        "url": "https://www.usenix.org/legacy/publications/library/proceedings/osdi99/full_papers/castro/castro_html/castro.html",
+        "type": "paper"
+      },
+      {
+        "label": "Lamport, Shostak, and Pease: The Byzantine Generals Problem (ACM TOPLAS, 1982)",
+        "url": "https://lamport.azurewebsites.net/pubs/byz.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "nakamoto-consensus-and-a-different-trust-model",
+    "id": 3,
+    "title": "Nakamoto Consensus and a Different Trust Model",
+    "topic": "Byzantine Fault Tolerance",
+    "requires": ["practical-byzantine-fault-tolerance-pbft"],
+    "related": [
+      {
+        "label": "Merkle Trees: Hash Trees for Efficient Verification and Anti-Entropy",
+        "slug": "merkle-trees",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "PBFT assumes something Nakamoto's 2008 design deliberately refuses to assume, a fixed, known membership list that a view-change protocol can vote within; Nakamoto consensus instead lets anyone join anonymously and substitutes identity with computational cost, proposing the next block requires winning a proof-of-work lottery, and safety is only probabilistic, a block is treated as final once enough later blocks are chained on top of it, not the instant a quorum agrees, which is exactly why this concept scopes itself honestly, this is a genuinely different trust model (permissionless, probabilistic finality) worth naming precisely for what it trades against PBFT's (permissioned, deterministic finality), not a reason to turn a distributed-systems discipline into a blockchain-mechanics course.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Nakamoto: Bitcoin: A Peer-to-Peer Electronic Cash System (2008)",
+        "url": "https://bitcoin.org/bitcoin.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Castro and Liskov: Practical Byzantine Fault Tolerance (OSDI, 1999)",
+        "url": "https://www.usenix.org/legacy/publications/library/proceedings/osdi99/full_papers/castro/castro_html/castro.html",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "pacelc-the-latency-consistency-trade-off-beyond-cap",
+    "id": 4,
+    "title": "PACELC: The Latency-Consistency Trade-off Beyond CAP",
+    "topic": "Distributed Databases",
+    "requires": ["nakamoto-consensus-and-a-different-trust-model"],
+    "related": [
+      {
+        "label": "The CAP Theorem: A Precise Statement",
+        "slug": "the-cap-theorem-a-precise-statement",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Eventual Consistency and Its Real Guarantees",
+        "slug": "eventual-consistency-and-its-real-guarantees",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "CAP Theorem",
+        "slug": "cap-theorem",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "`the-cap-theorem-a-precise-statement` proved a trade-off that only fires during an actual network partition, leaving unanswered a question that matters every single day a system runs with no partition at all, do you still wait for every replica to agree before replying; Abadi's 2012 PACELC formulation names that second, always-present trade explicitly, if Partitioned, choose Availability or Consistency (exactly CAP), Else, choose Latency or Consistency, and this concept uses it to explain, precisely, why Dynamo-style stores this discipline studies next choose weak consistency even when the network is healthy, not only when it is partitioned, the real motivation the rest of this discipline's distributed-database material builds on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Abadi: Consistency Tradeoffs in Modern Distributed Database System Design (IEEE Computer, 2012)",
+        "url": "http://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Gilbert and Lynch: Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services (2002)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "vector-clocks-and-detecting-concurrent-writes",
+    "id": 5,
+    "title": "Vector Clocks and Detecting Concurrent Writes",
+    "topic": "Distributed Databases",
+    "requires": ["pacelc-the-latency-consistency-trade-off-beyond-cap"],
+    "related": [
+      {
+        "label": "Lamport Logical Clocks and the Happens-Before Relation",
+        "slug": "lamport-logical-clocks-and-the-happens-before-relation",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Lamport's scalar clock can prove a happened-before b, but a system that accepts writes on every replica, exactly what a system choosing Availability under PACELC does, needs a strictly stronger tool, one that can also prove two writes are genuinely concurrent (neither caused the other) rather than just assigning them some arbitrary total order; a vector clock, one counter per replica, incremented on that replica's own event and merged by taking the componentwise maximum on message receipt, recovers exactly the partial order Lamport clocks flatten away, letting a store compare two writes' vectors and decide, with certainty, whether one dominates the other or both must be kept as a genuine, unresolved conflict, the exact capability the next three concepts' leaderless replication depends on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Martin Kleppmann: Designing Data-Intensive Applications, 2nd Edition (O'Reilly), Chapter 5, \"Detecting Concurrent Writes\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      },
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "dynamo-style-leaderless-replication-and-quorum-intersection",
+    "id": 6,
+    "title": "Dynamo-Style Leaderless Replication and Quorum Intersection",
+    "topic": "Distributed Databases",
+    "requires": ["vector-clocks-and-detecting-concurrent-writes"],
+    "related": [
+      {
+        "label": "Primary-Backup vs. Quorum-Based Replication",
+        "slug": "primary-backup-vs-quorum-based-replication",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Consistent Hashing",
+        "slug": "consistent-hashing",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "`primary-backup-vs-quorum-based-replication` introduced quorums at the replicated-state-machine level, a majority agreeing on one ordered log; Dynamo takes the same overlap idea and applies it with no leader and no ordered log at all, a key replicates to N nodes (its preference list, typically the next N nodes clockwise on a consistent-hashing ring), a write succeeds once W of them acknowledge it and a read queries R of them, and this concept proves, from the pigeonhole principle alone, that R + W > N guarantees the read quorum and write quorum always share at least one node, so at least one replica the read touches has seen the latest write, the exact structural property every one of Dynamo's tunable-consistency deployments (N=3, R=2, W=2 being the paper's own running example) actually relies on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Martin Kleppmann: Designing Data-Intensive Applications, 2nd Edition (O'Reilly), Chapter 6, \"Leaderless Replication\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "sloppy-quorums-and-hinted-handoff",
+    "id": 7,
+    "title": "Sloppy Quorums and Hinted Handoff",
+    "topic": "Distributed Databases",
+    "requires": ["dynamo-style-leaderless-replication-and-quorum-intersection"],
+    "related": [
+      {
+        "label": "The CAP Theorem: A Precise Statement",
+        "slug": "the-cap-theorem-a-precise-statement",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "The previous concept's R + W > N proof has a quiet assumption baked in, that a write's W acknowledgments come from the key's actual preference-list nodes; Dynamo's sloppy quorum deliberately breaks that assumption for availability, if enough of the true preference-list nodes are unreachable, the write is accepted by whichever healthy nodes are next in line instead, each one storing the value with a hint recording who it really belongs to, and relaying it once that node recovers (hinted handoff), which is CAP's Consistency-versus-Availability choice made concrete and operational rather than abstract, a write during this concept's every scenario always succeeds, at the honest cost that the quorum-intersection guarantee the previous concept proved no longer strictly holds until the hint is delivered.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.5840 (Distributed Systems): Lecture Schedule",
+        "url": "https://pdos.csail.mit.edu/6.824/schedule.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "anti-entropy-read-repair-and-merkle-tree-synchronization",
+    "id": 8,
+    "title": "Anti-Entropy: Read Repair and Merkle Tree Synchronization",
+    "topic": "Distributed Databases",
+    "requires": ["sloppy-quorums-and-hinted-handoff"],
+    "related": [
+      {
+        "label": "Eventual Consistency and Its Real Guarantees",
+        "slug": "eventual-consistency-and-its-real-guarantees",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Merkle Trees: Hash Trees for Efficient Verification and Anti-Entropy",
+        "slug": "merkle-trees",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "`eventual-consistency-and-its-real-guarantees` named gossip and anti-entropy generically as how replicas converge; this concept covers the two concrete mechanisms Dynamo actually runs once hinted handoff and sloppy quorums have left replicas genuinely diverged, read repair (a client-facing read that touches R replicas and notices they disagree pushes the winning value back to the stale ones on the spot, using the same vector-clock comparison from two concepts ago) and background Merkle-tree synchronization (two replicas holding a whole key range compare one root hash first, and only recurse into subtrees whose hashes differ, finding every actually-diverged key in a range of n keys in O(log n) comparisons instead of comparing all n), and cross-links to the data structure's own full construction and proof of correctness rather than re-deriving it.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Merkle: Protocols for Public Key Cryptosystems (IEEE Symposium on Security and Privacy, 1980)",
+        "url": "https://www.ralphmerkle.com/papers/Protocols.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "two-phase-commit-and-the-blocking-problem",
+    "id": 9,
+    "title": "Two-Phase Commit and the Blocking Problem",
+    "topic": "Distributed Transactions",
+    "requires": ["anti-entropy-read-repair-and-merkle-tree-synchronization"],
+    "related": [
+      {
+        "label": "ACID Properties, Precisely Defined",
+        "slug": "acid-properties-precisely-defined",
+        "feature": "curriculum/systems/database-systems"
+      },
+      {
+        "label": "Two-Phase Locking and Conflict Serializability",
+        "slug": "two-phase-locking-and-conflict-serializability",
+        "feature": "curriculum/systems/database-systems"
+      },
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Every concept so far in this discipline replicated a single key; `acid-properties-precisely-defined` and `two-phase-locking-and-conflict-serializability` (`database-systems`) already proved Atomicity for a transaction confined to one node's lock manager, and this concept extends that same all-or-nothing requirement across nodes, a coordinator asks every participant to prepare (lock its rows and vote yes or no) in phase one, then tells everyone to commit or abort in phase two, and works through, precisely, the protocol's one real failure, if the coordinator crashes after collecting all-yes votes but before phase two's decision reaches every participant, each prepared participant is stuck holding its locks indefinitely, unable to unilaterally commit or abort without risking disagreeing with a decision the coordinator may already have made, the actual, provable blocking problem the next two concepts exist to address.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gray and Lamport: Consensus on Transaction Commit (ACM Transactions on Database Systems, 2006)",
+        "url": "https://www.microsoft.com/en-us/research/publication/consensus-on-transaction-commit/",
+        "type": "paper"
+      },
+      {
+        "label": "Martin Kleppmann: Designing Data-Intensive Applications, 2nd Edition (O'Reilly), Chapter 8, \"Distributed Transactions\"",
+        "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+        "type": "book"
+      }
+    ]
+  },
+  {
+    "slug": "three-phase-commit-and-why-it-still-fails-under-partitions",
+    "id": 10,
+    "title": "Three-Phase Commit and Why It Still Fails Under Partitions",
+    "topic": "Distributed Transactions",
+    "requires": ["two-phase-commit-and-the-blocking-problem"],
+    "related": [
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Skeen's 1981 three-phase commit protocol is a genuine, deliberate attempt to remove exactly the blocking case the previous concept proved, it inserts a pre-commit phase between voting and committing so that any participant that reaches pre-commit already knows every other participant voted yes, letting a newly elected coordinator safely commit on a stalled participant's behalf instead of forcing it to wait forever; this concept works through precisely why that fix only holds under an assumption real networks do not honestly satisfy, bounded message delay, showing a concrete network-partition (not crash) scenario where two disjoint participant groups each safely conclude a different, contradictory decision, which is exactly why the honest verdict, stated plainly here, is that 3PC solves blocking under a synchrony assumption without solving it under the asynchronous, partition-prone model this entire discipline otherwise assumes, and why production systems reach for the very different fix the next concept covers instead.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Wikipedia: Three-Phase Commit Protocol",
+        "url": "https://en.wikipedia.org/wiki/Three-phase_commit_protocol",
+        "type": "doc"
+      },
+      {
+        "label": "Gray and Lamport: Consensus on Transaction Commit (ACM Transactions on Database Systems, 2006)",
+        "url": "https://www.microsoft.com/en-us/research/publication/consensus-on-transaction-commit/",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "consensus-backed-commit-paxos-commit-and-distributed-sql",
+    "id": 11,
+    "title": "Consensus-Backed Commit: Paxos Commit and Distributed SQL",
+    "topic": "Distributed Transactions",
+    "requires": ["three-phase-commit-and-why-it-still-fails-under-partitions"],
+    "related": [
+      {
+        "label": "Paxos: The Original Consensus Protocol",
+        "slug": "paxos-the-original-consensus-protocol",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Raft: Log Replication and Commitment",
+        "slug": "raft-log-replication-and-commitment",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "Gray and Lamport's 2006 real insight, made explicit in this concept, is that 2PC's coordinator and 3PC's bounded-delay assumption were never the only options, since this discipline (via `distributed-systems-i`) already has a mechanism that reaches agreement correctly whenever any majority of participants is up and reachable, and no more, Paxos itself; Paxos Commit replaces the single coordinator with a small Paxos (or, in a modern implementation, Raft) group that decides each participant's prepare vote, so a coordinator crash no longer blocks anyone, any surviving majority of the commit group can safely continue, and this concept traces that exact idea forward into how Google Spanner and CockroachDB actually run production distributed transactions today, a Raft or Paxos group per data shard deciding commit outcomes, closing the loop between this discipline's own consensus concepts and the transactions material that opened this topic.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Gray and Lamport: Consensus on Transaction Commit (ACM Transactions on Database Systems, 2006)",
+        "url": "https://www.microsoft.com/en-us/research/publication/consensus-on-transaction-commit/",
+        "type": "paper"
+      },
+      {
+        "label": "Ongaro and Ousterhout: In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "strong-eventual-consistency-and-state-based-crdts",
+    "id": 12,
+    "title": "Strong Eventual Consistency and State-Based CRDTs",
+    "topic": "Eventual Consistency and CRDTs",
+    "requires": ["consensus-backed-commit-paxos-commit-and-distributed-sql"],
+    "related": [
+      {
+        "label": "Eventual Consistency and Its Real Guarantees",
+        "slug": "eventual-consistency-and-its-real-guarantees",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "`eventual-consistency-and-its-real-guarantees` left convergence entirely as a hope, gossip usually reaches it, with no proof it always must; Shapiro, Preguica, Baquero, and Zawirski's 2011 paper strengthens that into Strong Eventual Consistency (SEC), any two replicas that have delivered the exact same set of updates are in the exact same state immediately, no waiting, no conflict resolution step required, and proves a state-based CRDT (CvRDT) achieves this by construction whenever its states form a join-semilattice (a partial order with a least-upper-bound merge that is commutative, associative, and idempotent) and every update only ever moves a replica upward in that order; this concept works the proof through concretely on the G-Counter (one increment-only counter per replica, merge takes the componentwise maximum, total is the sum) and the PN-Counter (two G-Counters, increments and decrements, value is their difference), the two simplest CRDTs and the direct foundation the next concept's harder data types build on.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Shapiro, Preguica, Baquero, and Zawirski: Conflict-Free Replicated Data Types (INRIA / SSS, 2011)",
+        "url": "https://inria.hal.science/inria-00609399",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "operation-based-crdts-and-practical-data-types",
+    "id": 13,
+    "title": "Operation-Based CRDTs and Practical Data Types",
+    "topic": "Eventual Consistency and CRDTs",
+    "requires": ["strong-eventual-consistency-and-state-based-crdts"],
+    "related": [
+      {
+        "label": "Multi-Leader and Leaderless Replication",
+        "slug": "multi-leader-and-leaderless-replication",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "A state-based CRDT ships its whole state on every merge, wasteful once that state is a large set or document; an operation-based CRDT (CmRDT) ships only the operation itself and relies on a different, equally rigorous guarantee proved in the same 2011 paper, if all concurrent operations commute (their effect does not depend on delivery order) and the network provides reliable causal-order delivery (an operation is never applied before the operations it causally depends on), every replica still converges to the identical state without ever comparing whole states; this concept works that guarantee through on two data types Dynamo-family stores actually ship, the OR-Set (add-wins: every add is tagged with a fresh unique identifier, so a concurrent add and remove of the same element resolve by keeping the add, resolving the classic add/remove-race ambiguity a plain set cannot) and the Last-Write-Wins Register (using this discipline's own vector clocks or a physical timestamp as the tiebreak), naming honestly, in Common Misconceptions, exactly where CRDTs' guarantee stops (they guarantee convergence, never that the converged value is what any single user intended, an LWW-Register can silently and correctly discard a real, causally-unordered concurrent write).",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "Shapiro, Preguica, Baquero, and Zawirski: Conflict-Free Replicated Data Types (INRIA / SSS, 2011)",
+        "url": "https://inria.hal.science/inria-00609399",
+        "type": "paper"
+      },
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-a-shopping-cart-write-through-a-partitioned-dynamo-style-store",
+    "id": 14,
+    "title": "Capstone: A Shopping-Cart Write Through a Partitioned Dynamo-Style Store",
+    "topic": "Capstone",
+    "requires": ["operation-based-crdts-and-practical-data-types"],
+    "related": [
+      {
+        "label": "Capstone: Tracing a Client Write Through a Raft-Replicated System",
+        "slug": "capstone-tracing-a-client-write-through-a-raft-replicated-system",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "Designing a Distributed Key-Value Store",
+        "slug": "key-value-store-design",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "summary": "This capstone traces the exact scenario Dynamo's own paper uses throughout, a customer's shopping cart, through a genuine network partition and back, naming the precise concept responsible for each step, an add-to-cart write during the partition lands only on the reachable nodes of a sloppy quorum, tagged with a hint per `sloppy-quorums-and-hinted-handoff`; a concurrent add from the same customer's other device lands on the other, unreachable side, each side's cart value diverging exactly as `vector-clocks-and-detecting-concurrent-writes` predicts two truly concurrent writes must; once the partition heals, anti-entropy's Merkle-tree comparison (`anti-entropy-read-repair-and-merkle-tree-synchronization`) finds the diverged key, and because the cart is modeled as an OR-Set CRDT rather than a plain overwritable value, the merge in `operation-based-crdts-and-practical-data-types` deterministically unions both adds with no lost item and no manual conflict resolution, the same the item was never lost, but a stale count was briefly shown outcome the real Dynamo paper reports, closing the loop this discipline opened, with `distributed-systems-i`'s own capstone tracing a linearizable write through consensus, on the exact opposite, deliberate choice of the CAP trade-off, made fully concrete instead of abstract.",
+    "publishedAt": "2026-09-08",
+    "references": [
+      {
+        "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP, 2007)",
+        "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
+        "type": "paper"
+      },
+      {
+        "label": "Shapiro, Preguica, Baquero, and Zawirski: Conflict-Free Replicated Data Types (INRIA / SSS, 2011)",
+        "url": "https://inria.hal.science/inria-00609399",
+        "type": "paper"
+      }
+    ]
+  }
+]
