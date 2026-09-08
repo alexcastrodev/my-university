@@ -189,7 +189,7 @@
     "publishedAt": "2026-09-08",
     "references": [
       {
-        "label": "Phong: Illumination for Computer Generated Pictures (Commun. ACM, 1975) — history via SIGGRAPH",
+        "label": "Phong: Illumination for Computer Generated Pictures (Commun. ACM, 1975) : history via SIGGRAPH",
         "url": "https://history.siggraph.org/learning/the-life-and-legacy-of-bui-tuong-phong-by-kim-oh-and-tran/",
         "type": "paper"
       },
@@ -228,7 +228,7 @@
     "publishedAt": "2026-09-08",
     "references": [
       {
-        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) — history via SIGGRAPH",
+        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) : history via SIGGRAPH",
         "url": "https://history.siggraph.org/learning/the-rendering-equation-by-kajiya/",
         "type": "paper"
       }
@@ -290,7 +290,7 @@
         "type": "doc"
       },
       {
-        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) — history via SIGGRAPH",
+        "label": "Kajiya: The Rendering Equation (SIGGRAPH, 1986) : history via SIGGRAPH",
         "url": "https://history.siggraph.org/learning/the-rendering-equation-by-kajiya/",
         "type": "paper"
       }
