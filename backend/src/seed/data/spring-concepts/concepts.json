@@ -768,8 +768,8 @@
         "feature": "spring-concepts"
       },
       {
-        "label": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
-        "slug": "spring-batch-sharing-data-between-steps",
+        "label": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+        "slug": "jpql-criteria-api-and-native-queries",
         "feature": "spring-concepts"
       }
     ],
@@ -4872,6 +4872,196 @@
       {
         "label": "Spring Framework API — MockMvcTester.MockMvcRequestBuilder (inherits with(RequestPostProcessor))",
         "url": "https://docs.spring.io/spring-framework/docs/7.0.x/javadoc-api/org/springframework/test/web/servlet/assertj/MockMvcTester.MockMvcRequestBuilder.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jpql-criteria-api-and-native-queries",
+    "id": 89,
+    "category": "Spring Boot",
+    "title": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+    "topic": "Data Access",
+    "related": [
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "Why JPA gives you three distinct query APIs instead of one: JPQL is a string-based query language over your entity model (database-independent, but limited to the feature set Hibernate can translate to SQL), Criteria API exposes that same feature set as a type-safe Java API worth its verbosity mainly when a query has to be built dynamically from user input, and native SQL queries bypass the abstraction entirely for full access to database-specific features at the cost of portability; all three protect against SQL injection equally, but only if you use bind parameters instead of string concatenation.",
+    "publishedAt": "2026-09-11",
+    "references": [
+      {
+        "label": "Jakarta Persistence Specification — Jakarta Persistence Query Language (JPQL)",
+        "url": "https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#a4442",
+        "type": "doc"
+      },
+      {
+        "label": "Jakarta Persistence API — CriteriaBuilder",
+        "url": "https://jakarta.ee/specifications/persistence/3.2/apidocs/jakarta.persistence/jakarta/persistence/criteria/criteriabuilder",
+        "type": "doc"
+      },
+      {
+        "label": "Hibernate ORM User Guide — Native Queries",
+        "url": "https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#sql",
+        "type": "doc"
+      },
+      {
+        "label": "Thorben Janssen — JPQL, Criteria API and Native Queries (Coffee with Thorben)",
+        "url": "https://thorben-janssen.com/coffee-with-thorben/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jpa-stored-procedures",
+    "id": 90,
+    "category": "Spring Boot",
+    "title": "Calling Stored Procedures from JPA",
+    "topic": "Data Access",
+    "related": [
+      {
+        "label": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+        "slug": "jpql-criteria-api-and-native-queries",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "How @NamedStoredProcedureQuery maps a database stored procedure into JPA using @StoredProcedureParameter entries for IN, OUT, INOUT, and REF_CURSOR parameters, why a stored procedure query must be run with execute() instead of getResultList()/getSingleResult(), and how getOutputParameterValue() retrieves each output parameter afterward.",
+    "publishedAt": "2026-09-11",
+    "references": [
+      {
+        "label": "Jakarta Persistence API — StoredProcedureQuery",
+        "url": "https://jakarta.ee/specifications/persistence/3.2/apidocs/jakarta.persistence/jakarta/persistence/storedprocedurequery",
+        "type": "doc"
+      },
+      {
+        "label": "Jakarta Persistence API — NamedStoredProcedureQuery",
+        "url": "https://jakarta.ee/specifications/persistence/3.2/apidocs/jakarta.persistence/jakarta/persistence/namedstoredprocedurequery",
+        "type": "doc"
+      },
+      {
+        "label": "Thorben Janssen — JPQL, Criteria API and Native Queries (Coffee with Thorben)",
+        "url": "https://thorben-janssen.com/coffee-with-thorben/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hibernate-first-and-second-level-cache",
+    "id": 91,
+    "category": "Spring Boot",
+    "title": "Hibernate's First-Level and Second-Level Cache",
+    "topic": "Data Access",
+    "related": [
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+        "slug": "jpql-criteria-api-and-native-queries",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "Why em.find() and traversing a to-one association can be served entirely from the first-level (and second-level) cache while a JPQL, Criteria, or native query always hits the database, with Hibernate discarding a row from the result set and substituting the already-managed instance whenever the first-level cache already holds that entity; caching an actual query result requires the separate Query Cache, not the entity caches.",
+    "publishedAt": "2026-09-11",
+    "references": [
+      {
+        "label": "Hibernate ORM User Guide — Caching",
+        "url": "https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#caching",
+        "type": "doc"
+      },
+      {
+        "label": "Jakarta Persistence API — EntityManager.find",
+        "url": "https://jakarta.ee/specifications/persistence/3.2/apidocs/jakarta.persistence/jakarta/persistence/entitymanager",
+        "type": "doc"
+      },
+      {
+        "label": "Thorben Janssen — JPQL, Criteria API and Native Queries (Coffee with Thorben)",
+        "url": "https://thorben-janssen.com/coffee-with-thorben/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "hibernate-order-inserts-and-updates",
+    "id": 92,
+    "category": "Spring Boot",
+    "title": "Ordering Inserts and Updates to Avoid Deadlocks",
+    "topic": "Data Access",
+    "related": [
+      {
+        "label": "Hibernate's First-Level and Second-Level Cache",
+        "slug": "hibernate-first-and-second-level-cache",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "How hibernate.order_inserts and hibernate.order_updates make Hibernate group and reorder pending INSERT/UPDATE statements at flush time so operations against the same table happen in a consistent order across transactions, reducing (not eliminating) deadlocks on multi-node clusters such as Galera, and why avoiding explicit locking is still the first recommendation before reaching for these settings.",
+    "publishedAt": "2026-09-11",
+    "references": [
+      {
+        "label": "Hibernate ORM Configuration Properties — order_inserts / order_updates",
+        "url": "https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#configurations-database-orderInserts",
+        "type": "doc"
+      },
+      {
+        "label": "Thorben Janssen — JPQL, Criteria API and Native Queries (Coffee with Thorben)",
+        "url": "https://thorben-janssen.com/coffee-with-thorben/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jpql-in-clause-limits-and-multi-identifier-load",
+    "id": 93,
+    "category": "Spring Boot",
+    "title": "JPQL IN Clause Limits and Loading by Multiple Primary Keys",
+    "topic": "Data Access",
+    "related": [
+      {
+        "label": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+        "slug": "jpql-criteria-api-and-native-queries",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Hibernate's First-Level and Second-Level Cache",
+        "slug": "hibernate-first-and-second-level-cache",
+        "feature": "spring-concepts"
+      }
+    ],
+    "summary": "Why databases such as Oracle reject a JPQL or SQL IN clause once it holds more than 1000 elements, and the three ways around it: splitting the values into batches yourself, rewriting the filter as a sub-select, or, when filtering by primary key specifically, using Hibernate's MultiIdentifierLoadAccess (byMultipleIds) to fetch many entities by id in one call without hand-rolling the batching.",
+    "publishedAt": "2026-09-11",
+    "references": [
+      {
+        "label": "Hibernate ORM User Guide — Natural Id and Multiple Identifier Loading",
+        "url": "https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#pc-loading",
+        "type": "doc"
+      },
+      {
+        "label": "Hibernate ORM API — MultiIdentifierLoadAccess",
+        "url": "https://docs.jboss.org/hibernate/orm/current/javadocs/org/hibernate/MultiIdentifierLoadAccess.html",
+        "type": "doc"
+      },
+      {
+        "label": "Thorben Janssen — JPQL, Criteria API and Native Queries (Coffee with Thorben)",
+        "url": "https://thorben-janssen.com/coffee-with-thorben/",
         "type": "doc"
       }
     ]
