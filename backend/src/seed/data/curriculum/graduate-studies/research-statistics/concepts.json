@@ -1,1 +1,247 @@
-[]
+[
+  {
+    "slug": "hypotheses-questions-and-forms-of-evidence",
+    "id": 1,
+    "title": "Hypotheses, Questions, and Forms of Evidence",
+    "topic": "Hypotheses and Evidence",
+    "requires": [],
+    "related": [],
+    "summary": "A research question only becomes investigable once it is sharpened into a hypothesis, a specific, falsifiable claim that a particular kind of evidence could in principle refute, and Justin Zobel's Writing for Computer Science treats defending a hypothesis honestly as the real work of a research project, distinguishing between the different forms evidence can take (a proof, a measured result, a constructed example, an argument from first principles) and being explicit about which form a given hypothesis actually requires before claiming it is supported.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "good-and-bad-science-measurement-and-reflection",
+    "id": 2,
+    "title": "Good and Bad Science, Measurement, and Reflection",
+    "topic": "Hypotheses and Evidence",
+    "requires": ["hypotheses-questions-and-forms-of-evidence"],
+    "related": [],
+    "summary": "Choosing how to measure something, what to record, at what granularity, under what conditions, is itself a research decision with real consequences, made before any data collection begins, and Zobel's distinction between good and bad science in computing research turns on concrete, checkable properties (a fair comparison, a measurement approach that actually captures the effect being claimed, honesty about what was not tested) rather than on the sophistication of the technique used; this concept closes the discipline's opening chapter with reflection on research as an ongoing practice, not a one-off exercise that ends when a single hypothesis is confirmed.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "baselines-and-persuasive-data",
+    "id": 3,
+    "title": "Baselines and Persuasive Data",
+    "topic": "Experimentation",
+    "requires": ["hypotheses-questions-and-forms-of-evidence"],
+    "related": [],
+    "summary": "A result only means something relative to a baseline, and choosing a fair, relevant, sufficiently strong baseline is one of the most consequential decisions in designing a computing experiment, since a weak or outdated baseline can make almost any new method look good regardless of its actual merit; this concept covers Zobel's guidance on what makes experimental data genuinely persuasive to a skeptical reader, not merely present, extending the same skeptical-reader standard `academic-writing` already applies to prose into the design of the experiment itself, before a single sentence describing it gets written.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "interpretation-and-robustness-of-experimental-results",
+    "id": 4,
+    "title": "Interpretation and Robustness of Experimental Results",
+    "topic": "Experimentation",
+    "requires": ["baselines-and-persuasive-data"],
+    "related": [],
+    "summary": "An experimental result needs interpretation before it means anything, what does this specific number actually imply about the hypothesis under test, and it needs a robustness check before that interpretation can be trusted, does the result hold up under different inputs, different random seeds, or a slightly different experimental configuration, or was it a coincidence of one particular setup; this concept treats robustness as a real, checkable property researchers verify deliberately (varying conditions and confirming the effect persists), not an assumption a single successful run is allowed to carry unexamined.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "measuring-algorithm-and-systems-performance",
+    "id": 5,
+    "title": "Measuring Algorithm and Systems Performance",
+    "topic": "Experimentation",
+    "requires": ["baselines-and-persuasive-data"],
+    "related": [],
+    "summary": "Measuring how fast or how efficient a real implementation actually is turns out to be its own established subfield with real, non-obvious pitfalls, system clock resolution and jitter, warm-up effects before a JIT-compiled or cache-populated system reaches steady state, and confounding factors like background load on a shared machine, all of which can corrupt a measurement long before any statistical analysis is applied to it; this concept draws on Catherine McGeoch's dedicated experimental-algorithmics text alongside Zobel's own performance-measurement guidance to treat this as a real methodology, not an afterthought to writing benchmark code.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Cambridge University Press: Catherine C. McGeoch, A Guide to Experimental Algorithmics (2012)",
+        "url": "https://www.cambridge.org/core/books/guide-to-experimental-algorithmics/CDB0CB718F6250E0806C909E1D3D1082",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "human-studies-in-computing-research",
+    "id": 6,
+    "title": "Human Studies in Computing Research",
+    "topic": "Experimentation",
+    "requires": ["hypotheses-questions-and-forms-of-evidence"],
+    "related": [],
+    "summary": "Not all computing research evaluates algorithms or systems in isolation from people, a usability study, an A/B test of an interface, or an evaluation of how programmers actually use a tool all involve human participants, which introduces real methodological concerns absent from a purely algorithmic experiment, sample size and selection bias among participants, the effect of a participant knowing they are being observed, and the honest reporting of a study's real limitations given how few participants most computing human studies can practically recruit compared to fields built around large-scale human trials.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "coding-for-experimentation-and-describing-experiments",
+    "id": 7,
+    "title": "Coding for Experimentation and Describing Experiments",
+    "topic": "Experimentation",
+    "requires": ["baselines-and-persuasive-data"],
+    "related": [],
+    "summary": "Code written to run an experiment has a different, and in some ways stricter, correctness obligation than code written to ship a feature, a silent bug in an evaluation harness can produce a confidently wrong result that passes every review because nothing about the paper's prose reveals it, which is why Zobel treats experimental code as needing its own discipline of testing and sanity-checking; a written description of an experiment then has to give a reader enough detail, exact configuration, exact inputs, exact procedure, to reproduce it independently, the same reproducibility concern ACM's own current Artifact Review and Badging policy was created to formally recognize and reward.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "ACM: Artifact Review and Badging, Version 2.0 (Current)",
+        "url": "https://www.acm.org/publications/policies/artifact-review-and-badging-current",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "variables-samples-and-populations",
+    "id": 8,
+    "title": "Variables, Samples, and Populations",
+    "topic": "Statistical Principles",
+    "requires": ["hypotheses-questions-and-forms-of-evidence"],
+    "related": [],
+    "summary": "Every measured quantity in an experiment is a variable drawn from some real or conceptual population, and the sample actually collected, a specific set of benchmark runs, a specific set of workloads, a specific set of study participants, is only useful evidence about that wider population if the sample was selected in a way that does not systematically bias it, which is the foundational statistical distinction this concept establishes before any aggregation, variability, or significance testing can be discussed meaningfully.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "aggregation-variability-and-reporting",
+    "id": 9,
+    "title": "Aggregation, Variability, and Reporting",
+    "topic": "Statistical Principles",
+    "requires": ["variables-samples-and-populations"],
+    "related": [],
+    "summary": "Reducing repeated measurements to a single summary number, a mean latency, an average throughput, discards real information about how much those measurements varied, and reporting that variability honestly, a standard deviation, a confidence interval, or the full distribution's shape, is what lets a skeptical reader judge whether an observed difference between two systems is likely to be a real effect or noise within the normal spread of both; this concept treats variability as evidence in its own right, not an inconvenient detail a single mean is allowed to hide.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "statistical-significance-and-avoiding-common-errors",
+    "id": 10,
+    "title": "Statistical Significance and Avoiding Common Errors",
+    "topic": "Statistical Principles",
+    "requires": ["aggregation-variability-and-reporting"],
+    "related": [],
+    "summary": "A statistical significance test answers a narrow, specific question, how likely is a difference this large to have arisen by chance alone if there were really no underlying effect, and Janez Demšar's widely cited methodology paper on comparing classifiers documents, with real data from the machine learning literature, exactly how easily that narrow question gets conflated with a much bigger one, whether the observed difference is meaningful or reliable in practice, especially once many comparisons are run at once and some are bound to look significant purely by chance; this concept pairs that corrective with Zobel's own treatment of randomness, error, and effect size as distinct concerns from significance alone.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "JMLR: Janez Demšar, Statistical Comparisons of Classifiers over Multiple Data Sets (2006)",
+        "url": "https://jmlr.org/papers/v7/demsar06a.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "intuition-and-visualization-of-results",
+    "id": 11,
+    "title": "Intuition and Visualization of Results",
+    "topic": "Statistical Principles",
+    "requires": ["aggregation-variability-and-reporting"],
+    "related": [
+      {
+        "label": "Graphs, Figures, and Tables",
+        "slug": "graphs-figures-and-tables",
+        "feature": "curriculum/graduate-studies/academic-writing"
+      }
+    ],
+    "summary": "Human intuition about probability and variability is systematically unreliable in specific, well documented ways, a small sample's spread is routinely underestimated, and a pattern in genuinely random data is routinely overinterpreted as a real effect, which is exactly why Zobel treats deliberate visualization of results, not just a computed summary statistic, as a real check against misleading intuition before a claim is written up; this concept connects directly to `academic-writing`'s own treatment of honest graph construction, the same underlying discipline applied first to seeing a result correctly and only then to presenting it.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "designing-experiments-for-distributed-systems-research",
+    "id": 12,
+    "title": "Designing Experiments for Distributed Systems Research",
+    "topic": "Applied Research Design",
+    "requires": [
+      "interpretation-and-robustness-of-experimental-results",
+      "measuring-algorithm-and-systems-performance",
+      "statistical-significance-and-avoiding-common-errors"
+    ],
+    "related": [
+      {
+        "label": "PACELC: The Latency-Consistency Trade-off Beyond CAP",
+        "slug": "pacelc-the-latency-consistency-trade-off-beyond-cap",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      },
+      {
+        "label": "Dynamo-Style Leaderless Replication and Quorum Intersection",
+        "slug": "dynamo-style-leaderless-replication-and-quorum-intersection",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      }
+    ],
+    "summary": "This is the concept `graduate-studies` is anchored on: applying everything this discipline has built, honest baselines, robustness checks, correct performance measurement, real statistical significance, to the specific, already-technically-covered domain of distributed systems, consensus protocols, replication strategies, and consistency trade-offs this curriculum's own `distributed-systems-ii` already gives real technical depth to. Designing a real experiment here means choosing what to hold fixed and what to vary (network conditions, partition patterns, workload skew), picking a baseline that is a genuinely strong point of comparison (a well tuned existing protocol, not a strawman), and reporting variability across repeated runs under realistic, not just idealized, network behavior, since distributed systems experiments are unusually vulnerable to hidden nondeterminism a single clean run can mask entirely.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Cambridge University Press: Catherine C. McGeoch, A Guide to Experimental Algorithmics (2012)",
+        "url": "https://www.cambridge.org/core/books/guide-to-experimental-algorithmics/CDB0CB718F6250E0806C909E1D3D1082",
+        "type": "doc"
+      }
+    ]
+  }
+]
