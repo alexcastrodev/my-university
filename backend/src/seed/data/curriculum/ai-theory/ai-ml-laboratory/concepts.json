@@ -1,1 +1,312 @@
-[]
+[
+  {
+    "slug": "linear-regression-via-gradient-descent-from-scratch",
+    "id": 1,
+    "title": "Lab: Linear Regression via Gradient Descent, From Scratch",
+    "topic": "Building the Toolkit From Scratch",
+    "requires": [],
+    "related": [
+      {
+        "label": "Linear Regression as Least Squares",
+        "slug": "linear-regression-as-least-squares",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Gradient Descent as a General Optimizer",
+        "slug": "gradient-descent-as-a-general-optimizer",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "Linear Regression as Least Squares and Gradient Descent as a General Optimizer already prove, on paper, that minimizing mean squared error has a closed-form solution and that gradient descent converges toward it iteratively; this lab implements both, in plain NumPy with no scikit-learn anywhere in the loop, on a real, small dataset, and verifies the two independently-computed answers, closed-form and iterative, agree with each other, which is the whole real point: proof of convergence and actually observed convergence are two different things, and this lab is where the second one gets checked.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression",
+        "url": "https://cs229.stanford.edu/main_notes.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logistic-regression-and-a-decision-boundary-from-scratch",
+    "id": 2,
+    "title": "Lab: Logistic Regression and a Decision Boundary, From Scratch",
+    "topic": "Building the Toolkit From Scratch",
+    "requires": ["linear-regression-via-gradient-descent-from-scratch"],
+    "related": [
+      {
+        "label": "Logistic Regression and Decision Boundaries",
+        "slug": "logistic-regression-and-decision-boundaries",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "This lab reuses Lab 1's own gradient-descent loop unchanged, swapping only the loss function, cross-entropy in place of mean squared error, and the output nonlinearity, sigmoid in place of the identity, and verifies the resulting classifier's decision boundary against Logistic Regression and Decision Boundaries' own account of where that boundary sits (the set of points where the sigmoid's output crosses 0.5), plotted directly against a real, small, linearly separable dataset rather than only asserted algebraically.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression",
+        "url": "https://cs229.stanford.edu/main_notes.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-small-neural-network-and-backpropagation-from-scratch",
+    "id": 3,
+    "title": "Lab: A Small Neural Network and Backpropagation, From Scratch",
+    "topic": "Building the Toolkit From Scratch",
+    "requires": ["logistic-regression-and-a-decision-boundary-from-scratch"],
+    "related": [
+      {
+        "label": "Backpropagation: The Chain Rule Through a Computational Graph",
+        "slug": "backpropagation-the-chain-rule-through-a-computational-graph",
+        "feature": "curriculum/ai-theory/deep-learning"
+      },
+      {
+        "label": "Multilayer Networks as Composed Linear Transformations",
+        "slug": "multilayer-networks-as-composed-linear-transformations",
+        "feature": "curriculum/ai-theory/deep-learning"
+      }
+    ],
+    "summary": "Lab 2's logistic regression is, in the exact sense Multilayer Networks as Composed Linear Transformations describes, a neural network with zero hidden layers; this lab adds one hidden layer and implements backpropagation's own chain-rule gradient computation by hand, layer by layer, then verifies every hand-derived gradient against numerical gradient checking (a small finite-difference perturbation of each weight), the standard, real way Backpropagation: The Chain Rule Through a Computational Graph's own correctness is actually confirmed in practice, not merely trusted from the derivation.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "CS231n — Backpropagation, Intuitions",
+        "url": "https://cs231n.github.io/optimization-2/",
+        "type": "doc"
+      },
+      {
+        "label": "Dive into Deep Learning — Forward Propagation, Backward Propagation, and Computational Graphs",
+        "url": "https://d2l.ai/chapter_multilayer-perceptrons/backprop.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "k-means-and-pca-from-scratch",
+    "id": 4,
+    "title": "Lab: k-Means and PCA, From Scratch",
+    "topic": "Building the Toolkit From Scratch",
+    "requires": [],
+    "related": [
+      {
+        "label": "k-Means Clustering",
+        "slug": "k-means-clustering",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Principal Component Analysis",
+        "slug": "principal-component-analysis",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "Unlike Labs 1 through 3, these two algorithms have no labels to fit against, no loss function measuring distance from a known right answer, which is the concrete, hands-on lesson this lab is built to deliver: k-Means Clustering's assign-then-update loop implemented from scratch and run until convergence, and Principal Component Analysis's own eigendecomposition of a real dataset's covariance matrix, verified not against a label but against a directly checkable geometric property, k-means's total within-cluster distance strictly decreasing every iteration, and PCA's own top components capturing the claimed, computed fraction of total variance.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford CS229 — Lecture Notes, Part I: Linear Regression",
+        "url": "https://cs229.stanford.edu/main_notes.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "forming-a-falsifiable-hypothesis-on-a-real-dataset",
+    "id": 5,
+    "title": "Lab: Forming a Falsifiable Hypothesis on a Real Dataset",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["linear-regression-via-gradient-descent-from-scratch"],
+    "related": [
+      {
+        "label": "Hypotheses, Questions, and Forms of Evidence",
+        "slug": "hypotheses-questions-and-forms-of-evidence",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "This lab opens the second arc of this discipline, applying `graduate-studies/research-statistics`'s own hypothesis-and-evidence framework to a genuinely hands-on ML setting, not just a real dataset, but a real, still-open question about it, sharpened, exactly as Hypotheses, Questions, and Forms of Evidence describes, into a specific, falsifiable claim (a particular feature's coefficient sign, a specific accuracy threshold Lab 1's model should clear) before Lab 6's dataset work or Lab 7's model selection even begins, so every later lab in this arc is answering a question stated precisely enough in advance to actually be wrong.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dataset-work-splits-leakage-and-honest-evaluation",
+    "id": 6,
+    "title": "Lab: Dataset Work, Splits, Leakage, and Honest Evaluation",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["forming-a-falsifiable-hypothesis-on-a-real-dataset"],
+    "related": [
+      {
+        "label": "Training, Test, and Validation Splits",
+        "slug": "training-test-and-validation-splits",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Cross-Validation",
+        "slug": "cross-validation",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "Training, Test, and Validation Splits already establishes why a model can only be honestly evaluated on data it never touched during training; this lab makes that discipline concrete and, deliberately, makes its violation concrete too: a correct split implemented first, then a second, intentionally broken version that leaks test-set information into training (through a preprocessing step, like a feature-scaling normalization, fit on the full dataset before splitting), measuring directly how much that leak inflates the reported accuracy, exactly the honest-versus-dishonest evaluation gap Cross-Validation's own k-fold discipline exists to close.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Caltech CS 156 — Learning From Data, Lecture 13: Validation",
+        "url": "https://work.caltech.edu/telecourse.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "model-selection-and-the-bias-variance-tradeoff-measured",
+    "id": 7,
+    "title": "Lab: Model Selection and the Bias-Variance Tradeoff, Measured",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["dataset-work-splits-leakage-and-honest-evaluation", "a-small-neural-network-and-backpropagation-from-scratch"],
+    "related": [
+      {
+        "label": "The Bias-Variance Tradeoff",
+        "slug": "the-bias-variance-tradeoff",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Overfitting and the VC Dimension",
+        "slug": "overfitting-and-the-vc-dimension",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Regularization: Ridge and Lasso",
+        "slug": "regularization-ridge-and-lasso",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "The Bias-Variance Tradeoff and Overfitting and the VC Dimension already predict, theoretically, a U-shaped validation-error curve as model complexity increases, underfitting on one side, overfitting on the other; this lab sweeps model complexity directly, polynomial degree for Lab 1's regressor, hidden-layer width for Lab 3's small network, plots training error against held-out validation error across that sweep, and measures the exact point the curve turns, then applies Regularization: Ridge and Lasso's own penalty term and confirms, empirically, that it shifts that turning point rather than merely being asserted to.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Caltech CS 156 — Learning From Data, Lecture 8: Bias-Variance Tradeoff",
+        "url": "https://work.caltech.edu/telecourse.html",
+        "type": "doc"
+      },
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "running-and-reporting-a-real-experiment",
+    "id": 8,
+    "title": "Lab: Running and Reporting a Real Experiment",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["model-selection-and-the-bias-variance-tradeoff-measured"],
+    "related": [
+      {
+        "label": "Evaluation Metrics: Precision, Recall, and ROC",
+        "slug": "evaluation-metrics-precision-recall-and-roc",
+        "feature": "curriculum/ai-theory/machine-learning"
+      },
+      {
+        "label": "Baselines and Persuasive Data",
+        "slug": "baselines-and-persuasive-data",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "This lab applies `graduate-studies/research-statistics`'s own baseline-and-robustness discipline directly to the models this arc has built: Lab 7's best-selected model run against a real, fair baseline (an untuned default configuration, not a strawman), evaluated with Evaluation Metrics: Precision, Recall, and ROC's own full metric set rather than accuracy alone, across multiple random seeds to report honest variability, and written up as a short, real report answering Lab 5's original hypothesis directly, supported or refuted, with the actual evidence, not just a final number.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "reproducing-a-result-the-ml-reproducibility-checklist",
+    "id": 9,
+    "title": "Lab: Reproducing a Result, the ML Reproducibility Checklist",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["running-and-reporting-a-real-experiment"],
+    "related": [
+      {
+        "label": "Coding for Experimentation and Describing Experiments",
+        "slug": "coding-for-experimentation-and-describing-experiments",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "The NeurIPS Reproducibility Program's own real, peer-reviewed report on machine learning reproducibility documents, with real, collected data from real submitted papers, how often published ML results fail to reproduce and what specifically tends to be missing; this lab applies that report's own checklist, exact hyperparameters, exact data preprocessing steps, exact random seeds, hardware and software versions, directly to Lab 8's own experiment, first hiding the checklist items deliberately (matching a typically under-documented paper) to show a fresh implementation attempt fails to reproduce the reported number, then filling in every checklist item and confirming that it now does.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Pineau et al. — Improving Reproducibility in Machine Learning Research (JMLR, 2021)",
+        "url": "https://www.jmlr.org/papers/v22/20-303.html",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-a-held-out-benchmark-challenge",
+    "id": 10,
+    "title": "Capstone: A Held-Out Benchmark Challenge",
+    "topic": "The Research Cycle, For Real",
+    "requires": ["k-means-and-pca-from-scratch", "reproducing-a-result-the-ml-reproducibility-checklist"],
+    "related": [
+      {
+        "label": "Choosing and Validating a Model: A Decision Guide",
+        "slug": "choosing-and-validating-a-model-a-decision-guide",
+        "feature": "curriculum/ai-theory/machine-learning"
+      }
+    ],
+    "summary": "This capstone runs the full cycle this discipline's own topic sequence names, question, hypothesis, dataset, model, experiment, evaluation, reproduce, challenge, end to end and under real, Kaggle-style competitive pressure: a dataset whose true test-set labels are genuinely withheld, a fixed deadline, and a single held-out leaderboard score as the only feedback, forcing every earlier lab's discipline, honest splits from Lab 6, principled model selection from Lab 7, a real baseline from Lab 8, into one real decision under uncertainty, closing exactly where Choosing and Validating a Model: A Decision Guide's own theoretical framework opened, but now applied under a real, binding deadline instead of worked through at leisure.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "James, Witten, Hastie & Tibshirani — An Introduction to Statistical Learning",
+        "url": "https://www.statlearning.com/",
+        "type": "doc"
+      },
+      {
+        "label": "Pineau et al. — Improving Reproducibility in Machine Learning Research (JMLR, 2021)",
+        "url": "https://www.jmlr.org/papers/v22/20-303.html",
+        "type": "doc"
+      }
+    ]
+  }
+]
