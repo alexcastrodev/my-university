@@ -1,1 +1,383 @@
-[]
+[
+  {
+    "slug": "nand-to-gates-the-basic-chip-set",
+    "id": 1,
+    "title": "Lab: NAND to Gates, the Basic Chip Set",
+    "topic": "Building a CPU From Gates",
+    "requires": [],
+    "related": [
+      {
+        "label": "NAND as a Universal Gate",
+        "slug": "nand-as-a-universal-gate",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      }
+    ],
+    "summary": "NAND as a Universal Gate proved, on paper, that every other gate is expressible in NAND alone; this lab is where that proof stops being an exercise in boolean algebra and becomes working code, composing a software NAND primitive into AND, OR, NOT, XOR, and a 2-to-1 multiplexer, each one verified against its own truth table, exactly the first, foundational step of Nand2Tetris's own build-a-computer sequence.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Nand2Tetris — Build a Modern Computer from First Principles",
+        "url": "https://www.coursera.org/learn/build-a-computer",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.004 — Combinational Logic Unit",
+        "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "an-alu-from-truth-tables",
+    "id": 2,
+    "title": "Lab: An ALU From Truth Tables",
+    "topic": "Building a CPU From Gates",
+    "requires": ["nand-to-gates-the-basic-chip-set"],
+    "related": [
+      {
+        "label": "Designing an Arithmetic Logic Unit",
+        "slug": "designing-an-arithmetic-logic-unit",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      },
+      {
+        "label": "ALU Operation Selection and Flags",
+        "slug": "alu-operation-selection-and-flags",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      }
+    ],
+    "summary": "This lab composes Lab 1's gate set into a working ALU matching the design already worked out theoretically in Designing an Arithmetic Logic Unit: a ripple-carry adder built from full adders built from Lab 1's own AND/XOR gates, an operation-select multiplexer choosing between add/subtract/AND/OR, and zero and overflow flags computed directly from the adder's own output bits rather than as an afterthought bolted on separately.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Nand2Tetris — Build a Modern Computer from First Principles",
+        "url": "https://www.coursera.org/learn/build-a-computer",
+        "type": "doc"
+      },
+      {
+        "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition",
+        "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "registers-and-ram-from-flip-flops",
+    "id": 3,
+    "title": "Lab: Registers and RAM From Flip-Flops",
+    "topic": "Building a CPU From Gates",
+    "requires": ["nand-to-gates-the-basic-chip-set"],
+    "related": [
+      {
+        "label": "From Flip-Flops to a Register File",
+        "slug": "from-flip-flops-to-a-register-file",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      },
+      {
+        "label": "RAM Organization and Address Decoding",
+        "slug": "ram-organization-and-address-decoding",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      }
+    ],
+    "summary": "Combinational logic alone has no memory, which is why this lab implements a D flip-flop as the base sequential primitive, composes it into a multi-bit register with a load-enable signal, and then composes an array of those registers, addressed through a decoder built from Lab 1's own gates, into a small, working RAM, matching From Flip-Flops to a Register File and RAM Organization and Address Decoding's designs with actual, runnable code instead of a circuit diagram.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Nand2Tetris — Build a Modern Computer from First Principles",
+        "url": "https://www.coursera.org/learn/build-a-computer",
+        "type": "doc"
+      },
+      {
+        "label": "MIT 6.004 — Combinational Logic Unit",
+        "url": "https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c4/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "assembling-a-complete-single-cycle-cpu-for-real",
+    "id": 4,
+    "title": "Lab: Assembling a Complete Single-Cycle CPU, For Real",
+    "topic": "Building a CPU From Gates",
+    "requires": ["an-alu-from-truth-tables", "registers-and-ram-from-flip-flops"],
+    "related": [
+      {
+        "label": "Assembling a Complete Single-Cycle CPU",
+        "slug": "assembling-a-complete-single-cycle-cpu",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      },
+      {
+        "label": "The Fetch-Decode-Execute Cycle",
+        "slug": "the-fetch-decode-execute-cycle",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      }
+    ],
+    "summary": "Every earlier lab in this arc built one component; this lab wires Lab 2's ALU, Lab 3's register file and RAM, and a control unit decoding this curriculum's own RISC-V-style ISA into a single, complete CPU that actually fetches, decodes, and executes a real instruction sequence, matching Assembling a Complete Single-Cycle CPU's own design and MIT 6.004's Beta CPU project, verified not by inspection but by loading a small, hand-assembled program into the built RAM and confirming the register file ends in the expected state after execution.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.004 — Building the Beta",
+        "url": "https://computationstructures.org/lectures/beta/beta.html",
+        "type": "doc"
+      },
+      {
+        "label": "Nand2Tetris — Build a Modern Computer from First Principles",
+        "url": "https://www.coursera.org/learn/build-a-computer",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "an-assembler-for-your-own-isa",
+    "id": 5,
+    "title": "Lab: An Assembler for Your Own ISA",
+    "topic": "Building a CPU From Gates",
+    "requires": ["assembling-a-complete-single-cycle-cpu-for-real"],
+    "related": [
+      {
+        "label": "Assembly to Machine Code Translation",
+        "slug": "assembly-to-machine-code-translation",
+        "feature": "curriculum/computer/digital-logic-computer-organization"
+      }
+    ],
+    "summary": "This lab closes the CPU-building arc by writing the tool that makes Lab 4's CPU actually usable: a two-pass assembler that first resolves every label to an address (a symbol table built from a first pass over the source), then translates each mnemonic instruction into the exact bit pattern Lab 4's control unit decodes, matching Assembly to Machine Code Translation's own account of the process, with the finished assembler's own output fed directly back into Lab 4's RAM as this lab's real, end-to-end correctness test.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Nand2Tetris — Build a Modern Computer from First Principles",
+        "url": "https://www.coursera.org/learn/build-a-computer",
+        "type": "doc"
+      },
+      {
+        "label": "Harris & Harris — Digital Design and Computer Architecture, RISC-V Edition",
+        "url": "https://shop.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-bomb-lab-x86-64-reverse-engineering",
+    "id": 6,
+    "title": "Lab: The Bomb Lab, x86-64 Reverse Engineering",
+    "topic": "x86-64 in Practice",
+    "requires": [],
+    "related": [
+      {
+        "label": "x86-64 Registers and Data Movement",
+        "slug": "x86-64-registers-and-data-movement",
+        "feature": "curriculum/computer/c-and-assembly"
+      },
+      {
+        "label": "Condition Codes and Conditional Branches",
+        "slug": "condition-codes-and-conditional-branches",
+        "feature": "curriculum/computer/c-and-assembly"
+      }
+    ],
+    "summary": "This lab leaves this discipline's own custom, toy CPU behind for real, compiled x86-64 machine code: CMU's own Bomb Lab, a Linux binary that reads a string from standard input and \"explodes\" if it does not match a hidden expected value across six increasingly difficult phases, defused entirely through disassembly (objdump), a debugger (gdb), and the register/condition-code reading skills already covered theoretically in x86-64 Registers and Data Movement and Condition Codes and Conditional Branches, with no access to source code at any point.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "CS:APP — Lab Assignments (Bomb Lab)",
+        "url": "https://csapp.cs.cmu.edu/3e/labs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford CS107 — Guide to x86-64",
+        "url": "https://web.stanford.edu/class/cs107/guide/x86-64.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-attack-lab-buffer-overflow-exploits",
+    "id": 7,
+    "title": "Lab: The Attack Lab, Buffer Overflow Exploits",
+    "topic": "x86-64 in Practice",
+    "requires": ["the-bomb-lab-x86-64-reverse-engineering"],
+    "related": [
+      {
+        "label": "Stack Smashing and Buffer Overflows",
+        "slug": "stack-smashing-and-buffer-overflows",
+        "feature": "curriculum/computer/c-and-assembly"
+      },
+      {
+        "label": "The x86-64 Runtime Stack: Call and Ret",
+        "slug": "the-x86-64-runtime-stack-call-and-ret",
+        "feature": "curriculum/computer/c-and-assembly"
+      }
+    ],
+    "summary": "Stack Smashing and Buffer Overflows already proved, on paper, that an unchecked write past a stack buffer can overwrite a saved return address; CMU's own Attack Lab is where that proof becomes a real, working exploit against a real, compiled binary, three code-injection attacks that overwrite the return address with hand-crafted shellcode, followed by two harder return-oriented-programming attacks that chain together existing code fragments (gadgets) already present in the binary once the target binary defends against injected code at all, exactly the escalation The x86-64 Runtime Stack: Call and Ret's own stack-frame model makes legible.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "CS:APP — Lab Assignments (Attack Lab)",
+        "url": "https://csapp.cs.cmu.edu/3e/labs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Bryant & O'Hallaron — Computer Systems: A Programmer's Perspective (CS:APP)",
+        "url": "https://csapp.cs.cmu.edu/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-malloc-lab-a-memory-allocator-from-scratch",
+    "id": 8,
+    "title": "Lab: The Malloc Lab, a Memory Allocator From Scratch",
+    "topic": "Memory and Scheduling",
+    "requires": [],
+    "related": [
+      {
+        "label": "The Heap and Dynamic Allocation",
+        "slug": "the-heap-and-dynamic-allocation",
+        "feature": "curriculum/computer/c-and-assembly"
+      }
+    ],
+    "summary": "The Heap and Dynamic Allocation already explains why malloc and free need to track free versus allocated space themselves, since the underlying operating system only hands out coarse-grained pages; CMU's own Malloc Lab is where a student implements malloc, free, and realloc for real, backed by a free list threading through the unused blocks themselves and boundary tags enabling constant-time coalescing of adjacent free blocks, graded on the same real, concrete tradeoff every allocator design actually faces: throughput (operations per second) against memory utilization (how little space is wasted to fragmentation and bookkeeping overhead).",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "CS:APP — Lab Assignments (Malloc Lab)",
+        "url": "https://csapp.cs.cmu.edu/3e/labs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Free-Space Management\"",
+        "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-lottery-scheduler-on-xv6",
+    "id": 9,
+    "title": "Lab: A Lottery Scheduler on xv6",
+    "topic": "Memory and Scheduling",
+    "requires": [],
+    "related": [
+      {
+        "label": "Multi-Level Feedback Queue Scheduling",
+        "slug": "multi-level-feedback-queue-scheduling",
+        "feature": "curriculum/systems/operating-systems-i"
+      },
+      {
+        "label": "Priority Scheduling and Starvation",
+        "slug": "priority-scheduling-and-starvation",
+        "feature": "curriculum/systems/operating-systems-i"
+      }
+    ],
+    "summary": "This lab, matching the official OSTEP-projects xv6 scheduling assignment, replaces xv6's own default round-robin scheduler with a lottery scheduler, assigning each process a number of tickets and picking the next process to run via a weighted random draw, a genuinely different fairness mechanism from Multi-Level Feedback Queue Scheduling's own priority-adjustment approach, and one that sidesteps Priority Scheduling and Starvation's own starvation failure mode by construction, since every process with at least one ticket has a real, nonzero chance of being drawn on every scheduling decision.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "OSTEP Projects — xv6 Kernel Projects (Scheduling)",
+        "url": "https://github.com/remzi-arpacidusseau/ostep-projects",
+        "type": "doc"
+      },
+      {
+        "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Scheduling: The Multi-Level Feedback Queue\"",
+        "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-page-table-simulator-and-tlb",
+    "id": 10,
+    "title": "Lab: A Page Table Simulator and TLB",
+    "topic": "Memory and Scheduling",
+    "requires": [],
+    "related": [
+      {
+        "label": "Paging and Page Tables",
+        "slug": "paging-and-page-tables",
+        "feature": "curriculum/systems/operating-systems-i"
+      },
+      {
+        "label": "The Translation Lookaside Buffer",
+        "slug": "the-translation-lookaside-buffer",
+        "feature": "curriculum/systems/operating-systems-i"
+      },
+      {
+        "label": "Page Replacement Policies",
+        "slug": "page-replacement-policies",
+        "feature": "curriculum/systems/operating-systems-i"
+      }
+    ],
+    "summary": "This lab builds a userspace simulator implementing Paging and Page Tables' own multi-level page table walk over a simulated virtual address space, adds a small, fixed-size TLB cache in front of it exactly as The Translation Lookaside Buffer describes, and measures directly, by counting real simulated memory accesses, the actual hit rate difference a TLB makes and the actual thrashing behavior Page Replacement Policies predicts once the simulated working set is made to exceed available physical frames under FIFO versus LRU replacement.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "OSTEP Projects — xv6 Kernel Projects (Virtual Memory)",
+        "url": "https://github.com/remzi-arpacidusseau/ostep-projects",
+        "type": "doc"
+      },
+      {
+        "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"Paging: Introduction\"",
+        "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-simple-file-system-on-a-virtual-disk",
+    "id": 11,
+    "title": "Lab: A Simple File System on a Virtual Disk",
+    "topic": "File Systems and the Capstone",
+    "requires": ["the-malloc-lab-a-memory-allocator-from-scratch"],
+    "related": [
+      {
+        "label": "File System Implementation and Journaling",
+        "slug": "file-system-implementation-and-journaling",
+        "feature": "curriculum/systems/operating-systems-i"
+      },
+      {
+        "label": "Files, Directories, and Inodes",
+        "slug": "files-directories-and-inodes",
+        "feature": "curriculum/systems/operating-systems-i"
+      }
+    ],
+    "summary": "A single, ordinary file on the host machine stands in for a raw disk in this lab, formatted with Files, Directories, and Inodes' own layout, a superblock, an inode table, and a data-block region tracked by a free-block bitmap reusing Lab 8's own free-space-management discipline at the block level instead of the byte level, and exercised through real create/write/read/delete operations, closing with a deliberate, injected crash mid-write to confirm File System Implementation and Journaling's own claim, that only a journaled file system, not this lab's intentionally simpler first version, actually survives that crash without corruption.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "OSTEP Projects — File System Checker",
+        "url": "https://github.com/remzi-arpacidusseau/ostep-projects",
+        "type": "doc"
+      },
+      {
+        "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces, \"File System Implementation\"",
+        "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-tracing-a-process-for-real",
+    "id": 12,
+    "title": "Capstone: Tracing a Process, For Real",
+    "topic": "File Systems and the Capstone",
+    "requires": ["a-lottery-scheduler-on-xv6", "a-page-table-simulator-and-tlb", "a-simple-file-system-on-a-virtual-disk"],
+    "related": [
+      {
+        "label": "Capstone: Tracing a Process From fork() to Page Fault to Disk",
+        "slug": "capstone-tracing-a-process-from-fork-to-page-fault-to-disk",
+        "feature": "curriculum/systems/operating-systems-i"
+      }
+    ],
+    "summary": "Operating Systems I's own closing concept traces a process through fork, scheduling, a page fault, and a disk write as a single, connected narrative; this capstone is where that narrative is run for real, against the actual components this whole discipline built, a process spawned and handed tickets by Lab 9's lottery scheduler, a memory access that misses Lab 10's simulated TLB and walks its page table, and a resulting write committed through Lab 11's own simple file system, with every one of those four events logged with a timestamp and produced as a single, continuous trace connecting this whole discipline's separately built labs into the one integrated system Operating Systems I only had room to describe in prose.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Arpaci-Dusseau — Operating Systems: Three Easy Pieces",
+        "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/",
+        "type": "doc"
+      },
+      {
+        "label": "OSTEP Projects — xv6 Kernel Projects",
+        "url": "https://github.com/remzi-arpacidusseau/ostep-projects",
+        "type": "doc"
+      }
+    ]
+  }
+]
