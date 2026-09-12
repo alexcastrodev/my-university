@@ -1,1 +1,253 @@
-[]
+[
+  {
+    "slug": "rpc-and-the-unreliable-network-simulator",
+    "id": 1,
+    "title": "Lab: RPC and the Unreliable Network Simulator",
+    "topic": "Foundations: RPC and Simulation",
+    "requires": [],
+    "related": [
+      {
+        "label": "Remote Procedure Calls and the Illusion of a Local Call",
+        "slug": "remote-procedure-calls-and-the-illusion-of-a-local-call",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Every lab in this discipline runs its replicated systems over a simulated network, not a real one, and this first lab builds that simulator from scratch: a basic RPC layer plus a transport that can be told, on command, to delay a message, drop it silently, reorder it, or cut a specific pair of nodes off from each other entirely, the same simulate-first-then-break-it approach MIT's own 6.5840 course provides ready-made for its students, built here deliberately by hand instead so its actual mechanics, not just its API, are understood before every later lab in this discipline depends on it.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 (Distributed Systems) — Course Overview",
+        "url": "https://pdos.csail.mit.edu/6.824/index.html",
+        "type": "doc"
+      },
+      {
+        "label": "Birrell & Nelson — Implementing Remote Procedure Calls (1984)",
+        "url": "http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "single-node-kv-server-with-at-most-once-semantics",
+    "id": 2,
+    "title": "Lab: Single-Node KV Server with At-Most-Once Semantics",
+    "topic": "Foundations: RPC and Simulation",
+    "requires": ["rpc-and-the-unreliable-network-simulator"],
+    "related": [
+      {
+        "label": "At-Least-Once, At-Most-Once, and Exactly-Once Semantics",
+        "slug": "at-least-once-at-most-once-and-exactly-once-semantics",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Before replication enters the picture at all, this lab builds a single-node Put/Get/Append key-value server over Lab 1's own unreliable transport, and immediately confronts the concrete problem that transport creates: a client whose RPC reply was lost cannot tell whether its request never arrived or arrived and succeeded, so it retries, and a naive server executes that retried write twice. Implementing duplicate detection (a client and request ID stamped on every RPC, a server-side table remembering which IDs have already been applied) is what actually turns \"at-least-once delivery from an unreliable network\" into the at-most-once execution guarantee client code can safely rely on.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 2: Key/Value Server 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-kvsrv1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Birrell & Nelson — Implementing Remote Procedure Calls (1984)",
+        "url": "http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raft-leader-election-implemented",
+    "id": 3,
+    "title": "Lab: Raft Leader Election, Implemented",
+    "topic": "Building Raft",
+    "requires": ["rpc-and-the-unreliable-network-simulator"],
+    "related": [
+      {
+        "label": "Raft: Leader Election",
+        "slug": "raft-leader-election",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "This lab implements the first quarter of Raft, matching MIT 6.5840's own Lab 3A exactly: RequestVote RPCs, randomized election timeouts, and the term-based logic that ensures at most one leader per term, run against Lab 1's simulator with real, repeatable failure scenarios (an isolated leader, a killed leader, a network too unreliable to elect anyone) rather than a diagram-only description of how election is supposed to work.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 3: Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raft-log-replication-and-commitment-implemented",
+    "id": 4,
+    "title": "Lab: Raft Log Replication and Commitment, Implemented",
+    "topic": "Building Raft",
+    "requires": ["raft-leader-election-implemented"],
+    "related": [
+      {
+        "label": "Raft: Log Replication and Commitment",
+        "slug": "raft-log-replication-and-commitment",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "This lab extends the elected leader from the previous lab into a real replicated log, implementing AppendEntries RPCs, the leader's per-follower nextIndex bookkeeping, and the majority rule that advances the commit index, matching MIT 6.5840's Lab 3B, and specifically forces the log-inconsistency-repair path that theory alone rarely makes concrete: killing and restarting followers mid-stream until a follower's log has genuinely diverged from the leader's, then verifying the implementation actually walks it back into agreement rather than merely working on the easy, no-failure path.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 3: Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raft-persistence-and-crash-recovery",
+    "id": 5,
+    "title": "Lab: Raft Persistence and Crash Recovery",
+    "topic": "Building Raft",
+    "requires": ["raft-log-replication-and-commitment-implemented"],
+    "related": [
+      {
+        "label": "Crash Faults vs. Byzantine Faults",
+        "slug": "crash-faults-vs-byzantine-faults",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "A Raft server that loses its term, vote, and log the instant it crashes can vote twice in the same term after restarting, silently violating the one-vote-per-term safety property this whole protocol depends on; this lab implements persistence of exactly the state Raft's own safety argument requires be durable, and its real test is a deliberate, repeated cycle of killing every server in the cluster simultaneously (a total power failure, not just one node's crash) and confirming the whole system resumes correctly from disk, matching MIT 6.5840's Lab 3C.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 3: Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raft-log-compaction-via-snapshots",
+    "id": 6,
+    "title": "Lab: Raft Log Compaction via Snapshots",
+    "topic": "Building Raft",
+    "requires": ["raft-persistence-and-crash-recovery"],
+    "related": [],
+    "summary": "An always-growing, never-truncated Raft log is a real, practical failure waiting to happen, not just an inefficiency, since a follower that falls far enough behind eventually cannot catch up by replaying a log too large to hold in memory or replay in reasonable time; this lab implements periodic snapshotting and the InstallSnapshot RPC that lets a badly lagging follower jump straight to a recent state instead, matching MIT 6.5840's Lab 3D, tested by deliberately starving one follower of AppendEntries for long enough that only a snapshot, not ordinary log replication, can bring it current again.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 3: Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "a-linearizable-replicated-kv-store-on-raft",
+    "id": 7,
+    "title": "Lab: A Linearizable Replicated KV Store on Raft",
+    "topic": "Building a Replicated Store",
+    "requires": ["raft-log-compaction-via-snapshots", "single-node-kv-server-with-at-most-once-semantics"],
+    "related": [
+      {
+        "label": "Linearizability: A Rigorous Definition",
+        "slug": "linearizability-a-rigorous-definition",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "This lab is where \"o banco replicado\" this discipline is named for actually gets built: the Put/Get/Append key-value service from Lab 2 rebuilt on top of the complete Raft implementation from Labs 3-6, so every write is committed through the log before it is applied and every read reflects the latest committed state, matching MIT 6.5840's Lab 4 in full, including its actual correctness bar, linearizability verified under randomized concurrent clients, server crashes, and partitions all in the same test run, not merely correctness under the easy case of no concurrency and no failures.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 4: KV Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-kvraft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Herlihy & Wing — Linearizability: A Correctness Condition for Concurrent Objects (1990)",
+        "url": "https://cs.brown.edu/people/mph/HerlihyW90/p463-herlihy.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "clock-skew-and-spurious-elections",
+    "id": 8,
+    "title": "Lab: Clock Skew and Spurious Elections",
+    "topic": "Breaking It",
+    "requires": ["raft-leader-election-implemented"],
+    "related": [
+      {
+        "label": "Physical Clock Synchronization and Drift",
+        "slug": "physical-clock-synchronization-and-drift",
+        "feature": "curriculum/systems/distributed-systems-i"
+      }
+    ],
+    "summary": "Raft's randomized election timeout is a direct, practical answer to a specific physical-clock problem this lab makes concrete instead of theoretical: real machine clocks drift relative to each other, so a fixed, identical timeout on every node would let two followers time out and start an election in the same instant far too often, splitting votes and stalling progress. This lab instruments the Lab 3 implementation to inject artificial clock skew and to sweep the election timeout's randomization window down toward zero, measuring, empirically, the point at which spurious, unnecessary elections start to dominate and leader stability collapses, turning the Raft paper's own stated timing requirements into a number actually measured, not just read.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)",
+        "url": "https://raft.github.io/raft.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM 1978)",
+        "url": "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-breaking-a-replicated-store",
+    "id": 9,
+    "title": "Capstone: Breaking a Replicated Store on Purpose",
+    "topic": "Breaking It",
+    "requires": ["a-linearizable-replicated-kv-store-on-raft", "clock-skew-and-spurious-elections"],
+    "related": [
+      {
+        "label": "The CAP Theorem: A Precise Statement",
+        "slug": "the-cap-theorem-a-precise-statement",
+        "feature": "curriculum/systems/distributed-systems-i"
+      },
+      {
+        "label": "PACELC: The Latency-Consistency Trade-off Beyond CAP",
+        "slug": "pacelc-the-latency-consistency-trade-off-beyond-cap",
+        "feature": "curriculum/software-distributed/distributed-systems-ii"
+      }
+    ],
+    "summary": "This capstone runs the finished, linearizable KV-on-Raft store from Lab 7 through a single, combined chaos scenario, network partition splitting the cluster into a majority and a minority side, concurrent crashes and restarts on top of that partition, an unreliable, packet-dropping transport throughout, and injected clock skew from Lab 8 all at once, matching the real, combined test conditions MIT 6.5840's own hardest Lab 4 tests run under, and requires writing up what was actually observed: the minority partition correctly stalls rather than serving stale writes, exactly the availability-for-consistency trade this whole curriculum's CAP and PACELC theory already predicted, now confirmed against a system built by hand rather than taken on faith.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "MIT 6.5840 — Lab 4: KV Raft 1",
+        "url": "https://pdos.csail.mit.edu/6.824/labs/lab-kvraft1.html",
+        "type": "doc"
+      },
+      {
+        "label": "Gilbert & Lynch — Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services (2002)",
+        "url": "https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf",
+        "type": "doc"
+      }
+    ]
+  }
+]
