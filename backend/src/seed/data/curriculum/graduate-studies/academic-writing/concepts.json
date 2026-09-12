@@ -1,1 +1,274 @@
-[]
+[
+  {
+    "slug": "kinds-of-scientific-publication-and-writing-for-a-skeptical-reader",
+    "id": 1,
+    "title": "Kinds of Scientific Publication and Writing for a Skeptical Reader",
+    "topic": "Framing the Discipline",
+    "requires": [],
+    "related": [],
+    "summary": "Graduate research is communicated through a small set of genuinely distinct publication forms, the book (for collecting settled knowledge), the thesis (a deep, often definitive exploration of one problem), and the journal or conference paper (an end product, or a progress report, of active research), each read differently and so each requiring different choices from the writer; Justin Zobel's Writing for Computer Science, the field's own canonical text on the subject, frames the entire discipline around a single working assumption that disciplines everything else in it, that a paper's reader is a skeptical scientist who must be persuaded, not a friendly audience who already agrees.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Research: Simon Peyton Jones, How to Write a Great Research Paper",
+        "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/",
+        "type": "video"
+      }
+    ]
+  },
+  {
+    "slug": "shaping-a-research-project-and-getting-started",
+    "id": 2,
+    "title": "Shaping a Research Project and Getting Started",
+    "topic": "Getting Started",
+    "requires": ["kinds-of-scientific-publication-and-writing-for-a-skeptical-reader"],
+    "related": [
+      {
+        "label": "Independent Research",
+        "slug": "independent-research",
+        "feature": "curriculum/research/independent-research"
+      }
+    ],
+    "summary": "A graduate research project rarely starts as a clean, well-formed question, it starts as a vague interest, a nagging inconsistency in someone else's published result, or a tool that seems to be missing, and the work of the earliest weeks is entirely about shaping that vague interest into something that can actually be investigated: a real research planning cycle of narrowing scope, checking that the problem is not already solved, and setting a realistic relationship with an advisor, all before the first real experiment or literature search begins in earnest; this concept treats the undergraduate capstone's own question-first cycle as a real prerequisite skill, not a coincidence, since graduate research runs the identical cycle at far greater depth and for far longer.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "reading-critically-and-writing-a-literature-review",
+    "id": 3,
+    "title": "Reading Critically and Writing a Literature Review",
+    "topic": "Reading and Reviewing",
+    "requires": ["kinds-of-scientific-publication-and-writing-for-a-skeptical-reader"],
+    "related": [],
+    "summary": "Finding research papers and reading them are two different skills, and neither one is passive: finding literature well means working outward from a small set of highly relevant papers through their citations and their citing papers rather than trusting a single keyword search, and reading critically means asking, for every claim, what evidence actually supports it and whether that evidence is strong enough to bear the weight the authors put on it; a literature review is the written product of doing both well, a structured argument about what is known, what is contested, and what is missing, not a list of paper summaries, which is the single most common failure mode this concept works through in detail.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-shape-of-a-paper-scope-story-and-organization",
+    "id": 4,
+    "title": "The Shape of a Paper: Scope, Story, and Organization",
+    "topic": "Writing a Paper",
+    "requires": ["kinds-of-scientific-publication-and-writing-for-a-skeptical-reader"],
+    "related": [],
+    "summary": "A research paper has to tell a story, one central claim, developed in a fixed order that lets a skeptical reader verify it step by step (motivation, what is already known, what is new here, how it was tested, what the results actually show, and what they mean), and choosing the right scope for that one claim, not two papers' worth of material crammed into one, nor one real result stretched across two, is a decision made before a single sentence of the body gets written; this concept works through Zobel's and Simon Peyton Jones's converging advice on organization, the first draft, and the difference between a paper that reports everything the author did and a paper that argues one thing convincingly.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Research: Simon Peyton Jones, How to Write a Great Research Paper",
+        "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/",
+        "type": "video"
+      }
+    ]
+  },
+  {
+    "slug": "thesis-and-dissertation-structure",
+    "id": 5,
+    "title": "Thesis and Dissertation Structure",
+    "topic": "Theses and Dissertations",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "A thesis is not a long paper, it is a deep, often definitive exploration of a single problem written for an examiner whose job is to certify the work, not just to be persuaded of one claim, and that different reader and different purpose changes its structure in specific, learnable ways: a longer, more explicit literature review that argues for a gap rather than just summarizing context, chapters that can be defended individually rather than one continuous argument, and a discussion of limitations that a paper can often omit but a thesis cannot; this concept draws on Zobel, Gruba, and Evans's dedicated thesis-writing text to make the paper-versus-thesis distinction concrete rather than assumed.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: David Evans, Paul Gruba, Justin Zobel, How to Write a Better Thesis (Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2633585",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "good-style-economy-tone-and-audience",
+    "id": 6,
+    "title": "Good Style: Economy, Tone, and Audience",
+    "topic": "Style and Language",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "Good scientific style is not decoration, it is a direct engineering constraint on how much effort a reader spends reconstructing the author's intent instead of evaluating the actual argument, and it reduces to a small number of real, teachable properties: economy (no sentence doing less work than its length costs the reader), an even, confident tone that neither oversells the contribution nor hides behind excessive hedging, and a constant awareness of exactly who the intended reader is and what they already know; this concept works through Zobel's economy/tone/voice framework alongside Simon Peyton Jones's independently-arrived-at emphasis on writing for the reader's convenience rather than the writer's.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Research: Simon Peyton Jones, How to Write a Great Research Paper",
+        "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/",
+        "type": "video"
+      }
+    ]
+  },
+  {
+    "slug": "citation-reference-and-avoiding-plagiarism",
+    "id": 7,
+    "title": "Citation, Reference, and Avoiding Plagiarism",
+    "topic": "Citation and Reference",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "Citing prior work is not a formality tacked onto a finished paper, it is how a paper's claim of novelty is actually made credible, by drawing a precise, checkable line between what is already known and what this work adds; this concept covers the mechanics of reference and citation (when a claim needs a citation, how to quote versus paraphrase, why a citation is itself a factual claim that must be accurate), together with the boundary it protects, plagiarism and self-plagiarism as ACM's current publications policy defines and penalizes them, and the formatting discipline IEEE's own editorial style manual imposes on the reference list itself.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "ACM: Policy on Plagiarism, Misrepresentation, and Falsification",
+        "url": "https://www.acm.org/publications/policies/plagiarism-overview",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Author Center: IEEE Editorial Style Manual for Authors",
+        "url": "https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/create-the-text-of-your-article/ieee-editorial-style-manual/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "language-mechanics-style-specifics-and-punctuation",
+    "id": 8,
+    "title": "Language Mechanics: Style Specifics and Punctuation",
+    "topic": "Style and Language",
+    "requires": ["good-style-economy-tone-and-audience"],
+    "related": [],
+    "summary": "Below the level of paragraph-scale style sit a large number of small, concrete decisions that individually look trivial and collectively decide whether a paper reads as careful or careless: titles and headings that describe rather than tease, opening paragraphs that orient a reader immediately instead of building suspense, sentence structures that avoid accidental ambiguity, consistent tense (a completed experiment described in past tense, an established fact in present tense), and punctuation conventions, commas, colons and semicolons, hyphenation, that a technical reader notices precisely because so much of the surrounding prose is about precision; this concept treats these as a checklist of real, fixable habits rather than untaught taste.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "presenting-mathematics-and-algorithms-in-writing",
+    "id": 9,
+    "title": "Presenting Mathematics and Algorithms in Writing",
+    "topic": "Technical Presentation",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "Mathematics and algorithms are written for readers, not just for correctness, which means a theorem statement needs the same care about clarity and notation as a sentence of prose, and a published algorithm needs a deliberate choice of formalism and level of detail, pseudocode precise enough to be unambiguous but not so literal that it duplicates an actual programming language, a choice this curriculum's own `algorithm-laboratory` and `algorithms` disciplines already make in every worked example they publish; this concept makes that choice explicit and teachable rather than assumed, alongside real conventions for numbering, notation reuse, and when a derivation belongs in the body versus an appendix.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Author Center: IEEE Editorial Style Manual for Authors",
+        "url": "https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/create-the-text-of-your-article/ieee-editorial-style-manual/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "graphs-figures-and-tables",
+    "id": 10,
+    "title": "Graphs, Figures, and Tables",
+    "topic": "Technical Presentation",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "A results graph is an argument, not a decoration, every axis, label, and choice of scale either helps a skeptical reader see the claimed effect or obscures it, and the most common real failures, truncated axes that exaggerate a difference, unlabeled units, a legend that requires flipping back to the text to decode, are failures of persuasion as much as of taste; this concept covers the concrete decisions behind an honest, readable results graph, a diagram that shows structure rather than restating the prose next to it, and a table used for exact values a graph cannot show, each judged by the same skeptical-reader standard this discipline opened with.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "IEEE Author Center: IEEE Editorial Style Manual for Authors",
+        "url": "https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/create-the-text-of-your-article/ieee-editorial-style-manual/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "other-professional-writing-reports-and-grants",
+    "id": 11,
+    "title": "Other Professional Writing: Reports and Grants",
+    "topic": "Professional Communication",
+    "requires": ["kinds-of-scientific-publication-and-writing-for-a-skeptical-reader"],
+    "related": [],
+    "summary": "Graduate research produces more written artifacts than papers and theses alone, technical reports written for an audience that may not share the author's specialist background, and grant applications written to persuade a reviewer to fund work that has not been done yet rather than to report work that has, and both genres invert assumptions a paper writer takes for granted, a report often has to explain background a paper would cite in one sentence, and a grant application has to argue feasibility and significance before any result exists to point to; this concept treats these as distinct, learnable genres rather than lesser versions of a paper.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "editing-and-revision",
+    "id": 12,
+    "title": "Editing and Revision",
+    "topic": "Revision and Editing",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization", "good-style-economy-tone-and-audience"],
+    "related": [],
+    "summary": "A first draft is a first draft precisely because it has not yet been tested against a reader, and editing is the discipline of doing that testing deliberately rather than trusting that a paper reads the way its author intended: checking consistency of terminology and notation across sections written on different days, proofreading as a genuinely separate pass from revising content, and the practical habit, which working researchers rely on constantly, of reading a draft aloud or setting it aside for days specifically to recover the outside reader's perspective the author loses while writing; this concept closes the paper-writing arc by treating revision as its own skill, not a quick pass at the end.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "research-talks-and-presentations",
+    "id": 13,
+    "title": "Research Talks and Presentations",
+    "topic": "Professional Communication",
+    "requires": ["the-shape-of-a-paper-scope-story-and-organization"],
+    "related": [],
+    "summary": "A conference talk or thesis defense is a second, different act of persuasion built on the same underlying research as the written paper, but constrained by a live audience that cannot re-read a difficult sentence and a fixed amount of time that forces a much smaller amount of content than the paper contains, which means a talk's organization, an explicit motivating question early, one clear takeaway repeated rather than an exhaustive results dump, cannot simply mirror the paper's own structure; this concept covers preparing and delivering a research talk, handling audience questions honestly, and the specific failure modes, slides that duplicate what the speaker is saying, a rushed final ten minutes, that both Zobel's own decades of watching student talks and Simon Peyton Jones's independent advice converge on.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft Research: Simon Peyton Jones, How to Write a Great Research Paper",
+        "url": "https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/",
+        "type": "video"
+      }
+    ]
+  }
+]
