@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { RubyConcept } from '../../models/ruby-concept.model';
 import { parseMarkdown } from '../../shared/markdown';
 import { getReferenceIcon } from '../../shared/concept-sections';
 import { ConceptLinkItem, toConceptLinkItem } from '../../shared/concept-links';
+import { DeepDiveConceptView } from '../../shared/deep-dive-concept-view';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { RenderConceptVizDirective } from '../../directives/render-concept-viz.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
@@ -18,7 +19,7 @@ const DOCUMENTATION_LINKS_TITLE = 'Documentation Links';
   imports: [RenderMermaidDirective, RenderConceptVizDirective, ConceptActions, RouterLink, Breadcrumbs],
   templateUrl: './ruby-concept-view.html',
 })
-export class RubyConceptView implements OnChanges {
+export class RubyConceptView extends DeepDiveConceptView implements OnChanges {
   concept = input<RubyConcept | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
@@ -27,26 +28,9 @@ export class RubyConceptView implements OnChanges {
 
   private sanitizer = inject(DomSanitizer);
   sections = signal<{ title: string; html: SafeHtml }[]>([]);
-  deepDives = signal<{ id: string; phrase: string; html: SafeHtml }[]>([]);
-  activeDeepDiveId = signal<string | null>(null);
   relatedItems = signal<ConceptLinkItem[]>([]);
 
   referenceIcon = getReferenceIcon;
-
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement | null;
-    const trigger = target?.closest('.deep-dive-trigger[data-deepdive-id]') as HTMLElement | null;
-    if (!trigger) return;
-    const id = trigger.dataset['deepdiveId'];
-    if (!id) return;
-    event.preventDefault();
-    this.activeDeepDiveId.set(id);
-  }
-
-  closeDeepDive(): void {
-    this.activeDeepDiveId.set(null);
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['concept']) return;

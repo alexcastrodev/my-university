@@ -21,3 +21,18 @@ export function mapConceptSections(
     .filter((section) => section.title !== excludeTitle)
     .map((section) => ({ title: section.title, html: parseMarkdown(sanitizer, section.content).html }));
 }
+
+export function mapConceptSectionsWithDeepDives(
+  sections: { title: string; content: string }[],
+  excludeTitle: string,
+  sanitizer: DomSanitizer,
+): { sections: { title: string; html: SafeHtml }[]; deepDives: { id: string; phrase: string; html: SafeHtml }[] } {
+  const parsed = sections
+    .filter((section) => section.title !== excludeTitle)
+    .map((section) => ({ title: section.title, ...parseMarkdown(sanitizer, section.content) }));
+
+  return {
+    sections: parsed.map(({ title, html }) => ({ title, html })),
+    deepDives: parsed.flatMap((section) => section.deepDives),
+  };
+}

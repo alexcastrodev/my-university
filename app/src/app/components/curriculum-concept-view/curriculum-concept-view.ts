@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, inject, i
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CurriculumConceptDetail } from '../../models/curriculum-concept.model';
-import { getReferenceIcon, mapConceptSections } from '../../shared/concept-sections';
+import { getReferenceIcon, mapConceptSectionsWithDeepDives } from '../../shared/concept-sections';
+import { DeepDiveConceptView } from '../../shared/deep-dive-concept-view';
 import { RenderMermaidDirective } from '../../directives/render-mermaid.directive';
 import { ConceptActions } from '../concept-actions/concept-actions';
 import { BreadcrumbItem, Breadcrumbs } from '../breadcrumbs/breadcrumbs';
@@ -44,7 +45,7 @@ function resolveRoute(feature: string | undefined, slug: string, basePath: strin
   imports: [RenderMermaidDirective, ConceptActions, RouterLink, Breadcrumbs],
   templateUrl: './curriculum-concept-view.html',
 })
-export class CurriculumConceptView implements OnChanges {
+export class CurriculumConceptView extends DeepDiveConceptView implements OnChanges {
   concept = input<CurriculumConceptDetail | null>(null);
   read = input<boolean>(false);
   marking = input<boolean>(false);
@@ -65,11 +66,20 @@ export class CurriculumConceptView implements OnChanges {
     const concept = this.concept();
     if (!concept) {
       this.sections.set([]);
+      this.deepDives.set([]);
+      this.activeDeepDiveId.set(null);
       this.relatedItems.set([]);
       return;
     }
 
-    this.sections.set(mapConceptSections(concept.sections, DOCUMENTATION_LINKS_TITLE, this.sanitizer));
+    const { sections, deepDives } = mapConceptSectionsWithDeepDives(
+      concept.sections,
+      DOCUMENTATION_LINKS_TITLE,
+      this.sanitizer,
+    );
+    this.sections.set(sections);
+    this.deepDives.set(deepDives);
+    this.activeDeepDiveId.set(null);
     this.relatedItems.set(
       concept.related.map((ref) =>
         typeof ref === 'string'

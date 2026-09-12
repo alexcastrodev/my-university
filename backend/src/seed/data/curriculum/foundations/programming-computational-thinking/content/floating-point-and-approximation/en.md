@@ -4,7 +4,7 @@ updatedAt: 2026-09-06
 ---
 ## Learning Objectives
 
-- Explain why binary floating-point representation makes most decimal fractions inexact, using the same intuition as a repeating decimal.
+- Explain why binary floating-point representation makes most decimal fractions inexact, using the same intuition as a {{repeating decimal}}[^repeating-decimal].
 - Predict when a floating-point comparison with `==` is likely to fail even though the two values are "mathematically" equal.
 - Implement a tolerance-based ("close enough") comparison in place of exact equality.
 - Identify a scenario where floating-point error accumulates across repeated operations, and quantify it with a small example.
@@ -125,3 +125,7 @@ A `float` stores a fixed number of binary digits and is therefore an approximati
 
 - [Python Library Reference — Built-in Types](https://docs.python.org/3/library/stdtypes.html) — doc
 - [MIT 6.100L — Materials by Lecture](https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/) — doc
+
+[^repeating-decimal]: A repeating decimal is a decimal number whose decimal part repeats forever following a pattern. The classic example is: 1/3 = 0.3333333333...
+
+    The 3 keeps repeating forever. That's why it's called a repeating decimal.

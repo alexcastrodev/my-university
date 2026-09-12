@@ -6,7 +6,7 @@ summary: "Por que a representação binária de ponto flutuante torna a maioria 
 ---
 ## Objetivos de Aprendizagem
 
-- Explicar por que a representação binária de ponto flutuante torna a maioria das frações decimais inexata, usando a mesma intuição de uma dízima periódica.
+- Explicar por que a representação binária de ponto flutuante torna a maioria das frações decimais inexata, usando a mesma intuição de uma {{dízima periódica}}[^dizima-periodica].
 - Prever quando uma comparação de ponto flutuante com `==` provavelmente falha mesmo que os dois valores sejam "matematicamente" iguais.
 - Implementar uma comparação baseada em tolerância ("perto o suficiente") no lugar de igualdade exata.
 - Identificar um cenário em que o erro de ponto flutuante se acumula ao longo de operações repetidas, e quantificá-lo com um pequeno exemplo.
@@ -127,3 +127,7 @@ Um `float` armazena um número fixo de dígitos binários e é, portanto, uma ap
 
 - [Python Library Reference: Built-in Types](https://docs.python.org/3/library/stdtypes.html) (doc)
 - [MIT 6.100L: Materials by Lecture](https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/) (doc)
+
+[^dizima-periodica]: Dízima periódica é um número decimal cuja parte decimal se repete infinitamente seguindo um padrão. O exemplo clássico é: 1/3 = 0,3333333333...
+
+    O 3 continua se repetindo para sempre. Por isso chamamos de dízima periódica.
