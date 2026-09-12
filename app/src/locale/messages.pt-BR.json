@@ -536,8 +536,6 @@
     "curriculum.systems.distributed-systems-i.topic.4": "consistência",
     "curriculum.systems.distributed-systems-i.topic.5": "consenso",
     "curriculum.systems.distributed-systems-i.topic.6": "tolerância a falhas",
-    "curriculum.systems.systems-laboratory.title": "Laboratório de Sistemas",
-    "curriculum.systems.systems-laboratory.topic.1": "construir um armazenamento chave-valor distribuído: cliente, RPC, replicação, falhas, consenso",
     "curriculum.module.software-distributed": "Software + Computação Distribuída",
     "curriculum.software-distributed.software-engineering.title": "Engenharia de Software",
     "curriculum.software-distributed.software-engineering.topic.1": "requisitos",

@@ -298,14 +298,6 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.systems.distributed-systems-i.topic.6:fault tolerance`,
         ],
       },
-      {
-        slug: 'systems-laboratory',
-        title: $localize`:@@curriculum.systems.systems-laboratory.title:Systems Laboratory`,
-        hours: 100,
-        topics: [
-          $localize`:@@curriculum.systems.systems-laboratory.topic.1:build a distributed key-value store: client, RPC, replication, failure, consensus`,
-        ],
-      },
     ],
   },
   {
