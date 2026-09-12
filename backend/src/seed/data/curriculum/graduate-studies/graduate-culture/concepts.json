@@ -1,1 +1,231 @@
-[]
+[
+  {
+    "slug": "peer-review-from-the-referee-side",
+    "id": 1,
+    "title": "Peer Review from the Referee Side",
+    "topic": "Peer Review",
+    "requires": [],
+    "related": [
+      {
+        "label": "Reading Critically and Writing a Literature Review",
+        "slug": "reading-critically-and-writing-a-literature-review",
+        "feature": "curriculum/graduate-studies/academic-writing"
+      }
+    ],
+    "summary": "Reading a paper as a referee asks a different question than reading one for a literature review, not what does this paper contribute to my own understanding, but should this specific paper be accepted, and Justin Zobel's chapter on reading and reviewing treats evaluating a paper's contribution, drafting a review that is genuinely useful to both an editor and the paper's authors, and checking that review before submitting it as a distinct, learnable skill graduate researchers are expected to develop well before they hold any formal editorial role.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "program-committees-and-the-conference-review-cycle",
+    "id": 2,
+    "title": "Program Committees and the Conference Review Cycle",
+    "topic": "Peer Review",
+    "requires": ["peer-review-from-the-referee-side"],
+    "related": [],
+    "summary": "Computing research is unusual among academic fields in how much weight it places on conference publication, and understanding the real institutional machinery behind that, program committees that collectively decide a conference's accepted papers, author rebuttal periods that let authors respond to reviews before a final decision, and ACM's own current policy governing authorship, peer review, and conference publication together, turns the review cycle from an opaque, anxiety-inducing black box into a process a graduate researcher can navigate deliberately, including eventually serving on a program committee themselves.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM: Policy on Authorship, Peer Review, Readership, and Conference Publication",
+        "url": "https://www.acm.org/publications/policies/roles-and-responsibilities",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "research-ethics-authorship-and-misrepresentation",
+    "id": 3,
+    "title": "Research Ethics: Authorship and Misrepresentation",
+    "topic": "Research Ethics",
+    "requires": [],
+    "related": [
+      {
+        "label": "Citation, Reference, and Avoiding Plagiarism",
+        "slug": "citation-reference-and-avoiding-plagiarism",
+        "feature": "curriculum/graduate-studies/academic-writing"
+      }
+    ],
+    "summary": "Plagiarism and self-plagiarism, covered in depth in `academic-writing`, are only part of research ethics; this concept covers the rest of Zobel's ethics chapter, treating research output as a real intellectual creation with real ownership questions, and, together with ACM's own current authorship policy, defines concretely who actually qualifies as an author (a substantial intellectual contribution and acceptance of responsibility for the work, not merely running an experiment or providing funding) and what counts as misrepresentation of results, from a fabricated data point to a cherry-picked figure that implies a stronger effect than the full data actually shows.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "ACM: Policy on Authorship",
+        "url": "https://www.acm.org/publications/policies/new-acm-policy-on-authorship",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "confidentiality-and-conflict-of-interest",
+    "id": 4,
+    "title": "Confidentiality and Conflict of Interest",
+    "topic": "Research Ethics",
+    "requires": ["peer-review-from-the-referee-side", "research-ethics-authorship-and-misrepresentation"],
+    "related": [],
+    "summary": "A researcher reviewing a submitted paper or grant application sees unpublished work before anyone else, which creates a real, specific ethical obligation, keeping that content confidential and not using ideas from it in one's own work before it is published, and a related but distinct obligation of disclosing conflicts of interest, a close collaborator's paper, a direct competitor's submission, that could compromise an honest, unbiased review; Zobel treats both as concrete, checkable obligations tied directly to the referee role covered in `peer-review-from-the-referee-side`, not abstract virtues.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "finding-and-working-with-an-advisor",
+    "id": 5,
+    "title": "Finding and Working with an Advisor",
+    "topic": "Advising and Mentorship",
+    "requires": [],
+    "related": [],
+    "summary": "The advisor relationship is arguably the single most consequential relationship of a graduate degree, and Marie desJardins's widely circulated essay on being a good graduate student, alongside Zobel's own guidance, treats finding the right advisor, someone whose research interests genuinely overlap with the student's own and whose working style is actually compatible, as a real, deliberate decision rather than an assignment to be passively accepted, and treats the ongoing relationship, expectations around meeting frequency, independence, and communication, as something both sides are responsible for maintaining deliberately over years, not a one-time arrangement settled at the start.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      },
+      {
+        "label": "Marie desJardins, How to Be a Good Graduate Student (1994)",
+        "url": "https://www.physlink.com/education/grad_how2.cfm",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "getting-feedback-and-the-daily-grind-of-research",
+    "id": 6,
+    "title": "Getting Feedback and the Daily Grind of Research",
+    "topic": "Advising and Mentorship",
+    "requires": ["finding-and-working-with-an-advisor"],
+    "related": [],
+    "summary": "Most of a research degree is not the dramatic breakthrough moment; it is the daily grind of incremental, often frustrating progress, and desJardins's essay is direct about this, alongside concrete, practical advice for staying motivated through it and for actively seeking feedback, from an advisor, from labmates, from a wider research group, rather than waiting passively for it, since feedback sought early and often catches a flawed direction long before months of work have been sunk into it.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Marie desJardins, How to Be a Good Graduate Student (1994)",
+        "url": "https://www.physlink.com/education/grad_how2.cfm",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "what-makes-research-significant",
+    "id": 7,
+    "title": "What Makes Research Significant",
+    "topic": "Research Culture",
+    "requires": [],
+    "related": [],
+    "summary": "Richard Hamming's widely taught 1986 talk \"You and Your Research\" asks a question this discipline's earlier, more procedural concepts do not directly address: given the same effort, why do some researchers consistently produce more significant work than others, and Hamming's own answer, drawn from decades observing Bell Labs researchers, points to deliberate, learnable habits, working on genuinely important problems rather than merely tractable ones, sustained \"open door\" engagement with colleagues outside one's immediate specialty, and the courage to pursue an important problem despite the real risk of failure, rather than to any fixed notion of innate talent.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Richard Hamming, You and Your Research (Bell Communications Research, 1986)",
+        "url": "https://www.cs.princeton.edu/~jrex/teaching/spring2005/fft/hamming.html",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "attending-conferences-and-building-a-research-network",
+    "id": 8,
+    "title": "Attending Conferences and Building a Research Network",
+    "topic": "Conferences and Professional Life",
+    "requires": ["program-committees-and-the-conference-review-cycle"],
+    "related": [],
+    "summary": "A conference is not only a publication venue; it is where a graduate researcher actually meets the people whose papers they have been reading, gets direct feedback on early-stage ideas long before a paper is written, and builds the professional network that shapes collaborations and job opportunities for years afterward, and desJardins's practical guidance on attending conferences and networking treats this as a skill distinct from, though connected to, the paper-writing and presentation skills `academic-writing` already covers, one specific to the field's own major venues, systems research gathering at venues like OSDI and SOSP being a direct, real example relevant to this curriculum's own Distributed Systems focus.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Marie desJardins, How to Be a Good Graduate Student (1994)",
+        "url": "https://www.physlink.com/education/grad_how2.cfm",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "thesis-defense-and-the-oral-examination",
+    "id": 9,
+    "title": "Thesis Defense and the Oral Examination",
+    "topic": "Thesis Defense",
+    "requires": [],
+    "related": [
+      {
+        "label": "Thesis and Dissertation Structure",
+        "slug": "thesis-and-dissertation-structure",
+        "feature": "curriculum/graduate-studies/academic-writing"
+      }
+    ],
+    "summary": "`academic-writing`'s own thesis concept covers the written document; the oral examination that follows it, a viva voce or thesis defense, is a genuinely different, live act of persuasion with its own preparation discipline, and Rowena Murray's dedicated text on surviving a viva treats concrete, practical preparation, anticipating the specific questions examiners are most likely to ask, rehearsing a clear, honest account of the work's real contribution and its real limitations, and specific strategies for handling a hard or unexpected question calmly, as learnable skills rather than something a candidate can only hope to improvise under pressure.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Rowena Murray, How to Survive Your Viva: Defending a Thesis in an Oral Examination (Open University Press)",
+        "url": "https://research-portal.uws.ac.uk/en/publications/how-to-survive-your-viva",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "sustaining-a-research-career-reflection-and-continuing-practice",
+    "id": 10,
+    "title": "Sustaining a Research Career: Reflection and Continuing Practice",
+    "topic": "Research Culture",
+    "requires": ["what-makes-research-significant", "getting-feedback-and-the-daily-grind-of-research"],
+    "related": [
+      {
+        "label": "Independent Research",
+        "slug": "independent-research",
+        "feature": "curriculum/research/independent-research"
+      },
+      {
+        "label": "Designing Experiments for Distributed Systems Research",
+        "slug": "designing-experiments-for-distributed-systems-research",
+        "feature": "curriculum/graduate-studies/research-statistics"
+      }
+    ],
+    "summary": "This closing concept ties the whole `graduate-studies` category back to where the platform's own research thread began: the undergraduate capstone's cycle of question, literature, hypothesis, implementation, experiment, result, reflection, new question, run here across an entire career rather than a single project, using Hamming's own emphasis on sustained, deliberate practice and Zobel's closing reflection that a confirmed result is one point in a continuing investigation, never a finished, closed matter, to frame graduate research not as a credential earned once, but as an ongoing practice this whole category, writing (`academic-writing`), method (`research-statistics`), and culture (`graduate-culture`), exists to support indefinitely, including this curriculum's own specific, stated ambition of sustained work in distributed systems research.",
+    "publishedAt": "2026-09-12",
+    "references": [
+      {
+        "label": "Richard Hamming, You and Your Research (Bell Communications Research, 1986)",
+        "url": "https://www.cs.princeton.edu/~jrex/teaching/spring2005/fft/hamming.html",
+        "type": "doc"
+      },
+      {
+        "label": "ACM Digital Library: Justin Zobel, Writing for Computer Science (3rd Edition, Springer, 2014)",
+        "url": "https://dl.acm.org/doi/10.5555/2742708",
+        "type": "doc"
+      }
+    ]
+  }
+]
