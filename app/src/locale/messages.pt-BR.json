@@ -677,6 +677,25 @@
     "curriculum.research.independent-research.topic.6": "experimento",
     "curriculum.research.independent-research.topic.7": "resultado",
     "curriculum.research.independent-research.topic.8": "reflexão",
-    "curriculum.research.independent-research.topic.9": "nova pergunta"
+    "curriculum.research.independent-research.topic.9": "nova pergunta",
+    "curriculum.module.graduate-studies": "Pós-Graduação",
+    "curriculum.graduate-studies.academic-writing.title": "Escrita Acadêmica",
+    "curriculum.graduate-studies.academic-writing.topic.1": "artigos",
+    "curriculum.graduate-studies.academic-writing.topic.2": "LaTeX",
+    "curriculum.graduate-studies.academic-writing.topic.3": "resumos",
+    "curriculum.graduate-studies.academic-writing.topic.4": "estrutura de dissertação",
+    "curriculum.graduate-studies.academic-writing.topic.5": "publicação",
+    "curriculum.graduate-studies.research-statistics.title": "Estatística e Experimentos de Pesquisa",
+    "curriculum.graduate-studies.research-statistics.topic.1": "teste de hipóteses",
+    "curriculum.graduate-studies.research-statistics.topic.2": "desenho experimental",
+    "curriculum.graduate-studies.research-statistics.topic.3": "significância",
+    "curriculum.graduate-studies.research-statistics.topic.4": "tamanho de efeito",
+    "curriculum.graduate-studies.research-statistics.topic.5": "reprodutibilidade",
+    "curriculum.graduate-studies.graduate-culture.title": "Cultura Acadêmica de Pós-Graduação",
+    "curriculum.graduate-studies.graduate-culture.topic.1": "revisão por pares",
+    "curriculum.graduate-studies.graduate-culture.topic.2": "ética em pesquisa",
+    "curriculum.graduate-studies.graduate-culture.topic.3": "orientação",
+    "curriculum.graduate-studies.graduate-culture.topic.4": "conferências",
+    "curriculum.graduate-studies.graduate-culture.topic.5": "defesa de tese"
   }
 }

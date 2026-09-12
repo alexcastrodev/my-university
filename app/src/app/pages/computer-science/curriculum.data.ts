@@ -605,4 +605,46 @@ export const CURRICULUM: CurriculumModule[] = [
       },
     ],
   },
+  {
+    slug: 'graduate-studies',
+    title: $localize`:@@curriculum.module.graduate-studies:Graduate Studies`,
+    disciplines: [
+      {
+        slug: 'academic-writing',
+        title: $localize`:@@curriculum.graduate-studies.academic-writing.title:Academic Writing`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.graduate-studies.academic-writing.topic.1:papers`,
+          $localize`:@@curriculum.graduate-studies.academic-writing.topic.2:LaTeX`,
+          $localize`:@@curriculum.graduate-studies.academic-writing.topic.3:abstracts`,
+          $localize`:@@curriculum.graduate-studies.academic-writing.topic.4:thesis structure`,
+          $localize`:@@curriculum.graduate-studies.academic-writing.topic.5:publication`,
+        ],
+      },
+      {
+        slug: 'research-statistics',
+        title: $localize`:@@curriculum.graduate-studies.research-statistics.title:Research Statistics & Experiments`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.graduate-studies.research-statistics.topic.1:hypothesis testing`,
+          $localize`:@@curriculum.graduate-studies.research-statistics.topic.2:experimental design`,
+          $localize`:@@curriculum.graduate-studies.research-statistics.topic.3:significance`,
+          $localize`:@@curriculum.graduate-studies.research-statistics.topic.4:effect size`,
+          $localize`:@@curriculum.graduate-studies.research-statistics.topic.5:reproducibility`,
+        ],
+      },
+      {
+        slug: 'graduate-culture',
+        title: $localize`:@@curriculum.graduate-studies.graduate-culture.title:Graduate Academic Culture`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.graduate-studies.graduate-culture.topic.1:peer review`,
+          $localize`:@@curriculum.graduate-studies.graduate-culture.topic.2:research ethics`,
+          $localize`:@@curriculum.graduate-studies.graduate-culture.topic.3:advising`,
+          $localize`:@@curriculum.graduate-studies.graduate-culture.topic.4:conferences`,
+          $localize`:@@curriculum.graduate-studies.graduate-culture.topic.5:thesis defense`,
+        ],
+      },
+    ],
+  },
 ];
