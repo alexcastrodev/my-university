@@ -62,7 +62,7 @@ Uma trie inverte a troca: localizar toda chave com prefixo `car` custa apenas o 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — construindo uma trie a partir de uma pequena lista de palavras e rastreando prefixos compartilhados
+### Exemplo 1: construindo uma trie a partir de uma pequena lista de palavras e rastreando prefixos compartilhados
 
 **Problema:** Insira as palavras `"to"`, `"tea"`, `"ted"`, `"ten"`, `"in"`, e `"inn"` em uma trie vazia. Identifique quais nós são compartilhados e quais caminhos divergem.
 
@@ -90,7 +90,7 @@ graph TD
     IN -->|n| INN(("inn*"))
 ```
 
-### Exemplo 2 — um nó mínimo de trie em Python, e por que a chave nunca é armazenada como dado
+### Exemplo 2: um nó mínimo de trie em Python, e por que a chave nunca é armazenada como dado
 
 **Problema:** Esboce a menor classe `Node` razoável para uma trie sobre letras minúsculas do inglês, e explique quais dados são (e não são) armazenados em cada nó.
 
@@ -109,7 +109,7 @@ class Trie:
 
 Note o que está ausente: nenhum campo em `TrieNode` armazena "a string que este nó representa." Essa string nunca é armazenada em lugar algum explicitamente, existe apenas implicitamente, como a sequência de caracteres rotulando as arestas percorridas de `self.root` para alcançar este nó particular. Esta é a expressão direta em nível de código do ponto da Teoria Central de que uma trie codifica uma chave através de *caminho*, não através de *conteúdo de nó*. (Inserção, busca, e coleta de prefixo usando essa classe são construídas completamente no próximo conceito.)
 
-### Exemplo 3 — por que uma hash table genuinamente não consegue fazer isso eficientemente
+### Exemplo 3: por que uma hash table genuinamente não consegue fazer isso eficientemente
 
 **Problema:** Dadas as seis palavras do Exemplo 1 armazenadas em vez disso em um `dict` do Python (um substituto para uma hash table), escreva o código para encontrar toda palavra armazenada começando com `"te"`, e note seu custo.
 
@@ -138,5 +138,5 @@ Uma trie armazena chaves de string soletrando os caracteres de cada chave um por
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

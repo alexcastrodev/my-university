@@ -43,7 +43,7 @@ A propriedade de max-heap garante, por uma indução de uma linha, que a raiz co
 
 Esta é a troca em torno da qual a propriedade de heap é construída. Uma BST também permite encontrar um valor extremo rapidamente (O(altura), percorra todo o caminho à esquerda, ou todo o caminho à direita), mas encontrar o *máximo* não é para o que uma BST é otimizada; uma BST é otimizada para encontrar *qualquer* valor por chave, via sua ordenação total. Um heap abre mão dessa capacidade geral de busca inteiramente, não há forma eficiente de verificar "o valor X está em algum lugar neste heap?" além de uma varredura linear, porque o invariante fraco e local não dá nenhuma informação direcional para podar uma busca da forma que a ordenação de uma BST dá. O que um heap compra em vez disso é que a *única* consulta específica para a qual é construído, o extremo atual, custa O(1) sempre, e, como os próximos dois conceitos vão mostrar, tanto restaurar a propriedade depois de remover esse extremo quanto inserir um elemento totalmente novo custam apenas O(log n), porque cada operação só precisa consertar um único caminho da raiz até a folha (ou folha até a raiz), nunca uma subárvore inteira.
 
-### Propriedade de heap vs. ordenação de BST — uma visão lado a lado
+### Propriedade de heap vs. ordenação de BST: uma visão lado a lado
 
 | | Invariante de ordenação BST | Propriedade de max-heap |
 |---|---|---|
@@ -56,7 +56,7 @@ A última linha importa tanto quanto as outras: porque o invariante de formato d
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — verificando se uma árvore apoiada em array é um max-heap válido
+### Exemplo 1: verificando se uma árvore apoiada em array é um max-heap válido
 
 **Problema:** Tratando `[9, 7, 8, 3, 6, 8, 2]` como uma árvore binária via a representação implícita em array (filhos do índice `i` em `2i+1`, `2i+2`), é um max-heap válido?
 
@@ -80,7 +80,7 @@ print(is_max_heap(heap))
 
 Verificando à mão: índice 0 (valor 9) tem filhos em 1, 2 (valores 7, 8), 9 ≥ 7 ✓, 9 ≥ 8 ✓. Índice 1 (valor 7) tem filhos em 3, 4 (valores 3, 6), 7 ≥ 3 ✓, 7 ≥ 6 ✓. Índice 2 (valor 8) tem filhos em 5, 6 (valores 8, 2), 8 ≥ 8 ✓ (valores iguais estão tudo bem, a propriedade é ≥ não >), 8 ≥ 2 ✓. Índices 3, 4, 5, 6 não têm filhos (seus índices de filho excedem o comprimento 7), então nada mais para verificar. Toda aresta se mantém, este é um max-heap válido, e o código acima retorna `(True, None)`.
 
-### Exemplo 2 — uma árvore que "parece ordenada" mas não é um heap válido, e uma que parece embaralhada mas é
+### Exemplo 2: uma árvore que "parece ordenada" mas não é um heap válido, e uma que parece embaralhada mas é
 
 **Problema:** `[5, 8, 3]` é um max-heap válido? E `[5, 3, 4, 1, 2]`?
 
@@ -88,7 +88,7 @@ Verificando à mão: índice 0 (valor 9) tem filhos em 1, 2 (valores 7, 8), 9 �
 
 **Segundo array.** Índice 0 (valor 5): filhos em 1, 2 (valores 3, 4), 5 ≥ 3 ✓, 5 ≥ 4 ✓. Índice 1 (valor 3): filhos em 3, 4 (valores 1, 2), 3 ≥ 1 ✓, 3 ≥ 2 ✓. Índice 2 (valor 4): filhos nos índices 5, 6, ambos fora da faixa (comprimento 5), nada a verificar. Este é válido, mesmo que ler o array da esquerda para a direita (`5, 3, 4, 1, 2`) não seja ordenado em nenhum sentido global, isso é esperado, já que um heap só promete comparações pai-filho, não uma ordem geral. Isso é precisamente por que percorrer o array de apoio de um heap em ordem de índice não é o mesmo que percorrer valores em ordem crescente, um equívoco que vale a pena sinalizar explicitamente abaixo.
 
-### Exemplo 3 — os mesmos valores, dois heaps válidos diferentes
+### Exemplo 3: os mesmos valores, dois heaps válidos diferentes
 
 **Problema:** Construa dois max-heaps válidos diferentes a partir dos mesmos cinco valores `{1, 2, 3, 4, 5}`, para mostrar que a propriedade de heap sub-determina o formato exato da árvore (de valores, não de estrutura, a *estrutura* é fixada por completude, coberta a seguir; apenas o posicionamento de valor dentro dessa estrutura é o que varia aqui).
 
@@ -111,5 +111,5 @@ A propriedade de max-heap exige apenas que o valor de todo nó seja ≥ cada um 
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

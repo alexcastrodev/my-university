@@ -99,7 +99,7 @@ Inserção sempre conserta fazendo sift *para cima*, nunca para baixo, porque o 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — inserindo em um heap, rastreando toda comparação
+### Exemplo 1: inserindo em um heap, rastreando toda comparação
 
 **Problema:** Insira `65` no heap `[90, 70, 80, 30, 60, 75, 20]`.
 
@@ -111,7 +111,7 @@ O pai de 3 é `(3-1)//2 = 1` (valor 70). 65 > 70? Não, pare.
 
 **Resultado:** `[90, 70, 80, 65, 60, 75, 20, 30]`. Verifique localmente: índice 0 (90) ≥ 70, 80 ✓; índice 1 (70) ≥ 65, 60 ✓; o resto inalterado e previamente válido. Uma troca, uma comparação que falhou e parou a subida, exatamente um caminho percorrido, da nova folha subindo dois níveis em direção a (mas não alcançando) a raiz.
 
-### Exemplo 2 — extraindo o máximo, rastreando a troca e o sift-down
+### Exemplo 2: extraindo o máximo, rastreando a troca e o sift-down
 
 **Problema:** Extraia o máximo de `[90, 70, 80, 65, 60, 75, 20, 30]` (o resultado do Exemplo 1).
 
@@ -125,7 +125,7 @@ Filhos do índice 5: `2(5)+1=11`, `2(5)+2=12`, ambos fora da faixa (comprimento 
 
 **Resultado:** `arr = [80, 70, 75, 65, 60, 30, 20]`, retornado `max_val = 90`. Verifique: índice 0 (80) ≥ 70, 75 ✓; índice 1 (70) ≥ 65, 60 ✓; índice 2 (75) ≥ 30, 20 ✓. Heap válido, restaurado em exatamente duas trocas ao longo de um único caminho descendente.
 
-### Exemplo 3 — construindo um heap via inserção repetida vs. heapify de baixo para cima, e confirmando que ambos dão resultados válidos (embora diferentes)
+### Exemplo 3: construindo um heap via inserção repetida vs. heapify de baixo para cima, e confirmando que ambos dão resultados válidos (embora diferentes)
 
 **Problema:** Construa um heap a partir de `[3, 1, 4, 1, 5]` de duas formas: (a) inserindo um de cada vez em um heap inicialmente vazio, e (b) heapify de baixo para cima diretamente no array. Confirme que ambos os resultados são max-heaps válidos, e note que não precisam ser idênticos.
 
@@ -161,5 +161,5 @@ Inserir anexa um novo valor ao final do array, a única posição que preserva c
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

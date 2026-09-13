@@ -73,7 +73,7 @@ Dois exemplos concretos e bem documentados tornam isso concreto em vez de teóri
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma comparação de custo aproximada para uma carga de trabalho mista
+### Exemplo 1: uma comparação de custo aproximada para uma carga de trabalho mista
 
 **Problema:** Um sistema contém n = 100.000 chaves e realiza 1.000.000 buscas e 10.000 atualizações (inserções e remoções combinadas) por unidade de tempo. Usando os limites de altura da Teoria Central, compare o trabalho total aproximado de pior caso das duas estruturas.
 
@@ -85,7 +85,7 @@ Dois exemplos concretos e bem documentados tornam isso concreto em vez de teóri
 
 **Lendo o resultado.** Com buscas superando atualizações 100 para 1 neste exemplo, as ~9.000.000 comparações extras que a rubro-negra paga em buscas provavelmente domina a comparação, este cenário na verdade favorece a AVL, já que o volume de busca supera o volume de atualização por duas ordens de magnitude. Inverta a razão (digamos, 10.000 buscas e 1.000.000 atualizações) e a conclusão se inverte: o custo de rotação rigidamente limitado da rubro-negra sobre o volume de atualização agora dominante se torna o fator decisivo. A lição não é "AVL vence" ou "rubro-negra vence" em abstrato, é que a razão real de leitura/escrita da carga de trabalho real é o que decide, exatamente como a regra de carga de trabalho da Teoria Central afirma.
 
-### Exemplo 2 — por que a escolha do escalonador Linux não é uma coincidência
+### Exemplo 2: por que a escolha do escalonador Linux não é uma coincidência
 
 **Problema:** Justifique, usando os conceitos desta disciplina, por que a escolha de uma árvore rubro-negra (em vez de uma árvore AVL) para sua fila de execução pelo escalonador CFS do Linux é a escolha apropriada para a carga de trabalho em vez de uma arbitrária.
 
@@ -95,7 +95,7 @@ Dois exemplos concretos e bem documentados tornam isso concreto em vez de teóri
 
 **Conclusão.** A escolha é uma aplicação direta e de livro-texto da troca derivada neste conceito, não uma coincidência, e não simplesmente "rubro-negra é o padrão popular," mas uma decisão que corresponde ao formato específico (fortemente dominado por escrita, sensível a latência, extremamente frequente) do padrão de acesso real do escalonador.
 
-### Exemplo 3 — um contraexemplo de leitura pesada
+### Exemplo 3: um contraexemplo de leitura pesada
 
 **Problema:** O front-end de um compilador constrói uma tabela de símbolos uma vez por unidade de compilação, a partir das declarações de um arquivo fonte, e depois consulta essa tabela repetidamente durante toda passagem de compilação subsequente (verificação de tipo, geração de código, otimização), atualizações acontecem apenas durante o parsing de declarações (um custo pequeno e único por unidade de compilação), enquanto buscas acontecem continuamente através de múltiplas passagens sobre os mesmos dados. Qual estrutura a regra de carga de trabalho favorece?
 
@@ -119,5 +119,5 @@ Dois exemplos concretos e bem documentados tornam isso concreto em vez de teóri
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

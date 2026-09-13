@@ -74,13 +74,13 @@ Heapsort é a ordenação que garante o limite de pior caso do merge sort enquan
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo de heapsort em um pequeno array
+### Exemplo 1: rastreamento completo de heapsort em um pequeno array
 
 **Problema:** Ordene `[4, 10, 3, 5, 1]` usando heapsort, mostrando o array depois da fase 1 e depois de toda rodada da fase 2.
 
 **Fase 1 (heapify).** Este é exatamente o Exemplo 1 do conceito de heapify: resultado `[10, 5, 3, 4, 1]`.
 
-**Fase 2, rodada 1** (`end = 4`). Troque `arr[0]` (10) e `arr[4]` (1): `[1, 5, 3, 4, 10]`. O índice 4 agora está ordenado (contém o verdadeiro máximo, 10, em sua posição final). Sift-down a partir do índice 0, dentro da faixa `[0, 4)`: filhos de 0 são os índices 1 (valor 5), 2 (valor 3); o maior é 5; 1 < 5, troque: `[5, 1, 3, 4, 10]`; continue a partir do índice 1: filhos em 3 (valor 4); `2(1)+2=4` está fora da faixa ativa (`end=4` significa que apenas os índices 0–3 estão em jogo); compare apenas contra o índice 3 (valor 4); 1 < 4, troque: `[5, 4, 3, 1, 10]`; continue a partir do índice 3: filhos em 7, 8, ambos fora da faixa, pare.
+**Fase 2, rodada 1** (`end = 4`). Troque `arr[0]` (10) e `arr[4]` (1): `[1, 5, 3, 4, 10]`. O índice 4 agora está ordenado (contém o verdadeiro máximo, 10, em sua posição final). Sift-down a partir do índice 0, dentro da faixa `[0, 4)`: filhos de 0 são os índices 1 (valor 5), 2 (valor 3); o maior é 5; 1 < 5, troque: `[5, 1, 3, 4, 10]`; continue a partir do índice 1: filhos em 3 (valor 4); `2(1)+2=4` está fora da faixa ativa (`end=4` significa que apenas os índices 0-3 estão em jogo); compare apenas contra o índice 3 (valor 4); 1 < 4, troque: `[5, 4, 3, 1, 10]`; continue a partir do índice 3: filhos em 7, 8, ambos fora da faixa, pare.
 
 **Rodada 2** (`end = 3`). Troque `arr[0]` (5) e `arr[3]` (1): `[1, 4, 3, 5, 10]`. O índice 3 agora está ordenado. Sift-down a partir de 0 dentro de `[0, 3)`: filhos em 1 (valor 4), 2 (valor 3); o maior é 4; 1 < 4, troque: `[4, 1, 3, 5, 10]`; continue a partir do índice 1: filhos em `2(1)+1=3`, fora da faixa ativa (`end=3`), pare.
 
@@ -90,7 +90,7 @@ Heapsort é a ordenação que garante o limite de pior caso do merge sort enquan
 
 **Resultado final:** `[1, 3, 4, 5, 10]`, totalmente ordenado em ordem crescente, usando as mesmas cinco posições de array o tempo todo, sem nenhum array auxiliar em nenhum momento.
 
-### Exemplo 2 — contando comparações para ver o formato O(n log n) empiricamente
+### Exemplo 2: contando comparações para ver o formato O(n log n) empiricamente
 
 **Problema:** Para o rastreamento no Exemplo 1 (`n = 5`), conte o número total de comparações pai-vs-filho feitas através de toda a fase 2, e compare contra `n log₂ n`.
 
@@ -98,7 +98,7 @@ Heapsort é a ordenação que garante o limite de pior caso do merge sort enquan
 
 **Limite de referência.** `n log₂ n = 5 × log₂ 5 ≈ 5 × 2,32 ≈ 11,6`. A contagem observada (4) fica confortavelmente abaixo desse limite, consistente com O(n log n) como um limite superior em vez de uma previsão apertada para toda entrada pequena, para `n` pequeno os fatores constantes e os valores específicos envolvidos importam mais que o formato assintótico, que só se torna um preditor confiável de contagens de comparação reais conforme `n` cresce.
 
-### Exemplo 3 — heapsort em um array com valores duplicados, para ver instabilidade diretamente
+### Exemplo 3: heapsort em um array com valores duplicados, para ver instabilidade diretamente
 
 **Problema:** Ordene `[5, 3, 5, 1]`, onde dois elementos compartilham o valor 5, e observe que heapsort não necessariamente preserva sua ordem relativa original (ou seja, não é uma ordenação estável).
 
@@ -125,5 +125,5 @@ Heapsort tem exatamente duas fases, ambas construídas a partir de maquinário j
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

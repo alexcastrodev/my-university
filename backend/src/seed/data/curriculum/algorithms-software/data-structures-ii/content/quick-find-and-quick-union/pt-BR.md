@@ -98,7 +98,7 @@ Nenhuma é aceitável como uma estrutura de propósito geral para uma longa sequ
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — o trabalho desperdiçado do quick-find, rastreado passo a passo
+### Exemplo 1: o trabalho desperdiçado do quick-find, rastreado passo a passo
 
 **Problema:** Com n = 5 e quick-find, rastreie `id` através de `union(0,1)`, `union(0,2)`, `union(0,3)`, `union(0,4)`, e conte quantas células de array são de fato inspecionadas no total (não apenas escritas).
 
@@ -111,7 +111,7 @@ Nenhuma é aceitável como uma estrutura de propósito geral para uma longa sequ
 
 **Total:** 4 uniões × 5 células varridas cada = 20 inspeções de célula, para fundir 5 elementos em um grupo, um grupo que poderia, em princípio, ter sido construído com apenas 4 fatos de fusão "reais" registrados. Este é o padrão de explosão quadrática: toda união custa uma varredura O(n) completa independentemente de quanto o grupo de fato cresça.
 
-### Exemplo 2 — quick-union construindo uma corrente ruim, depois pagando por ela
+### Exemplo 2: quick-union construindo uma corrente ruim, depois pagando por ela
 
 **Problema:** Com n = 6 e quick-union (sempre anexando a raiz de `find(p)` sob a raiz de `find(q)`, pelo código de `union(p, q)` acima), rastreie `parent` através de `union(0,1)`, `union(1,2)`, `union(2,3)`, `union(3,4)`, `union(4,5)`, depois calcule o custo (número de saltos de ponteiro) de `find(0)`.
 
@@ -140,5 +140,5 @@ Quick-find e quick-union são as duas primeiras tentativas ingênuas de implemen
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

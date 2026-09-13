@@ -99,7 +99,7 @@ graph TD
         L((•)) 
         Rt((•))
     end
-    subgraph "Altura 0 — folhas (4 nós, sift 0 níveis)"
+    subgraph "Altura 0: folhas (4 nós, sift 0 níveis)"
         A((•))
         B((•))
         C((•))
@@ -117,7 +117,7 @@ Nesta árvore de 7 nós: 4 folhas (altura 0) contribuem 0 trabalho cada; 2 nós 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — fazendo heapify de um pequeno array à mão, rastreando toda troca
+### Exemplo 1: fazendo heapify de um pequeno array à mão, rastreando toda troca
 
 **Problema:** Transforme `[4, 10, 3, 5, 1]` em um max-heap válido usando heapify de baixo para cima.
 
@@ -129,7 +129,7 @@ Nesta árvore de 7 nós: 4 folhas (altura 0) contribuem 0 trabalho cada; 2 nós 
 
 **Resultado:** `[10, 5, 3, 4, 1]`. Verifique: índice 0 (10) ≥ 5, 3 ✓; índice 1 (5) ≥ 4, 1 ✓; índice 2 (3) é uma folha aqui (filhos em 5, 6, fora da faixa). Max-heap válido, construído em exatamente 2 comparações-e-trocas na raiz e 1 no índice 1, muito menos operações totais do que 5 inserções O(log 5) separadas teriam exigido.
 
-### Exemplo 2 — confirmando que a ordem de heapify importa: fazer da raiz primeiro quebra a precondição
+### Exemplo 2: confirmando que a ordem de heapify importa: fazer da raiz primeiro quebra a precondição
 
 **Problema:** Pegue o mesmo array `[4, 10, 3, 5, 1]` e faça sift-down a partir da raiz *primeiro*, depois desça, para ver o modo de falha.
 
@@ -137,7 +137,7 @@ Nesta árvore de 7 nós: 4 folhas (altura 0) contribuem 0 trabalho cada; 2 nós 
 
 Isso na verdade acabou funcionando bem neste caso específico, mas apenas porque a subárvore do índice 1, no momento em que a raiz foi processada, ainda não tinha sido "consertada" por uma passagem separada, então a própria continuação recursiva do sift-down acabou fazendo o trabalho necessário de qualquer forma *como efeito colateral* de perseguir o elemento trocado descendo. O perigo real surge com um caso onde a subárvore de um nó precisa de conserto interno *independentemente* do que quer que seja trocado para dentro dela de cima. Considere `[1, 2, 10, 3, 4]`: se o índice 0 (valor 1) é feito sift primeiro, seus filhos são 2 (índice 1) e 10 (índice 2); o maior é 10, troque: `[10, 2, 1, 3, 4]`, continue a partir do índice 2 (valor 1 agora ali), o índice 2 tem filhos em 5, 6, fora da faixa, então para. Mas o índice 1 (valor 2) nunca foi verificado contra seus próprios filhos (3 e 4 nos índices 3, 4), 2 < 4, uma violação de heap deixada completamente sem reparo, porque o processamento da raiz primeiro trocou a raiz e seguiu em frente sem nunca revisitar a própria violação local do índice 1. Ordem de baixo para cima (índice 1 antes do índice 0) teria capturado e consertado isso primeiro, garantindo que a subárvore do índice 1 já era válida antes de a raiz sequer precisar compará-la.
 
-### Exemplo 3 — rastreando o limite de soma de altura em um exemplo um pouco maior
+### Exemplo 3: rastreando o limite de soma de altura em um exemplo um pouco maior
 
 **Problema:** Para `n = 15` (uma árvore binária perfeita de altura 3: 1 raiz + 2 + 4 + 8 folhas), calcule o trabalho total de sift-down de pior caso exato via a fórmula de soma de altura, e compare-o com a estimativa ingênua `(n/2) log n`.
 
@@ -164,5 +164,5 @@ Sift-down conserta a propriedade de heap em um único nó cujas duas subárvores
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

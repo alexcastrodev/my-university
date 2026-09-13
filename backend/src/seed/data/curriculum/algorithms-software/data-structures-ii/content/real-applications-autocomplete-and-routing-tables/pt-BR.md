@@ -49,7 +49,7 @@ Autocomplete não tem uma noção análoga de "única resposta mais específica"
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma trie de autocomplete de brinquedo, percorrida concretamente
+### Exemplo 1: uma trie de autocomplete de brinquedo, percorrida concretamente
 
 **Problema:** O dicionário de sugestões de uma caixa de busca contém as palavras `"cat"`, `"car"`, `"care"`, `"card"`, `"dog"`. Construa a trie, depois rastreie o que acontece enquanto um usuário digita `c`, depois `ca`, depois `car`.
 
@@ -73,7 +73,7 @@ graph TD
 
 O estreitamento que um usuário de fato experimenta apareceria na *próxima* tecla: digitar `"care"` estreita o resultado para `["care"]` apenas, já que `keys_with_prefix("care")` caminha até o nó `care`, que não tem filhos, a coleta da subárvore retorna apenas `care` em si.
 
-### Exemplo 2 — casamento por prefixo mais longo em uma pequena tabela de roteamento
+### Exemplo 2: casamento por prefixo mais longo em uma pequena tabela de roteamento
 
 **Problema:** A tabela de encaminhamento de um roteador tem três entradas: `0*` → link A (casa com qualquer endereço começando com bit 0), `010*` → link B, `0101*` → link C. Um pacote chega destinado a um endereço começando com os bits `01011...`. Qual link o roteador usa?
 
@@ -87,7 +87,7 @@ O estreitamento que um usuário de fato experimenta apareceria na *próxima* tec
 
 A caminhada termina (sai da trie), e o último melhor casamento registrado é o link C, o prefixo de comprimento 4 `0101*`, o mais específico das três entradas que casaram. Isso é exatamente a regra de casamento por prefixo mais longo: mesmo que `0*` e `010*` ambos também tenham casado com este endereço de destino, o roteador usa `0101*` porque é o mais longo (mais específico) dos três.
 
-### Exemplo 3 — por que uma hash table não pode substituir nenhuma das duas aplicações
+### Exemplo 3: por que uma hash table não pode substituir nenhuma das duas aplicações
 
 **Problema:** Justifique brevemente, tanto para autocomplete quanto para roteamento, por que uma hash table de strings completas (ou endereços completos) não poderia servir como substituto direto para a trie nessas duas aplicações.
 
@@ -106,5 +106,5 @@ Autocomplete e roteamento IP são duas aplicações genuínas e amplamente impla
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

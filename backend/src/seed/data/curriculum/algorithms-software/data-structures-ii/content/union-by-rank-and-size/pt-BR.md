@@ -92,7 +92,7 @@ Union por *size* rastreia a contagem exata de elemento de cada árvore e sempre 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — reproduzindo a sequência formadora de corrente com ponderação
+### Exemplo 1: reproduzindo a sequência formadora de corrente com ponderação
 
 **Problema:** Repita a sequência de união exata do Exemplo 2 do conceito anterior, `union(0,1)`, `union(1,2)`, `union(2,3)`, `union(3,4)`, `union(4,5)` em n = 6 elementos, mas agora usando weighted quick-union (union por size). Compare a altura de árvore resultante com a corrente não ponderada de altura 5.
 
@@ -106,7 +106,7 @@ Union por *size* rastreia a contagem exata de elemento de cada árvore e sempre 
 
 **Resultado:** cada um dos elementos 1, 2, 3, 4, 5 é um filho direto da raiz 0, uma árvore de altura 1, não 5. Toda busca `find` subsequente em qualquer um desses seis elementos agora custa exatamente um salto, em contraste marcante com o pior caso de cinco saltos da corrente não ponderada para a exata mesma sequência de fatos de conectividade.
 
-### Exemplo 2 — um caso onde a árvore menor não é a mais recentemente criada
+### Exemplo 2: um caso onde a árvore menor não é a mais recentemente criada
 
 **Problema:** Com n = 7, execute `union(0,1)` depois `union(2,3)` (criando duas árvores separadas de 2 elementos), depois `union(0,2)` (fundindo as duas árvores de 2 elementos), depois `union(4,0)` (fundindo um singleton na agora árvore de 4 elementos). Rastreie tamanhos e mostre a altura de árvore final.
 
@@ -132,5 +132,5 @@ Union por rank (ou size) conserta a fraqueza central do quick-union, anexação 
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

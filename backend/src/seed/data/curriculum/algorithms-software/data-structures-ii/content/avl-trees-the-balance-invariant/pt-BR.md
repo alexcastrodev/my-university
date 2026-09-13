@@ -131,7 +131,7 @@ def balance_factor(node):
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — calculando fatores de balanceamento e identificando uma violação
+### Exemplo 1: calculando fatores de balanceamento e identificando uma violação
 
 **Problema:** Para a árvore abaixo, calcule o fator de balanceamento de todo nó e determine se é uma árvore AVL válida.
 
@@ -149,7 +149,7 @@ graph TD
 
 **Conclusão.** O nó 30 tem fator de balanceamento 2, e o nó 50 também tem fator de balanceamento 2, ambos violam o invariante AVL (a faixa permitida é {−1, 0, 1}). Esta árvore **não** é uma árvore AVL válida; ela degenerou em uma corrente inclinada à esquerda de 50 até 10, exatamente o tipo de formato que o invariante é projetado para proibir e que uma rotação (próximo conceito) corrigiria.
 
-### Exemplo 2 — construindo a árvore AVL mínima de altura 3 e confirmando a contagem de nós
+### Exemplo 2: construindo a árvore AVL mínima de altura 3 e confirmando a contagem de nós
 
 **Problema:** Usando a construção recursiva da Teoria Central (uma subárvore de altura h − 1, a outra de altura h − 2, ambas mínimas), construa uma árvore AVL mínima de altura 3 e confirme que ela tem exatamente N(3) = 7 nós.
 
@@ -167,7 +167,7 @@ graph TD
 
 **Contagem.** Raiz (1) + subárvore de altura 2 (4 nós: sua própria raiz, sua sub-subárvore de altura 1 com 2 nós, e sua folha de altura 0 com 1 nó) + subárvore de altura 1 (2 nós) = 1 + 4 + 2 = 7. ✓ corresponde exatamente a N(3) = 7, e o fator de balanceamento de todo nó está dentro de {−1, 0, 1} por construção, já que cada pareamento de subárvore foi construído para diferir por exatamente a lacuna máxima permitida de 1.
 
-### Exemplo 3 — limitando a altura de uma árvore AVL de um milhão de nós
+### Exemplo 3: limitando a altura de uma árvore AVL de um milhão de nós
 
 **Problema:** Usando o limite O(1,44 log₂ n) derivado na Teoria Central, estime a altura máxima possível de uma árvore AVL contendo n = 1.000.000 nós, e compare-a com a altura que uma árvore perfeitamente balanceada teria.
 
@@ -191,5 +191,5 @@ O invariante AVL afirma que o **fator de balanceamento** de todo nó, altura(sub
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

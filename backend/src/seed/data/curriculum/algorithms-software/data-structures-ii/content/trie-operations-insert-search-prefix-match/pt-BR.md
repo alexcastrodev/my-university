@@ -114,7 +114,7 @@ Chamar `keys_with_prefix("te")` percorre `raiz → t → te` (o nó destacado), 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo de insert-depois-search
+### Exemplo 1: rastreamento completo de insert-depois-search
 
 **Problema:** Começando de uma trie vazia, insira `"bat"`, `"bath"`, `"bat"` (novamente), e `"ball"`. Depois avalie `search("bat")`, `search("ba")`, e `search("balloon")`, explicando cada resultado pelo número de resultado da Teoria Central.
 
@@ -124,7 +124,7 @@ Chamar `keys_with_prefix("te")` percorre `raiz → t → te` (o nó destacado), 
 - `search("ba")`: a caminhada `b → ba` se completa, mas `ba` não está marcado fim-de-palavra (apenas `bat`, `bath`, `ball` foram jamais inseridos como palavras completas, não `ba` em si) → **False** (resultado 2), `"ba"` é um prefixo de chaves armazenadas mas nunca foi ela mesma inserida.
 - `search("balloon")`: a caminhada `b → ba → bal → ball` tem sucesso, mas o próximo caractere `o` não tem aresta filha sob `ball` (nada além de `"ball"` foi inserido) → **False** (resultado 1), a caminhada cai fora da trie.
 
-### Exemplo 2 — correspondência de prefixo com um conjunto de resultado misto
+### Exemplo 2: correspondência de prefixo com um conjunto de resultado misto
 
 **Problema:** Usando a trie do Exemplo 1 (`bat`, `bath`, `ball`), calcule `keys_with_prefix("ba")` e `keys_with_prefix("bal")`, e note o custo de cada uma em relação ao número total de chaves armazenadas.
 
@@ -132,7 +132,7 @@ Chamar `keys_with_prefix("te")` percorre `raiz → t → te` (o nó destacado), 
 
 Para `keys_with_prefix("bal")`: a fase de caminhada alcança o nó `bal` em 3 passos. A fase de coleta só tem um caminho abaixo dele: `bal → ball*`. Resultado: `["ball"]`, apenas uma chave visitada durante a coleta, mesmo que a trie como um todo armazene três chaves no total. Esta é a demonstração concreta da afirmação de complexidade da Teoria Central: o custo da segunda consulta acompanhou o tamanho da subárvore *correspondente* (um nó), não o tamanho total da trie (três chaves), um equivalente de hash table teria inspecionado todas as três chaves com `.startswith("bal")` independentemente de quantas correspondessem.
 
-### Exemplo 3 — implementando search usando keys_with_prefix como uma verificação de sanidade (e por que você não faria isso na prática)
+### Exemplo 3: implementando search usando keys_with_prefix como uma verificação de sanidade (e por que você não faria isso na prática)
 
 **Problema:** Mostre que `search(key)` é logicamente equivalente a verificar se `key` aparece no resultado de `keys_with_prefix(key)`, depois explique por que implementar search dessa forma em código de produção seria uma escolha ruim.
 
@@ -158,5 +158,5 @@ Insert, search, e prefix-match todos compartilham a mesma caminhada caractere-po
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

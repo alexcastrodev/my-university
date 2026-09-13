@@ -69,7 +69,7 @@ Porque os `n` nós de uma árvore completa ocupam índices de array `0` até `n-
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — implementando buscas filho/pai diretamente em uma lista Python
+### Exemplo 1: implementando buscas filho/pai diretamente em uma lista Python
 
 **Problema:** Dado um heap armazenado como uma lista Python comum, escreva as três funções de índice e use-as para navegar.
 
@@ -86,15 +86,15 @@ def parent(i):
     return (i - 1) // 2
 
 # Navegando a partir da raiz:
-print(heap[0])                      # 90 — a raiz
-print(heap[left(0)], heap[right(0)])  # 70 80 — os dois filhos da raiz
-print(heap[left(1)], heap[right(1)])  # 30 60 — os dois filhos do índice 1 (70)
-print(heap[parent(6)])              # heap[2] = 80 — o pai do índice 6 (20)
+print(heap[0])                      # 90: a raiz
+print(heap[left(0)], heap[right(0)])  # 70 80: os dois filhos da raiz
+print(heap[left(1)], heap[right(1)])  # 30 60: os dois filhos do índice 1 (70)
+print(heap[parent(6)])              # heap[2] = 80: o pai do índice 6 (20)
 ```
 
 Limites importam aqui: `left(i)` ou `right(i)` pode calcular um índice que é `>= len(heap)`, significando que aquela posição de filho simplesmente não existe (este nó é uma folha, ou tem apenas um filho). Qualquer código percorrendo filhos deve verificar `left(i) < len(heap)` antes de indexar, isso é exatamente análogo a verificar `None` na representação encadeada, apenas expresso como uma verificação de limite em vez de uma verificação nula.
 
-### Exemplo 2 — encontrando todas as folhas e todos os nós internos apenas por índice
+### Exemplo 2: encontrando todas as folhas e todos os nós internos apenas por índice
 
 **Problema:** Para um heap de comprimento `n = 10`, quais índices são folhas (sem filhos), e quais são internos (têm pelo menos um filho), usando apenas aritmética, sem travessia?
 
@@ -110,7 +110,7 @@ print(internal)  # [0, 1, 2, 3, 4]
 
 Esse raciocínio apenas-por-índice, sem precisar percorrer a estrutura para saber quais nós são folhas, é um retorno direto da aritmética da representação em array: a mesma pergunta em uma árvore encadeada exigiria de fato visitar cada nó e verificar se `left is None and right is None`.
 
-### Exemplo 3 — por que as fórmulas falham silenciosamente em uma árvore não completa
+### Exemplo 3: por que as fórmulas falham silenciosamente em uma árvore não completa
 
 **Problema:** Suponha que alguém armazene uma árvore binária não completa em um array simplesmente pulando nós ausentes, por exemplo, representando "raiz com apenas um filho direito, cujo filho direito tem apenas um filho esquerdo" como `[R, C1, C2]` (omitindo o filho esquerdo ausente de R inteiramente, em vez de usar `None` como um espaço reservado). Mostre que a aritmética de índice de filho dá respostas erradas.
 
@@ -141,5 +141,5 @@ A representação em array de um heap só é sem perdas porque um heap mantém c
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

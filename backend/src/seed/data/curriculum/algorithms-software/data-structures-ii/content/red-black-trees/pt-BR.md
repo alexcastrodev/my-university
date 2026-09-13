@@ -48,11 +48,11 @@ A raiz 10 é preta (regra 2); os únicos nós vermelhos são 5 e 25, e nenhum te
 
 Este é o fato que este conceito mais quer de fato justificar em vez de apenas afirmar, e segue um formato similar ao argumento de Fibonacci para árvores AVL no conceito anterior: um argumento de contagem, dessa vez baseado em black-height em vez de altura simples.
 
-**Passo 1 — uma subárvore com black-height bh tem pelo menos 2^bh − 1 nós internos (não NIL).** Prova por indução sobre altura. Se um nó x é ele mesmo uma folha NIL, sua black-height é 0 por convenção, e tem 0 nós internos, correspondendo a 2⁰ − 1 = 0. Para um nó interno x com black-height bh(x), considere seus dois filhos: a black-height de cada filho é ou bh(x) (se o filho é vermelho, já que um nó vermelho não consome uma contagem de black-height ao descer) ou bh(x) − 1 (se o filho é preto). De qualquer forma, a black-height de cada filho é pelo menos bh(x) − 1, então pela hipótese indutiva (filhos têm altura menor que x), a subárvore de cada filho tem pelo menos 2^(bh(x)−1) − 1 nós internos. Somando ambos os filhos mais o próprio x: pelo menos 1 + 2·(2^(bh(x)−1) − 1) = 2^bh(x) − 1 nós internos na subárvore de x.
+**Passo 1: uma subárvore com black-height bh tem pelo menos 2^bh − 1 nós internos (não NIL).** Prova por indução sobre altura. Se um nó x é ele mesmo uma folha NIL, sua black-height é 0 por convenção, e tem 0 nós internos, correspondendo a 2⁰ − 1 = 0. Para um nó interno x com black-height bh(x), considere seus dois filhos: a black-height de cada filho é ou bh(x) (se o filho é vermelho, já que um nó vermelho não consome uma contagem de black-height ao descer) ou bh(x) − 1 (se o filho é preto). De qualquer forma, a black-height de cada filho é pelo menos bh(x) − 1, então pela hipótese indutiva (filhos têm altura menor que x), a subárvore de cada filho tem pelo menos 2^(bh(x)−1) − 1 nós internos. Somando ambos os filhos mais o próprio x: pelo menos 1 + 2·(2^(bh(x)−1) − 1) = 2^bh(x) − 1 nós internos na subárvore de x.
 
-**Passo 2 — relacione black-height na raiz à altura real da árvore.** A regra 3 (sem aresta vermelho-vermelho) garante que em qualquer caminho raiz-a-folha, nós vermelhos nunca podem ser adjacentes, então pelo menos a cada outro nó no caminho é preto. Isso significa que a black-height da raiz, bh(raiz), é pelo menos h/2, onde h é a altura real da árvore (o caminho raiz-a-folha mais longo).
+**Passo 2: relacione black-height na raiz à altura real da árvore.** A regra 3 (sem aresta vermelho-vermelho) garante que em qualquer caminho raiz-a-folha, nós vermelhos nunca podem ser adjacentes, então pelo menos a cada outro nó no caminho é preto. Isso significa que a black-height da raiz, bh(raiz), é pelo menos h/2, onde h é a altura real da árvore (o caminho raiz-a-folha mais longo).
 
-**Passo 3 — combine.** Com n o número total de nós internos (reais), o Passo 1 dá n ≥ 2^bh(raiz) − 1 ≥ 2^(h/2) − 1. Resolvendo para h: n + 1 ≥ 2^(h/2), então h/2 ≤ log₂(n+1), dando:
+**Passo 3: combine.** Com n o número total de nós internos (reais), o Passo 1 dá n ≥ 2^bh(raiz) − 1 ≥ 2^(h/2) − 1. Resolvendo para h: n + 1 ≥ 2^(h/2), então h/2 ≤ log₂(n+1), dando:
 
 ```
 h ≤ 2 · log₂(n + 1)
@@ -75,7 +75,7 @@ Um nó AVL precisa de bits suficientes para armazenar uma altura ou fator de bal
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — verificando todos os quatro invariantes em uma árvore concreta
+### Exemplo 1: verificando todos os quatro invariantes em uma árvore concreta
 
 **Problema:** Confirme que a árvore da Teoria Central (raiz 10 preta, 5 vermelha, 20 preta, 3 preta, 7 preta, 25 vermelha) satisfaz todos os quatro invariantes rubro-negros.
 
@@ -96,7 +96,7 @@ Total para esse último caminho: 2. ✓ corresponde aos outros três caminhos.
 
 **Conclusão.** Todos os quatro caminhos raiz-a-NIL têm exatamente 2 nós pretos; todas as quatro regras se mantêm. Esta é uma árvore rubro-negra válida.
 
-### Exemplo 2 — quantificando o limite de altura para um milhão de nós
+### Exemplo 2: quantificando o limite de altura para um milhão de nós
 
 **Problema:** Para n = 1.000.000 nós, calcule o limite de altura de pior caso rubro-negro e compare-o com o limite de pior caso AVL do conceito anterior e o pior caso de BST comum de dois conceitos atrás.
 
@@ -108,7 +108,7 @@ Total para esse último caminho: 2. ✓ corresponde aos outros três caminhos.
 
 **Comparação.** Mesmo em seu pior caso absoluto, uma árvore rubro-negra com um milhão de nós (altura ≤ 40) não está nem perto do caso degenerado da BST comum (altura 999.999), ambos os esquemas autobalanceados entregam a mesma garantia qualitativa O(log n). A lacuna entre o ≈29 da AVL e o ≈40 da rubro-negra é real (árvores rubro-negras podem ser aproximadamente 38% mais altas que árvores AVL no pior caso aqui) mas pequena comparada à lacuna de qualquer uma delas em relação ao caso não balanceado. Este é exatamente o pano de fundo numérico que o próximo conceito usa para explicar por que essa diferença de altura, apesar de real, frequentemente não é o fator decisivo ao escolher entre os dois esquemas.
 
-### Exemplo 3 — um fix-up de inserção conceitual: apenas recoloração versus rotação
+### Exemplo 3: um fix-up de inserção conceitual: apenas recoloração versus rotação
 
 **Problema:** Começando da árvore válida no Exemplo 1, insira o valor `1` como uma nova folha vermelha (se torna o filho esquerdo de 3), e descreva, em um nível conceitual, que tipo de fix-up é disparado.
 
@@ -130,5 +130,5 @@ Uma árvore rubro-negra impõe balanceamento através de quatro regras sobre cor
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

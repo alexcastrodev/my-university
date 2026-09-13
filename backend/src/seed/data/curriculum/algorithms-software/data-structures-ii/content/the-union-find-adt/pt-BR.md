@@ -64,9 +64,9 @@ Qualquer implementação desse TAD, não importa como represente internamente os
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — conectividade de rede a partir de um fluxo de eventos
+### Exemplo 1: conectividade de rede a partir de um fluxo de eventos
 
-**Problema:** Dez computadores, numerados 0–9, começam sem conexões. Os seguintes eventos de conexão chegam em ordem: `(4,3)`, `(3,8)`, `(6,5)`, `(9,4)`, `(2,1)`. Depois de processar todos os cinco, o computador 8 está conectado ao computador 9? O computador 0 está conectado a alguma coisa?
+**Problema:** Dez computadores, numerados 0-9, começam sem conexões. Os seguintes eventos de conexão chegam em ordem: `(4,3)`, `(3,8)`, `(6,5)`, `(9,4)`, `(2,1)`. Depois de processar todos os cinco, o computador 8 está conectado ao computador 9? O computador 0 está conectado a alguma coisa?
 
 **Raciocínio, usando o TAD abstratamente (sem se comprometer com uma implementação ainda):** Comece com 10 grupos singleton: {0}, {1}, …, {9}.
 
@@ -82,7 +82,7 @@ Grupos finais: {3,4,8,9}, {5,6}, {1,2}, {0} (intocado, ainda um singleton).
 
 Esse é exatamente o tipo de pergunta que o TAD é construído para responder baratamente e incrementalmente, note que responder à consulta depois de todos os cinco eventos não exigiu nenhuma retravessia de nada; apenas exigiu saber a partição atual, que foi atualizada uma vez por evento.
 
-### Exemplo 2 — contando componentes conectados como um total corrente
+### Exemplo 2: contando componentes conectados como um total corrente
 
 **Problema:** Usando os mesmos 10 computadores e os mesmos cinco eventos do Exemplo 1, quantos grupos distintos existem depois de cada evento, em ordem?
 
@@ -90,7 +90,7 @@ Esse é exatamente o tipo de pergunta que o TAD é construído para responder ba
 
 | Evento | Fusão efetiva? | Contagem de grupo depois |
 |---|---|---|
-| início | — | 10 |
+| início |: | 10 |
 | union(4,3) | sim (4 e 3 estavam separados) | 9 |
 | union(3,8) | sim (o grupo de 3 e o grupo de 8 estavam separados) | 8 |
 | union(6,5) | sim | 7 |
@@ -112,5 +112,5 @@ O TAD union-find (conjunto disjunto) mantém uma partição dinâmica de `n` ele
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

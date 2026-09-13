@@ -105,7 +105,7 @@ Buscar em uma TST construída a partir de N chaves de comprimento médio L custa
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — inserindo três chaves em uma TST e rastreando o formato resultante
+### Exemplo 1: inserindo três chaves em uma TST e rastreando o formato resultante
 
 **Problema:** Insira `"cat"`, `"car"`, e `"dog"` em uma TST vazia, nessa ordem, e rastreie a estrutura de nó resultante.
 
@@ -127,7 +127,7 @@ graph TD
 
 Este rastreamento mostra os dois papéis distintos dos ponteiros claramente: mid sempre avança para uma nova posição de caractere (c→a→t soletra `"ca_"`, depois t/r são dois terceiros caracteres diferentes na *mesma* posição), enquanto left/right permanecem em uma posição de caractere e apenas decidem qual nó representa qual valor ali.
 
-### Exemplo 2 — buscando uma chave que exige um passo left/right
+### Exemplo 2: buscando uma chave que exige um passo left/right
 
 **Problema:** Usando a TST do Exemplo 1, rastreie `search("car")` e `search("cap")`.
 
@@ -135,7 +135,7 @@ Este rastreamento mostra os dois papéis distintos dos ponteiros claramente: mid
 
 `search("cap")`: caminhada idêntica através de `c` → `a` → chega no nó `t` comparando o caractere de chave `p`. Como `p < t`, vá à esquerda até o nó `r`. No nó `r`, o caractere de chave é `p`; como `p < r`, vá à esquerda novamente, mas `r` não tem filho esquerdo (`None`). A busca retorna `None`, então `"cap"` é corretamente relatado ausente, mesmo que compartilhe dois caracteres com uma chave real armazenada.
 
-### Exemplo 3 — estimando a diferença de memória contra uma trie padrão baseada em array
+### Exemplo 3: estimando a diferença de memória contra uma trie padrão baseada em array
 
 **Problema:** Para um alfabeto de tamanho R = 65.536 (um substituto para um grande subconjunto Unicode) e uma trie/TST ambas armazenando as mesmas 10.000 chaves, compare o *formato* do custo de memória (não contagens exatas de byte) entre uma trie padrão baseada em array e uma TST.
 
@@ -154,5 +154,5 @@ Uma ternary search trie substitui o array por nó de R slots de filho (um por ca
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc

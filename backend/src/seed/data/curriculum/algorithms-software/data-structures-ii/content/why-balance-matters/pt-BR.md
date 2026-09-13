@@ -71,7 +71,7 @@ Um invariante de balanceamento não é grátis. Mantê-lo significa que depois d
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — localizando a inserção exata que primeiro violaria o invariante AVL
+### Exemplo 1: localizando a inserção exata que primeiro violaria o invariante AVL
 
 **Problema:** Considere inserir a sequência ordenada `10, 20, 30` um valor de cada vez em uma BST inicialmente vazia, exatamente como o conceito pré-requisito fez com uma sequência mais longa. Em qual inserção o invariante de balanceamento AVL (alturas de subárvore diferem em no máximo 1 em todo nó) primeiro se torna violado, assumindo que nenhum rebalanceamento ocorreu ainda?
 
@@ -101,7 +101,7 @@ graph TD
 
 **Conclusão.** O invariante é violado no nó 10 imediatamente depois da terceira inserção, o primeiro ponto em que o padrão de ordem crescente produziu três nós em linha reta. Este é exatamente o formato que uma rotação (próximo conceito) existe para corrigir, e não é coincidência que sejam necessárias exatamente três inserções na mesma direção para disparar a primeira violação, esse limiar é uma consequência direta da tolerância de ±1 que o invariante permite.
 
-### Exemplo 2 — a mesma sequência, mas do meio para fora, nunca viola o invariante
+### Exemplo 2: a mesma sequência, mas do meio para fora, nunca viola o invariante
 
 **Problema:** Insira `20, 10, 30` (os mesmos três valores, ordem diferente) e verifique o invariante AVL depois de cada passo.
 
@@ -119,7 +119,7 @@ graph TD
 
 **Conclusão.** Mesmos três valores, mesmo número de inserções, e o invariante se mantém em todo passo sem nenhuma correção jamais ser necessária, porque essa ordem de inserção acontece de ser exatamente o padrão "frondoso" que o conceito pré-requisito identificou como bom. O invariante não faz nada diferente aqui; simplesmente nunca encontra nada para consertar. Este é o padrão geral: um invariante de balanceamento só intervém quando o resultado natural e não direcionado de uma inserção de outra forma produziria um formato que ele proíbe, não é sobrecarga extra em toda operação, apenas nas operações que de fato ameaçam a garantia.
 
-### Exemplo 3 — escalando os riscos: por que isso importa para um sistema real
+### Exemplo 3: escalando os riscos: por que isso importa para um sistema real
 
 **Problema:** Um índice de banco de dados é implementado como uma árvore de busca contendo 10 milhões de chaves, e a aplicação insere chaves em ordem crescente (um padrão comum para chaves primárias autoincrementais). Compare o número de pior caso de comparações por busca com e sem um invariante de balanceamento.
 
@@ -143,5 +143,5 @@ O conceito pré-requisito provou que uma árvore binária de busca comum não of
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

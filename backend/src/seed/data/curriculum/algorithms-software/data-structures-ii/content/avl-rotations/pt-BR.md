@@ -60,7 +60,7 @@ def rotate_right(z):
     T2 = y.right          # a única subárvore que deve se mover
     y.right = z           # z se torna o filho direito de y
     z.left = T2           # T2 se torna o novo filho esquerdo de z
-    update_height(z)      # a altura de z deve ser recalculada primeiro — agora está mais baixa na árvore
+    update_height(z)      # a altura de z deve ser recalculada primeiro: agora está mais baixa na árvore
     update_height(y)      # depois a de y, já que depende da nova altura de z
     return y               # y é a nova raiz local; quem chamou deve reanexá-la acima
 ```
@@ -132,7 +132,7 @@ graph TD
 
 ```mermaid
 graph TD
-    subgraph "Passo 2: gira z à direita — formato final"
+    subgraph "Passo 2: gira z à direita: formato final"
         X7(("x")) --> Y7(("y"))
         X7 --> Z7(("z"))
         Y7 --> T1g["T1"]
@@ -213,7 +213,7 @@ Um fato genuinamente útil, provável verificando que uma rotação sempre resta
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma rotação simples, caso LL, construída a partir de três inserções
+### Exemplo 1: uma rotação simples, caso LL, construída a partir de três inserções
 
 **Problema:** Insira `30`, depois `20`, depois `10` em uma árvore AVL vazia, aplicando rebalanceamento depois da inserção que primeiro cria uma violação.
 
@@ -221,7 +221,7 @@ Um fato genuinamente útil, provável verificando que uma rotação sempre resta
 
 **Insira 20:** `20 < 30`, se torna filho esquerdo de 30. bf(30) = altura(20) − altura(None) = 0 − (−1) = 1. Sem violação.
 
-**Insira 10:** `10 < 30`, esquerda para 20; `10 < 20`, se torna filho esquerdo de 20. Agora bf(20) = 0 − (−1) = 0 (ambos os próprios filhos de 20 estão ausentes/folha — espere, 20 agora tem filho esquerdo 10, então bf(20) = altura(10) − altura(None) = 0 − (−1) = 1, tudo bem). Verifique bf(30): altura(20) agora é 1 (já que 20 tem filho 10), altura(None) à direita é −1, então bf(30) = 1 − (−1) = 2. **Violação em z = 30.**
+**Insira 10:** `10 < 30`, esquerda para 20; `10 < 20`, se torna filho esquerdo de 20. Agora bf(20) = 0 − (−1) = 0 (ambos os próprios filhos de 20 estão ausentes/folha: espere, 20 agora tem filho esquerdo 10, então bf(20) = altura(10) − altura(None) = 0 − (−1) = 1, tudo bem). Verifique bf(30): altura(20) agora é 1 (já que 20 tem filho 10), altura(None) à direita é −1, então bf(30) = 1 − (−1) = 2. **Violação em z = 30.**
 
 Classifique: z = 30, bf(z) = +2 (pesado à esquerda). y = z.left = 20, bf(y) = +1 (≥ 0) → **caso LL**, rotação simples à direita em 30.
 
@@ -235,7 +235,7 @@ graph TD
 
 A travessia em ordem antes da rotação (10, 20, 30, lida percorrendo a corrente 30→20→10 em ordem) e depois (10, 20, 30, lida da nova árvore) são idênticas, confirmando que a rotação mudou apenas formato, não sequência.
 
-### Exemplo 2 — uma rotação dupla, caso LR, construída a partir de três inserções
+### Exemplo 2: uma rotação dupla, caso LR, construída a partir de três inserções
 
 **Problema:** Insira `30`, depois `10`, depois `20`.
 
@@ -245,9 +245,9 @@ Verifique bf(10): altura(None) − altura(20) = −1 − 0 = −1, tudo bem. Ver
 
 Classifique: bf(z=30) = +2 (pesado à esquerda). y = z.left = 10, bf(y) = altura(None) − altura(20) = −1 − 0 = −1 (< 0) → **caso LR**.
 
-**Passo 1 — gire y (=10) à esquerda:** x = y.right = 20. T2 = x.left = None. x.left = y (10). y.right = T2 (None). Agora a subárvore que estava enraizada em 10 está enraizada em 20, com 10 como seu filho esquerdo. Reanexe isso: z.left = 20.
+**Passo 1: gire y (=10) à esquerda:** x = y.right = 20. T2 = x.left = None. x.left = y (10). y.right = T2 (None). Agora a subárvore que estava enraizada em 10 está enraizada em 20, com 10 como seu filho esquerdo. Reanexe isso: z.left = 20.
 
-**Passo 2 — gire z (=30) à direita:** y = z.left = 20 (o nó recém-promovido). T2 = y.right = None. y.right = z (30). z.left = T2 (None).
+**Passo 2: gire z (=30) à direita:** y = z.left = 20 (o nó recém-promovido). T2 = y.right = None. y.right = z (30). z.left = T2 (None).
 
 Final: 20 é a nova raiz, filho esquerdo 10, filho direito 30.
 
@@ -259,7 +259,7 @@ graph TD
 
 Este é o formato final idêntico ao Exemplo 1, mesmo que a ordem de inserção (30, 10, 20 aqui versus 30, 20, 10 lá) e o caso disparado (LR versus LL) fossem ambos diferentes, um lembrete de que para quaisquer três valores, há de fato apenas um arranjo balanceado (a mediana no topo, os valores menor e maior como seus dois filhos), e todo caso de rotação é apenas uma rota diferente para alcançá-lo dependendo da ordem de chegada.
 
-### Exemplo 3 — uma rotação profundamente dentro de uma árvore maior, e por que nenhuma rotação adicional é necessária acima dela
+### Exemplo 3: uma rotação profundamente dentro de uma árvore maior, e por que nenhuma rotação adicional é necessária acima dela
 
 **Problema:** Suponha que o nó `20` é um filho esquerdo vários níveis abaixo da raiz de alguma árvore AVL maior, e a própria subárvore de `20` atualmente tem filho esquerdo `10` (altura 0) e filho direito `30` (altura 0), uma subárvore de 3 nós localmente balanceada de altura 1. Um novo valor, `5`, é inserido, caindo como o filho esquerdo de `10`. Mostre o rebalanceamento local e explique por que nenhum ancestral acima de `20` precisa girar.
 
@@ -283,5 +283,5 @@ Uma rotação é uma reestruturação de tempo constante e puramente local de tr
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [MIT 6.006 — Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [MIT 6.006: Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/): doc

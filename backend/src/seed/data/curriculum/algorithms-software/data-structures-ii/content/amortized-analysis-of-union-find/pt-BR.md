@@ -52,13 +52,13 @@ Cada seta representa um conceito da progressão deste módulo, o ponto deste con
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — interpretando o limite em uma sequência concreta
+### Exemplo 1: interpretando o limite em uma sequência concreta
 
 **Problema:** Um programa realiza m = 1.000.000 operações union-find em uma estrutura contendo n = 1.000.000 elementos, usando union por size e compressão de caminho juntos. Aproximadamente quanto trabalho total deveria ser esperado, e qual é o custo médio por operação?
 
 **Raciocínio.** Pelo limite amortizado, o trabalho total é O(m α(n)) = O(1.000.000 · α(1.000.000)). Como α(n) é no máximo 4 para qualquer n até torres de exponenciais vastamente maiores que 1.000.000, α(1.000.000) é, concretamente, no máximo 4 (de fato, para um n tão modesto, é ainda menor, α é no máximo 3 para n até faixas muito além de tamanhos de programa típicos). Então o trabalho total é O(4.000.000), um pequeno múltiplo constante de m. Dividindo por m operações, o custo médio por operação é uma pequena constante (no máximo cerca de 4 "unidades" de trabalho por operação, onde uma unidade aqui corresponde ao custo de fator constante de um passo de ponteiro de pai). Este é o retorno concreto do limite abstrato: para qualquer n realista, isso é indistinguível, na prática, de uma verdadeira estrutura O(1)-por-operação.
 
-### Exemplo 2 — por que um único `find` caro não viola a garantia amortizada
+### Exemplo 2: por que um único `find` caro não viola a garantia amortizada
 
 **Problema:** Suponha que dentro de uma longa sequência de operações, uma chamada `find` específica aconteça de percorrer um caminho de comprimento 6 antes de compressão de caminho entrar em ação e o achatar. Isso viola o limite amortizado O(m α(n))?
 
@@ -77,5 +77,5 @@ Combinar union por rank (ou size) com compressão de caminho dá a uma sequênci
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

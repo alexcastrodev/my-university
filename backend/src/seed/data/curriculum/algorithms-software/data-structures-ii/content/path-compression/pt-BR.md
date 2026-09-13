@@ -90,9 +90,9 @@ Compressão de caminho completa, como codificada acima, exige duas passagens sob
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreando compressão de caminho completa em uma corrente de profundidade 4
+### Exemplo 1: rastreando compressão de caminho completa em uma corrente de profundidade 4
 
-**Problema:** Dado `parent = [1, 2, 3, 4, 4]` para elementos 0–4 (então 0 → 1 → 2 → 3 → 4, com 4 como sua própria raiz), rastreie `find(0)` com compressão de caminho completa, mostrando o array `parent` depois da chamada.
+**Problema:** Dado `parent = [1, 2, 3, 4, 4]` para elementos 0-4 (então 0 → 1 → 2 → 3 → 4, com 4 como sua própria raiz), rastreie `find(0)` com compressão de caminho completa, mostrando o array `parent` depois da chamada.
 
 **Primeira passagem (localiza raiz):** comece em `root = 0`. `parent[0] = 1 ≠ 0`, então `root = 1`. `parent[1] = 2 ≠ 1`, então `root = 2`. `parent[2] = 3 ≠ 2`, então `root = 3`. `parent[3] = 4 ≠ 3`, então `root = 4`. `parent[4] = 4`, pare. Raiz encontrada: 4.
 
@@ -104,7 +104,7 @@ Compressão de caminho completa, como codificada acima, exige duas passagens sob
 
 **Resultado:** `parent = [4, 4, 4, 4, 4]`. Todo elemento da corrente de profundidade 4 original agora aponta diretamente para a raiz 4. Uma `find(0)`, `find(1)`, `find(2)`, ou `find(3)` subsequente agora é uma única busca de array, um salto, não quatro, três, dois, ou um respectivamente (apenas o elemento 3 já estava na profundidade 1 antes dessa chamada).
 
-### Exemplo 2 — compressão de caminho interagindo com uma união posterior
+### Exemplo 2: compressão de caminho interagindo com uma união posterior
 
 **Problema:** Começando do estado comprimido no final do Exemplo 1 (`parent = [4,4,4,4,4]`), suponha que o elemento 5 é um singleton (`parent[5] = 5`) e `union(5, 0)` é chamado, usando union por size onde `size[4] = 5` (rastreando os cinco elementos comprimidos) e `size[5] = 1`. Como fica a árvore depois, e qual é o custo de `find(5)` imediatamente depois?
 
@@ -125,5 +125,5 @@ Compressão de caminho modifica `find` para explorar informação que já estava
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [Stanford CS166 — Data Structures](https://web.stanford.edu/class/cs166) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [Stanford CS166: Data Structures](https://web.stanford.edu/class/cs166): doc
