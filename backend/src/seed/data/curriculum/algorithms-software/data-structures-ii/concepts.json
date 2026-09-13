@@ -272,17 +272,131 @@
     ]
   },
   {
+    "slug": "skip-lists-a-probabilistic-alternative-to-balance",
+    "id": 21,
+    "title": "Skip Lists: A Probabilistic Alternative to Balance",
+    "topic": "Skip Lists",
+    "requires": ["comparing-avl-and-red-black-trees"],
+    "related": [],
+    "summary": "A hierarchy of sorted linked lists, where an element's height is decided by an independent coin flip at insertion, achieving expected O(log n) with no invariant to maintain and no rotation logic at all.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Pugh, W. (1990). Skip Lists: A Probabilistic Alternative to Balanced Trees. Communications of the ACM.", "url": "https://epaperpress.com/sortsearch/download/skiplist.pdf", "type": "paper" },
+      { "label": "Redis Documentation: Sorted Sets", "url": "https://redis.io/docs/latest/develop/data-types/sorted-sets/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "skip-list-search-insertion-and-deletion",
+    "id": 22,
+    "title": "Skip List Search, Insertion, and Deletion",
+    "topic": "Skip Lists",
+    "requires": ["skip-lists-a-probabilistic-alternative-to-balance"],
+    "related": [],
+    "summary": "Insertion and deletion reuse the exact same downward search pass, recording an update array of predecessor nodes per level, with no separate fix-up phase of any kind.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Pugh, W. (1990). Skip Lists: A Probabilistic Alternative to Balanced Trees. Communications of the ACM.", "url": "https://epaperpress.com/sortsearch/download/skiplist.pdf", "type": "paper" },
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "skip-list-expected-height-and-why-randomization-works",
+    "id": 23,
+    "title": "Skip List Expected Height and Why Randomization Works",
+    "topic": "Skip Lists",
+    "requires": ["skip-list-search-insertion-and-deletion"],
+    "related": [],
+    "summary": "An element reaches level k with probability (1/2)^k, giving expected height Θ(log n) and expected O(log n) search, a guarantee over the skip list's own coin flips that no adversarial input can defeat.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Pugh, W. (1990). Skip Lists: A Probabilistic Alternative to Balanced Trees. Communications of the ACM.", "url": "https://epaperpress.com/sortsearch/download/skiplist.pdf", "type": "paper" },
+      { "label": "Stanford CS166 - Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-birthday-paradox-and-collision-probability",
+    "id": 24,
+    "title": "The Birthday Paradox and Collision Probability",
+    "topic": "Advanced Hashing",
+    "requires": [],
+    "related": [
+      { "label": "Load Factor and Rehashing", "slug": "load-factor-and-rehashing", "feature": "curriculum/foundations/data-structures-i" }
+    ],
+    "summary": "Collisions depend on n squared relative to m, not n relative to m, so they become likely once n reaches roughly the square root of m, far earlier than a hash table being anywhere near full.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.042 - Mathematics for Computer Science (OCW)", "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/", "type": "doc" },
+      { "label": "Sedgewick & Wayne - Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "universal-hashing",
+    "id": 25,
+    "title": "Universal Hashing",
+    "topic": "Advanced Hashing",
+    "requires": ["the-birthday-paradox-and-collision-probability"],
+    "related": [],
+    "summary": "No single fixed hash function can resist an adversary who knows it, so universal hashing draws a fresh function at random from a family guaranteeing collision probability at most 1/m for any pair of keys.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Carter, J. L., & Wegman, M. N. (1979). Universal Classes of Hash Functions. Journal of Computer and System Sciences.", "url": "https://www.sciencedirect.com/science/article/pii/0022000079900448", "type": "paper" },
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "perfect-hashing",
+    "id": 26,
+    "title": "Perfect Hashing",
+    "topic": "Advanced Hashing",
+    "requires": ["universal-hashing"],
+    "related": [],
+    "summary": "The FKS two-level construction eliminates collisions entirely, worst-case O(1) lookup with expected O(n) total space, but only for a static set of keys known completely in advance.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Fredman, M. L., Komlos, J., & Szemeredi, E. (1984). Storing a Sparse Table with O(1) Worst Case Access Time. Journal of the ACM.", "url": "https://dl.acm.org/doi/10.1145/828.1884", "type": "paper" },
+      { "label": "Stanford CS166 - Data Structures", "url": "https://web.stanford.edu/class/cs166", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bloom-filters-probabilistic-set-membership",
+    "id": 27,
+    "title": "Bloom Filters: Probabilistic Set Membership",
+    "topic": "Bloom Filters",
+    "requires": ["perfect-hashing"],
+    "related": [],
+    "summary": "A bit array plus k hash functions, with no keys ever stored, gives false positives that are possible but false negatives that are structurally impossible.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Bloom, B. H. (1970). Space/Time Trade-offs in Hash Coding with Allowable Errors. Communications of the ACM.", "url": "https://dl.acm.org/doi/10.1145/362686.362692", "type": "paper" },
+      { "label": "Sedgewick & Wayne - Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "false-positive-rate-and-optimal-parameters",
+    "id": 28,
+    "title": "False Positive Rate and Optimal Parameters",
+    "topic": "Bloom Filters",
+    "requires": ["bloom-filters-probabilistic-set-membership"],
+    "related": [],
+    "summary": "The false positive rate is approximately (1 - e^(-kn/m))^k, minimized at k = (m/n)*ln(2), shrinking exponentially as more bits per element are allocated, turning filter sizing into simple arithmetic.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Bloom, B. H. (1970). Space/Time Trade-offs in Hash Coding with Allowable Errors. Communications of the ACM.", "url": "https://dl.acm.org/doi/10.1145/362686.362692", "type": "paper" },
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
     "slug": "choosing-a-data-structure-a-decision-guide",
-    "id": 20,
+    "id": 29,
     "title": "Choosing a Data Structure: A Decision Guide",
     "topic": "Capstone",
-    "requires": ["comparing-avl-and-red-black-trees", "heapsort", "amortized-analysis-of-union-find", "real-applications-autocomplete-and-routing-tables"],
+    "requires": ["comparing-avl-and-red-black-trees", "heapsort", "amortized-analysis-of-union-find", "real-applications-autocomplete-and-routing-tables", "skip-list-expected-height-and-why-randomization-works", "false-positive-rate-and-optimal-parameters"],
     "related": [],
-    "summary": "A side-by-side decision guide across every structure covered in Data Structures I and II — hash table, BST, AVL/red-black tree, heap, union-find, trie — organized by what each one is actually good at.",
+    "summary": "A side-by-side decision guide across every structure covered in Data Structures I and II, hash table, BST, AVL/red-black tree, heap, union-find, trie, skip list, and Bloom filter, organized by what each one is actually good at.",
     "publishedAt": "2026-09-06",
     "references": [
-      { "label": "MIT 6.006 — Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
-      { "label": "Sedgewick & Wayne — Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" },
+      { "label": "Sedgewick & Wayne - Algorithms Lectures (Princeton)", "url": "https://algs4.cs.princeton.edu/lectures/", "type": "doc" }
     ]
   }
 ]
