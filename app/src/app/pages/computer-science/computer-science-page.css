@@ -64,7 +64,7 @@
 .tab.active {
   background: var(--mu-ink);
   border-color: var(--mu-ink);
-  color: var(--mu-white);
+  color: var(--mu-bg);
   box-shadow: 0 4px 14px rgba(17, 24, 39, 0.18);
 }
 

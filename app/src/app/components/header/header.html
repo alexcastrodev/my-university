@@ -270,6 +270,24 @@
         <span class="xp-part" i18n="@@header.xp.points">{{ xpService.xp() }} XP</span>
       </a>
     }
+    <button
+      type="button"
+      class="theme-toggle-btn"
+      i18n-aria-label="@@header.aria.toggleTheme" aria-label="Toggle color theme"
+      [attr.aria-pressed]="themeService.theme() === 'dark'"
+      (click)="themeService.toggle()"
+    >
+      @if (themeService.theme() === 'dark') {
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 2.5v2.25M12 19.25v2.25M4.22 4.22l1.59 1.59M18.19 18.19l1.59 1.59M2.5 12h2.25M19.25 12h2.25M4.22 19.78l1.59-1.59M18.19 5.81l1.59-1.59" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      } @else {
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20.5 14.5A9 9 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" fill="currentColor"/>
+        </svg>
+      }
+    </button>
     <div class="language-menu">
       <button
         type="button"
