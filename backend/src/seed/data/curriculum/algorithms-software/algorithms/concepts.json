@@ -598,8 +598,108 @@
     ]
   },
   {
-    "slug": "the-dynamic-programming-paradigm",
+    "slug": "network-flow-and-the-max-flow-problem",
     "id": 22,
+    "title": "Network Flow and the Max-Flow Problem",
+    "topic": "Network Flow",
+    "requires": [],
+    "related": [
+      {
+        "label": "Graph Traversal: Breadth-First Search",
+        "slug": "graph-traversal-bfs",
+        "feature": "curriculum/algorithms-software/algorithms"
+      }
+    ],
+    "summary": "A directed graph with a capacity on every edge, a source, and a sink; a valid flow must respect capacity and conserve flow at every other vertex, and max-flow asks for the assignment of largest possible value.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      {
+        "label": "MIT 6.006 - Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      },
+      {
+        "label": "Sedgewick & Wayne - Algorithms Lectures (Princeton)",
+        "url": "https://algs4.cs.princeton.edu/lectures/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-ford-fulkerson-method-and-augmenting-paths",
+    "id": 23,
+    "title": "The Ford-Fulkerson Method and Augmenting Paths",
+    "topic": "Network Flow",
+    "requires": [
+      "network-flow-and-the-max-flow-problem"
+    ],
+    "related": [],
+    "summary": "The residual graph tracks unused forward capacity plus a backward \"undo\" edge for flow already sent; the method repeatedly finds an augmenting path through it and pushes flow equal to the path's bottleneck.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      {
+        "label": "Ford, L. R., & Fulkerson, D. R. (1956). Maximal Flow Through a Network. Canadian Journal of Mathematics.",
+        "url": "https://www.cambridge.org/core/journals/canadian-journal-of-mathematics/article/maximal-flow-through-a-network/",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.006 - Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-max-flow-min-cut-theorem",
+    "id": 24,
+    "title": "The Max-Flow Min-Cut Theorem",
+    "topic": "Network Flow",
+    "requires": [
+      "the-ford-fulkerson-method-and-augmenting-paths"
+    ],
+    "related": [],
+    "summary": "The value of any flow never exceeds the capacity of any s-t cut, and the maximum flow value always equals the minimum cut's capacity exactly, proven via Ford-Fulkerson's own termination point.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      {
+        "label": "Ford, L. R., & Fulkerson, D. R. (1956). Maximal Flow Through a Network. Canadian Journal of Mathematics.",
+        "url": "https://www.cambridge.org/core/journals/canadian-journal-of-mathematics/article/maximal-flow-through-a-network/",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.006 - Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "edmonds-karp-and-complexity-analysis",
+    "id": 25,
+    "title": "Edmonds-Karp and Complexity Analysis",
+    "topic": "Network Flow",
+    "requires": [
+      "the-max-flow-min-cut-theorem"
+    ],
+    "related": [],
+    "summary": "Always choosing the shortest augmenting path, found by BFS on the residual graph, bounds the number of iterations to O(V·E) regardless of edge capacities, giving an overall O(V·E²) running time.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      {
+        "label": "Edmonds, J., & Karp, R. M. (1972). Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems. Journal of the ACM.",
+        "url": "https://dl.acm.org/doi/10.1145/321694.321699",
+        "type": "paper"
+      },
+      {
+        "label": "MIT 6.006 - Lecture Notes (OCW)",
+        "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "the-dynamic-programming-paradigm",
+    "id": 26,
     "title": "The Dynamic Programming Paradigm",
     "topic": "Dynamic Programming",
     "requires": [],
@@ -632,7 +732,7 @@
   },
   {
     "slug": "memoization-top-down-dp",
-    "id": 23,
+    "id": 27,
     "title": "Memoization: Top-Down Dynamic Programming",
     "topic": "Dynamic Programming",
     "requires": [
@@ -656,7 +756,7 @@
   },
   {
     "slug": "tabulation-bottom-up-dp",
-    "id": 24,
+    "id": 28,
     "title": "Tabulation: Bottom-Up Dynamic Programming",
     "topic": "Dynamic Programming",
     "requires": [
@@ -680,7 +780,7 @@
   },
   {
     "slug": "dp-longest-common-subsequence",
-    "id": 25,
+    "id": 29,
     "title": "DP in Practice: Longest Common Subsequence",
     "topic": "Dynamic Programming",
     "requires": [
@@ -710,7 +810,7 @@
   },
   {
     "slug": "dp-01-knapsack",
-    "id": 26,
+    "id": 30,
     "title": "DP in Practice: 0/1 Knapsack",
     "topic": "Dynamic Programming",
     "requires": [
@@ -740,7 +840,7 @@
   },
   {
     "slug": "dp-longest-increasing-subsequence",
-    "id": 27,
+    "id": 31,
     "title": "DP in Practice: Longest Increasing Subsequence",
     "topic": "Dynamic Programming",
     "requires": [
@@ -764,7 +864,7 @@
   },
   {
     "slug": "choosing-a-paradigm-a-decision-guide",
-    "id": 28,
+    "id": 32,
     "title": "Choosing a Paradigm: A Decision Guide",
     "topic": "Capstone",
     "requires": [
