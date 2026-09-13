@@ -165,6 +165,19 @@ export const CURRICULUM: CurriculumModule[] = [
           $localize`:@@curriculum.algorithms-software.algorithm-laboratory.topic.6:sorting algorithms`,
         ],
       },
+      {
+        slug: 'linear-programming-optimization',
+        title: $localize`:@@curriculum.algorithms-software.linear-programming-optimization.title:Linear Programming & Optimization`,
+        hours: 60,
+        topics: [
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.1:simplex method`,
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.2:duality`,
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.3:shadow prices`,
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.4:integer programming`,
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.5:branch and bound`,
+          $localize`:@@curriculum.algorithms-software.linear-programming-optimization.topic.6:max-flow min-cut`,
+        ],
+      },
     ],
   },
   {

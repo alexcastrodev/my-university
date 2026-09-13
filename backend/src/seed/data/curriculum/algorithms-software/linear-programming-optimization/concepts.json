@@ -1,0 +1,163 @@
+[
+  {
+    "slug": "what-is-a-linear-program",
+    "id": 1,
+    "title": "What Is a Linear Program",
+    "topic": "Foundations",
+    "requires": [],
+    "related": [],
+    "summary": "A linear objective to maximize or minimize, subject to linear constraints and nonnegativity, and three mechanical rules that put any such problem into a uniform standard form.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Stanford CS261 - Optimization and Algorithmic Paradigms", "url": "https://web.stanford.edu/class/cs261/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-geometry-of-feasible-regions",
+    "id": 2,
+    "title": "The Geometry of Feasible Regions",
+    "topic": "Foundations",
+    "requires": ["what-is-a-linear-program"],
+    "related": [],
+    "summary": "A linear program's feasible region is the intersection of half-planes carved out by its constraints, always a convex polygon, and the graphical method solves a two-variable LP by checking the objective at every vertex.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Stanford CS261 - Optimization and Algorithmic Paradigms", "url": "https://web.stanford.edu/class/cs261/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-fundamental-theorem-of-linear-programming",
+    "id": 3,
+    "title": "The Fundamental Theorem of Linear Programming",
+    "topic": "Foundations",
+    "requires": ["the-geometry-of-feasible-regions"],
+    "related": [],
+    "summary": "If a linear program has an optimal solution, at least one occurs at a vertex, proved by convexity and linearity, turning the search for an optimum from an infinite continuum into a finite list of candidates.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Stanford CS261 - Optimization and Algorithmic Paradigms", "url": "https://web.stanford.edu/class/cs261/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-simplex-method-tableau-and-pivoting",
+    "id": 4,
+    "title": "The Simplex Method: Tableau and Pivoting",
+    "topic": "The Simplex Method",
+    "requires": ["the-fundamental-theorem-of-linear-programming"],
+    "related": [],
+    "summary": "Slack variables turn inequalities into equations arranged in a tableau; each iteration picks an entering variable, runs a ratio test to find the leaving variable, and pivots until no negative coefficient remains.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Dantzig, G. B. (1963). Linear Programming and Extensions. Princeton University Press.", "url": "https://press.princeton.edu/books/paperback/9780691059136/linear-programming-and-extensions", "type": "book" }
+    ]
+  },
+  {
+    "slug": "simplex-in-non-standard-form",
+    "id": 5,
+    "title": "Simplex in Non-Standard Form",
+    "topic": "The Simplex Method",
+    "requires": ["the-simplex-method-tableau-and-pivoting"],
+    "related": [],
+    "summary": "Artificial variables build a feasible starting vertex for any linear program regardless of constraint direction, letting a Phase 1 sub-problem certify feasibility before a Phase 2 optimizes the real objective.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Dantzig, G. B. (1963). Linear Programming and Extensions. Princeton University Press.", "url": "https://press.princeton.edu/books/paperback/9780691059136/linear-programming-and-extensions", "type": "book" }
+    ]
+  },
+  {
+    "slug": "simplex-complexity-and-degeneracy",
+    "id": 6,
+    "title": "Simplex Complexity and Degeneracy",
+    "topic": "The Simplex Method",
+    "requires": ["simplex-in-non-standard-form"],
+    "related": [
+      { "label": "Edmonds-Karp and Complexity Analysis", "slug": "edmonds-karp-and-complexity-analysis", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Ties in the ratio test create degenerate pivots that Bland's rule provably keeps from cycling; separately, the Klee-Minty cube proves simplex is not worst-case polynomial, though linear programming itself is, via interior-point methods.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Spielman, D. A., & Teng, S.-H. (2004). Smoothed Analysis of Algorithms. Journal of the ACM.", "url": "https://dl.acm.org/doi/10.1145/990308.990310", "type": "paper" },
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-dual-linear-program",
+    "id": 7,
+    "title": "The Dual Linear Program",
+    "topic": "Duality",
+    "requires": ["simplex-complexity-and-degeneracy"],
+    "related": [],
+    "summary": "Every standard-form linear program has a mechanically constructed dual, one variable per primal constraint and one constraint per primal variable, whose optimal value turns out to match the primal's exactly.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Stanford CS261 - Optimization and Algorithmic Paradigms", "url": "https://web.stanford.edu/class/cs261/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "weak-and-strong-duality-and-complementary-slackness",
+    "id": 8,
+    "title": "Weak and Strong Duality, and Complementary Slackness",
+    "topic": "Duality",
+    "requires": ["the-dual-linear-program"],
+    "related": [],
+    "summary": "Weak duality bounds every feasible pair; strong duality shows the bound is achieved exactly at optimality, readable directly off the primal's final simplex tableau; complementary slackness pins down exactly which variables and constraints can be simultaneously positive or tight.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Stanford CS261 - Optimization and Algorithmic Paradigms", "url": "https://web.stanford.edu/class/cs261/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-dual-simplex-algorithm",
+    "id": 9,
+    "title": "The Dual Simplex Algorithm",
+    "topic": "Extensions",
+    "requires": ["weak-and-strong-duality-and-complementary-slackness"],
+    "related": [],
+    "summary": "Starting from a dual-feasible but primal-infeasible tableau, dual simplex restores primal feasibility one pivot at a time, exactly the tool for re-optimizing an already-solved LP after a new constraint is added.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "Dantzig, G. B. (1963). Linear Programming and Extensions. Princeton University Press.", "url": "https://press.princeton.edu/books/paperback/9780691059136/linear-programming-and-extensions", "type": "book" }
+    ]
+  },
+  {
+    "slug": "integer-linear-programming-and-branch-and-bound",
+    "id": 10,
+    "title": "Integer Linear Programming and Branch and Bound",
+    "topic": "Extensions",
+    "requires": ["the-dual-simplex-algorithm"],
+    "related": [
+      { "label": "DP in Practice: 0/1 Knapsack", "slug": "dp-01-knapsack", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "An LP relaxation always gives an optimistic bound on an integer program's true optimum; naive rounding can be strictly suboptimal, and branch and bound solves the integer program exactly by branching on fractional variables and pruning by that bound.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "ACM/IEEE CS2013 - Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "linear-programming-duality-and-max-flow-min-cut",
+    "id": 11,
+    "title": "Linear Programming Duality and Max-Flow Min-Cut",
+    "topic": "Capstone",
+    "requires": ["integer-linear-programming-and-branch-and-bound"],
+    "related": [
+      { "label": "Network Flow and the Max-Flow Problem", "slug": "network-flow-and-the-max-flow-problem", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "The Max-Flow Min-Cut Theorem", "slug": "the-max-flow-min-cut-theorem", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Writing max-flow as a linear program and extending duality to equality constraints (free dual variables) produces a dual that is exactly a fractional relaxation of minimum cut, making max-flow min-cut a direct corollary of strong duality, verified on the exact network Ford-Fulkerson already solved.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.251 - Introduction to Mathematical Programming (OCW)", "url": "https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/", "type": "doc" },
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  }
+]
