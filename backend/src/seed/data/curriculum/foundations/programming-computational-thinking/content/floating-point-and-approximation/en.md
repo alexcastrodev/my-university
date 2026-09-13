@@ -10,6 +10,10 @@ updatedAt: 2026-09-06
 - Identify a scenario where floating-point error accumulates across repeated operations, and quantify it with a small example.
 - Compare using `float` versus `int` for a given quantity and justify the choice based on whether the quantity is genuinely continuous or genuinely discrete.
 
+[^repeating-decimal]: A repeating decimal is a decimal number whose decimal part repeats forever following a pattern. The classic example is: 1/3 = 0.3333333333...
+
+    The 3 keeps repeating forever. That's why it's called a repeating decimal.
+
 ## Context & Motivation
 
 By this point, `int` and `float` have both been used as though they were interchangeable flavors of "number" — pick whichever one matches the kind of value you're storing, and move on. That's true almost all of the time, but there is exactly one point where the two behave in genuinely different, sometimes surprising ways: equality comparison and accumulation. An `int` in Python is exact, arbitrarily large, and behaves exactly the way arithmetic taught you it should. A `float`, on the other hand, is stored as a fixed number of binary digits — a finite approximation of a real number, not the real number itself — and that single fact ripples out into a whole category of behavior that looks, on first encounter, like a bug in the language.
@@ -125,7 +129,3 @@ A `float` stores a fixed number of binary digits and is therefore an approximati
 
 - [Python Library Reference — Built-in Types](https://docs.python.org/3/library/stdtypes.html) — doc
 - [MIT 6.100L — Materials by Lecture](https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/) — doc
-
-[^repeating-decimal]: A repeating decimal is a decimal number whose decimal part repeats forever following a pattern. The classic example is: 1/3 = 0.3333333333...
-
-    The 3 keeps repeating forever. That's why it's called a repeating decimal.

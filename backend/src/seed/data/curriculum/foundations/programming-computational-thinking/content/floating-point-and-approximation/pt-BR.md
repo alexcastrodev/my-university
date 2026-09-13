@@ -12,6 +12,10 @@ summary: "Por que a representação binária de ponto flutuante torna a maioria 
 - Identificar um cenário em que o erro de ponto flutuante se acumula ao longo de operações repetidas, e quantificá-lo com um pequeno exemplo.
 - Comparar o uso de `float` versus `int` para uma dada quantidade e justificar a escolha com base em se a quantidade é genuinamente contínua ou genuinamente discreta.
 
+[^dizima-periodica]: Dízima periódica é um número decimal cuja parte decimal se repete infinitamente seguindo um padrão. O exemplo clássico é: 1/3 = 0,3333333333...
+
+    O 3 continua se repetindo para sempre. Por isso chamamos de dízima periódica.
+
 ## Contexto e Motivação
 
 Até este ponto, `int` e `float` foram usados como se fossem sabores intercambiáveis de "número": escolha o que combinar com o tipo de valor que você está guardando, e siga em frente. Isso é verdade quase o tempo todo, mas existe exatamente um ponto em que os dois se comportam de formas genuinamente diferentes, às vezes surpreendentes: comparação de igualdade e acumulação. Um `int` em Python é exato, arbitrariamente grande, e se comporta exatamente do jeito que a aritmética ensinou que deveria. Um `float`, por outro lado, é armazenado como um número fixo de dígitos binários, uma aproximação finita de um número real, não o número real em si, e esse único fato se espalha para toda uma categoria de comportamento que parece, à primeira vista, um bug na linguagem.
@@ -127,7 +131,3 @@ Um `float` armazena um número fixo de dígitos binários e é, portanto, uma ap
 
 - [Python Library Reference: Built-in Types](https://docs.python.org/3/library/stdtypes.html) (doc)
 - [MIT 6.100L: Materials by Lecture](https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/pages/material-by-lecture/) (doc)
-
-[^dizima-periodica]: Dízima periódica é um número decimal cuja parte decimal se repete infinitamente seguindo um padrão. O exemplo clássico é: 1/3 = 0,3333333333...
-
-    O 3 continua se repetindo para sempre. Por isso chamamos de dízima periódica.
