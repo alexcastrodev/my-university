@@ -1,1 +1,248 @@
-[]
+[
+  {
+    "slug": "why-cloud-scale-systems-need-new-abstractions",
+    "id": 1,
+    "title": "Why Cloud-Scale Systems Need New Abstractions",
+    "topic": "Motivation",
+    "requires": [],
+    "related": [
+      { "label": "The Consensus Problem: Agreement, Validity, and Termination", "slug": "the-consensus-problem-agreement-validity-and-termination", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "The theory of consensus, replication, and consistency from Distributed Systems I is necessary but not sufficient: real systems serving billions of requests a day are built by combining those primitives into specific, opinionated designs, each trading correctness, availability, and performance differently for a specific workload.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.5840: Course Schedule (case-study papers)", "url": "https://pdos.csail.mit.edu/6.824/schedule.html", "type": "doc" },
+      { "label": "MIT 6.5840: General Information", "url": "https://pdos.csail.mit.edu/6.824/general.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-google-file-system-architecture",
+    "id": 2,
+    "title": "The Google File System: Architecture",
+    "topic": "Distributed File Systems",
+    "requires": ["why-cloud-scale-systems-need-new-abstractions"],
+    "related": [
+      { "label": "File System Implementation and Journaling", "slug": "file-system-implementation-and-journaling", "feature": "curriculum/computer/operating-systems-i" }
+    ],
+    "summary": "A single master holding only metadata, many chunkservers holding 64MB chunks replicated three ways, and a design that deliberately optimizes for huge sequential reads and append-only writes over the small random-access files a single-machine file system is built for.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Ghemawat, Gobioff, Leung: The Google File System (SOSP 2003)", "url": "https://research.google.com/archive/gfs-sosp2003.pdf", "type": "doc" },
+      { "label": "MIT 6.5840: Course Schedule (GFS lecture)", "url": "https://pdos.csail.mit.edu/6.824/schedule.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "gfs-consistency-and-record-append",
+    "id": 3,
+    "title": "GFS Consistency Model and Atomic Record Append",
+    "topic": "Distributed File Systems",
+    "requires": ["the-google-file-system-architecture"],
+    "related": [],
+    "summary": "GFS deliberately exposes a relaxed, sometimes-undefined-but-consistent view of a file after concurrent writes, in exchange for a specialized atomic record append operation that lets thousands of producers write to the same file concurrently without a distributed lock, precisely the trade-off its target workload (MapReduce output, log-style writes) actually needs.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Ghemawat, Gobioff, Leung: The Google File System (SOSP 2003)", "url": "https://research.google.com/archive/gfs-sosp2003.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-mapreduce-programming-model",
+    "id": 4,
+    "title": "The MapReduce Programming Model",
+    "topic": "Batch Processing",
+    "requires": ["the-google-file-system-architecture"],
+    "related": [],
+    "summary": "A programmer supplies only a map function (turning one input record into intermediate key/value pairs) and a reduce function (combining all values for one intermediate key); the runtime supplies everything else, parallelization, scheduling, network shuffling, and fault tolerance, over data already sitting in a distributed file system like GFS.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Dean, Ghemawat: MapReduce: Simplified Data Processing on Large Clusters (OSDI 2004)", "url": "https://research.google.com/archive/mapreduce-osdi04.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "mapreduce-fault-tolerance-locality-and-stragglers",
+    "id": 5,
+    "title": "MapReduce Fault Tolerance, Locality, and Stragglers",
+    "topic": "Batch Processing",
+    "requires": ["the-mapreduce-programming-model"],
+    "related": [],
+    "summary": "A single master re-executes any task whose worker stops heartbeating, schedules map tasks on (or near) the chunkserver already holding their input to avoid saturating the network, and launches redundant backup executions of the last few straggling tasks so one slow machine cannot hold up an entire job.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Dean, Ghemawat: MapReduce: Simplified Data Processing on Large Clusters (OSDI 2004)", "url": "https://research.google.com/archive/mapreduce-osdi04.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "consistent-hashing-for-data-partitioning",
+    "id": 6,
+    "title": "Consistent Hashing for Data Partitioning",
+    "topic": "Partitioning & Replication",
+    "requires": ["why-cloud-scale-systems-need-new-abstractions"],
+    "related": [],
+    "summary": "Mapping both nodes and keys onto the same hash ring, and assigning each key to the next node clockwise, means adding or removing one node only reshuffles the keys adjacent to it on the ring, not the whole keyspace, the enabling trick behind every partitioned store that needs to scale its node count up or down without a full data reshuffle.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dynamo-replication-sloppy-quorums-and-hinted-handoff",
+    "id": 7,
+    "title": "Dynamo: Sloppy Quorums and Hinted Handoff",
+    "topic": "Partitioning & Replication",
+    "requires": ["consistent-hashing-for-data-partitioning"],
+    "related": [
+      { "label": "Primary-Backup vs. Quorum-Based Replication", "slug": "primary-backup-vs-quorum-based-replication", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "Dynamo replaces a strict quorum (which blocks writes whenever a designated replica is down) with a sloppy quorum: a write goes to the first N healthy nodes walking the ring, even if that means a temporary, hinted stand-in for an unavailable node, choosing availability for writes over always hitting the theoretically correct replica set.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "dynamo-vector-clocks-and-conflict-resolution",
+    "id": 8,
+    "title": "Dynamo: Vector Clocks and Conflict Resolution",
+    "topic": "Partitioning & Replication",
+    "requires": ["dynamo-replication-sloppy-quorums-and-hinted-handoff"],
+    "related": [
+      { "label": "Eventual Consistency and Its Real Guarantees", "slug": "eventual-consistency-and-its-real-guarantees", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "Because sloppy quorums let two clients write the same key without either seeing the other's write, Dynamo tags every value with a vector clock and hands genuinely concurrent versions back to the application to reconcile, semantically honest about the eventual consistency it is choosing rather than hiding the conflict and picking a version arbitrarily.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "DeCandia et al.: Dynamo: Amazon's Highly Available Key-value Store (SOSP 2007)", "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bigtable-data-model-and-storage-layout",
+    "id": 9,
+    "title": "Bigtable: Data Model and Storage Layout",
+    "topic": "Wide-Column Stores",
+    "requires": ["the-google-file-system-architecture"],
+    "related": [
+      { "label": "B+Trees: Structure and Search", "slug": "b-plus-trees-structure-and-search", "feature": "curriculum/systems/database-systems" }
+    ],
+    "summary": "A sparse, distributed, sorted map keyed by (row, column family:qualifier, timestamp), split into row-range tablets and persisted as immutable, sorted SSTables on GFS, an entirely different storage layout from a B+Tree-indexed relational engine, optimized for extremely wide, sparse tables and high-throughput sequential writes.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Chang et al.: Bigtable: A Distributed Storage System for Structured Data (OSDI 2006)", "url": "https://research.google.com/archive/bigtable-osdi06.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "bigtable-coordination-with-chubby",
+    "id": 10,
+    "title": "Bigtable's Use of Chubby for Coordination",
+    "topic": "Wide-Column Stores",
+    "requires": ["bigtable-data-model-and-storage-layout"],
+    "related": [],
+    "summary": "Bigtable does not solve distributed coordination itself; it leans entirely on Chubby, a separate lock service, to elect a single live master, let tablet servers claim ownership of the tablets they serve, and store schema and access-control metadata, a clean separation of \"serve data fast\" from \"agree on who is in charge.\"",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Chang et al.: Bigtable: A Distributed Storage System for Structured Data (OSDI 2006)", "url": "https://research.google.com/archive/bigtable-osdi06.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "zookeeper-and-the-coordination-service-pattern",
+    "id": 11,
+    "title": "ZooKeeper and the Coordination Service Pattern",
+    "topic": "Coordination Services",
+    "requires": ["bigtable-coordination-with-chubby"],
+    "related": [
+      { "label": "Raft: Leader Election", "slug": "raft-leader-election", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "ZooKeeper generalizes Chubby's idea into an open, reusable coordination service, a hierarchy of znodes with client-set watches for notifications, all writes ordered by ZAB, a leader-based atomic broadcast protocol that solves exactly the same replicated-log problem Raft does; a client library links this concept directly back to the consensus theory already covered.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Hunt, Konar, Junqueira, Reed: ZooKeeper: Wait-free Coordination for Internet-scale Systems (USENIX ATC 2010)", "url": "https://www.usenix.org/legacy/event/atc10/tech/full_papers/Hunt.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "distributed-transactions-and-two-phase-commit",
+    "id": 12,
+    "title": "Distributed Transactions and Two-Phase Commit",
+    "topic": "Transactions at Scale",
+    "requires": ["zookeeper-and-the-coordination-service-pattern"],
+    "related": [
+      { "label": "ACID Properties, Precisely Defined", "slug": "acid-properties-precisely-defined", "feature": "curriculum/systems/database-systems" }
+    ],
+    "summary": "When a single transaction touches data partitioned across multiple machines, a coordinator must get every participant to vote \"prepared to commit\" before any of them actually commits; the protocol is simple but has one real weakness, a participant that is prepared and then loses contact with the coordinator is stuck holding its locks, blocked, until the coordinator comes back.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Saltzer, Kaashoek: Principles of Computer System Design, Ch. 9 (Atomicity), MIT OCW", "url": "https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/de2b7c59e413f58e51eac60acd52efef_atomicity_open_5_0.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "chain-replication-for-high-throughput-storage",
+    "id": 13,
+    "title": "Chain Replication for High-Throughput Storage",
+    "topic": "Transactions at Scale",
+    "requires": ["distributed-transactions-and-two-phase-commit"],
+    "related": [
+      { "label": "Primary-Backup vs. Quorum-Based Replication", "slug": "primary-backup-vs-quorum-based-replication", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "Arrange replicas in a line instead of around a single primary: writes enter at the head and flow node to node to the tail, which alone answers reads, giving the same strong consistency as primary-backup replication while spreading write throughput across every node in the chain rather than bottlenecking on one primary.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "van Renesse, Schneider: Chain Replication for Supporting High Throughput and Availability (OSDI 2004)", "url": "https://www.usenix.org/legacy/event/osdi04/tech/full_papers/renesse/renesse.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "spanner-truetime-and-external-consistency",
+    "id": 14,
+    "title": "Spanner: TrueTime and External Consistency",
+    "topic": "Globally Distributed Databases",
+    "requires": ["distributed-transactions-and-two-phase-commit", "dynamo-vector-clocks-and-conflict-resolution"],
+    "related": [
+      { "label": "Linearizability: A Rigorous Definition", "slug": "linearizability-a-rigorous-definition", "feature": "curriculum/systems/distributed-systems-i" }
+    ],
+    "summary": "Spanner buys external consistency across data centers spread around the planet not by inventing new consensus theory but by exposing clock uncertainty directly: TrueTime returns an interval guaranteed to contain the true time, and a transaction simply waits out that interval (commit wait) before releasing its result, converting a hard distributed-systems problem into a bounded, physical one.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Corbett et al.: Spanner: Google's Globally-Distributed Database (OSDI 2012)", "url": "https://www.usenix.org/system/files/conference/osdi12/osdi12-final-16.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "caching-at-scale-the-memcached-case-study",
+    "id": 15,
+    "title": "Caching at Scale: The Memcached-at-Facebook Case Study",
+    "topic": "Caching & Serverless",
+    "requires": ["consistent-hashing-for-data-partitioning"],
+    "related": [],
+    "summary": "A cache that is trivial at small scale, look up a key, fall back to the database on a miss, breaks in several specific, real ways at billions of requests per second: thundering herds on a popular miss, stale reads racing a database write, and cross-region replication lag, each addressed by a distinct, deliberate mechanism (leases, an invalidation daemon reading the DB commit log, and regional pools) rather than one generic fix.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Nishtala et al.: Scaling Memcache at Facebook (USENIX NSDI 2013)", "url": "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "serverless-computing-and-the-function-as-a-service-model",
+    "id": 16,
+    "title": "Serverless Computing and the Function-as-a-Service Model",
+    "topic": "Caching & Serverless",
+    "requires": ["why-cloud-scale-systems-need-new-abstractions"],
+    "related": [],
+    "summary": "A function-as-a-service platform runs a stateless handler on demand, scaling from zero to thousands of concurrent invocations and billing per invocation, a genuine step forward for autoscaling, but one that a systems-level critique shows is disappointingly stateless and I/O-poor exactly where the case studies in this discipline (data-parallel jobs, distributed storage) need state and fast networking most.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "Hellerstein et al.: Serverless Computing: One Step Forward, Two Steps Back (CIDR 2019)", "url": "https://www.cidrdb.org/cidr2019/papers/p119-hellerstein-cidr19.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-designing-a-cloud-storage-system-for-a-workload",
+    "id": 17,
+    "title": "Capstone: Designing a Cloud Storage System for a Workload",
+    "topic": "Capstone",
+    "requires": [
+      "spanner-truetime-and-external-consistency",
+      "chain-replication-for-high-throughput-storage",
+      "caching-at-scale-the-memcached-case-study",
+      "serverless-computing-and-the-function-as-a-service-model"
+    ],
+    "related": [],
+    "summary": "Given three realistic workloads (a shopping cart that must never lose a write, a global financial ledger that must never show two conflicting balances, and a batch analytics job over petabytes of logs), pick and justify a real system design from this discipline for each, and explain precisely which guarantee each alternative design would have given up.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "MIT 6.5840: Course Schedule (case-study papers)", "url": "https://pdos.csail.mit.edu/6.824/schedule.html", "type": "doc" }
+    ]
+  }
+]
