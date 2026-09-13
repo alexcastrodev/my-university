@@ -9,7 +9,7 @@
 .hero {
   position: relative;
   background: var(--mu-navy);
-  color: #fff;
+  color: var(--mu-white);
   padding: 1.5rem 1.5rem 1.75rem;
 }
 
@@ -34,7 +34,7 @@
 
 .hero-badge .xp {
   padding: 0.25rem 0.6rem;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .hero-date {
@@ -63,7 +63,7 @@
 }
 
 .hero-meta .hero-xp {
-  color: #fff;
+  color: var(--mu-white);
   font-weight: 700;
 }
 
@@ -145,7 +145,7 @@
   margin: 1.25rem 1.5rem 0.75rem;
   padding: 1rem;
   background: var(--mu-accent);
-  color: #fff;
+  color: var(--mu-white);
   border: none;
   border-radius: var(--mu-radius);
   font-size: 1rem;

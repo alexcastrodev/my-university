@@ -89,7 +89,7 @@
 .chip.accent {
   color: var(--mu-accent-strong);
   background: var(--mu-accent-soft);
-  border-color: #f6d8d2;
+  border-color: var(--mu-accent-soft-strong);
 }
 
 /* Selection rules */

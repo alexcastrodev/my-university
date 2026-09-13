@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .page-body {
@@ -13,20 +13,20 @@
   display: inline-block;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--mu-muted);
   text-decoration: none;
   margin-bottom: 1rem;
 }
 
 .back-link:hover {
-  color: #c74634;
+  color: var(--mu-accent);
 }
 
 .loading {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
   padding: 3rem;
   justify-content: center;
@@ -35,8 +35,8 @@
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #c74634;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }
@@ -45,7 +45,7 @@
 
 .not-found {
   text-align: center;
-  color: #9ca3af;
+  color: var(--mu-faint);
   font-size: 0.9rem;
   padding: 3rem;
 }

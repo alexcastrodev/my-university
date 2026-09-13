@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -10,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SettingsPage {
   protected auth = inject(AuthService);
+  protected themeService = inject(ThemeService);
 
   displayName = signal(this.auth.currentUser()?.displayName ?? '');
   saving = signal(false);

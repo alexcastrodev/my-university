@@ -3,13 +3,13 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 52px);
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
   padding: 2rem 1rem;
 }
 
 .card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 2.5rem 2rem;
   width: 100%;
@@ -26,21 +26,21 @@
 .title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0;
   text-align: center;
 }
 
 .subtitle {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 1rem;
   text-align: center;
 }
 
 .error-msg {
   font-size: 0.8rem;
-  color: #dc2626;
+  color: var(--mu-danger);
   margin: 0 0 0.75rem;
   text-align: center;
 }
@@ -62,7 +62,7 @@
 
 .github-btn {
   background: #24292f;
-  color: #fff;
+  color: var(--mu-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,9 +71,9 @@
 
 .dev-btn {
   margin-top: 0.6rem;
-  background: #fff;
-  border: 1px dashed #d1d5db;
-  color: #6b7280;
+  background: var(--mu-surface);
+  border: 1px dashed var(--mu-divider);
+  color: var(--mu-muted);
 }
 
 .dev-btn:disabled { opacity: .6; cursor: not-allowed; }

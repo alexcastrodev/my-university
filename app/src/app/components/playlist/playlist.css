@@ -10,15 +10,15 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: #fff;
-  border-left: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border-left: 1px solid var(--mu-line);
 }
 
 @media (max-width: 900px) {
   :host {
     height: auto;
     min-height: 0;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--mu-line);
   }
 
   .playlist {
@@ -33,7 +33,7 @@
 
 .playlist-header {
   padding: 0.875rem 1rem 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--mu-line);
   flex-shrink: 0;
 }
 
@@ -43,7 +43,7 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #111;
+  color: var(--mu-ink);
   margin-bottom: 0.625rem;
 }
 
@@ -51,11 +51,11 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
   border-radius: 6px;
   padding: 0.35rem 0.6rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   margin-bottom: 0.5rem;
 }
 
@@ -64,12 +64,12 @@
   border: none;
   outline: none;
   font-size: 0.78rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
   width: 100%;
 }
 
 .playlist-search-box input::placeholder {
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .playlist-options {
@@ -83,13 +83,13 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.75rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
   cursor: pointer;
   user-select: none;
 }
 
 .checkbox-label input {
-  accent-color: #c74634;
+  accent-color: var(--mu-accent);
   cursor: pointer;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .module {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--mu-bg-alt);
 }
 
 .module-header {
@@ -111,23 +111,23 @@
   gap: 0.4rem;
   width: 100%;
   padding: 0.7rem 1rem;
-  background: #f9fafb;
+  background: var(--mu-bg);
   border: none;
   cursor: pointer;
   text-align: left;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
   transition: background .15s;
 }
 
 .module-header:hover {
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
 }
 
 .module-number {
   flex-shrink: 0;
-  color: #6b7280;
+  color: var(--mu-muted);
 }
 
 .module-title {
@@ -138,7 +138,7 @@
 .chevron {
   flex-shrink: 0;
   margin-top: 2px;
-  color: #9ca3af;
+  color: var(--mu-faint);
   transition: transform .2s;
 }
 
@@ -150,7 +150,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  background: #fff;
+  background: var(--mu-surface);
 }
 
 .lesson {
@@ -164,19 +164,19 @@
   cursor: pointer;
   text-align: left;
   font-size: 0.75rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
   transition: background .12s;
   border-left: 3px solid transparent;
 }
 
 .lesson:hover {
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .lesson.active {
-  background: #fef2f0;
-  border-left-color: #c74634;
-  color: #c74634;
+  background: var(--mu-danger-soft);
+  border-left-color: var(--mu-accent);
+  color: var(--mu-accent);
 }
 
 .lesson-status-dot {
@@ -185,26 +185,26 @@
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 3px;
-  border: 2px solid #d1d5db;
+  border: 2px solid var(--mu-divider);
   background: transparent;
 }
 
 .dot-new {
-  border-color: #d1d5db;
+  border-color: var(--mu-divider);
 }
 
 .dot-completed {
-  border-color: #16a34a;
-  background: #16a34a;
+  border-color: var(--mu-success);
+  background: var(--mu-success);
 }
 
 .dot-in-progress {
-  border-color: #2563eb;
-  background: #2563eb;
+  border-color: var(--mu-info);
+  background: var(--mu-info);
 }
 
 .dot-not-attempted {
-  border-color: #f59e0b;
+  border-color: var(--mu-warning);
 }
 
 .lesson-info {
@@ -221,9 +221,9 @@
 .skill-check-badge {
   display: inline-block;
   font-size: 0.68rem;
-  background: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg-alt);
+  color: var(--mu-muted);
+  border: 1px solid var(--mu-line);
   border-radius: 4px;
   padding: 0.1rem 0.35rem;
   width: fit-content;
@@ -231,20 +231,20 @@
 
 .skill-check-sub {
   font-size: 0.67rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .lesson-duration {
   font-size: 0.7rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .new-badge {
   font-size: 0.65rem;
-  background: #c74634;
-  color: #fff;
+  background: var(--mu-accent);
+  color: var(--mu-white);
   border-radius: 4px;
   padding: 0.1rem 0.35rem;
   flex-shrink: 0;
@@ -256,14 +256,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem 1rem;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border-top: 1px solid var(--mu-line);
+  background: var(--mu-bg);
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   flex-shrink: 0;
 }
 
 .footer-duration {
   font-weight: 600;
-  color: #374151;
+  color: var(--mu-ink-soft);
 }

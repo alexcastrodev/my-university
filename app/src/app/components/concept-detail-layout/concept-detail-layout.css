@@ -2,13 +2,13 @@
   display: inline-block;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--mu-muted);
   text-decoration: none;
   margin-bottom: 1rem;
 }
 
 .back-link:hover {
-  color: #c74634;
+  color: var(--mu-accent);
 }
 
 .detail-layout {
@@ -37,17 +37,17 @@ app-concept-sidebar-nav {
 .pager-link {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--mu-ink-soft);
   text-decoration: none;
   padding: 0.6rem 1rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--mu-line);
   border-radius: 8px;
   max-width: 48%;
 }
 
 .pager-link:hover {
-  border-color: #c74634;
-  color: #c74634;
+  border-color: var(--mu-accent);
+  color: var(--mu-accent);
 }
 
 .pager-link.next {

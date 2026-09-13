@@ -9,6 +9,7 @@ import { AskAiTooltip } from './components/ask-ai-tooltip/ask-ai-tooltip';
 import { MermaidViewer } from './components/mermaid-viewer/mermaid-viewer';
 import { AuthService } from './services/auth.service';
 import { XpService } from './services/xp.service';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,9 @@ import { XpService } from './services/xp.service';
 export class App implements OnInit {
   private auth = inject(AuthService);
   private xpService = inject(XpService);
+  // Instantiated here (not lazily on first use elsewhere) so its data-theme
+  // attribute effect runs as early as possible in the app's lifetime.
+  private theme = inject(ThemeService);
 
   private xpLoader = effect(() => {
     if (this.auth.currentUser()) this.xpService.loadSummary();

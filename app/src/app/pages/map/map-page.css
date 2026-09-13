@@ -8,13 +8,13 @@
 .map-header h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.35rem;
 }
 
 .map-sub {
   font-size: 0.88rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 1rem;
   max-width: 620px;
 }
@@ -23,7 +23,7 @@
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
   background: none;
   border: none;
   cursor: pointer;
@@ -38,26 +38,26 @@
 .breadcrumb-current {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .map-status {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   padding: 3rem 0;
   text-align: center;
 }
 
 .map-error {
-  color: #b91c1c;
+  color: var(--mu-danger-strong);
 }
 
 .cy-container {
   width: 100%;
   height: 560px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
-  background: #fff;
+  background: var(--mu-surface);
 }
 
 .cy-container.hidden {
@@ -69,8 +69,8 @@
   top: 6rem;
   right: 1.5rem;
   width: 240px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.25rem;
   box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
@@ -79,7 +79,7 @@
 .node-detail h2 {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.75rem;
 }
 
@@ -92,7 +92,7 @@
 
 .node-detail dt {
   font-size: 0.72rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -100,7 +100,7 @@
 .node-detail dd {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0;
   text-align: right;
 }
@@ -110,8 +110,8 @@
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #fff;
-  background: #111827;
+  color: var(--mu-white);
+  background: var(--mu-ink);
   border: none;
   border-radius: 8px;
   padding: 0.55rem;
@@ -119,7 +119,7 @@
 }
 
 .open-btn:hover {
-  background: #1f2937;
+  background: var(--mu-text);
 }
 
 @media (max-width: 640px) {

@@ -1,6 +1,6 @@
 .attempts-page {
   min-height: calc(100vh - 52px);
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
 }
 
 .attempts-header {
@@ -11,22 +11,22 @@
 
 .back-link {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   text-decoration: none;
 }
 
-.back-link:hover { color: #374151; }
+.back-link:hover { color: var(--mu-ink-soft); }
 
 .attempts-title {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0.5rem 0 0.15rem;
 }
 
 .attempts-sub {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0;
 }
 
@@ -36,15 +36,15 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 3rem 2rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
 }
 
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #c74634;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }
@@ -58,7 +58,7 @@
   gap: 1rem;
   padding: 3rem 2rem;
   text-align: center;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .action-btn:hover { opacity: .85; }
-.action-btn.primary { background: #c74634; color: #fff; }
+.action-btn.primary { background: var(--mu-accent); color: var(--mu-surface); }
 
 .attempts-list {
   max-width: 720px;
@@ -87,8 +87,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 8px;
   padding: 0.85rem 1.1rem;
   text-decoration: none;
@@ -97,14 +97,14 @@
 }
 
 .attempt-row:hover {
-  border-color: #c74634;
+  border-color: var(--mu-accent);
   box-shadow: 0 2px 10px rgba(199,70,52,.1);
 }
 
 .attempt-date {
   flex: 1;
   font-size: 0.82rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
 }
 
 .attempt-score {
@@ -118,12 +118,12 @@
   font-weight: 700;
 }
 
-.attempt-percent.pass { color: #16a34a; }
-.attempt-percent.fail { color: #dc2626; }
+.attempt-percent.pass { color: var(--mu-success); }
+.attempt-percent.fail { color: var(--mu-danger); }
 
 .attempt-count {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .attempt-badge {
@@ -136,5 +136,5 @@
   flex-shrink: 0;
 }
 
-.attempt-badge.pass { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
-.attempt-badge.fail { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.attempt-badge.pass { background: var(--mu-success-soft); color: var(--mu-success-strong); border: 1px solid var(--mu-success-border); }
+.attempt-badge.fail { background: var(--mu-danger-soft); color: var(--mu-danger-strong); border: 1px solid var(--mu-danger-border); }

@@ -4,15 +4,15 @@
   justify-content: center;
   gap: 0.75rem;
   height: calc(100vh - 52px);
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
 }
 
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #c74634;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }
@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .quiz-topbar {
@@ -31,8 +31,8 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1.5rem;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border-bottom: 1px solid var(--mu-line);
   flex-shrink: 0;
 }
 
@@ -41,17 +41,17 @@
   align-items: center;
   gap: 0.35rem;
   background: none;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--mu-line);
   border-radius: 6px;
   padding: 0.35rem 0.75rem;
   font-size: 0.78rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   cursor: pointer;
   transition: background .15s;
   flex-shrink: 0;
 }
 
-.back-btn:hover { background: #f3f4f6; }
+.back-btn:hover { background: var(--mu-bg-alt); }
 
 .progress-area {
   flex: 1;
@@ -62,20 +62,20 @@
 
 .progress-label {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   text-align: center;
 }
 
 .progress-bar {
   height: 6px;
-  background: #e5e7eb;
+  background: var(--mu-line);
   border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #c74634;
+  background: var(--mu-accent);
   border-radius: 3px;
   transition: width .3s ease;
 }
@@ -86,16 +86,16 @@
   gap: 0.35rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--mu-ink-soft);
   flex-shrink: 0;
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
   border-radius: 6px;
   padding: 0.35rem 0.65rem;
 }
 
 .timer-warn {
-  color: #dc2626;
-  background: #fef2f2;
+  color: var(--mu-danger);
+  background: var(--mu-danger-soft);
 }
 
 .quiz-body {
@@ -116,15 +116,15 @@ app-quiz-question {
   align-items: center;
   justify-content: space-between;
   padding: 0.875rem 1.5rem;
-  background: #fff;
-  border-top: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border-top: 1px solid var(--mu-line);
   flex-shrink: 0;
   gap: 1rem;
 }
 
 .answered-count {
   font-size: 0.78rem;
-  color: #6b7280;
+  color: var(--mu-muted);
 }
 
 .nav-btn {
@@ -140,19 +140,19 @@ app-quiz-question {
 .nav-btn:disabled { opacity: .4; cursor: not-allowed; }
 
 .nav-btn.secondary {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink-soft);
+  border: 1px solid var(--mu-line);
 }
 
 .nav-btn.primary {
-  background: #2563eb;
-  color: #fff;
+  background: var(--mu-info);
+  color: var(--mu-white);
 }
 
 .nav-btn.submit {
-  background: #c74634;
-  color: #fff;
+  background: var(--mu-accent);
+  color: var(--mu-white);
 }
 
 .nav-btn:not(:disabled):hover { opacity: .88; }

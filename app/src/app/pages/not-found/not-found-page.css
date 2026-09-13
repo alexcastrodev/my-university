@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,18 +15,18 @@
 .code {
   font-size: 3rem;
   font-weight: 700;
-  color: #c74634;
+  color: var(--mu-accent);
   margin: 0;
 }
 
 h1 {
   font-size: 1.25rem;
   margin: 0.5rem 0;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .hint {
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -35,7 +35,7 @@ h1 {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
   text-decoration: none;
 }
 

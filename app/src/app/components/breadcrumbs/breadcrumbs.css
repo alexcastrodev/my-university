@@ -8,20 +8,20 @@
 }
 
 .breadcrumb-link {
-  color: #9ca3af;
+  color: var(--mu-faint);
   text-decoration: none;
 }
 
 .breadcrumb-link:hover {
-  color: #c74634;
+  color: var(--mu-accent);
   text-decoration: underline;
 }
 
 .breadcrumb-sep {
-  color: #d1d5db;
+  color: var(--mu-divider);
 }
 
 .breadcrumb-current {
-  color: #6b7280;
+  color: var(--mu-muted);
   font-weight: 600;
 }

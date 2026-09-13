@@ -1,14 +1,14 @@
 .sidebar-nav {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .sidebar-progress {
   padding: 0.75rem 0.9rem;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border-bottom: 1px solid var(--mu-line);
+  background: var(--mu-bg);
 }
 
 .sidebar-progress-label {
@@ -17,20 +17,20 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin-bottom: 0.4rem;
 }
 
 .sidebar-progress-track {
   height: 5px;
   border-radius: 3px;
-  background: #e5e7eb;
+  background: var(--mu-line);
   overflow: hidden;
 }
 
 .sidebar-progress-fill {
   height: 100%;
-  background: #16a34a;
+  background: var(--mu-success);
   border-radius: 3px;
   transition: width 0.2s ease;
 }
@@ -49,20 +49,20 @@
   gap: 0.5rem;
   padding: 0.6rem 0.9rem;
   text-decoration: none;
-  color: #374151;
+  color: var(--mu-ink-soft);
   border-left: 3px solid transparent;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--mu-bg-alt);
   transition: background 0.12s;
 }
 
 .concept-item:hover {
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .concept-item.active {
-  background: #fef2f0;
-  border-left-color: #c74634;
-  color: #c74634;
+  background: var(--mu-danger-soft);
+  border-left-color: var(--mu-accent);
+  color: var(--mu-accent);
 }
 
 .status-dot {
@@ -74,13 +74,13 @@
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 1px;
-  border: 2px solid #d1d5db;
+  border: 2px solid var(--mu-divider);
   background: transparent;
 }
 
 .status-dot.read {
-  border-color: #16a34a;
-  background: #16a34a;
+  border-color: var(--mu-success);
+  background: var(--mu-success);
 }
 
 .concept-item-info {
@@ -102,7 +102,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,6 @@
 .question-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 10px;
   padding: 1.5rem;
   width: 100%;
@@ -20,21 +20,21 @@
 }
 
 .topic-badge {
-  background: #eff6ff;
-  color: #2563eb;
-  border: 1px solid #bfdbfe;
+  background: var(--mu-info-soft);
+  color: var(--mu-info);
+  border: 1px solid var(--mu-info-border);
 }
 
 .type-badge {
-  background: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg-alt);
+  color: var(--mu-muted);
+  border: 1px solid var(--mu-line);
 }
 
 .question-text {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #111827;
+  color: var(--mu-ink);
   line-height: 1.6;
   margin: 0 0 1.25rem;
   white-space: pre-wrap;
@@ -42,7 +42,7 @@
 
 .code-block {
   background: #1e1e2e;
-  color: #cdd6f4;
+  color: var(--mu-indigo-border);
   border-radius: 8px;
   padding: 1rem 1.25rem;
   font-size: 0.8rem;
@@ -73,36 +73,36 @@
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--mu-line);
   border-radius: 8px;
   cursor: pointer;
   transition: border-color .12s, background .12s;
-  background: #fff;
+  background: var(--mu-surface);
 }
 
-.option:hover { border-color: #9ca3af; background: #f9fafb; }
-.option.selected { border-color: #2563eb; background: #eff6ff; }
-.option.correct  { border-color: #16a34a; background: #f0fdf4; }
-.option.wrong    { border-color: #dc2626; background: #fef2f2; }
+.option:hover { border-color: var(--mu-faint); background: var(--mu-bg); }
+.option.selected { border-color: var(--mu-info); background: var(--mu-info-soft); }
+.option.correct  { border-color: var(--mu-success); background: var(--mu-success-soft); }
+.option.wrong    { border-color: var(--mu-danger); background: var(--mu-danger-soft); }
 
 .option input {
   margin-top: 2px;
   flex-shrink: 0;
-  accent-color: #2563eb;
+  accent-color: var(--mu-info);
   cursor: pointer;
 }
 
 .option-key {
   font-weight: 700;
   font-size: 0.82rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
   min-width: 1rem;
   flex-shrink: 0;
 }
 
 .option-text {
   font-size: 0.84rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
   line-height: 1.45;
 }
 

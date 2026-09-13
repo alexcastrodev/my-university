@@ -13,8 +13,8 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: #111827;
-  color: #fbbf24;
+  background: var(--mu-ink);
+  color: var(--mu-warning);
   border: 1px solid rgba(234, 179, 8, .4);
   border-radius: 20px;
   padding: 0.5rem 1rem;

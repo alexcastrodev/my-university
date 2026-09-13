@@ -1,13 +1,13 @@
 <div class="page">
   <div class="page-body">
+    <h1 class="page-title" i18n="@@settings.title">Settings</h1>
+
     @if (!auth.currentUser()) {
       <div class="login-prompt">
         <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>
         <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
       </div>
     } @else {
-      <h1 class="page-title" i18n="@@settings.title">Settings</h1>
-
       <div class="card">
         <h2 class="section-title" i18n="@@settings.displayName.title">Display name</h2>
         <p class="hint" i18n="@@settings.displayName.hint">
@@ -32,12 +32,29 @@
           <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
         }
       </div>
-
-      <div class="card">
-        <h2 class="section-title" i18n="@@settings.theme.title">Theme</h2>
-        <p class="hint" i18n="@@settings.theme.comingSoon">Coming soon.</p>
-        <button type="button" class="btn secondary-btn" disabled i18n="@@settings.theme.darkMode">Dark mode</button>
-      </div>
     }
+
+    <div class="card">
+      <h2 class="section-title" i18n="@@settings.theme.title">Theme</h2>
+      <p class="hint" i18n="@@settings.theme.hint">Choose how MyUniversity looks on this device.</p>
+      <div class="theme-toggle" role="group" i18n-aria-label="@@settings.theme.ariaLabel" aria-label="Theme">
+        <button
+          type="button"
+          class="btn"
+          [class.primary-btn]="themeService.theme() === 'light'"
+          [class.secondary-btn]="themeService.theme() !== 'light'"
+          (click)="themeService.setTheme('light')"
+          i18n="@@settings.theme.light"
+        >Light</button>
+        <button
+          type="button"
+          class="btn"
+          [class.primary-btn]="themeService.theme() === 'dark'"
+          [class.secondary-btn]="themeService.theme() !== 'dark'"
+          (click)="themeService.setTheme('dark')"
+          i18n="@@settings.theme.dark"
+        >Dark</button>
+      </div>
+    </div>
   </div>
 </div>

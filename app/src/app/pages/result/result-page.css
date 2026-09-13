@@ -1,5 +1,5 @@
 .result-page {
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
   min-height: calc(100vh - 52px);
   display: flex;
   flex-direction: column;
@@ -45,8 +45,8 @@
   border-radius: 3px;
 }
 
-.verdict-badge.pass { background: #16a34a; color: #fff; }
-.verdict-badge.fail { background: #dc2626; color: #fff; }
+.verdict-badge.pass { background: var(--mu-success); color: var(--mu-surface); }
+.verdict-badge.fail { background: var(--mu-danger); color: var(--mu-surface); }
 
 .score-display {
   display: flex;
@@ -58,7 +58,7 @@
 .score-number {
   font-size: 5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--mu-white);
   letter-spacing: -.02em;
 }
 
@@ -99,7 +99,7 @@
 .xp-earned-text {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #fbbf24;
+  color: var(--mu-warning);
   letter-spacing: 0.03em;
 }
 
@@ -113,13 +113,13 @@
 .breakdown-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.25rem;
 }
 
 .breakdown-sub {
   font-size: 0.78rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 1.5rem;
 }
 
@@ -139,7 +139,7 @@
 .topic-name {
   font-size: 0.78rem;
   font-weight: 500;
-  color: #374151;
+  color: var(--mu-ink-soft);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -154,7 +154,7 @@
 .topic-bar {
   flex: 1;
   height: 8px;
-  background: #e5e7eb;
+  background: var(--mu-line);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -165,20 +165,20 @@
   transition: width .4s ease;
 }
 
-.topic-bar-fill.pass { background: #16a34a; }
-.topic-bar-fill.fail { background: #dc2626; }
+.topic-bar-fill.pass { background: var(--mu-success); }
+.topic-bar-fill.fail { background: var(--mu-danger); }
 
 .topic-pct {
   font-size: 0.72rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--mu-muted);
   min-width: 32px;
   text-align: right;
 }
 
 .topic-count {
   font-size: 0.72rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   text-align: right;
 }
 
@@ -202,5 +202,5 @@
 }
 
 .action-btn:hover { opacity: .85; }
-.action-btn.secondary { background: #fff; color: #374151; border: 1px solid #d1d5db; }
-.action-btn.primary { background: #c74634; color: #fff; }
+.action-btn.secondary { background: var(--mu-surface); color: var(--mu-ink-soft); border: 1px solid var(--mu-divider); }
+.action-btn.primary { background: var(--mu-accent); color: var(--mu-surface); }

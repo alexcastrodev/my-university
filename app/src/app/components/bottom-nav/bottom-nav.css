@@ -47,11 +47,11 @@
   }
 
   .tab-soon {
-    color: #cbd0d8;
+    color: var(--mu-faint);
     cursor: default;
   }
 
   .tab-soon:disabled {
-    color: #cbd0d8;
+    color: var(--mu-faint);
   }
 }

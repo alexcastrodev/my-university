@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .page-body {
@@ -13,8 +13,8 @@
 }
 
 .login-prompt {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 3rem 2rem;
   text-align: center;
@@ -25,7 +25,7 @@
 }
 
 .login-prompt p {
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
   margin: 0;
 }
@@ -49,7 +49,7 @@
 
 .github-btn {
   background: #24292f;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 /* Greeting */
@@ -65,14 +65,14 @@
 .greeting-label {
   display: block;
   font-size: 0.82rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin-bottom: 0.15rem;
 }
 
 .greeting-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -80,7 +80,7 @@
 .resume-cta {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -91,7 +91,7 @@
   align-items: flex-end;
   gap: 0.15rem;
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   text-align: right;
   white-space: nowrap;
 }
@@ -105,8 +105,8 @@
 }
 
 .stat-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -116,7 +116,7 @@
 }
 
 .stat-card:hover {
-  border-color: #d1d5db;
+  border-color: var(--mu-divider);
   box-shadow: 0 6px 20px rgba(17, 24, 39, 0.06);
   transform: translateY(-1px);
 }
@@ -133,24 +133,24 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .stat-value {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-variant-numeric: tabular-nums;
 }
 
 .stat-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .stat-foot {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .streak-row {
@@ -163,37 +163,37 @@
 .stat-big {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   font-variant-numeric: tabular-nums;
 }
 
 .stat-big-muted {
-  color: #d1d5db;
+  color: var(--mu-divider);
   margin-left: 0.75rem;
 }
 
 .stat-big-accent {
-  color: #c74634;
+  color: var(--mu-accent);
   margin-left: 0.75rem;
 }
 
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #f3f4f6;
+  background: var(--mu-bg-alt);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #c74634;
+  background: var(--mu-accent);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
 .progress-fill-green {
-  background: #16a34a;
+  background: var(--mu-success);
 }
 
 /* Two-column row: areas table + side column */
@@ -213,8 +213,8 @@
 }
 
 .panel {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -234,21 +234,21 @@
 .panel-title {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.75rem;
 }
 
 .panel-title-light {
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .panel-note {
   font-size: 0.78rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .panel-note-accent {
-  color: #c74634;
+  color: var(--mu-accent);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -256,7 +256,7 @@
 .panel-empty,
 .panel-lead {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 0.5rem;
 }
 
@@ -268,8 +268,8 @@
 .panel-cta {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #fff;
-  background: #c74634;
+  color: var(--mu-white);
+  background: var(--mu-accent);
   border-radius: 6px;
   padding: 0.45rem 0.9rem;
   text-decoration: none;
@@ -285,7 +285,7 @@
 }
 
 .panel:not(.panel-dark) .panel-foot {
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 /* Your areas table */
@@ -309,41 +309,41 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #9ca3af;
-  border-bottom: 1px solid #e5e7eb;
+  color: var(--mu-faint);
+  border-bottom: 1px solid var(--mu-line);
 }
 
 .areas-row {
   text-decoration: none;
   color: inherit;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--mu-bg-alt);
 }
 
 .areas-row:hover {
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .areas-title {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .areas-read,
 .areas-xp {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-variant-numeric: tabular-nums;
 }
 
 .areas-last-visit {
   font-size: 0.78rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .areas-connects {
   font-size: 0.75rem;
-  color: #c74634;
+  color: var(--mu-accent);
   font-weight: 600;
 }
 
@@ -368,23 +368,23 @@
 }
 
 .ranking-row-me {
-  background: #fef2f0;
+  background: var(--mu-danger-soft);
 }
 
 .ranking-position {
   width: 1.25rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   font-weight: 600;
 }
 
 .ranking-name {
   flex: 1;
-  color: #111827;
+  color: var(--mu-ink);
   font-weight: 600;
 }
 
 .ranking-total {
-  color: #6b7280;
+  color: var(--mu-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -401,7 +401,7 @@
   gap: 0.75rem;
   align-items: center;
   padding: 0.6rem 0;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--mu-bg-alt);
   text-decoration: none;
   color: inherit;
 }
@@ -411,31 +411,31 @@
 }
 
 .activity-row:hover {
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .activity-day {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--mu-faint);
   letter-spacing: 0.04em;
 }
 
 .activity-title {
   font-size: 0.84rem;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .activity-area {
   font-size: 0.76rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   text-align: right;
 }
 
 .activity-xp {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }

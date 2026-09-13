@@ -7,6 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    // Runs before Angular bootstraps / first paint, so the saved theme applies
+    // immediately instead of flashing light then switching to dark. Mirrors
+    // ThemeService's own localStorage key; kept in sync manually since this
+    // script must run standalone, before any app code is loaded.
+    (function () {
+      try {
+        if (localStorage.getItem('preferred-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <meta name="description" content="Practice exams, quick answers, and in-depth concepts for Java, Spring, and Databases.">
   <meta property="og:title" content="My University">

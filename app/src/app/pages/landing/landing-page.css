@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .page-hero {
@@ -15,7 +15,7 @@
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1.2;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .page-sub {
@@ -40,8 +40,8 @@
 }
 
 .how-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -55,13 +55,13 @@
 .how-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.4rem;
 }
 
 .how-text {
   font-size: 0.82rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   line-height: 1.5;
   margin: 0;
 }
@@ -89,13 +89,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
-  color: #c74634;
+  color: var(--mu-accent);
 }
 
 .cs-banner-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .cs-banner-sub {
@@ -108,7 +108,7 @@
   margin-top: 0.4rem;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .section-heading {
@@ -116,7 +116,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .05em;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 1rem;
 }
 
@@ -132,8 +132,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.35rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.25rem;
   text-decoration: none;
@@ -142,7 +142,7 @@
 }
 
 .topic-card:hover {
-  border-color: #c74634;
+  border-color: var(--mu-accent);
   box-shadow: 0 6px 20px rgba(199, 70, 52, 0.12);
   transform: translateY(-1px);
 }
@@ -154,7 +154,7 @@
   width: 2.25rem;
   height: 2.25rem;
   font-size: 1.15rem;
-  background: #fef2f0;
+  background: var(--mu-danger-soft);
   border-radius: 50%;
   margin-bottom: 0.15rem;
 }
@@ -162,12 +162,12 @@
 .topic-title {
   font-size: 0.92rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .topic-tagline {
   font-size: 0.78rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   line-height: 1.4;
 }
 
@@ -175,7 +175,7 @@
   margin-top: 0.4rem;
   font-size: 0.76rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
 }
 
 /* Community (real leaderboard data — no fabricated testimonials) */
@@ -193,8 +193,8 @@
   align-items: center;
   text-align: center;
   gap: 0.4rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.5rem 1rem;
 }
@@ -209,20 +209,20 @@
 .community-name {
   font-size: 0.86rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .community-level {
   font-size: 0.74rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 /* Final CTA band */
 
 .cta-band {
   text-align: center;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 2.5rem 1.5rem;
 }
@@ -230,13 +230,13 @@
 .cta-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.4rem;
 }
 
 .cta-sub {
   font-size: 0.88rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 1.25rem;
 }
 
@@ -245,7 +245,7 @@
   align-items: center;
   gap: 0.5rem;
   background: #24292f;
-  color: #fff;
+  color: var(--mu-white);
   font-size: 0.85rem;
   font-weight: 600;
   padding: 0.7rem 1.5rem;

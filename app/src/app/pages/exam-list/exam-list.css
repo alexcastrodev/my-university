@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .page-hero {
@@ -12,7 +12,7 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--mu-white);
   margin: 0 0 0.5rem;
 }
 
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 0.9rem;
   padding: 3rem;
   justify-content: center;
@@ -41,8 +41,8 @@
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #c74634;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }
@@ -58,8 +58,8 @@
 .exam-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 10px;
   padding: 1.25rem;
   text-decoration: none;
@@ -69,7 +69,7 @@
 }
 
 .exam-card:hover {
-  border-color: #c74634;
+  border-color: var(--mu-accent);
   box-shadow: 0 4px 16px rgba(199,70,52,.12);
   transform: translateY(-2px);
 }
@@ -84,8 +84,8 @@
 .card-version {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #fff;
-  background: #c74634;
+  color: var(--mu-white);
+  background: var(--mu-accent);
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
 }
@@ -93,7 +93,7 @@
 .card-title {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0;
   flex: 1;
   line-height: 1.4;
@@ -108,9 +108,9 @@
 
 .card-meta span {
   font-size: 0.68rem;
-  color: #4b5563;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  color: var(--mu-ink-mid);
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 0.15rem 0.45rem;
 }
@@ -118,11 +118,11 @@
 .card-footer {
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--mu-bg-alt);
 }
 
 .card-cta {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
 }

@@ -12,8 +12,8 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 10px;
   padding: 1.25rem;
   text-decoration: none;
@@ -23,7 +23,7 @@
 }
 
 .concept-card:hover {
-  border-color: #c74634;
+  border-color: var(--mu-accent);
   box-shadow: 0 4px 16px rgba(199,70,52,.12);
   transform: translateY(-2px);
 }
@@ -33,7 +33,7 @@
 }
 
 .concept-card.is-read:hover {
-  border-color: #c74634;
+  border-color: var(--mu-accent);
 }
 
 .card-header {
@@ -57,8 +57,8 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: #c74634;
-  background: #fff1ef;
+  color: var(--mu-accent);
+  background: var(--mu-accent-soft);
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
   flex-shrink: 0;
@@ -66,9 +66,9 @@
 
 .card-reading-time {
   font-size: 0.7rem;
-  color: #6b7280;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  color: var(--mu-muted);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 0.15rem 0.55rem;
   white-space: nowrap;
@@ -78,8 +78,8 @@
 .card-badge {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #fff;
-  background: #2e7d32;
+  color: var(--mu-white);
+  background: var(--mu-success-strong);
   border-radius: 12px;
   padding: 0.15rem 0.45rem;
   white-space: nowrap;
@@ -87,7 +87,7 @@
 }
 
 .card-badge.lab-badge {
-  background: #1976d2;
+  background: var(--mu-info);
 }
 
 .read-check {
@@ -96,20 +96,20 @@
   justify-content: center;
   width: 18px;
   height: 18px;
-  border: 1.5px solid #2e7d32;
+  border: 1.5px solid var(--mu-success-strong);
   border-radius: 50%;
-  color: #2e7d32;
+  color: var(--mu-success-strong);
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1;
   flex-shrink: 0;
-  background: #fff;
+  background: var(--mu-surface);
 }
 
 .card-title {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.4rem;
   line-height: 1.4;
   overflow-wrap: break-word;
@@ -118,7 +118,7 @@
 
 .card-summary {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 0.75rem;
   line-height: 1.5;
   flex: 1;
@@ -139,8 +139,8 @@
 .card-tag {
   font-size: 0.68rem;
   font-weight: 600;
-  color: #6b7280;
-  background: #f3f4f6;
+  color: var(--mu-muted);
+  background: var(--mu-bg-alt);
   border-radius: 10px;
   padding: 0.1rem 0.5rem;
 }
@@ -152,13 +152,13 @@
   gap: 0.5rem;
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--mu-bg-alt);
 }
 
 .card-cta {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #c74634;
+  color: var(--mu-accent);
 }
 
 /* List view — a numbered, connected sequence (rail + card per row) instead of a multi-column grid */
@@ -193,22 +193,22 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1.5px solid #d1d5db;
-  background: #fff;
-  color: #6b7280;
+  border: 1.5px solid var(--mu-divider);
+  background: var(--mu-surface);
+  color: var(--mu-muted);
   font-size: 0.75rem;
   font-weight: 700;
 }
 
 .sequence-marker.is-read {
-  border-color: #2e7d32;
-  background: #2e7d32;
-  color: #fff;
+  border-color: var(--mu-success-strong);
+  background: var(--mu-success-strong);
+  color: var(--mu-white);
 }
 
 .sequence-marker.is-next {
-  border-color: #c74634;
-  color: #c74634;
+  border-color: var(--mu-accent);
+  color: var(--mu-accent);
   box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.14);
 }
 
@@ -217,5 +217,5 @@
   width: 2px;
   min-height: 0.75rem;
   margin: 0.25rem 0;
-  background: #e5e7eb;
+  background: var(--mu-line);
 }

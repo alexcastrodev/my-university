@@ -1,25 +1,124 @@
 :root {
-  /* MyUniversity mobile design tokens (mockups in tmp/mobile/). Centralizes
-     the palette/spacing/radius that were previously hardcoded per component. */
-  --mu-navy: #14233b;         /* hero + session-done background */
+  /* MyUniversity design tokens (mockups in tmp/mobile/). Centralizes the
+     palette/spacing/radius that were previously hardcoded per component.
+     Dark theme redefines every color token below under `:root[data-theme="dark"]`
+     (see the block right after this one) — never give a color its only
+     definition here if the surface/text/border role needs to flip in dark mode. */
+  --mu-navy: #14233b;         /* hero + session-done background — deliberately theme-invariant */
   --mu-navy-deep: #0e1a2e;
   --mu-ink: #111827;          /* primary text */
   --mu-ink-soft: #374151;
   --mu-muted: #6b7280;
   --mu-faint: #9ca3af;
   --mu-line: #e5e7eb;
+  --mu-line-soft: #f3f4f6;
   --mu-surface: #ffffff;
+  --mu-surface-alt: #f8f9fb;
   --mu-bg: #f9fafb;
   --mu-bg-alt: #f3f4f6;
+  --mu-white: #ffffff;        /* text-on-accent / text-on-dark-surface — theme-invariant */
   --mu-accent: #c74634;       /* terracotta */
   --mu-accent-strong: #b23c2b;
   --mu-accent-soft: #fff1ef;
+  --mu-accent-soft-strong: #fde3de;
+  --mu-accent-border: #f3c9c1;
+
+  /* Status colors — background/text pairs for badges, alerts, and inline feedback. */
+  --mu-success: #16a34a;
+  --mu-success-strong: #15803d;
+  --mu-success-soft: #f0fdf4;
+  --mu-success-border: #bbf7d0;
+  --mu-danger: #dc2626;
+  --mu-danger-strong: #991b1b;
+  --mu-danger-soft: #fef2f2;
+  --mu-danger-border: #fecaca;
+  --mu-warning: #f59e0b;
+  --mu-warning-strong: #92400e;
+  --mu-warning-soft: #fffbeb;
+  --mu-warning-border: #fde68a;
+  --mu-info: #2563eb;
+  --mu-info-strong: #1e40af;
+  --mu-info-soft: #eff6ff;
+  --mu-info-border: #bfdbfe;
+  --mu-purple: #8b5cf6;
+  --mu-purple-strong: #7c3aed;
+  --mu-purple-soft: #ede9fe;
+  --mu-purple-border: #c4b5fd;
+
+  /* Code blocks are deliberately theme-invariant (already dark, matches common docs conventions). */
+  --mu-code-bg: #0f172a;
+  --mu-code-text: #e2e8f0;
+
+  --mu-divider: #d1d5db;      /* slightly stronger than --mu-line, for meta separators */
+  --mu-indigo: #4f46e5;
+  --mu-indigo-soft: #eef2ff;
+  --mu-indigo-border: #cbd5e1;
+  --mu-text: #1f2937;         /* body copy — slightly softer than --mu-ink's headings */
+  --mu-ink-mid: #4b5563;      /* between --mu-ink-soft and --mu-muted */
+  --mu-code-muted: #94a3b8;   /* code-block chrome — theme-invariant, code bg always dark */
+
   --mu-radius-sm: 8px;
   --mu-radius: 14px;
   --mu-radius-lg: 20px;
   --mu-shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
   --mu-shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.18);
   --mu-nav-h: 60px;           /* bottom tab bar height */
+}
+
+/* Dark theme overrides — applied via a `data-theme="dark"` attribute on <html>,
+   set by ThemeService (see app/src/app/services/theme.service.ts). No
+   `prefers-color-scheme` fallback: theme is an explicit user choice (default
+   light), not inferred from the OS, so every viewer sees a stable default
+   until they opt in via Settings. */
+:root[data-theme='dark'] {
+  --mu-ink: #f3f4f6;
+  --mu-ink-soft: #d1d5db;
+  --mu-muted: #9ca3af;
+  --mu-faint: #6b7280;
+  --mu-line: #2a3444;
+  --mu-line-soft: #232d3d;
+  --mu-surface: #17212f;
+  --mu-surface-alt: #1c2734;
+  --mu-bg: #0f1621;
+  --mu-bg-alt: #131b28;
+  --mu-accent: #e2574a;
+  --mu-accent-strong: #ff8f7f;
+  --mu-accent-soft: #3a221e;
+  --mu-accent-soft-strong: #4a2b25;
+  --mu-accent-border: #5c3129;
+
+  --mu-success: #4ade80;
+  --mu-success-strong: #86efac;
+  --mu-success-soft: #16321f;
+  --mu-success-border: #1f4a2c;
+  --mu-danger: #f87171;
+  --mu-danger-strong: #fca5a5;
+  --mu-danger-soft: #3a1c1c;
+  --mu-danger-border: #522525;
+  --mu-warning: #fbbf24;
+  --mu-warning-strong: #fcd34d;
+  --mu-warning-soft: #3a2e14;
+  --mu-warning-border: #4f3d18;
+  --mu-info: #60a5fa;
+  --mu-info-strong: #93c5fd;
+  --mu-info-soft: #17263d;
+  --mu-info-border: #1f3556;
+  --mu-purple: #a78bfa;
+  --mu-purple-strong: #c4b5fd;
+  --mu-purple-soft: #241a3d;
+  --mu-purple-border: #382a54;
+
+  --mu-divider: #38445a;
+  --mu-indigo: #818cf8;
+  --mu-indigo-soft: #1e2340;
+  --mu-indigo-border: #363f66;
+  --mu-text: #d7dce3;
+  --mu-ink-mid: #b0b8c4;
+
+  --mu-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.24), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --mu-shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
 }
 
 *, *::before, *::after {
@@ -46,8 +145,8 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f9fafb;
-  color: #111827;
+  background: var(--mu-bg);
+  color: var(--mu-ink);
 }
 
 /* ==========================================================================
@@ -78,8 +177,8 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #c74634;
-  background: #fff1ef;
+  color: var(--mu-accent);
+  background: var(--mu-accent-soft);
   border-radius: 12px;
   padding: 0.2rem 0.6rem;
   margin-bottom: 0.75rem;
@@ -88,19 +187,19 @@ html, body {
 .concept-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.5rem;
   line-height: 1.3;
 }
 
 .concept-meta {
   font-size: 0.78rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .concept-meta .sep {
   margin: 0 0.35rem;
-  color: #d1d5db;
+  color: var(--mu-divider);
 }
 
 app-concept-actions {
@@ -114,9 +213,9 @@ app-concept-actions {
 
 .fallback-notice {
   font-size: 0.82rem;
-  color: #92400e;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
+  color: var(--mu-warning-strong);
+  background: var(--mu-warning-soft);
+  border: 1px solid var(--mu-warning-border);
   border-radius: 8px;
   padding: 0.65rem 1rem;
   margin: 0 0 1.5rem;
@@ -125,16 +224,16 @@ app-concept-actions {
 .section-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid var(--mu-line-soft);
 }
 
 .section-body {
   font-size: 0.9rem;
   line-height: 1.75;
-  color: #1f2937;
+  color: var(--mu-text);
 }
 
 .section-body p {
@@ -144,14 +243,14 @@ app-concept-actions {
 .section-body h1 {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 0 0 1rem;
 }
 
 .section-body h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--mu-ink);
   margin: 1.5rem 0 0.75rem;
 }
 
@@ -166,7 +265,7 @@ app-concept-actions {
 }
 
 .section-body strong {
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .section-body .mermaid-diagram {
@@ -174,8 +273,8 @@ app-concept-actions {
   justify-content: center;
   margin: 0 0 1.25rem;
   padding: 1.75rem 1.25rem;
-  background: linear-gradient(180deg, #fdfdfe 0%, #f8f9fb 100%);
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface-alt);
+  border: 1px solid var(--mu-line);
   border-radius: 14px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   overflow-x: auto;
@@ -198,8 +297,8 @@ app-concept-actions {
 
 .section-body code {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
-  background: #f1f5f9;
-  color: #c74634;
+  background: var(--mu-bg-alt);
+  color: var(--mu-accent);
   border-radius: 4px;
   padding: 0.1em 0.35em;
   font-size: 0.85em;
@@ -207,7 +306,7 @@ app-concept-actions {
 
 .section-body pre {
   position: relative;
-  background: #0f172a;
+  background: var(--mu-code-bg);
   border-radius: 10px;
   padding: 2rem 1.25rem 1.1rem;
   overflow-x: auto;
@@ -228,13 +327,13 @@ app-concept-actions {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--mu-code-muted);
   border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .section-body pre code {
   background: none;
-  color: #e2e8f0;
+  color: var(--mu-code-text);
   padding: 0;
   font-size: 0.82rem;
   line-height: 1.65;
@@ -271,7 +370,7 @@ app-concept-actions {
 }
 
 .section-body .hljs-params {
-  color: #e2e8f0;
+  color: var(--mu-code-text);
 }
 
 .section-body .hljs-meta {
@@ -295,7 +394,7 @@ app-concept-actions {
 }
 
 .reference-item a {
-  color: #c74634;
+  color: var(--mu-accent);
   text-decoration: none;
 }
 
@@ -304,8 +403,8 @@ app-concept-actions {
 }
 
 .related-concepts {
-  background: #f9fafb;
-  border: 1px solid #f3f4f6;
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line-soft);
   border-radius: 10px;
   padding: 1rem 1.25rem;
 }
@@ -315,7 +414,7 @@ app-concept-actions {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin: 0 0 0.5rem;
 }
 
@@ -323,7 +422,7 @@ app-concept-actions {
   margin: 0;
   padding: 0 0 0 1.1rem;
   font-size: 0.85rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
 }
 
 .related-concepts-list li {
@@ -331,7 +430,7 @@ app-concept-actions {
 }
 
 .related-concepts-list a {
-  color: #c74634;
+  color: var(--mu-accent);
   text-decoration: none;
 }
 
@@ -353,8 +452,8 @@ app-concept-actions {
   display: block;
   margin: 0 0 1.25rem;
   padding: 1.25rem;
-  background: linear-gradient(180deg, #fdfdfe 0%, #f8f9fb 100%);
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface-alt);
+  border: 1px solid var(--mu-line);
   border-radius: 14px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
@@ -365,7 +464,7 @@ app-concept-actions {
   justify-content: space-between;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--mu-muted);
   margin-bottom: 0.75rem;
 }
 
@@ -379,9 +478,9 @@ app-concept-actions {
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #c74634;
-  background: #fff1ef;
-  border: 1px solid #f3c9c1;
+  color: var(--mu-accent);
+  background: var(--mu-accent-soft);
+  border: 1px solid var(--mu-accent-border);
   border-radius: 6px;
   padding: 0.25rem 0.6rem;
   min-width: 2rem;
@@ -389,13 +488,13 @@ app-concept-actions {
 }
 
 .section-body .concept-viz-btn:hover:not(:disabled) {
-  background: #fde3de;
+  background: var(--mu-accent-soft-strong);
 }
 
 .section-body .concept-viz-btn:disabled {
-  color: #c1c7d0;
-  background: #f9fafb;
-  border-color: #e5e7eb;
+  color: var(--mu-faint);
+  background: var(--mu-bg);
+  border-color: var(--mu-line);
   cursor: not-allowed;
 }
 
@@ -410,8 +509,8 @@ app-concept-actions {
 .section-body .concept-viz-queue-item {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.8rem;
-  background: #f1f5f9;
-  color: #374151;
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink-soft);
   border-radius: 6px;
   padding: 0.15rem 0.5rem;
   transition: opacity 0.25s ease;
@@ -434,14 +533,14 @@ app-concept-actions {
   gap: 0.3rem;
   min-height: 3.5rem;
   padding: 0.5rem 0.35rem;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
   border-radius: 8px;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .section-body .concept-viz-slot--collision {
-  border-color: #f5cf6b;
+  border-color: var(--mu-warning);
 }
 
 .section-body .concept-viz-slot--flash {
@@ -455,15 +554,15 @@ app-concept-actions {
 .section-body .concept-viz-slot-label {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .section-body .concept-viz-token {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.72rem;
   font-weight: 600;
-  color: #fff;
-  background: #c74634;
+  color: var(--mu-white);
+  background: var(--mu-accent);
   border-radius: 5px;
   padding: 0.15rem 0.4rem;
   white-space: nowrap;
@@ -472,7 +571,7 @@ app-concept-actions {
 .section-body .concept-viz-caption {
   margin-top: 0.9rem;
   font-size: 0.82rem;
-  color: #57534e;
+  color: var(--mu-muted);
   min-height: 1.2em;
 }
 
@@ -481,13 +580,13 @@ app-concept-actions {
    Fading back to the base color on removal is handled by the plain `transition` on
    .concept-viz-slot / .concept-viz-cell, not by these keyframes. */
 @keyframes concept-viz-flash-in {
-  from { background: #f9fafb; border-color: #e5e7eb; }
-  to { background: #ede9fe; border-color: #8b5cf6; }
+  from { background: var(--mu-bg); border-color: var(--mu-line); }
+  to { background: var(--mu-purple-soft); border-color: var(--mu-purple); }
 }
 
 @keyframes concept-viz-pointer-in {
-  from { background: #f9fafb; border-color: #e5e7eb; }
-  to { background: #dbeafe; border-color: #3b82f6; }
+  from { background: var(--mu-bg); border-color: var(--mu-line); }
+  to { background: var(--mu-info-soft); border-color: var(--mu-info); }
 }
 
 /* Row layout (`type: moves`) — a connected, single-row array with tokens that slide between
@@ -507,14 +606,14 @@ app-concept-actions {
   width: 52px;
   height: 52px;
   box-sizing: border-box;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
   border-left: none;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .section-body .concept-viz-cell:first-child {
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--mu-line);
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
@@ -532,7 +631,7 @@ app-concept-actions {
   text-align: center;
   font-size: 0.65rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .section-body .concept-viz-row-token {
@@ -548,8 +647,8 @@ app-concept-actions {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
-  background: #c74634;
+  color: var(--mu-white);
+  background: var(--mu-accent);
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35);
   will-change: transform;
@@ -565,13 +664,13 @@ app-concept-actions {
 }
 
 @keyframes concept-viz-token-flash-in {
-  from { background: #c74634; box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
-  to { background: #8b5cf6; box-shadow: 0 2px 8px rgba(139, 92, 246, 0.45); }
+  from { background: var(--mu-accent); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
+  to { background: var(--mu-purple); box-shadow: 0 2px 8px rgba(139, 92, 246, 0.45); }
 }
 
 @keyframes concept-viz-token-pointer-in {
-  from { background: #c74634; box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
-  to { background: #3b82f6; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.45); }
+  from { background: var(--mu-accent); box-shadow: 0 2px 5px rgba(199, 70, 52, 0.35); }
+  to { background: var(--mu-info); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.45); }
 }
 
 /* Tree/graph layout (`type: tree`, `type: graph`) — SVG nodes-and-edges rendering shared by
@@ -589,19 +688,19 @@ app-concept-actions {
 }
 
 .section-body .concept-viz-tree-edge {
-  stroke: #d1d5db;
+  stroke: var(--mu-divider);
   stroke-width: 2px;
   transition: stroke 0.3s ease;
 }
 
 .section-body .concept-viz-tree-edge--traversed {
-  stroke: #3b82f6;
+  stroke: var(--mu-info);
   stroke-width: 2.5px;
 }
 
 .section-body .concept-viz-tree-node circle {
-  fill: #f9fafb;
-  stroke: #e5e7eb;
+  fill: var(--mu-bg);
+  stroke: var(--mu-line);
   stroke-width: 1.5px;
   transition: fill 0.3s ease, stroke 0.3s ease;
 }
@@ -610,7 +709,7 @@ app-concept-actions {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.72rem;
   font-weight: 700;
-  fill: #374151;
+  fill: var(--mu-ink-soft);
   pointer-events: none;
   transition: fill 0.3s ease;
 }
@@ -619,51 +718,51 @@ app-concept-actions {
    since a node's color is part of the tree's actual state (visible for as long as the node
    exists), not a momentary "look here" cue. */
 .section-body .concept-viz-tree-node[data-color="red"] circle {
-  fill: #fee2e2;
-  stroke: #ef4444;
+  fill: var(--mu-danger-soft);
+  stroke: var(--mu-danger);
 }
 
 .section-body .concept-viz-tree-node[data-color="black"] circle {
-  fill: #1f2937;
-  stroke: #111827;
+  fill: var(--mu-text);
+  stroke: var(--mu-ink);
 }
 
 .section-body .concept-viz-tree-node[data-color="black"] text {
-  fill: #f9fafb;
+  fill: var(--mu-bg);
 }
 
 /* Branch-and-bound search-tree states — reuses the same persistent `color` field red-black
    trees use, since "pruned" and "best-known incumbent" are just as much part of a B&B node's
    lasting state as red/black is part of a red-black node's. */
 .section-body .concept-viz-tree-node[data-color="pruned"] circle {
-  fill: #f3f4f6;
-  stroke: #9ca3af;
+  fill: var(--mu-line-soft);
+  stroke: var(--mu-faint);
   opacity: 0.55;
 }
 
 .section-body .concept-viz-tree-node[data-color="pruned"] text {
-  fill: #9ca3af;
+  fill: var(--mu-faint);
 }
 
 .section-body .concept-viz-tree-node[data-color="best"] circle {
-  fill: #d1fae5;
-  stroke: #10b981;
+  fill: var(--mu-success-soft);
+  stroke: var(--mu-success);
   stroke-width: 2.5px;
 }
 
 .section-body .concept-viz-tree-node--visited circle {
-  fill: #ede9fe;
-  stroke: #c4b5fd;
+  fill: var(--mu-purple-soft);
+  stroke: var(--mu-purple-border);
 }
 
 .section-body .concept-viz-tree-node--flash circle {
-  fill: #ede9fe;
-  stroke: #8b5cf6;
+  fill: var(--mu-purple-soft);
+  stroke: var(--mu-purple);
 }
 
 .section-body .concept-viz-tree-node--pointer circle {
-  fill: #dbeafe;
-  stroke: #3b82f6;
+  fill: var(--mu-info-soft);
+  stroke: var(--mu-info);
 }
 
 /* B-tree nodes (`type: btree`) — several keys per node, drawn as a row of cells inside one box,
@@ -671,24 +770,24 @@ app-concept-actions {
    (.concept-viz-tree / .concept-viz-tree-svg / .concept-viz-tree-edge) above. */
 
 .section-body .concept-viz-btree-box {
-  fill: #f9fafb;
-  stroke: #e5e7eb;
+  fill: var(--mu-bg);
+  stroke: var(--mu-line);
   stroke-width: 1.5px;
   transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
 .section-body .concept-viz-tree-node--flash .concept-viz-btree-box {
-  fill: #ede9fe;
-  stroke: #8b5cf6;
+  fill: var(--mu-purple-soft);
+  stroke: var(--mu-purple);
 }
 
 .section-body .concept-viz-tree-node--pointer .concept-viz-btree-box {
-  fill: #dbeafe;
-  stroke: #3b82f6;
+  fill: var(--mu-info-soft);
+  stroke: var(--mu-info);
 }
 
 .section-body .concept-viz-btree-divider {
-  stroke: #e5e7eb;
+  stroke: var(--mu-line);
   stroke-width: 1px;
 }
 
@@ -696,12 +795,12 @@ app-concept-actions {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.72rem;
   font-weight: 700;
-  fill: #374151;
+  fill: var(--mu-ink-soft);
   pointer-events: none;
 }
 
 .section-body .concept-viz-btree-key--flash {
-  fill: #7c3aed;
+  fill: var(--mu-purple-strong);
 }
 
 /* ==========================================================================
@@ -715,14 +814,14 @@ app-concept-actions {
 .section-body .deep-dive-trigger {
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: #c74634;
+  text-decoration-color: var(--mu-accent);
   text-underline-offset: 2px;
   cursor: pointer;
   color: inherit;
 }
 
 .section-body .deep-dive-trigger:hover {
-  background: #fff1ef;
+  background: var(--mu-accent-soft);
 }
 
 .deep-dive-panel {
@@ -732,8 +831,8 @@ app-concept-actions {
   bottom: 0;
   width: 380px;
   max-width: 90vw;
-  background: #fff;
-  border-left: 1px solid #e5e7eb;
+  background: var(--mu-white);
+  border-left: 1px solid var(--mu-line);
   box-shadow: -4px 0 16px rgba(15, 23, 42, 0.08);
   overflow-y: auto;
   padding: 1.5rem;
@@ -753,8 +852,8 @@ app-concept-actions {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #c74634;
-  background: #fff1ef;
+  color: var(--mu-accent);
+  background: var(--mu-accent-soft);
   border-radius: 12px;
   padding: 0.2rem 0.6rem;
 }
@@ -762,7 +861,7 @@ app-concept-actions {
 .deep-dive-close-btn {
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--mu-muted);
   font-size: 1rem;
   line-height: 1;
   cursor: pointer;
@@ -770,13 +869,13 @@ app-concept-actions {
 }
 
 .deep-dive-close-btn:hover {
-  color: #111827;
+  color: var(--mu-ink);
 }
 
 .deep-dive-body {
   font-size: 0.88rem;
   line-height: 1.7;
-  color: #1f2937;
+  color: var(--mu-text);
 }
 
 .deep-dive-body p {
@@ -785,7 +884,7 @@ app-concept-actions {
 
 .deep-dive-body pre {
   position: relative;
-  background: #0f172a;
+  background: var(--mu-code-bg);
   border-radius: 10px;
   padding: 2rem 1.25rem 1.1rem;
   overflow-x: auto;
@@ -805,14 +904,14 @@ app-concept-actions {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--mu-code-muted);
   border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .deep-dive-body code {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
-  background: #f1f5f9;
-  color: #c74634;
+  background: var(--mu-bg-alt);
+  color: var(--mu-accent);
   border-radius: 4px;
   padding: 0.1em 0.35em;
   font-size: 0.85em;
@@ -820,7 +919,7 @@ app-concept-actions {
 
 .deep-dive-body pre code {
   background: none;
-  color: #e2e8f0;
+  color: var(--mu-code-text);
   padding: 0;
   font-size: 0.82rem;
   line-height: 1.65;
@@ -857,7 +956,7 @@ app-concept-actions {
 }
 
 .deep-dive-body .hljs-params {
-  color: #e2e8f0;
+  color: var(--mu-code-text);
 }
 
 .deep-dive-body .hljs-meta {
@@ -867,7 +966,7 @@ app-concept-actions {
 .deep-dive-others {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--mu-line-soft);
 }
 
 .deep-dive-others-title {
@@ -875,7 +974,7 @@ app-concept-actions {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #9ca3af;
+  color: var(--mu-faint);
   margin: 0 0 0.6rem;
 }
 
@@ -894,7 +993,7 @@ app-concept-actions {
   text-align: left;
   background: none;
   border: none;
-  color: #c74634;
+  color: var(--mu-accent);
   font-size: 0.83rem;
   cursor: pointer;
   padding: 0.3rem 0;

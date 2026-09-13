@@ -8,9 +8,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  color: #374151;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-divider);
+  color: var(--mu-ink-soft);
   border-radius: 6px;
   padding: 0.45rem 0.9rem;
   font-size: 0.82rem;
@@ -21,14 +21,14 @@
 }
 
 .got-it-btn:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--mu-bg-alt);
+  border-color: var(--mu-faint);
 }
 
 .got-it-btn.completed {
-  background: #ecfdf5;
-  border-color: #16a34a;
-  color: #166534;
+  background: var(--mu-success-soft);
+  border-color: var(--mu-success);
+  color: var(--mu-success-strong);
 }
 
 .got-it-btn:disabled {
@@ -37,23 +37,23 @@
 }
 
 .got-it-btn.locked {
-  background: #f9fafb;
-  color: #6b7280;
+  background: var(--mu-bg);
+  color: var(--mu-muted);
   border-style: dashed;
 }
 
 .got-it-btn.locked:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background: var(--mu-bg);
+  border-color: var(--mu-divider);
 }
 
 .lab-link-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #fff;
-  border: 1px solid #d1d5db;
-  color: #374151;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-divider);
+  color: var(--mu-ink-soft);
   border-radius: 6px;
   padding: 0.45rem 0.9rem;
   font-size: 0.82rem;
@@ -64,6 +64,6 @@
 }
 
 .lab-link-btn:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--mu-bg-alt);
+  border-color: var(--mu-faint);
 }

@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - 52px);
-  background: #f9fafb;
+  background: var(--mu-bg);
 }
 
 .page-hero {
@@ -12,7 +12,7 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--mu-white);
   margin: 0 0 0.5rem;
 }
 
@@ -29,15 +29,15 @@
 }
 
 .card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
   border-radius: 12px;
   padding: 1.5rem;
 }
 
 .empty-state {
   font-size: 0.85rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   margin: 0;
 }
 
@@ -55,11 +55,11 @@
   align-items: center;
   gap: 0.6rem;
   font-size: 0.85rem;
-  color: #374151;
+  color: var(--mu-ink-soft);
 }
 
 .leaderboard-item-self {
-  background: #fff7ed;
+  background: var(--mu-warning-soft);
   border-radius: 8px;
   padding: 0.35rem 0.5rem;
   margin: -0.35rem -0.5rem;
@@ -68,7 +68,7 @@
 .leaderboard-rank {
   width: 1.75rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--mu-faint);
 }
 
 .avatar-sm {
@@ -81,7 +81,7 @@
 .leaderboard-name {
   flex: 1;
   font-weight: 600;
-  color: #111827;
+  color: var(--mu-ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -89,12 +89,12 @@
 
 .leaderboard-level {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--mu-faint);
   white-space: nowrap;
 }
 
 .leaderboard-total {
   font-weight: 700;
-  color: #c74634;
+  color: var(--mu-accent);
   white-space: nowrap;
 }

@@ -128,7 +128,7 @@
 .takeaway code {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
   font-size: 0.9em;
-  background: var(--mu-surface-soft, #f3f4f6);
+  background: var(--mu-surface-soft, var(--mu-bg-alt));
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
@@ -146,7 +146,7 @@
   padding: 1rem 1.1rem;
   border: 1.5px solid var(--mu-line);
   border-radius: var(--mu-radius);
-  background: #fff;
+  background: var(--mu-surface);
   font-size: 0.95rem;
   color: var(--mu-ink);
   cursor: pointer;
@@ -154,7 +154,7 @@
 }
 
 .option:hover:not(:disabled) {
-  border-color: #cbd5e1;
+  border-color: var(--mu-indigo-border);
 }
 
 .option.state-selected {
@@ -163,8 +163,8 @@
 }
 
 .option.state-correct {
-  border-color: #16a34a;
-  background: #f0fdf4;
+  border-color: var(--mu-success);
+  background: var(--mu-success-soft);
 }
 
 .option.state-wrong {
@@ -204,7 +204,7 @@
   border: none;
   border-radius: var(--mu-radius);
   background: var(--mu-navy);
-  color: #fff;
+  color: var(--mu-white);
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
@@ -274,7 +274,7 @@
   font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.82rem;
   line-height: 1.6;
-  color: #e5e7eb;
+  color: var(--mu-line);
   white-space: pre;
 }
 
@@ -373,7 +373,7 @@
   max-width: 560px;
   margin: 0 auto;
   padding: 2rem 1.5rem 3rem;
-  color: #fff;
+  color: var(--mu-white);
 }
 
 .done-eyebrow {
@@ -484,7 +484,7 @@
   padding: 1rem;
   border: none;
   border-radius: var(--mu-radius);
-  background: #fff;
+  background: var(--mu-surface);
   color: var(--mu-navy);
   font-size: 1rem;
   font-weight: 700;
@@ -503,5 +503,5 @@
 }
 
 .done-ghost:hover {
-  color: #fff;
+  color: var(--mu-white);
 }
