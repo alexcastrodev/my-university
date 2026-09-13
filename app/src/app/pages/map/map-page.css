@@ -110,7 +110,7 @@
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--mu-white);
+  color: var(--mu-bg);
   background: var(--mu-ink);
   border: none;
   border-radius: 8px;

@@ -84,6 +84,7 @@
     "header.aria.levelXp": "Level and experience points",
     "header.xp.level": "Lv {$INTERPOLATION}",
     "header.xp.points": "{$INTERPOLATION} XP",
+    "header.aria.toggleTheme": "Toggle color theme",
     "header.aria.contentLanguage": "Content language",
     "header.aria.userMenu": "User account menu",
     "header.userMenu.profile": "Profile",
