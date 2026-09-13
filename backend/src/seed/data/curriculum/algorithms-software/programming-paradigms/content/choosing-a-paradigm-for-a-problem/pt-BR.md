@@ -57,7 +57,7 @@ Nenhum dos seis paradigmas nesta disciplina é "o melhor" em qualquer sentido ab
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — combinando formas de problema com paradigmas
+### Exemplo 1: combinando formas de problema com paradigmas
 
 **Problema.** Para cada cenário abaixo, identifique o paradigma que se encaixa mais naturalmente, e justifique a escolha usando a forma do problema.
 
@@ -76,7 +76,7 @@ Nenhum dos seis paradigmas nesta disciplina é "o melhor" em qualquer sentido ab
 5. *"Recupere todo pedido feito nos últimos 30 dias por clientes em uma dada região."*
    **Encaixe: Declarativo (SQL).** Uma descrição das linhas desejadas (`SELECT * FROM orders WHERE date > ... AND region = ...`), com a estratégia de varredura, uso de índice, e plano de execução deixados inteiramente para o motor de banco de dados.
 
-### Exemplo 2 — decompondo um problema maior através de múltiplos paradigmas
+### Exemplo 2: decompondo um problema maior através de múltiplos paradigmas
 
 **Problema.** Desenhe, em alto nível, um sistema que ingere um lote de tickets de suporte ao cliente, marca cada um com uma categoria, e envia por email um resumo diário para a equipe certa, identifique qual paradigma trata cada pedaço.
 
@@ -88,7 +88,7 @@ Nenhum dos seis paradigmas nesta disciplina é "o melhor" em qualquer sentido ab
 
 **Raciocínio.** Nenhum paradigma único foi "a" resposta para este sistema, cada pedaço foi tratado por qualquer paradigma cuja forma correspondesse à natureza própria daquele pedaço. Isso não é um compromisso ou uma falha em se decidir; é a forma normal, saudável, pela qual sistemas reais não triviais são construídos, e reconhecer isso é o ponto real deste capstone.
 
-### Exemplo 3 — um problema que parece precisar de um paradigma, mas não precisa
+### Exemplo 3: um problema que parece precisar de um paradigma, mas não precisa
 
 **Problema.** "Eu preciso processar uma lista enorme de números com um laço que muta um total corrente, isso não significa que o programa inteiro tem que ser imperativo?"
 
@@ -108,5 +108,5 @@ Seis paradigmas, seis ideias centrais diferentes: imperativo (passos sequenciais
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

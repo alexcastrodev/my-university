@@ -53,7 +53,7 @@ A forma única mais comum e útil que essa ideia assume na prática é uma funç
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma função que soma a área de uma lista mista de formas
+### Exemplo 1: uma função que soma a área de uma lista mista de formas
 
 **Problema:** Usando as classes `Shape`, `Circle`, e `Rectangle` do conceito de herança, escreva uma única função que calcula a área total de uma lista contendo uma mistura de ambos os tipos de forma, sem nenhuma verificação de tipo ou ramificação dentro dela.
 
@@ -96,7 +96,7 @@ print(total_area(shapes))   # 78.53975 + 24 + 12.56636 + 9 = 124.10611
 
 **Raciocínio.** `total_area` não menciona `Shape`, `Circle`, ou `Rectangle` em lugar nenhum de seu próprio corpo, não as importa, verifica por elas, ou ramifica nelas. Depende inteiramente da promessa que toda subclasse de `Shape` é esperada manter: "você tem um método `.area()` que retorna um número." Cada iteração do laço chama `shape.area()` em um objeto concreto diferente, e despacho dinâmico resolve cada chamada corretamente por conta própria, a fórmula de `Circle` roda para os objetos `Circle`, a fórmula de `Rectangle` roda para os objetos `Rectangle`, com exatamente a mesma única linha de código chamador responsável por ambas. Se uma nova subclasse, `Triangle`, fosse adicionada amanhã, corretamente sobrescrevendo `area()`, poderia ser jogada direto na lista `shapes` passada para essa função exata, não modificada, e `total_area` calcularia o total geral correto imediatamente, com zero edições.
 
-### Exemplo 2 — a alternativa de ramificação, e o que custa quando uma nova forma é adicionada
+### Exemplo 2: a alternativa de ramificação, e o que custa quando uma nova forma é adicionada
 
 **Problema:** Escreva `total_area` da forma de verificação de tipo em vez disso, depois adicione uma subclasse `Triangle` e observe o que quebra.
 
@@ -108,7 +108,7 @@ def total_area_branching(shapes):
             total += 3.14159 * shape.radius ** 2
         elif isinstance(shape, Rectangle):
             total += shape.width * shape.height
-        # nenhum caso para Triangle — ninguém se lembrou de adicionar um
+        # nenhum caso para Triangle: ninguém se lembrou de adicionar um
     return total
 
 
@@ -122,13 +122,13 @@ class Triangle(Shape):
 
 
 shapes = [Circle(5), Rectangle(4, 6), Triangle(3, 4)]
-print(total_area_branching(shapes))   # 102.53975 — a área do triângulo (6) está silenciosamente faltando
-print(total_area(shapes))             # 108.53975 — correto: Triangle.area() despacha bem
+print(total_area_branching(shapes))   # 102.53975: a área do triângulo (6) está silenciosamente faltando
+print(total_area(shapes))             # 108.53975: correto: Triangle.area() despacha bem
 ```
 
 **Raciocínio.** `Triangle` foi definida corretamente, com um método `area()` propriamente sobrescrito, a própria classe está bem. O bug está inteiramente dentro de `total_area_branching`: foi escrita antes de `Triangle` existir, e ninguém voltou para adicionar um ramo `elif isinstance(shape, Triangle)` para ela, então triângulos silenciosamente contribuem zero ao total corrente, sem nenhum erro levantado em lugar nenhum para sinalizar a omissão. `total_area`, a versão polimórfica do Exemplo 1, não exigiu nenhuma tal adição afinal; funcionou corretamente para objetos `Triangle` no momento em que `Triangle` foi definida, puramente porque nunca codificou de forma fixa nenhuma lista de tipos de forma contra a qual verificar em primeiro lugar. Esse é o custo concreto que polimorfismo elimina: a correção de uma função de ramificação está acoplada a alguém se lembrar de atualizá-la toda vez que a família de tipos que trata cresce, exatamente o tipo de acoplamento silencioso, fácil de perder, que esta disciplina tem construído em direção a nomear precisamente.
 
-### Exemplo 3 — polimorfismo não exige que os objetos compartilhem dados idênticos, só o método compartilhado
+### Exemplo 3: polimorfismo não exige que os objetos compartilhem dados idênticos, só o método compartilhado
 
 **Problema:** Confirme que `total_area` funciona corretamente mesmo que objetos `Circle` e objetos `Rectangle` armazenem atributos completamente diferentes internamente (`radius` versus `width`/`height`).
 
@@ -147,5 +147,5 @@ Polimorfismo é escrever código chamador que invoca o mesmo nome de método, `.
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

@@ -45,7 +45,7 @@ classDiagram
     }
     Shape <|-- Circle
     Shape <|-- Rectangle
-    note for Shape "area() não tem uma única fórmula\ncorreta aqui — cada subclasse\nDEVE sobrescrevê-la."
+    note for Shape "area() não tem uma única fórmula\ncorreta aqui: cada subclasse\nDEVE sobrescrevê-la."
 ```
 
 ### A cadeia de herança, e onde uma busca de método de fato se resolve
@@ -58,7 +58,7 @@ O reúso de herança vem a um custo real, estrutural: uma subclasse depende dire
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma classe base `Shape` com subclasses `Circle` e `Rectangle`
+### Exemplo 1: uma classe base `Shape` com subclasses `Circle` e `Rectangle`
 
 **Problema:** Defina uma classe base `Shape` com um método `area()`, e duas subclasses, `Circle` e `Rectangle`, cada uma sobrescrevendo `area()` com a fórmula correta para aquela forma.
 
@@ -96,7 +96,7 @@ print(r.area())   # 24
 
 **Raciocínio.** `Circle(Shape)` e `Rectangle(Shape)` ambos declaram `Shape` como sua superclasse, ambos herdam dela. Nenhuma das duas subclasses poderia sensatamente reutilizar `Shape.area()` sem mudança (não há uma única fórmula que calcula tanto a área de um círculo quanto de um retângulo), então ambas a *sobrescrevem*, cada uma fornecendo sua própria implementação correta. Note, porém, o que cada subclasse não teve que reescrever: nenhuma precisou redeclarar que uma forma "tem um método `area`" como um conceito, `Shape` já estabelece que toda forma nessa hierarquia é esperada responder aquela pergunta, e o método `__init__` de cada subclasse (introduzido novo, não herdado, já que `Shape` nunca definiu um) configura quaisquer dados que a fórmula daquela forma particular precise. O próprio `Shape.area()`, deliberadamente deixado não implementado (levantando um erro se jamais chamado diretamente), sinaliza claramente que `Shape` por conta própria não é destinada a ser usada como uma forma completa, existe para ser estendida, não instanciada diretamente em uso comum.
 
-### Exemplo 2 — reutilizando um método herdado sem mudança, ao lado de um sobrescrito
+### Exemplo 2: reutilizando um método herdado sem mudança, ao lado de um sobrescrito
 
 **Problema:** Adicione um método `describe()` a `Shape` que tanto `Circle` quanto `Rectangle` deveriam compartilhar exatamente como escrito, sem diferença por forma.
 
@@ -111,7 +111,7 @@ class Shape:
 
 **Raciocínio.** `describe()` é escrito exatamente uma vez, em `Shape`, e nem `Circle` nem `Rectangle` precisa sobrescrevê-lo, ambos o herdam sem mudança, e chamar `c.describe()` ou `r.describe()` roda precisamente o mesmo código `Shape.describe` de qualquer forma. O que faz isso funcionar corretamente para ambas as subclasses apesar de ser escrito sem conhecimento de nenhuma delas especificamente é que `describe()` chama `self.area()`, e porque a busca de método para `area()` começa na própria classe do objeto *real* primeiro (o `area` de Circle, ou o `area` de Rectangle), `self.area()` dentro do `describe()` herdado corretamente pega qualquer que seja a sobrescrita da subclasse que se aplica ao objeto real no qual foi chamado, não a própria versão (não implementada) de `Shape`. Esse é o mecanismo, funcionando exatamente como pretendido: reúso para o comportamento idêntico (`describe`), uma sobrescrita seletiva para o comportamento que genuinamente difere (`area`), combinados perfeitamente nos mesmos objetos.
 
-### Exemplo 3 — o problema da classe base frágil, demonstrado concretamente
+### Exemplo 3: o problema da classe base frágil, demonstrado concretamente
 
 **Problema:** Mostre um caso concreto onde uma mudança aparentemente razoável a `Shape` silenciosamente quebra uma subclasse que nunca foi tocada.
 
@@ -134,7 +134,7 @@ class Square(Shape):
 
 
 sq = Square(4)
-print(sq.scaled_area(2))   # 32 — correto, confiado em outro lugar em um programa maior
+print(sq.scaled_area(2))   # 32: correto, confiado em outro lugar em um programa maior
 ```
 
 ```python
@@ -147,12 +147,12 @@ class Shape:
     def scaled_area(self, factor):
         return self.area() * factor * factor   # mudado: agora eleva o fator ao quadrado também
                                                   # (correto para um NOVO caso de uso envolvendo
-                                                  # escala linear das dimensões de uma forma —
+                                                  # escala linear das dimensões de uma forma,
                                                   # mas ninguém verificou chamadores existentes)
 
 
 sq = Square(4)
-print(sq.scaled_area(2))   # agora 64 — silenciosamente diferente, o próprio código de Square nunca mudou
+print(sq.scaled_area(2))   # agora 64: silenciosamente diferente, o próprio código de Square nunca mudou
 ```
 
 **Raciocínio.** `Square` nunca foi modificada, nem uma linha de seu próprio código mudou entre as duas versões acima, ainda assim `sq.scaled_area(2)` silenciosamente produziu uma resposta diferente, puramente porque `Shape`, a classe que `Square` estende, mudou por baixo dela. Quem quer que tenha modificado `Shape.scaled_area` pode muito bem ter tido uma razão perfeitamente boa (combinando com um caso de uso genuinamente diferente em outro lugar), e pode nem sequer ter sabido que `Square`, ou qualquer outra subclasse, sequer existia. Isso é precisamente o problema da classe base frágil enunciado na Teoria Central tornado concreto: a correção de `Square` acabou dependendo do *comportamento interno exato* de um método herdado, não meramente de algum contrato estável, documentado, e essa dependência quebrou sem nenhum aviso no próprio local de chamada de `Square`. A lição não é "nunca use herança", os Exemplos 1 e 2 mostram benefícios reais, funcionando, mas que o acoplamento que cria é real e vale a pena nomear honestamente, não tratado como uma forma de reúso de código puramente sem custo.
@@ -170,5 +170,5 @@ Herança permite que uma subclasse estenda uma superclasse, ganhando automaticam
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

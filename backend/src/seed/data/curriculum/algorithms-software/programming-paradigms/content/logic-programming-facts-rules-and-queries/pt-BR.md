@@ -75,7 +75,7 @@ Note que a consulta `?- grandparent(tom, ann).` enuncia um relacionamento a chec
 
 **Uma nota sobre linguagem:** todo outro conceito nesta disciplina usa Python ao longo, para manter uma única linguagem consistente através da trilha. Programação lógica é uma exceção deliberada, explícita, Python não tem unificação embutida ou busca com retrocesso, então não consegue demonstrar honestamente o que uma consulta de fato faz. O exemplo abaixo usa sintaxe Prolog real em vez disso, claramente rotulada como tal, porque este é o único lugar nesta disciplina onde ir além do Python é genuinamente justificado.
 
-### Exemplo 1 — uma pequena base de fatos de árvore genealógica, consultada por avós
+### Exemplo 1: uma pequena base de fatos de árvore genealógica, consultada por avós
 
 **Problema (Prolog).** Dada a base de fatos:
 
@@ -91,17 +91,17 @@ grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
 
 Rastreie a consulta `?- grandparent(tom, X).`, perguntando por todo `X` tal que tom é avô de `X`.
 
-**Passo 1 — unifique a consulta contra a cabeça da regra.** `grandparent(tom, X)` se unifica com `grandparent(X', Z')` (renomeando as variáveis da própria regra para evitar conflito com o `X` da consulta), vinculando `X' = tom` e `Z' = X` (o `X` da consulta, ainda não vinculado). O corpo da regra se torna o objetivo novo: `parent(tom, Y), parent(Y, X)`.
+**Passo 1: unifique a consulta contra a cabeça da regra.** `grandparent(tom, X)` se unifica com `grandparent(X', Z')` (renomeando as variáveis da própria regra para evitar conflito com o `X` da consulta), vinculando `X' = tom` e `Z' = X` (o `X` da consulta, ainda não vinculado). O corpo da regra se torna o objetivo novo: `parent(tom, Y), parent(Y, X)`.
 
-**Passo 2 — resolva `parent(tom, Y)`.** O motor varre a base de fatos de cima para baixo. `parent(tom, bob).` é o primeiro casamento, vinculando `Y = bob`.
+**Passo 2: resolva `parent(tom, Y)`.** O motor varre a base de fatos de cima para baixo. `parent(tom, bob).` é o primeiro casamento, vinculando `Y = bob`.
 
-**Passo 3 — resolva `parent(bob, X)` com `Y = bob`.** Varrendo de novo, `parent(bob, ann).` casa primeiro, vinculando `X = ann`. Ambos os objetivos do corpo agora estão satisfeitos, então a consulta é bem-sucedida com **`X = ann`**, relatada como a primeira solução.
+**Passo 3: resolva `parent(bob, X)` com `Y = bob`.** Varrendo de novo, `parent(bob, ann).` casa primeiro, vinculando `X = ann`. Ambos os objetivos do corpo agora estão satisfeitos, então a consulta é bem-sucedida com **`X = ann`**, relatada como a primeira solução.
 
-**Passo 4 — retroceda por mais soluções.** Como a consulta pediu para encontrar `X`, não só checar um, Prolog pode retroceder: desfazer a última vinculação e procurar outro fato que também satisfaça `parent(bob, X)`. `parent(bob, pat).` também casa, dando uma segunda solução, **`X = pat`**.
+**Passo 4: retroceda por mais soluções.** Como a consulta pediu para encontrar `X`, não só checar um, Prolog pode retroceder: desfazer a última vinculação e procurar outro fato que também satisfaça `parent(bob, X)`. `parent(bob, pat).` também casa, dando uma segunda solução, **`X = pat`**.
 
-**Passo 5 — retroceda mais.** Desfazendo mais para trás, o motor procura outra forma de satisfazer `parent(tom, Y)` além de `Y = bob`. `parent(tom, liz).` casa a seguir, vinculando `Y = liz`. Agora tenta `parent(liz, X)`, e nenhum fato na base tem `liz` como primeiro argumento, então este ramo falha, e não há terceira solução. A resposta completa a `?- grandparent(tom, X).` é **X = ann, X = pat**, os dois netos corretamente derivados dos fatos armazenados, encontrados inteiramente por unificação e retrocesso, sem um único laço explícito escrito pelo programador.
+**Passo 5: retroceda mais.** Desfazendo mais para trás, o motor procura outra forma de satisfazer `parent(tom, Y)` além de `Y = bob`. `parent(tom, liz).` casa a seguir, vinculando `Y = liz`. Agora tenta `parent(liz, X)`, e nenhum fato na base tem `liz` como primeiro argumento, então este ramo falha, e não há terceira solução. A resposta completa a `?- grandparent(tom, X).` é **X = ann, X = pat**, os dois netos corretamente derivados dos fatos armazenados, encontrados inteiramente por unificação e retrocesso, sem um único laço explícito escrito pelo programador.
 
-### Exemplo 2 — uma regra com duas cláusulas casando (irmãos)
+### Exemplo 2: uma regra com duas cláusulas casando (irmãos)
 
 **Problema (Prolog).** Adicione uma regra para `sibling`: duas pessoas são irmãos se compartilham um pai (e não são a mesma pessoa).
 
@@ -113,7 +113,7 @@ Consulta `?- sibling(ann, pat).`
 
 **Rastro.** Unificar a consulta com a cabeça da regra vincula `X = ann`, `Y = pat`. O corpo precisa de algum `P` com `parent(P, ann)` e `parent(P, pat)`, mais a checagem `ann \= pat` (não iguais). Varrendo fatos por `parent(P, ann)`: `parent(bob, ann).` casa, vinculando `P = bob`. Agora checa `parent(bob, pat)`, sim, é um fato armazenado. Por fim, `ann \= pat` vale (são constantes diferentes). Os três objetivos do corpo são bem-sucedidos, então `?- sibling(ann, pat).` é bem-sucedida. Note que a consulta nunca mencionou `bob` de forma alguma, o pai compartilhado `P` foi encontrado puramente através de unificação contra a base de fatos, exatamente o tipo de busca de relacionamento que exigiria laços aninhados explícitos e checagens de igualdade em uma linguagem imperativa.
 
-### Exemplo 3 — uma consulta que falha, e por que a falha ainda é informativa
+### Exemplo 3: uma consulta que falha, e por que a falha ainda é informativa
 
 **Problema (Prolog).** Consulta `?- grandparent(bob, tom).` contra a mesma base de fatos.
 
@@ -133,5 +133,5 @@ Um programa lógico é um banco de dados de **fatos** (afirmações incondiciona
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
-- [Stanford CS242 — Course Site](https://stanford-cs242.github.io/f19/) — doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc
+- [Stanford CS242: Course Site](https://stanford-cs242.github.io/f19/): doc

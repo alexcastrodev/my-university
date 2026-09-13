@@ -75,7 +75,7 @@ O caso base, o caso recursivo, o salto de fé, e a mecânica de pilha de chamada
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — somando uma lista, imperativo vs. puramente recursivo, rastreados lado a lado
+### Exemplo 1: somando uma lista, imperativo vs. puramente recursivo, rastreados lado a lado
 
 **Problema:** calcule a soma de `[3, 1, 4, 1]` das duas formas, e confirme exatamente onde o "total corrente" de cada versão fisicamente vive.
 
@@ -111,7 +111,7 @@ sum_recursive([3, 1, 4, 1])
 
 Ambos chegam a `9`. O rastro imperativo mostra um nome (`total`) assumindo cinco valores diferentes ao longo do tempo; o rastro recursivo mostra cinco valores de retorno distintos, nunca mudando (`0`, `1`, `5`, `6`, `9`) aninhados uns dentro dos outros, nenhum deles jamais reatribuído depois de ser calculado.
 
-### Exemplo 2 — contando elementos que satisfazem uma condição, sem mutação
+### Exemplo 2: contando elementos que satisfazem uma condição, sem mutação
 
 **Problema:** conte quantos números em uma lista são negativos, usando uma abordagem puramente recursiva, sem variável acumuladora, sem laço.
 
@@ -127,7 +127,7 @@ count_negative([3, -2, -5, 7, -1])   # 3
 
 `first_contributes` é um valor local novo calculado uma vez por chamada a partir do próprio `numbers[0]` daquela chamada, nunca é mutado, só lido uma vez e usado na soma que produz o valor de retorno desta chamada. A "contagem até agora" que uma versão imperativa manteria em uma variável mutável através das iterações do laço é, aqui, simplesmente o valor que cada chamada recursiva menor retorna, somado pelo nível acima dela, combinando exatamente com a forma de `sum_recursive`, com um condicional no lugar de uma soma direta.
 
-### Exemplo 3 — construindo uma lista nova sem mutação, no lugar de acumulação baseada em `append`
+### Exemplo 3: construindo uma lista nova sem mutação, no lugar de acumulação baseada em `append`
 
 **Problema:** dobre todo número em uma lista, puramente recursivamente, sem nenhum padrão `result = []; result.append(...)` em lugar nenhum.
 
@@ -167,5 +167,5 @@ A própria mecânica da recursão, caso base, caso recursivo, a pilha de chamada
 
 ## Documentation Links
 
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc

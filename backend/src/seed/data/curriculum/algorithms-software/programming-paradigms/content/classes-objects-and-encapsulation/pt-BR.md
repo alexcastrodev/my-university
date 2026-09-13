@@ -50,7 +50,7 @@ Antes de classes, em um estilo puramente imperativo, dados (digamos, um dicioná
 graph LR
     Caller["Código chamador"] -->|"account.deposit(50)"| M["método deposit()\n(verifica: amount > 0)"]
     M -->|"se válido"| D["balance (privado)"]
-    Caller -.->|"account.balance = -999\n(BLOQUEADO — sem acesso direto)"| D
+    Caller -.->|"account.balance = -999\n(BLOQUEADO: sem acesso direto)"| D
 ```
 
 ### Conectando de volta ao TAD: qual peça desempenha qual papel
@@ -59,7 +59,7 @@ Mapeado diretamente no vocabulário de TAD já estabelecido: o conjunto de méto
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma classe `BankAccount` aplicando um invariante real
+### Exemplo 1: uma classe `BankAccount` aplicando um invariante real
 
 **Problema:** Modele uma conta bancária com um saldo que nunca deve ficar negativo. Mostre concretamente por que encapsulamento, não só documentação, é o que faz esse invariante valer.
 
@@ -92,30 +92,30 @@ class BankAccount:
 acc = BankAccount(100)
 acc.deposit(50)          # saldo: 150
 acc.withdraw(30)          # saldo: 120
-acc.withdraw(9999)        # levanta ValueError: insufficient funds — saldo permanece 120
+acc.withdraw(9999)        # levanta ValueError: insufficient funds: saldo permanece 120
 ```
 
 **Raciocínio.** O invariante, "saldo nunca fica negativo", vive inteiramente dentro da verificação `if amount > self._balance` de `withdraw`. Todo único caminho pelo qual `_balance` pode mudar (há exatamente um método que o diminui, `withdraw`, e exatamente um que o aumenta, `deposit`) passa por código que pode recusar a mudança. Agora considere o que aconteceria sem encapsulamento, com `balance` como um atributo comum, diretamente acessível, e nenhum método afinal: qualquer chamador poderia simplesmente escrever `acc.balance = acc.balance - 9999`, e a "conta" iria silenciosamente para −9879, sem que nada no programa jamais tivesse verificado se isso era permitido. O invariante nunca foi de fato uma propriedade dos dados, um número simples pode ser qualquer coisa, é uma propriedade do *caminho de código* pelo qual os dados são forçados a passar, e encapsulamento é precisamente o mecanismo que força toda mudança através daquele caminho. Note também que `__init__` (o método que roda quando um novo objeto `BankAccount` é instanciado) aplica o mesmo invariante no momento da criação, então vale desde o primeiríssimo momento em que o objeto existe.
 
-### Exemplo 2 — comparando uma classe encapsulada com a versão não aplicada
+### Exemplo 2: comparando uma classe encapsulada com a versão não aplicada
 
 **Problema:** Reescreva `BankAccount` sem encapsulamento, um simples mantenedor de dado com o saldo diretamente exposto, e mostre um caso concreto onde o invariante quebra.
 
 ```python
 class UnprotectedAccount:
     def __init__(self, opening_balance=0):
-        self.balance = opening_balance   # público — diretamente acessível de fora
+        self.balance = opening_balance   # público: diretamente acessível de fora
 ```
 
 ```python
 acc = UnprotectedAccount(100)
 acc.balance = acc.balance - 9999   # nada impede isso
-print(acc.balance)                  # -9899 — o invariante está quebrado
+print(acc.balance)                  # -9899: o invariante está quebrado
 ```
 
 **Raciocínio.** `UnprotectedAccount` ainda é, tecnicamente, "uma classe" no sentido simples da Teoria Central (empacota um nome, `balance`, com um objeto), mas não aplica absolutamente nada, porque não há nenhum método entre um chamador e os dados; o chamador escreve diretamente em `balance` e a classe não tem oportunidade de objetar. Essa é a demonstração direta, concreta, de por que encapsulamento está fazendo trabalho real, não meramente fornecendo sintaxe mais arrumada: `BankAccount` e `UnprotectedAccount` mantêm o pedaço de dado idêntico (um número), mas só uma delas pode garantir, como uma questão de fato demonstrável sobre o código, que o número nunca fica negativo. A outra só pode pedir, por convenção ou comentário, que chamadores se comportem.
 
-### Exemplo 3 — uma segunda classe pequena para generalizar o padrão: `Rectangle` com um atributo derivado, sempre consistente
+### Exemplo 3: uma segunda classe pequena para generalizar o padrão: `Rectangle` com um atributo derivado, sempre consistente
 
 **Problema:** Modele um retângulo por sua largura e altura, com uma `area` acessível a chamadores, mas nunca armazenável como um número bruto que um chamador poderia definir inconsistentemente com a largura e altura reais.
 
@@ -128,7 +128,7 @@ class Rectangle:
         self._height = height
 
     def area(self):
-        return self._width * self._height   # sempre calculado fresco — nunca obsoleto
+        return self._width * self._height   # sempre calculado fresco: nunca obsoleto
 
     def resize(self, width, height):
         if width <= 0 or height <= 0:
@@ -152,5 +152,5 @@ Uma classe empacota dados (atributos) e as operações sobre esses dados (métod
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

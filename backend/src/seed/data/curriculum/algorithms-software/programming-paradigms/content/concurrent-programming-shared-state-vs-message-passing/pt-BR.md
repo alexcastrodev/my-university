@@ -43,7 +43,7 @@ sequenceDiagram
     T2->>T2: calcula 5 + 1 = 6
     T1->>C: escreve 6
     T2->>C: escreve 6
-    Note over C: contador termina em 6, não 7 — um incremento foi perdido
+    Note over C: contador termina em 6, não 7: um incremento foi perdido
 ```
 
 Concorrência de estado compartilhado requer alguma forma de coordenação para prevenir esse tipo de conflito, no mínimo, algum acordo sobre qual tarefa tem permissão de tocar memória compartilhada em um dado momento. A mecânica de *como* aquela coordenação é de fato implementada (locks, mutexes, e o resto) é um tópico em nível de sistemas para outro lugar; o ponto a levar deste modelo é o trade-off subjacente: estado compartilhado dá às tarefas acesso direto, rápido, natural a dados comuns, ao preço de precisar de disciplina explícita para impedi-las de pisar umas nas outras.
@@ -59,7 +59,7 @@ sequenceDiagram
     participant P1 as Processo 1 (contador próprio = 5)
     participant P2 as Processo 2 (contador próprio = 12)
     P1->>P2: mensagem: "qual sua contagem?"
-    P2->>P2: lê seu PRÓPRIO contador (12) — nenhum outro processo o toca
+    P2->>P2: lê seu PRÓPRIO contador (12): nenhum outro processo o toca
     P2->>P1: mensagem: "12"
     Note over P1,P2: o estado de cada processo é privado;<br/>coordenação acontece só através de mensagens, nunca memória compartilhada
 ```
@@ -72,7 +72,7 @@ Os dois modelos diferem em exatamente uma suposição fundacional, memória é c
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma corrida de estado compartilhado, tornada concreta em Python
+### Exemplo 1: uma corrida de estado compartilhado, tornada concreta em Python
 
 **Problema.** Mostre, conceitualmente, por que duas threads incrementando um contador compartilhado sem coordenação podem produzir um total final errado.
 
@@ -88,7 +88,7 @@ def increment_many(times):
 # Conceitualmente: duas threads ambas chamam increment_many(100_000)
 # ao mesmo tempo, compartilhando a mesma variável `counter`.
 #
-# Se os passos de leitura/escrita das duas threads se intercalarem — ex.
+# Se os passos de leitura/escrita das duas threads se intercalarem: ex.
 #   thread A lê counter (500)
 #   thread B lê counter (500)      <- antes de a escrita de A aterrissar
 #   thread A escreve 501
@@ -96,7 +96,7 @@ def increment_many(times):
 # então um dos dois incrementos é silenciosamente perdido.
 #
 # Rode incrementos intercalados o bastante assim e o valor final
-# do contador termina MENOR que 200_000 — a quantidade exata
+# do contador termina MENOR que 200_000: a quantidade exata
 # perdida depende do timing exato, imprevisível, da
 # intercalação, que é precisamente o que torna condições de
 # corrida difíceis de reproduzir e depurar.
@@ -104,7 +104,7 @@ def increment_many(times):
 
 **Raciocínio.** Cada linha individual de Python aqui é comum, ler um valor, somar um, escrever de volta. O bug existe só na possibilidade de a leitura de outra thread acontecer de aterrissar no intervalo entre a leitura desta thread e sua escrita. Nada sobre a *mecânica* de prevenir isso (locks, operações atômicas) é o ponto deste exemplo; o ponto é reconhecer que estado compartilhado, mutável acessado por mais de uma tarefa ao mesmo tempo cria exatamente essa categoria de risco, puramente a partir do *modelo* sendo usado, independente de qual ferramenta de coordenação específica depois o corrigiria.
 
-### Exemplo 2 — a mesma tarefa, reformulada como passagem de mensagens
+### Exemplo 2: a mesma tarefa, reformulada como passagem de mensagens
 
 **Problema.** Mostre o mesmo objetivo de "contagem total através de dois trabalhadores", mas estruturado de forma que nenhuma memória seja jamais compartilhada.
 
@@ -112,7 +112,7 @@ def increment_many(times):
 # Cada "trabalhador" possui seu próprio estado privado por completo.
 class Worker:
     def __init__(self):
-        self.count = 0          # privado — nenhum outro worker jamais toca isso
+        self.count = 0          # privado: nenhum outro worker jamais toca isso
 
     def handle_message(self, message):
         if message == "increment":
@@ -135,7 +135,7 @@ for _ in range(100_000):
     worker_b.handle_message("increment")
 
 total = worker_a.handle_message("report") + worker_b.handle_message("report")
-# total é confiavelmente 200_000 — não importa como o processamento
+# total é confiavelmente 200_000: não importa como o processamento
 # de mensagens dos dois workers acontece de se intercalar em um
 # runtime concorrente real, porque worker_a.count e worker_b.count
 # nunca são a mesma memória, e cada um só é jamais modificado
@@ -158,5 +158,5 @@ Programação concorrente significa mais de uma tarefa fazendo progresso sobre t
 
 ## Documentation Links
 
-- [Stanford CS242 — Course Site](https://stanford-cs242.github.io/f19/) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [Stanford CS242: Course Site](https://stanford-cs242.github.io/f19/): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

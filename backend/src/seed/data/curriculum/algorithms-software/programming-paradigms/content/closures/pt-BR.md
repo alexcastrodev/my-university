@@ -109,7 +109,7 @@ já é ela mesma um exemplo de closure, só sem o vocabulário associado ainda. 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — `make_counter`, rastreado chamada por chamada
+### Exemplo 1: `make_counter`, rastreado chamada por chamada
 
 **Problema:** confirme, passo a passo, que dois contadores criados da mesma função fábrica são genuinamente independentes.
 
@@ -134,7 +134,7 @@ print(b())   # 2   -- count de b: 1 -> 2
 
 Cada chamada a `make_counter()` executa o corpo do zero, criando um `count = 0` inteiramente novo e uma closure `increment` nova ligada àquele `count` específico. `a` e `b` nunca interagem, porque foram construídos a partir de duas chamadas separadas a `make_counter`, cada uma com sua própria variável capturada, confirmando que uma closure captura uma *instância* específica de uma variável, não um slot compartilhado reutilizado por toda closure criada da mesma fábrica.
 
-### Exemplo 2 — um validador configurável construído com uma closure
+### Exemplo 2: um validador configurável construído com uma closure
 
 **Problema:** construa uma família de funções de validação, cada uma verificando que um número cai dentro de sua própria faixa específica, sem escrever uma função nomeada separada para cada faixa necessária.
 
@@ -155,7 +155,7 @@ print(is_valid_percentage(150))  # False
 
 `is_valid_age` e `is_valid_percentage` são ambas closures sobre `validate`, cada uma capturando seus próprios `low` e `high` da chamada específica a `make_range_validator` que a criou. Este é o retorno direto prometido na seção de Contexto e Motivação: uma função de ordem superior (`make_range_validator`) retorna uma função customizada, e uma closure é exatamente o que permite que aquela customização (o par específico `low`/`high`) viaje junto com a função retornada.
 
-### Exemplo 3 — uma closure usada como callback de `map`, unindo os dois conceitos
+### Exemplo 3: uma closure usada como callback de `map`, unindo os dois conceitos
 
 **Problema:** dada uma lista de preços, aplique um desconto específico e configurável a cada um, usando `map` com uma closure como função de mapeamento.
 
@@ -188,5 +188,5 @@ Uma closure é uma função que retém acesso a variáveis do escopo em que foi 
 
 ## Documentation Links
 
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc

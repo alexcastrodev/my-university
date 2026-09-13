@@ -48,7 +48,7 @@ Vale a pena ser explícito, aqui, sobre com o que o estilo imperativo especifica
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — somando uma lista, da forma imperativa
+### Exemplo 1: somando uma lista, da forma imperativa
 
 **Problema:** Dada uma lista de números, calcule sua soma, usando construções imperativas explícitas (um acumulador mutável e um laço).
 
@@ -64,7 +64,7 @@ def sum_list(numbers):
 
 | Passo | `x` | `total` antes | `total` depois |
 |---|---|---|---|
-| início | — | — | 0 |
+| início |: |: | 0 |
 | 1 | 3 | 0 | 3 |
 | 2 | 7 | 3 | 10 |
 | 3 | 2 | 10 | 12 |
@@ -72,7 +72,7 @@ def sum_list(numbers):
 
 **Raciocínio.** Note o que o rastreamento de fato mostra: `total` não é uma coisa fixa única, é uma localização de armazenamento cujo conteúdo muda quatro vezes separadas ao longo da execução dessa única chamada de função. A resposta final, 21, não é o resultado de avaliar alguma expressão única; é o que quer que `total` aconteça de manter no momento em que o laço termina. Esse é o padrão acumulador em sua forma mais pura, e vale a pena reter esse rastreamento exato: um conceito posterior no tópico de Programação Funcional desta disciplina resolve esse problema idêntico, mesma entrada, mesma saída, 21, usando uma única expressão de redução, sem nenhuma variável jamais atribuída mais de uma vez e nenhuma tabela de estados "antes/depois" necessária para entendê-la. Mantenha esse rastreamento em mente como o ponto de comparação quando aquele conceito chegar.
 
-### Exemplo 2 — encontrando o máximo, com mutação condicional explícita
+### Exemplo 2: encontrando o máximo, com mutação condicional explícita
 
 **Problema:** Dada uma lista não vazia de números, encontre o maior imperativamente.
 
@@ -87,7 +87,7 @@ def find_max(numbers):
 
 **Raciocínio.** Este exemplo torna visível um segundo ingrediente imperativo ao lado do padrão acumulador: mutação condicional. A instrução `best = x` não roda toda iteração, se roda afinal depende do valor *atual* de `best`, que é ele próprio o resultado acumulado das decisões de toda iteração anterior. Rastreando `[3, 7, 2, 9]`: `best` começa em 3; ao ver 7 (7 > 3), `best` se torna 7; ao ver 2 (2 > 7 é falso), `best` permanece 7; ao ver 9 (9 > 7), `best` se torna 9. A condição de ramificação `x > best` só é significativa porque `best` carrega histórico para frente de iterações anteriores, remova a noção de estado mutável, carregado adiante, e a condição `x > best` para de fazer sentido como algo que pode diferir de uma iteração para a próxima.
 
-### Exemplo 3 — o mesmo laço, escrito com `while` em vez de `for`, para expor a mutação da própria variável de laço
+### Exemplo 3: o mesmo laço, escrito com `while` em vez de `for`, para expor a mutação da própria variável de laço
 
 **Problema:** Reescreva a soma do Exemplo 1 usando um índice explícito e um laço `while`, para tornar visível a mutação da própria variável de controle de laço (um laço `for`-sobre-uma-lista em Python esconde esse detalhe).
 
@@ -116,5 +116,5 @@ Programação imperativa é o paradigma no qual todo programa anterior neste cur
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

@@ -148,7 +148,7 @@ Isso se lê notavelmente próximo de código genuíno de ADT-mais-pattern-match 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — casando estrutura aninhada de lista/tupla com vinculação
+### Exemplo 1: casando estrutura aninhada de lista/tupla com vinculação
 
 **Problema:** dada uma lista de comandos, cada um ou `("move", dx, dy)` ou `("say", text)`, processe cada um de acordo com sua forma.
 
@@ -172,7 +172,7 @@ for cmd in commands:
 
 Cada padrão `case` checa tanto o comprimento da tupla quanto o valor literal de seu primeiro elemento ("move" ou "say") em um passo, depois vincula as posições restantes (`dx, dy`, ou `text`) diretamente, uma única linha expressa o que uma versão manual precisaria de uma checagem de comprimento, uma comparação de índice 0, e atribuições de variável separadas para realizar.
 
-### Exemplo 2 — o equivalente manual `if/elif`, para comparação direta
+### Exemplo 2: o equivalente manual `if/elif`, para comparação direta
 
 **Problema:** escreva `process` do Exemplo 1 sem `match`, para ver exatamente o que pattern matching consolidou.
 
@@ -190,7 +190,7 @@ def process_if_elif(command):
 
 Toda condição que `match` fundiu em uma linha `case` está soletrada aqui como uma checagem `len(...)` separada, uma comparação de índice 0 separada, e uma atribuição de desempacotamento manual separada, três ideias por ramo em vez de uma. Ambas as funções se comportam identicamente em toda entrada da lista `commands` do Exemplo 1, confirmando que `match` mudou quão diretamente a lógica é expressa, não o que ela calcula.
 
-### Exemplo 3 — um ADT aproximado para uma árvore de expressão simples
+### Exemplo 3: um ADT aproximado para uma árvore de expressão simples
 
 **Problema:** represente uma pequena expressão aritmética como uma dentre três variantes, um número, ou uma adição/multiplicação de duas subexpressões, e avalie-a recursivamente usando `match`.
 
@@ -240,5 +240,5 @@ A instrução `match` do Python, adicionada na 3.10, fornece pattern matching es
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc

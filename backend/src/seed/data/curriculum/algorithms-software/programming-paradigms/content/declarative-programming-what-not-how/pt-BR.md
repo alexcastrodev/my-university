@@ -84,7 +84,7 @@ Muito poucas linguagens reais são puramente uma coisa ou outra. A maior parte d
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — SQL: uma consulta de filtro-e-projeção, e a liberdade de seu planejador de consultas
+### Exemplo 1: SQL: uma consulta de filtro-e-projeção, e a liberdade de seu planejador de consultas
 
 **Problema (SQL).** Dada uma tabela `users(id, name, age, city)` com um milhão de linhas e um índice existente em `age`, recupere os nomes de todos os usuários com mais de 18 anos.
 
@@ -94,7 +94,7 @@ SELECT name FROM users WHERE age > 18;
 
 **Raciocínio.** A consulta nomeia exatamente duas coisas: a projeção (`name`) e a condição de filtro (`age > 18`). Dado o índice existente em `age`, um planejador de consultas realista muito provavelmente escolheria uma varredura de índice, pular diretamente para a faixa de entradas de índice onde `age > 18`, depois buscar só os valores `name` daquelas linhas, em vez de varrer todo o milhão de linhas uma por uma. Se aquele índice não existisse, o planejador poderia em vez disso escolher uma varredura completa da tabela. De qualquer forma, o próprio texto SQL permanece completamente inalterado; a escolha de estratégia vive inteiramente no motor, informada por informação (o índice) que a consulta nunca precisou mencionar.
 
-### Exemplo 2 — a mesma consulta, tornada imperativa, para ver o que agora está fixo
+### Exemplo 2: a mesma consulta, tornada imperativa, para ver o que agora está fixo
 
 **Problema (Python).** Escreva o equivalente baseado em laço da consulta SQL do Exemplo 1, assumindo que `users_table` é uma lista de dicionários, e nomeie toda decisão que esta versão toma que a versão SQL deixou em aberto.
 
@@ -107,7 +107,7 @@ for row in users_table:            # decisão 1: iterar na ordem da lista, nenhu
 
 **Raciocínio.** Este código produz o conjunto idêntico de nomes da consulta SQL (módulo ordenação, que SQL também deixa não especificada a menos que um `ORDER BY` seja adicionado), mas se comprometeu, explícita e irreversivelmente sem edições adicionais, com um procedimento específico: varrer a lista inteira, na ordem em que está armazenada, checando uma linha de cada vez. Se `users_table` crescesse para conter um milhão de linhas e este laço se tornasse um problema de desempenho, *corrigi-lo* (adicionar uma estrutura de busca tipo índice, paralelizar a varredura) exigiria reescrever este código, enquanto a versão SQL poderia absorver exatamente essa mesma melhoria com o motor de banco de dados adicionando um índice, com o texto da consulta intocado.
 
-### Exemplo 3 — uma consulta com agrupamento, e o como que ela esconde
+### Exemplo 3: uma consulta com agrupamento, e o como que ela esconde
 
 **Problema (SQL).** Conte quantos usuários existem por cidade.
 
@@ -133,5 +133,5 @@ Programação declarativa significa descrever as propriedades que um resultado p
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc

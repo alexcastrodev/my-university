@@ -55,7 +55,7 @@ Comparar paradigmas no abstrato arrisca produzir uma lista de adjetivos (imperat
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — reconhecendo paradigma versus sintaxe
+### Exemplo 1: reconhecendo paradigma versus sintaxe
 
 **Problema:** Os dois trechos abaixo ambos imprimem os números de 1 a 5. Estão escritos no mesmo paradigma?
 
@@ -75,7 +75,7 @@ for i in range(1, 6):
 
 **Raciocínio.** Ambos os trechos são Python, mesma linguagem, e ambos produzem saída idêntica. Mas no nível de paradigma, ambos também são, de fato, imperativos: ambos descrevem uma sequência de instruções para ser realizada em ordem, e o Trecho A adicionalmente torna a mutação de estado completamente explícita (`i = i + 1` visivelmente muda o valor de uma variável armazenada entre iterações), enquanto o Trecho B esconde a mutação equivalente dentro da maquinaria `range`/`for`. Reconhecer "mesmo paradigma, sintaxe de superfície diferente" aqui é a direção fácil. A habilidade mais difícil, mais útil, introduzida propriamente no próximo conceito e desenvolvida através desta disciplina, é reconhecer quando dois trechos que também parecem superficialmente similares (ambos usam um `def` Python, ambos retornam um valor) na verdade estão escritos em paradigmas diferentes, porque um depende de mutar uma variável capturada de um escopo externo e o outro calcula seu resultado puramente a partir de seus argumentos.
 
-### Exemplo 2 — mesmo problema, esboçado em dois estilos de paradigma diferentes
+### Exemplo 2: mesmo problema, esboçado em dois estilos de paradigma diferentes
 
 **Problema:** Some os números na lista `[3, 7, 2, 9]`. Esboce a forma de uma solução em um estilo imperativo e em um estilo funcional, sem ainda se preocupar com sintaxe exata (ambos são desenvolvidos completamente em conceitos posteriores).
 
@@ -85,7 +85,7 @@ for i in range(1, 6):
 
 **Raciocínio.** Ambos os esboços calculam 21. Nenhum é "mais correto," o ponto de colocá-los lado a lado, no nível de esboços em vez de código funcionando, é notar que as próprias palavras necessárias para descrever cada abordagem são diferentes em tipo: uma é inescapavelmente sobre sequência e mudança ao longo do tempo, a outra é sobre um único valor sendo derivado de outro. Essa diferença de vocabulário não é um acidente estilístico; é o paradigma transparecendo. O próximo conceito nesta disciplina desenvolve a versão imperativa em código funcionando completo e nomeia seu traço definidor explicitamente; um conceito posterior no tópico de Programação Funcional faz o mesmo para a versão funcional.
 
-### Exemplo 3 — uma linguagem, dois paradigmas, o mesmo arquivo
+### Exemplo 3: uma linguagem, dois paradigmas, o mesmo arquivo
 
 **Problema:** É possível que um único programa pequeno contenha código escrito em dois paradigmas diferentes? Esboce por que isso é corriqueiro em linguagens modernas.
 
@@ -104,5 +104,5 @@ Um paradigma de programação é uma postura fundamental sobre o que um "passo" 
 
 ## Documentation Links
 
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
-- [ACM/IEEE CS2013 — Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/) — doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc
+- [ACM/IEEE CS2013: Programming Languages Knowledge Area](https://csed.acm.org/knowledge-areas-programming-languages-pl-cs2013-version/): doc

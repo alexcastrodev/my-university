@@ -83,7 +83,7 @@ O ganho prático mais profundo de pureza é o que às vezes é chamado **racioc�
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — a cilada do argumento-padrão-mutável, diagnosticada e consertada
+### Exemplo 1: a cilada do argumento-padrão-mutável, diagnosticada e consertada
 
 **Problema:** um auxiliar de log é destinado a registrar cada mensagem em uma lista e retornar aquela lista, mas chamadores estão vendo mensagens de chamadas não relacionadas misturadas juntas.
 
@@ -115,7 +115,7 @@ print(log_a is log_b)   # False
 
 Usar uma `tuple` imutável como o padrão remove a possibilidade de mutação acidental completamente, `tuple(history) + (msg,)` sempre constrói uma nova tupla, e o padrão vazio `()` é seguro para compartilhar através de chamadas porque nada jamais pode mutá-lo.
 
-### Exemplo 2 — função "mesma" pura vs. impura, lado a lado
+### Exemplo 2: função "mesma" pura vs. impura, lado a lado
 
 **Problema:** dada uma lista de temperaturas em Celsius, produza a mesma lista em Fahrenheit.
 
@@ -149,7 +149,7 @@ print(celsius)       # [0, 20, 100] -- completamente inalterada
 
 `to_fahrenheit_pure` pode ser chamada qualquer número de vezes em `celsius` e sempre retorna o mesmo resultado independente; nada sobre a própria `celsius`, ou qualquer outro código dependendo dela, jamais está em risco.
 
-### Exemplo 3 — testar uma função pura não exige nenhuma configuração afinal
+### Exemplo 3: testar uma função pura não exige nenhuma configuração afinal
 
 **Problema:** verifique que um cálculo de desconto está correto.
 
@@ -177,5 +177,5 @@ A saída de uma função pura depende só de seus argumentos, e chamá-la não p
 
 ## Documentation Links
 
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc

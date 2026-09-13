@@ -116,7 +116,7 @@ Um laço explícito nomeia uma variável acumuladora e a muta diretamente, o que
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — `map` usado isoladamente: convertendo unidades
+### Exemplo 1: `map` usado isoladamente: convertendo unidades
 
 **Problema:** dada uma lista de distâncias em milhas, converta cada uma para quilômetros.
 
@@ -128,7 +128,7 @@ print(kilometers)   # [1.60934, 8.0467, 42.16471, 160.934]
 
 `map` aplica a conversão a todo elemento independentemente; o valor convertido de nenhum elemento depende de qualquer outro, e a saída tem exatamente tantos elementos quanto a entrada, o formato definidor de uma operação `map`.
 
-### Exemplo 2 — `filter` usado isoladamente: validando um lote de registros
+### Exemplo 2: `filter` usado isoladamente: validando um lote de registros
 
 **Problema:** dada uma lista de idades, mantenha só as que representam adultos (18 ou mais).
 
@@ -140,7 +140,7 @@ print(adults)   # [22, 45, 30]
 
 `filter` aqui não faz nenhuma transformação afinal, todo valor que mantém passa inalterado; só decide, elemento por elemento, se aquele valor pertence à saída.
 
-### Exemplo 3 — `reduce` usado isoladamente: encontrando o máximo sem `max()`
+### Exemplo 3: `reduce` usado isoladamente: encontrando o máximo sem `max()`
 
 **Problema:** encontre o maior valor em uma lista usando `reduce` em vez do `max` embutido.
 
@@ -158,7 +158,7 @@ print(largest)   # 91
 
 Sem um argumento `initial` explícito, `reduce` usa o próprio primeiro elemento da sequência (`42`) como o acumulador inicial e dobra o resto um de cada vez, `bigger(42, 17)` → `42`, `bigger(42, 89)` → `89`, e assim por diante até que todo elemento tenha sido comparado exatamente uma vez. Isso demonstra a generalidade de `reduce`: não é só para somas ou produtos, mas para colapsar uma sequência via *qualquer* regra combinadora de dois argumentos, incluindo uma que descarta uma de suas duas entradas toda vez, como `bigger` faz.
 
-### Exemplo 4 — o pipeline completo, e seu gêmeo imperativo, lado a lado
+### Exemplo 4: o pipeline completo, e seu gêmeo imperativo, lado a lado
 
 **Problema:** dados totais de pedido, calcule a receita total de pedidos acima de $50, depois que um desconto de 10% é aplicado a cada um.
 
@@ -204,5 +204,5 @@ Uma função de ordem superior é aquela que recebe uma função como argumento,
 
 ## Documentation Links
 
-- [University of Washington / Coursera — Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages) — doc
-- [MIT SICP — Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs) — doc
+- [University of Washington / Coursera: Programming Languages, Part A (Grossman)](https://www.coursera.org/learn/programming-languages): doc
+- [MIT SICP: Wikipedia (course/book overview)](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs): doc
