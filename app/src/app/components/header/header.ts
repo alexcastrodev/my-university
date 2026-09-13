@@ -10,6 +10,7 @@ import {
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
+import { ThemeService } from '../../services/theme.service';
 import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
@@ -50,6 +51,7 @@ export class Header {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   protected languageService = inject(LanguageService);
+  protected themeService = inject(ThemeService);
   private router = inject(Router);
   private searchService = inject(SearchService);
   private elementRef = inject(ElementRef);
