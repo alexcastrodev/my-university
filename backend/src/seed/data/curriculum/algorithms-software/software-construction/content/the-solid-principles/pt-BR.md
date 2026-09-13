@@ -23,11 +23,11 @@ Com o conceito de acoplamento e coesão já coberto, o conteúdo real de SOLID �
 
 ### Os cinco princípios, nomeados e enunciados
 
-- **S — Princípio da Responsabilidade Única (SRP):** uma classe deveria ter apenas uma razão para mudar, ou seja, uma responsabilidade. Isso é coesão, enunciada como uma regra para classes especificamente: tudo dentro da fronteira de uma classe deveria pertencer ao mesmo único trabalho.
-- **O — Princípio Aberto/Fechado (OCP):** uma classe deveria ser aberta para extensão mas fechada para modificação, novo comportamento deveria ser adicionável sem editar o código existente, já testado, de uma classe que já funciona.
-- **L — Princípio de Substituição de Liskov (LSP):** um subtipo deve ser usável em qualquer lugar onde seu supertipo é esperado, sem que o chamador note uma diferença em correção, nomeado por Barbara Liskov, que primeiro enunciou esse requisito de substituibilidade formalmente.
-- **I — Princípio de Segregação de Interface (ISP):** clientes não deveriam ser forçados a depender de métodos que não usam, muitas interfaces pequenas, focadas, são melhores que uma interface grande que empacota capacidades não relacionadas juntas.
-- **D — Princípio de Inversão de Dependência (DIP):** módulos de alto nível (os que expressam política e regras de negócio) não deveriam depender de módulos de baixo nível (os que expressam detalhe de implementação) diretamente; ambos deveriam depender de uma abstração compartilhada em vez disso.
+- **S: Princípio da Responsabilidade Única (SRP):** uma classe deveria ter apenas uma razão para mudar, ou seja, uma responsabilidade. Isso é coesão, enunciada como uma regra para classes especificamente: tudo dentro da fronteira de uma classe deveria pertencer ao mesmo único trabalho.
+- **O: Princípio Aberto/Fechado (OCP):** uma classe deveria ser aberta para extensão mas fechada para modificação, novo comportamento deveria ser adicionável sem editar o código existente, já testado, de uma classe que já funciona.
+- **L: Princípio de Substituição de Liskov (LSP):** um subtipo deve ser usável em qualquer lugar onde seu supertipo é esperado, sem que o chamador note uma diferença em correção, nomeado por Barbara Liskov, que primeiro enunciou esse requisito de substituibilidade formalmente.
+- **I: Princípio de Segregação de Interface (ISP):** clientes não deveriam ser forçados a depender de métodos que não usam, muitas interfaces pequenas, focadas, são melhores que uma interface grande que empacota capacidades não relacionadas juntas.
+- **D: Princípio de Inversão de Dependência (DIP):** módulos de alto nível (os que expressam política e regras de negócio) não deveriam depender de módulos de baixo nível (os que expressam detalhe de implementação) diretamente; ambos deveriam depender de uma abstração compartilhada em vez disso.
 
 ### Por que todos os cinco se reduzem a acoplamento e coesão
 
@@ -49,7 +49,7 @@ graph TD
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Princípio da Responsabilidade Única, antes e depois
+### Exemplo 1: Princípio da Responsabilidade Única, antes e depois
 
 **Problema:** Uma classe `InvoiceProcessor` tanto calcula o total de uma fatura quanto formata a fatura para impressão, duas razões não relacionadas para mudar (uma nova regra de imposto vs. um novo layout de impressão) empacotadas em uma classe.
 
@@ -89,7 +89,7 @@ class InvoicePrinter:
 
 **Raciocínio.** Na versão "antes", uma mudança na fórmula de imposto/total e uma mudança no layout de impressão ambas pousam dentro de `InvoiceProcessor`, então uma mudança de layout de impressão arrisca acidentalmente tocar código de cálculo de total sentado bem ao lado dele na mesma classe (e vice-versa). Na versão "depois", `InvoiceCalculator` tem exatamente uma razão para mudar (como totais são calculados) e `InvoicePrinter` tem exatamente uma razão para mudar (como faturas são exibidas), isso é SRP, e é o teste de coesão idêntico do conceito de acoplamento e coesão, aplicado aqui especificamente a responsabilidades de classe.
 
-### Exemplo 2 — Princípio da Inversão de Dependência, antes e depois
+### Exemplo 2: Princípio da Inversão de Dependência, antes e depois
 
 **Problema:** Um `ReportGenerator` (política de alto nível: "produzir um relatório e salvá-lo") depende diretamente de um `MySQLWriter` concreto (detalhe de baixo nível: como bytes são persistidos), trocar mecanismos de armazenamento depois significa editar o próprio `ReportGenerator`.
 
@@ -153,5 +153,5 @@ SOLID é um conjunto de cinco diretrizes de design originadas na indústria, pri
 
 ## Documentation Links
 
-- [Texas A&M CSCE 315 — SOLID Principles Lecture Slides](https://people.engr.tamu.edu/choe/choe/courses/14summer/315/lectures/slide23.pdf) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [Texas A&M CSCE 315: SOLID Principles Lecture Slides](https://people.engr.tamu.edu/choe/choe/courses/14summer/315/lectures/slide23.pdf): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

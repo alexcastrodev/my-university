@@ -64,7 +64,7 @@ Porque esses três objetivos recorrem através do resto desta disciplina, vale a
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma única escolha de design, examinada através das três lentes
+### Exemplo 1: uma única escolha de design, examinada através das três lentes
 
 **Cenário.** Uma função calcula a média de uma lista de números:
 
@@ -103,7 +103,7 @@ def average(numbers):
 
 Nenhuma versão é incondicionalmente "melhor", a resposta certa depende do contexto. Se `average` é um auxiliar interno chamado só de três lugares já conhecidos por passar listas válidas, não vazias, a primeira versão é a melhor escolha de engenharia: as verificações defensivas na segunda versão estão pagando um custo de ETU por um benefício de SFB que o contexto chamador não precisa. Se `average` é uma função pública em uma biblioteca usada por chamadores que o autor não pode ver ou controlar, o custo de ETU da segunda versão vale a pena pagar pelo benefício de SFB de falhar alto em mau uso em vez de retornar um resultado errado ou travado em algum lugar longe do erro real. A lente não entrega a resposta, torna a troca visível para que você a decida de propósito.
 
-### Exemplo 2 — prontidão para mudança levada longe demais (generalidade especulativa)
+### Exemplo 2: prontidão para mudança levada longe demais (generalidade especulativa)
 
 **Cenário.** Uma equipe é pedida para escrever uma função que calcula imposto sobre vendas para um único estado dos EUA, com uma taxa fixa.
 
@@ -157,5 +157,5 @@ O MIT 6.031 organiza seu tratamento inteiro de construção de software em torno
 
 ## Documentation Links
 
-- [MIT 6.031 — General Info & FAQ (SFB/ETU/RFC objective)](https://web.mit.edu/6.031/www/sp17/general/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [MIT 6.031: General Info & FAQ (SFB/ETU/RFC objective)](https://web.mit.edu/6.031/www/sp17/general/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

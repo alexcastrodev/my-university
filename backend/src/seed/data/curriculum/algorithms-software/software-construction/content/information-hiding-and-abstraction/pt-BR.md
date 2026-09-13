@@ -59,7 +59,7 @@ Na prática, ocultação de informação é aplicada por uma interface explícit
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Trocando uma representação com a interface mantida estável
+### Exemplo 1: Trocando uma representação com a interface mantida estável
 
 **Problema:** Um módulo `UniqueCounter` precisa rastrear quais itens foram vistos e quantos itens únicos existem até agora. Versão 1 o apoia com uma lista Python, varrendo linearmente por associação. Requisitos depois exigem que isso escale para milhões de itens, então a implementação é trocada para um set, internamente hasheado, sem mudar um único chamador.
 
@@ -104,7 +104,7 @@ assert counter.unique_count() == 1
 
 **Raciocínio.** Todo chamador interage só com `record(item)` e `unique_count()`, e os contratos de ambas as operações (record retorna se o item era novo; unique_count retorna quantos itens distintos foram registrados) valem identicamente através de ambas as versões. A troca de uma lista para um set é exatamente o tipo de decisão que Parnas descreve: interna, e plausivelmente mudável por razões de desempenho. Porque `_seen` nunca foi exposto, nenhum chamador em lugar nenhum precisou ser tocado quando a representação mudou, o prefixo underscore é uma convenção sinalizando "essa é a parte escondida", e a única superfície pública da classe são os dois métodos.
 
-### Exemplo 2 — Um vazamento que quebra chamadores quando a representação muda
+### Exemplo 2: Um vazamento que quebra chamadores quando a representação muda
 
 **Problema:** A mesma ideia de `UniqueCounter`, mas escrita para vazar sua lista interna diretamente, e a consequência quando aquela representação interna depois precisa mudar.
 
@@ -136,7 +136,7 @@ print(counter.seen[0])                 # depende especificamente de indexação 
 
 **Raciocínio.** Três vazamentos separados são visíveis aqui, cada um fatal para uma mudança futura: o chamador ordena `seen` in place (assume que é uma sequência ordenada, mutável); o chamador anexa diretamente, silenciosamente corrompendo o invariante de "único" que `record()` era pra proteger (agora `unique_count()` pode contar em excesso, já que `append` nunca verificou duplicatas); e o chamador indexa nela (assume semântica de lista especificamente). Se `LeakyCounter` é depois mudado para apoiar `seen` com um `set()` por desempenho, exatamente a mudança feita com segurança no Exemplo 1, toda uma dessas linhas de chamador quebra: sets não são ordenados da mesma forma, não suportam `.append()`, e não suportam indexação inteira de forma alguma. O bug não é que a representação interna mudou; o bug é que a interface nunca de fato a escondeu, então não sobrou nenhuma fronteira para proteger ninguém.
 
-### Exemplo 3 — Escolhendo onde traçar a linha
+### Exemplo 3: Escolhendo onde traçar a linha
 
 **Problema:** Uma classe `Rectangle` precisa expor sua área. Dois designs candidatos: (A) expor `width` e `height` como atributos públicos e deixar chamadores calcularem `width * height` eles próprios; (B) esconder `width`/`height` como interno e expor um método `area()`.
 
@@ -174,5 +174,5 @@ Ocultação de informação, como articulada por Parnas, é a prática de decomp
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc

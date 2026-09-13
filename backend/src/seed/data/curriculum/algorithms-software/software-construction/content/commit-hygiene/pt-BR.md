@@ -40,7 +40,7 @@ Toda linha de código que mudou já é visível, precisa e não ambiguamente, no
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma mensagem pouco informativa versus uma que explica o raciocínio
+### Exemplo 1: uma mensagem pouco informativa versus uma que explica o raciocínio
 
 **Cenário:** a lógica de repetição em um cliente de processamento de pagamento é mudada de 3 tentativas para 5.
 
@@ -62,7 +62,7 @@ Increase payment API retry count from 3 to 5
 Under sustained load, the payment provider's own status page documents
 up to 4 seconds of transient 503 responses before recovering. At our
 current exponential backoff schedule (200ms, 400ms, 800ms), 3 retries
-only covers about 1.4 seconds of margin — not enough to ride out a
+only covers about 1.4 seconds of margin: not enough to ride out a
 typical transient outage. Bumped to 5 retries (up to ~6.2 seconds of
 margin) after confirming with the on-call payments engineer that this
 still stays under our own request-timeout budget of 10 seconds.
@@ -73,7 +73,7 @@ which line up exactly with provider-side 503 spikes in the logs.
 
 Ambas as mensagens ficam em cima do diff idêntico de uma linha. A versão A não diz a um leitor futuro nada que não pudesse já ver lendo o próprio diff, "fix stuff" nem sequer especifica qual dos dois números era o problema. A versão B responde toda pergunta que alguém revisitando essa linha meses depois de fato teria: por que 5 e não algum outro número, por que isso não arrisca violar o orçamento de timeout geral, e qual sintoma real, voltado ao usuário, motivou a mudança afinal, nada disso o diff poderia jamais mostrar por si só, não importa quanto tempo seja encarado.
 
-### Exemplo 2 — um commit empacotado versus dividi-lo em atômicos
+### Exemplo 2: um commit empacotado versus dividi-lo em atômicos
 
 **Cenário:** enquanto corrige um bug em `calculate_discount()`, um desenvolvedor também nota algum código não relacionado por perto que está formatado inconsistentemente, e reflexivamente o limpa na mesma sessão.
 
@@ -84,8 +84,8 @@ Mensagem: "fix discount bug and clean up code"
 
 Diff toca:
  - calculate_discount(): corrige um fora-por-um em um cálculo de porcentagem
- - format_receipt(): reformatado (espaço em branco, estilo de aspas) — não relacionado ao bug
- - apply_tax(): reformatado (espaço em branco) — também não relacionado
+ - format_receipt(): reformatado (espaço em branco, estilo de aspas): não relacionado ao bug
+ - apply_tax(): reformatado (espaço em branco): também não relacionado
 ```
 
 Três meses depois, a reformatação de `apply_tax()` acaba tendo introduzido uma mudança sutil em arredondamento de float que ninguém pegou em revisão porque estava enterrada entre 40 linhas de diff de espaço em branco não relacionado. Reverter só a regressão de arredondamento de imposto significa ou reverter esse commit inteiro, que também desfaz a correção correta do bug de desconto e a reformatação inofensiva do recibo, ou manualmente separar quais linhas pertencem a qual das três mudanças não relacionadas.
@@ -118,5 +118,5 @@ Um commit é melhor entendido como uma unidade de comunicação direcionada a um
 
 ## Documentation Links
 
-- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

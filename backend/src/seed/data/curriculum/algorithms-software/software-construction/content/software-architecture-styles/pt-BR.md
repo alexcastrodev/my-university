@@ -68,19 +68,19 @@ Ambos os estilos acima descrevem sistemas que podem, e muito frequentemente roda
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Reconhecendo cliente-servidor em um sistema familiar
+### Exemplo 1: Reconhecendo cliente-servidor em um sistema familiar
 
 **Problema:** Um app de previsão do tempo em um celular mostra a previsão atual. O próprio app não tem dados meteorológicos embutidos; envia uma requisição aos servidores de uma empresa de meteorologia toda vez que é aberto e exibe o que quer que volte. Identifique o estilo de arquitetura e sua troca neste cenário.
 
 **Raciocínio.** O app do celular é o **cliente**: inicia a requisição e não possui em si os dados meteorológicos autoritativos. Os servidores da empresa de meteorologia são o **servidor**: possuem o recurso compartilhado (dados meteorológicos atuais, coletados de muitas fontes) e respondem a requisições de potencialmente milhões de apps clientes de uma vez. Isso é cliente-servidor, e sua troca é visível imediatamente: se os servidores da empresa de meteorologia caem, todo app de celular mostrando a previsão daquela empresa é afetado simultaneamente, nenhum deles pode produzir uma previsão independentemente por conta própria, porque os dados de previsão nunca foram deles para começar, só do servidor.
 
-### Exemplo 2 — Reconhecendo camadas dentro de um serviço
+### Exemplo 2: Reconhecendo camadas dentro de um serviço
 
 **Problema:** O backend de uma livraria online trata uma requisição de "buscar por um livro" da seguinte forma: um manipulador HTTP recebe a requisição e a analisa; uma classe `SearchService` aplica regras de negócio (por exemplo, excluindo livros fora de estoque dos resultados principais); uma classe `BookRepository` consulta o banco de dados real e retorna linhas brutas. O manipulador HTTP nunca consulta o banco de dados diretamente, e o `BookRepository` nunca aplica regras de negócio. Identifique as camadas e explique o que o empilhamento estrito compra.
 
 **Raciocínio.** Três camadas são visíveis: o manipulador HTTP é a **camada de apresentação** (analisa a requisição recebida, formata a resposta enviada); `SearchService` é a **camada de lógica de negócio** (aplica as regras reais da loja sobre o que conta como um bom resultado de busca); `BookRepository` é a **camada de dados** (fala com o banco de dados, nada mais). Porque o manipulador HTTP nunca consulta o banco de dados diretamente, a *camada de dados pode ser trocada*, migrando de um mecanismo de banco de dados para outro, ou adicionando um cache na frente dele, mudando só `BookRepository`, sem nenhuma mudança necessária no manipulador HTTP ou `SearchService`. Porque `BookRepository` nunca aplica regras de negócio, uma mudança na política de exclusão de fora-de-estoque toca só `SearchService`. Cada camada tem exatamente uma razão para mudar, e cada uma depende só da camada diretamente abaixo dela, a mesma disciplina de acoplamento e coesão, agora aplicada na escala de um backend inteiro.
 
-### Exemplo 3 — Escolhendo entre (ou combinando) os dois estilos
+### Exemplo 3: Escolhendo entre (ou combinando) os dois estilos
 
 **Problema:** Uma equipe está construindo uma aplicação de anotações que deve suportar um cliente de navegador web, um cliente de app móvel, e (depois) um cliente desktop, todos compartilhando as mesmas anotações, mantidas sincronizadas. Internamente, o backend precisa de validação de entrada, regras de organização de anotação (pastas, tags), e armazenamento. Proponha uma arquitetura.
 
@@ -99,5 +99,5 @@ Estilos de arquitetura de software afastam o zoom do design de um único módulo
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

@@ -48,14 +48,14 @@ Esses custos não são igualmente prováveis para toda biblioteca candidata, que
 flowchart TD
     A["Biblioteca candidata"] --> B{"Ativamente mantida,\namplamente usada?"}
     B -->|"sim"| C{"O problema é genuinamente\ndifícil/bem resolvido?"}
-    B -->|"não"| D["Alto risco de abandono/segurança —\nreconsidere ou orce para fazer fork você mesmo"]
+    B -->|"não"| D["Alto risco de abandono/segurança:\nreconsidere ou orce para fazer fork você mesmo"]
     C -->|"sim"| E["Argumento forte para reutilização"]
     C -->|"não, é simples"| F["Pese: o custo contínuo da dependência\nvale a pena para algo\nsimples o suficiente para escrever diretamente?"]
 ```
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma decisão de reutilização claramente valendo a pena
+### Exemplo 1: uma decisão de reutilização claramente valendo a pena
 
 **Cenário:** uma equipe construindo um serviço web precisa analisar e validar corretamente timestamps ISO 8601 chegando de requisições de cliente, através de fusos horários, incluindo casos de borda como segundos bissextos e transições de horário de verão.
 
@@ -63,7 +63,7 @@ flowchart TD
 
 **Conclusão:** este é um caso claro para reutilização. A dependência de fato carrega custo real, contínuo, precisa ser mantida atualizada conforme dados de regra de fuso horário mudam, e seus próprios bugs se tornariam bugs desta equipe, mas esse custo é pequeno e bem entendido ao lado da quase certeza de que um analisador de timestamp caseiro embarcaria com bugs sutis de correção que uma biblioteca madura já resolveu.
 
-### Exemplo 2 — uma decisão de reutilização genuinamente arriscada
+### Exemplo 2: uma decisão de reutilização genuinamente arriscada
 
 **Cenário:** uma equipe precisa de uma função que verifica se um dado inteiro é par, e em vez de escrever `n % 2 == 0`, uma verificação de uma linha, trivialmente correta, completamente compreensível, alguém propõe puxar um pequeno pacote de terceiro, mal mantido, que expõe exatamente isso como sua funcionalidade inteira: uma função `is_even(n)` e nada mais.
 
@@ -71,7 +71,7 @@ flowchart TD
 
 **Conclusão:** este é um caso onde reutilização é um risco real, evitável, em vez de uma conveniência. O "problema resolvido" sendo reutilizado aqui nunca de fato foi difícil de resolver diretamente, então nenhum dos benefícios genuínos de reutilização, evitar bugs sutis em um problema difícil, evitar rederivar correção de nível especialista, se aplica, enquanto todo um de seus custos (bugs, superfície de segurança, risco de abandono) ainda se aplica.
 
-### Exemplo 3 — uma decisão genuinamente intermediária, trabalhada através dos critérios
+### Exemplo 3: uma decisão genuinamente intermediária, trabalhada através dos critérios
 
 **Cenário:** uma equipe precisa analisar e gerar arquivos PDF com formatação moderadamente complexa (imagens incorporadas, fontes customizadas, tabelas). Uma biblioteca candidata existe: razoavelmente popular, mas mantida por um único voluntário, com um punhado de issues abertas que ficaram sem resposta por mais de um ano.
 
@@ -93,5 +93,5 @@ Reutilização de software, construir sobre uma biblioteca existente em vez de e
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc

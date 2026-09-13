@@ -31,8 +31,8 @@ Essa mensurabilidade é genuinamente valiosa, transforma "testei os ramos comple
 ```mermaid
 flowchart TD
     A["def classify(x):"] --> B{"x > 0?"}
-    B -->|"True — testado por classify(5)"| C["return 'pos'"]
-    B -->|"False — NUNCA testado"| D["return 'nonpos'"]
+    B -->|"True: testado por classify(5)"| C["return 'pos'"]
+    B -->|"False: NUNCA testado"| D["return 'nonpos'"]
 ```
 
 Neste diagrama, chamar `classify(5)` sozinho dá 100% de cobertura de linha (toda linha na função rodou) mas só 50% de cobertura de ramo (só o ramo `True` do condicional foi jamais tomado), uma lacuna que cobertura de linha sozinha não pode revelar, já que só rastreia se a própria linha `if` executou, não para qual lado ramificou.
@@ -57,7 +57,7 @@ Usado corretamente, um relatório de cobertura é uma forma de encontrar lacunas
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — calculando cobertura de linha e ramo manualmente
+### Exemplo 1: calculando cobertura de linha e ramo manualmente
 
 **Função:**
 
@@ -84,7 +84,7 @@ assert sign(-3) == "negative"
 
 **Preenchendo a lacuna.** Adicionar `assert sign(0) == "zero"` exercita o ramo faltando, trazendo tanto cobertura de linha quanto de ramo para 100%.
 
-### Exemplo 2 — uma função completamente coberta com um bug não capturado
+### Exemplo 2: uma função completamente coberta com um bug não capturado
 
 **Função**, destinada a retornar o maior de dois números:
 
@@ -100,8 +100,8 @@ def maximum(a, b):
 
 ```python
 def test_maximum():
-    maximum(5, 3)    # exercita o ramo True de `a >= b` — nenhuma asserção
-    maximum(3, 5)    # exercita o ramo False de `a >= b` — nenhuma asserção
+    maximum(5, 3)    # exercita o ramo True de `a >= b`: nenhuma asserção
+    maximum(3, 5)    # exercita o ramo False de `a >= b`: nenhuma asserção
 ```
 
 **Resultado de cobertura.** Ambos os ramos do condicional `if a >= b` são exercitados, `maximum(5, 3)` toma o caminho `True`, `maximum(3, 5)` toma o caminho `False`, então essa suíte de teste relata 100% de cobertura de linha e 100% de cobertura de ramo. Mas nenhuma das chamadas tem uma asserção, então o bug (o ramo `else` incorretamente retorna `a` em vez de `b`) é completamente invisível: `maximum(3, 5)` de fato retorna `3`, que está errado (deveria retornar `5`), e a suíte de teste, apesar de tocar toda linha e todo ramo, nunca uma vez verifica isso. Cobertura alcançou 100% enquanto capturava nada, precisamente porque a métrica só registrou que a linha com bug *rodou*, nunca que seu *valor de retorno* estava errado. Adicionar as asserções faltando:
@@ -109,16 +109,16 @@ def test_maximum():
 ```python
 def test_maximum():
     assert maximum(5, 3) == 5    # ramo a >= b, verificado
-    assert maximum(3, 5) == 5    # ramo a < b — essa asserção FALHA, expondo o bug
+    assert maximum(3, 5) == 5    # ramo a < b: essa asserção FALHA, expondo o bug
 ```
 
 alcança a mesma exata cobertura de 100% de antes, mas dessa vez a segunda asserção falha imediatamente, porque `maximum(3, 5)` retorna `3` em vez do correto `5`. A porcentagem de cobertura não mudou nada entre as duas versões da suíte de teste; o que mudou, e o que de fato importou, foi se os testes verificaram o valor esperado certo uma vez que chegaram lá.
 
-### Exemplo 3 — lendo um relatório de cobertura para mirar novos testes
+### Exemplo 3: lendo um relatório de cobertura para mirar novos testes
 
-**Cenário:** uma ferramenta de cobertura relata que um módulo `discount_calculator` tem 92% de cobertura de linha no geral, mas sinaliza as linhas 14–17 (um ramo `elif` tratando um caso de "desconto por volume ≥ 100 unidades") como nunca executadas por nenhum teste.
+**Cenário:** uma ferramenta de cobertura relata que um módulo `discount_calculator` tem 92% de cobertura de linha no geral, mas sinaliza as linhas 14-17 (um ramo `elif` tratando um caso de "desconto por volume ≥ 100 unidades") como nunca executadas por nenhum teste.
 
-**Usando isso corretamente:** o relatório é tratado como uma lista de tarefas, escreva um teste que forneça 100 ou mais unidades especificamente para exercitar as linhas 14–17, já que essa é uma lacuna real, identificada, onde um defeito poderia estar se escondendo completamente despercebido. **Usando isso incorretamente** seria tratar 92% como "o módulo está basicamente bem" e parar ali, sem perguntar se os 92% que de fato rodaram foram jamais verificados contra valores esperados corretos em primeiro lugar, o que o próprio número de cobertura não tem como indicar de nenhuma forma.
+**Usando isso corretamente:** o relatório é tratado como uma lista de tarefas, escreva um teste que forneça 100 ou mais unidades especificamente para exercitar as linhas 14-17, já que essa é uma lacuna real, identificada, onde um defeito poderia estar se escondendo completamente despercebido. **Usando isso incorretamente** seria tratar 92% como "o módulo está basicamente bem" e parar ali, sem perguntar se os 92% que de fato rodaram foram jamais verificados contra valores esperados corretos em primeiro lugar, o que o próprio número de cobertura não tem como indicar de nenhuma forma.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -134,5 +134,5 @@ Cobertura de linha e cobertura de ramo são porcentagens mensuráveis, a fraçã
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

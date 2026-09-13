@@ -35,8 +35,8 @@ Bissecção assume um espaço de busca com uma estrutura específica: um ponto c
 ```mermaid
 flowchart TD
     A["Fronteira conhecida-ruim e conhecida-boa estabelecidas"] --> B["Teste o ponto médio do intervalo restante"]
-    B -->|"ponto médio é ruim"| C["Falha está na primeira metade — nova fronteira ruim = ponto médio"]
-    B -->|"ponto médio é bom"| D["Falha está na segunda metade — nova fronteira boa = ponto médio"]
+    B -->|"ponto médio é ruim"| C["Falha está na primeira metade: nova fronteira ruim = ponto médio"]
+    B -->|"ponto médio é bom"| D["Falha está na segunda metade: nova fronteira boa = ponto médio"]
     C --> E["Intervalo ainda maior que um item?"]
     D --> E
     E -->|"sim"| B
@@ -55,45 +55,45 @@ A ideia idêntica, aplicada a uma sequência de commits em vez de uma sequência
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — bisseccionando uma entrada grande para encontrar o registro que quebra um analisador
+### Exemplo 1: bisseccionando uma entrada grande para encontrar o registro que quebra um analisador
 
 **Problema:** Uma função de análise de CSV trava no meio de um arquivo de 100.000 linhas com um erro críptico. Rodar o arquivo inteiro e ler o stack trace não identificou qual linha está malformada.
 
-**Passo 1 — reproduza confiavelmente.** Confirme que o travamento acontece toda vez neste exato arquivo (acontece, não é intermitente), então bissecção é válida.
+**Passo 1: reproduza confiavelmente.** Confirme que o travamento acontece toda vez neste exato arquivo (acontece, não é intermitente), então bissecção é válida.
 
-**Passo 2 — bisseccione a entrada.** Divida o arquivo em linhas 1–50.000 e 50.001–100.000. Rode o analisador em cada metade independentemente.
-- Linhas 1–50.000: analisa limpamente.
-- Linhas 50.001–100.000: trava com o mesmo erro.
+**Passo 2: bisseccione a entrada.** Divida o arquivo em linhas 1-50.000 e 50.001-100.000. Rode o analisador em cada metade independentemente.
+- Linhas 1-50.000: analisa limpamente.
+- Linhas 50.001-100.000: trava com o mesmo erro.
 
 A falha está em algum lugar na segunda metade; a primeira metade agora é conhecida-inocente e pode ser deixada de lado inteiramente.
 
-**Passo 3 — repita.** Divida linhas 50.001–100.000 em 50.001–75.000 e 75.001–100.000.
-- 50.001–75.000: analisa limpamente.
-- 75.001–100.000: trava.
+**Passo 3: repita.** Divida linhas 50.001-100.000 em 50.001-75.000 e 75.001-100.000.
+- 50.001-75.000: analisa limpamente.
+- 75.001-100.000: trava.
 
-**Passo 4 — continue dividindo pela metade.** Depois de aproximadamente 17 rodadas de dividir pela metade (já que 2^17 ≈ 131.000, confortavelmente cobrindo 100.000 linhas), o intervalo restante encolhe para uma única linha: linha 82.419. Inspecionar essa única linha diretamente mostra uma vírgula não escapada dentro de um campo entre aspas, a causa real.
+**Passo 4: continue dividindo pela metade.** Depois de aproximadamente 17 rodadas de dividir pela metade (já que 2^17 ≈ 131.000, confortavelmente cobrindo 100.000 linhas), o intervalo restante encolhe para uma única linha: linha 82.419. Inspecionar essa única linha diretamente mostra uma vírgula não escapada dentro de um campo entre aspas, a causa real.
 
 **Por que isso venceu uma varredura linear:** verificar toda linha uma de cada vez até o travamento reaparecer poderia ter levado até 100.000 verificações individuais no pior caso; bissecção encontrou a linha exata em aproximadamente 17. A mesma redução, de *n* verificações para aproximadamente log₂(*n*), é o mesmo argumento de eficiência que torna busca binária preferível a uma varredura linear de uma lista ordenada.
 
-### Exemplo 2 — bisseccionando uma lista de mudanças recentes ranqueadas por suspeita
+### Exemplo 2: bisseccionando uma lista de mudanças recentes ranqueadas por suspeita
 
 **Problema:** Um relatório anteriormente funcionando começou a produzir um total errado em algum momento nas últimas 20 mudanças feitas na base de código, mas ninguém sabe qual, e as mudanças tocam vários arquivos não relacionados.
 
-**Passo 1 — reproduza confiavelmente.** Confirme que o total errado reproduz toda vez que o relatório é gerado contra o mesmo conjunto de dados fixo de entrada, reproduz, então a fronteira é estável o suficiente para bisseccionar.
+**Passo 1: reproduza confiavelmente.** Confirme que o total errado reproduz toda vez que o relatório é gerado contra o mesmo conjunto de dados fixo de entrada, reproduz, então a fronteira é estável o suficiente para bisseccionar.
 
-**Passo 2 — estabeleça a fronteira.** Mudança #1 (mais antiga) é conhecida-boa, o relatório estava correto naquela época. Mudança #20 (atual) é conhecida-ruim, o relatório está errado agora.
+**Passo 2: estabeleça a fronteira.** Mudança #1 (mais antiga) é conhecida-boa, o relatório estava correto naquela época. Mudança #20 (atual) é conhecida-ruim, o relatório está errado agora.
 
-**Passo 3 — teste o ponto médio.** Reverta a base de código para o estado logo depois da mudança #10 e regenere o relatório. Está correto. Então mudanças #1–#10 são inocentes; a falha está em algum lugar em #11–#20.
+**Passo 3: teste o ponto médio.** Reverta a base de código para o estado logo depois da mudança #10 e regenere o relatório. Está correto. Então mudanças #1-#10 são inocentes; a falha está em algum lugar em #11-#20.
 
-**Passo 4 — estreite de novo.** Teste o estado depois da mudança #15: relatório está errado. Falha está em #11–#15.
+**Passo 4: estreite de novo.** Teste o estado depois da mudança #15: relatório está errado. Falha está em #11-#15.
 
-**Passo 5 — estreite de novo.** Teste o estado depois da mudança #13: relatório está correto. Falha está em #14–#15.
+**Passo 5: estreite de novo.** Teste o estado depois da mudança #13: relatório está correto. Falha está em #14-#15.
 
-**Passo 6 — passo final.** Teste o estado depois da mudança #14: relatório está errado. Já que #13 era boa e #14 é ruim, a própria mudança #14 é a culpada.
+**Passo 6: passo final.** Teste o estado depois da mudança #14: relatório está errado. Já que #13 era boa e #14 é ruim, a própria mudança #14 é a culpada.
 
-Cinco testes (#10, #15, #13, #14, mais a verificação de fronteira inicial) localizaram a falha entre 20 mudanças candidatas, de novo aproximadamente log₂(20) ≈ 4–5 testes, versus até 20 se cada mudança tivesse sido inspecionada uma de cada vez isoladamente, da mais antiga para a mais nova, esperando identificar o erro a olho.
+Cinco testes (#10, #15, #13, #14, mais a verificação de fronteira inicial) localizaram a falha entre 20 mudanças candidatas, de novo aproximadamente log₂(20) ≈ 4-5 testes, versus até 20 se cada mudança tivesse sido inspecionada uma de cada vez isoladamente, da mais antiga para a mais nova, esperando identificar o erro a olho.
 
-### Exemplo 3 — a mesma ideia, automatizada: `git bisect`
+### Exemplo 3: a mesma ideia, automatizada: `git bisect`
 
 **Problema:** Mesmo cenário do Exemplo 2, mas as 20 mudanças são 20 commits reais em um repositório git, e há um teste automatizado que retorna um código de saída não zero quando o total do relatório está errado.
 
@@ -129,5 +129,5 @@ O processo introdutório de isolar-e-consertar, verifique um valor em um ponto m
 
 ## Documentation Links
 
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
-- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/) — doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
+- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/): doc

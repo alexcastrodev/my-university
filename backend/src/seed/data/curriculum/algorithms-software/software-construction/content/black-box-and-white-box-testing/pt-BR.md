@@ -62,7 +62,7 @@ Casos caixa-preta como `sum_first_n([2, 4, 6], 2)` esperam `6` (2 + 4) mas essa 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — design de teste caixa-preta puro a partir de uma especificação
+### Exemplo 1: design de teste caixa-preta puro a partir de uma especificação
 
 **Especificação:** `classify_triangle(a, b, c)` recebe três comprimentos de lado positivos e retorna `"equilateral"` se todos os três lados são iguais, `"isosceles"` se exatamente dois são iguais, e `"scalene"` se todos os três diferem. (Assuma que o chamador garante que os três comprimentos formam um triângulo válido.)
 
@@ -78,7 +78,7 @@ assert classify_triangle(5, 8, 5) == "isosceles"   # par igual em ainda outra po
 
 Os dois últimos casos são escolhidos especificamente porque a *categoria* da especificação ("exatamente dois são iguais") não especifica quais duas posições, um testador caixa-preta cuidadoso nota essa ambiguidade e testa todas as posições que a redação da especificação deixa em aberto, inteiramente sem ler nenhum código.
 
-### Exemplo 2 — design de teste caixa-branca que encontra um bug de ramo escondido
+### Exemplo 2: design de teste caixa-branca que encontra um bug de ramo escondido
 
 **Implementação** (ainda não vista por quem escreveu os testes do Exemplo 1):
 
@@ -94,12 +94,12 @@ def classify_triangle(a, b, c):
 Lendo esse código diretamente (caixa-branca), o segundo ramo `a == b or b == c` deveria ser verificado se de fato cobre todo caso de "exatamente dois iguais", note que nunca verifica `a == c` diretamente. Rastreando: se `a == c` mas `a != b`, então `a == b` é `False` e `b == c` também é `False` (já que `a == c` e `a != b` implica `b != c`), então essa implementação cai para `"scalene"`, um bug genuíno para o caso onde o *primeiro e o terceiro* lados combinam. Um testador caixa-preta trabalhando só a partir da prosa da especificação, como no Exemplo 1, está testando "exatamente dois são iguais" como uma única categoria e pode muito bem se contentar com uma ou duas ordens representativas sem perceber que há três posições estruturalmente distintas para verificar, porque nada na redação da especificação sinaliza que a *implementação* as trata diferentemente. Um testador caixa-branca, lendo a condição real `if a == b or b == c`, imediatamente nota que nunca menciona `a == c`, e escreve o caso mirado:
 
 ```python
-assert classify_triangle(5, 8, 5) == "isosceles"   # a == c, b diferente — mira o ramo faltando
+assert classify_triangle(5, 8, 5) == "isosceles"   # a == c, b diferente: mira o ramo faltando
 ```
 
 Rodando: `classify_triangle(5, 8, 5)` retorna `"scalene"`, errado. Esse é exatamente um defeito que ler a estrutura de ramo real do código expõe diretamente, perguntando "toda forma pela qual a categoria da especificação poderia ser verdadeira corresponde a um caminho que este código de fato toma" uma pergunta que teste caixa-preta, trabalhando só a partir da prosa da especificação, é muito menos provável de pensar em fazer nessa forma precisa.
 
-### Exemplo 3 — combinando ambos para uma função
+### Exemplo 3: combinando ambos para uma função
 
 **Especificação:** `is_valid_password(pw)` retorna `True` se `pw` tem pelo menos 8 caracteres de comprimento, senão `False`.
 
@@ -134,5 +134,5 @@ Teste caixa-preta projeta casos de teste só a partir da especificação de uma 
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc

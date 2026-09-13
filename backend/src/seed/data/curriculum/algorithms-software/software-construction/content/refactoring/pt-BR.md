@@ -42,8 +42,8 @@ Uma das oportunidades de refatoração mais claras, mais comuns é lógica dupli
 flowchart LR
     A["Local de chamada 1: lógica duplicada inline"] --> C["Função compartilhada"]
     B["Local de chamada 2: lógica duplicada inline"] --> C
-    C --> D["Testes existentes para local de chamada 1 — ainda passam"]
-    C --> E["Testes existentes para local de chamada 2 — ainda passam"]
+    C --> D["Testes existentes para local de chamada 1: ainda passam"]
+    C --> E["Testes existentes para local de chamada 2: ainda passam"]
 ```
 
 ### O que refatoração não é
@@ -52,7 +52,7 @@ Uma mudança que também corrige um bug, adiciona um parâmetro, ou altera o que
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — extraindo lógica duplicada em uma única implementação compartilhada
+### Exemplo 1: extraindo lógica duplicada em uma única implementação compartilhada
 
 **Antes:** o mesmo cálculo de desconto é escrito independentemente em dois lugares, uma vez para o fluxo de checkout web, uma vez para o fluxo de pedido por telefone.
 
@@ -85,7 +85,7 @@ assert phone_order_total(order_member_50) == 47.5
 assert phone_order_total(order_nonmember_150) == 150.0
 ```
 
-**Depois — a lógica compartilhada extraída em uma função:**
+**Depois: a lógica compartilhada extraída em uma função:**
 ```python
 def _apply_membership_discount(order):
     subtotal = sum(item.price for item in order.items)
@@ -103,7 +103,7 @@ def phone_order_total(order):
 
 **Verificando segurança:** rerodar as mesmas exatas seis asserções acima, sem modificação, contra o código refatorado, todas as seis ainda passam. Essa é a evidência concreta de que essa foi uma refatoração segura: ambos os locais de chamada, de fora, retornam exatamente o que retornavam antes, para exatamente as entradas já conhecidas por importar, mesmo que a estrutura interna agora compartilhe uma implementação em vez de duplicá-la. Na próxima vez que a regra de desconto mudar, digamos, adicionando um terceiro nível, agora só precisa mudar dentro de `_apply_membership_discount`, uma vez, em vez de em dois lugares que poderiam silenciosamente derivar separadamente.
 
-### Exemplo 2 — uma mudança que parece uma refatoração mas não é
+### Exemplo 2: uma mudança que parece uma refatoração mas não é
 
 **Cenário:** enquanto "refatora" `_apply_membership_discount`, um desenvolvedor nota que os limiares de 5%/10% parecem arbitrários e muda o limiar inferior de 5% para 7%, raciocinando que é uma melhoria pequena, razoável, já que está no código de qualquer forma.
 
@@ -132,5 +132,5 @@ Refatoração é precisamente definida como mudar a estrutura interna de um prog
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

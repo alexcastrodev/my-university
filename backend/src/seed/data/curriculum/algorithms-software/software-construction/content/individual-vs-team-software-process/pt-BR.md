@@ -32,9 +32,9 @@ O novo custo específico que aparece em escala de equipe é custo de coordenaç�
 
 ```mermaid
 flowchart TD
-    A["Desenvolvedor solo, convenção inconsistente"] --> B["Só uma pessoa jamais a interpreta — custo permanece zero"]
+    A["Desenvolvedor solo, convenção inconsistente"] --> B["Só uma pessoa jamais a interpreta: custo permanece zero"]
     C["Equipe de 5, mesma convenção inconsistente"] --> D["Cada uma das 5 pessoas pode interpretá-la diferentemente"]
-    D --> E["Todo pareamento arrisca um descompasso — custo de coordenação cresce com o tamanho da equipe, não linearmente com a própria inconsistência"]
+    D --> E["Todo pareamento arrisca um descompasso: custo de coordenação cresce com o tamanho da equipe, não linearmente com a própria inconsistência"]
 ```
 
 ### Convenção compartilhada como o conserto, e por que tem que ser explícita
@@ -47,7 +47,7 @@ Uma resposta útil, honesta, é: antes que o custo de coordenação já tenha se
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — mensagens de commit inconsistentes, inofensivas solo, custosas em escala de equipe
+### Exemplo 1: mensagens de commit inconsistentes, inofensivas solo, custosas em escala de equipe
 
 **Desenvolvedor solo, trabalhando sozinho por um ano:**
 ```
@@ -72,7 +72,7 @@ p5q6r7s changes                     (Desenvolvedor D)
 
 O Desenvolvedor E, recém-chegado, precisa entender por que uma linha específica no módulo de pagamento parece do jeito que parece, e recorre a `git blame` e o histórico de commit para contexto, exatamente a situação que o conceito anterior de higiene de commit descreve como o ponto inteiro de uma boa mensagem de commit. Toda mensagem aqui falha em responder a pergunta. O Desenvolvedor E não tem memória à qual recorrer (não estava presente quando nenhuma dessas mudanças foi feita), e nem, seis meses depois, os Desenvolvedores A a D confiavelmente lembram o raciocínio específico por trás de "fixed the bug" ou "more fixes" escrito meses atrás sobre código do qual desde então seguiram em frente. O que não custou nada ao desenvolvedor solo agora custa à equipe tempo real, repetidamente, toda vez que alguém precisa entender um pedaço de histórico que ninguém documentou claramente, e o custo se acumula com toda nova pessoa que se junta e atinge a mesma parede.
 
-### Exemplo 2 — nomenclatura de branch inconsistente, e a confusão que causa através de cinco contribuidores
+### Exemplo 2: nomenclatura de branch inconsistente, e a confusão que causa através de cinco contribuidores
 
 **Cenário:** sem uma convenção acordada, cinco desenvolvedores na mesma equipe cada um independentemente se estabelece em seu próprio hábito pessoal de nomenclatura de branch:
 
@@ -111,5 +111,5 @@ Práticas que custam pouco ou nada a um desenvolvedor solo, mensagens de commit 
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

@@ -40,13 +40,13 @@ flowchart TD
     RFC --> J
 ```
 
-### Nem toda decisão produz uma tensão — mas o modelo tem que ser honesto quando uma existe
+### Nem toda decisão produz uma tensão: mas o modelo tem que ser honesto quando uma existe
 
 Seria um mau uso deste modelo forçar toda decisão em um conflito de três vias artificial só para parecer rigoroso, e seria um mau uso igualmente sério afirmar que toda decisão que esta disciplina levantou se resolve limpamente com os três objetivos em acordo. Os exemplos resolvidos abaixo deliberadamente incluem um de cada tipo, por exatamente essa razão.
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma decisão onde os três objetivos genuinamente se alinham: adotando desenvolvimento guiado por testes
+### Exemplo 1: uma decisão onde os três objetivos genuinamente se alinham: adotando desenvolvimento guiado por testes
 
 **Decisão:** uma equipe escrevendo um módulo de faturamento moderadamente complexo deveria adotar desenvolvimento guiado por testes, escrever um teste falhando antes do código que o faz passar, em vez de escrever a implementação primeiro e testar depois, se é que testa?
 
@@ -56,7 +56,7 @@ Seria um mau uso deste modelo forçar toda decisão em um conflito de três vias
 
 **Conclusão:** essa decisão é um caso onde as três lentes convergem em vez de conflitar, um argumento genuinamente forte para adotar TDD aqui, tornado explícito em vez de deixado como uma intuição vaga de que "testar é boa prática."
 
-### Exemplo 2 — uma decisão genuinamente contestada: construindo um sistema de plugin extensivo "por precaução"
+### Exemplo 2: uma decisão genuinamente contestada: construindo um sistema de plugin extensivo "por precaução"
 
 **Decisão:** uma pequena ferramenta interna de relatório atualmente gera um formato de relatório fixo. Um desenvolvedor propõe construir uma arquitetura de plugin geral agora, uma interface, um mecanismo de descoberta de plugin, um sistema de registro, para que novos formatos de relatório possam ser adicionados depois sem tocar a ferramenta central, mesmo que nenhum segundo formato tenha de fato sido pedido ainda.
 
@@ -66,7 +66,7 @@ Seria um mau uso deste modelo forçar toda decisão em um conflito de três vias
 
 **Conclusão, e essa é a parte honesta:** essa é uma tensão real, não uma fabricada para o exercício. RFC aponta em direção a construir o sistema de plugin; ETU aponta firmemente contra isso, agora mesmo, para uma necessidade que atualmente é hipotética; SFB não oferece benefício real e um pequeno custo real de qualquer forma. A resposta raciocinada que este modelo favorece não é "nunca construa flexibilidade", é que RFC deveria ser gasto em mudança conhecida ou fortemente antecipada, não em toda hipótese concebível, exatamente como o próprio exemplo de cálculo de imposto do conceito de abertura demonstrou. Até que um segundo formato de relatório seja um requisito real, concreto, a ferramenta de formato único permanece a decisão melhor: mais simples de entender hoje, com a refatoração em direção a uma arquitetura de plugin adiada até que requisitos reais existam para moldá-la corretamente, ponto no qual pode ser construída em resposta a uma necessidade real em vez de um palpite sobre uma.
 
-### Exemplo 3 — uma decisão de processo passada através das mesmas três lentes: feature branches mais revisão de código obrigatória
+### Exemplo 3: uma decisão de processo passada através das mesmas três lentes: feature branches mais revisão de código obrigatória
 
 **Decisão:** uma equipe crescendo deveria se mover de fazer commit diretamente em um branch compartilhado para exigir que toda mudança passe por um feature branch e uma revisão de código antes de mesclar?
 
@@ -90,5 +90,5 @@ Esta disciplina abriu nomeando três lentes distintas para avaliar qualquer peda
 
 ## Documentation Links
 
-- [MIT 6.031 — General Info & FAQ (SFB/ETU/RFC objective)](https://web.mit.edu/6.031/www/sp17/general/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [MIT 6.031: General Info & FAQ (SFB/ETU/RFC objective)](https://web.mit.edu/6.031/www/sp17/general/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

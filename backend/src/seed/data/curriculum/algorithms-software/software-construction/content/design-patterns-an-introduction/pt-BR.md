@@ -140,7 +140,7 @@ Um padrão é justificado quando o *problema recorrente* que resolve está genui
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Strategy aplicado à ordem de ordenação
+### Exemplo 1: Strategy aplicado à ordem de ordenação
 
 **Problema:** Uma ferramenta de relatórios precisa ordenar uma lista de registros por critérios diferentes (por data, por valor, por nome de cliente) dependendo de qual relatório é pedido, e novos critérios de ordenação são adicionados periodicamente conforme novos tipos de relatório são pedidos.
 
@@ -174,7 +174,7 @@ print(Reporter(ByAmount()).generate(records))
 
 **Raciocínio.** `Reporter.generate` não tem nenhum ramo sobre qual critério foi pedido, delega inteiramente a qualquer `SortStrategy` que recebeu. Um novo relatório ordenado "por nome de cliente" é uma nova subclasse de `SortStrategy`, adicionada sem tocar `Reporter`, combinando exatamente com o problema recorrente: um algoritmo intercambiável (a chave de ordenação) selecionado sem que o chamador (`Reporter`) precise saber qual.
 
-### Exemplo 2 — Observer aplicado a uma atualização estilo interface de usuário
+### Exemplo 2: Observer aplicado a uma atualização estilo interface de usuário
 
 **Problema:** Um `TemperatureSensor` lê um novo valor periodicamente, e tanto um `Display` (mostra a leitura atual) quanto um `Logger` (escreve toda leitura em um arquivo) precisam reagir sempre que uma nova leitura chega, com mais reatores esperados depois (por exemplo, um sistema de alerta).
 
@@ -222,5 +222,5 @@ Um padrão de design é uma solução nomeada, reutilizável, para um problema q
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc

@@ -58,7 +58,7 @@ Algumas equipes empurram essa ideia mais longe, mantendo feature branches vivos 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — uma equipe fazendo commit diretamente em main
+### Exemplo 1: uma equipe fazendo commit diretamente em main
 
 **Cenário:** Uma equipe de três pessoas empurra commits diretamente para `main` assim que cada pessoa termina qualquer pedaço de trabalho, sem nenhum branch de forma alguma.
 
@@ -66,7 +66,7 @@ O Desenvolvedor A está na metade de uma mudança de esquema de banco de dados, 
 
 **O que deu errado, estruturalmente:** `main` parou de ser uma fundação compartilhada confiável no momento em que uma mudança incompleta foi commitada diretamente nela. Toda pessoa subsequente que tocou `main` herdou aquela incompletude, sem forma de optar por não fazê-lo, e nenhum branch existia em lugar nenhum contendo um ponto estável para o qual recuar.
 
-### Exemplo 2 — a mesma equipe usando feature branches
+### Exemplo 2: a mesma equipe usando feature branches
 
 **Cenário:** A mesma equipe de três pessoas, a mesma mudança de esquema, mas cada pessoa trabalha em seu próprio feature branch.
 
@@ -102,5 +102,5 @@ A mecânica do git não diz nada sobre quando fazer branch ou quanto tempo esper
 
 ## Documentation Links
 
-- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

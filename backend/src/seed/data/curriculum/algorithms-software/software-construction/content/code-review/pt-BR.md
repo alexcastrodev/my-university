@@ -49,7 +49,7 @@ Na prática, revisão acontece no próprio diff proposto, mais comumente como um
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — um comentário de revisão capturando um caso de borda que os testes perderam
+### Exemplo 1: um comentário de revisão capturando um caso de borda que os testes perderam
 
 **Cenário:** uma função calcula o valor médio de pedido de um usuário sobre seus pedidos mais recentes.
 
@@ -72,7 +72,7 @@ Ambos os testes passam. O autor, tendo só jamais chamado essa função com clie
 
 Os testes nunca capturaram isso porque nenhum teste exercitou uma lista de pedido vazia, a lacuna não era um bug nos testes que foram escritos, era uma entrada que ninguém tinha pensado em escrever um teste para em primeiro lugar. O revisor, lendo a função de forma nova em vez de de dentro do próprio modelo mental do autor de "um cliente com histórico de pedido", é quem pensou em perguntar sobre o caso que a própria experiência do autor com a função nunca trouxe à tona.
 
-### Exemplo 2 — código correto mas confuso capturado por um revisor
+### Exemplo 2: código correto mas confuso capturado por um revisor
 
 **Cenário:** uma função verifica se um código de desconto ainda é válido.
 
@@ -110,5 +110,5 @@ O mecanismo central de revisão de código é simples, uma segunda pessoa lê um
 
 ## Documentation Links
 
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

@@ -54,9 +54,9 @@ Essa distinção é o que torna especificações acionáveis durante depuração
 ```mermaid
 graph TD
     A["Função chamada"] --> B{"Pré-condição valia?"}
-    B -- "Não" --> C["Comportamento não especificado — qualquer resultado é 'correto' pelo contrato; bug (se houver) é do CHAMADOR"]
+    B -- "Não" --> C["Comportamento não especificado: qualquer resultado é 'correto' pelo contrato; bug (se houver) é do CHAMADOR"]
     B -- "Sim" --> D{"Pós-condição vale no retorno?"}
-    D -- "Sim" --> E["Contrato honrado — correto"]
+    D -- "Sim" --> E["Contrato honrado: correto"]
     D -- "Não" --> F["Bug na própria FUNÇÃO"]
 ```
 
@@ -70,7 +70,7 @@ Uma especificação que enuncia precisamente pré-condição e pós-condição �
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — `remove_first`: uma especificação ambígua versus uma precisa
+### Exemplo 1: `remove_first`: uma especificação ambígua versus uma precisa
 
 **Cenário.** Uma função é destinada a remover a primeira ocorrência de um valor de uma lista.
 
@@ -139,7 +139,7 @@ def process_b_fixed(cart, sku):
     return cart
 ```
 
-### Exemplo 2 — uma pré-condição que resolve um caso de borda "impossível"
+### Exemplo 2: uma pré-condição que resolve um caso de borda "impossível"
 
 **Cenário.** Uma função é destinada a encontrar o índice do menor elemento em uma lista.
 
@@ -178,7 +178,7 @@ def index_of_min(numbers):
 
 Com a pré-condição `numbers não é vazio` agora enunciada, chamar essa função em `[]` é uma **violação de pré-condição**, o que quer que a função aconteça de retornar (aqui, o `0` arguivelmente sem sentido) não é um bug em `index_of_min` de forma alguma; o bug, se há um, está em qualquer chamador que falhou em verificar por uma lista vazia antes de chamar. Isso reformula a pergunta anterior de "isso é um bug?" em uma respondível: verifique a pré-condição primeiro. Um chamador que precisa tratar listas vazias agora deve fazê-lo explicitamente, antes de chamar, a especificação tornou uma suposição implícita visível e aplicável em vez de silenciosamente assumida.
 
-### Exemplo 3 — a mesma especificação, duas implementações diferentes (ambas corretas)
+### Exemplo 3: a mesma especificação, duas implementações diferentes (ambas corretas)
 
 **Cenário.** Este exemplo demonstra o ganho de "Pronto para Mudança" diretamente: duas implementações da mesma especificação, diferindo inteiramente em mecanismo, são ambas corretas porque ambas honram o mesmo contrato.
 
@@ -235,5 +235,5 @@ Uma especificação é um contrato, dividido em uma **pré-condição** (a condi
 
 ## Documentation Links
 
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

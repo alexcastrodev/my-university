@@ -60,7 +60,7 @@ Não há uma única pontuação automatizada que capture completamente qualquer 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Uma classe Deus refatorada em peças coesas
+### Exemplo 1: Uma classe Deus refatorada em peças coesas
 
 **Problema:** Uma classe `UserRegistration` valida entrada, persiste um novo usuário em um banco de dados, envia um email de boas-vindas, e registra o evento, quatro responsabilidades não relacionadas em uma classe.
 
@@ -115,7 +115,7 @@ class UserRegistration:
 
 **Raciocínio.** Cada uma das quatro classes "depois" tem exatamente uma razão para mudar: uma nova regra de senha muda só `RegistrationValidator`; trocar bancos de dados muda só `UserRepository`; mudar o provedor de email muda só `WelcomeNotifier`. A versão "antes" empacotou todas as quatro razões-para-mudar em uma classe, então qualquer uma dessas quatro mudanças não relacionadas arriscava tocar (e quebrar) as outras três preocupações vivendo no mesmo método. O `UserRegistration` refatorado agora é um coordenador fino com alta coesão própria, sua única responsabilidade é orquestrar a *sequência* de cadastro, não realizar nenhum dos quatro trabalhos ele mesmo.
 
-### Exemplo 2 — Módulos fortemente acoplados refatorados para uma interface limpa
+### Exemplo 2: Módulos fortemente acoplados refatorados para uma interface limpa
 
 **Problema:** `OrderProcessor` calcula um desconto lendo a lista interna de itens de `Order` diretamente e mutando seu campo total interno diretamente.
 
@@ -155,7 +155,7 @@ class OrderProcessor:
 
 **Raciocínio.** Na versão "antes", `OrderProcessor` assume que `Order` armazena itens em uma lista chamada `_items` e um total corrente em `_total`, se `Order` mais tarde é mudado para calcular totais preguiçosamente, ou para armazenar itens em um dicionário chaveado por SKU, `OrderProcessor` quebra mesmo que nada sobre "aplicar um desconto" conceitualmente mudasse. Na versão "depois", a lógica de desconto se move *para dentro* de `Order`, que é onde o conhecimento da representação de `_total` já vive; `OrderProcessor` chama um método e não sabe nada sobre como `Order` armazena qualquer coisa. Esse é o refactor de acoplamento-e-coesão trabalhando juntos: `Order` ganhou um pouco de coesão (a lógica de desconto pertence com o total que modifica) precisamente removendo um problema de acoplamento (uma classe externa manipulando seus internos).
 
-### Exemplo 3 — Testando a pergunta "B precisaria mudar"
+### Exemplo 3: Testando a pergunta "B precisaria mudar"
 
 **Problema:** Dois designs para calcular custo de frete: (A) `ShippingCalculator` lê `order.items` e manualmente soma pesos inline; (B) `ShippingCalculator` chama `order.total_weight()`.
 
@@ -187,5 +187,5 @@ Acoplamento mede quanto um módulo depende dos detalhes internos de outro (quer-
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
-- [MIT 6.031/6.005 — Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/) — doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc
+- [MIT 6.031/6.005: Course Home (OCW)](https://ocw.mit.edu/courses/6-005-software-construction-spring-2016/): doc

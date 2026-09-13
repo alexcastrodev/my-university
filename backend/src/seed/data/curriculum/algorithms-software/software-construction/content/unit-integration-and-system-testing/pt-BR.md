@@ -61,7 +61,7 @@ O formato reflete custo e valor diagnóstico juntos: um teste de unidade é ráp
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — um par testado por unidade que falha na integração
+### Exemplo 1: um par testado por unidade que falha na integração
 
 **Montagem.** Dois módulos, desenvolvidos e testados por unidade separadamente.
 
@@ -115,19 +115,19 @@ build_reorder_report(fetch_low_stock())
 
 `fetch_low_stock` retorna uma **lista** real; `build_reorder_report` chama `next()` em seu argumento, que só funciona em um **iterador**, não em uma lista simples. Nenhum teste de unidade pegou isso, porque cada um testou seu próprio módulo contra um falso que combinava com o que *o próprio autor daquele módulo* assumiu, as duas suposições simplesmente nunca concordaram, e só conectar os dois módulos reais juntos (teste de integração) expõe o descompasso. O conserto é resolver o contrato de interface real explicitamente, por exemplo, especificar que `fetch_low_stock` retorna um iterável e fazer `build_reorder_report` usar `for item in items:` em vez de chamadas manuais a `next()`, o que funciona corretamente tanto para listas quanto para geradores, e depois adicionar um teste de integração que chama as duas funções reais juntas, para que essa classe exata de regressão não possa silenciosamente retornar.
 
-### Exemplo 2 — um teste de integração que passa mas um teste de sistema que falha
+### Exemplo 2: um teste de integração que passa mas um teste de sistema que falha
 
 **Montagem.** Um pequeno pipeline: `parse_config` (lê configurações), `connect_db` (abre uma conexão de banco de dados usando essas configurações), `run_report` (consulta o banco de dados e formata saída). Testes de integração confirmam que a saída de `parse_config` é exatamente o que `connect_db` espera, e que o objeto de conexão de `connect_db` é exatamente o que `run_report` espera, ambos os acordos par a par valem.
 
 **Teste de sistema.** Rodar a ferramenta de linha de comando montada real contra o arquivo de configuração de implantação real (não o pequeno escrito à mão usado nos testes de integração) falha, porque o arquivo de configuração real tem um host de banco de dados que exige uma viagem de ida e volta de rede que os testes de integração, usando um banco de dados substituto em memória local, nunca envolveram. Nenhuma interface par a par individual estava errada; o requisito de que o programa *inteiro* funciona contra uma implantação real, remota, nunca foi verificado abaixo do nível de sistema.
 
-### Exemplo 3 — escolhendo o nível certo para um relatório de bug
+### Exemplo 3: escolhendo o nível certo para um relatório de bug
 
 **Problema:** três relatórios de bug chegam. Para cada um, decida qual nível de teste mais diretamente o teria capturado, e por quê.
 
-1. "`calculate_discount(price, pct)` retorna um número negativo quando `pct` é maior que 100." — Este é um defeito inteiramente dentro da própria lógica de uma função; um **teste de unidade** com uma entrada de fronteira (`pct=150`) o mira diretamente.
-2. "O módulo de checkout constrói um total de pedido em centavos (um inteiro), mas o módulo de pagamento espera um valor em dólares (um float), então cobranças ficam 100x menores." — Isso é um descompasso sobre formato de dado *entre* dois módulos reais; cada módulo pode muito bem estar perfeitamente correto contra seus próprios testes. Um **teste de integração** conectando o módulo de checkout real ao módulo de pagamento real é o nível que o expõe.
-3. "A aplicação inteira dá timeout sob carga de produção real, mesmo que todo módulo e todo par de módulo tenham testado bem isoladamente." — Essa é uma propriedade do sistema completamente montado sob condições realistas que nenhum teste de escala menor jamais estava posicionado para observar. Um **teste de sistema**, rodando a aplicação implantada real sob carga realista, é o que isso exige.
+1. "`calculate_discount(price, pct)` retorna um número negativo quando `pct` é maior que 100.": Este é um defeito inteiramente dentro da própria lógica de uma função; um **teste de unidade** com uma entrada de fronteira (`pct=150`) o mira diretamente.
+2. "O módulo de checkout constrói um total de pedido em centavos (um inteiro), mas o módulo de pagamento espera um valor em dólares (um float), então cobranças ficam 100x menores.": Isso é um descompasso sobre formato de dado *entre* dois módulos reais; cada módulo pode muito bem estar perfeitamente correto contra seus próprios testes. Um **teste de integração** conectando o módulo de checkout real ao módulo de pagamento real é o nível que o expõe.
+3. "A aplicação inteira dá timeout sob carga de produção real, mesmo que todo módulo e todo par de módulo tenham testado bem isoladamente.": Essa é uma propriedade do sistema completamente montado sob condições realistas que nenhum teste de escala menor jamais estava posicionado para observar. Um **teste de sistema**, rodando a aplicação implantada real sob carga realista, é o que isso exige.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -143,5 +143,5 @@ Teste de unidade verifica um módulo isoladamente, falsificando suas dependênci
 
 ## Documentation Links
 
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

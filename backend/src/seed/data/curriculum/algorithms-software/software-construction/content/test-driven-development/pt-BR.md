@@ -47,11 +47,11 @@ Uma suíte de teste escrita inteiramente depois que uma implementação já exis
 
 ## Exemplos Resolvidos
 
-### Exemplo — TDD para `is_prime(n)`, um ciclo completo de cada vez
+### Exemplo: TDD para `is_prime(n)`, um ciclo completo de cada vez
 
 **Objetivo:** escreva uma função `is_prime(n)` que retorna `True` se `n` é um número primo (um inteiro maior que 1 sem divisores positivos além de 1 e ele mesmo), `False` caso contrário.
 
-**Ciclo 1 — vermelho.** Escreva o menor teste falhando útil primeiro, antes de `is_prime` existir de forma alguma:
+**Ciclo 1: vermelho.** Escreva o menor teste falhando útil primeiro, antes de `is_prime` existir de forma alguma:
 
 ```python
 def test_is_prime_smallest_prime():
@@ -60,7 +60,7 @@ def test_is_prime_smallest_prime():
 
 Rodar isso falha imediatamente com `NameError: name 'is_prime' is not defined`, confirmando que o teste de fato exercita algo que ainda não existe, que é exatamente o tipo de falha esperado, correto, neste estágio.
 
-**Ciclo 1 — verde.** Escreva o código mínimo para fazer só esse único teste passar:
+**Ciclo 1: verde.** Escreva o código mínimo para fazer só esse único teste passar:
 
 ```python
 def is_prime(n):
@@ -69,9 +69,9 @@ def is_prime(n):
 
 Essa é uma implementação deliberadamente trivial, não geral, mas faz o único teste existente passar, e nada mais foi afirmado ou construído além do que aquele único teste exige.
 
-**Ciclo 1 — refatorar.** Nada significativo para limpar ainda em uma função de uma linha; pule refatorar neste ciclo e vá para o próximo passo vermelho, que fornecerá a pressão que força lógica real a aparecer.
+**Ciclo 1: refatorar.** Nada significativo para limpar ainda em uma função de uma linha; pule refatorar neste ciclo e vá para o próximo passo vermelho, que fornecerá a pressão que força lógica real a aparecer.
 
-**Ciclo 2 — vermelho.** Adicione um teste que a implementação trivial atual não pode possivelmente passar:
+**Ciclo 2: vermelho.** Adicione um teste que a implementação trivial atual não pode possivelmente passar:
 
 ```python
 def test_is_prime_smallest_prime():
@@ -83,7 +83,7 @@ def test_is_prime_rejects_a_composite():
 
 Rodando a suíte: o primeiro teste ainda passa (trivialmente), mas `test_is_prime_rejects_a_composite` falha, `is_prime(4)` retorna `True` do stub atual, mas o teste espera `False`. Um vermelho genuíno, esperado.
 
-**Ciclo 2 — verde.** O `return True` trivial não pode mais sobreviver; escreva a lógica real mínima que satisfaz ambos os testes atuais:
+**Ciclo 2: verde.** O `return True` trivial não pode mais sobreviver; escreva a lógica real mínima que satisfaz ambos os testes atuais:
 
 ```python
 def is_prime(n):
@@ -97,7 +97,7 @@ def is_prime(n):
 
 Ambos os testes agora passam: `is_prime(2)` não encontra nenhum divisor em `range(2, 2)` (vazio, já que o laço nunca roda) e corretamente retorna `True`; `is_prime(4)` encontra que `2` a divide exatamente e retorna `False`.
 
-**Ciclo 3 — vermelho.** Adicione um caso de fronteira contra o qual essa implementação não foi verificada, `n = 1`, que é explicitamente excluído de primalidade por definição mas é um caso que uma implementação descuidada poderia errar:
+**Ciclo 3: vermelho.** Adicione um caso de fronteira contra o qual essa implementação não foi verificada, `n = 1`, que é explicitamente excluído de primalidade por definição mas é um caso que uma implementação descuidada poderia errar:
 
 ```python
 def test_is_prime_rejects_one():
@@ -106,7 +106,7 @@ def test_is_prime_rejects_one():
 
 Rodando isso: já passa, porque o ramo `if n < 2: return False`, adicionado no passo verde do ciclo 2, já o trata, um verde genuíno na primeira tentativa, que é um resultado legítimo (nem todo novo teste força novo código de produção; às vezes código existente já generaliza corretamente, e o novo teste simplesmente documenta e trava esse fato).
 
-**Ciclo 3 — refatorar.** Com três testes passando e servindo como uma rede de segurança, o laço atual `for i in range(2, n)` da implementação está correto mas faz mais trabalho do que necessário, pode verificar divisores só até a raiz quadrada de `n`, já que qualquer fator maior que a raiz quadrada teria um fator correspondente menor que já teria sido encontrado:
+**Ciclo 3: refatorar.** Com três testes passando e servindo como uma rede de segurança, o laço atual `for i in range(2, n)` da implementação está correto mas faz mais trabalho do que necessário, pode verificar divisores só até a raiz quadrada de `n`, já que qualquer fator maior que a raiz quadrada teria um fator correspondente menor que já teria sido encontrado:
 
 ```python
 def is_prime(n):
@@ -136,5 +136,5 @@ Desenvolvimento guiado por testes estrutura o trabalho como um ciclo curto, repe
 
 ## Documentation Links
 
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
-- [ACM/IEEE CS2013 — Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/) — doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
+- [ACM/IEEE CS2013: Software Engineering Knowledge Area](https://csed.acm.org/knowledge-areas-software-engineering-se-cs2013-version/): doc

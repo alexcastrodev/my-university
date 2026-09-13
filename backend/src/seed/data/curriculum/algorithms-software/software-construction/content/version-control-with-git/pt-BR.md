@@ -58,7 +58,7 @@ Tudo acima se reduz a três operações que um desenvolvedor realiza constanteme
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — criando um branch, fazendo commit nele, e mesclando de volta
+### Exemplo 1: criando um branch, fazendo commit nele, e mesclando de volta
 
 **Cenário:** `main` atualmente tem dois commits, A e B. Um desenvolvedor quer adicionar uma pequena funcionalidade autocontida sem tocar `main` até estar pronta.
 
@@ -75,7 +75,7 @@ git merge feature-x           # combina o trabalho de feature-x em main
 
 **Grafo resultante, descrito:** antes do merge, `main` aponta para B (ou D, se outro trabalho pousou lá nesse meio tempo) e `feature-x` aponta para C, com o pai de C sendo B. Se `main` nunca se moveu além de B enquanto `feature-x` estava sendo trabalhado, o merge é um **fast-forward**: git simplesmente move o ponteiro `main` para frente para C, já que C já contém tudo que B tinha mais a nova funcionalidade, nenhum novo commit de merge é necessário de forma alguma, porque não havia nada em `main` para reconciliar contra. Se `main` *de fato* se moveu para D nesse meio tempo, mesclar produz um commit de merge genuíno E com dois pais (D e C), exatamente como diagramado na Teoria Central, ambas as linhas de histórico são preservadas e juntadas.
 
-### Exemplo 2 — dois branches que tocam a mesma linha, produzindo um conflito
+### Exemplo 2: dois branches que tocam a mesma linha, produzindo um conflito
 
 **Cenário:** Tanto `main` quanto um branch chamado `fix-typo` editam a mesma linha de `README.md`, mas cada um a muda para algo diferente.
 
@@ -105,7 +105,7 @@ git commit -m "Merge fix-typo into main, resolving README conflict"
 
 O commit resultante ainda tem dois pais, exatamente como o commit de merge do Exemplo 1, a única diferença é que um humano teve que fornecer o conteúdo para a região sobre a qual ambos os branches discordavam, em vez de git combinar as mudanças automaticamente.
 
-### Exemplo 3 — prevendo um grafo de commit antes de rodá-lo
+### Exemplo 3: prevendo um grafo de commit antes de rodá-lo
 
 **Cenário:** começando a partir de um único commit A em `main`, a seguinte sequência roda:
 
@@ -134,5 +134,5 @@ O modelo central do git é uma sequência de snapshots imutáveis, autocontidos,
 
 ## Documentation Links
 
-- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/) — doc
-- [MIT 6.031 Spring 2017 — Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/) — doc
+- [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu/): doc
+- [MIT 6.031 Spring 2017: Course Site (lecture list)](http://web.mit.edu/6.031/www/sp17/): doc
