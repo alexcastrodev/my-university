@@ -144,8 +144,25 @@
     ]
   },
   {
-    "slug": "the-complexity-class-conp",
+    "slug": "the-traveling-salesman-problem-a-case-study-in-np-hardness",
     "id": 11,
+    "title": "The Traveling Salesman Problem: A Case Study in NP-Hardness",
+    "topic": "Complexity Classes",
+    "requires": ["proving-np-completeness-via-reduction"],
+    "related": [
+      { "label": "Minimum Spanning Trees: Problem Framing", "slug": "minimum-spanning-trees-problem", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Kruskal's Algorithm", "slug": "kruskals-algorithm", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "A full polynomial-time reduction from Hamiltonian Cycle proves TSP's decision version is NP-complete, a sharp contrast with Minimum Spanning Trees, which looks superficially similar but is solved exactly in polynomial time by Kruskal's and Prim's algorithms.",
+    "publishedAt": "2026-09-13",
+    "references": [
+      { "label": "ACM/IEEE CS2013 - Algorithms and Complexity Knowledge Area", "url": "https://csed.acm.org/cs2013-version/", "type": "doc" },
+      { "label": "MIT 6.006 - Lecture Notes (OCW)", "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "the-complexity-class-conp",
+    "id": 12,
     "title": "The Complexity Class coNP and the Asymmetry of Verification",
     "topic": "Complexity Classes",
     "requires": ["proving-np-completeness-via-reduction"],
@@ -159,10 +176,10 @@
   },
   {
     "slug": "the-p-vs-np-question",
-    "id": 12,
+    "id": 13,
     "title": "The P vs. NP Question: Real Stakes",
     "topic": "Capstone",
-    "requires": ["the-complexity-class-conp", "rices-theorem"],
+    "requires": ["the-complexity-class-conp", "rices-theorem", "the-traveling-salesman-problem-a-case-study-in-np-hardness"],
     "related": [],
     "summary": "The single most famous open problem in computer science — does every problem whose solution can be checked quickly also admit one that can be FOUND quickly — and why a resolution either way would upend cryptography and optimization overnight.",
     "publishedAt": "2026-09-06",
