@@ -66,7 +66,7 @@ Aqui, antes do relaxamento, `dist[v] = 9` (algum caminho anterior, mais caro, fo
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — confirmando que menos-arestas e peso-mínimo divergem, por cálculo direto
+### Exemplo 1: confirmando que menos-arestas e peso-mínimo divergem, por cálculo direto
 
 **Problema:** Usando o grafo A→B (10), A→C (1), C→D (1), D→B (1) da Teoria Central, calcule tanto o caminho de menos arestas quanto o caminho de peso mínimo de A a B, e confirme que diferem.
 
@@ -76,7 +76,7 @@ Aqui, antes do relaxamento, `dist[v] = 9` (algum caminho anterior, mais caro, fo
 
 **Conclusão.** As duas noções de "mais curto" discordam neste grafo: a resposta de BFS (A→B, 1 aresta) não é a resposta de peso mínimo (A→C→D→B, peso 3). Isso é exatamente por que uma família dedicada de algoritmos é necessária uma vez que pesos entram em cena.
 
-### Exemplo 2 — rastreando relaxamento convergindo para a resposta correta, independentemente da ordem de aresta
+### Exemplo 2: rastreando relaxamento convergindo para a resposta correta, independentemente da ordem de aresta
 
 **Problema:** Usando o mesmo grafo, inicialize `dist[A] = 0` e todos os outros como infinito, e relaxe as quatro arestas em duas ordens diferentes. Confirme que ambas as ordens eventualmente produzem a resposta correta `dist[B] = 3`.
 
@@ -108,5 +108,5 @@ Uma vez que arestas carregam pesos, "caminho mais curto" significa peso total m�
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

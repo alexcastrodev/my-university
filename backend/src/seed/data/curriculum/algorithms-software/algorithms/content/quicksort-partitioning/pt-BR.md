@@ -96,7 +96,7 @@ Ambos os esquemas acima rearranjam o segmento usando apenas **trocas dentro do p
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreando o particionamento de Lomuto passo a passo
+### Exemplo 1: rastreando o particionamento de Lomuto passo a passo
 
 **Problema:** Particione `A = [8, 3, 1, 7, 0, 10, 2]` usando o esquema de Lomuto (pivô = último elemento, `2`).
 
@@ -104,12 +104,12 @@ Estado inicial: `lo = 0`, `hi = 6`, `pivot = A[6] = 2`, `i = -1`.
 
 | j | A[j] | A[j] <= 2? | ação | array depois do passo |
 |---|------|-----------|--------|-------------------|
-| 0 | 8 | não | — | [8, 3, 1, 7, 0, 10, 2] |
-| 1 | 3 | não | — | [8, 3, 1, 7, 0, 10, 2] |
+| 0 | 8 | não |: | [8, 3, 1, 7, 0, 10, 2] |
+| 1 | 3 | não |: | [8, 3, 1, 7, 0, 10, 2] |
 | 2 | 1 | sim | i=0, troca A[0],A[2] | [1, 3, 8, 7, 0, 10, 2] |
-| 3 | 7 | não | — | [1, 3, 8, 7, 0, 10, 2] |
+| 3 | 7 | não |: | [1, 3, 8, 7, 0, 10, 2] |
 | 4 | 0 | sim | i=1, troca A[1],A[4] | [1, 0, 8, 7, 3, 10, 2] |
-| 5 | 10 | não | — | [1, 0, 8, 7, 3, 10, 2] |
+| 5 | 10 | não |: | [1, 0, 8, 7, 3, 10, 2] |
 
 O laço termina (j chegou a `hi - 1 = 5`). Passo final: troca `A[i+1] = A[2]` com `A[hi] = A[6]`:
 
@@ -117,13 +117,13 @@ O laço termina (j chegou a `hi - 1 = 5`). Passo final: troca `A[i+1] = A[2]` co
 
 O pivô `2` agora fica no índice `q = 2`. Verifique o invariante: `A[0..1] = [1, 0]`, ambos ≤ 2 ✓; `A[3..6] = [7, 3, 10, 8]`, todos ≥ 2 ✓. O algoritmo agora recursa independentemente em `A[0..1]` e `A[3..6]`, o pivô no índice 2 nunca é tocado de novo.
 
-### Exemplo 2 — a posição final do pivô é imediata, não incidental
+### Exemplo 2: a posição final do pivô é imediata, não incidental
 
 **Problema:** Explique, sem rodar a ordenação inteira, por que depois de uma chamada de particionamento em `[5, 5, 5, 5]` com pivô `A[3] = 5`, o resultado já está completamente particionado (embora não necessariamente de uma forma que pareça "movida").
 
 **Raciocínio.** Todo elemento é igual ao pivô, então toda comparação `A[j] <= pivô` é bem-sucedida, e `i` incrementa em toda iteração, o laço termina com `i = 2` (tendo processado `j = 0, 1, 2`), e a troca final coloca `A[3]` (o pivô) no índice 3, que é onde já estava. O array permanece inalterado como uma sequência de trocas que acontecem de ser no-ops ou auto-trocas, mas o invariante ainda é verificado: `A[0..2] = [5,5,5]` todos ≤ 5, `A[3] = 5`, e o lado direito (vazio) trivialmente satisfaz "tudo ≥ 5." Este caso de borda, um array de elementos todos iguais, é exatamente o caso que produz a divisão *pior possível* (um lado de tamanho 0, o outro de tamanho n − 1 em todo nível), um fato retomado no próximo conceito sobre análise de caso médio.
 
-### Exemplo 3 — o esquema de Hoare no mesmo array, contrastado
+### Exemplo 3: o esquema de Hoare no mesmo array, contrastado
 
 **Problema:** Particione `A = [8, 3, 1, 7, 0, 10, 2]` usando o esquema de Hoare (pivô = primeiro elemento, `8`).
 
@@ -146,5 +146,5 @@ Quicksort particiona um segmento de array em torno de um pivô escolhido de form
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

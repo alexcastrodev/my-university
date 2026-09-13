@@ -46,10 +46,10 @@ Busca binária, aplicada a um array ordenado, é dividir para conquistar com os 
 def binary_search(items, target, lo=0, hi=None):
     if hi is None:
         hi = len(items) - 1
-    if lo > hi:                       # caso base — espaço de busca vazio
+    if lo > hi:                       # caso base: espaço de busca vazio
         return -1
     mid = (lo + hi) // 2
-    if items[mid] == target:          # caso base — encontrado
+    if items[mid] == target:          # caso base: encontrado
         return mid
     elif items[mid] < target:
         return binary_search(items, target, mid + 1, hi)   # dividir: mantém só a metade direita
@@ -68,7 +68,7 @@ Isso é por que busca binária é um bom primeiro exemplo precisamente porque é
 ```mermaid
 flowchart TD
     A["busca em [1,3,4,6,8,9,11,14] por 9\n(lo=0, hi=7, mid=3, items[3]=6 < 9)"] --> B["busca na metade direita\n[8,9,11,14]\n(lo=4, hi=7, mid=5, items[5]=9 == 9)"]
-    B --> C["encontrado no índice 5 — retorna diretamente"]
+    B --> C["encontrado no índice 5: retorna diretamente"]
 ```
 
 ### Por que dois subproblemas e combinação real mudam tudo
@@ -97,7 +97,7 @@ Um problema é um candidato plausível para essa estratégia quando tem uma form
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — identificando dividir, conquistar e combinar em busca binária
+### Exemplo 1: identificando dividir, conquistar e combinar em busca binária
 
 **Problema:** Para a chamada `binary_search([2, 5, 7, 8, 11, 12, 16, 19], 12)`, rastreie os passos de dividir para conquistar explicitamente.
 
@@ -107,7 +107,7 @@ Um problema é um candidato plausível para essa estratégia quando tem uma form
 
 **Combinar.** Não há nada a combinar: a resposta da única chamada recursiva (`5`) é repassada diretamente para cima como a resposta final, inalterada. Isso confirma o formato `a=1`, combinação trivial, descrito na Teoria Central.
 
-### Exemplo 2 — um problema que parece recursivo mas não é dividir para conquistar
+### Exemplo 2: um problema que parece recursivo mas não é dividir para conquistar
 
 **Problema:** Considere calcular a soma de um array via `array_sum(items) = items[0] + array_sum(items[1:])`, com `array_sum([]) = 0`. Isso é dividir para conquistar?
 
@@ -115,7 +115,7 @@ Um problema é um candidato plausível para essa estratégia quando tem uma form
 
 **Conclusão.** Isso é recursão direta, não dividir para conquistar, se encaixa no modelo de caso-base/caso-recursivo do conceito de recursão pré-requisito, mas não no compromisso extra (encolhimento fracionário) que dividir para conquistar exige. Seu tempo de execução é `O(n)`, linear no número de reduções de uma unidade por vez, sem nenhuma da estrutura de níveis logarítmicos que a divisão fracionária produz. Contrastar isso com busca binária torna a característica distintiva concreta: a *taxa* na qual o problema encolhe, não meramente o fato de que encolhe.
 
-### Exemplo 3 — esboçando um candidato de dois subproblemas com combinação real
+### Exemplo 3: esboçando um candidato de dois subproblemas com combinação real
 
 **Problema:** Dado um array de números, encontre tanto seu valor máximo quanto seu mínimo. Esboce uma abordagem de dividir para conquistar e identifique seus três passos.
 
@@ -140,5 +140,5 @@ Dividir para conquistar nomeia uma forma específica e disciplinada de usar recu
 
 ## Documentation Links
 
-- [MIT 6.006 — Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

@@ -39,10 +39,10 @@ Memoização transforma isso em:
 def fib_memo(n, cache={}):
     if n in cache:                        # NOVO: já resolvemos esse exato subproblema?
         return cache[n]
-    if n <= 1:                            # caso base — inalterado
+    if n <= 1:                            # caso base: inalterado
         result = n
     else:
-        result = fib_memo(n - 1, cache) + fib_memo(n - 2, cache)   # caso recursivo — inalterado
+        result = fib_memo(n - 1, cache) + fib_memo(n - 2, cache)   # caso recursivo: inalterado
     cache[n] = result                     # NOVO: armazena antes de retornar
     return result
 ```
@@ -79,13 +79,13 @@ O que memoização *não* remove é a própria pilha de chamada: `fib_memo(n)`, 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — Fibonacci memoizado, rastreado contra a versão ingênua
+### Exemplo 1: Fibonacci memoizado, rastreado contra a versão ingênua
 
 **Problema:** Confirme que `fib_memo(5)` memoizado retorna o valor correto, e conte quantos subproblemas distintos são de fato calculados (em oposição a consultados).
 
 Seguindo o diagrama da Teoria Central: `fib_memo(5)` calcula valores frescos para `n = 5, 4, 3, 2, 1, 0`, seis subproblemas distintos, e toda outra chamada na árvore (o segundo `fib_memo(3)`, o segundo `fib_memo(2)`, todo `fib_memo(1)` e `fib_memo(0)` repetido) é um acerto de cache. `fib_memo(0) = 0`, `fib_memo(1) = 1`, `fib_memo(2) = 1`, `fib_memo(3) = 2`, `fib_memo(4) = 3`, `fib_memo(5) = 5`, combinando com a sequência de Fibonacci bem conhecida, e combinando exatamente com o que `fib(5)` ingênuo teria retornado, só calculado com `6` chamadas frescas totais em vez de `15`.
 
-### Exemplo 2 — memoizando um problema diferente: caminhos em grid
+### Exemplo 2: memoizando um problema diferente: caminhos em grid
 
 **Problema:** Memoize a recursão de contagem de caminho de grid do Exemplo 2 do conceito anterior, `count_paths(r, c) = count_paths(r-1, c) + count_paths(r, c-1)` com caso base `count_paths(0, c) = count_paths(r, 0) = 1`.
 
@@ -107,7 +107,7 @@ def count_paths_memo(r, c, cache=None):
 
 Nada sobre a lógica recursiva mudou da versão não memoizada, só a verificação de cache e a escrita de cache foram adicionadas, chaveadas no par `(r, c)` em vez de um único inteiro. Todo um dos `O(linhas × colunas)` pares distintos `(r, c)` agora é calculado exatamente uma vez, em vez de ser redescoberto ao longo de todo caminho distinto que acontece de passar por ele, a mesma mudança exponencial-para-polinomial vista com Fibonacci, aqui de recursão ingênua exponencial-no-pior-caso para `O(linhas × colunas)`.
 
-### Exemplo 3 — diagnosticando um cache chaveado incorretamente
+### Exemplo 3: diagnosticando um cache chaveado incorretamente
 
 **Problema:** Um estudante memoiza uma função `longest_prefix_match(s, i, target)`, destinada a encontrar, começando no índice `i` da string `s`, o prefixo mais longo de `target` correspondido começando ali, mas chaveia o cache só por `i`, não por `target`. A função é depois chamada com vários valores diferentes de `target` contra o mesmo `s`. Por que essa memoização silenciosamente retorna respostas erradas?
 
@@ -126,5 +126,5 @@ Memoização pega uma função recursiva já correta, caso base inalterado, caso
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [MIT 6.006 — Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [MIT 6.006: Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/): doc

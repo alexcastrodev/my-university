@@ -39,7 +39,7 @@ def connected_components(adj, vertices):
     for start in vertices:
         if start in visited:
             continue  # já reivindicado por uma execução BFS anterior
-        # um vértice novo, não visitado — começa um novo componente
+        # um vértice novo, não visitado: começa um novo componente
         num_components += 1
         visited.add(start)
         component_of[start] = num_components
@@ -85,7 +85,7 @@ O laço `for` externo visita todo vértice exatamente uma vez como uma iteraçã
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — um grafo com três peças desconectadas
+### Exemplo 1: um grafo com três peças desconectadas
 
 **Problema:** Encontre os componentes conexos do grafo não direcionado:
 
@@ -108,7 +108,7 @@ O laço externo alcança H; já visitado, pula. O laço termina (todos os 8 vér
 
 **Resultado:** 3 componentes conexos, {A, B, C} (um triângulo), {D, E, F} (um caminho), {G, H} (uma única aresta), e todo vértice foi atribuído a exatamente um deles, combinando com a partição garantida pelo argumento da relação de equivalência.
 
-### Exemplo 2 — contagem de componente como uma verificação estrutural rápida
+### Exemplo 2: contagem de componente como uma verificação estrutural rápida
 
 **Problema:** Dado o mesmo grafo, sem listar os componentes explicitamente, quantas execuções de BFS o algoritmo realiza, e o que esse número significa?
 
@@ -127,5 +127,5 @@ Um componente conexo é uma classe de equivalência sob a relação "existe um c
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

@@ -76,7 +76,7 @@ O formato iterativo, sem recursão, de tabulação é geralmente preferido quand
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — preenchendo a tabela de Fibonacci manualmente
+### Exemplo 1: preenchendo a tabela de Fibonacci manualmente
 
 **Problema:** Preencha a tabela de `fib_tab` para `n = 7` manualmente, e confirme a resposta final contra os valores bem conhecidos da sequência.
 
@@ -86,7 +86,7 @@ O formato iterativo, sem recursão, de tabulação é geralmente preferido quand
 
 Toda entrada a partir de `i = 2` é `table[i-1] + table[i-2]`: `table[2] = 1+0 = 1`, `table[3] = 1+1 = 2`, `table[4] = 2+1 = 3`, `table[5] = 3+2 = 5`, `table[6] = 5+3 = 8`, `table[7] = 8+5 = 13`, combinando exatamente com a sequência de Fibonacci padrão, e combinando com o que `fib_memo(7)` também retornaria, calculado aqui com zero chamadas recursivas.
 
-### Exemplo 2 — tabulando o problema de caminhos em grid
+### Exemplo 2: tabulando o problema de caminhos em grid
 
 **Problema:** Tabule `count_paths(r, c) = count_paths(r-1, c) + count_paths(r, c-1)`, caso base `count_paths(0, c) = count_paths(r, 0) = 1`, para um grid `3×3`.
 
@@ -110,7 +110,7 @@ def count_paths_tab(rows, cols):
 
 `table[1][1] = table[0][1] + table[1][0] = 1 + 1 = 2`; `table[2][2] = table[1][2] + table[2][1] = 3 + 3 = 6`; `table[3][3] = table[2][3] + table[3][2] = 10 + 10 = 20`. A resposta final, 20 caminhos distintos através de um grid `3×3`, combina com o que uma versão recursiva memoizada calcularia, preenchido aqui linha por linha, com toda dependência já resolvida no momento em que cada célula é alcançada.
 
-### Exemplo 3 — uma ordem de dependência que quebraria tabulação
+### Exemplo 3: uma ordem de dependência que quebraria tabulação
 
 **Problema:** Suponha que alguém tentasse preencher a tabela de caminhos-em-grid coluna por coluna da direita para a esquerda em vez da ordem usada acima. Isso funcionaria?
 
@@ -129,5 +129,5 @@ Tabulação resolve os mesmíssimos subproblemas que memoização resolve, no me
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

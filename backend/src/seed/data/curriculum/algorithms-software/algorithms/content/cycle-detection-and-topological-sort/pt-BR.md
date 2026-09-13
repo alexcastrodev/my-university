@@ -92,7 +92,7 @@ graph LR
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — detectando um ciclo via uma aresta de retorno
+### Exemplo 1: detectando um ciclo via uma aresta de retorno
 
 **Problema:** O grafo direcionado com arestas X→Y, Y→Z, Z→X contém um ciclo? Rastreie DFS a partir de X para confirmar.
 
@@ -100,7 +100,7 @@ graph LR
 
 **Conclusão.** Uma aresta de retorno existe, então pelo teorema, o grafo tem um ciclo, de fato X → Y → Z → X o traça diretamente, exatamente o ciclo que a aresta de retorno (Z, X) fecha.
 
-### Exemplo 2 — ordenação topológica de um DAG de pré-requisitos de curso
+### Exemplo 2: ordenação topológica de um DAG de pré-requisitos de curso
 
 **Problema:** Usando o grafo acima (Intro=A, Estruturas de Dados=B, Matemática Discreta=C, Algoritmos=D, Sistemas Operacionais=E, IA=F; arestas A→B, A→C, B→D, B→E, C→D, D→F, E→F), encontre uma ordem topológica válida via tempos de término de DFS, começando DFS a partir de A e visitando vizinhos na ordem da lista (adj: A→[B,C], B→[D,E], C→[D], D→[F], E→[F], F→[]).
 
@@ -125,5 +125,5 @@ DFS direcionado classifica toda aresta que examina pelo estado de seu vértice a
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

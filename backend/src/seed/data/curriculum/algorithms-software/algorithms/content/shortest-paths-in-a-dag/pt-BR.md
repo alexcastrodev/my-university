@@ -67,7 +67,7 @@ O algoritmo de Dijkstra precisa de um heap especificamente porque, sem mais info
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — caminhos mais curtos em um DAG, pesos não negativos
+### Exemplo 1: caminhos mais curtos em um DAG, pesos não negativos
 
 **Problema:** Usando o grafo acima (arestas A→B(2), A→C(4), B→D(1), B→E(7), C→D(3), D→F(1), E→F(1)), com ordem topológica A, C, B, E, D, F (a mesma ordem derivada por tempos de término de DFS no tópico anterior sobre a estrutura de aresta deste grafo), calcule distâncias mais curtas a partir de A.
 
@@ -87,7 +87,7 @@ Processa F (`dist[F]=4`): sem arestas de saída.
 
 **Resultado:** `dist = {A:0, B:2, C:4, D:3, E:9, F:4}`. Verifique F: caminhos candidatos são A→B→D→F (2+1+1=4), A→B→E→F (2+7+1=10), A→C→D→F (4+3+1=8), o mínimo é 4, combinando exatamente com `dist[F]`, encontrado em uma única passagem para frente sem que as arestas de saída de nenhum vértice sejam jamais revisitadas.
 
-### Exemplo 2 — o mesmo DAG, com uma aresta negativa, ainda tratado corretamente
+### Exemplo 2: o mesmo DAG, com uma aresta negativa, ainda tratado corretamente
 
 **Problema:** Mude o peso de B→E de 7 para −7, e recalcule.
 
@@ -108,5 +108,5 @@ Saber antecipadamente que um grafo é um DAG transforma o problema geral de cami
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

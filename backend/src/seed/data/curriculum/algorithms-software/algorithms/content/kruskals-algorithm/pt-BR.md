@@ -55,47 +55,47 @@ graph LR
     C -.6.- E
 ```
 
-Arestas sólidas (B–C peso 1, A–B peso 2, D–E peso 2, B–D peso 4) são as que o algoritmo de Kruskal aceita na MST ao processar as arestas deste grafo em ordem ascendente; arestas pontilhadas (A–C peso 3, C–D peso 5, C–E peso 6) são rejeitadas porque, no momento em que cada uma é examinada, seus dois extremos já estão no mesmo componente.
+Arestas sólidas (B-C peso 1, A-B peso 2, D-E peso 2, B-D peso 4) são as que o algoritmo de Kruskal aceita na MST ao processar as arestas deste grafo em ordem ascendente; arestas pontilhadas (A-C peso 3, C-D peso 5, C-E peso 6) são rejeitadas porque, no momento em que cada uma é examinada, seus dois extremos já estão no mesmo componente.
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo no grafo dos cinco prédios, com estado union-find explícito
+### Exemplo 1: rastreamento completo no grafo dos cinco prédios, com estado union-find explícito
 
-**Problema:** Usando o mesmo grafo do Exemplo 1 do problema de árvore geradora mínima, vértices A, B, C, D, E; arestas A–B: 2, A–C: 3, B–C: 1, B–D: 4, C–D: 5, C–E: 6, D–E: 2, rode o algoritmo de Kruskal, mostrando o resultado de `find` do union-find e a decisão em cada passo.
+**Problema:** Usando o mesmo grafo do Exemplo 1 do problema de árvore geradora mínima, vértices A, B, C, D, E; arestas A-B: 2, A-C: 3, B-C: 1, B-D: 4, C-D: 5, C-E: 6, D-E: 2, rode o algoritmo de Kruskal, mostrando o resultado de `find` do union-find e a decisão em cada passo.
 
-**Ordene arestas ascendente:** B–C (1), A–B (2), D–E (2), A–C (3), B–D (4), C–D (5), C–E (6).
+**Ordene arestas ascendente:** B-C (1), A-B (2), D-E (2), A-C (3), B-D (4), C-D (5), C-E (6).
 
 **Inicialize:** union-find com 5 componentes unitários: {A}, {B}, {C}, {D}, {E}.
 
 | Aresta | find(u) vs find(v) | Decisão | Componentes depois |
 |---|---|---|---|
-| B–C (1) | find(B) ≠ find(C) — unitários diferentes | Aceita; union(B, C) | {B,C}, {A}, {D}, {E} |
-| A–B (2) | find(A) ≠ find(B) — A está sozinho, B está em {B,C} | Aceita; union(A, B) | {A,B,C}, {D}, {E} |
-| D–E (2) | find(D) ≠ find(E) — unitários diferentes | Aceita; union(D, E) | {A,B,C}, {D,E} |
-| A–C (3) | find(A) == find(C) — ambos já em {A,B,C} | **Rejeita** — fecharia ciclo A-B-C-A | {A,B,C}, {D,E} (inalterado) |
-| B–D (4) | find(B) ≠ find(D) — {A,B,C} vs {D,E} | Aceita; union(B, D) | {A,B,C,D,E} — um componente |
+| B-C (1) | find(B) ≠ find(C): unitários diferentes | Aceita; union(B, C) | {B,C}, {A}, {D}, {E} |
+| A-B (2) | find(A) ≠ find(B): A está sozinho, B está em {B,C} | Aceita; union(A, B) | {A,B,C}, {D}, {E} |
+| D-E (2) | find(D) ≠ find(E): unitários diferentes | Aceita; union(D, E) | {A,B,C}, {D,E} |
+| A-C (3) | find(A) == find(C): ambos já em {A,B,C} | **Rejeita**: fecharia ciclo A-B-C-A | {A,B,C}, {D,E} (inalterado) |
+| B-D (4) | find(B) ≠ find(D): {A,B,C} vs {D,E} | Aceita; union(B, D) | {A,B,C,D,E}: um componente |
 
-Quatro arestas aceitas (B–C, A–B, D–E, B–D), exatamente n − 1 = 4 para n = 5, e a estrutura union-find agora relata um único componente, então o algoritmo para. As arestas restantes (C–D, C–E) nunca são de fato examinadas na prática uma vez que n − 1 arestas são aceitas, embora rastreá-las mostraria ambas rejeitadas (find(C) == find(D) e find(C) == find(E) respectivamente, já que tudo se mesclou em um componente naquele ponto). Peso total: 1 + 2 + 2 + 4 = 9, combinando com a MST encontrada por inspeção direta no conceito anterior.
+Quatro arestas aceitas (B-C, A-B, D-E, B-D), exatamente n − 1 = 4 para n = 5, e a estrutura union-find agora relata um único componente, então o algoritmo para. As arestas restantes (C-D, C-E) nunca são de fato examinadas na prática uma vez que n − 1 arestas são aceitas, embora rastreá-las mostraria ambas rejeitadas (find(C) == find(D) e find(C) == find(E) respectivamente, já que tudo se mesclou em um componente naquele ponto). Peso total: 1 + 2 + 2 + 4 = 9, combinando com a MST encontrada por inspeção direta no conceito anterior.
 
-### Exemplo 2 — um grafo pesado em rejeições, para isolar a verificação de ciclo
+### Exemplo 2: um grafo pesado em rejeições, para isolar a verificação de ciclo
 
-**Problema:** Vértices {1, 2, 3, 4}, arestas 1–2 (1), 2–3 (2), 1–3 (3), 3–4 (4), 1–4 (5). Rastreie o algoritmo de Kruskal.
+**Problema:** Vértices {1, 2, 3, 4}, arestas 1-2 (1), 2-3 (2), 1-3 (3), 3-4 (4), 1-4 (5). Rastreie o algoritmo de Kruskal.
 
-**Ordene:** 1–2 (1), 2–3 (2), 1–3 (3), 3–4 (4), 1–4 (5).
+**Ordene:** 1-2 (1), 2-3 (2), 1-3 (3), 3-4 (4), 1-4 (5).
 
-- 1–2 (1): find(1) ≠ find(2) → aceita, union(1,2). Componentes: {1,2}, {3}, {4}.
-- 2–3 (2): find(2) ≠ find(3) → aceita, union(2,3). Componentes: {1,2,3}, {4}.
-- 1–3 (3): find(1) == find(3) (ambos em {1,2,3}) → **rejeita**, ciclo 1-2-3-1.
-- 3–4 (4): find(3) ≠ find(4) → aceita, union(3,4). Componentes: {1,2,3,4} — terminado, n − 1 = 3 arestas aceitas.
-- 1–4 (5): nunca examinada, o algoritmo já parou em 3 arestas aceitas.
+- 1-2 (1): find(1) ≠ find(2) → aceita, union(1,2). Componentes: {1,2}, {3}, {4}.
+- 2-3 (2): find(2) ≠ find(3) → aceita, union(2,3). Componentes: {1,2,3}, {4}.
+- 1-3 (3): find(1) == find(3) (ambos em {1,2,3}) → **rejeita**, ciclo 1-2-3-1.
+- 3-4 (4): find(3) ≠ find(4) → aceita, union(3,4). Componentes: {1,2,3,4}: terminado, n − 1 = 3 arestas aceitas.
+- 1-4 (5): nunca examinada, o algoritmo já parou em 3 arestas aceitas.
 
-Arestas aceitas: 1–2, 2–3, 3–4; peso total 1 + 2 + 4 = 7. Note que a aresta 1–3, apesar de ser mais barata que 3–4, foi corretamente rejeitada, teria conectado dois vértices (1 e 3) já alcançáveis um do outro através das arestas aceitas 1–2 e 2–3, e a verificação `find` do union-find capturou isso em tempo O(α(n)) em vez de exigir qualquer busca de caminho explícita através da árvore parcialmente construída.
+Arestas aceitas: 1-2, 2-3, 3-4; peso total 1 + 2 + 4 = 7. Note que a aresta 1-3, apesar de ser mais barata que 3-4, foi corretamente rejeitada, teria conectado dois vértices (1 e 3) já alcançáveis um do outro através das arestas aceitas 1-2 e 2-3, e a verificação `find` do union-find capturou isso em tempo O(α(n)) em vez de exigir qualquer busca de caminho explícita através da árvore parcialmente construída.
 
 ## Equívocos Comuns e Armadilhas
 
 - **"O algoritmo de Kruskal precisa verificar ciclos buscando na árvore parcialmente construída por um caminho entre u e v."** Isso funcionaria, mas descarta exatamente a eficiência que union-find foi construído para fornecer. O ponto inteiro de usar union-find aqui é que "essa aresta fecharia um ciclo" se reduz a uma verificação `connected` baseada em `find`, a custo amortizado efetivamente constante, em vez de uma busca de grafo através da árvore construída até agora, que é exatamente a referência antecipada que o conceito de union-find tornou explícita.
 - **"Já que union-find pode responder consultas tão rápido, o tempo de execução do algoritmo de Kruskal deveria ser quase linear em E, como as próprias operações de union-find."** As operações de union-find são de fato quase de tempo constante cada uma, mas o algoritmo de Kruskal ainda tem que ordenar todas as arestas primeiro, e essa ordenação custa O(E log E), assintoticamente maior que o O(E · α(n)) total gasto em chamadas de union-find. O gargalo é a ordenação, não a estrutura de conectividade; α(n) é pequeno o suficiente para ser irrelevante ao lado de log E.
-- **"Uma aresta deveria ser rejeitada só se forma um ciclo com a aresta aceita imediatamente anterior."** Formação de ciclo é uma propriedade de uma aresta relativa ao conjunto *inteiro* de arestas atualmente aceitas (equivalentemente, a partição union-find atual), não apenas a mais recentemente adicionada, a aresta 1–3 do Exemplo 2 forma um ciclo usando duas arestas anteriores (1–2 e 2–3) juntas, não qualquer outra aresta única sozinha, e a verificação `find` corretamente contabiliza isso porque union-find rastreia a partição transitiva completa, não só adjacência par-a-par.
+- **"Uma aresta deveria ser rejeitada só se forma um ciclo com a aresta aceita imediatamente anterior."** Formação de ciclo é uma propriedade de uma aresta relativa ao conjunto *inteiro* de arestas atualmente aceitas (equivalentemente, a partição union-find atual), não apenas a mais recentemente adicionada, a aresta 1-3 do Exemplo 2 forma um ciclo usando duas arestas anteriores (1-2 e 2-3) juntas, não qualquer outra aresta única sozinha, e a verificação `find` corretamente contabiliza isso porque union-find rastreia a partição transitiva completa, não só adjacência par-a-par.
 - **"Processar arestas em ordem ordenada é só uma conveniência de implementação; qualquer ordem funcionaria desde que ciclos sejam evitados."** Ordem ordenada é o que torna o argumento da propriedade de corte para correção válido afinal: o raciocínio de que a primeira aresta conectando dois componentes deve ser uma aresta de cruzamento de peso mínimo para o corte entre eles depende inteiramente de já ter processado tudo mais barato. Processar arestas em uma ordem arbitrária (ainda rejeitando ciclos) produz *alguma* árvore geradora, mas não dá nenhuma garantia de que seja mínima.
 
 ## Resumo
@@ -104,5 +104,5 @@ O algoritmo de Kruskal instancia o algoritmo genérico guloso de MST ordenando t
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/): doc

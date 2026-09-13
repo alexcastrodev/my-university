@@ -31,7 +31,7 @@ Um algoritmo guloso para um problema que constrói uma solução incrementalment
 ```mermaid
 graph LR
     A["Escolhas disponíveis"] --> B["Escolhe a localmente melhor por regra fixa"]
-    B --> C["Compromete-se — nunca reconsiderada"]
+    B --> C["Compromete-se: nunca reconsiderada"]
     C --> D{"Solução completa?"}
     D -->|não| A
     D -->|sim| E["Resposta final"]
@@ -63,7 +63,7 @@ O critério local da regra gulosa, "use a maior denominação que cabe", implici
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — um segundo conjunto de denominações onde guloso também falha
+### Exemplo 1: um segundo conjunto de denominações onde guloso também falha
 
 **Problema:** Usando denominações `{1, 10, 25}`, encontre o número mínimo de moedas para a quantia `30` usando a regra gulosa, e compare contra o verdadeiro ótimo.
 
@@ -75,7 +75,7 @@ Resposta da gulosa: `25 + 1×5` = **6 moedas**.
 
 Isso confirma que o contraexemplo da Teoria Central não é um artefato isolado dos números específicos `{1,3,4}` e `6`, o mesmo estilo de falha (uma moeda grande agora encalhando o restante em uma quantia estranha para o conjunto de moedas) recorre com um conjunto de denominações estruturalmente similar mas numericamente diferente, reforçando que o problema é uma fraqueza estrutural genuína da regra gulosa para conjuntos de denominações *arbitrários*, não uma coincidência ligada a uma entrada específica.
 
-### Exemplo 2 — onde a mesma regra gulosa tem sucesso, e por quê
+### Exemplo 2: onde a mesma regra gulosa tem sucesso, e por quê
 
 **Problema:** Usando denominações `{1, 5, 10, 25}` (moedas padrão dos EUA), encontre o número mínimo de moedas para a quantia `30`.
 
@@ -85,7 +85,7 @@ Resposta da gulosa: `25 + 5` = **2 moedas**.
 
 **Verificando otimalidade.** 1 moeda bastaria? Nenhuma denominação única iguala 30. Alguma outra combinação de 2 moedas conseguiria? As únicas somas de 2 moedas disponíveis são pares de `{1,5,10,25}`: a maior soma possível de 2 moedas não excedendo 30 usando pareamentos distintos, `25+5=30`, combina exatamente, e nenhuma outra combinação de 2 moedas alcança 30 (`10+10=20`, combinações `25+1` também não alcançam 30 sem uma terceira moeda). Então 2 moedas é ótimo, e guloso o encontrou. A razão estrutural pela qual este conjunto de moedas se comporta bem (e `{1,3,4}` não) é uma propriedade genuína, demonstrável, de como cada denominação se relaciona com as outras, não é abordada em generalidade completa aqui, mas o contraste concreto entre a falha do Exemplo 1 e esse sucesso é exatamente o ponto: o mesmo algoritmo, inalterado, tem sucesso em uma família de entrada e falha em outra, e nada sobre *rodar* o algoritmo revela em qual situação você está.
 
-### Exemplo 3 — uma ilustração não numérica: cobertura de intervalo gulosa dando errado (informal)
+### Exemplo 3: uma ilustração não numérica: cobertura de intervalo gulosa dando errado (informal)
 
 **Problema:** Suponha que uma regra gulosa para alguma variante de agendamento diga "sempre escolha qualquer opção restante que remova mais outras opções da consideração" (uma heurística de "maximizar impacto imediato", ao contrário da regra de tempo-de-término-mais-cedo usada corretamente no próximo conceito). Esboce, informalmente, por que esse tipo de regra que "parece localmente poderosa" também não é automaticamente confiável.
 
@@ -104,5 +104,5 @@ Um algoritmo guloso constrói uma solução incrementalmente, sempre tomando a e
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

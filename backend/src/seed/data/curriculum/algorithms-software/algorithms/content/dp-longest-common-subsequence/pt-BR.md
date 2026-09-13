@@ -50,7 +50,7 @@ A tabela sozinha dá o *comprimento* da LCS, mas a sequência de decisões usada
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — preenchendo uma tabela completa manualmente para duas strings curtas
+### Exemplo 1: preenchendo uma tabela completa manualmente para duas strings curtas
 
 **Problema:** Encontre a LCS de `A = "ABC"` e `B = "AC"`.
 
@@ -63,13 +63,13 @@ A tabela sozinha dá o *comprimento* da LCS, mas a sequência de decisões usada
 
 Lendo algumas células: `T[1][1]` compara `A[0]='A'` contra `B[0]='A'`, combinam, então `T[1][1] = 1 + T[0][0] = 1`. `T[2][1]` compara `A[1]='B'` contra `B[0]='A'`, sem combinação, então `T[2][1] = max(T[1][1], T[2][0]) = max(1, 0) = 1`. `T[3][2]` compara `A[2]='C'` contra `B[1]='C'`, combinam, então `T[3][2] = 1 + T[2][1] = 1 + 1 = 2`. A célula final `T[3][2] = 2` dá o comprimento da LCS; rastreando de volta a partir dali (`C` combina em `(3,2)` → diagonal para `(2,1)`; `A[1]='B'` vs `B[0]='A'` não combinam em `(2,1)`, e `T[2][1] = T[1][1]`, então move para cima para `(1,1)`; `A[0]='A'` combina `B[0]='A'` em `(1,1)` → diagonal para `(0,0)`, terminado) recupera a subsequência `"AC"`.
 
-### Exemplo 2 — uma tabela um pouco maior, lida só pelo comprimento
+### Exemplo 2: uma tabela um pouco maior, lida só pelo comprimento
 
 **Problema:** Encontre o comprimento da LCS de `A = "ABCBDAB"` e `B = "BDCABA"` (o exemplo da seção de Contexto).
 
 Preencher a tabela `8×7` completa pela mesma recorrência (omitida célula por célula aqui por espaço, mas construída exatamente como no Exemplo 1) produz um valor de célula final de `4`, combinando com a afirmação anterior de que `"BCBA"` (comprimento 4) é uma subsequência comum mais longa, um rastreamento reverso através da tabela completada confirmaria `"BCBA"` (ou outra subsequência de comprimento 4, já que empates são possíveis) como uma testemunha real.
 
-### Exemplo 3 — confirmando subproblemas sobrepostos concretamente
+### Exemplo 3: confirmando subproblemas sobrepostos concretamente
 
 **Problema:** Mostre diretamente que uma implementação recursiva ingênua (não memoizada, não tabulada) da recorrência revisita o mesmo par `(i, j)` mais de uma vez.
 
@@ -88,5 +88,5 @@ Subsequência Comum Mais Longa pede a string mais longa que é uma subsequência
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

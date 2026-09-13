@@ -84,7 +84,7 @@ A função `merge`, como escrita, aloca uma nova lista (`result`) em toda única
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreando a árvore de chamada completa e confirmando o trabalho Θ(n) por nível da recorrência
+### Exemplo 1: rastreando a árvore de chamada completa e confirmando o trabalho Θ(n) por nível da recorrência
 
 **Problema:** Para `merge_sort([5, 2, 4, 1, 3, 7, 6, 8])`, rastreie a árvore de chamada e confirme que o trabalho total de mesclagem em cada nível é proporcional a `n = 8`.
 
@@ -96,7 +96,7 @@ A função `merge`, como escrita, aloca uma nova lista (`result`) em toda única
 
 Todo nível toca exatamente `8 = n` elementos no total, confirmando concretamente a afirmação de `Θ(n)`-por-nível da Teoria Central, neste array exato, combinando com o argumento abstrato da árvore de recursão do conceito pré-requisito elemento por elemento.
 
-### Exemplo 2 — verificando estabilidade com um empate concreto
+### Exemplo 2: verificando estabilidade com um empate concreto
 
 **Problema:** Ordene a lista de pares `[(3, 'a'), (1, 'b'), (3, 'c'), (2, 'd')]` só pelo primeiro elemento, e confirme que os dois elementos com primeiro elemento `3` mantêm sua ordem relativa original (`'a'` antes de `'c'`) na saída.
 
@@ -104,7 +104,7 @@ Todo nível toca exatamente `8 = n` elementos no total, confirmando concretament
 
 **Confirmação.** `(3,'a')` apareceu antes de `(3,'c')` na entrada original (posições 0 e 2), e aparece antes de `(3,'c')` na saída também, estabilidade preservada, e especificamente por causa da comparação `<=` no exato momento em que os dois pares iguais-por-primeiro-elemento foram comparados durante o merge final.
 
-### Exemplo 3 — o que quebra se o merge usar `<` em vez de `<=`
+### Exemplo 3: o que quebra se o merge usar `<` em vez de `<=`
 
 **Problema:** Usando a mesma entrada do Exemplo 2, rastreie o que aconteceria se `merge` usasse `left[i] < right[j]` em vez de `left[i] <= right[j]`, na comparação específica entre `(3,'a')` e `(3,'c')`.
 
@@ -125,5 +125,5 @@ Merge sort, conhecido anteriormente como uma entrada em uma tabela comparativa, 
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

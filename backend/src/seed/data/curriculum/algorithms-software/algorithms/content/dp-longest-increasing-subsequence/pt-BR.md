@@ -49,7 +49,7 @@ flowchart LR
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — a DP O(n²), rastreada manualmente
+### Exemplo 1: a DP O(n²), rastreada manualmente
 
 **Problema:** Encontre o comprimento LIS de `[10, 9, 2, 5, 3, 7, 101, 18]` usando a recorrência `L(i)`.
 
@@ -66,7 +66,7 @@ flowchart LR
 
 O `L(i)` máximo através da tabela é 4 (alcançado em `i=6` e `i=7`), combinando com o comprimento LIS afirmado na Teoria Central, testemunhado concretamente por `[2, 3, 7, 101]` (rastreando `L(6)=4` de volta através de `j=5, j=4 ou 3, j=2`) ou `[2, 3, 7, 18]` (rastreando `L(7)=4` da mesma forma).
 
-### Exemplo 2 — a abordagem O(n log n), rastreada passo a passo
+### Exemplo 2: a abordagem O(n log n), rastreada passo a passo
 
 **Problema:** Processe o mesmo array, `[10, 9, 2, 5, 3, 7, 101, 18]`, mantendo `tails` e mostrando o resultado de cada busca binária.
 
@@ -83,7 +83,7 @@ O `L(i)` máximo através da tabela é 4 (alcançado em `i=6` e `i=7`), combinan
 
 `tails` final = `[2, 3, 7, 18]`, comprimento 4, combinando exatamente com a resposta do Exemplo 1. Note que `[2, 3, 7, 18]` aqui acontece de coincidir com uma testemunha LIS válida real, mas isso não é garantido em geral; `tails` registra o menor final alcançável por comprimento, que pode se afastar de qualquer única subsequência coerente conforme mais substituições acontecem (como o passo "18 substitui 101" ilustra: `101` era um final válido alcançado anteriormente, mas `18` é estritamente melhor para extensão futura, mesmo que `101` em si nunca tenha de fato sido removido do array).
 
-### Exemplo 3 — verificando o invariante de ordenação que licencia busca binária
+### Exemplo 3: verificando o invariante de ordenação que licencia busca binária
 
 **Problema:** Confirme que `tails` permanece ordenado depois de toda atualização de elemento único no Exemplo 2, já que isso é exatamente o que torna cada passo de busca binária válido.
 
@@ -102,5 +102,5 @@ Subsequência Crescente Mais Longa pede o comprimento da subsequência estritame
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

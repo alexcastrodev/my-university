@@ -98,7 +98,7 @@ O princípio geral que o método da árvore de recursão revela, sem precisar de
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — derivação completa de árvore de recursão para `T(n) = 2T(n/2) + O(n)`
+### Exemplo 1: derivação completa de árvore de recursão para `T(n) = 2T(n/2) + O(n)`
 
 **Problema:** Confirme `T(n) = Θ(n log n)` para `T(n) = 2T(n/2) + cn`, `T(1) = c`, usando números concretos em `n = 16`.
 
@@ -110,7 +110,7 @@ O princípio geral que o método da árvore de recursão revela, sem precisar de
 
 Todo nível soma `16c`, confirmando a afirmação geral de que o trabalho por nível permanece constante. Número de níveis: `log2(16) + 1 = 4 + 1 = 5`. Trabalho total: `5 · 16c = 80c = Θ(16 log 16) = Θ(n log n)` para `n = 16`. Isso combina exatamente com a derivação geral, com números concretos substituindo o `n` simbólico.
 
-### Exemplo 2 — derivação completa de árvore de recursão para `T(n) = T(n/2) + O(1)`
+### Exemplo 2: derivação completa de árvore de recursão para `T(n) = T(n/2) + O(1)`
 
 **Problema:** Confirme `T(n) = Θ(log n)` para `T(n) = T(n/2) + c`, `T(1) = c`, usando `n = 16`.
 
@@ -122,7 +122,7 @@ Todo nível soma `16c`, confirmando a afirmação geral de que o trabalho por n�
 
 Todo nível soma `c` (não crescendo, já que há apenas uma chamada por nível). Número de níveis: `log2(16) + 1 = 5`, idêntico à contagem de níveis do Exemplo 1, ambas as recorrências dividem o tamanho do problema pela metade a cada passo, então ambas produzem o mesmo *número* de níveis. Trabalho total: `5 · c = Θ(log 16) = Θ(log n)` para `n = 16`. Comparando diretamente com o Exemplo 1: mesmo número de níveis (5), mas `16c` de trabalho por nível ali versus `c` aqui, a lacuna inteira entre `Θ(n log n)` e `Θ(log n)` remonta a essa única diferença, não ao número de níveis.
 
-### Exemplo 3 — reconhecendo o padrão de uma nova recorrência
+### Exemplo 3: reconhecendo o padrão de uma nova recorrência
 
 **Problema:** Um algoritmo hipotético divide sua entrada em 4 subproblemas de tamanho `n/2` cada (subproblemas sobrepostos são permitidos aqui, este é um exemplo deliberadamente artificial para testar o método de reconhecimento de padrão), com `O(n)` de trabalho de combinar. Sua recorrência é `T(n) = 4T(n/2) + O(n)`. Sem desenhar uma árvore completa, estime sua taxa de crescimento estendendo o raciocínio acima.
 
@@ -145,5 +145,5 @@ O tempo de execução de um algoritmo de dividir para conquistar é descrito por
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

@@ -74,7 +74,7 @@ Só quando um problema tem subproblemas sobrepostos (então há trabalho redunda
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — verificando ambas as propriedades para Fibonacci
+### Exemplo 1: verificando ambas as propriedades para Fibonacci
 
 **Problema:** Confirme explicitamente que `fib(n)` tem tanto subproblemas sobrepostos quanto subestrutura ótima.
 
@@ -82,7 +82,7 @@ Só quando um problema tem subproblemas sobrepostos (então há trabalho redunda
 
 **Subestrutura ótima.** `fib(n) = fib(n-1) + fib(n-2)` não é uma aproximação ou uma combinação heurística, é a recorrência definidora exata. O (único, neste caso) valor correto do problema inteiro é construído somando diretamente os valores corretos dos dois subproblemas. Ambas as propriedades valem, então Fibonacci é um candidato válido, ainda que quase simples demais, para DP.
 
-### Exemplo 2 — verificando um novo problema contra as duas propriedades
+### Exemplo 2: verificando um novo problema contra as duas propriedades
 
 **Problema:** Dado um grid, conte o número de caminhos distintos do canto superior esquerdo ao canto inferior direito, movendo apenas para a direita ou para baixo a cada passo (o mesmo problema que o Exemplo 3 do conceito de recursão introduziu). Esse problema se qualifica para programação dinâmica?
 
@@ -90,7 +90,7 @@ Só quando um problema tem subproblemas sobrepostos (então há trabalho redunda
 
 **Subestrutura ótima.** A contagem de caminho total até `(r, c)` é exatamente a contagem de caminho até `(r-1, c)` mais a contagem de caminho até `(r, c-1)`, de novo, uma composição direta, exata, não uma aproximação. Ambas as propriedades valem, então este problema é um candidato válido de DP, memoização ou tabulação (próximos dois conceitos) transformará sua recursão ingênua exponencial em uma solução `O(linhas × colunas)`.
 
-### Exemplo 3 — um problema onde a verificação falha
+### Exemplo 3: um problema onde a verificação falha
 
 **Problema:** Em um grafo ponderado que pode conter ciclos, encontre o *caminho simples mais longo* (um caminho visitando nenhum vértice duas vezes) entre dois vértices `s` e `t`. A abordagem padrão de programação dinâmica se aplica diretamente?
 
@@ -111,5 +111,5 @@ Um problema se qualifica para programação dinâmica exatamente quando tem tant
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

@@ -69,7 +69,7 @@ Cada iteração faz trabalho O(1) e descarta pelo menos metade de `[lo, hi]`, en
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo no exemplo canônico
+### Exemplo 1: rastreamento completo no exemplo canônico
 
 **Problema:** Busque `0` em `A = [4, 5, 6, 7, 0, 1, 2]`.
 
@@ -81,7 +81,7 @@ Cada iteração faz trabalho O(1) e descarta pelo menos metade de `[lo, hi]`, en
 
 Três iterações para n = 7 elementos, consistente com O(log n) (`log₂ 7 ≈ 2.8`, arredondando para cima para 3 comparações).
 
-### Exemplo 2 — alvo não presente, e o outro ramo da rotação
+### Exemplo 2: alvo não presente, e o outro ramo da rotação
 
 **Problema:** Busque `3` em `A = [4, 5, 6, 7, 0, 1, 2]` (mesmo array; `3` não aparece).
 
@@ -93,11 +93,11 @@ Três iterações para n = 7 elementos, consistente com O(log n) (`log₂ 7 ≈ 
 
 Agora `lo=7 > hi=6`, o laço termina, retorna `-1`. Correto, `3` está genuinamente ausente do array, e o algoritmo termina em O(log n) passos em vez de precisar de uma varredura linear para confirmar ausência.
 
-### Exemplo 3 — exercitando o outro ramo da decisão externa
+### Exemplo 3: exercitando o outro ramo da decisão externa
 
 **Problema:** Busque `5` em `A = [6, 7, 0, 1, 2, 4, 5]` (uma rotação diferente do mesmo array ordenado subjacente, rotacionado de forma que o ponto de quebra caia mais cedo).
 
-**Passo 1.** `lo=0, hi=6, mid=3`, `A[mid]=1`. Não igual ao alvo. Verifique `A[lo]=6 <= A[mid]=1`: falso, então desta vez a metade **direita** `[1,2,4,5]` (índices 3–6) é a propriamente ordenada em vez disso. O alvo `5` está dentro de `(A[mid], A[hi]] = (1, 5]`? Sim (`1 < 5 <= 5`). Então busque à direita: `lo = mid + 1 = 4`.
+**Passo 1.** `lo=0, hi=6, mid=3`, `A[mid]=1`. Não igual ao alvo. Verifique `A[lo]=6 <= A[mid]=1`: falso, então desta vez a metade **direita** `[1,2,4,5]` (índices 3-6) é a propriamente ordenada em vez disso. O alvo `5` está dentro de `(A[mid], A[hi]] = (1, 5]`? Sim (`1 < 5 <= 5`). Então busque à direita: `lo = mid + 1 = 4`.
 
 **Passo 2.** `lo=4, hi=6, mid=5`, `A[mid]=4`. Não igual ao alvo. `A[lo]=2 <= A[mid]=4`: verdadeiro, metade esquerda `[2,4]` ordenada. `5` está dentro de `[2, 4)`? Não. Então `lo = mid + 1 = 6`.
 
@@ -118,5 +118,5 @@ O motor real da busca binária não é "o array está globalmente ordenado" mas 
 
 ## Documentation Links
 
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

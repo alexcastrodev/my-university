@@ -50,7 +50,7 @@ graph LR
     end
 ```
 
-Aqui o corte separa {A, B} de {C, D, E}; toda aresta com um extremo em {A, B} e o outro em {C, D, E} o cruza, essas são A–C (peso 10), A–D (peso 4), e B–D (peso 7), enquanto A–B, C–D, e D–E todas têm ambos os extremos no mesmo lado e portanto não cruzam este corte particular. Entre as arestas de cruzamento {A–C: 10, A–D: 4, B–D: 7}, A–D é unicamente a mais barata a peso 4, então a propriedade de corte garante que A–D pertence a toda MST deste grafo, independentemente de como as arestas não cruzadas (A–B, C–D, D–E) sejam.
+Aqui o corte separa {A, B} de {C, D, E}; toda aresta com um extremo em {A, B} e o outro em {C, D, E} o cruza, essas são A-C (peso 10), A-D (peso 4), e B-D (peso 7), enquanto A-B, C-D, e D-E todas têm ambos os extremos no mesmo lado e portanto não cruzam este corte particular. Entre as arestas de cruzamento {A-C: 10, A-D: 4, B-D: 7}, A-D é unicamente a mais barata a peso 4, então a propriedade de corte garante que A-D pertence a toda MST deste grafo, independentemente de como as arestas não cruzadas (A-B, C-D, D-E) sejam.
 
 ### O algoritmo genérico guloso de MST
 
@@ -66,13 +66,13 @@ Uma MST nem sempre é única. Se um grafo ponderado conexo tem todos os pesos de
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — cabeando cinco prédios a custo mínimo
+### Exemplo 1: cabeando cinco prédios a custo mínimo
 
-**Problema:** Cinco prédios A, B, C, D, E precisam de conectividade de rede. Os percursos de cabo diretos possíveis e seus custos (em unidades de custo arbitrárias) são: A–B: 2, A–C: 3, B–C: 1, B–D: 4, C–D: 5, C–E: 6, D–E: 2. Encontre uma árvore geradora mínima.
+**Problema:** Cinco prédios A, B, C, D, E precisam de conectividade de rede. Os percursos de cabo diretos possíveis e seus custos (em unidades de custo arbitrárias) são: A-B: 2, A-C: 3, B-C: 1, B-D: 4, C-D: 5, C-E: 6, D-E: 2. Encontre uma árvore geradora mínima.
 
-**Raciocínio por inspeção direta (pequeno o suficiente para enumerar manualmente antes de qualquer algoritmo formalizar o processo):** Há 5 vértices, então qualquer árvore geradora precisa de exatamente 4 arestas. A aresta mais barata no geral é B–C (peso 1), inclua. A próxima mais barata é A–B (peso 2) ou D–E (peso 2), empatadas; ambas conectam pedaços anteriormente separados (A se junta a {B,C}; D e E formam seu próprio par novo), então ambas podem ser incluídas sem criar um ciclo, tome ambas. Arestas atuais: B–C, A–B, D–E, conectando {A,B,C} e {D,E} como dois componentes separados, 3 arestas até agora, mais uma necessária para juntá-los. A próxima aresta mais barata restante é A–C (peso 3), mas A e C já estão no mesmo componente ({A,B,C}), adicioná-la criaria um ciclo (A-B-C-A), então é rejeitada. Em seguida é B–D (peso 4), B está em {A,B,C}, D está em {D,E}, componentes diferentes, então essa aresta junta os dois pedaços restantes em um. Arestas totais: B–C, A–B, D–E, B–D, exatamente 4 arestas, uma árvore geradora, peso total 1 + 2 + 2 + 4 = 9.
+**Raciocínio por inspeção direta (pequeno o suficiente para enumerar manualmente antes de qualquer algoritmo formalizar o processo):** Há 5 vértices, então qualquer árvore geradora precisa de exatamente 4 arestas. A aresta mais barata no geral é B-C (peso 1), inclua. A próxima mais barata é A-B (peso 2) ou D-E (peso 2), empatadas; ambas conectam pedaços anteriormente separados (A se junta a {B,C}; D e E formam seu próprio par novo), então ambas podem ser incluídas sem criar um ciclo, tome ambas. Arestas atuais: B-C, A-B, D-E, conectando {A,B,C} e {D,E} como dois componentes separados, 3 arestas até agora, mais uma necessária para juntá-los. A próxima aresta mais barata restante é A-C (peso 3), mas A e C já estão no mesmo componente ({A,B,C}), adicioná-la criaria um ciclo (A-B-C-A), então é rejeitada. Em seguida é B-D (peso 4), B está em {A,B,C}, D está em {D,E}, componentes diferentes, então essa aresta junta os dois pedaços restantes em um. Arestas totais: B-C, A-B, D-E, B-D, exatamente 4 arestas, uma árvore geradora, peso total 1 + 2 + 2 + 4 = 9.
 
-**Verificação via a propriedade de corte.** Considere o corte separando {D, E} de {A, B, C}. As arestas cruzando são B–D (4) e C–D (5) e C–E (6), B–D é unicamente a mais barata entre elas, então a propriedade de corte garante que B–D pertence à MST, combinando com o que foi encontrado. Nenhuma árvore geradora de peso total mais barato existe; qualquer árvore geradora omitindo B–C (a única aresta mais barata em qualquer lugar) teria que conectar B e C de alguma outra forma, e todo outro caminho conectando B–C custa estritamente mais do que uma única aresta de peso 1 jamais poderia contribuir.
+**Verificação via a propriedade de corte.** Considere o corte separando {D, E} de {A, B, C}. As arestas cruzando são B-D (4) e C-D (5) e C-E (6), B-D é unicamente a mais barata entre elas, então a propriedade de corte garante que B-D pertence à MST, combinando com o que foi encontrado. Nenhuma árvore geradora de peso total mais barato existe; qualquer árvore geradora omitindo B-C (a única aresta mais barata em qualquer lugar) teria que conectar B e C de alguma outra forma, e todo outro caminho conectando B-C custa estritamente mais do que uma única aresta de peso 1 jamais poderia contribuir.
 
 ```mermaid
 graph LR
@@ -84,17 +84,17 @@ graph LR
 
 Esta é a MST resultante, 4 arestas, peso total 9, conectando todos os 5 prédios.
 
-### Exemplo 2 — aplicando a propriedade de corte para justificar uma aresta específica, sem construir a árvore inteira
+### Exemplo 2: aplicando a propriedade de corte para justificar uma aresta específica, sem construir a árvore inteira
 
-**Problema:** Em um grafo com vértices {1,2,3,4}, arestas 1–2 (peso 6), 1–3 (peso 1), 2–3 (peso 5), 2–4 (peso 3), 3–4 (peso 4). Sem construir a MST completa, argumente que a aresta 1–3 deve estar em toda MST deste grafo.
+**Problema:** Em um grafo com vértices {1,2,3,4}, arestas 1-2 (peso 6), 1-3 (peso 1), 2-3 (peso 5), 2-4 (peso 3), 3-4 (peso 4). Sem construir a MST completa, argumente que a aresta 1-3 deve estar em toda MST deste grafo.
 
-**Raciocínio.** Considere o corte separando {1} de {2, 3, 4}. As únicas arestas cruzando esse corte são 1–2 (peso 6) e 1–3 (peso 1), 2–3, 2–4, e 3–4 todas têm ambos os extremos no mesmo lado deste corte particular, então nenhuma delas o cruza. Entre as arestas de cruzamento, 1–3 é unicamente a mais barata (1 versus 6). Pela propriedade de corte, já que esse mínimo é único (não empatado), a aresta 1–3 deve pertencer a *toda* árvore geradora mínima deste grafo, isso é garantido estruturalmente, sem precisar calcular o resto da árvore ou comparar pesos totais de árvores alternativas de forma alguma.
+**Raciocínio.** Considere o corte separando {1} de {2, 3, 4}. As únicas arestas cruzando esse corte são 1-2 (peso 6) e 1-3 (peso 1), 2-3, 2-4, e 3-4 todas têm ambos os extremos no mesmo lado deste corte particular, então nenhuma delas o cruza. Entre as arestas de cruzamento, 1-3 é unicamente a mais barata (1 versus 6). Pela propriedade de corte, já que esse mínimo é único (não empatado), a aresta 1-3 deve pertencer a *toda* árvore geradora mínima deste grafo, isso é garantido estruturalmente, sem precisar calcular o resto da árvore ou comparar pesos totais de árvores alternativas de forma alguma.
 
-### Exemplo 3 — um grafo com um empate, admitindo duas MSTs distintas
+### Exemplo 3: um grafo com um empate, admitindo duas MSTs distintas
 
-**Problema:** Vértices {1,2,3}, arestas 1–2 (peso 5), 2–3 (peso 5), 1–3 (peso 5), um triângulo com todas as três arestas de peso igual. Encontre a(s) MST(s).
+**Problema:** Vértices {1,2,3}, arestas 1-2 (peso 5), 2-3 (peso 5), 1-3 (peso 5), um triângulo com todas as três arestas de peso igual. Encontre a(s) MST(s).
 
-**Raciocínio.** Qualquer árvore geradora aqui precisa de 2 das 3 arestas (n − 1 = 2 para n = 3), e remover qualquer uma aresta do triângulo deixa as outras duas, conectando todos os três vértices com peso total 5 + 5 = 10. Há três formas de fazer isso, {1–2, 2–3}, {1–2, 1–3}, ou {2–3, 1–3}, e cada uma delas tem o mesmo peso total, 10, e cada uma delas é, corretamente, uma árvore geradora mínima. Este é o caso de empate descrito diretamente na Teoria Central: já que nenhuma aresta cruzando qualquer corte aqui é *unicamente* mais barata (todas as três arestas empatam em peso 5), a propriedade de corte só garante que *alguma* aresta de cruzamento de peso mínimo pertence a alguma MST, não que uma específica pertence a *toda* MST, e de fato aqui, várias árvores distintas são todas simultaneamente corretas.
+**Raciocínio.** Qualquer árvore geradora aqui precisa de 2 das 3 arestas (n − 1 = 2 para n = 3), e remover qualquer uma aresta do triângulo deixa as outras duas, conectando todos os três vértices com peso total 5 + 5 = 10. Há três formas de fazer isso, {1-2, 2-3}, {1-2, 1-3}, ou {2-3, 1-3}, e cada uma delas tem o mesmo peso total, 10, e cada uma delas é, corretamente, uma árvore geradora mínima. Este é o caso de empate descrito diretamente na Teoria Central: já que nenhuma aresta cruzando qualquer corte aqui é *unicamente* mais barata (todas as três arestas empatam em peso 5), a propriedade de corte só garante que *alguma* aresta de cruzamento de peso mínimo pertence a alguma MST, não que uma específica pertence a *toda* MST, e de fato aqui, várias árvores distintas são todas simultaneamente corretas.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -110,5 +110,5 @@ Uma árvore geradora mínima é uma árvore geradora, já sabida ser um subgrafo
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

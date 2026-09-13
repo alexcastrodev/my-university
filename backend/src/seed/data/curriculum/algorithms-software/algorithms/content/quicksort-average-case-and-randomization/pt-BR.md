@@ -55,13 +55,13 @@ Essa é a mudança qualitativa chave: sem randomização, "quicksort é lento" �
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — quantificando a explosão O(n²) concretamente
+### Exemplo 1: quantificando a explosão O(n²) concretamente
 
 **Problema:** Para o array ordenado `[1, 2, ..., 7]` com a regra "sempre escolha o primeiro elemento", conte o número total de comparações realizadas através de toda a ordenação, e compare contra n log₂ n para n = 7.
 
 **Solução.** Como rastreado na Teoria Central, particionar um segmento de tamanho `k` compara o pivô contra os `k − 1` elementos restantes, depois recursa em um segmento de tamanho `k − 1`. Comparações totais: `6 + 5 + 4 + 3 + 2 + 1 + 0 = 21`. Isso combina com `n(n-1)/2 = 7·6/2 = 21`, a forma fechada para comportamento `O(n²)`. Compare: `n log₂ n = 7 · log₂ 7 ≈ 7 · 2.807 ≈ 19.6`, que é aproximadamente o que um quicksort *balanceado* seria esperado a acompanhar. Em n = 7 os dois números (21 vs. ~19.6) parecem próximos, mas a lacuna se amplia drasticamente conforme n cresce, em n = 1.000.000, `n²/2 ≈ 5 × 10^11` versus `n log₂ n ≈ 2 × 10^7`, um fator de aproximadamente 25.000 vezes mais lento. Este é o custo concreto do pior caso, não uma curiosidade assintótica abstrata.
 
-### Exemplo 2 — um pivô randomizado derrota a mesma entrada adversarial
+### Exemplo 2: um pivô randomizado derrota a mesma entrada adversarial
 
 **Problema:** Rode quicksort randomizado no mesmo array ordenado `[1, 2, 3, 4, 5, 6, 7]` e observe que a sequência ruim *específica* de escolhas (sempre escolhendo o mínimo atual) agora é apenas um entre muitos resultados igualmente possíveis, em vez do único ao qual o algoritmo é forçado.
 
@@ -89,9 +89,9 @@ def randomized_quicksort(A, lo=0, hi=None):
         randomized_quicksort(A, q + 1, hi)
 ```
 
-**Raciocínio.** Na entrada `[1, 2, 3, 4, 5, 6, 7]`, a primeira chamada a `randomized_partition` escolhe `r` uniformemente entre os índices 0–6, uma chance de 1 em 7 de escolher o índice 0 (valor 1, o pior pivô possível, reproduzindo o caso ruim para este nível) mas uma chance de 6 em 7 de escolher qualquer outra coisa, a maioria das quais produz uma divisão muito mais balanceada (por exemplo, escolher o valor 4, a mediana, divide o array em dois segmentos de tamanho 3 cada, uma divisão tão boa quanto possível). Crucialmente, essa probabilidade é uma propriedade do *lançamento de moeda do algoritmo*, calculada identicamente não importa quais sejam os valores reais do array, a mesma divisão 1-em-7 versus 6-em-7 se aplica seja o array ordenado, ordenado ao contrário, ou o array específico que um adversário passou horas construindo para quebrar uma regra de pivô fixa.
+**Raciocínio.** Na entrada `[1, 2, 3, 4, 5, 6, 7]`, a primeira chamada a `randomized_partition` escolhe `r` uniformemente entre os índices 0-6, uma chance de 1 em 7 de escolher o índice 0 (valor 1, o pior pivô possível, reproduzindo o caso ruim para este nível) mas uma chance de 6 em 7 de escolher qualquer outra coisa, a maioria das quais produz uma divisão muito mais balanceada (por exemplo, escolher o valor 4, a mediana, divide o array em dois segmentos de tamanho 3 cada, uma divisão tão boa quanto possível). Crucialmente, essa probabilidade é uma propriedade do *lançamento de moeda do algoritmo*, calculada identicamente não importa quais sejam os valores reais do array, a mesma divisão 1-em-7 versus 6-em-7 se aplica seja o array ordenado, ordenado ao contrário, ou o array específico que um adversário passou horas construindo para quebrar uma regra de pivô fixa.
 
-### Exemplo 3 — o limite da "metade do meio" concretizado em n = 8
+### Exemplo 3: o limite da "metade do meio" concretizado em n = 8
 
 **Problema:** Para um segmento de 8 elementos distintos, conte quantas das 8 escolhas de pivô possíveis (por ranking) produzem uma divisão onde ambos os lados têm pelo menos 2 elementos (ou seja, nenhum lado é mais que 3/4 do segmento).
 
@@ -110,5 +110,5 @@ O tempo de execução do quicksort depende inteiramente de quão balanceadas sã
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Syllabus (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/syllabus/): doc

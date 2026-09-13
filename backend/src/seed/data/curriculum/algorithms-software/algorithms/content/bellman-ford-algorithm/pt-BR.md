@@ -66,7 +66,7 @@ O ciclo X→Y→Z→X tem peso total 1 + 1 + (−3) = −1, um ciclo de peso neg
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — lidando corretamente com uma aresta negativa que quebrou Dijkstra
+### Exemplo 1: lidando corretamente com uma aresta negativa que quebrou Dijkstra
 
 **Problema:** Rode Bellman-Ford em A→C (2), A→B (3), B→C (−2), o grafo exato onde o algoritmo de Dijkstra foi mostrado produzir a resposta errada, `dist[C] = 2`, quando a distância verdadeira mais curta é 1.
 
@@ -78,7 +78,7 @@ V = 3, então V−1 = 2 rodadas. Lista de arestas, ordem fixa: A→C(2), A→B(3
 
 **Resultado:** `dist = {A: 0, B: 3, C: 1}`, `dist[C] = 1`, a distância mais curta correta, via A→B→C, exatamente onde o algoritmo de Dijkstra relatou o valor errado 2. A estratégia de força bruta de Bellman-Ford, "relaxe tudo, repetidamente," contorna inteiramente o erro de finalização precoce, já que nunca se compromete com a distância de nenhum vértice como final até que toda rodada tenha rodado.
 
-### Exemplo 2 — detectando um ciclo de peso negativo
+### Exemplo 2: detectando um ciclo de peso negativo
 
 **Problema:** Rode Bellman-Ford, fonte X, no grafo X→Y (1), Y→Z (1), Z→X (−3), e mostre que a V-ésima rodada detecta o ciclo negativo.
 
@@ -105,5 +105,5 @@ Bellman-Ford troca a velocidade de Dijkstra por robustez: em vez de finalizar gu
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

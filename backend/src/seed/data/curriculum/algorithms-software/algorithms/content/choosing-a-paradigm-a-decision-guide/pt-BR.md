@@ -47,15 +47,15 @@ O que este conceito de encerramento adiciona não é uma nova técnica, mas a ha
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — "Dados n trabalhos cada um com um prazo e um lucro, e só um trabalho pode rodar por slot de tempo, agende trabalhos para maximizar lucro total, desistindo de qualquer trabalho que perca seu prazo completamente."
+### Exemplo 1: "Dados n trabalhos cada um com um prazo e um lucro, e só um trabalho pode rodar por slot de tempo, agende trabalhos para maximizar lucro total, desistindo de qualquer trabalho que perca seu prazo completamente."
 
 Isso se assemelha a seleção de atividades à primeira vista (agendamento sob restrições), mas olhe mais de perto: diferente de seleção de atividades, trabalhos aqui não têm horários de início/término que se sobrepõem em uma linha simples, a restrição é puramente "um trabalho por slot, deve terminar até seu prazo." Uma estratégia gulosa (ordene por lucro decrescente, atribua cada trabalho ao slot disponível mais tardio antes de seu prazo) de fato acaba tendo uma prova genuína de correção por argumento de troca para esta variante específica, então este é um problema guloso, mas a semelhança com seleção de atividades é só superficial; a justificativa real tem que ser trabalhada para a própria estrutura de restrição deste problema, não emprestada integralmente da prova de seleção de atividades. A lição mais ampla: reconhecer "isso parece um problema de agendamento, então provavelmente é guloso" é uma hipótese razoável, mas o sinal revelador que de fato confirma é a existência (ou construção) de uma prova real, não a semelhança superficial sozinha.
 
-### Exemplo 2 — "Dado um conjunto de itens com pesos e valores e uma capacidade de mochila, escolha um subconjunto (cada item totalmente incluído ou excluído) maximizando valor sem exceder a capacidade."
+### Exemplo 2: "Dado um conjunto de itens com pesos e valores e uma capacidade de mochila, escolha um subconjunto (cada item totalmente incluído ou excluído) maximizando valor sem exceder a capacidade."
 
 Isso é Mochila 0/1, já coberto por completo. O sinal revelador apontando para longe de guloso e em direção a DP é exatamente o contraexemplo que esta disciplina construiu concretamente: itens `(w=10,v=60)`, `(w=20,v=100)`, `(w=30,v=120)` a capacidade 50, onde a escolha gulosa melhor-razão-primeiro (`A`, depois `B`) alcança valor 160, enquanto o verdadeiro ótimo (`B + C`) alcança 220. Porque uma escolha localmente melhor (pegar `A` primeiro) pode ser mostrada ativamente bloquear uma solução global melhor, nenhuma prova por argumento de troca para guloso pode existir aqui, isso não é "guloso pode funcionar, não provado", é "guloso está refutado, concretamente." Uma solução recursiva ingênua para este problema também visivelmente sobrepõe subproblemas (o mesmo par "primeiros `i` itens, capacidade restante `c`" recorre através de muitas decisões de inclusão de item), confirmando que DP é a ferramenta certa, com sua tabela calculando o verdadeiro 220 diretamente.
 
-### Exemplo 3 — "Dado um grafo ponderado, conexo, não direcionado, encontre um subconjunto de arestas conectando todos os vértices com peso total de aresta mínimo" e "Dado um array, ordene-o usando o menor número de comparações no pior caso, garantido."
+### Exemplo 3: "Dado um grafo ponderado, conexo, não direcionado, encontre um subconjunto de arestas conectando todos os vértices com peso total de aresta mínimo" e "Dado um array, ordene-o usando o menor número de comparações no pior caso, garantido."
 
 Dois exemplos de ancoragem em um, deliberadamente escolhidos para contrastar: o problema de árvore geradora mínima é resolvido, nesta disciplina, por ambos os algoritmos de Kruskal e Prim, ambos genuinamente gulosos (sempre adicione a aresta segura mais barata; sempre estenda a árvore via a aresta mais barata saindo dela), e ambos corretos especificamente porque a "propriedade de corte" dá exatamente o tipo de prova estrutural que guloso precisa, aplicada à estrutura específica deste problema, uma prova diferente da de seleção de atividades, mas uma prova ainda assim, que é o sinal revelador real, não uma coincidência de que "problemas de grafo tendem a ser gulosos." Merge sort, em contraste, é uma resposta de dividir para conquistar para a pergunta de ordenação: divida o array pela metade, ordene cada metade completamente independentemente (nenhum trabalho compartilhado, nenhuma sobreposição entre as recursões das duas metades), e combine via um merge linear, a independência das duas metades, com nada calculado duas vezes, é exatamente o que marca isso como dividir para conquistar em vez de DP, mesmo que ordenação pudesse em princípio ser abordada de muitas outras formas.
 
@@ -72,5 +72,5 @@ Dividir para conquistar, guloso, e programação dinâmica se distinguem por uma
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

@@ -99,7 +99,7 @@ A verificação `visited` garante que `visit` é chamado no máximo uma vez por 
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo de DFS, contrastado diretamente contra BFS no mesmo grafo
+### Exemplo 1: rastreamento completo de DFS, contrastado diretamente contra BFS no mesmo grafo
 
 **Problema:** Rode DFS a partir da fonte A no mesmo grafo usado para o exemplo resolvido de BFS:
 
@@ -131,14 +131,14 @@ De volta em `visit(B)`: sem mais vizinhos (A, D, E todos processados). Termina B
 
 De volta em `visit(A)`: próximo vizinho C, já visitado. Sem mais vizinhos. Termina A: relógio 14, f(A)=14.
 
-**Resultado — timestamps:**
+**Resultado: timestamps:**
 
 | vértice | A | B | C | D | E | F | G |
 |---|---|---|---|---|---|---|---|
 | d | 1 | 2 | 7 | 3 | 5 | 6 | 10 |
 | f | 14 | 13 | 8 | 4 | 12 | 9 | 11 |
 
-**Árvore DFS** (arestas parent do rastreamento): A–B, B–D, B–E, E–F, F–C, E–G, um formato comprido e sinuoso.
+**Árvore DFS** (arestas parent do rastreamento): A-B, B-D, B-E, E-F, F-C, E-G, um formato comprido e sinuoso.
 
 ```mermaid
 graph TD
@@ -150,13 +150,13 @@ graph TD
     E --> G((G))
 ```
 
-**Contraste com BFS.** A árvore BFS encontrada anteriormente, a partir da mesma fonte A, foi A → {B, C} (profundidade 1), B → {D, E} e C → {F} (profundidade 2), E → {G} (profundidade 3), larga e rasa, altura 3, todo vértice alcançado via o menor número possível de arestas. A árvore DFS acima é uma corrente longa, A–B–E–F–C é um caminho de comprimento 4, mais fundo que qualquer distância BFS neste grafo (a verdadeira distância mais curta de A a C é 1, via a aresta direta, mas a árvore de DFS encaminha para C através de um caminho de comprimento 4, já que DFS se compromete completamente a explorar a subárvore de B, depois a de E, depois a de F, antes de jamais retornar para verificar o segundo vizinho de A, C, diretamente). Mesmo grafo, mesma fonte, mesmo conjunto de vértices visitados, formato de árvore completamente diferente, inteiramente por causa da disciplina de fila versus pilha.
+**Contraste com BFS.** A árvore BFS encontrada anteriormente, a partir da mesma fonte A, foi A → {B, C} (profundidade 1), B → {D, E} e C → {F} (profundidade 2), E → {G} (profundidade 3), larga e rasa, altura 3, todo vértice alcançado via o menor número possível de arestas. A árvore DFS acima é uma corrente longa, A-B-E-F-C é um caminho de comprimento 4, mais fundo que qualquer distância BFS neste grafo (a verdadeira distância mais curta de A a C é 1, via a aresta direta, mas a árvore de DFS encaminha para C através de um caminho de comprimento 4, já que DFS se compromete completamente a explorar a subárvore de B, depois a de E, depois a de F, antes de jamais retornar para verificar o segundo vizinho de A, C, diretamente). Mesmo grafo, mesma fonte, mesmo conjunto de vértices visitados, formato de árvore completamente diferente, inteiramente por causa da disciplina de fila versus pilha.
 
-### Exemplo 2 — lendo estrutura diretamente dos timestamps
+### Exemplo 2: lendo estrutura diretamente dos timestamps
 
 **Problema:** Usando a tabela de timestamps acima, determine quais vértices são "descendentes" de E na árvore DFS, sem reexaminar o diagrama da árvore.
 
-**Solução.** Um vértice v é descendente de u na árvore DFS exatamente quando o intervalo de u contém o de v: d(u) < d(v) e f(v) < f(u) (a propriedade de aninhamento notada na Teoria Central). E tem d(E)=5, f(E)=12, então qualquer vértice cujos tempos de descoberta/término ambos caiam estritamente dentro de (5, 12) é descendente de E: F (6, 9) ✓ dentro; C (7, 8) ✓ dentro; G (10, 11) ✓ dentro. D (3, 4) não é (seu intervalo, 3–4, cai inteiramente *antes* da descoberta de E em 5, significando que D terminou antes mesmo de E ser descoberto, D é uma subárvore "prima" sob B, não um descendente de E). Isso combina com a árvore diretamente: F, C, G são todos alcançados só passando primeiro por E, enquanto D se ramifica mais cedo, diretamente de B.
+**Solução.** Um vértice v é descendente de u na árvore DFS exatamente quando o intervalo de u contém o de v: d(u) < d(v) e f(v) < f(u) (a propriedade de aninhamento notada na Teoria Central). E tem d(E)=5, f(E)=12, então qualquer vértice cujos tempos de descoberta/término ambos caiam estritamente dentro de (5, 12) é descendente de E: F (6, 9) ✓ dentro; C (7, 8) ✓ dentro; G (10, 11) ✓ dentro. D (3, 4) não é (seu intervalo, 3-4, cai inteiramente *antes* da descoberta de E em 5, significando que D terminou antes mesmo de E ser descoberto, D é uma subárvore "prima" sob B, não um descendente de E). Isso combina com a árvore diretamente: F, C, G são todos alcançados só passando primeiro por E, enquanto D se ramifica mais cedo, diretamente de B.
 
 ## Equívocos Comuns e Armadilhas
 
@@ -171,5 +171,5 @@ DFS explora um grafo se comprometendo completamente com a subárvore alcançáve
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

@@ -60,7 +60,7 @@ Ambos os algoritmos fazem O(n log n) comparações em média, mas quicksort tipi
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — calculando memória extra real para um n concreto
+### Exemplo 1: calculando memória extra real para um n concreto
 
 **Problema:** Para um array de um milhão de inteiros de 64 bits (8 MB total), estime a memória extra que cada algoritmo precisa em seu pico.
 
@@ -70,13 +70,13 @@ Ambos os algoritmos fazem O(n log n) comparações em média, mas quicksort tipi
 
 Este é o formato concreto e prático da troca "in-place vs. O(n) de espaço extra", não uma distinção assintótica abstrata, mas um dobramento real de pegada de memória para conjuntos de dados grandes sob pressão de memória (sistemas embarcados, servidores restritos em memória, ou simplesmente arrays muito grandes onde dobrar importa).
 
-### Exemplo 2 — uma falha de estabilidade concretizada
+### Exemplo 2: uma falha de estabilidade concretizada
 
 **Problema:** Ordene os registros `[(A, 3), (B, 1), (C, 3), (D, 2)]` por sua chave numérica usando um particionamento de quicksort padrão (não estável), e mostre que `(A, 3)` e `(C, 3)` podem acabar fora de sua ordem relativa original.
 
 **Raciocínio.** Suponha que o particionamento de Lomuto escolha o último elemento, `(D, 2)`, como pivô na primeira chamada. Varrendo da esquerda para a direita: `(A,3)` falha `<= 2`; `(B,1)` passa, troca para a posição 0 consigo mesmo, `i=0`; `(C,3)` falha; fim da varredura, troca o pivô para a posição `i+1=1`: o array se torna `[(B,1), (D,2), (C,3), (A,3)]`. Note que `(C,3)` agora aparece *antes* de `(A,3)`, mesmo que `(A,3)` tenha vindo primeiro no array original, o empate entre os dois registros de chave 3 foi desfeito na ordem oposta de como originalmente apareceram, puramente como efeito colateral de quais trocas o particionamento aconteceu de realizar. Uma ordenação estável (merge sort, ou uma variante do quicksort especificamente preservando estabilidade) garantiria que `(A,3)` ainda precede `(C,3)` depois de ordenar.
 
-### Exemplo 3 — escolhendo um algoritmo para um sistema real
+### Exemplo 3: escolhendo um algoritmo para um sistema real
 
 **Problema:** Um sistema de controle de voo em tempo real deve ordenar leituras de sensor em todo ciclo de controle, com um prazo rígido: se qualquer chamada de ordenação única leva mais tempo que o orçamento do quadro, o sistema perde uma atualização crítica de segurança. Qual algoritmo deveria usar, e por quê?
 
@@ -95,5 +95,5 @@ Quicksort e merge sort ambos alcançam O(n log n) comparações em média, mas c
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc

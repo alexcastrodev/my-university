@@ -32,7 +32,7 @@ def dijkstra(adj, source):
     dist = {source: 0}
     parent = {source: None}
     finalized = set()
-    heap = [(0, source)]   # (distância tentativa, vértice) — heap ordenado por distância
+    heap = [(0, source)]   # (distância tentativa, vértice): heap ordenado por distância
 
     while heap:
         d, u = heapq.heappop(heap)   # extract-min: O(log n)
@@ -83,7 +83,7 @@ O algoritmo de Dijkstra nunca revisita um vértice uma vez finalizado, o ponto i
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo de Dijkstra com conteúdo do heap a cada passo
+### Exemplo 1: rastreamento completo de Dijkstra com conteúdo do heap a cada passo
 
 **Problema:** Rode Dijkstra a partir da fonte A no grafo ponderado direcionado: A→B (4), A→C (1), C→B (2), C→D (5), B→D (1), D→E (3), B→E (7).
 
@@ -111,7 +111,7 @@ Extrai (6, D), obsoleta, descarta. Extrai (7, E). Finaliza E. Sem arestas de sa�
 
 **Resultado:** `dist = {A: 0, C: 1, B: 3, D: 4, E: 7}`. A distância finalizada de todo vértice combina com sua distância verdadeira mais curta, por exemplo o caminho mais curto de E é A→C→B→D→E, custo 1+2+1+3 = 7, combinando exatamente com `dist[E] = 7`, e vencendo as alternativas aparentemente diretas A→B→E (4+7=11) ou A→C→B→E (1+2+7=10).
 
-### Exemplo 2 — uma aresta negativa quebrando o algoritmo de Dijkstra
+### Exemplo 2: uma aresta negativa quebrando o algoritmo de Dijkstra
 
 **Problema:** Rode Dijkstra no grafo A→C (2), A→B (3), B→C (−2), e mostre que produz a resposta errada para `dist[C]`.
 
@@ -138,5 +138,5 @@ O algoritmo de Dijkstra responde a pergunta de eficiência do modelo geral de re
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

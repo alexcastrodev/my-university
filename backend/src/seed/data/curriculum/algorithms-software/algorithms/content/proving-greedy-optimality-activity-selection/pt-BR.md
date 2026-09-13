@@ -74,7 +74,7 @@ A prova nunca argumenta "a escolha de guloso parece boa" como uma afirmação is
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo do algoritmo guloso
+### Exemplo 1: rastreamento completo do algoritmo guloso
 
 **Problema:** Atividades dadas como pares (início, término): `(1,4), (3,5), (0,6), (5,7), (3,9), (5,9), (6,10), (8,11), (8,12), (2,14), (12,16)`. Encontre um subconjunto compatível de tamanho máximo.
 
@@ -84,7 +84,7 @@ A prova nunca argumenta "a escolha de guloso parece boa" como uma afirmação is
 
 **Resultado:** `{(1,4), (5,7), (8,11), (12,16)}`, 4 atividades. Pelo teorema recém-provado, isso é garantido ótimo, nenhum subconjunto compatível desta lista de atividades tem 5 ou mais atividades, e verificar exaustivamente (ou confiar na prova) confirma que nenhum conjunto compatível maior existe.
 
-### Exemplo 2 — vendo o argumento de troca operar concretamente
+### Exemplo 2: vendo o argumento de troca operar concretamente
 
 **Problema:** Tome atividades `A = {(0,10), (0,3), (4,8)}`. Mostre explicitamente como o lema do argumento de troca transforma uma solução ótima hipotética que omite a primeira escolha de guloso.
 
@@ -92,7 +92,7 @@ A prova nunca argumenta "a escolha de guloso parece boa" como uma afirmação is
 
 **Suponha (hipoteticamente, para o propósito da troca) que alguém propôs `O = {(0,10)}`** como uma solução ótima (tamanho 1) que não contém `a₁`. Aqui `k = (0,10)` é a atividade de término mais cedo (única) em `O`. Já que `f(a₁) = 3 ≤ f(k) = 10`, construa `O' = (O \ {k}) ∪ {a₁} = {(0,3)}`. Verifique: `O'` tem o mesmo tamanho (1) e é trivialmente compatível (uma única atividade é sempre compatível consigo mesma). Então `O'` é igualmente ótimo e agora contém `a₁`, exatamente como o lema garante, e essa troca também revela que `O = \{(0,10)\}` nunca foi de fato ótimo em primeiro lugar, já que `{(0,3), (4,8)}` (tamanho 2, ambas compatíveis: `4 ≥ 3`) o vence, consistente com o argumento de troca, que só afirma que *alguma* solução ótima contém `a₁`, identificando corretamente que o verdadeiro ótimo aqui é o conjunto de 2 atividades construído continuando guloso a partir de `a₁`.
 
-### Exemplo 3 — por que a regra falha se "término mais cedo" é substituído por "menor duração"
+### Exemplo 3: por que a regra falha se "término mais cedo" é substituído por "menor duração"
 
 **Problema:** Compare a regra de tempo-de-término-mais-cedo contra uma regra gulosa superficialmente similar, "sempre escolha a menor atividade restante", em `A = {(0,4), (4,8), (0,1), (1,9)}` onde as durações são 4, 4, 1, 8 respectivamente.
 
@@ -113,5 +113,5 @@ O problema de seleção de atividades pede o maior conjunto de atividades duas a
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

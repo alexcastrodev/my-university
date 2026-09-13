@@ -45,7 +45,7 @@ Como com LCS, a tabela dá o *valor* ótimo, não diretamente quais itens o alca
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — preenchendo uma tabela completa manualmente
+### Exemplo 1: preenchendo uma tabela completa manualmente
 
 **Problema:** Itens `1: (w=1, v=1)`, `2: (w=3, v=4)`, `3: (w=4, v=5)`, `4: (w=5, v=7)`, capacidade `7`. Encontre o valor máximo alcançável.
 
@@ -61,7 +61,7 @@ Célula de amostra: `K[3][7] = max(K[2][7], 5 + K[2][3]) = max(5, 5+4) = 9` (o i
 
 **Resposta final:** `K[4][7] = 9`. Rastreando de volta: `K[4][7] == K[3][7]` (ambos 9), então o item 4 é pulado; em `(3, 7)`, `K[3][7]=9 \ne K[2][7]=5`, então o item 3 é pego, movendo para `(2, 7-4=3)`; em `(2,3)`, `K[2][3]=4 \ne K[1][3]=1`, então o item 2 é pego, movendo para `(1, 3-3=0)`; em `(1,0)`, `K[1][0]=0=K[0][0]`, então o item 1 é pulado. Subconjunto ótimo: itens 2 e 3, peso `3+4=7`, valor `4+5=9`.
 
-### Exemplo 2 — guloso comprovadamente falha: um contraexemplo concreto
+### Exemplo 2: guloso comprovadamente falha: um contraexemplo concreto
 
 **Problema:** Itens `A: (w=10, v=60)`, `B: (w=20, v=100)`, `C: (w=30, v=120)`, capacidade `50`. Compare a estratégia gulosa "melhor razão valor-peso primeiro" contra o verdadeiro ótimo de DP.
 
@@ -71,7 +71,7 @@ Célula de amostra: `K[3][7] = max(K[2][7], 5 + K[2][3]) = max(5, 5+4) = 9` (o i
 
 **Por que guloso falha aqui, estruturalmente.** A escolha irrevogável primeira de guloso, pegar `A` porque tem a melhor razão, consome capacidade que acaba sendo necessária para a combinação que de fato maximiza valor. Diferente de seleção de atividades, onde o argumento de troca provou que a escolha de término mais cedo nunca fecha o caminho para uma solução melhor, nenhuma tal prova existe para a estratégia gulosa por razão da mochila, precisamente porque não é verdadeira: a presença de `A` na mochila diretamente bloqueia a melhor combinação `B + C` de caber. Essa é a demonstração concreta que este conceito prometeu: a abordagem de "nunca reconsiderar" de guloso não é meramente não provada aqui, é ativamente errada nessa instância.
 
-### Exemplo 3 — confirmando por que a relaxação fracionária teria permitido guloso ter sucesso
+### Exemplo 3: confirmando por que a relaxação fracionária teria permitido guloso ter sucesso
 
 **Problema:** Na mesma instância do Exemplo 2, guloso teria sucesso se quantidades fracionárias de itens fossem permitidas (mochila fracionária)?
 
@@ -90,5 +90,5 @@ Mochila 0/1 escolhe um subconjunto de itens pesados, valorados, cada um totalmen
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc

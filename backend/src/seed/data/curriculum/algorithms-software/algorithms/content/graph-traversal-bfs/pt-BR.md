@@ -79,7 +79,7 @@ Todo vértice é enfileirado exatamente uma vez (garantido pela verificação `v
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — rastreamento completo de BFS com conteúdo da fila a cada passo
+### Exemplo 1: rastreamento completo de BFS com conteúdo da fila a cada passo
 
 **Problema:** Rode BFS a partir da fonte A no grafo não direcionado com lista de adjacência:
 
@@ -113,7 +113,7 @@ Desenfileira F. Vizinhos C, E, ambos visitados. Nada novo. Fila: `[G]`.
 
 Desenfileira G. Vizinho E, visitado. Nada novo. Fila: `[]`. Terminado.
 
-**Resultado.** Distâncias: A=0, B=1, C=1, D=2, E=2, F=2, G=3. Árvore de caminho mais curto (arestas parent): A–B, A–C, B–D, B–E, C–F, E–G.
+**Resultado.** Distâncias: A=0, B=1, C=1, D=2, E=2, F=2, G=3. Árvore de caminho mais curto (arestas parent): A-B, A-C, B-D, B-E, C-F, E-G.
 
 ```mermaid
 graph TD
@@ -125,9 +125,9 @@ graph TD
     E --> G((G: 3))
 ```
 
-Note que F é alcançado via C (distância 2), mesmo que F também seja adjacente a E, mas no momento em que E é desenfileirado, F já foi descoberto, então BFS corretamente deixa sua distância em 2 em vez de considerá-lo de novo. Note também que a *única* conexão de G é através de E; nenhuma rota mais curta existe (A–B–E–G e A–C–F–E–G são os únicos caminhos, de comprimentos 3 e 4 respectivamente), e BFS corretamente relata 3, confirmando o teorema: a primeira (e única) vez que um vértice é descoberto, a distância registrada é sua distância verdadeira de caminho mais curto em arestas.
+Note que F é alcançado via C (distância 2), mesmo que F também seja adjacente a E, mas no momento em que E é desenfileirado, F já foi descoberto, então BFS corretamente deixa sua distância em 2 em vez de considerá-lo de novo. Note também que a *única* conexão de G é através de E; nenhuma rota mais curta existe (A-B-E-G e A-C-F-E-G são os únicos caminhos, de comprimentos 3 e 4 respectivamente), e BFS corretamente relata 3, confirmando o teorema: a primeira (e única) vez que um vértice é descoberto, a distância registrada é sua distância verdadeira de caminho mais curto em arestas.
 
-### Exemplo 2 — usando distâncias BFS para responder uma consulta de caminho mais curto
+### Exemplo 2: usando distâncias BFS para responder uma consulta de caminho mais curto
 
 **Problema:** Usando o grafo e a execução de BFS do Exemplo 1, qual é o caminho mais curto (em arestas) de A a G, e como ele se parece?
 
@@ -146,5 +146,5 @@ BFS explora um grafo a partir de um vértice fonte nível por nível, usando uma
 
 ## Documentation Links
 
-- [MIT 6.006 — Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/) — doc
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
+- [MIT 6.006: Lecture Notes (OCW)](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/pages/lecture-notes/): doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc

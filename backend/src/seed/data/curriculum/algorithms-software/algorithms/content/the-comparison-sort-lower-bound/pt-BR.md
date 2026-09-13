@@ -89,7 +89,7 @@ A fundação inteira do argumento é que a única fonte de informação do algor
 
 ## Exemplos Resolvidos
 
-### Exemplo 1 — contando folhas e confirmando `n! ≤ 2^h` para `n = 3`
+### Exemplo 1: contando folhas e confirmando `n! ≤ 2^h` para `n = 3`
 
 **Problema:** Para a árvore de decisão esboçada na Teoria Central (ordenando 3 elementos), confirme que a contagem de folhas combina com `3!` e encontre sua altura.
 
@@ -99,13 +99,13 @@ A fundação inteira do argumento é que a única fonte de informação do algor
 
 **Compare contra o limite.** `log2(3!) = log2(6) ≈ 2.585`, então o limite inferior garante `h ≥ 2.585`, significando `h ≥ 3` já que altura deve ser um inteiro, e de fato a altura real dessa árvore, 3, combina exatamente com esse limite arredondado para cima, mostrando que o limite é justo (alcançável) mesmo nesse tamanho pequeno.
 
-### Exemplo 2 — por que `n!` folhas distintas são verdadeiramente necessárias, por contradição explícita
+### Exemplo 2: por que `n!` folhas distintas são verdadeiramente necessárias, por contradição explícita
 
 **Problema:** Suponha que um algoritmo de ordenação proposto para `n = 3` elementos `[a, b, c]` tivesse uma árvore de decisão com apenas 5 folhas em vez de 6. Explique concretamente por que este algoritmo não pode ser correto.
 
 **Raciocínio.** Existem `3! = 6` ordenações relativas distintas com as quais os três elementos de entrada poderiam chegar (todas as seis permutações de `a, b, c` por rank relativo). Se a árvore de decisão tem apenas 5 folhas, então pelo princípio da casa dos pombos, pelo menos duas dessas seis permutações de entrada distintas devem ser encaminhadas para a *mesma* folha, significando que o algoritmo seguiria uma sequência idêntica de resultados de comparação para ambas, e portanto se comprometeria com a ordenação de saída idêntica para ambas. Mas duas permutações distintas da entrada exigem duas saídas corretamente ordenadas distintas (já que ordenar um arranjo já quase ordenado de forma diferente de um quase reverso deve produzir resultados diferentes a menos que as duas entradas por acaso fossem idênticas, o que não são, pela suposição de ordenações relativas distintas), então pelo menos uma das duas entradas compartilhando aquela folha deve ser ordenada *incorretamente* por esse algoritmo. Uma árvore de 5 folhas para `n = 3` não pode ser a árvore de decisão de um algoritmo de ordenação correto, confirmando concretamente por que o requisito de `n!` folhas na Teoria Central não é meramente um limite inferior conveniente mas uma necessidade estrita para correção.
 
-### Exemplo 3 — aplicando o limite para confirmar a otimalidade do merge sort
+### Exemplo 3: aplicando o limite para confirmar a otimalidade do merge sort
 
 **Problema:** A recorrência do merge sort, resolvida no conceito pré-requisito, dá `T(n) = Θ(n log n)`. Use o limite inferior da árvore de decisão para afirmar precisamente em que sentido isso torna merge sort "ótimo".
 
@@ -128,5 +128,5 @@ Modelar qualquer algoritmo de ordenação baseado em comparação como uma árvo
 
 ## Documentation Links
 
-- [Sedgewick & Wayne — Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/) — doc
-- [ACM/IEEE CS2013 — Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/) — doc
+- [Sedgewick & Wayne: Algorithms Lectures (Princeton)](https://algs4.cs.princeton.edu/lectures/): doc
+- [ACM/IEEE CS2013: Algorithms and Complexity Knowledge Area](https://csed.acm.org/cs2013-version/): doc
