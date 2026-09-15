@@ -17,6 +17,7 @@ import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
 import { buildRevisitIndex, newestCandidateAfter, targetKey } from './revisit';
+import { interleaveByModule } from './interleave';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
 import { toUtcDateKey } from '../xp/streak';
@@ -258,7 +259,7 @@ export class ReviewService {
         dueAt: row.dueAt,
       });
     }
-    return items;
+    return interleaveByModule(items);
   }
 
   /**
