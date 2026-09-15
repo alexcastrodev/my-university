@@ -13,6 +13,10 @@ services:
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
       - FRONTEND_URL
+      # The SSR server's SSRF allowlist (angular.json's build-time list only has the real
+      # domain + localhost) otherwise rejects the Host header console-test sends when it
+      # talks to this container over the Docker network as `http://app/api`.
+      - NG_ALLOWED_HOSTS=app
     depends_on:
       - meilisearch
       - postgres
@@ -23,7 +27,7 @@ services:
       - POSTGRES_DB=ocp_java
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
 
   meilisearch:
     image: getmeili/meilisearch:v1.11

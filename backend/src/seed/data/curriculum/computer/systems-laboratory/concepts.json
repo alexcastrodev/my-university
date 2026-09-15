@@ -258,12 +258,12 @@
       {
         "label": "Multi-Level Feedback Queue Scheduling",
         "slug": "multi-level-feedback-queue-scheduling",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       },
       {
         "label": "Priority Scheduling and Starvation",
         "slug": "priority-scheduling-and-starvation",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       }
     ],
     "summary": "This lab, matching the official OSTEP-projects xv6 scheduling assignment, replaces xv6's own default round-robin scheduler with a lottery scheduler, assigning each process a number of tickets and picking the next process to run via a weighted random draw, a genuinely different fairness mechanism from Multi-Level Feedback Queue Scheduling's own priority-adjustment approach, and one that sidesteps Priority Scheduling and Starvation's own starvation failure mode by construction, since every process with at least one ticket has a real, nonzero chance of being drawn on every scheduling decision.",
@@ -291,17 +291,17 @@
       {
         "label": "Paging and Page Tables",
         "slug": "paging-and-page-tables",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       },
       {
         "label": "The Translation Lookaside Buffer",
         "slug": "the-translation-lookaside-buffer",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       },
       {
         "label": "Page Replacement Policies",
         "slug": "page-replacement-policies",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       }
     ],
     "summary": "This lab builds a userspace simulator implementing Paging and Page Tables' own multi-level page table walk over a simulated virtual address space, adds a small, fixed-size TLB cache in front of it exactly as The Translation Lookaside Buffer describes, and measures directly, by counting real simulated memory accesses, the actual hit rate difference a TLB makes and the actual thrashing behavior Page Replacement Policies predicts once the simulated working set is made to exceed available physical frames under FIFO versus LRU replacement.",
@@ -329,12 +329,12 @@
       {
         "label": "File System Implementation and Journaling",
         "slug": "file-system-implementation-and-journaling",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       },
       {
         "label": "Files, Directories, and Inodes",
         "slug": "files-directories-and-inodes",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       }
     ],
     "summary": "A single, ordinary file on the host machine stands in for a raw disk in this lab, formatted with Files, Directories, and Inodes' own layout, a superblock, an inode table, and a data-block region tracked by a free-block bitmap reusing Lab 8's own free-space-management discipline at the block level instead of the byte level, and exercised through real create/write/read/delete operations, closing with a deliberate, injected crash mid-write to confirm File System Implementation and Journaling's own claim, that only a journaled file system, not this lab's intentionally simpler first version, actually survives that crash without corruption.",
@@ -362,7 +362,7 @@
       {
         "label": "Capstone: Tracing a Process From fork() to Page Fault to Disk",
         "slug": "capstone-tracing-a-process-from-fork-to-page-fault-to-disk",
-        "feature": "curriculum/systems/operating-systems-i"
+        "feature": "curriculum/computer/operating-systems-i"
       }
     ],
     "summary": "Operating Systems I's own closing concept traces a process through fork, scheduling, a page fault, and a disk write as a single, connected narrative; this capstone is where that narrative is run for real, against the actual components this whole discipline built, a process spawned and handed tickets by Lab 9's lottery scheduler, a memory access that misses Lab 10's simulated TLB and walks its page table, and a resulting write committed through Lab 11's own simple file system, with every one of those four events logged with a timestamp and produced as a single, continuous trace connecting this whole discipline's separately built labs into the one integrated system Operating Systems I only had room to describe in prose.",
