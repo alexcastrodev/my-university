@@ -272,5 +272,17 @@
       { "label": "Record Classes — The Java Tutorials", "url": "https://docs.oracle.com/en/java/javase/25/language/records.html", "type": "doc" },
       { "label": "Serializable — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "collections-vs-streams",
+    "id": 395,
+    "question": "What are the differences between collections and streams?",
+    "publishedAt": "2026-09-16",
+    "references": [
+      { "label": "Java Coding Tip #395: What Are the Differences Between Collections and Streams?", "url": "https://www.youtube.com/shorts/TEZNPeH1Hwo", "type": "video" },
+      { "label": "Collection — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html", "type": "doc" },
+      { "label": "Stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html", "type": "doc" },
+      { "label": "Spliterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Spliterator.html", "type": "doc" }
+    ]
   }
 ]
