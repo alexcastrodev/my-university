@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-concepts.service';
+import { CurriculumService } from '../curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { ExamService } from '../exam/exam.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
@@ -39,6 +40,7 @@ export class SitemapService {
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
+    private readonly curriculum: CurriculumService,
   ) {}
 
   async buildUrls(): Promise<SitemapUrl[]> {
@@ -91,6 +93,29 @@ export class SitemapService {
     urls.push(
       ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),
     );
+    urls.push({
+      path: '/computer-science',
+      lastmod: null,
+      changefreq: 'weekly',
+      priority: '0.8',
+    });
+    for (const { module: mod, discipline } of this.curriculum.listDisciplines()) {
+      const basePath = `/computer-science/${mod}/${discipline}`;
+      urls.push({
+        path: basePath,
+        lastmod: null,
+        changefreq: 'weekly',
+        priority: '0.7',
+      });
+      for (const concept of this.curriculum.findAll(mod, discipline)) {
+        urls.push({
+          path: `${basePath}/${concept.slug}`,
+          lastmod: concept.publishedAt,
+          changefreq: 'monthly',
+          priority: '0.6',
+        });
+      }
+    }
 
     const exams = await this.exam.listExams();
     urls.push({

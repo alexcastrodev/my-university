@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
+import { CurriculumModule } from '../curriculum/curriculum.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { ExamModule } from '../exam/exam.module';
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
@@ -28,6 +29,7 @@ import { SitemapService } from './sitemap.service';
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     QuarkusConceptsModule,
+    CurriculumModule,
   ],
   controllers: [SitemapController],
   providers: [SitemapService],
