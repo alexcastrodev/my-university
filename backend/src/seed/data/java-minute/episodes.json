@@ -284,5 +284,15 @@
       { "label": "Stream — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html", "type": "doc" },
       { "label": "Spliterator — Java SE 25 API", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Spliterator.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "composition-over-inheritance",
+    "id": 396,
+    "question": "Why should you favor composition over inheritance?",
+    "publishedAt": "2026-09-18",
+    "references": [
+      { "label": "Java Coding Tip #396: Why Should You Favor Composition Over Inheritance?", "url": "https://youtube.com/shorts/DIZTQxkOsy4", "type": "video" },
+      { "label": "Design Patterns: Elements of Reusable Object-Oriented Software (Gamma, Helm, Johnson, Vlissides, Addison-Wesley, 1994)", "url": "https://en.wikipedia.org/wiki/Design_Patterns", "type": "doc" }
+    ]
   }
 ]
