@@ -26,9 +26,10 @@ const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
  * During SSR, `absoluteUrlInterceptor` turns `/api/...` into `<public origin>/api/...` (it has
  * to: the HTTP transfer cache is keyed by that URL, and the browser must compute the same one).
  * Left alone, the SSR container would then call its own public domain, out through the
- * reverse proxy and TLS and back in. When `SSR_API_ORIGIN` is set (e.g. `http://api:3000`),
- * only the actual network call is redirected to the API service; the URL Angular keys the
- * cache by is unchanged, because this sits below HttpClient at the `fetch` level.
+ * reverse proxy and TLS and back in. When `SSR_API_ORIGIN` is set (the internal nginx, e.g.
+ * `http://web`, so renders also hit its content cache), only the actual network call is
+ * redirected there; the URL Angular keys the transfer cache by is unchanged, because this sits
+ * below HttpClient at the `fetch` level.
  */
 const ssrApiOrigin = process.env['SSR_API_ORIGIN'];
 if (ssrApiOrigin) {

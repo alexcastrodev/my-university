@@ -68,7 +68,8 @@ services:
     image: pizito:5001/university-ssr:latest
     environment:
       - NODE_ENV=production
-      - SSR_API_ORIGIN=http://university_api:3000
+      # Through nginx (not straight to api) so SSR renders hit its anonymous content cache.
+      - SSR_API_ORIGIN=http://university_web
     networks:
       - internal
     healthcheck:

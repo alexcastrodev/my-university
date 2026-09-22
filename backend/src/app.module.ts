@@ -59,7 +59,8 @@ import { XpModule } from './xp/xp.module';
         DailyWriteAnswer,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
-      migrationsRun: true,
+      // Run explicitly in main.ts under a cross-replica advisory lock instead.
+      migrationsRun: false,
       synchronize: false,
     }),
     AuthModule,

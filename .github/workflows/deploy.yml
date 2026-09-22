@@ -9,8 +9,33 @@ concurrency:
   group: deploy-main
   cancel-in-progress: false
 
+env:
+  TEST_STACK: university-ci-${{ github.run_id }}
+  TEST_COMPOSE: -f docker-compose.yml -f .ci/compose.test.yml --profile test
+
 jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # A throwaway copy of the whole stack (web/api/ssr + postgres + meilisearch) built from
+      # this commit; the backend specs run against it through nginx. Nothing deploys unless
+      # they pass.
+      - name: Run backend specs
+        run: |
+          docker compose -p "$TEST_STACK" $TEST_COMPOSE up --build \
+            --attach console-test --abort-on-container-exit --exit-code-from console-test \
+            console-test
+
+      - name: Tear down test stack
+        if: always()
+        run: docker compose -p "$TEST_STACK" $TEST_COMPOSE down -v --rmi local --remove-orphans
+
   build-and-deploy:
+    needs: test
     runs-on: self-hosted
 
     steps:

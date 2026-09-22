@@ -35,7 +35,7 @@ services:
       context: .
       target: ssr
     environment:
-      - SSR_API_ORIGIN=http://api:3000
+      - SSR_API_ORIGIN=http://web
       # The SSR server's SSRF allowlist (angular.json's build-time list only has the real
       # domain + localhost) otherwise rejects the Host header console-test sends when it
       # talks to this stack over the Docker network as `http://web/api`.
@@ -70,7 +70,11 @@ services:
       - CI=true
     command: sh -c "corepack enable && corepack prepare pnpm@11.3.0 --activate && pnpm install --frozen-lockfile && pnpm spec"
     depends_on:
-      - web
+      # The specs hit the API through nginx, so both must actually be serving, not just started.
+      web:
+        condition: service_healthy
+      api:
+        condition: service_healthy
     profiles:
       - test
 

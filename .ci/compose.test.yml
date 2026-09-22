@@ -1,0 +1,11 @@
+# Overlay on docker-compose.yml for the CI spec run (see .github/workflows/deploy.yml). It runs
+# on the same host as production, so nothing is published on host ports, and console-test keeps
+# its node_modules in an anonymous volume instead of writing root-owned files into the checkout.
+services:
+  web:
+    ports: !reset []
+
+  console-test:
+    volumes:
+      - ./backend:/workspace
+      - /workspace/node_modules
