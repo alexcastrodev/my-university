@@ -193,7 +193,9 @@ export class XpService {
       .createQueryBuilder('x')
       .select('COALESCE(SUM(x.exp), 0)', 'total')
       .where('x.userId = :userId', { userId })
-      .andWhere("to_char(x.updatedAt, 'YYYY-MM-DD') = :today", { today })
+      // A range on the raw column (not `to_char(...) = :today`) so the planner can use an index on updatedAt.
+      .andWhere('x.updatedAt >= CAST(:today AS date)', { today })
+      .andWhere("x.updatedAt < CAST(:today AS date) + INTERVAL '1 day'")
       .getRawOne<{ total: string }>();
 
     return { earnedToday: Number(result?.total ?? 0), goal: DAILY_XP_GOAL };

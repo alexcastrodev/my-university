@@ -17,6 +17,9 @@ const SESSION_MAX_AGE = 60 * 60 * 24 * 365;
 /** Just long enough to complete the GitHub authorize -> callback round trip. */
 const OAUTH_STATE_MAX_AGE = 600;
 
+/** Production is only reachable over HTTPS (TLS ends at the reverse proxy); local stacks run plain HTTP. */
+const SECURE_COOKIES = process.env.NODE_ENV === 'production';
+
 /** Sets a signed, httpOnly cookie. `sameSite: 'lax'` so it still arrives on the GitHub redirect back. */
 function setSignedCookie(
   reply: FastifyReply,
@@ -27,6 +30,7 @@ function setSignedCookie(
   reply.setCookie(name, value, {
     httpOnly: true,
     sameSite: 'lax',
+    secure: SECURE_COOKIES,
     path: '/',
     signed: true,
     maxAge,

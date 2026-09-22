@@ -21,12 +21,15 @@ services:
           memory: 1G
 
   meilisearch:
-    image: getmeili/meilisearch:v1.11
+    image: getmeili/meilisearch:v1.54
     volumes:
       - /mnt/ssd/@docker/university/meili:/meili_data
     environment:
       - MEILI_MASTER_KEY
       - MEILI_NO_ANALYTICS=true
+      # New DB directory instead of migrating: the index is rebuilt from the content on
+      # every app boot, so the old v1.11 data.ms is simply left unused.
+      - MEILI_DB_PATH=/meili_data/data-v1.54.ms
       - MEILI_ENV=production
     networks:
       - proxy_net

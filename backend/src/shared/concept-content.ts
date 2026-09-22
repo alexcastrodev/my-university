@@ -87,17 +87,47 @@ export function splitSections(body: string): ConceptSection[] {
   });
 }
 
+type ConceptContent<F extends string> = {
+  language: Language;
+  availableLanguages: Language[];
+  body: string;
+} & Record<F, string | null>;
+
+/**
+ * Content ships inside the image and never changes while the process runs, so in production
+ * every slug/language is read and parsed once and served from memory afterwards. Without this,
+ * list endpoints (and the review/daily title lookups, which fan out over every track) re-read
+ * hundreds of files with blocking fs calls on each request. Outside production the cache stays
+ * off so edited markdown shows up on the next request without a restart.
+ */
+export const CONTENT_CACHE_ENABLED = process.env.NODE_ENV === 'production';
+const contentCache = new Map<string, ConceptContent<string>>();
+
 /** Reads and parses the resolved content file for a slug/language: language resolution, frontmatter fields, and the raw markdown body, in one call. */
 export function readConceptContent<F extends string>(
   dataDir: string,
   slug: string,
   lang: Language,
   fields: readonly F[],
-): {
-  language: Language;
-  availableLanguages: Language[];
-  body: string;
-} & Record<F, string | null> {
+): ConceptContent<F> {
+  if (!CONTENT_CACHE_ENABLED) {
+    return loadConceptContent(dataDir, slug, lang, fields);
+  }
+  const key = `${dataDir}\0${slug}\0${lang}\0${fields.join(',')}`;
+  let cached = contentCache.get(key);
+  if (!cached) {
+    cached = loadConceptContent(dataDir, slug, lang, fields);
+    contentCache.set(key, cached);
+  }
+  return cached;
+}
+
+function loadConceptContent<F extends string>(
+  dataDir: string,
+  slug: string,
+  lang: Language,
+  fields: readonly F[],
+): ConceptContent<F> {
   const availableLanguages = readAvailableLanguages(dataDir, slug);
   const { path, language } = resolveContentPath(dataDir, slug, lang);
   const raw = readFileSync(path, 'utf-8');

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import {
+  CONTENT_CACHE_ENABLED,
   readConceptContent,
   splitSections,
   ConceptSection,
@@ -48,10 +49,27 @@ const FRONTMATTER_FIELDS = [
   'updatedAt',
 ] as const;
 
+function readSubdirs(parent: string): string[] {
+  return readdirSync(parent, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+}
+
+/** Directory listings are as immutable as the content itself (see `CONTENT_CACHE_ENABLED`), so production lists each one once. */
+const subdirCache = new Map<string, string[]>();
+
+function subdirs(parent: string): string[] {
+  if (!CONTENT_CACHE_ENABLED) return readSubdirs(parent);
+  let cached = subdirCache.get(parent);
+  if (!cached) {
+    cached = readSubdirs(parent);
+    subdirCache.set(parent, cached);
+  }
+  return cached;
+}
+
 function hasSubdir(parent: string, name: string): boolean {
-  return readdirSync(parent, { withFileTypes: true }).some(
-    (entry) => entry.isDirectory() && entry.name === name,
-  );
+  return subdirs(parent).includes(name);
 }
 
 /**
@@ -111,17 +129,12 @@ export class CurriculumService {
 
   /** Every (module, discipline) pair that actually exists on disk — for callers, like search indexing, that need to walk the whole curriculum tree rather than one discipline at a time. */
   listDisciplines(): { module: string; discipline: string }[] {
-    return readdirSync(DATA_ROOT, { withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .flatMap((moduleEntry) => {
-        const moduleDir = join(DATA_ROOT, moduleEntry.name);
-        return readdirSync(moduleDir, { withFileTypes: true })
-          .filter((entry) => entry.isDirectory())
-          .map((disciplineEntry) => ({
-            module: moduleEntry.name,
-            discipline: disciplineEntry.name,
-          }));
-      });
+    return subdirs(DATA_ROOT).flatMap((module) =>
+      subdirs(join(DATA_ROOT, module)).map((discipline) => ({
+        module,
+        discipline,
+      })),
+    );
   }
 
   findAllDetailed(

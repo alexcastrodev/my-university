@@ -18,21 +18,29 @@ import { TestingConceptsService } from '../testing-concepts/testing-concepts.ser
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../shared/language';
 import { MeilisearchClient } from './meilisearch.client';
 
-export type SearchResultType =
-  | 'course'
-  | 'lesson'
-  | 'java-minute'
-  | 'java-concept'
-  | 'jvm-concept'
-  | 'curriculum-concept'
-  | 'database-concept'
-  | 'spring-concept'
-  | 'system-design-concept'
-  | 'testing-concept'
-  | 'algorithms-concept'
-  | 'ruby-concept'
-  | 'rubyonrails-concept'
-  | 'quarkus-concept';
+export const SEARCH_RESULT_TYPES = [
+  'course',
+  'lesson',
+  'java-minute',
+  'java-concept',
+  'jvm-concept',
+  'curriculum-concept',
+  'database-concept',
+  'spring-concept',
+  'system-design-concept',
+  'testing-concept',
+  'algorithms-concept',
+  'ruby-concept',
+  'rubyonrails-concept',
+  'quarkus-concept',
+] as const;
+
+export type SearchResultType = (typeof SEARCH_RESULT_TYPES)[number];
+
+/** `type` arrives straight from the query string and is interpolated into a Meilisearch filter expression, so only known values get through. */
+export function isSearchResultType(value: unknown): value is SearchResultType {
+  return (SEARCH_RESULT_TYPES as readonly unknown[]).includes(value);
+}
 
 export interface SearchResult {
   type: SearchResultType;
@@ -71,10 +79,16 @@ export class SearchService implements OnApplicationBootstrap {
     private meili: MeilisearchClient,
   ) {}
 
-  async onApplicationBootstrap() {
+  /** Not awaited: the rebuild waits on every Meilisearch task, and blocking bootstrap on it would
+   *  delay `listen()` past the container healthcheck's start period. Search keeps serving the
+   *  previous index generation until the new one is swapped in. */
+  onApplicationBootstrap() {
+    void this.rebuildOnBoot();
+  }
+
+  private async rebuildOnBoot(): Promise<void> {
     try {
       await this.meili.waitUntilHealthy();
-      await this.meili.configureIndex();
       await this.indexAll();
     } catch (err) {
       this.log.error(`Failed to build search index: ${(err as Error).message}`);
@@ -389,7 +403,7 @@ export class SearchService implements OnApplicationBootstrap {
       });
     }
 
-    await this.meili.replaceDocuments(documents);
+    await this.meili.rebuildIndex(documents);
   }
 
   async search(
@@ -399,7 +413,7 @@ export class SearchService implements OnApplicationBootstrap {
     const term = query.trim();
     if (term.length < 2) return [];
 
-    const filter = type ? `type = "${type}"` : undefined;
+    const filter = isSearchResultType(type) ? `type = "${type}"` : undefined;
     const hits = await this.meili.search(term, filter);
 
     // Content indexed in multiple languages (e.g. Java Minute) can produce more than one hit

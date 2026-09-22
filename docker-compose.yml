@@ -30,15 +30,18 @@ services:
       - postgres_data:/var/lib/postgresql
 
   meilisearch:
-    image: getmeili/meilisearch:v1.11
+    image: getmeili/meilisearch:v1.54
     environment:
       - MEILI_MASTER_KEY
       - MEILI_NO_ANALYTICS=true
+      # New DB directory instead of migrating: the index is rebuilt from the content on
+      # every app boot, so the old v1.11 data.ms is simply left unused.
+      - MEILI_DB_PATH=/meili_data/data-v1.54.ms
     volumes:
       - meili_data:/meili_data
 
   console-test:
-    image: node:22-alpine
+    image: node:24-alpine
     working_dir: /workspace
     volumes:
       - ./backend:/workspace
