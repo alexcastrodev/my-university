@@ -23,6 +23,33 @@ const app = express();
 const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
 
 /**
+ * During SSR, `absoluteUrlInterceptor` turns `/api/...` into `<public origin>/api/...` (it has
+ * to: the HTTP transfer cache is keyed by that URL, and the browser must compute the same one).
+ * Left alone, the SSR container would then call its own public domain, out through the
+ * reverse proxy and TLS and back in. When `SSR_API_ORIGIN` is set (e.g. `http://api:3000`),
+ * only the actual network call is redirected to the API service; the URL Angular keys the
+ * cache by is unchanged, because this sits below HttpClient at the `fetch` level.
+ */
+const ssrApiOrigin = process.env['SSR_API_ORIGIN'];
+if (ssrApiOrigin) {
+  const publicFetch = globalThis.fetch;
+  globalThis.fetch = (input, init) => {
+    if ((typeof input === 'string' && URL.canParse(input)) || input instanceof URL) {
+      const url = new URL(input);
+      if (url.pathname.startsWith('/api/')) {
+        return publicFetch(`${ssrApiOrigin}${url.pathname}${url.search}`, init);
+      }
+    }
+    return publicFetch(input, init);
+  };
+}
+
+/** Liveness probe for the container healthcheck; cheap on purpose (no Angular render). */
+app.get('/healthz', (_req, res) => {
+  res.type('text/plain').send('ok');
+});
+
+/**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
  *

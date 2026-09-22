@@ -1,8 +1,21 @@
 services:
-  app:
-    build: .
+  web:
+    build:
+      context: .
+      target: web
     ports:
       - "80:80"
+    environment:
+      - API_UPSTREAM=api:3000
+      - SSR_UPSTREAM=ssr:4000
+    depends_on:
+      - api
+      - ssr
+
+  api:
+    build:
+      context: .
+      target: api
     environment:
       - NODE_ENV=development
       - SESSION_SECRET
@@ -13,13 +26,20 @@ services:
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
       - FRONTEND_URL
-      # The SSR server's SSRF allowlist (angular.json's build-time list only has the real
-      # domain + localhost) otherwise rejects the Host header console-test sends when it
-      # talks to this container over the Docker network as `http://app/api`.
-      - NG_ALLOWED_HOSTS=app
     depends_on:
       - meilisearch
       - postgres
+
+  ssr:
+    build:
+      context: .
+      target: ssr
+    environment:
+      - SSR_API_ORIGIN=http://api:3000
+      # The SSR server's SSRF allowlist (angular.json's build-time list only has the real
+      # domain + localhost) otherwise rejects the Host header console-test sends when it
+      # talks to this stack over the Docker network as `http://web/api`.
+      - NG_ALLOWED_HOSTS=web
 
   postgres:
     image: postgres:18-alpine
@@ -46,11 +66,11 @@ services:
     volumes:
       - ./backend:/workspace
     environment:
-      - API_URL=http://app/api
+      - API_URL=http://web/api
       - CI=true
     command: sh -c "corepack enable && corepack prepare pnpm@11.3.0 --activate && pnpm install --frozen-lockfile && pnpm spec"
     depends_on:
-      - app
+      - web
     profiles:
       - test
 

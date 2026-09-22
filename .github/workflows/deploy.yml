@@ -17,13 +17,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build image
-        run: docker build -t pizito:5001/university:latest -t pizito:5001/university:${{ github.sha }} .
-
-      - name: Push image
+      - name: Build images
         run: |
-          docker push pizito:5001/university:latest
-          docker push pizito:5001/university:${{ github.sha }}
+          for target in api ssr web; do
+            docker build --target "$target" \
+              -t "pizito:5001/university-$target:latest" \
+              -t "pizito:5001/university-$target:${{ github.sha }}" .
+          done
+
+      - name: Push images
+        run: |
+          for target in api ssr web; do
+            docker push "pizito:5001/university-$target:latest"
+            docker push "pizito:5001/university-$target:${{ github.sha }}"
+          done
 
       - name: Deploy stack to swarm
         run: ./deploy.sh

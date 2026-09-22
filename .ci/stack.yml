@@ -1,6 +1,37 @@
+# Three services built from the targets in .ci/Dockerfile. `web` keeps its name, port and
+# proxy_net attachment, so the external reverse proxy still reaches it as before; api and ssr
+# sit behind it. Upstreams use full `university_*` names because short ones can collide on the
+# shared proxy_net.
 services:
   web:
-    image: pizito:5001/university:latest
+    image: pizito:5001/university-web:latest
+    environment:
+      - API_UPSTREAM=university_api:3000
+      - SSR_UPSTREAM=university_ssr:4000
+    networks:
+      - proxy_net
+      - internal
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/nginx-health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    deploy:
+      replicas: 2
+      update_config:
+        order: start-first
+        failure_action: rollback
+        delay: 5s
+      rollback_config:
+        order: start-first
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+
+  api:
+    image: pizito:5001/university-api:latest
     environment:
       - NODE_ENV=production
       - SESSION_SECRET
@@ -10,10 +41,12 @@ services:
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
+    # proxy_net to reach university-db (postgres/meilisearch); internal for web.
     networks:
       - proxy_net
+      - internal
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:80/api/health"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api/health"]
       interval: 5s
       timeout: 3s
       retries: 3
@@ -29,8 +62,36 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 1G
+          memory: 512M
+
+  ssr:
+    image: pizito:5001/university-ssr:latest
+    environment:
+      - NODE_ENV=production
+      - SSR_API_ORIGIN=http://university_api:3000
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:4000/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    deploy:
+      replicas: 2
+      update_config:
+        order: start-first
+        failure_action: rollback
+        delay: 5s
+      rollback_config:
+        order: start-first
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
 
 networks:
   proxy_net:
     external: true
+  internal:
+    driver: overlay
