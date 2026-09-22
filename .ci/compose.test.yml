@@ -1,11 +1,16 @@
 # Overlay on docker-compose.yml for the CI spec run (see .github/workflows/deploy.yml). It runs
-# on the same host as production, so nothing is published on host ports, and console-test keeps
-# its node_modules in an anonymous volume instead of writing root-owned files into the checkout.
+# on the same host as production, so nothing is published on host ports. console-test runs as
+# root, so everything pnpm writes (node_modules and its content-addressable store, which it
+# would otherwise create as backend/.pnpm-store) goes to anonymous volumes: root-owned files in
+# the checkout break the runner's next `actions/checkout` clean.
 services:
   web:
     ports: !reset []
 
   console-test:
+    environment:
+      - PNPM_CONFIG_STORE_DIR=/pnpm-store
     volumes:
       - ./backend:/workspace
       - /workspace/node_modules
+      - /pnpm-store
