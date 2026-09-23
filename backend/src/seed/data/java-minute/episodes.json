@@ -294,5 +294,16 @@
       { "label": "Java Coding Tip #396: Why Should You Favor Composition Over Inheritance?", "url": "https://youtube.com/shorts/DIZTQxkOsy4", "type": "video" },
       { "label": "Design Patterns: Elements of Reusable Object-Oriented Software (Gamma, Helm, Johnson, Vlissides, Addison-Wesley, 1994)", "url": "https://en.wikipedia.org/wiki/Design_Patterns", "type": "doc" }
     ]
+  },
+  {
+    "slug": "flattening",
+    "id": 397,
+    "question": "What is flattening?",
+    "publishedAt": "2026-09-23",
+    "references": [
+      { "label": "Java Coding Tip #397: What Is Flattening?", "url": "https://www.youtube.com/shorts/_DF3qwP3vcU", "type": "video" },
+      { "label": "Project Valhalla (OpenJDK)", "url": "https://openjdk.org/projects/valhalla/", "type": "doc" },
+      { "label": "JEP 401: Value Classes and Objects", "url": "https://openjdk.org/jeps/401", "type": "doc" }
+    ]
   }
 ]
