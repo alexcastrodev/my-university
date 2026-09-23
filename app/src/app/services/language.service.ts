@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, LOCALE_ID, effect, inject } from '@angular/core';
+import { timeout } from 'rxjs';
 import { DEFAULT_LANGUAGE, Language, isSupportedLanguage } from '../models/language.model';
 import { AuthService } from './auth.service';
 
@@ -34,6 +35,9 @@ export class LanguageService {
 
   readonly language: Language = isSupportedLanguage(this.localeId) ? this.localeId : DEFAULT_LANGUAGE;
 
+  /** Set while an explicit switch is saving and navigating away; see `setLanguage`. */
+  private switching = false;
+
   constructor() {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(LANGUAGE_STORAGE_KEY, this.language);
@@ -41,7 +45,7 @@ export class LanguageService {
 
     effect(() => {
       const user = this.auth.currentUser();
-      if (!user) return;
+      if (!user || this.switching) return;
       if (user.preferredLanguage === this.language) return;
 
       if (this.language === DEFAULT_LANGUAGE && user.preferredLanguage) {
@@ -58,8 +62,30 @@ export class LanguageService {
     if (lang === this.language) return;
 
     if (typeof localStorage !== 'undefined') localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
-    if (this.auth.currentUser()) this.auth.updateLanguage(lang).subscribe({ error: () => {} });
 
+    if (!this.auth.currentUser()) {
+      this.navigateToLocale(lang);
+      return;
+    }
+
+    // Save the account preference *before* leaving the page. The navigation below is a full page
+    // load, which aborts an in-flight request; the new page would then still see the old
+    // `preferredLanguage` (server-side and in the cached user) and the constructor effect would
+    // bounce an explicit switch to English straight back to the saved locale. `switching` stops
+    // that same effect on *this* page from "syncing" the account back to the current locale when
+    // the save updates `currentUser`. The timeout keeps a slow or failing API from leaving the
+    // switcher stuck.
+    this.switching = true;
+    this.auth
+      .updateLanguage(lang)
+      .pipe(timeout(3000))
+      .subscribe({
+        complete: () => this.navigateToLocale(lang),
+        error: () => this.navigateToLocale(lang),
+      });
+  }
+
+  private navigateToLocale(lang: Language): void {
     const location = this.document.location;
     const path = location.pathname;
     const isPtBrPath = path === PT_BR_PREFIX || path.startsWith(`${PT_BR_PREFIX}/`);
