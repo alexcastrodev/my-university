@@ -133,16 +133,6 @@
   box-sizing: border-box;
 }
 
-/* Clear the fixed mobile bottom-nav (plus the home-indicator safe area it sits
-   above) so page content is never hidden behind it, with a little breathing room
-   so the last card doesn't touch the bar. The full-screen daily runner covers the
-   viewport (position: fixed) and pads its own safe areas. */
-@media (max-width: 768px) {
-  body {
-    padding-bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 1rem);
-  }
-}
-
 html {
   overflow-x: hidden;
 }
@@ -172,6 +162,17 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--mu-bg);
   color: var(--mu-ink);
+}
+
+/* Clear the fixed mobile bottom-nav (plus the home-indicator safe area it sits
+   above) so page content is never hidden behind it, with a little breathing room
+   so the last card doesn't touch the bar. The full-screen daily runner covers the
+   viewport (position: fixed) and pads its own safe areas. Must come after the
+   html, body reset above, which zeroes padding with the same specificity. */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 1rem);
+  }
 }
 
 /* ==========================================================================
