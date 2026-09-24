@@ -76,11 +76,32 @@
   box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
 }
 
+.close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  width: 28px;
+  height: 28px;
+  font-family: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--mu-muted);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink);
+}
+
 .node-detail h2 {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--mu-ink);
-  margin: 0 0 0.75rem;
+  margin: 0 2rem 0.75rem 0;
 }
 
 .node-detail dl {
@@ -122,20 +143,49 @@
   background: var(--mu-text);
 }
 
+/* Phones: the graph takes the rest of the screen (below the header, above the
+   bottom tab bar and its safe area) and the node detail becomes a bottom sheet
+   over the graph, so tapping a node never pushes the details off-screen. */
 @media (max-width: 640px) {
-  .node-detail {
-    position: static;
-    width: auto;
-    margin-top: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
   .map-page {
-    padding: 1.5rem 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    /* Exactly the visible viewport between the header and the bottom tab bar
+       (body's own bottom padding, see styles.css, clears the bar itself). */
+    height: calc(100vh - 52px - var(--mu-safe-top) - var(--mu-nav-h) - var(--mu-safe-bottom) - 1rem);
+    height: calc(100dvh - 52px - var(--mu-safe-top) - var(--mu-nav-h) - var(--mu-safe-bottom) - 1rem);
+    min-height: 480px;
+    padding: 1rem 0.75rem 0;
+  }
+
+  .map-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .map-sub {
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .map-header {
+    margin-bottom: 0.75rem;
   }
 
   .cy-container {
-    height: 420px;
+    flex: 1;
+    height: auto;
+    min-height: 300px;
+  }
+
+  .node-detail {
+    position: fixed;
+    top: auto;
+    left: calc(0.75rem + var(--mu-safe-left));
+    right: calc(0.75rem + var(--mu-safe-right));
+    bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 0.75rem);
+    width: auto;
+    z-index: 80;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--mu-shadow-pop);
   }
 }

@@ -12,9 +12,12 @@
     right: 0;
     bottom: 0;
     z-index: 90;
-    height: var(--mu-nav-h);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* The bar grows by the safe area instead of the tabs shrinking into it:
+       with box-sizing: border-box a fixed height would eat the inset. */
+    height: calc(var(--mu-nav-h) + var(--mu-safe-bottom));
+    padding: 0 var(--mu-safe-right) var(--mu-safe-bottom) var(--mu-safe-left);
     background: rgba(255, 255, 255, 0.92);
+    background: color-mix(in srgb, var(--mu-surface) 92%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--mu-line);

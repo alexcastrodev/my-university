@@ -6,6 +6,7 @@
   background: var(--mu-surface);
   display: flex;
   flex-direction: column;
+  padding: var(--mu-safe-top) var(--mu-safe-right) var(--mu-safe-bottom) var(--mu-safe-left);
 }
 
 .runner-done {

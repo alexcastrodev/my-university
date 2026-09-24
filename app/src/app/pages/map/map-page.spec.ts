@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { Subject, of, throwError } from 'rxjs';
 import { CurriculumGraph } from '../../models/curriculum-graph.model';
 import { CurriculumGraphService } from '../../services/curriculum-graph.service';
+import { ThemeService } from '../../services/theme.service';
 import { MapPage } from './map-page';
 
 const GRAPH: CurriculumGraph = {
@@ -110,5 +111,24 @@ describe('MapPage', () => {
 
     const title = (fixture.componentInstance as any).moduleTitle('foundations');
     expect(title).toBe('Foundations of Computer Science');
+  });
+
+  it('repaints graph labels in a readable color when switching to dark mode', async () => {
+    const fixture = setup({ getGraph: () => of(GRAPH) });
+    fixture.detectChanges();
+    await Promise.resolve();
+    await Promise.resolve();
+    fixture.detectChanges();
+
+    const theme = TestBed.inject(ThemeService);
+    theme.theme.set('light');
+    fixture.detectChanges();
+    const cy = (fixture.componentInstance as any).cy;
+    const labelColor = () => cy.nodes().first().style('color');
+    expect(labelColor()).toBe('rgb(17,24,39)');
+
+    theme.theme.set('dark');
+    fixture.detectChanges();
+    expect(labelColor()).toBe('rgb(243,244,246)');
   });
 });

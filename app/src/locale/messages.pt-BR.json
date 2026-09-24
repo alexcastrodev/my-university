@@ -15,6 +15,7 @@
     "map.metric.delay": "Fator de atraso",
     "map.metric.centrality": "Centralidade",
     "map.open": "Abrir →",
+    "map.close": "Fechar",
     "daily.streak": "Sequência · dia {$INTERPOLATION}",
     "daily.start": "Começar · {$INTERPOLATION} min",
     "daily.close": "Fechar sessão",

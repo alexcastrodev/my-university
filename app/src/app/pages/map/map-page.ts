@@ -1,10 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, PLATFORM_ID, ViewChild, afterNextRender, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, PLATFORM_ID, ViewChild, afterNextRender, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import cytoscape, { Core, ElementDefinition, NodeSingular } from 'cytoscape';
 import dagre from 'cytoscape-dagre';
 import { CurriculumGraphService } from '../../services/curriculum-graph.service';
 import { CurriculumGraph } from '../../models/curriculum-graph.model';
+import { Theme, ThemeService } from '../../services/theme.service';
 import { CURRICULUM, CurriculumModule } from '../computer-science/curriculum.data';
 
 cytoscape.use(dagre);
@@ -23,7 +24,18 @@ const MODULE_COLORS: Record<string, string> = {
   research: '#e34948',
 };
 
-type ViewLevel = 'modules' | { module: string };
+/** Canvas colors per theme. Cytoscape paints on a <canvas>, so it can't read the CSS
+ *  custom properties itself; these mirror styles.css's --mu-ink / --mu-surface /
+ *  --mu-divider / --mu-accent for each theme. Keyed on ThemeService's signal instead of
+ *  `getComputedStyle`, which would race the effect that flips `data-theme` on <html>. */
+const GRAPH_THEME: Record<Theme, { label: string; labelBg: string; nodeBorder: string; edge: string; selected: string }> = {
+  light: { label: '#111827', labelBg: '#ffffff', nodeBorder: '#ffffff', edge: '#c7cbd1', selected: '#c74634' },
+  dark: { label: '#f3f4f6', labelBg: '#17212f', nodeBorder: '#17212f', edge: '#4b5563', selected: '#e2574a' },
+};
+
+/** Below this container width the graph is laid out top-to-bottom: a phone in portrait is
+ *  tall and narrow, so a left-to-right chain fit into it shrinks every label to unreadable. */
+const NARROW_WIDTH = 640;
 
 /**
  * `/map` — the Computer Science curriculum as an explorable graph (tasks.md · "Fase futura —
@@ -48,7 +60,7 @@ type ViewLevel = 'modules' | { module: string };
           <button type="button" class="back-btn" (click)="showModules()">
             <span i18n="@@map.backToOverview">← Back to overview</span>
           </button>
-          <span class="breadcrumb-current">{{ mod }}</span>
+          <span class="breadcrumb-current">{{ moduleTitle(mod) }}</span>
         }
       </header>
 
@@ -62,6 +74,7 @@ type ViewLevel = 'modules' | { module: string };
 
       @if (selected(); as node) {
         <aside class="node-detail">
+          <button type="button" class="close-btn" (click)="selected.set(null)" aria-label="Close" i18n-aria-label="@@map.close">×</button>
           <h2>{{ node.label }}</h2>
           <dl>
             <dt i18n="@@map.metric.blocking">Blocking factor</dt>
@@ -89,6 +102,7 @@ export class MapPage implements OnInit, OnDestroy {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private injector = inject(Injector);
+  private themeService = inject(ThemeService);
 
   protected readonly loading = signal(true);
   protected readonly error = signal(false);
@@ -101,8 +115,26 @@ export class MapPage implements OnInit, OnDestroy {
 
   private graph: CurriculumGraph | null = null;
   private cy: Core | null = null;
+  private narrow = false;
+  private resizeTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly onWindowResize = () => {
+    if (this.resizeTimer) clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => this.handleResize(), 150);
+  };
+
+  constructor() {
+    // Repaint in place when the theme is switched while the map is open.
+    effect(() => {
+      const theme = this.themeService.theme();
+      this.cy?.style(this.graphStyle(theme));
+    });
+  }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('resize', this.onWindowResize);
+    }
+
     this.graphService.getGraph().subscribe({
       next: (graph) => {
         this.graph = graph;
@@ -123,10 +155,103 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.onWindowResize);
+    }
+    if (this.resizeTimer) clearTimeout(this.resizeTimer);
     this.cy?.destroy();
   }
 
-  private moduleTitle(slug: string): string {
+  /** Rotation or a resized window: re-run the layout if it crossed the narrow/wide
+   *  breakpoint (changes rank direction), otherwise just refit to the new box. */
+  private handleResize(): void {
+    const cy = this.cy;
+    if (!cy || cy.destroyed()) return;
+    const narrow = this.isNarrow();
+    cy.resize();
+    if (narrow !== this.narrow) {
+      this.narrow = narrow;
+      cy.style(this.graphStyle(this.themeService.theme()));
+      cy.layout(this.layoutOptions()).run();
+    }
+    this.fitGraph(cy);
+  }
+
+  private isNarrow(): boolean {
+    const width = this.cyContainer?.nativeElement.clientWidth || window.innerWidth;
+    return width < NARROW_WIDTH;
+  }
+
+  private layoutOptions(): cytoscape.LayoutOptions {
+    return (
+      this.narrow
+        ? { name: 'dagre', rankDir: 'TB', nodeSep: 16, rankSep: 40, nodeDimensionsIncludeLabels: true, fit: false }
+        : { name: 'dagre', rankDir: 'LR', nodeSep: 60, rankSep: 100, fit: false }
+    ) as unknown as cytoscape.LayoutOptions;
+  }
+
+  private graphStyle(theme: Theme): cytoscape.StylesheetJson {
+    const colors = GRAPH_THEME[theme];
+    return [
+      {
+        selector: 'node',
+        style: {
+          'background-color': 'data(color)',
+          label: 'data(label)',
+          color: colors.label,
+          'font-size': this.narrow ? '13px' : '11px',
+          'font-weight': 600,
+          'text-valign': 'bottom',
+          'text-margin-y': 6,
+          'text-wrap': 'wrap',
+          'text-max-width': this.narrow ? '120px' : '90px',
+          'text-halign': 'center',
+          // A surface-colored pill behind each label keeps it legible where it crosses
+          // an edge, in either theme.
+          'text-background-color': colors.labelBg,
+          'text-background-opacity': 0.85,
+          'text-background-padding': '2px',
+          'text-background-shape': 'roundrectangle',
+          width: 32,
+          height: 32,
+          'border-width': 2,
+          'border-color': colors.nodeBorder,
+        },
+      },
+      {
+        selector: 'edge',
+        style: {
+          width: 1.5,
+          'line-color': colors.edge,
+          'target-arrow-color': colors.edge,
+          'target-arrow-shape': 'triangle',
+          'curve-style': 'bezier',
+        },
+      },
+      {
+        selector: 'node:selected',
+        style: { 'border-color': colors.selected, 'border-width': 3 },
+      },
+    ];
+  }
+
+  private fitGraph(cy: Core): void {
+    cy.fit(undefined, this.narrow ? 24 : 40);
+    // A tall top-to-bottom graph fit into a phone would zoom out until labels are
+    // unreadable; past this floor, keep them legible and let the user pan instead,
+    // starting from the top (the roots) rather than the middle.
+    const minReadableZoom = 0.75;
+    if (this.narrow && cy.zoom() < minReadableZoom) {
+      cy.zoom(minReadableZoom);
+      const bb = cy.elements().boundingBox();
+      cy.pan({
+        x: (cy.width() - (bb.x1 + bb.x2) * minReadableZoom) / 2,
+        y: 24 - bb.y1 * minReadableZoom,
+      });
+    }
+  }
+
+  protected moduleTitle(slug: string): string {
     const mod = CURRICULUM.find((m: CurriculumModule) => m.slug === slug);
     return mod?.title ?? slug;
   }
@@ -213,44 +338,12 @@ export class MapPage implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.cy?.destroy();
+    this.narrow = this.isNarrow();
     this.cy = cytoscape({
       container: this.cyContainer.nativeElement,
       elements,
-      style: [
-        {
-          selector: 'node',
-          style: {
-            'background-color': 'data(color)',
-            label: 'data(label)',
-            color: '#111827',
-            'font-size': '11px',
-            'text-valign': 'bottom',
-            'text-margin-y': 8,
-            'text-wrap': 'wrap',
-            'text-max-width': '90px',
-            'text-halign': 'center',
-            width: 32,
-            height: 32,
-            'border-width': 2,
-            'border-color': '#ffffff',
-          },
-        },
-        {
-          selector: 'edge',
-          style: {
-            width: 1.5,
-            'line-color': '#c7cbd1',
-            'target-arrow-color': '#c7cbd1',
-            'target-arrow-shape': 'triangle',
-            'curve-style': 'bezier',
-          },
-        },
-        {
-          selector: 'node:selected',
-          style: { 'border-color': '#c74634', 'border-width': 3 },
-        },
-      ],
-      layout: { name: 'dagre', rankDir: 'LR', nodeSep: 60, rankSep: 100, fit: false } as unknown as cytoscape.LayoutOptions,
+      style: this.graphStyle(this.themeService.theme()),
+      layout: this.layoutOptions(),
       minZoom: 0.15,
       maxZoom: 2.5,
     });
@@ -269,7 +362,7 @@ export class MapPage implements OnInit, OnDestroy {
     requestAnimationFrame(() => {
       if (cy.destroyed()) return;
       cy.resize();
-      cy.fit(undefined, 40);
+      this.fitGraph(cy);
     });
   }
 

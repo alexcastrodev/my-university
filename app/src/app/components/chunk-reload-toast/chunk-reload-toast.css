@@ -1,6 +1,6 @@
 .chunk-reload-toast {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + var(--mu-safe-bottom));
   left: 50%;
   transform: translateX(-50%);
   z-index: 1100;
