@@ -11,8 +11,8 @@
 
 .mermaid-viewer-toolbar {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  top: calc(1rem + var(--mu-safe-top));
+  right: calc(1rem + var(--mu-safe-right));
   z-index: 2001;
   display: flex;
   gap: 0.5rem;

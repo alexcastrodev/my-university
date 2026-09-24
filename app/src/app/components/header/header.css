@@ -4,8 +4,10 @@
   justify-content: space-between;
   background: #16213e;
   color: var(--mu-white);
-  height: 52px;
-  padding: 0 1.25rem;
+  /* Grows by the status-bar / notch inset when installed as a PWA
+     (black-translucent status bar draws page content underneath it). */
+  height: calc(52px + var(--mu-safe-top));
+  padding: var(--mu-safe-top) calc(1.25rem + var(--mu-safe-right)) 0 calc(1.25rem + var(--mu-safe-left));
   gap: 1rem;
   position: sticky;
   top: 0;
