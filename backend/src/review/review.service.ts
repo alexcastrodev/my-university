@@ -6,6 +6,7 @@ import { AlgorithmsConceptsService } from '../algorithms-concepts/algorithms-con
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
+import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
@@ -74,6 +75,7 @@ export class ReviewService {
     private rubyConcepts: RubyConceptsService,
     private rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
+    private kubernetesConcepts: KubernetesConceptsService,
     private curriculum: CurriculumService,
   ) {}
 
@@ -92,6 +94,7 @@ export class ReviewService {
       'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
       'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
+      'kubernetes-concepts': new Map(this.kubernetesConcepts.findAll().map((c) => [c.slug, c.title])),
     };
   }
 
@@ -148,6 +151,10 @@ export class ReviewService {
       }
       case 'quarkus-concepts': {
         const d = this.quarkusConcepts.findBySlug(slug);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'kubernetes-concepts': {
+        const d = this.kubernetesConcepts.findBySlug(slug);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       default:

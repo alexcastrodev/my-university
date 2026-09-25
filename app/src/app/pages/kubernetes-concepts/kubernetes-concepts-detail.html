@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a routerLink="/kubernetes-concepts" class="back-link">← {{ backLabelText }}</a>
+      <div class="loading" role="status" i18n-aria-label="@@kubernetesConceptsDetail.loading.ariaLabel" aria-label="Loading concept">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@kubernetesConceptsDetail.loading">Loading concept…</ng-container>
+      </div>
+    } @else if (notFound()) {
+      <a routerLink="/kubernetes-concepts" class="back-link">← {{ backLabelText }}</a>
+      <div class="not-found">
+        <p i18n="@@kubernetesConceptsDetail.notFound">Concept not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        backHref="/kubernetes-concepts"
+        [backLabel]="backLabelText"
+        basePath="/kubernetes-concepts"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-kubernetes-concept-view
+          [concept]="concept()"
+          [read]="read()"
+          [marking]="marking()"
+          [breadcrumbs]="breadcrumbItems()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

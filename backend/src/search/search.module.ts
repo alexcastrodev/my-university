@@ -9,6 +9,7 @@ import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
 import { JvmConceptsModule } from '../jvm-concepts/jvm-concepts.module';
 import { QuarkusConceptsModule } from '../quarkus-concepts/quarkus-concepts.module';
+import { KubernetesConceptsModule } from '../kubernetes-concepts/kubernetes-concepts.module';
 import { RubyConceptsModule } from '../ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from '../rubyonrails-concepts/rubyonrails-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
@@ -33,6 +34,7 @@ import { SearchService } from './search.service';
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     QuarkusConceptsModule,
+    KubernetesConceptsModule,
   ],
   controllers: [SearchController],
   providers: [SearchService, MeilisearchClient],

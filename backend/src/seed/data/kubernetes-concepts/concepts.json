@@ -1,0 +1,63 @@
+[
+  {
+    "slug": "kubernetes-secrets-fundamentals",
+    "id": 1,
+    "category": "Secrets & Configuration",
+    "title": "Kubernetes Secrets Fundamentals",
+    "topic": "Secrets & Configuration",
+    "related": [
+      { "label": "Projected Volumes: Combining Multiple Secrets", "slug": "projected-volumes-combining-multiple-secrets" },
+      { "label": "Secrets as Environment Variables vs Mounted Files", "slug": "secrets-as-env-vars-vs-mounted-files" }
+    ],
+    "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
+    "publishedAt": "2026-09-25",
+    "references": [
+      { "label": "Kubernetes docs: Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
+      { "label": "Kubernetes docs: Managing Secrets using kubectl", "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/", "type": "doc" },
+      { "label": "kubectl create secret generic reference", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/", "type": "doc" },
+      { "label": "Kubernetes docs: Good practices for Kubernetes Secrets", "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/", "type": "doc" },
+      { "label": "Kubernetes docs: Encrypting Confidential Data at Rest", "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "projected-volumes-combining-multiple-secrets",
+    "id": 2,
+    "requires": ["kubernetes-secrets-fundamentals"],
+    "category": "Secrets & Configuration",
+    "title": "Projected Volumes: Combining Multiple Secrets",
+    "topic": "Secrets & Configuration",
+    "related": [
+      { "label": "Kubernetes Secrets Fundamentals", "slug": "kubernetes-secrets-fundamentals" },
+      { "label": "Secrets as Environment Variables vs Mounted Files", "slug": "secrets-as-env-vars-vs-mounted-files" }
+    ],
+    "summary": "Mounting several Secrets into one directory with a projected volume, the silent last-source-wins key collision that comes with it, and how items/path keeps tenants apart.",
+    "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/projected-volumes-combining-multiple-secrets",
+    "references": [
+      { "label": "Kubernetes docs: Projected Volumes", "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/", "type": "doc" },
+      { "label": "Kubernetes docs: Secrets (using Secrets as files from a Pod)", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
+      { "label": "Kubernetes docs: Configure a Pod to Use a Projected Volume for Storage", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/", "type": "doc" },
+      { "label": "Spring Boot docs: Using Configuration Trees", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.files.configtree", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "secrets-as-env-vars-vs-mounted-files",
+    "id": 3,
+    "requires": ["kubernetes-secrets-fundamentals"],
+    "category": "Secrets & Configuration",
+    "title": "Secrets as Environment Variables vs Mounted Files",
+    "topic": "Secrets & Configuration",
+    "related": [
+      { "label": "Kubernetes Secrets Fundamentals", "slug": "kubernetes-secrets-fundamentals" },
+      { "label": "Projected Volumes: Combining Multiple Secrets", "slug": "projected-volumes-combining-multiple-secrets" }
+    ],
+    "summary": "Why a rotated Secret reaches mounted files after about a minute but never reaches environment variables or subPath mounts, and why files leak less than env vars.",
+    "publishedAt": "2026-09-25",
+    "references": [
+      { "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets", "url": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/", "type": "doc" },
+      { "label": "Kubernetes docs: Secrets (mounted Secrets are updated automatically)", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
+      { "label": "Kubernetes docs: Volumes (subPath)", "url": "https://kubernetes.io/docs/concepts/storage/volumes/", "type": "doc" },
+      { "label": "Kubernetes docs: Good practices for Kubernetes Secrets", "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/", "type": "doc" }
+    ]
+  }
+]

@@ -7,6 +7,7 @@ import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
+import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -40,6 +41,7 @@ export class SitemapService {
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
+    private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly curriculum: CurriculumService,
   ) {}
 
@@ -92,6 +94,12 @@ export class SitemapService {
     );
     urls.push(
       ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),
+    );
+    urls.push(
+      ...this.listSection(
+        '/kubernetes-concepts',
+        this.kubernetesConcepts.findAll(),
+      ),
     );
     urls.push({
       path: '/computer-science',

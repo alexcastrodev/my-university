@@ -10,6 +10,7 @@ import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
+import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
@@ -33,6 +34,7 @@ export const SEARCH_RESULT_TYPES = [
   'ruby-concept',
   'rubyonrails-concept',
   'quarkus-concept',
+  'kubernetes-concept',
 ] as const;
 
 export type SearchResultType = (typeof SEARCH_RESULT_TYPES)[number];
@@ -76,6 +78,7 @@ export class SearchService implements OnApplicationBootstrap {
     private rubyConceptsService: RubyConceptsService,
     private rubyOnRailsConceptsService: RubyOnRailsConceptsService,
     private quarkusConceptsService: QuarkusConceptsService,
+    private kubernetesConceptsService: KubernetesConceptsService,
     private meili: MeilisearchClient,
   ) {}
 
@@ -396,6 +399,20 @@ export class SearchService implements OnApplicationBootstrap {
         title: concept.title,
         subtitle: 'Quarkus Concepts',
         url: `/quarkus-concepts/${concept.slug}`,
+        content: [
+          concept.summary,
+          ...concept.sections.map((s) => `${s.title} ${s.content}`),
+        ].join(' '),
+      });
+    }
+
+    for (const concept of this.kubernetesConceptsService.findAllDetailed()) {
+      documents.push({
+        id: `kubernetes-concept-${concept.slug}`,
+        type: 'kubernetes-concept' satisfies SearchResultType,
+        title: concept.title,
+        subtitle: 'Kubernetes Concepts',
+        url: `/kubernetes-concepts/${concept.slug}`,
         content: [
           concept.summary,
           ...concept.sections.map((s) => `${s.title} ${s.content}`),

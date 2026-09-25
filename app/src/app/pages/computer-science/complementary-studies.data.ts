@@ -107,6 +107,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'Practice ahead of the theory',
   },
   {
+    slug: 'kubernetes-concepts',
+    apiBase: '/api/kubernetes-concepts',
+    title: 'Kubernetes',
+    routerLink: '/kubernetes-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'Where distributed software actually runs',
+  },
+  {
     slug: 'algorithms-concepts',
     apiBase: '/api/algorithms-concepts',
     title: 'Algorithms',

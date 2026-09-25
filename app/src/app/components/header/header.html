@@ -49,6 +49,7 @@
               <span class="explore-menu-heading" i18n="@@header.nav.fundamentals">Fundamentals</span>
               <a routerLink="/databases/database-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.databaseConcepts">Database Concepts</a>
               <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.systemDesign">System Design</a>
+              <a routerLink="/kubernetes-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.kubernetes">Kubernetes</a>
               <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.algorithms">Algorithms</a>
             </div>
           </div>
@@ -133,6 +134,8 @@
     @case ('header.search.filter.algorithms') { <ng-container i18n="@@header.search.filter.algorithms">Algorithms</ng-container> }
     @case ('header.search.filter.rubyConcepts') { <ng-container i18n="@@header.search.filter.rubyConcepts">Ruby Concepts</ng-container> }
     @case ('header.search.filter.rubyRailsConcepts') { <ng-container i18n="@@header.search.filter.rubyRailsConcepts">Ruby on Rails Concepts</ng-container> }
+    @case ('header.search.filter.quarkusConcepts') { <ng-container i18n="@@header.search.filter.quarkusConcepts">Quarkus Concepts</ng-container> }
+    @case ('header.search.filter.kubernetesConcepts') { <ng-container i18n="@@header.search.filter.kubernetesConcepts">Kubernetes Concepts</ng-container> }
     }
                   </button>
                 }
@@ -163,6 +166,8 @@
       @case ('algorithms-concept') { <ng-container i18n="@@header.search.type.algorithmsConcept">Algorithms</ng-container> }
       @case ('ruby-concept') { <ng-container i18n="@@header.search.type.rubyConcept">Ruby Concept</ng-container> }
       @case ('rubyonrails-concept') { <ng-container i18n="@@header.search.type.rubyonrailsConcept">Ruby on Rails Concept</ng-container> }
+      @case ('quarkus-concept') { <ng-container i18n="@@header.search.type.quarkusConcept">Quarkus Concept</ng-container> }
+      @case ('kubernetes-concept') { <ng-container i18n="@@header.search.type.kubernetesConcept">Kubernetes Concept</ng-container> }
                     }</span>
                   <span class="search-result-title">{{ result.title }}</span>
                   @if (result.subtitle) {
@@ -217,6 +222,8 @@
     @case ('header.search.filter.algorithms') { <ng-container i18n="@@header.search.filter.algorithms">Algorithms</ng-container> }
     @case ('header.search.filter.rubyConcepts') { <ng-container i18n="@@header.search.filter.rubyConcepts">Ruby Concepts</ng-container> }
     @case ('header.search.filter.rubyRailsConcepts') { <ng-container i18n="@@header.search.filter.rubyRailsConcepts">Ruby on Rails Concepts</ng-container> }
+    @case ('header.search.filter.quarkusConcepts') { <ng-container i18n="@@header.search.filter.quarkusConcepts">Quarkus Concepts</ng-container> }
+    @case ('header.search.filter.kubernetesConcepts') { <ng-container i18n="@@header.search.filter.kubernetesConcepts">Kubernetes Concepts</ng-container> }
     }
                 </button>
               }
@@ -247,6 +254,8 @@
       @case ('algorithms-concept') { <ng-container i18n="@@header.search.type.algorithmsConcept">Algorithms</ng-container> }
       @case ('ruby-concept') { <ng-container i18n="@@header.search.type.rubyConcept">Ruby Concept</ng-container> }
       @case ('rubyonrails-concept') { <ng-container i18n="@@header.search.type.rubyonrailsConcept">Ruby on Rails Concept</ng-container> }
+      @case ('quarkus-concept') { <ng-container i18n="@@header.search.type.quarkusConcept">Quarkus Concept</ng-container> }
+      @case ('kubernetes-concept') { <ng-container i18n="@@header.search.type.kubernetesConcept">Kubernetes Concept</ng-container> }
                     }</span>
                 <span class="search-result-title">{{ result.title }}</span>
                 @if (result.subtitle) {

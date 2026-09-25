@@ -66,6 +66,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'kubernetes-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'kubernetes-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'ruby-concepts',
     renderMode: RenderMode.Server,
   },

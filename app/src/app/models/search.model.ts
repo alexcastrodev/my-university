@@ -10,7 +10,9 @@ export type SearchResultType =
   | 'testing-concept'
   | 'algorithms-concept'
   | 'ruby-concept'
-  | 'rubyonrails-concept';
+  | 'rubyonrails-concept'
+  | 'quarkus-concept'
+  | 'kubernetes-concept';
 
 export interface SearchResult {
   type: SearchResultType;

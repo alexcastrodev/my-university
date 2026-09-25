@@ -110,6 +110,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/quarkus-concepts/quarkus-concepts-detail').then((m) => m.QuarkusConceptsDetailPage),
   },
   {
+    path: 'kubernetes-concepts',
+    loadComponent: () => import('./pages/kubernetes-concepts/kubernetes-concepts-list').then((m) => m.KubernetesConceptsListPage),
+  },
+  {
+    path: 'kubernetes-concepts/:slug',
+    loadComponent: () => import('./pages/kubernetes-concepts/kubernetes-concepts-detail').then((m) => m.KubernetesConceptsDetailPage),
+  },
+  {
     path: 'java/testing',
     loadComponent: () => import('./pages/testing-concepts/testing-concepts-list').then((m) => m.TestingConceptsListPage),
   },

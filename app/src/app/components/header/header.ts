@@ -35,6 +35,8 @@ const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'header.search.filter.algorithms', value: 'algorithms-concept' },
   { label: 'header.search.filter.rubyConcepts', value: 'ruby-concept' },
   { label: 'header.search.filter.rubyRailsConcepts', value: 'rubyonrails-concept' },
+  { label: 'header.search.filter.quarkusConcepts', value: 'quarkus-concept' },
+  { label: 'header.search.filter.kubernetesConcepts', value: 'kubernetes-concept' },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;

@@ -25,6 +25,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'ruby-concepts', sourceType: 'concept-read', prefix: 'ruby:', route: (slug) => ['/ruby-concepts', slug] },
   { module: 'rubyonrails-concepts', sourceType: 'concept-read', prefix: 'rails:', route: (slug) => ['/rubyonrails-concepts', slug] },
   { module: 'quarkus-concepts', sourceType: 'concept-read', prefix: 'quarkus:', route: (slug) => ['/quarkus-concepts', slug] },
+  { module: 'kubernetes-concepts', sourceType: 'concept-read', prefix: 'kubernetes:', route: (slug) => ['/kubernetes-concepts', slug] },
 ];
 
 export interface ResolvedSource {
