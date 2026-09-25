@@ -50,6 +50,52 @@ for (int i = 0; i < 5; i++) {
 
 O algoritmo de `java.util.Random` é especificado no seu Javadoc, então a série para uma dada seed é a mesma em qualquer plataforma e qualquer versão do Java.
 
+### O que acontece dentro de `Random`
+
+```mermaid
+flowchart LR
+    Seed["seed"] -->|"seed XOR 0x5DEECE66D"| S0["estado 0"]
+    S0 -->|"estado * 0x5DEECE66D + 0xB"| S1["estado 1"]
+    S1 -->|"mesma fórmula"| S2["estado 2"]
+    S2 -->|"mesma fórmula"| S3["..."]
+    S1 -.->|"32 bits de cima"| N1["1º nextInt()"]
+    S2 -.->|"32 bits de cima"| N2["2º nextInt()"]
+```
+
+Todo o estado de um `Random` é um número de 48 bits. Cada chamada aplica a mesma fórmula nele e devolve os bits de cima. Aqui está uma versão mínima do algoritmo, que gera exatamente os mesmos números que `java.util.Random`:
+
+```java
+public class MiniRandom {
+    private static final long MULTIPLIER = 0x5DEECE66DL;
+    private static final long ADDEND = 0xBL;
+    private static final long MASK = (1L << 48) - 1;
+
+    private long state;
+
+    public MiniRandom(long seed) {
+        this.state = (seed ^ MULTIPLIER) & MASK;
+    }
+
+    public int nextInt() {
+        state = (state * MULTIPLIER + ADDEND) & MASK;
+        return (int) (state >>> 16);
+    }
+
+    public static void main(String[] args) {
+        MiniRandom mini = new MiniRandom(42L);
+        Random random = new Random(42L);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(mini.nextInt() + " " + random.nextInt());
+        }
+    }
+}
+// -1170105035 -1170105035
+// 234785527 234785527
+// -1360544799 -1360544799
+```
+
+Nada nesse código é aleatório: depois que a seed é fixada, todos os números seguintes também estão fixados.
+
 ### Testes repetíveis
 
 ```java
@@ -67,10 +113,49 @@ void shuffle_is_repeatable() {
 
 Um padrão comum é sortear uma seed, logar ela, e usá-la para criar a instância de `Random`. Se um teste falhar, você roda de novo com a seed logada e obtém exatamente os mesmos dados.
 
+```mermaid
+sequenceDiagram
+    participant Dev as Você
+    participant Test as Teste
+    participant Random
+    Dev->>Test: roda (sem seed)
+    Test->>Test: seed = System.nanoTime()
+    Test->>Dev: loga "Seed: 123"
+    Test->>Random: new Random(123)
+    Random-->>Test: [3, 1, 7, 10, 6]
+    Test-->>Dev: FALHOU
+    Dev->>Test: roda de novo com seed 123
+    Test->>Random: new Random(123)
+    Random-->>Test: [3, 1, 7, 10, 6]
+    Test-->>Dev: mesmos dados, mesma falha, dá para debugar
+```
+
 ```java
-long seed = System.nanoTime();
-System.out.println("Seed: " + seed);
-Random random = new Random(seed);
+public class OrderGenerator {
+
+    static List<Integer> generateQuantities(Random random, int count) {
+        List<Integer> quantities = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            quantities.add(1 + random.nextInt(10));
+        }
+        return quantities;
+    }
+
+    public static void main(String[] args) {
+        long seed = args.length > 0 ? Long.parseLong(args[0]) : System.nanoTime();
+        System.out.println("Seed: " + seed);
+        System.out.println(generateQuantities(new Random(seed), 5));
+    }
+}
+```
+
+```text
+$ java OrderGenerator.java 123
+Seed: 123
+[3, 1, 7, 10, 6]
+$ java OrderGenerator.java 123
+Seed: 123
+[3, 1, 7, 10, 6]
 ```
 
 ### Streams de números aleatórios
@@ -104,6 +189,18 @@ Você pode usar a classe `SecureRandom` em vez de `Random`, que é o gerador ale
 SecureRandom secureRandom = new SecureRandom();
 byte[] token = new byte[32];
 secureRandom.nextBytes(token);
+```
+
+```mermaid
+flowchart TB
+    subgraph R["Random"]
+        direction LR
+        RS["seed de 48 bits"] --> RA["fórmula simples<br/>(congruencial linear)"] --> RO["rápido, repetível,<br/>previsível"]
+    end
+    subgraph SR["SecureRandom"]
+        direction LR
+        SE["entropia do SO<br/>(/dev/urandom, ...)"] --> SA["algoritmo criptográfico<br/>(DRBG, NativePRNG, ...)"] --> SO["mais lento, difícil de prever,<br/>para tokens, chaves, salts"]
+    end
 ```
 
 Não passe uma seed fixa para `SecureRandom` esperando séries repetíveis: dependendo do algoritmo, a seed pode ser apenas somada à entropia que ele já coleta do sistema operacional.

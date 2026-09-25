@@ -49,6 +49,52 @@ for (int i = 0; i < 5; i++) {
 
 The algorithm of `java.util.Random` is specified in its Javadoc, so the series for a given seed is the same on every platform and every Java version.
 
+### What happens inside `Random`
+
+```mermaid
+flowchart LR
+    Seed["seed"] -->|"seed XOR 0x5DEECE66D"| S0["state 0"]
+    S0 -->|"state * 0x5DEECE66D + 0xB"| S1["state 1"]
+    S1 -->|"same formula"| S2["state 2"]
+    S2 -->|"same formula"| S3["..."]
+    S1 -.->|"top 32 bits"| N1["1st nextInt()"]
+    S2 -.->|"top 32 bits"| N2["2nd nextInt()"]
+```
+
+The whole state of a `Random` is a 48-bit number. Each call applies the same formula to it and returns its top bits. Here is a tiny version of the algorithm, which gives exactly the same numbers as `java.util.Random`:
+
+```java
+public class MiniRandom {
+    private static final long MULTIPLIER = 0x5DEECE66DL;
+    private static final long ADDEND = 0xBL;
+    private static final long MASK = (1L << 48) - 1;
+
+    private long state;
+
+    public MiniRandom(long seed) {
+        this.state = (seed ^ MULTIPLIER) & MASK;
+    }
+
+    public int nextInt() {
+        state = (state * MULTIPLIER + ADDEND) & MASK;
+        return (int) (state >>> 16);
+    }
+
+    public static void main(String[] args) {
+        MiniRandom mini = new MiniRandom(42L);
+        Random random = new Random(42L);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(mini.nextInt() + " " + random.nextInt());
+        }
+    }
+}
+// -1170105035 -1170105035
+// 234785527 234785527
+// -1360544799 -1360544799
+```
+
+Nothing in this code is random: once the seed is fixed, every number that follows is fixed too.
+
 ### Repeatable tests
 
 ```java
@@ -66,10 +112,49 @@ void shuffle_is_repeatable() {
 
 A common pattern is to pick a random seed, log it, and use it to create the `Random` instance. If a test fails, you rerun it with the logged seed and get exactly the same data.
 
+```mermaid
+sequenceDiagram
+    participant Dev as You
+    participant Test
+    participant Random
+    Dev->>Test: run (no seed given)
+    Test->>Test: seed = System.nanoTime()
+    Test->>Dev: log "Seed: 123"
+    Test->>Random: new Random(123)
+    Random-->>Test: [3, 1, 7, 10, 6]
+    Test-->>Dev: FAILED
+    Dev->>Test: rerun with seed 123
+    Test->>Random: new Random(123)
+    Random-->>Test: [3, 1, 7, 10, 6]
+    Test-->>Dev: same data, same failure, you can debug it
+```
+
 ```java
-long seed = System.nanoTime();
-System.out.println("Seed: " + seed);
-Random random = new Random(seed);
+public class OrderGenerator {
+
+    static List<Integer> generateQuantities(Random random, int count) {
+        List<Integer> quantities = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            quantities.add(1 + random.nextInt(10));
+        }
+        return quantities;
+    }
+
+    public static void main(String[] args) {
+        long seed = args.length > 0 ? Long.parseLong(args[0]) : System.nanoTime();
+        System.out.println("Seed: " + seed);
+        System.out.println(generateQuantities(new Random(seed), 5));
+    }
+}
+```
+
+```text
+$ java OrderGenerator.java 123
+Seed: 123
+[3, 1, 7, 10, 6]
+$ java OrderGenerator.java 123
+Seed: 123
+[3, 1, 7, 10, 6]
 ```
 
 ### Streams of random numbers
@@ -103,6 +188,18 @@ You can use the `SecureRandom` class instead of `Random`, which is the preferred
 SecureRandom secureRandom = new SecureRandom();
 byte[] token = new byte[32];
 secureRandom.nextBytes(token);
+```
+
+```mermaid
+flowchart TB
+    subgraph R["Random"]
+        direction LR
+        RS["48-bit seed"] --> RA["simple formula<br/>(linear congruential)"] --> RO["fast, repeatable,<br/>predictable"]
+    end
+    subgraph SR["SecureRandom"]
+        direction LR
+        SE["entropy from the OS<br/>(/dev/urandom, ...)"] --> SA["cryptographic algorithm<br/>(DRBG, NativePRNG, ...)"] --> SO["slower, hard to predict,<br/>for tokens, keys, salts"]
+    end
 ```
 
 Do not pass a fixed seed to `SecureRandom` expecting repeatable series: depending on the algorithm, the seed may only be added to the entropy it already gathers from the operating system.
