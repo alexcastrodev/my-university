@@ -600,6 +600,10 @@
       {
         "label": "metrics-server and kubectl top",
         "slug": "metrics-server-and-kubectl-top"
+      },
+      {
+        "label": "Managed Runtime Memory in Containers",
+        "slug": "managed-runtime-memory-in-containers"
       }
     ],
     "summary": "How requests drive scheduling and limits are enforced by the kernel, OOMKilled vs CPU throttling, and how QoS classes decide eviction order.",
@@ -1109,6 +1113,10 @@
       {
         "label": "PersistentVolumes, Claims and StorageClasses",
         "slug": "persistent-volumes-and-storageclasses"
+      },
+      {
+        "label": "Logical Database Backups with kubectl exec and CronJobs",
+        "slug": "logical-database-backups-with-kubectl-exec-and-cronjobs"
       }
     ],
     "summary": "What node-level backups, Velero and CSI snapshots can back up on a single node (Velero cannot read hostPath volumes), and timing a restore drill.",
@@ -2169,6 +2177,104 @@
       {
         "label": "nginx-unprivileged image",
         "url": "https://hub.docker.com/r/nginxinc/nginx-unprivileged",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "managed-runtime-memory-in-containers",
+    "id": 49,
+    "requires": [
+      "resource-requests-limits-and-qos"
+    ],
+    "category": "Workloads",
+    "title": "Managed Runtime Memory in Containers",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Requests, Limits, QoS Classes and OOMKilled",
+        "slug": "resource-requests-limits-and-qos"
+      },
+      {
+        "label": "metrics-server and kubectl top",
+        "slug": "metrics-server-and-kubectl-top"
+      }
+    ],
+    "summary": "How the JVM, Node.js, .NET and Go size their heap under a container limit, what lives outside the heap, and a sizing rule that avoids OOMKilled.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Assign Memory Resources to Containers",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/",
+        "type": "doc"
+      },
+      {
+        "label": "Java SE docs: the java command",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/java.html",
+        "type": "doc"
+      },
+      {
+        "label": "Node.js docs: --max-old-space-size",
+        "url": "https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-mib",
+        "type": "doc"
+      },
+      {
+        "label": ".NET docs: GC heap hard limit",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector#heap-hard-limit",
+        "type": "doc"
+      },
+      {
+        "label": "Go docs: A Guide to the Go Garbage Collector (memory limit)",
+        "url": "https://go.dev/doc/gc-guide#Memory_limit",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "logical-database-backups-with-kubectl-exec-and-cronjobs",
+    "id": 50,
+    "requires": [
+      "jobs-and-restart-policy"
+    ],
+    "category": "Storage & Backups",
+    "title": "Logical Database Backups with kubectl exec and CronJobs",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "Volume Backups, Velero and Restore Drills",
+        "slug": "volume-backups-velero-and-restore-drills"
+      },
+      {
+        "label": "Jobs, CronJobs and restartPolicy",
+        "slug": "jobs-and-restart-policy"
+      }
+    ],
+    "summary": "Streaming a dump off the cluster with kubectl exec, restoring it, and a backup CronJob that really fails when the dump fails (the sh -e pipe trap).",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "kubectl exec reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl cp reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cp/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: CronJob",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
+        "type": "doc"
+      },
+      {
+        "label": "MariaDB docs: mariadb-dump",
+        "url": "https://mariadb.com/kb/en/mariadb-dump/",
+        "type": "doc"
+      },
+      {
+        "label": "PostgreSQL docs: pg_dump",
+        "url": "https://www.postgresql.org/docs/current/app-pgdump.html",
         "type": "doc"
       }
     ]
