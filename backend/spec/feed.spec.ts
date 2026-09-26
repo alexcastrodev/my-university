@@ -38,6 +38,20 @@ describe('GET /feed', () => {
       if (item.code) expect(['mermaid', 'viz', 'text', '']).not.toContain(item.code.lang);
     }
   });
+
+  it('serves title, summary and code snippet in the requested language', async () => {
+    const page = await json<any>(await get('/feed?area=kubernetes&limit=30&lang=pt-BR'));
+    const item = page.items.find((i: any) => i.code);
+    expect(item).toBeTruthy();
+
+    const detail = await json<any>(await get(`/kubernetes-concepts/${item.slug}?lang=pt-BR`));
+    expect(detail.language).toBe('pt-BR');
+    expect(item.title).toBe(detail.title);
+    expect(item.summary).toBe(detail.summary);
+    const firstLine = item.code.source.split('\n')[0];
+    const body = detail.sections.map((s: any) => s.content).join('\n');
+    expect(body).toContain(firstLine);
+  });
 });
 
 describe('POST /feed/got-it', () => {

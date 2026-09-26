@@ -24,7 +24,7 @@
     @for (item of items(); track key(item)) {
       <article class="card">
         <div class="card-top">
-          <span class="kicker">READ</span>
+          <span class="kicker" i18n="@@feed.kicker.read">READ</span>
           <span class="crumb">{{ breadcrumb(item) }}</span>
         </div>
         <h2 class="card-title">{{ item.title }}</h2>
@@ -44,7 +44,7 @@
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Got it
+              <span i18n="@@feed.gotIt">Got it</span>
             </button>
           } @else {
             <a class="got-it" routerLink="/login" i18n="@@feed.loginToMark">Log in to mark</a>

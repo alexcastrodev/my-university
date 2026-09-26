@@ -33,7 +33,11 @@ const DEFAULT_LIMIT = 10;
 const MAX_CODE_LINES = 8;
 /** Fences that are not source code: diagrams the concept page renders, and plain text/output. */
 const NON_CODE_FENCES = new Set(['', 'mermaid', 'viz', 'text', 'console']);
-const NON_CONTENT_SECTIONS = new Set(['references', 'documentation links']);
+const NON_CONTENT_SECTIONS = new Set([
+  'references',
+  'referências',
+  'documentation links',
+]);
 const FENCE_RE = /```([\w+-]*)\n([\s\S]*?)```/g;
 
 /** First fenced block, in document order, that is real source code of at least two lines. */
@@ -129,7 +133,7 @@ export class FeedService {
     const slice = ordered.slice(offset, offset + limit);
 
     return {
-      items: slice.map((c) => this.toItem(c)),
+      items: slice.map((c) => this.toItem(c, options.lang)),
       total: ordered.length,
       nextOffset: offset + limit < ordered.length ? offset + limit : null,
       gotItToday: userId === null ? 0 : await this.countGotItToday(userId),
@@ -206,8 +210,12 @@ export class FeedService {
     return out;
   }
 
-  private toItem(c: Candidate): FeedItem {
-    const detail = this.review.resolveConceptDetail('concept-read', c.sourceId);
+  private toItem(c: Candidate, lang: Language): FeedItem {
+    const detail = this.review.resolveConceptDetail(
+      'concept-read',
+      c.sourceId,
+      lang,
+    );
     const block = detail ? firstSourceSnippet(detail.sections) : null;
 
     let code: FeedItem['code'];
