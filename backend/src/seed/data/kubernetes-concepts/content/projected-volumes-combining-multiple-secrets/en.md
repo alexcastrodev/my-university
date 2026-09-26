@@ -10,7 +10,7 @@ A plain `secret` volume mounts exactly one Secret. When a container needs creden
 
 - A multi-tenant service that needs `tenant-alpha` and `tenant-beta` credentials at the same time, each Secret owned and rotated independently.
 - One mount point with credentials, config and Pod metadata together (`secret` + `configMap` + `downwardAPI` sources).
-- Feeding Spring Boot's `configtree:` import, which turns a directory tree into configuration properties.
+- Giving an application one directory tree to read all its credentials from.
 - A short-lived, audience-bound ServiceAccount token (`serviceAccountToken` source) next to the app's own Secrets.
 
 ## Deep Dive
@@ -152,13 +152,7 @@ All referenced Secrets and ConfigMaps must live in the Pod's namespace. The same
 
 ### Reading it from an application
 
-Spring Boot reads a directory tree directly as configuration:
-
-```properties
-spring.config.import=optional:configtree:/run/secrets/
-```
-
-Folder and file names form the property name, so `/run/secrets/alpha/DB_PASSWORD` becomes `alpha.DB_PASSWORD`. The per-tenant directories from `items` turn into per-tenant property prefixes for free.
+Most applications only need a path: read `/run/secrets/alpha/DB_PASSWORD` when opening a connection. Many configuration libraries can also load a whole directory tree, using folder and file names as keys, so the per-tenant directories from `items` turn into per-tenant configuration prefixes for free.
 
 ## Trade-offs
 
@@ -177,4 +171,3 @@ Folder and file names form the property name, so `/run/secrets/alpha/DB_PASSWORD
 - [Kubernetes docs: Projected Volumes](https://kubernetes.io/docs/concepts/storage/projected-volumes/): supported sources, `items`, `defaultMode`, `serviceAccountToken`.
 - [Kubernetes docs: Secrets](https://kubernetes.io/docs/concepts/configuration/secret/): using Secrets as files, `optional`, automatic updates.
 - [Configure a Pod to Use a Projected Volume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/): step-by-step task.
-- [Spring Boot docs: Using Configuration Trees](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.files.configtree): `configtree:` import and how paths become property names.

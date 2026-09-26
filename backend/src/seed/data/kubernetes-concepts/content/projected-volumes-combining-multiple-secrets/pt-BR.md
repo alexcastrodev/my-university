@@ -12,7 +12,7 @@ Um volume `secret` comum monta exatamente uma Secret. Quando um container precis
 
 - Um serviço multi-tenant que precisa das credenciais de `tenant-alpha` e `tenant-beta` ao mesmo tempo, com cada Secret tendo dono e rotação independentes.
 - Um único ponto de montagem com credenciais, configuração e metadados do Pod juntos (sources `secret` + `configMap` + `downwardAPI`).
-- Alimentar o import `configtree:` do Spring Boot, que transforma uma árvore de diretórios em propriedades de configuração.
+- Dar a uma aplicação uma única árvore de diretórios de onde ler todas as suas credenciais.
 - Um token de ServiceAccount de curta duração e com audience definida (source `serviceAccountToken`) ao lado das Secrets da própria aplicação.
 
 ## Deep Dive
@@ -154,13 +154,7 @@ Todas as Secrets e ConfigMaps referenciados precisam estar no namespace do Pod. 
 
 ### Lendo a partir da aplicação
 
-O Spring Boot lê uma árvore de diretórios diretamente como configuração:
-
-```properties
-spring.config.import=optional:configtree:/run/secrets/
-```
-
-Nomes de pastas e arquivos formam o nome da propriedade, então `/run/secrets/alpha/DB_PASSWORD` vira `alpha.DB_PASSWORD`. Os diretórios por tenant criados com `items` viram, de graça, prefixos de propriedade por tenant.
+A maioria das aplicações só precisa de um caminho: ler `/run/secrets/alpha/DB_PASSWORD` ao abrir uma conexão. Muitas bibliotecas de configuração também carregam uma árvore de diretórios inteira, usando nomes de pastas e arquivos como chaves, então os diretórios por tenant criados com `items` viram prefixos de configuração por tenant de graça.
 
 ## Trade-offs
 
@@ -179,4 +173,3 @@ Nomes de pastas e arquivos formam o nome da propriedade, então `/run/secrets/al
 - [Kubernetes docs: Projected Volumes](https://kubernetes.io/docs/concepts/storage/projected-volumes/): sources suportadas, `items`, `defaultMode`, `serviceAccountToken`.
 - [Kubernetes docs: Secrets](https://kubernetes.io/docs/concepts/configuration/secret/): Secrets como arquivos, `optional`, atualizações automáticas.
 - [Configure a Pod to Use a Projected Volume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/): tarefa passo a passo.
-- [Spring Boot docs: Using Configuration Trees](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.files.configtree): import `configtree:` e como caminhos viram nomes de propriedade.

@@ -13,7 +13,17 @@ import {
   normalizeLanguage,
 } from '../shared/language';
 
-export type KubernetesConceptCategory = 'Secrets & Configuration';
+export type KubernetesConceptCategory =
+  | 'MicroK8s Cluster'
+  | 'Workloads'
+  | 'Secrets & Configuration'
+  | 'Networking'
+  | 'Storage & Backups'
+  | 'Kustomize'
+  | 'Delivery & Operations'
+  | 'Troubleshooting'
+  | 'Observability'
+  | 'Security';
 
 export interface KubernetesConceptSummary {
   slug: string;

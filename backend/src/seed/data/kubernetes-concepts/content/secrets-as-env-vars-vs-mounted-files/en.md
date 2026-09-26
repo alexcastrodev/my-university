@@ -9,7 +9,7 @@ A Pod can consume a Secret in two ways: as environment variables (`env` with `se
 ## Use Cases
 
 - Rotating a database password or API key without restarting every Pod that uses it.
-- Deciding how a Java or Spring Boot service should receive credentials: `${DB_PASSWORD}` from the environment or a file under `/run/secrets`.
+- Deciding how a service should receive credentials: `${DB_PASSWORD}` from the environment or a file under `/run/secrets`.
 - Understanding why a rotation "did not take" for part of the fleet.
 - Reducing the places a secret can leak from: crash dumps, debug endpoints, child processes, node-level tooling.
 
@@ -69,7 +69,7 @@ The kubelet updating `/run/secrets/DB_PASSWORD` does nothing for an application 
 - **Restart on change.** `kubectl rollout restart deployment/app` after rotating, or put a hash of the Secret into a Pod template annotation (the Helm `checksum/secret` pattern) so any change triggers a rolling update. Works for env vars and files alike.
 - **Re-read per use or on failure.** Read the file when opening a new connection, or reload on an authentication error. Cheap, and it fits the "about a minute" propagation window.
 - **Watch the directory.** Watch `/run/secrets` for the `..data` symlink swap, not the individual file. A watch on `/run/secrets/DB_PASSWORD` follows the symlink to the file inside the old timestamped directory, which the kubelet deletes during the swap, so the watch ends with a delete event instead of reporting a modification.
-- **Framework reload.** Spring Cloud Kubernetes can refresh beans when Secrets change, and tools such as Stakater Reloader restart workloads automatically.
+- **Framework reload.** Some frameworks can reload their configuration when Secrets change, and tools such as Stakater Reloader restart workloads automatically.
 
 ### Where each form leaks
 
@@ -91,15 +91,7 @@ $ crictl inspect <container-id> | grep DB_PASSWORD     # on the node
 ## Trade-offs
 
 - **Env vars are the easiest to consume, and the hardest to rotate or contain.** Every language and framework reads them natively, and the twelve-factor model assumes them. In exchange, rotation always means a restart, and the value can surface anywhere the environment is dumped.
-  ```properties
-  # Spring Boot, env var: resolved once at startup
-  spring.datasource.password=${DB_PASSWORD}
-  ```
 - **Files rotate in place, but only if the app cooperates.** The kubelet does its part within about a minute; the application still has to re-read. For libraries that only take a string at startup, files give you no rotation advantage over env vars, only the leak-surface one.
-  ```properties
-  # Spring Boot, files: /run/secrets/DB_PASSWORD becomes property DB_PASSWORD
-  spring.config.import=optional:configtree:/run/secrets/
-  ```
 - **`subPath` is a convenience that silently opts out of updates.** Fine for files that never change, a trap for anything rotated.
 - **Restart-on-change is the most predictable rotation strategy.** It is slower than in-place reload, but every Pod converges to the same value through a normal, observable rolling update, and it works the same for env vars and files.
 

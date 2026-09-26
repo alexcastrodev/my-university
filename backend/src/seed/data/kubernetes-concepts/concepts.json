@@ -6,58 +6,2171 @@
     "title": "Kubernetes Secrets Fundamentals",
     "topic": "Secrets & Configuration",
     "related": [
-      { "label": "Projected Volumes: Combining Multiple Secrets", "slug": "projected-volumes-combining-multiple-secrets" },
-      { "label": "Secrets as Environment Variables vs Mounted Files", "slug": "secrets-as-env-vars-vs-mounted-files" }
+      {
+        "label": "Projected Volumes: Combining Multiple Secrets",
+        "slug": "projected-volumes-combining-multiple-secrets"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files"
+      }
     ],
     "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
     "publishedAt": "2026-09-25",
     "references": [
-      { "label": "Kubernetes docs: Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
-      { "label": "Kubernetes docs: Managing Secrets using kubectl", "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/", "type": "doc" },
-      { "label": "kubectl create secret generic reference", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/", "type": "doc" },
-      { "label": "Kubernetes docs: Good practices for Kubernetes Secrets", "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/", "type": "doc" },
-      { "label": "Kubernetes docs: Encrypting Confidential Data at Rest", "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/", "type": "doc" }
+      {
+        "label": "Kubernetes docs: Secrets",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Managing Secrets using kubectl",
+        "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl create secret generic reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
+        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Encrypting Confidential Data at Rest",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/",
+        "type": "doc"
+      }
     ]
   },
   {
     "slug": "projected-volumes-combining-multiple-secrets",
     "id": 2,
-    "requires": ["kubernetes-secrets-fundamentals"],
+    "requires": [
+      "kubernetes-secrets-fundamentals"
+    ],
     "category": "Secrets & Configuration",
     "title": "Projected Volumes: Combining Multiple Secrets",
     "topic": "Secrets & Configuration",
     "related": [
-      { "label": "Kubernetes Secrets Fundamentals", "slug": "kubernetes-secrets-fundamentals" },
-      { "label": "Secrets as Environment Variables vs Mounted Files", "slug": "secrets-as-env-vars-vs-mounted-files" }
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files"
+      }
     ],
     "summary": "Mounting several Secrets into one directory with a projected volume, the silent last-source-wins key collision that comes with it, and how items/path keeps tenants apart.",
     "publishedAt": "2026-09-25",
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/projected-volumes-combining-multiple-secrets",
     "references": [
-      { "label": "Kubernetes docs: Projected Volumes", "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/", "type": "doc" },
-      { "label": "Kubernetes docs: Secrets (using Secrets as files from a Pod)", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
-      { "label": "Kubernetes docs: Configure a Pod to Use a Projected Volume for Storage", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/", "type": "doc" },
-      { "label": "Spring Boot docs: Using Configuration Trees", "url": "https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.files.configtree", "type": "doc" }
+      {
+        "label": "Kubernetes docs: Projected Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Secrets (using Secrets as files from a Pod)",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure a Pod to Use a Projected Volume for Storage",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/",
+        "type": "doc"
+      }
     ]
   },
   {
     "slug": "secrets-as-env-vars-vs-mounted-files",
     "id": 3,
-    "requires": ["kubernetes-secrets-fundamentals"],
+    "requires": [
+      "kubernetes-secrets-fundamentals"
+    ],
     "category": "Secrets & Configuration",
     "title": "Secrets as Environment Variables vs Mounted Files",
     "topic": "Secrets & Configuration",
     "related": [
-      { "label": "Kubernetes Secrets Fundamentals", "slug": "kubernetes-secrets-fundamentals" },
-      { "label": "Projected Volumes: Combining Multiple Secrets", "slug": "projected-volumes-combining-multiple-secrets" }
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals"
+      },
+      {
+        "label": "Projected Volumes: Combining Multiple Secrets",
+        "slug": "projected-volumes-combining-multiple-secrets"
+      }
     ],
     "summary": "Why a rotated Secret reaches mounted files after about a minute but never reaches environment variables or subPath mounts, and why files leak less than env vars.",
     "publishedAt": "2026-09-25",
     "references": [
-      { "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets", "url": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/", "type": "doc" },
-      { "label": "Kubernetes docs: Secrets (mounted Secrets are updated automatically)", "url": "https://kubernetes.io/docs/concepts/configuration/secret/", "type": "doc" },
-      { "label": "Kubernetes docs: Volumes (subPath)", "url": "https://kubernetes.io/docs/concepts/storage/volumes/", "type": "doc" },
-      { "label": "Kubernetes docs: Good practices for Kubernetes Secrets", "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/", "type": "doc" }
+      {
+        "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets",
+        "url": "https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Secrets (mounted Secrets are updated automatically)",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Volumes (subPath)",
+        "url": "https://kubernetes.io/docs/concepts/storage/volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
+        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "microk8s-installation-and-diagnostics",
+    "id": 4,
+    "category": "MicroK8s Cluster",
+    "title": "MicroK8s Installation and Diagnostics",
+    "topic": "MicroK8s Cluster",
+    "related": [
+      {
+        "label": "MicroK8s Add-ons: DNS and Hostpath Storage",
+        "slug": "microk8s-addons-dns-and-hostpath-storage"
+      },
+      {
+        "label": "Kubeconfig, Contexts and Admin Access",
+        "slug": "kubeconfig-contexts-and-admin-access"
+      }
+    ],
+    "summary": "Installing MicroK8s from a pinned snap channel, what runs inside the snap, waiting for readiness, kubectl without sudo, and collecting a diagnostic report.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "MicroK8s: Getting started",
+        "url": "https://canonical.com/microk8s/docs/getting-started",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Selecting a snap channel",
+        "url": "https://canonical.com/microk8s/docs/setting-snap-channel",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Upgrading a cluster",
+        "url": "https://canonical.com/microk8s/docs/upgrade-cluster",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Release notes",
+        "url": "https://canonical.com/microk8s/docs/release-notes",
+        "type": "doc"
+      },
+      {
+        "label": "Snapcraft: Managing updates",
+        "url": "https://snapcraft.io/docs/managing-updates",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "microk8s-addons-dns-and-hostpath-storage",
+    "id": 5,
+    "requires": [
+      "microk8s-installation-and-diagnostics"
+    ],
+    "category": "MicroK8s Cluster",
+    "title": "MicroK8s Add-ons: DNS and Hostpath Storage",
+    "topic": "MicroK8s Cluster",
+    "related": [
+      {
+        "label": "PersistentVolumes, Claims and StorageClasses",
+        "slug": "persistent-volumes-and-storageclasses"
+      },
+      {
+        "label": "Service DNS and Cross-Namespace Access",
+        "slug": "service-dns-and-cross-namespace-access"
+      }
+    ],
+    "summary": "Enabling add-ons, how CoreDNS picks its upstream resolvers, and where hostpath volumes really live, including unenforced capacity and Delete reclaim.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "MicroK8s: Add-ons",
+        "url": "https://canonical.com/microk8s/docs/addons",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: DNS add-on",
+        "url": "https://canonical.com/microk8s/docs/addon-dns",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Hostpath storage",
+        "url": "https://canonical.com/microk8s/docs/addon-hostpath-storage",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Customizing DNS Service",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Storage Classes",
+        "url": "https://kubernetes.io/docs/concepts/storage/storage-classes/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "microk8s-containerd-and-private-registry-ca",
+    "id": 6,
+    "requires": [
+      "microk8s-installation-and-diagnostics"
+    ],
+    "category": "MicroK8s Cluster",
+    "title": "MicroK8s containerd and Private Registry Trust",
+    "topic": "MicroK8s Cluster",
+    "related": [
+      {
+        "label": "ImagePullBackOff and ErrImagePull",
+        "slug": "image-pull-errors"
+      },
+      {
+        "label": "Image Pull Secrets and Pull Policy",
+        "slug": "image-pull-secrets-and-pull-policy"
+      }
+    ],
+    "summary": "Where MicroK8s keeps component flags, and how to make its containerd trust a registry with a private CA through certs.d/<host:port>/hosts.toml.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "MicroK8s: Working with a private registry",
+        "url": "https://canonical.com/microk8s/docs/registry-private",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Configuring services",
+        "url": "https://canonical.com/microk8s/docs/configuring-services",
+        "type": "doc"
+      },
+      {
+        "label": "containerd: Registry host configuration",
+        "url": "https://github.com/containerd/containerd/blob/main/docs/hosts.md",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Built-in registry",
+        "url": "https://canonical.com/microk8s/docs/registry-built-in",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubeconfig-contexts-and-admin-access",
+    "id": 7,
+    "requires": [
+      "microk8s-installation-and-diagnostics"
+    ],
+    "category": "MicroK8s Cluster",
+    "title": "Kubeconfig, Contexts and Admin Access",
+    "topic": "MicroK8s Cluster",
+    "related": [
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
+      },
+      {
+        "label": "Deploying from a CI Pipeline",
+        "slug": "deploying-from-ci-pipeline"
+      }
+    ],
+    "summary": "Exporting the kubeconfig, contexts and merged KUBECONFIG files, and why the MicroK8s admin certificate (system:masters, ten years, not revocable) must not be shared.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Organizing cluster access using kubeconfig files",
+        "url": "https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure access to multiple clusters",
+        "url": "https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Working with kubectl",
+        "url": "https://canonical.com/microk8s/docs/working-with-kubectl",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Services and ports",
+        "url": "https://canonical.com/microk8s/docs/services-and-ports",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Authenticating (X509 client certificates)",
+        "url": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/#x509-client-certificates",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "node-capacity-allocatable-and-memory-budget",
+    "id": 8,
+    "requires": [
+      "resource-requests-limits-and-qos"
+    ],
+    "category": "MicroK8s Cluster",
+    "title": "Node Capacity, Allocatable and Memory Budget",
+    "topic": "MicroK8s Cluster",
+    "related": [
+      {
+        "label": "Requests, Limits, QoS Classes and OOMKilled",
+        "slug": "resource-requests-limits-and-qos"
+      },
+      {
+        "label": "metrics-server and kubectl top",
+        "slug": "metrics-server-and-kubectl-top"
+      }
+    ],
+    "summary": "Why the scheduler compares requests with allocatable instead of free memory, Pods Pending on Insufficient memory, reserving memory for the system, and a node memory budget.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Reserve Compute Resources for System Daemons",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Node-pressure Eviction",
+        "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Resource Management for Pods and Containers",
+        "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Configuring services",
+        "url": "https://canonical.com/microk8s/docs/configuring-services",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubernetes-core-objects",
+    "id": 9,
+    "category": "Workloads",
+    "title": "Pods, ReplicaSets, Deployments, Services and Namespaces",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "kubectl Essentials",
+        "slug": "kubectl-essentials"
+      },
+      {
+        "label": "Services: ClusterIP and NodePort",
+        "slug": "services-clusterip-and-nodeport"
+      }
+    ],
+    "summary": "The five objects behind almost every deployment, how controllers and label selectors tie them together, and which ones you write versus only observe.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Pods",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: ReplicaSet",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Deployments",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Service",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/service/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Namespaces",
+        "url": "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubectl-essentials",
+    "id": 10,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Workloads",
+    "title": "kubectl Essentials",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Pods, ReplicaSets, Deployments, Services and Namespaces",
+        "slug": "kubernetes-core-objects"
+      },
+      {
+        "label": "kubectl exec, debug and port-forward",
+        "slug": "kubectl-exec-and-port-forward"
+      }
+    ],
+    "summary": "get, describe, apply, delete, output formats, namespace flags and --dry-run for generating YAML, with the pitfalls that matter in daily work.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "kubectl Quick Reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/quick-reference/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Declarative management with kubectl apply",
+        "url": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl reference: output formats and JSONPath",
+        "url": "https://kubernetes.io/docs/reference/kubectl/jsonpath/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl reference: kubectl create",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jobs-and-restart-policy",
+    "id": 11,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Workloads",
+    "title": "Jobs, CronJobs and restartPolicy",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Kustomize Images: One Image, Many Roles",
+        "slug": "kustomize-images-one-image-many-roles"
+      },
+      {
+        "label": "Deployment Strategies: RollingUpdate vs Recreate",
+        "slug": "deployment-strategies-rollingupdate-vs-recreate"
+      }
+    ],
+    "summary": "Run-to-completion workloads: Never vs OnFailure, backoffLimit, deadlines, ttlSecondsAfterFinished, why re-applying a Job fails, and CronJobs.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Jobs",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Automatic Cleanup for Finished Jobs",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: CronJob",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Lifecycle (restart policy)",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "deployment-strategies-rollingupdate-vs-recreate",
+    "id": 12,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Workloads",
+    "title": "Deployment Strategies: RollingUpdate vs Recreate",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Rollouts: Status, Restart, History and Rollback",
+        "slug": "rollouts-restart-history-and-rollback"
+      },
+      {
+        "label": "Startup, Liveness and Readiness Probes",
+        "slug": "startup-liveness-readiness-probes"
+      }
+    ],
+    "summary": "maxSurge and maxUnavailable with their rounding rules, what a broken rollout looks like, and when Recreate is the right choice.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Deployments (strategy)",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Failed Deployment",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod termination",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Container Lifecycle Hooks",
+        "url": "https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "startup-liveness-readiness-probes",
+    "id": 13,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Workloads",
+    "title": "Startup, Liveness and Readiness Probes",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Deployment Strategies: RollingUpdate vs Recreate",
+        "slug": "deployment-strategies-rollingupdate-vs-recreate"
+      },
+      {
+        "label": "Debugging CrashLoopBackOff",
+        "slug": "debugging-crashloopbackoff"
+      }
+    ],
+    "summary": "What each probe triggers, how timing fields combine, and the rules that keep probes from turning a slow dependency into an outage.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Liveness, Readiness, and Startup Probes",
+        "url": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure Liveness, Readiness and Startup Probes",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Lifecycle (container probes)",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Kubernetes API health endpoints",
+        "url": "https://kubernetes.io/docs/reference/using-api/health-checks/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "resource-requests-limits-and-qos",
+    "id": 14,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Workloads",
+    "title": "Requests, Limits, QoS Classes and OOMKilled",
+    "topic": "Workloads",
+    "related": [
+      {
+        "label": "Node Capacity, Allocatable and Memory Budget",
+        "slug": "node-capacity-allocatable-and-memory-budget"
+      },
+      {
+        "label": "metrics-server and kubectl top",
+        "slug": "metrics-server-and-kubectl-top"
+      }
+    ],
+    "summary": "How requests drive scheduling and limits are enforced by the kernel, OOMKilled vs CPU throttling, and how QoS classes decide eviction order.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Resource Management for Pods and Containers",
+        "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Quality of Service Classes",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Limit Ranges",
+        "url": "https://kubernetes.io/docs/concepts/policy/limit-range/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Resource Quotas",
+        "url": "https://kubernetes.io/docs/concepts/policy/resource-quotas/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "configmaps-and-environment-variables",
+    "id": 15,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Secrets & Configuration",
+    "title": "ConfigMaps and Environment Variables",
+    "topic": "Secrets & Configuration",
+    "related": [
+      {
+        "label": "Kubernetes Secrets Fundamentals",
+        "slug": "kubernetes-secrets-fundamentals"
+      },
+      {
+        "label": "Kustomize Generators and the Hash Suffix",
+        "slug": "kustomize-generators-and-hash-suffix"
+      }
+    ],
+    "summary": "envFrom and valueFrom, precedence and key names, missing keys and CreateContainerConfigError, why changes do not reach running Pods, and service link variables.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: ConfigMaps",
+        "url": "https://kubernetes.io/docs/concepts/configuration/configmap/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure a Pod to Use a ConfigMap",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Define Environment Variables for a Container",
+        "url": "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Secret types",
+        "url": "https://kubernetes.io/docs/concepts/configuration/secret/#secret-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "image-pull-secrets-and-pull-policy",
+    "id": 16,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Secrets & Configuration",
+    "title": "Image Pull Secrets and Pull Policy",
+    "topic": "Secrets & Configuration",
+    "related": [
+      {
+        "label": "ImagePullBackOff and ErrImagePull",
+        "slug": "image-pull-errors"
+      },
+      {
+        "label": "MicroK8s containerd and Private Registry Trust",
+        "slug": "microk8s-containerd-and-private-registry-ca"
+      }
+    ],
+    "summary": "Registry credentials with dockerconfigjson Secrets, attaching them per Pod or ServiceAccount, and choosing an imagePullPolicy that is honest about what runs.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Images (image pull policy)",
+        "url": "https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pull an Image from a Private Registry",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Add ImagePullSecrets to a service account",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#add-imagepullsecrets-to-a-service-account",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl create secret docker-registry",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_docker-registry/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "services-clusterip-and-nodeport",
+    "id": 17,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Networking",
+    "title": "Services: ClusterIP and NodePort",
+    "topic": "Networking",
+    "related": [
+      {
+        "label": "Service DNS and Cross-Namespace Access",
+        "slug": "service-dns-and-cross-namespace-access"
+      },
+      {
+        "label": "Ingress Controllers and the Gateway API",
+        "slug": "ingress-controllers-and-gateway-api"
+      }
+    ],
+    "summary": "How Services give Pods a stable address, the NodePort range and reaching it from outside the cluster, and when to use an Ingress instead.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Service",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/service/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Service type NodePort",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Virtual IPs and Service Proxies",
+        "url": "https://kubernetes.io/docs/reference/networking/virtual-ips/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Using Source IP",
+        "url": "https://kubernetes.io/docs/tutorials/services/source-ip/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "service-dns-and-cross-namespace-access",
+    "id": 18,
+    "requires": [
+      "services-clusterip-and-nodeport"
+    ],
+    "category": "Networking",
+    "title": "Service DNS and Cross-Namespace Access",
+    "topic": "Networking",
+    "related": [
+      {
+        "label": "NetworkPolicies and Default Deny",
+        "slug": "network-policies-default-deny"
+      },
+      {
+        "label": "Multi-Namespace Layout and Apply Order",
+        "slug": "multi-namespace-layout-and-apply-order"
+      }
+    ],
+    "summary": "Service names inside and across namespaces, the search list and ndots, debugging resolution, and why egress policies can break DNS.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: DNS for Services and Pods",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Debugging DNS Resolution",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Service (ExternalName)",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/service/#externalname",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ingress-controllers-and-gateway-api",
+    "id": 19,
+    "requires": [
+      "services-clusterip-and-nodeport"
+    ],
+    "category": "Networking",
+    "title": "Ingress Controllers and the Gateway API",
+    "topic": "Networking",
+    "related": [
+      {
+        "label": "cert-manager: Issuers and a Private CA",
+        "slug": "cert-manager-issuers-and-private-ca"
+      },
+      {
+        "label": "Let's Encrypt with cert-manager: HTTP-01 vs DNS-01",
+        "slug": "lets-encrypt-http01-vs-dns01"
+      }
+    ],
+    "summary": "Host and path routing with Ingress, what the MicroK8s ingress add-on installs now (Traefik), ingress-nginx end of life, and HTTPRoutes with the Gateway API.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Ingress",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Gateway API",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/gateway/",
+        "type": "doc"
+      },
+      {
+        "label": "Gateway API: HTTPRoute",
+        "url": "https://gateway-api.sigs.k8s.io/reference/api-types/httproute/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes blog: Announcing Ingress2Gateway 1.0",
+        "url": "https://kubernetes.io/blog/2026/03/20/ingress2gateway-1-0-release",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Release notes",
+        "url": "https://canonical.com/microk8s/docs/release-notes",
+        "type": "doc"
+      },
+      {
+        "label": "Traefik docs: Kubernetes Ingress NGINX provider",
+        "url": "https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-ingress-nginx/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cert-manager-issuers-and-private-ca",
+    "id": 20,
+    "requires": [
+      "ingress-controllers-and-gateway-api"
+    ],
+    "category": "Networking",
+    "title": "cert-manager: Issuers and a Private CA",
+    "topic": "Networking",
+    "related": [
+      {
+        "label": "Let's Encrypt with cert-manager: HTTP-01 vs DNS-01",
+        "slug": "lets-encrypt-http01-vs-dns01"
+      },
+      {
+        "label": "Ingress Controllers and the Gateway API",
+        "slug": "ingress-controllers-and-gateway-api"
+      }
+    ],
+    "summary": "Issuer vs ClusterIssuer, bootstrapping a private root CA inside the cluster, issuing Ingress certificates from it, and making clients trust it.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "cert-manager docs: Installation",
+        "url": "https://cert-manager.io/docs/installation/",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: CA issuer",
+        "url": "https://cert-manager.io/docs/configuration/ca/",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: SelfSigned (bootstrapping a CA)",
+        "url": "https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: Securing Ingress resources",
+        "url": "https://cert-manager.io/docs/usage/ingress/",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: Certificate resource (rotationPolicy)",
+        "url": "https://cert-manager.io/docs/usage/certificate/#configuring-private-key-rotation",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: trust-manager",
+        "url": "https://cert-manager.io/docs/trust/trust-manager/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "lets-encrypt-http01-vs-dns01",
+    "id": 21,
+    "requires": [
+      "cert-manager-issuers-and-private-ca"
+    ],
+    "category": "Networking",
+    "title": "Let's Encrypt with cert-manager: HTTP-01 vs DNS-01",
+    "topic": "Networking",
+    "related": [
+      {
+        "label": "cert-manager: Issuers and a Private CA",
+        "slug": "cert-manager-issuers-and-private-ca"
+      },
+      {
+        "label": "Ingress Controllers and the Gateway API",
+        "slug": "ingress-controllers-and-gateway-api"
+      }
+    ],
+    "summary": "ACME issuers, the requirements of each challenge, wildcards and private clusters, debugging pending challenges, and shorter certificate lifetimes.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "cert-manager docs: ACME",
+        "url": "https://cert-manager.io/docs/configuration/acme/",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: HTTP01",
+        "url": "https://cert-manager.io/docs/configuration/acme/http01/",
+        "type": "doc"
+      },
+      {
+        "label": "cert-manager docs: DNS01",
+        "url": "https://cert-manager.io/docs/configuration/acme/dns01/",
+        "type": "doc"
+      },
+      {
+        "label": "Let's Encrypt: Challenge Types",
+        "url": "https://letsencrypt.org/docs/challenge-types/",
+        "type": "doc"
+      },
+      {
+        "label": "Let's Encrypt: Rate Limits",
+        "url": "https://letsencrypt.org/docs/rate-limits/",
+        "type": "doc"
+      },
+      {
+        "label": "Let's Encrypt: Decreasing Certificate Lifetimes to 45 Days",
+        "url": "https://letsencrypt.org/2025/12/02/from-90-to-45",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "volumes-and-mount-conflicts",
+    "id": 22,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Storage & Backups",
+    "title": "Volumes and Mount Conflicts",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "Projected Volumes: Combining Multiple Secrets",
+        "slug": "projected-volumes-combining-multiple-secrets"
+      },
+      {
+        "label": "ServiceAccount Tokens and Automount",
+        "slug": "serviceaccount-tokens-and-automount"
+      }
+    ],
+    "summary": "emptyDir, configMap, secret and projected volumes, and the mount mistakes that hide image files, freeze subPath content or fail with StartError.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Ephemeral Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Projected Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/projected-volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: ConfigMaps (mounted ConfigMaps are updated automatically)",
+        "url": "https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "persistent-volumes-and-storageclasses",
+    "id": 23,
+    "requires": [
+      "volumes-and-mount-conflicts"
+    ],
+    "category": "Storage & Backups",
+    "title": "PersistentVolumes, Claims and StorageClasses",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "MicroK8s Add-ons: DNS and Hostpath Storage",
+        "slug": "microk8s-addons-dns-and-hostpath-storage"
+      },
+      {
+        "label": "Volume Permissions and fsGroup",
+        "slug": "volume-permissions-and-fsgroup"
+      }
+    ],
+    "summary": "Binding modes, the normal and the broken Pending, access modes, reclaim policies, and verifying that data survives Pod and node restarts.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Persistent Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/persistent-volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Storage Classes",
+        "url": "https://kubernetes.io/docs/concepts/storage/storage-classes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Dynamic Volume Provisioning",
+        "url": "https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Change the Reclaim Policy of a PersistentVolume",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "volume-permissions-and-fsgroup",
+    "id": 24,
+    "requires": [
+      "persistent-volumes-and-storageclasses"
+    ],
+    "category": "Storage & Backups",
+    "title": "Volume Permissions and fsGroup",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "securityContext Hardening",
+        "slug": "securitycontext-hardening"
+      },
+      {
+        "label": "PersistentVolumes, Claims and StorageClasses",
+        "slug": "persistent-volumes-and-storageclasses"
+      }
+    ],
+    "summary": "Why non-root containers get Permission denied on new volumes, how fsGroup works, when it does nothing (hostPath), and fsGroupChangePolicy.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Configure a Security Context for a Pod or Container",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Volumes",
+        "url": "https://kubernetes.io/docs/concepts/storage/volumes/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes CSI docs: Support for fsGroup",
+        "url": "https://kubernetes-csi.github.io/docs/support-fsgroup.html",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Hostpath storage",
+        "url": "https://canonical.com/microk8s/docs/addon-hostpath-storage",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "volume-backups-velero-and-restore-drills",
+    "id": 25,
+    "requires": [
+      "persistent-volumes-and-storageclasses"
+    ],
+    "category": "Storage & Backups",
+    "title": "Volume Backups, Velero and Restore Drills",
+    "topic": "Storage & Backups",
+    "related": [
+      {
+        "label": "Idempotent Cluster Bootstrap",
+        "slug": "idempotent-cluster-bootstrap"
+      },
+      {
+        "label": "PersistentVolumes, Claims and StorageClasses",
+        "slug": "persistent-volumes-and-storageclasses"
+      }
+    ],
+    "summary": "What node-level backups, Velero and CSI snapshots can back up on a single node (Velero cannot read hostPath volumes), and timing a restore drill.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Velero docs: File System Backup",
+        "url": "https://velero.io/docs/main/file-system-backup/",
+        "type": "doc"
+      },
+      {
+        "label": "Velero docs: Container Storage Interface Snapshot Support",
+        "url": "https://velero.io/docs/main/csi/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Volume Snapshots",
+        "url": "https://kubernetes.io/docs/concepts/storage/volume-snapshots/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Hostpath storage",
+        "url": "https://canonical.com/microk8s/docs/addon-hostpath-storage",
+        "type": "doc"
+      },
+      {
+        "label": "restic documentation",
+        "url": "https://restic.readthedocs.io/en/stable/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kustomize-bases-overlays-and-components",
+    "id": 26,
+    "requires": [
+      "kubectl-essentials"
+    ],
+    "category": "Kustomize",
+    "title": "Kustomize: Bases, Overlays and Components",
+    "topic": "Kustomize",
+    "related": [
+      {
+        "label": "Kustomize Patches: Strategic Merge vs JSON 6902",
+        "slug": "kustomize-patches"
+      },
+      {
+        "label": "Kustomize Generators and the Hash Suffix",
+        "slug": "kustomize-generators-and-hash-suffix"
+      }
+    ],
+    "summary": "Layering plain YAML with bases, overlays and optional components, labels vs commonLabels, and previewing with kubectl kustomize and kubectl diff.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Kustomize",
+        "url": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/",
+        "type": "doc"
+      },
+      {
+        "label": "Kustomize docs: Components",
+        "url": "https://kubectl.docs.kubernetes.io/guides/config_management/components/",
+        "type": "doc"
+      },
+      {
+        "label": "Kustomize reference: kustomization file",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl diff reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kustomize-patches",
+    "id": 27,
+    "requires": [
+      "kustomize-bases-overlays-and-components"
+    ],
+    "category": "Kustomize",
+    "title": "Kustomize Patches: Strategic Merge vs JSON 6902",
+    "topic": "Kustomize",
+    "related": [
+      {
+        "label": "Kustomize: Bases, Overlays and Components",
+        "slug": "kustomize-bases-overlays-and-components"
+      },
+      {
+        "label": "Kustomize Images: One Image, Many Roles",
+        "slug": "kustomize-images-one-image-many-roles"
+      }
+    ],
+    "summary": "Both patch formats, how lists with and without merge keys behave, targets by kind, name and labels, and the failure modes of each.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kustomize reference: patches",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Update API Objects in Place Using kubectl patch",
+        "url": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/",
+        "type": "doc"
+      },
+      {
+        "label": "Strategic merge patch design",
+        "url": "https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6902: JSON Patch",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6902",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kustomize-images-one-image-many-roles",
+    "id": 28,
+    "requires": [
+      "kustomize-bases-overlays-and-components"
+    ],
+    "category": "Kustomize",
+    "title": "Kustomize Images: One Image, Many Roles",
+    "topic": "Kustomize",
+    "related": [
+      {
+        "label": "Jobs, CronJobs and restartPolicy",
+        "slug": "jobs-and-restart-policy"
+      },
+      {
+        "label": "Kustomize Patches: Strategic Merge vs JSON 6902",
+        "slug": "kustomize-patches"
+      }
+    ],
+    "summary": "The images transformer for registry and tag changes, and structuring one image as web, worker and migration roles.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kustomize reference: images",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/images/",
+        "type": "doc"
+      },
+      {
+        "label": "Kustomize: kustomize edit",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/cmd/edit/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Define a Command and Arguments for a Container",
+        "url": "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Images",
+        "url": "https://kubernetes.io/docs/concepts/containers/images/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kustomize-generators-and-hash-suffix",
+    "id": 29,
+    "requires": [
+      "kustomize-bases-overlays-and-components"
+    ],
+    "category": "Kustomize",
+    "title": "Kustomize Generators and the Hash Suffix",
+    "topic": "Kustomize",
+    "related": [
+      {
+        "label": "ConfigMaps and Environment Variables",
+        "slug": "configmaps-and-environment-variables"
+      },
+      {
+        "label": "Secrets as Environment Variables vs Mounted Files",
+        "slug": "secrets-as-env-vars-vs-mounted-files"
+      }
+    ],
+    "summary": "configMapGenerator and secretGenerator from literals, env files and files, merge and replace across layers, and how the hash suffix triggers rollouts.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kustomize reference: configMapGenerator",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/configmapgenerator/",
+        "type": "doc"
+      },
+      {
+        "label": "Kustomize reference: secretGenerator",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/secretgenerator/",
+        "type": "doc"
+      },
+      {
+        "label": "Kustomize reference: generatorOptions",
+        "url": "https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/generatoroptions/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Managing Secrets using Kustomize",
+        "url": "https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kustomize/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-namespace-layout-and-apply-order",
+    "id": 30,
+    "requires": [
+      "kustomize-bases-overlays-and-components"
+    ],
+    "category": "Kustomize",
+    "title": "Multi-Namespace Layout and Apply Order",
+    "topic": "Kustomize",
+    "related": [
+      {
+        "label": "Idempotent Cluster Bootstrap",
+        "slug": "idempotent-cluster-bootstrap"
+      },
+      {
+        "label": "Service DNS and Cross-Namespace Access",
+        "slug": "service-dns-and-cross-namespace-access"
+      }
+    ],
+    "summary": "Shared services and applications in separate namespaces, what crosses namespace boundaries, and an apply order that works on an empty cluster.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Namespaces",
+        "url": "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Share a Cluster with Namespaces",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/namespaces/",
+        "type": "doc"
+      },
+      {
+        "label": "Gateway API: ReferenceGrant",
+        "url": "https://gateway-api.sigs.k8s.io/reference/api-types/referencegrant/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Multi-tenancy",
+        "url": "https://kubernetes.io/docs/concepts/security/multi-tenancy/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rollouts-restart-history-and-rollback",
+    "id": 31,
+    "requires": [
+      "deployment-strategies-rollingupdate-vs-recreate"
+    ],
+    "category": "Delivery & Operations",
+    "title": "Rollouts: Status, Restart, History and Rollback",
+    "topic": "Delivery & Operations",
+    "related": [
+      {
+        "label": "Deployment Strategies: RollingUpdate vs Recreate",
+        "slug": "deployment-strategies-rollingupdate-vs-recreate"
+      },
+      {
+        "label": "Deploying from a CI Pipeline",
+        "slug": "deploying-from-ci-pipeline"
+      }
+    ],
+    "summary": "Following a rollout in scripts, what rollout restart really does, revision history and change causes, and what rollout undo does and does not roll back.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Deployments (updating, rolling back, pausing)",
+        "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl rollout reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_rollout/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Well-known annotations (kubernetes.io/change-cause)",
+        "url": "https://kubernetes.io/docs/reference/labels-annotations-taints/#change-cause",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "deleting-pods-scaling-and-stuck-namespaces",
+    "id": 32,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Delivery & Operations",
+    "title": "Deleting Pods, Scaling and Stuck Namespaces",
+    "topic": "Delivery & Operations",
+    "related": [
+      {
+        "label": "Pod Lifecycle and Status",
+        "slug": "pod-lifecycle-and-status"
+      },
+      {
+        "label": "Multi-Namespace Layout and Apply Order",
+        "slug": "multi-namespace-layout-and-apply-order"
+      }
+    ],
+    "summary": "Restarting and force-deleting Pods safely, scaling to zero, and diagnosing a namespace stuck in Terminating by its finalizers.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Termination of Pods",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Finalizers",
+        "url": "https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Namespaces (deleting)",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#deleting-a-namespace",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Namespace status conditions",
+        "url": "https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/namespace-v1/#NamespaceStatus",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "idempotent-cluster-bootstrap",
+    "id": 33,
+    "requires": [
+      "multi-namespace-layout-and-apply-order"
+    ],
+    "category": "Delivery & Operations",
+    "title": "Idempotent Cluster Bootstrap",
+    "topic": "Delivery & Operations",
+    "related": [
+      {
+        "label": "Deploying from a CI Pipeline",
+        "slug": "deploying-from-ci-pipeline"
+      },
+      {
+        "label": "Volume Backups, Velero and Restore Drills",
+        "slug": "volume-backups-velero-and-restore-drills"
+      }
+    ],
+    "summary": "A bootstrap script that can be re-run safely: idempotent vs non-idempotent commands, the dry-run and apply pattern, explicit waits, and rebuild tests.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Configuration Files",
+        "url": "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl wait reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_wait/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Command reference",
+        "url": "https://canonical.com/microk8s/docs/command-reference",
+        "type": "doc"
+      },
+      {
+        "label": "Argo CD: Sync Phases and Waves",
+        "url": "https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "deploying-from-ci-pipeline",
+    "id": 34,
+    "requires": [
+      "rollouts-restart-history-and-rollback"
+    ],
+    "category": "Delivery & Operations",
+    "title": "Deploying from a CI Pipeline",
+    "topic": "Delivery & Operations",
+    "related": [
+      {
+        "label": "Kubeconfig, Contexts and Admin Access",
+        "slug": "kubeconfig-contexts-and-admin-access"
+      },
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
+      }
+    ],
+    "summary": "A least-privilege identity for CI, a single-context kubeconfig, render, diff, apply and rollout status, and push vs pull (GitOps) deployments.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Authenticating (OpenID Connect tokens)",
+        "url": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Service account tokens (kubectl create token)",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_token/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl diff reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/",
+        "type": "doc"
+      },
+      {
+        "label": "Argo CD documentation",
+        "url": "https://argo-cd.readthedocs.io/en/stable/",
+        "type": "doc"
+      },
+      {
+        "label": "GitHub Docs: Using environments for deployment",
+        "url": "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "pod-lifecycle-and-status",
+    "id": 35,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Troubleshooting",
+    "title": "Pod Lifecycle and Status",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "Debugging CrashLoopBackOff",
+        "slug": "debugging-crashloopbackoff"
+      },
+      {
+        "label": "Kubernetes Events",
+        "slug": "kubernetes-events"
+      }
+    ],
+    "summary": "Phases, conditions and container states behind the STATUS column, where each status comes from, and what to check first for each.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Pod Lifecycle",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Debug Pods",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Determine the Reason for Pod Failure",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/determine-reason-pod-failure/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Init Containers",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "debugging-crashloopbackoff",
+    "id": 36,
+    "requires": [
+      "pod-lifecycle-and-status"
+    ],
+    "category": "Troubleshooting",
+    "title": "Debugging CrashLoopBackOff",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "kubectl exec, debug and port-forward",
+        "slug": "kubectl-exec-and-port-forward"
+      },
+      {
+        "label": "Kubernetes Events",
+        "slug": "kubernetes-events"
+      }
+    ],
+    "summary": "A repeatable procedure: exit codes and reasons, logs of the previous attempt, events, and keeping a crashing container alive to inspect it.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Debug Running Pods",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Determine the Reason for Pod Failure",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/determine-reason-pod-failure/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl logs reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Lifecycle (container restart policy)",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubernetes-events",
+    "id": 37,
+    "requires": [
+      "pod-lifecycle-and-status"
+    ],
+    "category": "Troubleshooting",
+    "title": "Kubernetes Events",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "Debugging CrashLoopBackOff",
+        "slug": "debugging-crashloopbackoff"
+      },
+      {
+        "label": "Centralized Logs with Loki and Grafana Alloy",
+        "slug": "centralized-logs-loki-alloy"
+      }
+    ],
+    "summary": "Event types and fields, reading them in the right order (the sort-by pitfall), five-minute retention on MicroK8s, and exporting events.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "kubectl events reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes API: Event (events.k8s.io/v1)",
+        "url": "https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/event-v1/",
+        "type": "doc"
+      },
+      {
+        "label": "kube-apiserver flags (--event-ttl)",
+        "url": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Alloy: loki.source.kubernetes_events",
+        "url": "https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kubernetes_events/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "image-pull-errors",
+    "id": 38,
+    "requires": [
+      "pod-lifecycle-and-status"
+    ],
+    "category": "Troubleshooting",
+    "title": "ImagePullBackOff and ErrImagePull",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "Image Pull Secrets and Pull Policy",
+        "slug": "image-pull-secrets-and-pull-policy"
+      },
+      {
+        "label": "MicroK8s containerd and Private Registry Trust",
+        "slug": "microk8s-containerd-and-private-registry-ca"
+      }
+    ],
+    "summary": "The exact messages for a missing tag, denied credentials, an untrusted CA, an unresolvable host and a wrong architecture, and the fix for each.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Images",
+        "url": "https://kubernetes.io/docs/concepts/containers/images/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Debug Pods (image pull issues)",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Working with a private registry",
+        "url": "https://canonical.com/microk8s/docs/registry-private",
+        "type": "doc"
+      },
+      {
+        "label": "Docker docs: Multi-platform builds",
+        "url": "https://docs.docker.com/build/building/multi-platform/",
+        "type": "doc"
+      },
+      {
+        "label": "k3s docs: Private Registry Configuration",
+        "url": "https://docs.k3s.io/installation/private-registry",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "kubectl-exec-and-port-forward",
+    "id": 39,
+    "requires": [
+      "kubectl-essentials"
+    ],
+    "category": "Troubleshooting",
+    "title": "kubectl exec, debug and port-forward",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "Debugging CrashLoopBackOff",
+        "slug": "debugging-crashloopbackoff"
+      },
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
+      }
+    ],
+    "summary": "Running commands inside containers, ephemeral debug containers for images without a shell, and port-forward tunnels with their limits.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Get a Shell to a Running Container",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Debug Running Pods (ephemeral containers)",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#ephemeral-container",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Use Port Forwarding to Access Applications in a Cluster",
+        "url": "https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Ephemeral Containers",
+        "url": "https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "metrics-server-and-kubectl-top",
+    "id": 40,
+    "requires": [
+      "resource-requests-limits-and-qos"
+    ],
+    "category": "Troubleshooting",
+    "title": "metrics-server and kubectl top",
+    "topic": "Troubleshooting",
+    "related": [
+      {
+        "label": "Prometheus, Grafana and ServiceMonitors",
+        "slug": "prometheus-grafana-and-servicemonitors"
+      },
+      {
+        "label": "Node Capacity, Allocatable and Memory Budget",
+        "slug": "node-capacity-allocatable-and-memory-budget"
+      }
+    ],
+    "summary": "Enabling metrics-server, what kubectl top numbers mean, comparing usage with requests and limits, and sizing from Prometheus history.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Resource metrics pipeline",
+        "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/",
+        "type": "doc"
+      },
+      {
+        "label": "metrics-server on GitHub",
+        "url": "https://github.com/kubernetes-sigs/metrics-server",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl top reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_top/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Horizontal Pod Autoscaling",
+        "url": "https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Add-ons",
+        "url": "https://canonical.com/microk8s/docs/addons",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "prometheus-grafana-and-servicemonitors",
+    "id": 41,
+    "requires": [
+      "metrics-server-and-kubectl-top"
+    ],
+    "category": "Observability",
+    "title": "Prometheus, Grafana and ServiceMonitors",
+    "topic": "Observability",
+    "related": [
+      {
+        "label": "Alertmanager and Basic Alerts",
+        "slug": "alertmanager-basic-alerts"
+      },
+      {
+        "label": "Centralized Logs with Loki and Grafana Alloy",
+        "slug": "centralized-logs-loki-alloy"
+      }
+    ],
+    "summary": "What the MicroK8s observability add-on installs (and its defaults), how ServiceMonitors are selected, and the release label that silently hides targets.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "kube-prometheus-stack chart",
+        "url": "https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus Operator: ServiceMonitor API",
+        "url": "https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ServiceMonitor",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus Operator: Troubleshooting ServiceMonitor changes",
+        "url": "https://prometheus-operator.dev/docs/platform/troubleshooting/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: Add-ons",
+        "url": "https://canonical.com/microk8s/docs/addons",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "centralized-logs-loki-alloy",
+    "id": 42,
+    "requires": [
+      "prometheus-grafana-and-servicemonitors"
+    ],
+    "category": "Observability",
+    "title": "Centralized Logs with Loki and Grafana Alloy",
+    "topic": "Observability",
+    "related": [
+      {
+        "label": "Kubernetes Events",
+        "slug": "kubernetes-events"
+      },
+      {
+        "label": "Prometheus, Grafana and ServiceMonitors",
+        "slug": "prometheus-grafana-and-servicemonitors"
+      }
+    ],
+    "summary": "How container logs are collected, what the add-on ships (Loki 2.6 and end-of-life Promtail), migrating to Alloy, labels and LogQL.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Grafana: Migrate from Promtail to Grafana Alloy",
+        "url": "https://grafana.com/docs/alloy/latest/set-up/migrate/from-promtail/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Loki: Promtail agent",
+        "url": "https://grafana.com/docs/loki/latest/send-data/promtail/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Alloy documentation",
+        "url": "https://grafana.com/docs/alloy/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Grafana Loki: Install with Helm",
+        "url": "https://grafana.com/docs/loki/latest/setup/install/helm/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Logging Architecture",
+        "url": "https://kubernetes.io/docs/concepts/cluster-administration/logging/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "alertmanager-basic-alerts",
+    "id": 43,
+    "requires": [
+      "prometheus-grafana-and-servicemonitors"
+    ],
+    "category": "Observability",
+    "title": "Alertmanager and Basic Alerts",
+    "topic": "Observability",
+    "related": [
+      {
+        "label": "Prometheus, Grafana and ServiceMonitors",
+        "slug": "prometheus-grafana-and-servicemonitors"
+      },
+      {
+        "label": "Debugging CrashLoopBackOff",
+        "slug": "debugging-crashloopbackoff"
+      }
+    ],
+    "summary": "The shipped alert rules, writing rules for restarts, memory and disk, and routing alerts out of the default null receiver.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Prometheus docs: Alerting rules",
+        "url": "https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus docs: Alertmanager configuration",
+        "url": "https://prometheus.io/docs/alerting/latest/configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Prometheus Operator: Alerting",
+        "url": "https://prometheus-operator.dev/docs/developer/alerting/",
+        "type": "doc"
+      },
+      {
+        "label": "kube-prometheus runbooks",
+        "url": "https://runbooks.prometheus-operator.dev/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rbac-least-privilege",
+    "id": 44,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Security",
+    "title": "RBAC and Least Privilege",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "ServiceAccount Tokens and Automount",
+        "slug": "serviceaccount-tokens-and-automount"
+      },
+      {
+        "label": "Kubeconfig, Contexts and Admin Access",
+        "slug": "kubeconfig-contexts-and-admin-access"
+      }
+    ],
+    "summary": "MicroK8s runs with AlwaysAllow until RBAC is enabled; Roles, bindings, testing with auth can-i, dangerous permissions, and replacing cluster-admin grants.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Using RBAC Authorization",
+        "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Role Based Access Control Good Practices",
+        "url": "https://kubernetes.io/docs/concepts/security/rbac-good-practices/",
+        "type": "doc"
+      },
+      {
+        "label": "kubectl auth can-i reference",
+        "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/",
+        "type": "doc"
+      },
+      {
+        "label": "MicroK8s: RBAC add-on",
+        "url": "https://canonical.com/microk8s/docs/multi-user",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "serviceaccount-tokens-and-automount",
+    "id": 45,
+    "requires": [
+      "rbac-least-privilege"
+    ],
+    "category": "Security",
+    "title": "ServiceAccount Tokens and Automount",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
+      },
+      {
+        "label": "Volumes and Mount Conflicts",
+        "slug": "volumes-and-mount-conflicts"
+      }
+    ],
+    "summary": "What the auto-mounted token is, when to disable it with automountServiceAccountToken, dedicated ServiceAccounts, and audience-bound tokens.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Service Accounts",
+        "url": "https://kubernetes.io/docs/concepts/security/service-accounts/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Configure Service Accounts for Pods",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Managing Service Accounts",
+        "url": "https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Good practices for Kubernetes Secrets",
+        "url": "https://kubernetes.io/docs/concepts/security/secrets-good-practices/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "network-policies-default-deny",
+    "id": 46,
+    "requires": [
+      "service-dns-and-cross-namespace-access"
+    ],
+    "category": "Security",
+    "title": "NetworkPolicies and Default Deny",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "Service DNS and Cross-Namespace Access",
+        "slug": "service-dns-and-cross-namespace-access"
+      },
+      {
+        "label": "Pod Security Standards and Admission",
+        "slug": "pod-security-admission"
+      }
+    ],
+    "summary": "Default deny for ingress and egress, cross-namespace rules, AND vs OR selectors, and allowing DNS so egress policies do not break name resolution.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Network Policies",
+        "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Declare Network Policy",
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy/",
+        "type": "doc"
+      },
+      {
+        "label": "Calico docs: Kubernetes network policy",
+        "url": "https://docs.tigera.io/calico/latest/network-policy/get-started/kubernetes-policy/kubernetes-network-policy",
+        "type": "doc"
+      },
+      {
+        "label": "Network Policy Editor (Cilium)",
+        "url": "https://editor.networkpolicy.io/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "pod-security-admission",
+    "id": 47,
+    "requires": [
+      "securitycontext-hardening"
+    ],
+    "category": "Security",
+    "title": "Pod Security Standards and Admission",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "securityContext Hardening",
+        "slug": "securitycontext-hardening"
+      },
+      {
+        "label": "RBAC and Least Privilege",
+        "slug": "rbac-least-privilege"
+      }
+    ],
+    "summary": "The privileged, baseline and restricted levels, enforce, warn and audit modes, Deployments accepted while their Pods are rejected, and a safe rollout.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Pod Security Standards",
+        "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Security Admission",
+        "url": "https://kubernetes.io/docs/concepts/security/pod-security-admission/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Enforce Pod Security Standards with Namespace Labels",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Migrate from PodSecurityPolicy",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "securitycontext-hardening",
+    "id": 48,
+    "requires": [
+      "kubernetes-core-objects"
+    ],
+    "category": "Security",
+    "title": "securityContext Hardening",
+    "topic": "Security",
+    "related": [
+      {
+        "label": "Pod Security Standards and Admission",
+        "slug": "pod-security-admission"
+      },
+      {
+        "label": "Volume Permissions and fsGroup",
+        "slug": "volume-permissions-and-fsgroup"
+      }
+    ],
+    "summary": "runAsNonRoot, allowPrivilegeEscalation, dropping capabilities, seccomp and a read-only root filesystem, how to verify them, and what breaks.",
+    "publishedAt": "2026-09-26",
+    "references": [
+      {
+        "label": "Kubernetes docs: Configure a Security Context for a Pod or Container",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Pod Security Standards",
+        "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Restrict a Container's Syscalls with seccomp",
+        "url": "https://kubernetes.io/docs/tutorials/security/seccomp/",
+        "type": "doc"
+      },
+      {
+        "label": "Kubernetes docs: Use a User Namespace With a Pod",
+        "url": "https://kubernetes.io/docs/tasks/configure-pod-container/user-namespaces/",
+        "type": "doc"
+      },
+      {
+        "label": "nginx-unprivileged image",
+        "url": "https://hub.docker.com/r/nginxinc/nginx-unprivileged",
+        "type": "doc"
+      }
     ]
   }
 ]

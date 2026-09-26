@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-hero">
     <h1 class="page-title" i18n="@@kubernetesConcepts.title">Kubernetes Concepts</h1>
-    <p class="page-sub" i18n="@@kubernetesConcepts.subtitle">Kubernetes in practice, starting with Secrets: creating, mounting, projecting and rotating them.</p>
+    <p class="page-sub" i18n="@@kubernetesConcepts.subtitle">Kubernetes in practice, from a fresh MicroK8s node to a secured, observable, reproducible setup.</p>
   </div>
 
   <div class="page-body">
@@ -13,7 +13,16 @@
             (click)="onFilterChange(opt.value)">
             @switch (opt.label) {
     @case ('concepts.filters.all') { <ng-container i18n="@@concepts.filters.all">All</ng-container> }
+    @case ('kubernetesConcepts.category.microk8sCluster') { <ng-container i18n="@@kubernetesConcepts.category.microk8sCluster">MicroK8s Cluster</ng-container> }
+    @case ('kubernetesConcepts.category.workloads') { <ng-container i18n="@@kubernetesConcepts.category.workloads">Workloads</ng-container> }
     @case ('kubernetesConcepts.category.secretsConfiguration') { <ng-container i18n="@@kubernetesConcepts.category.secretsConfiguration">Secrets &amp; Configuration</ng-container> }
+    @case ('kubernetesConcepts.category.networking') { <ng-container i18n="@@kubernetesConcepts.category.networking">Networking</ng-container> }
+    @case ('kubernetesConcepts.category.storageBackups') { <ng-container i18n="@@kubernetesConcepts.category.storageBackups">Storage &amp; Backups</ng-container> }
+    @case ('kubernetesConcepts.category.kustomize') { <ng-container i18n="@@kubernetesConcepts.category.kustomize">Kustomize</ng-container> }
+    @case ('kubernetesConcepts.category.deliveryOperations') { <ng-container i18n="@@kubernetesConcepts.category.deliveryOperations">Delivery &amp; Operations</ng-container> }
+    @case ('kubernetesConcepts.category.troubleshooting') { <ng-container i18n="@@kubernetesConcepts.category.troubleshooting">Troubleshooting</ng-container> }
+    @case ('kubernetesConcepts.category.observability') { <ng-container i18n="@@kubernetesConcepts.category.observability">Observability</ng-container> }
+    @case ('kubernetesConcepts.category.security') { <ng-container i18n="@@kubernetesConcepts.category.security">Security</ng-container> }
     }
           </button>
         }

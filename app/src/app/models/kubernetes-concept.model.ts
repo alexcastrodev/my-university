@@ -1,7 +1,17 @@
 import { ConceptLinkRef } from '../shared/concept-links';
 import { Language } from './language.model';
 
-export type KubernetesConceptCategory = 'Secrets & Configuration';
+export type KubernetesConceptCategory =
+  | 'MicroK8s Cluster'
+  | 'Workloads'
+  | 'Secrets & Configuration'
+  | 'Networking'
+  | 'Storage & Backups'
+  | 'Kustomize'
+  | 'Delivery & Operations'
+  | 'Troubleshooting'
+  | 'Observability'
+  | 'Security';
 
 export interface KubernetesConceptReference {
   label: string;

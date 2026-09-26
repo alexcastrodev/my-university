@@ -8,7 +8,16 @@ import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-
 
 const CATEGORY_OPTIONS: { label: string; value: KubernetesConceptCategory | null }[] = [
   { label: 'concepts.filters.all', value: null },
+  { label: 'kubernetesConcepts.category.microk8sCluster', value: 'MicroK8s Cluster' },
+  { label: 'kubernetesConcepts.category.workloads', value: 'Workloads' },
   { label: 'kubernetesConcepts.category.secretsConfiguration', value: 'Secrets & Configuration' },
+  { label: 'kubernetesConcepts.category.networking', value: 'Networking' },
+  { label: 'kubernetesConcepts.category.storageBackups', value: 'Storage & Backups' },
+  { label: 'kubernetesConcepts.category.kustomize', value: 'Kustomize' },
+  { label: 'kubernetesConcepts.category.deliveryOperations', value: 'Delivery & Operations' },
+  { label: 'kubernetesConcepts.category.troubleshooting', value: 'Troubleshooting' },
+  { label: 'kubernetesConcepts.category.observability', value: 'Observability' },
+  { label: 'kubernetesConcepts.category.security', value: 'Security' },
 ];
 
 export interface KubernetesConceptTopicGroup {
@@ -17,12 +26,16 @@ export interface KubernetesConceptTopicGroup {
 }
 
 const TOPIC_ORDER = [
-  'Core Configuration',
-  'Caching & Auditing',
-  'Multitenancy',
-  'Customization & Migration',
-  'Modern Data Access',
-  'Extensions & Tooling',
+  'MicroK8s Cluster',
+  'Workloads',
+  'Secrets & Configuration',
+  'Networking',
+  'Storage & Backups',
+  'Kustomize',
+  'Delivery & Operations',
+  'Troubleshooting',
+  'Observability',
+  'Security',
 ];
 
 @Component({
@@ -88,7 +101,7 @@ export class KubernetesConceptsListPage implements OnInit {
   ngOnInit() {
     this.seo.set({
       title: 'Kubernetes Concepts',
-      description: 'Kubernetes explained in depth, starting with Secrets: how they are created, mounted, projected and rotated in a real cluster.',
+      description: 'Kubernetes in practice: workloads, configuration, networking, storage, Kustomize, operations, troubleshooting, observability and security, verified on real MicroK8s and k3s clusters.',
       path: '/kubernetes-concepts',
     });
 
