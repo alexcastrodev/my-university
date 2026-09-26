@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: RabbitMQ e Mensageria AMQP
+summary: Como o modelo de exchange, routing key e binding do AMQP desacopla produtores das filas, e como RabbitTemplate e @RabbitListener enviam e recebem mensagens no Spring.
 ---
 ## Objective
 

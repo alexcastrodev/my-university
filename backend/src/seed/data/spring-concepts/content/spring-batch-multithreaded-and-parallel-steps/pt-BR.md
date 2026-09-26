@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Escalando o Spring Batch Localmente: Steps Multithreaded e Flows Paralelos
+summary: Como escalar um step do Spring Batch em uma única máquina com um step multithreaded apoiado em TaskExecutor ou com flows paralelos independentes unidos por um split, a tensão entre thread safety e capacidade de reinício que isso cria para readers com estado (saveState=false, um reader sincronizado ou o process-indicator pattern), e o redesenho do Spring Batch 6.0, em que só o ItemProcessor roda em várias threads, além de executors com virtual threads para trabalho limitado por I/O.
 ---
 ## Objective
 

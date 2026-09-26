@@ -172,6 +172,11 @@ export class FeedService {
     return { read: true, gotItToday: await this.countGotItToday(userId) };
   }
 
+  /**
+   * Every concept the feed can show for `area`, only those written in `lang`: a concept not yet
+   * translated would otherwise fall back to English, and a card in the wrong language mid-scroll
+   * reads as a bug. It stays reachable from its own page.
+   */
   private candidates(
     area: string | null,
     lang: Language,
@@ -182,10 +187,14 @@ export class FeedService {
     if (area !== 'cs') {
       for (const c of this.review.listConceptSummaries(lang)) {
         if (modules && !modules.has(c.module)) continue;
+        if (c.language !== lang) continue;
         const resolved = toSourceId(c.module, c.slug);
         if (!resolved) continue;
         out.push({
-          ...c,
+          module: c.module,
+          slug: c.slug,
+          title: c.title,
+          summary: c.summary,
           sourceId: resolved.sourceId,
           route: this.review.routeFor(c.module, c.slug),
         });
@@ -195,6 +204,7 @@ export class FeedService {
     if (!area || area === 'cs') {
       for (const { module, discipline } of this.curriculum.listDisciplines()) {
         for (const c of this.curriculum.findAll(module, discipline, lang)) {
+          if (c.language !== lang) continue;
           out.push({
             module,
             discipline,

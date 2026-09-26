@@ -1,6 +1,8 @@
-/* On phones the fixed bottom tab bar replaces the footer, which would
-   otherwise sit on top of it. The desktop keeps the footer. */
+/* On phones the fixed bottom tab bar replaces the header and the footer: the
+   header's account, language and menu moved to the Settings tab, and the footer
+   would otherwise sit on top of the bar. The desktop keeps both. */
 @media (max-width: 768px) {
+  app-header,
   app-footer {
     display: none;
   }

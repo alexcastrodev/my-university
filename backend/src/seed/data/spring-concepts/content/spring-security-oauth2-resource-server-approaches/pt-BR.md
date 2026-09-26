@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "OAuth 2 Resource Server: Checagem Remota, Blackboarding e Validação Local"
+summary: O resource server precisa validar um bearer token que não emitiu e que (com tokens UUID opacos) não consegue ler, o que leva a exatamente três estratégias: chamar o endpoint check_token do authorization server a cada requisição, fazer blackboarding com um banco compartilhado via JdbcTokenStore, ou verificar uma assinatura localmente, com trade-offs de latência por requisição, acoplamento de disponibilidade e atraso de revogação. Hoje a API do livro (@EnableResourceServer, ResourceServerConfigurerAdapter, TokenStore) está em fim de vida: a checagem remota virou introspecção RFC 7662 configurada com oauth2ResourceServer(...).opaqueToken() (ou três propriedades spring.security.oauth2.resourceserver.opaquetoken.*), a validação local é .jwt() com um NimbusJwtDecoder que busca o JWK set de forma preguiçosa para não acoplar a inicialização ao IdP, e o blackboarding não tem sucessor oficial: o JdbcTokenStore nunca foi portado (issue #9381 fechada como duplicada) e sobrevive só como um OpaqueTokenIntrospector customizado, mais útil para cachear respostas de introspecção do que para compartilhar um schema entre os dois servidores.
 ---
 ## Objective
 

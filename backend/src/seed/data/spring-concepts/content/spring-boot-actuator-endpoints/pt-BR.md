@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Spring Boot Actuator: Endpoints Nativos"
+summary: O Actuator adiciona endpoints de prontidão para produção a uma aplicação Spring Boot (/health, /info, /metrics, /env, /beans, /mappings e outros) via HTTP e JMX, além de como expô-los e consumi-los com segurança.
 ---
 ## Objective
 

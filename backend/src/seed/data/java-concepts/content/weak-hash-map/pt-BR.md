@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-01
+summary: Como o WeakHashMap envolve cada chave em uma WeakReference para que as entradas sejam removidas automaticamente quando nada fora do mapa segura a chave com uma referência forte, e por que um valor que referencia a própria chave ou uma chave internada anula esse comportamento.
+title: A Classe WeakHashMap
 ---
 ## Objective
 

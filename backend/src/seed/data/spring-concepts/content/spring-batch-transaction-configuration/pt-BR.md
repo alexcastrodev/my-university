@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Gerenciamento e Configuração de Transações no Spring Batch
+summary: Como o Spring Batch conduz transações no nível do step (uma transação por chunk, conforme o commit-interval, ou por Tasklet.execute()), como sobrescrever isolation, propagation e timeout com atributos de transação, as armadilhas de transações declarativas e de readers transacionais (JMS), e como o modelo PlatformTransactionManager, que não mudou, corresponde aos métodos de builder .transactionManager()/.transactionAttribute() de hoje, ao jakarta.transaction e ao ResourcelessTransactionManager realocado.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-01
 title: Módulo Crypto do Spring Security: Geradores de Chave e Encryptors
+summary: Como os KeyGenerators produzem valores de salt e chave (StringKeyGenerator, BytesKeyGenerator) e como os Encryptors criam objetos de criptografia e descriptografia (AES/CBC padrão, AES/GCM mais forte, queryableText para texto cifrado pesquisável) sem trazer uma biblioteca de criptografia separada.
 ---
 ## Objective
 

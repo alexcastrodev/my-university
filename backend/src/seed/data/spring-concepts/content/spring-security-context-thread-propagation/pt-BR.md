@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Spring Security: Armazenamento do SecurityContext e Propagação entre Threads
+summary: Como o SecurityContextHolder guarda o Authentication após o login por meio de três estratégias (MODE_THREADLOCAL, MODE_INHERITABLETHREADLOCAL, MODE_GLOBAL), e como DelegatingSecurityContextCallable/ExecutorService propagam o contexto de segurança para threads gerenciadas por você que o framework não conhece.
 ---
 ## Objective
 

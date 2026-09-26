@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Consumindo Serviços REST: RestTemplate e Traverson"
+summary: Chamando APIs REST a partir de uma aplicação Spring: as operações do RestTemplate por verbo para GET/PUT/DELETE/POST e a navegação do Traverson por nome de relação em uma API hipermídia, além de onde o RestClient entra hoje.
 ---
 ## Objective
 

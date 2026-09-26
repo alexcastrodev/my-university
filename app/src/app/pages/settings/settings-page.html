@@ -2,12 +2,30 @@
   <div class="page-body">
     <h1 class="page-title" i18n="@@settings.title">Settings</h1>
 
-    @if (!auth.currentUser()) {
-      <div class="login-prompt">
-        <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>
-        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
+    @if (auth.currentUser(); as user) {
+      <div class="card account">
+        <div class="account-head">
+          <span class="account-avatar" aria-hidden="true">
+            @if (user.avatarUrl) {
+              <img [src]="user.avatarUrl" alt="" />
+            } @else {
+              {{ initials() }}
+            }
+          </span>
+          <div class="account-id">
+            <span class="account-name">{{ user.displayName }}</span>
+            <span class="account-login">&#64;{{ user.githubLogin }}</span>
+          </div>
+          <span class="account-xp" i18n="@@settings.account.levelXp">Lv {{ xpService.summary()?.level?.number ?? 1 }} · {{ xpService.xp() }} XP</span>
+        </div>
+        <nav class="link-list" i18n-aria-label="@@settings.account.title" aria-label="Account">
+          <a class="link-row" routerLink="/profile" i18n="@@header.userMenu.profile">Profile</a>
+          <a class="link-row" routerLink="/review" i18n="@@header.nav.review">Review</a>
+          <a class="link-row" routerLink="/leaderboard" i18n="@@header.nav.leaderboard">Leaderboard</a>
+          <button type="button" class="link-row logout" (click)="logout()" i18n="@@header.userMenu.logout">Logout</button>
+        </nav>
       </div>
-    } @else {
+
       <div class="card">
         <h2 class="section-title" i18n="@@settings.displayName.title">Display name</h2>
         <p class="hint" i18n="@@settings.displayName.hint">
@@ -32,12 +50,36 @@
           <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
         }
       </div>
+    } @else {
+      <div class="login-prompt">
+        <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>
+        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
+        <a class="leaderboard-link" routerLink="/leaderboard" i18n="@@header.nav.leaderboard">Leaderboard</a>
+      </div>
     }
+
+    <div class="card">
+      <h2 class="section-title" i18n="@@settings.language.title">Language</h2>
+      <p class="hint" i18n="@@settings.language.hint">The language of the interface and of every concept that has a translation.</p>
+      <div class="toggle-group language-toggle" role="group" i18n-aria-label="@@settings.language.title" aria-label="Language">
+        @for (lang of languages; track lang) {
+          <button
+            type="button"
+            class="btn"
+            [class.primary-btn]="languageService.language === lang"
+            [class.secondary-btn]="languageService.language !== lang"
+            [attr.aria-pressed]="languageService.language === lang"
+            [lang]="lang"
+            (click)="languageService.setLanguage(lang)"
+          >{{ LANGUAGE_LABELS[lang] }}</button>
+        }
+      </div>
+    </div>
 
     <div class="card">
       <h2 class="section-title" i18n="@@settings.theme.title">Theme</h2>
       <p class="hint" i18n="@@settings.theme.hint">Choose how MyUniversity looks on this device.</p>
-      <div class="theme-toggle" role="group" i18n-aria-label="@@settings.theme.ariaLabel" aria-label="Theme">
+      <div class="toggle-group" role="group" i18n-aria-label="@@settings.theme.ariaLabel" aria-label="Theme">
         <button
           type="button"
           class="btn"
@@ -54,6 +96,33 @@
           (click)="themeService.setTheme('dark')"
           i18n="@@settings.theme.dark"
         >Dark</button>
+      </div>
+    </div>
+
+    <!-- On phones the header (and its Complementary Studies menu) is hidden, so its links live here. -->
+    <div class="card explore">
+      <h2 class="section-title" i18n="@@header.nav.complementaryStudies">Complementary Studies</h2>
+      <div class="explore-group">
+        <span class="explore-heading" i18n="@@header.nav.java">Java</span>
+        <a class="link-row" routerLink="/java/exams" i18n="@@header.nav.exams">Exams</a>
+        <a class="link-row" routerLink="/java/java-concepts" i18n="@@header.nav.concepts">Concepts</a>
+        <a class="link-row" routerLink="/java/jvm-concepts" i18n="@@header.nav.jvmConcepts">JVM Concepts</a>
+        <a class="link-row" routerLink="/java/java-minute" i18n="@@header.nav.javaMinute">Java Minute</a>
+        <a class="link-row" routerLink="/java/testing" i18n="@@header.nav.testing">Testing</a>
+        <a class="link-row" routerLink="/spring-concepts" i18n="@@header.nav.spring">Spring</a>
+        <a class="link-row" routerLink="/quarkus-concepts" i18n="@@header.nav.quarkus">Quarkus</a>
+      </div>
+      <div class="explore-group">
+        <span class="explore-heading" i18n="@@header.nav.ruby">Ruby</span>
+        <a class="link-row" routerLink="/ruby-concepts" i18n="@@header.nav.concepts">Concepts</a>
+        <a class="link-row" routerLink="/rubyonrails-concepts" i18n="@@header.nav.rails">Rails</a>
+      </div>
+      <div class="explore-group">
+        <span class="explore-heading" i18n="@@header.nav.fundamentals">Fundamentals</span>
+        <a class="link-row" routerLink="/databases/database-concepts" i18n="@@header.nav.databaseConcepts">Database Concepts</a>
+        <a class="link-row" routerLink="/system-design/system-design-concepts" i18n="@@header.nav.systemDesign">System Design</a>
+        <a class="link-row" routerLink="/kubernetes-concepts" i18n="@@header.nav.kubernetes">Kubernetes</a>
+        <a class="link-row" routerLink="/algorithms/algorithms-concepts" i18n="@@header.nav.algorithms">Algorithms</a>
       </div>
     </div>
   </div>

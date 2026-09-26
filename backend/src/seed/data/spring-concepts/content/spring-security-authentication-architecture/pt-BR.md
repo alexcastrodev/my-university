@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-27
 title: Arquitetura de Autenticação do Spring Security
+summary: Como o filtro de autenticação, o AuthenticationManager, o AuthenticationProvider, o UserDetailsService e o SecurityContextHolder se encaixam, e como configurá-los hoje com SecurityFilterChain em vez do depreciado WebSecurityConfigurerAdapter.
 ---
 ## Objective
 

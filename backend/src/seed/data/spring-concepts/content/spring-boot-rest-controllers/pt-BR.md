@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Escrevendo Controllers RESTful com Spring MVC
+summary: Como @RestController e as anotações de mapeamento por método HTTP (@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping) mapeiam operações CRUD em endpoints REST, por que PUT e PATCH têm semânticas realmente diferentes (substituir vs. mesclar) que as anotações sozinhas não garantem, e como o ProblemDetail do Spring Framework 6 (RFC 7807) agora dá a 404s e outras respostas de erro um corpo estruturado em vez de vazio.
 ---
 ## Objective
 

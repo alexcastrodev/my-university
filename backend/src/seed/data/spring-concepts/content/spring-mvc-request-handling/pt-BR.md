@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-30
 title: Tratamento de Requisições e Data Binding no Spring MVC
+summary: Como um controller Spring MVC combina handlers @GetMapping/@PostMapping com um Model para renderizar views e com o binding implícito de command objects para processar envios de formulário, e como os records do Java agora oferecem uma alternativa sem dependências ao Lombok para tipos de domínio imutáveis.
 ---
 ## Objective
 

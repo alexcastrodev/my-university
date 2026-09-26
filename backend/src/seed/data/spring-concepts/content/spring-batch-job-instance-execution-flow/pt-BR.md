@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-30
 title: Fluxo Não Linear e Identidade de JobInstance no Spring Batch
+summary: Como um JobExecutionDecider roteia o fluxo de um job com base no resultado de um step, como a identidade de uma JobInstance é derivada do job mais seus JobParameters identificadores, e por que o JobLauncher está depreciado no Spring Batch 6.0 em favor do JobOperator.
 ---
 ## Objective
 

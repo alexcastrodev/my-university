@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Lendo Arquivos Flat no Spring Batch
+summary: Como o contrato ItemReader do Spring Batch e o FlatFileItemReader transformam registros de arquivos delimitados, de largura fixa, multilinha, heterogêneos e JSON em objetos de domínio, e os equivalentes modernos com builders e JsonItemReader da configuração XML do livro.
 ---
 ## Objective
 

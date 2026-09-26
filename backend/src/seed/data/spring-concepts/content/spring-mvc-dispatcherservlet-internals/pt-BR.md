@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-05
 title: "Internals do DispatcherServlet: Handler Mapping, Adapters e Message Converters"
+summary: O pipeline concreto por trás de uma chamada a um controller REST: o RequestMappingHandlerMapping encontrando a rota via PathPattern, o HandlerAdapter resolvendo argumentos e invocando o método por reflection, e o HttpMessageConverter cuidando da (de)serialização JSON nos dois sentidos.
 ---
 ## Objective
 

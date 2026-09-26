@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Implementando um Authorization Server OAuth2: do Spring Security OAuth ao Spring Authorization Server"
+summary: Construindo o componente que emite access tokens. O livro faz isso com o @EnableAuthorizationServer e o ClientDetailsService do projeto Spring Security OAuth, hoje arquivado, que chegou ao fim da vida em 2022 e foi substituído pelo Spring Authorization Server independente (beans RegisteredClient/RegisteredClientRepository/AuthorizationServerSettings), que por sua vez foi reincorporado ao Spring Security a partir do Spring Security 7.0. Dos quatro grant types do livro, só authorization code e client credentials sobrevivem diretamente no projeto moderno: password não é suportado de forma alguma (nunca foi implementado e está depreciado no OAuth 2.1) e o suporte a refresh token é automático em vez de configurado à parte.
 ---
 ## Objective
 

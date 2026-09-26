@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-04
+summary: Por que os coletores geracionais e de compactação da JVM nunca liberam um objeto como malloc/free ou a contagem de referências fazem, e como esse design transforma o custo de CPU do GC em uma função direta da folga de heap que você controla com -Xmx.
+title: Coletores de Lixo que Movem Objetos e o Trade-off entre RAM e CPU
 ---
 ## Objective
 

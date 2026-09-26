@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Spring Batch Restart e Recovery: Retomando Jobs que Falharam de Onde Pararam"
+summary: Como o Spring Batch reinicia um job FAILED ou STOPPED lançando uma nova JobExecution da mesma JobInstance, que retoma a partir do estado persistido no ExecutionContext: habilitar ou proibir o reinício com preventRestart, reexecutar steps concluídos com allowStartIfComplete, limitar tentativas com startLimit e retomar no meio de um chunk com um reader ItemStream, tudo exigindo um JobRepository JDBC persistente, além da mudança no Spring Batch 6.0 para JobOperator.restart(JobExecution) e a nova operação recover().
 ---
 ## Objective
 

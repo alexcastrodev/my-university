@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Spring WebFlux: Controladores Reativos e Endpoints Funcionais
+summary: Construa uma camada web não bloqueante com Spring WebFlux: as mesmas anotações @RestController do Spring MVC, mas retornando Mono e Flux, a alternativa sem anotações com RouterFunction/HandlerFunction, e o WebTestClient para testar os dois contra mocks ou um servidor Netty real.
 ---
 ## Objective
 

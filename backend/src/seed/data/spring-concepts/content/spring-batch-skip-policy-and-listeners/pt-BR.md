@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Spring Batch Pulando em Vez de Falhar: SkipPolicy e SkipListener"
+summary: Como o Spring Batch pula itens com defeito em vez de falhar o step: a semântica de skip em leitura, processamento e escrita, implementações customizadas de SkipPolicy e callbacks de SkipListener para registrar ou mandar para uma dead letter os registros pulados.
 ---
 ## Objective
 

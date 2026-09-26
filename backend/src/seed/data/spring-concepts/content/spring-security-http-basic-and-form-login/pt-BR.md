@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Spring Security: Autenticação HTTP Basic e Login por Formulário
+summary: Como httpBasic() e formLogin() configuram os dois métodos de autenticação nativos do Spring Security, como AuthenticationEntryPoint/AuthenticationSuccessHandler/AuthenticationFailureHandler customizam o comportamento de falha e de sucesso, e como os dois métodos podem conviver na mesma aplicação.
 ---
 ## Objective
 

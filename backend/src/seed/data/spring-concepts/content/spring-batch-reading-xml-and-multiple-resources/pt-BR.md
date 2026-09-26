@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Lendo XML e Múltiplos Resources no Spring Batch
+summary: Leia XML grande um fragmento por vez com StaxEventItemReader e um unmarshaller do Spring OXM, e processe um conjunto ordenado de arquivos como um único fluxo contínuo de itens com MultiResourceItemReader.
 ---
 ## Objective
 

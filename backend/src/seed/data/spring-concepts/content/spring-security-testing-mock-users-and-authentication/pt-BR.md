@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Testando Spring Security: Mock Users e Autenticação"
+summary: Como o spring-security-test estabelece um principal para o teste: @WithMockUser fabrica um UserDetails sem busca nenhuma (roles ganham o prefixo ROLE_ automaticamente, authorities não; vale no nível da classe e pode ser sobrescrito por método com @WithAnonymousUser), @WithUserDetails carrega um usuário real por um bean UserDetailsService para que o principal seja a sua própria implementação, e uma anotação customizada ligada a uma WithSecurityContextFactory via @WithSecurityContext serve quando o tipo concreto de Authentication importa. As três pulam a autenticação por completo, e por isso o caminho AuthenticationProvider/PasswordEncoder/handlers de sucesso e falha precisa ser exercitado à parte pelo MockMvc com httpBasic() ou o request builder formLogin() mais os matchers authenticated()/unauthenticated(). O idioma JUnit 4 do livro agora é @ExtendWith(SpringExtension.class)/@SpringJUnitConfig (implícito no @SpringBootTest), e springSecurity() é aplicado automaticamente no Spring Boot, mas continua explícito com .apply(springSecurity()) fora dele.
 ---
 ## Objective
 

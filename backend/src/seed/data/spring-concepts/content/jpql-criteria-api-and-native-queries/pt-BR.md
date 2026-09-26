@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-11
+summary: Por que o JPA oferece três APIs de consulta distintas em vez de uma: JPQL é uma linguagem de consulta baseada em strings sobre o seu modelo de entidades (independente do banco, mas limitada ao que o Hibernate consegue traduzir para SQL), a Criteria API expõe esse mesmo conjunto de recursos como uma API Java type-safe que compensa a verbosidade principalmente quando a consulta precisa ser montada dinamicamente a partir da entrada do usuário, e consultas SQL nativas ignoram a abstração por completo para dar acesso total a recursos específicos do banco ao custo da portabilidade. As três protegem igualmente contra SQL injection, mas só se você usar bind parameters em vez de concatenar strings.
+title: JPQL, Criteria API e Native Queries: Escolhendo a Abordagem de Consulta Certa
 ---
 ## Objective
 

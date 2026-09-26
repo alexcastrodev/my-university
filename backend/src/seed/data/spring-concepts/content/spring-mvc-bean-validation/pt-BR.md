@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-31
 title: Validação de Formulário no Spring MVC com a Bean Validation API
+summary: Como declarar regras de validação com anotações da Bean Validation em uma classe de domínio e aplicá-las no binding do formulário com @Valid e Errors/BindingResult, e por que o spring-boot-starter-validation agora é uma dependência separada e explícita em vez de transitiva.
 ---
 ## Objective
 

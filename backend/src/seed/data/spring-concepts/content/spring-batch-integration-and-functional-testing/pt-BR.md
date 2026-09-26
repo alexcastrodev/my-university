@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Testes de Integração e Funcionais de Jobs Spring Batch
+summary: Como funcionam as camadas de teste com contexto Spring: o Spring TestContext Framework (@SpringJUnitConfig, cache de contexto, @DirtiesContext) mais um datasource H2 embarcado para testes de integração que pegam erros de configuração que testes unitários não pegam; o StepScopeTestExecutionListener e seu método de fábrica getStepExecution (ou StepScopeTestUtils.doInStepScope) para exercitar beans @StepScope e SpEL com late binding fora de um step em execução, usando objetos de domínio criados com MetaDataInstanceFactory; e testes funcionais que lançam um step real ou um job inteiro e verificam JobExecution, BatchStatus, contagens de StepExecution e linhas de tabela. Inclui a migração do @RunWith(SpringJUnit4ClassRunner.class) do livro para o @SpringBatchTest, do agora depreciado JobLauncherTestUtils.launchJob/launchStep para JobOperatorTestUtils.startJob/startStep, e o abandono do helper AssertFile, que foi removido.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Lendo de Bancos de Dados Relacionais: Item Readers JDBC e ORM"
+summary: Como o Spring Batch lê linhas de bancos relacionais em fluxo com item readers baseados em cursor e em paginação sobre JDBC e ORM, e como as APIs de builder atuais e os pacotes realocados diferem da configuração XML do livro.
 ---
 ## Objective
 

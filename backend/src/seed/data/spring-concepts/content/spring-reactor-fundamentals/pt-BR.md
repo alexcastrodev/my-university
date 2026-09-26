@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Fundamentos do Reactor: Reactive Streams, Mono e Flux"
+summary: Por que a programação reativa existe (o problema da thread bloqueada criado por código de I/O imperativo), o contrato de quatro interfaces do Reactive Streams que faz o backpressure funcionar, e os dois tipos centrais de publisher do Reactor: Mono para 0 ou 1 resultado e Flux para sequências de 0 a N.
 ---
 ## Objective
 

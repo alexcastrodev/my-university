@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-08-14
-title: "Huffman Coding"
+title: Codificação de Huffman
 description: "O algoritmo guloso que constrói um código binário livre de prefixo ótimo mesclando repetidamente os dois símbolos menos frequentes numa trie, provado ótimo via um argumento de troca e subestrutura ótima."
 ---
 ## Objetivo

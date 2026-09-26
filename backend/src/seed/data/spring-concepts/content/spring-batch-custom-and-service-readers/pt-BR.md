@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "ItemReaders Customizados e de Serviço no Spring Batch"
+summary: Como o Spring Batch encaixa entradas fora do padrão em um step de chunks (reaproveitando um método de bean existente com ItemReaderAdapter, consumindo uma fila com JmsItemReader e escrevendo à mão um ItemReader customizado tornado reiniciável via ItemStream), e como essas classes foram movidas para os pacotes org.springframework.batch.infrastructure.item.* no Spring Batch 6.0.
 ---
 ## Objective
 

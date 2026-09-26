@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-11
+summary: Por que bancos como o Oracle rejeitam uma cláusula IN em JPQL ou SQL com mais de 1000 elementos, e as três formas de contornar isso: dividir os valores em lotes você mesmo, reescrever o filtro como sub-select ou, quando o filtro é pela chave primária, usar o MultiIdentifierLoadAccess do Hibernate (byMultipleIds) para buscar muitas entidades por id em uma chamada sem implementar o loteamento na mão.
+title: Limites da Cláusula IN no JPQL e Carregamento por Várias Chaves Primárias
 ---
 ## Objective
 

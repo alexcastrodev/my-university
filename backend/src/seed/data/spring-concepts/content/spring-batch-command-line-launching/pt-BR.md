@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-05
 title: Lançando Jobs do Spring Batch a Partir da Linha de Comando
+summary: Como o CommandLineJobRunner lança um job como um processo java -classpath comum para agendamento no estilo cron (arquivo de configuração Spring, nome do job, job parameters tipados e um ExitCodeMapper que converte o exit status do job em código de saída do shell), e por que ele está depreciado desde o Spring Batch 6.0 em favor do CommandLineJobOperator, que entende de operações.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Method Security: Preauthorization e Postauthorization"
+summary: A method security move a autorização da filter chain para a própria chamada de método via um interceptor do Spring AOP: @PreAuthorize avalia uma regra SpEL antes da invocação (usando hasAuthority/hasRole mais argumentos do método via #paramName e a authentication atual) e @PostAuthorize a avalia depois, contra o returnObject especial, com hasPermission() delegando a lógica por objeto a um bean PermissionEvaluator. Hoje o @EnableGlobalMethodSecurity(prePostEnabled = true) do livro está depreciado em favor do @EnableMethodSecurity (desde a 5.6), que liga as anotações pre/post por padrão, troca a pilha de voters por interceptors baseados em AuthorizationManager e um Supplier<Authentication> adiado, e, o mais importante, não detecta mais automaticamente um PermissionEvaluator customizado: ele precisa ser ligado por um bean estático MethodSecurityExpressionHandler, senão todo hasPermission() nega silenciosamente.
 ---
 ## Objective
 

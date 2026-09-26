@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: A API de Launcher do Spring Batch: Lançamentos de Job Síncronos vs. Assíncronos
+summary: Como o único método run(Job, JobParameters) da interface JobLauncher inicia uma execução de job, por que o lançamento padrão é síncrono e bloqueia a thread que chamou até o job terminar, como fornecer um TaskExecutor o torna assíncrono, e como JobLauncher/SimpleJobLauncher/TaskExecutorJobLauncher foram todos depreciados desde o Spring Batch 6.0 em favor de JobOperator/TaskExecutorJobOperator.
 ---
 ## Objective
 

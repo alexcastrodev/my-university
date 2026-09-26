@@ -104,7 +104,7 @@
     "header.search.type.quarkusConcept": "Conceito de Quarkus",
     "header.search.type.kubernetesConcept": "Conceito de Kubernetes",
     "header.userMenu.profile": "Perfil",
-    "header.userMenu.settings": "Configurações",
+    "header.userMenu.settings": "Ajustes",
     "header.userMenu.logout": "Sair",
     "header.signIn": "Entrar",
     "header.xp.level": "Nv {$INTERPOLATION}",
@@ -254,7 +254,7 @@
     "profile.source.javaConcepts": "Conceitos de Java",
     "profile.source.javaMinute": "Java Minute",
     "settings.loginPrompt": "Entre com o GitHub para alterar suas configurações.",
-    "settings.title": "Configurações",
+    "settings.title": "Ajustes",
     "settings.displayName.title": "Nome de exibição",
     "settings.displayName.hint": " Por padrão, seu nome vem do GitHub (@{$INTERPOLATION}). Você pode substituí-lo abaixo. ",
     "settings.displayName.ariaLabel": "Nome de exibição",
@@ -770,7 +770,7 @@
     "daily.forgot": "Não lembrei",
     "daily.remembered": "Lembrei",
     "feed.title": "Feed",
-    "feed.gotItToday": "{$INTERPOLATION} Got it hoje",
+    "feed.gotItToday": "{$INTERPOLATION} entendidos hoje",
     "feed.areas": "Áreas",
     "feed.loginToMark": "Entre para marcar",
     "feed.readTopic": "Ler tópico →",
@@ -784,6 +784,12 @@
     "area.group.databases": "Bancos de dados",
     "area.group.algorithms": "Algoritmos",
     "area.track.concepts": "Conceitos",
-    "area.track.testing": "Testes"
+    "area.track.testing": "Testes",
+    "feed.area.cs": "Computação",
+    "bottomNav.settings": "Ajustes",
+    "settings.account.title": "Conta",
+    "settings.account.levelXp": "Nv {$INTERPOLATION} · {$INTERPOLATION_1} XP",
+    "settings.language.title": "Idioma",
+    "settings.language.hint": "O idioma da interface e de todo conceito que tem tradução."
   }
 }

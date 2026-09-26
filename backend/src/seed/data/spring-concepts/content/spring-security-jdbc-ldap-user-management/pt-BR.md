@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-30
 title: Gerenciamento de Usuários JDBC e LDAP no Spring Security
+summary: Como o JdbcUserDetailsManager gerencia usuários em um banco relacional via JDBC puro (schema padrão, consultas que podem ser sobrescritas) e como o LdapUserDetailsManager autentica contra um diretório LDAP, ambos implementando o contrato UserDetailsManager.
 ---
 ## Objective
 

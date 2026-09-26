@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Ajustando a Autoconfiguração com Configuration Properties do Spring Boot
+summary: Como a abstração de environment do Spring reúne propriedades de system properties da JVM, variáveis de ambiente do SO, argumentos de linha de comando e application.yml/properties em uma única fonte, e como algumas centenas de configuration properties nativas (server.port, spring.datasource.*, logging.level.*) permitem ajustar os beans autoconfigurados do Spring Boot sem escrever um único método @Bean.
 ---
 ## Objective
 

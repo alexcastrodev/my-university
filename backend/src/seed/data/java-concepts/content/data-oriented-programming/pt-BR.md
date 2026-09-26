@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-08-19
-title: Data-Oriented Programming
+title: Programação Orientada a Dados
 summary: Data-Oriented Programming separa deliberadamente dados imutáveis e transparentes (records dentro de uma hierarquia sealed) da lógica que atua sobre eles, de modo que um switch exaustivo com record patterns permite ao compilador garantir que toda variante seja tratada.
 ---
 ## Objective

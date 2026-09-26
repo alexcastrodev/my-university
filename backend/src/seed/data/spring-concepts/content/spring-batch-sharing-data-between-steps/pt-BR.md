@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Compartilhando Dados Entre Steps e Externalizando Flows no Spring Batch
+summary: Como passar um valor de um step para outro posterior de forma segura para reinício via o ExecutionContext persistido do job e o ExecutionContextPromotionListener, em comparação com um bean holder mais simples porém inseguro em reinícios, como externalizar uma sequência reutilizável de steps como Flow/FlowStep/JobStep, e como terminar, falhar ou parar para reinício (end/fail/stopAndRestart) um job de forma declarativa a partir do exit status de um step.
 ---
 ## Objective
 

@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-11
+summary: Como @NamedStoredProcedureQuery mapeia uma stored procedure do banco no JPA usando entradas @StoredProcedureParameter para parâmetros IN, OUT, INOUT e REF_CURSOR, por que uma consulta de stored procedure precisa ser executada com execute() em vez de getResultList()/getSingleResult(), e como getOutputParameterValue() recupera cada parâmetro de saída depois.
+title: Chamando Stored Procedures a partir do JPA
 ---
 ## Objective
 

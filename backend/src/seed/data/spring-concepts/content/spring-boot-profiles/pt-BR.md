@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Configuração Específica por Ambiente com Spring Profiles
+summary: Como os profiles do Spring permitem que propriedades e beans diferentes se apliquem conforme o profile ativo, por que definir spring.profiles.active fora do application.yml mantém a configuração de cada ambiente bem separada, e como a sintaxe YAML multidocumento spring.profiles: prod do livro foi substituída por spring.config.activate.on-profile.
 ---
 ## Objective
 

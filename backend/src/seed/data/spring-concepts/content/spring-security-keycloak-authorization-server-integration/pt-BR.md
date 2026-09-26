@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Keycloak como Authorization Server para um Resource Server Spring"
+summary: Como um resource server Spring Boot se conecta ao Keycloak como um authorization server real e pronto para uso: configurar realm, client, client scope, usuários e roles no console de administração, obter um JWT no token endpoint, usar protocol mappers para adicionar claims de roles, username e audience, e validar esse JWT offline contra o endpoint JWKS do realm (seleção de chave por kid, então a rotação de chaves funciona), aplicando regras em três camadas (hasAuthority no endpoint, @PreAuthorize no service e um @Query filtrado por SpEL no repositório). O Keycloak segue muito vivo, mas todos os mecanismos do livro mudaram: o runtime WildFly foi trocado por Quarkus no Keycloak 17 (bin/kc.sh em vez de standalone.sh, e /auth saiu de todas as URLs, então o issuer agora é /realms/{realm}), o realm master é só para administração, o password grant vem desligado por padrão em clients novos desde a 26.2, o adapter keycloak-spring-boot-starter do próprio Keycloak foi depreciado e removido, e as classes do Spring Security OAuth que ele usava (@EnableResourceServer, JwkTokenStore) estão em fim de vida. Hoje toda a configuração se resume a spring-boot-starter-oauth2-resource-server mais issuer-uri/audiences, com um JwtAuthenticationConverter mapeando as claims nativas realm_access.roles e preferred_username do Keycloak em vez de remodelar o realm para caber em uma biblioteca morta.
 ---
 ## Objective
 

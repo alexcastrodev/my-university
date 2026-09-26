@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Job Repository no Spring Batch: Escolhendo e Configurando a Camada de Persistência
+summary: Como os atributos XML <batch:job-repository> do livro (data-source, transaction-manager, isolation-level-for-create, table-prefix, max-varchar-length, lob-handler) configuram a única implementação de JobRepository que o Spring Batch traz, o SimpleJobRepository, e como esses mesmos atributos correspondem ao @EnableJdbcJobRepository de hoje, incluindo por que isolation-level-for-create usa SERIALIZABLE por padrão como proteção contra lançar a mesma job instance duas vezes a partir de nós diferentes.
 ---
 ## Objective
 

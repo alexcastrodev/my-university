@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-27
 title: Autoconfiguração do Spring Boot
+summary: Como @SpringBootApplication, as dependências starter e os beans condicionais permitem que o Spring Boot monte uma aplicação quase sem configuração explícita.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-05
 title: Habilitando Hipermídia: Spring HATEOAS e o Formato _links/_embedded
+summary: Como o Spring HATEOAS anexa hiperlinks autodescritivos às respostas REST para que os clientes naveguem pela API por nome de relação em vez de URLs fixas, usando RepresentationModel/EntityModel/CollectionModel, os builders de link linkTo(methodOn(...)) e classes RepresentationModelAssembler que produzem o formato JSON HAL com _links/_embedded.
 ---
 ## Objective
 

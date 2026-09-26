@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-27
 title: Processamento Orientado a Chunks no Spring Batch
+summary: Como funcionam o modelo Job/Step/JobInstance/JobExecution/StepExecution do Spring Batch e o processamento orientado a chunks com ItemReader/ItemProcessor/ItemWriter, e como a configuração Java com JobBuilder/StepBuilder substituiu o namespace XML, hoje depreciado.
 ---
 ## Objective
 

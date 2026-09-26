@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Mensageria Assíncrona com JMS
+summary: Desacoplando um produtor de um consumidor por meio de um broker JMS: send/convertAndSend do JmsTemplate, message converters e post-processors, e os modelos pull (receive) e push (@JmsListener) de consumo.
 ---
 ## Objective
 

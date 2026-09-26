@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-31
 title: Contrato PasswordEncoder do Spring Security e Estratégias de Encoding
+summary: Como o contrato encode()/matches() do PasswordEncoder valida senhas sem nunca reverter um hash, como o DelegatingPasswordEncoder permite que uma aplicação suporte vários algoritmos ao mesmo tempo via um esquema de prefixo, e por que o Argon2 é hoje uma recomendação mais forte do que o trio bcrypt/scrypt/PBKDF2 do livro.
 ---
 ## Objective
 

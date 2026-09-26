@@ -3,8 +3,9 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { filter } from 'rxjs';
 
 /**
- * Mobile bottom tab bar (Home / Daily / Track / Feed) from the mockups. The curriculum map
- * stays reachable from the Computer Science page.
+ * Mobile bottom tab bar (Home / Daily / Track / Feed / Settings) from the mockups. The curriculum
+ * map stays reachable from the Computer Science page. On phones the header is hidden, so
+ * Settings is where the account, language, theme and Complementary Studies links live.
  * Rendered app-wide but only visible on phone-width viewports (see CSS).
  * Hides itself on the full-screen card runner (/daily/session), which owns
  * the whole screen with its own progress bar and close button.
