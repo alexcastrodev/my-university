@@ -3,6 +3,7 @@ tmp/
 .pnpm-store
 scripts/
 tasks.md
+backlog.md
 .env
 
 # Playwright

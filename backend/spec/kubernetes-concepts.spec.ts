@@ -28,9 +28,10 @@ describe('GET /kubernetes-concepts', () => {
 
   it('lists a prerequisite before the concepts that require it', async () => {
     const body = await json<any[]>(await get('/kubernetes-concepts'));
-    const slugs = body.map((c) => c.slug);
-    expect(slugs[0]).toBe('kubernetes-secrets-fundamentals');
-    expect(slugs).toContain('projected-volumes-combining-multiple-secrets');
+    const indexOf = (slug: string) => body.findIndex((c) => c.slug === slug);
+    expect(indexOf('projected-volumes-combining-multiple-secrets')).toBeGreaterThan(-1);
+    expect(indexOf('kubernetes-secrets-fundamentals')).toBeLessThan(indexOf('projected-volumes-combining-multiple-secrets'));
+    expect(indexOf('kubernetes-core-objects')).toBeLessThan(indexOf('kubectl-essentials'));
   });
 
   it('exposes the lab link on the projected volumes concept', async () => {
