@@ -72,7 +72,7 @@ export class FeedPage implements OnInit {
   ngOnInit(): void {
     this.seo.set({
       title: 'Feed',
-      description: 'One concept per screen, from every area you study. Scroll, read, mark what you already know.',
+      description: $localize`:@@feed.seo.description:One concept per screen, from every area you study. Scroll, read, mark what you already know.`,
       path: PATH,
     });
     this.loadMore();

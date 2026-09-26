@@ -135,54 +135,55 @@ export class ReviewService {
   private conceptDetailByModule(
     module: string,
     slug: string,
+    lang?: Language,
   ): { title: string; sections: ConceptSection[] } | undefined {
     switch (module) {
       case 'java-concepts': {
-        const d = this.javaConcepts.findBySlug(slug);
+        const d = this.javaConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'jvm-concepts': {
-        const d = this.jvmConcepts.findBySlug(slug);
+        const d = this.jvmConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'spring-concepts': {
-        const d = this.springConcepts.findBySlug(slug);
+        const d = this.springConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'database-concepts': {
-        const d = this.databaseConcepts.findBySlug(slug);
+        const d = this.databaseConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'system-design-concepts': {
-        const d = this.systemDesignConcepts.findBySlug(slug);
+        const d = this.systemDesignConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'java-minute': {
-        const d = this.javaMinute.findBySlug(slug);
+        const d = this.javaMinute.findBySlug(slug, lang);
         return d ? { title: d.question, sections: d.sections } : undefined;
       }
       case 'testing-concepts': {
-        const d = this.testingConcepts.findBySlug(slug);
+        const d = this.testingConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'algorithms-concepts': {
-        const d = this.algorithmsConcepts.findBySlug(slug);
+        const d = this.algorithmsConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'ruby-concepts': {
-        const d = this.rubyConcepts.findBySlug(slug);
+        const d = this.rubyConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'rubyonrails-concepts': {
-        const d = this.rubyOnRailsConcepts.findBySlug(slug);
+        const d = this.rubyOnRailsConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'quarkus-concepts': {
-        const d = this.quarkusConcepts.findBySlug(slug);
+        const d = this.quarkusConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'kubernetes-concepts': {
-        const d = this.kubernetesConcepts.findBySlug(slug);
+        const d = this.kubernetesConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       default:
@@ -199,17 +200,18 @@ export class ReviewService {
   resolveConceptDetail(
     sourceType: ReviewSourceType,
     sourceId: string,
+    lang?: Language,
   ): { title: string; sections: ConceptSection[]; route: string[] } | null {
     const cc = parseCurriculumSourceId(sourceId);
     if (cc) {
-      const detail = this.curriculum.findBySlug(cc.module, cc.discipline, cc.slug);
+      const detail = this.curriculum.findBySlug(cc.module, cc.discipline, cc.slug, lang);
       if (!detail) return null;
       return { title: detail.title, sections: detail.sections, route: cc.route };
     }
 
     const resolved = fromSourceId(sourceType, sourceId);
     if (!resolved) return null;
-    const detail = this.conceptDetailByModule(resolved.module, resolved.slug);
+    const detail = this.conceptDetailByModule(resolved.module, resolved.slug, lang);
     if (!detail) return null;
     return { title: detail.title, sections: detail.sections, route: resolved.route };
   }

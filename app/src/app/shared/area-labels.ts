@@ -21,7 +21,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'rubyonrails-concepts': ['Ruby', 'Rails'],
 };
 
-export const COMPUTER_SCIENCE_LABEL = 'Computer Science';
+export const COMPUTER_SCIENCE_LABEL = $localize`:@@header.nav.computerScience:Computer Science`;
 
 export function areaBreadcrumb(module: string | undefined, discipline?: string): string[] {
   if (!module) return [];
