@@ -99,7 +99,7 @@
   border-radius: var(--mu-radius-lg);
   background: var(--mu-surface);
   scroll-snap-align: start;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .card-top {
@@ -119,9 +119,7 @@
 
 .crumb {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: right;
   font-size: 0.72rem;
   color: var(--mu-muted);
 }
