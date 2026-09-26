@@ -24,6 +24,10 @@ export interface CurriculumConceptSummary {
   publishedAt: string;
   language: Language;
   availableLanguages: Language[];
+  /** Estimated reading time of the whole article, rounded up to a whole minute. */
+  readingMinutes: number;
+  /** How many `## ` sections the article has, excluding the reference lists at the end. */
+  sectionCount: number;
 }
 
 export interface CurriculumConceptDetail extends CurriculumConceptSummary {
@@ -48,6 +52,21 @@ const FRONTMATTER_FIELDS = [
   'version',
   'updatedAt',
 ] as const;
+
+const WORDS_PER_MINUTE = 200;
+const REFERENCE_SECTION_TITLES = new Set(['references', 'documentation links']);
+
+/** Reading time (prose and code alike) at an unhurried 200 words per minute, never below one. */
+export function estimateReadingMinutes(body: string): number {
+  const words = body.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+}
+
+function countContentSections(sections: ConceptSection[]): number {
+  return sections.filter(
+    (section) => !REFERENCE_SECTION_TITLES.has(section.title.trim().toLowerCase()),
+  ).length;
+}
 
 function readSubdirs(parent: string): string[] {
   return readdirSync(parent, { withFileTypes: true })
@@ -178,12 +197,8 @@ export class CurriculumService {
     meta: ConceptMeta,
     lang: Language,
   ): CurriculumConceptSummary {
-    const { language, availableLanguages, title, summary } = readConceptContent(
-      dataDir,
-      meta.slug,
-      lang,
-      FRONTMATTER_FIELDS,
-    );
+    const { language, availableLanguages, body, title, summary } =
+      readConceptContent(dataDir, meta.slug, lang, FRONTMATTER_FIELDS);
 
     return {
       slug: meta.slug,
@@ -193,6 +208,8 @@ export class CurriculumService {
       publishedAt: meta.publishedAt,
       language,
       availableLanguages,
+      readingMinutes: estimateReadingMinutes(body),
+      sectionCount: countContentSections(splitSections(body)),
     };
   }
 
@@ -211,6 +228,7 @@ export class CurriculumService {
       updatedAt,
     } = readConceptContent(dataDir, meta.slug, lang, FRONTMATTER_FIELDS);
 
+    const sections = splitSections(body);
     return {
       slug: meta.slug,
       id: meta.id,
@@ -219,9 +237,11 @@ export class CurriculumService {
       publishedAt: meta.publishedAt,
       language,
       availableLanguages,
+      readingMinutes: estimateReadingMinutes(body),
+      sectionCount: countContentSections(sections),
       version,
       updatedAt,
-      sections: splitSections(body),
+      sections,
       references: meta.references,
       related: meta.related,
     };

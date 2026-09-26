@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, OnInit, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
@@ -8,7 +8,7 @@ import { DailyCard, DailySession } from '../../models/daily.model';
 
 const PATH = '/daily';
 
-/** "Today" — the daily-session home (mockups tmp/mobile/, screen 01). */
+/** "Today": the daily-session home (mobile mockup v2, "Diário"). */
 @Component({
   selector: 'app-daily-home-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +22,7 @@ export class DailyHomePage implements OnInit {
   private dailyService = inject(DailySessionService);
   private seo = inject(SeoService);
   private router = inject(Router);
+  private locale = inject(LOCALE_ID);
 
   protected readonly session = signal<DailySession | null>(null);
   protected readonly loaded = computed(() => this.session() !== null);
@@ -31,17 +32,20 @@ export class DailyHomePage implements OnInit {
   protected readonly potentialXp = computed(() =>
     this.cards().reduce((sum, card) => sum + card.xp, 0),
   );
-  protected readonly cardWord = computed(() => (this.cards().length === 1 ? 'card' : 'cards'));
-  protected readonly minuteWord = computed(() => {
-    const minutes = this.session()?.estimatedMinutes ?? 5;
-    return minutes === 1 ? 'minute' : 'minutes';
+  /** The streak the user will be on once this session is done: today already counts if they
+   *  earned anything today, otherwise finishing the session is what extends it by one. */
+  protected readonly streakAtEnd = computed(() => {
+    const streak = this.xpService.streak();
+    const goal = this.xpService.dailyGoal();
+    if (!this.auth.currentUser() || !streak || !goal) return null;
+    return goal.earnedToday > 0 ? streak.current : streak.current + 1;
   });
 
   protected readonly dateLabel = computed(() => {
     const d = new Date();
-    const weekday = d.toLocaleDateString('en-US', { weekday: 'long' });
-    const month = d.toLocaleDateString('en-US', { month: 'long' });
-    return `${weekday} ${d.getDate()} ${month}`.toUpperCase();
+    const weekday = d.toLocaleDateString(this.locale, { weekday: 'long' });
+    const month = d.toLocaleDateString(this.locale, { month: 'short' }).replace('.', '');
+    return `${weekday} · ${d.getDate()} ${month}`.toUpperCase();
   });
 
   ngOnInit(): void {
@@ -56,6 +60,7 @@ export class DailyHomePage implements OnInit {
     if (this.auth.currentUser()) {
       this.xpService.loadSummary();
       this.xpService.loadStreak();
+      this.xpService.loadDailyGoal();
     }
   }
 

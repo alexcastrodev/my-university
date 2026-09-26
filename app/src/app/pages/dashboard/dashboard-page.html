@@ -7,7 +7,8 @@
       </div>
     </div>
   } @else if (xpService.summary(); as summary) {
-    <div class="page-body">
+    <app-mobile-home [markCounts]="markCounts()" />
+    <div class="page-body desktop-only">
       <div class="greeting-row">
         <div>
           <span class="greeting-label">{{ greeting() }}, {{ auth.currentUser()!.displayName }}</span>

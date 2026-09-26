@@ -1,0 +1,212 @@
+.track {
+  padding: 0 1rem 1.5rem;
+}
+
+.track-head {
+  margin: 0 -1rem 1rem;
+  padding: 1.25rem 1rem 1rem;
+  background: var(--mu-navy);
+  color: var(--mu-white);
+}
+
+.crumbs {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.title {
+  margin: 0 0 0.9rem;
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--mu-success);
+}
+
+.progress-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+  background: var(--mu-surface);
+}
+
+.segmented button {
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+  cursor: pointer;
+}
+
+.segmented button.active {
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink);
+  font-weight: 800;
+}
+
+.empty {
+  padding: 2rem 0;
+  font-size: 0.88rem;
+  color: var(--mu-muted);
+  text-align: center;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  gap: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+/* The line joining one marker to the next */
+.step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 1.6rem;
+  bottom: 0;
+  left: calc(0.75rem - 1px);
+  width: 2px;
+  background: var(--mu-line);
+}
+
+.marker {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.1rem;
+  border: 2px solid var(--mu-line);
+  border-radius: 50%;
+  background: var(--mu-bg);
+}
+
+.step.read .marker {
+  border-color: var(--mu-success);
+  background: var(--mu-success);
+  color: var(--mu-bg);
+}
+
+.marker svg {
+  width: 14px;
+  height: 14px;
+}
+
+.step.next .marker {
+  border-color: var(--mu-accent);
+}
+
+.card {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  padding: 0.95rem 1rem 0.8rem;
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius);
+  background: var(--mu-surface);
+  text-decoration: none;
+  color: inherit;
+}
+
+.step.next .card {
+  border-color: var(--mu-accent-border);
+}
+
+.next-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--mu-accent);
+}
+
+.card-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--mu-ink);
+}
+
+.card-summary {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--mu-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+}
+
+.read-link {
+  font-weight: 800;
+  color: var(--mu-accent);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--mu-ink-soft);
+}
+
+.pill svg {
+  width: 11px;
+  height: 11px;
+}
+
+.minutes {
+  margin-left: auto;
+  color: var(--mu-faint);
+}

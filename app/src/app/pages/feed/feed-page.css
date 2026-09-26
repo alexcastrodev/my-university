@@ -1,0 +1,225 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  max-width: 560px;
+  height: calc(100dvh - 64px);
+  margin: 0 auto;
+  background: var(--mu-bg);
+}
+
+/* On phones the feed owns the screen between the status bar and the bottom nav, like the
+   mockup: the global header would otherwise eat a fifth of every card. */
+@media (max-width: 768px) {
+  .feed {
+    position: fixed;
+    top: var(--mu-safe-top);
+    left: 0;
+    right: 0;
+    bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom));
+    z-index: 101;
+    height: auto;
+    max-width: none;
+    padding: 0 var(--mu-safe-right) 0 var(--mu-safe-left);
+  }
+}
+
+.feed-head {
+  flex-shrink: 0;
+  padding: 1rem 1rem 0.75rem;
+}
+
+.feed-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.feed-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--mu-ink);
+}
+
+.feed-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--mu-success);
+}
+
+.chips {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 999px;
+  background: var(--mu-surface);
+  color: var(--mu-ink-soft);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip.active {
+  background: var(--mu-ink);
+  border-color: var(--mu-ink);
+  color: var(--mu-bg);
+}
+
+.cards {
+  flex: 1;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  padding: 0 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 1rem);
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.1rem 1rem;
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius-lg);
+  background: var(--mu-surface);
+  scroll-snap-align: start;
+  overflow-y: auto;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.kicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--mu-accent);
+}
+
+.crumb {
+  min-width: 0;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--mu-muted);
+}
+
+.card-title {
+  margin: 0 0 0.9rem;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--mu-ink);
+}
+
+.card-summary {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--mu-ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.code {
+  flex-shrink: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--mu-radius-sm);
+  background: var(--mu-code-bg);
+  color: var(--mu-code-text);
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  line-height: 1.55;
+  overflow: auto;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--mu-line);
+}
+
+.got-it {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius-sm);
+  background: transparent;
+  color: var(--mu-ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.got-it svg {
+  width: 16px;
+  height: 16px;
+}
+
+.got-it.done {
+  border-color: var(--mu-success-border);
+  background: var(--mu-success-soft);
+  color: var(--mu-success);
+  cursor: default;
+}
+
+.got-it:disabled:not(.done) {
+  opacity: 0.6;
+}
+
+.read-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mu-accent);
+  text-decoration: none;
+}
+
+.state {
+  display: block;
+  width: 100%;
+  padding: 1.5rem 0 2rem;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+  text-align: center;
+  scroll-snap-align: end;
+}
+
+.state-btn {
+  cursor: pointer;
+}

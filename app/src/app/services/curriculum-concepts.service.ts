@@ -13,9 +13,12 @@ export class CurriculumConceptsService {
   private language = inject(LanguageService);
   private base = '/api/curriculum';
 
+  /** Not served from the SSR transfer cache: the server renders anonymously, so its copy has
+   *  every `read` flag false and would hide a logged-in user's checks on the track timeline. */
   listConcepts(mod: string, discipline: string): Observable<CurriculumConceptSummary[]> {
     return this.http.get<CurriculumConceptSummary[]>(`${this.base}/${mod}/${discipline}`, {
       params: { lang: this.language.language },
+      transferCache: false,
     });
   }
 

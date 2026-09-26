@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { ActivatedRoute } from '@angular/router';
 import { CURRICULUM } from '../computer-science/curriculum.data';
 import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
+import { TrackTimeline } from '../../components/track-timeline/track-timeline';
 import { CurriculumConceptSummary } from '../../models/curriculum-concept.model';
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
 import { SeoService } from '../../services/seo.service';
@@ -12,7 +13,7 @@ import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-
 @Component({
   selector: 'app-curriculum-concepts-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ConceptCardListComponent, ConceptViewToggleComponent, Breadcrumbs],
+  imports: [ConceptCardListComponent, ConceptViewToggleComponent, Breadcrumbs, TrackTimeline],
   templateUrl: './curriculum-concepts-list.html',
   styleUrl: './curriculum-concepts-list.css',
 })
@@ -44,6 +45,9 @@ export class CurriculumConceptsListPage implements OnInit {
   protected readonly moduleTitle = computed(
     () => CURRICULUM.find((m) => m.slug === this.mod())?.title ?? this.mod(),
   );
+
+  /** Phones get the discipline as a timeline instead of the card grid (see the template). */
+  protected readonly timelineCrumbs = computed(() => ['Computer Science', this.moduleTitle()]);
 
   protected readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => [
     { name: 'Computer Science', path: '/computer-science' },

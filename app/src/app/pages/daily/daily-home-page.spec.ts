@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { DailySession } from '../../models/daily.model';
-import { XpSummary, StreakInfo } from '../../models/xp.model';
+import { DailyGoalStatus, XpSummary, StreakInfo } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
 import { DailySessionService } from '../../services/daily-session.service';
 import { SeoService } from '../../services/seo.service';
@@ -53,8 +53,8 @@ const SUMMARY: XpSummary = {
 
 const STREAK: StreakInfo = { current: 3, longest: 9 };
 
-function setup(options: { loggedIn?: boolean; session?: DailySession } = {}) {
-  const { loggedIn = true, session = SESSION } = options;
+function setup(options: { loggedIn?: boolean; session?: DailySession; earnedToday?: number } = {}) {
+  const { loggedIn = true, session = SESSION, earnedToday = 0 } = options;
 
   TestBed.configureTestingModule({
     imports: [DailyHomePage],
@@ -69,8 +69,10 @@ function setup(options: { loggedIn?: boolean; session?: DailySession } = {}) {
         useValue: {
           summary: signal<XpSummary | null>(loggedIn ? SUMMARY : null),
           streak: signal<StreakInfo | null>(loggedIn ? STREAK : null),
+          dailyGoal: signal<DailyGoalStatus | null>(loggedIn ? { earnedToday, goal: 30 } : null),
           loadSummary: () => {},
           loadStreak: () => {},
+          loadDailyGoal: () => {},
         },
       },
     ],
@@ -108,13 +110,21 @@ describe('DailyHomePage', () => {
     const fixture = setup({ loggedIn: true });
 
     expect(fixture.nativeElement.querySelector('.hero-badge').textContent).toContain('LV 2');
-    expect(fixture.nativeElement.textContent).toContain('day 3');
+    // Nothing earned today yet, so finishing the session is what extends the 3-day streak.
+    expect(fixture.nativeElement.querySelector('.hero-meta').textContent).toContain('4-day streak');
+  });
+
+  it('does not count today twice when something was already earned today', () => {
+    const fixture = setup({ earnedToday: 10 });
+
+    expect(fixture.nativeElement.querySelector('.hero-meta').textContent).toContain('3-day streak');
   });
 
   it('hides the badge and streak when logged out', () => {
     const fixture = setup({ loggedIn: false });
 
     expect(fixture.nativeElement.querySelector('.hero-badge')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.hero-meta').textContent).not.toContain('streak');
   });
 
   it('starts the session on the start button', () => {

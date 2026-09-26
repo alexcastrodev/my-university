@@ -28,6 +28,15 @@
   color: var(--mu-white);
 }
 
+.map-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--mu-accent);
+  text-decoration: none;
+}
+
 .page-sub {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.65);

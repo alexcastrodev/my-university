@@ -1,0 +1,93 @@
+<div class="home">
+  <p class="greeting">{{ greeting() }}, {{ firstName() }}</p>
+  @if (session(); as s) {
+    @if (cards().length > 0) {
+      <h1 class="headline" i18n="@@home.todayMinutes">Your {{ s.estimatedMinutes }} minutes today</h1>
+      <section class="today">
+        <ol class="chips">
+          @for (card of cards(); track $index) {
+            <li class="chip">
+              <span class="chip-type">{{ card.type.toUpperCase() }}</span>
+              <span class="chip-title">{{ card.previewTitle }}</span>
+            </li>
+          }
+        </ol>
+        <a class="start" routerLink="/daily/session">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+          <ng-container i18n="@@home.start">Start · +{{ potentialXp() }} XP</ng-container>
+        </a>
+      </section>
+    } @else {
+      <h1 class="headline" i18n="@@home.nothingDue">Nothing due today</h1>
+      <section class="today">
+        <p class="today-empty" i18n="@@home.nothingDueHint">Read a few concepts and tomorrow's session builds itself from them.</p>
+        <a class="start" routerLink="/feed" i18n="@@home.openFeed">Open the feed</a>
+      </section>
+    }
+  } @else {
+    <h1 class="headline headline-loading" aria-hidden="true">&nbsp;</h1>
+    <section class="today today-loading" aria-hidden="true"></section>
+  }
+
+  <div class="stats">
+    @if (xpService.summary(); as summary) {
+      <div class="stat stat-level">
+        <svg class="ring" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="21" class="ring-track"/>
+          <circle cx="24" cy="24" r="21" class="ring-fill"
+            [attr.stroke-dasharray]="ringCircumference" [attr.stroke-dashoffset]="ringOffset()"/>
+          <text x="24" y="24" class="ring-num">{{ summary.level.number }}</text>
+        </svg>
+        <span class="level-title">{{ summary.level.title }}</span>
+        <span class="stat-foot">{{ summary.total }}@if (summary.level.nextLevelXp) {/{{ summary.level.nextLevelXp }}}</span>
+      </div>
+    }
+    <div class="stat">
+      <span class="stat-label">STREAK</span>
+      <span class="stat-big">{{ xpService.streak()?.current ?? 0 }} <small i18n="@@home.days">days</small></span>
+      <span class="stat-foot" i18n="@@home.record">record {{ xpService.streak()?.longest ?? 0 }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label" i18n="@@home.goal">GOAL</span>
+      <span class="stat-big">{{ xpService.dailyGoal()?.earnedToday ?? 0 }}<small>/{{ xpService.dailyGoal()?.goal ?? 30 }}</small></span>
+      <div class="goal-bar"><div class="goal-fill" [style.width.%]="goalPercent()"></div></div>
+    </div>
+  </div>
+
+  @if (dueNow() > 0) {
+    <a class="marks" routerLink="/review">
+      <span class="marks-num">{{ dueNow() }}</span>
+      <span class="marks-text">
+        <strong i18n="@@home.marksDue">Got it marks to review</strong>
+        <span i18n="@@home.marksHint">Review {{ reviewBite() }} now and keep them from fading</span>
+      </span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  }
+
+  <section class="areas">
+    <div class="areas-head">
+      <h2 i18n="@@home.yourAreas">Your areas</h2>
+      <span i18n="@@home.depthRecency">depth · recency</span>
+    </div>
+    @if (areas().length === 0) {
+      <p class="areas-empty" i18n="@@home.noAreas">Nothing read yet. Pick anything on the track or in the feed.</p>
+    } @else {
+      <ul>
+        @for (area of areas(); track area.module) {
+          <li>
+            <a class="area" [routerLink]="area.link" [class.stale]="area.stale">
+              <span class="area-title">{{ area.title }}</span>
+              <span class="depth" aria-hidden="true">
+                @for (lit of area.depth; track $index) {
+                  <span class="seg" [class.lit]="lit"></span>
+                }
+              </span>
+              <span class="recency">{{ area.recency }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>

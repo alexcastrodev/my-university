@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThanOrEqual, Repository } from 'typeorm';
-import { fromSourceId } from '../review/review.constants';
+import { fromSourceId, parseCurriculumSourceId } from '../review/review.constants';
 import { getLevelForXp, LevelProgress } from './levels';
 import { computeStreak, StreakResult, toUtcDateKey } from './streak';
 import { UserXpEntry } from './user-xp.entity';
@@ -218,15 +218,19 @@ export class XpService {
     const byModule = new Map<string, { xp: number; lastActivityAt: Date }>();
     for (const row of rows) {
       if (row.sourceType !== 'concept-read' && row.sourceType !== 'episode-watched') continue;
-      const resolved = fromSourceId(row.sourceType, row.sourceId);
-      if (!resolved) continue;
+      // A Computer Science concept id (`cc:...`) has no prefix in REVIEW_MODULES, so without
+      // this check it would fall through to the unprefixed java-concepts entry.
+      const module = parseCurriculumSourceId(row.sourceId)
+        ? 'computer-science'
+        : fromSourceId(row.sourceType, row.sourceId)?.module;
+      if (!module) continue;
 
-      const existing = byModule.get(resolved.module);
+      const existing = byModule.get(module);
       if (existing) {
         existing.xp += row.exp;
         if (row.updatedAt > existing.lastActivityAt) existing.lastActivityAt = row.updatedAt;
       } else {
-        byModule.set(resolved.module, { xp: row.exp, lastActivityAt: row.updatedAt });
+        byModule.set(module, { xp: row.exp, lastActivityAt: row.updatedAt });
       }
     }
 

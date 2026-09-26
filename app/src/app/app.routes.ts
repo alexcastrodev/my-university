@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/map/map-page').then((m) => m.MapPage),
   },
   {
+    path: 'feed',
+    loadComponent: () => import('./pages/feed/feed-page').then((m) => m.FeedPage),
+  },
+  {
     path: 'daily/session',
     loadComponent: () => import('./pages/daily/daily-session-page').then((m) => m.DailySessionPage),
   },

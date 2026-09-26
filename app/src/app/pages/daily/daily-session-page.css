@@ -1,9 +1,9 @@
-/* Full-screen runner — covers the app chrome (header + bottom-nav). */
+/* Full-screen runner: covers the app chrome (header + bottom-nav). */
 .runner {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--mu-surface);
+  background: var(--mu-bg);
   display: flex;
   flex-direction: column;
   padding: var(--mu-safe-top) var(--mu-safe-right) var(--mu-safe-bottom) var(--mu-safe-left);
@@ -14,13 +14,21 @@
   overflow-y: auto;
 }
 
-/* Top bar: close + segmented progress + count */
+/* Top bar, card and action bar share one centered column */
+.runner-top,
+.stage,
+.actions {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Top bar: close + segmented progress + XP earned so far */
 .runner-top {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  padding: 0.85rem 1.1rem;
-  border-bottom: 1px solid var(--mu-line);
+  padding: 0.85rem 1rem;
   flex-shrink: 0;
 }
 
@@ -55,21 +63,175 @@
   background: var(--mu-accent);
 }
 
-.count {
-  font-size: 0.8rem;
-  color: var(--mu-faint);
+.earned {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--mu-success);
   font-variant-numeric: tabular-nums;
 }
 
-.card-scroll {
+/* The card itself: one rounded panel that scrolls on its own */
+.stage {
   flex: 1;
-  overflow-y: auto;
+  min-height: 0;
+  padding: 0 1rem;
+  display: flex;
 }
 
-.card-body {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 1.75rem 1.5rem 2rem;
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.25rem 1.1rem;
+  border: 1px solid var(--mu-line);
+  border-radius: var(--mu-radius-lg);
+  background: var(--mu-surface);
+}
+
+.panel-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--mu-accent);
+}
+
+.crumb {
+  min-width: 0;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--mu-muted);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--mu-ink);
+  margin: 0 0 1rem;
+}
+
+.prose {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--mu-ink-soft);
+  margin: 0 0 1rem;
+}
+
+.prose code,
+.boxed code,
+.flashcard-answer code {
+  font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--mu-bg-alt);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* Recall flashcard: dashed until flipped */
+.flashcard {
+  flex: 1;
+  min-height: 9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1rem;
+  padding: 1.25rem;
+  border: 1.5px dashed var(--mu-line);
+  border-radius: var(--mu-radius);
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--mu-muted);
+  cursor: pointer;
+}
+
+.flashcard.revealed {
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-style: solid;
+  background: var(--mu-bg-alt);
+  cursor: default;
+}
+
+.flashcard-answer {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--mu-ink-soft);
+  text-align: left;
+}
+
+.feedback {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+}
+
+.feedback.good {
+  color: var(--mu-success);
+}
+
+.topic-link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 0.25rem 0 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mu-accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Bottom action bar */
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem 1rem;
+  flex-shrink: 0;
+}
+
+.primary-btn,
+.secondary-btn {
+  flex: 1;
+  display: block;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--mu-radius);
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Touch screens keep :hover after a tap, which would leave the button in its hover color. */
+@media (hover: hover) {
+  .primary-btn:hover {
+    background: var(--mu-accent-strong);
+  }
+}
+
+.secondary-btn {
+  border: 1px solid var(--mu-line);
+  background: var(--mu-surface);
+  color: var(--mu-ink);
 }
 
 .empty-session {
@@ -82,244 +244,81 @@
   gap: 1rem;
 }
 
-.empty-session .primary-btn {
-  width: auto;
-  padding: 0.85rem 1.5rem;
-}
-
-/* Shared card typography */
-.kicker {
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--mu-accent);
-  margin: 0 0 0.75rem;
-}
-
-.card-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  color: var(--mu-ink);
-  margin: 0 0 1rem;
-}
-
-.card-context {
-  font-size: 0.9rem;
-  color: var(--mu-muted);
-  line-height: 1.6;
-  margin: 0 0 1.25rem;
-}
-
-.breadcrumb {
-  font-size: 0.8rem;
-  color: var(--mu-muted);
-  margin: 0 0 0.75rem;
-}
-
-.prose {
-  font-size: 0.98rem;
-  line-height: 1.7;
-  color: var(--mu-ink-soft);
-  margin: 0 0 1rem;
-}
-
-.prose code,
-.takeaway code {
-  font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
-  font-size: 0.9em;
-  background: var(--mu-surface-soft, var(--mu-bg-alt));
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
-}
-
-/* Recall options */
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: 1.25rem;
-}
-
-.option {
-  text-align: left;
-  padding: 1rem 1.1rem;
-  border: 1.5px solid var(--mu-line);
-  border-radius: var(--mu-radius);
-  background: var(--mu-surface);
-  font-size: 0.95rem;
-  color: var(--mu-ink);
-  cursor: pointer;
-  transition: border-color 0.12s, background 0.12s;
-}
-
-.option:hover:not(:disabled) {
-  border-color: var(--mu-indigo-border);
-}
-
-.option.state-selected {
-  border-color: var(--mu-navy);
-  box-shadow: inset 0 0 0 1px var(--mu-navy);
-}
-
-.option.state-correct {
-  border-color: var(--mu-success);
-  background: var(--mu-success-soft);
-}
-
-.option.state-wrong {
-  border-color: var(--mu-accent);
-  background: var(--mu-accent-soft);
-}
-
-.option:disabled {
-  cursor: default;
-}
-
-.option.option-feedback {
-  cursor: default;
-  display: block;
-}
-
-.reassure {
-  font-size: 0.85rem;
-  color: var(--mu-muted);
-  line-height: 1.55;
-  margin: 0 0 1.25rem;
-}
-
-/* Card footer + buttons */
-.card-foot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 0.5rem;
-}
-
-.primary-btn {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  border-radius: var(--mu-radius);
-  background: var(--mu-navy);
-  color: var(--mu-white);
-  font-size: 1rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  box-sizing: border-box;
-}
-
-.primary-btn:hover:not(:disabled) {
-  opacity: 0.92;
-}
-
-.primary-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.primary-btn.accent {
-  background: var(--mu-accent);
-}
-
-.ghost-link {
-  background: none;
-  border: none;
-  color: var(--mu-muted);
-  font-size: 0.88rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.ghost-link:hover {
-  color: var(--mu-ink-soft);
-}
-
 /* Code block (read + notice) */
 .code-block {
-  background: var(--mu-navy-deep);
-  border-radius: var(--mu-radius);
+  background: var(--mu-code-bg);
+  border-radius: var(--mu-radius-sm);
   overflow: hidden;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
+  flex-shrink: 0;
 }
 
 .code-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.6rem 1rem;
-  font-size: 0.68rem;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--mu-code-muted);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.code-badge {
-  color: rgba(255, 255, 255, 0.4);
 }
 
 .code-block pre {
   margin: 0;
-  padding: 1rem;
+  padding: 0.9rem;
   overflow-x: auto;
 }
 
 .code-block code {
   font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   line-height: 1.6;
-  color: var(--mu-line);
+  color: var(--mu-code-text);
   white-space: pre;
 }
 
-.read-note {
-  border-left: 3px solid var(--mu-ink);
-  padding-left: 0.85rem;
-  font-size: 0.88rem;
+.note {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
   color: var(--mu-muted);
-  line-height: 1.55;
-  margin: 0 0 1.25rem;
 }
 
-/* Notice takeaway */
-.takeaway {
+/* Notice takeaway + Write past answer */
+.boxed {
   background: var(--mu-bg-alt);
   border-radius: var(--mu-radius);
-  padding: 1.1rem 1.2rem;
-  margin: 0 0 1.25rem;
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
 }
 
-.takeaway-label {
-  display: block;
-  font-size: 0.68rem;
+.boxed-label {
+  font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   color: var(--mu-faint);
-  margin-bottom: 0.4rem;
 }
 
-.takeaway p {
-  margin: 0;
-  font-size: 0.95rem;
+.boxed p {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
   line-height: 1.6;
   color: var(--mu-ink-soft);
+}
+
+.boxed .past-note {
+  font-size: 0.8rem;
+  color: var(--mu-accent);
 }
 
 /* Write */
 .write-input {
   width: 100%;
-  border: 1.5px solid var(--mu-navy);
+  border: 1.5px solid var(--mu-line);
   border-radius: var(--mu-radius);
   padding: 0.9rem 1rem;
-  font-size: 0.98rem;
-  font-family: inherit;
+  background: var(--mu-bg);
+  font: inherit;
+  font-size: 0.95rem;
   color: var(--mu-ink);
   resize: vertical;
   line-height: 1.5;
@@ -327,46 +326,15 @@
 
 .write-input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(20, 35, 59, 0.12);
+  border-color: var(--mu-accent);
 }
 
 .write-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--mu-faint);
-  margin: 0.5rem 0 1.25rem;
-}
-
-.past-answer {
-  background: var(--mu-bg-alt);
-  border-radius: var(--mu-radius);
-  padding: 1rem 1.1rem;
-  margin: 0 0 1.25rem;
-}
-
-.past-when {
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--mu-faint);
-}
-
-.past-text {
-  font-size: 0.95rem;
-  color: var(--mu-ink-soft);
-  margin: 0.4rem 0 0.5rem;
-}
-
-.past-note {
-  font-size: 0.82rem;
-  color: var(--mu-accent);
-  margin: 0;
-}
-
-.write-foot {
-  font-size: 0.88rem;
-  color: var(--mu-muted);
+  margin: 0.5rem 0 1rem;
 }
 
 /* Session done (navy) */
@@ -377,8 +345,9 @@
   color: var(--mu-white);
 }
 
-.done-eyebrow {
-  font-size: 0.72rem;
+.done-eyebrow,
+.tomorrow-label {
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.5);
@@ -402,23 +371,22 @@
   gap: 0.6rem;
 }
 
-.recap-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.9rem 1.1rem;
+.recap-row,
+.stat {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--mu-radius);
+  padding: 0.9rem 1.1rem;
+}
+
+.recap-row {
+  display: flex;
+  justify-content: space-between;
   font-size: 0.92rem;
 }
 
 .recap-row.accent {
   border-color: var(--mu-accent);
-}
-
-.recap-row.accent .recap-xp {
-  color: var(--mu-accent);
 }
 
 .recap-xp {
@@ -427,18 +395,15 @@
   font-size: 0.82rem;
 }
 
+.recap-row.accent .recap-xp {
+  color: var(--mu-accent);
+}
+
 .done-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   margin: 0 0 1.75rem;
-}
-
-.stat {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--mu-radius);
-  padding: 1rem 1.1rem;
 }
 
 .stat-num {
@@ -458,19 +423,10 @@
   margin-bottom: 1.75rem;
 }
 
-.tomorrow-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 0.5rem;
-}
-
 .tomorrow-title {
   font-size: 1.05rem;
   font-weight: 700;
   margin: 0 0 0.5rem;
-  line-height: 1.3;
 }
 
 .tomorrow-body {
@@ -485,10 +441,10 @@
   padding: 1rem;
   border: none;
   border-radius: var(--mu-radius);
-  background: var(--mu-surface);
+  background: var(--mu-white);
   color: var(--mu-navy);
-  font-size: 1rem;
-  font-weight: 700;
+  font: inherit;
+  font-weight: 800;
   cursor: pointer;
   margin-bottom: 0.85rem;
 }
@@ -498,11 +454,8 @@
   width: 100%;
   background: none;
   border: none;
+  font: inherit;
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.88rem;
   cursor: pointer;
-}
-
-.done-ghost:hover {
-  color: var(--mu-white);
 }

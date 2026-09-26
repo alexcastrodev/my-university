@@ -67,6 +67,9 @@ export class DailySessionService {
           route: ['/java/java-concepts', 'reference-reachability'],
           wrongNote:
             "Getting it wrong is not a penalty. It reopens the topic and puts it back in a future session.",
+          module: 'java-concepts',
+          answer:
+            'An object is weakly reachable once only `WeakReference`s point at it. From that moment the collector may clear the references and reclaim it at its next cycle, without waiting for memory pressure.',
         },
         {
           type: 'read',
@@ -88,6 +91,7 @@ export class DailySessionService {
           note: 'This is the whole card. The full topic stays in Java Concepts.',
           fullTopicRoute: ['/java/java-concepts'],
           sourceId: 'weakhashmap',
+          module: 'java-concepts',
         },
         {
           type: 'notice',
@@ -114,6 +118,7 @@ export class DailySessionService {
           takeaway:
             'The map shrinks when you touch it, not when the object dies. An untouched WeakHashMap holds stale entries indefinitely.',
           sourceId: 'weakhashmap',
+          module: 'jvm-concepts',
         },
         {
           type: 'write',

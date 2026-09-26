@@ -154,6 +154,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'feed',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     renderMode: RenderMode.Server,
   },

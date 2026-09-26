@@ -1,26 +1,33 @@
 <div class="daily-home">
   <header class="hero">
-    @if (auth.currentUser() && xpService.summary(); as summary) {
-      <div class="hero-badge">
-        <span class="lv">LV {{ summary.level.number }}</span>
-        <span class="xp">{{ summary.total }}</span>
-      </div>
-    }
-    <p class="hero-date">{{ dateLabel() }}</p>
+    <div class="hero-top">
+      <p class="hero-date">{{ dateLabel() }}</p>
+      @if (auth.currentUser() && xpService.summary(); as summary) {
+        <div class="hero-badge">
+          <span class="lv">LV {{ summary.level.number }}</span>
+          <span class="xp">{{ summary.total }}</span>
+        </div>
+      }
+    </div>
     @if (isEmpty()) {
       <h1 class="hero-title" i18n="@@daily.emptyHeroTitle">Nothing to review yet.</h1>
     } @else {
-      <h1 class="hero-title">{{ cards().length }} {{ cardWord() }}.<br />About {{ session()?.estimatedMinutes ?? 5 }} {{ minuteWord() }}.</h1>
-    }
-    <p class="hero-meta">
-      @if (!isEmpty()) {
+      <h1 class="hero-title">
+        <ng-container i18n="@@daily.heroCards">{{ cards().length }} cards.</ng-container><br />
+        <ng-container i18n="@@daily.heroMinutes">About {{ session()?.estimatedMinutes ?? 5 }} minutes.</ng-container>
+      </h1>
+      <p class="hero-meta">
         <span class="hero-xp">+{{ potentialXp() }} XP</span>
-      }
-      @if (auth.currentUser() && xpService.streak(); as streak) {
-        <span class="sep">|</span>
-        <span i18n="@@daily.streak">Streak · day {{ streak.current }}</span>
-      }
-    </p>
+        @if (streakAtEnd(); as days) {
+          <span class="sep" aria-hidden="true"></span>
+          @if (days === 1) {
+            <span i18n="@@daily.endsWithStreakOne">ends on a 1-day streak</span>
+          } @else {
+            <span i18n="@@daily.endsWithStreak">ends on a {{ days }}-day streak</span>
+          }
+        }
+      </p>
+    }
   </header>
 
   @if (isEmpty()) {
@@ -30,15 +37,35 @@
     <ol class="card-list">
       @for (card of cards(); track $index) {
         <li class="preview-card">
-          <span class="preview-index">{{ ($index + 1).toString().padStart(2, '0') }}</span>
+          <span class="preview-icon" aria-hidden="true">
+            @switch (card.type) {
+              @case ('recall') {
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              }
+              @case ('read') {
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 5.5C5.5 4.5 8.5 4.5 12 6.5c3.5-2 6.5-2 9-1V19c-2.5-1-5.5-1-9 1-3.5-2-6.5-2-9-1V5.5zM12 6.5V20" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              }
+              @case ('notice') {
+                <svg viewBox="0 0 24 24" fill="none"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.8" stroke="currentColor" stroke-width="1.8"/></svg>
+              }
+              @case ('write') {
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 20l1-4.5L16 4.5a2.1 2.1 0 0 1 3 3L8 18.5 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              }
+            }
+          </span>
           <div class="preview-main">
-            <div class="preview-top">
-              <span class="preview-type type-{{ card.type }}">{{ cardTypeLabel(card.type) }}</span>
-              <span class="preview-xp">+{{ card.xp }}</span>
-            </div>
+            <span class="preview-type">{{ cardTypeLabel(card.type) }}</span>
             <p class="preview-title">{{ card.previewTitle }}</p>
-            <p class="preview-sub">{{ card.previewSubtitle }}</p>
+            <p class="preview-sub">
+              @switch (card.type) {
+                @case ('recall') { <ng-container i18n="@@daily.sub.recall">You marked "Got it", time to prove it</ng-container> }
+                @case ('read') { <ng-container i18n="@@daily.sub.read">One screen from what you read recently</ng-container> }
+                @case ('notice') { <ng-container i18n="@@daily.sub.notice">A real snippet from what you read</ng-container> }
+                @case ('write') { <ng-container i18n="@@daily.sub.write">One line, in your own words</ng-container> }
+              }
+            </p>
           </div>
+          <span class="preview-xp">+{{ card.xp }}</span>
         </li>
       }
     </ol>

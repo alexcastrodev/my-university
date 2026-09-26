@@ -50,6 +50,10 @@ export interface RecallCard extends DailyCardCommon {
   sourceId: string;
   /** "Open the full topic" link, shown on "I do not remember". */
   route?: string[];
+  /** Area the concept lives in (`java-concepts`, or a CS module like `foundations`), for the breadcrumb. */
+  module?: string;
+  /** What the flashcard reveals once flipped: the concept's own opening prose. */
+  answer?: string;
 }
 
 export interface CodeBlock {
@@ -70,6 +74,7 @@ export interface ReadCard extends DailyCardCommon {
   fullTopicRoute?: string[];
   /** Identity posted to `/api/daily/complete` for the XP grant. */
   sourceId: string;
+  module?: string;
 }
 
 export interface NoticeCard extends DailyCardCommon {
@@ -80,6 +85,7 @@ export interface NoticeCard extends DailyCardCommon {
   takeaway?: string;
   /** Identity posted to `/api/daily/complete` for the XP grant. */
   sourceId: string;
+  module?: string;
 }
 
 export interface WriteCard extends DailyCardCommon {
