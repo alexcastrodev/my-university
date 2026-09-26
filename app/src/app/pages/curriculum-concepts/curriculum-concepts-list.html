@@ -1,4 +1,13 @@
-<div class="page">
+<app-track-timeline
+  class="mobile-only"
+  [title]="disciplineTitle()"
+  [crumbs]="timelineCrumbs()"
+  [concepts]="concepts()"
+  [loading]="loading()"
+  [routeCommands]="routeCommands()"
+/>
+
+<div class="page desktop-only">
   <div class="page-hero">
     <h1 class="page-title">{{ disciplineTitle() }}</h1>
     <p class="page-sub">Part of the Computer Science curriculum.</p>

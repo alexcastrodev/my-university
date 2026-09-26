@@ -35,18 +35,18 @@ describe('BottomNav', () => {
     expect(text).toContain('Home');
     expect(text).toContain('Daily');
     expect(text).toContain('Track');
-    expect(text).toContain('Map');
+    expect(text).toContain('Feed');
   });
 
-  it('links Map to the curriculum graph page', async () => {
+  it('links Feed to the scrollable concept feed', async () => {
     const { fixture } = await setup('/dashboard');
 
-    const mapTab: HTMLAnchorElement | null = Array.from(
+    const feedTab: HTMLAnchorElement | null = Array.from(
       fixture.nativeElement.querySelectorAll('a.tab'),
-    ).find((a) => (a as HTMLAnchorElement).textContent?.includes('Map')) as HTMLAnchorElement | null;
+    ).find((a) => (a as HTMLAnchorElement).textContent?.includes('Feed')) as HTMLAnchorElement | null;
 
-    expect(mapTab).toBeTruthy();
-    expect(mapTab!.getAttribute('href')).toBe('/map');
+    expect(feedTab).toBeTruthy();
+    expect(feedTab!.getAttribute('href')).toBe('/feed');
   });
 
   it('is visible on regular routes', async () => {

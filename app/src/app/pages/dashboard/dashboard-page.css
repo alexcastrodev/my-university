@@ -463,3 +463,10 @@
     display: none;
   }
 }
+
+/* Phones get <app-mobile-home> instead (see the template). */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+}

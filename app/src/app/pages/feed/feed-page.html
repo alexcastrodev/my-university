@@ -1,0 +1,65 @@
+<div class="feed">
+  <header class="feed-head">
+    <div class="feed-title-row">
+      <h1 class="feed-title" i18n="@@feed.title">Feed</h1>
+      @if (auth.currentUser()) {
+        <span class="feed-count" i18n="@@feed.gotItToday">{{ gotItToday() }} Got it today</span>
+      }
+    </div>
+    <div class="chips" role="tablist" i18n-aria-label="@@feed.areas" aria-label="Areas">
+      @for (chip of chips; track chip.area) {
+        <button
+          type="button"
+          role="tab"
+          class="chip"
+          [class.active]="area() === chip.area"
+          [attr.aria-selected]="area() === chip.area"
+          (click)="selectArea(chip.area)"
+        >{{ chip.label }}</button>
+      }
+    </div>
+  </header>
+
+  <div class="cards" #scroller (scroll)="onScroll()">
+    @for (item of items(); track key(item)) {
+      <article class="card">
+        <div class="card-top">
+          <span class="kicker">READ</span>
+          <span class="crumb">{{ breadcrumb(item) }}</span>
+        </div>
+        <h2 class="card-title">{{ item.title }}</h2>
+        <p class="card-summary">{{ item.summary }}</p>
+        @if (item.code; as code) {
+          <pre class="code"><code>{{ code.source }}</code></pre>
+        }
+        <div class="card-foot">
+          @if (auth.currentUser()) {
+            <button
+              type="button"
+              class="got-it"
+              [class.done]="item.read"
+              [disabled]="item.read || marking().has(key(item))"
+              (click)="gotIt(item)"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Got it
+            </button>
+          } @else {
+            <a class="got-it" routerLink="/login" i18n="@@feed.loginToMark">Log in to mark</a>
+          }
+          <a class="read-link" [routerLink]="item.route" i18n="@@feed.readTopic">Read topic →</a>
+        </div>
+      </article>
+    }
+
+    @if (loading()) {
+      <div class="state" role="status" i18n="@@feed.loading">Loading…</div>
+    } @else if (error()) {
+      <button type="button" class="state state-btn" (click)="loadMore()" i18n="@@feed.error">Could not load the feed. Tap to retry.</button>
+    } @else if (items().length > 0) {
+      <div class="state" i18n="@@feed.end">You reached the end of this area.</div>
+    }
+  </div>
+</div>

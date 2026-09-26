@@ -34,3 +34,18 @@ describe('GET /xp', () => {
     expect(after).toBeGreaterThan(before);
   });
 });
+
+describe('GET /xp/areas', () => {
+  it('buckets Computer Science reads on their own instead of under Java Concepts', async () => {
+    const { cookie } = await login(`xp-areas-cs-${Date.now()}`);
+    await put(
+      '/curriculum/foundations/programming-computational-thinking/what-is-computation/read',
+      {},
+      { Cookie: cookie },
+    );
+
+    const areas = await json<any[]>(await get('/xp/areas', { Cookie: cookie }));
+    expect(areas.map((a) => a.module)).toEqual(['computer-science']);
+    expect(areas[0].xp).toBe(10);
+  });
+});

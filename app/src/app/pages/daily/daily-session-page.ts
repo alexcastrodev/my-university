@@ -11,6 +11,7 @@ import {
   RecallCard,
   WriteCard,
 } from '../../models/daily.model';
+import { areaBreadcrumb } from '../../shared/area-labels';
 
 type Phase = 'card' | 'done';
 type RecallAnswer = 'remembered' | 'forgot' | null;
@@ -29,16 +30,17 @@ function renderInlineCode(text: string): string {
 }
 
 /**
- * The full-screen card runner (mockups tmp/mobile/, screens 02–06):
- * a segmented progress bar, a close button, one card at a time
- * (recall / read / notice / write), then the session-done summary.
+ * The full-screen card runner (mobile mockup v2, "Sessão"): a segmented progress bar, a
+ * close button and the XP earned so far, one card at a time (recall / read / notice / write)
+ * with its action pinned to the bottom, then the session-done summary. Recall is a flashcard:
+ * the concept's own opening prose is hidden until the user has thought of the answer.
  *
  * A session can legitimately have fewer than 4 cards, or zero (see
  * `daily.model.ts`) — the empty state is handled explicitly below rather
  * than assuming a card always exists.
  *
- * Recall is self-rating (no real MCQ — see `daily.model.ts`): "I remember"
- * posts SM2 rating `good`, "I do not remember" posts `again`, both via
+ * Recall is self-rating (no real MCQ, see `daily.model.ts`): "I remembered"
+ * posts SM2 rating `good`, "I did not remember" posts `again`, both via
  * `DailySessionService.complete`, which also grants XP for every card type
  * as the user finishes it.
  */
@@ -59,8 +61,13 @@ export class DailySessionPage implements OnInit {
   protected readonly index = signal(0);
   protected readonly phase = signal<Phase>('card');
 
-  // Recall per-card state
+  // Recall per-card state: the flashcard is flipped first, then self-rated.
   protected readonly recallAnswered = signal<RecallAnswer>(null);
+  protected readonly revealed = signal(false);
+
+  /** XP earned so far in this run, shown in the top bar; each card counts once. */
+  protected readonly earned = signal(0);
+  private readonly earnedCards = new Set<number>();
 
   // Read/Notice per-card state — guards against double-firing the completion POST on repeat "Next" clicks.
   private readonly completedSourceIds = new Set<string>();
@@ -102,6 +109,17 @@ export class DailySessionPage implements OnInit {
   asWrite(card: DailyCard): WriteCard {
     return card as WriteCard;
   }
+  asSeen(card: DailyCard): ReadCard | NoticeCard {
+    return card as ReadCard | NoticeCard;
+  }
+
+  breadcrumb(card: DailyCard): string {
+    return areaBreadcrumb('module' in card ? card.module : undefined).join(' › ');
+  }
+
+  reveal(): void {
+    this.revealed.set(true);
+  }
 
   paragraphs(body: string): string[] {
     return body.split('\n\n');
@@ -115,6 +133,7 @@ export class DailySessionPage implements OnInit {
     if (this.recallAnswered() !== null) return;
     const card = this.asRecall(this.current()!);
     this.recallAnswered.set(remembered ? 'remembered' : 'forgot');
+    this.credit();
 
     if (this.auth.currentUser()) {
       this.dailyService
@@ -133,6 +152,7 @@ export class DailySessionPage implements OnInit {
    *  two cards can legitimately share a sourceId and must still be tracked separately or
    *  Notice's completion is wrongly seen as a repeat of Read's and silently dropped. */
   markSeen(card: ReadCard | NoticeCard): void {
+    this.credit();
     const key = `${card.type}:${card.sourceId}`;
     if (!this.auth.currentUser() || this.completedSourceIds.has(key)) return;
     this.completedSourceIds.add(key);
@@ -152,6 +172,7 @@ export class DailySessionPage implements OnInit {
       return;
     }
     this.writeSaved.set(true);
+    this.credit();
     if (this.auth.currentUser()) {
       this.dailyService
         .complete('write', card.sourceId, { text })
@@ -178,8 +199,17 @@ export class DailySessionPage implements OnInit {
     this.xpService.loadStreak();
   }
 
+  /** Counts the current card's XP towards the top-bar total, once per card per run. */
+  private credit(): void {
+    const card = this.current();
+    if (!card || this.earnedCards.has(this.index())) return;
+    this.earnedCards.add(this.index());
+    this.earned.update((xp) => xp + card.xp);
+  }
+
   private resetCardState(): void {
     this.recallAnswered.set(null);
+    this.revealed.set(false);
     this.writeText.set('');
     this.writeSaved.set(false);
   }
@@ -191,6 +221,8 @@ export class DailySessionPage implements OnInit {
   restart(): void {
     this.index.set(0);
     this.completedSourceIds.clear();
+    this.earnedCards.clear();
+    this.earned.set(0);
     this.resetCardState();
     this.phase.set('card');
   }

@@ -16,6 +16,7 @@ import { Course } from './course/course.entity';
 import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
 import { DailyModule } from './daily/daily.module';
+import { FeedModule } from './feed/feed.module';
 import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
@@ -84,6 +85,7 @@ import { XpModule } from './xp/xp.module';
     XpModule,
     ReviewModule,
     DailyModule,
+    FeedModule,
     SeedModule,
     SearchModule,
     SitemapModule,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   COMPLEMENTARY_AREAS,
@@ -8,6 +8,7 @@ import {
   ComplementaryAreaProgress,
   ComplementaryStudiesService,
 } from '../computer-science/complementary-studies.service';
+import { MobileHome } from '../../components/mobile-home/mobile-home';
 import { AuthService } from '../../services/auth.service';
 import { MarkCounts, RecentActivityItem, ReviewQueueItem } from '../../models/review.model';
 import { ResumePoint } from '../../models/course.model';
@@ -46,7 +47,7 @@ function formatRelative(iso: string | null): string {
 @Component({
   selector: 'app-dashboard-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, MobileHome],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.css',
 })
@@ -59,6 +60,17 @@ export class DashboardPage implements OnInit {
   private seo = inject(SeoService);
 
   protected readonly formatRelative = formatRelative;
+
+  /** On a first visit the user is only known once `/api/auth/me` answers, after this page
+   *  has already initialised, so loading waits for the user instead of checking once. Keyed
+   *  by id: the same user being re-set after that check must not load everything twice. */
+  private loadedForUserId: number | null = null;
+  private readonly loader = effect(() => {
+    const user = this.auth.currentUser();
+    if (!user || user.id === this.loadedForUserId) return;
+    this.loadedForUserId = user.id;
+    untracked(() => this.loadAll());
+  });
 
   protected readonly areaProgress = signal<ComplementaryAreaProgress[]>([]);
   protected readonly areaProgressLoading = signal(true);
@@ -149,9 +161,10 @@ export class DashboardPage implements OnInit {
       description: 'Your level, streak, daily goal, areas, and reviews due — all in one place.',
       path: PATH,
     });
+  }
 
-    if (!this.auth.currentUser()) return;
-
+  /** Loads everything the dashboard shows for the signed-in user. */
+  private loadAll(): void {
     this.xpService.loadSummary();
     this.xpService.loadStreak();
     this.xpService.loadDailyGoal();

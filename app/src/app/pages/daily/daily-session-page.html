@@ -23,55 +23,45 @@
             <span class="seg" [class.filled]="filled"></span>
           }
         </div>
-        <span class="count">{{ index() + 1 }}/{{ total() }}</span>
+        <span class="earned">+{{ earned() }} XP</span>
       </div>
 
-      <div class="card-scroll">
-        <div class="card-body">
+      <div class="stage">
+        <article class="panel">
+          <div class="panel-top">
+            <span class="kicker">{{ card.type.toUpperCase() }}</span>
+            <span class="crumb">{{ breadcrumb(card) }}</span>
+          </div>
+
           @switch (card.type) {
             @case ('recall') {
               @let rc = asRecall(card);
-              <p class="kicker">{{ rc.kicker }}</p>
               <h2 class="card-title">{{ rc.title }}</h2>
-              @if (rc.context) {
-                <p class="card-context">{{ rc.context }}</p>
-              }
-              @if (recallAnswered() === null) {
-                <div class="options">
-                  <button type="button" class="option" (click)="answerRecall(true)" i18n="@@daily.remember">I remember</button>
-                  <button type="button" class="option" (click)="answerRecall(false)" i18n="@@daily.showMe">I do not remember — show me</button>
-                </div>
-              } @else {
-                <div class="options">
-                  <span class="option option-feedback state-{{ recallAnswered() === 'remembered' ? 'correct' : 'wrong' }}">
-                    @if (recallAnswered() === 'remembered') {
-                      <ng-container i18n="@@daily.rememberedNote">Good — marked as remembered.</ng-container>
-                    } @else {
-                      <ng-container i18n="@@daily.forgotNote">No worries — it comes back in a future session.</ng-container>
-                    }
-                  </span>
-                </div>
-                @if (recallAnswered() === 'forgot') {
-                  @if (rc.wrongNote) {
-                    <p class="reassure">{{ rc.wrongNote }}</p>
-                  }
-                  @if (rc.route) {
-                    <a class="ghost-link" [routerLink]="rc.route" i18n="@@daily.openFull">Open the full topic instead</a>
-                  }
+              <button type="button" class="flashcard" [class.revealed]="revealed()" [disabled]="revealed()" (click)="reveal()">
+                @if (!revealed()) {
+                  <span class="flashcard-hint" i18n="@@daily.recall.hint">Think of the answer, then tap to see it</span>
+                } @else if (rc.answer) {
+                  <span class="flashcard-answer" [innerHTML]="inline(rc.answer)"></span>
+                } @else {
+                  <span class="flashcard-hint" i18n="@@daily.recall.noAnswer">No excerpt for this one. Open the full topic to check.</span>
                 }
+              </button>
+              @if (recallAnswered(); as answered) {
+                <p class="feedback" [class.good]="answered === 'remembered'">
+                  @if (answered === 'remembered') {
+                    <ng-container i18n="@@daily.rememberedNote">Good, marked as remembered.</ng-container>
+                  } @else {
+                    <ng-container i18n="@@daily.forgotNote">No worries, it comes back in a future session.</ng-container>
+                  }
+                </p>
               }
-              <div class="card-foot">
-                @if (recallAnswered() !== null) {
-                  <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
-                }
-              </div>
+              @if (rc.route) {
+                <a class="topic-link" [routerLink]="rc.route" i18n="@@daily.readFullTopic">Read the full topic →</a>
+              }
             }
 
             @case ('read') {
               @let rd = asRead(card);
-              @if (rd.breadcrumb) {
-                <p class="breadcrumb">{{ rd.breadcrumb }}</p>
-              }
               <h2 class="card-title">{{ rd.title }}</h2>
               @for (p of paragraphs(rd.body); track $index) {
                 <p class="prose" [innerHTML]="inline(p)"></p>
@@ -80,30 +70,26 @@
                 <div class="code-block">
                   <div class="code-head">
                     <span>{{ code.header }}</span>
-                    @if (code.badge) { <span class="code-badge">{{ code.badge }}</span> }
+                    @if (code.badge) { <span>{{ code.badge }}</span> }
                   </div>
                   <pre><code>{{ code.source }}</code></pre>
                 </div>
               }
               @if (rd.note) {
-                <p class="read-note">{{ rd.note }}</p>
+                <p class="note">{{ rd.note }}</p>
               }
-              <div class="card-foot">
-                <button type="button" class="primary-btn" (click)="markSeen(rd); next()" i18n="@@daily.next">Next</button>
-                @if (rd.fullTopicRoute) {
-                  <a class="ghost-link" [routerLink]="rd.fullTopicRoute" i18n="@@daily.openFull">Open the full topic instead</a>
-                }
-              </div>
+              @if (rd.fullTopicRoute) {
+                <a class="topic-link" [routerLink]="rd.fullTopicRoute" i18n="@@daily.readFullTopic">Read the full topic →</a>
+              }
             }
 
             @case ('notice') {
               @let nt = asNotice(card);
-              <p class="kicker">{{ nt.kicker }}</p>
               <h2 class="card-title">{{ nt.title }}</h2>
               <div class="code-block">
                 <div class="code-head">
                   <span>{{ nt.code.header }}</span>
-                  @if (nt.code.badge) { <span class="code-badge">{{ nt.code.badge }}</span> }
+                  @if (nt.code.badge) { <span>{{ nt.code.badge }}</span> }
                 </div>
                 <pre><code>{{ nt.code.source }}</code></pre>
               </div>
@@ -111,21 +97,17 @@
                 <p class="prose" [innerHTML]="inline(nt.lead)"></p>
               }
               @if (nt.takeaway) {
-                <div class="takeaway">
+                <div class="boxed">
                   @if (nt.takeawayLabel) {
-                    <span class="takeaway-label">{{ nt.takeawayLabel }}</span>
+                    <span class="boxed-label">{{ nt.takeawayLabel }}</span>
                   }
                   <p [innerHTML]="inline(nt.takeaway)"></p>
                 </div>
               }
-              <div class="card-foot">
-                <button type="button" class="primary-btn" (click)="markSeen(nt); next()" i18n="@@daily.next">Next</button>
-              </div>
             }
 
             @case ('write') {
               @let wr = asWrite(card);
-              <p class="kicker">{{ wr.kicker }}</p>
               <h2 class="card-title">{{ wr.title }}</h2>
               <textarea
                 class="write-input"
@@ -141,29 +123,45 @@
                 <span>{{ writeText().length }} / {{ wr.maxLength }}</span>
               </div>
               @if (wr.pastAnswer; as past) {
-                <div class="past-answer">
-                  <span class="past-when">{{ past.when }}</span>
-                  <p class="past-text">{{ past.text }}</p>
+                <div class="boxed">
+                  <span class="boxed-label">{{ past.when }}</span>
+                  <p>{{ past.text }}</p>
                   @if (past.note) { <p class="past-note">{{ past.note }}</p> }
                 </div>
               }
-              @if (wr.footnote) {
-                <p class="prose write-foot">{{ wr.footnote }}</p>
-              }
-              <div class="card-foot">
-                <button type="button" class="primary-btn accent" (click)="saveWrite(wr)">
-                  <ng-container i18n="@@daily.saveFinish">Save and finish · +{{ wr.xp }} XP</ng-container>
-                </button>
-                <button type="button" class="ghost-link" (click)="next()" i18n="@@daily.keepOpen">Keep the topic open, do not mark it</button>
-              </div>
+              <button type="button" class="topic-link" (click)="next()" i18n="@@daily.keepOpen">Keep the topic open, do not mark it</button>
             }
           }
-        </div>
+        </article>
+      </div>
+
+      <div class="actions">
+        @switch (card.type) {
+          @case ('recall') {
+            @if (!revealed()) {
+              <button type="button" class="primary-btn" (click)="reveal()" i18n="@@daily.showAnswer">Show answer</button>
+            } @else if (recallAnswered() === null) {
+              <button type="button" class="secondary-btn rate-forgot" (click)="answerRecall(false)" i18n="@@daily.forgot">I did not remember</button>
+              <button type="button" class="primary-btn rate-remembered" (click)="answerRecall(true)" i18n="@@daily.remembered">I remembered</button>
+            } @else {
+              <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
+            }
+          }
+          @case ('write') {
+            @let wr = asWrite(card);
+            <button type="button" class="primary-btn" (click)="saveWrite(wr)">
+              <ng-container i18n="@@daily.saveFinish">Save and finish · +{{ wr.xp }} XP</ng-container>
+            </button>
+          }
+          @default {
+            <button type="button" class="primary-btn" (click)="markSeen(asSeen(card)); next()" i18n="@@daily.next">Next</button>
+          }
+        }
       </div>
     }
   } @else {
     <div class="done">
-      <p class="done-eyebrow">{{ session()?.estimatedMinutes }} MIN · {{ total() }} OF {{ total() }}</p>
+      <p class="done-eyebrow">{{ session()?.estimatedMinutes }} MIN · {{ total() }}/{{ total() }}</p>
       <h1 class="done-headline">{{ session()?.summary?.headline }}</h1>
 
       <ul class="recap">

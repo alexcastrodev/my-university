@@ -27,6 +27,14 @@ describe('GET /curriculum/:module/:discipline', () => {
     expect(concept.sections).toBeUndefined();
   });
 
+  it('summaries carry a reading time and a section count for the track timeline', async () => {
+    const body = await json<any[]>(await get(BASE_PATH));
+    for (const concept of body) {
+      expect(concept.readingMinutes).toBeGreaterThanOrEqual(1);
+      expect(concept.sectionCount).toBeGreaterThan(0);
+    }
+  });
+
   it('never places a concept before something it requires', async () => {
     const body = await json<any[]>(await get(BASE_PATH));
     const indexOf = (slug: string) => body.findIndex((c) => c.slug === slug);

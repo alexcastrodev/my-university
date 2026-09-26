@@ -25,6 +25,8 @@ const SESSION: DailySession = {
       sourceId: 'reference-reachability',
       route: ['/java/java-concepts', 'reference-reachability'],
       wrongNote: 'Getting it wrong is not a penalty.',
+      module: 'java-concepts',
+      answer: 'Once only `WeakReference`s point at it.',
     },
     {
       type: 'write',
@@ -75,53 +77,80 @@ function setup(session: DailySession = SESSION, completeSpy = jasmine.createSpy(
 }
 
 function primaryButton(fixture: { nativeElement: HTMLElement }): HTMLButtonElement {
-  return fixture.nativeElement.querySelector('.card-foot .primary-btn') as HTMLButtonElement;
+  return fixture.nativeElement.querySelector('.actions .primary-btn') as HTMLButtonElement;
+}
+
+function click(fixture: { nativeElement: HTMLElement; detectChanges(): void }, selector: string): void {
+  (fixture.nativeElement.querySelector(selector) as HTMLElement).click();
+  fixture.detectChanges();
 }
 
 describe('DailySessionPage', () => {
-  it('opens on the first card with a segmented progress bar', () => {
+  it('opens on the first card with a segmented progress bar and nothing earned yet', () => {
     const fixture = setup();
 
-    expect(fixture.nativeElement.querySelector('.count').textContent).toContain('1/2');
     expect(fixture.nativeElement.querySelectorAll('.seg').length).toBe(2);
-    expect(fixture.nativeElement.textContent).toContain('RECALL · NO LOOKING BACK');
+    expect(fixture.nativeElement.querySelectorAll('.seg.filled').length).toBe(1);
+    expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+0 XP');
+    expect(fixture.nativeElement.querySelector('.crumb').textContent).toContain('Java › Concepts');
   });
 
-  it('hides Next until Recall is answered, then reveals it on "I remember"', () => {
+  it('keeps the Recall answer hidden until the flashcard is flipped', () => {
     const fixture = setup();
 
-    expect(primaryButton(fixture)).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('.flashcard').textContent).not.toContain('WeakReference');
+    expect(fixture.nativeElement.querySelector('.rate-remembered')).toBeNull();
 
-    const options = fixture.nativeElement.querySelectorAll('.options button');
-    (options[0] as HTMLButtonElement).click(); // I remember
-    fixture.detectChanges();
+    click(fixture, '.flashcard');
 
-    expect(fixture.nativeElement.querySelector('.option.state-correct')).toBeTruthy();
-    expect(primaryButton(fixture)).toBeTruthy();
+    const answer = fixture.nativeElement.querySelector('.flashcard-answer');
+    expect(answer.textContent).toContain('Once only WeakReferences point at it.');
+    expect(answer.querySelector('code')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.rate-remembered')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.rate-forgot')).toBeTruthy();
   });
 
-  it('shows the reassurance note and the reopen link on "I do not remember"', () => {
+  it('flips the card from the bottom button too', () => {
     const fixture = setup();
 
-    const options = fixture.nativeElement.querySelectorAll('.options button');
-    (options[1] as HTMLButtonElement).click(); // I do not remember
+    primaryButton(fixture).click(); // Show answer
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.option.state-wrong')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.reassure').textContent).toContain('not a penalty');
-    expect(fixture.nativeElement.querySelector('.ghost-link[href]')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.flashcard.revealed')).toBeTruthy();
+  });
+
+  it('credits the card XP once it is rated, then offers Next', () => {
+    const fixture = setup();
+
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-remembered');
+
+    expect(fixture.nativeElement.querySelector('.feedback.good')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+20 XP');
+    expect(primaryButton(fixture).textContent).toContain('Next');
+  });
+
+  it('reassures instead of punishing on "I did not remember"', () => {
+    const fixture = setup();
+
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-forgot');
+
+    expect(fixture.nativeElement.querySelector('.feedback').textContent).toContain('No worries');
+    expect(fixture.nativeElement.querySelector('.topic-link[href]')).toBeTruthy();
   });
 
   it('advances to the write card and then to the done screen', () => {
     const fixture = setup();
 
-    fixture.nativeElement.querySelectorAll('.options button')[0].click(); // I remember
-    fixture.detectChanges();
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-remembered');
     primaryButton(fixture).click(); // Next → card 2
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.count').textContent).toContain('2/2');
+    expect(fixture.nativeElement.querySelectorAll('.seg.filled').length).toBe(2);
     expect(fixture.nativeElement.querySelector('.write-input')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.flashcard')).toBeNull();
 
     primaryButton(fixture).click(); // Save and finish → done
     fixture.detectChanges();
@@ -134,18 +163,19 @@ describe('DailySessionPage', () => {
   it('restarts from the done screen with Keep going', () => {
     const fixture = setup();
 
-    fixture.nativeElement.querySelectorAll('.options button')[0].click();
-    fixture.detectChanges();
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-remembered');
     primaryButton(fixture).click(); // Next → card 2
     fixture.detectChanges();
     primaryButton(fixture).click(); // Save and finish → done
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.done')).toBeTruthy();
 
-    fixture.nativeElement.querySelector('.done-ghost').click();
-    fixture.detectChanges();
+    click(fixture, '.done-ghost');
 
-    expect(fixture.nativeElement.querySelector('.count').textContent).toContain('1/2');
+    expect(fixture.nativeElement.querySelectorAll('.seg.filled').length).toBe(1);
+    expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+0 XP');
+    expect(fixture.nativeElement.querySelector('.flashcard.revealed')).toBeNull();
   });
 
   it('posts the recall rating when logged in', () => {
@@ -166,8 +196,8 @@ describe('DailySessionPage', () => {
     const fixture = TestBed.createComponent(DailySessionPage);
     fixture.detectChanges();
 
-    fixture.nativeElement.querySelectorAll('.options button')[0].click(); // I remember
-    fixture.detectChanges();
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-remembered');
 
     expect(completeSpy).toHaveBeenCalledWith('recall', 'reference-reachability', {
       sourceType: 'concept-read',

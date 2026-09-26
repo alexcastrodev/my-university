@@ -9,6 +9,10 @@ export interface CurriculumConceptSummary {
   read: boolean;
   language: Language;
   availableLanguages: Language[];
+  /** Estimated reading time of the whole article, in whole minutes. */
+  readingMinutes?: number;
+  /** Number of `## ` sections, excluding the reference lists. */
+  sectionCount?: number;
 }
 
 export interface CurriculumConceptDetail extends CurriculumConceptSummary {

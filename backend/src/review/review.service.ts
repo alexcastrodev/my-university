@@ -15,13 +15,14 @@ import { TestingConceptsService } from '../testing-concepts/testing-concepts.ser
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
-import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, toSourceId } from './review.constants';
+import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, REVIEW_MODULES, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
 import { buildRevisitIndex, newestCandidateAfter, targetKey } from './revisit';
 import { interleaveByModule } from './interleave';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
 import { toUtcDateKey } from '../xp/streak';
+import { Language } from '../shared/language';
 
 const INITIAL_INTERVAL_DAYS = 1;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -96,6 +97,33 @@ export class ReviewService {
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
       'kubernetes-concepts': new Map(this.kubernetesConcepts.findAll().map((c) => [c.slug, c.title])),
     };
+  }
+
+  /** Title + summary of every concept in the Complementary Studies areas that are read (not
+   *  watched), in each area's own order: the flat catalogue the mobile feed draws from.
+   *  `java-minute` is left out on purpose: its episodes are videos, not a card you can read. */
+  listConceptSummaries(lang: Language): { module: string; slug: string; title: string; summary: string }[] {
+    const byModule: [string, { slug: string; title: string; summary: string }[]][] = [
+      ['java-concepts', this.javaConcepts.findAll(lang)],
+      ['jvm-concepts', this.jvmConcepts.findAll(lang)],
+      ['testing-concepts', this.testingConcepts.findAll(lang)],
+      ['spring-concepts', this.springConcepts.findAll(lang)],
+      ['quarkus-concepts', this.quarkusConcepts.findAll(lang)],
+      ['database-concepts', this.databaseConcepts.findAll(lang)],
+      ['system-design-concepts', this.systemDesignConcepts.findAll(lang)],
+      ['kubernetes-concepts', this.kubernetesConcepts.findAll(lang)],
+      ['algorithms-concepts', this.algorithmsConcepts.findAll(lang)],
+      ['ruby-concepts', this.rubyConcepts.findAll(lang)],
+      ['rubyonrails-concepts', this.rubyOnRailsConcepts.findAll(lang)],
+    ];
+    return byModule.flatMap(([module, concepts]) =>
+      concepts.map((c) => ({ module, slug: c.slug, title: c.title, summary: c.summary })),
+    );
+  }
+
+  /** Frontend route of a Complementary Studies concept page, from the same table read-tracking uses. */
+  routeFor(module: string, slug: string): string[] {
+    return REVIEW_MODULES.find((m) => m.module === module)?.route(slug) ?? [];
   }
 
   /** Full content (title + sections) for one module's concept, or undefined if the module

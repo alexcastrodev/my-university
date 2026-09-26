@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ReviewSourceType } from '../review/review-schedule.entity';
+import { fromSourceId, parseCurriculumSourceId } from '../review/review.constants';
 import { ReviewService } from '../review/review.service';
 import { ReviewRating } from '../review/sm2';
 import { XpService } from '../xp/xp.service';
@@ -41,6 +42,10 @@ interface RecallCardDto {
   sourceId: string;
   route: string[];
   wrongNote: string;
+  /** Area the concept lives in (`java-concepts`, or a CS module like `foundations`), for the card's breadcrumb. */
+  module: string;
+  /** What the flashcard reveals once flipped: the concept's own opening prose, never authored separately. */
+  answer?: string;
 }
 
 interface ReadCardDto {
@@ -57,6 +62,7 @@ interface ReadCardDto {
   note?: string;
   fullTopicRoute: string[];
   sourceId: string;
+  module?: string;
 }
 
 interface NoticeCardDto {
@@ -72,6 +78,7 @@ interface NoticeCardDto {
   takeawayLabel?: string;
   takeaway?: string;
   sourceId: string;
+  module?: string;
 }
 
 interface WriteCardDto {
@@ -98,6 +105,11 @@ export interface DailySessionDto {
     headline: string;
     tomorrow: { title: string; body: string };
   };
+}
+
+/** The area a history entry belongs to (`spring-concepts`, or a CS module like `foundations`), for card breadcrumbs. */
+function moduleOf(sourceType: ReviewSourceType, sourceId: string): string | undefined {
+  return parseCurriculumSourceId(sourceId)?.module ?? fromSourceId(sourceType, sourceId)?.module;
 }
 
 function formatDate(date: Date): string {
@@ -148,6 +160,10 @@ export class DailyService {
     if (due.length === 0) return null;
     const item = due[0];
 
+    const detail = this.review.resolveConceptDetail(item.sourceType, item.sourceId);
+    const section = detail ? firstSubstantialSection(detail.sections) : null;
+    const answer = section ? excerptParagraphs(section.content, 1) : '';
+
     return {
       type: 'recall',
       xp: XP_PER_CARD,
@@ -162,6 +178,8 @@ export class DailyService {
       route: item.route,
       wrongNote:
         'Getting it wrong is not a penalty. It reopens the topic and puts it back in a future session.',
+      module: item.module,
+      answer: answer || undefined,
     };
   }
 
@@ -198,6 +216,7 @@ export class DailyService {
   }
 
   private buildReadCard(entry: {
+    sourceType: ReviewSourceType;
     sourceId: string;
     title: string;
     sections: { title: string; content: string }[];
@@ -225,10 +244,12 @@ export class DailyService {
       note: 'This is the whole card. The full topic has more.',
       fullTopicRoute: entry.route,
       sourceId: entry.sourceId,
+      module: moduleOf(entry.sourceType, entry.sourceId),
     };
   }
 
   private buildNoticeCard(entry: {
+    sourceType: ReviewSourceType;
     sourceId: string;
     title: string;
     sections: { title: string; content: string }[];
@@ -253,6 +274,7 @@ export class DailyService {
       takeawayLabel: after[1] ? 'NOTE' : undefined,
       takeaway: after[1],
       sourceId: entry.sourceId,
+      module: moduleOf(entry.sourceType, entry.sourceId),
     };
   }
 

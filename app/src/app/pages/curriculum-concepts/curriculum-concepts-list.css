@@ -102,3 +102,17 @@
   border-color: var(--mu-indigo);
   color: var(--mu-indigo);
 }
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}

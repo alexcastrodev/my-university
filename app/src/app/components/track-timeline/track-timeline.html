@@ -1,0 +1,58 @@
+<section class="track">
+  <header class="track-head">
+    @if (crumbs().length) {
+      <p class="crumbs">{{ crumbs().join(' › ') }}</p>
+    }
+    <h1 class="title">{{ title() }}</h1>
+    <div class="progress">
+      <div class="bar"><div class="fill" [style.width.%]="percent()"></div></div>
+      <span class="progress-label" i18n="@@track.progress">{{ readCount() }} of {{ concepts().length }}</span>
+    </div>
+  </header>
+
+  <div class="segmented" role="tablist">
+    <button type="button" role="tab" [class.active]="filter() === 'order'" [attr.aria-selected]="filter() === 'order'" (click)="setFilter('order')" i18n="@@track.filter.order">Order</button>
+    <button type="button" role="tab" [class.active]="filter() === 'unread'" [attr.aria-selected]="filter() === 'unread'" (click)="setFilter('unread')" i18n="@@track.filter.unread">Unread</button>
+    <button type="button" role="tab" [class.active]="filter() === 'read'" [attr.aria-selected]="filter() === 'read'" (click)="setFilter('read')" i18n="@@track.filter.read">Read</button>
+  </div>
+
+  @if (loading()) {
+    <p class="empty" role="status" i18n="@@track.loading">Loading concepts…</p>
+  } @else if (concepts().length === 0) {
+    <p class="empty" i18n="@@track.emptyDiscipline">Nothing published in this discipline yet. It's on the curriculum, just not written.</p>
+  } @else if (visible().length === 0) {
+    <p class="empty" i18n="@@track.emptyFilter">Nothing here with this filter.</p>
+  } @else {
+    <ol class="timeline">
+      @for (concept of visible(); track concept.slug) {
+        @let isNext = concept.slug === nextSlug();
+        <li class="step" [class.read]="concept.read" [class.next]="isNext">
+          <span class="marker" aria-hidden="true">
+            @if (concept.read) {
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 12.5l4 4 8-9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            }
+          </span>
+          <a class="card" [routerLink]="link(concept)">
+            @if (isNext) {
+              <span class="next-label" i18n="@@track.next">NEXT</span>
+            }
+            <h2 class="card-title">{{ concept.title }}</h2>
+            <p class="card-summary">{{ concept.summary }}</p>
+            <div class="card-foot">
+              <span class="read-link" i18n="@@track.read">Read →</span>
+              @if (concept.sectionCount) {
+                <span class="pill">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="2"/></svg>
+                  <ng-container i18n="@@track.sections">{{ concept.sectionCount }} sections</ng-container>
+                </span>
+              }
+              @if (concept.readingMinutes) {
+                <span class="minutes">{{ concept.readingMinutes }} min</span>
+              }
+            </div>
+          </a>
+        </li>
+      }
+    </ol>
+  }
+</section>
