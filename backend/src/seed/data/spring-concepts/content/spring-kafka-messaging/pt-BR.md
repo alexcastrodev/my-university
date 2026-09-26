@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Mensageria com Kafka: KafkaTemplate e @KafkaListener"
+summary: Como o Spring for Apache Kafka envolve o cliente Kafka puro em um KafkaTemplate autoconfigurado e em @KafkaListener, e por que o modelo do Kafka, baseado em log, reprocessável e ordenado por partição, se comporta de forma diferente do consumo de filas JMS e AMQP.
 ---
 ## Objective
 

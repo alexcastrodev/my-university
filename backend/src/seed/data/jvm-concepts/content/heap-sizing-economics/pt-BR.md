@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-04
+summary: Por que trocar RAM por CPU costuma ser a decisão economicamente correta dado o preço de RAM por núcleo em hardware de nuvem e de consumo, como medir a taxa real de alocação e o custo de CPU do GC em vez de chutar, por que benchmarks ingênuos de memória entre linguagens enganam, e o que o dimensionamento adaptativo de heap propõe automatizar em seguida.
+title: Dimensionando o Heap da JVM: a Economia de RAM e CPU na Prática
 ---
 ## Objective
 

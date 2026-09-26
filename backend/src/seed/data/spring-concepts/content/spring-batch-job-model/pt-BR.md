@@ -2,6 +2,7 @@
 version: 1.1
 updatedAt: 2026-07-30
 title: Job Repository, Launcher e Modelo de Job no Spring Batch
+summary: Como funcionam os componentes de infraestrutura JobLauncher e JobRepository, por que job repositories persistentes ou em memória trocam monitoramento e reinício por overhead, e como um job é modelado como uma sequência de steps com fluxo de controle não linear opcional. Observação: o JobLauncher está depreciado em favor do JobOperator desde o Spring Batch 6.0.
 ---
 ## Objective
 

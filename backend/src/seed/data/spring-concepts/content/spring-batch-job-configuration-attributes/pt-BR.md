@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-31
 title: Configuração de Job no Spring Batch: Restart, Incrementer e Validator
+summary: Como os atributos XML de job/step do livro (restartable, incrementer, validator, next, parent/abstract) correspondem aos métodos preventRestart()/incrementer()/validator()/next() do JobBuilder, e por que a configuração Java não precisa de um equivalente à herança parent/abstract do XML.
 ---
 ## Objective
 

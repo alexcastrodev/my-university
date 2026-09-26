@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-09-06
-title: Ternary Search Tries
+title: Tries de Busca Ternária
 summary: Um nó de TST tem exatamente três filhos (left/mid/right) organizados como uma mini-BST sobre o caractere atual, em vez de um slot por caractere do alfabeto; troca um fator O(log N) extra por busca por custo de memória por nó independente do tamanho do alfabeto.
 ---
 ## Objetivos de Aprendizagem

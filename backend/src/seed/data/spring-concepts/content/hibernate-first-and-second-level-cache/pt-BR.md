@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-11
+summary: Por que em.find() e a navegação por uma associação to-one podem ser atendidos inteiramente pelo cache de primeiro nível (e de segundo nível), enquanto uma consulta JPQL, Criteria ou nativa sempre vai ao banco, com o Hibernate descartando uma linha do resultado e usando a instância já gerenciada sempre que o cache de primeiro nível já tem aquela entidade; cachear o resultado de uma consulta exige o Query Cache separado, e não os caches de entidade.
+title: Cache de Primeiro e de Segundo Nível do Hibernate
 ---
 ## Objective
 

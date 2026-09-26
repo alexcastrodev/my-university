@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Autorização no Spring Security: Authorities e Roles
+summary: Como o Spring Security decide, depois que a autenticação dá certo, se uma requisição é de fato permitida: pelo contrato GrantedAuthority, pelos métodos hasAuthority()/hasAnyAuthority() para authorities de granularidade fina, por hasRole()/hasAnyRole() e a convenção do prefixo ROLE_ para roles mais amplas, e por denyAll() para restrições gerais, além da válvula de escape do método access() para SpEL puro em tudo que os métodos nomeados não conseguem expressar.
 ---
 ## Objective
 

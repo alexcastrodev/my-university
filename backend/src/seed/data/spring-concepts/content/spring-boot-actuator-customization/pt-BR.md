@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Customizando o Spring Boot Actuator: Info, Health, Metrics e Segurança"
+summary: Estenda o Actuator além dos endpoints nativos: contribua dados da aplicação para /info com InfoContributor, escreva um HealthIndicator que reflita uma dependência real, publique métricas de negócio pelo MeterRegistry do Micrometer, crie endpoints customizados com @Endpoint e proteja toda essa superfície com Spring Security e EndpointRequest.
 ---
 ## Objective
 

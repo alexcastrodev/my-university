@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Monitorando Jobs do Spring Batch: JobExplorer, JobOperator e o Schema de Metadados
+summary: Como detectar falhas de jobs e agir sobre elas lendo o histórico de execução do job repository: o JobExplorer somente leitura com objetos de domínio ricos, o JobOperator tipado com String/Long pensado para JMX, consultas diretas às tabelas de metadados BATCH_* e alertas disparados de um JobExecutionListener, além da mudança do JMX feito à mão e do descontinuado Spring Batch Admin para as métricas nativas do Micrometer e o Spring Cloud Data Flow.
 ---
 ## Objective
 

@@ -14,7 +14,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'spring-concepts': ['Spring'],
   'quarkus-concepts': ['Quarkus'],
   'database-concepts': [$localize`:@@area.group.databases:Databases`],
-  'system-design-concepts': ['System Design'],
+  'system-design-concepts': [$localize`:@@header.nav.systemDesign:System Design`],
   'kubernetes-concepts': ['Kubernetes'],
   'algorithms-concepts': [$localize`:@@area.group.algorithms:Algorithms`],
   'ruby-concepts': ['Ruby'],

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Assinatura de JWT: Chaves Simétricas vs. Assimétricas"
+summary: Como um resource server valida um JWT localmente checando sua assinatura: HMAC simétrico (HS256), em que um único segredo compartilhado assina e verifica (então todo resource server que o tem também pode emitir tokens), contra um par de chaves RSA assimétrico (RS256), em que o authorization server assina com a chave privada e qualquer número de resource servers verifica com uma chave pública que pode ser publicada livremente, além de como adicionar e ler claims customizadas. A pilha JwtTokenStore/JwtAccessTokenConverter/TokenEnhancer do Spring Security OAuth usada no livro está em fim de vida e corresponde hoje a JwtEncoder/JwtDecoder baseados em Nimbus, OAuth2TokenCustomizer e Jwt.getClaim(), enquanto o endpoint improvisado /oauth/token_key do livro é exatamente o que o endpoint padrão JWK Set (RFC 7517, descoberto pelo jwks_uri da RFC 8414; /oauth2/jwks no Spring Authorization Server) formaliza, acrescentando a rotação de chaves por kid que a configuração PEM estática do livro não permite.
 ---
 ## Objective
 

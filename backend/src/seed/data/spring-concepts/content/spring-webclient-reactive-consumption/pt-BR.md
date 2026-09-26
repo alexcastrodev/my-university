@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: WebClient: Consumindo APIs REST de Forma Reativa
+summary: O cliente HTTP não bloqueante do Spring: retrieve()/bodyToMono/bodyToFlux, corpos de requisição reativos, tratamento de erros com onStatus, o exchangeToMono que substitui o exchange() propenso a vazamentos, e o Spring Security reativo com SecurityWebFilterChain.
 ---
 ## Objective
 

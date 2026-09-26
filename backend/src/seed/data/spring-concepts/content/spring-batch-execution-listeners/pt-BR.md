@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Listeners do Spring Batch: Interceptando Eventos de Job, Step e Item
+summary: Como as interfaces JobExecutionListener/StepExecutionListener/ChunkListener e as de nível de item ItemReadListener/ItemProcessListener/ItemWriteListener/SkipListener permitem encaixar lógica de notificação e tratamento de erros no ciclo de vida de um job sem tocar no reader/processor/writer, e como anotações no estilo @BeforeStep/@AfterStep oferecem os mesmos ganchos em um POJO comum em vez de uma implementação de interface.
 ---
 ## Objective
 

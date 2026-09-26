@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-29
 title: O Panorama do Spring Framework
+summary: Como o Spring Framework core, Spring Boot, Spring Data, Spring Security, Spring Batch/Integration e Spring Cloud se encaixam como um único ecossistema, e como esse panorama mudou desde 2019 (namespace Jakarta EE, imagens nativas com GraalVM, os subprojetos atuais do Spring Cloud).
 ---
 ## Objective
 

@@ -102,8 +102,17 @@ export class ReviewService {
   /** Title + summary of every concept in the Complementary Studies areas that are read (not
    *  watched), in each area's own order: the flat catalogue the mobile feed draws from.
    *  `java-minute` is left out on purpose: its episodes are videos, not a card you can read. */
-  listConceptSummaries(lang: Language): { module: string; slug: string; title: string; summary: string }[] {
-    const byModule: [string, { slug: string; title: string; summary: string }[]][] = [
+  listConceptSummaries(lang: Language): {
+    module: string;
+    slug: string;
+    title: string;
+    summary: string;
+    language: Language;
+  }[] {
+    const byModule: [
+      string,
+      { slug: string; title: string; summary: string; language: Language }[],
+    ][] = [
       ['java-concepts', this.javaConcepts.findAll(lang)],
       ['jvm-concepts', this.jvmConcepts.findAll(lang)],
       ['testing-concepts', this.testingConcepts.findAll(lang)],
@@ -117,7 +126,13 @@ export class ReviewService {
       ['rubyonrails-concepts', this.rubyOnRailsConcepts.findAll(lang)],
     ];
     return byModule.flatMap(([module, concepts]) =>
-      concepts.map((c) => ({ module, slug: c.slug, title: c.title, summary: c.summary })),
+      concepts.map((c) => ({
+        module,
+        slug: c.slug,
+        title: c.title,
+        summary: c.summary,
+        language: c.language,
+      })),
     );
   }
 

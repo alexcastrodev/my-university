@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-08-14
-title: "Gradient Descent"
+title: Gradiente Descendente
 description: "Um método iterativo geral para encontrar um mínimo local de uma função contínua repetidamente dando passos na direção oposta ao gradiente, com um limite de convergência provado em funções convexas que troca respostas exatas (como o Θ(n^3) da eliminação gaussiana) por uma resposta aproximada mais rápida."
 ---
 ## Objetivo

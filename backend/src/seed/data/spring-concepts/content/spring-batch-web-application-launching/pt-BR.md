@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Lançando Jobs do Spring Batch a partir de uma Aplicação Web
+summary: Como embutir o Spring Batch no contexto Spring de uma aplicação web mantém um ambiente de batch residente e aquecido (evitando uma JVM nova por job), e como um controller Spring MVC lança jobs sob demanda via HTTP de forma assíncrona, uma configuração feita à mão que o Spring Boot agora autoconfigura, com o JobOperator substituindo o depreciado JobLauncher.
 ---
 ## Objective
 

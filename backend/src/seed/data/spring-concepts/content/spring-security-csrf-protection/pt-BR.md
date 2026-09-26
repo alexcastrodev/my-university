@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Proteção CSRF: CsrfFilter, CsrfTokenRepository e Customização Prática"
+summary: O CsrfFilter fica na filter chain, deixa GET/HEAD/TRACE/OPTIONS passarem sem mexer e exige um token (entregue antes ao cliente por um CsrfTokenRepository) para qualquer outro método. Por isso um projeto Spring Security novo rejeitando com 403 um POST autenticado é a proteção CSRF funcionando como projetada, não um bug: a correção é devolver o token (campo oculto de formulário em apps renderizadas no servidor, um cookie via CookieCsrfTokenRepository em SPAs) ou, quando fizer sentido de verdade, excluir request matchers específicos ou desligar a proteção em APIs só com bearer token. Desde o Spring Security 6.1 o handler padrão para ler o token passou a ser o XorCsrfTokenRequestAttributeHandler (resistente a BREACH, com carregamento adiado do token) no lugar do padrão mais simples do livro.
 ---
 ## Objective
 

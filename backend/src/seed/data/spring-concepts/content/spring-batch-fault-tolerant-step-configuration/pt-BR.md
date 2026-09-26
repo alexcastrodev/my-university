@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-01
 title: Steps Tolerantes a Falhas no Spring Batch: Skip, Retry e Atributos de Transação
+summary: Como os atributos XML de chunk/tasklet do livro (skip-limit, retry-policy, cache-capacity, transaction-attributes, no-rollback-exception-classes) correspondem à configuração Java: primeiro ao FaultTolerantStepBuilder, hoje depreciado, e, a partir do Spring Batch 6.0, ao retryPolicy()/skipPolicy() baseado em objetos de política do ChunkOrientedStepBuilder, construído sobre o retry nativo do core do Spring Framework em vez da biblioteca Spring Retry.
 ---
 ## Objective
 

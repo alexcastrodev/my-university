@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Fundamentos de OAuth 2 e Tipos de Grant
+summary: O modelo mental do OAuth 2 (resource owner, client com seu próprio client_id/client_secret, authorization server e resource server trocando access tokens limitados por escopo), quando escolher cada grant type (os dois round trips do authorization code e o porquê, password, client credentials, refresh token) e os "pecados do OAuth 2" apontados pelo próprio livro. Desde 2020 o password grant passou de desencorajado a proibido (a RFC 9700/BCP 240 diz MUST NOT, o OAuth 2.1 o omite, AuthorizationGrantType.PASSWORD está depreciado no Spring Security 6.x e sumiu na 7.0, e o Spring Authorization Server nunca o suportou), enquanto o PKCE passou de reforço opcional a obrigatório para todo client de authorization code, junto com a comparação exata de redirect URI e a proibição de bearer tokens em query strings.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Remote Chunking: Escalando um Step Entre Máquinas"
+summary: O remote chunking distribui um step orientado a chunks entre JVMs: um master mantém o ItemReader, o JobRepository e o step, e despacha ChunkRequests por um middleware durável com entrega garantida (JMS/AMQP) para slaves que processam, escrevem e devolvem só um resumo StepContribution. Por isso ele só compensa quando a leitura não é o gargalo, e, ao contrário do particionamento, depende da reentrega transacional e não de metadados de batch por chunk para ser correto. Os canais Spring Integration montados à mão, o gateway MessagingTemplate, o RemoteChunkHandlerFactoryBean e o ChunkProcessorChunkHandler do livro (distribuídos à parte com o Spring Batch Admin) viraram hoje o @EnableBatchIntegration do módulo spring-batch-integration mais RemoteChunkingManagerStepBuilder/RemoteChunkingWorkerBuilder, com a terminologia manager/worker, o ChunkHandler renomeado para ChunkRequestHandler, o ChunkProvider depreciado na 6.0 sem substituto, os argumentos do ChunkProcessor reordenados e duas novidades irmãs na 6.0: chunking local via ChunkTaskExecutorItemWriter e execução remota de step via RemoteStep.
 ---
 ## Objective
 

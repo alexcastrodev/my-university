@@ -2,11 +2,12 @@
   display: none;
 }
 
-/* Phone-width only: the desktop keeps its top header + footer. */
+/* Phone-width only: the desktop keeps its top header + footer. On phones this bar replaces
+   both (see app.css). */
 @media (max-width: 768px) {
   .bottom-nav {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     position: fixed;
     left: 0;
     right: 0;

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-04
 title: Criando Suas Próprias Configuration Properties com @ConfigurationProperties
+summary: Como @ConfigurationProperties transforma os setters de qualquer bean em valores vindos da configuração, por que extraí-los para um bean holder dedicado mantém controllers e services limpos, e como gerar metadados de IDE para propriedades customizadas, além de por que records com constructor binding são agora a alternativa preferida a uma classe holder mutável baseada em Lombok.
 ---
 ## Objective
 

@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Implementando um Client OAuth2: Single Sign-On com ClientRegistration
+summary: Construindo o menor ator do OAuth2: uma aplicação client que redireciona para o authorization server de outra pessoa, troca o code recebido por um token e lê os dados do usuário, sem usuários, tokens ou recursos protegidos próprios. O Spring Security modela isso com ClientRegistration (o registro de um client em um provider), ClientRegistrationRepository e o método oauth2Login() do HttpSecurity, que autoconfigura quase tudo a partir de algumas propriedades spring.security.oauth2.client.registration.*. A API (ClientRegistration, OAuth2AuthenticationToken, OidcUser) mudou pouco desde 2020; as principais mudanças são o SecurityFilterChain com DSL de lambdas no lugar do WebSecurityConfigurerAdapter e authorizeHttpRequests() no lugar de authorizeRequests().
 ---
 ## Objective
 

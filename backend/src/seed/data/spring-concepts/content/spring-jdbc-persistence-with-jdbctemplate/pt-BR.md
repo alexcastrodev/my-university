@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-01
 title: Persistência com JDBC no Spring usando JdbcTemplate e SimpleJdbcInsert
+summary: Como o JdbcTemplate elimina o boilerplate de conexão/statement/result set do JDBC com query()/queryForObject() e um RowMapper, como o SimpleJdbcInsert simplifica inserts que precisam de uma chave gerada, e como schema.sql/data.sql inicializam o banco automaticamente na subida, além de por que o JdbcClient do Spring Framework 6.1 é agora a fachada fluente recomendada para o mesmo trabalho.
 ---
 ## Objective
 

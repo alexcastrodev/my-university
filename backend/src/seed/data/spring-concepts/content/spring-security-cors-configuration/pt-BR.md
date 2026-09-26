@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "CORS: Same-Origin Policy, Preflight e @CrossOrigin vs. http.cors()"
+summary: CORS é um mecanismo do navegador que relaxa a same-origin policy, e não uma restrição do servidor: uma chamada cross-origin sem configuração ainda executa no servidor, só a resposta é escondida do JavaScript. Ele é configurado por endpoint com o @CrossOrigin do Spring MVC ou de forma central com http.cors() mais um CorsConfigurationSource, cujo CorsFilter precisa rodar antes da autenticação e da autorização do Spring Security para que preflights OPTIONS sem credenciais não sejam rejeitados com 401. O WebSecurityConfigurerAdapter.configure(HttpSecurity) do livro agora é um bean SecurityFilterChain e a lambda crua virou um bean UrlBasedCorsConfigurationSource, enquanto CorsConfiguration, @CrossOrigin e http.cors() continuam iguais; as novidades são originPatterns (obrigatório no lugar do coringa quando allowCredentials é true), preFlightRequestHandler e o WHATWG Fetch Standard substituindo a especificação CORS do W3C citada pelo livro para as regras de simple request.
 ---
 ## Objective
 

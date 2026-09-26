@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-08-19
-title: "Sequenced Collections: SequencedCollection, SequencedSet, SequencedMap"
+title: Coleções Sequenciadas: SequencedCollection, SequencedSet, SequencedMap
 summary: "As interfaces SequencedCollection/SequencedSet/SequencedMap da JEP 431 dão a toda coleção com uma ordem de encontro real — List, Deque, LinkedHashSet, TreeSet, LinkedHashMap, TreeMap — uma API uniforme de getFirst/getLast/addFirst/addLast/reversed(), excluindo deliberadamente HashSet, HashMap e PriorityQueue, já que nenhuma delas tem uma ordem de encontro estável para expor."
 ---
 ## Objective

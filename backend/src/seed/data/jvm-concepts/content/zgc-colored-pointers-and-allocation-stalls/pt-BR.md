@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-13
 title: "ZGC Coleta Concorrente: Colored Pointers e Allocation Stalls"
+summary: Como os colored pointers e a load barrier do ZGC mantêm as pausas abaixo de um milissegundo movendo objetos de forma concorrente, o que o ZGC geracional mudou entre o JDK 21 e o 24, e por que um allocation stall (e não uma pausa) é o modo de falha real do ZGC a monitorar.
 ---
 ## Objective
 

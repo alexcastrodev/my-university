@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Spring Security: os Contratos Authentication e AuthenticationProvider
+summary: Como o Spring Security representa uma requisição de autenticação em andamento ou concluída pela interface Authentication, e como o par authenticate()/supports() do AuthenticationProvider permite que vários esquemas de autenticação convivam atrás de um único AuthenticationManager.
 ---
 ## Objective
 

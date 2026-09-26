@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Filtros Customizados na Filter Chain do Spring Security
+summary: O HttpSecurity do Spring Security expõe exatamente três posições para um Filter customizado em relação a um filtro nativo conhecido: addFilterBefore() para rejeitar requisições ruins antes que a autenticação cara rode, addFilterAfter() para observar o que já passou, e addFilterAt() para colocar a sua implementação de uma responsabilidade que normalmente é de um filtro nativo (atenção: addFilterAt NÃO remove o filtro ao lado, os dois continuam rodando), além do catálogo de filtros que o Spring Security traz. O javax.servlet.Filter e o override de WebSecurityConfigurerAdapter.configure(HttpSecurity) do livro agora são jakarta.servlet.Filter (namespace Jakarta EE do Spring Boot 3.0+) e um bean SecurityFilterChain usando os mesmos três métodos de builder.
 ---
 ## Objective
 

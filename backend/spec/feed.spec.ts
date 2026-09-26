@@ -52,6 +52,20 @@ describe('GET /feed', () => {
     const body = detail.sections.map((s: any) => s.content).join('\n');
     expect(body).toContain(firstLine);
   });
+
+  it('leaves out concepts not yet translated to the requested language', async () => {
+    const all = await json<any>(await get('/feed?area=cs&limit=1&lang=en'));
+    const page = await json<any>(await get('/feed?area=cs&limit=30&lang=pt-BR'));
+    expect(page.total).toBeGreaterThan(0);
+    expect(page.total).toBeLessThan(all.total);
+
+    for (const item of page.items) {
+      const detail = await json<any>(
+        await get(`/curriculum/${item.module}/${item.discipline}/${item.slug}?lang=pt-BR`),
+      );
+      expect(detail.language).toBe('pt-BR');
+    }
+  });
 });
 
 describe('POST /feed/got-it', () => {

@@ -1,7 +1,7 @@
 ---
 version: 1.0
 updatedAt: 2026-08-05
-title: Classpath Scanning via Reflection
+title: Varredura do Classpath via Reflection
 summary: "Como um component scan funciona de fato por baixo dos panos: uma varredura recursiva de diretórios sobre arquivos .class compilados, Class.forName + isAnnotationPresent para achar classes marcadas por anotação, e por que frameworks de verdade leem metadados de bytecode via ASM em vez de carregar toda classe candidata."
 ---
 ## Objective

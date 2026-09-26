@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Parando Jobs Spring Batch de Forma Graciosa
+summary: Como parar um job do Spring Batch de forma limpa, de fora como operador com JobOperator.stop e de dentro de um step como desenvolvedor com StepExecution.setTerminateOnly, para que o job pare na próxima fronteira de chunk com segurança transacional e termine em um estado STOPPED reiniciável, e como essas APIs mudaram no Spring Batch 6.0, em que o JobOperator (que estende JobLauncher) é a API e as chamadas stop(long)/getRunningExecutions do livro estão depreciadas para remoção.
 ---
 ## Objective
 

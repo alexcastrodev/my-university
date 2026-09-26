@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Step Scope e Late Binding com SpEL no Spring Batch
+summary: Como o escopo de bean customizado StepScope do Spring Batch adia a criação do bean até o step de fato começar, e como expressões SpEL sobre jobParameters/jobExecutionContext/stepExecutionContext permitem que um reader, writer ou tasklet receba um valor conhecido só no lançamento (como o nome de um arquivo de entrada), em vez de deixá-lo fixo na configuração.
 ---
 ## Objective
 

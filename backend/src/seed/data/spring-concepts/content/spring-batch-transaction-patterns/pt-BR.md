@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: Padrões de Gerenciamento de Transações no Spring Batch
+summary: Como o Spring Batch mantém um step atômico entre dois recursos transacionais, como uma fila JMS e um banco de dados, usando transações globais XA/JTA, o shared-resource pattern, o best-effort 1PC e o tratamento de duplicados por deduplicação ou idempotência.
 ---
 ## Objective
 

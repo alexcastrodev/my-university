@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-24
 title: "OpenAPI Generator: Geração de Código Contract-First com o Plugin Maven"
+summary: Como o openapi-generator-maven-plugin transforma uma spec OpenAPI em interfaces de controller Spring e DTOs durante o build, usando generatorName=spring, a escolha de library e interfaceOnly mais o delegate pattern para manter a lógica escrita à mão fora do código gerado.
 ---
 ## Objective
 

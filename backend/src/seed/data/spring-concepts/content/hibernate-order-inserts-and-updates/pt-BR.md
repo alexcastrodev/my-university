@@ -1,6 +1,8 @@
 ---
 version: 1.0
 updatedAt: 2026-09-11
+summary: Como hibernate.order_inserts e hibernate.order_updates fazem o Hibernate agrupar e reordenar os INSERT/UPDATE pendentes no flush, para que operações na mesma tabela aconteçam em uma ordem consistente entre transações, reduzindo (sem eliminar) deadlocks em clusters multinó como o Galera, e por que evitar locks explícitos continua sendo a primeira recomendação antes de recorrer a essas configurações.
+title: Ordenando Inserts e Updates para Evitar Deadlocks
 ---
 ## Objective
 

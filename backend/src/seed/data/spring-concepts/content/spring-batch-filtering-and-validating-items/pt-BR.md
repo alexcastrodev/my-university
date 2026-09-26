@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Spring Batch: Filtrando e Validando Itens"
+summary: Como um ItemProcessor do Spring Batch filtra itens retornando null (um filtro, não um skip), os valida com ValidatingItemProcessor e o BeanValidatingItemProcessor nativo, e encadeia regras com CompositeItemProcessor.
 ---
 ## Objective
 

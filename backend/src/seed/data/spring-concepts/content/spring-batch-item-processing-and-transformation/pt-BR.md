@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Processamento e Transformação de Itens: o Contrato ItemProcessor"
+summary: Como um ItemProcessor fica entre o reader e o writer em um step orientado a chunks para transformar itens no lugar, converter o tipo lido em um tipo de escrita diferente ou completar os dados de uma consulta principal, além do PassThroughItemProcessor e do ItemProcessorAdapter.
 ---
 ## Objective
 

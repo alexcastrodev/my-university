@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Spring Batch Reprocessando em Erro: RetryPolicy, RetryTemplate e Retry via AOP"
+summary: Como o Spring Batch tenta de novo falhas transitórias em vez de pulá-las ou falhar: objetos RetryPolicy com back-off, ganchos RetryListener, o RetryTemplate avulso para código arbitrário e o retry transparente via AOP, além da trajetória da API de retry do pacote próprio do Spring Batch para a biblioteca Spring Retry e, no Spring Batch 6.0, para o retry nativo do core do Spring Framework 7.
 ---
 ## Objective
 

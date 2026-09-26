@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-07-29
 title: Gestão de Usuários no Spring Security
+summary: Como UserDetails, GrantedAuthority, UserDetailsService e UserDetailsManager descrevem e gerenciam usuários no Spring Security, e por que envolver uma entidade JPA em um wrapper UserDetails separado mantém as preocupações de persistência e de segurança apartadas.
 ---
 ## Objective
 

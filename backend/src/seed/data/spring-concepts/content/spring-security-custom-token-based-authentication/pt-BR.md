@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Autenticação por Token na Mão: O Estudo de Caso Pré-OAuth2"
+summary: Uma montagem prática com dois servidores (um servidor de autenticação que guarda as credenciais e emite tokens de uso único, e um servidor de lógica de negócio que confia em um bearer token a cada requisição, sem sessão no servidor) expressa inteiramente nos contratos do próprio Spring Security (Authentication, AuthenticationProvider, OncePerRequestFilter, SecurityContextHolder). É uma pedagogia propositalmente anterior ao OAuth2, que mostra o que um fluxo de bearer token precisa fazer antes de o framework entregar OAuth2/OIDC para fazer isso de forma padronizada. O filtro da era javax e a configuração com WebSecurityConfigurerAdapter do livro correspondem hoje a jakarta.servlet mais um bean SecurityFilterChain, e sistemas em produção usam o Spring Authorization Server (RegisteredClient/JWT) em vez de implementar esse mecanismo à mão, embora os contratos que este conceito ensina não tenham mudado.
 ---
 ## Objective
 

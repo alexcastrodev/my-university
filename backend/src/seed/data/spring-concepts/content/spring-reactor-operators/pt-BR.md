@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Operadores do Reactor: Criando, Combinando e Transformando Streams"
+summary: O vocabulário de operadores de Flux e Mono: criar streams a partir de dados, combinar dois com zip ou mergeWith, transformar com map ou flatMap, filtrar e reduzir um stream a um único resultado lógico.
 ---
 ## Objective
 

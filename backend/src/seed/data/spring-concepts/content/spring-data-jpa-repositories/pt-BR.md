@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-03
 title: Persistindo Dados com Repositórios Spring Data JPA
+summary: Como anotar classes de domínio como entidades JPA e estender CrudRepository entrega uma camada de persistência funcionando sem nenhum código de implementação, e como o Spring Data interpreta nomes de métodos derivados (findByDeliveryZip, readOrdersByDeliveryZipAndPlacedAtBetween) como consultas reais, com @Query como válvula de escape.
 ---
 ## Objective
 

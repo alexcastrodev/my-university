@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Testando Authorization, CSRF e CORS com spring-security-test"
+summary: Como verificar a configuração do Spring Security em testes. Method security (@PreAuthorize/@PostAuthorize/@PreFilter/@PostFilter) é testada sem MockMvc, injetando o bean protegido, chamando-o sob @WithMockUser e esperando AuthenticationException sem principal e AccessDeniedException com a authority errada. CSRF é testado com SecurityMockMvcRequestPostProcessors.csrf() e suas variantes asHeader() e useInvalidToken(), sendo o teste mais valioso o POST sem token esperando 403. CORS é testado montando à mão o preflight do navegador como uma requisição OPTIONS com Origin e Access-Control-Request-Method e verificando os headers Access-Control-Allow-Origin/Allow-Methods da resposta, tudo dependendo de a security filter chain estar de fato ligada ao MockMvc via @AutoConfigureMockMvc ou SecurityMockMvcConfigurers.springSecurity(). Do livro para hoje, o código de teste mudou pouco: @EnableGlobalMethodSecurity virou @EnableMethodSecurity, os interceptors agora lançam AuthorizationDeniedException (que estende AccessDeniedException desde a 6.3, então as asserções existentes continuam passando), csrf() não mudou apesar do mascaramento XOR/BREACH padrão da 6.0, o preflight feito à mão continua sendo a única abordagem para CORS, e a origem coringa esperada pelo livro não vale mais com allowedOriginPatterns, que ecoa a origem que casou.
 ---
 ## Objective
 

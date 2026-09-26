@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Containerizando Spring Boot: Dockerfiles, JARs em Camadas e Buildpacks"
+summary: Empacotando uma aplicação Spring Boot como imagem OCI: o Dockerfile escrito à mão do livro, os JARs em camadas que fazem o cache de build do Docker funcionar de verdade, e o spring-boot:build-image como alternativa sem Dockerfile baseada em Cloud Native Buildpacks.
 ---
 ## Objective
 

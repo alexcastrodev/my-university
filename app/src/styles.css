@@ -171,6 +171,8 @@ html, body {
    html, body reset above, which zeroes padding with the same specificity. */
 @media (max-width: 768px) {
   body {
+    /* No header on phones (see app.css), so the page itself clears the status bar / notch. */
+    padding-top: var(--mu-safe-top);
     padding-bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 1rem);
   }
 }
@@ -863,6 +865,12 @@ app-concept-actions {
   overflow-y: auto;
   padding: 1.5rem;
   z-index: 40;
+}
+
+@media (max-width: 768px) {
+  .deep-dive-panel {
+    top: var(--mu-safe-top);
+  }
 }
 
 .deep-dive-panel-header {

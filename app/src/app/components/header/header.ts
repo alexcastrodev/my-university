@@ -14,12 +14,7 @@ import { ThemeService } from '../../services/theme.service';
 import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
 import { SearchResult, SearchResultType } from '../../models/search.model';
-import { Language } from '../../models/language.model';
-
-const LANGUAGE_LABELS: Record<Language, string> = {
-  en: 'English',
-  'pt-BR': 'Português (Brasil)',
-};
+import { LANGUAGE_LABELS, Language } from '../../models/language.model';
 
 const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
   { label: 'header.search.filter.all', value: null },

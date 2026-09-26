@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Method Security Filtering: @PreFilter, @PostFilter e Spring Data"
+summary: @PreFilter e @PostFilter aplicam uma regra SpEL por elemento (filterObject vs. authentication) para enxugar no lugar uma coleção de argumento ou de retorno, em vez de permitir ou negar a chamada inteira como @PreAuthorize/@PostAuthorize fazem. Isso exige uma coleção mutável, já que o aspecto altera a instância de quem chamou e um List.of() imutável lança UnsupportedOperationException. As duas anotações seguem iguais hoje, exceto pela troca do depreciado @EnableGlobalMethodSecurity(prePostEnabled = true) por @EnableMethodSecurity, e a técnica do capítulo 17.3 do livro (substituir o @PostFilter no repositório por um bean SecurityEvaluationContextExtension mais um predicado ?#{authentication.name} dentro do @Query) continua sendo a recomendação oficial, já que filtrar em memória desperdiça heap e quebra a paginação.
 ---
 ## Objective
 

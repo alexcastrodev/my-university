@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Escalando com Precisão no Spring Batch: Particionando um Step"
+summary: Como um step manager divide os dados de entrada em partições que rodam, cada uma, como sua própria StepExecution de um step worker intocado; a SPI de particionamento (um Partitioner que devolve um Map de ExecutionContexts nomeados, o StepExecutionSplitter e um PartitionHandler que decide entre threads locais via TaskExecutorPartitionHandler ou workers remotos via MessageChannelPartitionHandler); como o gridSize e o late binding #{stepExecutionContext[...]} alimentam parâmetros por partição; por que o reinício funciona sem mensageria durável; e como o particionamento se compara a steps multithreaded, steps paralelos e remote chunking. Inclui as mudanças do Spring Batch 6.0: vocabulário manager/worker, classes de partição realocadas para org.springframework.batch.core.partition, o JobExplorer incorporado ao JobRepository, o XML substituído pelo PartitionStepBuilder e duas novas estratégias (chunking local e remote step).
 ---
 ## Objective
 

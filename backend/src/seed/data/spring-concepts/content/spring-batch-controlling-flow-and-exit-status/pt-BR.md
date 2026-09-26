@@ -2,6 +2,7 @@
 version: 1.0
 updatedAt: 2026-08-06
 title: "Controlando o Fluxo de um Job no Spring Batch: BatchStatus vs. ExitStatus"
+summary: Como o Spring Batch ramifica o fluxo de um job pelo ExitStatus (uma String) de um step, e não pelo enum BatchStatus persistido, usando on() com os coringas * e ?, como criar um exit status customizado a partir de StepExecutionListener.afterStep() ou de um JobExecutionDecider, e os terminadores de fluxo end/fail/stopAndRestart, além da migração do depreciado namespace XML de batch para a DSL Java FlowBuilder.
 ---
 ## Objective
 
