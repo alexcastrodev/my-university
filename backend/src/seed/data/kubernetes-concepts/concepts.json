@@ -149,6 +149,7 @@
     ],
     "summary": "Installing MicroK8s from a pinned snap channel, what runs inside the snap, waiting for readiness, kubectl without sudo, and collecting a diagnostic report.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/microk8s-installation-and-diagnostics",
     "references": [
       {
         "label": "MicroK8s: Getting started",
@@ -198,6 +199,7 @@
     ],
     "summary": "Enabling add-ons, how CoreDNS picks its upstream resolvers, and where hostpath volumes really live, including unenforced capacity and Delete reclaim.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/microk8s-addons-dns-and-hostpath-storage",
     "references": [
       {
         "label": "MicroK8s: Add-ons",
@@ -247,6 +249,7 @@
     ],
     "summary": "Where MicroK8s keeps component flags, and how to make its containerd trust a registry with a private CA through certs.d/<host:port>/hosts.toml.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/microk8s-containerd-and-private-registry-ca",
     "references": [
       {
         "label": "MicroK8s: Working with a private registry",
