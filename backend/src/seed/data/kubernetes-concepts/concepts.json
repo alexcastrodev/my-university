@@ -517,6 +517,7 @@
     ],
     "summary": "maxSurge and maxUnavailable with their rounding rules, what a broken rollout looks like, and when Recreate is the right choice.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deployment-strategies-rollingupdate-vs-recreate",
     "references": [
       {
         "label": "Kubernetes docs: Deployments (strategy)",
