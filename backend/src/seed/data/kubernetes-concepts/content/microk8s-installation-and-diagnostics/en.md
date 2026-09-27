@@ -23,7 +23,7 @@ sudo snap install microk8s --classic --channel=1.35/stable
 
 - `--classic` is required: MicroK8s needs access to the host (network, mounts, cgroups) that a strictly confined snap does not get.
 - The channel is `<k8s-minor>/<risk>`. `1.35/stable` means "the latest stable 1.35.x". Snap refreshes automatically, but **only inside the tracked channel**: you get 1.35.5 to 1.35.6 patch updates, never 1.36.
-- Without `--channel` you track `latest/stable`, which moves to a new minor version when Canonical promotes it. For anything you care about, always pin.
+- Without `--channel` you get the snap's default track, which Canonical moves over time. Verified in September 2026: a plain `snap install microk8s --classic` installed `v1.35.6` tracking `1.35/stable`, while `latest/stable` was already `v1.36.2`. The same script therefore installs different minor versions depending on the day it runs. For anything you care about, always pin.
 
 Moving to the next minor is an explicit action:
 
