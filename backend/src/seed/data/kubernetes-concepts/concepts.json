@@ -790,6 +790,7 @@
     ],
     "summary": "Service names inside and across namespaces, the search list and ndots, debugging resolution, and why egress policies can break DNS.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/service-dns-and-cross-namespace-access",
     "references": [
       {
         "label": "Kubernetes docs: DNS for Services and Pods",
