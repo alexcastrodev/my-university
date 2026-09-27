@@ -561,6 +561,7 @@
     ],
     "summary": "What each probe triggers, how timing fields combine, and the rules that keep probes from turning a slow dependency into an outage.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/startup-liveness-readiness-probes",
     "references": [
       {
         "label": "Kubernetes docs: Liveness, Readiness, and Startup Probes",
