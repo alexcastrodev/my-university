@@ -18,6 +18,9 @@
   gap: 0.5rem;
 }
 
+/* The backdrop is always dark, so the toolbar uses theme-invariant colors:
+   theme tokens like --mu-bg or --mu-ink flip in dark mode and would leave the
+   buttons dark-on-dark. */
 .mermaid-viewer-btn {
   min-width: 2.5rem;
   height: 2.5rem;
@@ -25,7 +28,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background: rgba(17, 24, 39, 0.85);
-  color: var(--mu-bg);
+  color: var(--mu-white);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1;
@@ -36,7 +39,7 @@
 }
 
 .mermaid-viewer-btn:hover {
-  background: var(--mu-ink);
+  background: #1f2937;
   border-color: var(--mu-accent);
 }
 
@@ -47,7 +50,7 @@
 }
 
 .mermaid-viewer-close {
-  color: var(--mu-danger-border);
+  color: #fca5a5;
 }
 
 .mermaid-viewer-stage {

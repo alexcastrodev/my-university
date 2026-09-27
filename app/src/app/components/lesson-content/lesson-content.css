@@ -93,7 +93,7 @@
 
 .lesson-body ::ng-deep .hljs-title.function_,
 .lesson-body ::ng-deep .hljs-title {
-  color: var(--mu-info-border);
+  color: #93c5fd;
 }
 
 .lesson-body ::ng-deep .hljs-meta {
