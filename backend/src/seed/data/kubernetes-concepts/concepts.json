@@ -2033,6 +2033,7 @@
     ],
     "summary": "What the auto-mounted token is, when to disable it with automountServiceAccountToken, dedicated ServiceAccounts, and audience-bound tokens.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/serviceaccount-tokens-and-automount",
     "references": [
       {
         "label": "Kubernetes docs: Service Accounts",
