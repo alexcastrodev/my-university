@@ -1036,6 +1036,7 @@
     ],
     "summary": "Binding modes, the normal and the broken Pending, access modes, reclaim policies, and verifying that data survives Pod and node restarts.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/persistent-volumes-and-storageclasses",
     "references": [
       {
         "label": "Kubernetes docs: Persistent Volumes",
