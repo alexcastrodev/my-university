@@ -1625,6 +1625,7 @@
     ],
     "summary": "A repeatable procedure: exit codes and reasons, logs of the previous attempt, events, and keeping a crashing container alive to inspect it.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/debugging-crashloopbackoff",
     "references": [
       {
         "label": "Kubernetes docs: Debug Running Pods",
