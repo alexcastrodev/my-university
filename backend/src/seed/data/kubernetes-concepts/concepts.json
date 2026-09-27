@@ -106,6 +106,7 @@
     ],
     "summary": "Why a rotated Secret reaches mounted files after about a minute but never reaches environment variables or subPath mounts, and why files leak less than env vars.",
     "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/secrets-as-env-vars-vs-mounted-files",
     "references": [
       {
         "label": "Kubernetes docs: Distribute Credentials Securely Using Secrets",
