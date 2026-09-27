@@ -1960,6 +1960,7 @@
     ],
     "summary": "The shipped alert rules, writing rules for restarts, memory and disk, and routing alerts out of the default null receiver.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/alertmanager-basic-alerts",
     "references": [
       {
         "label": "Prometheus docs: Alerting rules",
