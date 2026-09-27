@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Mobile bottom tab bar (Home / Daily / Track / Feed / Settings) from the mockups. The curriculum
@@ -19,6 +20,10 @@ import { filter } from 'rxjs';
 })
 export class BottomNav {
   private router = inject(Router);
+  private auth = inject(AuthService);
+
+  /** The dashboard is personal, so a logged-out visitor's Home is the landing page instead. */
+  protected readonly homeLink = computed(() => (this.auth.currentUser() ? '/dashboard' : '/'));
 
   protected readonly hidden = signal(this.shouldHide(this.router.url));
 
