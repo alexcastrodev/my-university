@@ -702,6 +702,7 @@
     ],
     "summary": "Registry credentials with dockerconfigjson Secrets, attaching them per Pod or ServiceAccount, and choosing an imagePullPolicy that is honest about what runs.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/image-pull-secrets-and-pull-policy",
     "references": [
       {
         "label": "Kubernetes docs: Images (image pull policy)",
