@@ -1275,6 +1275,7 @@
     ],
     "summary": "The images transformer for registry and tag changes, and structuring one image as web, worker and migration roles.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-images-one-image-many-roles",
     "references": [
       {
         "label": "Kustomize reference: images",
