@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -42,6 +44,7 @@ import { XpModule } from './xp/xp.module';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       url:
@@ -92,6 +95,11 @@ import { XpModule } from './xp/xp.module';
     OgImageModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    // Reports unhandled errors (not HttpExceptions like 404/401) to Sentry. Must be registered
+    // before any other exception filter.
+    { provide: APP_FILTER, useClass: SentryGlobalFilter },
+    AppService,
+  ],
 })
 export class AppModule {}

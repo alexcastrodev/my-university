@@ -1,3 +1,5 @@
+// Must stay the first import so Sentry can instrument everything loaded after it.
+import './instrument';
 import fastifyCookie from '@fastify/cookie';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
