@@ -1442,6 +1442,7 @@
     ],
     "summary": "Restarting and force-deleting Pods safely, scaling to zero, and diagnosing a namespace stuck in Terminating by its finalizers.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deleting-pods-scaling-and-stuck-namespaces",
     "references": [
       {
         "label": "Kubernetes docs: Termination of Pods",
