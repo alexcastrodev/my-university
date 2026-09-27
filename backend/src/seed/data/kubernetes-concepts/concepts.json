@@ -2078,6 +2078,7 @@
     ],
     "summary": "Default deny for ingress and egress, cross-namespace rules, AND vs OR selectors, and allowing DNS so egress policies do not break name resolution.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/network-policies-default-deny",
     "references": [
       {
         "label": "Kubernetes docs: Network Policies",
