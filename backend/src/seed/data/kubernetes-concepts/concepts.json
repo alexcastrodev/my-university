@@ -1715,6 +1715,7 @@
     ],
     "summary": "The exact messages for a missing tag, denied credentials, an untrusted CA, an unresolvable host and a wrong architecture, and the fix for each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/image-pull-errors",
     "references": [
       {
         "label": "Kubernetes docs: Images",
