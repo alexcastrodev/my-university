@@ -2123,6 +2123,7 @@
     ],
     "summary": "The privileged, baseline and restricted levels, enforce, warn and audit modes, Deployments accepted while their Pods are rejected, and a safe rollout.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/pod-security-admission",
     "references": [
       {
         "label": "Kubernetes docs: Pod Security Standards",
