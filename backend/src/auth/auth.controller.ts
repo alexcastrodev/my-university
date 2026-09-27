@@ -57,7 +57,7 @@ export class AuthController {
       const profile = await this.github.fetchProfile(token);
       const user = await this.service.upsertFromGithub(profile);
       setSession(reply, user.id);
-      reply.redirect(frontendBase || '/', 302);
+      reply.redirect(`${frontendBase}/dashboard`, 302);
     } catch {
       reply.redirect(`${frontendBase}/login?error=oauth_failed`, 302);
     }
