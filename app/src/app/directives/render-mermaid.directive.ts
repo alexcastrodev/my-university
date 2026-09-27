@@ -3,34 +3,84 @@ import { AfterViewChecked, Directive, ElementRef, PLATFORM_ID, inject } from '@a
 import mermaid from 'mermaid';
 import { MermaidViewerService } from '../services/mermaid-viewer.service';
 
-let mermaidInitialized = false;
+type MermaidTheme = 'light' | 'dark';
 
+/* Mermaid bakes these colors into each SVG, so they cannot follow the CSS theme
+   tokens. The dark palette mirrors styles.css's `:root[data-theme='dark']` values:
+   text that sits straight on the diagram background (sequence messages, loop labels,
+   cluster titles) needs a light fill there, or it ends up dark-on-dark. */
+const THEME_VARIABLES: Record<MermaidTheme, Record<string, string | boolean>> = {
+  light: {
+    primaryColor: '#fff1ef',
+    primaryBorderColor: '#c74634',
+    primaryTextColor: '#111827',
+    lineColor: '#c4cad4',
+    secondaryColor: '#f9fafb',
+    tertiaryColor: '#f9fafb',
+    noteBkgColor: '#fef9e7',
+    noteBorderColor: '#f5cf6b',
+    noteTextColor: '#57534e',
+    actorBkg: '#fff1ef',
+    actorBorder: '#c74634',
+    actorTextColor: '#111827',
+    signalColor: '#94a3b8',
+    signalTextColor: '#374151',
+    labelBoxBkgColor: '#fff1ef',
+    labelBoxBorderColor: '#c74634',
+    labelTextColor: '#111827',
+    edgeLabelBackground: '#f9fafb',
+  },
+  dark: {
+    darkMode: true,
+    background: '#1c2734',
+    primaryColor: '#3a221e',
+    primaryBorderColor: '#e2574a',
+    primaryTextColor: '#f3f4f6',
+    lineColor: '#8b95a5',
+    secondaryColor: '#232d3d',
+    tertiaryColor: '#232d3d',
+    textColor: '#d7dce3',
+    titleColor: '#f3f4f6',
+    clusterBkg: '#232d3d',
+    clusterBorder: '#38445a',
+    noteBkgColor: '#3a2e14',
+    noteBorderColor: '#a16207',
+    noteTextColor: '#fde68a',
+    actorBkg: '#3a221e',
+    actorBorder: '#e2574a',
+    actorTextColor: '#f3f4f6',
+    actorLineColor: '#8b95a5',
+    signalColor: '#9ca3af',
+    signalTextColor: '#e5e7eb',
+    labelBoxBkgColor: '#3a221e',
+    labelBoxBorderColor: '#e2574a',
+    labelTextColor: '#f3f4f6',
+    loopTextColor: '#e5e7eb',
+    activationBkgColor: '#2a3444',
+    activationBorderColor: '#8b95a5',
+    sequenceNumberColor: '#111827',
+    edgeLabelBackground: '#1c2734',
+  },
+};
+
+let initializedTheme: MermaidTheme | null = null;
+
+function currentTheme(): MermaidTheme {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+
+/** (Re)initializes mermaid whenever the app theme differs from the one it was last
+ *  configured for, so diagrams rendered after a theme switch pick the matching palette. */
 function ensureMermaidInitialized(): void {
-  if (mermaidInitialized) return;
+  const theme = currentTheme();
+  if (initializedTheme === theme) return;
   mermaid.initialize({
     startOnLoad: false,
     theme: 'base',
     themeVariables: {
-      primaryColor: '#fff1ef',
-      primaryBorderColor: '#c74634',
-      primaryTextColor: '#111827',
-      lineColor: '#c4cad4',
-      secondaryColor: '#f9fafb',
-      tertiaryColor: '#f9fafb',
       fontFamily: 'inherit',
       fontSize: '15px',
-      noteBkgColor: '#fef9e7',
-      noteBorderColor: '#f5cf6b',
-      noteTextColor: '#57534e',
-      actorBkg: '#fff1ef',
-      actorBorder: '#c74634',
-      actorTextColor: '#111827',
-      signalColor: '#94a3b8',
-      signalTextColor: '#374151',
-      labelBoxBkgColor: '#fff1ef',
-      labelBoxBorderColor: '#c74634',
-      labelTextColor: '#111827',
-      edgeLabelBackground: '#f9fafb',
+      ...THEME_VARIABLES[theme],
     },
     flowchart: {
       curve: 'basis',
@@ -44,7 +94,7 @@ function ensureMermaidInitialized(): void {
       mirrorActors: false,
     },
   });
-  mermaidInitialized = true;
+  initializedTheme = theme;
 }
 
 let renderCounter = 0;
