@@ -887,6 +887,7 @@
     ],
     "summary": "Issuer vs ClusterIssuer, bootstrapping a private root CA inside the cluster, issuing Ingress certificates from it, and making clients trust it.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/cert-manager-issuers-and-private-ca",
     "references": [
       {
         "label": "cert-manager docs: Installation",
