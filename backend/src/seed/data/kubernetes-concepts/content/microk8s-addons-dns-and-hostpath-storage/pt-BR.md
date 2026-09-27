@@ -64,7 +64,9 @@ microk8s disable dns
 microk8s enable dns:10.0.0.53,10.0.0.54
 ```
 
-ou editando a configuração em produção, que o CoreDNS recarrega sozinho (plugin `reload`, cerca de 30 segundos):
+O `disable` é necessário: o `dns` já vem habilitado numa instalação nova, e habilitar um add-on já habilitado só imprime `Addon core/dns is already enabled` e não muda nada (verificado: o Corefile manteve `forward . /etc/resolv.conf`).
+
+Ou editando a configuração em produção, que o CoreDNS recarrega sozinho (plugin `reload`, cerca de 30 segundos):
 
 ```bash
 microk8s kubectl -n kube-system edit configmap/coredns

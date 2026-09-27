@@ -7,12 +7,13 @@ import { XpService } from '../../services/xp.service';
 import { LandingPage } from './landing-page';
 
 function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
+  const currentUser = signal<{ id: number; displayName: string } | null>(loggedIn ? { id: 1, displayName: 'Ana' } : null);
   TestBed.configureTestingModule({
     imports: [LandingPage],
     providers: [
       provideZonelessChangeDetection(),
       provideRouter([{ path: 'dashboard', component: LandingPage }]),
-      { provide: AuthService, useValue: { currentUser: signal(loggedIn ? { id: 1, displayName: 'Ana' } : null) } },
+      { provide: AuthService, useValue: { currentUser } },
       {
         provide: XpService,
         useValue: { leaderboard: signal(leaderboard), loadLeaderboard: () => {} },
@@ -22,20 +23,33 @@ function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
 
   const fixture = TestBed.createComponent(LandingPage);
   fixture.detectChanges();
-  return fixture;
+  return { fixture, currentUser };
 }
 
 describe('LandingPage', () => {
   it('redirects a logged-in visitor straight to /dashboard instead of rendering', async () => {
-    const fixture = setup(true);
+    const { fixture } = setup(true);
     await fixture.whenStable();
     const router = TestBed.inject(Router);
 
     expect(router.url).toBe('/dashboard');
   });
 
+  it('redirects to /dashboard once the session resolves after the page rendered (fresh GitHub login)', async () => {
+    const { fixture, currentUser } = setup(false);
+    const router = TestBed.inject(Router);
+    await fixture.whenStable();
+    expect(router.url).toBe('/');
+
+    currentUser.set({ id: 1, displayName: 'Ana' });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(router.url).toBe('/dashboard');
+  });
+
   it('renders the Complementary Studies topic cards for a logged-out visitor', () => {
-    const fixture = setup(false);
+    const { fixture } = setup(false);
 
     expect(fixture.nativeElement.textContent).toContain('Java Concepts');
     expect(fixture.nativeElement.textContent).toContain('Spring');
@@ -48,7 +62,7 @@ describe('LandingPage', () => {
   });
 
   it('links to the Computer Science roadmap', () => {
-    const fixture = setup(false);
+    const { fixture } = setup(false);
 
     const banner: HTMLAnchorElement = fixture.nativeElement.querySelector('.cs-banner');
     expect(banner).toBeTruthy();
@@ -56,7 +70,7 @@ describe('LandingPage', () => {
   });
 
   it('hides the "Learners on the platform" section when the leaderboard is empty', () => {
-    const fixture = setup(false, []);
+    const { fixture } = setup(false, []);
 
     expect(fixture.nativeElement.querySelector('.community-grid')).toBeNull();
   });
@@ -69,7 +83,7 @@ describe('LandingPage', () => {
       total: 100 - i,
       levelNumber: 2,
     }));
-    const fixture = setup(false, entries);
+    const { fixture } = setup(false, entries);
 
     const cards = fixture.nativeElement.querySelectorAll('.community-card');
     expect(cards.length).toBe(4);

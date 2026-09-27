@@ -17,6 +17,7 @@
     ],
     "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
     "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-secrets-fundamentals",
     "references": [
       {
         "label": "Kubernetes docs: Secrets",
@@ -290,6 +291,7 @@
     ],
     "summary": "Exporting the kubeconfig, contexts and merged KUBECONFIG files, and why the MicroK8s admin certificate (system:masters, ten years, not revocable) must not be shared.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubeconfig-contexts-and-admin-access",
     "references": [
       {
         "label": "Kubernetes docs: Organizing cluster access using kubeconfig files",
@@ -339,6 +341,7 @@
     ],
     "summary": "Why the scheduler compares requests with allocatable instead of free memory, Pods Pending on Insufficient memory, reserving memory for the system, and a node memory budget.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/node-capacity-allocatable-and-memory-budget",
     "references": [
       {
         "label": "Kubernetes docs: Reserve Compute Resources for System Daemons",
@@ -380,6 +383,7 @@
     ],
     "summary": "The five objects behind almost every deployment, how controllers and label selectors tie them together, and which ones you write versus only observe.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-core-objects",
     "references": [
       {
         "label": "Kubernetes docs: Pods",
@@ -429,6 +433,7 @@
     ],
     "summary": "get, describe, apply, delete, output formats, namespace flags and --dry-run for generating YAML, with the pitfalls that matter in daily work.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubectl-essentials",
     "references": [
       {
         "label": "kubectl Quick Reference",
@@ -473,6 +478,7 @@
     ],
     "summary": "Run-to-completion workloads: Never vs OnFailure, backoffLimit, deadlines, ttlSecondsAfterFinished, why re-applying a Job fails, and CronJobs.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/jobs-and-restart-policy",
     "references": [
       {
         "label": "Kubernetes docs: Jobs",
@@ -517,6 +523,7 @@
     ],
     "summary": "maxSurge and maxUnavailable with their rounding rules, what a broken rollout looks like, and when Recreate is the right choice.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deployment-strategies-rollingupdate-vs-recreate",
     "references": [
       {
         "label": "Kubernetes docs: Deployments (strategy)",
@@ -561,6 +568,7 @@
     ],
     "summary": "What each probe triggers, how timing fields combine, and the rules that keep probes from turning a slow dependency into an outage.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/startup-liveness-readiness-probes",
     "references": [
       {
         "label": "Kubernetes docs: Liveness, Readiness, and Startup Probes",
@@ -609,6 +617,7 @@
     ],
     "summary": "How requests drive scheduling and limits are enforced by the kernel, OOMKilled vs CPU throttling, and how QoS classes decide eviction order.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/resource-requests-limits-and-qos",
     "references": [
       {
         "label": "Kubernetes docs: Resource Management for Pods and Containers",
@@ -698,6 +707,7 @@
     ],
     "summary": "Registry credentials with dockerconfigjson Secrets, attaching them per Pod or ServiceAccount, and choosing an imagePullPolicy that is honest about what runs.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/image-pull-secrets-and-pull-policy",
     "references": [
       {
         "label": "Kubernetes docs: Images (image pull policy)",
@@ -742,6 +752,7 @@
     ],
     "summary": "How Services give Pods a stable address, the NodePort range and reaching it from outside the cluster, and when to use an Ingress instead.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/services-clusterip-and-nodeport",
     "references": [
       {
         "label": "Kubernetes docs: Service",
@@ -786,6 +797,7 @@
     ],
     "summary": "Service names inside and across namespaces, the search list and ndots, debugging resolution, and why egress policies can break DNS.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/service-dns-and-cross-namespace-access",
     "references": [
       {
         "label": "Kubernetes docs: DNS for Services and Pods",
@@ -825,6 +837,7 @@
     ],
     "summary": "Host and path routing with Ingress, what the MicroK8s ingress add-on installs now (Traefik), ingress-nginx end of life, and HTTPRoutes with the Gateway API.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/ingress-controllers-and-gateway-api",
     "references": [
       {
         "label": "Kubernetes docs: Ingress",
@@ -879,6 +892,7 @@
     ],
     "summary": "Issuer vs ClusterIssuer, bootstrapping a private root CA inside the cluster, issuing Ingress certificates from it, and making clients trust it.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/cert-manager-issuers-and-private-ca",
     "references": [
       {
         "label": "cert-manager docs: Installation",
@@ -933,6 +947,7 @@
     ],
     "summary": "ACME issuers, the requirements of each challenge, wildcards and private clusters, debugging pending challenges, and shorter certificate lifetimes.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/lets-encrypt-http01-vs-dns01",
     "references": [
       {
         "label": "cert-manager docs: ACME",
@@ -1032,6 +1047,7 @@
     ],
     "summary": "Binding modes, the normal and the broken Pending, access modes, reclaim policies, and verifying that data survives Pod and node restarts.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/persistent-volumes-and-storageclasses",
     "references": [
       {
         "label": "Kubernetes docs: Persistent Volumes",
@@ -1076,6 +1092,7 @@
     ],
     "summary": "Why non-root containers get Permission denied on new volumes, how fsGroup works, when it does nothing (hostPath), and fsGroupChangePolicy.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/volume-permissions-and-fsgroup",
     "references": [
       {
         "label": "Kubernetes docs: Configure a Security Context for a Pod or Container",
@@ -1124,6 +1141,7 @@
     ],
     "summary": "What node-level backups, Velero and CSI snapshots can back up on a single node (Velero cannot read hostPath volumes), and timing a restore drill.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/volume-backups-velero-and-restore-drills",
     "references": [
       {
         "label": "Velero docs: File System Backup",
@@ -1173,6 +1191,7 @@
     ],
     "summary": "Layering plain YAML with bases, overlays and optional components, labels vs commonLabels, and previewing with kubectl kustomize and kubectl diff.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-bases-overlays-and-components",
     "references": [
       {
         "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Kustomize",
@@ -1217,6 +1236,7 @@
     ],
     "summary": "Both patch formats, how lists with and without merge keys behave, targets by kind, name and labels, and the failure modes of each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-patches",
     "references": [
       {
         "label": "Kustomize reference: patches",
@@ -1261,6 +1281,7 @@
     ],
     "summary": "The images transformer for registry and tag changes, and structuring one image as web, worker and migration roles.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-images-one-image-many-roles",
     "references": [
       {
         "label": "Kustomize reference: images",
@@ -1305,6 +1326,7 @@
     ],
     "summary": "configMapGenerator and secretGenerator from literals, env files and files, merge and replace across layers, and how the hash suffix triggers rollouts.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-generators-and-hash-suffix",
     "references": [
       {
         "label": "Kustomize reference: configMapGenerator",
@@ -1349,6 +1371,7 @@
     ],
     "summary": "Shared services and applications in separate namespaces, what crosses namespace boundaries, and an apply order that works on an empty cluster.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/multi-namespace-layout-and-apply-order",
     "references": [
       {
         "label": "Kubernetes docs: Namespaces",
@@ -1393,6 +1416,7 @@
     ],
     "summary": "Following a rollout in scripts, what rollout restart really does, revision history and change causes, and what rollout undo does and does not roll back.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/rollouts-restart-history-and-rollback",
     "references": [
       {
         "label": "Kubernetes docs: Deployments (updating, rolling back, pausing)",
@@ -1432,6 +1456,7 @@
     ],
     "summary": "Restarting and force-deleting Pods safely, scaling to zero, and diagnosing a namespace stuck in Terminating by its finalizers.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deleting-pods-scaling-and-stuck-namespaces",
     "references": [
       {
         "label": "Kubernetes docs: Termination of Pods",
@@ -1476,6 +1501,7 @@
     ],
     "summary": "A bootstrap script that can be re-run safely: idempotent vs non-idempotent commands, the dry-run and apply pattern, explicit waits, and rebuild tests.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/idempotent-cluster-bootstrap",
     "references": [
       {
         "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Configuration Files",
@@ -1520,6 +1546,7 @@
     ],
     "summary": "A least-privilege identity for CI, a single-context kubeconfig, render, diff, apply and rollout status, and push vs pull (GitOps) deployments.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deploying-from-ci-pipeline",
     "references": [
       {
         "label": "Kubernetes docs: Authenticating (OpenID Connect tokens)",
@@ -1569,6 +1596,7 @@
     ],
     "summary": "Phases, conditions and container states behind the STATUS column, where each status comes from, and what to check first for each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/pod-lifecycle-and-status",
     "references": [
       {
         "label": "Kubernetes docs: Pod Lifecycle",
@@ -1613,6 +1641,7 @@
     ],
     "summary": "A repeatable procedure: exit codes and reasons, logs of the previous attempt, events, and keeping a crashing container alive to inspect it.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/debugging-crashloopbackoff",
     "references": [
       {
         "label": "Kubernetes docs: Debug Running Pods",
@@ -1657,6 +1686,7 @@
     ],
     "summary": "Event types and fields, reading them in the right order (the sort-by pitfall), five-minute retention on MicroK8s, and exporting events.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-events",
     "references": [
       {
         "label": "kubectl events reference",
@@ -1701,6 +1731,7 @@
     ],
     "summary": "The exact messages for a missing tag, denied credentials, an untrusted CA, an unresolvable host and a wrong architecture, and the fix for each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/image-pull-errors",
     "references": [
       {
         "label": "Kubernetes docs: Images",
@@ -1750,6 +1781,7 @@
     ],
     "summary": "Running commands inside containers, ephemeral debug containers for images without a shell, and port-forward tunnels with their limits.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubectl-exec-and-port-forward",
     "references": [
       {
         "label": "Kubernetes docs: Get a Shell to a Running Container",
@@ -1794,6 +1826,7 @@
     ],
     "summary": "Enabling metrics-server, what kubectl top numbers mean, comparing usage with requests and limits, and sizing from Prometheus history.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/metrics-server-and-kubectl-top",
     "references": [
       {
         "label": "Kubernetes docs: Resource metrics pipeline",
@@ -1843,6 +1876,7 @@
     ],
     "summary": "What the MicroK8s observability add-on installs (and its defaults), how ServiceMonitors are selected, and the release label that silently hides targets.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/prometheus-grafana-and-servicemonitors",
     "references": [
       {
         "label": "kube-prometheus-stack chart",
@@ -1887,6 +1921,7 @@
     ],
     "summary": "How container logs are collected, what the add-on ships (Loki 2.6 and end-of-life Promtail), migrating to Alloy, labels and LogQL.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/centralized-logs-loki-alloy",
     "references": [
       {
         "label": "Grafana: Migrate from Promtail to Grafana Alloy",
@@ -1936,6 +1971,7 @@
     ],
     "summary": "The shipped alert rules, writing rules for restarts, memory and disk, and routing alerts out of the default null receiver.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/alertmanager-basic-alerts",
     "references": [
       {
         "label": "Prometheus docs: Alerting rules",
@@ -1980,6 +2016,7 @@
     ],
     "summary": "MicroK8s runs with AlwaysAllow until RBAC is enabled; Roles, bindings, testing with auth can-i, dangerous permissions, and replacing cluster-admin grants.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/rbac-least-privilege",
     "references": [
       {
         "label": "Kubernetes docs: Using RBAC Authorization",
@@ -2024,6 +2061,7 @@
     ],
     "summary": "What the auto-mounted token is, when to disable it with automountServiceAccountToken, dedicated ServiceAccounts, and audience-bound tokens.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/serviceaccount-tokens-and-automount",
     "references": [
       {
         "label": "Kubernetes docs: Service Accounts",
@@ -2068,6 +2106,7 @@
     ],
     "summary": "Default deny for ingress and egress, cross-namespace rules, AND vs OR selectors, and allowing DNS so egress policies do not break name resolution.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/network-policies-default-deny",
     "references": [
       {
         "label": "Kubernetes docs: Network Policies",
@@ -2112,6 +2151,7 @@
     ],
     "summary": "The privileged, baseline and restricted levels, enforce, warn and audit modes, Deployments accepted while their Pods are rejected, and a safe rollout.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/pod-security-admission",
     "references": [
       {
         "label": "Kubernetes docs: Pod Security Standards",
@@ -2156,6 +2196,7 @@
     ],
     "summary": "runAsNonRoot, allowPrivilegeEscalation, dropping capabilities, seccomp and a read-only root filesystem, how to verify them, and what breaks.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/securitycontext-hardening",
     "references": [
       {
         "label": "Kubernetes docs: Configure a Security Context for a Pod or Container",
@@ -2205,6 +2246,7 @@
     ],
     "summary": "How the JVM, Node.js, .NET and Go size their heap under a container limit, what lives outside the heap, and a sizing rule that avoids OOMKilled.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/managed-runtime-memory-in-containers",
     "references": [
       {
         "label": "Kubernetes docs: Assign Memory Resources to Containers",
@@ -2254,6 +2296,7 @@
     ],
     "summary": "Streaming a dump off the cluster with kubectl exec, restoring it, and a backup CronJob that really fails when the dump fails (the sh -e pipe trap).",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs",
     "references": [
       {
         "label": "kubectl exec reference",

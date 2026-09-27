@@ -1,23 +1,25 @@
 import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { BottomNav } from './bottom-nav';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/auth.model';
 
 @Component({ template: '' })
 class Dummy {}
 
 describe('BottomNav', () => {
-  async function setup(url: string, user: object | null = { id: 1, displayName: 'Test' }) {
+  async function setup(url: string, user: User | null = { id: 1, displayName: 'Ada' } as User) {
+    const currentUser = signal<User | null>(user);
     TestBed.configureTestingModule({
       imports: [BottomNav],
       providers: [
         provideZonelessChangeDetection(),
+        { provide: AuthService, useValue: { currentUser } },
         provideRouter([
           { path: 'daily/session', component: Dummy },
           { path: '**', component: Dummy },
         ]),
-        { provide: AuthService, useValue: { currentUser: signal(user) } },
       ],
     }).compileComponents();
 
@@ -25,8 +27,36 @@ describe('BottomNav', () => {
     await router.navigateByUrl(url);
     const fixture = TestBed.createComponent(BottomNav);
     fixture.detectChanges();
-    return { fixture, router };
+    return { fixture, router, currentUser };
   }
+
+  function homeTab(fixture: { nativeElement: HTMLElement }): HTMLAnchorElement | undefined {
+    return Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('a.tab')).find((a) =>
+      a.textContent?.includes('Home'),
+    );
+  }
+
+  it('links Home to the dashboard when logged in', async () => {
+    const { fixture } = await setup('/daily');
+
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/dashboard');
+  });
+
+  it('links Home to the landing page when logged out', async () => {
+    const { fixture } = await setup('/daily', null);
+
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
+  });
+
+  it('switches Home to the landing page right after logout', async () => {
+    const { fixture, currentUser } = await setup('/settings');
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/dashboard');
+
+    currentUser.set(null);
+    fixture.detectChanges();
+
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
+  });
 
   it('renders the five tabs', async () => {
     const { fixture } = await setup('/dashboard');
@@ -39,24 +69,6 @@ describe('BottomNav', () => {
     expect(text).toContain('Track');
     expect(text).toContain('Feed');
     expect(text).toContain('Settings');
-  });
-
-  function homeTab(fixture: { nativeElement: HTMLElement }): HTMLAnchorElement | undefined {
-    return Array.from(fixture.nativeElement.querySelectorAll<HTMLAnchorElement>('a.tab')).find((a) =>
-      a.textContent?.includes('Home'),
-    );
-  }
-
-  it('links Home to the dashboard when signed in', async () => {
-    const { fixture } = await setup('/daily');
-
-    expect(homeTab(fixture)?.getAttribute('href')).toBe('/dashboard');
-  });
-
-  it('links Home to the landing page when signed out', async () => {
-    const { fixture } = await setup('/daily', null);
-
-    expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
   it('links Settings to the settings page, which replaces the header on phones', async () => {
