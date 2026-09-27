@@ -177,6 +177,45 @@ html, body {
   }
 }
 
+/* iOS 26 WebKit regression in the installed PWA: when the document is not taller than the
+   screen, the viewport comes up short by exactly the top safe area, so the fixed bottom nav
+   floats that much above the real bottom edge with a dead strip under it. Pages whose content
+   is all position: fixed (the Feed) hit it every time. Keeping the root at least one top inset
+   taller than 100% gives every page the same scrollable document the other tabs already have. */
+@media (max-width: 768px) and (display-mode: standalone) {
+  html {
+    min-height: calc(100% + var(--mu-safe-top));
+  }
+}
+
+/* Loading placeholder: a block in the line color with a soft sweep across it. Components size
+   it to match what will replace it, so the layout doesn't jump when the data arrives. */
+.mu-skeleton {
+  display: block;
+  border-radius: 6px;
+  background: var(--mu-line);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--mu-ink) 7%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: mu-skeleton-sweep 1.3s ease-in-out infinite;
+}
+
+@keyframes mu-skeleton-sweep {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mu-skeleton {
+    animation: none;
+  }
+}
+
 /* ==========================================================================
    Concept article — shared by every *-concept-view component (java,
    algorithms, database, spring, testing, jvm, system-design). Lives here

@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  PLATFORM_ID,
+  computed,
+  effect,
+  inject,
+  signal,
+  untracked,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
   COMPLEMENTARY_AREAS,
@@ -16,6 +28,7 @@ import { ReviewService } from '../../services/review.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
+import { PHONE_MEDIA_QUERY } from '../../shared/breakpoints';
 
 const PATH = '/dashboard';
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -58,6 +71,8 @@ export class DashboardPage implements OnInit {
   private reviewService = inject(ReviewService);
   private complementaryService = inject(ComplementaryStudiesService);
   private seo = inject(SeoService);
+  private platformId = inject(PLATFORM_ID);
+  private destroyRef = inject(DestroyRef);
 
   protected readonly formatRelative = formatRelative;
 
@@ -163,13 +178,43 @@ export class DashboardPage implements OnInit {
     });
   }
 
-  /** Loads everything the dashboard shows for the signed-in user. */
+  /** Loads what the phone Home shows; the desktop-only panels follow on wide screens. */
   private loadAll(): void {
     this.xpService.loadSummary();
     this.xpService.loadStreak();
     this.xpService.loadDailyGoal();
-    this.xpService.loadLeaderboard();
     this.xpService.loadAreas();
+
+    this.reviewService.getMarkCounts().subscribe({
+      next: (counts) => this.markCounts.set(counts),
+      error: () => {},
+    });
+
+    this.loadDesktopPanelsWhenWide();
+  }
+
+  /** On a phone, the areas table, ranking, review panel and weekly activity are never on
+   *  screen, and the areas table alone costs one full concept list per area (a dozen requests)
+   *  that would compete with the daily session the phone Home is waiting for. They load when
+   *  the viewport is (or later becomes, e.g. a rotated tablet) wider than a phone. */
+  private loadDesktopPanelsWhenWide(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const phone = matchMedia(PHONE_MEDIA_QUERY);
+    if (!phone.matches) {
+      this.loadDesktopPanels();
+      return;
+    }
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) return;
+      phone.removeEventListener('change', onChange);
+      this.loadDesktopPanels();
+    };
+    phone.addEventListener('change', onChange);
+    this.destroyRef.onDestroy(() => phone.removeEventListener('change', onChange));
+  }
+
+  private loadDesktopPanels(): void {
+    this.xpService.loadLeaderboard();
 
     this.resumeService.getResumePoint().subscribe({
       next: (point) => this.resumePoint.set(point),
@@ -178,11 +223,6 @@ export class DashboardPage implements OnInit {
 
     this.reviewService.getDueQueue().subscribe({
       next: (queue) => this.reviewQueue.set(queue),
-      error: () => {},
-    });
-
-    this.reviewService.getMarkCounts().subscribe({
-      next: (counts) => this.markCounts.set(counts),
       error: () => {},
     });
 

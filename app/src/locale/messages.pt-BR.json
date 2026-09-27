@@ -727,6 +727,7 @@
     "home.nothingDue": "Nada pendente hoje",
     "home.nothingDueHint": "Leia alguns conceitos e a sessão de amanhã se monta a partir deles.",
     "home.openFeed": "Abrir o feed",
+    "home.loading": "Carregando",
     "home.days": "dias",
     "home.record": "recorde {$INTERPOLATION}",
     "home.goal": "META",

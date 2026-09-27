@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 import { DailySessionService } from '../../services/daily-session.service';
 import { XpService } from '../../services/xp.service';
 import { COMPUTER_SCIENCE_LABEL } from '../../shared/area-labels';
+import { isPhoneViewport } from '../../shared/breakpoints';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_AREAS = 5;
@@ -73,6 +74,8 @@ export class MobileHome implements OnInit {
   readonly markCounts = input<MarkCounts | null>(null);
 
   protected readonly ringCircumference = RING_CIRCUMFERENCE;
+  /** Placeholder rows while the session and the areas are still on their way. */
+  protected readonly skeletonRows = [0, 1, 2];
   protected readonly session = signal<DailySession | null>(null);
   protected readonly cards = computed<DailyCard[]>(() => this.session()?.cards ?? []);
   protected readonly potentialXp = computed(() => this.cards().reduce((sum, c) => sum + c.xp, 0));
@@ -131,7 +134,7 @@ export class MobileHome implements OnInit {
   ngOnInit(): void {
     // Desktop renders the full dashboard instead and never shows this component, so it
     // shouldn't pay for assembling a session nobody will see.
-    if (!isPlatformBrowser(this.platformId) || !matchMedia('(max-width: 768px)').matches) return;
+    if (!isPlatformBrowser(this.platformId) || !isPhoneViewport()) return;
     this.dailyService.build().subscribe({
       next: (session) => this.session.set(session),
       error: () => this.session.set({ estimatedMinutes: 0, cards: [], summary: { headline: '', tomorrow: { title: '', body: '' } } }),
