@@ -1081,6 +1081,7 @@
     ],
     "summary": "Why non-root containers get Permission denied on new volumes, how fsGroup works, when it does nothing (hostPath), and fsGroupChangePolicy.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/volume-permissions-and-fsgroup",
     "references": [
       {
         "label": "Kubernetes docs: Configure a Security Context for a Pod or Container",
