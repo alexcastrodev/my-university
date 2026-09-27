@@ -1541,6 +1541,7 @@
     ],
     "summary": "A least-privilege identity for CI, a single-context kubeconfig, render, diff, apply and rollout status, and push vs pull (GitOps) deployments.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/deploying-from-ci-pipeline",
     "references": [
       {
         "label": "Kubernetes docs: Authenticating (OpenID Connect tokens)",
