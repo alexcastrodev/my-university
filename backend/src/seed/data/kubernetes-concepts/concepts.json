@@ -1185,6 +1185,7 @@
     ],
     "summary": "Layering plain YAML with bases, overlays and optional components, labels vs commonLabels, and previewing with kubectl kustomize and kubectl diff.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-bases-overlays-and-components",
     "references": [
       {
         "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Kustomize",
