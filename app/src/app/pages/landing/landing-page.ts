@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, effect, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import { AuthService } from '../../services/auth.service';
@@ -37,8 +37,8 @@ const TOPIC_CARDS: TopicCard[] = COMPLEMENTARY_AREAS.map((area) => ({
   routerLink: area.routerLink,
 }));
 
-/** Logged-out marketing page only — a logged-in user is redirected straight to
- *  /dashboard in ngOnInit, so this component never renders content for them. */
+/** Logged-out marketing page only: a logged-in user is sent straight to /dashboard,
+ *  so this component never renders content for them. */
 @Component({
   selector: 'app-landing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,11 +54,16 @@ export class LandingPage implements OnInit {
 
   protected readonly topics = TOPIC_CARDS;
 
-  ngOnInit() {
+  /** The cached user can be missing (fresh login, cleared storage, installed app opening at
+   *  `/`) and only show up once `/api/auth/me` answers, so this watches instead of checking once. */
+  private readonly redirectWhenLoggedIn = effect(() => {
     if (this.auth.currentUser()) {
-      this.router.navigate(['/dashboard'], { replaceUrl: true });
-      return;
+      void this.router.navigate(['/dashboard'], { replaceUrl: true });
     }
+  });
+
+  ngOnInit() {
+    if (this.auth.currentUser()) return;
 
     this.seo.set({
       title: 'My University — A Computer Science curriculum, one topic at a time',
