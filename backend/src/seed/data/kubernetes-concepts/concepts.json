@@ -1988,6 +1988,7 @@
     ],
     "summary": "MicroK8s runs with AlwaysAllow until RBAC is enabled; Roles, bindings, testing with auth can-i, dangerous permissions, and replacing cluster-admin grants.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/rbac-least-privilege",
     "references": [
       {
         "label": "Kubernetes docs: Using RBAC Authorization",
