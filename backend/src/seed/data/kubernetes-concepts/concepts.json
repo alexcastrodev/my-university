@@ -1866,6 +1866,7 @@
     ],
     "summary": "What the MicroK8s observability add-on installs (and its defaults), how ServiceMonitors are selected, and the release label that silently hides targets.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/prometheus-grafana-and-servicemonitors",
     "references": [
       {
         "label": "kube-prometheus-stack chart",
