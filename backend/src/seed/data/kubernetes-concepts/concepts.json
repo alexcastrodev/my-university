@@ -610,6 +610,7 @@
     ],
     "summary": "How requests drive scheduling and limits are enforced by the kernel, OOMKilled vs CPU throttling, and how QoS classes decide eviction order.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/resource-requests-limits-and-qos",
     "references": [
       {
         "label": "Kubernetes docs: Resource Management for Pods and Containers",
