@@ -5,6 +5,7 @@ import { XpService } from '../../services/xp.service';
 import { SeoService } from '../../services/seo.service';
 import { DailySessionService } from '../../services/daily-session.service';
 import { DailyCard, DailySession } from '../../models/daily.model';
+import { dailyCardTypeLabel } from '../../shared/daily-labels';
 
 const PATH = '/daily';
 
@@ -65,7 +66,7 @@ export class DailyHomePage implements OnInit {
   }
 
   cardTypeLabel(type: DailyCard['type']): string {
-    return type.toUpperCase();
+    return dailyCardTypeLabel(type);
   }
 
   start(): void {
