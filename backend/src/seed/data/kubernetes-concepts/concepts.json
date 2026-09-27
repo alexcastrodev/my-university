@@ -1360,6 +1360,7 @@
     ],
     "summary": "Shared services and applications in separate namespaces, what crosses namespace boundaries, and an apply order that works on an empty cluster.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/multi-namespace-layout-and-apply-order",
     "references": [
       {
         "label": "Kubernetes docs: Namespaces",
