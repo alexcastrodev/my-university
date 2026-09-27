@@ -1669,6 +1669,7 @@
     ],
     "summary": "Event types and fields, reading them in the right order (the sort-by pitfall), five-minute retention on MicroK8s, and exporting events.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-events",
     "references": [
       {
         "label": "kubectl events reference",
