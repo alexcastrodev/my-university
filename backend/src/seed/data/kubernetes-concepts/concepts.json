@@ -1911,6 +1911,7 @@
     ],
     "summary": "How container logs are collected, what the add-on ships (Loki 2.6 and end-of-life Promtail), migrating to Alloy, labels and LogQL.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/centralized-logs-loki-alloy",
     "references": [
       {
         "label": "Grafana: Migrate from Promtail to Grafana Alloy",
