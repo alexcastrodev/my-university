@@ -21,7 +21,7 @@
   box-shadow: 0 4px 24px rgba(0,0,0,.06);
 }
 
-.logo { margin-bottom: 0.5rem; }
+.logo { margin-bottom: 0.5rem; display: flex; color: var(--mu-accent); }
 
 .title {
   font-size: 1.25rem;

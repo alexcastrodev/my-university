@@ -33,8 +33,8 @@
 }
 
 .brand-icon { display: flex; align-items: center; color: var(--mu-accent); }
-.brand-name { font-size: 0.95rem; font-weight: 400; letter-spacing: 0.01em; }
-.brand-name strong { font-weight: 700; }
+.brand-name { font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; color: rgba(255,255,255,.72); }
+.brand-name strong { font-weight: 800; color: var(--mu-white); }
 
 .nav-links { display: flex; align-items: center; gap: 0.4rem; }
 
