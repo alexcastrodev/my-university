@@ -1582,6 +1582,7 @@
     ],
     "summary": "Phases, conditions and container states behind the STATUS column, where each status comes from, and what to check first for each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/pod-lifecycle-and-status",
     "references": [
       {
         "label": "Kubernetes docs: Pod Lifecycle",
