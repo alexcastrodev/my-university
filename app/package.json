@@ -32,6 +32,7 @@
     "@angular/platform-server": "^22.0.7",
     "@angular/router": "^22.0.7",
     "@angular/ssr": "^22.0.7",
+    "@sentry/angular": "^11.0.0",
     "algorithmator": "workspace:*",
     "cytoscape": "3.34.3",
     "cytoscape-dagre": "4.0.1",

@@ -41,6 +41,9 @@ services:
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
+      # Error and performance reporting (Sentry project kutz/university-api). A DSN is not a
+      # secret, it only lets clients send events; set here, and nowhere else, so only production reports.
+      - SENTRY_DSN=https://ead6bcc0a9533ee44b1aabcf93268f8d@o4509399654989824.ingest.us.sentry.io/4512158423187456
     # proxy_net to reach university-db (postgres/meilisearch); internal for web.
     networks:
       - proxy_net

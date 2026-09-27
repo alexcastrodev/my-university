@@ -1,16 +1,25 @@
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { NavigationError } from '@angular/router';
 import { ChunkReloadService } from './services/chunk-reload.service';
+import { reportError } from './sentry';
 
 /**
- * Matches the errors browsers throw when a lazy-loaded chunk 404s or otherwise fails to load.
- * Same pattern Angular's own team uses for angular.dev:
- * https://github.com/angular/angular/blob/main/adev/src/app/core/services/errors-handling/error-handler.ts
+ * What each engine says when a dynamic `import()` fails. Chrome and Firefox name the chunk URL
+ * (the pattern Angular's own team uses for angular.dev), but Safari only says "Importing a
+ * module script failed." with no URL at all, so on iOS a stale chunk used to fail silently and
+ * the tab the user tapped simply never opened.
  */
-function isChunkLoadError(error: unknown): boolean {
+const CHUNK_LOAD_PATTERNS = [
+  /chunk-(.*?)\.(js|mjs)/,
+  /Importing a module script failed/i,
+  /Failed to fetch dynamically imported module/i,
+  /error loading dynamically imported module/i,
+];
+
+export function isChunkLoadError(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
   const firstLine = message.split('\n')[0] ?? '';
-  return /chunk-(.*?)\.(js|mjs)/.test(firstLine);
+  return CHUNK_LOAD_PATTERNS.some((pattern) => pattern.test(firstLine));
 }
 
 /** Router-level catch: covers navigations that fail with a resolvable target URL. */
@@ -28,7 +37,11 @@ export class ChunkLoadErrorHandler implements ErrorHandler {
   private chunkReload = inject(ChunkReloadService);
 
   handleError(error: unknown): void {
-    if (isChunkLoadError(error)) {
+    // Chunk failures are reported too (as warnings), to see how often a deploy strands an
+    // installed PWA on the old build.
+    const chunk = isChunkLoadError(error);
+    reportError(error, chunk ? 'warning' : 'error');
+    if (chunk) {
       this.chunkReload.recover();
       return;
     }

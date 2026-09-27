@@ -1,7 +1,7 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { of } from 'rxjs';
+import { NEVER, of } from 'rxjs';
 import { DailySession } from '../../models/daily.model';
 import { AreaXpBreakdownEntry } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
@@ -27,10 +27,10 @@ const AREAS: AreaXpBreakdownEntry[] = [
   { module: 'spring-concepts', xp: 250, lastActivityAt: ago(2) },
 ];
 
-function setup(options: { expired?: number; mobile?: boolean } = {}) {
-  const { expired = 27, mobile = true } = options;
+function setup(options: { expired?: number; mobile?: boolean; loading?: boolean } = {}) {
+  const { expired = 27, mobile = true, loading = false } = options;
   spyOn(window, 'matchMedia').and.returnValue({ matches: mobile } as MediaQueryList);
-  const build = jasmine.createSpy('build').and.returnValue(of(SESSION));
+  const build = jasmine.createSpy('build').and.returnValue(loading ? NEVER : of(SESSION));
 
   TestBed.configureTestingModule({
     imports: [MobileHome],
@@ -42,10 +42,11 @@ function setup(options: { expired?: number; mobile?: boolean } = {}) {
       {
         provide: XpService,
         useValue: {
-          summary: signal({ total: 340, level: { number: 3, title: 'Compiler Whisperer', minXp: 300, nextLevelXp: 600 }, breakdown: [] }),
-          streak: signal({ current: 0, longest: 4 }),
-          dailyGoal: signal({ earnedToday: 10, goal: 30 }),
-          areas: signal(AREAS),
+          summary: signal(loading ? null : { total: 340, level: { number: 3, title: 'Compiler Whisperer', minXp: 300, nextLevelXp: 600 }, breakdown: [] }),
+          streak: signal(loading ? null : { current: 0, longest: 4 }),
+          dailyGoal: signal(loading ? null : { earnedToday: 10, goal: 30 }),
+          areas: signal(loading ? [] : AREAS),
+          areasLoaded: signal(!loading),
         },
       },
     ],
@@ -68,6 +69,20 @@ describe('MobileHome', () => {
     expect(el.querySelectorAll('.chip').length).toBe(2);
     expect(el.querySelector('.start')!.textContent).toContain('+40 XP');
     expect(el.querySelector('.start')!.getAttribute('href')).toBe('/daily/session');
+  });
+
+  it('shows placeholders, not zeros or an empty box, while everything is still loading', () => {
+    const { fixture } = setup({ loading: true });
+    const el: HTMLElement = fixture.nativeElement;
+
+    expect(el.querySelector('.greeting')!.textContent).toContain('Alexandro');
+    expect(el.querySelector('.today')!.getAttribute('aria-busy')).toBe('true');
+    expect(el.querySelectorAll('.today .mu-skeleton').length).toBeGreaterThan(0);
+    expect(el.querySelector('.ring')).toBeNull();
+    expect(el.querySelectorAll('.stats .mu-skeleton').length).toBeGreaterThan(0);
+    expect(el.textContent).not.toContain('record 0');
+    expect(el.querySelectorAll('.areas .mu-skeleton').length).toBeGreaterThan(0);
+    expect(el.querySelector('.areas-empty')).toBeNull();
   });
 
   it('does not build a session on wide screens, where it is never shown', () => {

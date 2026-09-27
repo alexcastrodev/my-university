@@ -54,7 +54,20 @@
       </article>
     }
 
-    @if (loading()) {
+    @if (loading() && items().length === 0) {
+      <article class="card" role="status" aria-busy="true" i18n-aria-label="@@feed.loading" aria-label="Loading…">
+        <div class="card-top" aria-hidden="true">
+          <span class="mu-skeleton sk sk-kicker"></span>
+          <span class="mu-skeleton sk sk-crumb"></span>
+        </div>
+        <span class="mu-skeleton sk sk-title" aria-hidden="true"></span>
+        <span class="mu-skeleton sk sk-title sk-title-short" aria-hidden="true"></span>
+        @for (line of skeletonLines; track line; let last = $last) {
+          <span class="mu-skeleton sk sk-text" [class.sk-text-short]="last" aria-hidden="true"></span>
+        }
+        <span class="mu-skeleton sk sk-code" aria-hidden="true"></span>
+      </article>
+    } @else if (loading()) {
       <div class="state" role="status" i18n="@@feed.loading">Loading…</div>
     } @else if (error()) {
       <button type="button" class="state state-btn" (click)="loadMore()" i18n="@@feed.error">Could not load the feed. Tap to retry.</button>

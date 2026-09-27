@@ -25,8 +25,18 @@
       </section>
     }
   } @else {
-    <h1 class="headline headline-loading" aria-hidden="true">&nbsp;</h1>
-    <section class="today today-loading" aria-hidden="true"></section>
+    <div class="headline-skeleton mu-skeleton" aria-hidden="true"></div>
+    <section class="today" aria-busy="true" i18n-aria-label="@@home.loading" aria-label="Loading">
+      <ol class="chips" aria-hidden="true">
+        @for (row of skeletonRows; track row) {
+          <li class="chip">
+            <span class="mu-skeleton sk-type"></span>
+            <span class="mu-skeleton sk-title"></span>
+          </li>
+        }
+      </ol>
+      <div class="mu-skeleton sk-start" aria-hidden="true"></div>
+    </section>
   }
 
   <div class="stats">
@@ -41,15 +51,30 @@
         <span class="level-title">{{ summary.level.title }}</span>
         <span class="stat-foot">{{ summary.total }}@if (summary.level.nextLevelXp) {/{{ summary.level.nextLevelXp }}}</span>
       </div>
+    } @else {
+      <div class="stat stat-level" aria-hidden="true">
+        <span class="mu-skeleton sk-ring"></span>
+        <span class="mu-skeleton sk-line"></span>
+        <span class="mu-skeleton sk-line sk-short"></span>
+      </div>
     }
     <div class="stat">
       <span class="stat-label">STREAK</span>
-      <span class="stat-big">{{ xpService.streak()?.current ?? 0 }} <small i18n="@@home.days">days</small></span>
-      <span class="stat-foot" i18n="@@home.record">record {{ xpService.streak()?.longest ?? 0 }}</span>
+      @if (xpService.streak(); as streak) {
+        <span class="stat-big">{{ streak.current }} <small i18n="@@home.days">days</small></span>
+        <span class="stat-foot" i18n="@@home.record">record {{ streak.longest }}</span>
+      } @else {
+        <span class="mu-skeleton sk-big" aria-hidden="true"></span>
+        <span class="mu-skeleton sk-line sk-short" aria-hidden="true"></span>
+      }
     </div>
     <div class="stat">
       <span class="stat-label" i18n="@@home.goal">GOAL</span>
-      <span class="stat-big">{{ xpService.dailyGoal()?.earnedToday ?? 0 }}<small>/{{ xpService.dailyGoal()?.goal ?? 30 }}</small></span>
+      @if (xpService.dailyGoal(); as goal) {
+        <span class="stat-big">{{ goal.earnedToday }}<small>/{{ goal.goal }}</small></span>
+      } @else {
+        <span class="mu-skeleton sk-big" aria-hidden="true"></span>
+      }
       <div class="goal-bar"><div class="goal-fill" [style.width.%]="goalPercent()"></div></div>
     </div>
   </div>
@@ -70,7 +95,17 @@
       <h2 i18n="@@home.yourAreas">Your areas</h2>
       <span i18n="@@home.depthRecency">depth · recency</span>
     </div>
-    @if (areas().length === 0) {
+    @if (!xpService.areasLoaded()) {
+      <ul aria-hidden="true">
+        @for (row of skeletonRows; track row) {
+          <li class="area">
+            <span class="mu-skeleton sk-line"></span>
+            <span class="mu-skeleton sk-depth"></span>
+            <span class="mu-skeleton sk-line"></span>
+          </li>
+        }
+      </ul>
+    } @else if (areas().length === 0) {
       <p class="areas-empty" i18n="@@home.noAreas">Nothing read yet. Pick anything on the track or in the feed.</p>
     } @else {
       <ul>

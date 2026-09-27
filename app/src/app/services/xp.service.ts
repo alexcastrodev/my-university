@@ -23,6 +23,8 @@ export class XpService {
   dailyGoal = signal<DailyGoalStatus | null>(null);
   leaderboard = signal<LeaderboardEntry[]>([]);
   areas = signal<AreaXpBreakdownEntry[]>([]);
+  /** Tells "still loading" apart from "nothing read yet": both leave `areas` empty. */
+  areasLoaded = signal(false);
   xp = computed(() => this.summary()?.total ?? 0);
 
   private hasLoadedOnce = false;
@@ -82,7 +84,11 @@ export class XpService {
     if (!user) return;
 
     this.http.get<AreaXpBreakdownEntry[]>('/api/xp/areas').subscribe({
-      next: (entries) => this.areas.set(entries),
+      next: (entries) => {
+        this.areas.set(entries);
+        this.areasLoaded.set(true);
+      },
+      error: () => this.areasLoaded.set(true),
     });
   }
 }

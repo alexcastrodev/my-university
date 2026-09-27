@@ -59,6 +59,9 @@ export class FeedPage implements OnInit {
     { area: 'ruby', label: 'Ruby' },
   ];
 
+  /** Summary lines drawn by the first-load placeholder card. */
+  protected readonly skeletonLines = [0, 1, 2, 3, 4];
+
   protected readonly area = signal<FeedArea>('all');
   protected readonly items = signal<FeedItem[]>([]);
   protected readonly loading = signal(false);

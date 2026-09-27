@@ -8,7 +8,8 @@
 }
 
 /* On phones the feed owns the screen between the status bar and the bottom nav, like the
-   mockup: the global header would otherwise eat a fifth of every card. */
+   mockup. It stays under the nav (z-index 90): if the two ever overlap, taps must reach the
+   tabs, not the card behind them. */
 @media (max-width: 768px) {
   .feed {
     position: fixed;
@@ -16,7 +17,7 @@
     left: 0;
     right: 0;
     bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom));
-    z-index: 101;
+    z-index: 80;
     height: auto;
     max-width: none;
     padding: 0 var(--mu-safe-right) 0 var(--mu-safe-left);
@@ -222,4 +223,46 @@
 
 .state-btn {
   cursor: pointer;
+}
+
+/* First-load placeholder card: shaped like a real card so the first one lands without a jump. */
+.sk {
+  flex-shrink: 0;
+}
+
+.sk-kicker {
+  width: 4.5rem;
+  height: 0.7rem;
+}
+
+.sk-crumb {
+  width: 6rem;
+  height: 0.72rem;
+}
+
+.sk-title {
+  width: 90%;
+  height: 1.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.sk-title-short {
+  width: 60%;
+  margin-bottom: 1.1rem;
+}
+
+.sk-text {
+  width: 100%;
+  height: 0.95rem;
+  margin-bottom: 0.55rem;
+}
+
+.sk-text-short {
+  width: 70%;
+}
+
+.sk-code {
+  height: 6rem;
+  margin-top: 0.6rem;
+  border-radius: var(--mu-radius-sm);
 }

@@ -35,9 +35,6 @@
   background: var(--mu-surface);
 }
 
-.today-loading {
-  height: 8.5rem;
-}
 
 .today-empty {
   margin: 0 0 0.85rem;
@@ -297,4 +294,52 @@
   font-size: 0.7rem;
   color: var(--mu-muted);
   text-align: right;
+}
+
+/* Loading placeholders: same boxes as the loaded content, so nothing jumps when data lands.
+   The shimmer itself is the global .mu-skeleton (styles.css). */
+.headline-skeleton {
+  width: 70%;
+  height: 1.45rem;
+  margin: 0.1rem 0 1rem;
+}
+
+.sk-type {
+  height: 0.62rem;
+  width: 3rem;
+}
+
+.sk-title {
+  height: 0.85rem;
+  width: 85%;
+}
+
+.sk-start {
+  height: 2.9rem;
+  border-radius: var(--mu-radius);
+}
+
+.sk-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.sk-line {
+  height: 0.66rem;
+  width: 80%;
+}
+
+.sk-short {
+  width: 50%;
+}
+
+.sk-big {
+  height: 1.5rem;
+  width: 60%;
+}
+
+.sk-depth {
+  width: calc(5 * 1.15rem + 4 * 3px);
+  height: 5px;
 }
