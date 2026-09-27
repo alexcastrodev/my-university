@@ -1309,6 +1309,7 @@
     ],
     "summary": "configMapGenerator and secretGenerator from literals, env files and files, merge and replace across layers, and how the hash suffix triggers rollouts.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-generators-and-hash-suffix",
     "references": [
       {
         "label": "Kustomize reference: configMapGenerator",
