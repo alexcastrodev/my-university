@@ -1490,6 +1490,7 @@
     ],
     "summary": "A bootstrap script that can be re-run safely: idempotent vs non-idempotent commands, the dry-run and apply pattern, explicit waits, and rebuild tests.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/idempotent-cluster-bootstrap",
     "references": [
       {
         "label": "Kubernetes docs: Declarative Management of Kubernetes Objects Using Configuration Files",
