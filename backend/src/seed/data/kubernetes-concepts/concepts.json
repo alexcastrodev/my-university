@@ -652,6 +652,7 @@
     ],
     "summary": "envFrom and valueFrom, precedence and key names, missing keys and CreateContainerConfigError, why changes do not reach running Pods, and service link variables.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/configmaps-and-environment-variables",
     "references": [
       {
         "label": "Kubernetes docs: ConfigMaps",
