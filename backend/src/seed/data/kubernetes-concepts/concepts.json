@@ -1403,6 +1403,7 @@
     ],
     "summary": "Following a rollout in scripts, what rollout restart really does, revision history and change causes, and what rollout undo does and does not roll back.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/rollouts-restart-history-and-rollback",
     "references": [
       {
         "label": "Kubernetes docs: Deployments (updating, rolling back, pausing)",
