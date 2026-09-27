@@ -17,6 +17,7 @@
     ],
     "summary": "What a Secret actually is, how kubectl builds one from an env file (and what it rejects), why base64 is not encryption, and who can really read it.",
     "publishedAt": "2026-09-25",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-secrets-fundamentals",
     "references": [
       {
         "label": "Kubernetes docs: Secrets",
