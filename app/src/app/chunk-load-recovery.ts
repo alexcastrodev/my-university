@@ -1,6 +1,7 @@
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { NavigationError } from '@angular/router';
 import { ChunkReloadService } from './services/chunk-reload.service';
+import { reportError } from './sentry';
 
 /**
  * What each engine says when a dynamic `import()` fails. Chrome and Firefox name the chunk URL
@@ -36,7 +37,11 @@ export class ChunkLoadErrorHandler implements ErrorHandler {
   private chunkReload = inject(ChunkReloadService);
 
   handleError(error: unknown): void {
-    if (isChunkLoadError(error)) {
+    // Chunk failures are reported too (as warnings), to see how often a deploy strands an
+    // installed PWA on the old build.
+    const chunk = isChunkLoadError(error);
+    reportError(error, chunk ? 'warning' : 'error');
+    if (chunk) {
       this.chunkReload.recover();
       return;
     }
