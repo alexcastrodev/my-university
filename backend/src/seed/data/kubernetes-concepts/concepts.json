@@ -290,6 +290,7 @@
     ],
     "summary": "Exporting the kubeconfig, contexts and merged KUBECONFIG files, and why the MicroK8s admin certificate (system:masters, ten years, not revocable) must not be shared.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubeconfig-contexts-and-admin-access",
     "references": [
       {
         "label": "Kubernetes docs: Organizing cluster access using kubeconfig files",
