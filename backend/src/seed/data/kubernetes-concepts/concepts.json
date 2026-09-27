@@ -341,6 +341,7 @@
     ],
     "summary": "Why the scheduler compares requests with allocatable instead of free memory, Pods Pending on Insufficient memory, reserving memory for the system, and a node memory budget.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/node-capacity-allocatable-and-memory-budget",
     "references": [
       {
         "label": "Kubernetes docs: Reserve Compute Resources for System Daemons",
