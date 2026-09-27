@@ -432,6 +432,7 @@
     ],
     "summary": "get, describe, apply, delete, output formats, namespace flags and --dry-run for generating YAML, with the pitfalls that matter in daily work.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubectl-essentials",
     "references": [
       {
         "label": "kubectl Quick Reference",
