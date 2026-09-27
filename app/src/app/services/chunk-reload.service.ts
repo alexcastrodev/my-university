@@ -29,8 +29,16 @@ export class ChunkReloadService {
 
     this.visible.set(true);
     setTimeout(() => {
-      if (url) window.location.href = url;
+      if (url) window.location.href = resolveAgainstBase(url);
       else window.location.reload();
     }, RELOAD_DELAY_MS);
   }
+}
+
+/**
+ * The router's URL leaves out the locale's base href ("/computer-science", not
+ * "/pt-BR/computer-science"), so assigning it as-is would reload into the English build.
+ */
+export function resolveAgainstBase(url: string): string {
+  return new URL(url.replace(/^\//, ''), document.baseURI).href;
 }
