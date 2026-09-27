@@ -947,6 +947,7 @@
     ],
     "summary": "ACME issuers, the requirements of each challenge, wildcards and private clusters, debugging pending challenges, and shorter certificate lifetimes.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/lets-encrypt-http01-vs-dns01",
     "references": [
       {
         "label": "cert-manager docs: ACME",
