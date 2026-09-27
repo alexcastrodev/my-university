@@ -1141,6 +1141,7 @@
     ],
     "summary": "What node-level backups, Velero and CSI snapshots can back up on a single node (Velero cannot read hostPath volumes), and timing a restore drill.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/volume-backups-velero-and-restore-drills",
     "references": [
       {
         "label": "Velero docs: File System Backup",
