@@ -1221,6 +1221,7 @@
     ],
     "summary": "Both patch formats, how lists with and without merge keys behave, targets by kind, name and labels, and the failure modes of each.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kustomize-patches",
     "references": [
       {
         "label": "Kustomize reference: patches",
