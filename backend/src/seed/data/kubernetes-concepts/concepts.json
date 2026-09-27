@@ -382,6 +382,7 @@
     ],
     "summary": "The five objects behind almost every deployment, how controllers and label selectors tie them together, and which ones you write versus only observe.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/kubernetes-core-objects",
     "references": [
       {
         "label": "Kubernetes docs: Pods",
