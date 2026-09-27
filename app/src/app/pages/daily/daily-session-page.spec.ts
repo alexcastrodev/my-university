@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { DailySession } from '../../models/daily.model';
 import { AuthService } from '../../services/auth.service';
 import { DailySessionService } from '../../services/daily-session.service';
+import { DailyProgressService } from '../../services/daily-progress.service';
 import { XpService } from '../../services/xp.service';
 import { DailySessionPage } from './daily-session-page';
 
@@ -260,6 +261,35 @@ describe('DailySessionPage', () => {
     expect(completeSpy).toHaveBeenCalledWith('read', 'weak-hash-map');
     expect(completeSpy).toHaveBeenCalledWith('notice', 'weak-hash-map');
     expect(completeSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('comes back to the same card, rated and credited, after opening the full topic', () => {
+    const fixture = setup();
+    click(fixture, '.flashcard');
+    click(fixture, '.rate-remembered');
+
+    fixture.componentInstance.openTopic(['/java/java-concepts', 'reference-reachability']);
+    const progress = TestBed.inject(DailyProgressService);
+    expect(progress.topicUrl()).toBe('/java/java-concepts/reference-reachability');
+    fixture.destroy();
+
+    const buildSpy = spyOn(TestBed.inject(DailySessionService), 'build').and.callThrough();
+    const back = TestBed.createComponent(DailySessionPage);
+    back.detectChanges();
+
+    expect(buildSpy).not.toHaveBeenCalled();
+    expect(back.nativeElement.querySelector('.earned').textContent).toContain('+20 XP');
+    expect(back.nativeElement.querySelector('.flashcard.revealed')).toBeTruthy();
+    expect(back.nativeElement.querySelector('.feedback.good')).toBeTruthy();
+    expect(progress.topicUrl()).toBeNull();
+  });
+
+  it('forgets a parked run when the session is closed', () => {
+    const fixture = setup();
+    fixture.componentInstance.openTopic(['/java/java-concepts', 'reference-reachability']);
+    click(fixture, '.close-btn');
+
+    expect(TestBed.inject(DailyProgressService).topicUrl()).toBeNull();
   });
 
   it('renders an honest empty state when there is nothing to review', () => {

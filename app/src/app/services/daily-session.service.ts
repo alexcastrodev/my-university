@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { DailyCardType, DailySession } from '../models/daily.model';
 import { ReviewRating, ReviewSourceType } from '../models/review.model';
 import { AuthService } from './auth.service';
+import { LanguageService } from './language.service';
 
 /**
  * Assembles the daily session.
@@ -21,12 +22,15 @@ import { AuthService } from './auth.service';
 export class DailySessionService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
+  private language = inject(LanguageService);
 
   build(): Observable<DailySession> {
     if (!this.auth.currentUser()) {
       return of(this.previewSession());
     }
-    return this.http.get<DailySession>('/api/daily/session');
+    return this.http.get<DailySession>('/api/daily/session', {
+      params: { lang: this.language.language },
+    });
   }
 
   complete(

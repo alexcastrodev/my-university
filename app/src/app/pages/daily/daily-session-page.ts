@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 import { DailySessionService } from '../../services/daily-session.service';
+import { DailyProgress, DailyProgressService } from '../../services/daily-progress.service';
 import {
   DailyCard,
   DailySession,
@@ -12,6 +13,7 @@ import {
   WriteCard,
 } from '../../models/daily.model';
 import { areaBreadcrumb } from '../../shared/area-labels';
+import { dailyCardTypeLabel } from '../../shared/daily-labels';
 
 type Phase = 'card' | 'done';
 type RecallAnswer = 'remembered' | 'forgot' | null;
@@ -43,6 +45,10 @@ function renderInlineCode(text: string): string {
  * posts SM2 rating `good`, "I did not remember" posts `again`, both via
  * `DailySessionService.complete`, which also grants XP for every card type
  * as the user finishes it.
+ *
+ * "Read the full topic" parks the run in `DailyProgressService` before leaving, so coming
+ * back (the return pill, or the browser's back button) lands on the same card with the
+ * same XP instead of a freshly built session.
  */
 @Component({
   selector: 'app-daily-session-page',
@@ -55,6 +61,7 @@ export class DailySessionPage implements OnInit {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   private dailyService = inject(DailySessionService);
+  private progress = inject(DailyProgressService);
   private router = inject(Router);
 
   protected readonly session = signal<DailySession | null>(null);
@@ -88,7 +95,12 @@ export class DailySessionPage implements OnInit {
   );
 
   ngOnInit(): void {
-    this.dailyService.build().subscribe((session) => this.session.set(session));
+    const parked = this.progress.take();
+    if (parked) {
+      this.restore(parked);
+    } else {
+      this.dailyService.build().subscribe((session) => this.session.set(session));
+    }
 
     if (this.auth.currentUser()) {
       this.xpService.loadSummary();
@@ -111,6 +123,10 @@ export class DailySessionPage implements OnInit {
   }
   asSeen(card: DailyCard): ReadCard | NoticeCard {
     return card as ReadCard | NoticeCard;
+  }
+
+  typeLabel(card: DailyCard): string {
+    return dailyCardTypeLabel(card.type);
   }
 
   breadcrumb(card: DailyCard): string {
@@ -214,7 +230,40 @@ export class DailySessionPage implements OnInit {
     this.writeSaved.set(false);
   }
 
+  /** Parks the run before "Read the full topic" navigates away; the link itself navigates. */
+  openTopic(route: string[]): void {
+    const session = this.session();
+    if (!session) return;
+    this.progress.park(
+      {
+        session,
+        index: this.index(),
+        earned: this.earned(),
+        earnedCards: [...this.earnedCards],
+        completedKeys: [...this.completedSourceIds],
+        recallAnswered: this.recallAnswered(),
+        revealed: this.revealed(),
+        writeText: this.writeText(),
+        writeSaved: this.writeSaved(),
+      },
+      this.router.serializeUrl(this.router.createUrlTree(route)),
+    );
+  }
+
+  private restore(parked: DailyProgress): void {
+    this.session.set(parked.session);
+    this.index.set(parked.index);
+    this.earned.set(parked.earned);
+    parked.earnedCards.forEach((i) => this.earnedCards.add(i));
+    parked.completedKeys.forEach((key) => this.completedSourceIds.add(key));
+    this.recallAnswered.set(parked.recallAnswered);
+    this.revealed.set(parked.revealed);
+    this.writeText.set(parked.writeText);
+    this.writeSaved.set(parked.writeSaved);
+  }
+
   close(): void {
+    this.progress.discard();
     this.router.navigate(['/daily']);
   }
 

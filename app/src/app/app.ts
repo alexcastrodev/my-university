@@ -7,6 +7,7 @@ import { XpToast } from './components/xp-toast/xp-toast';
 import { ChunkReloadToast } from './components/chunk-reload-toast/chunk-reload-toast';
 import { AskAiTooltip } from './components/ask-ai-tooltip/ask-ai-tooltip';
 import { MermaidViewer } from './components/mermaid-viewer/mermaid-viewer';
+import { DailyReturnPill } from './components/daily-return-pill/daily-return-pill';
 import { AuthService } from './services/auth.service';
 import { XpService } from './services/xp.service';
 import { ThemeService } from './services/theme.service';
@@ -14,7 +15,7 @@ import { ThemeService } from './services/theme.service';
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Header, Footer, BottomNav, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, RouterOutlet],
+  imports: [Header, Footer, BottomNav, DailyReturnPill, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

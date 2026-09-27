@@ -1,0 +1,41 @@
+.daily-return-pill {
+  position: fixed;
+  bottom: calc(1.5rem + var(--mu-safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  background: var(--mu-accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: daily-return-in 0.2s ease-out;
+}
+
+.daily-return-pill svg {
+  width: 18px;
+  height: 18px;
+}
+
+.daily-return-pill:hover {
+  background: var(--mu-accent-strong);
+}
+
+/* Phones: sit above the bottom tab bar. */
+@media (max-width: 768px) {
+  .daily-return-pill {
+    bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 0.75rem);
+  }
+}
+
+@keyframes daily-return-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

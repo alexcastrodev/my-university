@@ -62,6 +62,21 @@ describe('GET /daily/session', () => {
     // (see DailyService.pickNoticeEntry fallback) instead of being omitted.
     if (noticeCard) expect(noticeCard.sourceId).toBe(slug);
   });
+
+  it('serves the cards in the requested language, both the excerpt and its own wording', async () => {
+    const { cookie } = await login(`daily-ptbr-${Date.now()}`);
+    const concepts = await json<any[]>(await get('/java-concepts'));
+    const slug = concepts[0].slug;
+    await put(`/java-concepts/${slug}/read`, {}, { Cookie: cookie });
+
+    const ptConcept = await json<any>(await get(`/java-concepts/${slug}?lang=pt-BR`));
+    const body = await json<any>(await get('/daily/session?lang=pt-BR', { Cookie: cookie }));
+    const readCard = body.cards.find((c: any) => c.type === 'read');
+
+    expect(readCard.title).toBe(ptConcept.title);
+    expect(readCard.note).toBe('Este é o card inteiro. O tópico completo tem mais.');
+    expect(body.summary.headline).toBe(`Montada a partir de "${ptConcept.title}"`);
+  });
 });
 
 describe('POST /daily/complete', () => {
