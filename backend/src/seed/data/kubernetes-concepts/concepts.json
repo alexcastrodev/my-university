@@ -1814,6 +1814,7 @@
     ],
     "summary": "Enabling metrics-server, what kubectl top numbers mean, comparing usage with requests and limits, and sizing from Prometheus history.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/metrics-server-and-kubectl-top",
     "references": [
       {
         "label": "Kubernetes docs: Resource metrics pipeline",
