@@ -832,6 +832,7 @@
     ],
     "summary": "Host and path routing with Ingress, what the MicroK8s ingress add-on installs now (Traefik), ingress-nginx end of life, and HTTPRoutes with the Gateway API.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/ingress-controllers-and-gateway-api",
     "references": [
       {
         "label": "Kubernetes docs: Ingress",
