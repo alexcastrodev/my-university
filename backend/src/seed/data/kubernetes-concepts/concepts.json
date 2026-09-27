@@ -746,6 +746,7 @@
     ],
     "summary": "How Services give Pods a stable address, the NodePort range and reaching it from outside the cluster, and when to use an Ingress instead.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/services-clusterip-and-nodeport",
     "references": [
       {
         "label": "Kubernetes docs: Service",
