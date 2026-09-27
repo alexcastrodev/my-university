@@ -1,8 +1,9 @@
 @if (!hidden()) {
   <nav class="bottom-nav" role="navigation" aria-label="Primary" i18n-aria-label="@@bottomNav.aria">
     <a
-      routerLink="/dashboard"
+      [routerLink]="homeLink()"
       routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="tab"
       i18n-aria-label="@@bottomNav.home"
       aria-label="Home"

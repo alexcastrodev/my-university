@@ -1,13 +1,14 @@
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { BottomNav } from './bottom-nav';
 
 @Component({ template: '' })
 class Dummy {}
 
 describe('BottomNav', () => {
-  async function setup(url: string) {
+  async function setup(url: string, user: object | null = { id: 1, displayName: 'Test' }) {
     TestBed.configureTestingModule({
       imports: [BottomNav],
       providers: [
@@ -16,6 +17,7 @@ describe('BottomNav', () => {
           { path: 'daily/session', component: Dummy },
           { path: '**', component: Dummy },
         ]),
+        { provide: AuthService, useValue: { currentUser: signal(user) } },
       ],
     }).compileComponents();
 
@@ -37,6 +39,24 @@ describe('BottomNav', () => {
     expect(text).toContain('Track');
     expect(text).toContain('Feed');
     expect(text).toContain('Settings');
+  });
+
+  function homeTab(fixture: { nativeElement: HTMLElement }): HTMLAnchorElement | undefined {
+    return Array.from(fixture.nativeElement.querySelectorAll<HTMLAnchorElement>('a.tab')).find((a) =>
+      a.textContent?.includes('Home'),
+    );
+  }
+
+  it('links Home to the dashboard when signed in', async () => {
+    const { fixture } = await setup('/daily');
+
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/dashboard');
+  });
+
+  it('links Home to the landing page when signed out', async () => {
+    const { fixture } = await setup('/daily', null);
+
+    expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
   it('links Settings to the settings page, which replaces the header on phones', async () => {
