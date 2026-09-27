@@ -2231,6 +2231,7 @@
     ],
     "summary": "How the JVM, Node.js, .NET and Go size their heap under a container limit, what lives outside the heap, and a sizing rule that avoids OOMKilled.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/managed-runtime-memory-in-containers",
     "references": [
       {
         "label": "Kubernetes docs: Assign Memory Resources to Containers",
