@@ -985,6 +985,7 @@
     ],
     "summary": "emptyDir, configMap, secret and projected volumes, and the mount mistakes that hide image files, freeze subPath content or fail with StartError.",
     "publishedAt": "2026-09-26",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/kubernetes-concepts/volumes-and-mount-conflicts",
     "references": [
       {
         "label": "Kubernetes docs: Volumes",
