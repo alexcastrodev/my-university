@@ -42,6 +42,13 @@ function loadSdk(): Promise<SentrySdk> {
       integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 0.2,
       tracePropagationTargets: [/^\/api\//, new RegExp(`^https://${PRODUCTION_HOST}/api/`)],
+      ignoreErrors: [
+        // Microsoft's link scanner (Outlook/Defender Safe Links) opens shared links in a headless
+        // browser whose injected script rejects with this string. It is not our code and no real
+        // user sees it; it shows up as both an unhandled rejection and, via ErrorHandler, a
+        // handled error.
+        /Object Not Found Matching Id:\d+, MethodName:\w+, ParamCount:\d+/,
+      ],
     });
     return Sentry;
   });
