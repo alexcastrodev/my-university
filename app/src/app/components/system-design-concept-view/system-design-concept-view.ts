@@ -19,6 +19,7 @@ const REFERENCES_TITLE = 'References';
 const FEATURE_ROUTES: Record<NonNullable<Extract<SystemDesignConceptLinkRef, object>['feature']>, string> = {
   'system-design': '/system-design/system-design-concepts',
   database: '/databases/database-concepts',
+  'spring-concepts': '/spring-concepts',
 };
 
 export interface ConceptLinkItem {

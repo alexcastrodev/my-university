@@ -23,7 +23,7 @@ export interface SystemDesignConceptReference {
   type: 'book' | 'paper' | 'engineering' | 'doc' | 'video';
 }
 
-export type SystemDesignConceptLinkFeature = 'system-design' | 'database';
+export type SystemDesignConceptLinkFeature = 'system-design' | 'database' | 'spring-concepts';
 
 export type SystemDesignConceptLinkRef =
   | string

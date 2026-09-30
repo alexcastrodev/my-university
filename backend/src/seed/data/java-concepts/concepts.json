@@ -3224,6 +3224,11 @@
     "topic": "Core APIs & Tooling",
     "related": [
       {
+        "label": "Spring Modulith: Application Modules and Verification",
+        "slug": "spring-modulith-application-modules-and-verification",
+        "feature": "spring-concepts"
+      },
+      {
         "label": "Singletons and Noninstantiable Utility Classes",
         "slug": "singleton-and-noninstantiable-classes",
         "feature": "java-concepts"

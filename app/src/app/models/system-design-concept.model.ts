@@ -13,7 +13,7 @@ export interface SystemDesignConceptSection {
   content: string;
 }
 
-export type SystemDesignConceptLinkFeature = 'system-design' | 'database';
+export type SystemDesignConceptLinkFeature = 'system-design' | 'database' | 'spring-concepts';
 
 export type SystemDesignConceptLinkRef =
   | string

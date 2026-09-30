@@ -22,6 +22,11 @@
     ],
     "related": [
       {
+        "label": "Spring Modulith: Events and the Event Publication Registry",
+        "slug": "spring-modulith-events-and-publication-registry",
+        "feature": "spring-concepts"
+      },
+      {
         "label": "Change Data Capture (CDC)",
         "slug": "change-data-capture"
       },
