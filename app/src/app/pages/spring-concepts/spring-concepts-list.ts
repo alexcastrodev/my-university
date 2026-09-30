@@ -25,6 +25,7 @@ const TOPIC_ORDER = [
   'Data Access',
   'Reactive',
   'Messaging',
+  'Architecture',
   'Spring Security',
   'Spring Batch',
 ];

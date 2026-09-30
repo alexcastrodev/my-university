@@ -5085,5 +5085,46 @@
       { "label": "OpenAPI Generator — Plugins (Maven, Gradle, Mill)", "url": "https://openapi-generator.tech/docs/plugins/", "type": "doc" },
       { "label": "OpenAPI Generator — Spring generator reference", "url": "https://openapi-generator.tech/docs/generators/spring", "type": "doc" }
     ]
+  },
+  {
+    "slug": "spring-application-events",
+    "id": 94,
+    "category": "Spring Boot",
+    "title": "Spring Application Events: @EventListener and @TransactionalEventListener",
+    "topic": "Architecture",
+    "related": [
+      {
+        "label": "Spring Modulith: Events and the Event Publication Registry",
+        "slug": "spring-modulith-events-and-publication-registry"
+      },
+      {
+        "label": "Spring Modulith: Application Modules and Verification",
+        "slug": "spring-modulith-application-modules-and-verification"
+      },
+      {
+        "label": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+        "slug": "spring-kafka-messaging"
+      }
+    ],
+    "summary": "How ApplicationEventPublisher decouples a publisher from its listeners, and why choosing between @EventListener and @TransactionalEventListener (and its phase) decides whether a listener can veto the operation, sees rolled-back work, or is silently skipped without a transaction.",
+    "publishedAt": "2026-09-30",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-application-events",
+    "references": [
+      {
+        "label": "Spring Framework Reference: Standard and Custom Events",
+        "url": "https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference: Transaction-bound Events",
+        "url": "https://docs.spring.io/spring-framework/reference/data-access/transaction/event.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Framework Reference: Application Events in tests",
+        "url": "https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/application-events.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
