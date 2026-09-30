@@ -317,5 +317,16 @@
       { "label": "java.security.SecureRandom (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/SecureRandom.html", "type": "doc" },
       { "label": "JEP 356: Enhanced Pseudo-Random Number Generators", "url": "https://openjdk.org/jeps/356", "type": "doc" }
     ]
+  },
+  {
+    "slug": "collector-components",
+    "id": 399,
+    "question": "What are the components of a Collector?",
+    "publishedAt": "2026-09-30",
+    "references": [
+      { "label": "Java Coding Tip #399: What Are the Components of a Collector?", "url": "https://www.youtube.com/shorts/vEqhlRmjUDQ", "type": "video" },
+      { "label": "Collector (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html", "type": "doc" },
+      { "label": "Collectors (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html", "type": "doc" }
+    ]
   }
 ]
