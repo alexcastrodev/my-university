@@ -5228,5 +5228,47 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "spring-modulith-testing-and-documentation",
+    "id": 97,
+    "category": "Spring Boot",
+    "title": "Spring Modulith: Testing and Documentation",
+    "topic": "Architecture",
+    "related": [
+      {
+        "label": "Spring Modulith: Application Modules and Verification",
+        "slug": "spring-modulith-application-modules-and-verification"
+      },
+      {
+        "label": "Spring Modulith: Events and the Event Publication Registry",
+        "slug": "spring-modulith-events-and-publication-registry"
+      },
+      {
+        "label": "Testing Spring Boot Applications",
+        "slug": "spring-boot-testing",
+        "feature": "testing-concepts"
+      }
+    ],
+    "summary": "How @ApplicationModuleTest boots one module at a time, how Scenario and AssertablePublishedEvents test event-driven collaboration between modules, and how Documenter generates C4 diagrams and module canvases from the same model.",
+    "publishedAt": "2026-09-30",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-testing-and-documentation",
+    "references": [
+      {
+        "label": "Spring Modulith Reference: Integration Testing Application Modules",
+        "url": "https://docs.spring.io/spring-modulith/reference/testing.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Modulith Reference: Documenting Application Modules",
+        "url": "https://docs.spring.io/spring-modulith/reference/documentation.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Modulith Reference: Production-ready Features",
+        "url": "https://docs.spring.io/spring-modulith/reference/production-ready.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
