@@ -5126,5 +5126,56 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "spring-modulith-application-modules-and-verification",
+    "id": 95,
+    "category": "Spring Boot",
+    "title": "Spring Modulith: Application Modules and Verification",
+    "topic": "Architecture",
+    "related": [
+      {
+        "label": "Spring Application Events: @EventListener and @TransactionalEventListener",
+        "slug": "spring-application-events"
+      },
+      {
+        "label": "Spring Modulith: Events and the Event Publication Registry",
+        "slug": "spring-modulith-events-and-publication-registry"
+      },
+      {
+        "label": "Spring Modulith: Testing and Documentation",
+        "slug": "spring-modulith-testing-and-documentation"
+      },
+      {
+        "label": "The Java Platform Module System (JPMS)",
+        "slug": "java-platform-module-system",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "How Spring Modulith turns a Spring Boot monolith into a modular monolith: every direct subpackage is an application module, subpackages are internal, and ApplicationModules.verify() fails the build on cycles, access to internal types, and undeclared dependencies.",
+    "publishedAt": "2026-09-30",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-application-modules-and-verification",
+    "references": [
+      {
+        "label": "Spring Modulith Reference: Fundamentals",
+        "url": "https://docs.spring.io/spring-modulith/reference/fundamentals.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Modulith Reference: Verifying Application Module Structure",
+        "url": "https://docs.spring.io/spring-modulith/reference/verification.html",
+        "type": "doc"
+      },
+      {
+        "label": "Dan Vega: Introduction to Spring Modulith, Modular Monoliths in Spring Boot (video)",
+        "url": "https://www.youtube.com/watch?v=xHlDyKVyvig",
+        "type": "doc"
+      },
+      {
+        "label": "danvega/contentmod on GitHub",
+        "url": "https://github.com/danvega/contentmod",
+        "type": "doc"
+      }
+    ]
   }
 ]
