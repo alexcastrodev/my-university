@@ -5177,5 +5177,56 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "spring-modulith-events-and-publication-registry",
+    "id": 96,
+    "category": "Spring Boot",
+    "title": "Spring Modulith: Events and the Event Publication Registry",
+    "topic": "Architecture",
+    "related": [
+      {
+        "label": "Spring Application Events: @EventListener and @TransactionalEventListener",
+        "slug": "spring-application-events"
+      },
+      {
+        "label": "Spring Modulith: Application Modules and Verification",
+        "slug": "spring-modulith-application-modules-and-verification"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      },
+      {
+        "label": "Messaging with Kafka: KafkaTemplate and @KafkaListener",
+        "slug": "spring-kafka-messaging"
+      }
+    ],
+    "summary": "How @ApplicationModuleListener (async, after commit, in its own transaction) and the Event Publication Registry make events between modules durable: publications are written in the business transaction, tracked through PUBLISHED, COMPLETED and FAILED, resubmitted, and optionally externalized to a broker.",
+    "publishedAt": "2026-09-30",
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-events-and-publication-registry",
+    "references": [
+      {
+        "label": "Spring Modulith Reference: Working with Application Events",
+        "url": "https://docs.spring.io/spring-modulith/reference/events.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Modulith Reference: Appendix",
+        "url": "https://docs.spring.io/spring-modulith/reference/appendix.html",
+        "type": "doc"
+      },
+      {
+        "label": "Spring Modulith 2.0 GA release notes",
+        "url": "https://spring.io/blog/2025/11/21/spring-modulith-2-0-ga-1-4-5-and-1-3-11-released/",
+        "type": "doc"
+      },
+      {
+        "label": "Dan Vega: Introduction to Spring Modulith, Modular Monoliths in Spring Boot (video)",
+        "url": "https://www.youtube.com/watch?v=xHlDyKVyvig",
+        "type": "doc"
+      }
+    ]
   }
 ]
