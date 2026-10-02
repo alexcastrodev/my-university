@@ -16,8 +16,14 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../shared/language';
-import { MeilisearchClient } from './meilisearch.client';
+import { ConceptSection } from '../shared/concept-content';
+import {
+  DEFAULT_LANGUAGE,
+  Language,
+  SUPPORTED_LANGUAGES,
+  normalizeLanguage,
+} from '../shared/language';
+import { MeilisearchClient, SearchDocument } from './meilisearch.client';
 
 export const SEARCH_RESULT_TYPES = [
   'course',
@@ -44,12 +50,43 @@ export function isSearchResultType(value: unknown): value is SearchResultType {
   return (SEARCH_RESULT_TYPES as readonly unknown[]).includes(value);
 }
 
+export const DEFAULT_SEARCH_LIMIT = 20;
+export const MAX_SEARCH_LIMIT = 50;
+/** Mirrors the index's `pagination.maxTotalHits`: Meilisearch returns nothing past it. */
+export const MAX_SEARCH_OFFSET = 1000;
+
 export interface SearchResult {
   type: SearchResultType;
   title: string;
   subtitle: string | null;
   url: string;
+  /** Title with the matched terms wrapped in `HIGHLIGHT_START`/`HIGHLIGHT_END`. */
+  highlightedTitle: string;
+  /** A short window of the body around the best match, highlighted the same way; null when nothing in the body matched. */
+  snippet: string | null;
+  /** Language of the indexed version that matched (a page without a translation matches in English). */
+  language: Language;
 }
+
+export interface SearchResponse {
+  query: string;
+  results: SearchResult[];
+  /** Estimated number of hits for the current type filter. */
+  total: number;
+  /** Hits per type for the query, ignoring the type filter, so the filter pills can show counts. */
+  facets: Partial<Record<SearchResultType, number>>;
+}
+
+export interface SearchOptions {
+  type?: SearchResultType;
+  lang?: Language;
+  limit?: number;
+  offset?: number;
+}
+
+/** Private-use code points, so a highlight marker can never collide with real content and the client can split on them without rendering HTML. */
+export const HIGHLIGHT_START = '';
+export const HIGHLIGHT_END = '';
 
 /** "programming-computational-thinking" -> "Programming Computational Thinking" — a discipline slug has no separate human title stored on the backend (that mapping lives only in the frontend's static registry), so search subtitles derive one directly. */
 function titleCase(slug: string): string {
@@ -57,6 +94,48 @@ function titleCase(slug: string): string {
     .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+/**
+ * Markdown syntax is noise for both matching and the snippet shown under a result, so the body is
+ * flattened to prose (code stays, since searching for an identifier is a real use case; only the
+ * fences and markup characters go).
+ */
+export function toPlainText(markdown: string): string {
+  return markdown
+    .replace(/^```.*$/gm, ' ')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/^\s{0,3}(#{1,6}|>|[-*+]|\d+\.)\s+/gm, '')
+    .replace(/[*_`|]+/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function sectionsText(sections: ConceptSection[]): string {
+  return toPlainText(
+    sections.map((s) => `${s.title}\n${s.content}`).join('\n'),
+  );
+}
+
+/** What every content track exposes for indexing, per language. */
+interface IndexedEntry {
+  slug: string;
+  title: string;
+  summary: string;
+  sections: ConceptSection[];
+  language: Language;
+}
+
+/** One indexable content track: how to list it in a language, and where its pages live. */
+interface ContentSource {
+  type: SearchResultType;
+  /** Prefix for document ids; distinct per (module, discipline) for the curriculum. */
+  idPrefix: string;
+  subtitle: string;
+  url: (slug: string) => string;
+  list: (lang: Language) => IndexedEntry[];
 }
 
 @Injectable()
@@ -98,22 +177,194 @@ export class SearchService implements OnApplicationBootstrap {
     }
   }
 
+  /** Every file-backed content track. Adding a track to the platform means adding it here, nothing else. */
+  contentSources(): ContentSource[] {
+    const concepts = (
+      type: SearchResultType,
+      subtitle: string,
+      basePath: string,
+      findAllDetailed: (lang: Language) => IndexedEntry[],
+    ): ContentSource => ({
+      type,
+      idPrefix: type,
+      subtitle,
+      url: (slug) => `${basePath}/${slug}`,
+      list: findAllDetailed,
+    });
+
+    const sources: ContentSource[] = [
+      {
+        type: 'java-minute',
+        idPrefix: 'java-minute',
+        subtitle: 'Java Minute',
+        url: (slug) => `/java/java-minute/${slug}`,
+        list: (lang) =>
+          this.javaMinuteService.findAllDetailed(lang).map((episode) => ({
+            slug: episode.slug,
+            title: episode.question,
+            summary: '',
+            sections: episode.sections,
+            language: episode.language,
+          })),
+      },
+      concepts('java-concept', 'Java Concepts', '/java/java-concepts', (l) =>
+        this.javaConceptsService.findAllDetailed(l),
+      ),
+      concepts('jvm-concept', 'JVM Concepts', '/java/jvm-concepts', (l) =>
+        this.jvmConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'database-concept',
+        'Database Concepts',
+        '/databases/database-concepts',
+        (l) => this.databaseConceptsService.findAllDetailed(l),
+      ),
+      concepts('spring-concept', 'Spring Concepts', '/spring-concepts', (l) =>
+        this.springConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'system-design-concept',
+        'System Design',
+        '/system-design/system-design-concepts',
+        (l) => this.systemDesignConceptsService.findAllDetailed(l),
+      ),
+      concepts('testing-concept', 'Testing Concepts', '/java/testing', (l) =>
+        this.testingConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'algorithms-concept',
+        'Algorithms',
+        '/algorithms/algorithms-concepts',
+        (l) => this.algorithmsConceptsService.findAllDetailed(l),
+      ),
+      concepts('ruby-concept', 'Ruby Concepts', '/ruby-concepts', (l) =>
+        this.rubyConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'rubyonrails-concept',
+        'Ruby on Rails Concepts',
+        '/rubyonrails-concepts',
+        (l) => this.rubyOnRailsConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'quarkus-concept',
+        'Quarkus Concepts',
+        '/quarkus-concepts',
+        (l) => this.quarkusConceptsService.findAllDetailed(l),
+      ),
+      concepts(
+        'kubernetes-concept',
+        'Kubernetes Concepts',
+        '/kubernetes-concepts',
+        (l) => this.kubernetesConceptsService.findAllDetailed(l),
+      ),
+    ];
+
+    for (const {
+      module,
+      discipline,
+    } of this.curriculumService.listDisciplines()) {
+      sources.push({
+        type: 'curriculum-concept',
+        idPrefix: `curriculum-concept-${module}-${discipline}`,
+        subtitle: titleCase(discipline),
+        url: (slug) => `/computer-science/${module}/${discipline}/${slug}`,
+        list: (lang) =>
+          this.curriculumService.findAllDetailed(module, discipline, lang),
+      });
+    }
+
+    return sources;
+  }
+
+  /**
+   * Builds one document per page per language it is actually written in. Each document carries
+   * `visibleIn`: the languages whose searches should see it. A translation is visible only in its
+   * own language; the English original is visible in English plus every language it has no
+   * translation for. A search filtered on `visibleIn` therefore sees exactly one document per page
+   * (no duplicates to collapse, and accurate per-type counts), in the searcher's language when it
+   * exists. Translations also index the English title as `altTitle`, so searching the original
+   * (often English, technical) name still finds the translated page.
+   */
+  buildContentDocuments(): SearchDocument[] {
+    const documents: SearchDocument[] = [];
+
+    for (const source of this.contentSources()) {
+      const originals = source.list(DEFAULT_LANGUAGE);
+      const translations = new Map<Language, Map<string, IndexedEntry>>();
+      for (const language of SUPPORTED_LANGUAGES) {
+        if (language === DEFAULT_LANGUAGE) continue;
+        const bySlug = new Map<string, IndexedEntry>();
+        for (const entry of source.list(language)) {
+          // The services fall back to English when a translation is missing; that is not a translation.
+          if (entry.language === language) bySlug.set(entry.slug, entry);
+        }
+        translations.set(language, bySlug);
+      }
+
+      for (const original of originals) {
+        const translatedIn = [...translations.entries()]
+          .filter(([, bySlug]) => bySlug.has(original.slug))
+          .map(([language]) => language);
+
+        documents.push({
+          id: `${source.idPrefix}-${original.slug}`,
+          type: source.type,
+          title: original.title,
+          altTitle: '',
+          subtitle: source.subtitle,
+          url: source.url(original.slug),
+          summary: toPlainText(original.summary),
+          content: sectionsText(original.sections),
+          language: DEFAULT_LANGUAGE,
+          visibleIn: SUPPORTED_LANGUAGES.filter(
+            (language) => !translatedIn.includes(language),
+          ),
+        });
+
+        for (const language of translatedIn) {
+          const translated = translations.get(language)!.get(original.slug)!;
+          documents.push({
+            id: `${source.idPrefix}-${original.slug}-${language}`,
+            type: source.type,
+            title: translated.title,
+            altTitle: translated.title === original.title ? '' : original.title,
+            subtitle: source.subtitle,
+            url: source.url(original.slug),
+            summary: toPlainText(translated.summary),
+            content: sectionsText(translated.sections),
+            language,
+            visibleIn: [language],
+          });
+        }
+      }
+    }
+
+    return documents;
+  }
+
   async indexAll(): Promise<void> {
     const [courses, lessons] = await Promise.all([
       this.courseRepo.find(),
       this.lessonRepo.find({ relations: { module: { course: true } } }),
     ]);
 
-    const documents: Record<string, unknown>[] = [];
+    // Courses and lessons only exist in English, so they are visible to every language.
+    const everywhere = [...SUPPORTED_LANGUAGES];
+    const documents: SearchDocument[] = [];
 
     for (const course of courses) {
       documents.push({
         id: `course-${course.id}`,
-        type: 'course' satisfies SearchResultType,
+        type: 'course',
         title: course.title,
+        altTitle: '',
         subtitle: course.tag,
         url: `/java/exam/${course.id}`,
-        content: course.description,
+        summary: course.description ?? '',
+        content: '',
+        language: DEFAULT_LANGUAGE,
+        visibleIn: everywhere,
       });
     }
 
@@ -122,331 +373,83 @@ export class SearchService implements OnApplicationBootstrap {
       if (!courseId) continue;
       documents.push({
         id: `lesson-${lesson.id}`,
-        type: 'lesson' satisfies SearchResultType,
+        type: 'lesson',
         title: lesson.title,
+        altTitle: '',
         subtitle: lesson.module?.course?.title ?? null,
         url: `/java/exam/${courseId}/lesson/${lesson.id}`,
+        summary: '',
         content: '',
+        language: DEFAULT_LANGUAGE,
+        visibleIn: everywhere,
       });
     }
 
-    for (const episode of this.javaMinuteService.findAllDetailed()) {
-      documents.push({
-        id: `java-minute-${episode.slug}`,
-        type: 'java-minute' satisfies SearchResultType,
-        title: episode.question,
-        subtitle: 'Java Minute',
-        url: `/java/java-minute/${episode.slug}`,
-        content: episode.sections
-          .map((s) => `${s.title} ${s.content}`)
-          .join(' '),
-      });
-    }
-
-    // Also index each non-English translation that actually exists, so searching in that
-    // language finds it too. English above keeps its original id; translations get a
-    // language-suffixed id so they're purely additive (no stale docs from an id rename).
-    for (const language of SUPPORTED_LANGUAGES) {
-      if (language === DEFAULT_LANGUAGE) continue;
-      for (const episode of this.javaMinuteService.findAllDetailed(language)) {
-        if (episode.language !== language) continue; // no translation for this slug — already indexed as English
-        documents.push({
-          id: `java-minute-${episode.slug}-${language}`,
-          type: 'java-minute' satisfies SearchResultType,
-          title: episode.question,
-          subtitle: 'Java Minute',
-          url: `/java/java-minute/${episode.slug}`,
-          content: episode.sections
-            .map((s) => `${s.title} ${s.content}`)
-            .join(' '),
-        });
-      }
-    }
-
-    for (const concept of this.javaConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `java-concept-${concept.slug}`,
-        type: 'java-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Java Concepts',
-        url: `/java/java-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const language of SUPPORTED_LANGUAGES) {
-      if (language === DEFAULT_LANGUAGE) continue;
-      for (const concept of this.javaConceptsService.findAllDetailed(
-        language,
-      )) {
-        if (concept.language !== language) continue;
-        documents.push({
-          id: `java-concept-${concept.slug}-${language}`,
-          type: 'java-concept' satisfies SearchResultType,
-          title: concept.title,
-          subtitle: 'Java Concepts',
-          url: `/java/java-concepts/${concept.slug}`,
-          content: [
-            concept.summary,
-            ...concept.sections.map((s) => `${s.title} ${s.content}`),
-          ].join(' '),
-        });
-      }
-    }
-
-    for (const concept of this.jvmConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `jvm-concept-${concept.slug}`,
-        type: 'jvm-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'JVM Concepts',
-        url: `/java/jvm-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const language of SUPPORTED_LANGUAGES) {
-      if (language === DEFAULT_LANGUAGE) continue;
-      for (const concept of this.jvmConceptsService.findAllDetailed(language)) {
-        if (concept.language !== language) continue;
-        documents.push({
-          id: `jvm-concept-${concept.slug}-${language}`,
-          type: 'jvm-concept' satisfies SearchResultType,
-          title: concept.title,
-          subtitle: 'JVM Concepts',
-          url: `/java/jvm-concepts/${concept.slug}`,
-          content: [
-            concept.summary,
-            ...concept.sections.map((s) => `${s.title} ${s.content}`),
-          ].join(' '),
-        });
-      }
-    }
-
-    for (const {
-      module,
-      discipline,
-    } of this.curriculumService.listDisciplines()) {
-      const subtitle = titleCase(discipline);
-      for (const concept of this.curriculumService.findAllDetailed(
-        module,
-        discipline,
-      )) {
-        documents.push({
-          id: `curriculum-concept-${module}-${discipline}-${concept.slug}`,
-          type: 'curriculum-concept' satisfies SearchResultType,
-          title: concept.title,
-          subtitle,
-          url: `/computer-science/${module}/${discipline}/${concept.slug}`,
-          content: [
-            concept.summary,
-            ...concept.sections.map((s) => `${s.title} ${s.content}`),
-          ].join(' '),
-        });
-      }
-
-      for (const language of SUPPORTED_LANGUAGES) {
-        if (language === DEFAULT_LANGUAGE) continue;
-        for (const concept of this.curriculumService.findAllDetailed(
-          module,
-          discipline,
-          language,
-        )) {
-          if (concept.language !== language) continue;
-          documents.push({
-            id: `curriculum-concept-${module}-${discipline}-${concept.slug}-${language}`,
-            type: 'curriculum-concept' satisfies SearchResultType,
-            title: concept.title,
-            subtitle,
-            url: `/computer-science/${module}/${discipline}/${concept.slug}`,
-            content: [
-              concept.summary,
-              ...concept.sections.map((s) => `${s.title} ${s.content}`),
-            ].join(' '),
-          });
-        }
-      }
-    }
-
-    for (const concept of this.databaseConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `database-concept-${concept.slug}`,
-        type: 'database-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Database Concepts',
-        url: `/databases/database-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.springConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `spring-concept-${concept.slug}`,
-        type: 'spring-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Spring Concepts',
-        url: `/spring-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const language of SUPPORTED_LANGUAGES) {
-      if (language === DEFAULT_LANGUAGE) continue;
-      for (const concept of this.springConceptsService.findAllDetailed(
-        language,
-      )) {
-        if (concept.language !== language) continue;
-        documents.push({
-          id: `spring-concept-${concept.slug}-${language}`,
-          type: 'spring-concept' satisfies SearchResultType,
-          title: concept.title,
-          subtitle: 'Spring Concepts',
-          url: `/spring-concepts/${concept.slug}`,
-          content: [
-            concept.summary,
-            ...concept.sections.map((s) => `${s.title} ${s.content}`),
-          ].join(' '),
-        });
-      }
-    }
-
-    for (const concept of this.systemDesignConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `system-design-concept-${concept.slug}`,
-        type: 'system-design-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'System Design',
-        url: `/system-design/system-design-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.testingConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `testing-concept-${concept.slug}`,
-        type: 'testing-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Testing Concepts',
-        url: `/java/testing/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.algorithmsConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `algorithms-concept-${concept.slug}`,
-        type: 'algorithms-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Algorithms',
-        url: `/algorithms/algorithms-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.rubyConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `ruby-concept-${concept.slug}`,
-        type: 'ruby-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Ruby Concepts',
-        url: `/ruby-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.rubyOnRailsConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `rubyonrails-concept-${concept.slug}`,
-        type: 'rubyonrails-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Ruby on Rails Concepts',
-        url: `/rubyonrails-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.quarkusConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `quarkus-concept-${concept.slug}`,
-        type: 'quarkus-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Quarkus Concepts',
-        url: `/quarkus-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
-
-    for (const concept of this.kubernetesConceptsService.findAllDetailed()) {
-      documents.push({
-        id: `kubernetes-concept-${concept.slug}`,
-        type: 'kubernetes-concept' satisfies SearchResultType,
-        title: concept.title,
-        subtitle: 'Kubernetes Concepts',
-        url: `/kubernetes-concepts/${concept.slug}`,
-        content: [
-          concept.summary,
-          ...concept.sections.map((s) => `${s.title} ${s.content}`),
-        ].join(' '),
-      });
-    }
+    documents.push(...this.buildContentDocuments());
 
     await this.meili.rebuildIndex(documents);
   }
 
   async search(
     query: string,
-    type?: SearchResultType,
-  ): Promise<SearchResult[]> {
+    options: SearchOptions = {},
+  ): Promise<SearchResponse> {
     const term = query.trim();
-    if (term.length < 2) return [];
+    if (term.length < 2)
+      return { query: term, results: [], total: 0, facets: {} };
 
-    const filter = isSearchResultType(type) ? `type = "${type}"` : undefined;
-    const hits = await this.meili.search(term, filter);
+    const lang = normalizeLanguage(options.lang);
+    const type = isSearchResultType(options.type) ? options.type : undefined;
+    const limit = clamp(
+      options.limit,
+      DEFAULT_SEARCH_LIMIT,
+      1,
+      MAX_SEARCH_LIMIT,
+    );
+    const offset = clamp(options.offset, 0, 0, MAX_SEARCH_OFFSET);
 
-    // Content indexed in multiple languages (e.g. Java Minute) can produce more than one hit
-    // for the same page — keep only the highest-ranked (first) one per url.
-    const seenUrls = new Set<string>();
-    const deduped = hits.filter((hit) => {
-      if (seenUrls.has(hit.url)) return false;
-      seenUrls.add(hit.url);
-      return true;
+    // `lang` went through normalizeLanguage and `type` through isSearchResultType, so both are known literals.
+    const languageFilter = `visibleIn = "${lang}"`;
+    const filter = type
+      ? [languageFilter, `type = "${type}"`]
+      : [languageFilter];
+
+    const { hits, total, facets } = await this.meili.search({
+      query: term,
+      filter,
+      facetFilter: [languageFilter],
+      limit,
+      offset,
+      highlightPreTag: HIGHLIGHT_START,
+      highlightPostTag: HIGHLIGHT_END,
     });
 
-    return deduped.map((hit) => ({
-      type: hit.type as SearchResultType,
-      title: hit.title,
-      subtitle: hit.subtitle,
-      url: hit.url,
-    }));
+    return {
+      query: term,
+      total,
+      facets: Object.fromEntries(
+        Object.entries(facets).filter(([key]) => isSearchResultType(key)),
+      ),
+      results: hits.map((hit) => ({
+        type: hit.type as SearchResultType,
+        title: hit.title,
+        subtitle: hit.subtitle,
+        url: hit.url,
+        highlightedTitle: hit.highlightedTitle,
+        snippet: hit.snippet,
+        language: normalizeLanguage(hit.language),
+      })),
+    };
   }
+}
+
+/** Paging params come from the query string: anything missing or non-numeric gets `fallback`. */
+function clamp(
+  value: number | undefined,
+  fallback: number,
+  min: number,
+  max: number,
+): number {
+  if (value === undefined || !Number.isFinite(value)) return fallback;
+  return Math.min(max, Math.max(min, Math.floor(value)));
 }
