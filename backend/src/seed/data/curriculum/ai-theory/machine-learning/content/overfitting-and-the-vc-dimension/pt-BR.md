@@ -13,7 +13,7 @@ summary: Uma medida precisa de quanto uma classe de modelos pode sofrer overfitt
 
 ## Contexto e Motivação
 
-O primeiro conceito do bloco de fundamentos desta disciplina levantou a pergunta da viabilidade do aprendizado, e o limite de Hoeffding deu uma garantia real, mas só para uma única hipótese fixada de antemão, sinalizando explicitamente que um algoritmo de aprendizado que *busca* entre muitas hipóteses e escolhe a que melhor se ajusta precisa de um argumento mais forte. A dimensão VC (Vapnik–Chervonenkis) é esse argumento mais forte: um número preciso e calculável que mede quanto uma classe de modelos consegue "trapacear" ajustando essencialmente qualquer rotulação de um conjunto finito de pontos, e que estende a garantia de generalização para cobrir algoritmos de aprendizado realistas.
+O primeiro conceito do bloco de fundamentos desta disciplina levantou a pergunta da viabilidade do aprendizado, e o limite de Hoeffding deu uma garantia real, mas só para uma única hipótese fixada de antemão, sinalizando explicitamente que um algoritmo de aprendizado que *busca* entre muitas hipóteses e escolhe a que melhor se ajusta precisa de um argumento mais forte. A dimensão VC (Vapnik-Chervonenkis) é esse argumento mais forte: um número preciso e calculável que mede quanto uma classe de modelos consegue "trapacear" ajustando essencialmente qualquer rotulação de um conjunto finito de pontos, e que estende a garantia de generalização para cobrir algoritmos de aprendizado realistas.
 
 ## Teoria Central
 
