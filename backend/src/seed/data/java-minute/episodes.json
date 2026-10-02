@@ -328,5 +328,17 @@
       { "label": "Collector (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html", "type": "doc" },
       { "label": "Collectors (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collectors.html", "type": "doc" }
     ]
+  },
+  {
+    "slug": "scoped-value-mutable-binding",
+    "id": 400,
+    "question": "Can you bind mutable objects to scoped values?",
+    "publishedAt": "2026-10-02",
+    "references": [
+      { "label": "Java Coding Tip #400: Can You Bind Mutable Objects to Scoped Values?", "url": "https://youtube.com/shorts/S5d3H01efbw", "type": "video" },
+      { "label": "ScopedValue (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html", "type": "doc" },
+      { "label": "StructuredTaskScope (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html", "type": "doc" },
+      { "label": "JEP 506: Scoped Values", "url": "https://openjdk.org/jeps/506", "type": "doc" }
+    ]
   }
 ]
