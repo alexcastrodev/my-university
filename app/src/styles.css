@@ -1075,3 +1075,8 @@ app-concept-actions {
 .deep-dive-jump-btn:hover {
   text-decoration: underline;
 }
+
+/* Set by the search palette while it is open, so the page behind it does not scroll. */
+body.search-palette-open {
+  overflow: hidden;
+}

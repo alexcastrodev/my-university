@@ -21,6 +21,17 @@ test.describe('Responsive Layout', () => {
       await expect(header.searchInput).toBeVisible();
     });
 
+    test('should open the search palette from the header and with Ctrl+K', async ({ page }) => {
+      const header = new HeaderPage(page);
+      await header.searchInput.click();
+      await expect(header.searchDialog).toBeVisible();
+      await expect(header.searchBox).toBeFocused();
+      await page.keyboard.press('Escape');
+      await expect(header.searchDialog).not.toBeVisible();
+      await page.keyboard.press('Control+k');
+      await expect(header.searchDialog).toBeVisible();
+    });
+
     test('playlist should be visible in sidebar', async ({ page }) => {
       const playlist = new PlaylistPage(page);
       await expect(playlist.aside).toBeVisible();

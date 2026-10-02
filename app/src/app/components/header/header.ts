@@ -13,29 +13,7 @@ import { LanguageService } from '../../services/language.service';
 import { ThemeService } from '../../services/theme.service';
 import { XpService } from '../../services/xp.service';
 import { SearchService } from '../../services/search.service';
-import { SearchResult, SearchResultType } from '../../models/search.model';
 import { LANGUAGE_LABELS, Language } from '../../models/language.model';
-
-const FILTER_OPTIONS: { label: string; value: SearchResultType | null }[] = [
-  { label: 'header.search.filter.all', value: null },
-  { label: 'header.search.filter.courses', value: 'course' },
-  { label: 'header.search.filter.lessons', value: 'lesson' },
-  { label: 'header.search.filter.javaMinute', value: 'java-minute' },
-  { label: 'header.search.filter.javaConcepts', value: 'java-concept' },
-  { label: 'header.search.filter.jvmConcepts', value: 'jvm-concept' },
-  { label: 'header.search.filter.databaseConcepts', value: 'database-concept' },
-  { label: 'header.search.filter.springConcepts', value: 'spring-concept' },
-  { label: 'header.search.filter.systemDesign', value: 'system-design-concept' },
-  { label: 'header.search.filter.testingConcepts', value: 'testing-concept' },
-  { label: 'header.search.filter.algorithms', value: 'algorithms-concept' },
-  { label: 'header.search.filter.rubyConcepts', value: 'ruby-concept' },
-  { label: 'header.search.filter.rubyRailsConcepts', value: 'rubyonrails-concept' },
-  { label: 'header.search.filter.quarkusConcepts', value: 'quarkus-concept' },
-  { label: 'header.search.filter.kubernetesConcepts', value: 'kubernetes-concept' },
-];
-
-const SEARCH_DEBOUNCE_MS = 300;
-const MIN_QUERY_LENGTH = 2;
 
 @Component({
   selector: 'app-header',
@@ -53,22 +31,18 @@ export class Header {
   private searchService = inject(SearchService);
   private elementRef = inject(ElementRef);
 
-  protected readonly FILTER_OPTIONS = FILTER_OPTIONS;
   protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
 
-  searchQuery = signal('');
-  searchResults = signal<SearchResult[]>([]);
-  searchLoading = signal(false);
-  searchOpen = signal(false);
-  searchError = signal(false);
-  searchTypeFilter = signal<SearchResultType | null>(null);
+  /** Hint shown in the search trigger; Apple keyboards use ⌘, everything else Ctrl. */
+  protected readonly shortcutLabel =
+    typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+      ? '⌘K'
+      : 'Ctrl K';
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
-  mobileSearchOpen = signal(false);
   exploreMenuOpen = signal(false);
   languageMenuOpen = signal(false);
 
-  private debounceTimer: ReturnType<typeof setTimeout> | undefined;
   private exploreCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
   userInitials = computed(() => {
@@ -97,20 +71,15 @@ export class Header {
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen.update((open) => !open);
-    this.mobileSearchOpen.set(false);
   }
 
   closeMobileMenu(): void {
     this.mobileMenuOpen.set(false);
   }
 
-  toggleMobileSearch(): void {
-    this.mobileSearchOpen.update((open) => !open);
-    this.mobileMenuOpen.set(false);
-  }
-
-  closeMobileSearch(): void {
-    this.mobileSearchOpen.set(false);
+  openSearch(): void {
+    this.closeMobileMenu();
+    this.searchService.open();
   }
 
   toggleExploreMenu(): void {
@@ -152,82 +121,16 @@ export class Header {
     void this.router.navigate(['/login']);
   }
 
-  onSearchInput(value: string): void {
-    this.searchQuery.set(value);
-    clearTimeout(this.debounceTimer);
-
-    const trimmed = value.trim();
-    if (trimmed.length < MIN_QUERY_LENGTH) {
-      this.searchResults.set([]);
-      this.searchLoading.set(false);
-      this.searchOpen.set(trimmed.length > 0);
-      return;
-    }
-
-    this.searchOpen.set(true);
-    this.searchLoading.set(true);
-    this.searchError.set(false);
-    this.debounceTimer = setTimeout(() => this.runSearch(trimmed), SEARCH_DEBOUNCE_MS);
-  }
-
-  onFilterChange(type: SearchResultType | null): void {
-    this.searchTypeFilter.set(type);
-    const trimmed = this.searchQuery().trim();
-    if (trimmed.length >= MIN_QUERY_LENGTH) {
-      this.searchLoading.set(true);
-      this.searchError.set(false);
-      this.runSearch(trimmed);
-    }
-  }
-
-  private runSearch(query: string): void {
-    this.searchService.search(query, this.searchTypeFilter() ?? undefined).subscribe({
-      next: (results) => {
-        if (this.searchQuery().trim() === query) {
-          this.searchResults.set(results);
-        }
-        this.searchLoading.set(false);
-      },
-      error: () => {
-        this.searchLoading.set(false);
-        this.searchError.set(true);
-      },
-    });
-  }
-
-  selectResult(): void {
-    this.closeSearch();
-  }
-
-  onSearchFocus(): void {
-    if (this.searchQuery().trim().length > 0) {
-      this.searchOpen.set(true);
-    }
-  }
-
-  closeSearch(): void {
-    this.searchOpen.set(false);
-  }
-
   @HostListener('document:keydown.escape')
   onEscape(): void {
-    this.closeSearch();
     this.closeUserMenu();
     this.closeMobileMenu();
     this.closeExploreMenu();
     this.closeLanguageMenu();
-    this.closeMobileSearch();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
-    if (this.searchOpen()) {
-      const searchBox = this.elementRef.nativeElement.querySelector('.search-box');
-      if (searchBox && !searchBox.contains(event.target as Node)) {
-        this.closeSearch();
-      }
-    }
-
     if (this.userMenuOpen()) {
       const userMenu = this.elementRef.nativeElement.querySelector('.user-menu');
       if (userMenu && !userMenu.contains(event.target as Node)) {
@@ -255,15 +158,6 @@ export class Header {
       const languageMenu = this.elementRef.nativeElement.querySelector('.language-menu');
       if (languageMenu && !languageMenu.contains(event.target as Node)) {
         this.closeLanguageMenu();
-      }
-    }
-
-    if (this.mobileSearchOpen()) {
-      const mobileSearch = this.elementRef.nativeElement.querySelector('.mobile-search-row');
-      const toggle = this.elementRef.nativeElement.querySelector('.mobile-search-toggle');
-      const target = event.target as Node;
-      if (mobileSearch && toggle && !mobileSearch.contains(target) && !toggle.contains(target)) {
-        this.closeMobileSearch();
       }
     }
   }

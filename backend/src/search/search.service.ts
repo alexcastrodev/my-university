@@ -85,8 +85,8 @@ export interface SearchOptions {
 }
 
 /** Private-use code points, so a highlight marker can never collide with real content and the client can split on them without rendering HTML. */
-export const HIGHLIGHT_START = '';
-export const HIGHLIGHT_END = '';
+export const HIGHLIGHT_START = '\uE000';
+export const HIGHLIGHT_END = '\uE001';
 
 /** "programming-computational-thinking" -> "Programming Computational Thinking" — a discipline slug has no separate human title stored on the backend (that mapping lives only in the frontend's static registry), so search subtitles derive one directly. */
 function titleCase(slug: string): string {

@@ -1,0 +1,202 @@
+@if (search.paletteOpen()) {
+  <div class="sp-backdrop" (click)="close()" aria-hidden="true"></div>
+  <div
+    class="sp-panel"
+    role="dialog"
+    aria-modal="true"
+    i18n-aria-label="@@search.aria.dialog"
+    aria-label="Search the platform"
+  >
+    <div class="sp-input-row" role="search">
+      <svg
+        class="sp-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
+        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <input
+        #input
+        type="search"
+        class="sp-input"
+        autocomplete="off"
+        spellcheck="false"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls="search-palette-results"
+        [attr.aria-expanded]="results().length > 0"
+        [attr.aria-activedescendant]="results().length ? optionId(activeIndex()) : null"
+        i18n-placeholder="@@search.placeholder"
+        placeholder="Search concepts, courses, Java Minute…"
+        i18n-aria-label="@@search.aria.input"
+        aria-label="Search"
+        [value]="query()"
+        (input)="onInput($any($event.target).value)"
+        (keydown)="onKeydown($event)"
+      />
+      @if (loading()) {
+        <span class="sp-spinner" aria-hidden="true"></span>
+      }
+      <button
+        type="button"
+        class="sp-close"
+        (click)="close()"
+        i18n-aria-label="@@search.aria.close"
+        aria-label="Close search"
+      >
+        <kbd>Esc</kbd>
+      </button>
+    </div>
+
+    @if (settledQuery()) {
+      <div
+        class="sp-filters"
+        role="toolbar"
+        i18n-aria-label="@@search.aria.filters"
+        aria-label="Filter results by track"
+      >
+        @for (pill of pills(); track pill.type) {
+          <button
+            type="button"
+            class="sp-pill"
+            [class.active]="type() === pill.type"
+            [attr.aria-pressed]="type() === pill.type"
+            (click)="setType(pill.type)"
+          >
+            {{ pill.label }}<span class="sp-pill-count">{{ pill.count }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    <div class="sp-body" #list>
+      @if (trimmed().length < MIN_QUERY_LENGTH) {
+        @if (search.recent().length) {
+          <div class="sp-section">
+            <div class="sp-section-head">
+              <span i18n="@@search.recent">Recent searches</span>
+              <button
+                type="button"
+                class="sp-link"
+                (click)="search.clearRecent()"
+                i18n="@@search.recentClear"
+              >
+                Clear
+              </button>
+            </div>
+            @for (recent of search.recent(); track recent) {
+              <button type="button" class="sp-recent" (click)="useRecent(recent)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+                  <path
+                    d="M12 7v5l3 2"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                {{ recent }}
+              </button>
+            }
+          </div>
+        } @else {
+          <p class="sp-state" i18n="@@search.hint">
+            Search every track at once: computer science, Java, Spring, databases, system design and
+            more.
+          </p>
+        }
+      } @else if (error()) {
+        <p class="sp-state" i18n="@@search.error">Something went wrong. Try again.</p>
+      } @else if (!settledQuery() && loading()) {
+        <p class="sp-state" i18n="@@search.searching">Searching…</p>
+      } @else if (settledQuery() && results().length === 0 && !loading()) {
+        <p class="sp-state" i18n="@@search.noResults">No results for "{{ settledQuery() }}"</p>
+        @if (type()) {
+          <p class="sp-state sp-state-sub">
+            <button type="button" class="sp-link" (click)="setType(null)" i18n="@@search.searchAll">
+              Search all tracks instead
+            </button>
+          </p>
+        }
+      } @else {
+        <ul class="sp-results" id="search-palette-results" role="listbox" [class.stale]="loading()">
+          @for (view of views(); track view.result.url; let i = $index) {
+            <li role="presentation">
+              <a
+                class="sp-result"
+                role="option"
+                [id]="optionId(i)"
+                [attr.aria-selected]="i === activeIndex()"
+                [class.active]="i === activeIndex()"
+                [routerLink]="view.result.url"
+                (mouseenter)="activeIndex.set(i)"
+                (click)="onResultClick($event)"
+              >
+                <span class="sp-result-meta">
+                  <span class="sp-result-type">{{ typeLabel(view.result.type) }}</span>
+                  @if (view.subtitle) {
+                    <span class="sp-result-subtitle">{{ view.subtitle }}</span>
+                  }
+                  @if (view.otherLanguage) {
+                    <span
+                      class="sp-result-lang"
+                      i18n-title="@@search.notTranslated"
+                      title="Not translated yet"
+                      >{{ view.otherLanguage }}</span
+                    >
+                  }
+                </span>
+                <span class="sp-result-title">
+                  @for (seg of view.title; track $index) {
+                    <span [class.sp-hl]="seg.match">{{ seg.text }}</span>
+                  }
+                </span>
+                @if (view.snippet) {
+                  <span class="sp-result-snippet">
+                    @for (seg of view.snippet; track $index) {
+                      <span [class.sp-hl]="seg.match">{{ seg.text }}</span>
+                    }
+                  </span>
+                }
+              </a>
+            </li>
+          }
+        </ul>
+        @if (hasMore()) {
+          <div class="sp-more">
+            <button
+              type="button"
+              class="sp-more-btn"
+              [disabled]="loadingMore()"
+              (click)="loadMore()"
+            >
+              @if (loadingMore()) {
+                <ng-container i18n="@@search.loadingMore">Loading…</ng-container>
+              } @else {
+                <ng-container i18n="@@search.loadMore">Show more results</ng-container>
+              }
+            </button>
+          </div>
+        }
+      }
+    </div>
+
+    <div class="sp-footer">
+      @if (settledQuery() && total()) {
+        <span class="sp-count" i18n="@@search.count">{{ results().length }} of {{ total() }}</span>
+      }
+      <span class="sp-keys">
+        <span
+          ><kbd>↑</kbd><kbd>↓</kbd>
+          <ng-container i18n="@@search.keys.navigate">navigate</ng-container></span
+        >
+        <span><kbd>↵</kbd> <ng-container i18n="@@search.keys.open">open</ng-container></span>
+        <span><kbd>Esc</kbd> <ng-container i18n="@@search.keys.close">close</ng-container></span>
+      </span>
+    </div>
+  </div>
+}
