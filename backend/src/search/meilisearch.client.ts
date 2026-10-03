@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import * as Sentry from '@sentry/nestjs';
 import { createHash } from 'crypto';
 
 const HOST = process.env.MEILI_HOST ?? 'http://127.0.0.1:7700';
@@ -40,7 +41,7 @@ export class MeilisearchClient {
     const deadline = Date.now() + timeoutMs;
     while (Date.now() < deadline) {
       try {
-        const res = await fetch(`${HOST}/health`);
+        const res = await Sentry.suppressTracing(() => fetch(`${HOST}/health`));
         if (res.ok) return;
       } catch {
         // not up yet
@@ -62,18 +63,30 @@ export class MeilisearchClient {
     return (await res.json()) as T;
   }
 
-  /** Every Meilisearch write is an async task; this blocks until it finishes and surfaces a failure instead of dropping it. */
-  private async waitForTask(taskUid: number, timeoutMs = 120_000): Promise<void> {
-    const deadline = Date.now() + timeoutMs;
-    while (Date.now() < deadline) {
-      const task = await this.request<{ status: string; error?: { message: string } }>('GET', `/tasks/${taskUid}`);
-      if (task.status === 'succeeded') return;
-      if (task.status === 'failed' || task.status === 'canceled') {
-        throw new Error(`Meilisearch task ${taskUid} ${task.status}: ${task.error?.message ?? 'unknown error'}`);
+  /**
+   * Every Meilisearch write is an async task; this blocks until it finishes and surfaces a failure
+   * instead of dropping it. Small tasks finish in a few ms, while the full document upload takes
+   * many seconds, so the poll starts tight and backs off to 1s. The polls themselves stay out of
+   * Sentry (one `GET /tasks/:id` span per poll used to be the API's biggest source of spans); the
+   * wait shows up as a single span instead.
+   */
+  private waitForTask(taskUid: number, timeoutMs = 120_000): Promise<void> {
+    return Sentry.startSpan({ name: `wait for Meilisearch task ${taskUid}`, op: 'queue.process' }, async () => {
+      const deadline = Date.now() + timeoutMs;
+      let delayMs = 25;
+      while (Date.now() < deadline) {
+        const task = await Sentry.suppressTracing(() =>
+          this.request<{ status: string; error?: { message: string } }>('GET', `/tasks/${taskUid}`),
+        );
+        if (task.status === 'succeeded') return;
+        if (task.status === 'failed' || task.status === 'canceled') {
+          throw new Error(`Meilisearch task ${taskUid} ${task.status}: ${task.error?.message ?? 'unknown error'}`);
+        }
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        delayMs = Math.min(delayMs * 2, 1_000);
       }
-      await new Promise((resolve) => setTimeout(resolve, 250));
-    }
-    throw new Error(`Meilisearch task ${taskUid} did not finish within ${timeoutMs}ms`);
+      throw new Error(`Meilisearch task ${taskUid} did not finish within ${timeoutMs}ms`);
+    });
   }
 
   private async enqueue(method: string, path: string, body?: unknown): Promise<void> {

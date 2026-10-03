@@ -1,4 +1,5 @@
 import type { Injector } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 type SentrySdk = typeof import('./sentry-sdk');
 
@@ -25,8 +26,36 @@ function enabled(): boolean {
 export function startSentry(injector: Injector): void {
   if (!enabled()) return;
   whenIdle(() => {
-    void loadSdk().then((Sentry) => injector.get(Sentry.TraceService));
+    void loadSdk().then((Sentry) => {
+      injector.get(Sentry.TraceService);
+      nameOngoingPageload(Sentry, injector.get(Router));
+    });
   });
+}
+
+/**
+ * TraceService names a pageload on the router's first ResolveEnd, which has long passed by the
+ * time the SDK arrives, so without this every pageload is just "Pageload" and Web Vitals can't
+ * be split per screen. The pageload span is still open (it waits for the page to go idle), so
+ * it is renamed here after the route the user landed on, in the same `/a/:b/` form TraceService
+ * gives navigations.
+ */
+function nameOngoingPageload(Sentry: SentrySdk, router: Router): void {
+  const active = Sentry.getActiveSpan();
+  if (!active) return;
+  const root = Sentry.getRootSpan(active);
+  if (Sentry.spanToJSON(root).attributes?.['sentry.op'] !== 'pageload') return;
+  root.updateName(parameterizedRoute(router.routerState.snapshot.root));
+  root.setAttribute('sentry.source', 'route');
+}
+
+function parameterizedRoute(root: ActivatedRouteSnapshot): string {
+  const parts: string[] = [];
+  for (let route = root.firstChild; route?.routeConfig?.path != null; route = route.firstChild) {
+    parts.push(route.routeConfig.path);
+  }
+  const path = parts.filter(Boolean).join('/');
+  return path ? `/${path}/` : '/';
 }
 
 /** Sends an error once the SDK is in (loading it if it isn't yet). No-op off the real site. */
@@ -39,6 +68,8 @@ function loadSdk(): Promise<SentrySdk> {
   sdk ??= import('./sentry-sdk').then((Sentry) => {
     Sentry.init({
       dsn: DSN,
+      release: Sentry.RELEASE,
+      environment: 'production',
       integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 0.2,
       tracePropagationTargets: [/^\/api\//, new RegExp(`^https://${PRODUCTION_HOST}/api/`)],
