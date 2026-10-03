@@ -6,6 +6,7 @@ import {
 import { CurriculumService } from '../curriculum/curriculum.service';
 import { curriculumSourceId, toSourceId } from '../review/review.constants';
 import { ReviewService } from '../review/review.service';
+import { CONTENT_CACHE_ENABLED } from '../shared/concept-content';
 import { Language } from '../shared/language';
 import { toUtcDateKey } from '../xp/streak';
 import { XpService } from '../xp/xp.service';
@@ -96,6 +97,18 @@ function startOfUtcDay(now: Date): Date {
 
 @Injectable()
 export class FeedService {
+  /**
+   * Candidate lists and code snippets come from content that only changes with a deploy, and
+   * computing them walks every track (~300 ms per feed page in production traces), so in
+   * production they are computed once per area/language (or concept) and reused. Read state is
+   * per user and is still applied per request.
+   */
+  private readonly candidateCache = new Map<
+    string,
+    Omit<Candidate, 'read'>[]
+  >();
+  private readonly snippetCache = new Map<string, FeedItem['code'] | null>();
+
   constructor(
     private review: ReviewService,
     private curriculum: CurriculumService,
@@ -115,7 +128,7 @@ export class FeedService {
         ? new Set<string>()
         : await this.xp.getReadSourceIds(userId, 'concept-read');
 
-    const candidates = this.candidates(area, options.lang).map((c) => ({
+    const candidates = this.cachedCandidates(area, options.lang).map((c) => ({
       ...c,
       read: readIds.has(c.sourceId),
     }));
@@ -172,6 +185,20 @@ export class FeedService {
     return { read: true, gotItToday: await this.countGotItToday(userId) };
   }
 
+  private cachedCandidates(
+    area: string | null,
+    lang: Language,
+  ): Omit<Candidate, 'read'>[] {
+    if (!CONTENT_CACHE_ENABLED) return this.candidates(area, lang);
+    const key = `${area ?? 'all'}:${lang}`;
+    let cached = this.candidateCache.get(key);
+    if (!cached) {
+      cached = this.candidates(area, lang);
+      this.candidateCache.set(key, cached);
+    }
+    return cached;
+  }
+
   /**
    * Every concept the feed can show for `area`, only those written in `lang`: a concept not yet
    * translated would otherwise fall back to English, and a card in the wrong language mid-scroll
@@ -221,9 +248,27 @@ export class FeedService {
   }
 
   private toItem(c: Candidate, lang: Language): FeedItem {
+    return {
+      module: c.module,
+      discipline: c.discipline,
+      slug: c.slug,
+      title: c.title,
+      summary: c.summary,
+      code: this.snippet(c.sourceId, lang),
+      route: c.route,
+      read: c.read,
+    };
+  }
+
+  private snippet(sourceId: string, lang: Language): FeedItem['code'] {
+    const key = `${sourceId}:${lang}`;
+    if (CONTENT_CACHE_ENABLED && this.snippetCache.has(key)) {
+      return this.snippetCache.get(key) ?? undefined;
+    }
+
     const detail = this.review.resolveConceptDetail(
       'concept-read',
-      c.sourceId,
+      sourceId,
       lang,
     );
     const block = detail ? firstSourceSnippet(detail.sections) : null;
@@ -238,16 +283,8 @@ export class FeedService {
       code = { lang: block.lang, source };
     }
 
-    return {
-      module: c.module,
-      discipline: c.discipline,
-      slug: c.slug,
-      title: c.title,
-      summary: c.summary,
-      code,
-      route: c.route,
-      read: c.read,
-    };
+    if (CONTENT_CACHE_ENABLED) this.snippetCache.set(key, code ?? null);
+    return code;
   }
 
   private async countGotItToday(userId: number): Promise<number> {
