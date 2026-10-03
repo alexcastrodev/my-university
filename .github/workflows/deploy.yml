@@ -46,6 +46,7 @@ jobs:
         run: |
           for target in api ssr web; do
             docker build --target "$target" \
+              --build-arg SENTRY_RELEASE=${{ github.sha }} \
               -t "pizito:5001/university-$target:latest" \
               -t "pizito:5001/university-$target:${{ github.sha }}" .
           done
