@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewChecked, Directive, ElementRef, PLATFORM_ID, inject } from '@angular/core';
-import mermaid from 'mermaid';
+import type { Mermaid } from 'mermaid';
 import { MermaidViewerService } from '../services/mermaid-viewer.service';
 
 type MermaidTheme = 'light' | 'dark';
@@ -65,13 +65,23 @@ const THEME_VARIABLES: Record<MermaidTheme, Record<string, string | boolean>> = 
 
 let initializedTheme: MermaidTheme | null = null;
 
+/* Mermaid is ~500 KB minified, and most concept pages have no diagram, so it is fetched as its
+   own chunk the first time a page actually has one instead of riding along with every concept
+   route. */
+let mermaidModule: Promise<Mermaid> | null = null;
+
+function loadMermaid(): Promise<Mermaid> {
+  mermaidModule ??= import('mermaid').then((m) => m.default);
+  return mermaidModule;
+}
+
 function currentTheme(): MermaidTheme {
   return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
 /** (Re)initializes mermaid whenever the app theme differs from the one it was last
  *  configured for, so diagrams rendered after a theme switch pick the matching palette. */
-function ensureMermaidInitialized(): void {
+function ensureMermaidInitialized(mermaid: Mermaid): void {
   const theme = currentTheme();
   if (initializedTheme === theme) return;
   mermaid.initialize({
@@ -115,27 +125,36 @@ export class RenderMermaidDirective implements AfterViewChecked {
     const nodes: NodeListOf<HTMLElement> = element.querySelectorAll('.mermaid-diagram[data-mermaid-source]');
     if (!nodes.length) return;
 
-    ensureMermaidInitialized();
+    const pending = Array.from(nodes).filter((node) => !this.rendered.has(node));
+    if (!pending.length) return;
+    pending.forEach((node) => this.rendered.add(node));
 
-    nodes.forEach((node) => {
-      if (this.rendered.has(node)) return;
-      this.rendered.add(node);
+    loadMermaid()
+      .then((mermaid) => {
+        ensureMermaidInitialized(mermaid);
+        pending.forEach((node) => this.renderDiagram(mermaid, node));
+      })
+      .catch((error) => {
+        pending.forEach((node) => (node.textContent = 'Diagram could not be rendered.'));
+        console.error('Mermaid failed to load', error);
+      });
+  }
 
-      const source = decodeURIComponent(node.dataset['mermaidSource'] ?? '');
-      if (!source) return;
+  private renderDiagram(mermaid: Mermaid, node: HTMLElement): void {
+    const source = decodeURIComponent(node.dataset['mermaidSource'] ?? '');
+    if (!source) return;
 
-      const id = `mermaid-diagram-${++renderCounter}`;
-      mermaid
-        .render(id, source)
-        .then(({ svg }) => {
-          node.innerHTML = svg;
-          this.makeZoomable(node, svg);
-        })
-        .catch((error) => {
-          node.textContent = 'Diagram could not be rendered.';
-          console.error('Mermaid render failed', error);
-        });
-    });
+    const id = `mermaid-diagram-${++renderCounter}`;
+    mermaid
+      .render(id, source)
+      .then(({ svg }) => {
+        node.innerHTML = svg;
+        this.makeZoomable(node, svg);
+      })
+      .catch((error) => {
+        node.textContent = 'Diagram could not be rendered.';
+        console.error('Mermaid render failed', error);
+      });
   }
 
   private makeZoomable(node: HTMLElement, svg: string): void {
