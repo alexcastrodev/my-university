@@ -11,7 +11,10 @@ RUN pnpm install --frozen-lockfile --filter ocp-simulator...
 COPY app/ ./app/
 COPY packages/algorithmator/ ./packages/algorithmator/
 RUN pnpm --filter algorithmator build
-RUN pnpm --filter ocp-simulator build
+# The deployed commit, so Sentry can tell releases apart (performance before/after a deploy).
+# Passed by the deploy workflow; local and test builds leave it empty and report no release.
+ARG SENTRY_RELEASE=""
+RUN pnpm --filter ocp-simulator build --define "SENTRY_RELEASE='${SENTRY_RELEASE}'"
 
 # ─── Stage 2: Build Backend ───────────────────────────────────────────────────
 FROM node:24-alpine AS backend-build
@@ -42,6 +45,9 @@ ENV NODE_ENV=production
 RUN apk add --no-cache tini fontconfig ttf-dejavu
 COPY --from=backend-build /app/node_modules ./node_modules
 COPY --from=backend-build /app/dist ./dist
+# Read by the Sentry SDK as the release (see the frontend-build stage).
+ARG SENTRY_RELEASE=""
+ENV SENTRY_RELEASE=${SENTRY_RELEASE}
 EXPOSE 3000
 HEALTHCHECK --interval=5s --timeout=3s --start-period=30s --retries=3 \
   CMD wget -q -O /dev/null http://127.0.0.1:3000/api/health || exit 1

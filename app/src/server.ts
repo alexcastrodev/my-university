@@ -5,6 +5,7 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -42,6 +43,27 @@ if (ssrApiOrigin) {
       }
     }
     return publicFetch(input, init);
+  };
+}
+
+/**
+ * Tracks, per render, whether any API call it made failed, so a page rendered while the API was
+ * down or restarting (which still comes out as a 200 with empty or error content) is never put
+ * in the render cache below. Wraps whatever `fetch` is in place, including the redirect above.
+ */
+const renderOutcome = new AsyncLocalStorage<{ apiFailed: boolean }>();
+{
+  const innerFetch = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    const outcome = renderOutcome.getStore();
+    try {
+      const response = await innerFetch(input, init);
+      if (outcome && !response.ok) outcome.apiFailed = true;
+      return response;
+    } catch (err) {
+      if (outcome) outcome.apiFailed = true;
+      throw err;
+    }
   };
 }
 
@@ -108,15 +130,89 @@ app.use(
  * only this per-request document needs `no-store`.
  */
 app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) => {
+  const key = renderCacheKey(req);
+  const cached = key ? renderCache.get(key) : undefined;
+  if (cached && cached.expiresAt > Date.now()) {
+    void writeResponseToNodeResponse(toResponse(cached, 'HIT', 0), res).catch(next);
+    return;
+  }
+
+  const startedAt = performance.now();
+  const outcome = { apiFailed: false };
+  renderOutcome
+    .run(outcome, () => angularApp.handle(req))
+    .then(async (response) => {
       if (!response) return next();
-      response.headers.set('Cache-Control', 'no-store');
-      return writeResponseToNodeResponse(response, res);
+      const renderMs = performance.now() - startedAt;
+      if (!key || response.status !== 200 || outcome.apiFailed) {
+        response.headers.set('Cache-Control', 'no-store');
+        response.headers.set('Server-Timing', `ssr;dur=${renderMs.toFixed(1)}`);
+        return writeResponseToNodeResponse(response, res);
+      }
+      const entry: CachedRender = {
+        status: response.status,
+        headers: [...response.headers.entries()],
+        body: await response.text(),
+        expiresAt: Date.now() + RENDER_CACHE_TTL_MS,
+      };
+      remember(key, entry);
+      return writeResponseToNodeResponse(toResponse(entry, 'MISS', renderMs), res);
     })
     .catch(next);
 });
+
+/**
+ * Short-lived cache of rendered pages. The server render is the same for every visitor: it
+ * never forwards the visitor's cookies to the API, so it always renders the signed-out view
+ * (the browser fills in the user's state after hydration), and the page depends only on its URL.
+ * Rendering is the bulk of the HTML's time to first byte, and most traffic lands on a small set
+ * of concept pages, so repeat hits within a few minutes are answered from memory.
+ *
+ * It lives in this process rather than in nginx on purpose: a cached page names this build's
+ * hashed chunks, and this cache is dropped together with the build that rendered it on deploy.
+ * Off outside production, so `ng serve` always shows the current code.
+ */
+interface CachedRender {
+  status: number;
+  headers: [string, string][];
+  body: string;
+  expiresAt: number;
+}
+
+const RENDER_CACHE_ENABLED = process.env['NODE_ENV'] === 'production';
+const RENDER_CACHE_TTL_MS = 5 * 60_000;
+/** Bounds memory against crawlers walking every page (and junk query strings). */
+const RENDER_CACHE_MAX_ENTRIES = 500;
+const renderCache = new Map<string, CachedRender>();
+
+function renderCacheKey(req: express.Request): string | null {
+  if (!RENDER_CACHE_ENABLED || req.method !== 'GET') return null;
+  // The engine trusts the proxy headers (canonical and OG URLs are built from them), so they key too.
+  const proto = req.get('x-forwarded-proto') ?? req.protocol;
+  const host = req.get('x-forwarded-host') ?? req.get('host');
+  return `${proto}://${host}${req.originalUrl}`;
+}
+
+/** Insertion order doubles as age order, so the oldest entry is the first key. */
+function remember(key: string, entry: CachedRender): void {
+  renderCache.delete(key);
+  renderCache.set(key, entry);
+  if (renderCache.size > RENDER_CACHE_MAX_ENTRIES) {
+    renderCache.delete(renderCache.keys().next().value!);
+  }
+}
+
+/**
+ * The document itself is still `no-store` for the browser: it names this build's hashed chunks,
+ * and a copy kept past a deploy would point at chunks that no longer exist.
+ */
+function toResponse(entry: CachedRender, cacheStatus: 'HIT' | 'MISS', renderMs: number): Response {
+  const headers = new Headers(entry.headers);
+  headers.set('Cache-Control', 'no-store');
+  headers.set('X-Render-Cache', cacheStatus);
+  headers.set('Server-Timing', `ssr;dur=${renderMs.toFixed(1)}`);
+  return new Response(entry.body, { status: entry.status, headers });
+}
 
 /**
  * Start the server if this module is the main entry point, or it is ran via PM2.

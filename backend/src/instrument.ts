@@ -14,6 +14,8 @@ Sentry.init({
   dsn,
   enabled: Boolean(dsn),
   environment: process.env.NODE_ENV ?? 'development',
+  // The deployed commit (set by the Docker build), so performance can be compared across deploys.
+  release: process.env.SENTRY_RELEASE || undefined,
   // A share of requests traced end to end (route, handler, SQL), enough to see where a slow
   // endpoint spends its time without sending every request.
   tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE ?? 0.2),

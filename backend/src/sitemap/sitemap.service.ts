@@ -13,6 +13,7 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
+import { CONTENT_CACHE_ENABLED } from '../shared/concept-content';
 import { Language } from '../shared/language';
 
 export interface SitemapUrl {
@@ -208,7 +209,24 @@ export class SitemapService {
     return urls;
   }
 
-  async toXml(): Promise<string> {
+  /** The XML for the life of the process, built on first request (see `toXml`). */
+  private cachedXml: Promise<string> | null = null;
+
+  /**
+   * Everything the sitemap lists (content files, seeded exams) only changes with a deploy, and
+   * building it walks every track (~250 ms in production traces), so it is built once per process.
+   * Outside production it is rebuilt each time, like the content cache, so edits show up at once.
+   */
+  toXml(): Promise<string> {
+    if (!CONTENT_CACHE_ENABLED) return this.buildXml();
+    this.cachedXml ??= this.buildXml().catch((err: unknown) => {
+      this.cachedXml = null; // don't pin a failed build (e.g. DB hiccup) until the next deploy
+      throw err;
+    });
+    return this.cachedXml;
+  }
+
+  private async buildXml(): Promise<string> {
     const urls = await this.buildUrls();
     const entries = urls
       .map((url) => {

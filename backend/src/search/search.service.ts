@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as Sentry from '@sentry/nestjs';
 import { Repository } from 'typeorm';
 import { Course } from '../course/course.entity';
 import { Lesson } from '../lesson/lesson.entity';
@@ -168,13 +169,21 @@ export class SearchService implements OnApplicationBootstrap {
     void this.rebuildOnBoot();
   }
 
-  private async rebuildOnBoot(): Promise<void> {
-    try {
-      await this.meili.waitUntilHealthy();
-      await this.indexAll();
-    } catch (err) {
-      this.log.error(`Failed to build search index: ${(err as Error).message}`);
-    }
+  /** One trace for the whole rebuild, instead of a stray root trace per Meilisearch call. */
+  private rebuildOnBoot(): Promise<void> {
+    return Sentry.startSpan(
+      { name: 'search index rebuild', op: 'task', forceTransaction: true },
+      async () => {
+        try {
+          await this.meili.waitUntilHealthy();
+          await this.indexAll();
+        } catch (err) {
+          this.log.error(
+            `Failed to build search index: ${(err as Error).message}`,
+          );
+        }
+      },
+    );
   }
 
   /** Every file-backed content track. Adding a track to the platform means adding it here, nothing else. */
