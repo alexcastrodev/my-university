@@ -90,5 +90,50 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "testing-modules-in-isolation",
+    "id": 3,
+    "title": "Testing Modules in Isolation",
+    "topic": "Modular Architecture",
+    "summary": "Host one module with a real database, replace the other modules with fakes of their contracts, test outbox events without sleeping, and keep a few full-application tests for the seams.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "module-communication-and-architecture-tests"
+    ],
+    "related": [
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "Testcontainers for .NET",
+        "url": "https://dotnet.testcontainers.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Shared context between tests (class fixtures), xUnit.net",
+        "url": "https://xunit.net/docs/shared-context",
+        "type": "doc"
+      },
+      {
+        "label": "Testing without your production database system, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      }
+    ]
   }
 ]
