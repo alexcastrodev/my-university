@@ -822,5 +822,65 @@
       }
     ],
     "id": 17
+  },
+  {
+    "slug": "coordinating-concurrent-work",
+    "title": "Coordinating Concurrent Work",
+    "topic": "Concurrency",
+    "summary": "Cancellation and timeouts, throttling with SemaphoreSlim, fan-out and fan-in with Channels, TaskCompletionSource, and ConcurrentDictionary.GetOrAdd pitfalls.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Structured Concurrency",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Cancellation in managed threads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads",
+        "type": "doc"
+      },
+      {
+        "label": "Task.WaitAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync",
+        "type": "doc"
+      },
+      {
+        "label": "TimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider",
+        "type": "doc"
+      },
+      {
+        "label": "SemaphoreSlim, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim",
+        "type": "doc"
+      },
+      {
+        "label": "System.Threading.Channels, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels",
+        "type": "doc"
+      },
+      {
+        "label": "TaskCompletionSource, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentDictionary.GetOrAdd, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd",
+        "type": "doc"
+      }
+    ],
+    "id": 18
   }
 ]
