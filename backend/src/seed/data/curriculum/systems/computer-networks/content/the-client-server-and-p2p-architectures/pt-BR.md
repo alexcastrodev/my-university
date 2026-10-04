@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "As Arquiteturas de Aplicação Cliente-Servidor e P2P"
-summary: "Duas respostas estruturais para \"quem fala com quem\": uma arquitetura cliente-servidor, com um servidor sempre ligado ao qual todos os clientes se dirigem, versus uma arquitetura peer-to-peer, em que sistemas finais conectados de forma intermitente atendem uns aos outros diretamente. É uma escolha de projeto real, com trade-offs reais de escalabilidade, e não só uma curiosidade histórica."
+summary: "Duas respostas estruturais para “quem fala com quem”: uma arquitetura cliente-servidor, com um servidor sempre ligado ao qual todos os clientes se dirigem, versus uma arquitetura peer-to-peer, em que sistemas finais conectados de forma intermitente atendem uns aos outros diretamente. É uma escolha de projeto real, com trade-offs reais de escalabilidade, e não só uma curiosidade histórica."
 ---
 ## Objetivos de Aprendizagem
 

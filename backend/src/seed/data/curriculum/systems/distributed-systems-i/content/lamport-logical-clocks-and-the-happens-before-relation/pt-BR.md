@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "Relógios Lógicos de Lamport e a Relação Happens-Before"
-summary: "O artigo de Lamport de 1978 contorna os relógios físicos inteiramente: ele define \"happens-before\" (→) diretamente a partir do que um sistema distribuído consegue de fato observar (a ordem do programa dentro de um processo, e o envio de uma mensagem sempre acontecendo antes do recebimento correspondente), produzindo exatamente uma ordem parcial (irreflexiva e transitiva, mas não total: dois eventos em processos diferentes sem nenhuma cadeia de mensagens entre eles são simplesmente incomparáveis, ou seja, concorrentes). Em seguida, ele dá um algoritmo simples de contador inteiro que satisfaz a Condição do Relógio (a→b implica C(a)<C(b)) e mostra como desempatar com IDs de processo estende essa ordem parcial numa ordem total sempre que uma é necessária."
+summary: "O artigo de Lamport de 1978 contorna os relógios físicos inteiramente: ele define “happens-before” (→) diretamente a partir do que um sistema distribuído consegue de fato observar (a ordem do programa dentro de um processo, e o envio de uma mensagem sempre acontecendo antes do recebimento correspondente), produzindo exatamente uma ordem parcial (irreflexiva e transitiva, mas não total: dois eventos em processos diferentes sem nenhuma cadeia de mensagens entre eles são simplesmente incomparáveis, ou seja, concorrentes). Em seguida, ele dá um algoritmo simples de contador inteiro que satisfaz a Condição do Relógio (a→b implica C(a)<C(b)) e mostra como desempatar com IDs de processo estende essa ordem parcial numa ordem total sempre que uma é necessária."
 ---
 ## Objetivos de Aprendizagem
 

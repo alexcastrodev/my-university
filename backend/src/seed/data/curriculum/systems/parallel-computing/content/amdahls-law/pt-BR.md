@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Lei de Amdahl"
-summary: "Se uma fração f de um programa é inerentemente sequencial, nenhum número de processadores pode empurrar o speedup além de 1/f, um teto rígido que transforma o \"basta adicionar mais núcleos\" numa pergunta que sempre tem que começar com \"quanto disto consegue sequer rodar em paralelo?\"."
+summary: "Se uma fração f de um programa é inerentemente sequencial, nenhum número de processadores pode empurrar o speedup além de 1/f, um teto rígido que transforma o “basta adicionar mais núcleos” numa pergunta que sempre tem que começar com “quanto disto consegue sequer rodar em paralelo?”."
 ---
 ## Objetivos de Aprendizagem
 

@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "A Transferência Confiável de Dados do TCP na Prática"
-summary: "Como os princípios gerais de transferência confiável de dados se tornam o mecanismo de fato do TCP: confirmações cumulativas, retransmissão rápida com três ACKs duplicados e timeout adaptativo calculado a partir de uma estimativa contínua do tempo de ida e volta. Fórmulas reais, e não só o conceito de \"retransmita se estiver atrasado\"."
+summary: "Como os princípios gerais de transferência confiável de dados se tornam o mecanismo de fato do TCP: confirmações cumulativas, retransmissão rápida com três ACKs duplicados e timeout adaptativo calculado a partir de uma estimativa contínua do tempo de ida e volta. Fórmulas reais, e não só o conceito de “retransmita se estiver atrasado”."
 ---
 ## Objetivos de Aprendizagem
 

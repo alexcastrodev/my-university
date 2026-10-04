@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "Por que Sistemas Distribuídos São Difíceis: Falha Parcial e Nenhum Estado Compartilhado"
-summary: "Uma única máquina que cai, cai inteira e para; um sistema distribuído pode ter algumas máquinas funcionando bem enquanto outras falharam, e as sobreviventes geralmente não conseguem distinguir \"aquela máquina está morta\" de \"aquela máquina (ou a rede até ela) está só lenta\". Este conceito nomeia a falha parcial, a ausência de memória compartilhada e a ausência de um relógio compartilhado como as três propriedades que tornam os sistemas distribuídos um problema genuinamente diferente e mais difícil do que a programação concorrente numa máquina, e não apenas programação concorrente com latência extra."
+summary: "Uma única máquina que cai, cai inteira e para; um sistema distribuído pode ter algumas máquinas funcionando bem enquanto outras falharam, e as sobreviventes geralmente não conseguem distinguir “aquela máquina está morta” de “aquela máquina (ou a rede até ela) está só lenta”. Este conceito nomeia a falha parcial, a ausência de memória compartilhada e a ausência de um relógio compartilhado como as três propriedades que tornam os sistemas distribuídos um problema genuinamente diferente e mais difícil do que a programação concorrente numa máquina, e não apenas programação concorrente com latência extra."
 ---
 ## Objetivos de Aprendizagem
 

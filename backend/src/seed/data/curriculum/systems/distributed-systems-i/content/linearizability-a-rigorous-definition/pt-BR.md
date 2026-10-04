@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "Linearizabilidade: Uma Definição Rigorosa"
-summary: "A definição de Herlihy & Wing de 1990 é precisa onde a intuição popular (\"parece que só existe uma cópia dos dados\") é vaga: um histórico concorrente é linearizável se a cada operação puder ser atribuído um único ponto no tempo real, estritamente entre a sua invocação e a sua resposta, de modo que os valores de retorno das operações batam com o que uma execução sequencial legal nesses pontos produziria. A exigência de que o ponto caia dentro do intervalo real, de relógio, entre invocação e resposta (e não apenas \"alguma ordem consistente\") é exatamente o que torna a linearizabilidade o modelo de consistência comum mais forte, e exatamente aquilo de que o modelo mais fraco do próximo conceito abre mão."
+summary: "A definição de Herlihy & Wing de 1990 é precisa onde a intuição popular (“parece que só existe uma cópia dos dados”) é vaga: um histórico concorrente é linearizável se a cada operação puder ser atribuído um único ponto no tempo real, estritamente entre a sua invocação e a sua resposta, de modo que os valores de retorno das operações batam com o que uma execução sequencial legal nesses pontos produziria. A exigência de que o ponto caia dentro do intervalo real, de relógio, entre invocação e resposta (e não apenas “alguma ordem consistente”) é exatamente o que torna a linearizabilidade o modelo de consistência comum mais forte, e exatamente aquilo de que o modelo mais fraco do próximo conceito abre mão."
 ---
 ## Objetivos de Aprendizagem
 

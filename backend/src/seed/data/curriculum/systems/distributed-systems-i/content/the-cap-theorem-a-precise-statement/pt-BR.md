@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "O Teorema CAP: Um Enunciado Preciso"
-summary: "A prova de Gilbert & Lynch de 2002 dá à conjectura de Brewer um enunciado preciso e uma prova real por contradição: suponha que um sistema fornece Consistência linearizável e Disponibilidade total, depois construa uma partição de rede e mostre que dois nós em lados opostos precisam ou discordar (violando a Consistência) ou se recusar a responder (violando a Disponibilidade). Este conceito também traz a nuance da retrospectiva do próprio Brewer de 2012 de que a tolerância a partições não é uma terceira opção simétrica ao lado de C e A: redes reais de fato se particionam, então a única escolha genuína, momento a momento, que um sistema faz é entre C e A durante uma partição real, com o slogan popular \"escolha dois dos três\" sinalizado explicitamente como a simplificação excessiva que ele é."
+summary: "A prova de Gilbert & Lynch de 2002 dá à conjectura de Brewer um enunciado preciso e uma prova real por contradição: suponha que um sistema fornece Consistência linearizável e Disponibilidade total, depois construa uma partição de rede e mostre que dois nós em lados opostos precisam ou discordar (violando a Consistência) ou se recusar a responder (violando a Disponibilidade). Este conceito também traz a nuance da retrospectiva do próprio Brewer de 2012 de que a tolerância a partições não é uma terceira opção simétrica ao lado de C e A: redes reais de fato se particionam, então a única escolha genuína, momento a momento, que um sistema faz é entre C e A durante uma partição real, com o slogan popular “escolha dois dos três” sinalizado explicitamente como a simplificação excessiva que ele é."
 ---
 ## Objetivos de Aprendizagem
 

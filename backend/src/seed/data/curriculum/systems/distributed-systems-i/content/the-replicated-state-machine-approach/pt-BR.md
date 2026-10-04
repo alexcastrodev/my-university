@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "A Abordagem de Máquina de Estados Replicada"
-summary: "O tutorial de Schneider de 1990 nomeia a arquitetura que todo protocolo do restante desta disciplina implementa: se toda réplica começa no mesmo estado, é determinística e aplica exatamente a mesma sequência de comandos, então toda réplica termina exatamente no mesmo estado. Isso reduz \"manter as réplicas consistentes apesar de falhas\" a exatamente duas propriedades, Acordo (toda réplica aplica o mesmo conjunto de comandos) e Ordem (toda réplica os aplica na mesma sequência), a segunda das quais é precisamente o problema do consenso ao qual esta disciplina chega a seguir."
+summary: "O tutorial de Schneider de 1990 nomeia a arquitetura que todo protocolo do restante desta disciplina implementa: se toda réplica começa no mesmo estado, é determinística e aplica exatamente a mesma sequência de comandos, então toda réplica termina exatamente no mesmo estado. Isso reduz “manter as réplicas consistentes apesar de falhas” a exatamente duas propriedades, Acordo (toda réplica aplica o mesmo conjunto de comandos) e Ordem (toda réplica os aplica na mesma sequência), a segunda das quais é precisamente o problema do consenso ao qual esta disciplina chega a seguir."
 ---
 ## Objetivos de Aprendizagem
 

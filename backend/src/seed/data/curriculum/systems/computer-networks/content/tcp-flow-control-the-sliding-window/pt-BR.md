@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-06
 title: "Controle de Fluxo do TCP: A Janela Deslizante"
-summary: "O controle de fluxo protege um receptor lento de um remetente rápido: o receptor anuncia quanto espaço livre de buffer tem, e a janela do remetente encolhe ou cresce para acompanhar. É uma preocupação distinta do controle de congestionamento (que protege a rede, e não o receptor), mesmo que os dois usem a palavra \"janela\"."
+summary: "O controle de fluxo protege um receptor lento de um remetente rápido: o receptor anuncia quanto espaço livre de buffer tem, e a janela do remetente encolhe ou cresce para acompanhar. É uma preocupação distinta do controle de congestionamento (que protege a rede, e não o receptor), mesmo que os dois usem a palavra “janela”."
 ---
 ## Objetivos de Aprendizagem
 

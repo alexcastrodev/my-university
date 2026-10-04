@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-07
 title: "Consistência Sequencial e Por que Ela É Mais Fraca"
-summary: "A consistência sequencial mantém a parte da linearizabilidade que preserva a própria ordem de programa de cada processo e exige que todos os processos concordem com uma única intercalação global de todas as operações, mas descarta inteiramente a restrição de tempo real: uma intercalação é legal mesmo que reordene duas operações não sobrepostas de processos diferentes na ordem de tempo real \"errada\", desde que as operações de cada processo fiquem na sua própria ordem de programa. Isso faz todo histórico linearizável ser também sequencialmente consistente, mas não o contrário, com um contraexemplo concreto trabalhado à mão para mostrar exatamente onde os dois modelos divergem."
+summary: "A consistência sequencial mantém a parte da linearizabilidade que preserva a própria ordem de programa de cada processo e exige que todos os processos concordem com uma única intercalação global de todas as operações, mas descarta inteiramente a restrição de tempo real: uma intercalação é legal mesmo que reordene duas operações não sobrepostas de processos diferentes na ordem de tempo real “errada”, desde que as operações de cada processo fiquem na sua própria ordem de programa. Isso faz todo histórico linearizável ser também sequencialmente consistente, mas não o contrário, com um contraexemplo concreto trabalhado à mão para mostrar exatamente onde os dois modelos divergem."
 ---
 ## Objetivos de Aprendizagem
 

@@ -2,7 +2,7 @@
 version: 1.0
 updatedAt: 2026-09-13
 title: "Transações Distribuídas e Two-Phase Commit"
-summary: "Quando uma única transação toca dados particionados em várias máquinas, um coordenador precisa fazer cada participante votar \"preparado para confirmar\" antes que qualquer um deles de fato confirme. O protocolo é simples, mas tem uma fraqueza real: um participante que está preparado e então perde contato com o coordenador fica preso segurando as suas travas, bloqueado, até que o coordenador volte."
+summary: "Quando uma única transação toca dados particionados em várias máquinas, um coordenador precisa fazer cada participante votar “preparado para confirmar” antes que qualquer um deles de fato confirme. O protocolo é simples, mas tem uma fraqueza real: um participante que está preparado e então perde contato com o coordenador fica preso segurando as suas travas, bloqueado, até que o coordenador volte."
 ---
 ## Objetivos de Aprendizagem
 
