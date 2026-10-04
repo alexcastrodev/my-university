@@ -383,5 +383,60 @@
       }
     ],
     "id": 8
+  },
+  {
+    "slug": "query-translation-and-performance",
+    "title": "Query Translation and Performance in EF Core",
+    "topic": "EF Core",
+    "summary": "Where LINQ to SQL translation stops, compiled queries, ExecuteUpdate and ExecuteDelete, FromSql vs FromSqlRaw, and keyset pagination.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "loading-related-data-and-n-plus-one"
+    ],
+    "related": [
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JDBC and JPA Performance",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How queries work, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works",
+        "type": "doc"
+      },
+      {
+        "label": "Client vs. server evaluation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval",
+        "type": "doc"
+      },
+      {
+        "label": "ExecuteUpdate and ExecuteDelete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete",
+        "type": "doc"
+      },
+      {
+        "label": "SQL queries, FromSql and FromSqlRaw, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/sql-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/pagination",
+        "type": "doc"
+      },
+      {
+        "label": "What is new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      }
+    ],
+    "id": 9
   }
 ]
