@@ -39,7 +39,7 @@
             <h2 class="name">{{ c.title }}</h2>
             @if (progressFor(c.slug); as p) {
               <p class="meta">
-                <span>{{ p.total }}</span> <ng-container i18n="@@tracks.concepts">concepts</ng-container>
+                <span>{{ p.total }}</span>&ngsp;<ng-container i18n="@@tracks.concepts">concepts</ng-container>
                 <span class="sep">·</span>
                 <span>{{ p.read }} / {{ p.total }}</span>
               </p>
