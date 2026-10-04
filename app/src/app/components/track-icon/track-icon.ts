@@ -22,6 +22,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @case ('system-design-concepts') { <rect x="9" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><path d="M12 8v4M5 16v-2a2 2 0 0 1 2-2h14v4M19 12v4"/> }
     @case ('kubernetes-concepts') { <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5M12 14.5V21M4.2 7.5l5.6 3.2M14.2 13.3l5.6 3.2M4.2 16.5l5.6-3.2M14.2 10.7l5.6-3.2"/> }
     @case ('algorithms-concepts') { <path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/> }
+    @case ('read') { <path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2V4z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8V4z"/> }
+    @case ('practice') { <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/> }
+    @case ('review') { <path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/> }
     @default { <path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2z"/> }
       }
     </svg>

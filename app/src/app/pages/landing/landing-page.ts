@@ -1,39 +1,23 @@
 import { ChangeDetectionStrategy, Component, OnInit, effect, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { TrackIcon } from '../../components/track-icon/track-icon';
 import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 
 interface TopicCard {
-  icon: string;
+  slug: string;
   title: string;
   tagline: string;
   routerLink: string;
 }
 
-const AREA_ICONS: Record<string, string> = {
-  'java-concepts': '☕',
-  'java-minute': '⏱️',
-  'jvm-concepts': '⚙️',
-  'testing-concepts': '🧪',
-  'spring-concepts': '🌱',
-  'quarkus-concepts': '⚛️',
-  'kubernetes-concepts': '☸️',
-  'ruby-concepts': '💎',
-  'rubyonrails-concepts': '🛤️',
-  'dotnet-concepts': '🟣',
-  'csharp-concepts': '🟦',
-  'database-concepts': '🗄️',
-  'system-design-concepts': '🧩',
-  'algorithms-concepts': '📈',
-};
-
 /** Simple one-card-per-area grid — no nested sub-links, no per-card paragraph. The
  *  reference data (title, route, one-line relationship) is the same registry the
  *  Computer Science Track page uses for "Complementary Studies", so both stay in sync. */
 const TOPIC_CARDS: TopicCard[] = COMPLEMENTARY_AREAS.map((area) => ({
-  icon: AREA_ICONS[area.slug] ?? '📘',
+  slug: area.slug,
   title: area.title,
   tagline: area.relationship,
   routerLink: area.routerLink,
@@ -44,7 +28,7 @@ const TOPIC_CARDS: TopicCard[] = COMPLEMENTARY_AREAS.map((area) => ({
 @Component({
   selector: 'app-landing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TrackIcon],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })

@@ -7,17 +7,17 @@
   <div class="page-body">
     <div class="how-it-works">
       <div class="how-card">
-        <span class="how-icon" aria-hidden="true">📖</span>
+        <span class="how-icon"><app-track-icon slug="read" /></span>
         <h3 class="how-title" i18n="@@landing.how.pick.title">Pick a topic</h3>
         <p class="how-text" i18n="@@landing.how.pick.text">Structured Computer Science modules, or any Complementary Studies area — read in whatever order makes sense to you.</p>
       </div>
       <div class="how-card">
-        <span class="how-icon" aria-hidden="true">⚡</span>
+        <span class="how-icon"><app-track-icon slug="practice" /></span>
         <h3 class="how-title" i18n="@@landing.how.track.title">Track your XP</h3>
         <p class="how-text" i18n="@@landing.how.track.text">Mark a concept "Got it" to earn XP, level up, and keep a daily streak going.</p>
       </div>
       <div class="how-card">
-        <span class="how-icon" aria-hidden="true">🔁</span>
+        <span class="how-icon"><app-track-icon slug="review" /></span>
         <h3 class="how-title" i18n="@@landing.how.review.title">Come back to review</h3>
         <p class="how-text" i18n="@@landing.how.review.text">Marked concepts resurface later as questions, so what you learned actually sticks.</p>
       </div>
@@ -35,7 +35,7 @@
     <div class="topics-grid">
       @for (topic of topics; track topic.routerLink) {
         <a [routerLink]="topic.routerLink" class="topic-card">
-          <span class="topic-icon" aria-hidden="true">{{ topic.icon }}</span>
+          <span class="topic-icon"><app-track-icon [slug]="topic.slug" /></span>
           <span class="topic-title">{{ topic.title }}</span>
           <span class="topic-tagline">{{ topic.tagline }}</span>
           <span class="topic-cta" i18n="@@landing.topic.cta">Explore →</span>
