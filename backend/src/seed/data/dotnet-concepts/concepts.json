@@ -135,5 +135,50 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "aggregates-entities-and-value-objects",
+    "title": "Aggregates, Entities, and Value Objects",
+    "topic": "DDD",
+    "summary": "Records as value objects, strongly-typed IDs, an aggregate root that guards invariants, and encapsulated collections, with the cost of each choice.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "modular-monolith-module-boundaries"
+    ],
+    "related": [
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Domain model design, Microsoft Learn (.NET microservices architecture)",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-domain-model",
+        "type": "doc"
+      },
+      {
+        "label": "Implement value objects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects",
+        "type": "doc"
+      },
+      {
+        "label": "Records, C# reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "Design the microservice domain model, aggregates and root entities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice",
+        "type": "doc"
+      }
+    ],
+    "id": 4
   }
 ]
