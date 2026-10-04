@@ -1,0 +1,139 @@
+[
+  {
+    "slug": "modular-monolith-module-boundaries",
+    "id": 1,
+    "title": "Modular Monolith: Drawing Module Boundaries",
+    "topic": "Modular Architecture",
+    "summary": "Projects, internal visibility, and a contracts assembly per module as a boundary the .NET compiler enforces, with one schema and one DbContext per module.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Zeitwerk Autoloading and Modularizing Large Rails Apps",
+        "slug": "zeitwerk-autoloading-and-modularizing-rails-apps",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Common web application architectures, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures",
+        "type": "doc"
+      },
+      {
+        "label": "The internal keyword, C# reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/internal",
+        "type": "doc"
+      },
+      {
+        "label": "Friend assemblies (InternalsVisibleTo), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/friend",
+        "type": "doc"
+      },
+      {
+        "label": "Route groups in minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers#route-groups",
+        "type": "doc"
+      },
+      {
+        "label": "Modular Monolith with DDD, kgrzybek (reference implementation)",
+        "url": "https://github.com/kgrzybek/modular-monolith-with-ddd",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "module-communication-and-architecture-tests",
+    "id": 2,
+    "title": "Module Communication and Architecture Tests",
+    "topic": "Modular Architecture",
+    "summary": "Synchronous queries through contracts, outbox-backed integration events for reliable delivery, and architecture tests that turn dependency rules into a failing build.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "modular-monolith-module-boundaries"
+    ],
+    "related": [
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Implementing event-based communication between microservices (integration events), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/integration-event-based-microservice-communications",
+        "type": "doc"
+      },
+      {
+        "label": "Background tasks with hosted services, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "NetArchTest, BenMorris",
+        "url": "https://github.com/BenMorris/NetArchTest",
+        "type": "doc"
+      },
+      {
+        "label": "ArchUnitNET, TNG",
+        "url": "https://github.com/TNG/ArchUnitNET",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-modules-in-isolation",
+    "id": 3,
+    "title": "Testing Modules in Isolation",
+    "topic": "Modular Architecture",
+    "summary": "Host one module with a real database, replace the other modules with fakes of their contracts, test outbox events without sleeping, and keep a few full-application tests for the seams.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "module-communication-and-architecture-tests"
+    ],
+    "related": [
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "Testcontainers for .NET",
+        "url": "https://dotnet.testcontainers.org/",
+        "type": "doc"
+      },
+      {
+        "label": "Shared context between tests (class fixtures), xUnit.net",
+        "url": "https://xunit.net/docs/shared-context",
+        "type": "doc"
+      },
+      {
+        "label": "Testing without your production database system, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      }
+    ]
+  }
+]

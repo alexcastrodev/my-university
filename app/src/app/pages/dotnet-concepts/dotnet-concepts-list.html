@@ -1,0 +1,46 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@dotnetConcepts.title">.NET Concepts</h1>
+    <p class="page-sub" i18n="@@dotnetConcepts.subtitle">.NET platform and application architecture concepts explained in depth, one at a time.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="filters-row">
+      <button type="button" class="labs-filter-btn"
+        [class.active]="showOnlyLabs()"
+        (click)="onToggleLabsFilter()" i18n="@@concepts.filters.labsOnly">🔬 Labs only</button>
+    </div>
+
+    <div class="sort-row">
+      <span class="sort-row-label" i18n="@@concepts.sort.label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            @switch (opt.label) {
+    @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+    @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+    @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+    }
+          </button>
+        }
+      </div>
+      <app-concept-view-toggle />
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" i18n-aria-label="@@concepts.loading.ariaLabel" aria-label="Loading concepts">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@concepts.loading">Loading concepts…</ng-container>
+      </div>
+    } @else {
+      @for (group of groupedConcepts(); track group.topic) {
+        <section class="topic-group">
+          <h2 class="topic-heading">{{ group.topic }}</h2>
+          <app-concept-card-list [items]="group.concepts" [routeCommands]="ROUTE_COMMANDS" />
+        </section>
+      }
+    }
+  </div>
+</div>

@@ -33,6 +33,7 @@ import { ReviewSchedule } from './review/review-schedule.entity';
 import { ReviewModule } from './review/review.module';
 import { RubyConceptsModule } from './ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from './rubyonrails-concepts/rubyonrails-concepts.module';
+import { DotNetConceptsModule } from './dotnet-concepts/dotnet-concepts.module';
 import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 import { SitemapModule } from './sitemap/sitemap.module';
@@ -80,6 +81,7 @@ import { XpModule } from './xp/xp.module';
     AlgorithmsConceptsModule,
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
+    DotNetConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
     CurriculumModule,

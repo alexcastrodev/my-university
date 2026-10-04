@@ -13,7 +13,8 @@ export type SearchResultType =
   | 'ruby-concept'
   | 'rubyonrails-concept'
   | 'quarkus-concept'
-  | 'kubernetes-concept';
+  | 'kubernetes-concept'
+  | 'dotnet-concept';
 
 export interface SearchResult {
   type: SearchResultType;

@@ -154,6 +154,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/rubyonrails-concepts/rubyonrails-concepts-detail').then((m) => m.RubyOnRailsConceptsDetailPage),
   },
   {
+    path: 'dotnet-concepts',
+    loadComponent: () => import('./pages/dotnet-concepts/dotnet-concepts-list').then((m) => m.DotNetConceptsListPage),
+  },
+  {
+    path: 'dotnet-concepts/:slug',
+    loadComponent: () => import('./pages/dotnet-concepts/dotnet-concepts-detail').then((m) => m.DotNetConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

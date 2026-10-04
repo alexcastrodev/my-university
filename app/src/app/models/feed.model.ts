@@ -31,4 +31,5 @@ export type FeedArea =
   | 'kubernetes'
   | 'algorithms'
   | 'ruby'
+  | 'dotnet'
   | 'cs';

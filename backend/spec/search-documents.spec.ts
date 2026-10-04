@@ -9,6 +9,7 @@ import { KubernetesConceptsService } from '../src/kubernetes-concepts/kubernetes
 import { QuarkusConceptsService } from '../src/quarkus-concepts/quarkus-concepts.service';
 import { RubyConceptsService } from '../src/ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../src/rubyonrails-concepts/rubyonrails-concepts.service';
+import { DotNetConceptsService } from '../src/dotnet-concepts/dotnet-concepts.service';
 import { SearchService, toPlainText } from '../src/search/search.service';
 import { SpringConceptsService } from '../src/spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../src/system-design-concepts/system-design-concepts.service';
@@ -30,6 +31,7 @@ function buildDocuments() {
     new AlgorithmsConceptsService(),
     new RubyConceptsService(),
     new RubyOnRailsConceptsService(),
+    new DotNetConceptsService(),
     new QuarkusConceptsService(),
     new KubernetesConceptsService(),
     null as never,

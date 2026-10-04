@@ -90,6 +90,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'dotnet-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'dotnet-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'databases/database-concepts',
     renderMode: RenderMode.Server,
   },
