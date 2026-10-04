@@ -675,5 +675,55 @@
       }
     ],
     "id": 14
+  },
+  {
+    "slug": "durable-jobs-hangfire-and-quartz",
+    "title": "Durable Jobs with Hangfire and Quartz.NET",
+    "topic": "Background Jobs",
+    "summary": "Persistent job storage, retries, idempotency under at-least-once delivery, recurring jobs, and passing IDs instead of entities.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "in-memory-queues-with-channels"
+    ],
+    "related": [
+      {
+        "label": "Background Jobs, Idempotency, and Fan-Out",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire documentation",
+        "url": "https://docs.hangfire.io/en/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire, dealing with exceptions and automatic retries",
+        "url": "https://docs.hangfire.io/en/latest/background-processing/dealing-with-exceptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire, writing reliable jobs",
+        "url": "https://docs.hangfire.io/en/latest/background-methods/writing-reliable-jobs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Quartz.NET documentation",
+        "url": "https://www.quartz-scheduler.net/documentation/",
+        "type": "doc"
+      }
+    ],
+    "id": 15
   }
 ]
