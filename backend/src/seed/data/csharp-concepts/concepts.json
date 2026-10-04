@@ -155,5 +155,75 @@
       }
     ],
     "id": 3
+  },
+  {
+    "slug": "specialized-collections",
+    "title": "Specialized Collections",
+    "topic": "Collections",
+    "summary": "Queue, Stack, LinkedList, SortedDictionary vs SortedList, and PriorityQueue (not stable, no priority update).",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The PriorityQueue Class",
+        "slug": "priority-queue",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The ArrayDeque Class",
+        "slug": "array-deque",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The LinkedList Class",
+        "slug": "linked-list",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Selecting a collection class, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class",
+        "type": "doc"
+      },
+      {
+        "label": "Queue<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1",
+        "type": "doc"
+      },
+      {
+        "label": "Stack<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1",
+        "type": "doc"
+      },
+      {
+        "label": "LinkedList<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1",
+        "type": "doc"
+      },
+      {
+        "label": "SortedDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sorteddictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "SortedList<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2",
+        "type": "doc"
+      },
+      {
+        "label": "SortedSet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue<TElement,TPriority> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2",
+        "type": "doc"
+      }
+    ],
+    "id": 4
   }
 ]
