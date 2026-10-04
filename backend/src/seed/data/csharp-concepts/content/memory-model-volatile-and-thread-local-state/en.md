@@ -168,8 +168,7 @@ thread starts at the default. `ThreadLocal<T>` takes a factory that runs once pe
 thread. `AsyncLocal<T>` follows the `ExecutionContext`, so its value flows
 through `await` even when the continuation runs on another thread, and a
 `Task.Run` or `ThreadPool.QueueUserWorkItem` started from that flow inherits a
-copy. A change made inside a callee is not visible to its caller after the call
-returns, because each async call restores the caller's context.
+copy. In practice a change made inside an async callee is not visible to its caller after the call returns, because the caller's context is restored (the official pages do not state this; it is observed behavior, so verify it with a small test).
 
 ```csharp
 s_correlationId.Value = "req-42";

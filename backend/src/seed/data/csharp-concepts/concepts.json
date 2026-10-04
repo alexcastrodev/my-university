@@ -426,6 +426,11 @@
         "type": "doc"
       },
       {
+        "label": "System.IO.Pipelines: High performance IO in .NET, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/system-io-pipelines-high-performance-io-in-net/",
+        "type": "doc"
+      },
+      {
         "label": "System.IO.Pipelines in .NET, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/pipelines",
         "type": "doc"

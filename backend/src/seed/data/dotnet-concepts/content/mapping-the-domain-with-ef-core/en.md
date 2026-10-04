@@ -127,8 +127,9 @@ returns aggregates is the wrong shape for a read model.
 ## Trade-offs
 
 - **Owned types hide an identity you did not model.** An `OwnsMany` collection
-  gets a shadow key, and replacing the whole collection produces deletes and
-  inserts for every item instead of updates.
+  gets a shadow key, and replacing the whole collection with new instances
+  typically makes EF Core delete the old rows and insert new ones, because the
+  new objects have no identity in common with the old (log the SQL to check).
   ```csharp
   order.ReplaceLines(newLines); // delete all old rows, insert all new rows
   ```

@@ -120,8 +120,7 @@ base library ships async operators as `System.Linq.AsyncEnumerable`, so `Where`,
 `Select`, `ToListAsync` and friends work without the extra package. The package
 and the base type share a name, so a project that still references
 `System.Linq.Async` gets ambiguous calls on .NET 10 and should drop the
-reference. The base library version has no overloads that take async lambdas
-(the `...AwaitAsync` family), so such code needs a small rewrite.
+reference. The base library version drops the `...Await` operators of `System.Linq.Async`: per the .NET 10 breaking-change page, `SelectAwait(async (i, ct) => ...)` becomes `Select(async (int i, CancellationToken ct) => ...)`, so such call sites need a small rewrite.
 
 ```csharp
 var big = await ReadOrdersAsync(ct)

@@ -177,9 +177,7 @@ começam no valor padrão. `ThreadLocal<T>` recebe uma factory que roda uma vez
 por thread. `AsyncLocal<T>` acompanha o `ExecutionContext`, então seu valor
 atravessa o `await` mesmo quando a continuação roda em outra thread, e um
 `Task.Run` ou `ThreadPool.QueueUserWorkItem` iniciado a partir desse fluxo herda
-uma cópia. Uma mudança feita dentro de quem é chamado não fica visível para quem
-chamou depois que a chamada retorna, porque cada chamada assíncrona restaura o
-contexto de quem chamou.
+uma cópia. Na prática, uma mudança feita dentro de um método assíncrono chamado não fica visível para quem chamou depois que a chamada retorna, porque o contexto de quem chamou é restaurado (as páginas oficiais não afirmam isso; é comportamento observado, então confirme com um teste pequeno).
 
 ```csharp
 s_correlationId.Value = "req-42";

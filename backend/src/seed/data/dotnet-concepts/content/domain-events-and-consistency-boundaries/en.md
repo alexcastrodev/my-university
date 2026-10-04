@@ -81,7 +81,9 @@ internal sealed class DomainEventsInterceptor(IDomainEventDispatcher dispatcher)
 
 Dispatching in `SavingChangesAsync` (before the commit) means handlers that
 write to the same `DbContext` land in the same transaction: either everything is
-saved or nothing is. Dispatching in `SavedChangesAsync` (after the commit) means
+saved or nothing is. EF Core invokes the interceptor before it runs
+`DetectChanges`, so entities that a handler adds or changes there are picked up
+by the same save. Dispatching in `SavedChangesAsync` (after the commit) means
 the data is already durable, but a crash between the commit and the dispatch
 loses the event.
 

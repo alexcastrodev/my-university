@@ -160,9 +160,7 @@ CPU Usage (%)               :   6
 - **Uma `Thread` dedicada custa uma pilha e um recurso do SO.** É a escolha certa
   para um punhado de laços de longa duração e a errada para trabalho por requisição.
   Uma `Task` no pool reaproveita threads e custa um objeto pequeno.
-- **`LongRunning` não ajuda código async.** Uma lambda `async` iniciada com
-  `LongRunning` libera a thread dedicada no primeiro `await`, e o resto roda no pool
-  como de costume.
+- **`LongRunning` não ajuda código async.** A doc descreve `LongRunning` apenas como uma dica de agendamento. Na prática, uma lambda `async` iniciada com ele libera a thread dedicada no primeiro `await` e o resto roda no pool (esse comportamento aparece em textos da comunidade, não na página oficial).
   ```csharp
   // A thread dedicada termina no primeiro await. O laço continua no pool.
   Task.Factory.StartNew(async () => { while (true) await Task.Delay(1000); },

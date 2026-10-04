@@ -154,9 +154,7 @@ CPU Usage (%)               :   6
 - **A dedicated `Thread` costs a stack and an OS resource.** It is the right
   choice for a handful of long-lived loops and the wrong one for per-request work.
   A `Task` on the pool reuses threads and costs a small object.
-- **`LongRunning` does not help async code.** An `async` lambda started with
-  `LongRunning` releases its dedicated thread at the first `await`, and the rest
-  runs on the pool as usual.
+- **`LongRunning` does not help async code.** The docs describe `LongRunning` only as a scheduling hint. In practice an `async` lambda started with it releases its dedicated thread at the first `await` and the rest runs on the pool (this behavior is documented by community write-ups, not on the official page).
   ```csharp
   // The dedicated thread ends at the first await. The loop continues on the pool.
   Task.Factory.StartNew(async () => { while (true) await Task.Delay(1000); },

@@ -122,10 +122,13 @@ public sealed class InProcessEventBus(IServiceScopeFactory scopes) : IEventBus
 ```
 
 É mais ou menos isso que bibliotecas como o MediatR fazem para notificações em
-memória. Vale saber antes de adotar uma: MediatR (versão 13) e MassTransit (anunciado
-para a versão 9) passaram as novas versões major para licenças comerciais em
-2025, enquanto as versões open source anteriores continuam disponíveis, então
-confira os termos da licença; um bus desse tamanho muitas vezes é tudo de que
+memória. Vale saber antes de adotar uma: MediatR passou para licença dupla (RPL 1.5 ou
+licença comercial) com a versão 13 em julho de 2025, e os pacotes antigos
+continuam sob as licenças originais
+([anúncio](https://www.jimmybogard.com/automapper-and-mediatr-commercial-editions-launch-today/)),
+e o MassTransit versão 9 é um lançamento comercial
+([MassTransit v9](https://masstransit.massient.com/introduction/v9-announcement)),
+então confira os termos da licença; um bus desse tamanho muitas vezes é tudo de que
 um monólito modular precisa.
 
 ### O outbox: commitar o evento junto com a mudança
@@ -251,8 +254,8 @@ public class ModuleBoundaryTests
 A exclusão de `Migrations` existe por um motivo real: o
 `dotnet ef migrations add` gera tipos de migration `public partial class`, e sem a
 exclusão o segundo teste falha em código gerado. O [ArchUnitNET](https://github.com/TNG/ArchUnitNET) cobre o mesmo
-terreno com uma linguagem de regras mais rica, se as regras crescerem além de
-checagens simples de dependência.
+terreno com uma API fluente de regras (dependência, nomes e camadas), se as regras
+crescerem além de checagens simples de dependência.
 
 ### Quando um módulo deveria virar serviço
 

@@ -123,9 +123,7 @@ biblioteca base traz operadores assíncronos como `System.Linq.AsyncEnumerable`,
 então `Where`, `Select`, `ToListAsync` e afins funcionam sem o pacote extra. O
 pacote e o tipo da biblioteca base têm o mesmo nome, então um projeto que ainda
 referencia `System.Linq.Async` recebe chamadas ambíguas no .NET 10 e deve
-remover a referência. A versão da biblioteca base não tem sobrecargas que
-recebem lambdas assíncronas (a família `...AwaitAsync`), então esse código
-precisa de uma pequena reescrita.
+remover a referência. A versão da biblioteca base abandona os operadores `...Await` do `System.Linq.Async`: segundo a página de breaking change do .NET 10, `SelectAwait(async (i, ct) => ...)` vira `Select(async (int i, CancellationToken ct) => ...)`, então esses pontos de chamada precisam de uma pequena reescrita.
 
 ```csharp
 var big = await ReadOrdersAsync(ct)

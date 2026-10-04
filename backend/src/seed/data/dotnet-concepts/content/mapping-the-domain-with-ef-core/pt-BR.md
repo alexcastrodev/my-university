@@ -134,8 +134,10 @@ de leitura.
 ## Trade-offs
 
 - **Owned types escondem uma identidade que você não modelou.** Uma coleção
-  `OwnsMany` ganha uma chave shadow, e substituir a coleção inteira gera deletes
-  e inserts para cada item em vez de updates.
+  `OwnsMany` ganha uma chave shadow, e substituir a coleção inteira por novas instâncias
+  tipicamente faz o EF Core apagar as linhas antigas e inserir novas, porque os
+  objetos novos não têm identidade em comum com os antigos (registre o SQL para
+  conferir).
   ```csharp
   order.ReplaceLines(newLines); // apaga todas as linhas antigas, insere todas as novas
   ```

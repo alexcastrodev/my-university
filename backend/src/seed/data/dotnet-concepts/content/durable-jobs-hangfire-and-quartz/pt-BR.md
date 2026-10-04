@@ -99,8 +99,11 @@ Um misfire acontece quando um trigger persistente perde seu horário de disparo
 porque o scheduler estava desligado ou nenhuma thread estava livre. A instrução de
 misfire diz o que fazer depois: rodar uma vez agora (`FireAndProceed`), pular para
 o próximo horário agendado (`DoNothing`) ou rodar todos os disparos perdidos
-(`IgnoreMisfires`). Os nomes dos métodos do builder acima são do Quartz.NET 3.x,
-então confira a API da versão que você usa. Para uma configuração persistente e em
+(`IgnoreMisfires`). Os nomes dos métodos do builder acima existem no Quartz.NET 3.x
+(`WithMisfireHandlingInstructionIgnoreMisfires`, `...DoNothing`,
+`...FireAndProceed`). O branch main os substitui por
+`WithMisfireInstruction(CronTriggerMisfireInstruction)`, então confira a API da
+versão que você usa. Para uma configuração persistente e em
 cluster, você configura um ADO job store contra o seu banco na mesma chamada de
 `AddQuartz` (`UsePersistentStore` com `UseClustering`).
 

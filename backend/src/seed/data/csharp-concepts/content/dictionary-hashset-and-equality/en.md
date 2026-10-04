@@ -57,7 +57,7 @@ The rules, in order of how often they are broken:
 - `Equals` must be reflexive, symmetric, and transitive, and `x.Equals(null)`
   must return false.
 - A hash code is only valid inside one running process. It may differ between
-  runs (string hashes are randomized), so never store it in a file or database.
+  runs, versions, and platforms (the docs say string hash codes are not stable), so never store it in a file or database.
 
 Overriding `Equals` without `GetHashCode` makes the compiler warn, and it is a
 real bug: the dictionary compares hash codes first, so two "equal" objects land

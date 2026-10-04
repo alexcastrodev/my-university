@@ -117,10 +117,13 @@ public sealed class InProcessEventBus(IServiceScopeFactory scopes) : IEventBus
 ```
 
 This is roughly what libraries like MediatR do for in-process notifications.
-Worth knowing before adopting one: MediatR (version 13) and MassTransit (announced
-for version 9) moved their new major versions to commercial licenses in 2025,
-while the older open source versions stay available, so check the license
-terms; a bus this small is often all a modular monolith needs.
+Worth knowing before adopting one: MediatR moved to a dual license (RPL 1.5 or a
+commercial license) with version 13 in July 2025, with older packages staying
+under their original licenses
+([announcement](https://www.jimmybogard.com/automapper-and-mediatr-commercial-editions-launch-today/)),
+and MassTransit version 9 is a commercial release
+([MassTransit v9](https://masstransit.massient.com/introduction/v9-announcement)),
+so check the license terms; a bus this small is often all a modular monolith needs.
 
 ### The outbox: commit the event with the change
 
@@ -243,7 +246,8 @@ The `Migrations` exclusion is there for a real reason: `dotnet ef migrations
 add` generates `public partial class` migration types, and without the
 exclusion the second test fails on generated code.
 [ArchUnitNET](https://github.com/TNG/ArchUnitNET) covers the same ground with a
-richer rule language if the rules grow beyond simple dependency checks.
+fluent rule API (dependency, naming, and layer rules) if the rules grow beyond
+simple dependency checks.
 
 ### When a module should become a service
 
