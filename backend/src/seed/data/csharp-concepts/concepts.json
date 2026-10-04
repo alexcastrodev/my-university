@@ -493,5 +493,67 @@
       }
     ],
     "id": 9
+  },
+  {
+    "slug": "threads-threadpool-and-starvation",
+    "title": "Threads, the ThreadPool, and Starvation",
+    "topic": "Threads",
+    "summary": "Thread, foreground vs background, thread injection, starvation from sync-over-async, and LongRunning.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Configuring and Sizing Thread Pools",
+        "slug": "configuring-thread-pool-executor",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
+        "slug": "thread-pool-sizing",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The managed thread pool, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/the-managed-thread-pool",
+        "type": "doc"
+      },
+      {
+        "label": "Foreground and background threads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/foreground-and-background-threads",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadPool.SetMinThreads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadpool.setminthreads",
+        "type": "doc"
+      },
+      {
+        "label": "TaskCreationOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcreationoptions",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core best practices, avoid blocking calls, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices#avoid-blocking-calls",
+        "type": "doc"
+      }
+    ],
+    "id": 10
   }
 ]
