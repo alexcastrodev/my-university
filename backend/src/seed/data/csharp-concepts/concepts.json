@@ -335,5 +335,57 @@
       }
     ],
     "id": 6
+  },
+  {
+    "slug": "stream-class-hierarchy-and-decorators",
+    "title": "Stream Class Hierarchy and Decorators",
+    "topic": "Streams",
+    "summary": "Stream, FileStream, MemoryStream and BufferedStream, decorators like GZipStream, leaveOpen, short reads and ReadExactly.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Stream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream",
+        "type": "doc"
+      },
+      {
+        "label": "Stream.ReadExactly method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly",
+        "type": "doc"
+      },
+      {
+        "label": "FileStream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream",
+        "type": "doc"
+      },
+      {
+        "label": "BufferedStream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.bufferedstream",
+        "type": "doc"
+      },
+      {
+        "label": "GZipStream class, System.IO.Compression, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.gzipstream",
+        "type": "doc"
+      },
+      {
+        "label": "StreamReader class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader",
+        "type": "doc"
+      }
+    ],
+    "id": 7
   }
 ]
