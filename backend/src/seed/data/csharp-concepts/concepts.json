@@ -437,5 +437,61 @@
       }
     ],
     "id": 8
+  },
+  {
+    "slug": "async-streams-iasyncenumerable",
+    "title": "Async Streams with IAsyncEnumerable",
+    "topic": "Streams",
+    "summary": "await foreach, EnumeratorCancellation, and streaming JSON from ASP.NET Core.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Iterator vs Iterable",
+        "slug": "iterator-vs-iterable",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "requires": [
+      "async-io-and-system-io-pipelines",
+      "linq-deferred-execution-and-iterators"
+    ],
+    "references": [
+      {
+        "label": "Asynchronous streams (IAsyncEnumerable), C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/generate-consume-asynchronous-stream",
+        "type": "doc"
+      },
+      {
+        "label": "await foreach statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-await-foreach-statement",
+        "type": "doc"
+      },
+      {
+        "label": "EnumeratorCancellationAttribute, .NET API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute",
+        "type": "doc"
+      },
+      {
+        "label": "How to serialize and deserialize JSON, streaming with IAsyncEnumerable, System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization#deserialize-to-iasyncenumerable",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal APIs, responses, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "What is new in .NET 10 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      }
+    ],
+    "id": 9
   }
 ]
