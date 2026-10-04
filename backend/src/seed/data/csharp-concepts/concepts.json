@@ -45,5 +45,60 @@
       }
     ],
     "id": 1
+  },
+  {
+    "slug": "list-and-array-internals",
+    "title": "List<T> and Array Internals",
+    "topic": "Collections",
+    "summary": "List<T> growth and capacity, array covariance, modifying a collection during foreach, and CollectionsMarshal.AsSpan with its risks.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The ArrayList Class",
+        "slug": "array-list",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Arrays: Sorting, Searching, and Deep Comparison",
+        "slug": "arrays-sorting-searching-and-comparison",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "List<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance in generics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance",
+        "type": "doc"
+      },
+      {
+        "label": "Memory<T> and Span<T> usage guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionsMarshal.AsSpan, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      }
+    ],
+    "id": 2
   }
 ]
