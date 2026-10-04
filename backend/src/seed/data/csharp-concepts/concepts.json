@@ -280,5 +280,60 @@
       }
     ],
     "id": 5
+  },
+  {
+    "slug": "linq-deferred-execution-and-iterators",
+    "title": "LINQ, Deferred Execution, and Iterators",
+    "topic": "Collections",
+    "summary": "yield return, deferred execution, multiple enumeration, and IEnumerable vs IQueryable as the bridge to EF Core.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Iterator vs Iterable",
+        "slug": "iterator-vs-iterable",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Language Integrated Query (LINQ), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/",
+        "type": "doc"
+      },
+      {
+        "label": "yield statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable",
+        "type": "doc"
+      },
+      {
+        "label": "Queryable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.queryable",
+        "type": "doc"
+      },
+      {
+        "label": "Client vs. server evaluation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 9 libraries, LINQ, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/libraries#linq",
+        "type": "doc"
+      }
+    ],
+    "id": 6
   }
 ]
