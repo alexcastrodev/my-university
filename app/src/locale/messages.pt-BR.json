@@ -729,6 +729,8 @@
     "home.goal": "META",
     "home.marksDue": "Got it marks para revisar",
     "home.marksHint": "Revise {$INTERPOLATION} agora e não deixe eles se apagarem",
+    "home.tracks": "Trilhas",
+    "home.tracksHint": "Todas as trilhas de estudo num só lugar",
     "home.yourAreas": "Suas áreas",
     "home.depthRecency": "profundidade · recência",
     "home.noAreas": "Nada lido ainda. Escolha qualquer coisa na trilha ou no feed.",

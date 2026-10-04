@@ -192,7 +192,8 @@
   background: var(--mu-success);
 }
 
-.marks {
+.marks,
+.shortcut {
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -224,9 +225,16 @@
   color: var(--mu-ink);
 }
 
-.marks svg {
+.marks svg,
+.shortcut svg {
   width: 18px;
   height: 18px;
+}
+
+.shortcut .shortcut-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--mu-accent);
 }
 
 .areas-head {
