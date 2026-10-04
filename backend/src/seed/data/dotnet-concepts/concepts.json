@@ -438,5 +438,50 @@
       }
     ],
     "id": 9
+  },
+  {
+    "slug": "transactions-and-optimistic-concurrency",
+    "title": "Transactions and Optimistic Concurrency in EF Core",
+    "topic": "EF Core",
+    "summary": "The implicit transaction in SaveChanges, concurrency tokens (rowversion and xmin), DbUpdateConcurrencyException, and a retry strategy combined with a manual transaction.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "Aggregates, Entities, and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Transactions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Handling concurrency conflicts, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/concurrency",
+        "type": "doc"
+      },
+      {
+        "label": "Connection resiliency, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency",
+        "type": "doc"
+      },
+      {
+        "label": "Concurrency tokens, Npgsql EF Core provider",
+        "url": "https://www.npgsql.org/efcore/modeling/concurrency.html",
+        "type": "doc"
+      }
+    ],
+    "id": 10
   }
 ]
