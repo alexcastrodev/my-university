@@ -67,14 +67,14 @@ O rastreamento desta disciplina termina no momento em que uma requisição ou re
 ### Exemplo 1: O rastreamento, condensado em uma única lista ordenada com nomes reais de protocolos
 
 ```text
-1. DNS (UDP, tipicamente) — resolve www.example.com para um endereço IP
-2. Handshake de três vias do TCP — SYN, SYN-ACK, ACK
-3. Requisição HTTP GET — enviada sobre a conexão TCP agora estabelecida
-4. Roteamento IP — datagrama encaminhado salto a salto (OSPF dentro de um AS,
+1. DNS (UDP, tipicamente): resolve www.example.com para um endereço IP
+2. Handshake de três vias do TCP: SYN, SYN-ACK, ACK
+3. Requisição HTTP GET: enviada sobre a conexão TCP agora estabelecida
+4. Roteamento IP: datagrama encaminhado salto a salto (OSPF dentro de um AS,
    BGP entre ASes, tendo já computado as tabelas de encaminhamento
    que cada salto consulta via correspondência de prefixo mais longo)
-5. ARP — resolve o endereço MAC do próximo salto de cada salto, localmente, por salto
-6. Enquadramento Ethernet — os bits de fato transmitidos através de cada enlace
+5. ARP: resolve o endereço MAC do próximo salto de cada salto, localmente, por salto
+6. Enquadramento Ethernet: os bits de fato transmitidos através de cada enlace
 7. (viagem de volta: resposta HTTP, mesmos mecanismos, direção oposta)
 8. Confiabilidade/controle de congestionamento contínuos do TCP, se a resposta abranger
    múltiplos segmentos
@@ -84,14 +84,14 @@ O rastreamento desta disciplina termina no momento em que uma requisição ou re
 ### Exemplo 2: O que muda se isto fosse uma chamada de vídeo ao vivo
 
 ```text
-Passo 2 (handshake TCP): PULADO — UDP não requer estabelecimento de conexão.
+Passo 2 (handshake TCP): PULADO: UDP não requer estabelecimento de conexão.
 Passo 3 (HTTP): substituído por qualquer protocolo de aplicação em tempo real
   que o software de chamada de vídeo use, enviado diretamente sobre UDP.
-Passo 8 (confiabilidade/controle de congestionamento do TCP): AUSENTE — UDP não fornece
+Passo 8 (confiabilidade/controle de congestionamento do TCP): AUSENTE: UDP não fornece
   nenhum dos dois; um pacote de vídeo/áudio perdido é simplesmente pulado, não
   retransmitido, já que retransmitir um quadro atrasado é frequentemente pior
   para a experiência do usuário do que continuar sem ele.
-Passos 1, 4, 5, 6 (DNS, roteamento, ARP, enquadramento): INALTERADOS — estas são
+Passos 1, 4, 5, 6 (DNS, roteamento, ARP, enquadramento): INALTERADOS: estas são
   preocupações de camada 3 e abaixo, idênticas independentemente de a
   camada de transporte acima ser TCP ou UDP.
 ```
@@ -101,14 +101,14 @@ Isto mostra concretamente quais dos mecanismos desta disciplina são específico
 ### Exemplo 3: Onde o rastreamento de uma requisição HTTPS real de fato difere
 
 ```text
-1. Resolução DNS                           — inalterado
-2. Handshake de três vias do TCP           — inalterado
-2.5. Handshake TLS (NOVO — veja
+1. Resolução DNS                          : inalterado
+2. Handshake de três vias do TCP          : inalterado
+2.5. Handshake TLS (NOVO: veja
      capstone-tracing-a-tls-handshake em
      software-distributed/security-cryptography)
-3. Requisição HTTP GET                      — agora criptografada, dentro
+3. Requisição HTTP GET                     : agora criptografada, dentro
                                               do canal protegido por TLS
-4-6. Roteamento IP, ARP, enquadramento de   — inalterado (estas camadas
+4-6. Roteamento IP, ARP, enquadramento de  : inalterado (estas camadas
      camada de enlace                         não têm visibilidade sobre
                                               se a carga útil que carregam
                                               está criptografada)
