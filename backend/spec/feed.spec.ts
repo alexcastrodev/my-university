@@ -53,11 +53,12 @@ describe('GET /feed', () => {
     expect(body).toContain(firstLine);
   });
 
-  it('leaves out concepts not yet translated to the requested language', async () => {
+  it('only serves concepts written in the requested language', async () => {
+    // Not `<`: once every concept is translated both totals are equal, and that is fine.
     const all = await json<any>(await get('/feed?area=cs&limit=1&lang=en'));
     const page = await json<any>(await get('/feed?area=cs&limit=30&lang=pt-BR'));
     expect(page.total).toBeGreaterThan(0);
-    expect(page.total).toBeLessThan(all.total);
+    expect(page.total).toBeLessThanOrEqual(all.total);
 
     for (const item of page.items) {
       const detail = await json<any>(

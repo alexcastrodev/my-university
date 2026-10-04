@@ -291,5 +291,294 @@
       }
     ],
     "id": 6
+  },
+  {
+    "slug": "dbcontext-lifetime-and-change-tracking",
+    "title": "DbContext Lifetime and Change Tracking",
+    "topic": "EF Core",
+    "summary": "One context per unit of work, pooling and IDbContextFactory, the entity states in the change tracker, and when AsNoTracking pays off.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Hibernate First and Second Level Cache",
+        "slug": "hibernate-first-and-second-level-cache",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "DbContext lifetime, configuration, and initialization, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Advanced performance topics, DbContext pooling, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics",
+        "type": "doc"
+      },
+      {
+        "label": "Change tracking in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking vs. no-tracking queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/tracking",
+        "type": "doc"
+      }
+    ],
+    "id": 7
+  },
+  {
+    "slug": "loading-related-data-and-n-plus-one",
+    "title": "Loading Related Data and the N+1 Problem",
+    "topic": "EF Core",
+    "summary": "Include and ThenInclude, cartesian explosion and AsSplitQuery, N+1 through lazy loading, projections, and reading the generated SQL with ToQueryString.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "N+1 and Query Methods in Models",
+        "slug": "n-plus-one-and-query-methods-in-models",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "JDBC and JPA Performance",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Loading related data, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/related-data/",
+        "type": "doc"
+      },
+      {
+        "label": "Single vs. split queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Eager loading of related data, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager",
+        "type": "doc"
+      },
+      {
+        "label": "Efficient querying, EF Core performance, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying",
+        "type": "doc"
+      }
+    ],
+    "id": 8
+  },
+  {
+    "slug": "query-translation-and-performance",
+    "title": "Query Translation and Performance in EF Core",
+    "topic": "EF Core",
+    "summary": "Where LINQ to SQL translation stops, compiled queries, ExecuteUpdate and ExecuteDelete, FromSql vs FromSqlRaw, and keyset pagination.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "loading-related-data-and-n-plus-one"
+    ],
+    "related": [
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JDBC and JPA Performance",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How queries work, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works",
+        "type": "doc"
+      },
+      {
+        "label": "Client vs. server evaluation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval",
+        "type": "doc"
+      },
+      {
+        "label": "ExecuteUpdate and ExecuteDelete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete",
+        "type": "doc"
+      },
+      {
+        "label": "SQL queries, FromSql and FromSqlRaw, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/sql-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/pagination",
+        "type": "doc"
+      },
+      {
+        "label": "What is new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      }
+    ],
+    "id": 9
+  },
+  {
+    "slug": "transactions-and-optimistic-concurrency",
+    "title": "Transactions and Optimistic Concurrency in EF Core",
+    "topic": "EF Core",
+    "summary": "The implicit transaction in SaveChanges, concurrency tokens (rowversion and xmin), DbUpdateConcurrencyException, and a retry strategy combined with a manual transaction.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "Aggregates, Entities, and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Transactions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Handling concurrency conflicts, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/concurrency",
+        "type": "doc"
+      },
+      {
+        "label": "Connection resiliency, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency",
+        "type": "doc"
+      },
+      {
+        "label": "Concurrency tokens, Npgsql EF Core provider",
+        "url": "https://www.npgsql.org/efcore/modeling/concurrency.html",
+        "type": "doc"
+      }
+    ],
+    "id": 10
+  },
+  {
+    "slug": "ef-core-migrations-workflow",
+    "title": "EF Core Migrations Workflow",
+    "topic": "Migrations",
+    "summary": "The model snapshot, reviewing generated SQL (a rename that becomes drop and add), data changes in migrationBuilder.Sql, and snapshot conflicts between branches.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Zero-Downtime Schema Migrations",
+        "slug": "zero-downtime-schema-migrations",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Flyway Integration with Hibernate ORM",
+        "slug": "flyway-integration-with-hibernate-orm",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": "Customizing migration code, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing",
+        "type": "doc"
+      },
+      {
+        "label": "Working with multiple providers and design-time context creation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dbcontext-creation",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference (.NET CLI), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Data seeding, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding",
+        "type": "doc"
+      }
+    ],
+    "id": 11
+  },
+  {
+    "slug": "applying-migrations-in-production",
+    "title": "Applying Migrations in Production",
+    "topic": "Migrations",
+    "summary": "The risks of Migrate() at startup with several replicas, idempotent scripts, migration bundles, expand and contract, and concurrent index builds in PostgreSQL.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "ef-core-migrations-workflow"
+    ],
+    "related": [
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Zero-Downtime Schema Migrations",
+        "slug": "zero-downtime-schema-migrations",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Applying migrations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference (.NET CLI), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 9, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-9.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations, Npgsql EF Core provider",
+        "url": "https://www.npgsql.org/efcore/managing-schemas/migrations.html",
+        "type": "doc"
+      }
+    ],
+    "id": 12
   }
 ]
