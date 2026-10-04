@@ -93,26 +93,38 @@ migrationBuilder.AlterColumn<string>("status_text", "orders", "orders", nullable
 
 Prefira `UseSeeding` e `UseAsyncSeeding` (EF Core 9 em diante) para dados de seed
 em vez de `HasData`, porque o `HasData` embute as linhas em todos os snapshots
-futuros.
+futuros. Implemente sempre também o `UseSeeding`: as ferramentas do EF e os
+migration bundles chamam o delegate síncrono mesmo quando a sua aplicação usa o
+assíncrono.
 
 ### Branches e o snapshot
 
-Duas branches que adicionam uma migration cada uma editam o model snapshot, então
-o Git mostra um conflito num arquivo gerado, e resolver à mão dá um snapshot que
-não corresponde mais a nenhuma das migrations. A correção confiável é tratar o
-snapshot como saída derivada:
+Duas branches que adicionam uma migration cada uma editam o model snapshot, e
+uma migration também carrega o modelo como ele era naquele ponto. Se as duas
+forem mescladas, o snapshot da migration posterior não inclui as mudanças da
+outra branch, o que pode corromper migrations futuras. O EF Core 10 e anteriores
+não registram a última migration no snapshot, então o controle de versão pode
+mesclá-lo sem nenhum conflito, mesmo com as árvores de migrations divergentes. A
+correção documentada é recriar a sua migration por cima da do colega:
 
 ```bash
-git merge main                         # conflito no snapshot e na ordem das migrations
-dotnet ef migrations remove            # descarta a SUA migration, restaurando o snapshot ao da main
-git checkout main -- <snapshot file>   # ou resolva para a versão da main
-dotnet ef migrations add AddOrderPriority   # regenera por cima do que há de mais recente na main
+# Antes de mesclar, enquanto a sua branch ainda está coerente:
+dotnet ef migrations remove            # remove só a SUA migration, mantém a mudança de modelo
+git merge main                         # traz a migration e o snapshot da outra branch
+dotnet ef migrations add AddOrderPriority   # readiciona por cima do snapshot mesclado
 ```
+
+Se o merge já aconteceu, não rode `migrations remove`: ele restaura o modelo a
+partir dos metadados da migration anterior, que podem não ter as mudanças da
+outra branch. Volte a um estado coerente anterior ao merge pelo controle de
+versão e siga os passos acima.
 
 ### Deixe o CI checar o modelo
 
-`dotnet ef migrations has-pending-model-changes` sai com erro quando o modelo
-difere do snapshot, então uma migration esquecida quebra o pipeline. Desde o EF
+`dotnet ef migrations has-pending-model-changes` (EF Core 8 em diante) verifica
+se o modelo tem mudanças que nenhuma migration captura ainda, então um passo de
+CI consegue pegar uma migration esquecida. `context.Database.HasPendingModelChanges()`
+faz a mesma checagem por código, por exemplo num teste unitário. Desde o EF
 Core 9, `Migrate()` também lança exceção se houver mudanças de modelo pendentes,
 o que pega o mesmo erro na inicialização num ambiente de teste.
 
@@ -141,6 +153,6 @@ o que pega o mesmo erro na inicialização num ambiente de teste.
 
 - [Migrations overview, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/) (doc)
 - [Customizing migration code, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing) (doc)
-- [Working with multiple providers and design-time context creation, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/cli/dbcontext-creation) (doc)
+- [Design-time DbContext Creation, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/cli/dbcontext-creation) (doc)
 - [EF Core tools reference (.NET CLI), Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/cli/dotnet) (doc)
 - [Data seeding, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding) (doc)

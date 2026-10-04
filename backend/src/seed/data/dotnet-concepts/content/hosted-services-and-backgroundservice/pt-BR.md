@@ -68,8 +68,8 @@ cancelamento e o tratamento da parada.
 
 ### Uma exceção não tratada para o host
 
-Desde o .NET 6, uma exceção que escapa do `ExecuteAsync` é registrada como
-crítica e o host para (`BackgroundServiceExceptionBehavior.StopHost`, o padrão).
+Desde o .NET 6, uma exceção que escapa do `ExecuteAsync` é registrada
+em log e o host para (`BackgroundServiceExceptionBehavior.StopHost`, o padrão).
 Antes disso, a exceção era engolida e o serviço parava de funcionar em silêncio
 enquanto a aplicação seguia rodando. Capture dentro do loop o que você consegue
 recuperar, como acima, e deixe os erros realmente fatais encerrarem o processo
@@ -104,11 +104,13 @@ está rodando.
 ### Startup e graceful shutdown
 
 O host chama `StartAsync` em cada hosted service na ordem de registro e espera
-por ele. Num `BackgroundService`, o `StartAsync` executa o `ExecuteAsync` até o
-primeiro `await` de verdade e então retorna, então trabalho síncrono no começo
-do `ExecuteAsync` bloqueia o startup de todo serviço depois dele. Versões mais
-novas do runtime podem relaxar isso, então confira as notas de release da versão
-que você usa, mas um `ExecuteAsync` que cede cedo é seguro em todas elas:
+por ele. No .NET 8 e 9, um `BackgroundService` executa o `ExecuteAsync` dentro do
+`StartAsync` até o primeiro `await` de verdade, então trabalho síncrono no começo
+do `ExecuteAsync` bloqueia o startup de todo serviço depois dele. No .NET 10 a
+documentação diz que o `ExecuteAsync` é chamado no thread pool, então esse
+trabalho deixa de segurar os outros serviços. Um `StartAsync` próprio continua
+bloqueando, porque os hosted services iniciam em sequência. Um `ExecuteAsync` que
+cede cedo é seguro em todas as versões:
 
 ```csharp
 protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -145,10 +147,11 @@ builder.Services.Configure<HostOptions>(o => o.ShutdownTimeout = TimeSpan.FromSe
   escala de forma independente pertence a um deployment separado de Worker
   Service.
 - **Um `StartAsync` síncrono e longo atrasa a prontidão.** A aplicação não aceita
-  requisições até todo hosted service ter iniciado, então uma inicialização lenta
-  no começo do `ExecuteAsync` aparece como deploys lentos.
+  requisições até todo hosted service ter iniciado, então trabalho lento no
+  `StartAsync`, ou no começo do `ExecuteAsync` no .NET 8 e 9, aparece como deploys
+  lentos.
   ```csharp
-  await Task.Yield(); // sem isso, um warm-up de 40 segundos atrasa o host inteiro em 40 segundos
+  await Task.Yield(); // no .NET 8 e 9, sem isso um warm-up de 40 segundos atrasa o host inteiro em 40 segundos
   ```
 - **O timeout de shutdown é uma parada forçada.** O trabalho ainda em andamento
   quando ele expira é abandonado, então o que não pode ser perdido precisa ser

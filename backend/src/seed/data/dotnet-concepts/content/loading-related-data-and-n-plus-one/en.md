@@ -63,7 +63,8 @@ var orders = await db.Orders
 
 A single query gives one consistent snapshot of the data, and a split query
 gives several round trips that can each see different data if rows change in
-between. Wrap it in a transaction when that matters, or set
+between. Wrap it in a serializable or snapshot transaction when that matters
+(which can cost performance of its own), or set
 `UseQuerySplittingBehavior` once for the whole context and override with
 `AsSingleQuery` where a single query is better.
 
@@ -130,7 +131,8 @@ causes N+1 fails the build instead of the production database.
 - **Split queries with paging need a deterministic order.** Each query repeats
   the `Skip` and `Take`, so without an `OrderBy` on a unique key the database may
   pick different parents for each query and the children no longer match the
-  page.
+  page. EF Core 10 made the ordering of the split queries consistent, but the
+  documentation still says to always make the ordering fully unique.
   ```csharp
   db.Orders.Include(o => o.Lines).AsSplitQuery()
       .OrderBy(o => o.CreatedAt).ThenBy(o => o.Id) // unique tie-breaker

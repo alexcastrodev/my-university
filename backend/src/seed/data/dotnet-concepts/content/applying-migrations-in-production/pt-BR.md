@@ -42,9 +42,10 @@ using (var scope = app.Services.CreateScope())
 ```
 
 Com uma instância, tudo bem. Com várias, todas iniciam ao mesmo tempo e tentam
-aplicar a mesma migration pendente. Versões recentes do EF Core tomam um lock no
-banco em volta do `Migrate`, então as instâncias entram numa fila em vez de se
-corromperem, mas três problemas continuam:
+aplicar a mesma migration pendente. Desde o EF Core 9, o
+`Migrate` toma um lock em todo o banco (o funcionamento depende do provider),
+então as instâncias entram numa fila em vez de se corromperem, mas três
+problemas continuam:
 
 - Um deploy gradual roda o código antigo contra o schema novo enquanto a primeira
   instância migra, então uma mudança destrutiva quebra as instâncias que ainda
@@ -58,13 +59,16 @@ corromperem, mas três problemas continuam:
 
 Desde o EF Core 9, o `Migrate()` também lança exceção quando o modelo tem
 mudanças pendentes sem migration, então um `migrations add` esquecido falha na
-inicialização em vez de deixar o schema desatualizado.
+inicialização em vez de deixar o schema desatualizado. Envolver o `Migrate` numa
+transação ou execution strategy sua também lança exceção, porque uma transação
+externa impede que o lock seja adquirido.
 
 ### Scripts idempotentes
 
 Gere o SQL e deixe um pipeline ou uma pessoa aplicá-lo com uma conta de deploy.
 `--idempotent` faz o script consultar a tabela de histórico de migrations, então
-ele pode rodar contra um banco em qualquer versão e aplica só o que falta:
+ele pode rodar contra um banco em qualquer versão e aplica só o que falta (o
+suporte depende do provider, e o SQLite não gera scripts idempotentes):
 
 ```bash
 dotnet ef migrations script --idempotent --output migrate.sql \
@@ -119,8 +123,10 @@ release pode voltar para a versão anterior da aplicação sem mudança de schem
 
 Um `CREATE INDEX` comum bloqueia escritas na tabela até terminar. O
 `CREATE INDEX CONCURRENTLY` não bloqueia, mas o PostgreSQL se recusa a rodá-lo
-dentro de uma transação, e o EF Core envolve cada migration em uma. Diga ao EF
-Core para rodar esse comando fora de uma transação:
+dentro de uma transação, e o EF Core envolve cada migration em uma (o EF Core 9
+usava uma única transação para todas as migrations pendentes, e o EF Core 10
+voltou a uma por migration). Diga ao EF Core para rodar esse comando fora de uma
+transação:
 
 ```csharp
 protected override void Up(MigrationBuilder migrationBuilder) =>
@@ -132,6 +138,9 @@ protected override void Up(MigrationBuilder migrationBuilder) =>
 Mantenha essa migration só com o índice. Sem transação, uma falha no meio não
 consegue desfazer mais nada da mesma migration, e uma construção concorrente que
 falha deixa um índice inválido que você precisa remover antes de tentar de novo.
+O provider Npgsql também faz isso pelo modelo: `HasIndex(...).IsCreatedConcurrently()`
+o faz criar o índice de forma concorrente, e a documentação dele manda ler antes
+as implicações no PostgreSQL.
 
 ## Trade-offs
 
@@ -170,4 +179,4 @@ falha deixa um índice inválido que você precisa remover antes de tentar de no
 - [Migrations overview, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/) (doc)
 - [EF Core tools reference (.NET CLI), Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/cli/dotnet) (doc)
 - [Breaking changes in EF Core 9, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-9.0/breaking-changes) (doc)
-- [Migrations, Npgsql EF Core provider](https://www.npgsql.org/efcore/managing-schemas/migrations.html) (doc)
+- [Indexes, Npgsql EF Core provider](https://www.npgsql.org/efcore/modeling/indexes.html) (doc)

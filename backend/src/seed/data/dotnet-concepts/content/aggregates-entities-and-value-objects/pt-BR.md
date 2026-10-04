@@ -175,9 +175,8 @@ aggregates (veja o conceito Domain Events and Consistency Boundaries).
   partes não relacionadas conflitam na mesma versão de linha. Divida o aggregate
   quando edições concorrentes de partes diferentes forem normais.
 - **`field` é uma palavra-chave contextual.** Uma classe que já tem um membro
-  chamado `field` muda de significado ao migrar para o C# 14, então o compilador
-  pede que você escreva `@field` ou `this.field` para manter o comportamento
-  antigo.
+  chamado `field` muda de significado ao migrar para o C# 14, então escreva
+  `@field` ou `this.field` para manter o significado antigo.
 - **Expor uma interface somente leitura não é imutabilidade.** Um
   `IReadOnlyList<T>` ainda aponta para a mesma lista mutável, então um cast
   quebra a garantia. Trate isso como sinal de intenção, não como fronteira de

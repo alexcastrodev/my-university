@@ -66,7 +66,8 @@ var orders = await db.Orders
 
 Uma única query dá um snapshot consistente dos dados, e uma split query dá
 várias idas ao banco que podem enxergar dados diferentes se linhas mudarem no
-intervalo. Envolva numa transação quando isso importar, ou configure
+intervalo. Envolva numa transação serializable ou snapshot quando isso importar
+(o que pode custar performance), ou configure
 `UseQuerySplittingBehavior` uma vez para o contexto inteiro e sobrescreva com
 `AsSingleQuery` onde uma query única for melhor.
 
@@ -133,7 +134,9 @@ novo `foreach` que cause N+1 quebre o build em vez do banco de produção.
 - **Split queries com paginação precisam de ordem determinística.** Cada query
   repete o `Skip` e o `Take`, então sem um `OrderBy` por uma chave única o banco
   pode escolher pais diferentes em cada query e os filhos deixam de combinar com
-  a página.
+  a página. O EF Core 10 tornou consistente a ordenação entre as split queries,
+  mas a documentação continua mandando tornar a ordenação sempre totalmente
+  única.
   ```csharp
   db.Orders.Include(o => o.Lines).AsSplitQuery()
       .OrderBy(o => o.CreatedAt).ThenBy(o => o.Id) // desempate único

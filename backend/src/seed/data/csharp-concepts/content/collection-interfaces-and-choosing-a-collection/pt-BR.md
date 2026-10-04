@@ -109,7 +109,7 @@ public IEnumerable<Order> StreamOrders() { foreach (var o in _orders) yield retu
 
 Nunca devolva `List<T>` de uma API pública de uma biblioteca: quem chama pode
 alterá-la, e você não consegue trocar o armazenamento interno depois sem quebrar
-os consumidores (o analyzer CA1002 sinaliza isso). Exponha `IReadOnlyList<T>`,
+os consumidores (o analyzer CA1002 sinaliza isso, mas vem desligado por padrão). Exponha `IReadOnlyList<T>`,
 `ReadOnlyCollection<T>` ou um tipo imutável.
 
 ### Collection expressions e spread (C# 12)

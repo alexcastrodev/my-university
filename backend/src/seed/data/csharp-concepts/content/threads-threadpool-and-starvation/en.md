@@ -28,8 +28,8 @@ it happening.
 ### A Thread is an OS thread
 
 `new Thread(...)` creates a real operating system thread with its own stack
-(commonly around 1 MB reserved on Windows, so creating thousands is expensive).
-It is a foreground thread by default, and the process does not exit until every
+(the default stack size, which varies by platform and configuration, so creating
+thousands is expensive). It is a foreground thread by default, and the process does not exit until every
 foreground thread has finished:
 
 ```csharp
@@ -64,9 +64,11 @@ _ = Task.Run(() => throw new InvalidOperationException("boom"));       // swallo
 the same pool. The pool starts with a minimum number of threads, by default the
 number of processors, and creates those on demand without delay. Above that
 minimum it adds threads slowly, using a hill-climbing algorithm that tries one
-more thread, measures throughput, and keeps it only if throughput improved. In
-practice that means roughly a thread or so per second once demand exceeds the
-minimum:
+more thread, measures throughput, and keeps it only if throughput improved. The
+documentation says only that the pool creates and destroys threads to optimize
+throughput, and gives no injection rate. Expect a slow ramp, on the order of a
+thread or so per second in common descriptions of the pool (measure it, it is not
+a documented guarantee), once demand exceeds the minimum:
 
 ```csharp
 ThreadPool.GetMinThreads(out var minWorker, out var minIo);
@@ -114,7 +116,8 @@ public async Task<IActionResult> Get()
 
 A loop that runs for the lifetime of the app would occupy a pool thread forever,
 shrinking what the pool can offer everyone else. `TaskCreationOptions.LongRunning`
-tells the scheduler to use a dedicated thread instead:
+is a hint that oversubscription may be warranted, so the default scheduler runs
+the task on a dedicated thread instead of a pool thread:
 
 ```csharp
 var reader = Task.Factory.StartNew(
@@ -132,9 +135,13 @@ it as a temporary mitigation while you remove the blocking calls.
 ### Seeing it happen
 
 `dotnet-counters monitor --process-id <pid> System.Runtime` shows the numbers that
-matter: thread pool thread count, queue length, and completed items. A growing
-queue length with a thread count that rises one step at a time, and CPU that stays
-low, is the signature of starvation:
+matter: thread pool thread count, queue length, and completed work items. On .NET 9
+and later they appear as `dotnet.thread_pool.thread.count`,
+`dotnet.thread_pool.queue.length` and `dotnet.thread_pool.work_item.count`. On .NET 8
+and earlier the names are `ThreadPool Thread Count`, `ThreadPool Queue Length` and
+`ThreadPool Completed Work Item Count`. A growing queue length with a thread count
+that rises one step at a time, and CPU that stays low, is the signature of
+starvation. The values below are illustrative:
 
 ```text
 ThreadPool Thread Count     :  18
@@ -156,8 +163,9 @@ CPU Usage (%)               :   6
                         TaskCreationOptions.LongRunning);
   ```
 - **Background threads can be cut off mid-work.** When the last foreground thread
-  ends, the process exits and background threads stop without running `finally`
-  blocks, so work that must finish needs a foreground thread or a graceful shutdown.
+  ends, the process exits and the runtime stops background threads without raising
+  an exception in them, so cleanup code in those threads is not guaranteed to run.
+  Work that must finish needs a foreground thread or a graceful shutdown.
 - **`SetMinThreads` trades latency for memory and hides the cause.** Raising it to
   a large value makes the stall disappear in a test and then returns at a higher
   load, with more threads fighting over the same cores.

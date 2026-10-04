@@ -38,7 +38,7 @@ então rodar duas queries ao mesmo tempo na mesma instância lança exceção:
 // Errado: duas operações no mesmo contexto ao mesmo tempo.
 var a = db.Orders.ToListAsync(ct);
 var b = db.Customers.ToListAsync(ct);
-await Task.WhenAll(a, b); // InvalidOperationException: a second operation was started
+await Task.WhenAll(a, b); // InvalidOperationException: A second operation started on this context before a previous operation completed
 
 // Certo: dê await em cada uma, ou entregue a cada task seu próprio contexto de uma factory.
 var orders = await db.Orders.ToListAsync(ct);

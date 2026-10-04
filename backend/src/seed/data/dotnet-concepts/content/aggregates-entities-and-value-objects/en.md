@@ -169,8 +169,8 @@ Domain Events and Consistency Boundaries concept).
   unrelated parts conflict on the same row version. Split the aggregate when
   concurrent edits to different parts are normal.
 - **`field` is a contextual keyword.** A class that already has a member named
-  `field` changes meaning when it moves to C# 14, so the compiler asks you to
-  write `@field` or `this.field` to keep the old behavior.
+  `field` changes meaning when it moves to C# 14, so write `@field` or
+  `this.field` to keep the old meaning.
 - **Exposing a read-only interface is not immutability.** An
   `IReadOnlyList<T>` still points at the same mutable list, so a cast breaks
   the guarantee. Treat it as a signal of intent, not a security boundary.

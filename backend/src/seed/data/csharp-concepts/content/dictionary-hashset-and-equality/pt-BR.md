@@ -33,8 +33,8 @@ valor e o índice da próxima entrada no mesmo bucket). `buckets` mapeia um núm
 de bucket, calculado a partir do hash code, para a primeira entrada desse
 bucket. Uma busca calcula o hash, escolhe o bucket e percorre a cadeia curta
 comparando hash codes e chamando `Equals`. Quando o array de entries enche, a
-coleção aloca arrays maiores (o tamanho é um número primo, aproximadamente o
-dobro) e reinsere tudo, e por isso adicionar muitos itens a um dicionário também
+coleção aloca arrays maiores (detalhe de implementação: hoje o tamanho é um
+número primo, aproximadamente o dobro) e reinsere tudo, e por isso adicionar muitos itens a um dicionário também
 se beneficia de uma dica de capacity:
 
 ```csharp

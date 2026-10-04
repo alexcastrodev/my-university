@@ -30,8 +30,8 @@ and an index of the next entry in the same bucket). `buckets` maps a bucket
 number, computed from the hash code, to the first entry of that bucket. A lookup
 computes the hash, picks the bucket, then walks the short chain comparing hash
 codes and calling `Equals`. When the entries array is full, the collection
-allocates larger arrays (the size is a prime number, roughly double) and
-re-inserts everything, which is why adding many items to a dictionary also
+allocates larger arrays (an implementation detail: today the size is a prime
+number, roughly double) and re-inserts everything, which is why adding many items to a dictionary also
 benefits from a capacity hint:
 
 ```csharp

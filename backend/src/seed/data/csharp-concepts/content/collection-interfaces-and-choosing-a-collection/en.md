@@ -107,7 +107,7 @@ public IEnumerable<Order> StreamOrders() { foreach (var o in _orders) yield retu
 
 Never return `List<T>` from a public API of a library: callers can mutate it,
 and you cannot change the internal storage later without breaking them
-(analyzer CA1002 flags this). Expose `IReadOnlyList<T>`, `ReadOnlyCollection<T>`,
+(analyzer CA1002 flags this, but it is off by default). Expose `IReadOnlyList<T>`, `ReadOnlyCollection<T>`,
 or an immutable type.
 
 ### Collection expressions and spread (C# 12)

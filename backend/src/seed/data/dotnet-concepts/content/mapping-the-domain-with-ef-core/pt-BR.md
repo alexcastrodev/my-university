@@ -57,7 +57,9 @@ builder.OwnsMany(o => o.Lines, l =>
 
 O EF Core 10 fechou duas lacunas que empurravam as pessoas para owned types:
 complex types agora podem ser opcionais (um `Address?` anulável) e podem ser
-mapeados para uma única coluna JSON.
+mapeados para uma única coluna JSON. Um complex type opcional ainda precisa
+declarar pelo menos uma propriedade obrigatória, para o EF Core distinguir um
+valor `null` de um cujas propriedades são todas `null`.
 
 Use um complex type para um único value object que só é substituído por
 inteiro (`Money`, `Address`). Use um owned type, ou uma entity de verdade,
@@ -140,11 +142,12 @@ de leitura.
   Se as linhas têm significado próprio (auditoria, links de outras tabelas),
   modele-as como entities.
 - **Complex types não podem ser consultados nem rastreados como entities.** Não
-  há `DbSet<Money>`, nem foreign key para um, e mudar uma propriedade de um
-  complex type significa atribuir um novo valor.
+  há `DbSet<Money>`, nem foreign key para um, e um complex type usado como value
+  object é melhor mantido imutável, então mudá-lo significa atribuir um novo
+  valor (o EF Core ainda rastreia as mudanças por propriedade).
   ```csharp
   order.Total = order.Total with { Amount = 20m }; // ok: substitui o valor
-  order.Total.Amount = 20m;                        // impossível: o tipo é imutável
+  order.Total.Amount = 20m;                        // não compila: Money não tem setters
   ```
 - **Converters podem atrapalhar a tradução de queries.** Um value converter que
   chama código arbitrário nem sempre pode ser traduzido para SQL, então comparar

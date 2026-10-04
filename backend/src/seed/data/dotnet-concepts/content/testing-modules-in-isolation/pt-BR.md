@@ -51,14 +51,15 @@ tabela de Catalog, o fake não consegue satisfazer isso e o teste falha.
 
 ### Um banco real por classe de teste
 
-Use um container descartável para o schema do módulo. O provider EF em memória
-não aplica constraints, não traduz SQL e não respeita transações, então pode
+Use um container descartável para o schema do módulo. A documentação do EF Core
+chama o provider em memória de altamente desencorajado para testes: ele não
+traduz queries para SQL e não suporta transações nem SQL cru, então pode
 passar testes que falhariam no PostgreSQL:
 
 ```csharp
 public sealed class OrdersDb : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _pg = new PostgreSqlBuilder().Build();
+    private readonly PostgreSqlContainer _pg = new PostgreSqlBuilder("postgres:17-alpine").Build();
     public string ConnectionString => _pg.GetConnectionString();
 
     public Task InitializeAsync() => _pg.StartAsync();
@@ -68,7 +69,8 @@ public sealed class OrdersDb : IAsyncLifetime
 
 Compartilhe o container entre os testes de uma classe (`IClassFixture<T>` do
 xUnit) e limpe os dados entre os testes, em vez de pagar a inicialização de um
-container a cada teste.
+container a cada teste. Os retornos `Task` acima são do xUnit v2; no xUnit v3,
+`InitializeAsync` e `DisposeAsync` retornam `ValueTask`.
 
 ### Testando eventos sem dormir
 
@@ -111,10 +113,11 @@ suficiente para que ninguém seja tentado a pulá-la.
   Adicione alguns testes para a implementação real do contrato, para que o
   comportamento do fake tenha algo contra o que ser conferido.
 - **Containers tornam os testes honestos e mais lentos.** Um container
-  PostgreSQL acrescenta segundos de inicialização e exige Docker no CI. O
-  provider em memória é mais rápido e errado exatamente onde importa
-  (constraints, tradução de SQL, concorrência), então use-o no máximo para
-  lógica pura que nunca toca uma query.
+  PostgreSQL acrescenta segundos de inicialização e exige Docker no CI. A
+  documentação do EF Core recomenda testar contra o sistema de banco real e
+  chama o provider em memória de altamente desencorajado, porque ele se
+  comporta de forma diferente exatamente onde importa (tradução de queries,
+  transações, SQL cru) e, na prática, não é mais rápido que um banco local.
 - **Fixtures compartilhadas vazam estado entre testes.** Reusar um container
   por classe é mais rápido, mas um teste que deixa linhas para trás pode quebrar
   o seguinte de um jeito que depende da ordem de execução.
