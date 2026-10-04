@@ -555,5 +555,70 @@
       }
     ],
     "id": 10
+  },
+  {
+    "slug": "locks-monitor-and-interlocked",
+    "title": "Locks, Monitor, and Interlocked",
+    "topic": "Threads",
+    "summary": "lock and Monitor, System.Threading.Lock, Interlocked, ReaderWriterLockSlim, and why await cannot be used inside lock.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
+        "slug": "deadlock-lock-ordering-and-avoidance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Reducing Lock Contention: Scope, Granularity, and Striping",
+        "slug": "reducing-lock-contention",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "threads-threadpool-and-starvation"
+    ],
+    "references": [
+      {
+        "label": "lock statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/lock",
+        "type": "doc"
+      },
+      {
+        "label": "Lock class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "Interlocked class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked",
+        "type": "doc"
+      },
+      {
+        "label": "ReaderWriterLockSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim",
+        "type": "doc"
+      },
+      {
+        "label": "SemaphoreSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim",
+        "type": "doc"
+      },
+      {
+        "label": "Managed threading best practices, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/managed-threading-best-practices",
+        "type": "doc"
+      }
+    ],
+    "id": 11
   }
 ]
