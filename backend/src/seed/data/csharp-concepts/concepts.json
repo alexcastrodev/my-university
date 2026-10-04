@@ -225,5 +225,60 @@
       }
     ],
     "id": 4
+  },
+  {
+    "slug": "immutable-and-frozen-collections",
+    "title": "Immutable and Frozen Collections",
+    "topic": "Collections",
+    "summary": "ImmutableList vs ImmutableArray, builders, and FrozenDictionary and FrozenSet.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The Collection Interface",
+        "slug": "collection-interface",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Immutable collections, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableArray<T> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablearray-1",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableList<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablelist-1",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableInterlocked class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutableinterlocked",
+        "type": "doc"
+      },
+      {
+        "label": "FrozenDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.frozen.frozendictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "FrozenSet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.frozen.frozenset-1",
+        "type": "doc"
+      },
+      {
+        "label": "Selecting a collection class, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class",
+        "type": "doc"
+      }
+    ],
+    "id": 5
   }
 ]
