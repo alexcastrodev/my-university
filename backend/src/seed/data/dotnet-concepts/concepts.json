@@ -530,5 +530,55 @@
       }
     ],
     "id": 11
+  },
+  {
+    "slug": "applying-migrations-in-production",
+    "title": "Applying Migrations in Production",
+    "topic": "Migrations",
+    "summary": "The risks of Migrate() at startup with several replicas, idempotent scripts, migration bundles, expand and contract, and concurrent index builds in PostgreSQL.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "ef-core-migrations-workflow"
+    ],
+    "related": [
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Zero-Downtime Schema Migrations",
+        "slug": "zero-downtime-schema-migrations",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Applying migrations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference (.NET CLI), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 9, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-9.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations, Npgsql EF Core provider",
+        "url": "https://www.npgsql.org/efcore/managing-schemas/migrations.html",
+        "type": "doc"
+      }
+    ],
+    "id": 12
   }
 ]
