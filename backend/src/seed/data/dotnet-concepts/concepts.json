@@ -333,5 +333,55 @@
       }
     ],
     "id": 7
+  },
+  {
+    "slug": "loading-related-data-and-n-plus-one",
+    "title": "Loading Related Data and the N+1 Problem",
+    "topic": "EF Core",
+    "summary": "Include and ThenInclude, cartesian explosion and AsSplitQuery, N+1 through lazy loading, projections, and reading the generated SQL with ToQueryString.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "N+1 and Query Methods in Models",
+        "slug": "n-plus-one-and-query-methods-in-models",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "JDBC and JPA Performance",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Loading related data, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/related-data/",
+        "type": "doc"
+      },
+      {
+        "label": "Single vs. split queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Eager loading of related data, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/related-data/eager",
+        "type": "doc"
+      },
+      {
+        "label": "Efficient querying, EF Core performance, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying",
+        "type": "doc"
+      }
+    ],
+    "id": 8
   }
 ]
