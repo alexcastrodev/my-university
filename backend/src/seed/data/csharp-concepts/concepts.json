@@ -620,5 +620,75 @@
       }
     ],
     "id": 11
+  },
+  {
+    "slug": "memory-model-volatile-and-thread-local-state",
+    "title": "Memory Model, volatile, and Thread-Local State",
+    "topic": "Threads",
+    "summary": "volatile and Volatile.Read, double-checked locking vs Lazy<T>, and ThreadLocal vs AsyncLocal.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "The Java Memory Model: Happens-Before and Reordering",
+        "slug": "java-memory-model-and-happens-before",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "ThreadLocal: Per-Thread State, Leaks, and InheritableThreadLocal",
+        "slug": "threadlocal-and-inheritable-threadlocal",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "VarHandle: Lock-Free Access to Ordinary Fields",
+        "slug": "varhandle-lock-free-field-access",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "locks-monitor-and-interlocked"
+    ],
+    "references": [
+      {
+        "label": "volatile keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/volatile",
+        "type": "doc"
+      },
+      {
+        "label": "Volatile class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.volatile",
+        "type": "doc"
+      },
+      {
+        "label": "Lazy initialization, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization",
+        "type": "doc"
+      },
+      {
+        "label": "LazyThreadSafetyMode enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.lazythreadsafetymode",
+        "type": "doc"
+      },
+      {
+        "label": "Interlocked class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadLocal<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadlocal-1",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncLocal<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadStaticAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threadstaticattribute",
+        "type": "doc"
+      }
+    ],
+    "id": 12
   }
 ]
