@@ -45,5 +45,295 @@
       }
     ],
     "id": 1
+  },
+  {
+    "slug": "list-and-array-internals",
+    "title": "List<T> and Array Internals",
+    "topic": "Collections",
+    "summary": "List<T> growth and capacity, array covariance, modifying a collection during foreach, and CollectionsMarshal.AsSpan with its risks.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The ArrayList Class",
+        "slug": "array-list",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Arrays: Sorting, Searching, and Deep Comparison",
+        "slug": "arrays-sorting-searching-and-comparison",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "List<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1",
+        "type": "doc"
+      },
+      {
+        "label": "Arrays, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/arrays",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance in generics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance",
+        "type": "doc"
+      },
+      {
+        "label": "Memory<T> and Span<T> usage guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionsMarshal.AsSpan, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      }
+    ],
+    "id": 2
+  },
+  {
+    "slug": "dictionary-hashset-and-equality",
+    "title": "Dictionary, HashSet, and Equality",
+    "topic": "Collections",
+    "summary": "Buckets, the Equals and GetHashCode contract, the mutable key bug, IEqualityComparer, and records as keys.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "list-and-array-internals"
+    ],
+    "related": [
+      {
+        "label": "The HashMap Class",
+        "slug": "hash-map",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Dictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "Object.GetHashCode, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.object.gethashcode",
+        "type": "doc"
+      },
+      {
+        "label": "How to define value equality for a class or struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/how-to-define-value-equality-for-a-type",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for comparing strings in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Records, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionsMarshal.GetValueRefOrAddDefault, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.getvaluereforadddefault",
+        "type": "doc"
+      }
+    ],
+    "id": 3
+  },
+  {
+    "slug": "specialized-collections",
+    "title": "Specialized Collections",
+    "topic": "Collections",
+    "summary": "Queue, Stack, LinkedList, SortedDictionary vs SortedList, and PriorityQueue (not stable, no priority update).",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The PriorityQueue Class",
+        "slug": "priority-queue",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The ArrayDeque Class",
+        "slug": "array-deque",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The LinkedList Class",
+        "slug": "linked-list",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Selecting a collection class, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class",
+        "type": "doc"
+      },
+      {
+        "label": "Queue<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1",
+        "type": "doc"
+      },
+      {
+        "label": "Stack<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1",
+        "type": "doc"
+      },
+      {
+        "label": "LinkedList<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1",
+        "type": "doc"
+      },
+      {
+        "label": "SortedDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sorteddictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "SortedList<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2",
+        "type": "doc"
+      },
+      {
+        "label": "SortedSet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedset-1",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue<TElement,TPriority> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2",
+        "type": "doc"
+      }
+    ],
+    "id": 4
+  },
+  {
+    "slug": "immutable-and-frozen-collections",
+    "title": "Immutable and Frozen Collections",
+    "topic": "Collections",
+    "summary": "ImmutableList vs ImmutableArray, builders, and FrozenDictionary and FrozenSet.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "The Collection Interface",
+        "slug": "collection-interface",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Immutable collections, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableArray<T> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablearray-1",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableList<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutablelist-1",
+        "type": "doc"
+      },
+      {
+        "label": "ImmutableInterlocked class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutableinterlocked",
+        "type": "doc"
+      },
+      {
+        "label": "FrozenDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.frozen.frozendictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "FrozenSet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.frozen.frozenset-1",
+        "type": "doc"
+      },
+      {
+        "label": "Selecting a collection class, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class",
+        "type": "doc"
+      }
+    ],
+    "id": 5
+  },
+  {
+    "slug": "linq-deferred-execution-and-iterators",
+    "title": "LINQ, Deferred Execution, and Iterators",
+    "topic": "Collections",
+    "summary": "yield return, deferred execution, multiple enumeration, and IEnumerable vs IQueryable as the bridge to EF Core.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Iterator vs Iterable",
+        "slug": "iterator-vs-iterable",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Language Integrated Query (LINQ), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/",
+        "type": "doc"
+      },
+      {
+        "label": "yield statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable",
+        "type": "doc"
+      },
+      {
+        "label": "Queryable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.queryable",
+        "type": "doc"
+      },
+      {
+        "label": "Client vs. server evaluation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 9 libraries, LINQ, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/libraries#linq",
+        "type": "doc"
+      }
+    ],
+    "id": 6
   }
 ]

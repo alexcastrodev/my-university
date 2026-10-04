@@ -10,6 +10,18 @@ describe('GET /csharp-concepts', () => {
     expect(body.length).toBeGreaterThan(0);
   });
 
+  it('lists a prerequisite before the concepts that require it', async () => {
+    const body = await json<any[]>(await get('/csharp-concepts'));
+    const indexOf = (slug: string) => body.findIndex((c) => c.slug === slug);
+    expect(indexOf('list-and-array-internals')).toBeGreaterThan(-1);
+    expect(indexOf('collection-interfaces-and-choosing-a-collection')).toBeLessThan(
+      indexOf('list-and-array-internals'),
+    );
+    expect(indexOf('list-and-array-internals')).toBeLessThan(
+      indexOf('dictionary-hashset-and-equality'),
+    );
+  });
+
   it('summaries expose slug, id, title, topic, summary and publishedAt but no sections', async () => {
     const body = await json<any[]>(await get('/csharp-concepts'));
     const concept = body.find(
