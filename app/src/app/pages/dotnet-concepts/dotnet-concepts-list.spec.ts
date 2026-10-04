@@ -11,7 +11,7 @@ const FIXTURES: DotNetConceptSummary[] = [
     slug: 'dbcontext-lifetime-and-change-tracking',
     id: 1,
     title: 'DbContext Lifetime and Change Tracking',
-    topic: 'Entity Framework Core',
+    topic: 'EF Core',
     summary: 'Why a DbContext is a short-lived unit of work and what the change tracker costs.',
     publishedAt: '2026-10-04',
     language: 'en',
@@ -101,6 +101,6 @@ describe('DotNetConceptsListPage', () => {
     const fixture = render();
     const headings: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.topic-heading');
     const texts = Array.from(headings).map((h) => h.textContent?.trim());
-    expect(texts).toEqual(['Modular Architecture', 'Entity Framework Core']);
+    expect(texts).toEqual(['Modular Architecture', 'EF Core']);
   });
 });

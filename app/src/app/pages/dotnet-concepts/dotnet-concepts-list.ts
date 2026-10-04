@@ -14,11 +14,11 @@ export interface DotNetConceptTopicGroup {
 /** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
 const TOPIC_ORDER = [
   'Modular Architecture',
-  'Domain-Driven Design',
-  'Entity Framework Core',
+  'DDD',
+  'EF Core',
   'Migrations',
   'Background Jobs',
-  'Concurrency & Parallelism',
+  'Concurrency',
 ];
 
 @Component({
