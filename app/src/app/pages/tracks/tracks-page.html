@@ -1,0 +1,72 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@tracks.title">Tracks</h1>
+    <p class="page-sub" i18n="@@tracks.subtitle">Every study track in one place. Pick one and keep going where you left off.</p>
+  </div>
+
+  <div class="toolbar">
+    <input
+      class="search"
+      type="search"
+      [value]="query()"
+      (input)="onQuery($event)"
+      i18n-placeholder="@@tracks.search" placeholder="Filter tracks"
+      i18n-aria-label="@@tracks.search" aria-label="Filter tracks"
+    />
+    <div class="chips" role="group" i18n-aria-label="@@tracks.groups" aria-label="Track groups">
+      <button type="button" class="chip" [class.active]="group() === 'all'" (click)="group.set('all')" i18n="@@tracks.group.all">All</button>
+      @for (g of groups; track g) {
+        <button type="button" class="chip" [class.active]="group() === g" (click)="group.set(g)">
+          @switch (g) {
+            @case ('java') { <ng-container i18n="@@tracks.group.java">Java</ng-container> }
+            @case ('ruby') { <ng-container i18n="@@tracks.group.ruby">Ruby</ng-container> }
+            @case ('dotnet') { <ng-container i18n="@@tracks.group.dotnet">.NET and C#</ng-container> }
+            @case ('fundamentals') { <ng-container i18n="@@tracks.group.fundamentals">Fundamentals</ng-container> }
+          }
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (visible().length === 0) {
+    <p class="empty" i18n="@@tracks.empty">No track matches your filter.</p>
+  } @else {
+    <div class="grid">
+      @for (c of visible(); track c.slug) {
+        <a class="card" [routerLink]="c.routerLink">
+          <span class="hex"><app-track-icon [slug]="c.slug" /></span>
+          <div class="body">
+            <h2 class="name">{{ c.title }}</h2>
+            @if (progressFor(c.slug); as p) {
+              <p class="meta">
+                <span>{{ p.total }}</span> <ng-container i18n="@@tracks.concepts">concepts</ng-container>
+                <span class="sep">·</span>
+                <span>{{ p.read }} / {{ p.total }}</span>
+              </p>
+              <div class="bar" role="progressbar" [attr.aria-valuenow]="percent(c.slug)" aria-valuemin="0" aria-valuemax="100">
+                <div class="fill" [style.width.%]="percent(c.slug)"></div>
+              </div>
+            } @else if (loading()) {
+              <p class="meta">…</p>
+            }
+            <div class="tags">
+              @switch (c.group) {
+                @case ('java') { <span class="tag" i18n="@@tracks.group.java">Java</span> }
+                @case ('ruby') { <span class="tag" i18n="@@tracks.group.ruby">Ruby</span> }
+                @case ('dotnet') { <span class="tag" i18n="@@tracks.group.dotnet">.NET and C#</span> }
+                @case ('fundamentals') { <span class="tag" i18n="@@tracks.group.fundamentals">Fundamentals</span> }
+              }
+              @switch (c.kind) {
+                @case ('language') { <span class="tag" i18n="@@tracks.kind.language">Language</span> }
+                @case ('framework') { <span class="tag" i18n="@@tracks.kind.framework">Framework</span> }
+                @case ('platform') { <span class="tag" i18n="@@tracks.kind.platform">Platform</span> }
+                @case ('theory') { <span class="tag" i18n="@@tracks.kind.theory">Theory</span> }
+                @case ('quick') { <span class="tag" i18n="@@tracks.kind.quick">Practice</span> }
+              }
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

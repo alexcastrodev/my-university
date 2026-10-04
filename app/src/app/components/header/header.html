@@ -17,55 +17,7 @@
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.dashboard">Dashboard</a>
       }
       <a routerLink="/computer-science" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.computerScience">Computer Science</a>
-      <div class="explore-menu" (mouseenter)="onExploreMouseEnter()" (mouseleave)="onExploreMouseLeave()">
-        <button
-          type="button"
-          class="nav-link nav-dropdown-trigger"
-          [class.active]="exploreMenuOpen()"
-          aria-haspopup="menu"
-          [attr.aria-expanded]="exploreMenuOpen()"
-          (click)="toggleExploreMenu()"
-        >
-          <ng-container i18n="@@header.nav.complementaryStudies">Complementary Studies</ng-container>
-          <svg class="chevron" [class.open]="exploreMenuOpen()" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        @if (exploreMenuOpen()) {
-          <div class="explore-menu-dropdown" role="menu">
-            <div class="explore-menu-column">
-              <span class="explore-menu-heading" i18n="@@header.nav.java">Java</span>
-              <a routerLink="/java/exams" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.exams">Exams</a>
-              <a routerLink="/java/java-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-              <a routerLink="/java/jvm-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.jvmConcepts">JVM Concepts</a>
-              <a routerLink="/java/java-minute" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.javaMinute">Java Minute</a>
-              <a routerLink="/java/testing" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.testing">Testing</a>
-              <a routerLink="/spring-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.spring">Spring</a>
-              <a routerLink="/quarkus-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.quarkus">Quarkus</a>
-            </div>
-            <div class="explore-menu-column">
-              <span class="explore-menu-heading" i18n="@@header.nav.ruby">Ruby</span>
-              <a routerLink="/ruby-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-              <a routerLink="/rubyonrails-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.rails">Rails</a>
-            </div>
-            <div class="explore-menu-column">
-              <span class="explore-menu-heading" i18n="@@header.nav.dotnet">.NET</span>
-              <a routerLink="/dotnet-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-            </div>
-            <div class="explore-menu-column">
-              <span class="explore-menu-heading" i18n="@@header.nav.csharp">C#</span>
-              <a routerLink="/csharp-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.concepts">Concepts</a>
-            </div>
-            <div class="explore-menu-column">
-              <span class="explore-menu-heading" i18n="@@header.nav.fundamentals">Fundamentals</span>
-              <a routerLink="/databases/database-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.databaseConcepts">Database Concepts</a>
-              <a routerLink="/system-design/system-design-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.systemDesign">System Design</a>
-              <a routerLink="/kubernetes-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.kubernetes">Kubernetes</a>
-              <a routerLink="/algorithms/algorithms-concepts" routerLinkActive="active" class="explore-menu-item" role="menuitem" (click)="closeExploreMenu(); closeMobileMenu()" i18n="@@header.nav.algorithms">Algorithms</a>
-            </div>
-          </div>
-        }
-      </div>
+      <a routerLink="/tracks" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.tracks">Tracks</a>
       <a routerLink="/leaderboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()" i18n="@@header.nav.leaderboard">Leaderboard</a>
       @if (auth.currentUser()) {
         <a routerLink="/review" routerLinkActive="active" class="nav-link mobile-review-link" (click)="closeMobileMenu()" i18n="@@header.nav.review">Review</a>

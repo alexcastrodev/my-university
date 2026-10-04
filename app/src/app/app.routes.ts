@@ -162,6 +162,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/dotnet-concepts/dotnet-concepts-detail').then((m) => m.DotNetConceptsDetailPage),
   },
   {
+    path: 'tracks',
+    loadComponent: () => import('./pages/tracks/tracks-page').then((m) => m.TracksPage),
+  },
+  {
     path: 'csharp-concepts',
     loadComponent: () => import('./pages/csharp-concepts/csharp-concepts-list').then((m) => m.CSharpConceptsListPage),
   },
