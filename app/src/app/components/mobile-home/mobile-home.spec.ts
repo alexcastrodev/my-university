@@ -116,6 +116,13 @@ describe('MobileHome', () => {
     expect(fixture.nativeElement.querySelector('.marks')).toBeNull();
   });
 
+  it('links the tracks page', () => {
+    const { fixture } = setup({ expired: 0 });
+    const shortcut: HTMLElement = fixture.nativeElement.querySelector('.shortcut');
+    expect(shortcut.getAttribute('href')).toBe('/tracks');
+    expect(shortcut.textContent).toContain('Tracks');
+  });
+
   it('lists areas by recency, with depth from how much was read there', () => {
     const { fixture } = setup();
     const rows = fixture.nativeElement.querySelectorAll('.area');
