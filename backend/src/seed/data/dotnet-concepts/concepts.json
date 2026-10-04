@@ -291,5 +291,47 @@
       }
     ],
     "id": 6
+  },
+  {
+    "slug": "dbcontext-lifetime-and-change-tracking",
+    "title": "DbContext Lifetime and Change Tracking",
+    "topic": "EF Core",
+    "summary": "One context per unit of work, pooling and IDbContextFactory, the entity states in the change tracker, and when AsNoTracking pays off.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Hibernate First and Second Level Cache",
+        "slug": "hibernate-first-and-second-level-cache",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "DbContext lifetime, configuration, and initialization, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Advanced performance topics, DbContext pooling, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics",
+        "type": "doc"
+      },
+      {
+        "label": "Change tracking in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking vs. no-tracking queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/tracking",
+        "type": "doc"
+      }
+    ],
+    "id": 7
   }
 ]
