@@ -61,5 +61,5 @@ A remoção na árvore B+ remove a chave alvo de sua folha e então repara ativa
 
 ## Documentation Links
 
-- [CMU 15-445/645 — Indexes & Filters II Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf): a fonte do algoritmo de remoção deste conceito, incluindo a ordenação redistribuir-antes-de-fundir e o caso especial de encolhimento da raiz rastreado no Exemplo 3.
-- [Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site](https://www.db-book.com/): o tratamento padrão de livro-texto da remoção em árvore B+, útil para verificar os casos de redistribuição e fusão contra uma segunda apresentação resolvida.
+- [CMU 15-445/645: Indexes & Filters II Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf): a fonte do algoritmo de remoção deste conceito, incluindo a ordenação redistribuir-antes-de-fundir e o caso especial de encolhimento da raiz rastreado no Exemplo 3.
+- [Database System Concepts (Silberschatz, Korth, Sudarshan): Companion Site](https://www.db-book.com/): o tratamento padrão de livro-texto da remoção em árvore B+, útil para verificar os casos de redistribuição e fusão contra uma segunda apresentação resolvida.

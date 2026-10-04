@@ -67,5 +67,5 @@ O ARIES se recupera de um travamento em exatamente três fases ordenadas, cada u
 
 ## Documentation Links
 
-- [CMU 15-445/645 — Database Logging / Recovery Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/22-recovery.pdf): a fonte do detalhamento das fases Análise/Redo/Undo deste conceito e da varredura de Análise limitada por checkpoint trabalhada nos exemplos.
-- [ARIES: A Transaction Recovery Method (Mohan et al., 1992) — IBM Research](https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging): o artigo original que dá nome ao algoritmo deste conceito e do qual ele foi construído diretamente, incluindo o mecanismo de registro de log de compensação rastreado no Exemplo 3.
+- [CMU 15-445/645: Database Logging / Recovery Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/22-recovery.pdf): a fonte do detalhamento das fases Análise/Redo/Undo deste conceito e da varredura de Análise limitada por checkpoint trabalhada nos exemplos.
+- [ARIES: A Transaction Recovery Method (Mohan et al., 1992): IBM Research](https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging): o artigo original que dá nome ao algoritmo deste conceito e do qual ele foi construído diretamente, incluindo o mecanismo de registro de log de compensação rastreado no Exemplo 3.

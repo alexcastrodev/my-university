@@ -106,5 +106,5 @@ Cada salto que um pacote cruza adiciona atraso nodal feito de quatro componentes
 
 ## Documentation Links
 
-- [Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre atraso nodal, intensidade de tráfego, perda e vazão.
-- [ACM/IEEE CS2013 — Networking and Communication Knowledge Area](https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/): diretrizes de currículo listando a análise de atraso, perda e vazão entre as ferramentas quantitativas fundamentais do campo.
+- [Kurose & Ross: Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre atraso nodal, intensidade de tráfego, perda e vazão.
+- [ACM/IEEE CS2013: Networking and Communication Knowledge Area](https://csed.acm.org/knowledge-areas-networking-and-communication-nc-cs2013-version/): diretrizes de currículo listando a análise de atraso, perda e vazão entre as ferramentas quantitativas fundamentais do campo.

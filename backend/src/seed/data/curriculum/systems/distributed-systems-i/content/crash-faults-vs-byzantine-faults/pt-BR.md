@@ -147,5 +147,5 @@ Todo protocolo sobre o qual esta disciplina provou qualquer coisa (FLP, Paxos, a
 
 ## Documentation Links
 
-- [Fischer, Lynch & Paterson — Impossibility of Distributed Consensus with One Faulty Process (JACM 1985)](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf): citado aqui por sua suposição explícita de falha por queda ("um processo defeituoso simplesmente para"), a linha de base exata que este conceito contrasta com o modelo bizantino estritamente mais difícil.
-- [ACM/IEEE — CS2013, Parallel and Distributed Computing Knowledge Area](https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/): a diretriz de currículo que lista modelos de falha, incluindo a distinção entre falha por queda e bizantina, como um tópico central de computação paralela e distribuída.
+- [Fischer, Lynch & Paterson: Impossibility of Distributed Consensus with One Faulty Process (JACM 1985)](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf): citado aqui por sua suposição explícita de falha por queda ("um processo defeituoso simplesmente para"), a linha de base exata que este conceito contrasta com o modelo bizantino estritamente mais difícil.
+- [ACM/IEEE: CS2013, Parallel and Distributed Computing Knowledge Area](https://csed.acm.org/knowledge-areas-parallel-and-distributed-computing-pd-cs2013-version/): a diretriz de currículo que lista modelos de falha, incluindo a distinção entre falha por queda e bizantina, como um tópico central de computação paralela e distribuída.

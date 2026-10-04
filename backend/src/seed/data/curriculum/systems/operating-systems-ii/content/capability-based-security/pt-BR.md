@@ -126,5 +126,5 @@ A segurança baseada em capacidades responde à mesma questão de autorização 
 
 ## Documentation Links
 
-- [OSTEP — Access Control](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf): cobre a segurança baseada em capacidades como um modelo alternativo real às ACLs, junto com o problema do delegado confuso que este conceito desenvolve.
-- [ACM/IEEE CS2013 — Operating Systems Knowledge Area](https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/): situa os modelos de controle de acesso, incluindo capacidades, dentro do currículo de Sistemas Operacionais que esta disciplina segue.
+- [OSTEP: Access Control](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf): cobre a segurança baseada em capacidades como um modelo alternativo real às ACLs, junto com o problema do delegado confuso que este conceito desenvolve.
+- [ACM/IEEE CS2013: Operating Systems Knowledge Area](https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/): situa os modelos de controle de acesso, incluindo capacidades, dentro do currículo de Sistemas Operacionais que esta disciplina segue.

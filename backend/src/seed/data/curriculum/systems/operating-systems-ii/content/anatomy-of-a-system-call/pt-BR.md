@@ -123,5 +123,5 @@ A anatomia real de uma chamada de sistema envolve três fases distintas: uma fun
 
 ## Documentation Links
 
-- [MIT 6.S081 xv6 book — Traps, Interrupts, and Drivers](https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf): a mecânica real de tabela de syscall e de despacho de trap da qual os exemplos resolvidos deste conceito são adaptados.
-- [MIT 6.S081 — Lab: System Calls](https://pdos.csail.mit.edu/6.S081/2021/labs/syscall.html): a atividade real em que os alunos adicionam uma nova chamada de sistema à tabela de despacho do xv6.
+- [MIT 6.S081 xv6 book: Traps, Interrupts, and Drivers](https://pdos.csail.mit.edu/6.S081/2021/xv6/book-riscv-rev2.pdf): a mecânica real de tabela de syscall e de despacho de trap da qual os exemplos resolvidos deste conceito são adaptados.
+- [MIT 6.S081: Lab: System Calls](https://pdos.csail.mit.edu/6.S081/2021/labs/syscall.html): a atividade real em que os alunos adicionam uma nova chamada de sistema à tabela de despacho do xv6.

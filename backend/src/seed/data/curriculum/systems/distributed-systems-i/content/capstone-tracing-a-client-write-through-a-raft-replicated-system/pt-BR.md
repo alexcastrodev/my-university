@@ -204,5 +204,5 @@ Uma escrita de cliente para um sistema replicado por Raft passa por cada mecanis
 
 ## Documentation Links
 
-- [Ongaro & Ousterhout — In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)](https://raft.github.io/raft.pdf): o artigo fonte para cada mecanismo que este rastreamento de ponta a ponta nomeia em sequência: requisições de cliente dirigidas por RPC, append de log, replicação via AppendEntries, confirmação baseada em maioria e aplicação à máquina de estados.
-- [MIT 6.5840 (Distributed Systems) — Course Overview](https://pdos.csail.mit.edu/6.824/index.html): o curso cujas tarefas de laboratório de Raft exigem implementar e testar exatamente este caminho de escrita de cliente de ponta a ponta, incluindo os cenários de queda de líder e seguidor lento rastreados aqui.
+- [Ongaro & Ousterhout: In Search of an Understandable Consensus Algorithm (Raft, USENIX ATC 2014)](https://raft.github.io/raft.pdf): o artigo fonte para cada mecanismo que este rastreamento de ponta a ponta nomeia em sequência: requisições de cliente dirigidas por RPC, append de log, replicação via AppendEntries, confirmação baseada em maioria e aplicação à máquina de estados.
+- [MIT 6.5840 (Distributed Systems): Course Overview](https://pdos.csail.mit.edu/6.824/index.html): o curso cujas tarefas de laboratório de Raft exigem implementar e testar exatamente este caminho de escrita de cliente de ponta a ponta, incluindo os cenários de queda de líder e seguidor lento rastreados aqui.

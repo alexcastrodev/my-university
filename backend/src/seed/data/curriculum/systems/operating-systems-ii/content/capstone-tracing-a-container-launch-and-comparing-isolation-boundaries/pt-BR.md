@@ -140,5 +140,5 @@ Rastrear uma operação comum (lançar um único contêiner) através da configu
 
 ## Documentation Links
 
-- [OSTEP — Virtual Machines](https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf): a própria síntese do OSTEP de mecanismos de virtualização operando juntos, o mesmo espírito que este capstone aplica a todos os quatro agrupamentos desta disciplina.
-- [UC Berkeley CS162 — Course Schedule](https://cs162.org/): curso cuja sequência de projetos espelha a integração de ponta a ponta deste capstone da mecânica de kernel, IPC e proteção.
+- [OSTEP: Virtual Machines](https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf): a própria síntese do OSTEP de mecanismos de virtualização operando juntos, o mesmo espírito que este capstone aplica a todos os quatro agrupamentos desta disciplina.
+- [UC Berkeley CS162: Course Schedule](https://cs162.org/): curso cuja sequência de projetos espelha a integração de ponta a ponta deste capstone da mecânica de kernel, IPC e proteção.

@@ -127,5 +127,5 @@ Uma lista de controle de acesso anexa, a cada objeto, uma política nomeando qua
 
 ## Documentation Links
 
-- [OSTEP — Access Control](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf): o modelo de ACL e a mecânica dos bits de permissão Unix que este conceito desenvolve em detalhe.
-- [ACM/IEEE CS2013 — Operating Systems Knowledge Area](https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/): situa o controle de acesso como um tópico central de Sistemas Operacionais dentro do currículo mais amplo.
+- [OSTEP: Access Control](https://pages.cs.wisc.edu/~remzi/OSTEP/security-access.pdf): o modelo de ACL e a mecânica dos bits de permissão Unix que este conceito desenvolve em detalhe.
+- [ACM/IEEE CS2013: Operating Systems Knowledge Area](https://csed.acm.org/knowledge-areas-operating-systems-os-cs2013-version/): situa o controle de acesso como um tópico central de Sistemas Operacionais dentro do currículo mais amplo.

@@ -129,5 +129,5 @@ Uma requisição HTTP comum exercita cada mecanismo que esta disciplina cobriu, 
 
 ## Documentation Links
 
-- [Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o livro-texto padrão cuja estrutura de cima para baixo, camada por camada, esta disciplina inteira, e o rastreamento deste capstone, segue.
-- [Stanford CS144 — Introduction to Computer Networking](https://www.scs.stanford.edu/10au-cs144/): um curso real construído inteiramente em torno da implementação desta mesma pilha de ponta a ponta, uma camada de cada vez.
+- [Kurose & Ross: Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o livro-texto padrão cuja estrutura de cima para baixo, camada por camada, esta disciplina inteira, e o rastreamento deste capstone, segue.
+- [Stanford CS144: Introduction to Computer Networking](https://www.scs.stanford.edu/10au-cs144/): um curso real construído inteiramente em torno da implementação desta mesma pilha de ponta a ponta, uma camada de cada vez.

@@ -119,4 +119,4 @@ At-least-once (reenvio cego, seguro só para operações idempotentes), at-most-
 
 ## Documentation Links
 
-- [Birrell & Nelson — Implementing Remote Procedure Calls (1984)](http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf): o artigo original de RPC cujo próprio projeto já teve de tornar explícito o trade-off at-least-once/at-most-once/exactly-once, exatamente o que este conceito percorre por completo.
+- [Birrell & Nelson: Implementing Remote Procedure Calls (1984)](http://www.bitsavers.org/pdf/xerox/parc/techReports/CSL-83-7_Implementing_Remote_Procedure_Calls.pdf): o artigo original de RPC cujo próprio projeto já teve de tornar explícito o trade-off at-least-once/at-most-once/exactly-once, exatamente o que este conceito percorre por completo.

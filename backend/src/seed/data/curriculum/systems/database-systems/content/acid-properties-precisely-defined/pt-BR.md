@@ -71,5 +71,5 @@ Atomicidade, Consistência, Isolamento e Durabilidade não são uma lista plana 
 
 ## Documentation Links
 
-- [Database System Concepts (Silberschatz, Korth, Sudarshan) — Companion Site](https://www.db-book.com/): a fonte padrão de livro-texto para as definições ACID precisas das quais este conceito parte, particularmente o enquadramento do Isolamento como equivalência a um escalonamento serial.
-- [CMU 15-445/645 — Schedule (Concurrency Control Theory)](https://15445.courses.cs.cmu.edu/fall2026/schedule.html): o cronograma do curso confirmando onde as definições precisas de ACID se situam em relação ao material de controle de concorrência e recuperação que esta disciplina constrói ao longo dos próximos vários conceitos.
+- [Database System Concepts (Silberschatz, Korth, Sudarshan): Companion Site](https://www.db-book.com/): a fonte padrão de livro-texto para as definições ACID precisas das quais este conceito parte, particularmente o enquadramento do Isolamento como equivalência a um escalonamento serial.
+- [CMU 15-445/645: Schedule (Concurrency Control Theory)](https://15445.courses.cs.cmu.edu/fall2026/schedule.html): o cronograma do curso confirmando onde as definições precisas de ACID se situam em relação ao material de controle de concorrência e recuperação que esta disciplina constrói ao longo dos próximos vários conceitos.

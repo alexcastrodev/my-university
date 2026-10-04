@@ -106,4 +106,4 @@ O ARP faz a ponte entre o endereçamento IP da camada de rede e o endereçamento
 
 ## Documentation Links
 
-- [Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre ARP e resolução de endereços.
+- [Kurose & Ross: Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre ARP e resolução de endereços.

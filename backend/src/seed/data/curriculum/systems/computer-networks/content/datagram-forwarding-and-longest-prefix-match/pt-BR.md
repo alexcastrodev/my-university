@@ -86,5 +86,5 @@ Como prefixos CIDR de comprimentos diferentes podem se sobrepor legitimamente, u
 
 ## Documentation Links
 
-- [Stanford CS144 — Lecture Schedule ("IP and Forwarding")](https://www.scs.stanford.edu/10au-cs144/sched/): uma palestra de curso real cobrindo o encaminhamento IP diretamente, imediatamente após o endereçamento.
-- [Kurose & Ross — Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre encaminhamento por correspondência de prefixo mais longo.
+- [Stanford CS144: Lecture Schedule ("IP and Forwarding")](https://www.scs.stanford.edu/10au-cs144/sched/): uma palestra de curso real cobrindo o encaminhamento IP diretamente, imediatamente após o endereçamento.
+- [Kurose & Ross: Computer Networking: A Top-Down Approach (official companion site)](https://gaia.cs.umass.edu/kurose_ross/index.php): o tratamento do livro-texto padrão sobre encaminhamento por correspondência de prefixo mais longo.

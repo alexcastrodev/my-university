@@ -65,5 +65,5 @@ A inserção na árvore B+ encontra a folha alvo exatamente como a busca faria, 
 
 ## Documentation Links
 
-- [CMU 15-445/645 — Indexes & Filters I Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/08-indexes1.pdf): cobre os invariantes da árvore B+ que o algoritmo de divisão deste conceito é construído para preservar, trazidos do conceito de estrutura-e-busca.
-- [CMU 15-445/645 — Indexes & Filters II Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf): a fonte do próprio algoritmo de inserção deste conceito, incluindo a distinção copiar-para-cima (divisão de folha) vs. empurrar-para-cima (divisão de nó interno) trabalhada nos exemplos.
+- [CMU 15-445/645: Indexes & Filters I Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/08-indexes1.pdf): cobre os invariantes da árvore B+ que o algoritmo de divisão deste conceito é construído para preservar, trazidos do conceito de estrutura-e-busca.
+- [CMU 15-445/645: Indexes & Filters II Slides](https://15445.courses.cs.cmu.edu/fall2025/slides/09-indexes2.pdf): a fonte do próprio algoritmo de inserção deste conceito, incluindo a distinção copiar-para-cima (divisão de folha) vs. empurrar-para-cima (divisão de nó interno) trabalhada nos exemplos.
