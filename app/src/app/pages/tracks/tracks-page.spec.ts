@@ -44,6 +44,11 @@ describe('TracksPage', () => {
     }
   });
 
+  it('keeps a space between the concept count and its label', () => {
+    const meta = cards(render())[1].querySelector('.meta')!;
+    expect(meta.textContent).toMatch(/^\s*\d+\s+\S+/);
+  });
+
   it('filters by the search text', () => {
     const fixture = render();
     const input: HTMLInputElement = fixture.nativeElement.querySelector('.search');
