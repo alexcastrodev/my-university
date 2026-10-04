@@ -630,5 +630,50 @@
       }
     ],
     "id": 13
+  },
+  {
+    "slug": "in-memory-queues-with-channels",
+    "title": "In-Memory Queues with Channels",
+    "topic": "Background Jobs",
+    "summary": "Bounded Channel<T>, BoundedChannelFullMode, an endpoint as producer and a BackgroundService as consumer, and what a restart loses.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Concurrency Utilities: Executors and Synchronizers",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Channels, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels",
+        "type": "doc"
+      },
+      {
+        "label": "BoundedChannelFullMode enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.channels.boundedchannelfullmode",
+        "type": "doc"
+      },
+      {
+        "label": "Queue background tasks with a hosted service, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/queue-service",
+        "type": "doc"
+      },
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      }
+    ],
+    "id": 14
   }
 ]
