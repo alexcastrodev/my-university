@@ -580,5 +580,307 @@
       }
     ],
     "id": 12
+  },
+  {
+    "slug": "hosted-services-and-backgroundservice",
+    "title": "Hosted Services and BackgroundService",
+    "topic": "Background Jobs",
+    "summary": "IHostedService vs BackgroundService, unhandled exceptions that stop the host, scoped services through IServiceScopeFactory, PeriodicTimer, and graceful shutdown.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "Background Jobs, Idempotency, and Fan-Out",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Worker Services in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/workers",
+        "type": "doc"
+      },
+      {
+        "label": "Generic Host, shutdown and HostOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: Unhandled exceptions from a BackgroundService, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/hosting-exception-handling",
+        "type": "doc"
+      },
+      {
+        "label": "PeriodicTimer class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.periodictimer",
+        "type": "doc"
+      }
+    ],
+    "id": 13
+  },
+  {
+    "slug": "in-memory-queues-with-channels",
+    "title": "In-Memory Queues with Channels",
+    "topic": "Background Jobs",
+    "summary": "Bounded Channel<T>, BoundedChannelFullMode, an endpoint as producer and a BackgroundService as consumer, and what a restart loses.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "hosted-services-and-backgroundservice"
+    ],
+    "related": [
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Concurrency Utilities: Executors and Synchronizers",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Channels, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels",
+        "type": "doc"
+      },
+      {
+        "label": "BoundedChannelFullMode enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.channels.boundedchannelfullmode",
+        "type": "doc"
+      },
+      {
+        "label": "Queue background tasks with a hosted service, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/queue-service",
+        "type": "doc"
+      },
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      }
+    ],
+    "id": 14
+  },
+  {
+    "slug": "durable-jobs-hangfire-and-quartz",
+    "title": "Durable Jobs with Hangfire and Quartz.NET",
+    "topic": "Background Jobs",
+    "summary": "Persistent job storage, retries, idempotency under at-least-once delivery, recurring jobs, and passing IDs instead of entities.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "in-memory-queues-with-channels"
+    ],
+    "related": [
+      {
+        "label": "Background Jobs, Idempotency, and Fan-Out",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "The Transactional Outbox Pattern",
+        "slug": "outbox-pattern",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire documentation",
+        "url": "https://docs.hangfire.io/en/latest/",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire, dealing with exceptions and automatic retries",
+        "url": "https://docs.hangfire.io/en/latest/background-processing/dealing-with-exceptions.html",
+        "type": "doc"
+      },
+      {
+        "label": "Hangfire, writing reliable jobs",
+        "url": "https://docs.hangfire.io/en/latest/background-methods/writing-reliable-jobs.html",
+        "type": "doc"
+      },
+      {
+        "label": "Quartz.NET documentation",
+        "url": "https://www.quartz-scheduler.net/documentation/",
+        "type": "doc"
+      }
+    ],
+    "id": 15
+  },
+  {
+    "slug": "task-and-async-await-internals",
+    "title": "Task and async/await Internals",
+    "topic": "Concurrency",
+    "summary": "The compiler state machine, SynchronizationContext and ConfigureAwait, deadlocks with .Result, async void, and the rules of ValueTask.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Thread Model: Legacy vs Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO Servers and Async",
+        "slug": "nio-servers-and-async",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Asynchronous programming with async and await, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/",
+        "type": "doc"
+      },
+      {
+        "label": "Task asynchronous programming model (TAP), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap",
+        "type": "doc"
+      },
+      {
+        "label": "ValueTask<TResult> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask-1",
+        "type": "doc"
+      },
+      {
+        "label": "ConfigureAwait FAQ, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core best practices, avoid blocking calls, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices#avoid-blocking-calls",
+        "type": "doc"
+      }
+    ],
+    "id": 16
+  },
+  {
+    "slug": "data-parallelism-parallel-and-plinq",
+    "title": "Data Parallelism: Parallel and PLINQ",
+    "topic": "Concurrency",
+    "summary": "CPU-bound vs I/O-bound work, Parallel.ForEachAsync, PLINQ, localInit and localFinally, and when parallel code gets slower.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multithreaded Algorithms: Work and Span Analysis",
+        "slug": "multithreaded-algorithms-work-span-analysis",
+        "feature": "algorithms-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Data parallelism (Task Parallel Library), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/data-parallelism-task-parallel-library",
+        "type": "doc"
+      },
+      {
+        "label": "How to write a Parallel.For loop with thread-local variables, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-write-a-parallel-for-loop-with-thread-local-variables",
+        "type": "doc"
+      },
+      {
+        "label": "Parallel.ForEachAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync",
+        "type": "doc"
+      },
+      {
+        "label": "Parallel LINQ (PLINQ), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/introduction-to-plinq",
+        "type": "doc"
+      },
+      {
+        "label": "Potential pitfalls in data and task parallelism, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/potential-pitfalls-in-data-and-task-parallelism",
+        "type": "doc"
+      }
+    ],
+    "id": 17
+  },
+  {
+    "slug": "coordinating-concurrent-work",
+    "title": "Coordinating Concurrent Work",
+    "topic": "Concurrency",
+    "summary": "Cancellation and timeouts, throttling with SemaphoreSlim, fan-out and fan-in with Channels, TaskCompletionSource, and ConcurrentDictionary.GetOrAdd pitfalls.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "task-and-async-await-internals"
+    ],
+    "related": [
+      {
+        "label": "Structured Concurrency",
+        "slug": "structured-concurrency",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Cancellation in managed threads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads",
+        "type": "doc"
+      },
+      {
+        "label": "Task.WaitAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync",
+        "type": "doc"
+      },
+      {
+        "label": "TimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider",
+        "type": "doc"
+      },
+      {
+        "label": "SemaphoreSlim, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim",
+        "type": "doc"
+      },
+      {
+        "label": "System.Threading.Channels, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/channels",
+        "type": "doc"
+      },
+      {
+        "label": "TaskCompletionSource, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1",
+        "type": "doc"
+      },
+      {
+        "label": "ConcurrentDictionary.GetOrAdd, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd",
+        "type": "doc"
+      }
+    ],
+    "id": 18
   }
 ]
