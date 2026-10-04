@@ -19,6 +19,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'algorithms-concepts': [$localize`:@@area.group.algorithms:Algorithms`],
   'ruby-concepts': ['Ruby'],
   'rubyonrails-concepts': ['Ruby', 'Rails'],
+  'dotnet-concepts': ['.NET'],
 };
 
 export const COMPUTER_SCIENCE_LABEL = $localize`:@@header.nav.computerScience:Computer Science`;

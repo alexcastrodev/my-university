@@ -22,6 +22,7 @@ const AREA_ICONS: Record<string, string> = {
   'kubernetes-concepts': '☸️',
   'ruby-concepts': '💎',
   'rubyonrails-concepts': '🛤️',
+  'dotnet-concepts': '🟣',
   'database-concepts': '🗄️',
   'system-design-concepts': '🧩',
   'algorithms-concepts': '📈',

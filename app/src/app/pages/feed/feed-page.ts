@@ -57,6 +57,7 @@ export class FeedPage implements OnInit {
     { area: 'algorithms', label: $localize`:@@area.group.algorithms:Algorithms` },
     { area: 'quarkus', label: 'Quarkus' },
     { area: 'ruby', label: 'Ruby' },
+    { area: 'dotnet', label: '.NET' },
   ];
 
   /** Summary lines drawn by the first-load placeholder card. */

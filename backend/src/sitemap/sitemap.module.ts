@@ -10,6 +10,7 @@ import { QuarkusConceptsModule } from '../quarkus-concepts/quarkus-concepts.modu
 import { KubernetesConceptsModule } from '../kubernetes-concepts/kubernetes-concepts.module';
 import { RubyConceptsModule } from '../ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from '../rubyonrails-concepts/rubyonrails-concepts.module';
+import { DotNetConceptsModule } from '../dotnet-concepts/dotnet-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
@@ -29,6 +30,7 @@ import { SitemapService } from './sitemap.service';
     ExamModule,
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
+    DotNetConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
     CurriculumModule,

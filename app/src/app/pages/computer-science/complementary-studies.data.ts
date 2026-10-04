@@ -89,6 +89,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'An applied framework example',
   },
   {
+    slug: 'dotnet-concepts',
+    apiBase: '/api/dotnet-concepts',
+    title: '.NET',
+    routerLink: '/dotnet-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'An applied framework example',
+  },
+  {
     slug: 'database-concepts',
     apiBase: '/api/database-concepts',
     title: 'Database Concepts',

@@ -10,6 +10,7 @@ import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.ser
 import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
+import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -41,6 +42,7 @@ export class SitemapService {
     private readonly exam: ExamService,
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
+    private readonly dotNetConcepts: DotNetConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
     private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly curriculum: CurriculumService,
@@ -92,6 +94,9 @@ export class SitemapService {
         '/rubyonrails-concepts',
         this.rubyOnRailsConcepts.findAll(),
       ),
+    );
+    urls.push(
+      ...this.listSection('/dotnet-concepts', this.dotNetConcepts.findAll()),
     );
     urls.push(
       ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),
