@@ -725,5 +725,52 @@
       }
     ],
     "id": 15
+  },
+  {
+    "slug": "task-and-async-await-internals",
+    "title": "Task and async/await Internals",
+    "topic": "Concurrency",
+    "summary": "The compiler state machine, SynchronizationContext and ConfigureAwait, deadlocks with .Result, async void, and the rules of ValueTask.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Thread Model: Legacy vs Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO Servers and Async",
+        "slug": "nio-servers-and-async",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Asynchronous programming with async and await, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/",
+        "type": "doc"
+      },
+      {
+        "label": "Task asynchronous programming model (TAP), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap",
+        "type": "doc"
+      },
+      {
+        "label": "ValueTask<TResult> struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask-1",
+        "type": "doc"
+      },
+      {
+        "label": "ConfigureAwait FAQ, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core best practices, avoid blocking calls, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices#avoid-blocking-calls",
+        "type": "doc"
+      }
+    ],
+    "id": 16
   }
 ]
