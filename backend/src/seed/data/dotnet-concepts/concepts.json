@@ -483,5 +483,52 @@
       }
     ],
     "id": 10
+  },
+  {
+    "slug": "ef-core-migrations-workflow",
+    "title": "EF Core Migrations Workflow",
+    "topic": "Migrations",
+    "summary": "The model snapshot, reviewing generated SQL (a rename that becomes drop and add), data changes in migrationBuilder.Sql, and snapshot conflicts between branches.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Zero-Downtime Schema Migrations",
+        "slug": "zero-downtime-schema-migrations",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "Flyway Integration with Hibernate ORM",
+        "slug": "flyway-integration-with-hibernate-orm",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrations overview, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/",
+        "type": "doc"
+      },
+      {
+        "label": "Customizing migration code, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing",
+        "type": "doc"
+      },
+      {
+        "label": "Working with multiple providers and design-time context creation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dbcontext-creation",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference (.NET CLI), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Data seeding, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding",
+        "type": "doc"
+      }
+    ],
+    "id": 11
   }
 ]
