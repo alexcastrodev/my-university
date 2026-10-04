@@ -100,5 +100,60 @@
       }
     ],
     "id": 2
+  },
+  {
+    "slug": "dictionary-hashset-and-equality",
+    "title": "Dictionary, HashSet, and Equality",
+    "topic": "Collections",
+    "summary": "Buckets, the Equals and GetHashCode contract, the mutable key bug, IEqualityComparer, and records as keys.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "list-and-array-internals"
+    ],
+    "related": [
+      {
+        "label": "The HashMap Class",
+        "slug": "hash-map",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Dictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "Object.GetHashCode, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.object.gethashcode",
+        "type": "doc"
+      },
+      {
+        "label": "How to define value equality for a class or struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/how-to-define-value-equality-for-a-type",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for comparing strings in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Records, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionsMarshal.GetValueRefOrAddDefault, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.getvaluereforadddefault",
+        "type": "doc"
+      }
+    ],
+    "id": 3
   }
 ]
