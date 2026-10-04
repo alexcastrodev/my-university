@@ -426,6 +426,11 @@
         "type": "doc"
       },
       {
+        "label": "System.IO.Pipelines: High performance IO in .NET, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/system-io-pipelines-high-performance-io-in-net/",
+        "type": "doc"
+      },
+      {
         "label": "System.IO.Pipelines in .NET, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/pipelines",
         "type": "doc"
@@ -468,7 +473,7 @@
       },
       {
         "label": "await foreach statement, C# reference, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-await-foreach-statement",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#await-foreach",
         "type": "doc"
       },
       {
@@ -477,18 +482,23 @@
         "type": "doc"
       },
       {
-        "label": "How to serialize and deserialize JSON, streaming with IAsyncEnumerable, System.Text.Json, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization#deserialize-to-iasyncenumerable",
+        "label": "Resolve errors and warnings related to async enumerables (CS8424 to CS8426), C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/foreach-diagnostics",
         "type": "doc"
       },
       {
-        "label": "Minimal APIs, responses, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "label": "Supported types in System.Text.Json, IAsyncEnumerable<T> streaming, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/supported-types#iasyncenumerablet",
         "type": "doc"
       },
       {
-        "label": "What is new in .NET 10 libraries, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "label": "Breaking change: MVC no longer buffers IAsyncEnumerable types, ASP.NET Core 6, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/6/iasyncenumerable-not-buffered-by-mvc",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncEnumerable class (System.Linq), .NET API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.asyncenumerable",
         "type": "doc"
       }
     ],
@@ -596,6 +606,11 @@
       {
         "label": "What's new in C# 13, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "Lock statement errors and warnings (CS9216), C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/lock-semantics",
         "type": "doc"
       },
       {

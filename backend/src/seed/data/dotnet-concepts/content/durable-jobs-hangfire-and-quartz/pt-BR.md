@@ -95,12 +95,17 @@ public sealed class NightlyReportJob(IReports reports) : IJob
 }
 ```
 
-Um misfire acontece quando um trigger estava vencido mas nenhum nó estava livre
-para executá-lo, por exemplo durante uma indisponibilidade. A instrução de
-misfire diz o que fazer depois: rodar agora uma vez (`FireAndProceed`), pular para
-o próximo horário agendado ou rodar todos os disparos perdidos. Para uma
-configuração persistente e em cluster, você configura um ADO job store contra o
-seu banco na mesma chamada de `AddQuartz`.
+Um misfire acontece quando um trigger persistente perde seu horário de disparo
+porque o scheduler estava desligado ou nenhuma thread estava livre. A instrução de
+misfire diz o que fazer depois: rodar uma vez agora (`FireAndProceed`), pular para
+o próximo horário agendado (`DoNothing`) ou rodar todos os disparos perdidos
+(`IgnoreMisfires`). Os nomes dos métodos do builder acima existem no Quartz.NET 3.x
+(`WithMisfireHandlingInstructionIgnoreMisfires`, `...DoNothing`,
+`...FireAndProceed`). O branch main os substitui por
+`WithMisfireInstruction(CronTriggerMisfireInstruction)`, então confira a API da
+versão que você usa. Para uma configuração persistente e em
+cluster, você configura um ADO job store contra o seu banco na mesma chamada de
+`AddQuartz` (`UsePersistentStore` com `UseClustering`).
 
 ### Escolhendo entre os dois
 
@@ -174,5 +179,5 @@ dela, fecha essa brecha.
 - [Background tasks with hosted services in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services) (doc)
 - [Hangfire documentation](https://docs.hangfire.io/en/latest/) (doc)
 - [Hangfire, dealing with exceptions and automatic retries](https://docs.hangfire.io/en/latest/background-processing/dealing-with-exceptions.html) (doc)
-- [Hangfire, writing reliable jobs](https://docs.hangfire.io/en/latest/background-methods/writing-reliable-jobs.html) (doc)
+- [Hangfire, best practices (reentrancy, idempotency, small job arguments)](https://docs.hangfire.io/en/latest/best-practices.html) (doc)
 - [Quartz.NET documentation](https://www.quartz-scheduler.net/documentation/) (doc)

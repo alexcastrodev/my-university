@@ -49,9 +49,11 @@ void Stop() => _stop = true;         // outra thread
 ```
 
 O modelo de memória do .NET é permissivo: leituras e escritas podem ser
-reordenadas desde que uma única thread não perceba a diferença. O hardware x64
-é bastante rígido, então algumas reordenações nunca acontecem nele e escondem
-bugs. O ARM64 é mais fraco, e o mesmo código pode se comportar mal nele. Um
+reordenadas desde que uma única thread não perceba a diferença. A documentação
+diz apenas que compiladores e processadores podem reordenar operações de memória.
+Na prática, o hardware x64 é bastante rígido, então algumas reordenações nunca
+acontecem nele e escondem bugs, enquanto o ARM64 é mais fraco e o mesmo código
+pode se comportar mal nele. Um
 teste que passa em x64 prova menos do que parece.
 
 ### volatile, Volatile.Read e Volatile.Write
@@ -84,7 +86,13 @@ O que `volatile` não dá: read-modify-write atômico (`_count++` continua sendo
 uma leitura, uma soma e uma escrita) e ordenação entre uma escrita e a leitura
 de uma variável diferente. Acquire e release juntos ainda permitem que esse par
 seja trocado de lugar, que é exatamente o que quebra algoritmos no estilo
-Dekker, do tipo "ligo a minha flag, depois confiro a sua".
+Dekker, do tipo "ligo a minha flag, depois confiro a sua". O `volatile` também não
+garante que uma leitura veja o último valor escrito por outro processador, nem uma
+ordem total única das escritas voláteis vista por todas as threads. A documentação
+alerta que o `volatile` é muito mal usado e aponta `Interlocked`, `lock` e
+primitivas de nível mais alto como o padrão mais seguro. Com `Volatile.Read` e
+`Volatile.Write` a garantia vale para um acesso por vez, então todo acesso ao campo
+precisa passar por eles para sincronizá-lo.
 
 ### Publicando uma vez: double-checked locking ou Lazy
 
@@ -132,8 +140,10 @@ Settings Settings => LazyInitializer.EnsureInitialized(ref _settings, Load);
 ### Interlocked e barreiras
 
 `Interlocked.Increment`, `Exchange` e `CompareExchange` são operações
-read-modify-write atômicas, e também funcionam como barreiras de memória
-completas: nada atravessa por elas em nenhuma direção. Isso as torna a
+read-modify-write atômicas. Nos runtimes atuais elas também funcionam como
+barreiras de memória completas, então nada atravessa por elas em nenhuma direção,
+embora a documentação de `Interlocked` não prometa isso e ofereça
+`MemoryBarrier()` para uma barreira explícita. Isso as torna a
 ferramenta certa para um contador compartilhado ou uma flag reivindicada por
 exatamente uma thread:
 
@@ -167,9 +177,7 @@ começam no valor padrão. `ThreadLocal<T>` recebe uma factory que roda uma vez
 por thread. `AsyncLocal<T>` acompanha o `ExecutionContext`, então seu valor
 atravessa o `await` mesmo quando a continuação roda em outra thread, e um
 `Task.Run` ou `ThreadPool.QueueUserWorkItem` iniciado a partir desse fluxo herda
-uma cópia. Uma mudança feita dentro de quem é chamado não fica visível para quem
-chamou depois que a chamada retorna, porque cada chamada assíncrona restaura o
-contexto de quem chamou.
+uma cópia. Na prática, uma mudança feita dentro de um método assíncrono chamado não fica visível para quem chamou depois que a chamada retorna, porque o contexto de quem chamou é restaurado (as páginas oficiais não afirmam isso; é comportamento observado, então confirme com um teste pequeno).
 
 ```csharp
 s_correlationId.Value = "req-42";

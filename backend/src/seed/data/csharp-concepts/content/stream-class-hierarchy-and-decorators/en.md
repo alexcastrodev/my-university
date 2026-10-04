@@ -77,7 +77,7 @@ stream.ReadExactly(header);                 // throws EndOfStreamException if th
 await stream.ReadExactlyAsync(header, ct);
 ```
 
-Use `ReadAtLeast` when a minimum is enough but you want to fill a larger buffer.
+Use `ReadAtLeast(buffer, minimumBytes, throwOnEndOfStream = true)` when a minimum is enough but you want to fill a larger buffer. It returns at least `minimumBytes` bytes, or throws `EndOfStreamException` if the stream ends first (with `throwOnEndOfStream: false` it returns fewer instead).
 
 ### Ownership: who disposes the inner stream
 
@@ -132,9 +132,7 @@ string line = await reader.ReadLineAsync(ct) ?? "";
 
 ### Async file access
 
-A `FileStream` opened without the async flag still has `ReadAsync`, but it runs
-the synchronous call on a thread-pool thread. Open it for asynchronous I/O to
-use the operating system's async support:
+A `FileStream` opened without `FileOptions.Asynchronous` (the default is `None`, which the docs describe as synchronous I/O) still has `ReadAsync`, but it is not backed by the operating system's async support. Open it with the flag to use that support:
 
 ```csharp
 await using var fs = new FileStream("big.bin", new FileStreamOptions
@@ -167,9 +165,7 @@ code, because `DisposeAsync` can flush buffered data without blocking.
 - **`MemoryStream` hides large allocations.** It grows by doubling, and a
   100 MB payload held in one makes a 100 MB array plus intermediate copies. For
   large or unbounded data, copy straight from the source to the destination.
-- **Async on a synchronous `FileStream` is not really async.** It keeps a
-  thread-pool thread busy for each call, so on a busy server the benefit is
-  smaller than it looks. The cost of the async flag is slightly more overhead for
+- **Async on a synchronous `FileStream` is not really async.** The documented default is synchronous I/O, so the benefit on a busy server can be smaller than it looks. The cost of the async flag is slightly more overhead for
   tiny reads, so use it for large or slow files.
 
 ## Documentation Links

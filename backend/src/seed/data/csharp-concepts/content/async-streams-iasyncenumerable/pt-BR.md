@@ -65,9 +65,13 @@ await foreach (var line in lines.WithCancellation(ct))
     Process(line);
 ```
 
-Sem o atributo, o token passado a `WithCancellation` é ignorado em silêncio, e o
-compilador apenas emite um aviso. Se quem chama já passa um token ao método e
-também usa `WithCancellation`, os dois são combinados.
+Sem o atributo, o token passado a `WithCancellation` nunca chega ao corpo do
+iterador. O compilador avisa (CS8425) quando o método tem um parâmetro
+`CancellationToken` sem o atributo, e fica em silêncio quando o método não tem
+nenhum parâmetro de token. Se quem chama já passa um token ao método e também
+usa `WithCancellation`, os dois são combinados num token vinculado (linked).
+Marque só um parâmetro, porque um segundo `[EnumeratorCancellation]` é um erro
+(CS8426).
 
 ### `ConfigureAwait` e descarte
 
@@ -89,9 +93,12 @@ vez de chamar `GetAsyncEnumerator` à mão e esquecer de descartá-lo.
 ### Streaming de JSON a partir de um endpoint
 
 Um endpoint de minimal API pode devolver `IAsyncEnumerable<T>`. O
-`System.Text.Json` escreve o array de forma incremental, então o cliente começa
-a receber itens enquanto o servidor ainda produz o resto, e o servidor nunca
-guarda o resultado inteiro:
+`System.Text.Json` serializa um `IAsyncEnumerable<T>` como um array JSON, e o MVC
+deixou de fazer buffer desses resultados no ASP.NET Core 6, então os itens saem
+conforme chegam e o servidor nunca guarda o resultado inteiro. A documentação
+afirma isso para o `System.Text.Json` e para o MVC. Ela não diz isso
+explicitamente para minimal APIs, que usam o mesmo serializador, então confirme
+com um produtor lento na versão que você usa:
 
 ```csharp
 app.MapGet("/orders/export", (OrdersDbContext db) =>
@@ -111,11 +118,12 @@ um array JSON grande um de cada vez.
 ### LINQ sobre streams assíncronos
 
 Os operadores LINQ síncronos não funcionam em `IAsyncEnumerable<T>`. Até pouco
-tempo isso significava o pacote NuGet `System.Linq.Async`. De memória, o .NET 10
-traz os mesmos operadores assíncronos na biblioteca base como
-`System.Linq.AsyncEnumerable`, então `Where`, `Select`, `ToListAsync` e afins
-funcionam sem o pacote extra. Confira a versão que o seu projeto usa antes de
-depender disso.
+tempo isso significava o pacote NuGet `System.Linq.Async`. Desde o .NET 10, a
+biblioteca base traz operadores assíncronos como `System.Linq.AsyncEnumerable`,
+então `Where`, `Select`, `ToListAsync` e afins funcionam sem o pacote extra. O
+pacote e o tipo da biblioteca base têm o mesmo nome, então um projeto que ainda
+referencia `System.Linq.Async` recebe chamadas ambíguas no .NET 10 e deve
+remover a referência. A versão da biblioteca base abandona os operadores `...Await` do `System.Linq.Async`: segundo a página de breaking change do .NET 10, `SelectAwait(async (i, ct) => ...)` vira `Select(async (int i, CancellationToken ct) => ...)`, então esses pontos de chamada precisam de uma pequena reescrita.
 
 ```csharp
 var big = await ReadOrdersAsync(ct)
@@ -160,8 +168,9 @@ var big = await ReadOrdersAsync(ct)
 ## Documentation Links
 
 - [Asynchronous streams (IAsyncEnumerable), C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/generate-consume-asynchronous-stream) (doc)
-- [await foreach statement, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-await-foreach-statement) (doc)
+- [await foreach statement, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#await-foreach) (doc)
 - [EnumeratorCancellationAttribute, .NET API, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute) (doc)
-- [How to serialize and deserialize JSON, streaming with IAsyncEnumerable, System.Text.Json, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization#deserialize-to-iasyncenumerable) (doc)
-- [Minimal APIs, responses, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses) (doc)
-- [What is new in .NET 10 libraries, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries) (doc)
+- [Resolve errors and warnings related to async enumerables (CS8424 to CS8426), C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/foreach-diagnostics) (doc)
+- [Supported types in System.Text.Json, IAsyncEnumerable<T> streaming, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/supported-types#iasyncenumerablet) (doc)
+- [Breaking change: MVC no longer buffers IAsyncEnumerable types, ASP.NET Core 6, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/6/iasyncenumerable-not-buffered-by-mvc) (doc)
+- [AsyncEnumerable class (System.Linq), .NET API, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.linq.asyncenumerable) (doc)

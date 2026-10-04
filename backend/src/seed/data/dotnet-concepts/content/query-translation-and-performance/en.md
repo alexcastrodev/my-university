@@ -29,7 +29,7 @@ without the cost of a growing offset.
 
 Operators EF Core knows become SQL. Anything else in the filter or ordering
 throws, instead of silently loading the table and filtering in memory (the old
-behavior in EF Core 2). The one place client evaluation is still allowed is the
+behavior before EF Core 3.0). The one place client evaluation is still allowed is the
 final projection:
 
 ```csharp
@@ -62,14 +62,16 @@ walks the expression tree to find parameters and the cache entry. For a hot
 path, `EF.CompileAsyncQuery` does that work once:
 
 ```csharp
-private static readonly Func<OrdersDbContext, OrderId, CancellationToken, Task<Order?>> GetOrder =
-    EF.CompileAsyncQuery((OrdersDbContext db, OrderId id, CancellationToken ct) =>
-        db.Orders.SingleOrDefault(o => o.Id == id));
+private static readonly Func<OrdersDbContext, int, CancellationToken, Task<Order?>> GetByNumber =
+    EF.CompileAsyncQuery((OrdersDbContext db, int number, CancellationToken ct) =>
+        db.Orders.SingleOrDefault(o => o.Number == number));
 
-var order = await GetOrder(db, id, ct);
+var order = await GetByNumber(db, number, ct);
 ```
 
-Measure first. The gain is real only for very frequent, simple queries, and it
+Measure first. The gain is real only for very frequent, simple queries, the
+documentation limits compiled-query parameters to simple scalars (which is why
+the parameter here is an `int` and not a strongly-typed ID), and it
 makes the code harder to read.
 
 ### Bulk updates and deletes
@@ -111,6 +113,9 @@ var evil = await db.Products
     .ToListAsync(ct);
 ```
 
+Since EF Core 10, an analyzer warns when you concatenate strings inside a raw SQL
+method like `FromSqlRaw`.
+
 ### Keyset pagination
 
 `Skip(n)` makes the database read and discard `n` rows, so page 500 costs far
@@ -141,10 +146,12 @@ var page = await db.Orders
 - **Offset paging is simple and gets slower.** It supports "jump to page 37",
   which keyset paging cannot, so keyset fits feeds and exports, not numbered
   pagination.
-- **Raw SQL ties the query to one database.** It also stops composing:
-  appending `Include` or filters to a query that ends in a stored procedure or
-  uses `ORDER BY` inside does not always work, so keep raw SQL for the cases
-  LINQ cannot express.
+- **Raw SQL ties the query to one database.** Composing LINQ over it also needs
+  a composable `SELECT`: EF Core wraps your SQL as a subquery, so a stored
+  procedure call, a trailing semicolon, or (on SQL Server) an `ORDER BY` without
+  `TOP` or `OFFSET` breaks the composed query. After a stored procedure, call
+  `AsEnumerable` or `AsAsyncEnumerable` right after `FromSql`. Keep raw SQL for
+  the cases LINQ cannot express.
 
 ## Documentation Links
 

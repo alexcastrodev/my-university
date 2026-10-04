@@ -48,14 +48,15 @@ Catalog table, the fake cannot satisfy it and the test fails.
 
 ### A real database per test class
 
-Use a throwaway container for the module's schema. The in-memory EF provider
-does not enforce constraints, translate SQL, or honor transactions, so it can
-pass tests that fail against PostgreSQL:
+Use a throwaway container for the module's schema. The EF Core docs call the
+in-memory provider highly discouraged for tests: it does not translate queries
+to SQL, does not support transactions or raw SQL, so it can pass tests that
+fail against PostgreSQL:
 
 ```csharp
 public sealed class OrdersDb : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _pg = new PostgreSqlBuilder().Build();
+    private readonly PostgreSqlContainer _pg = new PostgreSqlBuilder("postgres:17-alpine").Build();
     public string ConnectionString => _pg.GetConnectionString();
 
     public Task InitializeAsync() => _pg.StartAsync();
@@ -65,7 +66,8 @@ public sealed class OrdersDb : IAsyncLifetime
 
 Share the container across the tests of one class (xUnit's
 `IClassFixture<T>`) and reset data between tests, rather than paying a container
-start for every test.
+start for every test. The `Task` return types above are for xUnit v2; in xUnit
+v3, `InitializeAsync` and `DisposeAsync` return `ValueTask`.
 
 ### Testing events without sleeping
 
@@ -105,9 +107,11 @@ and keep it small enough that nobody is tempted to skip it.
   Add a few tests for the real contract implementation so the fake's behavior
   has something to be checked against.
 - **Containers make tests honest and slower.** A PostgreSQL container adds
-  seconds of startup and needs Docker in CI. The in-memory provider is faster
-  and wrong in exactly the places that matter (constraints, SQL translation,
-  concurrency), so use it at most for pure logic that never touches a query.
+  seconds of startup and needs Docker in CI. The EF Core docs recommend
+  testing against the real database system and call the in-memory provider
+  highly discouraged, because it behaves differently exactly where it matters
+  (query translation, transactions, raw SQL) and is not faster than a local
+  database in practice.
 - **Shared fixtures leak state between tests.** Reusing one container across a
   class is faster, but a test that leaves rows behind can break the next one in a
   way that depends on execution order.

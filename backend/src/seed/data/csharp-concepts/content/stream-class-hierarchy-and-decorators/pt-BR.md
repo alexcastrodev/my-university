@@ -80,7 +80,7 @@ stream.ReadExactly(header);                 // lança EndOfStreamException se o 
 await stream.ReadExactlyAsync(header, ct);
 ```
 
-Use `ReadAtLeast` quando um mínimo basta mas você quer encher um buffer maior.
+Use `ReadAtLeast(buffer, minimumBytes, throwOnEndOfStream = true)` quando um mínimo basta mas você quer encher um buffer maior. Ele devolve pelo menos `minimumBytes` bytes, ou lança `EndOfStreamException` se o stream acabar antes (com `throwOnEndOfStream: false` devolve menos).
 
 ### Posse: quem faz o Dispose do stream interno
 
@@ -136,9 +136,7 @@ string line = await reader.ReadLineAsync(ct) ?? "";
 
 ### Acesso assíncrono a arquivos
 
-Um `FileStream` aberto sem a flag assíncrona ainda tem `ReadAsync`, mas ele roda
-a chamada síncrona numa thread do pool. Abra-o para I/O assíncrono para usar o
-suporte assíncrono do sistema operacional:
+Um `FileStream` aberto sem `FileOptions.Asynchronous` (o padrão é `None`, que a doc descreve como I/O síncrono) ainda tem `ReadAsync`, mas ele não usa o suporte assíncrono do sistema operacional. Abra-o com a flag para usar esse suporte:
 
 ```csharp
 await using var fs = new FileStream("big.bin", new FileStreamOptions
@@ -172,9 +170,7 @@ bloquear.
 - **`MemoryStream` esconde alocações grandes.** Ele cresce dobrando, e um payload
   de 100 MB guardado nele gera um array de 100 MB mais cópias intermediárias.
   Para dados grandes ou sem limite, copie direto da origem para o destino.
-- **Async num `FileStream` síncrono não é realmente assíncrono.** Ele mantém uma
-  thread do pool ocupada a cada chamada, então num servidor movimentado o ganho é
-  menor do que parece. O custo da flag assíncrona é um pouco mais de overhead em
+- **Async num `FileStream` síncrono não é realmente assíncrono.** O padrão documentado é I/O síncrono, então num servidor movimentado o ganho pode ser menor do que parece. O custo da flag assíncrona é um pouco mais de overhead em
   leituras minúsculas, então use-a para arquivos grandes ou lentos.
 
 ## Documentation Links

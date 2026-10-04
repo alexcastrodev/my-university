@@ -54,20 +54,18 @@ affected. If the row changed, zero rows match and EF Core throws
 // 0 rows affected -> DbUpdateConcurrencyException
 ```
 
-On SQL Server the natural token is a `rowversion` column. On PostgreSQL there is
-no such column type, but every row has a system column `xmin` holding the
-transaction id of its last write, which works the same way:
+On SQL Server the natural token is a `rowversion` column, mapped to a `byte[]`
+property. On PostgreSQL there is no such column type, but every row has a system
+column `xmin` holding the transaction id of its last write, which works the same
+way. The Npgsql provider maps a `uint` property configured as a row version to
+`xmin`:
 
 ```csharp
-// SQL Server
-builder.Property(o => o.Version).IsRowVersion();
+public byte[] Version { get; set; } = [];  // SQL Server: rowversion
+public uint Version { get; set; }          // PostgreSQL (Npgsql): xmin
 
-// PostgreSQL (Npgsql)
-builder.Property<uint>("Version")
-    .HasColumnName("xmin")
-    .HasColumnType("xid")
-    .ValueGeneratedOnAddOrUpdate()
-    .IsConcurrencyToken();
+builder.Property(o => o.Version).IsRowVersion(); // same call for both providers
+// or [Timestamp] on the property
 ```
 
 A plain `[ConcurrencyCheck]` on a regular property works as well, as long as
@@ -144,6 +142,12 @@ outside the transaction, such as sending an email, inside it.
 - **Repeating the unit of work repeats its side effects.** If the lambda calls an
   external service and then fails on commit, the retry calls it again, so
   external calls need idempotency keys or belong after the commit.
+- **A failure during commit leaves the outcome unknown.** If the connection
+  drops while the transaction is committing, the strategy retries as if it had
+  rolled back, which can duplicate a row with a store-generated key. The
+  documentation suggests client-generated keys such as a `Guid` (so a duplicate
+  fails instead of inserting twice), or verifying the result with
+  `ExecuteInTransactionAsync` and its `verifySucceeded` delegate.
 
 ## Documentation Links
 

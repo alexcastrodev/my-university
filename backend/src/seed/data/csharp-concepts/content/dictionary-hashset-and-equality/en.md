@@ -30,8 +30,8 @@ and an index of the next entry in the same bucket). `buckets` maps a bucket
 number, computed from the hash code, to the first entry of that bucket. A lookup
 computes the hash, picks the bucket, then walks the short chain comparing hash
 codes and calling `Equals`. When the entries array is full, the collection
-allocates larger arrays (the size is a prime number, roughly double) and
-re-inserts everything, which is why adding many items to a dictionary also
+allocates larger arrays (an implementation detail: today the size is a prime
+number, roughly double) and re-inserts everything, which is why adding many items to a dictionary also
 benefits from a capacity hint:
 
 ```csharp
@@ -57,7 +57,7 @@ The rules, in order of how often they are broken:
 - `Equals` must be reflexive, symmetric, and transitive, and `x.Equals(null)`
   must return false.
 - A hash code is only valid inside one running process. It may differ between
-  runs (string hashes are randomized), so never store it in a file or database.
+  runs, versions, and platforms (the docs say string hash codes are not stable), so never store it in a file or database.
 
 Overriding `Equals` without `GetHashCode` makes the compiler warn, and it is a
 real bug: the dictionary compares hash codes first, so two "equal" objects land

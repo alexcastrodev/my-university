@@ -35,7 +35,7 @@ instance at once throws:
 // Wrong: two operations on one context at the same time.
 var a = db.Orders.ToListAsync(ct);
 var b = db.Customers.ToListAsync(ct);
-await Task.WhenAll(a, b); // InvalidOperationException: a second operation was started
+await Task.WhenAll(a, b); // InvalidOperationException: A second operation started on this context before a previous operation completed
 
 // Right: await each one, or give each task its own context from a factory.
 var orders = await db.Orders.ToListAsync(ct);

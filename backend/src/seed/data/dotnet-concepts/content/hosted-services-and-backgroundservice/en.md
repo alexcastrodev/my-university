@@ -65,7 +65,7 @@ the stop handling for free.
 
 ### An unhandled exception stops the host
 
-Since .NET 6, an exception that escapes `ExecuteAsync` is logged as critical
+Since .NET 6, an exception that escapes `ExecuteAsync` is logged
 and the host stops (`BackgroundServiceExceptionBehavior.StopHost`, the default).
 Before that, the exception was swallowed and the service silently stopped
 working while the application kept running. Catch what you can recover from
@@ -100,11 +100,13 @@ previous one is still running.
 ### Startup and graceful shutdown
 
 The host calls `StartAsync` on each hosted service in registration order and
-waits for it. For a `BackgroundService`, `StartAsync` runs `ExecuteAsync` up to
-its first real `await` and then returns, so synchronous work at the top of
-`ExecuteAsync` blocks the startup of every service after it. Newer runtime
-versions may relax this, so check the release notes of the version you target,
-but an `ExecuteAsync` that yields early is safe on all of them:
+waits for it. On .NET 8 and 9, a `BackgroundService` runs `ExecuteAsync` inside
+`StartAsync` up to its first real `await`, so synchronous work at the top of
+`ExecuteAsync` blocks the startup of every service after it. On .NET 10 the
+documentation says `ExecuteAsync` is called on the thread pool, so that work no
+longer holds up the other services. A custom `StartAsync` override still blocks,
+because hosted services start sequentially. An `ExecuteAsync` that yields early
+is safe on every version:
 
 ```csharp
 protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -140,10 +142,10 @@ builder.Services.Configure<HostOptions>(o => o.ShutdownTimeout = TimeSpan.FromSe
   request handling for the same thread pool, so heavy or independently scaled
   work belongs in a separate Worker Service deployment.
 - **A long synchronous `StartAsync` delays readiness.** The app does not accept
-  requests until every hosted service has started, so slow initialization at the
-  top of `ExecuteAsync` shows up as slow deployments.
+  requests until every hosted service has started, so slow work in `StartAsync`,
+  or at the top of `ExecuteAsync` on .NET 8 and 9, shows up as slow deployments.
   ```csharp
-  await Task.Yield(); // without this, a 40 second warm-up delays the whole host by 40 seconds
+  await Task.Yield(); // on .NET 8 and 9, without this a 40 second warm-up delays the whole host by 40 seconds
   ```
 - **The shutdown timeout is a hard stop.** Work still running when it expires is
   abandoned, so anything that must not be lost needs to be durable (a database

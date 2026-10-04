@@ -86,7 +86,7 @@ if (_gate.TryEnter())
 
 For new code on .NET 9 and later, including .NET 10, declare the field as `Lock`
 rather than `object`. Do not cast it to `object` and lock on that: the compiler
-then falls back to `Monitor` semantics, and recent compilers warn about it.
+then falls back to `Monitor` semantics, and the compiler warns about it (CS9216). A `Lock` is also re-entrant on the same thread, and every `Enter` needs a matching `Exit`; exiting from a different thread than the one that entered leaves the lock in an undefined state.
 
 ### Never lock on something others can reach
 
@@ -261,6 +261,7 @@ over hand-written `Wait` and `Pulse`.
 - [lock statement, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/lock) (doc)
 - [Lock class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock) (doc)
 - [What's new in C# 13, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13) (doc)
+- [Lock statement errors and warnings (CS9216), C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/lock-semantics) (doc)
 - [Interlocked class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked) (doc)
 - [ReaderWriterLockSlim class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim) (doc)
 - [SemaphoreSlim class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim) (doc)

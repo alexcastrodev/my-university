@@ -32,7 +32,7 @@ como paginar sem o custo de um offset crescente.
 
 Operadores que o EF Core conhece viram SQL. Qualquer outra coisa no filtro ou na
 ordenação lança exceção, em vez de carregar silenciosamente a tabela e filtrar
-em memória (o comportamento antigo do EF Core 2). O único lugar onde a avaliação
+em memória (o comportamento antes do EF Core 3.0). O único lugar onde a avaliação
 no cliente ainda é permitida é a projeção final:
 
 ```csharp
@@ -65,14 +65,16 @@ ainda percorre a árvore de expressão para achar os parâmetros e a entrada do
 cache. Num caminho quente, `EF.CompileAsyncQuery` faz esse trabalho uma vez:
 
 ```csharp
-private static readonly Func<OrdersDbContext, OrderId, CancellationToken, Task<Order?>> GetOrder =
-    EF.CompileAsyncQuery((OrdersDbContext db, OrderId id, CancellationToken ct) =>
-        db.Orders.SingleOrDefault(o => o.Id == id));
+private static readonly Func<OrdersDbContext, int, CancellationToken, Task<Order?>> GetByNumber =
+    EF.CompileAsyncQuery((OrdersDbContext db, int number, CancellationToken ct) =>
+        db.Orders.SingleOrDefault(o => o.Number == number));
 
-var order = await GetOrder(db, id, ct);
+var order = await GetByNumber(db, number, ct);
 ```
 
-Meça antes. O ganho só é real em queries muito frequentes e simples, e deixa o
+Meça antes. O ganho só é real em queries muito frequentes e simples, a
+documentação limita os parâmetros de compiled queries a escalares simples (por
+isso o parâmetro aqui é um `int` e não um ID fortemente tipado), e deixa o
 código mais difícil de ler.
 
 ### Updates e deletes em massa
@@ -114,6 +116,9 @@ var evil = await db.Products
     .ToListAsync(ct);
 ```
 
+Desde o EF Core 10, um analyzer avisa quando você concatena strings dentro de um
+método de SQL cru como `FromSqlRaw`.
+
 ### Paginação por keyset
 
 `Skip(n)` faz o banco ler e descartar `n` linhas, então a página 500 custa
@@ -146,10 +151,12 @@ var page = await db.Orders
 - **Paginação por offset é simples e fica mais lenta.** Ela permite "ir para a
   página 37", o que a paginação por keyset não permite, então keyset serve para
   feeds e exportações, não para paginação numerada.
-- **SQL cru prende a query a um banco.** Ele também deixa de compor: acrescentar
-  `Include` ou filtros a uma query que termina numa stored procedure ou usa
-  `ORDER BY` por dentro nem sempre funciona, então reserve SQL cru para os casos
-  que o LINQ não consegue expressar.
+- **SQL cru prende a query a um banco.** Compor LINQ por cima dele também exige
+  um `SELECT` composável: o EF Core embrulha o seu SQL como subquery, então uma
+  chamada de stored procedure, um ponto e vírgula no fim ou (no SQL Server) um
+  `ORDER BY` sem `TOP` ou `OFFSET` quebra a query composta. Depois de uma stored
+  procedure, chame `AsEnumerable` ou `AsAsyncEnumerable` logo após o `FromSql`.
+  Reserve SQL cru para os casos que o LINQ não consegue expressar.
 
 ## Documentation Links
 

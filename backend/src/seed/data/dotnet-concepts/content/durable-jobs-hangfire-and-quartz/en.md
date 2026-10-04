@@ -92,11 +92,16 @@ public sealed class NightlyReportJob(IReports reports) : IJob
 }
 ```
 
-A misfire happens when a trigger was due but no node was free to run it, for
-example during downtime. The misfire instruction says what to do afterward: run
-now once (`FireAndProceed`), skip to the next scheduled time, or run every missed
-firing. For a persistent, clustered setup you configure an ADO job store against
-your database in the same `AddQuartz` call.
+A misfire happens when a persistent trigger misses its firing time because the
+scheduler was shut down or no thread was free. The misfire instruction says what
+to do afterward: run once now (`FireAndProceed`), skip to the next scheduled time
+(`DoNothing`), or run every missed firing (`IgnoreMisfires`). The builder method
+names above exist in Quartz.NET 3.x (`WithMisfireHandlingInstructionIgnoreMisfires`,
+`...DoNothing`, `...FireAndProceed`). The main branch replaces them with
+`WithMisfireInstruction(CronTriggerMisfireInstruction)`, so check the API of the
+version you use. For
+a persistent, clustered setup you configure an ADO job store against your
+database in the same `AddQuartz` call (`UsePersistentStore` with `UseClustering`).
 
 ### Choosing between them
 
@@ -166,5 +171,5 @@ there, closes that gap.
 - [Background tasks with hosted services in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services) (doc)
 - [Hangfire documentation](https://docs.hangfire.io/en/latest/) (doc)
 - [Hangfire, dealing with exceptions and automatic retries](https://docs.hangfire.io/en/latest/background-processing/dealing-with-exceptions.html) (doc)
-- [Hangfire, writing reliable jobs](https://docs.hangfire.io/en/latest/background-methods/writing-reliable-jobs.html) (doc)
+- [Hangfire, best practices (reentrancy, idempotency, small job arguments)](https://docs.hangfire.io/en/latest/best-practices.html) (doc)
 - [Quartz.NET documentation](https://www.quartz-scheduler.net/documentation/) (doc)

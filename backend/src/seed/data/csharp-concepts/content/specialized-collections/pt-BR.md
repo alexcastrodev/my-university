@@ -133,9 +133,8 @@ pode ser alterada.
   ```
 - **Não dá para atualizar uma prioridade no lugar.** Algoritmos no estilo de
   Dijkstra costumam enfileirar uma duplicata com a prioridade melhor e ignorar as
-  entradas obsoletas quando elas saem, em vez de reduzir a antiga. Versões mais
-  recentes do .NET adicionam um método de remoção, mas ele percorre o heap, então
-  é O(n).
+  entradas obsoletas quando elas saem, em vez de reduzir a antiga. O .NET 9
+  adiciona um método `Remove`, mas ele percorre o heap, então é O(n).
 - **`LinkedList<T>` custa memória e velocidade.** Cada nó carrega duas
   referências mais o cabeçalho do objeto, e a travessia perde o cache da CPU.
   Escolha-a pelos handles de nó, não porque a operação é "inserção".

@@ -55,20 +55,18 @@ linhas foram afetadas. Se a linha mudou, nenhuma linha casa e o EF Core lança
 // 0 linhas afetadas -> DbUpdateConcurrencyException
 ```
 
-No SQL Server, o token natural é uma coluna `rowversion`. No PostgreSQL não há
-esse tipo de coluna, mas toda linha tem uma coluna de sistema `xmin` com o id da
-transação da última escrita, que funciona do mesmo jeito:
+No SQL Server, o token natural é uma coluna `rowversion`, mapeada para uma
+propriedade `byte[]`. No PostgreSQL não há esse tipo de coluna, mas toda linha
+tem uma coluna de sistema `xmin` com o id da transação da última escrita, que
+funciona do mesmo jeito. O provider Npgsql mapeia para `xmin` uma propriedade
+`uint` configurada como row version:
 
 ```csharp
-// SQL Server
-builder.Property(o => o.Version).IsRowVersion();
+public byte[] Version { get; set; } = [];  // SQL Server: rowversion
+public uint Version { get; set; }          // PostgreSQL (Npgsql): xmin
 
-// PostgreSQL (Npgsql)
-builder.Property<uint>("Version")
-    .HasColumnName("xmin")
-    .HasColumnType("xid")
-    .ValueGeneratedOnAddOrUpdate()
-    .IsConcurrencyToken();
+builder.Property(o => o.Version).IsRowVersion(); // a mesma chamada para os dois providers
+// ou [Timestamp] na propriedade
 ```
 
 Um simples `[ConcurrencyCheck]` numa propriedade comum também funciona, desde que
@@ -147,6 +145,12 @@ efeitos colaterais fora da transação, como enviar um e-mail, dentro dela.
   chama um serviço externo e depois falha no commit, a nova tentativa o chama de
   novo, então chamadas externas precisam de chaves de idempotência ou ficam
   depois do commit.
+- **Uma falha durante o commit deixa o resultado desconhecido.** Se a conexão cai
+  enquanto a transação está confirmando, a strategy tenta de novo como se tivesse
+  sido desfeita, o que pode duplicar uma linha com chave gerada pelo banco. A
+  documentação sugere chaves geradas no cliente, como um `Guid` (assim a
+  duplicata falha em vez de inserir duas vezes), ou verificar o resultado com
+  `ExecuteInTransactionAsync` e seu delegate `verifySucceeded`.
 
 ## Documentation Links
 

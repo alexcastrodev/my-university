@@ -93,7 +93,7 @@ if (_gate.TryEnter())
 
 Em código novo no .NET 9 ou posterior, inclusive no .NET 10, declare o campo como
 `Lock` em vez de `object`. Não faça cast para `object` e trave nele: o compilador
-volta à semântica de `Monitor`, e compiladores recentes avisam sobre isso.
+volta à semântica de `Monitor`, e o compilador avisa sobre isso (CS9216). Um `Lock` também é reentrante na mesma thread, e cada `Enter` precisa de um `Exit` correspondente; sair por uma thread diferente da que entrou deixa o lock num estado indefinido.
 
 ### Nunca trave em algo que outros alcançam
 
@@ -273,6 +273,7 @@ Para código real de produtor e consumidor, prefira `Channel<T>` ou
 - [lock statement, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/lock) (doc)
 - [Lock class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock) (doc)
 - [What's new in C# 13, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13) (doc)
+- [Lock statement errors and warnings (CS9216), C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/lock-semantics) (doc)
 - [Interlocked class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked) (doc)
 - [ReaderWriterLockSlim class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim) (doc)
 - [SemaphoreSlim class, System.Threading, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim) (doc)

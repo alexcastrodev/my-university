@@ -128,8 +128,8 @@ changed.
   ```
 - **You cannot update a priority in place.** Dijkstra-style algorithms usually
   enqueue a duplicate with the better priority and skip stale entries when they
-  come out, instead of lowering the old one. Later .NET versions add a removal
-  method, but it scans the heap, so it is O(n).
+  come out, instead of lowering the old one. .NET 9 adds a `Remove` method,
+  but it scans the heap, so it is O(n).
 - **`LinkedList<T>` costs memory and speed.** Each node carries two references
   plus the object header, and traversal misses the CPU cache. Choose it for node
   handles, not because the operation is "insertion".

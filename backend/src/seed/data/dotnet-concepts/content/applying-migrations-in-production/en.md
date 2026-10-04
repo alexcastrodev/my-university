@@ -40,9 +40,10 @@ using (var scope = app.Services.CreateScope())
 ```
 
 With one instance this is fine. With several, every instance starts at the same
-time and tries to apply the same pending migration. Recent EF Core versions
-take a lock in the database around `Migrate`, so the instances queue up instead
-of corrupting each other, but three problems remain:
+time and tries to apply the same pending migration. Since EF Core 9,
+`Migrate` takes a database-wide lock (how it works depends on the provider), so
+the instances queue up instead of corrupting each other, but three problems
+remain:
 
 - A rolling deployment runs the old code against the new schema while the first
   instance migrates, so a destructive change breaks the instances that have not
@@ -55,13 +56,16 @@ of corrupting each other, but three problems remain:
 
 Since EF Core 9, `Migrate()` also throws when the model has pending changes with
 no migration, so a forgotten `migrations add` fails at startup instead of
-leaving the schema out of date.
+leaving the schema out of date. Wrapping `Migrate` in your own transaction or
+execution strategy throws too, because an outer transaction prevents the lock
+from being acquired.
 
 ### Idempotent scripts
 
 Generate SQL and let a pipeline or a person apply it with a deployment account.
 `--idempotent` makes the script check the migrations history table, so it can run
-against a database at any version and applies only what is missing:
+against a database at any version and applies only what is missing (support
+depends on the provider, and SQLite does not generate idempotent scripts):
 
 ```bash
 dotnet ef migrations script --idempotent --output migrate.sql \
@@ -115,8 +119,9 @@ be rolled back to the previous application version without a schema change.
 
 A plain `CREATE INDEX` blocks writes to the table until it finishes.
 `CREATE INDEX CONCURRENTLY` does not, but PostgreSQL refuses to run it inside a
-transaction, and EF Core wraps each migration in one. Tell EF Core to run that
-statement outside a transaction:
+transaction, and EF Core wraps each migration in one (EF Core 9 used a single
+transaction for all pending migrations, and EF Core 10 went back to one per
+migration). Tell EF Core to run that statement outside a transaction:
 
 ```csharp
 protected override void Up(MigrationBuilder migrationBuilder) =>
@@ -128,6 +133,9 @@ protected override void Up(MigrationBuilder migrationBuilder) =>
 Keep that migration to the index alone. Without a transaction, a failure
 halfway cannot roll back anything else in the same migration, and a failed
 concurrent build leaves an invalid index that you must drop before retrying.
+The Npgsql provider can also do this from the model: `HasIndex(...).IsCreatedConcurrently()`
+makes it create the index concurrently, and its documentation tells you to read
+the PostgreSQL implications first.
 
 ## Trade-offs
 
@@ -163,4 +171,4 @@ concurrent build leaves an invalid index that you must drop before retrying.
 - [Migrations overview, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/) (doc)
 - [EF Core tools reference (.NET CLI), Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/cli/dotnet) (doc)
 - [Breaking changes in EF Core 9, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-9.0/breaking-changes) (doc)
-- [Migrations, Npgsql EF Core provider](https://www.npgsql.org/efcore/managing-schemas/migrations.html) (doc)
+- [Indexes, Npgsql EF Core provider](https://www.npgsql.org/efcore/modeling/indexes.html) (doc)

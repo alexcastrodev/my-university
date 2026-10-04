@@ -146,8 +146,7 @@ lento desacelera o produtor em vez de encher a memória.
 
 ### Quando vale a pena
 
-O servidor Kestrel do ASP.NET Core é construído sobre Pipelines exatamente por
-esses motivos. No seu código, `Stream` com `ArrayPool` basta quando você copia,
+Pipelines nasceu do trabalho no servidor Kestrel do ASP.NET Core, e o Kestrel o usa internamente (segundo o post do .NET Blog sobre System.IO.Pipelines), exatamente por esses motivos. No seu código, `Stream` com `ArrayPool` basta quando você copia,
 calcula hash ou transforma dados em blocos de tamanho fixo. Use Pipelines quando
 fizer parse de um protocolo cujas mensagens cruzam fronteiras de leitura, quando
 precisar limitar a memória diante de um produtor rápido, ou quando a cópia de
@@ -185,5 +184,6 @@ bytes entre buffers aparecer num profile.
 - [Stream.ReadAsync and the Memory overloads, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync) (doc)
 - [Stream.CopyToAsync, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync) (doc)
 - [ArrayPool<T> class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1) (doc)
+- [System.IO.Pipelines: High performance IO in .NET, .NET Blog](https://devblogs.microsoft.com/dotnet/system-io-pipelines-high-performance-io-in-net/) (doc)
 - [System.IO.Pipelines in .NET, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/io/pipelines) (doc)
 - [PipeOptions class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.io.pipelines.pipeoptions) (doc)

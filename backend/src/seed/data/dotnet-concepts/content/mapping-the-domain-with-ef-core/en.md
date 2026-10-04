@@ -53,7 +53,9 @@ builder.OwnsMany(o => o.Lines, l =>
 
 EF Core 10 closed two gaps that used to push people toward owned types: complex
 types can now be optional (a nullable `Address?`), and they can be mapped to a
-single JSON column.
+single JSON column. An optional complex type must still declare at least one
+required property, so EF Core can tell a `null` value from one whose properties
+are all `null`.
 
 Use a complex type for a single value object that is only ever replaced whole
 (`Money`, `Address`). Use an owned type, or a real entity, when the part has a
@@ -125,19 +127,21 @@ returns aggregates is the wrong shape for a read model.
 ## Trade-offs
 
 - **Owned types hide an identity you did not model.** An `OwnsMany` collection
-  gets a shadow key, and replacing the whole collection produces deletes and
-  inserts for every item instead of updates.
+  gets a shadow key, and replacing the whole collection with new instances
+  typically makes EF Core delete the old rows and insert new ones, because the
+  new objects have no identity in common with the old (log the SQL to check).
   ```csharp
   order.ReplaceLines(newLines); // delete all old rows, insert all new rows
   ```
   If the rows have meaning of their own (audit, links from other tables), model
   them as entities.
 - **Complex types cannot be queried or tracked like entities.** There is no
-  `DbSet<Money>`, no foreign key to one, and changing a property of a complex
-  type means assigning a new value.
+  `DbSet<Money>`, no foreign key to one, and a complex type used as a value
+  object is best kept immutable, so changing it means assigning a new value
+  (EF Core still tracks changes per property).
   ```csharp
   order.Total = order.Total with { Amount = 20m }; // ok: replace the value
-  order.Total.Amount = 20m;                        // not possible: the type is immutable
+  order.Total.Amount = 20m;                        // does not compile: Money has no setters
   ```
 - **Converters can defeat query translation.** A value converter that calls
   arbitrary code cannot always be translated to SQL, so comparing a converted

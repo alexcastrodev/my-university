@@ -31,7 +31,8 @@ async causa starvation e como ver isso acontecendo.
 ### Uma Thread é uma thread do SO
 
 `new Thread(...)` cria uma thread real do sistema operacional, com a própria pilha
-(comumente cerca de 1 MB reservado no Windows, então criar milhares é caro). Ela é
+(o tamanho de pilha padrão, que varia por plataforma e configuração, então criar
+milhares é caro). Ela é
 foreground por padrão, e o processo não termina até que todas as threads
 foreground tenham acabado:
 
@@ -67,8 +68,10 @@ _ = Task.Run(() => throw new InvalidOperationException("boom"));       // engoli
 no mesmo pool. O pool começa com um número mínimo de threads, por padrão o número de
 processadores, e cria essas sob demanda sem atraso. Acima desse mínimo ele adiciona
 threads devagar, usando um algoritmo de hill climbing que tenta mais uma thread, mede
-a vazão e só a mantém se a vazão melhorou. Na prática isso significa algo como uma
-thread por segundo quando a demanda passa do mínimo:
+a vazão e só a mantém se a vazão melhorou. A documentação diz apenas que o pool
+cria e destrói threads para otimizar a vazão, e não informa uma taxa de injeção.
+Espere uma subida lenta, da ordem de uma thread por segundo nas descrições comuns
+do pool (meça, não é uma garantia documentada), quando a demanda passa do mínimo:
 
 ```csharp
 ThreadPool.GetMinThreads(out var minWorker, out var minIo);
@@ -118,7 +121,8 @@ public async Task<IActionResult> Get()
 
 Um laço que roda pela vida inteira do app ocuparia uma thread do pool para sempre,
 reduzindo o que o pool pode oferecer a todo o resto. `TaskCreationOptions.LongRunning`
-diz ao scheduler para usar uma thread dedicada:
+é uma dica de que superalocação (oversubscription) pode ser justificada, então o
+scheduler padrão roda a tarefa numa thread dedicada em vez de uma thread do pool:
 
 ```csharp
 var reader = Task.Factory.StartNew(
@@ -136,9 +140,14 @@ mitigação temporária enquanto você remove as chamadas bloqueantes.
 ### Vendo acontecer
 
 `dotnet-counters monitor --process-id <pid> System.Runtime` mostra os números que
-importam: quantidade de threads do pool, tamanho da fila e itens concluídos. Uma fila
-crescendo com a contagem de threads subindo um passo de cada vez e a CPU baixa é a
-assinatura da starvation:
+importam: quantidade de threads do pool, tamanho da fila e itens de trabalho
+concluídos. No .NET 9 e posteriores eles aparecem como
+`dotnet.thread_pool.thread.count`, `dotnet.thread_pool.queue.length` e
+`dotnet.thread_pool.work_item.count`. No .NET 8 e anteriores os nomes são
+`ThreadPool Thread Count`, `ThreadPool Queue Length` e
+`ThreadPool Completed Work Item Count`. Uma fila crescendo com a contagem de
+threads subindo um passo de cada vez e a CPU baixa é a assinatura da starvation. Os
+valores abaixo são ilustrativos:
 
 ```text
 ThreadPool Thread Count     :  18
@@ -151,18 +160,17 @@ CPU Usage (%)               :   6
 - **Uma `Thread` dedicada custa uma pilha e um recurso do SO.** É a escolha certa
   para um punhado de laços de longa duração e a errada para trabalho por requisição.
   Uma `Task` no pool reaproveita threads e custa um objeto pequeno.
-- **`LongRunning` não ajuda código async.** Uma lambda `async` iniciada com
-  `LongRunning` libera a thread dedicada no primeiro `await`, e o resto roda no pool
-  como de costume.
+- **`LongRunning` não ajuda código async.** A doc descreve `LongRunning` apenas como uma dica de agendamento. Na prática, uma lambda `async` iniciada com ele libera a thread dedicada no primeiro `await` e o resto roda no pool (esse comportamento aparece em textos da comunidade, não na página oficial).
   ```csharp
   // A thread dedicada termina no primeiro await. O laço continua no pool.
   Task.Factory.StartNew(async () => { while (true) await Task.Delay(1000); },
                         TaskCreationOptions.LongRunning);
   ```
 - **Threads background podem ser cortadas no meio do trabalho.** Quando a última
-  thread foreground termina, o processo sai e as threads background param sem
-  executar blocos `finally`, então trabalho que precisa terminar exige uma thread
-  foreground ou um shutdown gracioso.
+  thread foreground termina, o processo sai e o runtime para as threads background
+  sem lançar exceção nelas, então o código de limpeza dessas threads não tem garantia
+  de rodar. Trabalho que precisa terminar exige uma thread foreground ou um
+  shutdown gracioso.
 - **`SetMinThreads` troca latência por memória e esconde a causa.** Elevá-lo a um
   valor grande faz o travamento sumir num teste e voltar com uma carga maior, com
   mais threads disputando os mesmos núcleos.
