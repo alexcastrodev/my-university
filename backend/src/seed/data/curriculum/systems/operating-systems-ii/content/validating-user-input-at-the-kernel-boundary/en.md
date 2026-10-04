@@ -78,7 +78,7 @@ Valid range ends: 0x1000_2000
 
 copy_to_user detects the requested range extends 0x300 bytes
 PAST the end of the process's valid mapping -> returns -EFAULT
-WITHOUT writing a single byte, rather than writing 1792 bytes
+WITHOUT writing a single byte, rather than writing 256 bytes
 safely and then corrupting 768 bytes of adjacent, unrelated memory.
 ```
 
