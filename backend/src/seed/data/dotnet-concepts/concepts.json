@@ -580,5 +580,55 @@
       }
     ],
     "id": 12
+  },
+  {
+    "slug": "hosted-services-and-backgroundservice",
+    "title": "Hosted Services and BackgroundService",
+    "topic": "Background Jobs",
+    "summary": "IHostedService vs BackgroundService, unhandled exceptions that stop the host, scoped services through IServiceScopeFactory, PeriodicTimer, and graceful shutdown.",
+    "publishedAt": "2026-10-04",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "Background Jobs, Idempotency, and Fan-Out",
+        "slug": "background-jobs-idempotency-and-fan-out",
+        "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Background tasks with hosted services in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services",
+        "type": "doc"
+      },
+      {
+        "label": "Worker Services in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/workers",
+        "type": "doc"
+      },
+      {
+        "label": "Generic Host, shutdown and HostOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking change: Unhandled exceptions from a BackgroundService, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/hosting-exception-handling",
+        "type": "doc"
+      },
+      {
+        "label": "PeriodicTimer class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.periodictimer",
+        "type": "doc"
+      }
+    ],
+    "id": 13
   }
 ]
