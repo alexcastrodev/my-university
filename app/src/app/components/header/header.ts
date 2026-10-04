@@ -40,10 +40,7 @@ export class Header {
       : 'Ctrl K';
   userMenuOpen = signal(false);
   mobileMenuOpen = signal(false);
-  exploreMenuOpen = signal(false);
   languageMenuOpen = signal(false);
-
-  private exploreCloseTimer: ReturnType<typeof setTimeout> | undefined;
 
   userInitials = computed(() => {
     const user = this.auth.currentUser();
@@ -82,26 +79,6 @@ export class Header {
     this.searchService.open();
   }
 
-  toggleExploreMenu(): void {
-    this.exploreMenuOpen.update((open) => !open);
-  }
-
-  closeExploreMenu(): void {
-    this.exploreMenuOpen.set(false);
-  }
-
-  /** Opens on hover (desktop mega-menu, mirroring Coursera); cancels any pending close from a prior mouseleave. */
-  onExploreMouseEnter(): void {
-    clearTimeout(this.exploreCloseTimer);
-    this.exploreMenuOpen.set(true);
-  }
-
-  /** Small delay before closing so moving the cursor from the trigger to the dropdown doesn't close it mid-transit. */
-  onExploreMouseLeave(): void {
-    clearTimeout(this.exploreCloseTimer);
-    this.exploreCloseTimer = setTimeout(() => this.exploreMenuOpen.set(false), 200);
-  }
-
   toggleLanguageMenu(): void {
     this.languageMenuOpen.update((open) => !open);
   }
@@ -125,7 +102,6 @@ export class Header {
   onEscape(): void {
     this.closeUserMenu();
     this.closeMobileMenu();
-    this.closeExploreMenu();
     this.closeLanguageMenu();
   }
 
@@ -144,13 +120,6 @@ export class Header {
       const target = event.target as Node;
       if (nav && toggle && !nav.contains(target) && !toggle.contains(target)) {
         this.closeMobileMenu();
-      }
-    }
-
-    if (this.exploreMenuOpen()) {
-      const exploreMenu = this.elementRef.nativeElement.querySelector('.explore-menu');
-      if (exploreMenu && !exploreMenu.contains(event.target as Node)) {
-        this.closeExploreMenu();
       }
     }
 

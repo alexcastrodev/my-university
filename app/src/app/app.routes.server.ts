@@ -98,6 +98,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'tracks',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'csharp-concepts',
     renderMode: RenderMode.Server,
   },

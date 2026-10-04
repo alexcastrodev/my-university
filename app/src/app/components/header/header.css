@@ -67,71 +67,6 @@
 .nav-link:hover { color: var(--mu-white); background: rgba(255,255,255,.08); }
 .nav-link.active { color: var(--mu-white); font-weight: 700; background: rgba(255,255,255,.08); }
 
-.explore-menu {
-  position: relative;
-}
-
-.nav-dropdown-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: none;
-  border: none;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.chevron {
-  transition: transform .15s;
-}
-
-.chevron.open {
-  transform: rotate(180deg);
-}
-
-.explore-menu-dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  display: flex;
-  gap: 1.5rem;
-  background: var(--mu-surface);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.18);
-  padding: 1rem 1.25rem;
-  z-index: 110;
-}
-
-.explore-menu-column {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 160px;
-}
-
-.explore-menu-heading {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--mu-muted);
-  padding: 0.3rem 0.7rem 0.5rem;
-}
-
-.explore-menu-item {
-  display: block;
-  width: 100%;
-  text-align: left;
-  border-radius: 6px;
-  padding: 0.5rem 0.7rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--mu-ink);
-  text-decoration: none;
-}
-
-.explore-menu-item:hover, .explore-menu-item.active { background: var(--mu-bg-alt); }
-
 .header-right { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
 
 .header-right > *:not(.search-box) { flex-shrink: 0; }
@@ -418,32 +353,6 @@
 
   .mobile-review-link {
     display: block;
-  }
-
-  .explore-menu-dropdown {
-    position: static;
-    flex-direction: column;
-    gap: 0.75rem;
-    background: none;
-    box-shadow: none;
-    padding: 0.25rem 0 0 1rem;
-  }
-
-  .explore-menu-column {
-    min-width: 0;
-  }
-
-  .explore-menu-heading {
-    color: rgba(255, 255, 255, .45);
-  }
-
-  .explore-menu-item {
-    color: rgba(255, 255, 255, .72);
-  }
-
-  .explore-menu-item:hover, .explore-menu-item.active {
-    color: var(--mu-white);
-    background: rgba(255,255,255,.08);
   }
 
   .brand-name {
