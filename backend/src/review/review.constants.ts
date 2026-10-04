@@ -27,6 +27,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'quarkus-concepts', sourceType: 'concept-read', prefix: 'quarkus:', route: (slug) => ['/quarkus-concepts', slug] },
   { module: 'kubernetes-concepts', sourceType: 'concept-read', prefix: 'kubernetes:', route: (slug) => ['/kubernetes-concepts', slug] },
   { module: 'dotnet-concepts', sourceType: 'concept-read', prefix: 'dotnet:', route: (slug) => ['/dotnet-concepts', slug] },
+  { module: 'csharp-concepts', sourceType: 'concept-read', prefix: 'csharp:', route: (slug) => ['/csharp-concepts', slug] },
 ];
 
 export interface ResolvedSource {

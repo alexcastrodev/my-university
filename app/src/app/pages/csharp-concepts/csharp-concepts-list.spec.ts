@@ -2,16 +2,16 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
-import { DotNetConceptSummary } from '../../models/dotnet-concept.model';
-import { DotNetConceptsService } from '../../services/dotnet-concepts.service';
-import { DotNetConceptsListPage } from './dotnet-concepts-list';
+import { CSharpConceptSummary } from '../../models/csharp-concept.model';
+import { CSharpConceptsService } from '../../services/csharp-concepts.service';
+import { CSharpConceptsListPage } from './csharp-concepts-list';
 
-const FIXTURES: DotNetConceptSummary[] = [
+const FIXTURES: CSharpConceptSummary[] = [
   {
     slug: 'dbcontext-lifetime-and-change-tracking',
     id: 1,
     title: 'DbContext Lifetime and Change Tracking',
-    topic: 'EF Core',
+    topic: 'Streams',
     summary: 'Why a DbContext is a short-lived unit of work and what the change tracker costs.',
     publishedAt: '2026-10-04',
     language: 'en',
@@ -20,10 +20,10 @@ const FIXTURES: DotNetConceptSummary[] = [
     read: true,
   },
   {
-    slug: 'modular-monolith-module-boundaries',
+    slug: 'collection-interfaces-and-choosing-a-collection',
     id: 2,
-    title: 'Modular Monolith: Drawing Module Boundaries',
-    topic: 'Modular Architecture',
+    title: 'Collection Interfaces and Choosing a Collection',
+    topic: 'Collections',
     summary: 'Projects, internal visibility and a contracts assembly as the module boundary.',
     publishedAt: '2026-10-04',
     language: 'en',
@@ -32,26 +32,26 @@ const FIXTURES: DotNetConceptSummary[] = [
   },
 ];
 
-class MockDotNetConceptsService {
+class MockCSharpConceptsService {
   listConcepts() {
     return of(FIXTURES);
   }
 }
 
-describe('DotNetConceptsListPage', () => {
+describe('CSharpConceptsListPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DotNetConceptsListPage],
+      imports: [CSharpConceptsListPage],
       providers: [
         provideZonelessChangeDetection(),
         provideRouter([]),
-        { provide: DotNetConceptsService, useClass: MockDotNetConceptsService },
+        { provide: CSharpConceptsService, useClass: MockCSharpConceptsService },
       ],
     }).compileComponents();
   });
 
   function render() {
-    const fixture = TestBed.createComponent(DotNetConceptsListPage);
+    const fixture = TestBed.createComponent(CSharpConceptsListPage);
     fixture.detectChanges();
     return fixture;
   }
@@ -71,7 +71,7 @@ describe('DotNetConceptsListPage', () => {
     expect(readCard?.querySelector('.card-footer .read-check')).toBeTruthy();
     expect(readCard?.querySelector('.card-header .read-check')).toBeFalsy();
 
-    const unreadCard = Array.from(cards).find((c) => c.textContent?.includes('Modular Monolith'));
+    const unreadCard = Array.from(cards).find((c) => c.textContent?.includes('Collection Interfaces'));
     expect(unreadCard?.classList.contains('is-read')).toBe(false);
     expect(unreadCard?.querySelector('.read-check')).toBeFalsy();
   });
@@ -83,7 +83,7 @@ describe('DotNetConceptsListPage', () => {
     const withLab = Array.from(cards).find((c) => c.textContent?.includes('DbContext Lifetime'));
     expect(withLab?.querySelector('.lab-badge')).toBeTruthy();
 
-    const withoutLab = Array.from(cards).find((c) => c.textContent?.includes('Modular Monolith'));
+    const withoutLab = Array.from(cards).find((c) => c.textContent?.includes('Collection Interfaces'));
     expect(withoutLab?.querySelector('.lab-badge')).toBeFalsy();
   });
 
@@ -101,6 +101,6 @@ describe('DotNetConceptsListPage', () => {
     const fixture = render();
     const headings: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.topic-heading');
     const texts = Array.from(headings).map((h) => h.textContent?.trim());
-    expect(texts).toEqual(['Modular Architecture', 'EF Core']);
+    expect(texts).toEqual(['Collections', 'Streams']);
   });
 });

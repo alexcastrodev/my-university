@@ -1,0 +1,49 @@
+[
+  {
+    "slug": "collection-interfaces-and-choosing-a-collection",
+    "title": "Collection Interfaces and Choosing a Collection",
+    "topic": "Collections",
+    "summary": "IEnumerable, ICollection, IList and the read-only interfaces, how to pick parameter and return types, collection expressions, and what a read-only view does not guarantee.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "The Collection Interface",
+        "slug": "collection-interface",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Collections and data structures, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/",
+        "type": "doc"
+      },
+      {
+        "label": "Selecting a collection class, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/selecting-a-collection-class",
+        "type": "doc"
+      },
+      {
+        "label": "Collection expressions, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "params keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/params",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "CA1002: Do not expose generic lists, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1002",
+        "type": "doc"
+      }
+    ],
+    "id": 1
+  }
+]

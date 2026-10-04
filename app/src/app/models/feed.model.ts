@@ -32,4 +32,5 @@ export type FeedArea =
   | 'algorithms'
   | 'ruby'
   | 'dotnet'
+  | 'csharp'
   | 'cs';

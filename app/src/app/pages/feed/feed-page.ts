@@ -58,6 +58,7 @@ export class FeedPage implements OnInit {
     { area: 'quarkus', label: 'Quarkus' },
     { area: 'ruby', label: 'Ruby' },
     { area: 'dotnet', label: '.NET' },
+    { area: 'csharp', label: 'C#' },
   ];
 
   /** Summary lines drawn by the first-load placeholder card. */

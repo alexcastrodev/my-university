@@ -14,7 +14,8 @@ export type SearchResultType =
   | 'rubyonrails-concept'
   | 'quarkus-concept'
   | 'kubernetes-concept'
-  | 'dotnet-concept';
+  | 'dotnet-concept'
+  | 'csharp-concept';
 
 export interface SearchResult {
   type: SearchResultType;

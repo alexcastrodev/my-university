@@ -23,6 +23,7 @@ const AREA_ICONS: Record<string, string> = {
   'ruby-concepts': '💎',
   'rubyonrails-concepts': '🛤️',
   'dotnet-concepts': '🟣',
+  'csharp-concepts': '🟦',
   'database-concepts': '🗄️',
   'system-design-concepts': '🧩',
   'algorithms-concepts': '📈',

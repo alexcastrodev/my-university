@@ -42,6 +42,7 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'ruby-concept': $localize`:@@search.type.rubyConcept:Ruby`,
   'rubyonrails-concept': $localize`:@@search.type.rubyonrailsConcept:Ruby on Rails`,
   'dotnet-concept': $localize`:@@search.type.dotnetConcept:.NET`,
+  'csharp-concept': $localize`:@@search.type.csharpConcept:C#`,
   course: $localize`:@@search.type.course:Exams`,
   lesson: $localize`:@@search.type.lesson:Lessons`,
 };
