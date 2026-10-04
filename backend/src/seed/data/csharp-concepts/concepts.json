@@ -335,5 +335,360 @@
       }
     ],
     "id": 6
+  },
+  {
+    "slug": "stream-class-hierarchy-and-decorators",
+    "title": "Stream Class Hierarchy and Decorators",
+    "topic": "Streams",
+    "summary": "Stream, FileStream, MemoryStream and BufferedStream, decorators like GZipStream, leaveOpen, short reads and ReadExactly.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Stream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream",
+        "type": "doc"
+      },
+      {
+        "label": "Stream.ReadExactly method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly",
+        "type": "doc"
+      },
+      {
+        "label": "FileStream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream",
+        "type": "doc"
+      },
+      {
+        "label": "BufferedStream class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.bufferedstream",
+        "type": "doc"
+      },
+      {
+        "label": "GZipStream class, System.IO.Compression, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.gzipstream",
+        "type": "doc"
+      },
+      {
+        "label": "StreamReader class, System.IO, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader",
+        "type": "doc"
+      }
+    ],
+    "id": 7
+  },
+  {
+    "slug": "async-io-and-system-io-pipelines",
+    "title": "Async I/O and System.IO.Pipelines",
+    "topic": "Streams",
+    "summary": "ReadAsync and CopyToAsync, ArrayPool<byte>, and PipeReader and PipeWriter with backpressure.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "NIO Channels and Buffers: The Non-Blocking I/O Model",
+        "slug": "nio-channels-and-buffers",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO Servers, Async Responses, and Virtual Threads",
+        "slug": "nio-servers-and-async",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "requires": [
+      "stream-class-hierarchy-and-decorators"
+    ],
+    "references": [
+      {
+        "label": "Stream.ReadAsync and the Memory overloads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync",
+        "type": "doc"
+      },
+      {
+        "label": "Stream.CopyToAsync, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayPool<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1",
+        "type": "doc"
+      },
+      {
+        "label": "System.IO.Pipelines in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/pipelines",
+        "type": "doc"
+      },
+      {
+        "label": "PipeOptions class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.pipelines.pipeoptions",
+        "type": "doc"
+      }
+    ],
+    "id": 8
+  },
+  {
+    "slug": "async-streams-iasyncenumerable",
+    "title": "Async Streams with IAsyncEnumerable",
+    "topic": "Streams",
+    "summary": "await foreach, EnumeratorCancellation, and streaming JSON from ASP.NET Core.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Iterator vs Iterable",
+        "slug": "iterator-vs-iterable",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "requires": [
+      "async-io-and-system-io-pipelines",
+      "linq-deferred-execution-and-iterators"
+    ],
+    "references": [
+      {
+        "label": "Asynchronous streams (IAsyncEnumerable), C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/generate-consume-asynchronous-stream",
+        "type": "doc"
+      },
+      {
+        "label": "await foreach statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-await-foreach-statement",
+        "type": "doc"
+      },
+      {
+        "label": "EnumeratorCancellationAttribute, .NET API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute",
+        "type": "doc"
+      },
+      {
+        "label": "How to serialize and deserialize JSON, streaming with IAsyncEnumerable, System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization#deserialize-to-iasyncenumerable",
+        "type": "doc"
+      },
+      {
+        "label": "Minimal APIs, responses, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "What is new in .NET 10 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      }
+    ],
+    "id": 9
+  },
+  {
+    "slug": "threads-threadpool-and-starvation",
+    "title": "Threads, the ThreadPool, and Starvation",
+    "topic": "Threads",
+    "summary": "Thread, foreground vs background, thread injection, starvation from sync-over-async, and LongRunning.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Thread Model: Legacy Control vs. Virtual Threads",
+        "slug": "thread-model-legacy-vs-virtual-threads",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Configuring and Sizing Thread Pools",
+        "slug": "configuring-thread-pool-executor",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Thread Pool Sizing: CPU-Bound vs. I/O-Bound Workloads",
+        "slug": "thread-pool-sizing",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The managed thread pool, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/the-managed-thread-pool",
+        "type": "doc"
+      },
+      {
+        "label": "Foreground and background threads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/foreground-and-background-threads",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadPool.SetMinThreads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadpool.setminthreads",
+        "type": "doc"
+      },
+      {
+        "label": "TaskCreationOptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcreationoptions",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core best practices, avoid blocking calls, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/best-practices#avoid-blocking-calls",
+        "type": "doc"
+      }
+    ],
+    "id": 10
+  },
+  {
+    "slug": "locks-monitor-and-interlocked",
+    "title": "Locks, Monitor, and Interlocked",
+    "topic": "Threads",
+    "summary": "lock and Monitor, System.Threading.Lock, Interlocked, ReaderWriterLockSlim, and why await cannot be used inside lock.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "Deadlock: Lock Ordering, Open Calls, and How to Avoid It",
+        "slug": "deadlock-lock-ordering-and-avoidance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Reducing Lock Contention: Scope, Granularity, and Striping",
+        "slug": "reducing-lock-contention",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
+        "slug": "concurrency-utilities-executors-and-synchronizers",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "threads-threadpool-and-starvation"
+    ],
+    "references": [
+      {
+        "label": "lock statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/lock",
+        "type": "doc"
+      },
+      {
+        "label": "Lock class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "Interlocked class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked",
+        "type": "doc"
+      },
+      {
+        "label": "ReaderWriterLockSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim",
+        "type": "doc"
+      },
+      {
+        "label": "SemaphoreSlim class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim",
+        "type": "doc"
+      },
+      {
+        "label": "Managed threading best practices, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/threading/managed-threading-best-practices",
+        "type": "doc"
+      }
+    ],
+    "id": 11
+  },
+  {
+    "slug": "memory-model-volatile-and-thread-local-state",
+    "title": "Memory Model, volatile, and Thread-Local State",
+    "topic": "Threads",
+    "summary": "volatile and Volatile.Read, double-checked locking vs Lazy<T>, and ThreadLocal vs AsyncLocal.",
+    "publishedAt": "2026-10-04",
+    "related": [
+      {
+        "label": "The Java Memory Model: Happens-Before and Reordering",
+        "slug": "java-memory-model-and-happens-before",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "ThreadLocal: Per-Thread State, Leaks, and InheritableThreadLocal",
+        "slug": "threadlocal-and-inheritable-threadlocal",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "VarHandle: Lock-Free Access to Ordinary Fields",
+        "slug": "varhandle-lock-free-field-access",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "locks-monitor-and-interlocked"
+    ],
+    "references": [
+      {
+        "label": "volatile keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/volatile",
+        "type": "doc"
+      },
+      {
+        "label": "Volatile class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.volatile",
+        "type": "doc"
+      },
+      {
+        "label": "Lazy initialization, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization",
+        "type": "doc"
+      },
+      {
+        "label": "LazyThreadSafetyMode enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.lazythreadsafetymode",
+        "type": "doc"
+      },
+      {
+        "label": "Interlocked class, System.Threading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadLocal<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadlocal-1",
+        "type": "doc"
+      },
+      {
+        "label": "AsyncLocal<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1",
+        "type": "doc"
+      },
+      {
+        "label": "ThreadStaticAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threadstaticattribute",
+        "type": "doc"
+      }
+    ],
+    "id": 12
   }
 ]
