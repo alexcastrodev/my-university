@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TrackIcon } from './track-icon';
+import { TrackIcon } from '../../components/track-icon/track-icon';
 import { SeoService } from '../../services/seo.service';
 import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import {
