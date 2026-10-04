@@ -15,6 +15,7 @@ import { TestingConceptsService } from '../testing-concepts/testing-concepts.ser
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.service';
+import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
 import { ReviewSchedule, ReviewSourceType } from './review-schedule.entity';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, REVIEW_MODULES, toSourceId } from './review.constants';
 import { nextSchedule, ReviewRating } from './sm2';
@@ -77,6 +78,7 @@ export class ReviewService {
     private rubyConcepts: RubyConceptsService,
     private rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private dotNetConcepts: DotNetConceptsService,
+    private cSharpConcepts: CSharpConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
     private kubernetesConcepts: KubernetesConceptsService,
     private curriculum: CurriculumService,
@@ -97,6 +99,7 @@ export class ReviewService {
       'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
       'rubyonrails-concepts': new Map(this.rubyOnRailsConcepts.findAll().map((c) => [c.slug, c.title])),
       'dotnet-concepts': new Map(this.dotNetConcepts.findAll().map((c) => [c.slug, c.title])),
+      'csharp-concepts': new Map(this.cSharpConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
       'kubernetes-concepts': new Map(this.kubernetesConcepts.findAll().map((c) => [c.slug, c.title])),
     };
@@ -128,6 +131,7 @@ export class ReviewService {
       ['ruby-concepts', this.rubyConcepts.findAll(lang)],
       ['rubyonrails-concepts', this.rubyOnRailsConcepts.findAll(lang)],
       ['dotnet-concepts', this.dotNetConcepts.findAll(lang)],
+      ['csharp-concepts', this.cSharpConcepts.findAll(lang)],
     ];
     return byModule.flatMap(([module, concepts]) =>
       concepts.map((c) => ({
@@ -199,6 +203,10 @@ export class ReviewService {
       }
       case 'dotnet-concepts': {
         const d = this.dotNetConcepts.findBySlug(slug, lang);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'csharp-concepts': {
+        const d = this.cSharpConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'quarkus-concepts': {

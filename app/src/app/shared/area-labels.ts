@@ -20,6 +20,7 @@ const COMPLEMENTARY: Record<string, [group: string, track?: string]> = {
   'ruby-concepts': ['Ruby'],
   'rubyonrails-concepts': ['Ruby', 'Rails'],
   'dotnet-concepts': ['.NET'],
+  'csharp-concepts': ['C#'],
 };
 
 export const COMPUTER_SCIENCE_LABEL = $localize`:@@header.nav.computerScience:Computer Science`;

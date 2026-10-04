@@ -98,6 +98,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'An applied framework example',
   },
   {
+    slug: 'csharp-concepts',
+    apiBase: '/api/csharp-concepts',
+    title: 'C#',
+    routerLink: '/csharp-concepts',
+    touchesModule: 'algorithms-software',
+    touchesTitle: 'Algorithms & Software',
+    relationship: 'Same paradigms, another language',
+  },
+  {
     slug: 'database-concepts',
     apiBase: '/api/database-concepts',
     title: 'Database Concepts',

@@ -13,6 +13,7 @@ import { KubernetesConceptsModule } from '../kubernetes-concepts/kubernetes-conc
 import { RubyConceptsModule } from '../ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from '../rubyonrails-concepts/rubyonrails-concepts.module';
 import { DotNetConceptsModule } from '../dotnet-concepts/dotnet-concepts.module';
+import { CSharpConceptsModule } from '../csharp-concepts/csharp-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
@@ -35,6 +36,7 @@ import { SearchService } from './search.service';
     RubyConceptsModule,
     RubyOnRailsConceptsModule,
     DotNetConceptsModule,
+    CSharpConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
   ],
