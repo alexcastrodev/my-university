@@ -55,6 +55,10 @@ builder.OwnsMany(o => o.Lines, l =>
 });
 ```
 
+O EF Core 10 fechou duas lacunas que empurravam as pessoas para owned types:
+complex types agora podem ser opcionais (um `Address?` anulável) e podem ser
+mapeados para uma única coluna JSON.
+
 Use um complex type para um único value object que só é substituído por
 inteiro (`Money`, `Address`). Use um owned type, ou uma entity de verdade,
 quando a parte tem ciclo de vida próprio, como as linhas de um pedido que são
@@ -162,6 +166,7 @@ de leitura.
 
 - [Owned entity types, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/owned-entities) (doc)
 - [Complex types, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-8.0/whatsnew#value-objects-using-complex-types) (doc)
+- [What is new in EF Core 10, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew) (doc)
 - [Value conversions, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions) (doc)
 - [Backing fields, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/backing-field) (doc)
 - [Implement the infrastructure persistence layer with Entity Framework Core, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-implementation-entity-framework-core) (doc)

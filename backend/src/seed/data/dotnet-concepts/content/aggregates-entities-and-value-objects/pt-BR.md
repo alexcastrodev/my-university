@@ -123,6 +123,23 @@ quem chama ainda pode fazer um cast de volta para `List<OrderLine>`. Para uma
 garantia forte, devolva `_lines.AsReadOnly()`, que embrulha a lista numa visão
 somente leitura.
 
+### C# 14: valide na propriedade com `field`
+
+A partir do C# 14, um accessor de propriedade pode usar a palavra-chave `field`
+para o backing field gerado pelo compilador, então um setter pode validar sem
+declarar um campo privado à mão. Isso combina com o estado do aggregate, que
+precisa continuar válido a cada mudança:
+
+```csharp
+public string Name
+{
+    get;
+    private set => field = string.IsNullOrWhiteSpace(value)
+        ? throw new DomainException("Name is required.")
+        : value.Trim();
+}
+```
+
 ### Onde o aggregate termina
 
 Referencie outros aggregates por id, nunca por objeto. `Order` guarda um
@@ -157,6 +174,10 @@ aggregates (veja o conceito Domain Events and Consistency Boundaries).
   todos os envios e todas as tentativas de pagamento, dois usuários mexendo em
   partes não relacionadas conflitam na mesma versão de linha. Divida o aggregate
   quando edições concorrentes de partes diferentes forem normais.
+- **`field` é uma palavra-chave contextual.** Uma classe que já tem um membro
+  chamado `field` muda de significado ao migrar para o C# 14, então o compilador
+  pede que você escreva `@field` ou `this.field` para manter o comportamento
+  antigo.
 - **Expor uma interface somente leitura não é imutabilidade.** Um
   `IReadOnlyList<T>` ainda aponta para a mesma lista mutável, então um cast
   quebra a garantia. Trate isso como sinal de intenção, não como fronteira de
@@ -168,3 +189,4 @@ aggregates (veja o conceito Domain Events and Consistency Boundaries).
 - [Implement value objects, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects) (doc)
 - [Records, C# reference](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) (doc)
 - [Design the microservice domain model, aggregates and root entities, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice) (doc)
+- [The field keyword, C# 14, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field) (doc)

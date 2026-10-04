@@ -119,6 +119,22 @@ public sealed class Order
 caller can still cast it back to `List<OrderLine>`. For a hard guarantee, return
 `_lines.AsReadOnly()`, which wraps the list in a read-only view.
 
+### C# 14: validate in the property with `field`
+
+Since C# 14 a property accessor can use the `field` keyword for the compiler
+generated backing field, so a setter can validate without declaring a private
+field by hand. That fits aggregate state that must stay valid on every change:
+
+```csharp
+public string Name
+{
+    get;
+    private set => field = string.IsNullOrWhiteSpace(value)
+        ? throw new DomainException("Name is required.")
+        : value.Trim();
+}
+```
+
 ### Where the aggregate ends
 
 Reference other aggregates by id, never by object. `Order` holds a
@@ -152,6 +168,9 @@ Domain Events and Consistency Boundaries concept).
   contains every shipment and every payment attempt, two users touching
   unrelated parts conflict on the same row version. Split the aggregate when
   concurrent edits to different parts are normal.
+- **`field` is a contextual keyword.** A class that already has a member named
+  `field` changes meaning when it moves to C# 14, so the compiler asks you to
+  write `@field` or `this.field` to keep the old behavior.
 - **Exposing a read-only interface is not immutability.** An
   `IReadOnlyList<T>` still points at the same mutable list, so a cast breaks
   the guarantee. Treat it as a signal of intent, not a security boundary.
@@ -162,3 +181,4 @@ Domain Events and Consistency Boundaries concept).
 - [Implement value objects, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects) (doc)
 - [Records, C# reference](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) (doc)
 - [Design the microservice domain model, aggregates and root entities, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice) (doc)
+- [The field keyword, C# 14, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field) (doc)
