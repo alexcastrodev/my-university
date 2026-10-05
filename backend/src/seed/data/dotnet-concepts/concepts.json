@@ -8,6 +8,11 @@
     "publishedAt": "2026-10-04",
     "related": [
       {
+        "label": "From CRUD to Modular Monolith",
+        "slug": "from-crud-to-modular-monolith",
+        "feature": "dotnet-concepts"
+      },
+      {
         "label": "Module Communication and Architecture Tests",
         "slug": "module-communication-and-architecture-tests",
         "feature": "dotnet-concepts"
@@ -882,5 +887,424 @@
       }
     ],
     "id": 18
+  },
+  {
+    "slug": "minimal-apis-routing-and-route-groups",
+    "id": 19,
+    "title": "Minimal APIs: Routing and Route Groups",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "How a URL becomes a handler call (templates and parameter binding), named routes with CreatedAtRoute, route groups, and moving endpoints out of Program.cs.",
+    "publishedAt": "2026-10-05",
+    "related": [
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "REST Semantics, Status Codes, and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Minimal APIs overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Route handlers in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      },
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Routing in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/minimal-apis-routing-and-route-groups"
+  },
+  {
+    "slug": "dtos-and-the-api-contract",
+    "id": 20,
+    "title": "DTOs and the API Contract",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "Why a REST API never serializes entities, one DTO per use case with C# records, where the mapping lives, and projecting straight in the query.",
+    "publishedAt": "2026-10-05",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Records, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "Create responses in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "How to serialize and deserialize JSON, System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/how-to",
+        "type": "doc"
+      },
+      {
+        "label": "Efficient querying, projections, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying",
+        "type": "doc"
+      },
+      {
+        "label": "Mapperly, source-generated object mapper",
+        "url": "https://mapperly.riok.app/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dtos-and-the-api-contract"
+  },
+  {
+    "slug": "rest-semantics-status-codes-and-idempotency",
+    "id": 21,
+    "title": "REST Semantics: Status Codes and Idempotency",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "Verb, URI, and status code as the HTTP contract, which methods are safe or idempotent, honest 404s, idempotent DELETE, TypedResults, and ProblemDetails.",
+    "publishedAt": "2026-10-05",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Spring Boot REST Controllers",
+        "slug": "spring-boot-rest-controllers",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Create responses in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "TypedResults vs Results, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses#typedresults-vs-results",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP semantics, RFC 9110",
+        "url": "https://www.rfc-editor.org/rfc/rfc9110",
+        "type": "doc"
+      },
+      {
+        "label": "Problem Details for HTTP APIs, RFC 9457",
+        "url": "https://www.rfc-editor.org/rfc/rfc9457",
+        "type": "doc"
+      },
+      {
+        "label": "ExecuteUpdate and ExecuteDelete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/rest-semantics-status-codes-and-idempotency"
+  },
+  {
+    "slug": "input-validation-in-minimal-apis",
+    "id": 22,
+    "title": "Input Validation in Minimal APIs",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "Data annotations with AddValidation (.NET 10), the 400 response with per-field errors, the trap of types that are never discovered, and what annotations cannot express.",
+    "publishedAt": "2026-10-05",
+    "requires": [
+      "dtos-and-the-api-contract"
+    ],
+    "related": [
+      {
+        "label": "Bean Validation in Spring MVC",
+        "slug": "spring-mvc-bean-validation",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Parameter Validation and Fail-Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, validation support",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0#validation-support-in-minimal-apis",
+        "type": "doc"
+      },
+      {
+        "label": "System.ComponentModel.DataAnnotations namespace, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "FluentValidation documentation",
+        "url": "https://docs.fluentvalidation.net/",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/input-validation-in-minimal-apis"
+  },
+  {
+    "slug": "configuration-and-the-options-pattern",
+    "id": 23,
+    "title": "Configuration and the Options Pattern",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "Configuration sources and their precedence, overriding per environment without touching code, typed settings with ValidateOnStart, and keeping secrets out of the repository.",
+    "publishedAt": "2026-10-05",
+    "related": [
+      {
+        "label": "Spring Boot Configuration Properties",
+        "slug": "spring-boot-configuration-properties",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Boot Profiles",
+        "slug": "spring-boot-profiles",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Applying Migrations in Production",
+        "slug": "applying-migrations-in-production",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Configuration in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Options pattern in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options",
+        "type": "doc"
+      },
+      {
+        "label": "Use multiple environments in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments",
+        "type": "doc"
+      },
+      {
+        "label": "Safe storage of app secrets in development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets",
+        "type": "doc"
+      },
+      {
+        "label": "Options pattern in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/options",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/configuration-and-the-options-pattern"
+  },
+  {
+    "slug": "dependency-injection-and-service-lifetimes",
+    "id": 24,
+    "title": "Dependency Injection and Service Lifetimes",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "What the container does, transient vs scoped vs singleton, why the DbContext is scoped, captive dependencies, creating a scope by hand, and keyed services.",
+    "publishedAt": "2026-10-05",
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Dependency injection in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection in Minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#explicit-parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Scrutor, assembly scanning and decoration for the built-in container",
+        "url": "https://github.com/khellang/Scrutor",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dependency-injection-and-service-lifetimes"
+  },
+  {
+    "slug": "ef-core-crud-operations-and-seeding",
+    "id": 25,
+    "title": "EF Core CRUD Operations and Seeding",
+    "topic": "EF Core",
+    "summary": "Model, DbContext, and SQLite registration, Add vs SaveChanges, FindAsync and projection, set-based update and delete, and seeding reference data with UseSeeding and HasData.",
+    "publishedAt": "2026-10-05",
+    "requires": [
+      "dependency-injection-and-service-lifetimes"
+    ],
+    "related": [
+      {
+        "label": "Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Getting started with EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app",
+        "type": "doc"
+      },
+      {
+        "label": "Saving data in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/",
+        "type": "doc"
+      },
+      {
+        "label": "ExecuteUpdate and ExecuteDelete, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete",
+        "type": "doc"
+      },
+      {
+        "label": "Data seeding, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking vs no-tracking queries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/tracking",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/ef-core-crud-operations-and-seeding"
+  },
+  {
+    "slug": "from-crud-to-modular-monolith",
+    "id": 26,
+    "title": "From CRUD to Modular Monolith",
+    "topic": "Modular Architecture",
+    "summary": "A concrete, step by step path from a single-project CRUD API to two modules (Catalog and Orders) with separate projects, schemas, and a contract between them.",
+    "publishedAt": "2026-10-05",
+    "requires": [
+      "ef-core-crud-operations-and-seeding"
+    ],
+    "related": [
+      {
+        "label": "Modular Monolith: Drawing Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Modulith Application Modules and Verification",
+        "slug": "spring-modulith-application-modules-and-verification",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Common web application architectures, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite EF Core provider limitations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      },
+      {
+        "label": "Migrations history table, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/history-table",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet add reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-add-reference",
+        "type": "doc"
+      },
+      {
+        "label": "Modular Monolith with DDD, kgrzybek (reference implementation)",
+        "url": "https://github.com/kgrzybek/modular-monolith-with-ddd",
+        "type": "doc"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/from-crud-to-modular-monolith"
   }
 ]
