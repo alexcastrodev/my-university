@@ -13,6 +13,8 @@ export interface DotNetConceptTopicGroup {
 
 /** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
 const TOPIC_ORDER = [
+  'ASP.NET Core Fundamentals',
+  'Application Architecture',
   'Modular Architecture',
   'DDD',
   'EF Core',
