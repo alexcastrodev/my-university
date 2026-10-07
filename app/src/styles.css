@@ -83,7 +83,9 @@
   :root:not([data-sidebar='expanded']) { --mu-sidebar-w: 56px; }
 }
 @media (max-width: 768px) {
-  :root,
+  /* Both selectors match the specificity of the narrow rule above, so they win with or
+     without a saved data-sidebar (a bare :root would lose to it on a fresh visit). */
+  :root:not([data-sidebar='expanded']),
   :root[data-sidebar] { --mu-sidebar-w: 0px; }
 }
 :root[data-sidebar-hidden] { --mu-sidebar-w: 0px; }
