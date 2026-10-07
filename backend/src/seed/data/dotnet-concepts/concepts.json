@@ -271,6 +271,11 @@
         "label": "Spring Application Events",
         "slug": "spring-application-events",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Testing Domain Events with MSTest",
+        "slug": "testing-domain-events-with-mstest",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
@@ -1343,6 +1348,11 @@
         "label": "Spring Modulith Application Modules and Verification",
         "slug": "spring-modulith-application-modules-and-verification",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Testing Clean Architecture with MSTest",
+        "slug": "testing-clean-architecture-with-mstest",
+        "feature": "dotnet-testing-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/clean-architecture-in-four-projects",
