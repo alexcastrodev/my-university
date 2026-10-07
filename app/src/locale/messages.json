@@ -421,6 +421,18 @@
     "conceptCard.readCheck": "You've marked this as read",
     "viewToggle.group": "View mode",
     "viewToggle.grid": "Grid view",
-    "viewToggle.list": "List view"
+    "viewToggle.list": "List view",
+    "askAi.aria.toolbar": "Ask AI about the selected text",
+    "askAi.status.copied": "Prompt copied! Paste with Cmd/Ctrl+V ✓",
+    "askAi.status.copyFailed": "Did not copy automatically. Copy the selected text manually.",
+    "askAi.aria.claude": "Ask Claude about the selected text",
+    "askAi.claude": "Ask Claude",
+    "askAi.aria.chatgpt": "Ask ChatGPT about the selected text",
+    "askAi.chatgpt": "Ask ChatGPT",
+    "askAi.aria.gemini": "Ask Gemini about the selected text",
+    "askAi.gemini": "Ask Gemini",
+    "askAi.prompt.selectAll": "I'm studying the content at {$pageUrl}. Please give me a thorough explanation of the article: break down each key concept covered, explain why it matters, and highlight any nuances or common misconceptions.",
+    "askAi.prompt.partial": "I'm studying this passage from {$pageUrl} and need help understanding it deeply:\n\n\"{$passage}\"\n\nPlease explain what it means, why it matters, and give a concrete example if applicable.",
+    "askAi.prompt.clipboard": "I'm going to paste a passage I'm studying from {$pageUrl}. Please explain what it means, why it matters, and give a concrete example if applicable."
   }
 }

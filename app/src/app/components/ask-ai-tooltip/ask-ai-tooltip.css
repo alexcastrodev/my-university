@@ -48,6 +48,10 @@
   color: #10a37f;
 }
 
+.ask-ai-btn.gemini svg {
+  color: #4285f4;
+}
+
 .ask-ai-status {
   display: flex;
   align-items: center;
