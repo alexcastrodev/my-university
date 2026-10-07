@@ -19,7 +19,7 @@ describe('GET /dotnet-testing-concepts', () => {
       slug: 'testing-domain-events-with-mstest',
       id: 1,
       title: expect.any(String),
-      topic: 'Domain Layer',
+      topic: 'DDD',
       summary: expect.any(String),
       publishedAt: expect.any(String),
     });

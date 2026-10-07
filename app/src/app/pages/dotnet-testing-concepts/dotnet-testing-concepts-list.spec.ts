@@ -9,7 +9,7 @@ import { DotNetTestingConceptsListPage } from './dotnet-testing-concepts-list';
 const FIXTURES: DotNetTestingConceptSummary[] = [
   {
     slug: 'another-concept',
-    id: 2,
+    id: 3,
     title: 'Another Concept',
     topic: 'Another Topic',
     summary: 'A concept in a topic the list does not know yet.',
@@ -19,10 +19,21 @@ const FIXTURES: DotNetTestingConceptSummary[] = [
     read: false,
   },
   {
+    slug: 'testing-clean-architecture-with-mstest',
+    id: 2,
+    title: 'Testing Clean Architecture with MSTest',
+    topic: 'Application Architecture',
+    summary: 'One test project per layer.',
+    publishedAt: '2026-10-07',
+    language: 'en',
+    availableLanguages: ['en'],
+    read: false,
+  },
+  {
     slug: 'testing-domain-events-with-mstest',
     id: 1,
     title: 'Testing Domain Events with MSTest',
-    topic: 'Domain Layer',
+    topic: 'DDD',
     summary: 'Test the aggregate, the interceptor, the outbox and an idempotent consumer.',
     publishedAt: '2026-10-07',
     language: 'en',
@@ -101,6 +112,6 @@ describe('DotNetTestingConceptsListPage', () => {
     const fixture = render();
     const headings: NodeListOf<HTMLElement> = fixture.nativeElement.querySelectorAll('.topic-heading');
     const texts = Array.from(headings).map((h) => h.textContent?.trim());
-    expect(texts).toEqual(['Domain Layer', 'Another Topic']);
+    expect(texts).toEqual(['DDD', 'Application Architecture', 'Another Topic']);
   });
 });

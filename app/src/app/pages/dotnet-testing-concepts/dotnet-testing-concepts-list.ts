@@ -13,7 +13,8 @@ export interface DotNetTestingConceptTopicGroup {
 
 /** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
 const TOPIC_ORDER = [
-  'Domain Layer',
+  'DDD',
+  'Application Architecture',
 ];
 
 @Component({
