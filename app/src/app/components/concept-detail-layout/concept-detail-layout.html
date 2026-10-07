@@ -1,10 +1,17 @@
 <app-reading-progress-bar />
 
-<div class="detail-layout">
-  <div class="detail-main">
-    <a [routerLink]="backHref()" class="back-link">← {{ backLabel() }}</a>
+<div class="detail-layout" [class.panel-open]="discussion.panelOpen()">
+  <div class="detail-main" #main [class.dz-on]="discussion.markersVisible()">
+    <div class="detail-topbar">
+      <a [routerLink]="backHref()" class="back-link">← {{ backLabel() }}</a>
+      <app-discussion-toggle />
+    </div>
 
     <ng-content />
+
+    @if (discussion.markersVisible()) {
+      <p class="dz-hint" i18n="@@discussion.hint">Click a paragraph to see or start its discussion.</p>
+    }
 
     @if (prevItem() || nextItem()) {
       <nav class="concept-pager" i18n-aria-label="@@concept.sidebarNav.ariaLabel" aria-label="Concept navigation">
@@ -24,3 +31,5 @@
     <app-concept-sidebar-nav [items]="items()" [activeSlug]="activeSlug()" [basePath]="basePath()" />
   }
 </div>
+
+<app-discussion-host [content]="main" />

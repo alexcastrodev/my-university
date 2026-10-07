@@ -1108,3 +1108,73 @@ body.search-palette-open {
   background-color: #a16207;
   color: #ffffff;
 }
+
+/* Paragraph discussions: markers drawn by DiscussionHost inside the rendered concept content.
+   The content is injected HTML, so these rules have to be global. */
+.dz-on .dz-block {
+  position: relative;
+  margin-right: 3.4rem;
+}
+
+.dz-marker {
+  position: absolute;
+  top: 0.15rem;
+  right: -3.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 2.5rem;
+  height: 1.45rem;
+  padding: 0 0.45rem;
+  justify-content: center;
+  border: 1px solid var(--mu-accent-border);
+  border-radius: 999px;
+  background: var(--mu-surface);
+  color: var(--mu-accent);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.dz-marker::after {
+  content: attr(data-count);
+}
+
+/* A code block clips what sticks out of it, so its marker sits inside, in the top right corner. */
+pre.dz-block .dz-marker {
+  top: 0.5rem;
+  right: 0.6rem;
+}
+
+.dz-marker:hover {
+  background: var(--mu-accent-soft);
+}
+
+.dz-marker.is-empty {
+  color: var(--mu-faint);
+  border-color: var(--mu-line);
+}
+
+.dz-marker.is-active {
+  background: var(--mu-accent);
+  border-color: var(--mu-accent);
+  color: var(--mu-white);
+}
+
+.dz-on .dz-block.dz-active {
+  outline: 2px solid var(--mu-warning);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.dz-on .dz-block.dz-active:not(pre) {
+  background: var(--mu-warning-soft);
+}
+
+.dz-hint {
+  margin: 1.5rem 0 0;
+  font-size: 0.78rem;
+  color: var(--mu-faint);
+}
