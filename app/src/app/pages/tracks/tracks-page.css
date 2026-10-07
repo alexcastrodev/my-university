@@ -1,4 +1,4 @@
-.page { min-height: calc(100vh - 52px); background: var(--mu-bg); }
+.page { min-height: calc(100vh - var(--mu-header-h)); background: var(--mu-bg); }
 
 .page-hero {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);

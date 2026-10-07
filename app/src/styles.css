@@ -62,6 +62,7 @@
   --mu-radius-lg: 20px;
   --mu-shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
   --mu-shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.18);
+  --mu-header-h: 52px;        /* top header bar height (excludes the safe area) */
   --mu-nav-h: 60px;           /* bottom tab bar height (tappable part, excludes the safe area) */
 
   /* Device safe areas (notch, status bar, home indicator). Only non-zero because
@@ -893,7 +894,7 @@ app-concept-actions {
 
 .deep-dive-panel {
   position: fixed;
-  top: calc(52px + var(--mu-safe-top));
+  top: calc(var(--mu-header-h) + var(--mu-safe-top));
   right: 0;
   bottom: 0;
   width: 380px;

@@ -1,6 +1,6 @@
 :host {
   position: fixed;
-  top: calc(52px + var(--mu-safe-top));
+  top: calc(var(--mu-header-h) + var(--mu-safe-top));
   left: 0;
   right: 0;
   z-index: 30;

@@ -1,5 +1,5 @@
 .share-page {
-  min-height: calc(100vh - 52px);
+  min-height: calc(100vh - var(--mu-header-h));
   background: var(--mu-bg-alt);
   display: flex;
   flex-direction: column;
