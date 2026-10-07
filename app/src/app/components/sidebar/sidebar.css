@@ -133,16 +133,23 @@
 
 .icon { flex-shrink: 0; }
 
-.nav {
+.sidebar-middle {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1.1rem;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
 }
 
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.7rem;
@@ -334,3 +341,64 @@
 
 .menu-item:hover { background: var(--mu-bg-alt); }
 .menu-item.active { background: var(--mu-accent-soft); color: var(--mu-accent-strong); }
+
+.badge {
+  margin-left: auto;
+  min-width: 18px;
+  padding: 0 0.35rem;
+  border-radius: 9px;
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* Collapsed, the number rides on the icon's corner instead of the row's end. */
+:host-context(html[data-sidebar='collapsed']) .badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  margin: 0;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    margin: 0;
+  }
+}
+
+.studying {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.studying-title {
+  margin: 0 0.65rem 0.35rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.studying-item {
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.82rem;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.studying-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--mu-white);
+}

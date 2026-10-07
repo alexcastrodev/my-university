@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  effect,
   HostListener,
   PLATFORM_ID,
   computed,
@@ -10,16 +11,21 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { filter } from 'rxjs';
+import { catchError, filter, forkJoin, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
+import { ResumeService } from '../../services/resume.service';
+import { ReviewService } from '../../services/review.service';
 import { SearchService } from '../../services/search.service';
 import { ThemeService } from '../../services/theme.service';
 import { XpService } from '../../services/xp.service';
 import { LANGUAGE_LABELS, Language } from '../../models/language.model';
+import { StudyingNowItem, deriveStudyingNow } from '../../shared/studying-now';
 
 /** Same key and values the inline script in index.html reads before first paint. */
 const STORAGE_KEY = 'sidebar-collapsed';
+/** The badge and "Studying now" list are refreshed at most this often while the reader navigates. */
+const REFRESH_MS = 60_000;
 /** Below this width the sidebar starts collapsed to icons unless the reader expanded it. */
 const NARROW_QUERY = '(max-width: 1199px)';
 
@@ -43,6 +49,8 @@ export class Sidebar {
   private languageService = inject(LanguageService);
   private router = inject(Router);
   private searchService = inject(SearchService);
+  private reviewService = inject(ReviewService);
+  private resumeService = inject(ResumeService);
   private elementRef = inject(ElementRef);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
@@ -62,6 +70,11 @@ export class Sidebar {
   protected hidden = signal(this.shouldHide(this.router.url));
 
   collapsed = computed(() => this.preference() ?? this.narrow());
+  /** Reviews due today, shown as a badge on the Review link. */
+  dueCount = signal(0);
+  studying = signal<StudyingNowItem[]>([]);
+  private lastRefresh = 0;
+
   userMenuOpen = signal(false);
   languageMenuOpen = signal(false);
 
@@ -99,7 +112,33 @@ export class Sidebar {
       .subscribe((e) => {
         this.hidden.set(this.shouldHide(e.urlAfterRedirects));
         this.applyHidden();
+        // Answering reviews or reading a concept changes both, so look again when it's stale.
+        const stale = Date.now() - this.lastRefresh > REFRESH_MS;
+        if (this.auth.currentUser() && (stale || e.urlAfterRedirects.startsWith('/review'))) {
+          this.refresh();
+        }
       });
+
+    effect(() => {
+      if (this.auth.currentUser()) {
+        this.refresh();
+      } else {
+        this.dueCount.set(0);
+        this.studying.set([]);
+      }
+    });
+  }
+
+  private refresh(): void {
+    this.lastRefresh = Date.now();
+    this.reviewService.getDueQueue().subscribe({
+      next: (queue) => this.dueCount.set(queue.length),
+      error: () => {},
+    });
+    forkJoin({
+      recent: this.reviewService.getRecentActivity().pipe(catchError(() => of([]))),
+      resume: this.resumeService.getResumePoint().pipe(catchError(() => of(null))),
+    }).subscribe(({ recent, resume }) => this.studying.set(deriveStudyingNow(recent, resume)));
   }
 
   toggleCollapsed(): void {

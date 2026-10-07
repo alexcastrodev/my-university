@@ -43,6 +43,7 @@
     <kbd class="label search-kbd" aria-hidden="true">{{ shortcutLabel }}</kbd>
   </button>
 
+  <div class="sidebar-middle">
   <nav class="nav" i18n-aria-label="@@header.aria.mainNav" aria-label="Main navigation">
     @if (auth.currentUser()) {
       <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.dashboard" title="Dashboard">
@@ -77,9 +78,22 @@
           <path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v4.5h-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="label" i18n="@@header.nav.review">Review</span>
+        @if (dueCount() > 0) {
+          <span class="badge">{{ dueCount() }}</span>
+        }
       </a>
     }
   </nav>
+
+  @if (studying().length) {
+    <section class="studying label">
+      <h2 class="studying-title" i18n="@@sidebar.studying">Studying now</h2>
+      @for (item of studying(); track item.label) {
+        <a [routerLink]="item.route" class="studying-item">{{ item.label }}</a>
+      }
+    </section>
+  }
+  </div>
 
   <div class="sidebar-bottom">
     @if (auth.currentUser()) {
