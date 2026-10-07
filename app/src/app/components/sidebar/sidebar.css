@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  min-height: 34px;
+  min-height: 36px;
   /* Extra air between the brand and the menu, on top of the sidebar's own gap. */
   margin-bottom: 1.1rem;
 }
@@ -73,30 +73,37 @@
   padding-left: 0.25rem;
 }
 
+/* Collapsed, the logo sits dead center like the icons below it. */
+:host-context(html[data-sidebar='collapsed']) .brand {
+  padding-left: 0;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .brand {
+    padding-left: 0;
+  }
+}
+
 .brand-icon { display: flex; color: var(--mu-accent); }
 .brand-name { font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; color: rgba(255, 255, 255, 0.72); }
 .brand-name strong { font-weight: 800; color: var(--mu-white); }
 
-.collapse-btn,
-.tool-btn {
+.collapse-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  /* Same box as the nav rows and the search button, so the rail has one icon-button size. */
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.85);
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.collapse-btn:hover,
-.tool-btn:hover {
+.collapse-btn:hover {
   background: rgba(255, 255, 255, 0.12);
 }
 
@@ -105,7 +112,7 @@
   align-items: center;
   gap: 0.6rem;
   width: 100%;
-  height: 34px;
+  height: 36px;
   padding: 0 0.6rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -223,23 +230,67 @@
   background: #e8795f;
 }
 
+/* Collapsed, the level card becomes a bare progress ring with the level inside. */
+.only-collapsed {
+  display: none;
+}
+
+:host-context(html[data-sidebar='collapsed']) .only-collapsed {
+  display: flex;
+}
+
 :host-context(html[data-sidebar='collapsed']) .xp-card {
+  display: flex;
   justify-content: center;
-  padding: 0.4rem 0;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 @media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .only-collapsed {
+    display: flex;
+  }
+
   :host-context(html:not([data-sidebar='expanded'])) .xp-card {
+    display: flex;
     justify-content: center;
-    padding: 0.4rem 0;
+    padding: 0;
+    border: none;
+    background: none;
   }
 }
 
-.account-row {
-  display: flex;
+.xp-ring {
+  position: relative;
+  width: 36px;
+  height: 36px;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem;
+  justify-content: center;
+}
+
+.ring-track,
+.ring-fill {
+  fill: none;
+  stroke-width: 3;
+}
+
+.ring-track {
+  stroke: rgba(255, 255, 255, 0.16);
+}
+
+.ring-fill {
+  stroke: #e8795f;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 18px 18px;
+}
+
+.ring-level {
+  position: absolute;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mu-white);
 }
 
 .user-menu,
@@ -299,8 +350,39 @@
 
 .tools {
   display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* The theme and language rows are buttons wearing the nav rows' look. */
+button.nav-item {
+  width: 100%;
+  border: none;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+span.icon {
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .menu {
@@ -318,9 +400,17 @@
   z-index: 110;
 }
 
-.language-menu .menu {
-  left: auto;
-  right: 0;
+/* Collapsed, a menu opens beside the rail instead of over its narrow column. */
+:host-context(html[data-sidebar='collapsed']) .menu {
+  left: calc(100% + 0.6rem);
+  bottom: 0;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .menu {
+    left: calc(100% + 0.6rem);
+    bottom: 0;
+  }
 }
 
 .menu-item {
@@ -355,20 +445,35 @@
   text-align: center;
 }
 
-/* Collapsed, the number rides on the icon's corner instead of the row's end. */
+/* Collapsed, the count shrinks to a red dot on the icon's corner. The digits stay in the DOM
+   (font-size 0) so screen readers still hear them, and the row's title carries the number. */
 :host-context(html[data-sidebar='collapsed']) .badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 7px;
+  right: 8px;
+  min-width: 0;
+  width: 9px;
+  height: 9px;
+  padding: 0;
   margin: 0;
+  font-size: 0;
+  line-height: 0;
+  box-shadow: 0 0 0 2px #16213e;
 }
 
 @media (max-width: 1199px) {
   :host-context(html:not([data-sidebar='expanded'])) .badge {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 7px;
+    right: 8px;
+    min-width: 0;
+    width: 9px;
+    height: 9px;
+    padding: 0;
     margin: 0;
+    font-size: 0;
+    line-height: 0;
+    box-shadow: 0 0 0 2px #16213e;
   }
 }
 
@@ -401,4 +506,31 @@
 .studying-item:hover {
   background: rgba(255, 255, 255, 0.07);
   color: var(--mu-white);
+}
+
+/* Collapsed, every row centers its icon in the rail, so logo, buttons, icons and avatar share one axis. */
+:host-context(html[data-sidebar='collapsed']) .nav-item,
+:host-context(html[data-sidebar='collapsed']) .search-btn,
+:host-context(html[data-sidebar='collapsed']) .user-btn {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+:host-context(html[data-sidebar='collapsed']) .user-btn {
+  width: 100%;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .nav-item,
+  :host-context(html:not([data-sidebar='expanded'])) .search-btn,
+  :host-context(html:not([data-sidebar='expanded'])) .user-btn {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  :host-context(html:not([data-sidebar='expanded'])) .user-btn {
+    width: 100%;
+  }
 }
