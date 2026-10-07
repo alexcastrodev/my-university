@@ -28,6 +28,10 @@ export async function put(
   });
 }
 
+export async function del(path: string, headers: Record<string, string> = {}) {
+  return fetch(`${BASE}${path}`, { method: 'DELETE', headers });
+}
+
 export async function json<T = unknown>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
