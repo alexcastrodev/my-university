@@ -61,6 +61,8 @@ export class Sidebar {
       : 'Ctrl K';
 
   protected readonly LANGUAGE_LABELS = LANGUAGE_LABELS;
+  protected readonly lightModeLabel = $localize`:@@sidebar.lightMode:Light mode`;
+  protected readonly darkModeLabel = $localize`:@@sidebar.darkMode:Dark mode`;
   protected readonly collapseLabel = $localize`:@@sidebar.collapse:Collapse sidebar`;
   protected readonly expandLabel = $localize`:@@sidebar.expand:Expand sidebar`;
 
@@ -100,6 +102,24 @@ export class Sidebar {
     const { minXp, nextLevelXp } = summary.level;
     if (nextLevelXp === null) return 100;
     return Math.max(0, Math.min(100, ((summary.total - minXp) / (nextLevelXp - minXp)) * 100));
+  });
+
+  /** The Review row's tooltip: with the rail collapsed it is the only place the count is spelled out. */
+  protected reviewTitle = computed(() =>
+    this.dueCount() > 0
+      ? $localize`:@@sidebar.reviewDue:Review · ${this.dueCount()}:count:`
+      : $localize`:@@header.nav.review:Review`,
+  );
+
+  /** What the theme button will switch to, as the row's text. */
+  protected themeLabel = computed(() =>
+    this.themeService.theme() === 'dark' ? this.lightModeLabel : this.darkModeLabel,
+  );
+
+  /** Stroke dash for the level ring: the filled part of the circle, then the rest. */
+  protected ringDash = computed(() => {
+    const circumference = 2 * Math.PI * 15;
+    return `${(this.levelProgress() / 100) * circumference} ${circumference}`;
   });
 
   constructor() {
