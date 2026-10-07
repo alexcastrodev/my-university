@@ -1,0 +1,166 @@
+<div class="backdrop" (click)="discussion.close()"></div>
+
+<ng-template #comment let-c let-thread="thread" let-isReply="isReply">
+  @let pinned = isReply && isPinned(thread, c);
+  <article class="comment" [class.reply]="isReply" [class.pinned]="pinned">
+    @if (pinned) {
+      <div class="pin-head">
+        <span class="pin-label" i18n="@@discussion.pinned">Pinned answer</span>
+        @if (thread.root.mine) {
+          <button type="button" class="link" (click)="discussion.unaccept(thread.root.id)" i18n="@@discussion.undo">Undo</button>
+        }
+      </div>
+    }
+    <div class="row">
+      <span class="avatar" [class.me]="c.mine">
+        @if (c.author?.avatarUrl) {
+          <img [src]="c.author.avatarUrl" alt="" />
+        } @else {
+          {{ initials(c) }}
+        }
+      </span>
+      <div class="main">
+        <div class="meta">
+          @if (c.deleted) {
+            <em class="removed" i18n="@@discussion.removed">Comment removed</em>
+          } @else {
+            <strong class="name">
+              @if (c.mine) {
+                <ng-container i18n="@@discussion.you">You</ng-container>
+              } @else {
+                {{ displayName(c) }}
+              }
+            </strong>
+            <span class="time">· {{ timeAgo(c.createdAt) }}</span>
+            @if (!isReply && thread.resolved) {
+              <span class="resolved" i18n="@@discussion.resolved">Resolved</span>
+            }
+          }
+        </div>
+        @if (!c.deleted) {
+          <p class="body">{{ c.body }}</p>
+          <div class="actions">
+            <button
+              type="button"
+              class="vote"
+              [class.voted]="c.votedByMe"
+              [disabled]="c.mine || !discussion.signedIn() || discussion.busy()"
+              i18n-aria-label="@@discussion.upvote"
+              aria-label="Upvote"
+              [attr.aria-pressed]="c.votedByMe"
+              (click)="discussion.vote(c.id, c.votedByMe)"
+            >▲ {{ c.votes }}</button>
+            @if (discussion.signedIn()) {
+              <button type="button" class="link" (click)="reply(thread, c)" i18n="@@discussion.reply">Reply</button>
+            }
+            @if (isReply && thread.root.mine && !thread.resolved) {
+              <button type="button" class="resolve" (click)="discussion.accept(thread.root.id, c.id)" i18n="@@discussion.markResolved">Mark as resolved</button>
+            }
+            @if (c.mine) {
+              <button type="button" class="link danger" (click)="remove(c)">
+                @if (confirmingDelete() === c.id) {
+                  <ng-container i18n="@@discussion.confirmDelete">Confirm</ng-container>
+                } @else {
+                  <ng-container i18n="@@discussion.delete">Delete</ng-container>
+                }
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </article>
+</ng-template>
+
+<aside class="panel" role="complementary" i18n-aria-label="@@discussion.region" aria-label="Paragraph discussion">
+  <div
+    class="handle"
+    aria-hidden="true"
+    (pointerdown)="onHandleDown($event)"
+    (pointerup)="onHandleUp($event)"
+  ><span></span></div>
+
+  <header class="head">
+    <span class="chip" i18n="@@discussion.panelTitle">Paragraph discussion · {{ count() }}</span>
+    <button type="button" class="close" i18n-aria-label="@@discussion.close" aria-label="Close discussion" (click)="discussion.close()">✕</button>
+  </header>
+
+  <div class="scroll">
+    <blockquote class="quote">“{{ quoteText() }}”</blockquote>
+
+    @if (loading()) {
+      <p class="muted">...</p>
+    } @else if (threads().length === 0) {
+      <p class="muted" i18n="@@discussion.empty">No comments yet. Start the discussion.</p>
+    }
+
+    @for (thread of threads(); track thread.root.id) {
+      <div class="thread">
+        <ng-container *ngTemplateOutlet="comment; context: { $implicit: thread.root, thread, isReply: false }" />
+        @if (thread.replies.length) {
+          <div class="replies">
+            @for (r of thread.replies; track r.id) {
+              <ng-container *ngTemplateOutlet="comment; context: { $implicit: r, thread, isReply: true }" />
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (others().length) {
+      <section class="others">
+        <h3 i18n="@@discussion.others">Other discussed paragraphs</h3>
+        @for (e of others(); track e.marker.id) {
+          <button type="button" class="other" (click)="openEntry(e)">“{{ e.marker.quote }}” · {{ e.marker.commentCount }}</button>
+        }
+      </section>
+    }
+    @if (changed().length) {
+      <section class="others">
+        <h3 i18n="@@discussion.changed">Passages that changed</h3>
+        @for (e of changed(); track e.marker.id) {
+          <button type="button" class="other" (click)="openEntry(e)">“{{ e.marker.quote }}” · {{ e.marker.commentCount }}</button>
+        }
+      </section>
+    }
+  </div>
+
+  @if (showComposer()) {
+    <footer class="composer">
+      @if (!discussion.signedIn()) {
+        <a routerLink="/login" class="signin" i18n="@@discussion.signIn">Sign in to join the discussion</a>
+      } @else {
+        @if (replyingTo(); as to) {
+          <div class="replying">
+            <span i18n="@@discussion.replyingTo">Replying to {{ to.name }}</span>
+            <button type="button" class="link" (click)="replyingTo.set(null)" i18n="@@discussion.cancel">Cancel</button>
+          </div>
+        }
+        <div class="field">
+          <textarea
+            rows="2"
+            [value]="draft()"
+            [maxLength]="maxBody"
+            i18n-placeholder="@@discussion.placeholder"
+            placeholder="Reply in this paragraph..."
+            (input)="onInput($event)"
+            (keydown)="onKeydown($event)"
+          ></textarea>
+          <button type="button" class="send" [disabled]="!canSend()" (click)="send()">
+            <span class="send-label" i18n="@@discussion.send">Send</span>
+            <span class="send-arrow" aria-hidden="true">↑</span>
+          </button>
+        </div>
+        @if (discussion.error(); as error) {
+          <p class="error" role="alert">
+            @if (error === 'tooMany') {
+              <ng-container i18n="@@discussion.error.tooMany">You are commenting too fast. Wait a minute.</ng-container>
+            } @else {
+              <ng-container i18n="@@discussion.error.failed">Could not send. Try again.</ng-container>
+            }
+          </p>
+        }
+      }
+    </footer>
+  }
+</aside>

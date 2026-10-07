@@ -1,10 +1,17 @@
+.detail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .back-link {
   display: inline-block;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--mu-muted);
   text-decoration: none;
-  margin-bottom: 1rem;
 }
 
 .back-link:hover {
@@ -67,5 +74,17 @@ app-concept-sidebar-nav {
 
   .detail-main {
     order: 1;
+  }
+}
+
+/* With a discussion open on desktop the page makes room for the panel instead of sliding under it. */
+@media (min-width: 769px) {
+  .detail-layout.panel-open {
+    grid-template-columns: minmax(0, 1fr);
+    margin-right: 380px;
+  }
+
+  .detail-layout.panel-open app-concept-sidebar-nav {
+    display: none;
   }
 }
