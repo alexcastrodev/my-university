@@ -4,6 +4,7 @@ import {
   ElementRef,
   PLATFORM_ID,
   computed,
+  effect,
   inject,
   signal,
   viewChild,
@@ -68,6 +69,12 @@ export class AskAiTooltip {
   constructor() {
     if (!this.isBrowser) return;
 
+    // Highlight as soon as text is selected, without waiting for the copy-link click.
+    effect(() => {
+      const sel = this.selection();
+      if (sel) this.highlightService.previewSelection(sel.text, sel.range);
+    });
+
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('mousedown', this.onDocumentMouseDown, { capture: true });
     window.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
@@ -98,7 +105,7 @@ export class AskAiTooltip {
     const sel = this.selection();
     if (!sel) return;
 
-    const url = this.highlightService.shareSelection(sel.text);
+    const url = this.highlightService.shareSelection(sel.text, sel.range);
     if (!url) return;
 
     try {

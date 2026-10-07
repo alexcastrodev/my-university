@@ -5,6 +5,7 @@ import { NavigationStart, Router } from '@angular/router';
 export interface TextSelectionState {
   text: string;
   rect: DOMRect;
+  range: Range;
   isSelectAll: boolean;
 }
 
@@ -76,7 +77,7 @@ export class TextSelectionService {
     const coverage = text.length / containerLength;
     const isSelectAll = this.selectAllIntent || coverage >= SELECT_ALL_COVERAGE_THRESHOLD;
 
-    this.selection.set({ text, rect, isSelectAll });
+    this.selection.set({ text, rect, range: range.cloneRange(), isSelectAll });
     this.selectAllIntent = false;
   }
 
