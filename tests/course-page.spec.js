@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import { gotoCourse, EXAM_ID } from './BaseTest.js';
 import { CoursePage } from './pages/CoursePage.js';
 import { PlaylistPage } from './pages/PlaylistPage.js';
-import { HeaderPage } from './pages/HeaderPage.js';
+import { SidebarPage } from './pages/SidebarPage.js';
 
 test.describe('Course Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,8 +12,8 @@ test.describe('Course Page', () => {
 
   test.describe('Header', () => {
     test('should render header on course page', async ({ page }) => {
-      const header = new HeaderPage(page);
-      await expect(header.header).toBeVisible();
+      const header = new SidebarPage(page);
+      await expect(header.sidebar).toBeVisible();
       await expect(header.brandLink).toBeVisible();
       await expect(header.examsLink).toBeVisible();
     });

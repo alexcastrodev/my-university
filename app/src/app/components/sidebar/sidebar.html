@@ -1,0 +1,171 @@
+<aside class="sidebar" [class.hidden]="hidden()">
+  <div class="sidebar-top">
+    <a routerLink="/" class="brand" i18n-aria-label="@@header.aria.home" aria-label="My University Home">
+      <span class="brand-icon" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="12" fill="currentColor"/>
+          <path d="M15 26v4c0 6 18 6 18 0v-4" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M24 12.5L41 20.5 24 28.5 7 20.5z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round" paint-order="stroke"/>
+          <path d="M39 23v8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="39" cy="33" r="2.3" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="brand-name label">My<strong>University</strong></span>
+    </a>
+    <button
+      type="button"
+      class="collapse-btn"
+      [attr.aria-label]="collapsed() ? expandLabel : collapseLabel"
+      [attr.aria-expanded]="!collapsed()"
+      [attr.title]="collapsed() ? expandLabel : collapseLabel"
+      (click)="toggleCollapsed()"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3.5" y="4.5" width="17" height="15" rx="3" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M9.5 5v14" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="search-btn"
+    aria-haspopup="dialog"
+    i18n-aria-label="@@header.aria.searchCourses" aria-label="Search courses"
+    i18n-title="@@sidebar.search" title="Search"
+    (click)="openSearch()"
+  >
+    <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+      <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="label search-text" i18n="@@sidebar.search">Search</span>
+    <kbd class="label search-kbd" aria-hidden="true">{{ shortcutLabel }}</kbd>
+  </button>
+
+  <nav class="nav" i18n-aria-label="@@header.aria.mainNav" aria-label="Main navigation">
+    @if (auth.currentUser()) {
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.dashboard" title="Dashboard">
+        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 10.5 12 3l9 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 9.5V20h14V9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="label" i18n="@@header.nav.dashboard">Dashboard</span>
+      </a>
+    }
+    <a routerLink="/computer-science" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.computerScience" title="Computer Science">
+      <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="label" i18n="@@header.nav.computerScience">Computer Science</span>
+    </a>
+    <a routerLink="/tracks" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.tracks" title="Tracks">
+      <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h11M4 17h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="label" i18n="@@header.nav.tracks">Tracks</span>
+    </a>
+    <a routerLink="/leaderboard" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.leaderboard" title="Leaderboard">
+      <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 4h8v5a4 4 0 0 1-8 0V4zM8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4M8.5 20h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="label" i18n="@@header.nav.leaderboard">Leaderboard</span>
+    </a>
+    @if (auth.currentUser()) {
+      <a routerLink="/review" routerLinkActive="active" class="nav-item" i18n-title="@@header.nav.review" title="Review">
+        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v4.5h-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="label" i18n="@@header.nav.review">Review</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-bottom">
+    @if (auth.currentUser()) {
+      <a
+        routerLink="/profile"
+        class="xp-card"
+        i18n-aria-label="@@header.aria.levelXp" aria-label="Level and experience points"
+        [attr.title]="xpService.summary()?.level?.title ?? null"
+      >
+        <span class="xp-level" i18n="@@header.xp.level">Lv {{ xpService.summary()?.level?.number ?? 1 }}</span>
+        <span class="label xp-points" i18n="@@header.xp.points">{{ xpService.xp() }} XP</span>
+        <span class="label xp-bar" aria-hidden="true"><i [style.width.%]="levelProgress()"></i></span>
+      </a>
+    }
+
+    <div class="account-row">
+      <div class="user-menu">
+        @if (auth.currentUser(); as user) {
+          <button
+            type="button"
+            class="user-btn"
+            i18n-aria-label="@@header.aria.userMenu" aria-label="User account menu"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="userMenuOpen()"
+            (click)="toggleUser()"
+          >
+            <span class="avatar" [class.has-avatar]="!!user.avatarUrl">
+              @if (user.avatarUrl) {
+                <img class="avatar-img" [src]="user.avatarUrl" [alt]="user.displayName" />
+              } @else {
+                {{ userInitials() }}
+              }
+            </span>
+            <span class="label user-name">{{ user.displayName }}</span>
+          </button>
+          @if (userMenuOpen()) {
+            <div class="menu" role="menu">
+              <a routerLink="/profile" class="menu-item" role="menuitem" (click)="userMenuOpen.set(false)" i18n="@@header.userMenu.profile">Profile</a>
+              <a routerLink="/settings" class="menu-item" role="menuitem" (click)="userMenuOpen.set(false)" i18n="@@header.userMenu.settings">Settings</a>
+              <button type="button" class="menu-item" role="menuitem" (click)="logout()" i18n="@@header.userMenu.logout">Logout</button>
+            </div>
+          }
+        } @else {
+          <a routerLink="/login" class="user-btn" i18n-title="@@header.signIn" title="Sign in">
+            <span class="avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c1.5-4 4.5-5.5 8-5.5s6.5 1.5 8 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="label user-name" i18n="@@header.signIn">Sign in</span>
+          </a>
+        }
+      </div>
+
+      <div class="label tools">
+        <button
+          type="button"
+          class="tool-btn"
+          i18n-aria-label="@@header.aria.toggleTheme" aria-label="Toggle color theme"
+          [attr.aria-pressed]="themeService.theme() === 'dark'"
+          (click)="themeService.toggle()"
+        >
+          @if (themeService.theme() === 'dark') {
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 2.5v2.25M12 19.25v2.25M4.22 4.22l1.59 1.59M18.19 18.19l1.59 1.59M2.5 12h2.25M19.25 12h2.25M4.22 19.78l1.59-1.59M18.19 5.81l1.59-1.59" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          } @else {
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20.5 14.5A9 9 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" fill="currentColor"/>
+            </svg>
+          }
+        </button>
+        <div class="language-menu">
+          <button
+            type="button"
+            class="tool-btn language-btn"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="languageMenuOpen()"
+            i18n-aria-label="@@header.aria.contentLanguage" aria-label="Content language"
+            (click)="toggleLanguageMenu()"
+          >{{ languageCode }}</button>
+          @if (languageMenuOpen()) {
+            <div class="menu" role="menu">
+              <button type="button" class="menu-item" role="menuitem" [class.active]="language === 'en'" [attr.aria-pressed]="language === 'en'" (click)="setLanguage('en')">{{ LANGUAGE_LABELS['en'] }}</button>
+              <button type="button" class="menu-item" role="menuitem" [class.active]="language === 'pt-BR'" [attr.aria-pressed]="language === 'pt-BR'" (click)="setLanguage('pt-BR')">{{ LANGUAGE_LABELS['pt-BR'] }}</button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>

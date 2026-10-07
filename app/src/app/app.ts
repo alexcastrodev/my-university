@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './components/header/header';
+import { Sidebar } from './components/sidebar/sidebar';
 import { Footer } from './components/footer/footer';
 import { BottomNav } from './components/bottom-nav/bottom-nav';
 import { XpToast } from './components/xp-toast/xp-toast';
@@ -17,7 +17,7 @@ import { TextHighlightService } from './services/text-highlight.service';
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Header, Footer, BottomNav, DailyReturnPill, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, SearchPalette, RouterOutlet],
+  imports: [Sidebar, Footer, BottomNav, DailyReturnPill, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, SearchPalette, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

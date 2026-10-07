@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { gotoExamList } from './BaseTest.js';
 import { ExamListPage } from './pages/ExamListPage.js';
-import { HeaderPage } from './pages/HeaderPage.js';
+import { SidebarPage } from './pages/SidebarPage.js';
 
 test.describe('Exam List Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -10,8 +10,8 @@ test.describe('Exam List Page', () => {
 
   test.describe('Header', () => {
     test('should render header with brand, nav and search', async ({ page }) => {
-      const header = new HeaderPage(page);
-      await expect(header.header).toBeVisible();
+      const header = new SidebarPage(page);
+      await expect(header.sidebar).toBeVisible();
       await expect(header.brandLink).toBeVisible();
       await expect(header.examsLink).toBeVisible();
       const vp = page.viewportSize();
