@@ -24,7 +24,7 @@
 
 app-concept-sidebar-nav {
   position: sticky;
-  top: calc(52px + 1.5rem);
+  top: calc(var(--mu-header-h) + 1.5rem);
 }
 
 .concept-pager {

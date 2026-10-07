@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  height: calc(100vh - 52px);
+  height: calc(100vh - var(--mu-header-h));
   color: var(--mu-muted);
   font-size: 0.9rem;
 }
@@ -22,7 +22,7 @@
 .quiz {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 52px);
+  height: calc(100vh - var(--mu-header-h));
   background: var(--mu-bg);
 }
 

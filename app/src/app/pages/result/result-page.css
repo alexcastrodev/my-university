@@ -1,6 +1,6 @@
 .result-page {
   background: var(--mu-bg-alt);
-  min-height: calc(100vh - 52px);
+  min-height: calc(100vh - var(--mu-header-h));
   display: flex;
   flex-direction: column;
 }

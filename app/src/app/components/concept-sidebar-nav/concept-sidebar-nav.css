@@ -39,7 +39,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: calc(100vh - 52px - 2rem - 52px);
+  max-height: calc(100vh - var(--mu-header-h) - 2rem - 52px);
   overflow-y: auto;
 }
 
