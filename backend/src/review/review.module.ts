@@ -5,6 +5,7 @@ import { CurriculumModule } from '../curriculum/curriculum.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
 import { JavaConceptsModule } from '../java-concepts/java-concepts.module';
 import { JavaMinuteModule } from '../java-minute/java-minute.module';
+import { CSharpMinuteModule } from '../csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from '../jvm-concepts/jvm-concepts.module';
 import { QuarkusConceptsModule } from '../quarkus-concepts/quarkus-concepts.module';
 import { KubernetesConceptsModule } from '../kubernetes-concepts/kubernetes-concepts.module';
@@ -30,6 +31,7 @@ import { ReviewService } from './review.service';
     DatabaseConceptsModule,
     SystemDesignConceptsModule,
     JavaMinuteModule,
+    CSharpMinuteModule,
     TestingConceptsModule,
     AlgorithmsConceptsModule,
     RubyConceptsModule,

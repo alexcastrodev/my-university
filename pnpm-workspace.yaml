@@ -8,3 +8,21 @@ allowBuilds:
   msgpackr-extract: true
 minimumReleaseAgeExclude:
   - cytoscape@3.34.3
+
+# Transitive dependencies pinned to their patched releases while the packages
+# that pull them in still allow vulnerable ranges (checked by `pnpm audit`).
+overrides:
+  'brace-expansion@<1.1.21': '^1.1.21'
+  'engine.io@>=6.6.0 <6.6.10': '^6.6.10'
+  'qs@>=2.2.5 <6.16.0': '^6.16.0'
+  'source-map-js@>=1.0.0 <1.2.2': '^1.2.2'
+# Advisories accepted after review, with no patched release reachable yet:
+# - GHSA-vfj7-8cjw-p6xm (braces): no fixed version published; only reached by
+#   karma's file watcher in local `ng test`, never shipped to production.
+# - GHSA-238p-pmpm-9mq7 (katex, low): mermaid pins katex ^0.16 and the fix is
+#   0.18.2; exploiting it needs a prior prototype pollution, and the diagrams
+#   it renders are authored in this repository.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-vfj7-8cjw-p6xm
+    - GHSA-238p-pmpm-9mq7

@@ -11,12 +11,12 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { TextSelectionService } from '../../services/text-selection';
 import { TextHighlightService } from '../../services/text-highlight.service';
-import { buildAskAiPrompt } from '../../shared/ask-ai-prompt';
+import { AskAiTarget, buildAskAiPrompt } from '../../shared/ask-ai-prompt';
 
 const GAP = 8;
 const VIEWPORT_PADDING = 8;
 const ESTIMATED_WIDTH = 280;
-const ESTIMATED_HEIGHT = 44;
+const ESTIMATED_HEIGHT = 148;
 const PIN_MS = 2500;
 
 type AskAiStatus =
@@ -73,14 +73,15 @@ export class AskAiTooltip {
     window.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
   }
 
-  async ask(target: 'claude' | 'chatgpt'): Promise<void> {
+  async ask(target: AskAiTarget): Promise<void> {
     const sel = this.selection();
     if (!sel) return;
 
     const prompt = buildAskAiPrompt(sel.text, sel.isSelectAll, window.location.href);
-    const url = target === 'claude' ? prompt.claudeUrl : prompt.chatGptUrl;
+    const url = prompt.urls[target];
 
-    if (prompt.mode === 'clipboard') {
+    // Gemini doesn't officially document `?q=` prefill, so the prompt is also copied as a fallback.
+    if (prompt.mode === 'clipboard' || target === 'gemini') {
       try {
         await navigator.clipboard.writeText(prompt.promptText);
         this.status.set({ kind: 'copied' });

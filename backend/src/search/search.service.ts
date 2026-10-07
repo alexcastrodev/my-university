@@ -9,6 +9,7 @@ import { CurriculumService } from '../curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { CSharpMinuteService } from '../csharp-minute/csharp-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
 import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
@@ -32,6 +33,7 @@ export const SEARCH_RESULT_TYPES = [
   'course',
   'lesson',
   'java-minute',
+  'csharp-minute',
   'java-concept',
   'jvm-concept',
   'curriculum-concept',
@@ -153,6 +155,7 @@ export class SearchService implements OnApplicationBootstrap {
     private javaConceptsService: JavaConceptsService,
     private jvmConceptsService: JvmConceptsService,
     private javaMinuteService: JavaMinuteService,
+    private cSharpMinuteService: CSharpMinuteService,
     private curriculumService: CurriculumService,
     private databaseConceptsService: DatabaseConceptsService,
     private springConceptsService: SpringConceptsService,
@@ -215,6 +218,20 @@ export class SearchService implements OnApplicationBootstrap {
         url: (slug) => `/java/java-minute/${slug}`,
         list: (lang) =>
           this.javaMinuteService.findAllDetailed(lang).map((episode) => ({
+            slug: episode.slug,
+            title: episode.question,
+            summary: '',
+            sections: episode.sections,
+            language: episode.language,
+          })),
+      },
+      {
+        type: 'csharp-minute',
+        idPrefix: 'csharp-minute',
+        subtitle: 'C# Minute',
+        url: (slug) => `/csharp-minute/${slug}`,
+        list: (lang) =>
+          this.cSharpMinuteService.findAllDetailed(lang).map((episode) => ({
             slug: episode.slug,
             title: episode.question,
             summary: '',

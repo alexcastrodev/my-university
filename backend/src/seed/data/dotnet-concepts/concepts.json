@@ -273,6 +273,7 @@
         "feature": "spring-concepts"
       }
     ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
     "references": [
       {
         "label": "Domain events: design and implementation, Microsoft Learn",

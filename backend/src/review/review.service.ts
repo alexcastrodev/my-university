@@ -11,6 +11,7 @@ import { SpringConceptsService } from '../spring-concepts/spring-concepts.servic
 import { DatabaseConceptsService } from '../database-concepts/database-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { CSharpMinuteService } from '../csharp-minute/csharp-minute.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
@@ -73,6 +74,7 @@ export class ReviewService {
     private databaseConcepts: DatabaseConceptsService,
     private systemDesignConcepts: SystemDesignConceptsService,
     private javaMinute: JavaMinuteService,
+    private cSharpMinute: CSharpMinuteService,
     private testingConcepts: TestingConceptsService,
     private algorithmsConcepts: AlgorithmsConceptsService,
     private rubyConcepts: RubyConceptsService,
@@ -94,6 +96,7 @@ export class ReviewService {
       'database-concepts': new Map(this.databaseConcepts.findAll().map((c) => [c.slug, c.title])),
       'system-design-concepts': new Map(this.systemDesignConcepts.findAll().map((c) => [c.slug, c.title])),
       'java-minute': new Map(this.javaMinute.findAll().map((e) => [e.slug, e.question])),
+      'csharp-minute': new Map(this.cSharpMinute.findAll().map((e) => [e.slug, e.question])),
       'testing-concepts': new Map(this.testingConcepts.findAll().map((c) => [c.slug, c.title])),
       'algorithms-concepts': new Map(this.algorithmsConcepts.findAll().map((c) => [c.slug, c.title])),
       'ruby-concepts': new Map(this.rubyConcepts.findAll().map((c) => [c.slug, c.title])),
@@ -107,7 +110,8 @@ export class ReviewService {
 
   /** Title + summary of every concept in the Complementary Studies areas that are read (not
    *  watched), in each area's own order: the flat catalogue the mobile feed draws from.
-   *  `java-minute` is left out on purpose: its episodes are videos, not a card you can read. */
+   *  The Minute tracks (`java-minute`, `csharp-minute`) are left out on purpose: an episode is a
+   *  question with no summary, not a card you can read. */
   listConceptSummaries(lang: Language): {
     module: string;
     slug: string;
@@ -183,6 +187,10 @@ export class ReviewService {
       }
       case 'java-minute': {
         const d = this.javaMinute.findBySlug(slug, lang);
+        return d ? { title: d.question, sections: d.sections } : undefined;
+      }
+      case 'csharp-minute': {
+        const d = this.cSharpMinute.findBySlug(slug, lang);
         return d ? { title: d.question, sections: d.sections } : undefined;
       }
       case 'testing-concepts': {

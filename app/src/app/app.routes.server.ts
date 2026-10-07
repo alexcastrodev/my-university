@@ -106,6 +106,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'csharp-minute',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'csharp-minute/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'csharp-concepts/:slug',
     renderMode: RenderMode.Server,
   },

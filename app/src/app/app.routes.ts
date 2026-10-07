@@ -170,6 +170,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/csharp-concepts/csharp-concepts-list').then((m) => m.CSharpConceptsListPage),
   },
   {
+    path: 'csharp-minute',
+    loadComponent: () => import('./pages/csharp-minute/csharp-minute-list').then((m) => m.CSharpMinuteListPage),
+  },
+  {
+    path: 'csharp-minute/:slug',
+    loadComponent: () => import('./pages/csharp-minute/csharp-minute-detail').then((m) => m.CSharpMinuteDetailPage),
+  },
+  {
     path: 'csharp-concepts/:slug',
     loadComponent: () => import('./pages/csharp-concepts/csharp-concepts-detail').then((m) => m.CSharpConceptsDetailPage),
   },

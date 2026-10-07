@@ -4,6 +4,7 @@ import { CurriculumService } from '../src/curriculum/curriculum.service';
 import { DatabaseConceptsService } from '../src/database-concepts/database-concepts.service';
 import { JavaConceptsService } from '../src/java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../src/java-minute/java-minute.service';
+import { CSharpMinuteService } from '../src/csharp-minute/csharp-minute.service';
 import { JvmConceptsService } from '../src/jvm-concepts/jvm-concepts.service';
 import { KubernetesConceptsService } from '../src/kubernetes-concepts/kubernetes-concepts.service';
 import { QuarkusConceptsService } from '../src/quarkus-concepts/quarkus-concepts.service';
@@ -24,6 +25,7 @@ function buildDocuments() {
     new JavaConceptsService(),
     new JvmConceptsService(),
     new JavaMinuteService(),
+    new CSharpMinuteService(),
     new CurriculumService(),
     new DatabaseConceptsService(),
     new SpringConceptsService(),

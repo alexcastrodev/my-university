@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@csharpMinute.title">C# Minute</h1>
+    <p class="page-sub" i18n="@@csharpMinute.subtitle">Quick answers to the C# questions that trip people up, one episode at a time.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="sort-row">
+      <span class="sort-row-label" i18n="@@concepts.sort.label">Sort</span>
+      <div class="sort-filters">
+        @for (opt of READ_SORT_OPTIONS; track opt.value) {
+          <button type="button" class="sort-filter-pill"
+            [class.active]="readSort() === opt.value"
+            (click)="onSortChange(opt.value)">
+            @switch (opt.label) {
+    @case ('sort.default') { <ng-container i18n="@@sort.default">Default</ng-container> }
+    @case ('sort.unreadFirst') { <ng-container i18n="@@sort.unreadFirst">Unread first</ng-container> }
+    @case ('sort.readFirst') { <ng-container i18n="@@sort.readFirst">Read first</ng-container> }
+    }
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="loading" role="status" i18n-aria-label="@@javaMinute.loading.ariaLabel" aria-label="Loading episodes">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@javaMinute.loading">Loading episodes…</ng-container>
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (episode of sortedEpisodes(); track episode.slug) {
+          <a [routerLink]="[basePath, episode.slug]" class="episode-card" [class.is-read]="episode.read">
+            <div class="card-header">
+              <span class="card-order">#{{ episode.id }}</span>
+            </div>
+            <h3 class="card-title">{{ episode.question }}</h3>
+            <div class="card-footer">
+              <span class="card-cta" i18n="@@csharpMinute.read">Read →</span>
+              @if (episode.read) {
+                <span class="read-check" i18n-title="@@csharpMinute.readCheck" title="You've read this episode">✓</span>
+              }
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -29,6 +29,16 @@ describe('toSourceId / fromSourceId round-trip', () => {
     expect(toSourceId('database-concepts', 'generics')).toEqual({ sourceType: 'concept-read', sourceId: 'db:generics' });
     expect(toSourceId('system-design-concepts', 'generics')).toEqual({ sourceType: 'concept-read', sourceId: 'sysdesign:generics' });
     expect(toSourceId('java-minute', 'generics')).toEqual({ sourceType: 'episode-watched', sourceId: 'generics' });
+    expect(toSourceId('csharp-minute', 'generics')).toEqual({ sourceType: 'episode-watched', sourceId: 'csharp:generics' });
+  });
+
+  it('disambiguates a C# Minute episode from a bare Java Minute slug sharing sourceType "episode-watched"', () => {
+    expect(fromSourceId('episode-watched', 'csharp:async-void')).toEqual({
+      module: 'csharp-minute',
+      slug: 'async-void',
+      route: ['/csharp-minute', 'async-void'],
+    });
+    expect(fromSourceId('episode-watched', 'context-switching')?.module).toBe('java-minute');
   });
 
   it('disambiguates a bare java-concepts slug from prefixed modules sharing sourceType "concept-read"', () => {

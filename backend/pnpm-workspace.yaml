@@ -4,3 +4,15 @@ minimumReleaseAgeExclude:
 allowBuilds:
   '@nestjs/core': true
   unrs-resolver: true
+
+# @nestjs/platform-fastify 11.x pins fastify 5.11.3, which has known advisories
+# (validation and auth bypasses) fixed in 5.12.5; same major, so it is forced here.
+overrides:
+  fastify: ^5.12.5
+
+# Advisories accepted after review, with no patched release reachable yet:
+# - GHSA-vfj7-8cjw-p6xm (braces): no fixed version published; only reached by
+#   ts-loader at build time, never shipped in the production image.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-vfj7-8cjw-p6xm

@@ -107,6 +107,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'Same paradigms, another language',
   },
   {
+    slug: 'csharp-minute',
+    apiBase: '/api/csharp-minute',
+    title: 'C# Minute',
+    routerLink: '/csharp-minute',
+    touchesModule: 'algorithms-software',
+    touchesTitle: 'Algorithms & Software',
+    relationship: 'Short-form companion to C#',
+  },
+  {
     slug: 'database-concepts',
     apiBase: '/api/database-concepts',
     title: 'Database Concepts',
