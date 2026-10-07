@@ -1,0 +1,35 @@
+<div class="page">
+  <div class="page-body">
+    @if (loading()) {
+      <a [routerLink]="basePath" class="back-link">← {{ backLabelText }}</a>
+      <div class="loading" role="status" i18n-aria-label="@@csharpMinuteDetail.loading.ariaLabel" aria-label="Loading episode">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@csharpMinuteDetail.loading">Loading episode…</ng-container>
+      </div>
+    } @else if (notFound()) {
+      <a [routerLink]="basePath" class="back-link">← {{ backLabelText }}</a>
+      <div class="not-found">
+        <p i18n="@@csharpMinuteDetail.notFound">Episode not found.</p>
+      </div>
+    } @else {
+      <app-concept-detail-layout
+        [backHref]="basePath"
+        [backLabel]="backLabelText"
+        [basePath]="basePath"
+        [items]="sidebarItems()"
+        [activeSlug]="nav.slug()"
+        [prevItem]="prevItem()"
+        [nextItem]="nextItem()"
+      >
+        <app-java-minute-episode
+          [episode]="episode()"
+          [read]="read()"
+          [marking]="marking()"
+          [breadcrumbs]="breadcrumbItems()"
+          [fallbackNotice]="showFallbackNotice()"
+          (markRead)="onMarkRead()"
+        />
+      </app-concept-detail-layout>
+    }
+  </div>
+</div>

@@ -28,6 +28,7 @@ const META: Record<string, TrackMeta> = {
   'rubyonrails-concepts': { group: 'ruby', kind: 'framework' },
   'dotnet-concepts': { group: 'dotnet', kind: 'platform' },
   'csharp-concepts': { group: 'dotnet', kind: 'language' },
+  'csharp-minute': { group: 'dotnet', kind: 'quick' },
   'database-concepts': { group: 'fundamentals', kind: 'theory' },
   'system-design-concepts': { group: 'fundamentals', kind: 'theory' },
   'kubernetes-concepts': { group: 'fundamentals', kind: 'platform' },

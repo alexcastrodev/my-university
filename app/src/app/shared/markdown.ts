@@ -2,9 +2,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import hljs from 'highlight.js/lib/core';
 import java from 'highlight.js/lib/languages/java';
+import csharp from 'highlight.js/lib/languages/csharp';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 
 hljs.registerLanguage('java', java);
+hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('plaintext', plaintext);
 
 const codeBlockRenderer = {
