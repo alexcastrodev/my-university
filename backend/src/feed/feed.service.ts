@@ -25,7 +25,7 @@ export const FEED_AREAS: Record<string, readonly string[]> = {
   kubernetes: ['kubernetes-concepts'],
   algorithms: ['algorithms-concepts'],
   ruby: ['ruby-concepts', 'rubyonrails-concepts'],
-  dotnet: ['dotnet-concepts'],
+  dotnet: ['dotnet-concepts', 'dotnet-testing-concepts'],
   csharp: ['csharp-concepts'],
   cs: [],
 };

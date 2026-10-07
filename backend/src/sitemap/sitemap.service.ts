@@ -13,6 +13,7 @@ import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.service';
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
+import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -47,6 +48,7 @@ export class SitemapService {
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
     private readonly dotNetConcepts: DotNetConceptsService,
     private readonly cSharpConcepts: CSharpConceptsService,
+    private readonly dotNetTestingConcepts: DotNetTestingConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
     private readonly kubernetesConcepts: KubernetesConceptsService,
     private readonly curriculum: CurriculumService,
@@ -102,6 +104,7 @@ export class SitemapService {
     urls.push(
       ...this.listSection('/dotnet-concepts', this.dotNetConcepts.findAll()),
       ...this.listSection('/csharp-concepts', this.cSharpConcepts.findAll()),
+      ...this.listSection('/dotnet-testing-concepts', this.dotNetTestingConcepts.findAll()),
       ...this.localizedSectionUrls('/csharp-minute', '/pt-BR/csharp-minute', this.cSharpMinute.findAll()),
     );
     urls.push(

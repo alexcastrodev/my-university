@@ -16,7 +16,8 @@ export type SearchResultType =
   | 'quarkus-concept'
   | 'kubernetes-concept'
   | 'dotnet-concept'
-  | 'csharp-concept';
+  | 'csharp-concept'
+  | 'dotnet-testing-concept';
 
 export interface SearchResult {
   type: SearchResultType;

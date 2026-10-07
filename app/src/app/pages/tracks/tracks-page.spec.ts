@@ -66,7 +66,7 @@ describe('TracksPage', () => {
     chips[3].click(); // .NET and C#
     fixture.detectChanges();
     expect(cards(fixture).map((c) => c.textContent).join(' ')).toContain('C#');
-    expect(cards(fixture).length).toBe(3);
+    expect(cards(fixture).length).toBe(4);
 
     const input: HTMLInputElement = fixture.nativeElement.querySelector('.search');
     input.value = 'zzz';

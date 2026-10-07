@@ -40,6 +40,7 @@ import { RubyConceptsModule } from './ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from './rubyonrails-concepts/rubyonrails-concepts.module';
 import { DotNetConceptsModule } from './dotnet-concepts/dotnet-concepts.module';
 import { CSharpConceptsModule } from './csharp-concepts/csharp-concepts.module';
+import { DotNetTestingConceptsModule } from './dotnet-testing-concepts/dotnet-testing-concepts.module';
 import { SearchModule } from './search/search.module';
 import { SeedModule } from './seed/seed.module';
 import { SitemapModule } from './sitemap/sitemap.module';
@@ -93,6 +94,7 @@ import { XpModule } from './xp/xp.module';
     RubyOnRailsConceptsModule,
     DotNetConceptsModule,
     CSharpConceptsModule,
+    DotNetTestingConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
     CurriculumModule,

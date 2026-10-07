@@ -182,6 +182,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/csharp-concepts/csharp-concepts-detail').then((m) => m.CSharpConceptsDetailPage),
   },
   {
+    path: 'dotnet-testing-concepts',
+    loadComponent: () => import('./pages/dotnet-testing-concepts/dotnet-testing-concepts-list').then((m) => m.DotNetTestingConceptsListPage),
+  },
+  {
+    path: 'dotnet-testing-concepts/:slug',
+    loadComponent: () => import('./pages/dotnet-testing-concepts/dotnet-testing-concepts-detail').then((m) => m.DotNetTestingConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

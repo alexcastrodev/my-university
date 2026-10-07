@@ -98,6 +98,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'An applied framework example',
   },
   {
+    slug: 'dotnet-testing-concepts',
+    apiBase: '/api/dotnet-testing-concepts',
+    title: '.NET Testing',
+    routerLink: '/dotnet-testing-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'Practice ahead of the theory',
+  },
+  {
     slug: 'csharp-concepts',
     apiBase: '/api/csharp-concepts',
     title: 'C#',

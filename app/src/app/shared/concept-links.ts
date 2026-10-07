@@ -1,4 +1,4 @@
-export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts' | 'quarkus-concepts' | 'kubernetes-concepts' | 'algorithms-concepts' | 'testing-concepts' | 'dotnet-concepts' | 'csharp-concepts';
+export type ConceptFeature = 'java-concepts' | 'jvm-concepts' | 'spring-concepts' | 'database-concepts' | 'system-design' | 'ruby-concepts' | 'rubyonrails-concepts' | 'quarkus-concepts' | 'kubernetes-concepts' | 'algorithms-concepts' | 'testing-concepts' | 'dotnet-concepts' | 'csharp-concepts' | 'dotnet-testing-concepts';
 
 /** A plain string is a free-text mention with no page yet; the object form links to a real concept page. */
 export type ConceptLinkRef = string | { label: string; slug: string; feature?: ConceptFeature };
@@ -17,6 +17,7 @@ export const FEATURE_ROUTES: Record<ConceptFeature, string> = {
   'testing-concepts': '/java/testing',
   'dotnet-concepts': '/dotnet-concepts',
   'csharp-concepts': '/csharp-concepts',
+  'dotnet-testing-concepts': '/dotnet-testing-concepts',
 };
 
 export interface ConceptLinkItem {

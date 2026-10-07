@@ -17,6 +17,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @case ('ruby-concepts') { <path d="M6 3h12l4 6-10 12L2 9l4-6z"/><path d="M2 9h20M12 21 8 9l3-6M12 21l4-12-3-6"/> }
     @case ('rubyonrails-concepts') { <circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/> }
     @case ('dotnet-concepts') { <path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5M12 13v8"/> }
+    @case ('dotnet-testing-concepts') { <path d="M10 2v6L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8V2"/><path d="M8.5 2h7M7 14h10"/> }
     @case ('csharp-concepts') { <path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/> }
     @case ('csharp-minute') { <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/> }
     @case ('database-concepts') { <ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/> }

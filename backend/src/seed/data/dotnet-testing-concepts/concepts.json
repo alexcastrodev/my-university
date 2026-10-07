@@ -1,0 +1,147 @@
+[
+  {
+    "slug": "testing-domain-events-with-mstest",
+    "id": 1,
+    "title": "Testing Domain Events with MSTest",
+    "topic": "DDD",
+    "summary": "Test the aggregate with no infrastructure, the SaveChanges interceptor and the outbox on SQLite in memory, and an idempotent consumer, with MSTest 4, hand-written fakes and a mutation check.",
+    "publishedAt": "2026-10-07",
+    "requires": [],
+    "related": [
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing Modules in Isolation",
+        "slug": "testing-modules-in-isolation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Observable Behavior vs. Implementation Details: Why Mocks Make Tests Fragile",
+        "slug": "observable-behavior-and-mock-fragility",
+        "feature": "testing-concepts"
+      },
+      {
+        "label": "JUnit 5 Fundamentals",
+        "slug": "junit-5-fundamentals",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-testing-concepts/testing-domain-events-with-mstest",
+    "references": [
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "Data-driven testing in MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest TestContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
+        "type": "doc"
+      },
+      {
+        "label": "Test execution and control in MSTest (parallelization), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-controlling-execution",
+        "type": "doc"
+      },
+      {
+        "label": "Testing with FakeTimeProvider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/timeprovider-testing",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      },
+      {
+        "label": "In-memory databases, Microsoft.Data.Sqlite, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/in-memory-databases",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "testing-clean-architecture-with-mstest",
+    "id": 2,
+    "title": "Testing Clean Architecture with MSTest",
+    "topic": "Application Architecture",
+    "summary": "One MSTest project per layer: domain tables with DataRow, use cases against a fake port, the HTTP contract with WebApplicationFactory, and a test for the dependency rule itself.",
+    "publishedAt": "2026-10-07",
+    "requires": [
+      "testing-domain-events-with-mstest"
+    ],
+    "related": [
+      {
+        "label": "Clean Architecture in Four Projects",
+        "slug": "clean-architecture-in-four-projects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Module Communication and Architecture Tests",
+        "slug": "module-communication-and-architecture-tests",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Test Doubles: Stubs and Mocking",
+        "slug": "test-doubles-stubs-and-mocking",
+        "feature": "testing-concepts"
+      }
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-testing-concepts/testing-clean-architecture-with-mstest",
+    "references": [
+      {
+        "label": "Data-driven testing in MSTest, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest assertions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest TestContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext",
+        "type": "doc"
+      },
+      {
+        "label": "MSTest test lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "Integration tests in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing a testing strategy, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy",
+        "type": "doc"
+      },
+      {
+        "label": "Connection strings, Microsoft.Data.Sqlite, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/connection-strings",
+        "type": "doc"
+      }
+    ]
+  }
+]

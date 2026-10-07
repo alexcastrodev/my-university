@@ -17,6 +17,7 @@ import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
 import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.service';
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
+import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
 import { SpringConceptsService } from '../spring-concepts/spring-concepts.service';
 import { SystemDesignConceptsService } from '../system-design-concepts/system-design-concepts.service';
 import { TestingConceptsService } from '../testing-concepts/testing-concepts.service';
@@ -48,6 +49,7 @@ export const SEARCH_RESULT_TYPES = [
   'kubernetes-concept',
   'dotnet-concept',
   'csharp-concept',
+  'dotnet-testing-concept',
 ] as const;
 
 export type SearchResultType = (typeof SEARCH_RESULT_TYPES)[number];
@@ -166,6 +168,7 @@ export class SearchService implements OnApplicationBootstrap {
     private rubyOnRailsConceptsService: RubyOnRailsConceptsService,
     private dotNetConceptsService: DotNetConceptsService,
     private cSharpConceptsService: CSharpConceptsService,
+    private dotNetTestingConceptsService: DotNetTestingConceptsService,
     private quarkusConceptsService: QuarkusConceptsService,
     private kubernetesConceptsService: KubernetesConceptsService,
     private meili: MeilisearchClient,
@@ -295,6 +298,9 @@ export class SearchService implements OnApplicationBootstrap {
       ),
       concepts('csharp-concept', 'C# Concepts', '/csharp-concepts', (l) =>
         this.cSharpConceptsService.findAllDetailed(l),
+      ),
+      concepts('dotnet-testing-concept', '.NET Testing Concepts', '/dotnet-testing-concepts', (l) =>
+        this.dotNetTestingConceptsService.findAllDetailed(l),
       ),
     ];
 
