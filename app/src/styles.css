@@ -1080,3 +1080,15 @@ app-concept-actions {
 body.search-palette-open {
   overflow: hidden;
 }
+
+/* Shared highlight: passage carried in the URL (`?hl=`), painted via the
+   CSS Custom Highlight API by TextHighlightService. */
+::highlight(shared-highlight) {
+  background-color: #fde68a;
+  color: #111827;
+}
+
+:root[data-theme="dark"] ::highlight(shared-highlight) {
+  background-color: #a16207;
+  color: #ffffff;
+}

@@ -8,7 +8,7 @@ export interface TextSelectionState {
   isSelectAll: boolean;
 }
 
-const CONTENT_SELECTOR = '.concept-section, .section-body, .lesson-body';
+export const CONTENT_SELECTOR = '.concept-section, .section-body, .lesson-body';
 const SELECT_ALL_COVERAGE_THRESHOLD = 0.9;
 const DEBOUNCE_MS = 120;
 

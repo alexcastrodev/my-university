@@ -12,6 +12,10 @@
       <div class="ask-ai-status">
         @if (st.kind === 'copied') {
           <span i18n="@@askAi.status.copied">Prompt copied! Paste with Cmd/Ctrl+V ✓</span>
+        } @else if (st.kind === 'link-copied') {
+          <span i18n="@@askAi.status.linkCopied">Link copied! The passage opens highlighted ✓</span>
+        } @else if (st.kind === 'link-copy-failed') {
+          <span i18n="@@askAi.status.linkCopyFailed">Could not copy automatically. Copy the link from the address bar.</span>
         } @else {
           <span i18n="@@askAi.status.copyFailed">Did not copy automatically. Copy the selected text manually.</span>
         }
@@ -52,6 +56,23 @@
           <path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" fill="currentColor" />
         </svg>
         <ng-container i18n="@@askAi.gemini">Ask Gemini</ng-container>
+      </button>
+      <button
+        type="button"
+        class="ask-ai-btn highlight-link"
+        i18n-aria-label="@@askAi.aria.highlightLink"
+        aria-label="Copy a link that highlights the selected text"
+        (click)="copyHighlightLink()"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+        <ng-container i18n="@@askAi.highlightLink">Copy highlight link</ng-container>
       </button>
     }
   </div>

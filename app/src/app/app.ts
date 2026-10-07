@@ -12,6 +12,7 @@ import { SearchPalette } from './components/search-palette/search-palette';
 import { AuthService } from './services/auth.service';
 import { XpService } from './services/xp.service';
 import { ThemeService } from './services/theme.service';
+import { TextHighlightService } from './services/text-highlight.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,8 @@ export class App implements OnInit {
   // Instantiated here (not lazily on first use elsewhere) so its data-theme
   // attribute effect runs as early as possible in the app's lifetime.
   private theme = inject(ThemeService);
+  // Instantiated here so it sees the first NavigationEnd and applies a shared `?hl=` highlight.
+  private textHighlight = inject(TextHighlightService);
 
   private xpLoader = effect(() => {
     if (this.auth.currentUser()) this.xpService.loadSummary();

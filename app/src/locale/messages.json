@@ -431,6 +431,10 @@
     "askAi.chatgpt": "Ask ChatGPT",
     "askAi.aria.gemini": "Ask Gemini about the selected text",
     "askAi.gemini": "Ask Gemini",
+    "askAi.status.linkCopied": "Link copied! The passage opens highlighted ✓",
+    "askAi.status.linkCopyFailed": "Could not copy automatically. Copy the link from the address bar.",
+    "askAi.aria.highlightLink": "Copy a link that highlights the selected text",
+    "askAi.highlightLink": "Copy highlight link",
     "askAi.prompt.selectAll": "I'm studying the content at {$pageUrl}. Please give me a thorough explanation of the article: break down each key concept covered, explain why it matters, and highlight any nuances or common misconceptions.",
     "askAi.prompt.partial": "I'm studying this passage from {$pageUrl} and need help understanding it deeply:\n\n\"{$passage}\"\n\nPlease explain what it means, why it matters, and give a concrete example if applicable.",
     "askAi.prompt.clipboard": "I'm going to paste a passage I'm studying from {$pageUrl}. Please explain what it means, why it matters, and give a concrete example if applicable."
