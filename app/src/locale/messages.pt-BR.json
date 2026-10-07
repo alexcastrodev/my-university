@@ -831,6 +831,18 @@
     "search.count": "{$INTERPOLATION} de {$INTERPOLATION_1}",
     "search.keys.navigate": "navegar",
     "search.keys.open": "abrir",
-    "search.keys.close": "fechar"
+    "search.keys.close": "fechar",
+    "askAi.aria.toolbar": "Perguntar à IA sobre o texto selecionado",
+    "askAi.status.copied": "Prompt copiado! Cole com Cmd/Ctrl+V ✓",
+    "askAi.status.copyFailed": "Não foi possível copiar automaticamente. Copie o texto selecionado manualmente.",
+    "askAi.aria.claude": "Perguntar ao Claude sobre o texto selecionado",
+    "askAi.claude": "Perguntar ao Claude",
+    "askAi.aria.chatgpt": "Perguntar ao ChatGPT sobre o texto selecionado",
+    "askAi.chatgpt": "Perguntar ao ChatGPT",
+    "askAi.aria.gemini": "Perguntar ao Gemini sobre o texto selecionado",
+    "askAi.gemini": "Perguntar ao Gemini",
+    "askAi.prompt.selectAll": "Estou estudando o conteúdo em {$pageUrl}. Por favor, me dê uma explicação completa do artigo: detalhe cada conceito-chave abordado, explique por que ele importa e destaque nuances ou equívocos comuns.",
+    "askAi.prompt.partial": "Estou estudando este trecho de {$pageUrl} e preciso de ajuda para entendê-lo a fundo:\n\n\"{$passage}\"\n\nPor favor, explique o que ele significa, por que importa e dê um exemplo concreto, se for o caso.",
+    "askAi.prompt.clipboard": "Vou colar um trecho que estou estudando de {$pageUrl}. Por favor, explique o que ele significa, por que importa e dê um exemplo concreto, se for o caso."
   }
 }

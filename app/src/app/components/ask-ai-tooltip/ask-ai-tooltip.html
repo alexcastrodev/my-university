@@ -5,38 +5,53 @@
     [style.top]="style().top"
     [style.left]="style().left"
     role="toolbar"
+    i18n-aria-label="@@askAi.aria.toolbar"
     aria-label="Ask AI about the selected text"
   >
     @if (status(); as st) {
       <div class="ask-ai-status">
         @if (st.kind === 'copied') {
-          <span>Prompt copied! Paste with Cmd/Ctrl+V ✓</span>
+          <span i18n="@@askAi.status.copied">Prompt copied! Paste with Cmd/Ctrl+V ✓</span>
         } @else {
-          <span>Did not copy automatically — copy the selected text manually.</span>
+          <span i18n="@@askAi.status.copyFailed">Did not copy automatically. Copy the selected text manually.</span>
         }
       </div>
     } @else {
       <button
         type="button"
         class="ask-ai-btn claude"
+        i18n-aria-label="@@askAi.aria.claude"
         aria-label="Ask Claude about the selected text"
         (click)="ask('claude')"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4L12 2z" fill="currentColor" />
         </svg>
-        Ask Claude
+        <ng-container i18n="@@askAi.claude">Ask Claude</ng-container>
       </button>
       <button
         type="button"
         class="ask-ai-btn chatgpt"
+        i18n-aria-label="@@askAi.aria.chatgpt"
         aria-label="Ask ChatGPT about the selected text"
         (click)="ask('chatgpt')"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M4 4h16v12H8l-4 4V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
         </svg>
-        Ask ChatGPT
+        <ng-container i18n="@@askAi.chatgpt">Ask ChatGPT</ng-container>
+      </button>
+      <button
+        type="button"
+        class="ask-ai-btn gemini"
+        i18n-aria-label="@@askAi.aria.gemini"
+        aria-label="Ask Gemini about the selected text"
+        (click)="ask('gemini')"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" fill="currentColor" />
+        </svg>
+        <ng-container i18n="@@askAi.gemini">Ask Gemini</ng-container>
       </button>
     }
   </div>
