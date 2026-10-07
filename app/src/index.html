@@ -27,6 +27,18 @@
       } catch (e) {}
     })();
   </script>
+  <script>
+    // Same idea for the sidebar: apply a saved collapse choice before first paint so the
+    // layout doesn't jump. Mirrors the 'sidebar-collapsed' key used by the Sidebar component.
+    (function () {
+      try {
+        var saved = localStorage.getItem('sidebar-collapsed');
+        if (saved === '1' || saved === '0') {
+          document.documentElement.setAttribute('data-sidebar', saved === '1' ? 'collapsed' : 'expanded');
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <meta name="description" content="Practice exams, quick answers, and in-depth concepts for Java, Spring, and Databases.">
   <meta property="og:title" content="My University">

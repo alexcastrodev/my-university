@@ -1,0 +1,336 @@
+:host {
+  display: block;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  width: var(--mu-sidebar-w);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: calc(0.9rem + var(--mu-safe-top)) 0.6rem 0.9rem;
+  background: #16213e;
+  color: var(--mu-white);
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.08);
+  transition: width 0.15s ease;
+}
+
+.sidebar.hidden {
+  display: none;
+}
+
+/* Labels disappear when the rail is collapsed. This is keyed on the <html> attribute and the
+   viewport instead of component state so the very first paint is already right. */
+:host-context(html[data-sidebar='collapsed']) .label {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .label {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 34px;
+  /* Extra air between the brand and the menu, on top of the sidebar's own gap. */
+  margin-bottom: 1.1rem;
+}
+
+:host-context(html[data-sidebar='collapsed']) .sidebar-top {
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .sidebar-top {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--mu-white);
+  white-space: nowrap;
+  padding-left: 0.25rem;
+}
+
+.brand-icon { display: flex; color: var(--mu-accent); }
+.brand-name { font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; color: rgba(255, 255, 255, 0.72); }
+.brand-name strong { font-weight: 800; color: var(--mu-white); }
+
+.collapse-btn,
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.collapse-btn:hover,
+.tool-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  height: 34px;
+  padding: 0 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.search-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.search-text { flex: 1; }
+
+.search-kbd {
+  font-family: inherit;
+  font-size: 0.68rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.icon { flex-shrink: 0; }
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  height: 36px;
+  padding: 0 0.65rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--mu-white);
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--mu-white);
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.xp-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.2rem 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+}
+
+.xp-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.xp-level {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e8795f;
+  white-space: nowrap;
+}
+
+.xp-points {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--mu-white);
+  white-space: nowrap;
+}
+
+.xp-bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.xp-bar i {
+  display: block;
+  height: 100%;
+  background: #e8795f;
+}
+
+:host-context(html[data-sidebar='collapsed']) .xp-card {
+  justify-content: center;
+  padding: 0.4rem 0;
+}
+
+@media (max-width: 1199px) {
+  :host-context(html:not([data-sidebar='expanded'])) .xp-card {
+    justify-content: center;
+    padding: 0.4rem 0;
+  }
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.user-menu,
+.language-menu {
+  position: relative;
+}
+
+.user-menu { min-width: 0; }
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: 100%;
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  border-radius: 8px;
+  color: var(--mu-white);
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.user-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.user-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--mu-white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.35rem;
+  background: var(--mu-surface);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 110;
+}
+
+.language-menu .menu {
+  left: auto;
+  right: 0;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-item:hover { background: var(--mu-bg-alt); }
+.menu-item.active { background: var(--mu-accent-soft); color: var(--mu-accent-strong); }

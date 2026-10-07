@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { gotoCourse, gotoExamList, setViewport, scrollToBottom } from './BaseTest.js';
-import { HeaderPage } from './pages/HeaderPage.js';
+import { SidebarPage } from './pages/SidebarPage.js';
 import { PlaylistPage } from './pages/PlaylistPage.js';
 import { CoursePage } from './pages/CoursePage.js';
 
@@ -17,12 +17,12 @@ test.describe('Responsive Layout', () => {
     });
 
     test('should show header search box', async ({ page }) => {
-      const header = new HeaderPage(page);
+      const header = new SidebarPage(page);
       await expect(header.searchInput).toBeVisible();
     });
 
     test('should open the search palette from the header and with Ctrl+K', async ({ page }) => {
-      const header = new HeaderPage(page);
+      const header = new SidebarPage(page);
       await header.searchInput.click();
       await expect(header.searchDialog).toBeVisible();
       await expect(header.searchBox).toBeFocused();
@@ -86,12 +86,12 @@ test.describe('Responsive Layout', () => {
     });
 
     test('should hide header search box', async ({ page }) => {
-      const header = new HeaderPage(page);
+      const header = new SidebarPage(page);
       await expect(header.searchInput).not.toBeVisible();
     });
 
     test('should render brand and nav links', async ({ page }) => {
-      const header = new HeaderPage(page);
+      const header = new SidebarPage(page);
       await expect(header.brandLink).toBeVisible();
       await expect(header.avatarBtn).toBeVisible();
     });

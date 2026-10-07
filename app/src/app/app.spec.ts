@@ -24,11 +24,11 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render the header and footer', () => {
+  it('should render the sidebar and footer', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('app-header')).not.toBeNull();
+    expect(compiled.querySelector('app-sidebar')).not.toBeNull();
     expect(compiled.querySelector('app-footer')).not.toBeNull();
   });
 });

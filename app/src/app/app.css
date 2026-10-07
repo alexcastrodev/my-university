@@ -1,8 +1,14 @@
-/* On phones the fixed bottom tab bar replaces the header and the footer: the
-   header's account, language and menu moved to the Settings tab, and the footer
-   would otherwise sit on top of the bar. The desktop keeps both. */
+/* Everything except the sidebar sits to its right; --mu-sidebar-w is 0 on phones and
+   while the full-screen daily runner is open (see styles.css). */
+.app-shell {
+  margin-left: var(--mu-sidebar-w);
+  transition: margin-left 0.15s ease;
+}
+
+/* On phones the fixed bottom tab bar replaces the sidebar and the footer: the account,
+   language and theme live in the Settings tab, and the footer would otherwise sit on top
+   of the bar. The desktop keeps the sidebar and the footer. */
 @media (max-width: 768px) {
-  app-header,
   app-footer {
     display: none;
   }

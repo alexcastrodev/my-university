@@ -62,7 +62,7 @@
   --mu-radius-lg: 20px;
   --mu-shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
   --mu-shadow-pop: 0 12px 32px rgba(16, 24, 40, 0.18);
-  --mu-header-h: 52px;        /* top header bar height (excludes the safe area) */
+  --mu-header-h: 0px;         /* top bar height: there is no top header since the sidebar replaced it */
   --mu-nav-h: 60px;           /* bottom tab bar height (tappable part, excludes the safe area) */
 
   /* Device safe areas (notch, status bar, home indicator). Only non-zero because
@@ -73,6 +73,21 @@
   --mu-safe-bottom: env(safe-area-inset-bottom, 0px);
   --mu-safe-left: env(safe-area-inset-left, 0px);
 }
+
+/* Left sidebar width. Expanded by default, icons only below 1200px or when the reader collapsed
+   it (data-sidebar on <html>, set by the inline script in index.html and by the Sidebar itself).
+   Phones and the full-screen daily runner have no sidebar. Order matters: later rules win. */
+:root { --mu-sidebar-w: 216px; }
+:root[data-sidebar='collapsed'] { --mu-sidebar-w: 56px; }
+@media (max-width: 1199px) {
+  :root:not([data-sidebar='expanded']) { --mu-sidebar-w: 56px; }
+}
+@media (max-width: 768px) {
+  :root,
+  :root[data-sidebar] { --mu-sidebar-w: 0px; }
+}
+:root[data-sidebar-hidden] { --mu-sidebar-w: 0px; }
+
 
 /* Dark theme overrides — applied via a `data-theme="dark"` attribute on <html>,
    set by ThemeService (see app/src/app/services/theme.service.ts). No
