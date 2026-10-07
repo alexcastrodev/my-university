@@ -48,6 +48,10 @@
   color: #10a37f;
 }
 
+.ask-ai-btn.highlight-link svg {
+  color: #f5c542;
+}
+
 .ask-ai-status {
   display: flex;
   align-items: center;

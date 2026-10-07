@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TextSelectionService } from '../../services/text-selection';
+import { TextHighlightService } from '../../services/text-highlight.service';
 import { buildAskAiPrompt } from '../../shared/ask-ai-prompt';
 
 const GAP = 8;
@@ -18,7 +19,12 @@ const ESTIMATED_WIDTH = 280;
 const ESTIMATED_HEIGHT = 44;
 const PIN_MS = 2500;
 
-type AskAiStatus = { kind: 'copied' } | { kind: 'copy-failed' } | null;
+type AskAiStatus =
+  | { kind: 'copied' }
+  | { kind: 'copy-failed' }
+  | { kind: 'link-copied' }
+  | { kind: 'link-copy-failed' }
+  | null;
 
 @Component({
   selector: 'app-ask-ai-tooltip',
@@ -29,6 +35,7 @@ type AskAiStatus = { kind: 'copied' } | { kind: 'copy-failed' } | null;
 export class AskAiTooltip {
   private platformId = inject(PLATFORM_ID);
   private selectionService = inject(TextSelectionService);
+  private highlightService = inject(TextHighlightService);
   private isBrowser = isPlatformBrowser(this.platformId);
   private isTouch = this.isBrowser && window.matchMedia('(pointer: coarse)').matches;
 
@@ -84,6 +91,22 @@ export class AskAiTooltip {
     }
 
     window.open(url, '_blank', 'noopener');
+  }
+
+  async copyHighlightLink(): Promise<void> {
+    const sel = this.selection();
+    if (!sel) return;
+
+    const url = this.highlightService.shareSelection(sel.text);
+    if (!url) return;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      this.status.set({ kind: 'link-copied' });
+    } catch {
+      this.status.set({ kind: 'link-copy-failed' });
+    }
+    this.pin();
   }
 
   private pin(): void {

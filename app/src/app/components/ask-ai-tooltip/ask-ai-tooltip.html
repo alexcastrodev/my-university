@@ -11,6 +11,10 @@
       <div class="ask-ai-status">
         @if (st.kind === 'copied') {
           <span>Prompt copied! Paste with Cmd/Ctrl+V ✓</span>
+        } @else if (st.kind === 'link-copied') {
+          <span>Link copied! The passage opens highlighted ✓</span>
+        } @else if (st.kind === 'link-copy-failed') {
+          <span>Could not copy automatically. Copy the link from the address bar.</span>
         } @else {
           <span>Did not copy automatically — copy the selected text manually.</span>
         }
@@ -37,6 +41,22 @@
           <path d="M4 4h16v12H8l-4 4V4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
         </svg>
         Ask ChatGPT
+      </button>
+      <button
+        type="button"
+        class="ask-ai-btn highlight-link"
+        aria-label="Copy a link that highlights the selected text"
+        (click)="copyHighlightLink()"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+        Copy highlight link
       </button>
     }
   </div>
