@@ -20,6 +20,10 @@ import { CurriculumModule } from './curriculum/curriculum.module';
 import { DailyModule } from './daily/daily.module';
 import { FeedModule } from './feed/feed.module';
 import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
+import { DiscussionComment } from './discussion/discussion-comment.entity';
+import { DiscussionMarker } from './discussion/discussion-marker.entity';
+import { DiscussionModule } from './discussion/discussion.module';
+import { DiscussionVote } from './discussion/discussion-vote.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
@@ -65,6 +69,9 @@ import { XpModule } from './xp/xp.module';
         UserXpEntry,
         ReviewSchedule,
         DailyWriteAnswer,
+        DiscussionMarker,
+        DiscussionComment,
+        DiscussionVote,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.
@@ -93,6 +100,7 @@ import { XpModule } from './xp/xp.module';
     ExamModule,
     XpModule,
     ReviewModule,
+    DiscussionModule,
     DailyModule,
     FeedModule,
     SeedModule,

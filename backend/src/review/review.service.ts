@@ -255,17 +255,19 @@ export class ReviewService {
     return { title: detail.title, sections: detail.sections, route: resolved.route };
   }
 
+  /** module + slug (+ discipline for Computer Science) -> the sourceType/sourceId identity the XP,
+   *  review and discussion features share; null when the module is unknown or the concept is gone. */
+  resolveTopic(module: string, slug: string, discipline?: string): ResolvedSource | null {
+    if (!discipline) return toSourceId(module, slug);
+    if (!this.curriculum.findBySlug(module, discipline, slug)) return null;
+    return { sourceType: 'concept-read', sourceId: curriculumSourceId(module, discipline, slug) };
+  }
+
   /** Schedules the first review, one day after the item is marked read. No-op if already scheduled.
    *  A Computer Science curriculum concept passes its `discipline` (three-part identity); the flat
    *  Complementary tracks omit it and resolve through REVIEW_MODULES. */
   async scheduleFirstReview(userId: number, module: string, slug: string, discipline?: string): Promise<void> {
-    let resolved: ResolvedSource | null;
-    if (discipline) {
-      if (!this.curriculum.findBySlug(module, discipline, slug)) throw new NotFoundException();
-      resolved = { sourceType: 'concept-read' as ReviewSourceType, sourceId: curriculumSourceId(module, discipline, slug) };
-    } else {
-      resolved = toSourceId(module, slug);
-    }
+    const resolved = this.resolveTopic(module, slug, discipline);
     if (!resolved) throw new NotFoundException();
 
     const dueAt = new Date(Date.now() + INITIAL_INTERVAL_DAYS * DAY_MS);
