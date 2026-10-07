@@ -6,6 +6,7 @@ import {
   HighlightParams,
   buildHighlightParams,
   buildHighlightUrl,
+  computeHighlightOffsets,
   findHighlightRange,
   readHighlightParams,
 } from '../shared/text-highlight';
@@ -41,9 +42,19 @@ export class TextHighlightService {
    * Writes the selection into the address bar, highlights it in place and
    * returns the shareable URL (null when the selection can't be encoded).
    */
-  shareSelection(selectedText: string): string | null {
+  shareSelection(selectedText: string, range?: Range): string | null {
+    return this.applySelection(selectedText, range, true);
+  }
+
+  /** Same as `shareSelection` but keeps the native selection, so it can run while the reader selects. */
+  previewSelection(selectedText: string, range?: Range): void {
+    this.applySelection(selectedText, range, false);
+  }
+
+  private applySelection(selectedText: string, range: Range | undefined, clearSelection: boolean): string | null {
     const params = buildHighlightParams(selectedText);
     if (!params) return null;
+    if (range) Object.assign(params, computeHighlightOffsets(this.contentRoots(), range));
 
     const url = buildHighlightUrl(window.location.href, params);
     const query = new URL(url).searchParams.toString();
@@ -51,8 +62,8 @@ export class TextHighlightService {
     this.location.replaceState(path, query);
 
     this.reset();
-    window.getSelection()?.removeAllRanges();
-    this.tryApply(params, false);
+    if (clearSelection) window.getSelection()?.removeAllRanges();
+    this.tryApply(params, false, !clearSelection);
     return url;
   }
 
@@ -68,10 +79,8 @@ export class TextHighlightService {
     this.timeout = setTimeout(() => this.stopWaiting(), WAIT_FOR_CONTENT_MS);
   }
 
-  private tryApply(params: HighlightParams, scroll: boolean): boolean {
-    const roots = Array.from(document.querySelectorAll(CONTENT_SELECTOR)).filter(
-      (el) => !el.parentElement?.closest(CONTENT_SELECTOR),
-    );
+  private tryApply(params: HighlightParams, scroll: boolean, keepSelection = false): boolean {
+    const roots = this.contentRoots();
     if (roots.length === 0) return false;
 
     const range = findHighlightRange(roots, params);
@@ -79,7 +88,7 @@ export class TextHighlightService {
 
     if (typeof CSS !== 'undefined' && 'highlights' in CSS && typeof Highlight !== 'undefined') {
       CSS.highlights.set(HIGHLIGHT_NAME, new Highlight(range));
-    } else {
+    } else if (!keepSelection) {
       // Older browsers: fall back to the native selection so the passage still stands out.
       const selection = window.getSelection();
       selection?.removeAllRanges();
@@ -92,6 +101,12 @@ export class TextHighlightService {
       requestAnimationFrame(() => target?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
     }
     return true;
+  }
+
+  private contentRoots(): Element[] {
+    return Array.from(document.querySelectorAll(CONTENT_SELECTOR)).filter(
+      (el) => !el.parentElement?.closest(CONTENT_SELECTOR),
+    );
   }
 
   private stopWaiting(): void {
