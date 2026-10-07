@@ -32,6 +32,7 @@ const TYPE_LABELS: Record<SearchResultType, string> = {
   'java-concept': $localize`:@@search.type.javaConcept:Java Concepts`,
   'jvm-concept': $localize`:@@search.type.jvmConcept:JVM Concepts`,
   'java-minute': $localize`:@@search.type.javaMinute:Java Minute`,
+  'csharp-minute': $localize`:@@search.type.csharpMinute:C# Minute`,
   'testing-concept': $localize`:@@search.type.testingConcept:Testing`,
   'spring-concept': $localize`:@@search.type.springConcept:Spring`,
   'quarkus-concept': $localize`:@@search.type.quarkusConcept:Quarkus`,

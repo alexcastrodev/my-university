@@ -2,6 +2,7 @@ export type SearchResultType =
   | 'course'
   | 'lesson'
   | 'java-minute'
+  | 'csharp-minute'
   | 'java-concept'
   | 'jvm-concept'
   | 'curriculum-concept'

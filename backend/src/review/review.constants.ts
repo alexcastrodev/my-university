@@ -28,6 +28,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
   { module: 'kubernetes-concepts', sourceType: 'concept-read', prefix: 'kubernetes:', route: (slug) => ['/kubernetes-concepts', slug] },
   { module: 'dotnet-concepts', sourceType: 'concept-read', prefix: 'dotnet:', route: (slug) => ['/dotnet-concepts', slug] },
   { module: 'csharp-concepts', sourceType: 'concept-read', prefix: 'csharp:', route: (slug) => ['/csharp-concepts', slug] },
+  { module: 'csharp-minute', sourceType: 'episode-watched', prefix: 'csharp:', route: (slug) => ['/csharp-minute', slug] },
 ];
 
 export interface ResolvedSource {

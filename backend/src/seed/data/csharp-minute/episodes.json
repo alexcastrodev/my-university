@@ -1,0 +1,187 @@
+[
+  {
+    "slug": "field-keyword",
+    "id": 10,
+    "question": "What does the field keyword do in a property?",
+    "publishedAt": "2026-10-07",
+    "references": [
+      {
+        "label": "The field keyword: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "span-and-ref-struct",
+    "id": 9,
+    "question": "Why can a Span<T> never live on the heap?",
+    "publishedAt": "2026-10-05",
+    "references": [
+      {
+        "label": "ref struct types: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct",
+        "type": "doc"
+      },
+      {
+        "label": "Span<T> struct: .NET API",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.span-1",
+        "type": "doc"
+      },
+      {
+        "label": "Memory<T> and Span<T> usage guidelines",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "configure-await",
+    "id": 8,
+    "question": "What does ConfigureAwait(false) actually do?",
+    "publishedAt": "2026-10-02",
+    "references": [
+      {
+        "label": "ConfigureAwait FAQ: .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/configureawait-faq/",
+        "type": "doc"
+      },
+      {
+        "label": "Task.ConfigureAwait: .NET API",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.configureawait",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "async-void",
+    "id": 7,
+    "question": "Why should you avoid async void?",
+    "publishedAt": "2026-09-30",
+    "references": [
+      {
+        "label": "Async return types: void return type",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-return-types#void-return-type",
+        "type": "doc"
+      },
+      {
+        "label": "Async/Await: Best Practices in Asynchronous Programming",
+        "url": "https://learn.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "yield-return",
+    "id": 6,
+    "question": "What does yield return compile into?",
+    "publishedAt": "2026-09-28",
+    "references": [
+      {
+        "label": "yield statement: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield",
+        "type": "doc"
+      },
+      {
+        "label": "Iterators: C# guide",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/iterators",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "foreach-without-allocation",
+    "id": 5,
+    "question": "Why does foreach over a List<T> not allocate?",
+    "publishedAt": "2026-09-25",
+    "references": [
+      {
+        "label": "Iteration statements: the foreach statement",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement",
+        "type": "doc"
+      },
+      {
+        "label": "List<T>.Enumerator struct: .NET API",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.enumerator",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "record-equality",
+    "id": 4,
+    "question": "How do records implement equality?",
+    "publishedAt": "2026-09-23",
+    "references": [
+      {
+        "label": "Records: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "Equality comparisons: C# guide",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/equality-comparisons",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nullable-reference-types",
+    "id": 3,
+    "question": "Does string? change anything at runtime?",
+    "publishedAt": "2026-09-21",
+    "references": [
+      {
+        "label": "Nullable reference types: C# guide",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references",
+        "type": "doc"
+      },
+      {
+        "label": "Null-forgiving operator: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-forgiving",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "integer-overflow",
+    "id": 2,
+    "question": "What happens when an int overflows in C#?",
+    "publishedAt": "2026-09-18",
+    "references": [
+      {
+        "label": "checked and unchecked statements: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked",
+        "type": "doc"
+      },
+      {
+        "label": "CheckForOverflowUnderflow compiler option",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#checkforoverflowunderflow",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "closures-in-loops",
+    "id": 1,
+    "question": "Why do lambdas in a for loop all see the same value?",
+    "publishedAt": "2026-09-16",
+    "references": [
+      {
+        "label": "Lambda expressions: capture of outer variables",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions#capture-of-outer-variables-and-variable-scope-in-lambda-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Iteration statements: C# language reference",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements",
+        "type": "doc"
+      }
+    ]
+  }
+]

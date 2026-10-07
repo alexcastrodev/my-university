@@ -5,6 +5,7 @@ import { DatabaseConceptsService } from '../database-concepts/database-concepts.
 import { ExamService } from '../exam/exam.service';
 import { JavaConceptsService } from '../java-concepts/java-concepts.service';
 import { JavaMinuteService } from '../java-minute/java-minute.service';
+import { CSharpMinuteService } from '../csharp-minute/csharp-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
 import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
@@ -40,6 +41,7 @@ export class SitemapService {
     private readonly testingConcepts: TestingConceptsService,
     private readonly algorithmsConcepts: AlgorithmsConceptsService,
     private readonly javaMinute: JavaMinuteService,
+    private readonly cSharpMinute: CSharpMinuteService,
     private readonly exam: ExamService,
     private readonly rubyConcepts: RubyConceptsService,
     private readonly rubyOnRailsConcepts: RubyOnRailsConceptsService,
@@ -100,6 +102,7 @@ export class SitemapService {
     urls.push(
       ...this.listSection('/dotnet-concepts', this.dotNetConcepts.findAll()),
       ...this.listSection('/csharp-concepts', this.cSharpConcepts.findAll()),
+      ...this.localizedSectionUrls('/csharp-minute', '/pt-BR/csharp-minute', this.cSharpMinute.findAll()),
     );
     urls.push(
       ...this.listSection('/quarkus-concepts', this.quarkusConcepts.findAll()),

@@ -23,6 +23,7 @@ import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
 import { JavaMinuteModule } from './java-minute/java-minute.module';
+import { CSharpMinuteModule } from './csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
 import { Progress } from './progress/progress.entity';
@@ -73,6 +74,7 @@ import { XpModule } from './xp/xp.module';
     AuthModule,
     CourseNestModule,
     JavaMinuteModule,
+    CSharpMinuteModule,
     JavaConceptsModule,
     JvmConceptsModule,
     DatabaseConceptsModule,
