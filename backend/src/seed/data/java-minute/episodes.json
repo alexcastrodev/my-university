@@ -340,5 +340,17 @@
       { "label": "StructuredTaskScope (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html", "type": "doc" },
       { "label": "JEP 506: Scoped Values", "url": "https://openjdk.org/jeps/506", "type": "doc" }
     ]
+  },
+  {
+    "slug": "stream-vs-iterator",
+    "id": 401,
+    "question": "What is the difference between a stream and an iterator?",
+    "publishedAt": "2026-10-07",
+    "references": [
+      { "label": "Java Coding Tip #401: What Is the Difference Between a Stream and an Iterator?", "url": "https://youtube.com/shorts/oLbaRK87JdI", "type": "video" },
+      { "label": "Iterator (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Iterator.html", "type": "doc" },
+      { "label": "ListIterator (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ListIterator.html", "type": "doc" },
+      { "label": "java.util.stream, Non-interference (Java SE 25 API)", "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html#NonInterference", "type": "doc" }
+    ]
   }
 ]
