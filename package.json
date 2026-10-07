@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "![home](./.github/home.png)",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "audit:security": "pnpm audit --audit-level low && pnpm --dir backend audit --audit-level low"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexcastrodev/my-university.git"
