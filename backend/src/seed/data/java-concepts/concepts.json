@@ -4863,5 +4863,62 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "project-leyden-aot-cache",
+    "id": 103,
+    "title": "Project Leyden: AOT Cache, Warm-up and Startup",
+    "topic": "Core APIs & Tooling",
+    "related": [
+      {
+        "label": "GraalVM Native Image Compilation",
+        "slug": "graalvm-native-image-compilation",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "jlink and jdeps: Custom Runtime Images",
+        "slug": "jlink-custom-runtime-images",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "JIT Tiered Compilation",
+        "slug": "jit-tiered-compilation",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "summary": "How Project Leyden's AOT cache stores classes, method profiles, objects and (soon) compiled code from a training run to shorten startup and warm-up without giving up the dynamic JVM, and what each JEP actually delivers today.",
+    "publishedAt": "2026-10-09",
+    "references": [
+      {
+        "label": "JEP 483: Ahead-of-Time Class Loading & Linking",
+        "url": "https://openjdk.org/jeps/483",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 514: Ahead-of-Time Command-Line Ergonomics",
+        "url": "https://openjdk.org/jeps/514",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 515: Ahead-of-Time Method Profiling",
+        "url": "https://openjdk.org/jeps/515",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 516: Ahead-of-Time Object Caching with Any GC",
+        "url": "https://openjdk.org/jeps/516",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 544: Ahead-of-Time Code Compilation",
+        "url": "https://openjdk.org/jeps/544",
+        "type": "doc"
+      },
+      {
+        "label": "Project Leyden - OpenJDK",
+        "url": "https://openjdk.org/projects/leyden/",
+        "type": "doc"
+      }
+    ]
   }
 ]
