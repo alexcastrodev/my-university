@@ -227,7 +227,7 @@
         "feature": "jvm-concepts"
       }
     ],
-    "summary": "How JFR's event-based, sub-1%-overhead recording lets you profile a live production JVM continuously, and how to control it entirely from the command line.",
+    "summary": "How JFR's event-based, sub-1%-overhead recording lets you profile a live production JVM continuously, control it from the command line, read it with jfr view, add your own events, and use the JDK 25 CPU-time and method-timing profilers.",
     "publishedAt": "2026-08-13",
     "references": [
       {
@@ -243,6 +243,21 @@
       {
         "label": "jfr — Java SE 25 Tool Specifications",
         "url": "https://docs.oracle.com/en/java/javase/25/docs/specs/man/jfr.html",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 509: JFR CPU-Time Profiling (Experimental)",
+        "url": "https://openjdk.org/jeps/509",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 518: JFR Cooperative Sampling",
+        "url": "https://openjdk.org/jeps/518",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 520: JFR Method Timing & Tracing",
+        "url": "https://openjdk.org/jeps/520",
         "type": "doc"
       }
     ]
