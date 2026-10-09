@@ -4865,6 +4865,53 @@
     ]
   },
   {
+    "slug": "equals-vs-compareto",
+    "id": 104,
+    "title": "equals() vs compareTo()",
+    "topic": "API Design & Craft",
+    "related": [
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Comparators and Collection Algorithms",
+        "slug": "comparators-and-collection-algorithms",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exact Arithmetic with BigDecimal and BigInteger",
+        "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+        "feature": "java-concepts"
+      }
+    ],
+    "summary": "Why equals() returns a boolean and compareTo() returns an int, where each comes from (Object vs Comparable), what an ordering \"consistent with equals\" means, and why new BigDecimal(\"1.0\") is not equal to new BigDecimal(\"1.00\").",
+    "publishedAt": "2026-10-09",
+    "references": [
+      {
+        "label": "Comparable (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html",
+        "type": "doc"
+      },
+      {
+        "label": "Object.equals (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)",
+        "type": "doc"
+      },
+      {
+        "label": "BigDecimal (Java SE 25 API)",
+        "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigDecimal.html",
+        "type": "doc"
+      },
+      {
+        "label": "Question 402: equals vs compareTo (YouTube Short)",
+        "url": "https://youtube.com/shorts/bsB3rAGONI8",
+        "type": "video"
+      }
+    ]
+  },
+  {
     "slug": "project-leyden-aot-cache",
     "id": 103,
     "title": "Project Leyden: AOT Cache, Warm-up and Startup",
