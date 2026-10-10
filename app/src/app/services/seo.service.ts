@@ -108,6 +108,9 @@ export class SeoService {
 
   private buildJsonLd(tags: SeoTags, url: string, image: string): Record<string, unknown> {
     if (tags.qa) {
+      // Question and answer are written by the site itself, so the site is the author.
+      // There is no voting feature, so upvoteCount is truthfully 0.
+      const author = { '@type': 'Organization', name: SITE_NAME, url: this.origin() };
       return {
         '@context': 'https://schema.org',
         '@type': 'QAPage',
@@ -116,10 +119,17 @@ export class SeoService {
           name: tags.qa.question,
           text: tags.qa.question,
           answerCount: 1,
+          author,
+          datePublished: tags.publishedAt,
+          dateModified: tags.modifiedAt ?? tags.publishedAt,
           acceptedAnswer: {
             '@type': 'Answer',
             text: tags.qa.answerText,
             url,
+            author,
+            upvoteCount: 0,
+            datePublished: tags.publishedAt,
+            dateModified: tags.modifiedAt ?? tags.publishedAt,
           },
         },
       };
