@@ -1014,6 +1014,52 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dtos-and-the-api-contract"
   },
   {
+    "slug": "kestrel-iis-and-hosting-models",
+    "id": 300,
+    "category": "ASP.NET Core",
+    "title": "Kestrel, IIS and Hosting Models",
+    "topic": "Hosting & Pipeline",
+    "summary": "Kestrel alone or behind a reverse proxy, forwarded headers and the trusted proxy list, server limits, IIS in-process versus out-of-process, and memory eviction in ASP.NET Core 10.",
+    "publishedAt": "2026-10-14",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Kestrel web server in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer",
+        "type": "doc"
+      },
+      {
+        "label": "In-process hosting with IIS and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/in-process-hosting",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
