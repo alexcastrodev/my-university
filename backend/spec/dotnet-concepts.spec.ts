@@ -10,7 +10,7 @@ describe('GET /dotnet-concepts', () => {
     expect(body.length).toBeGreaterThan(0);
   });
 
-  it('summaries expose slug, id, title, topic, summary and publishedAt but no sections', async () => {
+  it('summaries expose slug, id, category, title, topic, summary and publishedAt but no sections', async () => {
     const body = await json<any[]>(await get('/dotnet-concepts'));
     const concept = body.find(
       (c) => c.slug === 'modular-monolith-module-boundaries',
@@ -18,6 +18,7 @@ describe('GET /dotnet-concepts', () => {
     expect(concept).toMatchObject({
       slug: 'modular-monolith-module-boundaries',
       id: 1,
+      category: 'Architecture',
       title: expect.any(String),
       topic: 'Modular Architecture',
       summary: expect.any(String),

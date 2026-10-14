@@ -1,6 +1,7 @@
 [
   {
     "slug": "collection-interfaces-and-choosing-a-collection",
+    "category": "Base Class Library",
     "title": "Collection Interfaces and Choosing a Collection",
     "topic": "Collections",
     "summary": "IEnumerable, ICollection, IList and the read-only interfaces, how to pick parameter and return types, collection expressions, and what a read-only view does not guarantee.",
@@ -48,6 +49,7 @@
   },
   {
     "slug": "list-and-array-internals",
+    "category": "Base Class Library",
     "title": "List<T> and Array Internals",
     "topic": "Collections",
     "summary": "List<T> growth and capacity, array covariance, modifying a collection during foreach, and CollectionsMarshal.AsSpan with its risks.",
@@ -103,6 +105,7 @@
   },
   {
     "slug": "dictionary-hashset-and-equality",
+    "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
     "topic": "Collections",
     "summary": "Buckets, the Equals and GetHashCode contract, the mutable key bug, IEqualityComparer, and records as keys.",
@@ -158,6 +161,7 @@
   },
   {
     "slug": "specialized-collections",
+    "category": "Base Class Library",
     "title": "Specialized Collections",
     "topic": "Collections",
     "summary": "Queue, Stack, LinkedList, SortedDictionary vs SortedList, and PriorityQueue (not stable, no priority update).",
@@ -228,6 +232,7 @@
   },
   {
     "slug": "immutable-and-frozen-collections",
+    "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
     "topic": "Collections",
     "summary": "ImmutableList vs ImmutableArray, builders, and FrozenDictionary and FrozenSet.",
@@ -283,8 +288,9 @@
   },
   {
     "slug": "linq-deferred-execution-and-iterators",
+    "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
-    "topic": "Collections",
+    "topic": "LINQ",
     "summary": "yield return, deferred execution, multiple enumeration, and IEnumerable vs IQueryable as the bridge to EF Core.",
     "publishedAt": "2026-10-04",
     "requires": [
@@ -338,6 +344,7 @@
   },
   {
     "slug": "stream-class-hierarchy-and-decorators",
+    "category": "Base Class Library",
     "title": "Stream Class Hierarchy and Decorators",
     "topic": "Streams",
     "summary": "Stream, FileStream, MemoryStream and BufferedStream, decorators like GZipStream, leaveOpen, short reads and ReadExactly.",
@@ -390,6 +397,7 @@
   },
   {
     "slug": "async-io-and-system-io-pipelines",
+    "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
     "topic": "Streams",
     "summary": "ReadAsync and CopyToAsync, ArrayPool<byte>, and PipeReader and PipeWriter with backpressure.",
@@ -445,6 +453,7 @@
   },
   {
     "slug": "async-streams-iasyncenumerable",
+    "category": "Base Class Library",
     "title": "Async Streams with IAsyncEnumerable",
     "topic": "Streams",
     "summary": "await foreach, EnumeratorCancellation, and streaming JSON from ASP.NET Core.",
@@ -506,6 +515,7 @@
   },
   {
     "slug": "threads-threadpool-and-starvation",
+    "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
     "topic": "Threads",
     "summary": "Thread, foreground vs background, thread injection, starvation from sync-over-async, and LongRunning.",
@@ -568,6 +578,7 @@
   },
   {
     "slug": "locks-monitor-and-interlocked",
+    "category": "Memory & Concurrency",
     "title": "Locks, Monitor, and Interlocked",
     "topic": "Threads",
     "summary": "lock and Monitor, System.Threading.Lock, Interlocked, ReaderWriterLockSlim, and why await cannot be used inside lock.",
@@ -638,6 +649,7 @@
   },
   {
     "slug": "memory-model-volatile-and-thread-local-state",
+    "category": "Memory & Concurrency",
     "title": "Memory Model, volatile, and Thread-Local State",
     "topic": "Threads",
     "summary": "volatile and Volatile.Read, double-checked locking vs Lazy<T>, and ThreadLocal vs AsyncLocal.",

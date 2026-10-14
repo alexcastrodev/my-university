@@ -13,9 +13,17 @@ import {
   normalizeLanguage,
 } from '../shared/language';
 
+export type CSharpConceptCategory =
+  | 'Language'
+  | 'Type Design'
+  | 'Base Class Library'
+  | 'LINQ'
+  | 'Memory & Concurrency';
+
 export interface CSharpConceptSummary {
   slug: string;
   id: number;
+  category: CSharpConceptCategory;
   title: string;
   topic: string;
   summary: string;
@@ -85,6 +93,7 @@ export class CSharpConceptsService {
     return {
       slug: meta.slug,
       id: meta.id,
+      category: meta.category,
       title: title ?? meta.title,
       topic: meta.topic,
       summary: summary ?? meta.summary,
@@ -109,6 +118,7 @@ export class CSharpConceptsService {
     return {
       slug: meta.slug,
       id: meta.id,
+      category: meta.category,
       title: title ?? meta.title,
       topic: meta.topic,
       summary: summary ?? meta.summary,

@@ -1,10 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { CSharpConceptSummary } from '../../models/csharp-concept.model';
+import { CSharpConceptCategory, CSharpConceptSummary } from '../../models/csharp-concept.model';
 import { CSharpConceptsService } from '../../services/csharp-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
+
+const CATEGORY_OPTIONS: { label: string; value: CSharpConceptCategory | null }[] = [
+  { label: 'All', value: null },
+  { label: 'Language', value: 'Language' },
+  { label: 'Type Design', value: 'Type Design' },
+  { label: 'Base Class Library', value: 'Base Class Library' },
+  { label: 'LINQ', value: 'LINQ' },
+  { label: 'Memory & Concurrency', value: 'Memory & Concurrency' },
+];
 
 export interface CSharpConceptTopicGroup {
   topic: string;
@@ -13,8 +22,34 @@ export interface CSharpConceptTopicGroup {
 
 /** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
 const TOPIC_ORDER = [
+  // Language
+  'Language Basics',
+  'Strings & Formatting',
+  'Numbers & Conversions',
+  'Operators & Control Flow',
+  'Pattern Matching',
+  'Exceptions',
+  'Methods & Lambdas',
+  // Type Design
+  'Classes & Members',
+  'Properties & Initialization',
+  'Records & Equality',
+  'Inheritance & Polymorphism',
+  'Interfaces & Generics',
+  'Delegates & Events',
+  'Nullability',
+  'Extension Members',
+  // Base Class Library
+  'Text & Regex',
+  'Common Types',
   'Collections',
+  'Files & I/O',
   'Streams',
+  'Serialization',
+  // LINQ
+  'LINQ',
+  // Memory & Concurrency
+  'Memory & Value Semantics',
   'Threads',
 ];
 
@@ -29,18 +64,22 @@ export class CSharpConceptsListPage implements OnInit {
   private cSharpConceptsService = inject(CSharpConceptsService);
   private seo = inject(SeoService);
 
+  protected readonly CATEGORY_OPTIONS = CATEGORY_OPTIONS;
   protected readonly READ_SORT_OPTIONS = READ_SORT_OPTIONS;
   protected readonly ROUTE_COMMANDS = ['/csharp-concepts'];
 
   concepts = signal<CSharpConceptSummary[]>([]);
   loading = signal(true);
+  selectedCategory = signal<CSharpConceptCategory | null>(null);
   showOnlyLabs = signal(false);
   readSort = signal<ReadSortOrder>('default');
 
   filteredConcepts = computed(() => {
+    const category = this.selectedCategory();
     const showLabs = this.showOnlyLabs();
-    const all = this.concepts();
-    const filtered = showLabs ? all.filter((c) => c.labUrl) : all;
+    const filtered = this.concepts().filter(
+      (c) => (!category || c.category === category) && (!showLabs || c.labUrl),
+    );
     return sortByRead(filtered, this.readSort());
   });
 
@@ -56,6 +95,10 @@ export class CSharpConceptsListPage implements OnInit {
     const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
     return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
   });
+
+  onFilterChange(category: CSharpConceptCategory | null) {
+    this.selectedCategory.set(category);
+  }
 
   onToggleLabsFilter() {
     this.showOnlyLabs.update((v) => !v);

@@ -22,7 +22,7 @@ describe('GET /csharp-concepts', () => {
     );
   });
 
-  it('summaries expose slug, id, title, topic, summary and publishedAt but no sections', async () => {
+  it('summaries expose slug, id, category, title, topic, summary and publishedAt but no sections', async () => {
     const body = await json<any[]>(await get('/csharp-concepts'));
     const concept = body.find(
       (c) => c.slug === 'collection-interfaces-and-choosing-a-collection',
@@ -30,6 +30,7 @@ describe('GET /csharp-concepts', () => {
     expect(concept).toMatchObject({
       slug: 'collection-interfaces-and-choosing-a-collection',
       id: 1,
+      category: 'Base Class Library',
       title: expect.any(String),
       topic: 'Collections',
       summary: expect.any(String),

@@ -2,6 +2,7 @@
   {
     "slug": "modular-monolith-module-boundaries",
     "id": 1,
+    "category": "Architecture",
     "title": "Modular Monolith: Drawing Module Boundaries",
     "topic": "Modular Architecture",
     "summary": "Projects, internal visibility, and a contracts assembly per module as a boundary the .NET compiler enforces, with one schema and one DbContext per module.",
@@ -54,6 +55,7 @@
   {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
+    "category": "Architecture",
     "title": "Module Communication and Architecture Tests",
     "topic": "Modular Architecture",
     "summary": "Synchronous queries through contracts, outbox-backed integration events for reliable delivery, and architecture tests that turn dependency rules into a failing build.",
@@ -99,6 +101,7 @@
   {
     "slug": "testing-modules-in-isolation",
     "id": 3,
+    "category": "Architecture",
     "title": "Testing Modules in Isolation",
     "topic": "Modular Architecture",
     "summary": "Host one module with a real database, replace the other modules with fakes of their contracts, test outbox events without sleeping, and keep a few full-application tests for the seams.",
@@ -143,6 +146,7 @@
   },
   {
     "slug": "aggregates-entities-and-value-objects",
+    "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
     "topic": "DDD",
     "summary": "Records as value objects, strongly-typed IDs, an aggregate root that guards invariants, and encapsulated collections, with the cost of each choice.",
@@ -193,6 +197,7 @@
   },
   {
     "slug": "mapping-the-domain-with-ef-core",
+    "category": "Architecture",
     "title": "Mapping the Domain with EF Core",
     "topic": "DDD",
     "summary": "Owned types vs complex types, value converters, private constructors and backing fields, and when a repository is worth wrapping around the DbContext.",
@@ -248,6 +253,7 @@
   },
   {
     "slug": "domain-events-and-consistency-boundaries",
+    "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
     "topic": "DDD",
     "summary": "Events raised by the aggregate and dispatched from a SaveChanges interceptor, domain vs integration events, and the one-aggregate-per-transaction rule.",
@@ -305,6 +311,7 @@
   },
   {
     "slug": "dbcontext-lifetime-and-change-tracking",
+    "category": "Data Access",
     "title": "DbContext Lifetime and Change Tracking",
     "topic": "EF Core",
     "summary": "One context per unit of work, pooling and IDbContextFactory, the entity states in the change tracker, and when AsNoTracking pays off.",
@@ -347,6 +354,7 @@
   },
   {
     "slug": "loading-related-data-and-n-plus-one",
+    "category": "Data Access",
     "title": "Loading Related Data and the N+1 Problem",
     "topic": "EF Core",
     "summary": "Include and ThenInclude, cartesian explosion and AsSplitQuery, N+1 through lazy loading, projections, and reading the generated SQL with ToQueryString.",
@@ -397,6 +405,7 @@
   },
   {
     "slug": "query-translation-and-performance",
+    "category": "Data Access",
     "title": "Query Translation and Performance in EF Core",
     "topic": "EF Core",
     "summary": "Where LINQ to SQL translation stops, compiled queries, ExecuteUpdate and ExecuteDelete, FromSql vs FromSqlRaw, and keyset pagination.",
@@ -452,6 +461,7 @@
   },
   {
     "slug": "transactions-and-optimistic-concurrency",
+    "category": "Data Access",
     "title": "Transactions and Optimistic Concurrency in EF Core",
     "topic": "EF Core",
     "summary": "The implicit transaction in SaveChanges, concurrency tokens (rowversion and xmin), DbUpdateConcurrencyException, and a retry strategy combined with a manual transaction.",
@@ -497,6 +507,7 @@
   },
   {
     "slug": "ef-core-migrations-workflow",
+    "category": "Data Access",
     "title": "EF Core Migrations Workflow",
     "topic": "Migrations",
     "summary": "The model snapshot, reviewing generated SQL (a rename that becomes drop and add), data changes in migrationBuilder.Sql, and snapshot conflicts between branches.",
@@ -544,6 +555,7 @@
   },
   {
     "slug": "applying-migrations-in-production",
+    "category": "Data Access",
     "title": "Applying Migrations in Production",
     "topic": "Migrations",
     "summary": "The risks of Migrate() at startup with several replicas, idempotent scripts, migration bundles, expand and contract, and concurrent index builds in PostgreSQL.",
@@ -594,6 +606,7 @@
   },
   {
     "slug": "hosted-services-and-backgroundservice",
+    "category": "Concurrency & Background Work",
     "title": "Hosted Services and BackgroundService",
     "topic": "Background Jobs",
     "summary": "IHostedService vs BackgroundService, unhandled exceptions that stop the host, scoped services through IServiceScopeFactory, PeriodicTimer, and graceful shutdown.",
@@ -644,6 +657,7 @@
   },
   {
     "slug": "in-memory-queues-with-channels",
+    "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
     "topic": "Background Jobs",
     "summary": "Bounded Channel<T>, BoundedChannelFullMode, an endpoint as producer and a BackgroundService as consumer, and what a restart loses.",
@@ -689,6 +703,7 @@
   },
   {
     "slug": "durable-jobs-hangfire-and-quartz",
+    "category": "Concurrency & Background Work",
     "title": "Durable Jobs with Hangfire and Quartz.NET",
     "topic": "Background Jobs",
     "summary": "Persistent job storage, retries, idempotency under at-least-once delivery, recurring jobs, and passing IDs instead of entities.",
@@ -739,6 +754,7 @@
   },
   {
     "slug": "task-and-async-await-internals",
+    "category": "Concurrency & Background Work",
     "title": "Task and async/await Internals",
     "topic": "Concurrency",
     "summary": "The compiler state machine, SynchronizationContext and ConfigureAwait, deadlocks with .Result, async void, and the rules of ValueTask.",
@@ -786,6 +802,7 @@
   },
   {
     "slug": "data-parallelism-parallel-and-plinq",
+    "category": "Concurrency & Background Work",
     "title": "Data Parallelism: Parallel and PLINQ",
     "topic": "Concurrency",
     "summary": "CPU-bound vs I/O-bound work, Parallel.ForEachAsync, PLINQ, localInit and localFinally, and when parallel code gets slower.",
@@ -836,6 +853,7 @@
   },
   {
     "slug": "coordinating-concurrent-work",
+    "category": "Concurrency & Background Work",
     "title": "Coordinating Concurrent Work",
     "topic": "Concurrency",
     "summary": "Cancellation and timeouts, throttling with SemaphoreSlim, fan-out and fan-in with Channels, TaskCompletionSource, and ConcurrentDictionary.GetOrAdd pitfalls.",
@@ -897,6 +915,7 @@
   {
     "slug": "minimal-apis-routing-and-route-groups",
     "id": 19,
+    "category": "ASP.NET Core",
     "title": "Minimal APIs: Routing and Route Groups",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "How a URL becomes a handler call (templates and parameter binding), named routes with CreatedAtRoute, route groups, and moving endpoints out of Program.cs.",
@@ -945,6 +964,7 @@
   {
     "slug": "dtos-and-the-api-contract",
     "id": 20,
+    "category": "ASP.NET Core",
     "title": "DTOs and the API Contract",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "Why a REST API never serializes entities, one DTO per use case with C# records, where the mapping lives, and projecting straight in the query.",
@@ -996,6 +1016,7 @@
   {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
+    "category": "ASP.NET Core",
     "title": "REST Semantics: Status Codes and Idempotency",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "Verb, URI, and status code as the HTTP contract, which methods are safe or idempotent, honest 404s, idempotent DELETE, TypedResults, and ProblemDetails.",
@@ -1052,6 +1073,7 @@
   {
     "slug": "input-validation-in-minimal-apis",
     "id": 22,
+    "category": "ASP.NET Core",
     "title": "Input Validation in Minimal APIs",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "Data annotations with AddValidation (.NET 10), the 400 response with per-field errors, the trap of types that are never discovered, and what annotations cannot express.",
@@ -1103,6 +1125,7 @@
   {
     "slug": "configuration-and-the-options-pattern",
     "id": 23,
+    "category": "ASP.NET Core",
     "title": "Configuration and the Options Pattern",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "Configuration sources and their precedence, overriding per environment without touching code, typed settings with ValidateOnStart, and keeping secrets out of the repository.",
@@ -1156,6 +1179,7 @@
   {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
+    "category": "ASP.NET Core",
     "title": "Dependency Injection and Service Lifetimes",
     "topic": "ASP.NET Core Fundamentals",
     "summary": "What the container does, transient vs scoped vs singleton, why the DbContext is scoped, captive dependencies, creating a scope by hand, and keyed services.",
@@ -1204,6 +1228,7 @@
   {
     "slug": "ef-core-crud-operations-and-seeding",
     "id": 25,
+    "category": "Data Access",
     "title": "EF Core CRUD Operations and Seeding",
     "topic": "EF Core",
     "summary": "Model, DbContext, and SQLite registration, Add vs SaveChanges, FindAsync and projection, set-based update and delete, and seeding reference data with UseSeeding and HasData.",
@@ -1260,6 +1285,7 @@
   {
     "slug": "from-crud-to-modular-monolith",
     "id": 26,
+    "category": "Architecture",
     "title": "From CRUD to Modular Monolith",
     "topic": "Modular Architecture",
     "summary": "A concrete, step by step path from a single-project CRUD API to two modules (Catalog and Orders) with separate projects, schemas, and a contract between them.",
@@ -1321,6 +1347,7 @@
   {
     "slug": "clean-architecture-in-four-projects",
     "id": 27,
+    "category": "Architecture",
     "title": "Clean Architecture in Four Projects",
     "topic": "Application Architecture",
     "summary": "Domain, Application, Infrastructure, and Api with one dependency rule pointing inward, what goes in each layer, how to test each one, and when it is enough before a modular monolith.",

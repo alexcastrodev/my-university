@@ -57,6 +57,35 @@
   margin-bottom: 1.25rem;
 }
 
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-filter-pill {
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 20px;
+  color: var(--mu-ink-mid);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.category-filter-pill:hover {
+  background: var(--mu-accent-soft);
+  color: var(--mu-accent);
+}
+
+.category-filter-pill.active {
+  background: var(--mu-accent-soft);
+  border-color: var(--mu-accent);
+  color: var(--mu-accent);
+}
+
 .labs-filter-btn {
   background: var(--mu-bg-alt);
   border: 1px solid var(--mu-line);
