@@ -104,6 +104,59 @@
     "id": 2
   },
   {
+    "slug": "operators-null-handling-and-null-conditional-assignment",
+    "id": 200,
+    "category": "Language",
+    "title": "Operators, Null Handling and Null-Conditional Assignment",
+    "topic": "Operators & Control Flow",
+    "summary": "Short-circuit versus eager logical operators, the ?., ?[], ?? and ??= family, and C# 14 null-conditional assignment: what compiles, what does not, the generated code and the nullable analysis.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Optional: Correct Usage and the API's Own Warnings",
+        "slug": "optional-correct-usage",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Locks, Monitor and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Member access and null-conditional operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Null conditional assignment, C# feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/null-conditional-assignment",
+        "type": "doc"
+      },
+      {
+        "label": "?? and ??= operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator",
+        "type": "doc"
+      },
+      {
+        "label": "Boolean logical operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators",
+        "type": "doc"
+      },
+      {
+        "label": "C# operators and expressions (precedence), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
