@@ -514,6 +514,62 @@
     "id": 9
   },
   {
+    "slug": "linq-operator-families-and-query-syntax",
+    "id": 700,
+    "category": "LINQ",
+    "title": "LINQ: Operator Families and Query Syntax",
+    "topic": "LINQ",
+    "summary": "The LINQ operator families, how the compiler rewrites query syntax (let, into, transparent identifiers), and stable ordering with ThenBy, Order() and culture-aware string comparison.",
+    "publishedAt": "2026-10-14",
+    "requires": [
+      "linq-deferred-execution-and-iterators"
+    ],
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Standard query operators overview, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/",
+        "type": "doc"
+      },
+      {
+        "label": "Write LINQ queries (query syntax versus method syntax), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Query expressions, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/expressions#1223-query-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.OrderBy method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Order method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order",
+        "type": "doc"
+      },
+      {
+        "label": "let clause, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/let-clause",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
