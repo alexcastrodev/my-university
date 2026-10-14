@@ -1,6 +1,14 @@
 import { ConceptLinkRef } from '../shared/concept-links';
 import { Language } from './language.model';
 
+export type DotNetConceptCategory =
+  | 'Platform & Tooling'
+  | 'ASP.NET Core'
+  | 'Blazor'
+  | 'Data Access'
+  | 'Architecture'
+  | 'Concurrency & Background Work';
+
 export interface DotNetConceptReference {
   label: string;
   url: string;
@@ -15,6 +23,7 @@ export interface DotNetConceptSection {
 export interface DotNetConceptSummary {
   slug: string;
   id: number;
+  category: DotNetConceptCategory;
   title: string;
   topic: string;
   summary: string;

@@ -1,6 +1,13 @@
 import { ConceptLinkRef } from '../shared/concept-links';
 import { Language } from './language.model';
 
+export type CSharpConceptCategory =
+  | 'Language'
+  | 'Type Design'
+  | 'Base Class Library'
+  | 'LINQ'
+  | 'Memory & Concurrency';
+
 export interface CSharpConceptReference {
   label: string;
   url: string;
@@ -15,6 +22,7 @@ export interface CSharpConceptSection {
 export interface CSharpConceptSummary {
   slug: string;
   id: number;
+  category: CSharpConceptCategory;
   title: string;
   topic: string;
   summary: string;
