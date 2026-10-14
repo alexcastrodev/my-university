@@ -53,6 +53,44 @@
     ]
   },
   {
+    "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+    "id": 100,
+    "category": "Platform & Tooling",
+    "title": "The .NET Support Lifecycle and Choosing a Target",
+    "topic": "Runtime & SDK",
+    "summary": "LTS versus STS, active and maintenance phases, SDK versus runtime versions, global.json with rollForward, how the host picks a runtime, and what to target in late 2026.",
+    "publishedAt": "2026-10-14",
+    "requires": [],
+    "related": [],
+    "references": [
+      {
+        "label": ".NET and .NET Core official support policy",
+        "url": "https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core",
+        "type": "doc"
+      },
+      {
+        "label": ".NET releases, patches, and support, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/releases-and-support",
+        "type": "doc"
+      },
+      {
+        "label": "Select which .NET version to use, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/versions/selection",
+        "type": "doc"
+      },
+      {
+        "label": "global.json overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/global-json",
+        "type": "doc"
+      },
+      {
+        "label": ".NET container images, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/docker/container-images",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
