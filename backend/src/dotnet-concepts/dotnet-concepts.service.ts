@@ -13,9 +13,18 @@ import {
   normalizeLanguage,
 } from '../shared/language';
 
+export type DotNetConceptCategory =
+  | 'Platform & Tooling'
+  | 'ASP.NET Core'
+  | 'Blazor'
+  | 'Data Access'
+  | 'Architecture'
+  | 'Concurrency & Background Work';
+
 export interface DotNetConceptSummary {
   slug: string;
   id: number;
+  category: DotNetConceptCategory;
   title: string;
   topic: string;
   summary: string;
@@ -85,6 +94,7 @@ export class DotNetConceptsService {
     return {
       slug: meta.slug,
       id: meta.id,
+      category: meta.category,
       title: title ?? meta.title,
       topic: meta.topic,
       summary: summary ?? meta.summary,
@@ -109,6 +119,7 @@ export class DotNetConceptsService {
     return {
       slug: meta.slug,
       id: meta.id,
+      category: meta.category,
       title: title ?? meta.title,
       topic: meta.topic,
       summary: summary ?? meta.summary,
