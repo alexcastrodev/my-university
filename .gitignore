@@ -1,7 +1,8 @@
 tmp/
 **/*.pdf
 .pnpm-store
-scripts/
+scripts/*
+!scripts/check-concepts.mjs
 tasks.md
 backlog.md
 .env
