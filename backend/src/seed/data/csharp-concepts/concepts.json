@@ -160,6 +160,69 @@
     "id": 3
   },
   {
+    "slug": "classes-members-and-access-modifiers",
+    "category": "Type Design",
+    "title": "Classes, Members and Access Modifiers",
+    "topic": "Classes & Members",
+    "summary": "Defaults and rules for type and member accessibility, protected internal versus private protected, the protected qualifier rule, InternalsVisibleTo, the file modifier, and the members every class inherits from System.Object.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Modular Monolith: Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Object.clone() and the Cloneable Anti-Pattern",
+        "slug": "object-clone-and-cloneable",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Access modifiers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers",
+        "type": "doc"
+      },
+      {
+        "label": "file keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/file",
+        "type": "doc"
+      },
+      {
+        "label": "protected keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/protected",
+        "type": "doc"
+      },
+      {
+        "label": "private protected keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/private-protected",
+        "type": "doc"
+      },
+      {
+        "label": "Friend assemblies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/friend",
+        "type": "doc"
+      },
+      {
+        "label": "Object class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.object",
+        "type": "doc"
+      },
+      {
+        "label": "Compiler Error CS1540, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs1540",
+        "type": "doc"
+      }
+    ],
+    "id": 300
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
