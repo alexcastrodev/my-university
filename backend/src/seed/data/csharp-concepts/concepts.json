@@ -1726,6 +1726,82 @@
     ]
   },
   {
+    "slug": "nullable-reference-types-and-flow-analysis",
+    "id": 412,
+    "category": "Type Design",
+    "title": "Nullable Reference Types and Flow Analysis",
+    "topic": "Nullability",
+    "summary": "NRT as an annotation, not a type (metadata and NullabilityInfoContext), the not-null and maybe-null states and where flow analysis is deliberately optimistic, the ! operator, contract attributes (MaybeNullWhen, NotNullIfNotNull, MemberNotNull and friends), T? in generics and notnull, nulls from outside (RespectNullableAnnotations, EF Core), migration strategy, and Nullable<T> with lifted operators and boxing.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Operators, Null Handling and Null-Conditional Assignment",
+        "slug": "operators-null-handling-and-null-conditional-assignment",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Guard Clauses, Throwing and Rethrowing",
+        "slug": "guard-clauses-throwing-and-rethrowing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Optional: Correct Usage and the API's Own Warnings",
+        "slug": "optional-correct-usage",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Nullable reference types, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/null-safety/nullable-reference-types",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable reference types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes for null-state static analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "Resolve nullable warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/nullable-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable migration strategies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/update-applications/nullable-migration-strategies",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable value types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types",
+        "type": "doc"
+      },
+      {
+        "label": "Respect nullable annotations, System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/nullable-annotations",
+        "type": "doc"
+      },
+      {
+        "label": "Working with nullable reference types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
