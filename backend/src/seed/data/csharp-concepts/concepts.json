@@ -147,6 +147,62 @@
     "id": 101
   },
   {
+    "slug": "formatting-values-and-interpolated-strings",
+    "category": "Language",
+    "title": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+    "topic": "Strings & Formatting",
+    "summary": "The {value,width:format} syntax, what an interpolated string compiles to (handlers and lazy evaluation), the current-culture trap when writing and parsing numbers, IFormattable, ISpanFormattable and CompositeFormat.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "string-literals-verbatim-raw-and-escapes"
+    ],
+    "related": [
+      {
+        "label": "Formatter and Format Specifiers",
+        "slug": "formatter-and-format-specifiers",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "String interpolation using $, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated",
+        "type": "doc"
+      },
+      {
+        "label": "Composite formatting, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/composite-formatting",
+        "type": "doc"
+      },
+      {
+        "label": "Standard numeric format strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Custom numeric format strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Write a custom string interpolation handler, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/performance/interpolated-string-handler",
+        "type": "doc"
+      },
+      {
+        "label": "Formatting types in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/formatting-types",
+        "type": "doc"
+      },
+      {
+        "label": "CompositeFormat class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.compositeformat",
+        "type": "doc"
+      }
+    ],
+    "id": 102
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
