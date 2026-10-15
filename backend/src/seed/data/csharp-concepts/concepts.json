@@ -231,6 +231,89 @@
     "id": 4
   },
   {
+    "slug": "inheritance-virtual-override-and-sealed",
+    "id": 400,
+    "category": "Type Design",
+    "title": "Inheritance: virtual, override, new and sealed",
+    "topic": "Inheritance & Polymorphism",
+    "summary": "How C# picks the method that runs (override by object type, new by variable type), abstract classes, covariant returns, virtual dispatch and sealed devirtualization seen in the JIT, casting with is, as and patterns, the fragile base class, and interface vs abstract class vs composition.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+        "slug": "bytecode-object-creation-and-method-dispatch",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Inheritance, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance",
+        "type": "doc"
+      },
+      {
+        "label": "Polymorphism, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/polymorphism",
+        "type": "doc"
+      },
+      {
+        "label": "Knowing when to use override and new keywords, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/knowing-when-to-use-override-and-new-keywords",
+        "type": "doc"
+      },
+      {
+        "label": "override modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/override",
+        "type": "doc"
+      },
+      {
+        "label": "sealed modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/sealed",
+        "type": "doc"
+      },
+      {
+        "label": "Type-testing operators and cast expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 9, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9",
+        "type": "doc"
+      },
+      {
+        "label": "Virtual members, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/virtual-members",
+        "type": "doc"
+      },
+      {
+        "label": "Sealing, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/sealing",
+        "type": "doc"
+      },
+      {
+        "label": "CA1852: Seal internal types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1852",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime configuration options for compilation (tiered compilation and PGO), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
