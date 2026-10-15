@@ -519,6 +519,72 @@
     ]
   },
   {
+    "slug": "dynamic-expandoobject-and-the-dlr",
+    "id": 104,
+    "category": "Language",
+    "title": "dynamic, ExpandoObject and the DLR",
+    "topic": "Language Basics",
+    "summary": "What dynamic is at compile time and at run time, runtime overload resolution, DLR call sites and their cache with a rough cost measurement, ExpandoObject and DynamicObject, why dynamic JSON via dynamic breaks on JsonElement, and JsonNode as the alternative.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "top-level-programs-implicit-usings-and-namespaces"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Expression Trees and IQueryable Providers",
+        "slug": "expression-trees-and-iqueryable-providers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Classpath Scanning via Reflection",
+        "slug": "classpath-scanning-via-reflection",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Using type dynamic, C# advanced topics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interop/using-type-dynamic",
+        "type": "doc"
+      },
+      {
+        "label": "Dynamic Language Runtime Overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/dynamic-language-runtime-overview",
+        "type": "doc"
+      },
+      {
+        "label": "ExpandoObject class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.dynamic.expandoobject",
+        "type": "doc"
+      },
+      {
+        "label": "DynamicObject class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.dynamic.dynamicobject",
+        "type": "doc"
+      },
+      {
+        "label": "Use JsonDocument and JsonNode (DOM), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/use-dom",
+        "type": "doc"
+      },
+      {
+        "label": "How to access Office interop objects by using C# features, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interop/how-to-access-office-interop-objects",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
