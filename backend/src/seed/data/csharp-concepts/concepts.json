@@ -488,6 +488,67 @@
     ]
   },
   {
+    "slug": "guard-clauses-throwing-and-rethrowing",
+    "id": 211,
+    "category": "Language",
+    "title": "Guard Clauses, Throwing and Rethrowing",
+    "topic": "Exceptions",
+    "summary": "Usage errors versus execution errors, the ThrowIf helpers from .NET 6 to 8, CallerArgumentExpression for your own guards, throw helpers and inlining shown in JIT output, DoesNotReturn and nullable analysis, guards in async methods, and throw; versus throw ex; versus wrapping.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "exceptions-try-catch-filters-and-finally"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Design: When to Throw",
+        "slug": "exception-design-philosophy",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Best practices for exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions",
+        "type": "doc"
+      },
+      {
+        "label": "Exception-handling statements: throw, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking caller information: CallerArgumentExpression, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information",
+        "type": "doc"
+      },
+      {
+        "label": "ArgumentOutOfRangeException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes for null-state static analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "CA2200: Rethrow to preserve stack details, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
