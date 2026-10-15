@@ -2562,6 +2562,73 @@
     ]
   },
   {
+    "slug": "whats-new-in-aspnet-core-10",
+    "id": 320,
+    "category": "ASP.NET Core",
+    "title": "What's New in ASP.NET Core 10: A Map",
+    "topic": "ASP.NET Core Fundamentals",
+    "summary": "A map of the ASP.NET Core 10 release notes grouped by hosting, Minimal APIs, OpenAPI, Blazor and Identity, separating automatic, opt-in and breaking changes, with a link to the concept that goes deep on each one.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "kestrel-iis-and-hosting-models",
+      "input-validation-in-minimal-apis",
+      "problem-details-and-global-exception-handling",
+      "openapi-document-generation",
+      "blazor-routing-layouts-and-navigation",
+      "blazor-forms-editform-and-validation",
+      "blazor-data-access-and-streaming-rendering"
+    ],
+    "related": [
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Generate OpenAPI documents, ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi",
+        "type": "doc"
+      },
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
