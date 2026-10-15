@@ -361,6 +361,112 @@
     ]
   },
   {
+    "slug": "whats-new-in-dotnet-10",
+    "id": 120,
+    "category": "Platform & Tooling",
+    "title": "What's New in .NET 10: A Map of the Platform",
+    "topic": "Runtime & SDK",
+    "summary": "A hub for the .NET 10 LTS release: what the official runtime, SDK and libraries pages list (JIT and stack allocation, file-based apps, one-shot tools, package pruning, numeric ordering, JSON options, async ZIP), each linked to the concept that explains it.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target",
+      "roslyn-il-and-the-jit",
+      "file-based-apps",
+      "native-aot-and-its-limits",
+      "sdk-style-projects-msbuild-and-directory-build-props",
+      "nuget-restore-versions-and-dependency-resolution"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Assemblies, Frameworks and How the Host Resolves Them",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Testing Clean Architecture with MSTest",
+        "slug": "testing-clean-architecture-with-mstest",
+        "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "C# Language Versions and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 10 runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the .NET 10 libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      },
+      {
+        "label": ".NET support policy, Microsoft",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
