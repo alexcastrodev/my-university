@@ -2917,6 +2917,67 @@
     ]
   },
   {
+    "slug": "route-constraints-short-circuit-and-handler-results",
+    "id": 312,
+    "category": "ASP.NET Core",
+    "title": "Route Constraints, Short-Circuit Routes and Handler Results",
+    "topic": "Minimal APIs",
+    "summary": "Route constraints that decide whether a route matches (404 versus 400), regex escaping pitfalls, custom constraints, ShortCircuit and MapShortCircuit, and what each kind of handler return value turns into.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "parameter-binding-and-endpoint-filters"
+    ],
+    "related": [
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics, Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Routing, Layouts and Navigation",
+        "slug": "blazor-routing-layouts-and-navigation",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Routing in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing",
+        "type": "doc"
+      },
+      {
+        "label": "Create responses in Minimal API applications, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Route handler delegates in Minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
