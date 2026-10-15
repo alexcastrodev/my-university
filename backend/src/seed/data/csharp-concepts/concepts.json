@@ -1725,6 +1725,260 @@
     "id": 312
   },
   {
+    "slug": "enums-and-flags-enums",
+    "category": "Type Design",
+    "title": "Enums and Flags Enums",
+    "topic": "Classes & Members",
+    "summary": "An enum is an integer with names, not a closed set: underlying type and size, the zero value, [Flags] and bit operations, the HasFlag traps, validating values from outside, switching over an enum, generic code, and when to replace an enum with something else.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "fields-constants-and-initialization-order"
+    ],
+    "related": [
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+        "slug": "enum-patterns-strategy-and-collections",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enumeration types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum",
+        "type": "doc"
+      },
+      {
+        "label": "FlagsAttribute class (guidelines for flags enums), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.flagsattribute",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.HasFlag method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.hasflag",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.IsDefined method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.isdefined",
+        "type": "doc"
+      },
+      {
+        "label": "JsonStringEnumMemberNameAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.jsonstringenummembernameattribute",
+        "type": "doc"
+      }
+    ],
+    "id": 302
+  },
+  {
+    "slug": "operator-overloading-and-user-defined-conversions",
+    "category": "Type Design",
+    "title": "Operator Overloading and User-Defined Conversions",
+    "topic": "Classes & Members",
+    "summary": "Operators as static methods, the pairs the compiler enforces, implicit and explicit conversions, checked operators (C# 11), and the C# 14 instance compound assignment and increment operators, which mutate in place and change what x += y means for a reference type.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "partial-types-and-partial-members"
+    ],
+    "related": [
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Interface Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Enums and Flags Enums",
+        "slug": "enums-and-flags-enums",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Struct and Record Equality",
+        "slug": "struct-and-record-equality",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Operator overloading, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading",
+        "type": "doc"
+      },
+      {
+        "label": "User-defined explicit and implicit conversion operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Arithmetic operators: user-defined checked operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#user-defined-checked-operators",
+        "type": "doc"
+      },
+      {
+        "label": "User-defined compound assignment, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/user-defined-compound-assignment",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Generic math, .NET fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/math",
+        "type": "doc"
+      }
+    ],
+    "id": 304
+  },
+  {
+    "slug": "indexers-and-index-range-support",
+    "category": "Type Design",
+    "title": "Indexers and Index/Range Support",
+    "topic": "Properties & Initialization",
+    "summary": "How indexers are declared and compiled, ref returning indexers, the exact pattern the compiler uses to enable ^ and .., List<T> ranges since .NET 8, which slices copy and which do not, and the edge cases that throw.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "properties-init-accessors-and-the-field-keyword"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Indexers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/",
+        "type": "doc"
+      },
+      {
+        "label": "Explore ranges of data using indices and ranges, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes",
+        "type": "doc"
+      },
+      {
+        "label": "Indexes and ranges, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/ranges",
+        "type": "doc"
+      },
+      {
+        "label": "List<T>.Slice method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.slice",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ],
+    "id": 313
+  },
+  {
+    "slug": "struct-and-record-equality",
+    "category": "Type Design",
+    "title": "Struct and Record Equality",
+    "topic": "Records & Equality",
+    "summary": "The equality defaults of classes, structs, records, tuples, and arrays side by side, the weak hash of a plain struct, implementing IEquatable<T> on a struct, customizing record equality for collection members, and keeping Equals symmetric in a class hierarchy.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "records-and-with-expressions"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Operator Overloading and User-Defined Conversions",
+        "slug": "operator-overloading-and-user-defined-conversions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "C# equality comparisons, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/expressions/equality",
+        "type": "doc"
+      },
+      {
+        "label": "Equality operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators",
+        "type": "doc"
+      },
+      {
+        "label": "ValueType.GetHashCode method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.valuetype.gethashcode",
+        "type": "doc"
+      },
+      {
+        "label": "Tuple types: tuple equality, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#tuple-equality",
+        "type": "doc"
+      },
+      {
+        "label": "HashCode struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.hashcode",
+        "type": "doc"
+      }
+    ],
+    "id": 314
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
