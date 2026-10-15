@@ -2184,6 +2184,62 @@
     "id": 502
   },
   {
+    "slug": "building-and-searching-strings-efficiently",
+    "category": "Base Class Library",
+    "title": "Building and Searching Strings Efficiently",
+    "topic": "Text & Regex",
+    "summary": "StringBuilder versus concatenation in loops, string.Create and spans, ArrayPool, SearchValues for vectorized search (substrings since .NET 9), and measuring before optimizing.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Formatting Values and Interpolated Strings",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Regular Expressions in Depth",
+        "slug": "regular-expressions-in-depth",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "strings-comparison-culture-and-ordering"
+    ],
+    "references": [
+      {
+        "label": "StringBuilder class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder",
+        "type": "doc"
+      },
+      {
+        "label": "String.Create method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.string.create",
+        "type": "doc"
+      },
+      {
+        "label": "SearchValues class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.searchvalues",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayPool<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for comparing strings in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings",
+        "type": "doc"
+      }
+    ],
+    "id": 503
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
