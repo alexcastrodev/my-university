@@ -341,6 +341,62 @@
     "id": 500
   },
   {
+    "slug": "regular-expressions-in-depth",
+    "category": "Base Class Library",
+    "title": "Regular Expressions in Depth",
+    "topic": "Text & Regex",
+    "summary": "The backtracking and NonBacktracking engines, options that change a pattern's meaning, named groups, lookaround, greedy vs lazy, EnumerateMatches and match timeouts.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Spring Security Authorization Regex Matchers",
+        "slug": "spring-security-authorization-regex-matchers",
+        "feature": "spring-concepts"
+      }
+    ],
+    "requires": [
+      "strings-comparison-culture-and-ordering"
+    ],
+    "references": [
+      {
+        "label": ".NET regular expressions overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Regular expression options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options",
+        "type": "doc"
+      },
+      {
+        "label": "Backtracking in .NET regular expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/backtracking-in-regular-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Grouping constructs in regular expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/grouping-constructs-in-regular-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for regular expressions in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-regex",
+        "type": "doc"
+      },
+      {
+        "label": "Regex.EnumerateMatches method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches",
+        "type": "doc"
+      }
+    ],
+    "id": 501
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
