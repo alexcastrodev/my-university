@@ -492,6 +492,148 @@
     ]
   },
   {
+    "slug": "porting-from-net-framework-to-modern-net",
+    "id": 103,
+    "category": "Platform & Tooling",
+    "title": "Porting from .NET Framework to Modern .NET",
+    "topic": "Runtime & SDK",
+    "summary": "What no longer exists and how loudly each gap fails (compile error, warning or only at run time), NU1701, netstandard2.0 and multi-targeting as the bridge, the CA1416 analyzer, porting order and the current status of the official tools.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "roslyn-il-and-the-jit"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Assemblies, Frameworks and How the Host Resolves Them",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Upgrade .NET apps overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/",
+        "type": "doc"
+      },
+      {
+        "label": "Port from .NET Framework to .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/framework-overview",
+        "type": "doc"
+      },
+      {
+        "label": ".NET Framework technologies unavailable on .NET 6+, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable",
+        "type": "doc"
+      },
+      {
+        "label": "Analyze dependencies to port code, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/third-party-deps",
+        "type": "doc"
+      },
+      {
+        "label": "Platform compatibility analyzer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/analyzers/platform-compat-analyzer",
+        "type": "doc"
+      },
+      {
+        "label": "Use the Windows Compatibility Pack to port code, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/windows-compat-pack",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from ASP.NET Framework to ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dotnet-cli-and-noun-first-commands",
+    "id": 112,
+    "category": "Platform & Tooling",
+    "title": "The dotnet CLI and the Noun-First Commands",
+    "topic": "Project System",
+    "summary": "CLI anatomy, the .NET 10 noun-first commands (and a reference add failure seen on SDK 10.0.100), -p: and where it breaks, tool manifests, dotnet tool exec and dnx, dotnet watch hot reload, --cli-schema, all measured on SDK 10.0.100.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
+    "related": [
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": ".NET CLI overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet tool exec, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet package update, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-update",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet package download, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-package-download",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet watch, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch",
+        "type": "doc"
+      },
+      {
+        "label": ".NET tools overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
@@ -802,6 +944,184 @@
       {
         "label": "System.Text.Json source generation, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "packaging-and-publishing-a-nuget-library",
+    "id": 202,
+    "category": "Platform & Tooling",
+    "title": "Packaging and Publishing a NuGet Library",
+    "topic": "NuGet & Packaging",
+    "summary": "How dotnet pack turns a project into a package (metadata, readme, symbols, Source Link), the SemVer and VersionSuffix rules, package validation catching a CP0002 breaking change, testing the package from a local feed, and what pushing to nuget.org or a private feed means.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "central-package-management-and-package-source-mapping"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Assemblies, Frameworks and the Host Resolver",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "dotnet pack command, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet pack and restore as MSBuild targets, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet package versioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/package-versioning",
+        "type": "doc"
+      },
+      {
+        "label": "Package validation overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/apicompat/package-validation/overview",
+        "type": "doc"
+      },
+      {
+        "label": "How to publish NuGet packages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/nuget-org/publish-a-package",
+        "type": "doc"
+      },
+      {
+        "label": "Signing NuGet packages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/create-packages/sign-a-package",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-targeting-and-netstandard",
+    "id": 203,
+    "category": "Platform & Tooling",
+    "title": "Multi-Targeting and .NET Standard",
+    "topic": "NuGet & Packaging",
+    "summary": "What TargetFrameworks produces in a package, how NuGet picks the assembly for a net8.0 or net10.0 consumer, #if symbols, polyfills such as IsExternalInit, what netstandard2.0 is still for, and which C# features survive on an old target.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "packaging-and-publishing-a-nuget-library"
+    ],
+    "related": [
+      {
+        "label": "Assemblies, Frameworks and the Host Resolver",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": ".NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": ".NET Standard overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/net-standard",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-platform targeting for .NET libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting",
+        "type": "doc"
+      },
+      {
+        "label": "Configure the C# language version, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version",
+        "type": "doc"
+      },
+      {
+        "label": "Target frameworks in SDK-style projects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/frameworks",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "source-generators-and-aot-friendly-code",
+    "id": 212,
+    "category": "Platform & Tooling",
+    "title": "Source Generators and AOT-Friendly Code",
+    "topic": "Publishing & Native AOT",
+    "summary": "How [GeneratedRegex], JsonSerializerContext and [LoggerMessage] replace reflection with compile-time code, how to read the generated files (and the duplicate-definition trap), the IL2026 and IL3050 warnings on the reflection path, and a small IIncrementalGenerator built and run on SDK 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "native-aot-and-its-limits"
+    ],
+    "related": [
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generated Regex and ReDoS",
+        "slug": "generated-regex-and-redos",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The .NET Compiler Platform SDK (Roslyn APIs), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/",
+        "type": "doc"
+      },
+      {
+        "label": ".NET regular expression source generators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators",
+        "type": "doc"
+      },
+      {
+        "label": "System.Text.Json source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to AOT warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/fixing-warnings",
         "type": "doc"
       }
     ]
