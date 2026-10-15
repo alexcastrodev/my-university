@@ -2618,6 +2618,62 @@
     "id": 612
   },
   {
+    "slug": "migrating-from-newtonsoft-to-system-text-json",
+    "category": "Base Class Library",
+    "title": "Migrating from Newtonsoft.Json to System.Text.Json",
+    "topic": "Serialization",
+    "summary": "The behavior differences measured by running the same input through both libraries (casing, comments, numbers, dates, ignored attributes, fields, object and the DOM), how to configure System.Text.Json for each, and a test-driven migration order.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrate from Newtonsoft.Json to System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft",
+        "type": "doc"
+      },
+      {
+        "label": "System.Text.Json overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Populate initialized properties, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/populate-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Customize character encoding, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/character-encoding",
+        "type": "doc"
+      },
+      {
+        "label": "How to preserve references and handle cycles, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references",
+        "type": "doc"
+      }
+    ],
+    "id": 613
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
