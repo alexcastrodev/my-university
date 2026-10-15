@@ -284,6 +284,67 @@
     "id": 301
   },
   {
+    "slug": "partial-types-and-partial-members",
+    "category": "Type Design",
+    "title": "Partial Types and Partial Members",
+    "topic": "Classes & Members",
+    "summary": "How partial declarations merge, legacy versus extended partial methods, partial properties and indexers (C# 13), partial constructors and events (C# 14), and the contract with source generators.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "fields-constants-and-initialization-order"
+    ],
+    "related": [
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "partial type, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-type",
+        "type": "doc"
+      },
+      {
+        "label": "partial member, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-member",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": ".NET regular expression source generators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "P/Invoke source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke-source-generation",
+        "type": "doc"
+      }
+    ],
+    "id": 303
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
