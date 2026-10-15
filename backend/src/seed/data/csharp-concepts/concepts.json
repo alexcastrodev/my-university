@@ -3487,6 +3487,296 @@
     "id": 611
   },
   {
+    "slug": "compression-zip-gzip-brotli-and-tar",
+    "category": "Base Class Library",
+    "title": "Compression: ZIP, GZip, Brotli and Tar",
+    "topic": "Files & I/O",
+    "summary": "GZip, Deflate, ZLib and Brotli as stream decorators, what CompressionLevel really buys, ZipArchive in memory and on disk with the .NET 10 async APIs, tar, zip slip, and capping decompressed size.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "filesystem-apis-and-cross-platform-paths"
+    ],
+    "related": [
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "I/O Streams Fundamentals",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET libraries for .NET 10, ZIP files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "How to compress and extract files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-compress-and-extract-files",
+        "type": "doc"
+      },
+      {
+        "label": "CompressionLevel Enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.compressionlevel",
+        "type": "doc"
+      },
+      {
+        "label": "ZipArchive Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchive",
+        "type": "doc"
+      },
+      {
+        "label": "TarFile Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.tar.tarfile",
+        "type": "doc"
+      },
+      {
+        "label": "BrotliStream Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotlistream",
+        "type": "doc"
+      }
+    ],
+    "id": 601
+  },
+  {
+    "slug": "json-converters-contracts-and-schema-export",
+    "category": "Base Class Library",
+    "title": "JSON Converters, Contract Customization and Schema Export",
+    "topic": "Serialization",
+    "summary": "JsonConverter<T> and JsonConverterFactory, null handling and registration precedence, contract customization with modifiers, and what JsonSchemaExporter describes (and cannot see behind a custom converter).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-source-generation-and-utf8jsonreader"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to write custom converters for JSON serialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/converters-how-to",
+        "type": "doc"
+      },
+      {
+        "label": "Custom serialization and deserialization contracts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/custom-contracts",
+        "type": "doc"
+      },
+      {
+        "label": "JSON schema exporter, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/extract-schema",
+        "type": "doc"
+      },
+      {
+        "label": "JsonSchemaExporter Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.schema.jsonschemaexporter",
+        "type": "doc"
+      },
+      {
+        "label": "DefaultJsonTypeInfoResolver Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.metadata.defaultjsontypeinforesolver",
+        "type": "doc"
+      }
+    ],
+    "id": 612
+  },
+  {
+    "slug": "migrating-from-newtonsoft-to-system-text-json",
+    "category": "Base Class Library",
+    "title": "Migrating from Newtonsoft.Json to System.Text.Json",
+    "topic": "Serialization",
+    "summary": "The behavior differences measured by running the same input through both libraries (casing, comments, numbers, dates, ignored attributes, fields, object and the DOM), how to configure System.Text.Json for each, and a test-driven migration order.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Migrate from Newtonsoft.Json to System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft",
+        "type": "doc"
+      },
+      {
+        "label": "System.Text.Json overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Populate initialized properties, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/populate-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Customize character encoding, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/character-encoding",
+        "type": "doc"
+      },
+      {
+        "label": "How to preserve references and handle cycles, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references",
+        "type": "doc"
+      }
+    ],
+    "id": 613
+  },
+  {
+    "slug": "binaryformatter-removal-and-safe-serialization",
+    "category": "Base Class Library",
+    "title": "BinaryFormatter Removal and Safe Serialization",
+    "topic": "Serialization",
+    "summary": "What the runtime does since .NET 9, why the format is unsafe by design (CWE-502), the mechanism shown with a harmless class, alternatives (System.Text.Json, protobuf-net), and reading old payloads with NrbfDecoder.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "Migrating from Newtonsoft.Json to System.Text.Json",
+        "slug": "migrating-from-newtonsoft-to-system-text-json",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BinaryFormatter migration guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Deserialization risks in use of BinaryFormatter and related types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide",
+        "type": "doc"
+      },
+      {
+        "label": "Read BinaryFormatter (NRBF) payloads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/read-nrbf-payloads",
+        "type": "doc"
+      },
+      {
+        "label": "Using the BinaryFormatter compatibility package, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/compatibility-package",
+        "type": "doc"
+      },
+      {
+        "label": "CWE-502: Deserialization of Untrusted Data, MITRE",
+        "url": "https://cwe.mitre.org/data/definitions/502.html",
+        "type": "doc"
+      }
+    ],
+    "id": 620
+  },
+  {
+    "slug": "xml-serialization-and-linq-to-xml",
+    "category": "Base Class Library",
+    "title": "XML Serialization and LINQ to XML",
+    "topic": "Serialization",
+    "summary": "XmlSerializer and DataContractSerializer (what they include and silently skip), namespace and encoding surprises, querying and editing with LINQ to XML, streaming with XmlReader, and the parser settings that decide whether hostile XML can read files or exhaust memory.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "binaryformatter-removal-and-safe-serialization"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "XML Processing Options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/xml/xml-processing-options",
+        "type": "doc"
+      },
+      {
+        "label": "XmlSerializer Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to XML serialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/introducing-xml-serialization",
+        "type": "doc"
+      },
+      {
+        "label": "LINQ to XML overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/linq/linq-xml-overview",
+        "type": "doc"
+      },
+      {
+        "label": "XmlReaderSettings.DtdProcessing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.dtdprocessing",
+        "type": "doc"
+      },
+      {
+        "label": "XmlReaderSettings.MaxCharactersFromEntities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.maxcharactersfromentities",
+        "type": "doc"
+      }
+    ],
+    "id": 621
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
