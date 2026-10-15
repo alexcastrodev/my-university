@@ -96,6 +96,57 @@
     "id": 100
   },
   {
+    "slug": "string-literals-verbatim-raw-and-escapes",
+    "category": "Language",
+    "title": "String Literals: Verbatim, Raw and Escape Sequences",
+    "topic": "Strings & Formatting",
+    "summary": "Regular, verbatim, raw and UTF-8 string literals: escape sequences including \\e, how raw literals strip indentation and count braces with $$, what a u8 literal really is, and interpolation in constants.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "csharp-language-versions-and-preview-features"
+    ],
+    "related": [
+      {
+        "label": "Text Blocks",
+        "slug": "text-blocks",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Strings, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/",
+        "type": "doc"
+      },
+      {
+        "label": "Built-in reference types, string literals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types",
+        "type": "doc"
+      },
+      {
+        "label": "Raw string literals, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/raw-string",
+        "type": "doc"
+      },
+      {
+        "label": "String interpolation using $, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      }
+    ],
+    "id": 101
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
