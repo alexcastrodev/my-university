@@ -1650,6 +1650,82 @@
     ]
   },
   {
+    "slug": "events-observer-pattern-and-memory-leaks",
+    "id": 411,
+    "category": "Type Design",
+    "title": "Events, the Observer Pattern and Memory Leaks",
+    "topic": "Delegates & Events",
+    "summary": "What event restricts compared with a delegate field, the add/remove accessors with Interlocked.CompareExchange the compiler generates (lost subscriptions measured), EventHandler<TEventArgs> and raising with ?.Invoke, the long-lived publisher leak measured with WeakReference and the GC, unsubscribing, weak events, custom accessors and C# 14 partial events.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "delegates-and-multicast-invocation"
+    ],
+    "related": [
+      {
+        "label": "Delegates and Multicast Invocation",
+        "slug": "delegates-and-multicast-invocation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Spring Application Events: @EventListener and @TransactionalEventListener",
+        "slug": "spring-application-events",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+        "slug": "weak-soft-and-phantom-references",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Standard .NET event patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/event-pattern",
+        "type": "doc"
+      },
+      {
+        "label": "The updated .NET Core event pattern, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/modern-events",
+        "type": "doc"
+      },
+      {
+        "label": "How to subscribe to and unsubscribe from events, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-subscribe-to-and-unsubscribe-from-events",
+        "type": "doc"
+      },
+      {
+        "label": "event keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/event",
+        "type": "doc"
+      },
+      {
+        "label": "How to implement custom event accessors, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors",
+        "type": "doc"
+      },
+      {
+        "label": "Partial members, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-member",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Observer design pattern, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/events/observer-design-pattern",
+        "type": "doc"
+      },
+      {
+        "label": "Weak event patterns, WPF, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/desktop/wpf/events/weak-event-patterns",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
