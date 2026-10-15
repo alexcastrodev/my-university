@@ -190,7 +190,8 @@ until the dictionary is next modified.
 - **Enumeration order is an implementation detail.** A dictionary often returns
   items in insertion order until something is removed, and then new items reuse
   the freed slots, so do not depend on it. Use `SortedDictionary` or sort the
-  keys when order matters.
+  keys when order matters, or `OrderedDictionary<TKey, TValue>` (.NET 9) when you
+  need insertion order guaranteed.
 
 ## Documentation Links
 
