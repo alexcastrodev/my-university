@@ -3235,6 +3235,72 @@
     ]
   },
   {
+    "slug": "resilience-retries-timeouts-and-circuit-breakers",
+    "id": 411,
+    "category": "ASP.NET Core",
+    "title": "Resilience: Retries, Timeouts and Circuit Breakers",
+    "topic": "HTTP Clients",
+    "summary": "Microsoft.Extensions.Http.Resilience (Polly v8) on an HttpClient: standard handler defaults, retry with jitter and Retry-After, why retrying a POST is dangerous, attempt versus total timeout, circuit breaker and hedging, with what the server really received.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
+        "slug": "spring-batch-retry-policy-and-retrytemplate",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Build resilient HTTP apps: Key development patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to resilient app development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Retry strategy",
+        "url": "https://www.pollydocs.org/strategies/retry.html",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Circuit breaker strategy",
+        "url": "https://www.pollydocs.org/strategies/circuit-breaker.html",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Hedging strategy",
+        "url": "https://www.pollydocs.org/strategies/hedging.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
