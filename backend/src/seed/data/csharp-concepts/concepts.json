@@ -3109,6 +3109,82 @@
     ]
   },
   {
+    "slug": "linq-aggregation-paging-and-chunking",
+    "id": 703,
+    "category": "LINQ",
+    "title": "LINQ: Aggregation, Paging and Chunking",
+    "topic": "LINQ",
+    "summary": "What each aggregate does with an empty sequence, the Sum accumulator and overflow, Aggregate, MinBy and MaxBy, Any versus Count, Skip, Take and Take(Range), Chunk, and how paging behaves in memory and through EF Core 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-sets-joins-grouping-and-lookups"
+    ],
+    "related": [
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Stream Collectors and Parallel Streams",
+        "slug": "stream-collectors-and-parallel-streams",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Partitioning data, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/partitioning-data",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Aggregate method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregate",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.MinBy method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Chunk method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Take method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 6: new LINQ APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6#new-linq-apis",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/pagination",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
