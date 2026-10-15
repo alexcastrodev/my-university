@@ -183,6 +183,52 @@
     ]
   },
   {
+    "slug": "central-package-management-and-package-source-mapping",
+    "id": 201,
+    "category": "Platform & Tooling",
+    "title": "Central Package Management and Package Source Mapping",
+    "topic": "NuGet & Packaging",
+    "summary": "Centralize versions in Directory.Packages.props (VersionOverride, transitive pinning, global references) and map package IDs to feeds in nuget.config to stop dependency confusion, with the real errors and the limits of each.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Central Package Management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management",
+        "type": "doc"
+      },
+      {
+        "label": "Package Source Mapping, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/package-source-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "Security best practices for NuGet feeds, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "nuget.config file reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/nuget-config-file",
+        "type": "doc"
+      },
+      {
+        "label": "NU1507 warning reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1507",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
