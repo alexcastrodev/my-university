@@ -1177,6 +1177,52 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/configuration-and-the-options-pattern"
   },
   {
+    "slug": "openapi-document-generation",
+    "id": 400,
+    "category": "ASP.NET Core",
+    "title": "OpenAPI Document Generation in ASP.NET Core 10",
+    "topic": "API Documentation",
+    "summary": "AddOpenApi and MapOpenApi, OpenAPI 3.1 by default in .NET 10, XML comments and Description on Produces attributes, transformers, multiple documents and build-time generation, shown with real generator output.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "rest-semantics-status-codes-and-idempotency"
+    ],
+    "related": [
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generate OpenAPI documents, ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi",
+        "type": "doc"
+      },
+      {
+        "label": "Customize OpenAPI documents, transformers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/customize-openapi",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, OpenAPI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0#openapi",
+        "type": "doc"
+      },
+      {
+        "label": "Use the generated OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI Specification v3.1.1",
+        "url": "https://spec.openapis.org/oas/v3.1.1.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
