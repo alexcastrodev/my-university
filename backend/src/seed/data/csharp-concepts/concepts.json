@@ -3704,6 +3704,92 @@
     ]
   },
   {
+    "slug": "garbage-collector-generations-and-the-loh",
+    "id": 713,
+    "category": "Memory & Concurrency",
+    "title": "The Garbage Collector: Generations and the LOH",
+    "topic": "Memory & Value Semantics",
+    "summary": "Generations 0, 1 and 2 and promotion, the large and pinned object heaps, workstation versus server GC, background GC and DATAS, container limits, what changed in .NET 10, GC.Collect myths and the tools to measure, with numbers from .NET 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "idisposable-finalizers-and-deterministic-cleanup"
+    ],
+    "related": [
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+        "slug": "g1-regions-and-evacuation-failure",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Sizing the JVM Heap: RAM/CPU Economics in Practice",
+        "slug": "heap-sizing-economics",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Fundamentals of garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals",
+        "type": "doc"
+      },
+      {
+        "label": "Workstation vs. server garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/workstation-server-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Background garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Dynamic adaptation to application sizes (DATAS), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/datas",
+        "type": "doc"
+      },
+      {
+        "label": "Garbage collector config settings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector",
+        "type": "doc"
+      },
+      {
+        "label": "Large object heap, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/large-object-heap",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 10 runtime: Arm64 write-barrier improvements, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/runtime#arm64-write-barrier-improvements",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
