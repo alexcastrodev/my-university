@@ -1640,6 +1640,87 @@
     ]
   },
   {
+    "slug": "generated-values-defaults-and-computed-columns",
+    "id": 604,
+    "category": "Data Access",
+    "title": "Generated Values, Defaults and Computed Columns",
+    "topic": "EF Core Modeling",
+    "summary": "HasDefaultValue, HasDefaultValueSql, computed columns and ValueGeneratedOn* with the real EF Core 10 INSERT and UPDATE on SQLite, the sentinel value trap, triggers versus RETURNING, and the SQL Server DDL with a sequence and a named default.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generated values, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 8, sentinel values and database defaults, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-8.0/whatsnew#sentinel-values-and-database-defaults",
+        "type": "doc"
+      },
+      {
+        "label": "Sequences, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/sequences",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server value generation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/value-generation",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite provider: SaveChanges and the RETURNING clause, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/misc",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite EF Core database provider limitations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      },
+      {
+        "label": "The RETURNING clause, SQLite",
+        "url": "https://sqlite.org/lang_returning.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
