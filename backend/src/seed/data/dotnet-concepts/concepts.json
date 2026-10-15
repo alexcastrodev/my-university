@@ -61,7 +61,13 @@
     "summary": "LTS versus STS, active and maintenance phases, SDK versus runtime versions, global.json with rollForward, how the host picks a runtime, and what to target in late 2026.",
     "publishedAt": "2026-10-14",
     "requires": [],
-    "related": [],
+    "related": [
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      }
+    ],
     "references": [
       {
         "label": ".NET and .NET Core official support policy",
@@ -86,6 +92,67 @@
       {
         "label": ".NET container images, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/core/docker/container-images",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "roslyn-il-and-the-jit",
+    "id": 101,
+    "category": "Platform & Tooling",
+    "title": "From Source to Machine Code: Roslyn, IL and the JIT",
+    "topic": "Runtime & SDK",
+    "summary": "What Roslyn writes into an assembly (IL and metadata), reading IL with ILSpy, tiered JIT with dynamic PGO and OSR measured on .NET 10, and what ReadyToRun changes.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target"
+    ],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
+        "slug": "jit-tiered-compilation",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
+        "slug": "class-file-structure",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Managed execution process, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/managed-execution-process",
+        "type": "doc"
+      },
+      {
+        "label": "Compilation config settings (tiered compilation, quick JIT, ReadyToRun, PGO), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 8 runtime (dynamic PGO on by default), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 7 (on-stack replacement), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-7",
+        "type": "doc"
+      },
+      {
+        "label": "ReadyToRun deployment overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/ready-to-run",
+        "type": "doc"
+      },
+      {
+        "label": "Viewing JIT dumps (JitDisasm, JitDisasmSummary), dotnet/runtime",
+        "url": "https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/jit/viewing-jit-dumps.md",
         "type": "doc"
       }
     ]
