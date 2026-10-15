@@ -2562,6 +2562,62 @@
     "id": 601
   },
   {
+    "slug": "json-converters-contracts-and-schema-export",
+    "category": "Base Class Library",
+    "title": "JSON Converters, Contract Customization and Schema Export",
+    "topic": "Serialization",
+    "summary": "JsonConverter<T> and JsonConverterFactory, null handling and registration precedence, contract customization with modifiers, and what JsonSchemaExporter describes (and cannot see behind a custom converter).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-source-generation-and-utf8jsonreader"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to write custom converters for JSON serialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/converters-how-to",
+        "type": "doc"
+      },
+      {
+        "label": "Custom serialization and deserialization contracts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/custom-contracts",
+        "type": "doc"
+      },
+      {
+        "label": "JSON schema exporter, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/extract-schema",
+        "type": "doc"
+      },
+      {
+        "label": "JsonSchemaExporter Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.schema.jsonschemaexporter",
+        "type": "doc"
+      },
+      {
+        "label": "DefaultJsonTypeInfoResolver Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.metadata.defaultjsontypeinforesolver",
+        "type": "doc"
+      }
+    ],
+    "id": 612
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
