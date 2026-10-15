@@ -1768,6 +1768,67 @@
     ]
   },
   {
+    "slug": "blazor-data-access-and-streaming-rendering",
+    "id": 520,
+    "category": "Blazor",
+    "title": "Blazor Data Access and Streaming Rendering",
+    "topic": "Components & Forms",
+    "summary": "Why a DbContext injected into an interactive component lives as long as the circuit, IDbContextFactory, the duplicate query from prerendering and PersistentState, and why WebAssembly needs an API.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-component-lifecycle-and-parameters"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor with Entity Framework Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/blazor-ef-core",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor prerendered state persistence, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/prerendered-state-persistence",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, streaming rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "Using a DbContext factory, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/#use-a-dbcontext-factory",
+        "type": "doc"
+      },
+      {
+        "label": "DbContext lifetime, configuration, and initialization, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
