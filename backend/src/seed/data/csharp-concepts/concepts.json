@@ -931,6 +931,82 @@
     ]
   },
   {
+    "slug": "foreach-enumerator-pattern-and-ref-iteration",
+    "id": 201,
+    "category": "Language",
+    "title": "foreach, the Enumerator Pattern and ref Iteration",
+    "topic": "Operators & Control Flow",
+    "summary": "How foreach binds to a pattern (GetEnumerator, Current, MoveNext) instead of the interface, the lowering read from the IL for List, arrays, strings and spans, struct enumerators and the boxing measured through IEnumerable, copied enumerators that never move, ref iteration over spans and CollectionsMarshal.AsSpan, and the hidden cast behind an InvalidCastException.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "operators-null-handling-and-null-conditional-assignment"
+    ],
+    "related": [
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Iterator vs Iterable",
+        "slug": "iterator-vs-iterable",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Iteration statements: for, foreach, do, and while, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements",
+        "type": "doc"
+      },
+      {
+        "label": "The foreach statement, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/statements#1395-the-foreach-statement",
+        "type": "doc"
+      },
+      {
+        "label": "CollectionsMarshal.AsSpan method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan",
+        "type": "doc"
+      },
+      {
+        "label": "List<T>.Enumerator struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.enumerator",
+        "type": "doc"
+      },
+      {
+        "label": "Span<T>.Enumerator struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.span-1.enumerator",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
