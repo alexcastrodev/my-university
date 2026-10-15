@@ -506,6 +506,62 @@
     "id": 10
   },
   {
+    "slug": "ef-core-logging-query-tags-and-diagnostics",
+    "category": "Data Access",
+    "title": "EF Core Logging, Query Tags and Diagnostics",
+    "topic": "EF Core Querying",
+    "summary": "ToQueryString, LogTo and ILogger by category, sensitive data and detailed errors, TagWith and interceptors that count commands.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "query-translation-and-performance"
+    ],
+    "related": [
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Interceptors and StatementInspector: Hooking into Hibernate's Lifecycle",
+        "slug": "interceptors-and-statementinspector",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Simple logging, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging",
+        "type": "doc"
+      },
+      {
+        "label": "Using Microsoft.Extensions.Logging in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/extensions-logging",
+        "type": "doc"
+      },
+      {
+        "label": "Query tags, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/tags",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      },
+      {
+        "label": "EntityFrameworkQueryableExtensions.ToQueryString, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.toquerystring",
+        "type": "doc"
+      }
+    ],
+    "id": 700
+  },
+  {
     "slug": "ef-core-migrations-workflow",
     "category": "Data Access",
     "title": "EF Core Migrations Workflow",
