@@ -223,6 +223,67 @@
     "id": 300
   },
   {
+    "slug": "fields-constants-and-initialization-order",
+    "category": "Type Design",
+    "title": "Fields, Constants and Initialization Order",
+    "topic": "Classes & Members",
+    "summary": "Instance and static initialization order with real output, virtual calls in constructors, const versus static readonly across assemblies, beforefieldinit, and required members with SetsRequiredMembers.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "classes-members-and-access-modifiers"
+    ],
+    "related": [
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Flexible Constructor Bodies",
+        "slug": "flexible-constructor-bodies",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Instance constructors, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Static constructors, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Constants, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constants",
+        "type": "doc"
+      },
+      {
+        "label": "readonly keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/readonly",
+        "type": "doc"
+      },
+      {
+        "label": "required modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required",
+        "type": "doc"
+      },
+      {
+        "label": "SetsRequiredMembersAttribute, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute",
+        "type": "doc"
+      },
+      {
+        "label": "TypeInitializationException, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.typeinitializationexception",
+        "type": "doc"
+      }
+    ],
+    "id": 301
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
