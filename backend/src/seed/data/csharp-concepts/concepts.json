@@ -3552,6 +3552,82 @@
     ]
   },
   {
+    "slug": "writing-linq-operators-and-how-linq-is-implemented",
+    "id": 704,
+    "category": "LINQ",
+    "title": "Writing LINQ Operators and How LINQ Is Implemented",
+    "topic": "LINQ",
+    "summary": "How to write an operator in LINQ's style (eager validation, separate iterator, generic math), the specialized iterators .NET 10 picks per source type, TryGetNonEnumeratedCount, span fast paths, OrderBy().First() without sorting, vectorized Sum, and what a pipeline allocates.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "expression-trees-and-iqueryable-providers"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ: Aggregation, Paging and Chunking",
+        "slug": "linq-aggregation-paging-and-chunking",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Interface Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to extend LINQ, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-extend-linq",
+        "type": "doc"
+      },
+      {
+        "label": "Iterators, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.TryGetNonEnumeratedCount method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Sum method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum",
+        "type": "doc"
+      },
+      {
+        "label": "Generic math, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/math",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Sum source, dotnet/runtime (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/release/10.0/src/libraries/System.Linq/src/System/Linq/Sum.cs",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
