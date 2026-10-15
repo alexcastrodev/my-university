@@ -741,6 +741,236 @@
     "id": 4
   },
   {
+    "slug": "inheritance-virtual-override-and-sealed",
+    "id": 400,
+    "category": "Type Design",
+    "title": "Inheritance: virtual, override, new and sealed",
+    "topic": "Inheritance & Polymorphism",
+    "summary": "How C# picks the method that runs (override by object type, new by variable type), abstract classes, covariant returns, virtual dispatch and sealed devirtualization seen in the JIT, casting with is, as and patterns, the fragile base class, and interface vs abstract class vs composition.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+        "slug": "bytecode-object-creation-and-method-dispatch",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Inheritance, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance",
+        "type": "doc"
+      },
+      {
+        "label": "Polymorphism, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/polymorphism",
+        "type": "doc"
+      },
+      {
+        "label": "Knowing when to use override and new keywords, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/knowing-when-to-use-override-and-new-keywords",
+        "type": "doc"
+      },
+      {
+        "label": "override modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/override",
+        "type": "doc"
+      },
+      {
+        "label": "sealed modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/sealed",
+        "type": "doc"
+      },
+      {
+        "label": "Type-testing operators and cast expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 9, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9",
+        "type": "doc"
+      },
+      {
+        "label": "Virtual members, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/virtual-members",
+        "type": "doc"
+      },
+      {
+        "label": "Sealing, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/sealing",
+        "type": "doc"
+      },
+      {
+        "label": "CA1852: Seal internal types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1852",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime configuration options for compilation (tiered compilation and PGO), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "interfaces-explicit-implementation-and-default-methods",
+    "id": 401,
+    "category": "Type Design",
+    "title": "Interfaces: Explicit Implementation and Default Methods",
+    "topic": "Interfaces & Generics",
+    "summary": "Implicit vs explicit implementation and when explicit is required, default interface methods (C# 8) and the diamond, static abstract and static virtual members (C# 11), and IComparable, IComparer and IEquatable.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "equals() vs compareTo()",
+        "slug": "equals-vs-compareto",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "interface keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface",
+        "type": "doc"
+      },
+      {
+        "label": "Explicit interface implementation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Update interfaces with default interface methods, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/default-interface-methods-versions",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Explore static virtual members in interfaces, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/static-virtual-interface-members",
+        "type": "doc"
+      },
+      {
+        "label": "Interface design, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/interface",
+        "type": "doc"
+      },
+      {
+        "label": "EqualityComparer<T>.Default, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.default",
+        "type": "doc"
+      },
+      {
+        "label": "IComparable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1",
+        "type": "doc"
+      },
+      {
+        "label": "IComparer<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1",
+        "type": "doc"
+      },
+      {
+        "label": "IEquatable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "generics-constraints-and-variance",
+    "id": 402,
+    "category": "Type Design",
+    "title": "Generics: Constraints and Variance",
+    "topic": "Interfaces & Generics",
+    "summary": "Why generics replaced object-based collections (boxing measured), reified generics, constraints up to allows ref struct (C# 13), value-type specialization vs shared reference-type code seen in the JIT, constraints that avoid boxing, out/in variance, covariant arrays, and generic attributes (C# 11).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "interfaces-explicit-implementation-and-default-methods"
+    ],
+    "related": [
+      {
+        "label": "Generics: Bounded Types, Wildcards, and Erasure",
+        "slug": "generics",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generic classes and methods, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics",
+        "type": "doc"
+      },
+      {
+        "label": "Constraints on type parameters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters",
+        "type": "doc"
+      },
+      {
+        "label": "Generics in the runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance in generics, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13 (allows ref struct), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "C# version history, C# 11 (generic attributes), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      },
+      {
+        "label": "Generics and attributes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/generics-and-attributes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
