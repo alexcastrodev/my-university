@@ -670,6 +670,179 @@
     "id": 303
   },
   {
+    "slug": "properties-init-accessors-and-the-field-keyword",
+    "category": "Type Design",
+    "title": "Properties, init Accessors and the field Keyword",
+    "topic": "Properties & Initialization",
+    "summary": "What the compiler generates for a property, what init guarantees and what it does not, and the exact rules of the C# 14 field keyword: binding, the upgrade break, field-targeted attributes, nullable analysis, and partial properties.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "partial-types-and-partial-members"
+    ],
+    "related": [
+      {
+        "label": "Fields, Constants and Initialization Order",
+        "slug": "fields-constants-and-initialization-order",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Aggregates, Entities, and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The field contextual keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field",
+        "type": "doc"
+      },
+      {
+        "label": "field keyword feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/field-keyword",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Properties, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties",
+        "type": "doc"
+      },
+      {
+        "label": "init keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/init",
+        "type": "doc"
+      }
+    ],
+    "id": 310
+  },
+  {
+    "slug": "primary-constructors-for-classes-and-structs",
+    "category": "Type Design",
+    "title": "Primary Constructors for Classes and Structs",
+    "topic": "Properties & Initialization",
+    "summary": "Primary constructor parameters become hidden, mutable fields when a member uses them: the generated IL, the CS9124 and CS9107 double-storage warnings, getting readonly and validation back, and the struct rules.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "properties-init-accessors-and-the-field-keyword"
+    ],
+    "related": [
+      {
+        "label": "Fields, Constants and Initialization Order",
+        "slug": "fields-constants-and-initialization-order",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Flexible Constructor Bodies",
+        "slug": "flexible-constructor-bodies",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Instance constructors, primary constructors section, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors#primary-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Declare primary constructors for classes and structs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/primary-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 12, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12",
+        "type": "doc"
+      },
+      {
+        "label": "Structure types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct",
+        "type": "doc"
+      },
+      {
+        "label": "ILSpy command-line decompiler (ilspycmd), GitHub",
+        "url": "https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.ILSpyCmd",
+        "type": "doc"
+      }
+    ],
+    "id": 311
+  },
+  {
+    "slug": "records-and-with-expressions",
+    "category": "Type Design",
+    "title": "Records and with Expressions",
+    "topic": "Records & Equality",
+    "summary": "What the compiler generates for a record, read from the IL (EqualityContract, PrintMembers, the clone method, Deconstruct), record class versus record struct, why with is a shallow copy, inheritance, and where records fit (DTOs, JSON) and where they do not (EF Core entities).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "primary-constructors-for-classes-and-structs"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Primary Constructors for Classes and Structs",
+        "slug": "primary-constructors-for-classes-and-structs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Records, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "Create record types, tutorial, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/records",
+        "type": "doc"
+      },
+      {
+        "label": "with expression, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      },
+      {
+        "label": "Use immutable types and properties with System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/immutability",
+        "type": "doc"
+      }
+    ],
+    "id": 312
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
