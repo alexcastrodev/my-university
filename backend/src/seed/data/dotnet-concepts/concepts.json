@@ -3169,6 +3169,72 @@
     ]
   },
   {
+    "slug": "http-logging-and-request-diagnostics",
+    "id": 402,
+    "category": "ASP.NET Core",
+    "title": "HTTP Logging and Request Diagnostics",
+    "topic": "API Documentation",
+    "summary": "What HTTP logging and W3C logging write by default, which flags log query strings and bodies, per-endpoint and per-request control with an interceptor, and trace-id correlation with LoggerMessage, with real log output.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "scalar-http-files-and-client-generation"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "HTTP logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/",
+        "type": "doc"
+      },
+      {
+        "label": "W3CLogger in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/w3c-logger/",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      },
+      {
+        "label": "Trace Context, W3C Recommendation",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
