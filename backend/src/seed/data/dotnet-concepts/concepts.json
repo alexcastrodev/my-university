@@ -145,6 +145,90 @@
     ]
   },
   {
+    "slug": "nuget-restore-versions-and-dependency-resolution",
+    "id": 200,
+    "category": "Platform & Tooling",
+    "title": "NuGet Restore, Versions and Dependency Resolution",
+    "topic": "NuGet & Packaging",
+    "summary": "Version notation, the restore resolution rules (lowest applicable version, direct dependency wins), floating versions and lock files, NuGetAudit, and what changed in restore in .NET 9 and .NET 10.",
+    "publishedAt": "2026-10-14",
+    "requires": [],
+    "related": [],
+    "references": [
+      {
+        "label": "NuGet package dependency resolution, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet package version reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/package-versioning",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing package dependencies for security vulnerabilities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Package references in project files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files",
+        "type": "doc"
+      },
+      {
+        "label": "Rewriting NuGet Restore in .NET 9, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/rewriting-nuget-restore-in-dotnet-9/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "central-package-management-and-package-source-mapping",
+    "id": 201,
+    "category": "Platform & Tooling",
+    "title": "Central Package Management and Package Source Mapping",
+    "topic": "NuGet & Packaging",
+    "summary": "Centralize versions in Directory.Packages.props (VersionOverride, transitive pinning, global references) and map package IDs to feeds in nuget.config to stop dependency confusion, with the real errors and the limits of each.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Central Package Management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management",
+        "type": "doc"
+      },
+      {
+        "label": "Package Source Mapping, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/package-source-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "Security best practices for NuGet feeds, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "nuget.config file reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/nuget-config-file",
+        "type": "doc"
+      },
+      {
+        "label": "NU1507 warning reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1507",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
@@ -660,6 +744,118 @@
     "id": 10
   },
   {
+    "slug": "ef-core-logging-query-tags-and-diagnostics",
+    "category": "Data Access",
+    "title": "EF Core Logging, Query Tags and Diagnostics",
+    "topic": "EF Core Querying",
+    "summary": "ToQueryString, LogTo and ILogger by category, sensitive data and detailed errors, TagWith and interceptors that count commands.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "query-translation-and-performance"
+    ],
+    "related": [
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Interceptors and StatementInspector: Hooking into Hibernate's Lifecycle",
+        "slug": "interceptors-and-statementinspector",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Simple logging, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging",
+        "type": "doc"
+      },
+      {
+        "label": "Using Microsoft.Extensions.Logging in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/extensions-logging",
+        "type": "doc"
+      },
+      {
+        "label": "Query tags, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/tags",
+        "type": "doc"
+      },
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      },
+      {
+        "label": "EntityFrameworkQueryableExtensions.ToQueryString, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.toquerystring",
+        "type": "doc"
+      }
+    ],
+    "id": 700
+  },
+  {
+    "slug": "global-and-named-query-filters",
+    "category": "Data Access",
+    "title": "Global and Named Query Filters (EF Core 10)",
+    "topic": "EF Core Querying",
+    "summary": "HasQueryFilter for soft delete and multi-tenancy, EF Core 10 named filters with selective IgnoreQueryFilters, and the required-navigation trap.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-logging-query-tags-and-diagnostics"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multitenancy Strategies: Schema, Database, and Discriminator",
+        "slug": "multitenancy-strategies-schema-database-and-discriminator",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Global query filters, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/filters",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, named query filters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Multi-tenancy in EF Core applications, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy",
+        "type": "doc"
+      },
+      {
+        "label": "EntityTypeBuilder.HasQueryFilter, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder-1.hasqueryfilter",
+        "type": "doc"
+      },
+      {
+        "label": "EntityFrameworkQueryableExtensions.IgnoreQueryFilters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.ignorequeryfilters",
+        "type": "doc"
+      }
+    ],
+    "id": 701
+  },
+  {
     "slug": "ef-core-migrations-workflow",
     "category": "Data Access",
     "title": "EF Core Migrations Workflow",
@@ -1168,6 +1364,108 @@
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dtos-and-the-api-contract"
   },
   {
+    "slug": "kestrel-iis-and-hosting-models",
+    "id": 300,
+    "category": "ASP.NET Core",
+    "title": "Kestrel, IIS and Hosting Models",
+    "topic": "Hosting & Pipeline",
+    "summary": "Kestrel alone or behind a reverse proxy, forwarded headers and the trusted proxy list, server limits, IIS in-process versus out-of-process, and memory eviction in ASP.NET Core 10.",
+    "publishedAt": "2026-10-14",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Kestrel web server in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer",
+        "type": "doc"
+      },
+      {
+        "label": "In-process hosting with IIS and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/in-process-hosting",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "middleware-pipeline-and-program-cs",
+    "id": 301,
+    "category": "ASP.NET Core",
+    "title": "The Middleware Pipeline and Program.cs",
+    "topic": "Hosting & Pipeline",
+    "summary": "Use, Run and Map, what WebApplication adds automatically, the recommended order, short-circuiting, convention middleware versus IMiddleware, and environments.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "kestrel-iis-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/",
+        "type": "doc"
+      },
+      {
+        "label": "Write custom ASP.NET Core middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write",
+        "type": "doc"
+      },
+      {
+        "label": "WebApplication and WebApplicationBuilder in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/webapplication",
+        "type": "doc"
+      },
+      {
+        "label": "Use multiple environments in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments",
+        "type": "doc"
+      },
+      {
+        "label": "Factory-based middleware activation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/extensibility",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
@@ -1329,6 +1627,52 @@
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/configuration-and-the-options-pattern"
+  },
+  {
+    "slug": "openapi-document-generation",
+    "id": 400,
+    "category": "ASP.NET Core",
+    "title": "OpenAPI Document Generation in ASP.NET Core 10",
+    "topic": "API Documentation",
+    "summary": "AddOpenApi and MapOpenApi, OpenAPI 3.1 by default in .NET 10, XML comments and Description on Produces attributes, transformers, multiple documents and build-time generation, shown with real generator output.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "rest-semantics-status-codes-and-idempotency"
+    ],
+    "related": [
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generate OpenAPI documents, ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi",
+        "type": "doc"
+      },
+      {
+        "label": "Customize OpenAPI documents, transformers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/customize-openapi",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, OpenAPI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0#openapi",
+        "type": "doc"
+      },
+      {
+        "label": "Use the generated OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents",
+        "type": "doc"
+      },
+      {
+        "label": "OpenAPI Specification v3.1.1",
+        "url": "https://spec.openapis.org/oas/v3.1.1.html",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "dependency-injection-and-service-lifetimes",
