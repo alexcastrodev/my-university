@@ -2126,6 +2126,72 @@
     ]
   },
   {
+    "slug": "razor-syntax-and-component-compilation",
+    "id": 503,
+    "category": "Blazor",
+    "title": "Razor Syntax and Component Compilation",
+    "topic": "Blazor Fundamentals",
+    "summary": "How a .razor file becomes a C# class (EmitCompilerGeneratedFiles), what each directive generates, what BuildRenderTree does with markup, the rules of @, the RZ10012 warning, and Razor versus Razor Pages versus Blazor.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Razor syntax reference for ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor SDK, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/razor-pages/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component generic type support, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
