@@ -219,6 +219,67 @@
     ]
   },
   {
+    "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+    "id": 110,
+    "category": "Platform & Tooling",
+    "title": "SDK-Style Projects, MSBuild and Directory.Build.props",
+    "topic": "Project System",
+    "summary": "What Sdk=\"Microsoft.NET.Sdk\" imports, implicit globbing and how to inspect it (-getItem, -pp, binlog), Directory.Build.props versus .targets and their evaluation-order traps, .slnx and ArtifactsPath, all measured on SDK 10.0.100.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target"
+    ],
+    "related": [
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Customize your build, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build",
+        "type": "doc"
+      },
+      {
+        "label": ".NET project SDKs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild properties for .NET SDK projects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props",
+        "type": "doc"
+      },
+      {
+        "label": "Artifacts output layout, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/artifacts-output",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet new sln and the default templates, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-sdk-templates",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild binary log, MSBuild wiki",
+        "url": "https://github.com/dotnet/msbuild/blob/main/documentation/wiki/Binary-Log.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
