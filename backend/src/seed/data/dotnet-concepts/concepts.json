@@ -3301,6 +3301,62 @@
     ]
   },
   {
+    "slug": "cors-for-spa-and-wasm-clients",
+    "id": 412,
+    "category": "ASP.NET Core",
+    "title": "CORS for SPA and WebAssembly Clients",
+    "topic": "HTTP Clients",
+    "summary": "Which headers the ASP.NET Core CORS middleware sends, what a preflight is, credentials and exposed headers, the configurations that fail silently (trailing slash, any origin with credentials, UseCors after authorization), verified with curl and real browser fetch calls.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
+        "slug": "spring-security-cors-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Origin Resource Sharing (CORS), MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+        "type": "doc"
+      },
+      {
+        "label": "Fetch Standard: CORS protocol",
+        "url": "https://fetch.spec.whatwg.org/#http-cors-protocol",
+        "type": "doc"
+      },
+      {
+        "label": "Call a web API from ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
