@@ -330,6 +330,82 @@
     ]
   },
   {
+    "slug": "ef-core-model-building-conventions-and-fluent-api",
+    "id": 602,
+    "category": "Data Access",
+    "title": "EF Core Model Building: Conventions, Annotations and Fluent API",
+    "topic": "EF Core Modeling",
+    "summary": "Which of convention, data annotation and Fluent API wins (checked on the real model and migration), defaults with ConfigureConventions versus a finalizing convention, IEntityTypeConfiguration, HasData in the migration, and compiled models.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-crud-operations-and-seeding"
+    ],
+    "related": [
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core CRUD Operations and Seeding",
+        "slug": "ef-core-crud-operations-and-seeding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Creating and configuring a model, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/",
+        "type": "doc"
+      },
+      {
+        "label": "Model bulk configuration, ConfigureConventions and custom conventions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/bulk-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "Entity properties, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/entity-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Data seeding, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding",
+        "type": "doc"
+      },
+      {
+        "label": "Compiled models, advanced performance topics, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics#compiled-models",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference, dotnet ef, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite EF Core database provider limitations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
