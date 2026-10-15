@@ -2674,6 +2674,62 @@
     "id": 613
   },
   {
+    "slug": "binaryformatter-removal-and-safe-serialization",
+    "category": "Base Class Library",
+    "title": "BinaryFormatter Removal and Safe Serialization",
+    "topic": "Serialization",
+    "summary": "What the runtime does since .NET 9, why the format is unsafe by design (CWE-502), the mechanism shown with a harmless class, alternatives (System.Text.Json, protobuf-net), and reading old payloads with NrbfDecoder.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "Migrating from Newtonsoft.Json to System.Text.Json",
+        "slug": "migrating-from-newtonsoft-to-system-text-json",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "BinaryFormatter migration guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/",
+        "type": "doc"
+      },
+      {
+        "label": "Deserialization risks in use of BinaryFormatter and related types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide",
+        "type": "doc"
+      },
+      {
+        "label": "Read BinaryFormatter (NRBF) payloads, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/read-nrbf-payloads",
+        "type": "doc"
+      },
+      {
+        "label": "Using the BinaryFormatter compatibility package, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-migration-guide/compatibility-package",
+        "type": "doc"
+      },
+      {
+        "label": "CWE-502: Deserialization of Untrusted Data, MITRE",
+        "url": "https://cwe.mitre.org/data/definitions/502.html",
+        "type": "doc"
+      }
+    ],
+    "id": 620
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
