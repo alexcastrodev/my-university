@@ -1477,6 +1477,67 @@
     "id": 304
   },
   {
+    "slug": "indexers-and-index-range-support",
+    "category": "Type Design",
+    "title": "Indexers and Index/Range Support",
+    "topic": "Properties & Initialization",
+    "summary": "How indexers are declared and compiled, ref returning indexers, the exact pattern the compiler uses to enable ^ and .., List<T> ranges since .NET 8, which slices copy and which do not, and the edge cases that throw.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "properties-init-accessors-and-the-field-keyword"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Indexers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/",
+        "type": "doc"
+      },
+      {
+        "label": "Explore ranges of data using indices and ranges, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes",
+        "type": "doc"
+      },
+      {
+        "label": "Indexes and ranges, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/ranges",
+        "type": "doc"
+      },
+      {
+        "label": "List<T>.Slice method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.slice",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ],
+    "id": 313
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
