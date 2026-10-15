@@ -1440,6 +1440,11 @@
         "label": "Enums and Flags Enums",
         "slug": "enums-and-flags-enums",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Struct and Record Equality",
+        "slug": "struct-and-record-equality",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1536,6 +1541,67 @@
       }
     ],
     "id": 313
+  },
+  {
+    "slug": "struct-and-record-equality",
+    "category": "Type Design",
+    "title": "Struct and Record Equality",
+    "topic": "Records & Equality",
+    "summary": "The equality defaults of classes, structs, records, tuples, and arrays side by side, the weak hash of a plain struct, implementing IEquatable<T> on a struct, customizing record equality for collection members, and keeping Equals symmetric in a class hierarchy.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "records-and-with-expressions"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Operator Overloading and User-Defined Conversions",
+        "slug": "operator-overloading-and-user-defined-conversions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The equals(), hashCode(), and toString() Contracts",
+        "slug": "equals-hashcode-and-tostring-contracts",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "C# equality comparisons, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/expressions/equality",
+        "type": "doc"
+      },
+      {
+        "label": "Equality operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators",
+        "type": "doc"
+      },
+      {
+        "label": "ValueType.GetHashCode method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.valuetype.gethashcode",
+        "type": "doc"
+      },
+      {
+        "label": "Tuple types: tuple equality, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples#tuple-equality",
+        "type": "doc"
+      },
+      {
+        "label": "HashCode struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.hashcode",
+        "type": "doc"
+      }
+    ],
+    "id": 314
   },
   {
     "slug": "specialized-collections",
