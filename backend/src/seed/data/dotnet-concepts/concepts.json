@@ -252,6 +252,84 @@
     "id": 5
   },
   {
+    "slug": "ef-core-ado-net-dapper-and-nosql",
+    "id": 600,
+    "category": "Data Access",
+    "title": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+    "topic": "Data Access Choices",
+    "summary": "ADO.NET, Dapper and EF Core as layers over one connection, the same query written three ways with measured timings, mixing them in one transaction, provider versions, and what Native AOT changes.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core CRUD Operations and Seeding",
+        "slug": "ef-core-crud-operations-and-seeding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring JDBC Persistence with JdbcTemplate and SimpleJdbcInsert",
+        "slug": "spring-jdbc-persistence-with-jdbctemplate",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "JDBC and JPA Performance",
+        "slug": "jdbc-jpa-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Entity Framework Core overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/",
+        "type": "doc"
+      },
+      {
+        "label": "Database providers, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/",
+        "type": "doc"
+      },
+      {
+        "label": "Compare EF6 and EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/efcore-and-ef6/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft.Data.Sqlite overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/",
+        "type": "doc"
+      },
+      {
+        "label": "NativeAOT support and precompiled queries (experimental), EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/nativeaot-and-precompiled-queries",
+        "type": "doc"
+      },
+      {
+        "label": "File-based apps, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps",
+        "type": "doc"
+      },
+      {
+        "label": "Dapper, GitHub",
+        "url": "https://github.com/DapperLib/Dapper",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
