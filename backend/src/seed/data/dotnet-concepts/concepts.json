@@ -219,6 +219,143 @@
     ]
   },
   {
+    "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+    "id": 110,
+    "category": "Platform & Tooling",
+    "title": "SDK-Style Projects, MSBuild and Directory.Build.props",
+    "topic": "Project System",
+    "summary": "What Sdk=\"Microsoft.NET.Sdk\" imports, implicit globbing and how to inspect it (-getItem, -pp, binlog), Directory.Build.props versus .targets and their evaluation-order traps, .slnx and ArtifactsPath, all measured on SDK 10.0.100.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target"
+    ],
+    "related": [
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Customize your build, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build",
+        "type": "doc"
+      },
+      {
+        "label": ".NET project SDKs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild properties for .NET SDK projects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props",
+        "type": "doc"
+      },
+      {
+        "label": "Artifacts output layout, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/artifacts-output",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet new sln and the default templates, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-sdk-templates",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild binary log, MSBuild wiki",
+        "url": "https://github.com/dotnet/msbuild/blob/main/documentation/wiki/Binary-Log.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "assemblies-frameworks-and-the-host-resolver",
+    "id": 111,
+    "category": "Platform & Tooling",
+    "title": "Assemblies, Frameworks and How the Host Resolves Them",
+    "topic": "Project System",
+    "summary": "Assembly identity, reference versus implementation assemblies, real deps.json and runtimeconfig.json, the host trace (DOTNET_ROOT, roll-forward), why a DLL in the folder is not found, [TypeForwardedTo] and AssemblyLoadContext isolation.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Classloading: The Delegation Model and Custom Class Loaders",
+        "slug": "classloading-and-the-delegation-model",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Default probing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/default-probing",
+        "type": "doc"
+      },
+      {
+        "label": "Understanding System.Runtime.Loader.AssemblyLoadContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext",
+        "type": "doc"
+      },
+      {
+        "label": "Managed assembly loading algorithm, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/loading-managed",
+        "type": "doc"
+      },
+      {
+        "label": "Type forwarding in the common language runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/type-forwarding",
+        "type": "doc"
+      },
+      {
+        "label": "Reference assemblies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/reference-assemblies",
+        "type": "doc"
+      },
+      {
+        "label": "Troubleshoot app launch failures, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-discovery/troubleshoot-app-launch",
+        "type": "doc"
+      },
+      {
+        "label": "Reference assemblies in Roslyn (refout), dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/features/refout.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
@@ -1869,6 +2006,133 @@
       {
         "label": "Factory-based middleware activation, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/extensibility",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "parameter-binding-and-endpoint-filters",
+    "id": 310,
+    "category": "ASP.NET Core",
+    "title": "Parameter Binding and Endpoint Filters",
+    "topic": "Minimal APIs",
+    "summary": "The order in which a parameter's source is chosen, binding failure codes, AsParameters, custom TryParse and BindAsync, forms with antiforgery, and AddEndpointFilter.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Route handlers in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "problem-details-and-global-exception-handling",
+    "id": 311,
+    "category": "ASP.NET Core",
+    "title": "ProblemDetails and Global Exception Handling",
+    "topic": "Minimal APIs",
+    "summary": "The RFC 9457 problem+json document, why AddProblemDetails alone leaves a 404 empty, IExceptionHandler chains, CustomizeProblemDetails, and keeping exception details out of responses.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "parameter-binding-and-endpoint-filters"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling",
+        "type": "doc"
+      },
+      {
+        "label": "IExceptionHandler interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler",
+        "type": "doc"
+      },
+      {
+        "label": "IProblemDetailsService interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iproblemdetailsservice",
+        "type": "doc"
+      },
+      {
+        "label": "Problem Details for HTTP APIs, RFC 9457",
+        "url": "https://www.rfc-editor.org/rfc/rfc9457",
         "type": "doc"
       }
     ]
