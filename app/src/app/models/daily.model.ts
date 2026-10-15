@@ -1,25 +1,15 @@
-import { ReviewSourceType } from './review.model';
-
 /**
- * Daily session — the mixed 4-card experience from the mobile mockups
- * (tmp/mobile/): Recall → Read → Notice → Write, framed as
- * "Four cards. About five minutes."
+ * Daily session: the mixed card experience from the mobile mockups
+ * (tmp/mobile/): Read → Notice → Write.
  *
  * This is the presentation contract the UI renders against. It is produced by
- * `GET /api/daily/session` (`DailyService`, tasks.md · grupo F) from the user's
- * real due reviews and read history — never fabricated. A session can
- * legitimately have fewer than 4 cards (e.g. nothing due, or too little read
- * history yet) or even zero (brand-new user); components must render that
- * honestly instead of assuming exactly 4.
- *
- * Recall is self-rating, not real multiple choice: there is no distractor
- * (wrong-answer) data anywhere in the platform, and authoring it for every
- * concept was out of scope — so Recall reuses the same binary the spaced-
- * repetition review queue already has ("I remember" / "I do not remember"),
- * posted as SM2 ratings `good`/`again` via `sourceType`/`sourceId` below.
+ * `GET /api/daily/session` (`DailyService`) from the user's real read history,
+ * never fabricated. A session can legitimately have fewer than 3 cards (too
+ * little read history yet) or even zero (brand-new user); components must
+ * render that honestly instead of assuming exactly 3.
  */
 
-export type DailyCardType = 'recall' | 'read' | 'notice' | 'write';
+export type DailyCardType = 'read' | 'notice' | 'write';
 
 interface DailyCardCommon {
   type: DailyCardType;
@@ -29,31 +19,12 @@ interface DailyCardCommon {
   previewTitle: string;
   /** Secondary line in the "Today" preview list, e.g. "Marked in March · Java Concepts". */
   previewSubtitle: string;
-  /** One-line recap shown on the session-done screen, e.g. "Recall · reference reachability". */
+  /** One-line recap shown on the session-done screen, e.g. "Read · WeakHashMap internals". */
   recap: string;
-  /** In-session eyebrow, e.g. "RECALL · NO LOOKING BACK". */
+  /** In-session eyebrow, e.g. "READ · ONE SCREEN". */
   kicker: string;
   /** In-session heading or question. */
   title: string;
-}
-
-export interface RecallCard extends DailyCardCommon {
-  type: 'recall';
-  context?: string;
-  /** Kept for a possible future real-MCQ source; nothing produces these today (see file header). */
-  options?: string[];
-  correctIndex?: number;
-  /** Shown after "I do not remember" — reassurance, not punishment. */
-  wrongNote?: string;
-  /** Identity posted to `POST /api/review/answer` (via `/api/daily/complete`) when rated. */
-  sourceType: ReviewSourceType;
-  sourceId: string;
-  /** "Open the full topic" link, shown on "I do not remember". */
-  route?: string[];
-  /** Area the concept lives in (`java-concepts`, or a CS module like `foundations`), for the breadcrumb. */
-  module?: string;
-  /** What the flashcard reveals once flipped: the concept's own opening prose. */
-  answer?: string;
 }
 
 export interface CodeBlock {
@@ -99,7 +70,7 @@ export interface WriteCard extends DailyCardCommon {
   sourceId: string;
 }
 
-export type DailyCard = RecallCard | ReadCard | NoticeCard | WriteCard;
+export type DailyCard = ReadCard | NoticeCard | WriteCard;
 
 export interface DailySessionSummary {
   /** Headline on the session-done screen. */

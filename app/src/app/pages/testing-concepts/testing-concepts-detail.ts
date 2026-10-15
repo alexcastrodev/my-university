@@ -4,7 +4,6 @@ import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { TestingConceptView } from '../../components/testing-concept-view/testing-concept-view';
 import { TestingConcept, TestingConceptSummary } from '../../models/testing-concept.model';
-import { ReviewService } from '../../services/review.service';
 import { TestingConceptsService } from '../../services/testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -23,7 +22,6 @@ export class TestingConceptsDetailPage implements OnInit {
   private testingConceptsService = inject(TestingConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<TestingConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class TestingConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('testing-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

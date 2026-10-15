@@ -5,7 +5,6 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { RubyOnRailsConceptView } from '../../components/rubyonrails-concept-view/rubyonrails-concept-view';
 import { RubyOnRailsConcept, RubyOnRailsConceptSummary } from '../../models/rubyonrails-concept.model';
 import { RubyOnRailsConceptsService } from '../../services/rubyonrails-concepts.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -23,7 +22,6 @@ export class RubyOnRailsConceptsDetailPage implements OnInit {
   private rubyOnRailsConceptsService = inject(RubyOnRailsConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<RubyOnRailsConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class RubyOnRailsConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('rubyonrails-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

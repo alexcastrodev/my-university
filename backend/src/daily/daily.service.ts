@@ -1,10 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReviewSourceType } from '../review/review-schedule.entity';
-import { fromSourceId, parseCurriculumSourceId } from '../review/review.constants';
-import { ReviewService } from '../review/review.service';
-import { ReviewRating } from '../review/sm2';
+import { ConceptSourceType, fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
+import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
 import { DEFAULT_LANGUAGE, Language } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { DailyWriteAnswer } from './daily-write-answer.entity';
@@ -16,7 +14,7 @@ import {
   textAfterCodeBlock,
 } from './daily-content';
 
-export type DailyCardType = 'recall' | 'read' | 'notice' | 'write';
+export type DailyCardType = 'read' | 'notice' | 'write';
 
 /** Flat XP per card — matches the four-card "about five minutes" framing from the mockup. */
 const XP_PER_CARD = 20;
@@ -28,25 +26,6 @@ interface CodeBlockDto {
   header: string;
   badge?: string;
   source: string;
-}
-
-interface RecallCardDto {
-  type: 'recall';
-  xp: number;
-  previewTitle: string;
-  previewSubtitle: string;
-  recap: string;
-  kicker: string;
-  title: string;
-  context: string;
-  sourceType: ReviewSourceType;
-  sourceId: string;
-  route: string[];
-  wrongNote: string;
-  /** Area the concept lives in (`java-concepts`, or a CS module like `foundations`), for the card's breadcrumb. */
-  module: string;
-  /** What the flashcard reveals once flipped: the concept's own opening prose, never authored separately. */
-  answer?: string;
 }
 
 interface ReadCardDto {
@@ -97,7 +76,7 @@ interface WriteCardDto {
   sourceId: string;
 }
 
-type DailyCardDto = RecallCardDto | ReadCardDto | NoticeCardDto | WriteCardDto;
+type DailyCardDto = ReadCardDto | NoticeCardDto | WriteCardDto;
 
 export interface DailySessionDto {
   estimatedMinutes: number;
@@ -109,7 +88,7 @@ export interface DailySessionDto {
 }
 
 /** The area a history entry belongs to (`spring-concepts`, or a CS module like `foundations`), for card breadcrumbs. */
-function moduleOf(sourceType: ReviewSourceType, sourceId: string): string | undefined {
+function moduleOf(sourceType: ConceptSourceType, sourceId: string): string | undefined {
   return parseCurriculumSourceId(sourceId)?.module ?? fromSourceId(sourceType, sourceId)?.module;
 }
 
@@ -124,15 +103,9 @@ function formatDate(date: Date, lang: Language): string {
 }
 
 /** Every piece of prose the session builder writes itself (as opposed to excerpting from a
- *  concept, which `ReviewService.resolveConceptDetail` already serves per language). */
+ *  concept, which `ConceptLookupService.resolveConceptDetail` already serves per language). */
 const STRINGS = {
   en: {
-    recallSubtitle: 'Marked "Got it" earlier',
-    recallRecap: (title: string) => `Recall · ${title}`,
-    recallKicker: 'RECALL · NO LOOKING BACK',
-    recallContext: (title: string) => `You marked "${title}" as "Got it" before. Does it still hold?`,
-    wrongNote:
-      'Getting it wrong is not a penalty. It reopens the topic and puts it back in a future session.',
     readSubtitle: 'From what you read recently',
     readRecap: (title: string) => `Read · ${title}`,
     readKicker: 'READ · ONE SCREEN',
@@ -149,23 +122,16 @@ const STRINGS = {
     writePastWhen: (date: string) => `YOU WROTE ON ${date}`,
     writePastNote: 'Both answers are kept. Neither replaces the other.',
     writeFootnote: (xp: number) => `Saving this adds ${xp} XP.`,
-    emptyHeadline: 'Nothing to review yet',
+    emptyHeadline: 'Nothing to study yet',
     emptyTomorrowTitle: 'Read one concept first',
     emptyTomorrowBody: 'Once you mark something as read, a session assembles itself from it.',
     builtFrom: (title: string) => `Built from "${title}"`,
     todaysSession: "Today's session",
     tomorrowTitle: 'Assembled fresh next time',
     tomorrowBody:
-      'Nothing is scheduled. The session is built from what you last read and what is due when you open it.',
+      'Nothing is scheduled. The session is built from what you last read when you open it.',
   },
   'pt-BR': {
-    recallSubtitle: 'Marcado como "Entendi" antes',
-    recallRecap: (title: string) => `Lembrar · ${title}`,
-    recallKicker: 'LEMBRAR · SEM OLHAR',
-    recallContext: (title: string) =>
-      `Você marcou "${title}" como "Entendi" antes. Ainda está de pé?`,
-    wrongNote:
-      'Errar não é penalidade. O tópico é reaberto e volta numa sessão futura.',
     readSubtitle: 'Do que você leu há pouco',
     readRecap: (title: string) => `Leitura · ${title}`,
     readKicker: 'LEITURA · UMA TELA',
@@ -182,14 +148,14 @@ const STRINGS = {
     writePastWhen: (date: string) => `VOCÊ ESCREVEU EM ${date}`,
     writePastNote: 'As duas respostas ficam guardadas. Nenhuma substitui a outra.',
     writeFootnote: (xp: number) => `Salvar isto adiciona ${xp} XP.`,
-    emptyHeadline: 'Nada para revisar ainda',
+    emptyHeadline: 'Nada para estudar ainda',
     emptyTomorrowTitle: 'Leia um conceito primeiro',
     emptyTomorrowBody: 'Assim que você marcar algo como lido, uma sessão se monta a partir disso.',
     builtFrom: (title: string) => `Montada a partir de "${title}"`,
     todaysSession: 'Sessão de hoje',
     tomorrowTitle: 'Montada do zero na próxima vez',
     tomorrowBody:
-      'Nada fica agendado. A sessão é montada a partir do que você leu por último e do que está pendente quando você abre.',
+      'Nada fica agendado. A sessão é montada a partir do que você leu por último e quando você abre.',
   },
 } satisfies Record<Language, unknown>;
 
@@ -198,21 +164,19 @@ type Strings = (typeof STRINGS)[Language];
 @Injectable()
 export class DailyService {
   constructor(
-    private review: ReviewService,
+    private lookup: ConceptLookupService,
     private xp: XpService,
     @InjectRepository(DailyWriteAnswer) private writeAnswers: Repository<DailyWriteAnswer>,
   ) {}
 
   async buildSession(userId: number, lang: Language = DEFAULT_LANGUAGE): Promise<DailySessionDto> {
     const t = STRINGS[lang];
-    const recall = await this.buildRecallCard(userId, lang);
-
     const rawHistory = await this.xp.getHistory(userId, HISTORY_LOOKBACK);
     const history = rawHistory.filter(
-      (entry): entry is typeof entry & { sourceType: ReviewSourceType } =>
+      (entry): entry is typeof entry & { sourceType: ConceptSourceType } =>
         entry.sourceType === 'concept-read' || entry.sourceType === 'episode-watched',
     );
-    const readEntry = this.pickReadEntry(history, recall?.sourceId, lang);
+    const readEntry = this.pickReadEntry(history, lang);
     const readCard = readEntry ? this.buildReadCard(readEntry, t) : null;
 
     const noticeEntry = readEntry
@@ -222,7 +186,7 @@ export class DailyService {
 
     const writeCard = readCard ? await this.buildWriteCard(userId, readCard, lang) : null;
 
-    const cards: DailyCardDto[] = [recall, readCard, noticeCard, writeCard].filter(
+    const cards: DailyCardDto[] = [readCard, noticeCard, writeCard].filter(
       (c): c is DailyCardDto => c !== null,
     );
 
@@ -233,46 +197,13 @@ export class DailyService {
     };
   }
 
-  private async buildRecallCard(userId: number, lang: Language): Promise<RecallCardDto | null> {
-    const t = STRINGS[lang];
-    const due = await this.review.getDueQueue(userId);
-    if (due.length === 0) return null;
-    const item = due[0];
-
-    const detail = this.review.resolveConceptDetail(item.sourceType, item.sourceId, lang);
-    const section = detail ? firstSubstantialSection(detail.sections) : null;
-    const answer = section ? excerptParagraphs(section.content, 1) : '';
-    // The due queue only knows the English title; the resolved detail has the translated one.
-    const title = detail?.title ?? item.title;
-
-    return {
-      type: 'recall',
-      xp: XP_PER_CARD,
-      previewTitle: title,
-      previewSubtitle: t.recallSubtitle,
-      recap: t.recallRecap(title),
-      kicker: t.recallKicker,
-      title,
-      context: t.recallContext(title),
-      sourceType: item.sourceType,
-      sourceId: item.sourceId,
-      route: item.route,
-      wrongNote: t.wrongNote,
-      module: item.module,
-      answer: answer || undefined,
-    };
-  }
-
-  /** Most recent read-history entry whose content resolves and is substantial, excluding
-   *  whatever sourceId Recall already used (so the session doesn't repeat one concept twice). */
+  /** Most recent read-history entry whose content resolves and is substantial. */
   private pickReadEntry(
-    history: { sourceType: ReviewSourceType; sourceId: string; updatedAt: Date }[],
-    excludeSourceId: string | undefined,
+    history: { sourceType: ConceptSourceType; sourceId: string; updatedAt: Date }[],
     lang: Language,
-  ): { sourceType: ReviewSourceType; sourceId: string; title: string; sections: { title: string; content: string }[]; route: string[] } | null {
+  ): { sourceType: ConceptSourceType; sourceId: string; title: string; sections: { title: string; content: string }[]; route: string[] } | null {
     for (const entry of history) {
-      if (entry.sourceId === excludeSourceId) continue;
-      const detail = this.review.resolveConceptDetail(entry.sourceType, entry.sourceId, lang);
+      const detail = this.lookup.resolveConceptDetail(entry.sourceType, entry.sourceId, lang);
       if (!detail) continue;
       if (!firstSubstantialSection(detail.sections)) continue;
       return { sourceType: entry.sourceType, sourceId: entry.sourceId, ...detail };
@@ -283,13 +214,13 @@ export class DailyService {
   /** A second, distinct history entry whose content has a real code snippet — the Notice
    *  card's source. Falls back to reusing the Read entry itself in `buildSession`. */
   private pickNoticeEntry(
-    history: { sourceType: ReviewSourceType; sourceId: string; updatedAt: Date }[],
+    history: { sourceType: ConceptSourceType; sourceId: string; updatedAt: Date }[],
     excludeSourceId: string,
     lang: Language,
-  ): { sourceType: ReviewSourceType; sourceId: string; title: string; sections: { title: string; content: string }[]; route: string[] } | null {
+  ): { sourceType: ConceptSourceType; sourceId: string; title: string; sections: { title: string; content: string }[]; route: string[] } | null {
     for (const entry of history) {
       if (entry.sourceId === excludeSourceId) continue;
-      const detail = this.review.resolveConceptDetail(entry.sourceType, entry.sourceId, lang);
+      const detail = this.lookup.resolveConceptDetail(entry.sourceType, entry.sourceId, lang);
       if (!detail) continue;
       if (!firstSectionWithCode(detail.sections)) continue;
       return { sourceType: entry.sourceType, sourceId: entry.sourceId, ...detail };
@@ -298,7 +229,7 @@ export class DailyService {
   }
 
   private buildReadCard(entry: {
-    sourceType: ReviewSourceType;
+    sourceType: ConceptSourceType;
     sourceId: string;
     title: string;
     sections: { title: string; content: string }[];
@@ -331,7 +262,7 @@ export class DailyService {
   }
 
   private buildNoticeCard(entry: {
-    sourceType: ReviewSourceType;
+    sourceType: ConceptSourceType;
     sourceId: string;
     title: string;
     sections: { title: string; content: string }[];
@@ -411,15 +342,8 @@ export class DailyService {
     userId: number,
     type: DailyCardType,
     sourceId: string,
-    options: { sourceType?: ReviewSourceType; rating?: ReviewRating; text?: string },
+    options: { text?: string },
   ): Promise<{ xpAwarded: number }> {
-    if (type === 'recall') {
-      if (!options.sourceType || !options.rating) {
-        throw new BadRequestException('recall completion requires sourceType and rating');
-      }
-      await this.review.recordAnswer(userId, options.sourceType, sourceId, options.rating);
-    }
-
     if (type === 'write') {
       const text = options.text?.trim();
       if (!text) throw new BadRequestException('write completion requires non-empty text');

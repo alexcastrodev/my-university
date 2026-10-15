@@ -1,4 +1,4 @@
-import { RecentActivityItem } from '../models/review.model';
+import { RecentActivityItem } from '../models/activity.model';
 import { ResumePoint } from '../models/course.model';
 import { areaLabel } from './area-labels';
 

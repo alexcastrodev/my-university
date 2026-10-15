@@ -8,8 +8,6 @@ export interface DailyProgress {
   earned: number;
   earnedCards: number[];
   completedKeys: string[];
-  recallAnswered: 'remembered' | 'forgot' | null;
-  revealed: boolean;
   writeText: string;
   writeSaved: boolean;
 }
@@ -17,8 +15,7 @@ export interface DailyProgress {
 /**
  * Keeps a daily session alive while the user follows "Read the full topic" out of it.
  * `DailySessionPage` parks its state here right before leaving and takes it back when it is
- * opened again, instead of rebuilding a new session (which could come back different: the
- * Recall just rated is no longer due). `topicUrl` drives `DailyReturnPill`, the way back.
+ * opened again, instead of rebuilding a new session. `topicUrl` drives `DailyReturnPill`, the way back.
  * In memory only: a full reload starts a fresh session, which is fine.
  */
 @Injectable({ providedIn: 'root' })

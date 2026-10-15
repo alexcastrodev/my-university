@@ -4,7 +4,6 @@ import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { QuarkusConceptView } from '../../components/quarkus-concept-view/quarkus-concept-view';
 import { QuarkusConcept, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
-import { ReviewService } from '../../services/review.service';
 import { QuarkusConceptsService } from '../../services/quarkus-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -23,7 +22,6 @@ export class QuarkusConceptsDetailPage implements OnInit {
   private quarkusConceptsService = inject(QuarkusConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<QuarkusConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class QuarkusConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('quarkus-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

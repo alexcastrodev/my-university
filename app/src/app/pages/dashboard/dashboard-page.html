@@ -9,7 +9,7 @@
   } @else {
     <!-- The phone Home renders right away with its own loading placeholders; only the
          desktop dashboard waits for the XP summary. -->
-    <app-mobile-home [markCounts]="markCounts()" />
+    <app-mobile-home />
     @if (xpService.summary(); as summary) {
       <div class="page-body desktop-only">
         <div class="greeting-row">
@@ -71,19 +71,6 @@
             <div class="progress-bar"><div class="progress-fill progress-fill-green" [style.width.%]="dailyGoalPercent()"></div></div>
             <span class="stat-foot">One more topic marked, or one paper finished.</span>
           </div>
-
-          <div class="stat-card">
-            <span class="stat-label">Got it marks</span>
-            @if (markCounts(); as marks) {
-              <div class="streak-row">
-                <span class="stat-big">{{ marks.active }}</span>
-                <span class="stat-foot">active</span>
-                <span class="stat-big stat-big-accent">{{ marks.expired }}</span>
-                <span class="stat-foot">expired</span>
-              </div>
-            }
-            <span class="stat-foot">A mark comes back as a question once its review is due.</span>
-          </div>
         </div>
 
         <div class="row-grid">
@@ -140,19 +127,6 @@
           </div>
 
           <div class="side-col">
-            <section class="panel panel-dark">
-              <h2 class="panel-title panel-title-light">Review due</h2>
-              @if (reviewQueue().length === 0) {
-                <p class="panel-empty">Nothing due right now — nice work.</p>
-              } @else {
-                <p class="panel-lead">{{ reviewQueue()[0].title }}</p>
-                <a [routerLink]="reviewQueue()[0].route" class="panel-cta">Answer now →</a>
-                @if (reviewQueue().length > 1) {
-                  <span class="panel-foot">+{{ reviewQueue().length - 1 }} more due</span>
-                }
-              }
-            </section>
-
             <section class="panel">
               <h2 class="panel-title">Ranking</h2>
               <ol class="ranking-list">

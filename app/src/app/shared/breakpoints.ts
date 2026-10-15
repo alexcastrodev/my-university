@@ -1,4 +1,4 @@
-/** Phone width: below it the bottom nav, the mobile Home and the full-screen Feed take over
+/** Phone width: below it the bottom nav, and the mobile Home take over
  *  (the CSS side of the same breakpoint lives in each component's `@media (max-width: 768px)`). */
 export const PHONE_MEDIA_QUERY = '(max-width: 768px)';
 

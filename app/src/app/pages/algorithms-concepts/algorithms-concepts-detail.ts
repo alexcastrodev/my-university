@@ -5,7 +5,6 @@ import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { AlgorithmsConcept, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
 import { AlgorithmsConceptsService } from '../../services/algorithms-concepts.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -23,7 +22,6 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
   private algorithmsConceptsService = inject(AlgorithmsConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<AlgorithmsConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('algorithms-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

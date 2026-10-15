@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AlgorithmsConceptsModule } from '../algorithms-concepts/algorithms-concepts.module';
 import { CurriculumModule } from '../curriculum/curriculum.module';
 import { DatabaseConceptsModule } from '../database-concepts/database-concepts.module';
@@ -18,13 +17,11 @@ import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module'
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
 import { XpModule } from '../xp/xp.module';
-import { ReviewSchedule } from './review-schedule.entity';
-import { ReviewController } from './review.controller';
-import { ReviewService } from './review.service';
+import { ConceptLookupController } from './concept-lookup.controller';
+import { ConceptLookupService } from './concept-lookup.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ReviewSchedule]),
     XpModule,
     JavaConceptsModule,
     JvmConceptsModule,
@@ -44,8 +41,8 @@ import { ReviewService } from './review.service';
     KubernetesConceptsModule,
     CurriculumModule,
   ],
-  controllers: [ReviewController],
-  providers: [ReviewService],
-  exports: [ReviewService],
+  controllers: [ConceptLookupController],
+  providers: [ConceptLookupService],
+  exports: [ConceptLookupService],
 })
-export class ReviewModule {}
+export class ConceptLookupModule {}

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../auth/user.entity';
-import { ReviewModule } from '../review/review.module';
+import { ConceptLookupModule } from '../concept-lookup/concept-lookup.module';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionController } from './discussion.controller';
 import { DiscussionMarker } from './discussion-marker.entity';
@@ -16,7 +16,7 @@ import { DiscussionVote } from './discussion-vote.entity';
       DiscussionVote,
       User,
     ]),
-    ReviewModule,
+    ConceptLookupModule,
   ],
   controllers: [DiscussionController],
   providers: [DiscussionService],
