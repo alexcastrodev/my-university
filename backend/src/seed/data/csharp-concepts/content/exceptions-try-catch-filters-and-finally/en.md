@@ -126,15 +126,15 @@ being caught.
 
 ### What a `throw` costs
 
-A stopwatch loop of 200,000 iterations after warm-up, in Release, on an Apple
+A stopwatch loop of 200,000 iterations after warm-up, optimized build, on an Apple
 M4 Max (macOS 27, arm64), same code on two runtimes:
 
 | Operation | .NET 8.0.22 | .NET 10.0.0 |
 |---|---|---|
 | `int.TryParse("abc")` failing | 35 ns | 35 ns |
-| `throw` and `catch` in the same method | about 17,900 ns | about 2,230 ns |
-| `throw` 10 frames deep, then `catch` | about 22,200 ns | about 3,900 ns |
-| `int.Parse("abc")` plus `catch` | about 18,900 ns | about 2,800 ns |
+| `throw` and `catch` in the same method | about 18,000 ns | about 2,250 ns |
+| `throw` 10 frames deep, then `catch` | about 22,400 ns | about 3,860 ns |
+| `int.Parse("abc")` plus `catch` | about 18,450 ns | about 2,670 ns |
 
 The jump comes from .NET 9, where CoreCLR switched to an exception handling
 implementation based on the NativeAOT model (Microsoft reports 2 to 4 times
