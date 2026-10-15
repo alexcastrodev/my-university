@@ -566,6 +566,62 @@
     "id": 7
   },
   {
+    "slug": "filesystem-apis-and-cross-platform-paths",
+    "category": "Base Class Library",
+    "title": "File System APIs and Cross-Platform Paths",
+    "topic": "Files & I/O",
+    "summary": "Path.Join versus Path.Combine, OS differences, FileMode/FileShare/FileOptions, lazy enumeration, symbolic links, safe file replacement, and RandomAccess with File.OpenHandle.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "NIO.2: The Path and Files API",
+        "slug": "nio2-path-and-files-api",
+        "feature": "java-concepts"
+      }
+    ],
+    "requires": [
+      "stream-class-hierarchy-and-decorators"
+    ],
+    "references": [
+      {
+        "label": "Path.Join method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.path.join",
+        "type": "doc"
+      },
+      {
+        "label": "Path.Combine method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine",
+        "type": "doc"
+      },
+      {
+        "label": "FileShare enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.fileshare",
+        "type": "doc"
+      },
+      {
+        "label": "EnumerationOptions class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions",
+        "type": "doc"
+      },
+      {
+        "label": "File.CreateSymbolicLink method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createsymboliclink",
+        "type": "doc"
+      },
+      {
+        "label": "RandomAccess class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.randomaccess",
+        "type": "doc"
+      },
+      {
+        "label": "File.OpenHandle method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.file.openhandle",
+        "type": "doc"
+      }
+    ],
+    "id": 600
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
