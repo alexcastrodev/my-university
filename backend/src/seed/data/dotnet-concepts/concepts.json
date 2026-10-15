@@ -1815,6 +1815,67 @@
     ]
   },
   {
+    "slug": "parameter-binding-and-endpoint-filters",
+    "id": 310,
+    "category": "ASP.NET Core",
+    "title": "Parameter Binding and Endpoint Filters",
+    "topic": "Minimal APIs",
+    "summary": "The order in which a parameter's source is chosen, binding failure codes, AsParameters, custom TryParse and BindAsync, forms with antiforgery, and AddEndpointFilter.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Route handlers in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
