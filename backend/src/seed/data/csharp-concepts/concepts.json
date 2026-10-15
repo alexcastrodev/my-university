@@ -59,6 +59,11 @@
         "label": "List<T> and Array Internals",
         "slug": "list-and-array-internals",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -422,6 +427,11 @@
         "label": "Nullable Reference Types and Flow Analysis",
         "slug": "nullable-reference-types-and-flow-analysis",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -520,6 +530,11 @@
       {
         "label": "Locks, Monitor and Interlocked",
         "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
         "feature": "csharp-concepts"
       }
     ],
@@ -1181,6 +1196,11 @@
         "label": "Aggregates, Entities, and Value Objects",
         "slug": "aggregates-entities-and-value-objects",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1808,6 +1828,11 @@
         "label": "Optional: Correct Usage and the API's Own Warnings",
         "slug": "optional-correct-usage",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1879,6 +1904,11 @@
         "label": "Default, Static, and Private Interface Methods",
         "slug": "default-static-private-interface-methods",
         "feature": "java-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1992,6 +2022,11 @@
         "label": "Dictionary, HashSet, and Equality",
         "slug": "dictionary-hashset-and-equality",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "requires": [
@@ -2665,6 +2700,11 @@
         "label": "Loading Related Data and N+1",
         "slug": "loading-related-data-and-n-plus-one",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2810,6 +2850,11 @@
         "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
         "slug": "jit-tiered-compilation",
         "feature": "jvm-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2886,6 +2931,11 @@
         "label": "NIO Channels and Buffers: The Non-Blocking I/O Model",
         "slug": "nio-channels-and-buffers",
         "feature": "java-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [

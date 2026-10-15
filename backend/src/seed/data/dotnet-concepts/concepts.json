@@ -71,6 +71,11 @@
         "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
         "slug": "file-based-apps",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -192,6 +197,11 @@
       {
         "label": "Self-Contained, Single-File and Trimmed Publishing",
         "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
       }
     ],
@@ -436,6 +446,21 @@
         "label": "Async I/O and System.IO.Pipelines",
         "slug": "async-io-and-system-io-pipelines",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -736,6 +761,16 @@
         "label": "GraalVM Native Image Compilation",
         "slug": "graalvm-native-image-compilation",
         "feature": "java-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1073,6 +1108,11 @@
         "label": "Relational vs. Document Data Models",
         "slug": "relational-vs-document-data-models",
         "feature": "system-design"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1162,6 +1202,11 @@
       {
         "label": "The .NET Support Lifecycle and Choosing a Target",
         "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
       }
     ],
@@ -1528,6 +1573,11 @@
         "label": "Multitenancy Strategies: Schema, Database, and Discriminator",
         "slug": "multitenancy-strategies-schema-database-and-discriminator",
         "feature": "quarkus-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1979,6 +2029,11 @@
         "label": "Blazor Render Modes and Hosting Models",
         "slug": "blazor-render-modes-and-hosting-models",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2035,6 +2090,11 @@
         "label": "Bean Validation in Spring MVC",
         "slug": "spring-mvc-bean-validation",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2402,6 +2462,11 @@
         "label": "System.Text.Json: Serialization and Options",
         "slug": "system-text-json-serialization-and-options",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2709,6 +2774,11 @@
         "label": "Minimal APIs, Routing and Route Groups",
         "slug": "minimal-apis-routing-and-route-groups",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2812,6 +2882,11 @@
         "label": "Parameter Validation and Fail-Fast",
         "slug": "parameter-validation-and-fail-fast",
         "feature": "java-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2914,6 +2989,11 @@
         "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
         "slug": "openapi-generator-contract-first-code-generation-with-maven",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2982,6 +3062,11 @@
         "label": "WebClient: Consuming REST APIs Reactively",
         "slug": "spring-webclient-reactive-consumption",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
