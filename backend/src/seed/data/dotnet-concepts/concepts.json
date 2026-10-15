@@ -1060,6 +1060,62 @@
     ]
   },
   {
+    "slug": "middleware-pipeline-and-program-cs",
+    "id": 301,
+    "category": "ASP.NET Core",
+    "title": "The Middleware Pipeline and Program.cs",
+    "topic": "Hosting & Pipeline",
+    "summary": "Use, Run and Map, what WebApplication adds automatically, the recommended order, short-circuiting, convention middleware versus IMiddleware, and environments.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "kestrel-iis-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/",
+        "type": "doc"
+      },
+      {
+        "label": "Write custom ASP.NET Core middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write",
+        "type": "doc"
+      },
+      {
+        "label": "WebApplication and WebApplicationBuilder in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/webapplication",
+        "type": "doc"
+      },
+      {
+        "label": "Use multiple environments in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments",
+        "type": "doc"
+      },
+      {
+        "label": "Factory-based middleware activation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/extensibility",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
