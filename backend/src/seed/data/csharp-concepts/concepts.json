@@ -570,6 +570,77 @@
     ]
   },
   {
+    "slug": "linq-sets-joins-grouping-and-lookups",
+    "id": 701,
+    "category": "LINQ",
+    "title": "LINQ: Sets, Joins, Grouping and Lookups",
+    "topic": "LINQ",
+    "summary": "Set semantics and the By variants, Join, GroupJoin and the .NET 10 LeftJoin and RightJoin, null keys, GroupBy versus ToLookup, and the SQL EF Core generates for each.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-operator-families-and-query-syntax"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Stream Collectors and Parallel Streams",
+        "slug": "stream-collectors-and-parallel-streams",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Loading Related Data and N+1",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Set operations, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/set-operations",
+        "type": "doc"
+      },
+      {
+        "label": "Join operations, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/join-operations",
+        "type": "doc"
+      },
+      {
+        "label": "Grouping data, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/grouping-data",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.LeftJoin method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.ToLookup method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.tolookup",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, LeftJoin and RightJoin, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew#support-for-the-net-10-leftjoin-and-rightjoin-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Complex query operators, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/complex-query-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Lookup.CreateForJoin skips null keys, dotnet/runtime source (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/591ede817344fa749dd1af56d7e73b356da3e71a/src/libraries/System.Linq/src/System/Linq/Lookup.cs#L111-L124",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
