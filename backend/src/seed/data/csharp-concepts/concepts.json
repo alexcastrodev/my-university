@@ -2240,6 +2240,67 @@
     "id": 503
   },
   {
+    "slug": "unicode-runes-and-text-encodings",
+    "category": "Base Class Library",
+    "title": "Unicode, Runes and Text Encodings",
+    "topic": "Text & Regex",
+    "summary": "char, Rune and grapheme clusters, UTF-8/16/32, invalid bytes and the BOM, legacy code pages, and Base64, Base64Url (.NET 9) and hex.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "String Literals: Verbatim, Raw and Escapes",
+        "slug": "string-literals-verbatim-raw-and-escapes",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "building-and-searching-strings-efficiently"
+    ],
+    "references": [
+      {
+        "label": "Introduction to character encoding in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction",
+        "type": "doc"
+      },
+      {
+        "label": "Rune struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.rune",
+        "type": "doc"
+      },
+      {
+        "label": "StringInfo class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.globalization.stringinfo",
+        "type": "doc"
+      },
+      {
+        "label": "Base64Url class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url",
+        "type": "doc"
+      },
+      {
+        "label": "Convert.ToHexStringLower method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower",
+        "type": "doc"
+      },
+      {
+        "label": "How to use character encoding classes in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding",
+        "type": "doc"
+      }
+    ],
+    "id": 504
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
