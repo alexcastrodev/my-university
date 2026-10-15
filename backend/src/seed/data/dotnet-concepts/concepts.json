@@ -2192,6 +2192,77 @@
     ]
   },
   {
+    "slug": "blazor-webassembly-client-and-api-integration",
+    "id": 540,
+    "category": "Blazor",
+    "title": "Blazor WebAssembly Client and API Integration",
+    "topic": "Components & Forms",
+    "summary": "A standalone WebAssembly client calling an API on another origin, observed in a browser: CORS from both sides, the base address trap, named clients, download size with trimming, compression and invariant globalization, and lazy loading.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-data-access-and-streaming-rendering"
+    ],
+    "related": [
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Razor Syntax and Component Compilation",
+        "slug": "razor-syntax-and-component-compilation",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Call a web API from an ASP.NET Core Blazor app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Host and deploy ASP.NET Core Blazor WebAssembly, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/webassembly/",
+        "type": "doc"
+      },
+      {
+        "label": "Lazy load assemblies in ASP.NET Core Blazor WebAssembly, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-lazy-load-assemblies",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Configure the Trimmer for ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/configure-trimmer",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor globalization and localization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/globalization-localization",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
