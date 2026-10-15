@@ -2510,6 +2510,87 @@
     ]
   },
   {
+    "slug": "span-memory-and-slicing-without-allocating",
+    "id": 711,
+    "category": "Memory & Concurrency",
+    "title": "Span, Memory and Slicing Without Allocating",
+    "topic": "Memory & Value Semantics",
+    "summary": "What a Span<T> is, slicing versus Substring and array ranges, C# 14 implicit span conversions and their upgrade surprises, the ref struct rules, stackalloc with an ArrayPool fallback, scoped, params spans, inline arrays, Memory<T> across await and MemoryMarshal.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Foreign Function and Memory API",
+        "slug": "foreign-function-and-memory-api",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "NIO Channels and Buffers: The Non-Blocking I/O Model",
+        "slug": "nio-channels-and-buffers",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Memory<T> and Span<T> usage guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14: implicit span conversions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#implicit-span-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "First-class span types, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/first-class-span-types",
+        "type": "doc"
+      },
+      {
+        "label": "ref struct types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct",
+        "type": "doc"
+      },
+      {
+        "label": "stackalloc expression, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/stackalloc",
+        "type": "doc"
+      },
+      {
+        "label": "Avoid memory allocations and data copies (ref safety and scoped), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/performance/",
+        "type": "doc"
+      },
+      {
+        "label": "Structure types: inline arrays, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#inline-arrays",
+        "type": "doc"
+      },
+      {
+        "label": "MemoryMarshal class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.memorymarshal",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
