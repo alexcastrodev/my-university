@@ -1350,6 +1350,67 @@
     "id": 312
   },
   {
+    "slug": "enums-and-flags-enums",
+    "category": "Type Design",
+    "title": "Enums and Flags Enums",
+    "topic": "Classes & Members",
+    "summary": "An enum is an integer with names, not a closed set: underlying type and size, the zero value, [Flags] and bit operations, the HasFlag traps, validating values from outside, switching over an enum, generic code, and when to replace an enum with something else.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "fields-constants-and-initialization-order"
+    ],
+    "related": [
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Enum Patterns: Strategy Bodies, EnumSet, and EnumMap",
+        "slug": "enum-patterns-strategy-and-collections",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enumeration types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum",
+        "type": "doc"
+      },
+      {
+        "label": "FlagsAttribute class (guidelines for flags enums), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.flagsattribute",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.HasFlag method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.hasflag",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.IsDefined method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.isdefined",
+        "type": "doc"
+      },
+      {
+        "label": "JsonStringEnumMemberNameAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.json.serialization.jsonstringenummembernameattribute",
+        "type": "doc"
+      }
+    ],
+    "id": 302
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
