@@ -2730,6 +2730,67 @@
     "id": 620
   },
   {
+    "slug": "xml-serialization-and-linq-to-xml",
+    "category": "Base Class Library",
+    "title": "XML Serialization and LINQ to XML",
+    "topic": "Serialization",
+    "summary": "XmlSerializer and DataContractSerializer (what they include and silently skip), namespace and encoding surprises, querying and editing with LINQ to XML, streaming with XmlReader, and the parser settings that decide whether hostile XML can read files or exhaust memory.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "binaryformatter-removal-and-safe-serialization"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Serialization: Why It's Dangerous and How to Contain It",
+        "slug": "serialization-risks-and-safer-alternatives",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "XML Processing Options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/xml/xml-processing-options",
+        "type": "doc"
+      },
+      {
+        "label": "XmlSerializer Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to XML serialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/introducing-xml-serialization",
+        "type": "doc"
+      },
+      {
+        "label": "LINQ to XML overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/linq/linq-xml-overview",
+        "type": "doc"
+      },
+      {
+        "label": "XmlReaderSettings.DtdProcessing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.dtdprocessing",
+        "type": "doc"
+      },
+      {
+        "label": "XmlReaderSettings.MaxCharactersFromEntities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.maxcharactersfromentities",
+        "type": "doc"
+      }
+    ],
+    "id": 621
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
