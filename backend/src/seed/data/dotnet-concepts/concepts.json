@@ -2580,6 +2580,84 @@
     ]
   },
   {
+    "slug": "httpclient-and-ihttpclientfactory",
+    "id": 410,
+    "category": "ASP.NET Core",
+    "title": "HttpClient and IHttpClientFactory",
+    "topic": "HTTP Clients",
+    "summary": "Socket exhaustion with a client per request, the DNS problem of a static client and PooledConnectionLifetime, named and typed clients, DelegatingHandler, HttpClient.Timeout versus CancellationToken, ResponseHeadersRead and GetFromJsonAsync, with the real result of each experiment.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient: The Modern java.net.http API",
+        "slug": "httpclient-and-java-net-http",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "WebClient: Consuming REST APIs Reactively",
+        "slug": "spring-webclient-reactive-consumption",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      },
+      {
+        "label": "HttpClient guidelines for .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient-guidelines",
+        "type": "doc"
+      },
+      {
+        "label": "Send a request using HttpClient, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient",
+        "type": "doc"
+      },
+      {
+        "label": "HttpClient.Timeout, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.timeout",
+        "type": "doc"
+      },
+      {
+        "label": "HttpCompletionOption, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcompletionoption",
+        "type": "doc"
+      },
+      {
+        "label": "SocketsHttpHandler.PooledConnectionLifetime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler.pooledconnectionlifetime",
+        "type": "doc"
+      },
+      {
+        "label": "Make HTTP requests using IHttpClientFactory in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
