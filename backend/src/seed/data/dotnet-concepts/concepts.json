@@ -2805,6 +2805,62 @@
     ]
   },
   {
+    "slug": "https-hsts-and-secure-defaults",
+    "id": 302,
+    "category": "ASP.NET Core",
+    "title": "HTTPS, HSTS and Secure Defaults",
+    "topic": "Hosting & Pipeline",
+    "summary": "HTTPS redirection and the port it must discover, HSTS defaults and a safe rollout, RedirectHttpResult.IsLocalUrl against open redirects, what APIs should do with plain HTTP, and the development certificate.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enforce HTTPS in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent open redirect attacks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/preventing-open-redirects",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP Strict Transport Security Protocol, RFC 6797",
+        "url": "https://www.rfc-editor.org/rfc/rfc6797",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
