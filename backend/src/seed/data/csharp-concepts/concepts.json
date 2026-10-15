@@ -203,6 +203,67 @@
     "id": 102
   },
   {
+    "slug": "numeric-types-and-binary-representation",
+    "id": 110,
+    "category": "Language",
+    "title": "Numeric Types and Binary Representation",
+    "topic": "Numbers & Conversions",
+    "summary": "Two's complement and shifts (including >>>), IEEE 754 and why 0.1 + 0.2 != 0.3, NaN and Infinity, comparing with a tolerance, the decimal scale, float versus decimal for money, and Half, Int128 and nint.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "formatting-values-and-interpolated-strings"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exact Arithmetic with BigDecimal and BigInteger",
+        "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Integral numeric types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types",
+        "type": "doc"
+      },
+      {
+        "label": "Floating-point numeric types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types",
+        "type": "doc"
+      },
+      {
+        "label": "Bitwise and shift operators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Double struct, precision and comparison remarks, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.double",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.decimal",
+        "type": "doc"
+      },
+      {
+        "label": "BitOperations class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C# (C# 11: nint aliases, generic math), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
