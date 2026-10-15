@@ -104,6 +104,176 @@
     "id": 2
   },
   {
+    "slug": "operators-null-handling-and-null-conditional-assignment",
+    "id": 200,
+    "category": "Language",
+    "title": "Operators, Null Handling and Null-Conditional Assignment",
+    "topic": "Operators & Control Flow",
+    "summary": "Short-circuit versus eager logical operators, the ?., ?[], ?? and ??= family, and C# 14 null-conditional assignment: what compiles, what does not, the generated code and the nullable analysis.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Optional: Correct Usage and the API's Own Warnings",
+        "slug": "optional-correct-usage",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Locks, Monitor and Interlocked",
+        "slug": "locks-monitor-and-interlocked",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Member access and null-conditional operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Null conditional assignment, C# feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/null-conditional-assignment",
+        "type": "doc"
+      },
+      {
+        "label": "?? and ??= operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator",
+        "type": "doc"
+      },
+      {
+        "label": "Boolean logical operators, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators",
+        "type": "doc"
+      },
+      {
+        "label": "C# operators and expressions (precedence), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "type-constant-and-relational-patterns",
+    "id": 202,
+    "category": "Language",
+    "title": "Pattern Matching: Type, Constant and Relational Patterns, and switch Expressions",
+    "topic": "Pattern Matching",
+    "summary": "The pattern catalog (type, declaration, constant, relational, and/or/not, var, discard), when guards, exhaustiveness and subsumption with the real compiler messages, and the code the compiler generates.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "operators-null-handling-and-null-conditional-assignment"
+    ],
+    "related": [
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Switch Expressions: yield, Arrow Labels, and Exhaustiveness",
+        "slug": "switch-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Patterns, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns",
+        "type": "doc"
+      },
+      {
+        "label": "switch expression, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression",
+        "type": "doc"
+      },
+      {
+        "label": "Pattern matching overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching",
+        "type": "doc"
+      },
+      {
+        "label": "Selection statements: if and switch, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Errors and warnings for pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/pattern-matching-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "SwitchExpressionException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.switchexpressionexception",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "property-positional-and-list-patterns",
+    "id": 203,
+    "category": "Language",
+    "title": "Property, Positional and List Patterns",
+    "topic": "Pattern Matching",
+    "summary": "Extended property patterns, positional patterns through Deconstruct and tuples, list and slice patterns over arrays, lists, spans and strings, what slices allocate, exhaustiveness with sequences, and real uses such as a command parser and a state machine.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "type-constant-and-relational-patterns"
+    ],
+    "related": [
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Patterns, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Deconstructing tuples and other types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct",
+        "type": "doc"
+      },
+      {
+        "label": "List and slice patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/patterns/list-patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Extended property patterns, C# 10 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/extended-property-patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Build algorithms with pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/build-algorithms-using-pattern-matching",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
