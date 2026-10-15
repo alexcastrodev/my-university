@@ -605,6 +605,67 @@
     ]
   },
   {
+    "slug": "local-functions-lambdas-and-closures",
+    "id": 213,
+    "category": "Language",
+    "title": "Local Functions, Lambdas and Closures",
+    "topic": "Methods & Lambdas",
+    "summary": "The lowering of lambdas and local functions read from the IL (display class, cached delegate, struct closure), measured allocations, where a closure is created, static lambdas, natural types and defaults, C# 14 parameter modifiers without types, and when to prefer a local function.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "method-parameters-optional-named-and-ref-kinds"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Nested and Inner Classes",
+        "slug": "nested-and-inner-classes",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Lambda expressions and anonymous functions, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Local functions, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/local-functions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14: simple lambda parameters with modifiers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Simple lambda parameters with modifiers, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/simple-lambda-parameters-with-modifiers",
+        "type": "doc"
+      },
+      {
+        "label": "Lambda improvements, C# 10 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/lambda-improvements",
+        "type": "doc"
+      },
+      {
+        "label": "C# language version history, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
