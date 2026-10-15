@@ -264,6 +264,72 @@
     ]
   },
   {
+    "slug": "numeric-conversions-rounding-and-overflow",
+    "id": 111,
+    "category": "Language",
+    "title": "Numeric Conversions, Rounding and Overflow",
+    "topic": "Numbers & Conversions",
+    "summary": "Implicit and explicit numeric conversions, what checked and unchecked really change, Math.Round and MidpointRounding (banker's rounding), Convert versus a cast, CheckForOverflowUnderflow and the APIs that pick an overflow policy.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "numeric-types-and-binary-representation"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exact Arithmetic with BigDecimal and BigInteger",
+        "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Built-in numeric conversions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "The checked and unchecked statements, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked",
+        "type": "doc"
+      },
+      {
+        "label": "Arithmetic operators, overflow and user-defined checked operators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators",
+        "type": "doc"
+      },
+      {
+        "label": "MidpointRounding enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.midpointrounding",
+        "type": "doc"
+      },
+      {
+        "label": "Math.Round method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.math.round",
+        "type": "doc"
+      },
+      {
+        "label": "Convert class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.convert",
+        "type": "doc"
+      },
+      {
+        "label": "Floating point-to-integer conversions are saturating (.NET 9), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/9.0/fp-to-integer",
+        "type": "doc"
+      },
+      {
+        "label": "CheckForOverflowUnderflow compiler option, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#checkforoverflowunderflow",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
