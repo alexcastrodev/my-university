@@ -670,6 +670,62 @@
     "id": 303
   },
   {
+    "slug": "properties-init-accessors-and-the-field-keyword",
+    "category": "Type Design",
+    "title": "Properties, init Accessors and the field Keyword",
+    "topic": "Properties & Initialization",
+    "summary": "What the compiler generates for a property, what init guarantees and what it does not, and the exact rules of the C# 14 field keyword: binding, the upgrade break, field-targeted attributes, nullable analysis, and partial properties.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "partial-types-and-partial-members"
+    ],
+    "related": [
+      {
+        "label": "Fields, Constants and Initialization Order",
+        "slug": "fields-constants-and-initialization-order",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Aggregates, Entities and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The field contextual keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field",
+        "type": "doc"
+      },
+      {
+        "label": "field keyword feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/field-keyword",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Properties, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties",
+        "type": "doc"
+      },
+      {
+        "label": "init keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/init",
+        "type": "doc"
+      }
+    ],
+    "id": 310
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
