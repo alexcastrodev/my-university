@@ -2120,6 +2120,82 @@
     "id": 610
   },
   {
+    "slug": "system-text-json-source-generation-and-utf8jsonreader",
+    "category": "Base Class Library",
+    "title": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+    "topic": "Serialization",
+    "summary": "JsonSerializerContext and [JsonSerializable], what trimming and AOT analyzers actually flag (without publishing AOT), JsonDocument versus JsonNode versus a typed read measured, Utf8JsonReader and Utf8JsonWriter, and streaming arrays with DeserializeAsyncEnumerable.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "system-text-json-serialization-and-options"
+    ],
+    "related": [
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to use source generation in System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Source-generation modes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation-modes",
+        "type": "doc"
+      },
+      {
+        "label": "How to use a JSON DOM, JsonDocument and JsonNode, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/use-dom",
+        "type": "doc"
+      },
+      {
+        "label": "How to use Utf8JsonReader, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/use-utf8jsonreader",
+        "type": "doc"
+      },
+      {
+        "label": "How to use Utf8JsonWriter, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/use-utf8jsonwriter",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET libraries for .NET 10, PipeReader support, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      }
+    ],
+    "id": 611
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
