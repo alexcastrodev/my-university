@@ -1093,6 +1093,82 @@
     ]
   },
   {
+    "slug": "tuples-and-deconstruction",
+    "id": 215,
+    "category": "Language",
+    "title": "Tuples and Deconstruction",
+    "topic": "Methods & Lambdas",
+    "summary": "What a tuple is at run time (ValueTuple, a mutable struct with public fields, Auto layout, Rest above seven elements), where element names go (TupleElementNames, reflection and the {} from System.Text.Json), == versus Equals, tuples as dictionary keys, the deconstruction forms, instance and extension Deconstruct, the legacy System.Tuple, and when a record is the better choice.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "method-parameters-optional-named-and-ref-kinds"
+    ],
+    "related": [
+      {
+        "label": "Property, Positional and List Patterns",
+        "slug": "property-positional-and-list-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Tuple types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples",
+        "type": "doc"
+      },
+      {
+        "label": "Deconstructing tuples and other types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/patterns/deconstruct",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing between anonymous and tuple types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/choosing-between-anonymous-and-tuple",
+        "type": "doc"
+      },
+      {
+        "label": "TupleElementNamesAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute",
+        "type": "doc"
+      },
+      {
+        "label": "ValueTuple struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
