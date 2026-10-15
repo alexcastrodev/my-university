@@ -5,7 +5,6 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { DotNetTestingConceptView } from '../../components/dotnet-testing-concept-view/dotnet-testing-concept-view';
 import { DotNetTestingConcept, DotNetTestingConceptSummary } from '../../models/dotnet-testing-concept.model';
 import { DotNetTestingConceptsService } from '../../services/dotnet-testing-concepts.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -23,7 +22,6 @@ export class DotNetTestingConceptsDetailPage implements OnInit {
   private dotNetTestingConceptsService = inject(DotNetTestingConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<DotNetTestingConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class DotNetTestingConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('dotnet-testing-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

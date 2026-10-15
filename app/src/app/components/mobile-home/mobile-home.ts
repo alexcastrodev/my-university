@@ -11,7 +11,6 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DailyCard, DailySession } from '../../models/daily.model';
-import { MarkCounts } from '../../models/review.model';
 import { COMPLEMENTARY_AREAS } from '../../pages/computer-science/complementary-studies.data';
 import { AuthService } from '../../services/auth.service';
 import { DailySessionService } from '../../services/daily-session.service';
@@ -53,8 +52,8 @@ function recencyLabel(iso: string): { label: string; days: number } {
 
 /**
  * The phone version of the dashboard (mobile mockup v2, "Início"): today's session up top
- * with one tap to start it, then level, streak and daily goal side by side, the review
- * backlog, and the areas studied recently with how deep and how fresh each one is.
+ * with one tap to start it, then level, streak and daily goal side by side, and the areas studied recently
+ * with how deep and how fresh each one is.
  * The dashboard page renders it only below the tablet breakpoint and passes in what it
  * already loaded; the daily session itself is fetched here, and only on phones.
  */
@@ -71,7 +70,6 @@ export class MobileHome implements OnInit {
   private dailyService = inject(DailySessionService);
   private platformId = inject(PLATFORM_ID);
 
-  readonly markCounts = input<MarkCounts | null>(null);
 
   protected readonly ringCircumference = RING_CIRCUMFERENCE;
   /** Placeholder rows while the session and the areas are still on their way. */
@@ -107,10 +105,6 @@ export class MobileHome implements OnInit {
     if (!goal || goal.goal <= 0) return 0;
     return Math.min(100, Math.round((goal.earnedToday / goal.goal) * 100));
   });
-
-  protected readonly dueNow = computed(() => this.markCounts()?.expired ?? 0);
-  /** A backlog is easier to start on in small bites; five is what one sitting comfortably holds. */
-  protected readonly reviewBite = computed(() => Math.min(5, this.dueNow()));
 
   protected readonly areas = computed<AreaLine[]>(() =>
     [...this.xpService.areas()]

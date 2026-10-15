@@ -6,8 +6,8 @@
           <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
-      <h2 class="card-title" i18n="@@daily.emptyTitle">Nothing to review yet</h2>
-      <p class="prose" i18n="@@daily.emptyBody">Read one concept first — a session assembles itself from what you last read and what is due.</p>
+      <h2 class="card-title" i18n="@@daily.emptyTitle">Nothing to study yet</h2>
+      <p class="prose" i18n="@@daily.emptyBody">Read one concept first, a session assembles itself from what you last read.</p>
       <a class="primary-btn" routerLink="/computer-science" i18n="@@daily.emptyCta">Go read something</a>
     </div>
   } @else if (phase() === 'card') {
@@ -34,32 +34,6 @@
           </div>
 
           @switch (card.type) {
-            @case ('recall') {
-              @let rc = asRecall(card);
-              <h2 class="card-title">{{ rc.title }}</h2>
-              <button type="button" class="flashcard" [class.revealed]="revealed()" [disabled]="revealed()" (click)="reveal()">
-                @if (!revealed()) {
-                  <span class="flashcard-hint" i18n="@@daily.recall.hint">Think of the answer, then tap to see it</span>
-                } @else if (rc.answer) {
-                  <span class="flashcard-answer" [innerHTML]="inline(rc.answer)"></span>
-                } @else {
-                  <span class="flashcard-hint" i18n="@@daily.recall.noAnswer">No excerpt for this one. Open the full topic to check.</span>
-                }
-              </button>
-              @if (recallAnswered(); as answered) {
-                <p class="feedback" [class.good]="answered === 'remembered'">
-                  @if (answered === 'remembered') {
-                    <ng-container i18n="@@daily.rememberedNote">Good, marked as remembered.</ng-container>
-                  } @else {
-                    <ng-container i18n="@@daily.forgotNote">No worries, it comes back in a future session.</ng-container>
-                  }
-                </p>
-              }
-              @if (rc.route) {
-                <a class="topic-link" [routerLink]="rc.route" (click)="openTopic(rc.route)" i18n="@@daily.readFullTopic">Read the full topic →</a>
-              }
-            }
-
             @case ('read') {
               @let rd = asRead(card);
               <h2 class="card-title">{{ rd.title }}</h2>
@@ -137,16 +111,6 @@
 
       <div class="actions">
         @switch (card.type) {
-          @case ('recall') {
-            @if (!revealed()) {
-              <button type="button" class="primary-btn" (click)="reveal()" i18n="@@daily.showAnswer">Show answer</button>
-            } @else if (recallAnswered() === null) {
-              <button type="button" class="secondary-btn rate-forgot" (click)="answerRecall(false)" i18n="@@daily.forgot">I did not remember</button>
-              <button type="button" class="primary-btn rate-remembered" (click)="answerRecall(true)" i18n="@@daily.remembered">I remembered</button>
-            } @else {
-              <button type="button" class="primary-btn" (click)="next()" i18n="@@daily.next">Next</button>
-            }
-          }
           @case ('write') {
             @let wr = asWrite(card);
             <button type="button" class="primary-btn" (click)="saveWrite(wr)">

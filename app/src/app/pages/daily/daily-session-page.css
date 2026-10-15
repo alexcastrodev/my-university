@@ -129,57 +129,12 @@
 }
 
 .prose code,
-.boxed code,
-.flashcard-answer code {
+.boxed code {
   font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.88em;
   background: var(--mu-bg-alt);
   padding: 0.1em 0.35em;
   border-radius: 4px;
-}
-
-/* Recall flashcard: dashed until flipped */
-.flashcard {
-  flex: 1;
-  min-height: 9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 1rem;
-  padding: 1.25rem;
-  border: 1.5px dashed var(--mu-line);
-  border-radius: var(--mu-radius);
-  background: transparent;
-  font: inherit;
-  font-size: 0.85rem;
-  text-align: center;
-  color: var(--mu-muted);
-  cursor: pointer;
-}
-
-.flashcard.revealed {
-  align-items: flex-start;
-  justify-content: flex-start;
-  border-style: solid;
-  background: var(--mu-bg-alt);
-  cursor: default;
-}
-
-.flashcard-answer {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: var(--mu-ink-soft);
-  text-align: left;
-}
-
-.feedback {
-  margin: 0 0 1rem;
-  font-size: 0.85rem;
-  color: var(--mu-muted);
-}
-
-.feedback.good {
-  color: var(--mu-success);
 }
 
 .topic-link {

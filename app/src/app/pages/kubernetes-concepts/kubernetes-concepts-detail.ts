@@ -4,7 +4,6 @@ import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { KubernetesConceptView } from '../../components/kubernetes-concept-view/kubernetes-concept-view';
 import { KubernetesConcept, KubernetesConceptSummary } from '../../models/kubernetes-concept.model';
-import { ReviewService } from '../../services/review.service';
 import { KubernetesConceptsService } from '../../services/kubernetes-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -23,7 +22,6 @@ export class KubernetesConceptsDetailPage implements OnInit {
   private kubernetesConceptsService = inject(KubernetesConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<KubernetesConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class KubernetesConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('kubernetes-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

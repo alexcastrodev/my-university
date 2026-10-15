@@ -192,7 +192,6 @@
   background: var(--mu-success);
 }
 
-.marks,
 .shortcut {
   display: flex;
   align-items: center;
@@ -204,12 +203,6 @@
   background: var(--mu-surface);
   color: var(--mu-muted);
   text-decoration: none;
-}
-
-.marks-num {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--mu-accent);
 }
 
 .marks-text {
@@ -225,7 +218,6 @@
   color: var(--mu-ink);
 }
 
-.marks svg,
 .shortcut svg {
   width: 18px;
   height: 18px;

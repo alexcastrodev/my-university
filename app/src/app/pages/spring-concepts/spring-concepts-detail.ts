@@ -5,7 +5,6 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { SpringConceptView } from '../../components/spring-concept-view/spring-concept-view';
 import { SpringConcept, SpringConceptSummary } from '../../models/spring-concept.model';
 import { Language } from '../../models/language.model';
-import { ReviewService } from '../../services/review.service';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
@@ -28,7 +27,6 @@ export class SpringConceptsDetailPage implements OnInit {
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<SpringConcept | null>(null);
   loading = signal(true);
@@ -117,7 +115,6 @@ export class SpringConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('spring-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

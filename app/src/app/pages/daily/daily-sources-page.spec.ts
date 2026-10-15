@@ -47,11 +47,11 @@ describe('DailySourcesPage', () => {
     expect(accentChips[0].textContent).toContain('Java Concepts');
   });
 
-  it('lists the four selection rules', () => {
+  it('lists the three selection rules', () => {
     const fixture = setup();
 
     const rules = fixture.nativeElement.querySelectorAll('.rules li');
-    expect(rules.length).toBe(4);
-    expect(rules[0].textContent).toContain('Expiring marks come first');
+    expect(rules.length).toBe(3);
+    expect(rules[0].textContent).toContain('The topic you last read comes first');
   });
 });

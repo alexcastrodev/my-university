@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, MoreThan, Repository } from 'typeorm';
 import { User } from '../auth/user.entity';
-import { ReviewService } from '../review/review.service';
+import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionVote } from './discussion-vote.entity';
@@ -57,18 +57,18 @@ export class DiscussionService {
     private comments: Repository<DiscussionComment>,
     @InjectRepository(DiscussionVote) private votes: Repository<DiscussionVote>,
     @InjectRepository(User) private users: Repository<User>,
-    private review: ReviewService,
+    private lookup: ConceptLookupService,
   ) {}
 
   /** The concept the request names, or 404. Also hands back its sections for the quote check. */
   private resolveTopic(topic: TopicDto) {
-    const source = this.review.resolveTopic(
+    const source = this.lookup.resolveTopic(
       topic.module,
       topic.slug,
       topic.discipline,
     );
     if (!source) throw new NotFoundException();
-    const detail = this.review.resolveConceptDetail(
+    const detail = this.lookup.resolveConceptDetail(
       source.sourceType,
       source.sourceId,
       topic.lang as 'en' | 'pt-BR',

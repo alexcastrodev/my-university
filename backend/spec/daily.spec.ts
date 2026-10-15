@@ -7,7 +7,7 @@ describe('GET /daily/session', () => {
     expect(res.status).toBe(401);
   });
 
-  it('returns an honest empty session for a brand-new user with nothing read and nothing due', async () => {
+  it('returns an honest empty session for a brand-new user with nothing read', async () => {
     const { cookie } = await login(`daily-empty-${Date.now()}`);
     const res = await get('/daily/session', { Cookie: cookie });
     expect(res.status).toBe(200);
@@ -18,7 +18,7 @@ describe('GET /daily/session', () => {
     expect(body.summary.tomorrow.title).toBeTruthy();
   });
 
-  it('builds Read/Notice/Write cards from real read history, with no Recall since nothing is due', async () => {
+  it('builds Read/Notice/Write cards from real read history', async () => {
     const { cookie } = await login(`daily-read-${Date.now()}`);
     const concepts = await json<any[]>(await get('/java-concepts'));
     const first = concepts[0].slug;
@@ -29,7 +29,6 @@ describe('GET /daily/session', () => {
 
     const body = await json<any>(await get('/daily/session', { Cookie: cookie }));
 
-    expect(body.cards.some((c: any) => c.type === 'recall')).toBe(false);
 
     const readCard = body.cards.find((c: any) => c.type === 'read');
     expect(readCard).toBeTruthy();
@@ -133,30 +132,5 @@ describe('POST /daily/complete', () => {
     const body2 = await json<any>(await get('/daily/session', { Cookie: cookie }));
     const writeCard2 = body2.cards.find((c: any) => c.type === 'write');
     expect(writeCard2.pastAnswer.text).toBe('Second answer.'); // most recent, not overwritten — both rows exist
-  });
-
-  it('rejects a recall completion missing rating/sourceType, and records a real one against an already-scheduled item', async () => {
-    const { cookie } = await login(`daily-recall-${Date.now()}`);
-    const concepts = await json<any[]>(await get('/java-concepts'));
-    const slug = concepts[0].slug;
-
-    const missingRating = await post(
-      '/daily/complete',
-      { type: 'recall', sourceId: slug, sourceType: 'concept-read' },
-      { Cookie: cookie },
-    );
-    expect(missingRating.status).toBe(400);
-
-    // recordAnswer only requires an existing schedule, not that it's actually due —
-    // there is no time-travel test hook (review.spec.ts has the same constraint), so this
-    // exercises the same code path a due Recall card's "I remember" would hit.
-    await post('/review/schedule', { module: 'java-concepts', slug }, { Cookie: cookie });
-    const res = await post(
-      '/daily/complete',
-      { type: 'recall', sourceId: slug, sourceType: 'concept-read', rating: 'good' },
-      { Cookie: cookie },
-    );
-    expect(res.status).toBe(201);
-    expect((await json<any>(res)).xpAwarded).toBeGreaterThan(0);
   });
 });

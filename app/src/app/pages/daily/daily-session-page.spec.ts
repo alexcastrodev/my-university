@@ -11,23 +11,20 @@ import { DailySessionPage } from './daily-session-page';
 
 const SESSION: DailySession = {
   estimatedMinutes: 5,
-  summary: { headline: 'You renewed a mark', tomorrow: { title: 'ThreadLocal', body: 'It depends.' } },
+  summary: { headline: 'Today', tomorrow: { title: 'ThreadLocal', body: 'It depends.' } },
   cards: [
     {
-      type: 'recall',
+      type: 'read',
       xp: 20,
       previewTitle: 'Reference reachability',
-      previewSubtitle: 'Marked in March',
-      recap: 'Recall · reference reachability',
-      kicker: 'RECALL · NO LOOKING BACK',
+      previewSubtitle: 'Recent',
+      recap: 'Read · reference reachability',
+      kicker: 'READ · ONE SCREEN',
       title: 'When does a weakly reachable object become collectable?',
-      context: 'You marked this as "Got it" before. Does it still hold?',
-      sourceType: 'concept-read',
+      body: 'Once only `WeakReference`s point at it.',
+      fullTopicRoute: ['/java/java-concepts', 'reference-reachability'],
       sourceId: 'reference-reachability',
-      route: ['/java/java-concepts', 'reference-reachability'],
-      wrongNote: 'Getting it wrong is not a penalty.',
       module: 'java-concepts',
-      answer: 'Once only `WeakReference`s point at it.',
     },
     {
       type: 'write',
@@ -46,7 +43,7 @@ const SESSION: DailySession = {
 const EMPTY_SESSION: DailySession = {
   estimatedMinutes: 1,
   summary: {
-    headline: 'Nothing to review yet',
+    headline: 'Nothing to study yet',
     tomorrow: { title: 'Read one concept first', body: 'A session assembles itself from it.' },
   },
   cards: [],
@@ -96,76 +93,27 @@ describe('DailySessionPage', () => {
     expect(fixture.nativeElement.querySelector('.crumb').textContent).toContain('Java › Concepts');
   });
 
-  it('keeps the Recall answer hidden until the flashcard is flipped', () => {
+  it('credits the card XP when moving on, then shows the write card and the done screen', () => {
     const fixture = setup();
 
-    expect(fixture.nativeElement.querySelector('.flashcard').textContent).not.toContain('WeakReference');
-    expect(fixture.nativeElement.querySelector('.rate-remembered')).toBeNull();
-
-    click(fixture, '.flashcard');
-
-    const answer = fixture.nativeElement.querySelector('.flashcard-answer');
-    expect(answer.textContent).toContain('Once only WeakReferences point at it.');
-    expect(answer.querySelector('code')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.rate-remembered')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.rate-forgot')).toBeTruthy();
-  });
-
-  it('flips the card from the bottom button too', () => {
-    const fixture = setup();
-
-    primaryButton(fixture).click(); // Show answer
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('.flashcard.revealed')).toBeTruthy();
-  });
-
-  it('credits the card XP once it is rated, then offers Next', () => {
-    const fixture = setup();
-
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-remembered');
-
-    expect(fixture.nativeElement.querySelector('.feedback.good')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+20 XP');
-    expect(primaryButton(fixture).textContent).toContain('Next');
-  });
-
-  it('reassures instead of punishing on "I did not remember"', () => {
-    const fixture = setup();
-
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-forgot');
-
-    expect(fixture.nativeElement.querySelector('.feedback').textContent).toContain('No worries');
-    expect(fixture.nativeElement.querySelector('.topic-link[href]')).toBeTruthy();
-  });
-
-  it('advances to the write card and then to the done screen', () => {
-    const fixture = setup();
-
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-remembered');
     primaryButton(fixture).click(); // Next → card 2
     fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+20 XP');
 
     expect(fixture.nativeElement.querySelectorAll('.seg.filled').length).toBe(2);
     expect(fixture.nativeElement.querySelector('.write-input')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.flashcard')).toBeNull();
 
     primaryButton(fixture).click(); // Save and finish → done
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('.done')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.done-headline').textContent).toContain('You renewed a mark');
+    expect(fixture.nativeElement.querySelector('.done-headline').textContent).toContain('Today');
     expect(fixture.nativeElement.querySelectorAll('.recap-row').length).toBe(2);
   });
 
   it('restarts from the done screen with Keep going', () => {
     const fixture = setup();
 
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-remembered');
     primaryButton(fixture).click(); // Next → card 2
     fixture.detectChanges();
     primaryButton(fixture).click(); // Save and finish → done
@@ -176,34 +124,6 @@ describe('DailySessionPage', () => {
 
     expect(fixture.nativeElement.querySelectorAll('.seg.filled').length).toBe(1);
     expect(fixture.nativeElement.querySelector('.earned').textContent).toContain('+0 XP');
-    expect(fixture.nativeElement.querySelector('.flashcard.revealed')).toBeNull();
-  });
-
-  it('posts the recall rating when logged in', () => {
-    const completeSpy = jasmine.createSpy('complete').and.returnValue(of({ xpAwarded: 20 }));
-    TestBed.configureTestingModule({
-      imports: [DailySessionPage],
-      providers: [
-        provideZonelessChangeDetection(),
-        provideRouter([]),
-        { provide: AuthService, useValue: { currentUser: signal({ id: 1 }) } },
-        { provide: DailySessionService, useValue: { build: () => of(SESSION), complete: completeSpy } },
-        {
-          provide: XpService,
-          useValue: { summary: signal(null), streak: signal(null), loadSummary: () => {}, loadStreak: () => {} },
-        },
-      ],
-    }).compileComponents();
-    const fixture = TestBed.createComponent(DailySessionPage);
-    fixture.detectChanges();
-
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-remembered');
-
-    expect(completeSpy).toHaveBeenCalledWith('recall', 'reference-reachability', {
-      sourceType: 'concept-read',
-      rating: 'good',
-    });
   });
 
   it('completes Read and Notice independently even when they share a sourceId (Notice falls back to reusing Read\'s concept)', () => {
@@ -263,10 +183,10 @@ describe('DailySessionPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(2);
   });
 
-  it('comes back to the same card, rated and credited, after opening the full topic', () => {
+  it('comes back to the same card, credited, after opening the full topic', () => {
     const fixture = setup();
-    click(fixture, '.flashcard');
-    click(fixture, '.rate-remembered');
+    primaryButton(fixture).click(); // Next → write card
+    fixture.detectChanges();
 
     fixture.componentInstance.openTopic(['/java/java-concepts', 'reference-reachability']);
     const progress = TestBed.inject(DailyProgressService);
@@ -279,8 +199,7 @@ describe('DailySessionPage', () => {
 
     expect(buildSpy).not.toHaveBeenCalled();
     expect(back.nativeElement.querySelector('.earned').textContent).toContain('+20 XP');
-    expect(back.nativeElement.querySelector('.flashcard.revealed')).toBeTruthy();
-    expect(back.nativeElement.querySelector('.feedback.good')).toBeTruthy();
+    expect(back.nativeElement.querySelector('.write-input')).toBeTruthy();
     expect(progress.topicUrl()).toBeNull();
   });
 
@@ -292,10 +211,10 @@ describe('DailySessionPage', () => {
     expect(TestBed.inject(DailyProgressService).topicUrl()).toBeNull();
   });
 
-  it('renders an honest empty state when there is nothing to review', () => {
+  it('renders an honest empty state when there is nothing to study', () => {
     const fixture = setup(EMPTY_SESSION);
 
     expect(fixture.nativeElement.querySelector('.empty-session')).toBeTruthy();
-    expect(fixture.nativeElement.textContent).toContain('Nothing to review yet');
+    expect(fixture.nativeElement.textContent).toContain('Nothing to study yet');
   });
 });
