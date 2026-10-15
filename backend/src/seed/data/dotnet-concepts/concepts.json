@@ -1815,6 +1815,133 @@
     ]
   },
   {
+    "slug": "parameter-binding-and-endpoint-filters",
+    "id": 310,
+    "category": "ASP.NET Core",
+    "title": "Parameter Binding and Endpoint Filters",
+    "topic": "Minimal APIs",
+    "summary": "The order in which a parameter's source is chosen, binding failure codes, AsParameters, custom TryParse and BindAsync, forms with antiforgery, and AddEndpointFilter.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent Cross-Site Request Forgery (XSRF/CSRF) attacks, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Route handlers in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "problem-details-and-global-exception-handling",
+    "id": 311,
+    "category": "ASP.NET Core",
+    "title": "ProblemDetails and Global Exception Handling",
+    "topic": "Minimal APIs",
+    "summary": "The RFC 9457 problem+json document, why AddProblemDetails alone leaves a 404 empty, IExceptionHandler chains, CustomizeProblemDetails, and keeping exception details out of responses.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "parameter-binding-and-endpoint-filters"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling",
+        "type": "doc"
+      },
+      {
+        "label": "IExceptionHandler interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler",
+        "type": "doc"
+      },
+      {
+        "label": "IProblemDetailsService interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iproblemdetailsservice",
+        "type": "doc"
+      },
+      {
+        "label": "Problem Details for HTTP APIs, RFC 9457",
+        "url": "https://www.rfc-editor.org/rfc/rfc9457",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
