@@ -1172,6 +1172,189 @@
     "id": 13
   },
   {
+    "slug": "blazor-render-modes-and-hosting-models",
+    "id": 500,
+    "category": "Blazor",
+    "title": "Blazor Render Modes and Hosting Models",
+    "topic": "Blazor Fundamentals",
+    "summary": "Static SSR, Interactive Server, WebAssembly and Auto, what the server sends for each, the double render of prerendering, and the cost in latency, circuits and download size.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor render modes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor hosting models, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models",
+        "type": "doc"
+      },
+      {
+        "label": "Prerender ASP.NET Core Razor components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender",
+        "type": "doc"
+      },
+      {
+        "label": "Blazor prerendered state persistence, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/prerendered-state-persistence",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "blazor-static-ssr-and-enhanced-navigation",
+    "id": 501,
+    "category": "Blazor",
+    "title": "Blazor Static SSR and Enhanced Navigation",
+    "topic": "Blazor Fundamentals",
+    "summary": "Pages rendered on the server without a circuit, enhanced navigation and forms, SupplyParameterFromForm with antiforgery, and streaming rendering, observed on the wire.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-render-modes-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor navigation, enhanced navigation and form handling, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, streaming rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor forms overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor render modes, static SSR, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor JavaScript with static server-side rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/static-server-rendering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "blazor-routing-layouts-and-navigation",
+    "id": 502,
+    "category": "Blazor",
+    "title": "Blazor Routing, Layouts and Navigation",
+    "topic": "Blazor Fundamentals",
+    "summary": "Route templates and constraints, query string binding, NavigationManager, NavLink matching, nested layouts and the .NET 10 NotFound handling, observed in a running app.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor routing and navigation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor navigation, NavigationManager and NavLink, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor layouts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/layouts",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Blazor NotFound handling, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core, status code pages re-execution, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
