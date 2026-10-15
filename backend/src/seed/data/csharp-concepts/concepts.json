@@ -314,6 +314,82 @@
     ]
   },
   {
+    "slug": "interfaces-explicit-implementation-and-default-methods",
+    "id": 401,
+    "category": "Type Design",
+    "title": "Interfaces: Explicit Implementation and Default Methods",
+    "topic": "Interfaces & Generics",
+    "summary": "Implicit vs explicit implementation and when explicit is required, default interface methods (C# 8) and the diamond, static abstract and static virtual members (C# 11), and IComparable, IComparer and IEquatable.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "equals() vs compareTo()",
+        "slug": "equals-vs-compareto",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "interface keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface",
+        "type": "doc"
+      },
+      {
+        "label": "Explicit interface implementation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Update interfaces with default interface methods, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/default-interface-methods-versions",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Explore static virtual members in interfaces, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/static-virtual-interface-members",
+        "type": "doc"
+      },
+      {
+        "label": "Interface design, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/interface",
+        "type": "doc"
+      },
+      {
+        "label": "EqualityComparer<T>.Default, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.default",
+        "type": "doc"
+      },
+      {
+        "label": "IComparable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1",
+        "type": "doc"
+      },
+      {
+        "label": "IComparer<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1",
+        "type": "doc"
+      },
+      {
+        "label": "IEquatable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
