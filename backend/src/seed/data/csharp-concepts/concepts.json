@@ -1373,6 +1373,72 @@
     ]
   },
   {
+    "slug": "expression-trees-and-iqueryable-providers",
+    "id": 702,
+    "category": "LINQ",
+    "title": "Expression Trees and IQueryable Providers",
+    "topic": "LINQ",
+    "summary": "Expression<Func<>> versus a delegate, what the compiler refuses to put in a tree, how Queryable and IQueryProvider cooperate, why captured variables become SQL parameters, and dynamic filters with ExpressionVisitor that keep the query cache.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-sets-joins-grouping-and-lookups"
+    ],
+    "related": [
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Expression trees, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/",
+        "type": "doc"
+      },
+      {
+        "label": "Build expression trees, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-building",
+        "type": "doc"
+      },
+      {
+        "label": "Translate expression trees (ExpressionVisitor), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-translating",
+        "type": "doc"
+      },
+      {
+        "label": "IQueryProvider interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryprovider",
+        "type": "doc"
+      },
+      {
+        "label": "How queries work, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works",
+        "type": "doc"
+      },
+      {
+        "label": "Advanced performance topics, dynamically-constructed queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics#dynamically-constructed-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Queryable.Where builds a call node and calls CreateQuery, dotnet/runtime source (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/591ede817344fa749dd1af56d7e73b356da3e71a/src/libraries/System.Linq.Queryable/src/System/Linq/Queryable.cs#L48-L58",
+        "type": "doc"
+      },
+      {
+        "label": "ExpressionTreeFuncletizer, dotnet/efcore source (release/10.0)",
+        "url": "https://github.com/dotnet/efcore/blob/92ae3223006b08f94e4d30fb3f7e5de622f6833c/src/EFCore/Query/Internal/ExpressionTreeFuncletizer.cs#L12-L23",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
