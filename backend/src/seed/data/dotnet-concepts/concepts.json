@@ -3108,6 +3108,67 @@
     ]
   },
   {
+    "slug": "scalar-http-files-and-client-generation",
+    "id": 401,
+    "category": "ASP.NET Core",
+    "title": "Scalar, .http Files and Client Generation",
+    "topic": "API Documentation",
+    "summary": "Scalar as the reference UI for the OpenAPI document, .http files with variables and environments, and a typed client generated with Kiota, showing that the generated client is only as good as the document.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "openapi-document-generation"
+    ],
+    "related": [
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the generated OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents",
+        "type": "doc"
+      },
+      {
+        "label": "Use .http files in Visual Studio 2022, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/http-files",
+        "type": "doc"
+      },
+      {
+        "label": "Welcome to Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Install Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/install",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Create a Minimal API with ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with NSwag and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-nswag",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
