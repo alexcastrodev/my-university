@@ -1579,6 +1579,295 @@
     ]
   },
   {
+    "slug": "delegates-and-multicast-invocation",
+    "id": 410,
+    "category": "Type Design",
+    "title": "Delegates and Multicast Invocation",
+    "topic": "Delegates & Events",
+    "summary": "What the compiler generates for a delegate type, Target and Method, Func, Action and Predicate vs custom delegate types, immutable invocation lists with += and -= (right-most removal), an exception in the middle of a multicast, EnumerateInvocationList (.NET 9), method group caching (C# 11) and function pointers (C# 9).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "generics-constraints-and-variance"
+    ],
+    "related": [
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Expression Trees and IQueryable Providers",
+        "slug": "expression-trees-and-iqueryable-providers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Delegates, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/",
+        "type": "doc"
+      },
+      {
+        "label": "Using delegates, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/using-delegates",
+        "type": "doc"
+      },
+      {
+        "label": "How to combine delegates (multicast delegates), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/how-to-combine-delegates-multicast-delegates",
+        "type": "doc"
+      },
+      {
+        "label": "Subtraction operator: delegate removal, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/subtraction-operator",
+        "type": "doc"
+      },
+      {
+        "label": "Delegate.EnumerateInvocationList method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist",
+        "type": "doc"
+      },
+      {
+        "label": "MulticastDelegate class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.multicastdelegate",
+        "type": "doc"
+      },
+      {
+        "label": "Unsafe code and function pointers, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code",
+        "type": "doc"
+      },
+      {
+        "label": "C# language version history, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "events-observer-pattern-and-memory-leaks",
+    "id": 411,
+    "category": "Type Design",
+    "title": "Events, the Observer Pattern and Memory Leaks",
+    "topic": "Delegates & Events",
+    "summary": "What event restricts compared with a delegate field, the add/remove accessors with Interlocked.CompareExchange the compiler generates (lost subscriptions measured), EventHandler<TEventArgs> and raising with ?.Invoke, the long-lived publisher leak measured with WeakReference and the GC, unsubscribing, weak events, custom accessors and C# 14 partial events.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "delegates-and-multicast-invocation"
+    ],
+    "related": [
+      {
+        "label": "Delegates and Multicast Invocation",
+        "slug": "delegates-and-multicast-invocation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Spring Application Events: @EventListener and @TransactionalEventListener",
+        "slug": "spring-application-events",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+        "slug": "weak-soft-and-phantom-references",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Standard .NET event patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/event-pattern",
+        "type": "doc"
+      },
+      {
+        "label": "The updated .NET Core event pattern, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/modern-events",
+        "type": "doc"
+      },
+      {
+        "label": "How to subscribe to and unsubscribe from events, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-subscribe-to-and-unsubscribe-from-events",
+        "type": "doc"
+      },
+      {
+        "label": "event keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/event",
+        "type": "doc"
+      },
+      {
+        "label": "How to implement custom event accessors, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors",
+        "type": "doc"
+      },
+      {
+        "label": "Partial members, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-member",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Observer design pattern, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/events/observer-design-pattern",
+        "type": "doc"
+      },
+      {
+        "label": "Weak event patterns, WPF, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/desktop/wpf/events/weak-event-patterns",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "nullable-reference-types-and-flow-analysis",
+    "id": 412,
+    "category": "Type Design",
+    "title": "Nullable Reference Types and Flow Analysis",
+    "topic": "Nullability",
+    "summary": "NRT as an annotation, not a type (metadata and NullabilityInfoContext), the not-null and maybe-null states and where flow analysis is deliberately optimistic, the ! operator, contract attributes (MaybeNullWhen, NotNullIfNotNull, MemberNotNull and friends), T? in generics and notnull, nulls from outside (RespectNullableAnnotations, EF Core), migration strategy, and Nullable<T> with lifted operators and boxing.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Operators, Null Handling and Null-Conditional Assignment",
+        "slug": "operators-null-handling-and-null-conditional-assignment",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Guard Clauses, Throwing and Rethrowing",
+        "slug": "guard-clauses-throwing-and-rethrowing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Optional: Correct Usage and the API's Own Warnings",
+        "slug": "optional-correct-usage",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Nullable reference types, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/null-safety/nullable-reference-types",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable reference types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes for null-state static analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "Resolve nullable warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/nullable-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable migration strategies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/update-applications/nullable-migration-strategies",
+        "type": "doc"
+      },
+      {
+        "label": "Nullable value types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types",
+        "type": "doc"
+      },
+      {
+        "label": "Respect nullable annotations, System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/nullable-annotations",
+        "type": "doc"
+      },
+      {
+        "label": "Working with nullable reference types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "extension-members-and-extension-blocks",
+    "id": 413,
+    "category": "Type Design",
+    "title": "Extension Members and Extension Blocks (C# 14)",
+    "topic": "Extension Members",
+    "summary": "C# 14 extension(Type receiver) blocks with instance methods and properties, static methods and properties and operators, generic blocks, null and ref receivers, what the compiler emits (grouping and marker types read with ilspy), a binary compatibility test against the this syntax, ambiguity and how to resolve it, and what is not allowed, with the real compiler errors.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nullable-reference-types-and-flow-analysis"
+    ],
+    "related": [
+      {
+        "label": "Interfaces: Explicit Implementation and Default Methods",
+        "slug": "interfaces-explicit-implementation-and-default-methods",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Extension member declarations (extension keyword), C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extension",
+        "type": "doc"
+      },
+      {
+        "label": "Extension members, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods",
+        "type": "doc"
+      },
+      {
+        "label": "Extension members, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/extensions",
+        "type": "doc"
+      },
+      {
+        "label": "ExtensionMarkerAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.extensionmarkerattribute",
+        "type": "doc"
+      },
+      {
+        "label": "C# compiler breaking changes since C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2010",
+        "type": "doc"
+      },
+      {
+        "label": "ConditionalWeakTable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
