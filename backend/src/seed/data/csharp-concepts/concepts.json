@@ -330,6 +330,72 @@
     ]
   },
   {
+    "slug": "parsing-tryparse-and-the-try-pattern",
+    "id": 112,
+    "category": "Language",
+    "title": "Parsing, TryParse and the Try Pattern",
+    "topic": "Numbers & Conversions",
+    "summary": "Parse versus TryParse, what the default NumberStyles accept, the reading side of the culture bug with real output, TryParseExact for dates, Enum.TryParse traps, IParsable and ISpanParsable, writing your own Try method and the measured cost of exceptions.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "numeric-conversions-rounding-and-overflow"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Scanner Class",
+        "slug": "scanner-class",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Parse numeric strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-numeric",
+        "type": "doc"
+      },
+      {
+        "label": "Parse date and time strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime",
+        "type": "doc"
+      },
+      {
+        "label": "Int32.TryParse method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse",
+        "type": "doc"
+      },
+      {
+        "label": "NumberStyles enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles",
+        "type": "doc"
+      },
+      {
+        "label": "IParsable<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iparsable-1",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.TryParse method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse",
+        "type": "doc"
+      },
+      {
+        "label": "Exceptions and Performance, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/exceptions-and-performance",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
