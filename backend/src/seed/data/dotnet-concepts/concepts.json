@@ -539,7 +539,9 @@
     "topic": "Publishing & Native AOT",
     "summary": "Framework-dependent versus self-contained, RIDs, single file (IL3000, extracted native libraries, compression), trimming with real IL2026/IL2057/IL2070 warnings and DynamicallyAccessedMembers, feature switches (HTTP/3 off in .NET 10) and the startup surprise between trimming and ReadyToRun, with measured sizes and times.",
     "publishedAt": "2026-10-15",
-    "requires": [],
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
     "related": [
       {
         "label": "From Source to Machine Code: Roslyn, IL and the JIT",
