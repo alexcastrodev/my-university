@@ -66,6 +66,11 @@
         "label": "From Source to Machine Code: Roslyn, IL and the JIT",
         "slug": "roslyn-il-and-the-jit",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -153,6 +158,62 @@
       {
         "label": "Viewing JIT dumps (JitDisasm, JitDisasmSummary), dotnet/runtime",
         "url": "https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/jit/viewing-jit-dumps.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "file-based-apps",
+    "id": 102,
+    "category": "Platform & Tooling",
+    "title": "File-Based Apps: Running a Single .cs File (.NET 10)",
+    "topic": "Runtime & SDK",
+    "summary": "dotnet run app.cs with the #:package, #:sdk and #:property directives, the virtual project and its cache, the Native AOT default that breaks Dapper and EF Core under dotnet run, shebangs, publish and dotnet project convert.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "dotnet-support-lifecycle-and-choosing-a-target"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JShell: The Java REPL",
+        "slug": "jshell-repl",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "File-based apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in the SDK and tooling for .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet run command, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-run",
+        "type": "doc"
+      },
+      {
+        "label": "Native AOT deployment overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/",
+        "type": "doc"
+      },
+      {
+        "label": "Compilation config settings (dynamic code), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
         "type": "doc"
       }
     ]
