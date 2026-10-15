@@ -741,6 +741,236 @@
     "id": 4
   },
   {
+    "slug": "inheritance-virtual-override-and-sealed",
+    "id": 400,
+    "category": "Type Design",
+    "title": "Inheritance: virtual, override, new and sealed",
+    "topic": "Inheritance & Polymorphism",
+    "summary": "How C# picks the method that runs (override by object type, new by variable type), abstract classes, covariant returns, virtual dispatch and sealed devirtualization seen in the JIT, casting with is, as and patterns, the fragile base class, and interface vs abstract class vs composition.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Composition Over Inheritance, and Interfaces vs. Abstract Classes",
+        "slug": "composition-over-inheritance",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
+        "slug": "bytecode-object-creation-and-method-dispatch",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Inheritance, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance",
+        "type": "doc"
+      },
+      {
+        "label": "Polymorphism, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/polymorphism",
+        "type": "doc"
+      },
+      {
+        "label": "Knowing when to use override and new keywords, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/knowing-when-to-use-override-and-new-keywords",
+        "type": "doc"
+      },
+      {
+        "label": "override modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/override",
+        "type": "doc"
+      },
+      {
+        "label": "sealed modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/sealed",
+        "type": "doc"
+      },
+      {
+        "label": "Type-testing operators and cast expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 9, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9",
+        "type": "doc"
+      },
+      {
+        "label": "Virtual members, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/virtual-members",
+        "type": "doc"
+      },
+      {
+        "label": "Sealing, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/sealing",
+        "type": "doc"
+      },
+      {
+        "label": "CA1852: Seal internal types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1852",
+        "type": "doc"
+      },
+      {
+        "label": "Runtime configuration options for compilation (tiered compilation and PGO), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "interfaces-explicit-implementation-and-default-methods",
+    "id": 401,
+    "category": "Type Design",
+    "title": "Interfaces: Explicit Implementation and Default Methods",
+    "topic": "Interfaces & Generics",
+    "summary": "Implicit vs explicit implementation and when explicit is required, default interface methods (C# 8) and the diamond, static abstract and static virtual members (C# 11), and IComparable, IComparer and IEquatable.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "inheritance-virtual-override-and-sealed"
+    ],
+    "related": [
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "equals() vs compareTo()",
+        "slug": "equals-vs-compareto",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "interface keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface",
+        "type": "doc"
+      },
+      {
+        "label": "Explicit interface implementation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Update interfaces with default interface methods, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/default-interface-methods-versions",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Explore static virtual members in interfaces, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/static-virtual-interface-members",
+        "type": "doc"
+      },
+      {
+        "label": "Interface design, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/interface",
+        "type": "doc"
+      },
+      {
+        "label": "EqualityComparer<T>.Default, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.default",
+        "type": "doc"
+      },
+      {
+        "label": "IComparable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1",
+        "type": "doc"
+      },
+      {
+        "label": "IComparer<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1",
+        "type": "doc"
+      },
+      {
+        "label": "IEquatable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "generics-constraints-and-variance",
+    "id": 402,
+    "category": "Type Design",
+    "title": "Generics: Constraints and Variance",
+    "topic": "Interfaces & Generics",
+    "summary": "Why generics replaced object-based collections (boxing measured), reified generics, constraints up to allows ref struct (C# 13), value-type specialization vs shared reference-type code seen in the JIT, constraints that avoid boxing, out/in variance, covariant arrays, and generic attributes (C# 11).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "interfaces-explicit-implementation-and-default-methods"
+    ],
+    "related": [
+      {
+        "label": "Generics: Bounded Types, Wildcards, and Erasure",
+        "slug": "generics",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generic classes and methods, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics",
+        "type": "doc"
+      },
+      {
+        "label": "Constraints on type parameters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters",
+        "type": "doc"
+      },
+      {
+        "label": "Generics in the runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance in generics, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13 (allows ref struct), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "C# version history, C# 11 (generic attributes), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      },
+      {
+        "label": "Generics and attributes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/generics-and-attributes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
@@ -1244,6 +1474,199 @@
       }
     ],
     "id": 9
+  },
+  {
+    "slug": "linq-operator-families-and-query-syntax",
+    "id": 700,
+    "category": "LINQ",
+    "title": "LINQ: Operator Families and Query Syntax",
+    "topic": "LINQ",
+    "summary": "The LINQ operator families, how the compiler rewrites query syntax (let, into, transparent identifiers), and stable ordering with ThenBy, Order() and culture-aware string comparison.",
+    "publishedAt": "2026-10-14",
+    "requires": [
+      "linq-deferred-execution-and-iterators"
+    ],
+    "related": [
+      {
+        "label": "Stream API Fundamentals",
+        "slug": "stream-api-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Standard query operators overview, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/",
+        "type": "doc"
+      },
+      {
+        "label": "Write LINQ queries (query syntax versus method syntax), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Query expressions, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/expressions#1223-query-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.OrderBy method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Order method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order",
+        "type": "doc"
+      },
+      {
+        "label": "let clause, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/let-clause",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "linq-sets-joins-grouping-and-lookups",
+    "id": 701,
+    "category": "LINQ",
+    "title": "LINQ: Sets, Joins, Grouping and Lookups",
+    "topic": "LINQ",
+    "summary": "Set semantics and the By variants, Join, GroupJoin and the .NET 10 LeftJoin and RightJoin, null keys, GroupBy versus ToLookup, and the SQL EF Core generates for each.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-operator-families-and-query-syntax"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Stream Collectors and Parallel Streams",
+        "slug": "stream-collectors-and-parallel-streams",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Loading Related Data and N+1",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Set operations, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/set-operations",
+        "type": "doc"
+      },
+      {
+        "label": "Join operations, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/join-operations",
+        "type": "doc"
+      },
+      {
+        "label": "Grouping data, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/grouping-data",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.LeftJoin method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.ToLookup method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.tolookup",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, LeftJoin and RightJoin, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew#support-for-the-net-10-leftjoin-and-rightjoin-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Complex query operators, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/complex-query-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Lookup.CreateForJoin skips null keys, dotnet/runtime source (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/591ede817344fa749dd1af56d7e73b356da3e71a/src/libraries/System.Linq/src/System/Linq/Lookup.cs#L111-L124",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "expression-trees-and-iqueryable-providers",
+    "id": 702,
+    "category": "LINQ",
+    "title": "Expression Trees and IQueryable Providers",
+    "topic": "LINQ",
+    "summary": "Expression<Func<>> versus a delegate, what the compiler refuses to put in a tree, how Queryable and IQueryProvider cooperate, why captured variables become SQL parameters, and dynamic filters with ExpressionVisitor that keep the query cache.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-sets-joins-grouping-and-lookups"
+    ],
+    "related": [
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Expression trees, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/",
+        "type": "doc"
+      },
+      {
+        "label": "Build expression trees, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-building",
+        "type": "doc"
+      },
+      {
+        "label": "Translate expression trees (ExpressionVisitor), C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/expression-trees-translating",
+        "type": "doc"
+      },
+      {
+        "label": "IQueryProvider interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryprovider",
+        "type": "doc"
+      },
+      {
+        "label": "How queries work, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works",
+        "type": "doc"
+      },
+      {
+        "label": "Advanced performance topics, dynamically-constructed queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/advanced-performance-topics#dynamically-constructed-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Queryable.Where builds a call node and calls CreateQuery, dotnet/runtime source (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/591ede817344fa749dd1af56d7e73b356da3e71a/src/libraries/System.Linq.Queryable/src/System/Linq/Queryable.cs#L48-L58",
+        "type": "doc"
+      },
+      {
+        "label": "ExpressionTreeFuncletizer, dotnet/efcore source (release/10.0)",
+        "url": "https://github.com/dotnet/efcore/blob/92ae3223006b08f94e4d30fb3f7e5de622f6833c/src/EFCore/Query/Internal/ExpressionTreeFuncletizer.cs#L12-L23",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "threads-threadpool-and-starvation",
