@@ -188,6 +188,11 @@
         "label": "JShell: The Java REPL",
         "slug": "jshell-repl",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -455,7 +460,9 @@
     "topic": "NuGet & Packaging",
     "summary": "Version notation, the restore resolution rules (lowest applicable version, direct dependency wins), floating versions and lock files, NuGetAudit, and what changed in restore in .NET 9 and .NET 10.",
     "publishedAt": "2026-10-14",
-    "requires": [],
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
     "related": [],
     "references": [
       {
@@ -612,6 +619,11 @@
         "label": "Modular Monolith: Drawing Module Boundaries",
         "slug": "modular-monolith-module-boundaries",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Properties, init Accessors and the field Keyword",
+        "slug": "properties-init-accessors-and-the-field-keyword",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1960,6 +1972,16 @@
         "label": "Input Validation in Minimal APIs",
         "slug": "input-validation-in-minimal-apis",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2190,6 +2212,11 @@
         "label": "Spring MVC Request Handling",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2392,7 +2419,8 @@
     "summary": "AddOpenApi and MapOpenApi, OpenAPI 3.1 by default in .NET 10, XML comments and Description on Produces attributes, transformers, multiple documents and build-time generation, shown with real generator output.",
     "publishedAt": "2026-10-15",
     "requires": [
-      "rest-semantics-status-codes-and-idempotency"
+      "rest-semantics-status-codes-and-idempotency",
+      "problem-details-and-global-exception-handling"
     ],
     "related": [
       {
