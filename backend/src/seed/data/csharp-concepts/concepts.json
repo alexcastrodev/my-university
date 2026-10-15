@@ -1579,6 +1579,77 @@
     ]
   },
   {
+    "slug": "delegates-and-multicast-invocation",
+    "id": 410,
+    "category": "Type Design",
+    "title": "Delegates and Multicast Invocation",
+    "topic": "Delegates & Events",
+    "summary": "What the compiler generates for a delegate type, Target and Method, Func, Action and Predicate vs custom delegate types, immutable invocation lists with += and -= (right-most removal), an exception in the middle of a multicast, EnumerateInvocationList (.NET 9), method group caching (C# 11) and function pointers (C# 9).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "generics-constraints-and-variance"
+    ],
+    "related": [
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Expression Trees and IQueryable Providers",
+        "slug": "expression-trees-and-iqueryable-providers",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Delegates, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/",
+        "type": "doc"
+      },
+      {
+        "label": "Using delegates, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/using-delegates",
+        "type": "doc"
+      },
+      {
+        "label": "How to combine delegates (multicast delegates), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/how-to-combine-delegates-multicast-delegates",
+        "type": "doc"
+      },
+      {
+        "label": "Subtraction operator: delegate removal, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/subtraction-operator",
+        "type": "doc"
+      },
+      {
+        "label": "Delegate.EnumerateInvocationList method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist",
+        "type": "doc"
+      },
+      {
+        "label": "MulticastDelegate class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.multicastdelegate",
+        "type": "doc"
+      },
+      {
+        "label": "Unsafe code and function pointers, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code",
+        "type": "doc"
+      },
+      {
+        "label": "C# language version history, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
