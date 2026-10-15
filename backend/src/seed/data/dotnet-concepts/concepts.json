@@ -807,6 +807,67 @@
     ]
   },
   {
+    "slug": "packaging-and-publishing-a-nuget-library",
+    "id": 202,
+    "category": "Platform & Tooling",
+    "title": "Packaging and Publishing a NuGet Library",
+    "topic": "NuGet & Packaging",
+    "summary": "How dotnet pack turns a project into a package (metadata, readme, symbols, Source Link), the SemVer and VersionSuffix rules, package validation catching a CP0002 breaking change, testing the package from a local feed, and what pushing to nuget.org or a private feed means.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "central-package-management-and-package-source-mapping"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Assemblies, Frameworks and the Host Resolver",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "dotnet pack command, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet pack and restore as MSBuild targets, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet package versioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/package-versioning",
+        "type": "doc"
+      },
+      {
+        "label": "Package validation overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/apicompat/package-validation/overview",
+        "type": "doc"
+      },
+      {
+        "label": "How to publish NuGet packages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/nuget-org/publish-a-package",
+        "type": "doc"
+      },
+      {
+        "label": "Signing NuGet packages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/create-packages/sign-a-package",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
