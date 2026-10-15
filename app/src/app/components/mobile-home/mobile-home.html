@@ -18,10 +18,10 @@
         </a>
       </section>
     } @else {
-      <h1 class="headline" i18n="@@home.nothingDue">Nothing due today</h1>
+      <h1 class="headline" i18n="@@home.nothingDue">Nothing to study today</h1>
       <section class="today">
         <p class="today-empty" i18n="@@home.nothingDueHint">Read a few concepts and tomorrow's session builds itself from them.</p>
-        <a class="start" routerLink="/feed" i18n="@@home.openFeed">Open the feed</a>
+        <a class="start" routerLink="/tracks" i18n="@@home.openTracks">Open the tracks</a>
       </section>
     }
   } @else {
@@ -79,17 +79,6 @@
     </div>
   </div>
 
-  @if (dueNow() > 0) {
-    <a class="marks" routerLink="/review">
-      <span class="marks-num">{{ dueNow() }}</span>
-      <span class="marks-text">
-        <strong i18n="@@home.marksDue">Got it marks to review</strong>
-        <span i18n="@@home.marksHint">Review {{ reviewBite() }} now and keep them from fading</span>
-      </span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  }
-
   <a class="shortcut" routerLink="/tracks">
     <svg class="shortcut-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -117,7 +106,7 @@
         }
       </ul>
     } @else if (areas().length === 0) {
-      <p class="areas-empty" i18n="@@home.noAreas">Nothing read yet. Pick anything on the track or in the feed.</p>
+      <p class="areas-empty" i18n="@@home.noAreas">Nothing read yet. Pick anything on the track.</p>
     } @else {
       <ul>
         @for (area of areas(); track area.module) {

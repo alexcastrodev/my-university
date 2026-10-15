@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThanOrEqual, Repository } from 'typeorm';
-import { fromSourceId, parseCurriculumSourceId } from '../review/review.constants';
+import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
 import { getLevelForXp, LevelProgress } from './levels';
 import { computeStreak, StreakResult, toUtcDateKey } from './streak';
 import { UserXpEntry } from './user-xp.entity';
@@ -204,7 +204,7 @@ export class XpService {
   /**
    * XP and last-activity timestamp per Complementary Studies area (java-concepts,
    * jvm-concepts, ...), derived from real `user_xp_entry` rows — reuses the same
-   * module/prefix registry `ReviewService` already resolves due-queue items with, so
+   * module/prefix registry `ConceptLookupService` already resolves recent-activity items with, so
    * there's one source of truth for "which area does this sourceId belong to."
    * Entries that don't resolve to a known area (course lessons, skill checks) are
    * skipped — they're tracked separately via the course resume point.
@@ -218,7 +218,7 @@ export class XpService {
     const byModule = new Map<string, { xp: number; lastActivityAt: Date }>();
     for (const row of rows) {
       if (row.sourceType !== 'concept-read' && row.sourceType !== 'episode-watched') continue;
-      // A Computer Science concept id (`cc:...`) has no prefix in REVIEW_MODULES, so without
+      // A Computer Science concept id (`cc:...`) has no prefix in CONCEPT_MODULES, so without
       // this check it would fall through to the unprefixed java-concepts entry.
       const module = parseCurriculumSourceId(row.sourceId)
         ? 'computer-science'

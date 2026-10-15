@@ -9,14 +9,12 @@ import {
   DailySession,
   NoticeCard,
   ReadCard,
-  RecallCard,
   WriteCard,
 } from '../../models/daily.model';
 import { areaBreadcrumb } from '../../shared/area-labels';
 import { dailyCardTypeLabel } from '../../shared/daily-labels';
 
 type Phase = 'card' | 'done';
-type RecallAnswer = 'remembered' | 'forgot' | null;
 
 /** Card prose is a real excerpt of a concept's markdown, which routinely uses backtick
  *  spans for identifiers (`WeakHashMap`) — rendering it as plain text leaves the
@@ -33,18 +31,13 @@ function renderInlineCode(text: string): string {
 
 /**
  * The full-screen card runner (mobile mockup v2, "Sessão"): a segmented progress bar, a
- * close button and the XP earned so far, one card at a time (recall / read / notice / write)
- * with its action pinned to the bottom, then the session-done summary. Recall is a flashcard:
- * the concept's own opening prose is hidden until the user has thought of the answer.
- *
+ * close button and the XP earned so far, one card at a time (read / notice / write)
+ * with its action pinned to the bottom, then the session-done summary. *
  * A session can legitimately have fewer than 4 cards, or zero (see
  * `daily.model.ts`) — the empty state is handled explicitly below rather
  * than assuming a card always exists.
  *
- * Recall is self-rating (no real MCQ, see `daily.model.ts`): "I remembered"
- * posts SM2 rating `good`, "I did not remember" posts `again`, both via
- * `DailySessionService.complete`, which also grants XP for every card type
- * as the user finishes it.
+ * `DailySessionService.complete` grants XP for every card type as the user finishes it.
  *
  * "Read the full topic" parks the run in `DailyProgressService` before leaving, so coming
  * back (the return pill, or the browser's back button) lands on the same card with the
@@ -67,10 +60,6 @@ export class DailySessionPage implements OnInit {
   protected readonly session = signal<DailySession | null>(null);
   protected readonly index = signal(0);
   protected readonly phase = signal<Phase>('card');
-
-  // Recall per-card state: the flashcard is flipped first, then self-rated.
-  protected readonly recallAnswered = signal<RecallAnswer>(null);
-  protected readonly revealed = signal(false);
 
   /** XP earned so far in this run, shown in the top bar; each card counts once. */
   protected readonly earned = signal(0);
@@ -109,9 +98,6 @@ export class DailySessionPage implements OnInit {
   }
 
   // Typed accessors — keep the template type-safe over the discriminated union.
-  asRecall(card: DailyCard): RecallCard {
-    return card as RecallCard;
-  }
   asRead(card: DailyCard): ReadCard {
     return card as ReadCard;
   }
@@ -133,32 +119,12 @@ export class DailySessionPage implements OnInit {
     return areaBreadcrumb('module' in card ? card.module : undefined).join(' › ');
   }
 
-  reveal(): void {
-    this.revealed.set(true);
-  }
-
   paragraphs(body: string): string[] {
     return body.split('\n\n');
   }
 
   inline(text: string): string {
     return renderInlineCode(text);
-  }
-
-  answerRecall(remembered: boolean): void {
-    if (this.recallAnswered() !== null) return;
-    const card = this.asRecall(this.current()!);
-    this.recallAnswered.set(remembered ? 'remembered' : 'forgot');
-    this.credit();
-
-    if (this.auth.currentUser()) {
-      this.dailyService
-        .complete('recall', card.sourceId, {
-          sourceType: card.sourceType,
-          rating: remembered ? 'good' : 'again',
-        })
-        .subscribe({ next: () => this.refreshXp(), error: () => {} });
-    }
   }
 
   /** Fires the completion POST for Read/Notice at most once per card (a "Next" click can't
@@ -224,8 +190,6 @@ export class DailySessionPage implements OnInit {
   }
 
   private resetCardState(): void {
-    this.recallAnswered.set(null);
-    this.revealed.set(false);
     this.writeText.set('');
     this.writeSaved.set(false);
   }
@@ -241,8 +205,6 @@ export class DailySessionPage implements OnInit {
         earned: this.earned(),
         earnedCards: [...this.earnedCards],
         completedKeys: [...this.completedSourceIds],
-        recallAnswered: this.recallAnswered(),
-        revealed: this.revealed(),
         writeText: this.writeText(),
         writeSaved: this.writeSaved(),
       },
@@ -256,8 +218,6 @@ export class DailySessionPage implements OnInit {
     this.earned.set(parked.earned);
     parked.earnedCards.forEach((i) => this.earnedCards.add(i));
     parked.completedKeys.forEach((key) => this.completedSourceIds.add(key));
-    this.recallAnswered.set(parked.recallAnswered);
-    this.revealed.set(parked.revealed);
     this.writeText.set(parked.writeText);
     this.writeSaved.set(parked.writeSaved);
   }

@@ -5,7 +5,6 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { SystemDesignConceptView } from '../../components/system-design-concept-view/system-design-concept-view';
 import { SystemDesignConcept, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { Language } from '../../models/language.model';
-import { ReviewService } from '../../services/review.service';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
@@ -28,7 +27,6 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<SystemDesignConcept | null>(null);
   loading = signal(true);
@@ -118,7 +116,6 @@ export class SystemDesignConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('system-design-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

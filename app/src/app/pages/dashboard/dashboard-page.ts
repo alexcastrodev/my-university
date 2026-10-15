@@ -22,9 +22,9 @@ import {
 } from '../computer-science/complementary-studies.service';
 import { MobileHome } from '../../components/mobile-home/mobile-home';
 import { AuthService } from '../../services/auth.service';
-import { MarkCounts, RecentActivityItem, ReviewQueueItem } from '../../models/review.model';
+import { RecentActivityItem } from '../../models/activity.model';
 import { ResumePoint } from '../../models/course.model';
-import { ReviewService } from '../../services/review.service';
+import { ActivityService } from '../../services/activity.service';
 import { ResumeService } from '../../services/resume.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -68,7 +68,7 @@ export class DashboardPage implements OnInit {
   protected auth = inject(AuthService);
   protected xpService = inject(XpService);
   private resumeService = inject(ResumeService);
-  private reviewService = inject(ReviewService);
+  private activityService = inject(ActivityService);
   private complementaryService = inject(ComplementaryStudiesService);
   private seo = inject(SeoService);
   private platformId = inject(PLATFORM_ID);
@@ -90,8 +90,6 @@ export class DashboardPage implements OnInit {
   protected readonly areaProgress = signal<ComplementaryAreaProgress[]>([]);
   protected readonly areaProgressLoading = signal(true);
   protected readonly resumePoint = signal<ResumePoint | null>(null);
-  protected readonly reviewQueue = signal<ReviewQueueItem[]>([]);
-  protected readonly markCounts = signal<MarkCounts | null>(null);
   protected readonly recentActivity = signal<RecentActivityItem[]>([]);
 
   protected readonly levelPercent = computed(() => {
@@ -185,15 +183,10 @@ export class DashboardPage implements OnInit {
     this.xpService.loadDailyGoal();
     this.xpService.loadAreas();
 
-    this.reviewService.getMarkCounts().subscribe({
-      next: (counts) => this.markCounts.set(counts),
-      error: () => {},
-    });
-
     this.loadDesktopPanelsWhenWide();
   }
 
-  /** On a phone, the areas table, ranking, review panel and weekly activity are never on
+  /** On a phone, the areas table, ranking and weekly activity are never on
    *  screen, and the areas table alone costs one full concept list per area (a dozen requests)
    *  that would compete with the daily session the phone Home is waiting for. They load when
    *  the viewport is (or later becomes, e.g. a rotated tablet) wider than a phone. */
@@ -221,12 +214,7 @@ export class DashboardPage implements OnInit {
       error: () => {},
     });
 
-    this.reviewService.getDueQueue().subscribe({
-      next: (queue) => this.reviewQueue.set(queue),
-      error: () => {},
-    });
-
-    this.reviewService.getRecentActivity().subscribe({
+    this.activityService.getRecentActivity().subscribe({
       next: (items) => this.recentActivity.set(items),
       error: () => {},
     });

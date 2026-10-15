@@ -5,7 +5,6 @@ import { ConceptDetailLayout } from '../../components/concept-detail-layout/conc
 import { CSharpConceptView } from '../../components/csharp-concept-view/csharp-concept-view';
 import { CSharpConcept, CSharpConceptSummary } from '../../models/csharp-concept.model';
 import { CSharpConceptsService } from '../../services/csharp-concepts.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -23,7 +22,6 @@ export class CSharpConceptsDetailPage implements OnInit {
   private cSharpConceptsService = inject(CSharpConceptsService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<CSharpConcept | null>(null);
   loading = signal(true);
@@ -93,7 +91,6 @@ export class CSharpConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('csharp-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

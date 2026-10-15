@@ -7,7 +7,6 @@ import { JvmConcept, JvmConceptSummary } from '../../models/jvm-concept.model';
 import { Language } from '../../models/language.model';
 import { JvmConceptsService } from '../../services/jvm-concepts.service';
 import { LanguageService } from '../../services/language.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
@@ -28,7 +27,6 @@ export class JvmConceptsDetailPage implements OnInit {
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
   
   concept = signal<JvmConcept | null>(null);
   loading = signal(true);
@@ -117,7 +115,6 @@ export class JvmConceptsDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('jvm-concepts', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

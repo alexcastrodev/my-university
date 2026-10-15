@@ -18,10 +18,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/map/map-page').then((m) => m.MapPage),
   },
   {
-    path: 'feed',
-    loadComponent: () => import('./pages/feed/feed-page').then((m) => m.FeedPage),
-  },
-  {
     path: 'daily/session',
     loadComponent: () => import('./pages/daily/daily-session-page').then((m) => m.DailySessionPage),
   },
@@ -48,10 +44,6 @@ export const routes: Routes = [
   {
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile-page').then((m) => m.ProfilePage),
-  },
-  {
-    path: 'review',
-    loadComponent: () => import('./pages/review-queue/review-queue-page').then((m) => m.ReviewQueuePage),
   },
   {
     path: 'java/exams',

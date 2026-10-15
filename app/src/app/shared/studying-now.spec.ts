@@ -1,4 +1,4 @@
-import { RecentActivityItem } from '../models/review.model';
+import { RecentActivityItem } from '../models/activity.model';
 import { deriveStudyingNow } from './studying-now';
 
 const activity = (module: string, slug: string): RecentActivityItem => ({

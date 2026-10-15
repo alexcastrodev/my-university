@@ -1,4 +1,5 @@
-import { ReviewSourceType } from './review-schedule.entity';
+/** The sourceType values XpService writes for read-tracking. */
+export type ConceptSourceType = 'concept-read' | 'episode-watched';
 
 /**
  * Single source of truth mapping a concept module to the sourceType/sourceId
@@ -6,14 +7,14 @@ import { ReviewSourceType } from './review-schedule.entity';
  * controller — e.g. spring-concepts prefixes its sourceId with "spring:").
  * Reused here instead of introducing a second, competing convention.
  */
-export interface ReviewModuleConfig {
+export interface ConceptModuleConfig {
   module: string;
-  sourceType: ReviewSourceType;
+  sourceType: ConceptSourceType;
   prefix: string;
   route: (slug: string) => string[];
 }
 
-export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
+export const CONCEPT_MODULES: readonly ConceptModuleConfig[] = [
   { module: 'java-concepts', sourceType: 'concept-read', prefix: '', route: (slug) => ['/java/java-concepts', slug] },
   { module: 'jvm-concepts', sourceType: 'concept-read', prefix: 'jvm:', route: (slug) => ['/java/jvm-concepts', slug] },
   { module: 'spring-concepts', sourceType: 'concept-read', prefix: 'spring:', route: (slug) => ['/spring-concepts', slug] },
@@ -33,7 +34,7 @@ export const REVIEW_MODULES: readonly ReviewModuleConfig[] = [
 ];
 
 export interface ResolvedSource {
-  sourceType: ReviewSourceType;
+  sourceType: ConceptSourceType;
   sourceId: string;
 }
 
@@ -43,16 +44,16 @@ export interface ResolvedModule {
   route: string[];
 }
 
-/** module + slug -> sourceType/sourceId, for scheduling a review from a mark-read action. */
+/** module + slug -> sourceType/sourceId, for read-tracking. */
 export function toSourceId(module: string, slug: string): ResolvedSource | null {
-  const entry = REVIEW_MODULES.find((m) => m.module === module);
+  const entry = CONCEPT_MODULES.find((m) => m.module === module);
   if (!entry) return null;
   return { sourceType: entry.sourceType, sourceId: entry.prefix + slug };
 }
 
-/** sourceType/sourceId -> module + slug + route, for rendering a due-review queue item. */
-export function fromSourceId(sourceType: ReviewSourceType, sourceId: string): ResolvedModule | null {
-  const candidates = REVIEW_MODULES.filter((m) => m.sourceType === sourceType);
+/** sourceType/sourceId -> module + slug + route, for rendering a recent-activity item. */
+export function fromSourceId(sourceType: ConceptSourceType, sourceId: string): ResolvedModule | null {
+  const candidates = CONCEPT_MODULES.filter((m) => m.sourceType === sourceType);
   // Prefixed entries first — the one unprefixed entry per sourceType is the fallback.
   const prefixed = candidates.filter((m) => m.prefix !== '').sort((a, b) => b.prefix.length - a.prefix.length);
   for (const entry of prefixed) {
@@ -70,9 +71,8 @@ export function fromSourceId(sourceType: ReviewSourceType, sourceId: string): Re
  * Computer Science curriculum concepts are identified by three parts (module +
  * discipline + slug), unlike the flat module/slug of the Complementary tracks
  * above, so they get their own `cc:` sourceId convention rather than an entry in
- * REVIEW_MODULES. This is the single place that convention is written — reused by
- * CurriculumController for read-tracking XP so the review row and the XP row share
- * one identity.
+ * CONCEPT_MODULES. This is the single place that convention is written, reused by
+ * CurriculumController for read-tracking XP so every feature shares one identity.
  */
 const CURRICULUM_PREFIX = 'cc:';
 

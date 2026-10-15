@@ -9,7 +9,7 @@ import {
 /**
  * A paragraph (or code block) of a concept that has a discussion. Rows are created lazily by
  * the first comment on that block, so the "+" marker of an empty paragraph has no row.
- * `topicKey` is `<sourceType>:<sourceId>`, the identity XP and review already use for a concept.
+ * `topicKey` is `<sourceType>:<sourceId>`, the identity XP already uses for a concept.
  */
 @Entity('discussion_marker')
 @Unique('UQ_discussion_marker_anchor', [

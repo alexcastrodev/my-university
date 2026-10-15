@@ -15,14 +15,15 @@ const SESSION: DailySession = {
   summary: { headline: 'Done', tomorrow: { title: 'T', body: 'B' } },
   cards: [
     {
-      type: 'recall',
+      type: 'read',
       xp: 20,
       previewTitle: 'Reference reachability',
-      previewSubtitle: 'Marked in March',
-      recap: 'Recall',
-      kicker: 'RECALL',
+      previewSubtitle: 'Recent',
+      recap: 'Read',
+      kicker: 'READ',
       title: 'Q?',
-      sourceType: 'concept-read',
+      body: 'B',
+      fullTopicRoute: ['/java/java-concepts', 'reference-reachability'],
       sourceId: 'reference-reachability',
     },
     {
@@ -41,7 +42,7 @@ const SESSION: DailySession = {
 
 const EMPTY_SESSION: DailySession = {
   estimatedMinutes: 1,
-  summary: { headline: 'Nothing to review yet', tomorrow: { title: 'Read one concept first', body: 'B' } },
+  summary: { headline: 'Nothing to study yet', tomorrow: { title: 'Read one concept first', body: 'B' } },
   cards: [],
 };
 
@@ -148,7 +149,7 @@ describe('DailyHomePage', () => {
   it('shows an honest empty state instead of a fake 4-card promise', () => {
     const fixture = setup({ session: EMPTY_SESSION });
 
-    expect(fixture.nativeElement.textContent).toContain('Nothing to review yet');
+    expect(fixture.nativeElement.textContent).toContain('Nothing to study yet');
     expect(fixture.nativeElement.querySelector('.preview-card')).toBeNull();
     expect(fixture.nativeElement.querySelector('.start-btn').getAttribute('href')).toBe('/computer-science');
   });

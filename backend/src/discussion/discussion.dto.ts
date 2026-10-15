@@ -17,7 +17,7 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const trim = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() : value;
 
-/** Which concept (and language) a discussion belongs to. Same identity the review feature takes. */
+/** Which concept (and language) a discussion belongs to. Same identity XP takes. */
 export class TopicDto {
   @IsString()
   @MaxLength(60)
