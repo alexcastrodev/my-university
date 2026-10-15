@@ -919,6 +919,72 @@
     ]
   },
   {
+    "slug": "source-generators-and-aot-friendly-code",
+    "id": 212,
+    "category": "Platform & Tooling",
+    "title": "Source Generators and AOT-Friendly Code",
+    "topic": "Publishing & Native AOT",
+    "summary": "How [GeneratedRegex], JsonSerializerContext and [LoggerMessage] replace reflection with compile-time code, how to read the generated files (and the duplicate-definition trap), the IL2026 and IL3050 warnings on the reflection path, and a small IIncrementalGenerator built and run on SDK 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "native-aot-and-its-limits"
+    ],
+    "related": [
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generated Regex and ReDoS",
+        "slug": "generated-regex-and-redos",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "The .NET Compiler Platform SDK (Roslyn APIs), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/",
+        "type": "doc"
+      },
+      {
+        "label": ".NET regular expression source generators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators",
+        "type": "doc"
+      },
+      {
+        "label": "System.Text.Json source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to AOT warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/fixing-warnings",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
