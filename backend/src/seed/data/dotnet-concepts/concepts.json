@@ -1559,6 +1559,87 @@
     ]
   },
   {
+    "slug": "relationships-keys-and-delete-behavior",
+    "id": 603,
+    "category": "Data Access",
+    "title": "Relationships, Keys and Delete Behavior",
+    "topic": "EF Core Modeling",
+    "summary": "Required versus optional and the ON DELETE each produces, what SaveChanges does with loaded and unloaded dependents (checked in the SQLite SQL), orphans, composite and alternate keys, shadow foreign keys and many-to-many with skip navigations.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Introduction to relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships",
+        "type": "doc"
+      },
+      {
+        "label": "Foreign and principal keys in relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships/foreign-and-principal-keys",
+        "type": "doc"
+      },
+      {
+        "label": "Cascade delete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete",
+        "type": "doc"
+      },
+      {
+        "label": "Many-to-many relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many",
+        "type": "doc"
+      },
+      {
+        "label": "Keys, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keys",
+        "type": "doc"
+      },
+      {
+        "label": "Shadow and indexer properties, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/shadow-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Changing foreign keys and navigations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/relationship-changes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
