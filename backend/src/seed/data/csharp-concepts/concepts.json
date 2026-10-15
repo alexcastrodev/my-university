@@ -900,6 +900,77 @@
     ]
   },
   {
+    "slug": "generics-constraints-and-variance",
+    "id": 402,
+    "category": "Type Design",
+    "title": "Generics: Constraints and Variance",
+    "topic": "Interfaces & Generics",
+    "summary": "Why generics replaced object-based collections (boxing measured), reified generics, constraints up to allows ref struct (C# 13), value-type specialization vs shared reference-type code seen in the JIT, constraints that avoid boxing, out/in variance, covariant arrays, and generic attributes (C# 11).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "interfaces-explicit-implementation-and-default-methods"
+    ],
+    "related": [
+      {
+        "label": "Generics: Bounded Types, Wildcards, and Erasure",
+        "slug": "generics",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generic classes and methods, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics",
+        "type": "doc"
+      },
+      {
+        "label": "Constraints on type parameters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters",
+        "type": "doc"
+      },
+      {
+        "label": "Generics in the runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance in generics, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance",
+        "type": "doc"
+      },
+      {
+        "label": "Covariance and contravariance, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13 (allows ref struct), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": "C# version history, C# 11 (generic attributes), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      },
+      {
+        "label": "Generics and attributes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/generics-and-attributes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
