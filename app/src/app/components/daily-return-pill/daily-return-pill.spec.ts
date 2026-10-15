@@ -13,8 +13,6 @@ const PROGRESS: DailyProgress = {
   earned: 0,
   earnedCards: [],
   completedKeys: [],
-  recallAnswered: null,
-  revealed: false,
   writeText: '',
   writeSaved: false,
 };

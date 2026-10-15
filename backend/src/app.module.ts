@@ -18,7 +18,6 @@ import { Course } from './course/course.entity';
 import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
 import { DailyModule } from './daily/daily.module';
-import { FeedModule } from './feed/feed.module';
 import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DiscussionComment } from './discussion/discussion-comment.entity';
 import { DiscussionMarker } from './discussion/discussion-marker.entity';
@@ -34,8 +33,7 @@ import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { QuarkusConceptsModule } from './quarkus-concepts/quarkus-concepts.module';
 import { KubernetesConceptsModule } from './kubernetes-concepts/kubernetes-concepts.module';
-import { ReviewSchedule } from './review/review-schedule.entity';
-import { ReviewModule } from './review/review.module';
+import { ConceptLookupModule } from './concept-lookup/concept-lookup.module';
 import { RubyConceptsModule } from './ruby-concepts/ruby-concepts.module';
 import { RubyOnRailsConceptsModule } from './rubyonrails-concepts/rubyonrails-concepts.module';
 import { DotNetConceptsModule } from './dotnet-concepts/dotnet-concepts.module';
@@ -68,7 +66,6 @@ import { XpModule } from './xp/xp.module';
         Question,
         ExamAttempt,
         UserXpEntry,
-        ReviewSchedule,
         DailyWriteAnswer,
         DiscussionMarker,
         DiscussionComment,
@@ -101,10 +98,9 @@ import { XpModule } from './xp/xp.module';
     ProgressModule,
     ExamModule,
     XpModule,
-    ReviewModule,
+    ConceptLookupModule,
     DiscussionModule,
     DailyModule,
-    FeedModule,
     SeedModule,
     SearchModule,
     SitemapModule,

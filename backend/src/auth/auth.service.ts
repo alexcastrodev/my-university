@@ -76,7 +76,7 @@ export class AuthService {
     );
   }
 
-  /** Test-only: deletes every user created via `createTestUser`, and their XP/review rows via cascade, so repeated spec runs don't pollute things like the leaderboard. */
+  /** Test-only: deletes every user created via `createTestUser`, and their XP rows via cascade, so repeated spec runs don't pollute things like the leaderboard. */
   async deleteTestUsers(): Promise<void> {
     await this.repo
       .createQueryBuilder()

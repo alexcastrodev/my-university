@@ -7,7 +7,6 @@ import { CSharpMinuteEpisode, CSharpMinuteEpisodeSummary } from '../../models/cs
 import { Language } from '../../models/language.model';
 import { CSharpMinuteService } from '../../services/csharp-minute.service';
 import { LanguageService } from '../../services/language.service';
-import { ReviewService } from '../../services/review.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { pickLeadSection } from '../../shared/concept-sections';
@@ -26,7 +25,6 @@ export class CSharpMinuteDetailPage implements OnInit {
   private languageService = inject(LanguageService);
   private seo = inject(SeoService);
   private xpService = inject(XpService);
-  private reviewService = inject(ReviewService);
 
   episode = signal<CSharpMinuteEpisode | null>(null);
   loading = signal(true);
@@ -116,7 +114,6 @@ export class CSharpMinuteDetailPage implements OnInit {
         this.marking.set(false);
         this.nav.refetchList();
         this.xpService.loadSummary();
-        this.reviewService.scheduleReview('csharp-minute', this.nav.slug()).subscribe({ error: () => {} });
       },
       error: () => this.marking.set(false),
     });

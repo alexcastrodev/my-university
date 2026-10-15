@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DailyCardType, DailySession } from '../models/daily.model';
-import { ReviewRating, ReviewSourceType } from '../models/review.model';
 import { AuthService } from './auth.service';
 import { LanguageService } from './language.service';
 
@@ -10,11 +9,11 @@ import { LanguageService } from './language.service';
  * Assembles the daily session.
  *
  * Logged-in: `GET /api/daily/session` (`DailyController`/`DailyService`, tasks.md · grupo F) —
- * built from the user's real due reviews (Recall) and read history (Read/Notice/Write), never
- * fabricated. `POST /api/daily/complete` records each card's outcome (rating, write text) and
+ * built from the user's real read history (Read/Notice/Write), never
+ * fabricated. `POST /api/daily/complete` records each card's outcome (write text) and
  * grants XP, called by `DailySessionPage` as the user finishes each card.
  *
- * Logged-out: there is no session to build (no user, no history, no due reviews), so this
+ * Logged-out: there is no session to build (no user, no history), so this
  * serves a static, clearly-illustrative preview instead of a 401 — same shape, so the page
  * renders identically either way.
  */
@@ -36,7 +35,7 @@ export class DailySessionService {
   complete(
     type: DailyCardType,
     sourceId: string,
-    extra: { sourceType?: ReviewSourceType; rating?: ReviewRating; text?: string } = {},
+    extra: { text?: string } = {},
   ): Observable<{ xpAwarded: number }> {
     return this.http.post<{ xpAwarded: number }>('/api/daily/complete', {
       type,
@@ -57,24 +56,6 @@ export class DailySessionService {
         },
       },
       cards: [
-        {
-          type: 'recall',
-          xp: 20,
-          previewTitle: 'Reference reachability',
-          previewSubtitle: 'Marked in March · Java Concepts',
-          recap: 'Recall · reference reachability',
-          kicker: 'RECALL · NO LOOKING BACK',
-          title: 'Reference reachability',
-          context: 'You marked "Reference reachability" as "Got it" before. Does it still hold?',
-          sourceType: 'concept-read',
-          sourceId: 'reference-reachability',
-          route: ['/java/java-concepts', 'reference-reachability'],
-          wrongNote:
-            "Getting it wrong is not a penalty. It reopens the topic and puts it back in a future session.",
-          module: 'java-concepts',
-          answer:
-            'An object is weakly reachable once only `WeakReference`s point at it. From that moment the collector may clear the references and reclaim it at its next cycle, without waiting for memory pressure.',
-        },
         {
           type: 'read',
           xp: 20,

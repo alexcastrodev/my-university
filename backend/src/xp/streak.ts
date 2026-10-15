@@ -1,4 +1,4 @@
-/** Pure UTC-calendar-day streak calculation, kept DB-free so it can be unit-tested in isolation (same pattern as `review/sm2.ts`). */
+/** Pure UTC-calendar-day streak calculation, kept DB-free so it can be unit-tested in isolation. */
 
 export interface StreakResult {
   current: number;

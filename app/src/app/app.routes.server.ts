@@ -178,19 +178,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    path: 'review',
-    renderMode: RenderMode.Client,
-  },
-  {
     path: 'settings',
     renderMode: RenderMode.Client,
   },
   {
     path: 'leaderboard',
-    renderMode: RenderMode.Client,
-  },
-  {
-    path: 'feed',
     renderMode: RenderMode.Client,
   },
   {

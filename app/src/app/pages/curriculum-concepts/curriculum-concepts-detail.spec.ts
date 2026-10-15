@@ -6,7 +6,6 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { CurriculumConceptDetail } from '../../models/curriculum-concept.model';
 import { CurriculumConceptsService } from '../../services/curriculum-concepts.service';
-import { ReviewService } from '../../services/review.service';
 import { XpService } from '../../services/xp.service';
 import { CurriculumConceptsDetailPage } from './curriculum-concepts-detail';
 
@@ -30,7 +29,6 @@ function makeConcept(slug: string): CurriculumConceptDetail {
 
 describe('CurriculumConceptsDetailPage', () => {
   let paramMap$: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
-  let scheduleReviewSpy: jasmine.Spy;
   let markReadSpy: jasmine.Spy;
 
   beforeEach(async () => {
@@ -41,7 +39,6 @@ describe('CurriculumConceptsDetailPage', () => {
         slug: 'sets-and-functions',
       }),
     );
-    scheduleReviewSpy = jasmine.createSpy('scheduleReview').and.returnValue(of({ scheduled: true }));
     markReadSpy = jasmine.createSpy('markRead').and.returnValue(of({ read: true }));
 
     await TestBed.configureTestingModule({
@@ -59,29 +56,17 @@ describe('CurriculumConceptsDetailPage', () => {
             listConcepts: () => of([]),
           },
         },
-        { provide: ReviewService, useValue: { scheduleReview: scheduleReviewSpy } },
         { provide: XpService, useValue: { loadSummary: () => {} } },
       ],
     }).compileComponents();
   });
 
-  it('schedules a spaced-repetition review (passing the discipline) after a concept is marked read', () => {
+  it('marks the concept read with its module and discipline', () => {
     const fixture = TestBed.createComponent(CurriculumConceptsDetailPage);
     fixture.detectChanges();
 
     fixture.componentInstance.onMarkRead();
 
     expect(markReadSpy).toHaveBeenCalledWith('foundations', 'mathematics-for-computing', 'sets-and-functions');
-    expect(scheduleReviewSpy).toHaveBeenCalledWith('foundations', 'sets-and-functions', 'mathematics-for-computing');
-  });
-
-  it('does not schedule a review when the mark-read request fails', () => {
-    markReadSpy.and.returnValue(throwError(() => new Error('boom')));
-    const fixture = TestBed.createComponent(CurriculumConceptsDetailPage);
-    fixture.detectChanges();
-
-    fixture.componentInstance.onMarkRead();
-
-    expect(scheduleReviewSpy).not.toHaveBeenCalled();
   });
 });

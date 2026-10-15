@@ -7,7 +7,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CurrentUserId, OptionalUserId } from '../auth/session';
-import { curriculumSourceId } from '../review/review.constants';
+import { curriculumSourceId } from '../concept-lookup/concept-lookup.constants';
 import { normalizeLanguage } from '../shared/language';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from './curriculum.service';

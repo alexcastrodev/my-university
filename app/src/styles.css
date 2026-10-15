@@ -198,7 +198,7 @@ html, body {
 /* iOS 26 WebKit regression in the installed PWA: when the document is not taller than the
    screen, the viewport comes up short by exactly the top safe area, so the fixed bottom nav
    floats that much above the real bottom edge with a dead strip under it. Pages whose content
-   is all position: fixed (the Feed) hit it every time. Keeping the root at least one top inset
+   is all position: fixed hit it every time. Keeping the root at least one top inset
    taller than 100% gives every page the same scrollable document the other tabs already have. */
 @media (max-width: 768px) and (display-mode: standalone) {
   html {

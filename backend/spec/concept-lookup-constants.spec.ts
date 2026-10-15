@@ -4,11 +4,11 @@ import {
   fromSourceId,
   parseCurriculumSourceId,
   toSourceId,
-  REVIEW_MODULES,
-} from '../src/review/review.constants';
+  CONCEPT_MODULES,
+} from '../src/concept-lookup/concept-lookup.constants';
 
 describe('toSourceId / fromSourceId round-trip', () => {
-  for (const { module } of REVIEW_MODULES) {
+  for (const { module } of CONCEPT_MODULES) {
     it(`round-trips a slug through ${module}`, () => {
       const slug = 'some-concept-slug';
       const resolved = toSourceId(module, slug);

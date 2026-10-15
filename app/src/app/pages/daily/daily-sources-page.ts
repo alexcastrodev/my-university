@@ -56,9 +56,8 @@ export class DailySourcesPage implements OnInit {
     ],
     rulesLabel: 'SELECTION RULES',
     rules: [
-      'Expiring marks come first.',
-      'Then the topic you last read.',
-      'Then one topic it opens.',
+      'The topic you last read comes first.',
+      'Then another recent topic.',
       'Never a topic whose prerequisites you have not entered.',
     ],
   };

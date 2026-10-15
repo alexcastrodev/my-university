@@ -16,7 +16,7 @@ const SESSION: DailySession = {
   estimatedMinutes: 4,
   summary: { headline: '', tomorrow: { title: '', body: '' } },
   cards: [
-    { type: 'recall', xp: 20, previewTitle: 'Set', previewSubtitle: '', recap: '', kicker: '', title: 'Set', sourceType: 'concept-read', sourceId: 'set' },
+    { type: 'read', xp: 20, previewTitle: 'Set', previewSubtitle: '', recap: '', kicker: '', title: 'Set', body: '', fullTopicRoute: [], sourceId: 'set' },
     { type: 'write', xp: 20, previewTitle: 'Docker', previewSubtitle: '', recap: '', kicker: '', title: 'Docker', maxLength: 240, sourceId: 'docker' },
   ],
 };
@@ -27,8 +27,8 @@ const AREAS: AreaXpBreakdownEntry[] = [
   { module: 'spring-concepts', xp: 250, lastActivityAt: ago(2) },
 ];
 
-function setup(options: { expired?: number; mobile?: boolean; loading?: boolean } = {}) {
-  const { expired = 27, mobile = true, loading = false } = options;
+function setup(options: { mobile?: boolean; loading?: boolean } = {}) {
+  const { mobile = true, loading = false } = options;
   spyOn(window, 'matchMedia').and.returnValue({ matches: mobile } as MediaQueryList);
   const build = jasmine.createSpy('build').and.returnValue(loading ? NEVER : of(SESSION));
 
@@ -53,7 +53,6 @@ function setup(options: { expired?: number; mobile?: boolean; loading?: boolean 
   }).compileComponents();
 
   const fixture = TestBed.createComponent(MobileHome);
-  fixture.componentRef.setInput('markCounts', { active: 3, expired });
   fixture.detectChanges();
   return { fixture, build };
 }
@@ -101,23 +100,8 @@ describe('MobileHome', () => {
     expect((el.querySelector('.goal-fill') as HTMLElement).style.width).toBe('33%');
   });
 
-  it('links the review backlog, offering a small first bite', () => {
-    const { fixture } = setup();
-    const marks: HTMLElement = fixture.nativeElement.querySelector('.marks');
-
-    expect(marks.getAttribute('href')).toBe('/review');
-    expect(marks.querySelector('.marks-num')!.textContent).toContain('27');
-    expect(marks.textContent).toContain('Review 5 now');
-  });
-
-  it('hides the review row when nothing is due', () => {
-    const { fixture } = setup({ expired: 0 });
-
-    expect(fixture.nativeElement.querySelector('.marks')).toBeNull();
-  });
-
   it('links the tracks page', () => {
-    const { fixture } = setup({ expired: 0 });
+    const { fixture } = setup();
     const shortcut: HTMLElement = fixture.nativeElement.querySelector('.shortcut');
     expect(shortcut.getAttribute('href')).toBe('/tracks');
     expect(shortcut.textContent).toContain('Tracks');
