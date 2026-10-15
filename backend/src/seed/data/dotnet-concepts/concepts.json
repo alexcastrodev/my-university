@@ -280,6 +280,82 @@
     ]
   },
   {
+    "slug": "assemblies-frameworks-and-the-host-resolver",
+    "id": 111,
+    "category": "Platform & Tooling",
+    "title": "Assemblies, Frameworks and How the Host Resolves Them",
+    "topic": "Project System",
+    "summary": "Assembly identity, reference versus implementation assemblies, real deps.json and runtimeconfig.json, the host trace (DOTNET_ROOT, roll-forward), why a DLL in the folder is not found, [TypeForwardedTo] and AssemblyLoadContext isolation.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Modular Monolith Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Classloading: The Delegation Model and Custom Class Loaders",
+        "slug": "classloading-and-the-delegation-model",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Default probing, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/default-probing",
+        "type": "doc"
+      },
+      {
+        "label": "Understanding System.Runtime.Loader.AssemblyLoadContext, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext",
+        "type": "doc"
+      },
+      {
+        "label": "Managed assembly loading algorithm, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/loading-managed",
+        "type": "doc"
+      },
+      {
+        "label": "Type forwarding in the common language runtime, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/type-forwarding",
+        "type": "doc"
+      },
+      {
+        "label": "Reference assemblies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/reference-assemblies",
+        "type": "doc"
+      },
+      {
+        "label": "Troubleshoot app launch failures, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-discovery/troubleshoot-app-launch",
+        "type": "doc"
+      },
+      {
+        "label": "Reference assemblies in Roslyn (refout), dotnet/roslyn",
+        "url": "https://github.com/dotnet/roslyn/blob/main/docs/features/refout.md",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
