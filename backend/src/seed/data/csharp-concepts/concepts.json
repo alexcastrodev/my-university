@@ -429,6 +429,65 @@
     ]
   },
   {
+    "slug": "exceptions-try-catch-filters-and-finally",
+    "id": 210,
+    "category": "Language",
+    "title": "Exceptions: try, catch, Filters and finally",
+    "topic": "Exceptions",
+    "summary": "The two-pass exception model (when filters run before the stack unwinds), catch ordering, what finally guarantees and where it does not run, the measured cost of a throw on .NET 8 and .NET 10, AggregateException, ExceptionDispatchInfo, process-wide handlers and how to design a custom exception.",
+    "publishedAt": "2026-10-15",
+    "requires": [],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Design: When to Throw",
+        "slug": "exception-design-philosophy",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Exception-handling statements, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 9 runtime: faster exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "ExceptionDispatchInfo class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptiondispatchinfo",
+        "type": "doc"
+      },
+      {
+        "label": "ExceptionHandling.SetUnhandledExceptionHandler, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptionhandling.setunhandledexceptionhandler",
+        "type": "doc"
+      },
+      {
+        "label": "Exception handling (Task Parallel Library), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/exception-handling-task-parallel-library",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
