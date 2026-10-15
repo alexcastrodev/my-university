@@ -740,6 +740,67 @@
     "id": 13
   },
   {
+    "slug": "blazor-render-modes-and-hosting-models",
+    "id": 500,
+    "category": "Blazor",
+    "title": "Blazor Render Modes and Hosting Models",
+    "topic": "Blazor Fundamentals",
+    "summary": "Static SSR, Interactive Server, WebAssembly and Auto, what the server sends for each, the double render of prerendering, and the cost in latency, circuits and download size.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor render modes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor hosting models, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models",
+        "type": "doc"
+      },
+      {
+        "label": "Prerender ASP.NET Core Razor components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender",
+        "type": "doc"
+      },
+      {
+        "label": "Blazor prerendered state persistence, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management/prerendered-state-persistence",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
