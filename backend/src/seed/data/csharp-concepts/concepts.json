@@ -11,6 +11,11 @@
         "label": "The Collection Interface",
         "slug": "collection-interface",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+        "slug": "collections-gap-audit-ordered-and-read-only-sets",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -950,6 +955,11 @@
         "label": "The equals(), hashCode(), and toString() Contracts",
         "slug": "equals-hashcode-and-tostring-contracts",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+        "slug": "collections-gap-audit-ordered-and-read-only-sets",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2350,6 +2360,62 @@
       }
     ],
     "id": 510
+  },
+  {
+    "slug": "collections-gap-audit-ordered-and-read-only-sets",
+    "category": "Base Class Library",
+    "title": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+    "topic": "Collections",
+    "summary": "OrderedDictionary<TKey,TValue> (.NET 9, index overloads in .NET 10), ReadOnlySet<T>, EnsureCapacity on Queue, Stack and PriorityQueue, and the audit of the existing collections concepts.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Dictionary, HashSet and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Specialized Collections",
+        "slug": "specialized-collections",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "immutable-and-frozen-collections"
+    ],
+    "references": [
+      {
+        "label": "OrderedDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ordereddictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "ReadOnlySet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.objectmodel.readonlyset-1",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue<TElement,TPriority>.Remove method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2.remove",
+        "type": "doc"
+      },
+      {
+        "label": "Queue<T>.EnsureCapacity method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity",
+        "type": "doc"
+      },
+      {
+        "label": "Commonly used collection types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/commonly-used-collection-types",
+        "type": "doc"
+      }
+    ],
+    "id": 511
   },
   {
     "slug": "linq-deferred-execution-and-iterators",
