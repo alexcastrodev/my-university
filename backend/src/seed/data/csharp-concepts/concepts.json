@@ -396,6 +396,58 @@
     ]
   },
   {
+    "slug": "whats-new-in-csharp-14",
+    "id": 120,
+    "category": "Language",
+    "title": "What's New in C# 14: A Map of the Features",
+    "topic": "Language Basics",
+    "summary": "A navigation map of the C# 14 features that ship with .NET 10: extension members, the field keyword, null-conditional assignment, implicit span conversions, unbound nameof, lambda parameter modifiers, partial constructors and events, and user-defined compound assignment, each with a short summary and a link to the deep concept.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "csharp-language-versions-and-preview-features",
+      "operators-null-handling-and-null-conditional-assignment",
+      "local-functions-lambdas-and-closures",
+      "partial-types-and-partial-members",
+      "properties-init-accessors-and-the-field-keyword",
+      "extension-members-and-extension-blocks",
+      "span-memory-and-slicing-without-allocating"
+    ],
+    "related": [
+      {
+        "label": "Primary Constructors for Classes and Structs",
+        "slug": "primary-constructors-for-classes-and-structs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "C# language versioning, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version",
+        "type": "doc"
+      },
+      {
+        "label": "The extension keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extension",
+        "type": "doc"
+      },
+      {
+        "label": "User-defined compound assignment, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/user-defined-compound-assignment",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
