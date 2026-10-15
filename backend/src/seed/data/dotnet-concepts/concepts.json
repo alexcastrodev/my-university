@@ -395,6 +395,65 @@
     ]
   },
   {
+    "slug": "self-contained-single-file-and-trimmed-publishing",
+    "id": 210,
+    "category": "Platform & Tooling",
+    "title": "Self-Contained, Single-File and Trimmed Publishing",
+    "topic": "Publishing & Native AOT",
+    "summary": "Framework-dependent versus self-contained, RIDs, single file (IL3000, extracted native libraries, compression), trimming with real IL2026/IL2057/IL2070 warnings and DynamicallyAccessedMembers, feature switches (HTTP/3 off in .NET 10) and the startup surprise between trimming and ReadyToRun, with measured sizes and times.",
+    "publishedAt": "2026-10-15",
+    "requires": [],
+    "related": [
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": ".NET application publishing overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/",
+        "type": "doc"
+      },
+      {
+        "label": "Create a single file for application deployment, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/single-file/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Trimming options, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/trimming-options",
+        "type": "doc"
+      },
+      {
+        "label": "Fixing trim warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/fixing-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "ReadyToRun deployment overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/ready-to-run",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP/3 disabled by default with PublishTrimmed (.NET 10 breaking change), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/networking/10.0/http3-disabled-with-publishtrimmed",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
