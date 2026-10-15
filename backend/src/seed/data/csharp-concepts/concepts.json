@@ -622,6 +622,243 @@
     ]
   },
   {
+    "slug": "exceptions-try-catch-filters-and-finally",
+    "id": 210,
+    "category": "Language",
+    "title": "Exceptions: try, catch, Filters and finally",
+    "topic": "Exceptions",
+    "summary": "The two-pass exception model (when filters run before the stack unwinds), catch ordering, what finally guarantees and where it does not run, the measured cost of a throw on .NET 8 and .NET 10, AggregateException, ExceptionDispatchInfo, process-wide handlers and how to design a custom exception.",
+    "publishedAt": "2026-10-15",
+    "requires": [],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Design: When to Throw",
+        "slug": "exception-design-philosophy",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Exception-handling statements, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 9 runtime: faster exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/runtime",
+        "type": "doc"
+      },
+      {
+        "label": "ExceptionDispatchInfo class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptiondispatchinfo",
+        "type": "doc"
+      },
+      {
+        "label": "ExceptionHandling.SetUnhandledExceptionHandler, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptionhandling.setunhandledexceptionhandler",
+        "type": "doc"
+      },
+      {
+        "label": "Exception handling (Task Parallel Library), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/exception-handling-task-parallel-library",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "guard-clauses-throwing-and-rethrowing",
+    "id": 211,
+    "category": "Language",
+    "title": "Guard Clauses, Throwing and Rethrowing",
+    "topic": "Exceptions",
+    "summary": "Usage errors versus execution errors, the ThrowIf helpers from .NET 6 to 8, CallerArgumentExpression for your own guards, throw helpers and inlining shown in JIT output, DoesNotReturn and nullable analysis, guards in async methods, and throw; versus throw ex; versus wrapping.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "exceptions-try-catch-filters-and-finally"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parameter Validation and Failing Fast",
+        "slug": "parameter-validation-and-fail-fast",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Design: When to Throw",
+        "slug": "exception-design-philosophy",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Best practices for exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions",
+        "type": "doc"
+      },
+      {
+        "label": "Exception-handling statements: throw, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Tracking caller information: CallerArgumentExpression, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information",
+        "type": "doc"
+      },
+      {
+        "label": "ArgumentOutOfRangeException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes for null-state static analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "CA2200: Rethrow to preserve stack details, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "method-parameters-optional-named-and-ref-kinds",
+    "id": 212,
+    "category": "Language",
+    "title": "Method Parameters: Optional, Named and ref Kinds",
+    "topic": "Methods & Lambdas",
+    "summary": "Default values compiled into the caller (with a reproduced binary break and the IL that explains it), named arguments, overload resolution in practice, ref, out, in and C# 12 ref readonly, and the defensive copies made for structs that are not readonly.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "guard-clauses-throwing-and-rethrowing"
+    ],
+    "related": [
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Method Overloading: Compile-Time Resolution and How It Surprises",
+        "slug": "method-overloading-and-signature-design",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Fields, Constants and Initialization Order",
+        "slug": "fields-constants-and-initialization-order",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Method parameters and modifiers, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters",
+        "type": "doc"
+      },
+      {
+        "label": "Named and optional arguments, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/named-and-optional-arguments",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 12: ref readonly parameters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12",
+        "type": "doc"
+      },
+      {
+        "label": "Structure types: readonly struct, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct",
+        "type": "doc"
+      },
+      {
+        "label": "Overload resolution, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/expressions#1264-overload-resolution",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "local-functions-lambdas-and-closures",
+    "id": 213,
+    "category": "Language",
+    "title": "Local Functions, Lambdas and Closures",
+    "topic": "Methods & Lambdas",
+    "summary": "The lowering of lambdas and local functions read from the IL (display class, cached delegate, struct closure), measured allocations, where a closure is created, static lambdas, natural types and defaults, C# 14 parameter modifiers without types, and when to prefer a local function.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "method-parameters-optional-named-and-ref-kinds"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Lambda Expressions",
+        "slug": "lambda-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Nested and Inner Classes",
+        "slug": "nested-and-inner-classes",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Lambda expressions and anonymous functions, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Local functions, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/local-functions",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14: simple lambda parameters with modifiers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Simple lambda parameters with modifiers, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/simple-lambda-parameters-with-modifiers",
+        "type": "doc"
+      },
+      {
+        "label": "Lambda improvements, C# 10 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/lambda-improvements",
+        "type": "doc"
+      },
+      {
+        "label": "C# language version history, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
