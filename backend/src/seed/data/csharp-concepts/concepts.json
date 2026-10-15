@@ -2360,6 +2360,80 @@
     ]
   },
   {
+    "slug": "value-types-reference-types-and-boxing",
+    "id": 710,
+    "category": "Memory & Concurrency",
+    "title": "Value Types, Reference Types and Boxing",
+    "topic": "Memory & Value Semantics",
+    "summary": "Copy semantics versus location, why \"structs live on the stack\" is a half-truth, struct layout and padding, mutable struct bugs from invisible copies, where boxing hides (Equals, GetHashCode, interface enumerators, Nullable) and how to measure allocations on .NET 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [],
+    "related": [
+      {
+        "label": "Generics: Constraints and Variance",
+        "slug": "generics-constraints-and-variance",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Method Parameters: Optional, Named and ref Kinds",
+        "slug": "method-parameters-optional-named-and-ref-kinds",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Project Valhalla: Value Classes",
+        "slug": "project-valhalla",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "JIT Compilation and Tiered Compilation: C1, C2, and Warm-Up",
+        "slug": "jit-tiered-compilation",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Value types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types",
+        "type": "doc"
+      },
+      {
+        "label": "Structure types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct",
+        "type": "doc"
+      },
+      {
+        "label": "Boxing and unboxing, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing",
+        "type": "doc"
+      },
+      {
+        "label": "Choosing between class and struct, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/choosing-between-class-and-struct",
+        "type": "doc"
+      },
+      {
+        "label": "ValueType.Equals(Object), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.valuetype.equals",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 10 runtime: stack allocation and escape analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/runtime#stack-allocation",
+        "type": "doc"
+      },
+      {
+        "label": "ref struct types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
