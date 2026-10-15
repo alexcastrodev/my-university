@@ -492,6 +492,77 @@
     ]
   },
   {
+    "slug": "porting-from-net-framework-to-modern-net",
+    "id": 103,
+    "category": "Platform & Tooling",
+    "title": "Porting from .NET Framework to Modern .NET",
+    "topic": "Runtime & SDK",
+    "summary": "What no longer exists and how loudly each gap fails (compile error, warning or only at run time), NU1701, netstandard2.0 and multi-targeting as the bridge, the CA1416 analyzer, porting order and the current status of the official tools.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "roslyn-il-and-the-jit"
+    ],
+    "related": [
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Assemblies, Frameworks and How the Host Resolves Them",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Upgrade .NET apps overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/",
+        "type": "doc"
+      },
+      {
+        "label": "Port from .NET Framework to .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/framework-overview",
+        "type": "doc"
+      },
+      {
+        "label": ".NET Framework technologies unavailable on .NET 6+, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable",
+        "type": "doc"
+      },
+      {
+        "label": "Analyze dependencies to port code, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/third-party-deps",
+        "type": "doc"
+      },
+      {
+        "label": "Platform compatibility analyzer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/analyzers/platform-compat-analyzer",
+        "type": "doc"
+      },
+      {
+        "label": "Use the Windows Compatibility Pack to port code, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/porting/windows-compat-pack",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate from ASP.NET Framework to ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "module-communication-and-architecture-tests",
     "id": 2,
     "category": "Architecture",
