@@ -1013,6 +1013,81 @@
     ]
   },
   {
+    "slug": "whats-new-in-ef-core-10",
+    "id": 620,
+    "category": "Data Access",
+    "title": "What's New in EF Core 10: A Map",
+    "topic": "EF Core",
+    "summary": "A map of the EF Core 10 release (LTS, .NET 10): complex types and JSON, ExecuteUpdate, named query filters, parameterized collections, LeftJoin, security, SQL Server and Cosmos DB, each pointing to the concept that goes deep.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "json-columns-and-complex-types",
+      "global-and-named-query-filters",
+      "query-translation-and-performance",
+      "loading-related-data-and-n-plus-one",
+      "ef-core-logging-query-tags-and-diagnostics"
+    ],
+    "related": [
+      {
+        "label": "EF Core CRUD Operations and Seeding",
+        "slug": "ef-core-crud-operations-and-seeding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Applying Migrations in Production",
+        "slug": "applying-migrations-in-production",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Breaking changes in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/breaking-changes",
+        "type": "doc"
+      },
+      {
+        "label": "Vector search, SQL Server provider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/vector-search",
+        "type": "doc"
+      },
+      {
+        "label": "Full-text search, Cosmos DB provider, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/full-text-search",
+        "type": "doc"
+      },
+      {
+        "label": "Complex types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/complex-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
