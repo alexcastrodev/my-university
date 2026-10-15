@@ -868,6 +868,57 @@
     ]
   },
   {
+    "slug": "multi-targeting-and-netstandard",
+    "id": 203,
+    "category": "Platform & Tooling",
+    "title": "Multi-Targeting and .NET Standard",
+    "topic": "NuGet & Packaging",
+    "summary": "What TargetFrameworks produces in a package, how NuGet picks the assembly for a net8.0 or net10.0 consumer, #if symbols, polyfills such as IsExternalInit, what netstandard2.0 is still for, and which C# features survive on an old target.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "packaging-and-publishing-a-nuget-library"
+    ],
+    "related": [
+      {
+        "label": "Assemblies, Frameworks and the Host Resolver",
+        "slug": "assemblies-frameworks-and-the-host-resolver",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": ".NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": ".NET Standard overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/net-standard",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-platform targeting for .NET libraries, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting",
+        "type": "doc"
+      },
+      {
+        "label": "Configure the C# language version, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version",
+        "type": "doc"
+      },
+      {
+        "label": "Target frameworks in SDK-style projects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/frameworks",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
