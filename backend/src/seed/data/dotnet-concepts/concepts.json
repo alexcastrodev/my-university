@@ -1712,6 +1712,62 @@
     ]
   },
   {
+    "slug": "blazor-component-lifecycle-and-parameters",
+    "id": 510,
+    "category": "Blazor",
+    "title": "Blazor Component Lifecycle and Parameters",
+    "topic": "Components & Forms",
+    "summary": "Which lifecycle hooks run in the prerender and in the interactive instance, when OnParametersSet fires, EventCallback versus a delegate, StateHasChanged and the dispatcher, cascading values and @key, measured with logs.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-routing-layouts-and-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Razor component lifecycle, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor event handling and EventCallback, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/event-handling",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor cascading values and parameters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/cascading-values-and-parameters",
+        "type": "doc"
+      },
+      {
+        "label": "Prerender ASP.NET Core Razor components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
