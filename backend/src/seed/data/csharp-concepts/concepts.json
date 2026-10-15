@@ -1569,8 +1569,8 @@
         "feature": "csharp-concepts"
       },
       {
-        "label": "Generics: Constraints and Variance",
-        "slug": "generics-constraints-and-variance",
+        "label": "Generic Math and static abstract Interface Members",
+        "slug": "generic-math-and-static-abstract-members",
         "feature": "csharp-concepts"
       },
       {

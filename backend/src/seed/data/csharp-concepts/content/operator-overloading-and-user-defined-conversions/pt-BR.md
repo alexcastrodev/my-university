@@ -232,8 +232,8 @@ static T Sum<T>(T[] xs) where T : IAdditionOperators<T, T, T>, IAdditiveIdentity
 Sum([new Meters(1), new Meters(2), new Meters(3)]);   // Meters { Value = 6 }
 ```
 
-Restrições e membros static abstract estão em Generics: Constraints and
-Variance.
+As interfaces, as restrições e o que o JIT emite estão em Generic Math and
+static abstract Interface Members.
 
 ## Trade-offs
 

@@ -228,8 +228,8 @@ static T Sum<T>(T[] xs) where T : IAdditionOperators<T, T, T>, IAdditiveIdentity
 Sum([new Meters(1), new Meters(2), new Meters(3)]);   // Meters { Value = 6 }
 ```
 
-Constraints and static abstract members are covered in Generics: Constraints
-and Variance.
+The interfaces, constraints, and what the JIT emits are covered in Generic Math
+and static abstract Interface Members.
 
 ## Trade-offs
 
