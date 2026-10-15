@@ -458,6 +458,67 @@
     ]
   },
   {
+    "slug": "top-level-programs-implicit-usings-and-namespaces",
+    "id": 103,
+    "category": "Language",
+    "title": "Top-Level Programs, Implicit Usings and Namespaces",
+    "topic": "Language Basics",
+    "summary": "What the compiler generates for a top-level program (Program, <Main>$, the entry-point signatures), the one-file rule, ImplicitUsings per SDK, global using, using static, aliases of any type (C# 12), file-scoped namespaces and resolving name conflicts with an alias or global::.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "csharp-language-versions-and-preview-features"
+    ],
+    "related": [
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "File-Based Apps",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Top-level statements, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements",
+        "type": "doc"
+      },
+      {
+        "label": "The using directive, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive",
+        "type": "doc"
+      },
+      {
+        "label": ".NET project SDK overview, implicit using directives, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview#implicit-using-directives",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild properties for .NET SDK projects, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props",
+        "type": "doc"
+      },
+      {
+        "label": "Namespaces, C# fundamentals, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/namespaces",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 12, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
