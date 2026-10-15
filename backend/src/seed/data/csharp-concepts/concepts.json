@@ -1802,6 +1802,72 @@
     ]
   },
   {
+    "slug": "extension-members-and-extension-blocks",
+    "id": 413,
+    "category": "Type Design",
+    "title": "Extension Members and Extension Blocks (C# 14)",
+    "topic": "Extension Members",
+    "summary": "C# 14 extension(Type receiver) blocks with instance methods and properties, static methods and properties and operators, generic blocks, null and ref receivers, what the compiler emits (grouping and marker types read with ilspy), a binary compatibility test against the this syntax, ambiguity and how to resolve it, and what is not allowed, with the real compiler errors.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nullable-reference-types-and-flow-analysis"
+    ],
+    "related": [
+      {
+        "label": "Interfaces: Explicit Implementation and Default Methods",
+        "slug": "interfaces-explicit-implementation-and-default-methods",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "Extension member declarations (extension keyword), C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extension",
+        "type": "doc"
+      },
+      {
+        "label": "Extension members, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods",
+        "type": "doc"
+      },
+      {
+        "label": "Extension members, C# 14 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/extensions",
+        "type": "doc"
+      },
+      {
+        "label": "ExtensionMarkerAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.extensionmarkerattribute",
+        "type": "doc"
+      },
+      {
+        "label": "C# compiler breaking changes since C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2010",
+        "type": "doc"
+      },
+      {
+        "label": "ConditionalWeakTable class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "immutable-and-frozen-collections",
     "category": "Base Class Library",
     "title": "Immutable and Frozen Collections",
