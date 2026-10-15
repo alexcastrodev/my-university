@@ -46,7 +46,8 @@ separate from `ICollection<T>` and `IList<T>`: the mutable interfaces do not
 inherit from the read-only ones, which is why a type has to implement both.
 `List<T>` and arrays implement all of them. `Dictionary<TKey, TValue>` has
 `IReadOnlyDictionary<TKey, TValue>`, and `HashSet<T>` has `IReadOnlySet<T>`
-(since .NET 5).
+(since .NET 5). Since .NET 9 there is also a `ReadOnlySet<T>` wrapper class, the
+set counterpart of `ReadOnlyCollection<T>` (see the collections gap audit concept).
 
 ### A read-only view is not an immutable collection
 
