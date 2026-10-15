@@ -397,6 +397,62 @@
     "id": 501
   },
   {
+    "slug": "generated-regex-and-redos",
+    "category": "Base Class Library",
+    "title": "Generated Regex and ReDoS",
+    "topic": "Text & Regex",
+    "summary": "GeneratedRegex on partial methods and properties, interpreted vs compiled vs generated (measured), fallbacks, SYSLIB1040-1045 analyzers, and ReDoS defenses with match timeouts.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Regular Expressions in Depth",
+        "slug": "regular-expressions-in-depth",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Spring Security Authorization Regex Matchers",
+        "slug": "spring-security-authorization-regex-matchers",
+        "feature": "spring-concepts"
+      }
+    ],
+    "requires": [
+      "regular-expressions-in-depth"
+    ],
+    "references": [
+      {
+        "label": ".NET regular expression source generators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators",
+        "type": "doc"
+      },
+      {
+        "label": "GeneratedRegexAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.generatedregexattribute",
+        "type": "doc"
+      },
+      {
+        "label": "SYSLIB diagnostics for regex source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib1040-1049",
+        "type": "doc"
+      },
+      {
+        "label": "Backtracking in .NET regular expressions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/backtracking-in-regular-expressions",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for regular expressions in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-regex",
+        "type": "doc"
+      },
+      {
+        "label": "Regex.MatchTimeout property, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.matchtimeout",
+        "type": "doc"
+      }
+    ],
+    "id": 502
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
