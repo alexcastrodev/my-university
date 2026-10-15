@@ -111,7 +111,7 @@ Ler `cache.Report` duas vezes imprimiu o rastro de `Build()` uma vez só. Antes 
 C# 14 o mesmo código exigia `private double _celsius;`, e qualquer outro método da
 classe podia fazer `_celsius = -500` e pular a checagem. Com `field`, o
 armazenamento só é alcançável pelos acessores. O conceito de DDD em
-dotnet-concepts (Aggregates, Entities and Value Objects) usa isso para manter o
+dotnet-concepts (Aggregates, Entities, and Value Objects) usa isso para manter o
 estado do agregado válido a cada mudança.
 
 ### Inicializador versus construtor: qual caminho chama o setter

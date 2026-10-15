@@ -108,7 +108,7 @@ Calling `cache.Report` twice printed the `Build()` trace once. Before C# 14 the
 same code needed `private double _celsius;`, and every other method of the class
 could write `_celsius = -500` and skip the check. With `field`, the storage is
 reachable only from the accessors. The DDD concept in dotnet-concepts
-(Aggregates, Entities and Value Objects) uses this to keep aggregate state valid
+(Aggregates, Entities, and Value Objects) uses this to keep aggregate state valid
 on every change.
 
 ### Initializer versus constructor: which path runs the setter

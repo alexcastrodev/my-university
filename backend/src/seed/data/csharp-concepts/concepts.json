@@ -691,7 +691,7 @@
         "feature": "csharp-concepts"
       },
       {
-        "label": "Aggregates, Entities and Value Objects",
+        "label": "Aggregates, Entities, and Value Objects",
         "slug": "aggregates-entities-and-value-objects",
         "feature": "dotnet-concepts"
       }
@@ -724,6 +724,62 @@
       }
     ],
     "id": 310
+  },
+  {
+    "slug": "primary-constructors-for-classes-and-structs",
+    "category": "Type Design",
+    "title": "Primary Constructors for Classes and Structs",
+    "topic": "Properties & Initialization",
+    "summary": "Primary constructor parameters become hidden, mutable fields when a member uses them: the generated IL, the CS9124 and CS9107 double-storage warnings, getting readonly and validation back, and the struct rules.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "properties-init-accessors-and-the-field-keyword"
+    ],
+    "related": [
+      {
+        "label": "Fields, Constants and Initialization Order",
+        "slug": "fields-constants-and-initialization-order",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Flexible Constructor Bodies",
+        "slug": "flexible-constructor-bodies",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Instance constructors, primary constructors section, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors#primary-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Declare primary constructors for classes and structs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/primary-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 12, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12",
+        "type": "doc"
+      },
+      {
+        "label": "Structure types, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct",
+        "type": "doc"
+      },
+      {
+        "label": "ILSpy command-line decompiler (ilspycmd), GitHub",
+        "url": "https://github.com/icsharpcode/ILSpy/tree/master/ICSharpCode.ILSpyCmd",
+        "type": "doc"
+      }
+    ],
+    "id": 311
   },
   {
     "slug": "specialized-collections",
