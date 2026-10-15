@@ -2301,6 +2301,57 @@
     "id": 504
   },
   {
+    "slug": "random-numbers-guids-and-uuid-v7",
+    "category": "Base Class Library",
+    "title": "Random Numbers, GUIDs and UUID v7",
+    "topic": "Common Types",
+    "summary": "Random and Random.Shared, Shuffle and GetItems, RandomNumberGenerator for security, Guid.CreateVersion7 (.NET 9) and what sortable really guarantees for database keys.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Unicode, Runes and Text Encodings",
+        "slug": "unicode-runes-and-text-encodings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "numeric-types-and-binary-representation"
+    ],
+    "references": [
+      {
+        "label": "Random class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.random",
+        "type": "doc"
+      },
+      {
+        "label": "RandomNumberGenerator class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator",
+        "type": "doc"
+      },
+      {
+        "label": "Guid.CreateVersion7 method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7",
+        "type": "doc"
+      },
+      {
+        "label": "uniqueidentifier (Transact-SQL), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/data-types/uniqueidentifier-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Generated values, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties",
+        "type": "doc"
+      }
+    ],
+    "id": 510
+  },
+  {
     "slug": "linq-deferred-execution-and-iterators",
     "category": "LINQ",
     "title": "LINQ, Deferred Execution, and Iterators",
