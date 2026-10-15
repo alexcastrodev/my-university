@@ -2501,6 +2501,67 @@
     "id": 611
   },
   {
+    "slug": "compression-zip-gzip-brotli-and-tar",
+    "category": "Base Class Library",
+    "title": "Compression: ZIP, GZip, Brotli and Tar",
+    "topic": "Files & I/O",
+    "summary": "GZip, Deflate, ZLib and Brotli as stream decorators, what CompressionLevel really buys, ZipArchive in memory and on disk with the .NET 10 async APIs, tar, zip slip, and capping decompressed size.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "filesystem-apis-and-cross-platform-paths"
+    ],
+    "related": [
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "I/O Streams Fundamentals",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What's new in .NET libraries for .NET 10, ZIP files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "How to compress and extract files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-compress-and-extract-files",
+        "type": "doc"
+      },
+      {
+        "label": "CompressionLevel Enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.compressionlevel",
+        "type": "doc"
+      },
+      {
+        "label": "ZipArchive Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchive",
+        "type": "doc"
+      },
+      {
+        "label": "TarFile Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.formats.tar.tarfile",
+        "type": "doc"
+      },
+      {
+        "label": "BrotliStream Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotlistream",
+        "type": "doc"
+      }
+    ],
+    "id": 601
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
