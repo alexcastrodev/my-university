@@ -218,6 +218,62 @@
     ]
   },
   {
+    "slug": "property-positional-and-list-patterns",
+    "id": 203,
+    "category": "Language",
+    "title": "Property, Positional and List Patterns",
+    "topic": "Pattern Matching",
+    "summary": "Extended property patterns, positional patterns through Deconstruct and tuples, list and slice patterns over arrays, lists, spans and strings, what slices allocate, exhaustiveness with sequences, and real uses such as a command parser and a state machine.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "type-constant-and-relational-patterns"
+    ],
+    "related": [
+      {
+        "label": "List<T> and Array Internals",
+        "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Patterns, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Deconstructing tuples and other types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct",
+        "type": "doc"
+      },
+      {
+        "label": "List and slice patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/patterns/list-patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Extended property patterns, C# 10 feature specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/extended-property-patterns",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Build algorithms with pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/build-algorithms-using-pattern-matching",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
