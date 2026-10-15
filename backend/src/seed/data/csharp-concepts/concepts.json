@@ -11,6 +11,11 @@
         "label": "The Collection Interface",
         "slug": "collection-interface",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+        "slug": "collections-gap-audit-ordered-and-read-only-sets",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1077,6 +1082,11 @@
         "label": "The equals(), hashCode(), and toString() Contracts",
         "slug": "equals-hashcode-and-tostring-contracts",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+        "slug": "collections-gap-audit-ordered-and-read-only-sets",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2014,7 +2024,8 @@
     "summary": "C# 14 extension(Type receiver) blocks with instance methods and properties, static methods and properties and operators, generic blocks, null and ref receivers, what the compiler emits (grouping and marker types read with ilspy), a binary compatibility test against the this syntax, ambiguity and how to resolve it, and what is not allowed, with the real compiler errors.",
     "publishedAt": "2026-10-15",
     "requires": [
-      "nullable-reference-types-and-flow-analysis"
+      "nullable-reference-types-and-flow-analysis",
+      "extension-methods-and-fluent-apis"
     ],
     "related": [
       {
@@ -2072,6 +2083,138 @@
       {
         "label": "ConditionalWeakTable class, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "generic-math-and-static-abstract-members",
+    "id": 403,
+    "category": "Type Design",
+    "title": "Generic Math and static abstract Interface Members",
+    "topic": "Interfaces & Generics",
+    "summary": "The .NET 7 generic math interfaces built on C# 11 static abstract members: picking the smallest constraint for a generic Sum, plugging your own type in, integer division and overflow in generic code (checked operators), the machine code the JIT emits, how Enumerable.Sum uses it, and what the compiler refuses.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "generics-constraints-and-variance"
+    ],
+    "related": [
+      {
+        "label": "Interfaces: Explicit Implementation and Default Methods",
+        "slug": "interfaces-explicit-implementation-and-default-methods",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generics: Bounded Types, Wildcards, and Erasure",
+        "slug": "generics",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generic math, .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/math",
+        "type": "doc"
+      },
+      {
+        "label": "interface keyword: static abstract and virtual members, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Explore static virtual members in interfaces, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/interface-implementation/static-virtual-interface-members",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 11, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11",
+        "type": "doc"
+      },
+      {
+        "label": "INumber<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.inumber-1",
+        "type": "doc"
+      },
+      {
+        "label": "IAdditionOperators<TSelf,TOther,TResult>.CheckedAddition, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.iadditionoperators-3.op_checkedaddition",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "extension-methods-and-fluent-apis",
+    "id": 414,
+    "category": "Type Design",
+    "title": "Extension Methods and Fluent APIs",
+    "topic": "Extension Members",
+    "summary": "The classic this syntax and what the compiler emits, why the type's own members always win, compile-time binding by static type (and not with dynamic), which namespace wins, extensions over interfaces and generics, null and ref receivers, mutable versus immutable fluent APIs, the IServiceCollection.AddX convention and the Reverse trap.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nullable-reference-types-and-flow-analysis"
+    ],
+    "related": [
+      {
+        "label": "Extension Members and Extension Blocks (C# 14)",
+        "slug": "extension-members-and-extension-blocks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Default, Static, and Private Interface Methods",
+        "slug": "default-static-private-interface-methods",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Extension members, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods",
+        "type": "doc"
+      },
+      {
+        "label": "How to implement and call a custom extension method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-implement-and-call-a-custom-extension-method",
+        "type": "doc"
+      },
+      {
+        "label": "Extension method invocations, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/expressions#128103-extension-method-invocations",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection in ASP.NET Core: register groups of services with extension methods, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection#register-groups-of-services-with-extension-methods",
+        "type": "doc"
+      },
+      {
+        "label": "C# compiler breaking changes since C# 13 (Enumerable.Reverse), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2010",
+        "type": "doc"
+      },
+      {
+        "label": "ExtensionAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.extensionattribute",
         "type": "doc"
       }
     ]
@@ -2309,6 +2452,230 @@
       }
     ],
     "id": 502
+  },
+  {
+    "slug": "building-and-searching-strings-efficiently",
+    "category": "Base Class Library",
+    "title": "Building and Searching Strings Efficiently",
+    "topic": "Text & Regex",
+    "summary": "StringBuilder versus concatenation in loops, string.Create and spans, ArrayPool, SearchValues for vectorized search (substrings since .NET 9), and measuring before optimizing.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Formatting Values and Interpolated Strings",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Regular Expressions in Depth",
+        "slug": "regular-expressions-in-depth",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "strings-comparison-culture-and-ordering"
+    ],
+    "references": [
+      {
+        "label": "StringBuilder class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder",
+        "type": "doc"
+      },
+      {
+        "label": "String.Create method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.string.create",
+        "type": "doc"
+      },
+      {
+        "label": "SearchValues class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.searchvalues",
+        "type": "doc"
+      },
+      {
+        "label": "ArrayPool<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1",
+        "type": "doc"
+      },
+      {
+        "label": "Best practices for comparing strings in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings",
+        "type": "doc"
+      }
+    ],
+    "id": 503
+  },
+  {
+    "slug": "unicode-runes-and-text-encodings",
+    "category": "Base Class Library",
+    "title": "Unicode, Runes and Text Encodings",
+    "topic": "Text & Regex",
+    "summary": "char, Rune and grapheme clusters, UTF-8/16/32, invalid bytes and the BOM, legacy code pages, and Base64, Base64Url (.NET 9) and hex.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "String Literals: Verbatim, Raw and Escapes",
+        "slug": "string-literals-verbatim-raw-and-escapes",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "building-and-searching-strings-efficiently"
+    ],
+    "references": [
+      {
+        "label": "Introduction to character encoding in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding-introduction",
+        "type": "doc"
+      },
+      {
+        "label": "Rune struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.text.rune",
+        "type": "doc"
+      },
+      {
+        "label": "StringInfo class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.globalization.stringinfo",
+        "type": "doc"
+      },
+      {
+        "label": "Base64Url class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url",
+        "type": "doc"
+      },
+      {
+        "label": "Convert.ToHexStringLower method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower",
+        "type": "doc"
+      },
+      {
+        "label": "How to use character encoding classes in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding",
+        "type": "doc"
+      }
+    ],
+    "id": 504
+  },
+  {
+    "slug": "random-numbers-guids-and-uuid-v7",
+    "category": "Base Class Library",
+    "title": "Random Numbers, GUIDs and UUID v7",
+    "topic": "Common Types",
+    "summary": "Random and Random.Shared, Shuffle and GetItems, RandomNumberGenerator for security, Guid.CreateVersion7 (.NET 9) and what sortable really guarantees for database keys.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Unicode, Runes and Text Encodings",
+        "slug": "unicode-runes-and-text-encodings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "numeric-types-and-binary-representation"
+    ],
+    "references": [
+      {
+        "label": "Random class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.random",
+        "type": "doc"
+      },
+      {
+        "label": "RandomNumberGenerator class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator",
+        "type": "doc"
+      },
+      {
+        "label": "Guid.CreateVersion7 method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7",
+        "type": "doc"
+      },
+      {
+        "label": "uniqueidentifier (Transact-SQL), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/data-types/uniqueidentifier-transact-sql",
+        "type": "doc"
+      },
+      {
+        "label": "Generated values, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties",
+        "type": "doc"
+      }
+    ],
+    "id": 510
+  },
+  {
+    "slug": "collections-gap-audit-ordered-and-read-only-sets",
+    "category": "Base Class Library",
+    "title": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+    "topic": "Collections",
+    "summary": "OrderedDictionary<TKey,TValue> (.NET 9, index overloads in .NET 10), ReadOnlySet<T>, EnsureCapacity on Queue, Stack and PriorityQueue, and the audit of the existing collections concepts.",
+    "publishedAt": "2026-10-15",
+    "related": [
+      {
+        "label": "Dictionary, HashSet and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Specialized Collections",
+        "slug": "specialized-collections",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "requires": [
+      "immutable-and-frozen-collections"
+    ],
+    "references": [
+      {
+        "label": "OrderedDictionary<TKey,TValue> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ordereddictionary-2",
+        "type": "doc"
+      },
+      {
+        "label": "ReadOnlySet<T> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.objectmodel.readonlyset-1",
+        "type": "doc"
+      },
+      {
+        "label": "PriorityQueue<TElement,TPriority>.Remove method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2.remove",
+        "type": "doc"
+      },
+      {
+        "label": "Queue<T>.EnsureCapacity method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity",
+        "type": "doc"
+      },
+      {
+        "label": "Commonly used collection types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/commonly-used-collection-types",
+        "type": "doc"
+      }
+    ],
+    "id": 511
   },
   {
     "slug": "linq-deferred-execution-and-iterators",

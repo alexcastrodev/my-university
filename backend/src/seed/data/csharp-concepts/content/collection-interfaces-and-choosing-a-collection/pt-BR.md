@@ -48,7 +48,9 @@ cada enumeração, por isso não tem `Count`. As interfaces somente leitura
 `ICollection<T>` e `IList<T>`: as interfaces mutáveis não herdam das somente
 leitura, e por isso um tipo precisa implementar as duas. `List<T>` e arrays
 implementam todas. `Dictionary<TKey, TValue>` tem `IReadOnlyDictionary<TKey,
-TValue>`, e `HashSet<T>` tem `IReadOnlySet<T>` (desde o .NET 5).
+TValue>`, e `HashSet<T>` tem `IReadOnlySet<T>` (desde o .NET 5). Desde o .NET 9
+existe também a classe wrapper `ReadOnlySet<T>`, a contraparte de conjuntos do
+`ReadOnlyCollection<T>` (veja o conceito de auditoria de lacunas de coleções).
 
 ### Visão somente leitura não é coleção imutável
 
