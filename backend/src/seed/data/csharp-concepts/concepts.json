@@ -160,6 +160,191 @@
     "id": 3
   },
   {
+    "slug": "classes-members-and-access-modifiers",
+    "category": "Type Design",
+    "title": "Classes, Members and Access Modifiers",
+    "topic": "Classes & Members",
+    "summary": "Defaults and rules for type and member accessibility, protected internal versus private protected, the protected qualifier rule, InternalsVisibleTo, the file modifier, and the members every class inherits from System.Object.",
+    "publishedAt": "2026-10-14",
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Modular Monolith: Module Boundaries",
+        "slug": "modular-monolith-module-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Object.clone() and the Cloneable Anti-Pattern",
+        "slug": "object-clone-and-cloneable",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Access modifiers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers",
+        "type": "doc"
+      },
+      {
+        "label": "file keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/file",
+        "type": "doc"
+      },
+      {
+        "label": "protected keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/protected",
+        "type": "doc"
+      },
+      {
+        "label": "private protected keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/private-protected",
+        "type": "doc"
+      },
+      {
+        "label": "Friend assemblies, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/assembly/friend",
+        "type": "doc"
+      },
+      {
+        "label": "Object class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.object",
+        "type": "doc"
+      },
+      {
+        "label": "Compiler Error CS1540, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs1540",
+        "type": "doc"
+      }
+    ],
+    "id": 300
+  },
+  {
+    "slug": "fields-constants-and-initialization-order",
+    "category": "Type Design",
+    "title": "Fields, Constants and Initialization Order",
+    "topic": "Classes & Members",
+    "summary": "Instance and static initialization order with real output, virtual calls in constructors, const versus static readonly across assemblies, beforefieldinit, and required members with SetsRequiredMembers.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "classes-members-and-access-modifiers"
+    ],
+    "related": [
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Flexible Constructor Bodies",
+        "slug": "flexible-constructor-bodies",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Instance constructors, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Static constructors, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-constructors",
+        "type": "doc"
+      },
+      {
+        "label": "Constants, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constants",
+        "type": "doc"
+      },
+      {
+        "label": "readonly keyword, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/readonly",
+        "type": "doc"
+      },
+      {
+        "label": "required modifier, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required",
+        "type": "doc"
+      },
+      {
+        "label": "SetsRequiredMembersAttribute, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute",
+        "type": "doc"
+      },
+      {
+        "label": "TypeInitializationException, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.typeinitializationexception",
+        "type": "doc"
+      }
+    ],
+    "id": 301
+  },
+  {
+    "slug": "partial-types-and-partial-members",
+    "category": "Type Design",
+    "title": "Partial Types and Partial Members",
+    "topic": "Classes & Members",
+    "summary": "How partial declarations merge, legacy versus extended partial methods, partial properties and indexers (C# 13), partial constructors and events (C# 14), and the contract with source generators.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "fields-constants-and-initialization-order"
+    ],
+    "related": [
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "partial type, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-type",
+        "type": "doc"
+      },
+      {
+        "label": "partial member, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-member",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 14, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in C# 13, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13",
+        "type": "doc"
+      },
+      {
+        "label": ".NET regular expression source generators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "P/Invoke source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke-source-generation",
+        "type": "doc"
+      }
+    ],
+    "id": 303
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
