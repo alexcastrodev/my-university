@@ -1007,6 +1007,92 @@
     ]
   },
   {
+    "slug": "result-types-versus-exceptions",
+    "id": 214,
+    "category": "Language",
+    "title": "Result Types versus Exceptions",
+    "topic": "Exceptions",
+    "summary": "When to throw, when to use a Try method and when to return a Result, decided by the kind of failure; a minimal Result<T> with the traps of a hand-written one (default as success), composition with Bind, measured cost, mapping to ProblemDetails at the HTTP boundary, and what OneOf and ErrorOr look like.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "guard-clauses-throwing-and-rethrowing"
+    ],
+    "related": [
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Pattern Matching: Type, Constant and Relational Patterns, and switch Expressions",
+        "slug": "type-constant-and-relational-patterns",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Clean Architecture in Four Projects",
+        "slug": "clean-architecture-in-four-projects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Exception Design: When to Throw, and Checked vs. Unchecked as a Choice",
+        "slug": "exception-design-philosophy",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Optional: Correct Usage and the API's Own Warnings",
+        "slug": "optional-correct-usage",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Best practices for exceptions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions",
+        "type": "doc"
+      },
+      {
+        "label": "Exception throwing, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/exception-throwing",
+        "type": "doc"
+      },
+      {
+        "label": "Exceptions and performance, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/exceptions-and-performance",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in ASP.NET Core APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api",
+        "type": "doc"
+      },
+      {
+        "label": "Results.Problem method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.results.problem",
+        "type": "doc"
+      },
+      {
+        "label": "OneOf on GitHub",
+        "url": "https://github.com/mcintyre321/OneOf",
+        "type": "doc"
+      },
+      {
+        "label": "ErrorOr on GitHub",
+        "url": "https://github.com/amantinband/error-or",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
