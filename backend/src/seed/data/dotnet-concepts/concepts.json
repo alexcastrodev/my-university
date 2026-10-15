@@ -1829,6 +1829,62 @@
     ]
   },
   {
+    "slug": "blazor-forms-editform-and-validation",
+    "id": 530,
+    "category": "Blazor",
+    "title": "Blazor Forms: EditForm and Validation",
+    "topic": "Components & Forms",
+    "summary": "Model, EditContext and DataAnnotationsValidator, when each rule fires, nested object and collection validation in .NET 10, server-side errors with ValidationMessageStore, InputBase<T>, and the link to minimal API validation.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-component-lifecycle-and-parameters"
+    ],
+    "related": [
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Bean Validation in Spring MVC",
+        "slug": "spring-mvc-bean-validation",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor forms validation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor forms overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor input components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Blazor form validation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Validation in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
