@@ -197,7 +197,9 @@ só é válida até a próxima modificação do dicionário.
 - **A ordem de enumeração é detalhe de implementação.** Um dicionário muitas
   vezes devolve os itens na ordem de inserção até que algo seja removido, e então
   itens novos reaproveitam os espaços liberados, então não dependa dela. Use
-  `SortedDictionary` ou ordene as chaves quando a ordem importar.
+  `SortedDictionary` ou ordene as chaves quando a ordem importar, ou
+  `OrderedDictionary<TKey, TValue>` (.NET 9) quando você precisa da ordem de
+  inserção garantida.
 
 ## Documentation Links
 
