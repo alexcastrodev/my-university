@@ -782,6 +782,67 @@
     "id": 311
   },
   {
+    "slug": "records-and-with-expressions",
+    "category": "Type Design",
+    "title": "Records and with Expressions",
+    "topic": "Records & Equality",
+    "summary": "What the compiler generates for a record, read from the IL (EqualityContract, PrintMembers, the clone method, Deconstruct), record class versus record struct, why with is a shallow copy, inheritance, and where records fit (DTOs, JSON) and where they do not (EF Core entities).",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "primary-constructors-for-classes-and-structs"
+    ],
+    "related": [
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Primary Constructors for Classes and Structs",
+        "slug": "primary-constructors-for-classes-and-structs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Records, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record",
+        "type": "doc"
+      },
+      {
+        "label": "Create record types, tutorial, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/records",
+        "type": "doc"
+      },
+      {
+        "label": "with expression, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      },
+      {
+        "label": "Use immutable types and properties with System.Text.Json, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/immutability",
+        "type": "doc"
+      }
+    ],
+    "id": 312
+  },
+  {
     "slug": "specialized-collections",
     "category": "Base Class Library",
     "title": "Specialized Collections",
