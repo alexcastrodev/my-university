@@ -145,6 +145,90 @@
     ]
   },
   {
+    "slug": "nuget-restore-versions-and-dependency-resolution",
+    "id": 200,
+    "category": "Platform & Tooling",
+    "title": "NuGet Restore, Versions and Dependency Resolution",
+    "topic": "NuGet & Packaging",
+    "summary": "Version notation, the restore resolution rules (lowest applicable version, direct dependency wins), floating versions and lock files, NuGetAudit, and what changed in restore in .NET 9 and .NET 10.",
+    "publishedAt": "2026-10-14",
+    "requires": [],
+    "related": [],
+    "references": [
+      {
+        "label": "NuGet package dependency resolution, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution",
+        "type": "doc"
+      },
+      {
+        "label": "NuGet package version reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/package-versioning",
+        "type": "doc"
+      },
+      {
+        "label": "Auditing package dependencies for security vulnerabilities, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages",
+        "type": "doc"
+      },
+      {
+        "label": "Package references in project files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files",
+        "type": "doc"
+      },
+      {
+        "label": "Rewriting NuGet Restore in .NET 9, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/rewriting-nuget-restore-in-dotnet-9/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "central-package-management-and-package-source-mapping",
+    "id": 201,
+    "category": "Platform & Tooling",
+    "title": "Central Package Management and Package Source Mapping",
+    "topic": "NuGet & Packaging",
+    "summary": "Centralize versions in Directory.Packages.props (VersionOverride, transitive pinning, global references) and map package IDs to feeds in nuget.config to stop dependency confusion, with the real errors and the limits of each.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "nuget-restore-versions-and-dependency-resolution"
+    ],
+    "related": [
+      {
+        "label": "NuGet Restore, Versions and Dependency Resolution",
+        "slug": "nuget-restore-versions-and-dependency-resolution",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Central Package Management, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management",
+        "type": "doc"
+      },
+      {
+        "label": "Package Source Mapping, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/consume-packages/package-source-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "Security best practices for NuGet feeds, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "nuget.config file reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/nuget-config-file",
+        "type": "doc"
+      },
+      {
+        "label": "NU1507 warning reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1507",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "aggregates-entities-and-value-objects",
     "category": "Architecture",
     "title": "Aggregates, Entities, and Value Objects",
