@@ -1961,6 +1961,82 @@
     "id": 600
   },
   {
+    "slug": "system-text-json-serialization-and-options",
+    "category": "Base Class Library",
+    "title": "System.Text.Json: Serialization and Options",
+    "topic": "Serialization",
+    "summary": "Why JsonSerializerOptions must be reused (with the measured cost of a fresh converter), what JsonSerializerDefaults.Web and the .NET 10 Strict preset change, naming policies, JsonIgnoreCondition, numbers and enums, [JsonDerivedType] polymorphism, required members, constructor parameters and null handling.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "records-and-with-expressions"
+    ],
+    "related": [
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Processing in Java",
+        "slug": "json-processing-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to instantiate JsonSerializerOptions, reuse and Web defaults, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/configure-options",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET libraries for .NET 10, Serialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries",
+        "type": "doc"
+      },
+      {
+        "label": "Serialize properties of derived classes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/polymorphism",
+        "type": "doc"
+      },
+      {
+        "label": "Require properties for deserialization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/required-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Customize property names and values, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/customize-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Handle overflow or missing members, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/missing-members",
+        "type": "doc"
+      },
+      {
+        "label": "Ignore properties, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/ignore-properties",
+        "type": "doc"
+      }
+    ],
+    "id": 610
+  },
+  {
     "slug": "async-io-and-system-io-pipelines",
     "category": "Base Class Library",
     "title": "Async I/O and System.IO.Pipelines",
