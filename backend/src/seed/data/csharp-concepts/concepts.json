@@ -203,6 +203,199 @@
     "id": 102
   },
   {
+    "slug": "numeric-types-and-binary-representation",
+    "id": 110,
+    "category": "Language",
+    "title": "Numeric Types and Binary Representation",
+    "topic": "Numbers & Conversions",
+    "summary": "Two's complement and shifts (including >>>), IEEE 754 and why 0.1 + 0.2 != 0.3, NaN and Infinity, comparing with a tolerance, the decimal scale, float versus decimal for money, and Half, Int128 and nint.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "formatting-values-and-interpolated-strings"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exact Arithmetic with BigDecimal and BigInteger",
+        "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Integral numeric types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types",
+        "type": "doc"
+      },
+      {
+        "label": "Floating-point numeric types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types",
+        "type": "doc"
+      },
+      {
+        "label": "Bitwise and shift operators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators",
+        "type": "doc"
+      },
+      {
+        "label": "Double struct, precision and comparison remarks, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.double",
+        "type": "doc"
+      },
+      {
+        "label": "Decimal struct, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.decimal",
+        "type": "doc"
+      },
+      {
+        "label": "BitOperations class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations",
+        "type": "doc"
+      },
+      {
+        "label": "The history of C# (C# 11: nint aliases, generic math), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "numeric-conversions-rounding-and-overflow",
+    "id": 111,
+    "category": "Language",
+    "title": "Numeric Conversions, Rounding and Overflow",
+    "topic": "Numbers & Conversions",
+    "summary": "Implicit and explicit numeric conversions, what checked and unchecked really change, Math.Round and MidpointRounding (banker's rounding), Convert versus a cast, CheckForOverflowUnderflow and the APIs that pick an overflow policy.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "numeric-types-and-binary-representation"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exact Arithmetic with BigDecimal and BigInteger",
+        "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Built-in numeric conversions, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "The checked and unchecked statements, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked",
+        "type": "doc"
+      },
+      {
+        "label": "Arithmetic operators, overflow and user-defined checked operators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators",
+        "type": "doc"
+      },
+      {
+        "label": "MidpointRounding enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.midpointrounding",
+        "type": "doc"
+      },
+      {
+        "label": "Math.Round method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.math.round",
+        "type": "doc"
+      },
+      {
+        "label": "Convert class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.convert",
+        "type": "doc"
+      },
+      {
+        "label": "Floating point-to-integer conversions are saturating (.NET 9), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/jit/9.0/fp-to-integer",
+        "type": "doc"
+      },
+      {
+        "label": "CheckForOverflowUnderflow compiler option, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#checkforoverflowunderflow",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "parsing-tryparse-and-the-try-pattern",
+    "id": 112,
+    "category": "Language",
+    "title": "Parsing, TryParse and the Try Pattern",
+    "topic": "Numbers & Conversions",
+    "summary": "Parse versus TryParse, what the default NumberStyles accept, the reading side of the culture bug with real output, TryParseExact for dates, Enum.TryParse traps, IParsable and ISpanParsable, writing your own Try method and the measured cost of exceptions.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "numeric-conversions-rounding-and-overflow"
+    ],
+    "related": [
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Scanner Class",
+        "slug": "scanner-class",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Exception Handling Fundamentals",
+        "slug": "exception-handling-fundamentals",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Parse numeric strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-numeric",
+        "type": "doc"
+      },
+      {
+        "label": "Parse date and time strings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime",
+        "type": "doc"
+      },
+      {
+        "label": "Int32.TryParse method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse",
+        "type": "doc"
+      },
+      {
+        "label": "NumberStyles enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles",
+        "type": "doc"
+      },
+      {
+        "label": "IParsable<TSelf> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iparsable-1",
+        "type": "doc"
+      },
+      {
+        "label": "Enum.TryParse method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse",
+        "type": "doc"
+      },
+      {
+        "label": "Exceptions and Performance, Framework Design Guidelines, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/exceptions-and-performance",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "list-and-array-internals",
     "category": "Base Class Library",
     "title": "List<T> and Array Internals",
