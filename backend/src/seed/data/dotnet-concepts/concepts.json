@@ -562,6 +562,62 @@
     "id": 700
   },
   {
+    "slug": "global-and-named-query-filters",
+    "category": "Data Access",
+    "title": "Global and Named Query Filters (EF Core 10)",
+    "topic": "EF Core Querying",
+    "summary": "HasQueryFilter for soft delete and multi-tenancy, EF Core 10 named filters with selective IgnoreQueryFilters, and the required-navigation trap.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-logging-query-tags-and-diagnostics"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multitenancy Strategies: Schema, Database, and Discriminator",
+        "slug": "multitenancy-strategies-schema-database-and-discriminator",
+        "feature": "quarkus-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Global query filters, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/filters",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, named query filters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Multi-tenancy in EF Core applications, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy",
+        "type": "doc"
+      },
+      {
+        "label": "EntityTypeBuilder.HasQueryFilter, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder-1.hasqueryfilter",
+        "type": "doc"
+      },
+      {
+        "label": "EntityFrameworkQueryableExtensions.IgnoreQueryFilters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.ignorequeryfilters",
+        "type": "doc"
+      }
+    ],
+    "id": 701
+  },
+  {
     "slug": "ef-core-migrations-workflow",
     "category": "Data Access",
     "title": "EF Core Migrations Workflow",
