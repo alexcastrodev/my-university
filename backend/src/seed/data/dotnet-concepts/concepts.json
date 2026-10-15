@@ -2861,6 +2861,62 @@
     ]
   },
   {
+    "slug": "static-files-and-mapstaticassets",
+    "id": 303,
+    "category": "ASP.NET Core",
+    "title": "Static Files and MapStaticAssets",
+    "topic": "Hosting & Pipeline",
+    "summary": "The build-time manifest, fingerprinting and precompression behind MapStaticAssets, the headers the server sends, what it will not serve, when UseStaticFiles is still needed, and the effect of ShortCircuit.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "https-hsts-and-secure-defaults"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Serve static files in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Response compression in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor static files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/static-files",
+        "type": "doc"
+      },
+      {
+        "label": "Cache-Control header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
