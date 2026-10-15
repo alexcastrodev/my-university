@@ -157,6 +157,67 @@
     ]
   },
   {
+    "slug": "type-constant-and-relational-patterns",
+    "id": 202,
+    "category": "Language",
+    "title": "Pattern Matching: Type, Constant and Relational Patterns, and switch Expressions",
+    "topic": "Pattern Matching",
+    "summary": "The pattern catalog (type, declaration, constant, relational, and/or/not, var, discard), when guards, exhaustiveness and subsumption with the real compiler messages, and the code the compiler generates.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "operators-null-handling-and-null-conditional-assignment"
+    ],
+    "related": [
+      {
+        "label": "Pattern Matching",
+        "slug": "pattern-matching",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Switch Expressions: yield, Arrow Labels, and Exhaustiveness",
+        "slug": "switch-expressions",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Records and Sealed Types",
+        "slug": "records-and-sealed-types",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Patterns, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns",
+        "type": "doc"
+      },
+      {
+        "label": "switch expression, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression",
+        "type": "doc"
+      },
+      {
+        "label": "Pattern matching overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching",
+        "type": "doc"
+      },
+      {
+        "label": "Selection statements: if and switch, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements",
+        "type": "doc"
+      },
+      {
+        "label": "Errors and warnings for pattern matching, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/pattern-matching-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "SwitchExpressionException class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.switchexpressionexception",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dictionary-hashset-and-equality",
     "category": "Base Class Library",
     "title": "Dictionary, HashSet, and Equality",
