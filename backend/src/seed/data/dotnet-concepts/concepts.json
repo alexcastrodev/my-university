@@ -801,6 +801,67 @@
     ]
   },
   {
+    "slug": "blazor-static-ssr-and-enhanced-navigation",
+    "id": 501,
+    "category": "Blazor",
+    "title": "Blazor Static SSR and Enhanced Navigation",
+    "topic": "Blazor Fundamentals",
+    "summary": "Pages rendered on the server without a circuit, enhanced navigation and forms, SupplyParameterFromForm with antiforgery, and streaming rendering, observed on the wire.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-render-modes-and-hosting-models"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Blazor navigation, enhanced navigation and form handling, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, streaming rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor forms overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor render modes, static SSR, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor JavaScript with static server-side rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/static-server-rendering",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
