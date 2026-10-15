@@ -3628,6 +3628,82 @@
     ]
   },
   {
+    "slug": "idisposable-finalizers-and-deterministic-cleanup",
+    "id": 712,
+    "category": "Memory & Concurrency",
+    "title": "IDisposable, Finalizers and Deterministic Cleanup",
+    "topic": "Memory & Value Semantics",
+    "summary": "using statements and declarations, await using and IAsyncDisposable, the dispose pattern and when it is needed, the measured cost of a finalizer, why SafeHandle replaces almost every finalizer, and how the DI container disposes services on .NET 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+        "slug": "weak-soft-and-phantom-references",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Implement a Dispose method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose",
+        "type": "doc"
+      },
+      {
+        "label": "Implement a DisposeAsync method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync",
+        "type": "doc"
+      },
+      {
+        "label": "using statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/using",
+        "type": "doc"
+      },
+      {
+        "label": "Finalizers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/finalizers",
+        "type": "doc"
+      },
+      {
+        "label": "SafeHandle class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.safehandle",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection guidelines: disposal of services, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/guidelines#disposal-of-services",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
