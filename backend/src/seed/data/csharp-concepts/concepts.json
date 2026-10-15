@@ -4258,6 +4258,320 @@
     ]
   },
   {
+    "slug": "linq-aggregation-paging-and-chunking",
+    "id": 703,
+    "category": "LINQ",
+    "title": "LINQ: Aggregation, Paging and Chunking",
+    "topic": "LINQ",
+    "summary": "What each aggregate does with an empty sequence, the Sum accumulator and overflow, Aggregate, MinBy and MaxBy, Any versus Count, Skip, Take and Take(Range), Chunk, and how paging behaves in memory and through EF Core 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "linq-sets-joins-grouping-and-lookups"
+    ],
+    "related": [
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Conversions, Rounding and Overflow",
+        "slug": "numeric-conversions-rounding-and-overflow",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Stream Collectors and Parallel Streams",
+        "slug": "stream-collectors-and-parallel-streams",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Partitioning data, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/partitioning-data",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Aggregate method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregate",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.MinBy method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Chunk method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Take method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 6: new LINQ APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6#new-linq-apis",
+        "type": "doc"
+      },
+      {
+        "label": "Pagination, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/pagination",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "writing-linq-operators-and-how-linq-is-implemented",
+    "id": 704,
+    "category": "LINQ",
+    "title": "Writing LINQ Operators and How LINQ Is Implemented",
+    "topic": "LINQ",
+    "summary": "How to write an operator in LINQ's style (eager validation, separate iterator, generic math), the specialized iterators .NET 10 picks per source type, TryGetNonEnumeratedCount, span fast paths, OrderBy().First() without sorting, vectorized Sum, and what a pipeline allocates.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "expression-trees-and-iqueryable-providers"
+    ],
+    "related": [
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ: Aggregation, Paging and Chunking",
+        "slug": "linq-aggregation-paging-and-chunking",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generic Math and static abstract Interface Members",
+        "slug": "generic-math-and-static-abstract-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collections API and Streams: Sizing, Synchronization, and Laziness",
+        "slug": "collections-and-streams-performance",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "How to extend LINQ, C#, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-extend-linq",
+        "type": "doc"
+      },
+      {
+        "label": "Iterators, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/iterators",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.TryGetNonEnumeratedCount method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Sum method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum",
+        "type": "doc"
+      },
+      {
+        "label": "Generic math, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/generics/math",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.Sum source, dotnet/runtime (release/10.0)",
+        "url": "https://github.com/dotnet/runtime/blob/release/10.0/src/libraries/System.Linq/src/System/Linq/Sum.cs",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "idisposable-finalizers-and-deterministic-cleanup",
+    "id": 712,
+    "category": "Memory & Concurrency",
+    "title": "IDisposable, Finalizers and Deterministic Cleanup",
+    "topic": "Memory & Value Semantics",
+    "summary": "using statements and declarations, await using and IAsyncDisposable, the dispose pattern and when it is needed, the measured cost of a finalizer, why SafeHandle replaces almost every finalizer, and how the DI container disposes services on .NET 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "Stream Class Hierarchy and Decorators",
+        "slug": "stream-class-hierarchy-and-decorators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "java.io: Streams, Closing Resources, and Serialization",
+        "slug": "io-streams-fundamentals",
+        "feature": "java-concepts"
+      },
+      {
+        "label": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
+        "slug": "weak-soft-and-phantom-references",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Implement a Dispose method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose",
+        "type": "doc"
+      },
+      {
+        "label": "Implement a DisposeAsync method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync",
+        "type": "doc"
+      },
+      {
+        "label": "using statement, C# reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/using",
+        "type": "doc"
+      },
+      {
+        "label": "Finalizers, C# programming guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/finalizers",
+        "type": "doc"
+      },
+      {
+        "label": "SafeHandle class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.safehandle",
+        "type": "doc"
+      },
+      {
+        "label": "Dependency injection guidelines: disposal of services, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection/guidelines#disposal-of-services",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "garbage-collector-generations-and-the-loh",
+    "id": 713,
+    "category": "Memory & Concurrency",
+    "title": "The Garbage Collector: Generations and the LOH",
+    "topic": "Memory & Value Semantics",
+    "summary": "Generations 0, 1 and 2 and promotion, the large and pinned object heaps, workstation versus server GC, background GC and DATAS, container limits, what changed in .NET 10, GC.Collect myths and the tools to measure, with numbers from .NET 10.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "idisposable-finalizers-and-deterministic-cleanup"
+    ],
+    "related": [
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Choosing a Garbage Collector: Serial, Parallel, G1, ZGC, and Shenandoah",
+        "slug": "choosing-a-garbage-collector",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "G1 Internals: Regions, Humongous Objects, and Evacuation Failure",
+        "slug": "g1-regions-and-evacuation-failure",
+        "feature": "jvm-concepts"
+      },
+      {
+        "label": "Sizing the JVM Heap: RAM/CPU Economics in Practice",
+        "slug": "heap-sizing-economics",
+        "feature": "jvm-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Fundamentals of garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals",
+        "type": "doc"
+      },
+      {
+        "label": "Workstation vs. server garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/workstation-server-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Background garbage collection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/background-gc",
+        "type": "doc"
+      },
+      {
+        "label": "Dynamic adaptation to application sizes (DATAS), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/datas",
+        "type": "doc"
+      },
+      {
+        "label": "Garbage collector config settings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector",
+        "type": "doc"
+      },
+      {
+        "label": "Large object heap, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/large-object-heap",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in .NET 10 runtime: Arm64 write-barrier improvements, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/runtime#arm64-write-barrier-improvements",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet-counters, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "threads-threadpool-and-starvation",
     "category": "Memory & Concurrency",
     "title": "Threads, the ThreadPool, and Starvation",
