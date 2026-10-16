@@ -342,7 +342,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#checkforoverflowunderflow",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/numeric-conversions-rounding-and-overflow"
   },
   {
     "slug": "parsing-tryparse-and-the-try-pattern",
@@ -1031,7 +1032,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/expressions#1264-overload-resolution",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/method-parameters-optional-named-and-ref-kinds"
   },
   {
     "slug": "local-functions-lambdas-and-closures",
@@ -1092,7 +1094,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/local-functions-lambdas-and-closures"
   },
   {
     "slug": "foreach-enumerator-pattern-and-ref-iteration",
@@ -1647,7 +1650,8 @@
         "type": "doc"
       }
     ],
-    "id": 310
+    "id": 310,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/properties-init-accessors-and-the-field-keyword"
   },
   {
     "slug": "primary-constructors-for-classes-and-structs",
@@ -2274,7 +2278,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/interfaces-explicit-implementation-and-default-methods"
   },
   {
     "slug": "generics-constraints-and-variance",
@@ -2584,7 +2589,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/nullable-reference-types-and-flow-analysis"
   },
   {
     "slug": "extension-members-and-extension-blocks",
@@ -4286,7 +4292,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/value-types-reference-types-and-boxing"
   },
   {
     "slug": "span-memory-and-slicing-without-allocating",
@@ -4372,7 +4379,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.memorymarshal",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/span-memory-and-slicing-without-allocating"
   },
   {
     "slug": "linq-aggregation-paging-and-chunking",

@@ -1642,7 +1642,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-model-building-conventions-and-fluent-api"
   },
   {
     "slug": "json-columns-and-complex-types",
@@ -1733,7 +1734,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/json-columns-and-complex-types"
   },
   {
     "slug": "whats-new-in-ef-core-10",
@@ -2006,7 +2008,8 @@
         "url": "https://sqlite.org/lang_returning.html",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/generated-values-defaults-and-computed-columns"
   },
   {
     "slug": "inheritance-mapping-tph-tpt-and-tpc",
@@ -4860,7 +4863,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/httpclient-and-ihttpclientfactory"
   },
   {
     "slug": "scalar-http-files-and-client-generation",
@@ -5053,7 +5057,8 @@
         "url": "https://www.pollydocs.org/strategies/hedging.html",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/resilience-retries-timeouts-and-circuit-breakers"
   },
   {
     "slug": "cors-for-spa-and-wasm-clients",
