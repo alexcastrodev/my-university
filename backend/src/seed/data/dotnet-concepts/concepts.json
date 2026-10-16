@@ -1317,6 +1317,117 @@
     ]
   },
   {
+    "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+    "id": 630,
+    "category": "Data Access",
+    "title": "EF Core with NoSQL: Cosmos DB and MongoDB",
+    "topic": "Data Access Choices",
+    "summary": "What EF Core keeps and loses against document stores, the Cosmos DB partition key and point reads (checked on a real model), embedded documents and transactions in the MongoDB provider, and when to use the native driver.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "ef-core-ado-net-dapper-and-nosql"
+    ],
+    "related": [
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
+        "slug": "mongodb-schema-design-patterns",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Transactions: ACID Across Documents, Collections, and Shards",
+        "slug": "mongodb-multi-document-transactions",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Relational vs. Document Data Models",
+        "slug": "relational-vs-document-data-models",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Sharding Strategies, Rebalancing, and Secondary Indexes",
+        "slug": "sharding-strategies-rebalancing-and-secondary-indexes",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/",
+        "type": "doc"
+      },
+      {
+        "label": "Modeling with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/modeling",
+        "type": "doc"
+      },
+      {
+        "label": "Querying with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/querying",
+        "type": "doc"
+      },
+      {
+        "label": "Saving data with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/saving",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Database providers, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/",
+        "type": "doc"
+      },
+      {
+        "label": "Partitioning and horizontal scaling in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Entity Framework Core Provider documentation",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/",
+        "type": "doc"
+      },
+      {
+        "label": "Feature limitations, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/limitations/",
+        "type": "doc"
+      },
+      {
+        "label": "Embedded relationships and manual references, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/model-data/relationships/",
+        "type": "doc"
+      },
+      {
+        "label": "Batch changes with transactions, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/interact-data/transactions/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "ef-core-model-building-conventions-and-fluent-api",
     "id": 602,
     "category": "Data Access",
