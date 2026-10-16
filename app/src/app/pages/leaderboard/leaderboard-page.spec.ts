@@ -17,8 +17,8 @@ const USER: User = {
 
 const profileId = (userId: number) => `01a14000-0000-7000-8000-00000000000${userId}`;
 
-function makeEntry(userId: number, displayName: string, total: number): LeaderboardEntry {
-  return { userId, publicProfileId: profileId(userId), displayName, avatarUrl: 'https://example.com/a.png', total, levelNumber: 1 };
+function makeEntry(userId: number, displayName: string, total: number, profileSlug: string | null = null): LeaderboardEntry {
+  return { userId, publicProfileId: profileId(userId), profileSlug, displayName, avatarUrl: 'https://example.com/a.png', total, levelNumber: 1 };
 }
 
 function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
@@ -64,6 +64,12 @@ describe('LeaderboardPage', () => {
       const fixture = setup(false, [makeEntry(1, 'Ana', 100), makeEntry(2, 'Bruno', 40)]);
       const links = Array.from(fixture.nativeElement.querySelectorAll('.leaderboard-link') as NodeListOf<HTMLAnchorElement>);
       expect(links.map((a) => a.getAttribute('href'))).toEqual([`/u/${profileId(1)}`, `/u/${profileId(2)}`]);
+    });
+
+    it('links a row to the slug the user chose, and the others to their id', () => {
+      const fixture = setup(false, [makeEntry(1, 'Ana', 100, 'lekitoonrails'), makeEntry(2, 'Bruno', 40)]);
+      const links = Array.from(fixture.nativeElement.querySelectorAll('.leaderboard-link') as NodeListOf<HTMLAnchorElement>);
+      expect(links.map((a) => a.getAttribute('href'))).toEqual(['/u/lekitoonrails', `/u/${profileId(2)}`]);
     });
 
     it('puts the avatar and the name inside the link, so either one opens the profile', () => {

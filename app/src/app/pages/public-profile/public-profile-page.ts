@@ -27,19 +27,20 @@ export class PublicProfilePage implements OnInit {
   protected state = signal<State>({ kind: 'loading' });
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('publicProfileId') ?? '';
+    const key = this.route.snapshot.paramMap.get('profileKey') ?? '';
     this.seo.set({
       title: 'Learner profile',
       description: 'Badges and trophies earned on My University.',
-      path: `/u/${id}`,
+      path: `/u/${key}`,
       noindex: true,
     });
-    this.load(id);
+    this.load(key);
   }
 
-  protected load(id: string = this.route.snapshot.paramMap.get('publicProfileId') ?? ''): void {
+  /** `key` is the profile's slug or its id: the API accepts either. */
+  protected load(key: string = this.route.snapshot.paramMap.get('profileKey') ?? ''): void {
     this.state.set({ kind: 'loading' });
-    this.http.get<PublicProfile>(`/api/profile/${encodeURIComponent(id)}`).subscribe({
+    this.http.get<PublicProfile>(`/api/profile/${encodeURIComponent(key)}`).subscribe({
       next: (profile) => this.state.set({ kind: 'ready', profile }),
       error: (error: HttpErrorResponse) => this.state.set({ kind: error.status === 404 ? 'missing' : 'error' }),
     });

@@ -58,6 +58,16 @@ export class AuthService {
       .pipe(tap((user) => this.setUser(user)));
   }
 
+  /**
+   * Sets (or, given `null`, clears) the vanity slug of the public link and syncs the cached user on success.
+   * Fails with 400 (`code`: length, format or reserved) or 409 (`code`: taken), so the caller can say which.
+   */
+  updateProfileSlug(slug: string | null): Observable<User> {
+    return this.http
+      .put<User>('/api/auth/profile-slug', { slug })
+      .pipe(tap((user) => this.setUser(user)));
+  }
+
   private setUser(user: User): void {
     this.currentUser.set(user);
     if (typeof localStorage === 'undefined') return;

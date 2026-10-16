@@ -4,7 +4,7 @@ import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from '../../models/language.mode
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { ThemeService } from '../../services/theme.service';
-import { publicProfileUrl } from '../../shared/public-profile-url';
+import { profileKey, publicProfileUrl } from '../../shared/public-profile-url';
 import { XpService } from '../../services/xp.service';
 
 /**
@@ -41,8 +41,8 @@ export class SettingsPage {
   /** On unless the server says otherwise: public profiles are the default. */
   protected readonly isPublic = computed(() => this.auth.currentUser()?.profilePublic !== false);
   protected readonly profileLink = computed(() => {
-    const user = this.auth.currentUser();
-    return this.isPublic() && user?.publicProfileId ? publicProfileUrl(user.publicProfileId) : null;
+    const key = profileKey(this.auth.currentUser());
+    return this.isPublic() && key ? publicProfileUrl(key) : null;
   });
   profileSaving = signal(false);
   profileMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);

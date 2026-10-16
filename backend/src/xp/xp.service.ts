@@ -6,6 +6,7 @@ import { getCatalog, getUnitTitles } from '../achievements/load-seed';
 import {
   AwardView, CatalogTrackView, describeAwards, describeCatalog, describeProgress, describeRequirements, TrackProgressView, TrackRequirementsView,
 } from '../achievements/view';
+import { normalizeSlug, slugProblem } from '../auth/profile-slug';
 import { User } from '../auth/user.entity';
 import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
 import { getLevelForXp, LevelProgress } from './levels';
@@ -32,6 +33,8 @@ export interface LeaderboardEntry {
   userId: number;
   /** Where the row links to. Safe to show: the board only lists users whose profile is public. */
   publicProfileId: string;
+  /** The vanity link the user chose, when there is one: the row links to it in preference to the id. */
+  profileSlug: string | null;
   displayName: string;
   avatarUrl: string;
   total: number;
@@ -372,13 +375,18 @@ export class XpService {
   }
 
   /**
-   * The public profile for an id, or null. Null covers a malformed id, an unknown id and a private
+   * The public profile for a link key, or null. The key is either the `publicProfileId` (always works) or the
+   * vanity slug the user chose (any letter case). Null covers a malformed key, an unknown one and a private
    * profile alike, so a response never reveals that a private user exists.
    */
-  async getPublicProfile(publicProfileId: string): Promise<PublicProfile | null> {
-    if (!PROFILE_ID.test(publicProfileId)) return null;
+  async getPublicProfile(key: string): Promise<PublicProfile | null> {
+    const slug = normalizeSlug(key);
+    const where = PROFILE_ID.test(key)
+      ? { publicProfileId: key, profilePublic: true }
+      : slugProblem(slug) === null ? { profileSlug: slug, profilePublic: true } : null;
+    if (!where) return null;
     const user = await this.repo.manager.getRepository(User).findOne({
-      where: { publicProfileId, profilePublic: true },
+      where,
       select: { id: true, displayName: true, displayNameOverride: true, avatarUrl: true },
     });
     if (!user) return null;
@@ -403,12 +411,14 @@ export class XpService {
       .where('u.profilePublic = true')
       .select('x.userId', 'userId')
       .addSelect('u.publicProfileId', 'publicProfileId')
+      .addSelect('u.profileSlug', 'profileSlug')
       .addSelect('u.displayName', 'displayName')
       .addSelect('u.displayNameOverride', 'displayNameOverride')
       .addSelect('u.avatarUrl', 'avatarUrl')
       .addSelect('COALESCE(SUM(x.exp), 0)', 'total')
       .groupBy('x.userId')
       .addGroupBy('u.publicProfileId')
+      .addGroupBy('u.profileSlug')
       .addGroupBy('u.displayName')
       .addGroupBy('u.displayNameOverride')
       .addGroupBy('u.avatarUrl')
@@ -417,6 +427,7 @@ export class XpService {
       .getRawMany<{
         userId: number;
         publicProfileId: string;
+        profileSlug: string | null;
         displayName: string;
         displayNameOverride: string | null;
         avatarUrl: string;
@@ -428,6 +439,7 @@ export class XpService {
       return {
         userId: row.userId,
         publicProfileId: row.publicProfileId,
+        profileSlug: row.profileSlug,
         displayName: row.displayNameOverride ?? row.displayName,
         avatarUrl: row.avatarUrl,
         total,

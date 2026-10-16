@@ -56,7 +56,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'u/:publicProfileId',
+    path: 'u/:profileKey',
     loadComponent: () => import('./pages/public-profile/public-profile-page').then((m) => m.PublicProfilePage),
   },
   {

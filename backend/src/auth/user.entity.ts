@@ -39,6 +39,13 @@ export class User {
   @Column({ type: 'uuid', unique: true, default: () => 'uuidv7()' })
   publicProfileId: string;
 
+  /**
+   * Optional vanity part of the public link (`/u/<slug>`), chosen by the user, stored lowercase (3 to 30 chars,
+   * letters, digits and single hyphens). The `publicProfileId` link keeps working alongside it. Rules: `profile-slug.ts`.
+   */
+  @Column({ type: 'varchar', length: 30, nullable: true, unique: true })
+  profileSlug: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 
