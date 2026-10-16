@@ -4600,5 +4600,81 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "jwt-bearer-and-aspnet-core-identity",
+    "id": 404,
+    "category": "ASP.NET Core",
+    "title": "JWT Bearer Tokens and ASP.NET Core Identity",
+    "topic": "Security",
+    "summary": "What the JWT bearer handler validates and what it lets through (a 5 minute clock skew), why claims arrive under odd names, the opaque tokens of MapIdentityApi, what refresh, logout and the security stamp really revoke, passkeys in .NET 10, and where a browser should keep tokens.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "JWT Signing: Symmetric vs. Asymmetric Keys",
+        "slug": "spring-security-jwt-signing-symmetric-and-asymmetric",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Configure JWT bearer authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication",
+        "type": "doc"
+      },
+      {
+        "label": "Use Identity to secure a Web API backend for SPAs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Mapping, customizing, and transforming claims in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/claims",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Web Authentication API (WebAuthn) passkeys, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/passkeys/",
+        "type": "doc"
+      },
+      {
+        "label": "Manage JSON Web Tokens in development with dotnet user-jwts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8725: JSON Web Token Best Current Practices, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8725",
+        "type": "doc"
+      }
+    ]
   }
 ]
