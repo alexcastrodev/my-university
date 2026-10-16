@@ -1,0 +1,49 @@
+<ng-template #head>
+  <app-award-hex [award]="hex()" [locked]="!earned()" />
+  <span class="main">
+    <span class="kind">@if (type() === 'badge') { <ng-container i18n="@@achievements.kind.badge">Badge</ng-container> } @else { <ng-container i18n="@@achievements.kind.trophy">Trophy</ng-container> }</span>
+    <span class="title">{{ title() }}</span>
+    <span class="need">
+      @switch (need()) {
+        @case ('concepts') { <ng-container i18n="@@achievements.catalog.need.concepts">Concepts to read: {{ needCount() }}</ng-container> }
+        @default { <ng-container i18n="@@achievements.catalog.need.lessons">Lessons to finish: {{ needCount() }}</ng-container> }
+      }
+      @if (assessed()) { <span class="assessed" i18n="@@achievements.catalog.assessed">Ends with a knowledge check</span> }
+    </span>
+    @if (earned()) {
+      <time class="when" [attr.datetime]="awardedAt()">{{ awardedAt() | date: 'mediumDate' }}</time>
+    } @else if (state() === 'progress') {
+      <span class="progress">
+        <span class="bar" aria-hidden="true"><span class="fill" [style.width.%]="percent()"></span></span>
+        <span class="count" i18n="@@achievements.progressCount">{{ done() }} of {{ total() }}</span>
+      </span>
+    }
+  </span>
+  <span class="side">
+    <span class="chip chip-xp" i18n="@@achievements.exp">+{{ exp() }} XP</span>
+    @switch (state()) {
+      @case ('earned') {
+        <span class="chip chip-earned">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+          <ng-container i18n="@@achievements.catalog.state.earned">Earned</ng-container>
+        </span>
+      }
+      @case ('progress') { <span class="chip chip-progress" i18n="@@achievements.inProgress">In progress</span> }
+      @default { <span class="chip" i18n="@@achievements.catalog.state.todo">Not started</span> }
+    }
+  </span>
+</ng-template>
+
+@if (expandable()) {
+  <details class="prize prize-expandable">
+    <summary class="row">
+      <ng-container *ngTemplateOutlet="head" />
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="panel"><ng-content /></div>
+  </details>
+} @else {
+  <div class="prize">
+    <div class="row"><ng-container *ngTemplateOutlet="head" /></div>
+  </div>
+}

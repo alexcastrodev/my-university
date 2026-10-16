@@ -1,5 +1,13 @@
 .stack { display: flex; flex-direction: column; gap: 1.25rem; }
 
+.views { display: inline-flex; align-self: flex-start; gap: 0.25rem; padding: 0.25rem; background: var(--mu-bg-alt); border: 1px solid var(--mu-line); border-radius: 999px; }
+.view { padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; color: var(--mu-muted); text-decoration: none; }
+.view:hover { color: var(--mu-ink); }
+.view:focus-visible { outline: 2px solid var(--mu-accent); outline-offset: 2px; }
+.view-active { background: var(--mu-surface); color: var(--mu-ink); box-shadow: 0 1px 2px rgb(0 0 0 / 0.08); }
+.see-available { display: inline-block; margin-top: 0.6rem; font-size: 0.85rem; font-weight: 600; color: var(--mu-accent); text-decoration: none; }
+.see-available:hover { text-decoration: underline; }
+
 
 .card {
   background: var(--mu-surface);

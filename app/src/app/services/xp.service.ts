@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { AchievementsView, AwardView } from '../models/achievements.model';
+import { AchievementsView, AwardView, CatalogTrackView, TrackRequirementsView } from '../models/achievements.model';
 import {
   AreaXpBreakdownEntry,
   DailyGoalStatus,
@@ -39,6 +39,14 @@ export class XpService {
   /** Awards and progress; null until the first sync finishes, so "not loaded" is never shown as "nothing earned". */
   achievements = signal<AchievementsView | null>(null);
   achievementsError = signal(false);
+  /** Every track with its badges and trophy, for the "Available" view; null until loaded. */
+  achievementCatalog = signal<CatalogTrackView[] | null>(null);
+  achievementCatalogError = signal(false);
+  /** What each opened track asks for, by track id. Cleared whenever the catalog reloads, so "done" marks stay fresh. */
+  trackRequirements = signal<Record<string, TrackRequirementsView>>({});
+  /** Tracks whose list failed to load, so the panel can offer a retry. */
+  trackRequirementsFailed = signal<Record<string, true>>({});
+  private requirementsInFlight = new Set<string>();
 
   private hasLoadedOnce = false;
   /** Awards already announced, per user, so a repeated sync or a reload never announces one twice. */
@@ -96,6 +104,39 @@ export class XpService {
     };
     this.syncChain = this.syncChain.then(run);
     return this.syncChain;
+  }
+
+  /** Loads the catalog of everything that can be earned, with the user's progress. Never rejects; failure sets the error flag. */
+  async loadAchievementCatalog(): Promise<void> {
+    const user = this.auth.currentUser();
+    if (!user) return;
+    try {
+      const view = await firstValueFrom(this.http.get<CatalogTrackView[]>('/api/xp/achievements/catalog'));
+      if (this.auth.currentUser()?.id !== user.id) return;
+      this.achievementCatalog.set(view);
+      this.trackRequirements.set({});
+      this.trackRequirementsFailed.set({});
+      this.achievementCatalogError.set(false);
+    } catch {
+      if (this.auth.currentUser()?.id === user.id) this.achievementCatalogError.set(true);
+    }
+  }
+
+  /** Loads what one track asks for, once: a track already loaded or loading is left alone. Never rejects. */
+  async loadTrackRequirements(trackId: string): Promise<void> {
+    const user = this.auth.currentUser();
+    if (!user || this.trackRequirements()[trackId] || this.requirementsInFlight.has(trackId)) return;
+    this.requirementsInFlight.add(trackId);
+    try {
+      const view = await firstValueFrom(this.http.get<TrackRequirementsView>(`/api/xp/achievements/catalog/${trackId}`));
+      if (this.auth.currentUser()?.id !== user.id) return;
+      this.trackRequirements.update((all) => ({ ...all, [trackId]: view }));
+      this.trackRequirementsFailed.update(({ [trackId]: _gone, ...rest }) => rest);
+    } catch {
+      if (this.auth.currentUser()?.id === user.id) this.trackRequirementsFailed.update((all) => ({ ...all, [trackId]: true }));
+    } finally {
+      this.requirementsInFlight.delete(trackId);
+    }
   }
 
   private announce(userId: number, award: AwardView): void {

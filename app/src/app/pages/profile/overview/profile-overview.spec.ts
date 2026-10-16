@@ -45,6 +45,11 @@ describe('ProfileOverview', () => {
       expect(q('[data-testid="see-all"]')).toBeNull();
     });
 
+    it('points to everything that can be earned when there is nothing yet', () => {
+      const { q } = setup({ achievements: { awards: [], progress: [] } });
+      expect(q('[data-testid="see-available"]')!.getAttribute('href')).toContain('/profile/achievements?view=available');
+    });
+
     it('shows the newest few, as compact tiles, with a link to all of them', () => {
       const awards = Array.from({ length: 9 }, (_, i) => award(i + 1));
       const { el, q } = setup({ achievements: { awards, progress: [] } });
