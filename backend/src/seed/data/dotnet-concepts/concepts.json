@@ -1919,7 +1919,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/relationship-changes",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/relationships-keys-and-delete-behavior"
   },
   {
     "slug": "generated-values-defaults-and-computed-columns",
@@ -2644,7 +2645,8 @@
         "type": "doc"
       }
     ],
-    "id": 701
+    "id": 701,
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/global-and-named-query-filters"
   },
   {
     "slug": "ef-core-functions-and-database-specific-translation",
@@ -3963,7 +3965,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/extensibility",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/middleware-pipeline-and-program-cs"
   },
   {
     "slug": "parameter-binding-and-endpoint-filters",
@@ -4029,7 +4032,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/parameter-binding-and-endpoint-filters"
   },
   {
     "slug": "problem-details-and-global-exception-handling",
@@ -4105,7 +4109,8 @@
         "url": "https://www.rfc-editor.org/rfc/rfc9457",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/problem-details-and-global-exception-handling"
   },
   {
     "slug": "whats-new-in-aspnet-core-10",

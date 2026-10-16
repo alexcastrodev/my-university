@@ -782,7 +782,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.switchexpressionexception",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/type-constant-and-relational-patterns"
   },
   {
     "slug": "property-positional-and-list-patterns",
@@ -912,7 +913,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/exception-handling-task-parallel-library",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/exceptions-try-catch-filters-and-finally"
   },
   {
     "slug": "guard-clauses-throwing-and-rethrowing",
@@ -1777,7 +1779,8 @@
         "type": "doc"
       }
     ],
-    "id": 312
+    "id": 312,
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/records-and-with-expressions"
   },
   {
     "slug": "enums-and-flags-enums",
@@ -2347,7 +2350,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/generics-and-attributes",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/generics-constraints-and-variance"
   },
   {
     "slug": "delegates-and-multicast-invocation",
@@ -2906,7 +2910,8 @@
         "type": "doc"
       }
     ],
-    "id": 500
+    "id": 500,
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/strings-comparison-culture-and-ordering"
   },
   {
     "slug": "regular-expressions-in-depth",
@@ -3508,7 +3513,8 @@
         "type": "doc"
       }
     ],
-    "id": 610
+    "id": 610,
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/system-text-json-serialization-and-options"
   },
   {
     "slug": "system-text-json-source-generation-and-utf8jsonreader",
@@ -4134,7 +4140,8 @@
         "url": "https://github.com/dotnet/runtime/blob/591ede817344fa749dd1af56d7e73b356da3e71a/src/libraries/System.Linq/src/System/Linq/Lookup.cs#L111-L124",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/linq-sets-joins-grouping-and-lookups"
   },
   {
     "slug": "expression-trees-and-iqueryable-providers",
