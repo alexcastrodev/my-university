@@ -31,6 +31,14 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   preferredLanguage: string | null;
 
+  /** Whether the public profile (`/u/<publicProfileId>`) and the leaderboard may show this user. On by default. */
+  @Column({ default: true })
+  profilePublic: boolean;
+
+  /** Stable public id of the profile, set once by the database (`uuidv7()`). Never derived from the login, never client-writable. */
+  @Column({ type: 'uuid', unique: true, default: () => 'uuidv7()' })
+  publicProfileId: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

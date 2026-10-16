@@ -64,6 +64,15 @@ export class AuthService {
     return withEffectiveDisplayName(user);
   }
 
+  /** Turns the public profile (and the leaderboard listing) on or off for this user. */
+  async updateProfilePublic(id: number, profilePublic: boolean): Promise<User> {
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException();
+    user.profilePublic = profilePublic;
+    await this.repo.save(user);
+    return withEffectiveDisplayName(user);
+  }
+
   /** Test-only: creates a fresh user without going through the GitHub OAuth flow. */
   async createTestUser(name: string): Promise<User> {
     return this.repo.save(
