@@ -1792,6 +1792,72 @@
     ]
   },
   {
+    "slug": "reverse-engineering-an-existing-database",
+    "id": 606,
+    "category": "Data Access",
+    "title": "Reverse-Engineering an Existing Database",
+    "topic": "EF Core Modeling",
+    "summary": "dotnet ef dbcontext scaffold on EF Core 10 against a legacy SQLite schema: what it generates for keys, defaults, join tables, views and keyless tables, the options that matter, re-scaffolding with partial classes and OnModelCreatingPartial, and customizing the T4 templates.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "Inheritance Mapping: TPH, TPT and TPC",
+        "slug": "inheritance-mapping-tph-tpt-and-tpc",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Reverse engineering, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/",
+        "type": "doc"
+      },
+      {
+        "label": "Custom reverse engineering templates, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/templates",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference, .NET CLI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Connection strings, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Keyless entity types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keyless-entity-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
