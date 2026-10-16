@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { normalizeLanguage } from '../shared/language';
 import { GithubProfile } from './github-oauth.service';
+import { normalizeSlug, slugProblem } from './profile-slug';
 import { User } from './user.entity';
 
 /** Returns a copy of `user` with `displayName` replaced by the effective value (override, if set). Does not persist anything. */
@@ -70,6 +71,30 @@ export class AuthService {
     if (!user) throw new NotFoundException();
     user.profilePublic = profilePublic;
     await this.repo.save(user);
+    return withEffectiveDisplayName(user);
+  }
+
+  /**
+   * Sets the vanity slug of the public link, or clears it (`null` or blank) to go back to the id link only.
+   * The slug is normalized to lowercase. A rule broken is a 400 and a name already used is a 409, each with a
+   * `code` the app turns into words; the unique index decides who is first, so two requests cannot both win.
+   */
+  async updateProfileSlug(id: number, raw: string | null): Promise<User> {
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException();
+    const slug = raw === null || raw.trim() === '' ? null : normalizeSlug(raw);
+    if (slug !== null) {
+      const problem = slugProblem(slug);
+      if (problem) throw new BadRequestException({ code: problem, message: `Invalid profile link: ${problem}` });
+    }
+    if (user.profileSlug === slug) return withEffectiveDisplayName(user);
+    user.profileSlug = slug;
+    try {
+      await this.repo.save(user);
+    } catch (error) {
+      if ((error as { code?: string }).code === '23505') throw new ConflictException({ code: 'taken', message: 'That profile link is taken' });
+      throw error;
+    }
     return withEffectiveDisplayName(user);
   }
 

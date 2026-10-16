@@ -93,13 +93,14 @@ export class XpController {
 export class ProfileController {
   constructor(private service: XpService) {}
 
-  @Get(':publicProfileId')
+  /** `:key` is the `publicProfileId` or the user's vanity slug; both reach the same profile. */
+  @Get(':key')
   async getProfile(
-    @Param('publicProfileId') publicProfileId: string,
+    @Param('key') key: string,
     @Res({ passthrough: true }) reply: FastifyReply,
   ) {
     reply.header('Cache-Control', 'no-store');
-    const profile = await this.service.getPublicProfile(publicProfileId);
+    const profile = await this.service.getPublicProfile(key);
     if (!profile) throw new NotFoundException();
     return profile;
   }

@@ -98,6 +98,13 @@ export class AuthController {
     return this.service.findById(userId);
   }
 
+  /** Sets or clears (`null` or blank) the vanity slug of the caller's public link. 400 for a broken rule, 409 for a name already taken. */
+  @Put('profile-slug')
+  async updateProfileSlug(@CurrentUserId() userId: number, @Body('slug') slug: unknown) {
+    if (slug !== null && typeof slug !== 'string') throw new BadRequestException('slug must be a string or null');
+    return this.service.updateProfileSlug(userId, slug);
+  }
+
   /** Lets the login page know whether the dev-login shortcut is available. */
   @Get('dev-mode')
   devMode() {

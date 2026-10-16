@@ -5,7 +5,7 @@ import { get, json, login, post, put } from './helpers';
 const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const k8s = getCatalog().tracks.find((t) => t.source.kind === 'concepts' && t.source.module === 'kubernetes-concepts')!;
 
-interface Me { id: number; profilePublic: boolean; publicProfileId: string; githubLogin: string }
+interface Me { id: number; profilePublic: boolean; publicProfileId: string; profileSlug: string | null; githubLogin: string }
 interface Profile {
   displayName: string; avatarUrl: string; level: { number: number; title: string }; xp: number;
   badges: Record<string, unknown>[]; trophies: Record<string, unknown>[];
@@ -173,5 +173,154 @@ describe('leaderboard and privacy', () => {
     for (const row of await json<{ publicProfileId: string }[]>(await get('/xp/leaderboard'))) {
       expect((await profile(row.publicProfileId)).status, row.publicProfileId).toBe(200);
     }
+  });
+});
+
+describe('vanity slug', () => {
+  const setSlug = (cookie: string, slug: unknown) => put('/auth/profile-slug', { slug }, { Cookie: cookie });
+  /** A slug no other run can have taken: 3 to 30 chars, lowercase. */
+  const fresh = (tag: string) => `${tag}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  const code = async (res: Response) => (await json<{ code: string }>(res)).code;
+
+  it('starts empty, and the id link works without one', async () => {
+    const u = await user('slug-empty');
+    expect(u.profileSlug).toBeNull();
+    expect((await profile(u.publicProfileId)).status).toBe(200);
+  });
+
+  it('opens the same profile as the id, which keeps working', async () => {
+    const u = await user('slug-open');
+    const slug = fresh('open');
+    const res = await setSlug(u.cookie, slug);
+    expect(res.status).toBe(200);
+    expect((await json<Me>(res)).profileSlug).toBe(slug);
+    expect((await me(u.cookie)).profileSlug).toBe(slug);
+    const [bySlug, byId] = await Promise.all([profile(slug), profile(u.publicProfileId)]);
+    expect(bySlug.status).toBe(200);
+    expect(await bySlug.json()).toEqual(await byId.json());
+    expect((await me(u.cookie)).publicProfileId).toBe(u.publicProfileId);
+  });
+
+  it('is stored in lowercase and found in any letter case', async () => {
+    const u = await user('slug-case');
+    const slug = fresh('case');
+    await setSlug(u.cookie, slug.toUpperCase());
+    expect((await me(u.cookie)).profileSlug).toBe(slug);
+    expect((await profile(slug.toUpperCase())).status).toBe(200);
+    expect((await profile(slug)).status).toBe(200);
+  });
+
+  it('goes back to the id link only when cleared, by null or by a blank value', async () => {
+    const u = await user('slug-clear');
+    for (const empty of [null, '', '   ']) {
+      const slug = fresh('clear');
+      await setSlug(u.cookie, slug);
+      expect((await profile(slug)).status).toBe(200);
+      expect((await setSlug(u.cookie, empty)).status, JSON.stringify(empty)).toBe(200);
+      expect((await me(u.cookie)).profileSlug).toBeNull();
+      expect((await profile(slug)).status).toBe(404);
+      expect((await profile(u.publicProfileId)).status).toBe(200);
+    }
+  });
+
+  it('refuses a broken rule with 400 and says which, changing nothing', async () => {
+    const u = await user('slug-rules');
+    const keep = fresh('keep');
+    await setSlug(u.cookie, keep);
+    const cases: [unknown, string][] = [['ab', 'length'], ['a'.repeat(31), 'length'], ['has space', 'format'], ['-lead', 'format'], ['dou--ble', 'format'], ['under_score', 'format'], ['admin', 'reserved'], ['Leaderboard', 'reserved']];
+    for (const [value, expected] of cases) {
+      const res = await setSlug(u.cookie, value);
+      expect(res.status, JSON.stringify(value)).toBe(400);
+      expect(await code(res), JSON.stringify(value)).toBe(expected);
+    }
+    expect((await me(u.cookie)).profileSlug).toBe(keep);
+  });
+
+  it('refuses a value that is not a string or null', async () => {
+    const u = await user('slug-type');
+    for (const bad of [123, true, {}, ['x']]) expect((await setSlug(u.cookie, bad)).status, JSON.stringify(bad)).toBe(400);
+    expect((await put('/auth/profile-slug', {}, { Cookie: u.cookie })).status).toBe(400);
+    expect((await me(u.cookie)).profileSlug).toBeNull();
+  });
+
+  it('is first come, first served, whatever the letter case, and the loser keeps what they had', async () => {
+    const [a, b] = [await user('slug-taken-a'), await user('slug-taken-b')];
+    const slug = fresh('taken');
+    expect((await setSlug(a.cookie, slug)).status).toBe(200);
+    for (const attempt of [slug, slug.toUpperCase()]) {
+      const res = await setSlug(b.cookie, attempt);
+      expect(res.status, attempt).toBe(409);
+      expect(await code(res)).toBe('taken');
+    }
+    expect((await me(b.cookie)).profileSlug).toBeNull();
+    expect((await me(a.cookie)).profileSlug).toBe(slug);
+  });
+
+  it('lets the owner save their own slug again without it counting as taken', async () => {
+    const u = await user('slug-same');
+    const slug = fresh('same');
+    expect((await setSlug(u.cookie, slug)).status).toBe(200);
+    expect((await setSlug(u.cookie, slug)).status).toBe(200);
+  });
+
+  it('frees the old slug when it is changed, and the old link stops opening', async () => {
+    const [a, b] = [await user('slug-free-a'), await user('slug-free-b')];
+    const [first, second] = [fresh('first'), fresh('second')];
+    await setSlug(a.cookie, first);
+    await setSlug(a.cookie, second);
+    expect((await profile(first)).status).toBe(404);
+    expect((await profile(second)).status).toBe(200);
+    expect((await setSlug(b.cookie, first)).status).toBe(200);
+    expect((await profile(first)).status).toBe(200);
+  });
+
+  it('lets only one of two simultaneous claims win', async () => {
+    const [a, b] = [await user('slug-race-a'), await user('slug-race-b')];
+    const slug = fresh('race');
+    const statuses = (await Promise.all([setSlug(a.cookie, slug), setSlug(b.cookie, slug)])).map((r) => r.status).sort();
+    expect(statuses).toEqual([200, 409]);
+  });
+
+  it('follows the profile into privacy: a private profile answers 404 for its slug, exactly like one that never existed', async () => {
+    const u = await user('slug-private');
+    const slug = fresh('private');
+    await setSlug(u.cookie, slug);
+    await setPublic(u.cookie, false);
+    const privateRes = await profile(slug);
+    const unknownRes = await profile(fresh('nobody'));
+    expect(privateRes.status).toBe(404);
+    expect(await privateRes.text()).toBe(await unknownRes.text());
+    expect(privateRes.headers.get('cache-control')).toBe('no-store');
+    await setPublic(u.cookie, true);
+    expect((await profile(slug)).status).toBe(200);
+  });
+
+  it('needs a session to change it', async () => {
+    expect((await put('/auth/profile-slug', { slug: fresh('anon') })).status).toBe(401);
+  });
+
+  it('is not a way to reach a profile by its GitHub login unless the owner chose that name', async () => {
+    const u = await user('slug-login');
+    expect((await profile(u.githubLogin)).status).toBe(404);
+  });
+});
+
+describe('vanity slug and the leaderboard', () => {
+  // The board is capped at the top 10: wipe the other specs' test users first, like 'leaderboard and privacy'.
+  beforeAll(async () => {
+    await post('/auth/_test/reset', {});
+  });
+
+  const setSlug = (cookie: string, slug: unknown) => put('/auth/profile-slug', { slug }, { Cookie: cookie });
+
+  it('is given to the leaderboard row, which links to it, and is null until chosen', async () => {
+    const u = await user('slug-board');
+    await put(`/java-concepts/iterator-vs-iterable/read`, {}, { Cookie: u.cookie });
+    const row = async () => (await json<{ userId: number; profileSlug: string | null }[]>(await get('/xp/leaderboard'))).find((r) => r.userId === u.id)!;
+    expect((await row()).profileSlug).toBeNull();
+    const slug = `board-${Date.now().toString(36)}`;
+    await setSlug(u.cookie, slug);
+    expect((await row()).profileSlug).toBe(slug);
+    expect((await profile((await row()).profileSlug!)).status).toBe(200);
   });
 });
