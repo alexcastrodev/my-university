@@ -1559,6 +1559,168 @@
     ]
   },
   {
+    "slug": "relationships-keys-and-delete-behavior",
+    "id": 603,
+    "category": "Data Access",
+    "title": "Relationships, Keys and Delete Behavior",
+    "topic": "EF Core Modeling",
+    "summary": "Required versus optional and the ON DELETE each produces, what SaveChanges does with loaded and unloaded dependents (checked in the SQLite SQL), orphans, composite and alternate keys, shadow foreign keys and many-to-many with skip navigations.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Loading Related Data and the N+1 Problem",
+        "slug": "loading-related-data-and-n-plus-one",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Persisting Data with Spring Data JPA Repositories",
+        "slug": "spring-data-jpa-repositories",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Introduction to relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships",
+        "type": "doc"
+      },
+      {
+        "label": "Foreign and principal keys in relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships/foreign-and-principal-keys",
+        "type": "doc"
+      },
+      {
+        "label": "Cascade delete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete",
+        "type": "doc"
+      },
+      {
+        "label": "Many-to-many relationships, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many",
+        "type": "doc"
+      },
+      {
+        "label": "Keys, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keys",
+        "type": "doc"
+      },
+      {
+        "label": "Shadow and indexer properties, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/shadow-properties",
+        "type": "doc"
+      },
+      {
+        "label": "Changing foreign keys and navigations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/relationship-changes",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "generated-values-defaults-and-computed-columns",
+    "id": 604,
+    "category": "Data Access",
+    "title": "Generated Values, Defaults and Computed Columns",
+    "topic": "EF Core Modeling",
+    "summary": "HasDefaultValue, HasDefaultValueSql, computed columns and ValueGeneratedOn* with the real EF Core 10 INSERT and UPDATE on SQLite, the sentinel value trap, triggers versus RETURNING, and the SQL Server DDL with a sequence and a named default.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10: A Map",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Distributed ID Generation",
+        "slug": "distributed-id-generation",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Generated values, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 8, sentinel values and database defaults, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-8.0/whatsnew#sentinel-values-and-database-defaults",
+        "type": "doc"
+      },
+      {
+        "label": "Sequences, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/sequences",
+        "type": "doc"
+      },
+      {
+        "label": "SQL Server value generation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/value-generation",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite provider: SaveChanges and the RETURNING clause, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/misc",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite EF Core database provider limitations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      },
+      {
+        "label": "The RETURNING clause, SQLite",
+        "url": "https://sqlite.org/lang_returning.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
@@ -2446,6 +2608,143 @@
     ]
   },
   {
+    "slug": "razor-syntax-and-component-compilation",
+    "id": 503,
+    "category": "Blazor",
+    "title": "Razor Syntax and Component Compilation",
+    "topic": "Blazor Fundamentals",
+    "summary": "How a .razor file becomes a C# class (EmitCompilerGeneratedFiles), what each directive generates, what BuildRenderTree does with markup, the rules of @, the RZ10012 warning, and Razor versus Razor Pages versus Blazor.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-static-ssr-and-enhanced-navigation"
+    ],
+    "related": [
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Component Lifecycle and Parameters",
+        "slug": "blazor-component-lifecycle-and-parameters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Local Functions, Lambdas and Closures",
+        "slug": "local-functions-lambdas-and-closures",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Razor syntax reference for ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor components, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component rendering, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor SDK, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/razor-pages/sdk",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Razor component generic type support, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "blazor-webassembly-client-and-api-integration",
+    "id": 540,
+    "category": "Blazor",
+    "title": "Blazor WebAssembly Client and API Integration",
+    "topic": "Components & Forms",
+    "summary": "A standalone WebAssembly client calling an API on another origin, observed in a browser: CORS from both sides, the base address trap, named clients, download size with trimming, compression and invariant globalization, and lazy loading.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "blazor-data-access-and-streaming-rendering"
+    ],
+    "related": [
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Razor Syntax and Component Compilation",
+        "slug": "razor-syntax-and-component-compilation",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Call a web API from an ASP.NET Core Blazor app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Host and deploy ASP.NET Core Blazor WebAssembly, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/webassembly/",
+        "type": "doc"
+      },
+      {
+        "label": "Lazy load assemblies in ASP.NET Core Blazor WebAssembly, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-lazy-load-assemblies",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Configure the Trimmer for ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/host-and-deploy/configure-trimmer",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor globalization and localization, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/globalization-localization",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "in-memory-queues-with-channels",
     "category": "Concurrency & Background Work",
     "title": "In-Memory Queues with Channels",
@@ -3125,6 +3424,179 @@
     ]
   },
   {
+    "slug": "https-hsts-and-secure-defaults",
+    "id": 302,
+    "category": "ASP.NET Core",
+    "title": "HTTPS, HSTS and Secure Defaults",
+    "topic": "Hosting & Pipeline",
+    "summary": "HTTPS redirection and the port it must discover, HSTS defaults and a safe rollout, RedirectHttpResult.IsLocalUrl against open redirects, what APIs should do with plain HTTP, and the development certificate.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in ASP.NET Core 10: A Map",
+        "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enforce HTTPS in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer",
+        "type": "doc"
+      },
+      {
+        "label": "Prevent open redirect attacks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/preventing-open-redirects",
+        "type": "doc"
+      },
+      {
+        "label": "HTTP Strict Transport Security Protocol, RFC 6797",
+        "url": "https://www.rfc-editor.org/rfc/rfc6797",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "static-files-and-mapstaticassets",
+    "id": 303,
+    "category": "ASP.NET Core",
+    "title": "Static Files and MapStaticAssets",
+    "topic": "Hosting & Pipeline",
+    "summary": "The build-time manifest, fingerprinting and precompression behind MapStaticAssets, the headers the server sends, what it will not serve, when UseStaticFiles is still needed, and the effect of ShortCircuit.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "https-hsts-and-secure-defaults"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Static SSR and Enhanced Navigation",
+        "slug": "blazor-static-ssr-and-enhanced-navigation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Serve static files in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Response compression in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor static files, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/static-files",
+        "type": "doc"
+      },
+      {
+        "label": "Cache-Control header, MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "route-constraints-short-circuit-and-handler-results",
+    "id": 312,
+    "category": "ASP.NET Core",
+    "title": "Route Constraints, Short-Circuit Routes and Handler Results",
+    "topic": "Minimal APIs",
+    "summary": "Route constraints that decide whether a route matches (404 versus 400), regex escaping pitfalls, custom constraints, ShortCircuit and MapShortCircuit, and what each kind of handler return value turns into.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "parameter-binding-and-endpoint-filters"
+    ],
+    "related": [
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics, Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Routing, Layouts and Navigation",
+        "slug": "blazor-routing-layouts-and-navigation",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Routing in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing",
+        "type": "doc"
+      },
+      {
+        "label": "Create responses in Minimal API applications, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses",
+        "type": "doc"
+      },
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding",
+        "type": "doc"
+      },
+      {
+        "label": "Route handler delegates in Minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/route-handlers",
+        "type": "doc"
+      },
+      {
+        "label": "Handle errors in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
@@ -3428,15 +3900,76 @@
     ]
   },
   {
-    "slug": "authentication-and-authorization-fundamentals",
-    "id": 403,
+    "slug": "scalar-http-files-and-client-generation",
+    "id": 401,
     "category": "ASP.NET Core",
-    "title": "Authentication and Authorization Fundamentals",
-    "topic": "Security",
-    "summary": "Schemes and handlers, challenge versus forbid, cookie versus bearer and the .NET 10 cookie redirect change, claims, roles and policies, resource-based authorization and pipeline wiring mistakes, with the real 401/403 of each request.",
+    "title": "Scalar, .http Files and Client Generation",
+    "topic": "API Documentation",
+    "summary": "Scalar as the reference UI for the OpenAPI document, .http files with variables and environments, and a typed client generated with Kiota, showing that the generated client is only as good as the document.",
     "publishedAt": "2026-10-15",
     "requires": [
-      "middleware-pipeline-and-program-cs"
+      "openapi-document-generation"
+    ],
+    "related": [
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the generated OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents",
+        "type": "doc"
+      },
+      {
+        "label": "Use .http files in Visual Studio 2022, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/http-files",
+        "type": "doc"
+      },
+      {
+        "label": "Welcome to Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Install Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/install",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Create a Minimal API with ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with NSwag and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-nswag",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "http-logging-and-request-diagnostics",
+    "id": 402,
+    "category": "ASP.NET Core",
+    "title": "HTTP Logging and Request Diagnostics",
+    "topic": "API Documentation",
+    "summary": "What HTTP logging and W3C logging write by default, which flags log query strings and bodies, per-endpoint and per-request control with an interceptor, and trace-id correlation with LoggerMessage, with real log output.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "scalar-http-files-and-client-generation"
     ],
     "related": [
       {
@@ -3445,60 +3978,172 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Minimal APIs, Routing and Route Groups",
-        "slug": "minimal-apis-routing-and-route-groups",
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
         "feature": "dotnet-concepts"
       },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "HTTP logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/",
+        "type": "doc"
+      },
+      {
+        "label": "W3CLogger in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/w3c-logger/",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      },
+      {
+        "label": "Trace Context, W3C Recommendation",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "resilience-retries-timeouts-and-circuit-breakers",
+    "id": 411,
+    "category": "ASP.NET Core",
+    "title": "Resilience: Retries, Timeouts and Circuit Breakers",
+    "topic": "HTTP Clients",
+    "summary": "Microsoft.Extensions.Http.Resilience (Polly v8) on an HttpClient: standard handler defaults, retry with jitter and Retry-After, why retrying a POST is dangerous, attempt versus total timeout, circuit breaker and hedging, with what the server really received.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
       {
         "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Spring Security Authentication Architecture",
-        "slug": "spring-security-authentication-architecture",
-        "feature": "spring-concepts"
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
       },
       {
-        "label": "Spring Security Authorization: Authorities and Roles",
-        "slug": "spring-security-authorization-authorities-and-roles",
-        "feature": "spring-concepts"
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
       },
       {
-        "label": "Authentication and Authorization at Scale",
-        "slug": "authentication-and-authorization-at-scale",
-        "feature": "system-design"
+        "label": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
+        "slug": "spring-batch-retry-policy-and-retrytemplate",
+        "feature": "spring-concepts"
       }
     ],
     "references": [
       {
-        "label": "Overview of ASP.NET Core Authentication, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/",
+        "label": "Build resilient HTTP apps: Key development patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
         "type": "doc"
       },
       {
-        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "label": "Introduction to resilient app development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/",
         "type": "doc"
       },
       {
-        "label": "Authentication and authorization in minimal APIs, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security",
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
         "type": "doc"
       },
       {
-        "label": "Resource-based authorization in ASP.NET Core, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based",
+        "label": "Polly documentation: Retry strategy",
+        "url": "https://www.pollydocs.org/strategies/retry.html",
         "type": "doc"
       },
       {
-        "label": "Use cookie authentication without ASP.NET Core Identity, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie",
+        "label": "Polly documentation: Circuit breaker strategy",
+        "url": "https://www.pollydocs.org/strategies/circuit-breaker.html",
         "type": "doc"
       },
       {
-        "label": "Cookie login redirects are disabled for known API endpoints, Microsoft Learn",
-        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints",
+        "label": "Polly documentation: Hedging strategy",
+        "url": "https://www.pollydocs.org/strategies/hedging.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cors-for-spa-and-wasm-clients",
+    "id": 412,
+    "category": "ASP.NET Core",
+    "title": "CORS for SPA and WebAssembly Clients",
+    "topic": "HTTP Clients",
+    "summary": "Which headers the ASP.NET Core CORS middleware sends, what a preflight is, credentials and exposed headers, the configurations that fail silently (trailing slash, any origin with credentials, UseCors after authorization), verified with curl and real browser fetch calls.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
+        "slug": "spring-security-cors-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Origin Resource Sharing (CORS), MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+        "type": "doc"
+      },
+      {
+        "label": "Fetch Standard: CORS protocol",
+        "url": "https://fetch.spec.whatwg.org/#http-cors-protocol",
+        "type": "doc"
+      },
+      {
+        "label": "Call a web API from ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
         "type": "doc"
       }
     ]
@@ -3734,6 +4379,82 @@
       {
         "label": "Clean Architecture, Robert C. Martin",
         "url": "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "authentication-and-authorization-fundamentals",
+    "id": 403,
+    "category": "ASP.NET Core",
+    "title": "Authentication and Authorization Fundamentals",
+    "topic": "Security",
+    "summary": "Schemes and handlers, challenge versus forbid, cookie versus bearer and the .NET 10 cookie redirect change, claims, roles and policies, resource-based authorization and pipeline wiring mistakes, with the real 401/403 of each request.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Overview of ASP.NET Core Authentication, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "type": "doc"
+      },
+      {
+        "label": "Authentication and authorization in minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security",
+        "type": "doc"
+      },
+      {
+        "label": "Resource-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based",
+        "type": "doc"
+      },
+      {
+        "label": "Use cookie authentication without ASP.NET Core Identity, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie",
+        "type": "doc"
+      },
+      {
+        "label": "Cookie login redirects are disabled for known API endpoints, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints",
         "type": "doc"
       }
     ]
