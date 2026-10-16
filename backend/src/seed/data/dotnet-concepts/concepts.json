@@ -3727,6 +3727,255 @@
     ]
   },
   {
+    "slug": "scalar-http-files-and-client-generation",
+    "id": 401,
+    "category": "ASP.NET Core",
+    "title": "Scalar, .http Files and Client Generation",
+    "topic": "API Documentation",
+    "summary": "Scalar as the reference UI for the OpenAPI document, .http files with variables and environments, and a typed client generated with Kiota, showing that the generated client is only as good as the document.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "openapi-document-generation"
+    ],
+    "related": [
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenAPI Generator: Contract-First Code Generation with the Maven Plugin",
+        "slug": "openapi-generator-contract-first-code-generation-with-maven",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use the generated OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents",
+        "type": "doc"
+      },
+      {
+        "label": "Use .http files in Visual Studio 2022, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/test/http-files",
+        "type": "doc"
+      },
+      {
+        "label": "Welcome to Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Install Kiota, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/openapi/kiota/install",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Create a Minimal API with ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Get started with NSwag and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-nswag",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "http-logging-and-request-diagnostics",
+    "id": 402,
+    "category": "ASP.NET Core",
+    "title": "HTTP Logging and Request Diagnostics",
+    "topic": "API Documentation",
+    "summary": "What HTTP logging and W3C logging write by default, which flags log query strings and bodies, per-endpoint and per-request control with an interceptor, and trace-id correlation with LoggerMessage, with real log output.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "scalar-http-files-and-client-generation"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "HTTP logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/",
+        "type": "doc"
+      },
+      {
+        "label": "W3CLogger in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/w3c-logger/",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      },
+      {
+        "label": "Trace Context, W3C Recommendation",
+        "url": "https://www.w3.org/TR/trace-context/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "resilience-retries-timeouts-and-circuit-breakers",
+    "id": 411,
+    "category": "ASP.NET Core",
+    "title": "Resilience: Retries, Timeouts and Circuit Breakers",
+    "topic": "HTTP Clients",
+    "summary": "Microsoft.Extensions.Http.Resilience (Polly v8) on an HttpClient: standard handler defaults, retry with jitter and Retry-After, why retrying a POST is dangerous, attempt versus total timeout, circuit breaker and hedging, with what the server really received.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
+        "slug": "spring-batch-retry-policy-and-retrytemplate",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Build resilient HTTP apps: Key development patterns, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to resilient app development, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/resilience/",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Retry strategy",
+        "url": "https://www.pollydocs.org/strategies/retry.html",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Circuit breaker strategy",
+        "url": "https://www.pollydocs.org/strategies/circuit-breaker.html",
+        "type": "doc"
+      },
+      {
+        "label": "Polly documentation: Hedging strategy",
+        "url": "https://www.pollydocs.org/strategies/hedging.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cors-for-spa-and-wasm-clients",
+    "id": 412,
+    "category": "ASP.NET Core",
+    "title": "CORS for SPA and WebAssembly Clients",
+    "topic": "HTTP Clients",
+    "summary": "Which headers the ASP.NET Core CORS middleware sends, what a preflight is, credentials and exposed headers, the configurations that fail silently (trailing slash, any origin with credentials, UseCors after authorization), verified with curl and real browser fetch calls.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "httpclient-and-ihttpclientfactory"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
+        "slug": "spring-security-cors-configuration",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Enable Cross-Origin Requests (CORS) in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/cors",
+        "type": "doc"
+      },
+      {
+        "label": "Cross-Origin Resource Sharing (CORS), MDN",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+        "type": "doc"
+      },
+      {
+        "label": "Fetch Standard: CORS protocol",
+        "url": "https://fetch.spec.whatwg.org/#http-cors-protocol",
+        "type": "doc"
+      },
+      {
+        "label": "Call a web API from ASP.NET Core Blazor, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api",
+        "type": "doc"
+      },
+      {
+        "label": "Use the IHttpClientFactory, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "dependency-injection-and-service-lifetimes",
     "id": 24,
     "category": "ASP.NET Core",
