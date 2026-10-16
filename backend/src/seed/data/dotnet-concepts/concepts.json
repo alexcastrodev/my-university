@@ -1317,6 +1317,117 @@
     ]
   },
   {
+    "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+    "id": 630,
+    "category": "Data Access",
+    "title": "EF Core with NoSQL: Cosmos DB and MongoDB",
+    "topic": "Data Access Choices",
+    "summary": "What EF Core keeps and loses against document stores, the Cosmos DB partition key and point reads (checked on a real model), embedded documents and transactions in the MongoDB provider, and when to use the native driver.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "ef-core-ado-net-dapper-and-nosql"
+    ],
+    "related": [
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Document Model: Documents, Collections, and ObjectIds",
+        "slug": "mongodb-document-model-and-collections",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
+        "slug": "mongodb-schema-design-patterns",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "MongoDB Transactions: ACID Across Documents, Collections, and Shards",
+        "slug": "mongodb-multi-document-transactions",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Relational vs. Document Data Models",
+        "slug": "relational-vs-document-data-models",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Sharding Strategies, Rebalancing, and Secondary Indexes",
+        "slug": "sharding-strategies-rebalancing-and-secondary-indexes",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/",
+        "type": "doc"
+      },
+      {
+        "label": "Modeling with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/modeling",
+        "type": "doc"
+      },
+      {
+        "label": "Querying with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/querying",
+        "type": "doc"
+      },
+      {
+        "label": "Saving data with the Azure Cosmos DB provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/cosmos/saving",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Database providers, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/",
+        "type": "doc"
+      },
+      {
+        "label": "Partitioning and horizontal scaling in Azure Cosmos DB, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview",
+        "type": "doc"
+      },
+      {
+        "label": "MongoDB Entity Framework Core Provider documentation",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/",
+        "type": "doc"
+      },
+      {
+        "label": "Feature limitations, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/limitations/",
+        "type": "doc"
+      },
+      {
+        "label": "Embedded relationships and manual references, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/model-data/relationships/",
+        "type": "doc"
+      },
+      {
+        "label": "Batch changes with transactions, MongoDB EF Core Provider",
+        "url": "https://www.mongodb.com/docs/entity-framework/current/interact-data/transactions/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "ef-core-model-building-conventions-and-fluent-api",
     "id": 602,
     "category": "Data Access",
@@ -2298,6 +2409,92 @@
       }
     ],
     "id": 701
+  },
+  {
+    "slug": "ef-core-functions-and-database-specific-translation",
+    "id": 631,
+    "category": "Data Access",
+    "title": "EF.Functions and Database-Specific Translation",
+    "topic": "EF Core Querying",
+    "summary": "How a .NET method becomes SQL, LIKE, Collate and Random run on SQLite with the real SQL, wildcards in user input, Single versus First, provider-specific functions, and mapping your own database function.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "global-and-named-query-filters"
+    ],
+    "related": [
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core with NoSQL: Cosmos DB and MongoDB",
+        "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JPQL, Criteria API, and Native Queries: Choosing the Right Query Approach",
+        "slug": "jpql-criteria-api-and-native-queries",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Full-Text Search and Vector Embedding Indexes",
+        "slug": "full-text-and-vector-search-indexes",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Function mappings, SQLite provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/functions",
+        "type": "doc"
+      },
+      {
+        "label": "Function mappings, SQL Server provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/functions",
+        "type": "doc"
+      },
+      {
+        "label": "User-defined function mapping, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "DbFunctionsExtensions.Like, API reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbfunctionsextensions.like",
+        "type": "doc"
+      },
+      {
+        "label": "DbFunctionsExtensions.Random, API reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbfunctionsextensions.random",
+        "type": "doc"
+      },
+      {
+        "label": "How queries work, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/how-query-works",
+        "type": "doc"
+      },
+      {
+        "label": "Client vs. server evaluation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/client-eval",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "Translations, Npgsql Entity Framework Core provider",
+        "url": "https://www.npgsql.org/efcore/mapping/translations.html",
+        "type": "doc"
+      }
+    ]
   },
   {
     "slug": "ef-core-migrations-workflow",
