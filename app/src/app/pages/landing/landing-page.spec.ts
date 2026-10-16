@@ -78,6 +78,7 @@ describe('LandingPage', () => {
   it('shows up to 4 real leaderboard entries once loaded, never fabricated ones', () => {
     const entries: LeaderboardEntry[] = Array.from({ length: 6 }, (_, i) => ({
       userId: i + 1,
+      publicProfileId: `01a14000-0000-7000-8000-00000000000${i + 1}`,
       displayName: `Learner ${i + 1}`,
       avatarUrl: `https://example.com/${i + 1}.png`,
       total: 100 - i,

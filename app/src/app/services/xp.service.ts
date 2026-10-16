@@ -8,10 +8,13 @@ import {
   LeaderboardEntry,
   StreakInfo,
   XpHistoryEntry,
+  XpHistoryPage,
   XpSummary,
 } from '../models/xp.model';
 import { AuthService } from './auth.service';
 import { XpToastService } from './xp-toast.service';
+
+const HISTORY_PAGE_SIZE = 20;
 
 @Injectable({ providedIn: 'root' })
 export class XpService {
@@ -20,7 +23,12 @@ export class XpService {
   private toast = inject(XpToastService);
 
   summary = signal<XpSummary | null>(null);
+  /** The activity loaded so far, newest first; "Load more" appends to it. */
   history = signal<XpHistoryEntry[]>([]);
+  historyHasMore = signal(false);
+  /** True while a page is being fetched, so the button cannot fire twice. */
+  historyLoading = signal(false);
+  historyError = signal(false);
   streak = signal<StreakInfo | null>(null);
   dailyGoal = signal<DailyGoalStatus | null>(null);
   leaderboard = signal<LeaderboardEntry[]>([]);
@@ -103,12 +111,38 @@ export class XpService {
     });
   }
 
+  /** First page of the activity list; replaces whatever was loaded before. */
   loadHistory(): void {
-    const user = this.auth.currentUser();
-    if (!user) return;
+    this.fetchHistory(0, true);
+  }
 
-    this.http.get<XpHistoryEntry[]>('/api/xp/history').subscribe({
-      next: (entries) => this.history.set(entries),
+  /** Next page, appended. Repeats are dropped by id: a row recorded between two pages only shifts the list. */
+  loadMoreHistory(): void {
+    if (this.historyLoading() || !this.historyHasMore()) return;
+    this.fetchHistory(this.history().length, false);
+  }
+
+  private fetchHistory(offset: number, replace: boolean): void {
+    const user = this.auth.currentUser();
+    if (!user || this.historyLoading()) return;
+    this.historyLoading.set(true);
+    this.historyError.set(false);
+
+    this.http.get<XpHistoryPage>('/api/xp/history/paged', { params: { limit: HISTORY_PAGE_SIZE, offset } }).subscribe({
+      next: (page) => {
+        this.historyLoading.set(false);
+        if (this.auth.currentUser()?.id !== user.id) return;
+        this.history.update((current) => {
+          if (replace) return page.items;
+          const seen = new Set(current.map((e) => e.id));
+          return [...current, ...page.items.filter((e) => !seen.has(e.id))];
+        });
+        this.historyHasMore.set(page.hasMore);
+      },
+      error: () => {
+        this.historyLoading.set(false);
+        this.historyError.set(true);
+      },
     });
   }
 

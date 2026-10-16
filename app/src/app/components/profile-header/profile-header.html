@@ -1,0 +1,23 @@
+<header class="profile-header">
+  <img class="avatar" [src]="avatarUrl()" alt="" width="72" height="72" />
+  <div class="identity">
+    <h1 class="display-name">{{ displayName() }}</h1>
+    @if (level(); as current) {
+      <span class="level" i18n="@@publicProfile.level">Level {{ current.number }} · {{ current.title }}</span>
+    }
+    @if (xp() !== null) {
+      <span class="xp" i18n="@@publicProfile.xp">{{ xp() }} XP</span>
+    }
+    <ng-content />
+  </div>
+  <div class="counters">
+    <div class="counter">
+      <span class="counter-value" data-testid="badge-count">{{ badgeCount() }}</span>
+      <span class="counter-label" i18n="@@publicProfile.badges">Badges</span>
+    </div>
+    <div class="counter">
+      <span class="counter-value" data-testid="trophy-count">{{ trophyCount() }}</span>
+      <span class="counter-label" i18n="@@publicProfile.trophies">Trophies</span>
+    </div>
+  </div>
+</header>

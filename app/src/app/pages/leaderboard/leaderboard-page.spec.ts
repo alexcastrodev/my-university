@@ -1,5 +1,6 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { User } from '../../models/auth.model';
 import { LeaderboardEntry } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
@@ -14,8 +15,10 @@ const USER: User = {
   preferredLanguage: null,
 };
 
+const profileId = (userId: number) => `01a14000-0000-7000-8000-00000000000${userId}`;
+
 function makeEntry(userId: number, displayName: string, total: number): LeaderboardEntry {
-  return { userId, displayName, avatarUrl: 'https://example.com/a.png', total, levelNumber: 1 };
+  return { userId, publicProfileId: profileId(userId), displayName, avatarUrl: 'https://example.com/a.png', total, levelNumber: 1 };
 }
 
 function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
@@ -23,6 +26,7 @@ function setup(loggedIn: boolean, leaderboard: LeaderboardEntry[] = []) {
     imports: [LeaderboardPage],
     providers: [
       provideZonelessChangeDetection(),
+      provideRouter([]),
       { provide: AuthService, useValue: { currentUser: signal(loggedIn ? USER : null) } },
       { provide: XpService, useValue: { leaderboard: signal(leaderboard), loadLeaderboard: () => {} } },
     ],
@@ -53,5 +57,26 @@ describe('LeaderboardPage', () => {
   it('does not highlight any row when logged out', () => {
     const fixture = setup(false, [makeEntry(2, 'Bruno', 40)]);
     expect(fixture.nativeElement.querySelector('.leaderboard-item-self')).toBeNull();
+  });
+
+  describe('opening a profile', () => {
+    it('links every row to that user\'s public profile, by profile id', () => {
+      const fixture = setup(false, [makeEntry(1, 'Ana', 100), makeEntry(2, 'Bruno', 40)]);
+      const links = Array.from(fixture.nativeElement.querySelectorAll('.leaderboard-link') as NodeListOf<HTMLAnchorElement>);
+      expect(links.map((a) => a.getAttribute('href'))).toEqual([`/u/${profileId(1)}`, `/u/${profileId(2)}`]);
+    });
+
+    it('puts the avatar and the name inside the link, so either one opens the profile', () => {
+      const fixture = setup(false, [makeEntry(2, 'Bruno', 40)]);
+      const link = fixture.nativeElement.querySelector('.leaderboard-link') as HTMLElement;
+      expect(link.querySelector('img.avatar-sm')).not.toBeNull();
+      expect(link.querySelector('.leaderboard-name')!.textContent).toBe('Bruno');
+    });
+
+    it('never uses the internal user id in a link', () => {
+      const fixture = setup(true, [makeEntry(1, 'Ana', 100)]);
+      const href = (fixture.nativeElement.querySelector('.leaderboard-link') as HTMLAnchorElement).getAttribute('href')!;
+      expect(href).not.toMatch(/\/u\/1$/);
+    });
   });
 });

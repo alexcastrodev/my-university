@@ -178,6 +178,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'profile/activity',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'profile/achievements',
     renderMode: RenderMode.Client,
   },

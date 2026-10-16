@@ -259,7 +259,6 @@
     "landing.cta.button": "Continuar com o GitHub",
     "profile.loginPrompt": "Entre com o GitHub para acompanhar seu progresso.",
     "profile.continueGithub": "Continuar com o GitHub",
-    "profile.level": "Nível {$INTERPOLATION}",
     "profile.xpTotal": "{$INTERPOLATION} XP",
     "profile.xpToNextLevel": "{$INTERPOLATION} XP para o próximo nível",
     "profile.maxLevel": "Nível máximo alcançado",
@@ -282,9 +281,6 @@
     "profile.activity.exp": "+{$INTERPOLATION} XP",
     "profile.source.lessons": "Lições",
     "profile.source.skillChecks": "Verificações de Habilidade",
-    "profile.achievements.badges": "Selos",
-    "profile.achievements.trophies": "Troféus",
-    "profile.achievements.view": "Ver conquistas",
     "profile.source.badges": "Selos",
     "profile.source.concepts": "Conceitos",
     "profile.source.dailyCards": "Cartões diários",
@@ -939,6 +935,16 @@
     "settings.publicProfile.private": "Privado",
     "settings.publicProfile.linkLabel": "Link do seu perfil público",
     "settings.publicProfile.copied": "Copiado",
-    "settings.publicProfile.copy": "Copiar link"
+    "settings.publicProfile.copy": "Copiar link",
+    "activity.title": "XP e atividade",
+    "activity.loading": "Carregando…",
+    "activity.error": "Não foi possível carregar sua atividade.",
+    "activity.loadMore": "Carregar mais",
+    "profile.cancel": "Cancelar",
+    "profile.editName": "Editar nome",
+    "profile.viewAsVisitor": "Ver como visitante",
+    "profile.moreLinks.aria": "Mais sobre o seu progresso",
+    "profile.link.progress": "Acompanhe seu progresso",
+    "profile.link.activity": "Detalhamento de XP e atividade recente"
   }
 }

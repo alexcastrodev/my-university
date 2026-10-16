@@ -1,0 +1,68 @@
+<div class="page">
+  <div class="page-body">
+    <a class="back-link" routerLink="/profile" i18n="@@achievements.backToProfile">Back to profile</a>
+    <h1 class="title" i18n="@@activity.title">XP and activity</h1>
+
+    @if (!auth.currentUser()) {
+      <div class="card login-prompt">
+        <p i18n="@@profile.loginPrompt">Log in with GitHub to track your progress.</p>
+        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
+      </div>
+    } @else {
+      @if (xpService.summary(); as summary) {
+        <div class="card">
+          <h2 class="section-title" i18n="@@profile.breakdown.title">XP Breakdown</h2>
+          @if (breakdownRows().length === 0) {
+            <p class="empty-state" i18n="@@profile.breakdown.empty">No XP earned yet — complete a lesson or mark something as read to get started.</p>
+          } @else {
+            <ul class="breakdown-list">
+              @for (row of breakdownRows(); track row.key) {
+                <li class="breakdown-item">
+                  <span><app-source-label [label]="row.label" /></span>
+                  <span i18n="@@profile.xpTotal">{{ row.total }} XP</span>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+
+      <div class="card">
+        <h2 class="section-title" i18n="@@profile.activity.title">Recent Activity</h2>
+        @if (xpService.history().length === 0) {
+          @if (xpService.historyLoading()) {
+            <p class="state" role="status" i18n="@@activity.loading">Loading…</p>
+          } @else if (!xpService.historyError()) {
+            <p class="empty-state" i18n="@@profile.activity.empty">Nothing here yet.</p>
+          }
+        } @else {
+          <ul class="history-list" data-testid="history-list">
+            @for (entry of xpService.history(); track entry.id) {
+              <li class="history-item">
+                <span class="history-source"><app-source-label [label]="sourceLabel(entry.sourceType)" /></span>
+                <span class="history-id">{{ entryName(entry) }}</span>
+                <span class="history-exp" i18n="@@profile.activity.exp">+{{ entry.exp }} XP</span>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (xpService.historyError()) {
+          <p class="error" role="alert" i18n="@@activity.error">Could not load your activity.</p>
+        }
+
+        @if (xpService.historyHasMore() || xpService.historyError()) {
+          <div class="load-more">
+            @if (xpService.historyError()) {
+              <button type="button" class="btn" data-testid="retry" (click)="retry()" i18n="@@achievements.retry">Try again</button>
+            } @else {
+              <button type="button" class="btn" data-testid="load-more" [disabled]="xpService.historyLoading()" (click)="xpService.loadMoreHistory()">
+                @if (xpService.historyLoading()) { <ng-container i18n="@@activity.loading">Loading…</ng-container> } @else { <ng-container i18n="@@activity.loadMore">Load more</ng-container> }
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

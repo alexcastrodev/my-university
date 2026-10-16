@@ -1,0 +1,99 @@
+
+.page {
+  min-height: calc(100vh - var(--mu-header-h));
+  background: var(--mu-bg);
+}
+
+.page-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.back-link { font-size: 0.85rem; color: var(--mu-muted); text-decoration: none; width: fit-content; }
+.back-link:hover { color: var(--mu-accent); }
+.title { font-size: 1.4rem; font-weight: 700; color: var(--mu-ink); margin: 0; }
+
+.card {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.section-title { font-size: 0.95rem; font-weight: 700; color: var(--mu-ink); margin: 0 0 0.9rem; }
+.empty-state, .state { font-size: 0.85rem; color: var(--mu-faint); margin: 0; }
+
+.login-prompt { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+.login-prompt p { color: var(--mu-muted); font-size: 0.9rem; margin: 0; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--mu-line);
+  background: var(--mu-surface);
+  color: var(--mu-ink);
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.github-btn { background: #24292f; color: var(--mu-white); border-color: transparent; }
+
+.breakdown-list, .history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--mu-ink-soft);
+}
+
+.breakdown-item span:last-child {
+  font-weight: 700;
+  color: var(--mu-ink);
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--mu-ink-soft);
+}
+
+.history-source {
+  font-weight: 600;
+  color: var(--mu-ink);
+}
+
+.history-id {
+  color: var(--mu-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.history-exp {
+  font-weight: 700;
+  color: var(--mu-accent);
+  white-space: nowrap;
+}
+
+
+.load-more { display: flex; justify-content: center; margin-top: 1rem; }
+.error { font-size: 0.8rem; color: var(--mu-danger-strong); margin: 0.75rem 0 0; text-align: center; }
