@@ -69,6 +69,11 @@
         "label": "What's New in C# 14: A Map of the Features",
         "slug": "whats-new-in-csharp-14",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "The .NET Support Lifecycle and Choosing a Target",
+        "slug": "dotnet-support-lifecycle-and-choosing-a-target",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -437,6 +442,21 @@
         "label": "What's New in .NET 10: A Map of the Platform",
         "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Operator Overloading and User-Defined Conversions",
+        "slug": "operator-overloading-and-user-defined-conversions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generics: Constraints and Variance",
+        "slug": "generics-constraints-and-variance",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -790,6 +810,16 @@
         "label": "Pattern Matching",
         "slug": "pattern-matching",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Tuples and Deconstruction",
+        "slug": "tuples-and-deconstruction",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1325,6 +1355,11 @@
         "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
         "slug": "collections-gap-audit-ordered-and-read-only-sets",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Struct and Record Equality",
+        "slug": "struct-and-record-equality",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1504,6 +1539,11 @@
       {
         "label": "EF Core Migrations Workflow",
         "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
         "feature": "dotnet-concepts"
       }
     ],
@@ -1693,6 +1733,21 @@
         "label": "Records and Sealed Types",
         "slug": "records-and-sealed-types",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Aggregates, Entities, and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Property, Positional and List Patterns",
+        "slug": "property-positional-and-list-patterns",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1947,6 +2002,11 @@
         "label": "The equals(), hashCode(), and toString() Contracts",
         "slug": "equals-hashcode-and-tostring-contracts",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Aggregates, Entities, and Value Objects",
+        "slug": "aggregates-entities-and-value-objects",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2072,6 +2132,11 @@
         "label": "Bytecode Instructions: Object Creation, Field Access, and Method Dispatch",
         "slug": "bytecode-object-creation-and-method-dispatch",
         "feature": "jvm-concepts"
+      },
+      {
+        "label": "Inheritance Mapping: TPH, TPT and TPC",
+        "slug": "inheritance-mapping-tph-tpt-and-tpc",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2233,6 +2298,11 @@
       {
         "label": "List<T> and Array Internals",
         "slug": "list-and-array-internals",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
         "feature": "csharp-concepts"
       }
     ],
@@ -2462,6 +2532,11 @@
         "label": "Input Validation in Minimal APIs",
         "slug": "input-validation-in-minimal-apis",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2676,6 +2751,11 @@
         "label": "Default, Static, and Private Interface Methods",
         "slug": "default-static-private-interface-methods",
         "feature": "java-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3079,6 +3159,11 @@
         "label": "Numeric Types and Binary Representation",
         "slug": "numeric-types-and-binary-representation",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
       }
     ],
     "requires": [
@@ -3189,6 +3274,11 @@
         "label": "Iterator vs Iterable",
         "slug": "iterator-vs-iterable",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3369,6 +3459,16 @@
         "label": "JSON Processing in Java",
         "slug": "json-processing-in-java",
         "feature": "java-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Patch and Partial Updates",
+        "slug": "json-patch-and-partial-updates",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3849,6 +3949,11 @@
         "label": "Task and async/await Internals",
         "slug": "task-and-async-await-internals",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
       }
     ],
     "requires": [
@@ -3914,6 +4019,11 @@
       {
         "label": "Query Translation and Performance",
         "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Parallelism: Parallel and PLINQ",
+        "slug": "data-parallelism-parallel-and-plinq",
         "feature": "dotnet-concepts"
       }
     ],
@@ -4598,6 +4708,11 @@
         "label": "Task and async/await Internals",
         "slug": "task-and-async-await-internals",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4656,6 +4771,11 @@
         "label": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
         "slug": "concurrency-utilities-executors-and-synchronizers",
         "feature": "java-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
       }
     ],
     "requires": [
