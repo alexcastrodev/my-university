@@ -290,7 +290,8 @@ textarea {
   display: block;
   width: 100%;
   min-height: 2.6rem;
-  max-height: 8rem;
+  max-height: min(40vh, 16rem);
+  field-sizing: content;
   resize: none;
   border: none;
   outline: none;
@@ -384,7 +385,7 @@ textarea {
     display: flex;
     align-items: flex-end;
     gap: 0.5rem;
-    border-radius: 999px;
+    border-radius: 1.4rem;
     padding: 0.35rem 0.4rem 0.35rem 1rem;
   }
 
