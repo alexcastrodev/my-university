@@ -1,4 +1,11 @@
-export type XpSourceType = 'lesson' | 'skill-check' | 'concept-read' | 'episode-watched';
+export type XpSourceType =
+  | 'lesson'
+  | 'skill-check'
+  | 'concept-read'
+  | 'episode-watched'
+  | 'daily-card'
+  | 'badge'
+  | 'trophy';
 
 export interface XpLevel {
   number: number;

@@ -4,6 +4,7 @@ import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from '../../models/language.mode
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { ThemeService } from '../../services/theme.service';
+import { publicProfileUrl } from '../../shared/public-profile-url';
 import { XpService } from '../../services/xp.service';
 
 /**
@@ -37,6 +38,16 @@ export class SettingsPage {
       .join(''),
   );
 
+  /** On unless the server says otherwise: public profiles are the default. */
+  protected readonly isPublic = computed(() => this.auth.currentUser()?.profilePublic !== false);
+  protected readonly profileLink = computed(() => {
+    const user = this.auth.currentUser();
+    return this.isPublic() && user?.publicProfileId ? publicProfileUrl(user.publicProfileId) : null;
+  });
+  profileSaving = signal(false);
+  profileMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
+  copied = signal(false);
+
   displayName = signal(this.auth.currentUser()?.displayName ?? '');
   saving = signal(false);
   message = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
@@ -47,6 +58,34 @@ export class SettingsPage {
 
   resetToGithubName(): void {
     this.submit(null);
+  }
+
+  setProfilePublic(profilePublic: boolean): void {
+    if (profilePublic === this.isPublic() || this.profileSaving()) return;
+    this.profileSaving.set(true);
+    this.profileMessage.set(null);
+    this.auth.updateProfilePublic(profilePublic).subscribe({
+      next: () => {
+        this.profileSaving.set(false);
+        this.profileMessage.set({ kind: 'success', text: $localize`:@@settings.saved:Saved.` });
+      },
+      error: () => {
+        this.profileSaving.set(false);
+        this.profileMessage.set({ kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` });
+      },
+    });
+  }
+
+  async copyProfileLink(): Promise<void> {
+    const link = this.profileLink();
+    if (!link) return;
+    try {
+      await navigator.clipboard.writeText(link);
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2000);
+    } catch {
+      // Clipboard access can be denied: the link stays on screen to copy by hand.
+    }
   }
 
   logout(): void {

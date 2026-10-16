@@ -30,6 +30,14 @@
         }
       </div>
 
+      <a class="card achievements-link" routerLink="/profile/achievements">
+        <span class="achievements-counts">
+          <span class="achievements-count"><strong data-testid="profile-badge-count">{{ badgeCount() }}</strong> <ng-container i18n="@@profile.achievements.badges">Badges</ng-container></span>
+          <span class="achievements-count"><strong data-testid="profile-trophy-count">{{ trophyCount() }}</strong> <ng-container i18n="@@profile.achievements.trophies">Trophies</ng-container></span>
+        </span>
+        <span class="achievements-cta" i18n="@@profile.achievements.view">View achievements</span>
+      </a>
+
       <div class="stats-grid">
         @if (xpService.streak(); as streak) {
           <div class="card streak-card">
@@ -62,13 +70,7 @@
           </div>
           @if (favoriteTopic(); as favorite) {
             <span class="favorite-topic-value">
-              @switch (favorite.label) {
-                @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
-                @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
-                @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
-                @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
-                @default { {{ favorite.label }} }
-              }
+              <ng-container *ngTemplateOutlet="sourceName; context: { $implicit: favorite.label }" />
             </span>
             <span class="favorite-topic-sub" i18n="@@profile.favoriteTopic.xpEarned">{{ favorite.total }} XP earned</span>
           } @else {
@@ -98,16 +100,10 @@
           <p class="empty-state" i18n="@@profile.breakdown.empty">No XP earned yet — complete a lesson or mark something as read to get started.</p>
         } @else {
           <ul class="breakdown-list">
-            @for (entry of summary.breakdown; track entry.sourceType) {
+            @for (row of breakdownRows(); track row.key) {
               <li class="breakdown-item">
-                <span>@switch (sourceLabel(entry.sourceType)) {
-                  @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
-                  @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
-                  @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
-                  @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
-                  @default { {{ sourceLabel(entry.sourceType) }} }
-                }</span>
-                <span i18n="@@profile.xpTotal">{{ entry.total }} XP</span>
+                <span><ng-container *ngTemplateOutlet="sourceName; context: { $implicit: row.label }" /></span>
+                <span i18n="@@profile.xpTotal">{{ row.total }} XP</span>
               </li>
             }
           </ul>
@@ -122,14 +118,8 @@
           <ul class="history-list">
             @for (entry of xpService.history(); track entry.id) {
               <li class="history-item">
-                <span class="history-source">@switch (sourceLabel(entry.sourceType)) {
-                  @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
-                  @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
-                  @case ('profile.source.javaConcepts') { <ng-container i18n="@@profile.source.javaConcepts">Java Concepts</ng-container> }
-                  @case ('profile.source.javaMinute') { <ng-container i18n="@@profile.source.javaMinute">Java Minute</ng-container> }
-                  @default { {{ sourceLabel(entry.sourceType) }} }
-                }</span>
-                <span class="history-id">{{ entry.sourceId }}</span>
+                <span class="history-source"><ng-container *ngTemplateOutlet="sourceName; context: { $implicit: sourceLabel(entry.sourceType) }" /></span>
+                <span class="history-id">{{ entryName(entry) }}</span>
                 <span class="history-exp" i18n="@@profile.activity.exp">+{{ entry.exp }} XP</span>
               </li>
             }
@@ -139,3 +129,16 @@
     }
   </div>
 </div>
+
+<ng-template #sourceName let-label>
+  @switch (label) {
+    @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
+    @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
+    @case ('profile.source.concepts') { <ng-container i18n="@@profile.source.concepts">Concepts</ng-container> }
+    @case ('profile.source.minutes') { <ng-container i18n="@@profile.source.minutes">Minutes</ng-container> }
+    @case ('profile.source.dailyCards') { <ng-container i18n="@@profile.source.dailyCards">Daily cards</ng-container> }
+    @case ('profile.source.badges') { <ng-container i18n="@@profile.source.badges">Badges</ng-container> }
+    @case ('profile.source.trophies') { <ng-container i18n="@@profile.source.trophies">Trophies</ng-container> }
+    @default { {{ label }} }
+  }
+</ng-template>

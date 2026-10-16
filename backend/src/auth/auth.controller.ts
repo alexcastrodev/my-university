@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -74,15 +75,22 @@ export class AuthController {
     return this.service.findById(userId);
   }
 
-  /** Sets or clears (empty/whitespace body) the caller's display name override, and/or their preferred content language. */
+  /** Sets or clears (empty/whitespace body) the caller's display name override, and/or their preferred content language, and/or whether their profile is public. */
   @Put('settings')
   async updateSettings(
     @CurrentUserId() userId: number,
     @Body('displayName') displayName: string | null | undefined,
     @Body('language') language: string | undefined,
+    @Body('profilePublic') profilePublic: unknown,
   ) {
+    if (profilePublic !== undefined && typeof profilePublic !== 'boolean') {
+      throw new BadRequestException('profilePublic must be a boolean');
+    }
     if (displayName !== undefined) {
       await this.service.updateDisplayNameOverride(userId, displayName);
+    }
+    if (profilePublic !== undefined) {
+      await this.service.updateProfilePublic(userId, profilePublic);
     }
     if (language !== undefined) {
       await this.service.updatePreferredLanguage(userId, language);

@@ -51,6 +51,13 @@ export class AuthService {
       .pipe(tap((user) => this.setUser(user)));
   }
 
+  /** Turns the public profile on or off (it also leaves or rejoins the leaderboard) and syncs the cached user. */
+  updateProfilePublic(profilePublic: boolean): Observable<User> {
+    return this.http
+      .put<User>('/api/auth/settings', { profilePublic })
+      .pipe(tap((user) => this.setUser(user)));
+  }
+
   private setUser(user: User): void {
     this.currentUser.set(user);
     if (typeof localStorage === 'undefined') return;

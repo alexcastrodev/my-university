@@ -76,8 +76,8 @@
                     @if (lesson.type === 'skill-check') {
                       <span class="skill-check-badge">{{ getSkillCheckLabel(lesson.status) }}</span>
                     }
-                    @if (lesson.type === 'skill-check' && lesson.status === 'not-attempted') {
-                      <span class="skill-check-sub">Score 80% or higher to Pass</span>
+                    @if (lesson.type === 'skill-check' && lesson.status === 'not-attempted' && passingScore() > 0) {
+                      <span class="skill-check-sub">Score {{ passingScore() }}% or higher to Pass</span>
                     }
                   </span>
                   @if (lesson.duration) {

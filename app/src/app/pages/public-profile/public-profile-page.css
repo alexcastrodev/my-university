@@ -1,0 +1,65 @@
+.page {
+  min-height: calc(100vh - var(--mu-header-h));
+  background: var(--mu-bg);
+}
+
+.page-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.state, .state-box p { color: var(--mu-muted); font-size: 0.9rem; margin: 0; }
+.state-box { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+.state-title { font-size: 1.2rem; font-weight: 700; color: var(--mu-ink); margin: 0; }
+
+.btn {
+  display: inline-flex;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  border: 1px solid transparent;
+}
+
+.profile-header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; background: var(--mu-bg-alt); }
+.identity { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; min-width: 0; }
+.display-name { font-size: 1.4rem; font-weight: 700; color: var(--mu-ink); margin: 0; overflow-wrap: anywhere; }
+.level { font-size: 0.85rem; color: var(--mu-accent); font-weight: 600; }
+.xp { font-size: 0.8rem; color: var(--mu-muted); }
+
+.counters { display: flex; gap: 2rem; }
+.counter { display: flex; flex-direction: column; }
+.counter-value { font-size: 1.8rem; font-weight: 800; color: var(--mu-ink); line-height: 1; }
+.counter-label { font-size: 0.8rem; color: var(--mu-muted); margin-top: 0.25rem; }
+
+.section-title { font-size: 0.95rem; font-weight: 700; color: var(--mu-ink); margin: 0 0 0.9rem; }
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .page-body { padding: 1.25rem 1rem; }
+  .counters { gap: 1.5rem; width: 100%; }
+}

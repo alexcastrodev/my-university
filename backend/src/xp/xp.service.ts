@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThanOrEqual, Repository } from 'typeorm';
+import { In, MoreThanOrEqual, Repository } from 'typeorm';
+import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
+import { enabledTrackIds, getCatalog } from '../achievements/load-seed';
+import { AwardView, describeAwards, describeProgress, TrackProgressView } from '../achievements/view';
+import { User } from '../auth/user.entity';
 import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
 import { getLevelForXp, LevelProgress } from './levels';
 import { computeStreak, StreakResult, toUtcDateKey } from './streak';
@@ -35,6 +39,26 @@ export interface AreaXpBreakdownEntry {
   xp: number;
   lastActivityAt: string;
 }
+
+/** What anyone may see of a user who left the profile public: nothing beyond this, at any depth. */
+export interface PublicProfile {
+  displayName: string;
+  avatarUrl: string;
+  level: { number: number; title: string };
+  xp: number;
+  badges: AwardView[];
+  trophies: AwardView[];
+}
+
+const PROFILE_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+export interface AchievementsView {
+  awards: AwardView[];
+  progress: TrackProgressView[];
+}
+
+const UNIT_TYPES: UnitSourceType[] = ['concept-read', 'lesson'];
+const AWARD_TYPES: AwardType[] = ['badge', 'trophy'];
 
 @Injectable()
 export class XpService {
@@ -241,11 +265,116 @@ export class XpService {
     }));
   }
 
+  /** Awards already recorded for a user, newest first. Retired and disabled ones are included: an award is permanent. */
+  private async awardRows(userId: number) {
+    const rows = await this.repo.find({
+      where: { userId, sourceType: In(AWARD_TYPES) },
+      select: { sourceType: true, sourceId: true, exp: true, updatedAt: true },
+      order: { updatedAt: 'DESC', id: 'DESC' },
+    });
+    return rows as { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[];
+  }
+
+  /** One query for everything a user has completed: unit key -> when. The input of every award decision. */
+  private async unitDates(userId: number): Promise<Map<string, Date>> {
+    const rows = await this.repo.find({
+      where: { userId, sourceType: In(UNIT_TYPES) },
+      select: { sourceType: true, sourceId: true, updatedAt: true },
+    });
+    return new Map(rows.map((r) => [unitKey(r as Unit), r.updatedAt]));
+  }
+
+  /** Read-only: the user's awards plus current progress on the tracks enabled for awarding. Never writes. */
+  async getAchievements(userId: number): Promise<AchievementsView> {
+    const catalog = getCatalog();
+    const [awards, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    const progress = computeProgress(
+      catalog,
+      new Set(dates.keys()),
+      new Set(awards.map((a) => `${a.sourceType}:${a.sourceId}`)),
+      enabledTrackIds(),
+    );
+    return { awards: describeAwards(catalog, awards), progress: describeProgress(catalog, progress) };
+  }
+
+  /** Awards the user has earned but that are not recorded yet, for the given tracks. Never writes. */
+  private async pendingAwards(userId: number, enabled: ReadonlySet<string>) {
+    const catalog = getCatalog();
+    const [existing, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    const pending = evaluateAwards(
+      catalog,
+      dates,
+      new Set(existing.map((a) => `${a.sourceType}:${a.sourceId}`)),
+      enabled,
+    );
+    return { catalog, pending };
+  }
+
+  /** What `syncAchievements` would record, without recording it: the backfill dry run. */
+  async previewAchievements(userId: number, enabled: ReadonlySet<string> = enabledTrackIds()): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId, enabled);
+    return describeAwards(
+      catalog,
+      pending.map((a) => ({ sourceType: a.sourceType, sourceId: a.sourceId, exp: a.exp, updatedAt: a.completedAt })),
+    );
+  }
+
+  /**
+   * Records every award the user has earned and does not have yet, and returns only the ones this
+   * call inserted. Idempotent and safe to run concurrently: the unique index on (user, type, id) is
+   * the guard, and `RETURNING` tells a real insert from a conflict. Each award keeps the date of the
+   * latest unit that completed it, so it never creates an activity day that did not exist.
+   */
+  async syncAchievements(userId: number, enabled: ReadonlySet<string> = enabledTrackIds()): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId, enabled);
+
+    const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
+    for (const award of pending) {
+      const result = await this.repo
+        .createQueryBuilder()
+        .insert()
+        .into(UserXpEntry)
+        .values({ userId, sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt })
+        .orIgnore()
+        .returning('id')
+        .execute();
+      if (result.raw.length > 0) {
+        inserted.push({ sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt });
+      }
+    }
+    return describeAwards(catalog, inserted);
+  }
+
+  /**
+   * The public profile for an id, or null. Null covers a malformed id, an unknown id and a private
+   * profile alike, so a response never reveals that a private user exists.
+   */
+  async getPublicProfile(publicProfileId: string): Promise<PublicProfile | null> {
+    if (!PROFILE_ID.test(publicProfileId)) return null;
+    const user = await this.repo.manager.getRepository(User).findOne({
+      where: { publicProfileId, profilePublic: true },
+      select: { id: true, displayName: true, displayNameOverride: true, avatarUrl: true },
+    });
+    if (!user) return null;
+    const [{ total }, rows] = await Promise.all([this.getUserXp(user.id), this.awardRows(user.id)]);
+    const awards = describeAwards(getCatalog(), rows);
+    const level = getLevelForXp(total);
+    return {
+      displayName: user.displayNameOverride ?? user.displayName,
+      avatarUrl: user.avatarUrl,
+      level: { number: level.number, title: level.title },
+      xp: total,
+      badges: awards.filter((a) => a.type === 'badge'),
+      trophies: awards.filter((a) => a.type === 'trophy'),
+    };
+  }
+
   /** Top users by total XP across all sources, for the profile leaderboard. */
   async getLeaderboard(limit = 10): Promise<LeaderboardEntry[]> {
     const rows = await this.repo
       .createQueryBuilder('x')
       .innerJoin('x.user', 'u')
+      .where('u.profilePublic = true')
       .select('x.userId', 'userId')
       .addSelect('u.displayName', 'displayName')
       .addSelect('u.displayNameOverride', 'displayNameOverride')

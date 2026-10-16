@@ -26,6 +26,8 @@ export interface SeoTags {
   course?: { moduleCount: number };
   /** Other language versions of this exact page, for hreflang. Only pass a language when that translation genuinely exists — never the fallback. */
   alternates?: { lang: Language; path: string }[];
+  /** A page reachable by link but not meant for search results (e.g. a public learner profile). Not access control. */
+  noindex?: boolean;
 }
 
 const SITE_NAME = 'My University';
@@ -54,7 +56,7 @@ export class SeoService {
 
     this.title.setTitle(tags.title);
 
-    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
+    this.meta.updateTag({ name: 'robots', content: tags.noindex ? 'noindex, nofollow' : 'index, follow' });
     this.meta.updateTag({ name: 'description', content: tags.description });
 
     this.meta.updateTag({ property: 'og:title', content: tags.title });

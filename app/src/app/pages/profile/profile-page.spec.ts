@@ -1,9 +1,12 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { AchievementsView } from '../../models/achievements.model';
 import { User } from '../../models/auth.model';
-import { DailyGoalStatus, StreakInfo, XpHistoryEntry, XpSummary } from '../../models/xp.model';
+import { AreaXpBreakdownEntry, DailyGoalStatus, StreakInfo, XpHistoryEntry, XpSummary } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
+import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
 import { ProfilePage } from './profile-page';
 
 const USER: User = {
@@ -26,13 +29,16 @@ function setup(options: {
   history?: XpHistoryEntry[];
   streak?: StreakInfo | null;
   dailyGoal?: DailyGoalStatus | null;
+  areas?: AreaXpBreakdownEntry[];
+  achievements?: AchievementsView | null;
 } = {}) {
-  const { loggedIn = true, summary = SUMMARY, history = [], streak = null, dailyGoal = null } = options;
+  const { loggedIn = true, summary = SUMMARY, history = [], streak = null, dailyGoal = null, areas = [], achievements = null } = options;
 
   TestBed.configureTestingModule({
     imports: [ProfilePage],
     providers: [
       provideZonelessChangeDetection(),
+      provideRouter([]),
       { provide: AuthService, useValue: { currentUser: signal(loggedIn ? USER : null) } },
       {
         provide: XpService,
@@ -41,6 +47,9 @@ function setup(options: {
           history: signal(history),
           streak: signal(streak),
           dailyGoal: signal(dailyGoal),
+          areas: signal(areas),
+          achievements: signal(achievements),
+          loadAreas: () => {},
           loadSummary: () => {},
           loadHistory: () => {},
           loadStreak: () => {},
@@ -106,8 +115,59 @@ describe('ProfilePage', () => {
       },
     });
 
-    expect(fixture.nativeElement.querySelector('.favorite-topic-value')?.textContent).toContain('Java Concepts');
+    expect(fixture.nativeElement.querySelector('.favorite-topic-value')?.textContent?.trim()).toBe('Concepts');
     expect(fixture.nativeElement.querySelector('.favorite-topic-sub')?.textContent).toContain('150 XP earned');
+  });
+
+  it('splits concept XP by area instead of calling all of it Java Concepts', () => {
+    const spring = COMPLEMENTARY_AREAS.find((a) => a.slug === 'spring-concepts')!.title;
+    const kubernetes = COMPLEMENTARY_AREAS.find((a) => a.slug === 'kubernetes-concepts')!.title;
+    const fixture = setup({
+      summary: {
+        total: 150,
+        level: { number: 2, title: 'Syntax Sprout', minXp: 100, nextLevelXp: 300 },
+        breakdown: [{ sourceType: 'concept-read', total: 150 }],
+      },
+      areas: [
+        { module: 'spring-concepts', xp: 90, lastActivityAt: '2026-10-01T00:00:00.000Z' },
+        { module: 'kubernetes-concepts', xp: 30, lastActivityAt: '2026-10-02T00:00:00.000Z' },
+      ],
+    });
+
+    const rows = Array.from(fixture.nativeElement.querySelectorAll('.breakdown-item') as NodeListOf<HTMLElement>).map((row) => {
+      const [label, xp] = Array.from(row.querySelectorAll('span')).map((el) => el.textContent?.trim());
+      return `${label} | ${xp}`;
+    });
+    // rows are ordered by XP; the XP no area claims stays under the generic "Concepts" row
+    expect(rows).toEqual([`${spring} | 90 XP`, `${kubernetes} | 30 XP`, 'Concepts | 30 XP']);
+    expect(fixture.nativeElement.querySelector('.favorite-topic-value')?.textContent?.trim()).toBe(spring);
+    expect(fixture.nativeElement.textContent).not.toContain('Java Concepts');
+  });
+
+  it('shows badge and trophy counts with a link to the achievements page', () => {
+    const awards = (type: 'badge' | 'trophy', n: number) =>
+      Array.from({ length: n }, (_, i) => ({ type, id: `${type}-${i}`, title: 'T', trackTitle: '', iconSlug: 'read', exp: 4, awardedAt: '2026-10-01T00:00:00.000Z', retired: false, passed: false }));
+    const fixture = setup({ achievements: { awards: [...awards('badge', 3), ...awards('trophy', 1)], progress: [] } });
+
+    expect(fixture.nativeElement.querySelector('[data-testid="profile-badge-count"]').textContent).toBe('3');
+    expect(fixture.nativeElement.querySelector('[data-testid="profile-trophy-count"]').textContent).toBe('1');
+    expect(fixture.nativeElement.querySelector('.achievements-link').getAttribute('href')).toBe('/profile/achievements');
+  });
+
+  it('names an award in recent activity by its title, not by its raw id', () => {
+    const id = '01a144df-4132-7737-aacd-4f9655f10d37';
+    const fixture = setup({
+      history: [{ id: 1, sourceType: 'badge', sourceId: id, exp: 10, updatedAt: '2026-10-01T00:00:00.000Z' }],
+      achievements: {
+        awards: [{ type: 'badge', id, title: 'Workloads', trackTitle: 'Kubernetes Concepts', iconSlug: 'kubernetes-concepts', exp: 10, awardedAt: '2026-10-01T00:00:00.000Z', retired: false, passed: false }],
+        progress: [],
+      },
+    });
+
+    const item = fixture.nativeElement.querySelector('.history-item') as HTMLElement;
+    expect(item.textContent).toContain('Badges');
+    expect(item.textContent).toContain('Workloads');
+    expect(item.textContent).not.toContain(id);
   });
 
   it('shows an empty state for favorite topic when there is no XP yet', () => {

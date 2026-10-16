@@ -6,4 +6,7 @@ export interface User {
   githubLogin: string;
   avatarUrl: string;
   preferredLanguage: Language | null;
+  /** Absent in a user cached before profiles existed; `bootstrap()` refreshes it from the server. */
+  profilePublic?: boolean;
+  publicProfileId?: string;
 }
