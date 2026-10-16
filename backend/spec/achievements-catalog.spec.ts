@@ -5,7 +5,8 @@ import {
   AWARD_XP, buildCatalog, compatProblems, computeProgress, evaluateAwards, unitKey,
   type PublishedSnapshot, type SeedInput, type TrackManifest, type Unit,
 } from '../src/achievements/catalog';
-import { getCatalog, loadSeed } from '../src/achievements/load-seed';
+import { getCatalog, getUnitTitles, loadSeed } from '../src/achievements/load-seed';
+import { describeCatalog, describeRequirements } from '../src/achievements/view';
 import { fromSourceId, parseCurriculumSourceId } from '../src/concept-lookup/concept-lookup.constants';
 import { MANIFEST } from '../src/achievements/manifest';
 
@@ -249,6 +250,86 @@ describe('computeProgress', () => {
   });
 });
 
+describe('describeCatalog', () => {
+  const done = (units: Unit[]) => new Set(units.map(unitKey));
+  const row = (sourceType: 'badge' | 'trophy', sourceId: string, updatedAt: Date) => ({ sourceType, sourceId, exp: 0, updatedAt });
+
+  it('lists every active track with the XP each prize grants, and says which tracks have badges at all', () => {
+    const [k8s, solo, direct] = describeCatalog(catalog, new Set(), []);
+    expect(k8s).toMatchObject({ trackId: T1, kind: 'concepts', total: 9, done: 0, hasBadges: true, trophy: { exp: 15, awarded: false, awardedAt: null } });
+    expect(k8s.sessions.map((s) => [s.title, s.total, s.exp])).toEqual([['Alpha', 3, 6], ['Beta', 3, 6], ['Gamma', 3, 6]]);
+    expect(solo).toMatchObject({ hasBadges: false, trophy: { exp: 5 } });
+    expect(direct).toMatchObject({ kind: 'curriculum', total: 2, hasBadges: false, sessions: [], trophy: { exp: 5 } });
+  });
+
+  it('promises exactly what evaluateAwards would grant: same prizes, same XP, for a user who finished everything', () => {
+    const everything = catalog.tracks.flatMap((t) => t.units);
+    const granted = evaluateAwards(catalog, dates(everything.map((u): [Unit, Date] => [u, day(1)])), new Set())
+      .map((a) => `${a.sourceType}:${a.sourceId}:${a.exp}`).sort();
+    const listed = describeCatalog(catalog, done(everything), []).flatMap((t) => [
+      ...(t.hasBadges ? t.sessions.map((s) => `badge:${s.sessionId}:${s.exp}`) : []),
+      `trophy:${t.trackId}:${t.trophy.exp}`,
+    ]).sort();
+    expect(listed).toEqual(granted);
+  });
+
+  it('counts progress and marks what is already earned, with its date', () => {
+    const [k8s] = describeCatalog(catalog, done([k('a'), k('b')]), [row('badge', S3, day(5))]);
+    expect(k8s.done).toBe(2);
+    expect(k8s.sessions.map((s) => [s.done, s.awarded])).toEqual([[2, false], [0, false], [0, true]]);
+    expect(k8s.sessions[2].awardedAt).toBe(day(5).toISOString());
+    expect(k8s.trophy).toMatchObject({ awarded: false, awardedAt: null });
+  });
+
+  it('marks the trophy earned, with its date', () => {
+    const [k8s] = describeCatalog(catalog, new Set(), [row('trophy', T1, day(7))]);
+    expect(k8s.trophy).toEqual({ exp: 15, awarded: true, awardedAt: day(7).toISOString() });
+  });
+
+  it('flags a session that ends in a knowledge check', () => {
+    const course = buildCatalog(seed, [{
+      trackId: T1, title: 'Course', status: 'active', source: { kind: 'course', courseId: 'java-25' },
+      sessions: [{ sessionId: S1, title: 'Values', label: '01-values' }],
+    }]);
+    expect(describeCatalog(course, new Set(), [])[0].sessions[0].hasAssessment).toBe(true);
+  });
+
+  it('leaves out retired and invalid tracks', () => {
+    expect(describeCatalog(buildCatalog(seed, [{ ...manifest[0], status: 'retired' }]), new Set(), [])).toEqual([]);
+    const renamed = { ...seed, concepts: { ...seed.concepts, 'kubernetes-concepts': seed.concepts['kubernetes-concepts'].map((c) => (c.topic === 'Beta' ? { ...c, topic: 'Beta 2' } : c)) } };
+    expect(describeCatalog(buildCatalog(renamed, manifest), new Set(), []).map((t) => t.trackId)).toEqual([T2, T3]);
+  });
+});
+
+describe('describeRequirements', () => {
+  const titles = new Map<string, string>([[unitKey(k('a')), 'Title of A'], [unitKey(cc('p')), 'Title of P']]);
+  const done = (units: Unit[]) => new Set(units.map(unitKey));
+
+  it('lists each session\'s units with a title, a link and whether the user did it', () => {
+    const view = describeRequirements(catalog, titles, T1, done([k('a')]))!;
+    expect(view.units).toEqual([]);
+    expect(view.sessions.map((s) => s.sessionId)).toEqual([S1, S2, S3]);
+    expect(view.sessions[0].units[0]).toEqual({ title: 'Title of A', route: ['/kubernetes-concepts', 'a'], done: true });
+    expect(view.sessions[0].units[1]).toMatchObject({ done: false, route: ['/kubernetes-concepts', 'b'] });
+  });
+
+  it('falls back to the unit id when a title is missing, so the list is never blank', () => {
+    expect(describeRequirements(catalog, new Map(), T1, new Set())!.sessions[0].units[0].title).toBe('kubernetes:a');
+  });
+
+  it('puts the units of a track without sessions at the top level', () => {
+    const view = describeRequirements(catalog, titles, T3, done([cc('p')]))!;
+    expect(view.sessions).toEqual([]);
+    expect(view.units.map((u) => [u.title, u.done])).toEqual([['Title of P', true], ['cc:foundations:discrete-math-logic:q', false]]);
+    expect(view.units[0].route).toEqual(['/computer-science', 'foundations', 'discrete-math-logic', 'p']);
+  });
+
+  it('is null for an unknown, retired or invalid track', () => {
+    expect(describeRequirements(catalog, titles, 'nope', new Set())).toBeNull();
+    expect(describeRequirements(buildCatalog(seed, [{ ...manifest[0], status: 'retired' }]), titles, T1, new Set())).toBeNull();
+  });
+});
+
 describe('published catalog (real seeds)', () => {
   const real = getCatalog();
   const byTitle = (title: string) => real.tracks.find((t) => t.title === title)!;
@@ -313,6 +394,12 @@ describe('published catalog (real seeds)', () => {
     expect(csharpTracks).toHaveLength(5);
     expect(byTitle('C#: LINQ').sessions).toHaveLength(1);
     expect(byTitle('C#: LINQ').units).toHaveLength(6);
+  });
+
+  it('every unit of every active track has a title, so the requirement list never shows a raw id', () => {
+    const titles = getUnitTitles();
+    const missing = real.tracks.filter((t) => t.valid && t.status === 'active').flatMap((t) => t.units).filter((u) => !titles.get(unitKey(u)));
+    expect(missing.map((u) => u.sourceId)).toEqual([]);
   });
 
   it('loadSeed reads only what the manifest references', () => {

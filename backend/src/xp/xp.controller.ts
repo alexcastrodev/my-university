@@ -59,6 +59,20 @@ export class XpController {
     return this.service.getAchievements(userId);
   }
 
+  /** Read-only: every active track with its badges and trophy, and the user's progress on each. */
+  @Get('achievements/catalog')
+  getAchievementCatalog(@CurrentUserId() userId: number) {
+    return this.service.getAchievementCatalog(userId);
+  }
+
+  /** Read-only: what one track asks for, unit by unit. 404 for an unknown, retired or invalid track. */
+  @Get('achievements/catalog/:trackId')
+  async getTrackRequirements(@CurrentUserId() userId: number, @Param('trackId') trackId: string) {
+    const view = await this.service.getTrackRequirements(userId, trackId);
+    if (!view) throw new NotFoundException();
+    return view;
+  }
+
   /** Records awards earned but not yet recorded; returns only the ones this call created. */
   @Post('achievements/sync')
   async syncAchievements(@CurrentUserId() userId: number) {

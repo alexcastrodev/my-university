@@ -206,3 +206,89 @@ describe('contract: the id a read endpoint records is the id the catalog counts'
     });
   }
 });
+
+interface CatalogEntry {
+  trackId: string; title: string; kind: string; total: number; done: number; hasBadges: boolean;
+  trophy: { exp: number; awarded: boolean; awardedAt: string | null };
+  sessions: { sessionId: string; title: string; total: number; done: number; exp: number; awarded: boolean }[];
+}
+interface Requirements {
+  trackId: string;
+  sessions: { sessionId: string; units: { title: string; route: string[] | null; done: boolean }[] }[];
+  units: { title: string; route: string[] | null; done: boolean }[];
+}
+const catalogOf = async (cookie: string) => json<CatalogEntry[]>(await get('/xp/achievements/catalog', { Cookie: cookie }));
+const requirements = (cookie: string, trackId: string) => get(`/xp/achievements/catalog/${trackId}`, { Cookie: cookie });
+
+describe('GET /xp/achievements/catalog', () => {
+  it('requires a session', async () => {
+    expect((await get('/xp/achievements/catalog')).status).toBe(401);
+    expect((await get(`/xp/achievements/catalog/${k8s.trackId}`)).status).toBe(401);
+  });
+
+  it('lists every valid active track with its badges and trophy, before the user does anything', async () => {
+    const body = await catalogOf(await user('cat-fresh'));
+    expect(body.map((t) => t.trackId)).toEqual(catalog.tracks.filter((t) => t.valid && t.status === 'active').map((t) => t.trackId));
+    const entry = body.find((t) => t.trackId === k8s.trackId)!;
+    expect(entry).toMatchObject({ kind: 'concepts', total: 50, done: 0, hasBadges: true, trophy: { awarded: false, exp: AWARD_XP.trophyPerModule * k8s.sessions.length } });
+    expect(entry.sessions).toHaveLength(k8s.sessions.length);
+    expect(entry.sessions[0]).toMatchObject({ done: 0, awarded: false, exp: AWARD_XP.badgePerUnit * k8s.sessions[0].units.length });
+    expect(body.find((t) => t.trackId === ccSmall.trackId)).toMatchObject({ kind: 'curriculum', hasBadges: false, sessions: [] });
+  });
+
+  it('shows progress and what was earned, and reading it grants nothing', async () => {
+    const cookie = await user('cat-progress');
+    const session = k8s.sessions[0];
+    await completeAll(cookie, k8s, session.units);
+    const before = await xpTotal(cookie);
+    const waiting = (await catalogOf(cookie)).find((t) => t.trackId === k8s.trackId)!;
+    expect(waiting.done).toBe(session.units.length);
+    expect(waiting.sessions[0]).toMatchObject({ done: session.units.length, awarded: false });
+    expect(await xpTotal(cookie)).toBe(before);
+    await sync(cookie);
+    expect((await catalogOf(cookie)).find((t) => t.trackId === k8s.trackId)!.sessions[0].awarded).toBe(true);
+  });
+
+  it('does not show one user another user\'s progress', async () => {
+    const [a, b] = [await user('cat-iso-a'), await user('cat-iso-b')];
+    await completeAll(a, k8s, k8s.sessions[0].units);
+    expect((await catalogOf(b)).find((t) => t.trackId === k8s.trackId)!.done).toBe(0);
+  });
+});
+
+describe('GET /xp/achievements/catalog/:trackId', () => {
+  it('lists the units of every session with a title, a link and whether the user did it', async () => {
+    const cookie = await user('req-units');
+    const first = k8s.sessions[0].units[0];
+    await complete(cookie, k8s, first);
+    const res = await requirements(cookie, k8s.trackId);
+    expect(res.status).toBe(200);
+    const body = await json<Requirements>(res);
+    expect(body.sessions.map((s) => s.sessionId)).toEqual(k8s.sessions.map((s) => s.sessionId));
+    expect(body.sessions[0].units).toHaveLength(k8s.sessions[0].units.length);
+    expect(body.sessions[0].units[0]).toMatchObject({ done: true, route: ['/kubernetes-concepts', first.sourceId.slice('kubernetes:'.length)] });
+    expect(body.sessions[0].units[0].title).not.toBe(first.sourceId);
+    expect(body.sessions[0].units[1].done).toBe(false);
+    expect(body.units).toEqual([]);
+  });
+
+  it('links the lessons of an OCP track to the course', async () => {
+    const body = await json<Requirements>(await requirements(await user('req-ocp'), j25.trackId));
+    const lesson = j25.sessions[0].units[0];
+    expect(body.sessions[0].units[0].route).toEqual(['/java/exam', 'java-25', 'lesson', lesson.sourceId]);
+    expect(body.sessions[0].units[0].title).not.toBe(lesson.sourceId);
+  });
+
+  it('puts the units of a track without sessions at the top level', async () => {
+    const body = await json<Requirements>(await requirements(await user('req-cc'), ccSmall.trackId));
+    expect(body.sessions).toEqual([]);
+    expect(body.units).toHaveLength(ccSmall.units.length);
+    expect(body.units.every((u) => !u.title.startsWith('cc:') && u.route !== null)).toBe(true);
+  });
+
+  it('is 404 for an unknown or malformed track id', async () => {
+    const cookie = await user('req-404');
+    expect((await requirements(cookie, '01a14000-0000-7000-8000-0000000000ff')).status).toBe(404);
+    expect((await requirements(cookie, 'not-a-track')).status).toBe(404);
+  });
+});

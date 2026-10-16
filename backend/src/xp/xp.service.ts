@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, MoreThanOrEqual, Repository } from 'typeorm';
 import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
-import { getCatalog } from '../achievements/load-seed';
-import { AwardView, describeAwards, describeProgress, TrackProgressView } from '../achievements/view';
+import { getCatalog, getUnitTitles } from '../achievements/load-seed';
+import {
+  AwardView, CatalogTrackView, describeAwards, describeCatalog, describeProgress, describeRequirements, TrackProgressView, TrackRequirementsView,
+} from '../achievements/view';
 import { User } from '../auth/user.entity';
 import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
 import { getLevelForXp, LevelProgress } from './levels';
@@ -312,6 +314,18 @@ export class XpService {
       new Set(awards.map((a) => `${a.sourceType}:${a.sourceId}`)),
     );
     return { awards: describeAwards(catalog, awards), progress: describeProgress(catalog, progress) };
+  }
+
+  /** Read-only: every active track with its badges and trophy, and how far the user is from each. Never writes. */
+  async getAchievementCatalog(userId: number): Promise<CatalogTrackView[]> {
+    const [awards, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    return describeCatalog(getCatalog(), new Set(dates.keys()), awards);
+  }
+
+  /** Read-only: what one track asks for, concept by concept, or null when there is no such active track. */
+  async getTrackRequirements(userId: number, trackId: string): Promise<TrackRequirementsView | null> {
+    const dates = await this.unitDates(userId);
+    return describeRequirements(getCatalog(), getUnitTitles(), trackId, new Set(dates.keys()));
   }
 
   /** Awards the user has earned but that are not recorded yet. Never writes. */
