@@ -12,6 +12,8 @@ import { CourseModule, Lesson } from '../../models/course.model';
 export class Playlist {
   modules = input.required<CourseModule[]>();
   activeLessonId = input<string | null>(null);
+  /** The exam's real passing score; 0 until it loads, in which case the hint is hidden. */
+  passingScore = input(0);
   lessonSelected = output<Lesson>();
   moduleToggled = output<number>();
 

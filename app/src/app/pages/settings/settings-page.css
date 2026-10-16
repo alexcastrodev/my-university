@@ -249,3 +249,11 @@
     padding-bottom: 0.25rem;
   }
 }
+
+.link-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  flex-wrap: wrap;
+}
+.link-box .name-input { flex: 1; min-width: 0; margin: 0; }

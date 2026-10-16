@@ -291,3 +291,16 @@
   font-size: 0.85rem;
   color: var(--mu-faint);
 }
+
+.achievements-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+.achievements-link:hover { border-color: var(--mu-accent-border); }
+.achievements-counts { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--mu-muted); }
+.achievements-count strong { font-size: 1.1rem; color: var(--mu-ink); margin-right: 0.15rem; }
+.achievements-cta { font-size: 0.85rem; font-weight: 600; color: var(--mu-accent); white-space: nowrap; }

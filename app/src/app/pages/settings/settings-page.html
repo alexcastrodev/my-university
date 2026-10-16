@@ -49,6 +49,28 @@
           <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
         }
       </div>
+
+      <div class="card">
+        <h2 class="section-title" i18n="@@settings.publicProfile.title">Public profile</h2>
+        <p class="hint" i18n="@@settings.publicProfile.hint">
+          Anyone with your link can see your name, avatar, level, total XP, badges and trophies, and you appear on the leaderboard. Nothing else is shown: not your GitHub login, history, streak or activity. It is on by default; turn it off at any time and the link stops working right away.
+        </p>
+        <div class="toggle-group" role="group" i18n-aria-label="@@settings.publicProfile.ariaLabel" aria-label="Public profile">
+          <button type="button" class="btn" data-testid="profile-public" [class.primary-btn]="isPublic()" [class.secondary-btn]="!isPublic()" [attr.aria-pressed]="isPublic()" [disabled]="profileSaving()" (click)="setProfilePublic(true)" i18n="@@settings.publicProfile.public">Public</button>
+          <button type="button" class="btn" data-testid="profile-private" [class.primary-btn]="!isPublic()" [class.secondary-btn]="isPublic()" [attr.aria-pressed]="!isPublic()" [disabled]="profileSaving()" (click)="setProfilePublic(false)" i18n="@@settings.publicProfile.private">Private</button>
+        </div>
+        @if (profileLink(); as link) {
+          <div class="link-box">
+            <input class="name-input" type="text" readonly [value]="link" data-testid="profile-link" i18n-aria-label="@@settings.publicProfile.linkLabel" aria-label="Your public profile link" />
+            <button type="button" class="btn secondary-btn" (click)="copyProfileLink()">
+              @if (copied()) { <ng-container i18n="@@settings.publicProfile.copied">Copied</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.copy">Copy link</ng-container> }
+            </button>
+          </div>
+        }
+        @if (profileMessage(); as msg) {
+          <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
+        }
+      </div>
     } @else {
       <div class="login-prompt">
         <p i18n="@@settings.loginPrompt">Log in with GitHub to change your settings.</p>
