@@ -188,7 +188,7 @@ export const serverRoutes: ServerRoute[] = [
   {
     // Public learner profile: per-id and it can turn private at any moment, so the shell is rendered in
     // the browser and the data is fetched fresh (the API answers `no-store`), never baked into SSR output.
-    path: 'u/:publicProfileId',
+    path: 'u/:profileKey',
     renderMode: RenderMode.Client,
   },
   {

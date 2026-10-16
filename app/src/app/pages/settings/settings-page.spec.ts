@@ -167,6 +167,13 @@ describe('SettingsPage', () => {
       expect(input.value).not.toContain('ana-gh');
     });
 
+    it('shows the link with the slug the user chose, once there is one', () => {
+      const fixture = setup(makeUser({ profilePublic: true, publicProfileId: PROFILE_ID, profileSlug: 'lekitoonrails' }));
+      const input = fixture.nativeElement.querySelector('[data-testid="profile-link"]') as HTMLInputElement;
+
+      expect(input.value).toMatch(/\/u\/lekitoonrails$/);
+    });
+
     it('goes private on click and reports it', () => {
       const calls: boolean[] = [];
       const fixture = setup(publicUser(), undefined, (value) => {

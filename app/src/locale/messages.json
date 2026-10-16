@@ -567,6 +567,14 @@
     "profile.tabs.aria": "Profile sections",
     "profile.tab.overview": "Overview",
     "profile.tab.activity": "Activity",
+    "profile.slug.label": "Custom link",
+    "profile.slug.hint": "Pick a short name for your link. Use 3 to 30 lowercase letters, numbers or hyphens. The link with the long id keeps working.",
+    "profile.slug.placeholder": "your-name",
+    "profile.slug.remove": "Use the default link",
+    "profile.slug.error.length": "Use between 3 and 30 characters.",
+    "profile.slug.error.format": "Use only lowercase letters, numbers and single hyphens, with no hyphen at the start or end.",
+    "profile.slug.error.reserved": "That name is reserved. Pick another.",
+    "profile.slug.error.taken": "That link is already taken. Pick another.",
     "profile.close": "Close"
   }
 }

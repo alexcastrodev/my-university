@@ -14,8 +14,8 @@
       >
         <div actions class="actions-row">
           <button type="button" class="btn btn-primary" data-testid="edit-profile" [attr.aria-expanded]="editing()" aria-controls="edit-panel" (click)="toggleEditing()" i18n="@@profile.editProfile">Edit profile</button>
-          @if (publicId(); as id) {
-            <a class="btn btn-quiet" data-testid="view-as-visitor" [routerLink]="['/u', id]" i18n="@@profile.viewAsVisitor">View as visitor</a>
+          @if (linkKey(); as key) {
+            <a class="btn btn-quiet" data-testid="view-as-visitor" [routerLink]="['/u', key]" i18n="@@profile.viewAsVisitor">View as visitor</a>
           }
         </div>
         <nav tabs class="tabs" i18n-aria-label="@@profile.tabs.aria" aria-label="Profile sections">
@@ -67,6 +67,41 @@
               </div>
             }
           </div>
+
+          @if (isPublic()) {
+            <div class="field">
+              <label class="label" for="profile-slug" i18n="@@profile.slug.label">Custom link</label>
+              <p class="hint" i18n="@@profile.slug.hint">Pick a short name for your link. Use 3 to 30 lowercase letters, numbers or hyphens. The link with the long id keeps working.</p>
+              <div class="row slug-row">
+                <span class="slug-prefix" data-testid="slug-prefix">{{ linkPrefix }}</span>
+                <input
+                  id="profile-slug"
+                  class="input slug-input"
+                  type="text"
+                  maxlength="30"
+                  autocomplete="off"
+                  autocapitalize="none"
+                  spellcheck="false"
+                  placeholder="your-name"
+                  i18n-placeholder="@@profile.slug.placeholder"
+                  [value]="slugDraft()"
+                  [attr.aria-invalid]="slugError() ? 'true' : null"
+                  [attr.aria-describedby]="slugError() ? 'slug-error' : null"
+                  (input)="slugDraft.set($any($event.target).value); slugError.set(null)"
+                  (keydown.enter)="saveSlug()"
+                />
+              </div>
+              @if (slugError(); as error) {
+                <p class="feedback error" id="slug-error" role="alert" data-testid="slug-error">{{ error }}</p>
+              }
+              <div class="row">
+                <button type="button" class="btn btn-primary" data-testid="save-slug" [disabled]="saving()" (click)="saveSlug()" i18n="@@settings.save">Save</button>
+                @if (currentSlug()) {
+                  <button type="button" class="btn btn-quiet" data-testid="remove-slug" [disabled]="saving()" (click)="removeSlug()" i18n="@@profile.slug.remove">Use the default link</button>
+                }
+              </div>
+            </div>
+          }
 
           @if (message(); as msg) {
             <p class="feedback" [class.error]="msg.kind === 'error'" role="status">{{ msg.text }}</p>

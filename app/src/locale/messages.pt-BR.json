@@ -964,6 +964,14 @@
     "profile.tabs.aria": "Seções do perfil",
     "profile.tab.overview": "Visão geral",
     "profile.tab.activity": "Atividade",
+    "profile.slug.label": "Link personalizado",
+    "profile.slug.hint": "Escolha um nome curto para o seu link. Use de 3 a 30 letras minúsculas, números ou hífens. O link com o id longo continua funcionando.",
+    "profile.slug.placeholder": "seu-nome",
+    "profile.slug.remove": "Usar o link padrão",
+    "profile.slug.error.length": "Use de 3 a 30 caracteres.",
+    "profile.slug.error.format": "Use apenas letras minúsculas, números e hífens simples, sem hífen no início ou no fim.",
+    "profile.slug.error.reserved": "Esse nome é reservado. Escolha outro.",
+    "profile.slug.error.taken": "Esse link já está em uso. Escolha outro.",
     "profile.close": "Fechar"
   }
 }

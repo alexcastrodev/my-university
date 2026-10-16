@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
@@ -29,6 +30,7 @@ interface Options {
   achievements?: AchievementsView | null;
   updateDisplayName?: (name: string | null) => Observable<User>;
   updateProfilePublic?: (value: boolean) => Observable<User>;
+  updateProfileSlug?: (slug: string | null) => Observable<User>;
 }
 
 function setup(o: Options = {}) {
@@ -41,11 +43,18 @@ function setup(o: Options = {}) {
     loadDailyGoal: jasmine.createSpy('loadDailyGoal'), loadAreas: jasmine.createSpy('loadAreas'),
     syncAchievements: jasmine.createSpy('syncAchievements').and.resolveTo(),
   };
+  const currentUser = signal(user);
+  // Like the real service: a saved slug lands in the cached user, so the link and the field follow it.
+  const updateProfileSlug = jasmine.createSpy('updateProfileSlug').and.callFake(o.updateProfileSlug ?? ((slug: string | null) => {
+    const next = { ...USER, profileSlug: slug };
+    currentUser.set(next);
+    return of(next);
+  }));
   TestBed.configureTestingModule({
     imports: [ProfileLayout],
     providers: [
       provideZonelessChangeDetection(), provideRouter([]),
-      { provide: AuthService, useValue: { currentUser: signal(user), updateDisplayName, updateProfilePublic } },
+      { provide: AuthService, useValue: { currentUser, updateDisplayName, updateProfilePublic, updateProfileSlug } },
       { provide: XpService, useValue: xp },
     ],
   });
@@ -54,7 +63,13 @@ function setup(o: Options = {}) {
   const el = fixture.nativeElement as HTMLElement;
   const q = <T extends HTMLElement>(sel: string) => el.querySelector(sel) as T | null;
   const click = (sel: string) => { q<HTMLButtonElement>(sel)!.click(); fixture.detectChanges(); };
-  return { fixture, el, q, click, xp, updateDisplayName, updateProfilePublic };
+  const type = (sel: string, value: string) => {
+    const input = q<HTMLInputElement>(sel)!;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+  };
+  return { fixture, el, q, click, type, xp, updateDisplayName, updateProfilePublic, updateProfileSlug };
 }
 
 describe('ProfileLayout', () => {
@@ -238,6 +253,96 @@ describe('ProfileLayout', () => {
 
     it('offers "View as visitor" on the banner when the profile is public', () => {
       expect(setup().q('[data-testid="view-as-visitor"]')!.getAttribute('href')).toBe(`/u/${ID}`);
+    });
+  });
+  describe('custom link', () => {
+    const open = (o: Options = {}) => { const s = setup(o); s.click('[data-testid="edit-profile"]'); return s; };
+    const failWith = (status: number, code?: string) => () => throwError(() => new HttpErrorResponse({ status, error: code ? { code } : null }));
+
+    it('is offered in the edit panel, empty until one is chosen', () => {
+      const { q } = open();
+      expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('');
+      expect(q('[data-testid="slug-prefix"]')!.textContent).toBe('/u/');
+      expect(q('[data-testid="remove-slug"]')).toBeNull();
+    });
+
+    it('is not offered while the profile is private, because the link is not live', () => {
+      expect(open({ user: { ...USER, profilePublic: false } }).q('#profile-slug')).toBeNull();
+    });
+
+    it('is pre-filled with the slug already chosen, with a way back to the default link', () => {
+      const { q } = open({ user: { ...USER, profileSlug: 'lekitoonrails' } });
+      expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('lekitoonrails');
+      expect(q('[data-testid="remove-slug"]')).not.toBeNull();
+    });
+
+    it('saves what was typed, and the link, the copy field and "View as visitor" all follow it', () => {
+      const { q, click, type, updateProfileSlug, fixture } = open();
+      type('#profile-slug', 'lekitoonrails');
+      click('[data-testid="save-slug"]');
+      expect(updateProfileSlug).toHaveBeenCalledOnceWith('lekitoonrails');
+      expect(q<HTMLInputElement>('[data-testid="profile-link"]')!.value).toMatch(/\/u\/lekitoonrails$/);
+      expect(q('[data-testid="view-as-visitor"]')!.getAttribute('href')).toBe('/u/lekitoonrails');
+      expect(q('[data-testid="remove-slug"]')).not.toBeNull();
+      expect(fixture.nativeElement.textContent).toContain('Saved.');
+    });
+
+    it('saves with Enter as well', () => {
+      const { q, fixture, updateProfileSlug } = open();
+      const input = q<HTMLInputElement>('#profile-slug')!;
+      input.value = 'ada';
+      input.dispatchEvent(new Event('input'));
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      fixture.detectChanges();
+      expect(updateProfileSlug).toHaveBeenCalledOnceWith('ada');
+    });
+
+    it('goes back to the id link by sending null, and the link follows', () => {
+      const { q, click, updateProfileSlug } = open({ user: { ...USER, profileSlug: 'lekitoonrails' } });
+      click('[data-testid="remove-slug"]');
+      expect(updateProfileSlug).toHaveBeenCalledOnceWith(null);
+      expect(q<HTMLInputElement>('[data-testid="profile-link"]')!.value).toMatch(new RegExp(`/u/${ID}$`));
+      expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('');
+      expect(q('[data-testid="remove-slug"]')).toBeNull();
+    });
+
+    it('says the name is taken, and keeps what was typed so it can be fixed', () => {
+      const { q, click, type } = open({ updateProfileSlug: failWith(409, 'taken') });
+      type('#profile-slug', 'lekitoonrails');
+      click('[data-testid="save-slug"]');
+      expect(q('[data-testid="slug-error"]')!.textContent).toContain('already taken');
+      expect(q<HTMLInputElement>('#profile-slug')!.value).toBe('lekitoonrails');
+      expect(q('#profile-slug')!.getAttribute('aria-invalid')).toBe('true');
+      expect(q<HTMLButtonElement>('[data-testid="save-slug"]')!.disabled).toBe(false);
+    });
+
+    it('says which rule was broken', () => {
+      const messages: [string, string][] = [['length', 'between 3 and 30'], ['format', 'lowercase letters, numbers and single hyphens'], ['reserved', 'reserved']];
+      for (const [code, text] of messages) {
+        TestBed.resetTestingModule();
+        const { q, click, type } = open({ updateProfileSlug: failWith(400, code) });
+        type('#profile-slug', 'x');
+        click('[data-testid="save-slug"]');
+        expect(q('[data-testid="slug-error"]')!.textContent).withContext(code).toContain(text);
+      }
+    });
+
+    it('falls back to the generic message for anything unexpected', () => {
+      const { q, click } = open({ updateProfileSlug: failWith(500) });
+      click('[data-testid="save-slug"]');
+      expect(q('[data-testid="slug-error"]')!.textContent).toContain('Something went wrong');
+    });
+
+    it('clears the error as soon as the user types again, and when the panel is reopened', () => {
+      const { q, click, type } = open({ updateProfileSlug: failWith(409, 'taken') });
+      click('[data-testid="save-slug"]');
+      expect(q('[data-testid="slug-error"]')).not.toBeNull();
+      type('#profile-slug', 'other');
+      expect(q('[data-testid="slug-error"]')).toBeNull();
+      click('[data-testid="save-slug"]');
+      click('[data-testid="close-edit"]');
+      click('[data-testid="edit-profile"]');
+      expect(q('[data-testid="slug-error"]')).toBeNull();
     });
   });
 });

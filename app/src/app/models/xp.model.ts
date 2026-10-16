@@ -53,6 +53,8 @@ export interface LeaderboardEntry {
   userId: number;
   /** Where the row links to: the board only lists users whose profile is public. */
   publicProfileId: string;
+  /** The vanity link the user chose, when there is one: the row links to it in preference to the id. */
+  profileSlug: string | null;
   displayName: string;
   avatarUrl: string;
   total: number;

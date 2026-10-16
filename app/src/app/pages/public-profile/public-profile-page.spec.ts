@@ -25,7 +25,7 @@ function setup() {
     imports: [PublicProfilePage],
     providers: [
       provideZonelessChangeDetection(), provideRouter([]), provideHttpClient(), provideHttpClientTesting(),
-      { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ publicProfileId: ID }) } } },
+      { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ profileKey: ID }) } } },
       { provide: SeoService, useValue: { set: seoSet } },
     ],
   });
