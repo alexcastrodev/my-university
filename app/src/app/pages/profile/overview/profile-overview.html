@@ -1,0 +1,94 @@
+<div class="stack">
+  <section class="card" aria-labelledby="latest-title">
+    <div class="section-header">
+      <h2 id="latest-title" class="section-title" i18n="@@profile.latest.title">Latest achievements</h2>
+      @if (awards().length > 0) {
+        <a class="see-all" routerLink="/profile/achievements" data-testid="see-all" i18n="@@profile.latest.seeAll">See all</a>
+      }
+    </div>
+    @if (awards().length === 0) {
+      <p class="empty-state" i18n="@@achievements.empty">Nothing here yet. Finish every concept in a session to earn a badge, and every session in a track to earn a trophy.</p>
+    } @else {
+      <ul class="latest">
+        @for (award of latest(); track award.type + award.id) {
+          <li><app-award-tile [award]="award" /></li>
+        }
+      </ul>
+    }
+  </section>
+
+  <div class="stats-grid">
+    @if (xpService.streak(); as streak) {
+      <div class="card streak-card">
+        <div class="stat-card-header">
+          <span class="stat-card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </span>
+          <h2 class="section-title" i18n="@@profile.streak.title">Streak</h2>
+        </div>
+        <div class="streak-now" [class.streak-zero]="streak.current === 0">
+          <span class="streak-now-value" data-testid="streak-current">{{ streak.current }}</span>
+          <span class="streak-now-unit">@if (streak.current === 1) { <ng-container i18n="@@profile.streak.day">day</ng-container> } @else { <ng-container i18n="@@profile.streak.days">days</ng-container> }</span>
+        </div>
+        <div class="progress-bar streak-meter" aria-hidden="true"><div class="progress-fill" [style.width.%]="streakPercent()"></div></div>
+        <p class="streak-record">
+          <span i18n="@@profile.streak.longest">Longest</span>
+          <strong data-testid="streak-longest">{{ streak.longest }}</strong>
+          @if (streak.longest === 1) { <ng-container i18n="@@profile.streak.day">day</ng-container> } @else { <ng-container i18n="@@profile.streak.days">days</ng-container> }
+        </p>
+        <p class="streak-hint" data-testid="streak-hint">
+          @switch (streakHint()) {
+            @case ('start') { <ng-container i18n="@@profile.streak.hint.start">Study today to start a new streak.</ng-container> }
+            @case ('record') { <ng-container i18n="@@profile.streak.hint.record">This is your longest streak. Keep it going!</ng-container> }
+            @default { <ng-container i18n="@@profile.streak.hint.chase">Keep going to beat your longest streak.</ng-container> }
+          }
+        </p>
+      </div>
+    }
+
+    <div class="card favorite-topic-card">
+      <div class="stat-card-header">
+        <span class="stat-card-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2.5 2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 1.12-6.55L2.48 9.42l6.58-.96z"/></svg>
+        </span>
+        <h2 class="section-title" i18n="@@profile.favoriteTopic.title">Favorite Topic</h2>
+      </div>
+      @if (favoriteTopic(); as favorite) {
+        <span class="favorite-topic-value"><app-source-label [label]="favorite.label" /></span>
+        <span class="favorite-topic-sub">
+          <ng-container i18n="@@profile.favoriteTopic.xpEarned">{{ favorite.total }} XP earned</ng-container>
+          <span class="favorite-topic-share" i18n="@@profile.favoriteTopic.share">{{ favorite.percent }}% of your XP</span>
+        </span>
+        <div class="progress-bar topic-meter" aria-hidden="true"><div class="progress-fill" [style.width.%]="favorite.percent"></div></div>
+        @if (runnersUp().length > 0) {
+          <ul class="runners-up">
+            @for (topic of runnersUp(); track topic.key) {
+              <li>
+                <span class="runner-name"><app-source-label [label]="topic.label" /></span>
+                <span class="runner-xp">{{ topic.total }} XP</span>
+                <span class="progress-bar topic-meter runner-meter" aria-hidden="true"><span class="progress-fill runner-fill" [style.width.%]="topic.percent"></span></span>
+              </li>
+            }
+          </ul>
+        }
+      } @else {
+        <span class="favorite-topic-empty" i18n="@@profile.favoriteTopic.empty">Not enough data yet</span>
+      }
+    </div>
+  </div>
+
+  @if (xpService.dailyGoal(); as goal) {
+    <div class="card">
+      <h2 class="section-title" i18n="@@profile.dailyGoal.title">Daily Goal</h2>
+      <div class="xp-total" i18n="@@profile.dailyGoal.progress">{{ goal.earnedToday }} / {{ goal.goal }} XP today</div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="dailyGoalPercent()"></div>
+      </div>
+      @if (goal.earnedToday >= goal.goal) {
+        <span class="progress-label" i18n="@@profile.dailyGoal.reached">Goal reached, nice work!</span>
+      } @else {
+        <span class="progress-label" i18n="@@profile.dailyGoal.toGo">{{ goal.goal - goal.earnedToday }} XP to go</span>
+      }
+    </div>
+  }
+</div>

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AwardView } from '../../models/achievements.model';
-import { AwardCard } from '../award-card/award-card';
+import { AwardTile } from '../award-tile/award-tile';
 
-/** Trophies, then badges, each as a titled grid of award cards; a group with nothing in it is not drawn. */
+/** Trophies, then badges, each as a titled grid of compact award tiles; a group with nothing in it is not drawn. */
 @Component({
   selector: 'app-awards-sections',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AwardCard],
+  imports: [AwardTile],
   templateUrl: './awards-sections.html',
   styleUrl: './awards-sections.css',
 })

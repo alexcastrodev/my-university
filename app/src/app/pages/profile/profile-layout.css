@@ -1,0 +1,95 @@
+.page {
+  min-height: calc(100vh - var(--mu-header-h));
+  background: var(--mu-bg);
+}
+
+.page-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.88; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--mu-accent); color: var(--mu-white); }
+.btn-quiet { background: var(--mu-bg-alt); color: var(--mu-ink-soft); border-color: var(--mu-line); }
+.github-btn { background: #24292f; color: var(--mu-white); }
+
+.login-prompt {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.login-prompt p { color: var(--mu-muted); font-size: 0.9rem; margin: 0; }
+
+.edit-panel {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.edit-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.edit-title { font-size: 1rem; font-weight: 700; color: var(--mu-ink); margin: 0; }
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.label { font-size: 0.8rem; font-weight: 700; color: var(--mu-ink); }
+.hint { font-size: 0.8rem; color: var(--mu-muted); margin: 0; }
+.row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.row .input { flex: 1; min-width: 12rem; }
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--mu-surface);
+  color: var(--mu-ink);
+}
+.feedback { font-size: 0.8rem; color: var(--mu-success-strong); margin: 0; }
+.feedback.error { color: var(--mu-danger-strong); }
+
+.actions-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* The tabs live at the bottom edge of the banner band */
+.tabs { display: flex; gap: 0.25rem; overflow-x: auto; margin-top: 0.25rem; }
+.tab {
+  padding: 0.75rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--mu-ink); }
+.tab-active { color: var(--mu-ink); border-bottom-color: var(--mu-accent); }
+
+@media (max-width: 480px) {
+  .page-body { padding: 1.25rem 1rem; }
+}

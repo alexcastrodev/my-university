@@ -1,0 +1,63 @@
+<header class="band">
+  <div class="inner">
+    <div class="top">
+      <div class="who">
+        <img class="avatar" [src]="avatarUrl()" alt="" width="96" height="96" />
+        <div class="identity">
+          <div class="name-row">
+            <h1 class="display-name">{{ displayName() }}</h1>
+            @if (visibility(); as v) {
+              <span class="visibility" [class.visibility-private]="v === 'private'" data-testid="visibility-chip">
+                @if (v === 'public') { <ng-container i18n="@@settings.publicProfile.public">Public</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.private">Private</ng-container> }
+              </span>
+            }
+          </div>
+          @if (handle(); as login) {
+            <span class="handle">&#64;{{ login }}</span>
+          }
+          @if (level(); as current) {
+            <div class="level">
+              <span class="level-line" i18n="@@publicProfile.level">Level {{ current.number }} · {{ current.title }}</span>
+              @if (levelProgress(); as progress) {
+                <div class="level-bar" role="progressbar" [attr.aria-valuenow]="progress.percent" aria-valuemin="0" aria-valuemax="100">
+                  <div class="level-fill" [style.width.%]="progress.percent"></div>
+                </div>
+                <span class="level-note">
+                  @if (progress.remaining !== null) { <ng-container i18n="@@profile.xpToNextLevel">{{ progress.remaining }} XP to next level</ng-container> } @else { <ng-container i18n="@@profile.maxLevel">Max level reached</ng-container> }
+                </span>
+              }
+            </div>
+          }
+          <div class="actions"><ng-content select="[actions]" /></div>
+        </div>
+      </div>
+
+      <div class="side">
+        <dl class="stats">
+          <div class="stat">
+            <dd class="stat-value" data-testid="badge-count">{{ badgeCount() }}</dd>
+            <dt class="stat-label" i18n="@@publicProfile.badges">Badges</dt>
+          </div>
+          <div class="stat">
+            <dd class="stat-value" data-testid="trophy-count">{{ trophyCount() }}</dd>
+            <dt class="stat-label" i18n="@@publicProfile.trophies">Trophies</dt>
+          </div>
+          @if (xp() !== null) {
+            <div class="stat">
+              <dd class="stat-value" data-testid="xp-total">{{ xp() }}</dd>
+              <dt class="stat-label" i18n="@@profile.stat.xp">XP</dt>
+            </div>
+          }
+          @if (streak() !== null) {
+            <div class="stat">
+              <dd class="stat-value" data-testid="streak-days">{{ streak() }}</dd>
+              <dt class="stat-label" i18n="@@profile.streak.title">Streak</dt>
+            </div>
+          }
+        </dl>
+      </div>
+    </div>
+
+    <ng-content select="[tabs]" />
+  </div>
+</header>

@@ -1,0 +1,85 @@
+<div class="page">
+    @if (auth.currentUser(); as user) {
+      <app-profile-banner
+        [avatarUrl]="user.avatarUrl"
+        [displayName]="user.displayName"
+        [handle]="user.githubLogin"
+        [visibility]="isPublic() ? 'public' : 'private'"
+        [level]="xpService.summary()?.level ?? null"
+        [levelProgress]="levelProgress()"
+        [xp]="xpService.summary()?.total ?? null"
+        [badgeCount]="badgeCount()"
+        [trophyCount]="trophyCount()"
+        [streak]="xpService.streak()?.current ?? null"
+      >
+        <div actions class="actions-row">
+          <button type="button" class="btn btn-primary" data-testid="edit-profile" [attr.aria-expanded]="editing()" aria-controls="edit-panel" (click)="toggleEditing()" i18n="@@profile.editProfile">Edit profile</button>
+          @if (publicId(); as id) {
+            <a class="btn btn-quiet" data-testid="view-as-visitor" [routerLink]="['/u', id]" i18n="@@profile.viewAsVisitor">View as visitor</a>
+          }
+        </div>
+        <nav tabs class="tabs" i18n-aria-label="@@profile.tabs.aria" aria-label="Profile sections">
+          <a class="tab" routerLink="/profile" routerLinkActive="tab-active" [routerLinkActiveOptions]="{ exact: true }" data-testid="tab-overview" i18n="@@profile.tab.overview">Overview</a>
+          <a class="tab" routerLink="/profile/achievements" routerLinkActive="tab-active" data-testid="tab-achievements" i18n="@@achievements.title">Achievements</a>
+          <a class="tab" routerLink="/profile/activity" routerLinkActive="tab-active" data-testid="tab-activity" i18n="@@profile.tab.activity">Activity</a>
+        </nav>
+      </app-profile-banner>
+
+      <div class="page-body">
+
+      @if (editing()) {
+        <section class="edit-panel" id="edit-panel" aria-labelledby="edit-title">
+          <div class="edit-head">
+            <h2 id="edit-title" class="edit-title" i18n="@@profile.editProfile">Edit profile</h2>
+            <button type="button" class="btn btn-quiet" data-testid="close-edit" (click)="toggleEditing()" i18n="@@profile.close">Close</button>
+          </div>
+
+          <div class="field">
+            <label class="label" for="display-name" i18n="@@settings.displayName.title">Display name</label>
+            <input
+              id="display-name"
+              class="input"
+              type="text"
+              maxlength="80"
+              [value]="draft()"
+              (input)="draft.set($any($event.target).value)"
+              (keydown.enter)="saveName()"
+            />
+            <div class="row">
+              <button type="button" class="btn btn-primary" data-testid="save-name" [disabled]="saving()" (click)="saveName()">@if (saving()) { <ng-container i18n="@@settings.saving">Saving…</ng-container> } @else { <ng-container i18n="@@settings.save">Save</ng-container> }</button>
+              <button type="button" class="btn btn-quiet" data-testid="reset-name" [disabled]="saving()" (click)="resetToGithubName()" i18n="@@settings.resetGithub">Reset to GitHub name</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label" id="visibility-label" i18n="@@settings.publicProfile.title">Public profile</span>
+            <p class="hint" i18n="@@settings.publicProfile.hint">
+              Anyone with your link can see your name, avatar, level, total XP, badges and trophies, and you appear on the leaderboard. Nothing else is shown: not your GitHub login, history, streak or activity. It is on by default; turn it off at any time and the link stops working right away.
+            </p>
+            <div class="row" role="group" aria-labelledby="visibility-label">
+              <button type="button" class="btn" data-testid="profile-public" [class.btn-primary]="isPublic()" [class.btn-quiet]="!isPublic()" [attr.aria-pressed]="isPublic()" [disabled]="saving()" (click)="setPublic(true)" i18n="@@settings.publicProfile.public">Public</button>
+              <button type="button" class="btn" data-testid="profile-private" [class.btn-primary]="!isPublic()" [class.btn-quiet]="isPublic()" [attr.aria-pressed]="!isPublic()" [disabled]="saving()" (click)="setPublic(false)" i18n="@@settings.publicProfile.private">Private</button>
+            </div>
+            @if (profileLink(); as link) {
+              <div class="row">
+                <input class="input" type="text" readonly [value]="link" data-testid="profile-link" i18n-aria-label="@@settings.publicProfile.linkLabel" aria-label="Your public profile link" />
+                <button type="button" class="btn btn-quiet" data-testid="copy-link" (click)="copyLink()">@if (copied()) { <ng-container i18n="@@settings.publicProfile.copied">Copied</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.copy">Copy link</ng-container> }</button>
+              </div>
+            }
+          </div>
+
+          @if (message(); as msg) {
+            <p class="feedback" [class.error]="msg.kind === 'error'" role="status">{{ msg.text }}</p>
+          }
+        </section>
+      }
+
+        <router-outlet />
+      </div>
+    } @else {
+      <div class="page-body"><div class="login-prompt">
+        <p i18n="@@profile.loginPrompt">Log in with GitHub to track your progress.</p>
+        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
+      </div></div>
+    }
+</div>
