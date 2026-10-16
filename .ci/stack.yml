@@ -43,8 +43,6 @@ services:
       - DATABASE_URL=postgres://postgres@university-db_postgres:5432/ocp_java
       - MEILI_HOST=http://university-db_meilisearch:7700
       - MEILI_MASTER_KEY
-      # Track ids (comma separated) allowed to award badges/trophies. Unset or empty: nothing awards.
-      - ACHIEVEMENTS_ENABLED_TRACKS
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL

@@ -7,12 +7,6 @@ services:
   web:
     ports: !reset []
 
-  # Kubernetes, OCP java-25 and software-distributed/distributed-systems-laboratory (see
-  # backend/src/achievements/manifest.ts). Ids are immutable, so this list only grows.
-  api:
-    environment:
-      - ACHIEVEMENTS_ENABLED_TRACKS=01a144df-4132-7723-8b54-20f003eeb2bf,01a144df-4132-774c-93c3-f2ad51210a81,01a144df-4132-77d0-a27f-f1714cc81e59
-
   console-test:
     environment:
       - PNPM_CONFIG_STORE_DIR=/pnpm-store

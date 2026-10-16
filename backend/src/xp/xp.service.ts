@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, MoreThanOrEqual, Repository } from 'typeorm';
 import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
-import { enabledTrackIds, getCatalog } from '../achievements/load-seed';
+import { getCatalog } from '../achievements/load-seed';
 import { AwardView, describeAwards, describeProgress, TrackProgressView } from '../achievements/view';
 import { User } from '../auth/user.entity';
 import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
@@ -284,7 +284,7 @@ export class XpService {
     return new Map(rows.map((r) => [unitKey(r as Unit), r.updatedAt]));
   }
 
-  /** Read-only: the user's awards plus current progress on the tracks enabled for awarding. Never writes. */
+  /** Read-only: the user's awards plus current progress on every active track. Never writes. */
   async getAchievements(userId: number): Promise<AchievementsView> {
     const catalog = getCatalog();
     const [awards, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
@@ -292,27 +292,21 @@ export class XpService {
       catalog,
       new Set(dates.keys()),
       new Set(awards.map((a) => `${a.sourceType}:${a.sourceId}`)),
-      enabledTrackIds(),
     );
     return { awards: describeAwards(catalog, awards), progress: describeProgress(catalog, progress) };
   }
 
-  /** Awards the user has earned but that are not recorded yet, for the given tracks. Never writes. */
-  private async pendingAwards(userId: number, enabled: ReadonlySet<string>) {
+  /** Awards the user has earned but that are not recorded yet. Never writes. */
+  private async pendingAwards(userId: number) {
     const catalog = getCatalog();
     const [existing, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
-    const pending = evaluateAwards(
-      catalog,
-      dates,
-      new Set(existing.map((a) => `${a.sourceType}:${a.sourceId}`)),
-      enabled,
-    );
+    const pending = evaluateAwards(catalog, dates, new Set(existing.map((a) => `${a.sourceType}:${a.sourceId}`)));
     return { catalog, pending };
   }
 
   /** What `syncAchievements` would record, without recording it: the backfill dry run. */
-  async previewAchievements(userId: number, enabled: ReadonlySet<string> = enabledTrackIds()): Promise<AwardView[]> {
-    const { catalog, pending } = await this.pendingAwards(userId, enabled);
+  async previewAchievements(userId: number): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId);
     return describeAwards(
       catalog,
       pending.map((a) => ({ sourceType: a.sourceType, sourceId: a.sourceId, exp: a.exp, updatedAt: a.completedAt })),
@@ -325,8 +319,8 @@ export class XpService {
    * the guard, and `RETURNING` tells a real insert from a conflict. Each award keeps the date of the
    * latest unit that completed it, so it never creates an activity day that did not exist.
    */
-  async syncAchievements(userId: number, enabled: ReadonlySet<string> = enabledTrackIds()): Promise<AwardView[]> {
-    const { catalog, pending } = await this.pendingAwards(userId, enabled);
+  async syncAchievements(userId: number): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId);
 
     const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
     for (const award of pending) {

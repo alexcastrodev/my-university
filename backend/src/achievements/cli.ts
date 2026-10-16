@@ -6,11 +6,10 @@
  *                                         `published.json`, the compatibility reference the specs compare
  *                                         the live seeds against: later changes may only add units. Run it
  *                                         when a track or session is first published, never to hide a removal.
- *   backfill [--tracks ids|all] [--apply] [--report file.json]
- *                                         record awards users already earned. A dry run unless `--apply`,
- *                                         which also requires an explicit `--tracks` (ids, or `all`). The
- *                                         dry run defaults to ACHIEVEMENTS_ENABLED_TRACKS, else every track.
- *                                         Uses the same evaluator as live sync, so re-running changes nothing.
+ *   backfill [--apply] [--report file.json]
+ *                                         record awards users already earned, on every active track. A dry
+ *                                         run unless `--apply`. Uses the same evaluator as live sync, so
+ *                                         re-running changes nothing.
  */
 import 'reflect-metadata';
 import { writeFileSync } from 'fs';
@@ -20,7 +19,7 @@ import { User } from '../auth/user.entity';
 import { UserXpEntry } from '../xp/user-xp.entity';
 import { XpService } from '../xp/xp.service';
 import { PublishedSnapshot, unitKey } from './catalog';
-import { enabledTrackIds, getCatalog } from './load-seed';
+import { getCatalog } from './load-seed';
 
 export const PUBLISHED_PATH = join(__dirname, '../../src/achievements/published.json');
 
@@ -45,7 +44,8 @@ export function buildSnapshot(): PublishedSnapshot {
 
 export interface BackfillReport {
   mode: 'dry-run' | 'apply';
-  tracks: string[];
+  /** Active, valid tracks the run looked at. */
+  tracks: number;
   users: number;
   usersAffected: number;
   awards: number;
@@ -59,23 +59,8 @@ const option = (args: string[], name: string): string | undefined => {
   return i === -1 ? undefined : args[i + 1];
 };
 
-/** Resolves the `--tracks` option to a set of ids, refusing anything that is not an active valid track. */
-export function resolveTracks(arg: string | undefined, apply: boolean): Set<string> {
-  const valid = new Set(getCatalog().tracks.filter((t) => t.valid && t.status === 'active').map((t) => t.trackId));
-  if (arg === undefined) {
-    if (apply) throw new Error('--apply needs an explicit --tracks <ids|all>');
-    const configured = enabledTrackIds();
-    return configured.size > 0 ? configured : valid;
-  }
-  const ids = arg === 'all' ? [...valid] : arg.split(',').map((s) => s.trim()).filter(Boolean);
-  const unknown = ids.filter((id) => !valid.has(id));
-  if (unknown.length > 0) throw new Error(`not an active, valid track: ${unknown.join(', ')}`);
-  return new Set(ids);
-}
-
 export async function backfill(args: string[]): Promise<BackfillReport> {
   const apply = args.includes('--apply');
-  const tracks = resolveTracks(option(args, '--tracks'), apply);
   const dataSource = new DataSource({
     type: 'postgres',
     url: process.env.DATABASE_URL ?? 'postgres://postgres@127.0.0.1:5432/ocp_java',
@@ -85,10 +70,11 @@ export async function backfill(args: string[]): Promise<BackfillReport> {
   try {
     const xp = new XpService(dataSource.getRepository(UserXpEntry));
     const users = await dataSource.getRepository(User).find({ select: { id: true }, order: { id: 'ASC' } });
-    const report: BackfillReport = { mode: apply ? 'apply' : 'dry-run', tracks: [...tracks], users: users.length, usersAffected: 0, awards: 0, xp: 0, perUser: [] };
+    const tracks = getCatalog().tracks.filter((t) => t.valid && t.status === 'active').length;
+    const report: BackfillReport = { mode: apply ? 'apply' : 'dry-run', tracks, users: users.length, usersAffected: 0, awards: 0, xp: 0, perUser: [] };
     for (const { id } of users) {
       const xpBefore = (await xp.getUserXp(id)).total;
-      const awards = apply ? await xp.syncAchievements(id, tracks) : await xp.previewAchievements(id, tracks);
+      const awards = apply ? await xp.syncAchievements(id) : await xp.previewAchievements(id);
       if (awards.length === 0) continue;
       report.usersAffected += 1;
       report.awards += awards.length;
@@ -111,10 +97,10 @@ async function main(): Promise<void> {
     const file = option(args, '--report');
     if (file) writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
     const verb = report.mode === 'apply' ? 'recorded' : 'would record';
-    console.log(`${report.mode}: ${verb} ${report.awards} award(s), ${report.xp} XP, for ${report.usersAffected} of ${report.users} user(s) on ${report.tracks.length} track(s)`);
+    console.log(`${report.mode}: ${verb} ${report.awards} award(s), ${report.xp} XP, for ${report.usersAffected} of ${report.users} user(s) on ${report.tracks} track(s)`);
     if (!file) console.log(JSON.stringify(report.perUser, null, 2));
   } else {
-    console.error('usage: achievements snapshot | backfill [--tracks ids|all] [--apply] [--report file.json]');
+    console.error('usage: achievements snapshot | backfill [--apply] [--report file.json]');
     process.exit(1);
   }
 }

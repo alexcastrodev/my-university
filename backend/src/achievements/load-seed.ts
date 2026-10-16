@@ -41,8 +41,3 @@ export function getCatalog(): Catalog {
   cached ??= buildCatalog(loadSeed(MANIFEST), MANIFEST);
   return cached;
 }
-
-/** Track ids allowed to award, from `ACHIEVEMENTS_ENABLED_TRACKS` (comma separated). Empty means nothing awards. */
-export function enabledTrackIds(env: string | undefined = process.env.ACHIEVEMENTS_ENABLED_TRACKS): Set<string> {
-  return new Set((env ?? '').split(',').map((s) => s.trim()).filter(Boolean));
-}
