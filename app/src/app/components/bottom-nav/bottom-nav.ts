@@ -4,7 +4,7 @@ import { filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 /**
- * Mobile bottom tab bar (Home / Daily / Track / Settings) from the mockups. The curriculum
+ * Mobile bottom tab bar (Home / Daily / Track / Discussions / Settings) from the mockups. The curriculum
  * map stays reachable from the Computer Science page. On phones the header is hidden, so
  * Settings is where the account, language, theme and Complementary Studies links live.
  * Rendered app-wide but only visible on phone-width viewports (see CSS).

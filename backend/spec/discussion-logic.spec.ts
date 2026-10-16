@@ -1,7 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import {
+  CONCEPT_MODULES,
+  curriculumSourceId,
+  toSourceId,
+} from '../src/concept-lookup/concept-lookup.constants';
+import {
+  areaPrefixes,
+  areaSql,
   assembleThreads,
   CommentRow,
+  decodeFeedCursor,
+  encodeFeedCursor,
+  feedPage,
   normalizeForMatch,
   quoteAppearsIn,
   VoteInfo,
@@ -149,5 +159,89 @@ describe('assembleThreads', () => {
     );
     expect(thread.root.author).toBeNull();
     expect(thread.root.body).toBe('body 1');
+  });
+});
+
+describe('feed cursor', () => {
+  const at = '2026-10-16T12:34:56.123456';
+
+  it('round-trips the activity time with microseconds and the id', () => {
+    expect(decodeFeedCursor(encodeFeedCursor({ at, id: 42 }))).toEqual({
+      at,
+      id: 42,
+    });
+  });
+
+  it('rejects anything it did not issue', () => {
+    const b64 = (v: unknown) =>
+      Buffer.from(JSON.stringify(v)).toString('base64url');
+    for (const raw of [
+      'not base64 at all!',
+      b64({ at, id: 1 }),
+      b64([at]),
+      b64(['2026-10-16 12:34:56', 1]),
+      b64([`${at}'; DROP TABLE x`, 1]),
+      b64([at, 0]),
+      b64([at, 1.5]),
+      b64([at, '1']),
+    ]) {
+      expect(decodeFeedCursor(raw)).toBeNull();
+    }
+  });
+});
+
+describe('feedPage', () => {
+  const rows = [3, 2, 1].map((id) => ({
+    id,
+    cursorAt: `2026-10-16T12:00:0${id}.000000`,
+  }));
+
+  it('has no next cursor when the extra row did not come back', () => {
+    expect(feedPage(rows, 3)).toEqual({ rows, nextCursor: null });
+  });
+
+  it('keeps `limit` rows and points the cursor at the last one kept', () => {
+    const page = feedPage(rows, 2);
+    expect(page.rows.map((r) => r.id)).toEqual([3, 2]);
+    expect(decodeFeedCursor(page.nextCursor!)).toEqual({
+      at: '2026-10-16T12:00:02.000000',
+      id: 2,
+    });
+  });
+});
+
+describe('feed areas', () => {
+  const prefixes = areaPrefixes(CONCEPT_MODULES);
+  /** What the SQL CASE does, in TypeScript: first prefix that matches wins. */
+  const areaOf = (topicKey: string) => {
+    const hit = prefixes.find(([prefix]) => topicKey.startsWith(prefix));
+    return hit && (hit[1] ?? topicKey.split(':')[2]);
+  };
+
+  for (const { module } of CONCEPT_MODULES) {
+    it(`maps a ${module} topic back to its own area`, () => {
+      const { sourceType, sourceId } = toSourceId(module, 'some-slug')!;
+      expect(areaOf(`${sourceType}:${sourceId}`)).toBe(module);
+    });
+  }
+
+  it('uses the curriculum module as the area of a Computer Science concept', () => {
+    const sourceId = curriculumSourceId('foundations', 'discrete-math', 'sets');
+    expect(areaOf(`concept-read:${sourceId}`)).toBe('foundations');
+  });
+
+  it('writes the same rule as a SQL CASE, most specific prefix first', () => {
+    const sql = areaSql(prefixes, 'm."topicKey"');
+    expect(sql).toMatch(/^CASE WHEN m\."topicKey" LIKE 'concept-read:cc:%'/);
+    expect(sql.indexOf("'concept-read:dotnet-testing:%'")).toBeLessThan(
+      sql.indexOf("'concept-read:%'"),
+    );
+    expect(sql).toContain(
+      "WHEN m.\"topicKey\" LIKE 'episode-watched:csharp:%' THEN 'csharp-minute'",
+    );
+  });
+
+  it('refuses a prefix that would not be a safe SQL literal', () => {
+    expect(() => areaSql([["x'; --", 'y']], 'c')).toThrow();
   });
 });

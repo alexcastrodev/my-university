@@ -58,16 +58,27 @@ describe('BottomNav', () => {
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
-  it('renders the four tabs', async () => {
+  it('renders the five tabs', async () => {
     const { fixture } = await setup('/dashboard');
 
     const tabs = fixture.nativeElement.querySelectorAll('.tab');
-    expect(tabs.length).toBe(4);
+    expect(tabs.length).toBe(5);
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('Home');
     expect(text).toContain('Daily');
     expect(text).toContain('Track');
+    expect(text).toContain('Discussions');
     expect(text).toContain('Settings');
+  });
+
+  it('links Discussions to the discussions feed', async () => {
+    const { fixture } = await setup('/dashboard');
+
+    const tab = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('a.tab')).find((a) =>
+      a.textContent?.includes('Discussions'),
+    );
+
+    expect(tab?.getAttribute('href')).toBe('/discussions');
   });
 
   it('links Settings to the settings page, which replaces the header on phones', async () => {

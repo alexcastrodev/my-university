@@ -1,4 +1,4 @@
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsIn,
   IsInt,
@@ -11,7 +11,14 @@ import {
   MinLength,
 } from 'class-validator';
 import { SUPPORTED_LANGUAGES } from '../shared/language';
-import { MAX_BODY_LENGTH, MAX_QUOTE_LENGTH } from './discussion.logic';
+import {
+  FEED_DEFAULT_LIMIT,
+  FEED_MAX_LIMIT,
+  FEED_SCOPES,
+  type FeedScope,
+  MAX_BODY_LENGTH,
+  MAX_QUOTE_LENGTH,
+} from './discussion.logic';
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const trim = ({ value }: { value: unknown }) =>
@@ -74,6 +81,38 @@ export class ReplyDto extends CommentBodyDto {
   @IsInt()
   @Min(1)
   parentId: number;
+}
+
+/** Filters of the area counts: the same as the feed's, minus the area itself. */
+export class FeedAreasDto {
+  @IsOptional()
+  @IsIn(FEED_SCOPES)
+  scope: FeedScope = 'all';
+
+  @IsOptional()
+  @IsIn(SUPPORTED_LANGUAGES)
+  lang?: string;
+}
+
+export class FeedDto extends FeedAreasDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(60)
+  @Matches(SLUG)
+  area?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(FEED_MAX_LIMIT)
+  limit: number = FEED_DEFAULT_LIMIT;
+
+  /** Opaque; checked by the service, which answers 400 for one it did not issue. */
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  cursor?: string;
 }
 
 export class AcceptDto {

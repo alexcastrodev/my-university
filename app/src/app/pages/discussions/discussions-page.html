@@ -1,0 +1,102 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@discussions.title">Discussions</h1>
+    <p class="page-sub" i18n="@@discussions.subtitle">Paragraph discussions across every area, most recent activity first.</p>
+  </div>
+
+  <div class="page-body">
+    <div class="tabs" role="tablist" i18n-aria-label="@@discussions.tabsAria" aria-label="Which discussions">
+      @for (tab of tabs; track tab.scope) {
+        <button
+          type="button"
+          role="tab"
+          class="tab"
+          [class.active]="feed.scope() === tab.scope"
+          [attr.aria-selected]="feed.scope() === tab.scope"
+          (click)="feed.scope.set(tab.scope)"
+        >{{ tab.label }}</button>
+      }
+    </div>
+
+    @if (feed.needsLogin()) {
+      <div class="center-message">
+        <p i18n="@@discussions.loginPrompt">Sign in to see the discussions you started or joined.</p>
+        <a routerLink="/login" class="action-btn primary" i18n="@@reviewQueue.logIn">Log In</a>
+      </div>
+    } @else {
+      @if (feed.areas().length) {
+        <div class="chips" role="group" i18n-aria-label="@@discussions.areasAria" aria-label="Areas">
+          <button type="button" class="chip" [class.active]="!feed.area()" [attr.aria-pressed]="!feed.area()" (click)="feed.area.set(null)">
+            <span i18n="@@discussions.allAreas">All areas</span><span class="chip-count">{{ total() }}</span>
+          </button>
+          @for (a of feed.areas(); track a.area) {
+            <button type="button" class="chip" [class.active]="feed.area() === a.area" [attr.aria-pressed]="feed.area() === a.area" (click)="feed.area.set(a.area)">
+              {{ areaLabel(a.area) }}<span class="chip-count">{{ a.count }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      @if (feed.loading()) {
+        <p class="state" role="status" i18n="@@discussions.loading">Loading discussions...</p>
+      } @else if (feed.error() && feed.items().length === 0) {
+        <div class="state" role="alert">
+          <p i18n="@@discussions.error">Could not load the discussions.</p>
+          <button type="button" class="more" (click)="feed.load()" i18n="@@discussions.retry">Try again</button>
+        </div>
+      } @else if (feed.items().length === 0) {
+        <p class="state empty">
+          @switch (feed.scope()) {
+            @case ('mine') { <ng-container i18n="@@discussions.empty.mine">You have not started a discussion yet. Click a paragraph of any concept to start one.</ng-container> }
+            @case ('participated') { <ng-container i18n="@@discussions.empty.participated">You have not commented on any discussion yet.</ng-container> }
+            @default { <ng-container i18n="@@discussions.empty.all">No discussions here yet.</ng-container> }
+          }
+        </p>
+      } @else {
+        <ul class="feed">
+          @for (item of feed.items(); track item.markerId) {
+            <li>
+              <a class="item" [routerLink]="item.route" [queryParams]="markerQuery(item)">
+                <div class="item-head">
+                  <span class="area">{{ areaLabel(item.area) }}</span>
+                  <time class="time" [attr.datetime]="item.lastActivityAt">{{ timeAgo(item.lastActivityAt) }}</time>
+                </div>
+                <span class="item-title">{{ item.conceptTitle }}</span>
+                <blockquote class="quote">{{ item.quote }}</blockquote>
+                <div class="meta">
+                  <span class="comments" [attr.aria-label]="commentsAria(item.commentCount)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    </svg>
+                    {{ item.commentCount }}
+                  </span>
+                  @if (item.resolvedCount > 0) {
+                    <span class="badge resolved" i18n="@@discussion.resolved">Resolved</span>
+                  }
+                  @if (item.startedByMe) {
+                    <span class="badge" i18n="@@discussions.startedByMe">Started by you</span>
+                  } @else if (item.participatedByMe) {
+                    <span class="badge" i18n="@@discussions.participatedByMe">You commented</span>
+                  }
+                </div>
+              </a>
+            </li>
+          }
+        </ul>
+
+        @if (feed.error()) {
+          <p class="state" role="alert" i18n="@@discussions.errorMore">Could not load more. Try again.</p>
+        }
+        @if (feed.hasMore()) {
+          <button type="button" class="more" [disabled]="feed.loadingMore()" (click)="feed.loadMore()">
+            @if (feed.loadingMore()) {
+              <ng-container i18n="@@discussions.loadingMore">Loading...</ng-container>
+            } @else {
+              <ng-container i18n="@@discussions.loadMore">Load more</ng-container>
+            }
+          </button>
+        }
+      }
+    }
+  </div>
+</div>
