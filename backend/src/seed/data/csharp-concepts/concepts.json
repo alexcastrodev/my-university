@@ -215,7 +215,8 @@
         "type": "doc"
       }
     ],
-    "id": 102
+    "id": 102,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/formatting-values-and-interpolated-strings"
   },
   {
     "slug": "numeric-types-and-binary-representation",
@@ -722,7 +723,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/operators-null-handling-and-null-conditional-assignment"
   },
   {
     "slug": "type-constant-and-relational-patterns",
@@ -850,7 +852,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/build-algorithms-using-pattern-matching",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/property-positional-and-list-patterns"
   },
   {
     "slug": "exceptions-try-catch-filters-and-finally",
@@ -976,7 +979,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2200",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/guard-clauses-throwing-and-rethrowing"
   },
   {
     "slug": "method-parameters-optional-named-and-ref-kinds",
@@ -1523,7 +1527,8 @@
         "type": "doc"
       }
     ],
-    "id": 301
+    "id": 301,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/fields-constants-and-initialization-order"
   },
   {
     "slug": "partial-types-and-partial-members",
@@ -1707,7 +1712,8 @@
         "type": "doc"
       }
     ],
-    "id": 311
+    "id": 311,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/primary-constructors-for-classes-and-structs"
   },
   {
     "slug": "records-and-with-expressions",
@@ -2202,7 +2208,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/inheritance-virtual-override-and-sealed"
   },
   {
     "slug": "interfaces-explicit-implementation-and-default-methods",
@@ -2662,7 +2669,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/extension-members-and-extension-blocks"
   },
   {
     "slug": "generic-math-and-static-abstract-members",
@@ -3034,7 +3042,8 @@
         "type": "doc"
       }
     ],
-    "id": 502
+    "id": 502,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/generated-regex-and-redos"
   },
   {
     "slug": "building-and-searching-strings-efficiently",
@@ -4213,7 +4222,8 @@
         "url": "https://github.com/dotnet/efcore/blob/92ae3223006b08f94e4d30fb3f7e5de622f6833c/src/EFCore/Query/Internal/ExpressionTreeFuncletizer.cs#L12-L23",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/expression-trees-and-iqueryable-providers"
   },
   {
     "slug": "value-types-reference-types-and-boxing",

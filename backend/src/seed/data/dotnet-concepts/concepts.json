@@ -2587,7 +2587,8 @@
         "type": "doc"
       }
     ],
-    "id": 700
+    "id": 700,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-logging-query-tags-and-diagnostics"
   },
   {
     "slug": "global-and-named-query-filters",
@@ -5450,7 +5451,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/authentication-and-authorization-fundamentals"
   },
   {
     "slug": "jwt-bearer-and-aspnet-core-identity",
