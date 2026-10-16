@@ -8,6 +8,7 @@
     </div>
     @if (awards().length === 0) {
       <p class="empty-state" i18n="@@achievements.empty">Nothing here yet. Finish every concept in a session to earn a badge, and every session in a track to earn a trophy.</p>
+      <a class="see-all see-available" routerLink="/profile/achievements" [queryParams]="{ view: 'available' }" data-testid="see-available" i18n="@@achievements.seeAvailable">See everything you can earn</a>
     } @else {
       <ul class="latest">
         @for (award of latest(); track award.type + award.id) {

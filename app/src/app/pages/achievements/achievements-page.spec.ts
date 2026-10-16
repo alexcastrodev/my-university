@@ -14,18 +14,27 @@ const track = (over: Partial<TrackProgressView>): TrackProgressView => ({
   awarded: false, newSinceAward: 0, sessions: [], nextRoute: null, ...over,
 });
 
-function setup(options: { view?: AchievementsView | null; error?: boolean } = {}) {
-  const { view = { awards: [], progress: [] }, error = false } = options;
+function setup(options: { view?: AchievementsView | null; error?: boolean; tab?: string } = {}) {
+  const { view = { awards: [], progress: [] }, error = false, tab } = options;
   const sync = jasmine.createSpy('syncAchievements').and.resolveTo();
   TestBed.configureTestingModule({
     imports: [AchievementsPage],
     providers: [
       provideZonelessChangeDetection(),
       provideRouter([]),
-      { provide: XpService, useValue: { achievements: signal(view), achievementsError: signal(error), syncAchievements: sync } },
+      {
+        provide: XpService,
+        useValue: {
+          achievements: signal(view), achievementsError: signal(error), syncAchievements: sync,
+          // What the Available view reads; the page only has to mount it.
+          achievementCatalog: signal(null), achievementCatalogError: signal(false), trackRequirements: signal({}), trackRequirementsFailed: signal({}),
+          loadAchievementCatalog: jasmine.createSpy('loadAchievementCatalog').and.resolveTo(), loadTrackRequirements: jasmine.createSpy('loadTrackRequirements').and.resolveTo(),
+        },
+      },
     ],
   });
   const fixture = TestBed.createComponent(AchievementsPage);
+  if (tab !== undefined) fixture.componentRef.setInput('view', tab);
   fixture.detectChanges();
   return { fixture, el: fixture.nativeElement as HTMLElement, sync };
 }
@@ -118,5 +127,48 @@ describe('AchievementsPage (the Achievements tab)', () => {
     await settle(fixture);
     expect(el.querySelector('[role="alert"]')!.textContent).toContain('latest refresh failed');
     expect(el.querySelectorAll('.award')).toHaveSize(1);
+  });
+  describe('the two views', () => {
+    it('opens on Earned, with the Available view not drawn', async () => {
+      const { fixture, el } = setup();
+      await settle(fixture);
+      expect(el.querySelector('[data-testid="view-earned"]')!.getAttribute('aria-current')).toBe('page');
+      expect(el.querySelector('[data-testid="view-available"]')!.getAttribute('aria-current')).toBeNull();
+      expect(el.querySelector('app-achievement-catalog')).toBeNull();
+    });
+
+    it('shows the catalog when the view is "available", in place of the earned list', async () => {
+      const { fixture, el } = setup({ tab: 'available', view: { awards: [award({})], progress: [] } });
+      await settle(fixture);
+      expect(el.querySelector('app-achievement-catalog')).not.toBeNull();
+      expect(el.querySelector('app-awards-sections')).toBeNull();
+      expect(el.querySelector('[data-testid="view-available"]')!.getAttribute('aria-current')).toBe('page');
+      expect(el.querySelector('[data-testid="view-earned"]')!.getAttribute('aria-current')).toBeNull();
+    });
+
+    it('treats any other value as Earned', async () => {
+      const { fixture, el } = setup({ tab: 'nonsense' });
+      await settle(fixture);
+      expect(el.querySelector('app-achievement-catalog')).toBeNull();
+    });
+
+    it('links each view with the query parameter, so a view can be shared and survives a reload', async () => {
+      const { fixture, el } = setup();
+      await settle(fixture);
+      expect(el.querySelector('[data-testid="view-available"]')!.getAttribute('href')).toContain('view=available');
+      expect(el.querySelector('[data-testid="view-earned"]')!.getAttribute('href')).not.toContain('view=');
+    });
+
+    it('points to everything that can be earned when nothing is earned yet', async () => {
+      const { fixture, el } = setup();
+      await settle(fixture);
+      expect(el.querySelector('[data-testid="see-available"]')!.getAttribute('href')).toContain('view=available');
+    });
+
+    it('does not repeat that pointer once something is earned', async () => {
+      const { fixture, el } = setup({ view: { awards: [award({})], progress: [] } });
+      await settle(fixture);
+      expect(el.querySelector('[data-testid="see-available"]')).toBeNull();
+    });
   });
 });

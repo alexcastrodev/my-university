@@ -1,5 +1,6 @@
 /** Pure shaping of achievements for the API: titles, icons and next-unit routes. No I/O. */
 import { fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
+import { badgeXp, hasBadges, trophyXp, unitKey } from './catalog';
 import type { AwardType, Catalog, CatalogTrack, TrackProgress, Unit } from './catalog';
 
 export interface AwardView {
@@ -75,4 +76,102 @@ export function describeProgress(catalog: Catalog, progress: TrackProgress[]): T
     const track = tracks.get(rest.trackId)!;
     return { ...rest, iconSlug: iconSlugOf(track), nextRoute: nextRouteOf(track, nextUnit) };
   });
+}
+
+export type TrackKind = 'course' | 'concepts' | 'curriculum';
+
+export interface CatalogSessionView {
+  sessionId: string;
+  title: string;
+  total: number;
+  done: number;
+  /** XP the badge grants. */
+  exp: number;
+  awarded: boolean;
+  awardedAt: string | null;
+  /** The session ends in a knowledge check, so its badge reads "Passed". */
+  hasAssessment: boolean;
+}
+
+export interface CatalogTrackView {
+  trackId: string;
+  title: string;
+  iconSlug: string;
+  kind: TrackKind;
+  total: number;
+  done: number;
+  /** False for a track of direct units or a single session: only the trophy exists there. */
+  hasBadges: boolean;
+  trophy: { exp: number; awarded: boolean; awardedAt: string | null };
+  /** Empty for a track of direct units (a CC discipline): its trophy asks for every unit of the track. */
+  sessions: CatalogSessionView[];
+}
+
+/**
+ * Every prize a user can still earn or already has: one entry per active track, light on purpose
+ * (no unit lists, see `describeRequirements`). Read-only: it only describes, it never grants.
+ */
+export function describeCatalog(catalog: Catalog, doneKeys: ReadonlySet<string>, awards: AwardRow[]): CatalogTrackView[] {
+  const awardedAt = new Map(awards.map((a) => [`${a.sourceType}:${a.sourceId}`, a.updatedAt.toISOString()] as const));
+  const count = (units: Unit[]) => units.filter((u) => doneKeys.has(unitKey(u))).length;
+  return catalog.tracks
+    .filter((t) => t.valid && t.status === 'active')
+    .map((track): CatalogTrackView => {
+      const trophyAt = awardedAt.get(`trophy:${track.trackId}`) ?? null;
+      return {
+        trackId: track.trackId,
+        title: track.title,
+        iconSlug: iconSlugOf(track),
+        kind: track.source.kind,
+        total: track.units.length,
+        done: count(track.units),
+        hasBadges: hasBadges(track),
+        trophy: { exp: trophyXp(track), awarded: trophyAt !== null, awardedAt: trophyAt },
+        sessions: track.sessions.map((session): CatalogSessionView => {
+          const at = awardedAt.get(`badge:${session.sessionId}`) ?? null;
+          return {
+            sessionId: session.sessionId,
+            title: session.title,
+            total: session.units.length,
+            done: count(session.units),
+            exp: badgeXp(session),
+            awarded: at !== null,
+            awardedAt: at,
+            hasAssessment: session.hasAssessment,
+          };
+        }),
+      };
+    });
+}
+
+export interface RequirementUnitView {
+  title: string;
+  /** Where the unit lives in the app, or null when it cannot be linked. */
+  route: string[] | null;
+  done: boolean;
+}
+
+export interface TrackRequirementsView {
+  trackId: string;
+  sessions: { sessionId: string; units: RequirementUnitView[] }[];
+  /** The track's own units when it has no sessions; empty otherwise. */
+  units: RequirementUnitView[];
+}
+
+/** What a track asks for, unit by unit, in words and with links; null for a track that is unknown, retired or invalid. */
+export function describeRequirements(
+  catalog: Catalog,
+  titles: ReadonlyMap<string, string>,
+  trackId: string,
+  doneKeys: ReadonlySet<string>,
+): TrackRequirementsView | null {
+  const track = catalog.tracks.find((t) => t.trackId === trackId);
+  if (!track || !track.valid || track.status !== 'active') return null;
+  const view = (units: Unit[]): RequirementUnitView[] =>
+    units.map((u) => ({ title: titles.get(unitKey(u)) ?? u.sourceId, route: nextRouteOf(track, u), done: doneKeys.has(unitKey(u)) }));
+  return {
+    trackId,
+    sessions: track.sessions.map((s) => ({ sessionId: s.sessionId, units: view(s.units) })),
+    units: track.sessions.length === 0 ? view(track.units) : [],
+  };
 }

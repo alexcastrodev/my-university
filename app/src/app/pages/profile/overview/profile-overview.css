@@ -11,6 +11,7 @@
 .section-header .section-title { margin: 0; }
 .see-all { font-size: 0.82rem; font-weight: 600; color: var(--mu-accent); text-decoration: none; white-space: nowrap; }
 .see-all:hover { text-decoration: underline; }
+.see-available { display: inline-block; margin-top: 0.6rem; }
 .latest { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.6rem; list-style: none; margin: 0; padding: 0; }
 
 .xp-total {

@@ -1,23 +1,29 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AchievementCatalog } from '../../components/achievement-catalog/achievement-catalog';
 import { AwardsSections } from '../../components/awards-sections/awards-sections';
 import { TrackIcon } from '../../components/track-icon/track-icon';
 import { TrackProgressView } from '../../models/achievements.model';
 import { XpService } from '../../services/xp.service';
 
 /**
- * The Achievements tab of the profile: the tracks still in progress, then every trophy and badge earned.
- * Reading only: nothing here ever locks content.
+ * The Achievements tab of the profile, in two views: "Earned" (the tracks still in progress, then every
+ * trophy and badge earned) and "Available" (everything that can be earned and what it takes, picked with
+ * `?view=available`). Reading only: nothing here ever locks content.
  */
 @Component({
   selector: 'app-achievements-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AwardsSections, RouterLink, TrackIcon],
+  imports: [AchievementCatalog, AwardsSections, RouterLink, TrackIcon],
   templateUrl: './achievements-page.html',
   styleUrl: './achievements-page.css',
 })
 export class AchievementsPage implements OnInit {
   protected xp = inject(XpService);
+
+  /** Bound from the `view` query parameter (the router passes it in); anything but `available` means "Earned". */
+  view = input<string | undefined>(undefined);
+  protected available = computed(() => this.view() === 'available');
 
   protected loading = signal(true);
 

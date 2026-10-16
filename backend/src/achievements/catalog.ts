@@ -20,6 +20,15 @@ export const unitKey = (unit: Unit): string => `${unit.sourceType}\u0000${unit.s
 /** Bonus XP per award, calibrated against 10 XP per unit read (backlog D6). Change here only. */
 export const AWARD_XP = { badgePerUnit: 2, trophyPerModule: 5 } as const;
 
+/** XP a session's badge grants. The one place this is computed: awarding and the catalog both call it. */
+export const badgeXp = (session: { units: readonly unknown[] }): number => AWARD_XP.badgePerUnit * session.units.length;
+
+/** XP a track's trophy grants: per session, and at least one session's worth for a track without sessions. */
+export const trophyXp = (track: { sessions: readonly unknown[] }): number => AWARD_XP.trophyPerModule * Math.max(1, track.sessions.length);
+
+/** A track hands out badges only when it has two or more sessions; one session would make badge and trophy the same prize. */
+export const hasBadges = (track: { sessions: readonly unknown[] }): boolean => track.sessions.length >= 2;
+
 export type TrackSource =
   /** `category` keeps only the concepts of that category, so one module can feed several tracks. */
   | { kind: 'concepts'; module: string; groupBy: 'topic' | 'category'; category?: string }
@@ -275,11 +284,11 @@ export function evaluateAwards(
 
   for (const track of catalog.tracks) {
     if (!track.valid || track.status !== 'active') continue;
-    if (track.sessions.length >= 2) {
+    if (hasBadges(track)) {
       for (const session of track.sessions) {
         const completedAt = completion(session.units);
         if (completedAt && !existing.has(awardKey('badge', session.sessionId))) {
-          pending.push({ sourceType: 'badge', sourceId: session.sessionId, exp: AWARD_XP.badgePerUnit * session.units.length, completedAt });
+          pending.push({ sourceType: 'badge', sourceId: session.sessionId, exp: badgeXp(session), completedAt });
         }
       }
     }
@@ -287,7 +296,7 @@ export function evaluateAwards(
     if (completedAt && !existing.has(awardKey('trophy', track.trackId))) {
       pending.push({
         sourceType: 'trophy', sourceId: track.trackId,
-        exp: AWARD_XP.trophyPerModule * Math.max(1, track.sessions.length), completedAt,
+        exp: trophyXp(track), completedAt,
       });
     }
   }

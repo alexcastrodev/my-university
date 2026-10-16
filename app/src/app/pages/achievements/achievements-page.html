@@ -1,51 +1,61 @@
 <div class="stack">
-  @if (loading() && !xp.achievements()) {
-    <p class="state" role="status" i18n="@@achievements.loading">Loading your achievements…</p>
-  } @else if (xp.achievementsError() && !xp.achievements()) {
-    <div class="card state-error" role="alert">
-      <p i18n="@@achievements.error">Could not load your achievements.</p>
-      <button type="button" class="btn retry-btn" (click)="load()" i18n="@@achievements.retry">Try again</button>
-    </div>
+  <nav class="views" aria-label="Achievements view" i18n-aria-label="@@achievements.view.aria">
+    <a class="view" routerLink="." [queryParams]="{ view: null }" [class.view-active]="!available()" [attr.aria-current]="available() ? null : 'page'" data-testid="view-earned" i18n="@@achievements.view.earned">Earned</a>
+    <a class="view" routerLink="." [queryParams]="{ view: 'available' }" [class.view-active]="available()" [attr.aria-current]="available() ? 'page' : null" data-testid="view-available" i18n="@@achievements.view.available">Available</a>
+  </nav>
+
+  @if (available()) {
+    <app-achievement-catalog />
   } @else {
-    @if (xp.achievementsError()) {
+    @if (loading() && !xp.achievements()) {
+      <p class="state" role="status" i18n="@@achievements.loading">Loading your achievements…</p>
+    } @else if (xp.achievementsError() && !xp.achievements()) {
       <div class="card state-error" role="alert">
-        <p i18n="@@achievements.staleError">Showing the last loaded data; the latest refresh failed.</p>
+        <p i18n="@@achievements.error">Could not load your achievements.</p>
         <button type="button" class="btn retry-btn" (click)="load()" i18n="@@achievements.retry">Try again</button>
       </div>
-    }
-
-    @if (inProgress().length > 0) {
-      <section class="card" aria-labelledby="in-progress-title">
-        <h2 id="in-progress-title" class="section-title" i18n="@@achievements.inProgress">In progress</h2>
-        <ul class="progress-list">
-          @for (track of inProgress(); track track.trackId) {
-            <li class="progress-item">
-              <span class="progress-icon" aria-hidden="true"><app-track-icon [slug]="track.iconSlug" /></span>
-              <div class="progress-main">
-                <div class="progress-head">
-                  <span class="progress-title">{{ track.title }}</span>
-                  @if (track.newSinceAward > 0) {
-                    <span class="chip chip-new" i18n="@@achievements.newCount">{{ track.newSinceAward }} new</span>
-                  }
-                </div>
-                <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="percent(track)" aria-valuemin="0" aria-valuemax="100">
-                  <div class="progress-fill" [style.width.%]="percent(track)"></div>
-                </div>
-                <span class="progress-meta" i18n="@@achievements.progressCount">{{ track.done }} of {{ track.total }}</span>
-              </div>
-              @if (track.nextRoute) {
-                <a class="btn btn-small" [routerLink]="track.nextRoute" i18n="@@achievements.continue">Continue</a>
-              }
-            </li>
-          }
-        </ul>
-      </section>
-    }
-
-    @if (badges().length === 0 && trophies().length === 0) {
-      <p class="empty" i18n="@@achievements.empty">Nothing here yet. Finish every concept in a session to earn a badge, and every session in a track to earn a trophy.</p>
     } @else {
-      <app-awards-sections [trophies]="trophies()" [badges]="badges()" />
+      @if (xp.achievementsError()) {
+        <div class="card state-error" role="alert">
+          <p i18n="@@achievements.staleError">Showing the last loaded data; the latest refresh failed.</p>
+          <button type="button" class="btn retry-btn" (click)="load()" i18n="@@achievements.retry">Try again</button>
+        </div>
+      }
+
+      @if (inProgress().length > 0) {
+        <section class="card" aria-labelledby="in-progress-title">
+          <h2 id="in-progress-title" class="section-title" i18n="@@achievements.inProgress">In progress</h2>
+          <ul class="progress-list">
+            @for (track of inProgress(); track track.trackId) {
+              <li class="progress-item">
+                <span class="progress-icon" aria-hidden="true"><app-track-icon [slug]="track.iconSlug" /></span>
+                <div class="progress-main">
+                  <div class="progress-head">
+                    <span class="progress-title">{{ track.title }}</span>
+                    @if (track.newSinceAward > 0) {
+                      <span class="chip chip-new" i18n="@@achievements.newCount">{{ track.newSinceAward }} new</span>
+                    }
+                  </div>
+                  <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="percent(track)" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-fill" [style.width.%]="percent(track)"></div>
+                  </div>
+                  <span class="progress-meta" i18n="@@achievements.progressCount">{{ track.done }} of {{ track.total }}</span>
+                </div>
+                @if (track.nextRoute) {
+                  <a class="btn btn-small" [routerLink]="track.nextRoute" i18n="@@achievements.continue">Continue</a>
+                }
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (badges().length === 0 && trophies().length === 0) {
+        <p class="empty" i18n="@@achievements.empty">Nothing here yet. Finish every concept in a session to earn a badge, and every session in a track to earn a trophy.</p>
+        <a class="see-available" routerLink="." [queryParams]="{ view: 'available' }" data-testid="see-available" i18n="@@achievements.seeAvailable">See everything you can earn</a>
+      } @else {
+        <app-awards-sections [trophies]="trophies()" [badges]="badges()" />
+      }
     }
   }
 </div>

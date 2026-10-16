@@ -1,0 +1,130 @@
+<div class="catalog">
+  <section class="card" aria-labelledby="how-title">
+    <h2 id="how-title" class="section-title" i18n="@@achievements.catalog.how.title">How badges and trophies work</h2>
+    <ul class="how">
+      <li>
+        <app-award-hex [award]="badgeSample" size="small" />
+        <span i18n="@@achievements.catalog.how.badge">A badge is earned by finishing every concept or lesson of one session.</span>
+      </li>
+      <li>
+        <app-award-hex [award]="trophySample" size="small" />
+        <span i18n="@@achievements.catalog.how.trophy">A trophy is earned by finishing every session of a track.</span>
+      </li>
+    </ul>
+    <p class="how-note" i18n="@@achievements.catalog.how.note">Each one also grants bonus XP. Nothing is ever locked: study in any order and the prizes follow.</p>
+  </section>
+
+  @if (!xp.achievementCatalog()) {
+    @if (xp.achievementCatalogError()) {
+      <div class="card state-error" role="alert">
+        <p i18n="@@achievements.catalog.error">Could not load the catalog.</p>
+        <button type="button" class="btn" (click)="load()" i18n="@@achievements.retry">Try again</button>
+      </div>
+    } @else {
+      <p class="state" role="status" i18n="@@achievements.catalog.loading">Loading the catalog…</p>
+    }
+  } @else {
+    <div class="toolbar">
+      <input
+        type="search"
+        class="search"
+        [value]="query()"
+        (input)="onSearch($event)"
+        placeholder="Search tracks and sessions"
+        i18n-placeholder="@@achievements.catalog.search"
+        aria-label="Search tracks and sessions"
+        i18n-aria-label="@@achievements.catalog.search"
+      />
+      <div class="filters" role="group" aria-label="Filter by progress" i18n-aria-label="@@achievements.catalog.filter.aria">
+        <button type="button" class="filter" [attr.aria-pressed]="filter() === 'all'" (click)="filter.set('all')" i18n="@@achievements.catalog.filter.all">All</button>
+        <button type="button" class="filter" [attr.aria-pressed]="filter() === 'todo'" (click)="filter.set('todo')" i18n="@@achievements.catalog.state.todo">Not started</button>
+        <button type="button" class="filter" [attr.aria-pressed]="filter() === 'progress'" (click)="filter.set('progress')" i18n="@@achievements.inProgress">In progress</button>
+        <button type="button" class="filter" [attr.aria-pressed]="filter() === 'done'" (click)="filter.set('done')" i18n="@@achievements.catalog.filter.done">Completed</button>
+      </div>
+    </div>
+
+    <p class="count" role="status" i18n="@@achievements.catalog.count">{{ tracks().length }} of {{ total() }} tracks</p>
+
+    @if (tracks().length === 0) {
+      <p class="state" i18n="@@achievements.catalog.noMatch">No track matches your search.</p>
+    } @else {
+      <ul class="tracks">
+        @for (track of tracks(); track track.trackId) {
+          <li>
+            <details class="track" (toggle)="opened(track, $event)">
+              <summary class="track-head">
+                <span class="track-icon" aria-hidden="true"><app-track-icon [slug]="track.iconSlug" /></span>
+                <span class="track-main">
+                  <span class="track-title">{{ track.title }}</span>
+                  <span class="track-bar" aria-hidden="true"><span class="track-fill" [style.width.%]="percent(track)"></span></span>
+                </span>
+                <span class="track-meta" i18n="@@achievements.progressCount">{{ track.done }} of {{ track.total }}</span>
+                @switch (state(track)) {
+                  @case ('done') { <span class="chip chip-earned" i18n="@@achievements.catalog.state.done">Completed</span> }
+                  @case ('progress') { <span class="chip chip-progress" i18n="@@achievements.inProgress">In progress</span> }
+                  @default { <span class="chip" i18n="@@achievements.catalog.state.todo">Not started</span> }
+                }
+                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+
+              <div class="track-body">
+                @if (track.hasBadges) {
+                  <app-prize-row
+                    type="trophy" iconSlug="trophy" [title]="track.title"
+                    [need]="trophyNeed(track).need" [needCount]="trophyNeed(track).count"
+                    [done]="track.done" [total]="track.total" [exp]="track.trophy.exp" [awardedAt]="track.trophy.awardedAt"
+                  />
+                  @for (session of track.sessions; track session.sessionId) {
+                    <app-prize-row
+                      type="badge" [iconSlug]="track.iconSlug" [title]="session.title"
+                      [need]="sessionNeed(track.kind)" [needCount]="session.total"
+                      [done]="session.done" [total]="session.total" [exp]="session.exp" [awardedAt]="session.awardedAt"
+                      [assessed]="session.hasAssessment" [expandable]="true"
+                    >
+                      <ng-container *ngTemplateOutlet="units; context: { track: track, list: sessionUnits(track, session) }" />
+                    </app-prize-row>
+                  }
+                } @else {
+                  <app-prize-row
+                    type="trophy" iconSlug="trophy" [title]="track.title"
+                    [need]="trophyNeed(track).need" [needCount]="trophyNeed(track).count"
+                    [done]="track.done" [total]="track.total" [exp]="track.trophy.exp" [awardedAt]="track.trophy.awardedAt"
+                    [expandable]="true"
+                  >
+                    <ng-container *ngTemplateOutlet="units; context: { track: track, list: trophyUnits(track) }" />
+                  </app-prize-row>
+                }
+              </div>
+            </details>
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>
+
+<ng-template #units let-track="track" let-list="list">
+  @if (list) {
+    <ul class="units">
+      @for (unit of list; track $index) {
+        <li class="unit" [class.unit-done]="unit.done">
+          @if (unit.done) {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+            <span class="sr-only" i18n="@@achievements.catalog.unit.done">Done:</span>
+          } @else {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>
+            <span class="sr-only" i18n="@@achievements.catalog.unit.todo">Not done yet:</span>
+          }
+          @if (unit.route) { <a [routerLink]="unit.route">{{ unit.title }}</a> } @else { <span>{{ unit.title }}</span> }
+        </li>
+      }
+    </ul>
+  } @else if (failed(track)) {
+    <p class="note note-error">
+      <span i18n="@@achievements.catalog.units.error">Could not load this list.</span>
+      <button type="button" class="link-btn" (click)="retry(track)" i18n="@@achievements.retry">Try again</button>
+    </p>
+  } @else {
+    <p class="note" role="status" i18n="@@achievements.catalog.units.loading">Loading…</p>
+  }
+</ng-template>

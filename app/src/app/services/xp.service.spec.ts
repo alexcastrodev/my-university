@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { AchievementsView, AwardView } from '../models/achievements.model';
+import { AchievementsView, AwardView, CatalogTrackView, TrackRequirementsView } from '../models/achievements.model';
 import { User } from '../models/auth.model';
 import { XpHistoryEntry, XpSummary } from '../models/xp.model';
 import { AuthService } from './auth.service';
@@ -235,5 +235,78 @@ describe('XpService activity paging', () => {
     currentUser.set(null);
     service.loadHistory();
     http.expectNone('/api/xp/history/paged');
+  });
+});
+
+const CATALOG: CatalogTrackView[] = [{
+  trackId: 't1', title: 'Kubernetes Concepts', iconSlug: 'kubernetes-concepts', kind: 'concepts', total: 3, done: 1, hasBadges: false,
+  trophy: { exp: 5, awarded: false, awardedAt: null }, sessions: [],
+}];
+const REQUIREMENTS = (trackId: string): TrackRequirementsView => ({
+  trackId, sessions: [], units: [{ title: 'Pods', route: ['/kubernetes-concepts', 'pods'], done: true }],
+});
+
+describe('XpService achievement catalog', () => {
+  afterEach(() => TestBed.inject(HttpTestingController).verify());
+
+  it('loads the catalog and clears what was cached about opened tracks, so done marks stay fresh', async () => {
+    const { service, http } = setup();
+    service.trackRequirements.set({ t1: REQUIREMENTS('t1') });
+    const load = service.loadAchievementCatalog();
+    http.expectOne('/api/xp/achievements/catalog').flush(CATALOG);
+    await load;
+    expect(service.achievementCatalog()).toEqual(CATALOG);
+    expect(service.trackRequirements()).toEqual({});
+    expect(service.achievementCatalogError()).toBe(false);
+  });
+
+  it('flags an error, keeps what it had, and recovers on the next load', async () => {
+    const { service, http } = setup();
+    const failed = service.loadAchievementCatalog();
+    http.expectOne('/api/xp/achievements/catalog').flush('nope', { status: 500, statusText: 'x' });
+    await failed;
+    expect(service.achievementCatalogError()).toBe(true);
+    expect(service.achievementCatalog()).toBeNull();
+    const again = service.loadAchievementCatalog();
+    http.expectOne('/api/xp/achievements/catalog').flush(CATALOG);
+    await again;
+    expect(service.achievementCatalogError()).toBe(false);
+    expect(service.achievementCatalog()).toEqual(CATALOG);
+  });
+
+  it('loads a track\'s requirements once: asking again, even while it is loading, sends nothing', async () => {
+    const { service, http } = setup();
+    const first = service.loadTrackRequirements('t1');
+    void service.loadTrackRequirements('t1');
+    http.expectOne('/api/xp/achievements/catalog/t1').flush(REQUIREMENTS('t1'));
+    await first;
+    await service.loadTrackRequirements('t1');
+    expect(service.trackRequirements()['t1'].units[0].title).toBe('Pods');
+  });
+
+  it('marks a track whose list failed, and a retry clears the mark', async () => {
+    const { service, http } = setup();
+    const failed = service.loadTrackRequirements('t1');
+    http.expectOne('/api/xp/achievements/catalog/t1').flush('nope', { status: 500, statusText: 'x' });
+    await failed;
+    expect(service.trackRequirementsFailed()).toEqual({ t1: true });
+    const retry = service.loadTrackRequirements('t1');
+    http.expectOne('/api/xp/achievements/catalog/t1').flush(REQUIREMENTS('t1'));
+    await retry;
+    expect(service.trackRequirementsFailed()).toEqual({});
+  });
+
+  it('drops an answer that arrives after the user changed, and does nothing when logged out', async () => {
+    const { service, http, currentUser } = setup();
+    const late = service.loadAchievementCatalog();
+    currentUser.set(user(2));
+    http.expectOne('/api/xp/achievements/catalog').flush(CATALOG);
+    await late;
+    expect(service.achievementCatalog()).toBeNull();
+    currentUser.set(null);
+    await service.loadAchievementCatalog();
+    await service.loadTrackRequirements('t1');
+    http.expectNone('/api/xp/achievements/catalog');
+    http.expectNone('/api/xp/achievements/catalog/t1');
   });
 });
