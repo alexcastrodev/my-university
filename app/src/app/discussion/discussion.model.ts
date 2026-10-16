@@ -41,6 +41,35 @@ export interface MarkerDetail {
   threads: ThreadView[];
 }
 
+/** Every discussion, the ones the reader opened, or any they commented on. */
+export type FeedScope = 'all' | 'mine' | 'participated';
+
+/** One marker of the /api/discussions/feed list. `area` is the concept's module. */
+export interface FeedItem {
+  markerId: number;
+  area: string;
+  conceptTitle: string;
+  slug: string;
+  route: string[];
+  lang: string;
+  quote: string;
+  commentCount: number;
+  resolvedCount: number;
+  lastActivityAt: string;
+  startedByMe: boolean;
+  participatedByMe: boolean;
+}
+
+export interface FeedPage {
+  items: FeedItem[];
+  nextCursor: string | null;
+}
+
+export interface FeedArea {
+  area: string;
+  count: number;
+}
+
 /** A paragraph (or code block) of the page that can carry a discussion. */
 export interface BlockAnchor {
   key: string;

@@ -186,6 +186,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Per-viewer tabs and flags, and the list changes by the minute: nothing worth server-rendering.
+    path: 'discussions',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     renderMode: RenderMode.Server,
   },
