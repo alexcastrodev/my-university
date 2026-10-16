@@ -3941,6 +3941,82 @@
     ]
   },
   {
+    "slug": "choosing-an-aspnet-core-application-model",
+    "id": 304,
+    "category": "ASP.NET Core",
+    "title": "Choosing an ASP.NET Core Application Model",
+    "topic": "Hosting & Pipeline",
+    "summary": "Minimal APIs, controllers, Razor Pages, MVC, Blazor, gRPC and SPA plus API side by side: what each .NET 10 template really generates, what the shared host gives all of them, and where per-model defaults still differ, measured with real requests.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Choose an ASP.NET Core UI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/choose-web-ui",
+        "type": "doc"
+      },
+      {
+        "label": "APIs overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis",
+        "type": "doc"
+      },
+      {
+        "label": "Integrate ASP.NET Core Razor components with MVC or Razor Pages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/integration",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor hosting models, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models",
+        "type": "doc"
+      },
+      {
+        "label": "Overview for gRPC on .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/",
+        "type": "doc"
+      },
+      {
+        "label": "What is .NET MAUI?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/what-is-maui",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "route-constraints-short-circuit-and-handler-results",
     "id": 312,
     "category": "ASP.NET Core",
@@ -3997,6 +4073,72 @@
       {
         "label": "Handle errors in Minimal API apps, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "json-patch-and-partial-updates",
+    "id": 313,
+    "category": "ASP.NET Core",
+    "title": "JSON Patch and Partial Updates",
+    "topic": "Minimal APIs",
+    "summary": "PUT versus PATCH, RFC 6902 operations applied to C# objects with the new System.Text.Json package in .NET 10, why a failure halfway does not roll anything back, a safe PATCH endpoint with a DTO and validation, the threats the framework leaves to you, and merge patch as the alternative.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "problem-details-and-global-exception-handling"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "JsonPatch in ASP.NET Core web API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/web-api/jsonpatch",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "JsonPatchDocument<TModel> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.jsonpatch.systemtextjson.jsonpatchdocument-1",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6902: JavaScript Object Notation (JSON) Patch, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6902",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7396: JSON Merge Patch, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7396",
         "type": "doc"
       }
     ]
@@ -4860,6 +5002,82 @@
       {
         "label": "Cookie login redirects are disabled for known API endpoints, Microsoft Learn",
         "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "jwt-bearer-and-aspnet-core-identity",
+    "id": 404,
+    "category": "ASP.NET Core",
+    "title": "JWT Bearer Tokens and ASP.NET Core Identity",
+    "topic": "Security",
+    "summary": "What the JWT bearer handler validates and what it lets through (a 5 minute clock skew), why claims arrive under odd names, the opaque tokens of MapIdentityApi, what refresh, logout and the security stamp really revoke, passkeys in .NET 10, and where a browser should keep tokens.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
+        "slug": "spring-security-oauth2-resource-server-approaches",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "JWT Signing: Symmetric vs. Asymmetric Keys",
+        "slug": "spring-security-jwt-signing-symmetric-and-asymmetric",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Configure JWT bearer authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication",
+        "type": "doc"
+      },
+      {
+        "label": "Use Identity to secure a Web API backend for SPAs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Mapping, customizing, and transforming claims in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/claims",
+        "type": "doc"
+      },
+      {
+        "label": "Enable Web Authentication API (WebAuthn) passkeys, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/passkeys/",
+        "type": "doc"
+      },
+      {
+        "label": "Manage JSON Web Tokens in development with dotnet user-jwts, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 8725: JSON Web Token Best Current Practices, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc8725",
         "type": "doc"
       }
     ]
