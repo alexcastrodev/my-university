@@ -3536,6 +3536,82 @@
     ]
   },
   {
+    "slug": "choosing-an-aspnet-core-application-model",
+    "id": 304,
+    "category": "ASP.NET Core",
+    "title": "Choosing an ASP.NET Core Application Model",
+    "topic": "Hosting & Pipeline",
+    "summary": "Minimal APIs, controllers, Razor Pages, MVC, Blazor, gRPC and SPA plus API side by side: what each .NET 10 template really generates, what the shared host gives all of them, and where per-model defaults still differ, measured with real requests.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Render Modes and Hosting Models",
+        "slug": "blazor-render-modes-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring MVC Request Handling and Data Binding",
+        "slug": "spring-mvc-request-handling",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Choose an ASP.NET Core UI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/tutorials/choose-web-ui",
+        "type": "doc"
+      },
+      {
+        "label": "APIs overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis",
+        "type": "doc"
+      },
+      {
+        "label": "Integrate ASP.NET Core Razor components with MVC or Razor Pages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/integration",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor hosting models, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models",
+        "type": "doc"
+      },
+      {
+        "label": "Overview for gRPC on .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/",
+        "type": "doc"
+      },
+      {
+        "label": "What is .NET MAUI?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/maui/what-is-maui",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "route-constraints-short-circuit-and-handler-results",
     "id": 312,
     "category": "ASP.NET Core",
