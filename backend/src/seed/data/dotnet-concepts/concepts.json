@@ -4382,5 +4382,81 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "authentication-and-authorization-fundamentals",
+    "id": 403,
+    "category": "ASP.NET Core",
+    "title": "Authentication and Authorization Fundamentals",
+    "topic": "Security",
+    "summary": "Schemes and handlers, challenge versus forbid, cookie versus bearer and the .NET 10 cookie redirect change, claims, roles and policies, resource-based authorization and pipeline wiring mistakes, with the real 401/403 of each request.",
+    "publishedAt": "2026-10-15",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs, Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Spring Security Authentication Architecture",
+        "slug": "spring-security-authentication-architecture",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Spring Security Authorization: Authorities and Roles",
+        "slug": "spring-security-authorization-authorities-and-roles",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Authentication and Authorization at Scale",
+        "slug": "authentication-and-authorization-at-scale",
+        "feature": "system-design"
+      }
+    ],
+    "references": [
+      {
+        "label": "Overview of ASP.NET Core Authentication, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/",
+        "type": "doc"
+      },
+      {
+        "label": "Policy-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies",
+        "type": "doc"
+      },
+      {
+        "label": "Authentication and authorization in minimal APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security",
+        "type": "doc"
+      },
+      {
+        "label": "Resource-based authorization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based",
+        "type": "doc"
+      },
+      {
+        "label": "Use cookie authentication without ASP.NET Core Identity, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie",
+        "type": "doc"
+      },
+      {
+        "label": "Cookie login redirects are disabled for known API endpoints, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints",
+        "type": "doc"
+      }
+    ]
   }
 ]
