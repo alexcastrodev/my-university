@@ -1832,6 +1832,214 @@
     ]
   },
   {
+    "slug": "inheritance-mapping-tph-tpt-and-tpc",
+    "id": 605,
+    "category": "Data Access",
+    "title": "Inheritance Mapping: TPH, TPT and TPC",
+    "topic": "EF Core Modeling",
+    "summary": "The three EF Core 10 inheritance strategies with the real schema and SQL on SQLite: the undeclared derived type that silently loses data, discriminators and shared columns, TPT joins, TPC unions, keys and missing foreign keys, and how to choose.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Inheritance: virtual, override, new and sealed",
+        "slug": "inheritance-virtual-override-and-sealed",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Inheritance, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/inheritance",
+        "type": "doc"
+      },
+      {
+        "label": "Modeling for performance, inheritance mapping, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/performance/modeling-for-performance#inheritance-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 7, table-per-concrete-type mapping, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew#table-per-concrete-type-tpc-inheritance-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite EF Core database provider limitations, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-10.0/whatsnew",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "reverse-engineering-an-existing-database",
+    "id": 606,
+    "category": "Data Access",
+    "title": "Reverse-Engineering an Existing Database",
+    "topic": "EF Core Modeling",
+    "summary": "dotnet ef dbcontext scaffold on EF Core 10 against a legacy SQLite schema: what it generates for keys, defaults, join tables, views and keyless tables, the options that matter, re-scaffolding with partial classes and OnModelCreatingPartial, and customizing the T4 templates.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "Inheritance Mapping: TPH, TPT and TPC",
+        "slug": "inheritance-mapping-tph-tpt-and-tpc",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Reverse engineering, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/",
+        "type": "doc"
+      },
+      {
+        "label": "Custom reverse engineering templates, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/templates",
+        "type": "doc"
+      },
+      {
+        "label": "EF Core tools reference, .NET CLI, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/cli/dotnet",
+        "type": "doc"
+      },
+      {
+        "label": "Connection strings, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-strings",
+        "type": "doc"
+      },
+      {
+        "label": "Keyless entity types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keyless-entity-types",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "raw-sql-unmapped-types-and-views",
+    "id": 607,
+    "category": "Data Access",
+    "title": "Raw SQL, Unmapped Types and Views",
+    "topic": "EF Core Querying",
+    "summary": "SqlQuery<T> for types outside the model, ExecuteSql, and keyless entities for views and defining queries on EF Core 10, with the real SQL on SQLite: the Value alias, filters that SqlQuery skips, silent extra columns, and the ToSqlQuery mapping that still creates a table.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "global-and-named-query-filters"
+    ],
+    "related": [
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters (EF Core 10)",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Reverse-Engineering an Existing Database",
+        "slug": "reverse-engineering-an-existing-database",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SQL queries, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/sql-queries",
+        "type": "doc"
+      },
+      {
+        "label": "Keyless entity types, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keyless-entity-types",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 8, raw SQL queries for unmapped types, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-8.0/whatsnew#raw-sql-queries-for-unmapped-types",
+        "type": "doc"
+      },
+      {
+        "label": "Entity types, view mapping, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/entity-types#view-mapping",
+        "type": "doc"
+      },
+      {
+        "label": "Managing migrations, arbitrary changes via raw SQL, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing#arbitrary-changes-via-raw-sql",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "domain-events-and-consistency-boundaries",
     "category": "Architecture",
     "title": "Domain Events and Consistency Boundaries",
