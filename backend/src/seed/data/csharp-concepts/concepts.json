@@ -783,7 +783,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/type-constant-and-relational-patterns"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/type-constant-and-relational-patterns"
   },
   {
     "slug": "property-positional-and-list-patterns",
@@ -914,7 +914,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/exceptions-try-catch-filters-and-finally"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/exceptions-try-catch-filters-and-finally"
   },
   {
     "slug": "guard-clauses-throwing-and-rethrowing",
@@ -1780,7 +1780,7 @@
       }
     ],
     "id": 312,
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/records-and-with-expressions"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/records-and-with-expressions"
   },
   {
     "slug": "enums-and-flags-enums",
@@ -2351,7 +2351,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/generics-constraints-and-variance"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/generics-constraints-and-variance"
   },
   {
     "slug": "delegates-and-multicast-invocation",
@@ -2911,7 +2911,7 @@
       }
     ],
     "id": 500,
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/strings-comparison-culture-and-ordering"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/strings-comparison-culture-and-ordering"
   },
   {
     "slug": "regular-expressions-in-depth",
@@ -3514,7 +3514,7 @@
       }
     ],
     "id": 610,
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/system-text-json-serialization-and-options"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/system-text-json-serialization-and-options"
   },
   {
     "slug": "system-text-json-source-generation-and-utf8jsonreader",
@@ -4141,7 +4141,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/csharp-concepts/linq-sets-joins-grouping-and-lookups"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/linq-sets-joins-grouping-and-lookups"
   },
   {
     "slug": "expression-trees-and-iqueryable-providers",

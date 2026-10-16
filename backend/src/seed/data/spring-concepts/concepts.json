@@ -24,7 +24,7 @@
     ],
     "summary": "How @SpringBootApplication, starter dependencies, and conditional beans let Spring Boot wire an application with almost no explicit configuration.",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-autoconfiguration",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-autoconfiguration",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 1, \"Getting started with Spring\", p. 3-18",
@@ -222,7 +222,7 @@
     ],
     "summary": "How UserDetails, GrantedAuthority, UserDetailsService, and UserDetailsManager describe and manage users in Spring Security, and why decorating a JPA entity with a separate UserDetails wrapper keeps persistence and security concerns apart.",
     "publishedAt": "2026-07-29",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-user-management",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-user-management",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 3, \"Managing users\", p. 61-78",
@@ -324,7 +324,7 @@
     ],
     "summary": "How a Spring MVC controller pairs @GetMapping/@PostMapping handlers with a Model to render views and with implicit command-object binding to process form submissions, and how Java records now offer a dependency-free alternative to Lombok for immutable domain types.",
     "publishedAt": "2026-07-30",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-mvc-request-handling",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-mvc-request-handling",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", sections 2.1-2.2, p. 29-44",
@@ -474,7 +474,7 @@
     ],
     "summary": "How to declare validation rules with Bean Validation annotations on a domain class and enforce them at form-binding time with @Valid and Errors/BindingResult, and why spring-boot-starter-validation is now a separate, explicit dependency instead of a transitive one.",
     "publishedAt": "2026-07-31",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-mvc-bean-validation",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-mvc-bean-validation",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 2, \"Developing web applications\", section 2.3, \"Validating form input\", p. 45-50",
@@ -528,7 +528,7 @@
     ],
     "summary": "How PasswordEncoder's encode()/matches() contract validates passwords without ever reversing a hash, how DelegatingPasswordEncoder lets an app support multiple algorithms at once via a prefix scheme, and why Argon2 is now a more prominent recommendation than the book's bcrypt/scrypt/PBKDF2 trio.",
     "publishedAt": "2026-07-31",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-password-encoding",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-password-encoding",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 4, \"Dealing with passwords\", section 4.1, \"Understanding the PasswordEncoder contract\", p. 86-96",
@@ -625,7 +625,7 @@
     ],
     "summary": "How JdbcTemplate eliminates JDBC's connection/statement/result-set boilerplate via query()/queryForObject() and a RowMapper, how SimpleJdbcInsert simplifies inserts that need a generated key, and how schema.sql/data.sql auto-initialize a database on startup — plus why Spring Framework 6.1's JdbcClient is now the recommended fluent facade for the same job.",
     "publishedAt": "2026-08-01",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-jdbc-persistence-with-jdbctemplate",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-jdbc-persistence-with-jdbctemplate",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.1, p. 56-74",
@@ -775,7 +775,7 @@
     ],
     "summary": "How annotating domain classes as JPA entities and extending CrudRepository gives you a working persistence layer with zero implementation code, and how Spring Data parses derived query method names (findByDeliveryZip, readOrdersByDeliveryZipAndPlacedAtBetween) into real queries, with @Query as the escape hatch.",
     "publishedAt": "2026-08-03",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-data-jpa-repositories",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-data-jpa-repositories",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 3, \"Working with data\", section 3.2, p. 75-83",
@@ -920,7 +920,7 @@
     ],
     "summary": "How the Spring environment abstraction aggregates properties from JVM system properties, OS environment variables, command-line arguments, and application.yml/properties into one source, and how a few hundred built-in configuration properties (server.port, spring.datasource.*, logging.level.*) let you tune Spring Boot's autoconfigured beans without writing a single @Bean method.",
     "publishedAt": "2026-08-03",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-configuration-properties",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-configuration-properties",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.1, p. 114-122",
@@ -1070,7 +1070,7 @@
     ],
     "summary": "How @ConfigurationProperties turns any bean's setters into configuration-driven values, why extracting them into a dedicated holder bean keeps controllers and services clean, and how to generate IDE metadata for custom properties — plus why records with constructor binding are now the preferred alternative to a mutable, Lombok-backed holder class.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-custom-configuration-properties",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-custom-configuration-properties",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.2, p. 122-129",
@@ -1119,7 +1119,7 @@
     ],
     "summary": "How httpBasic() and formLogin() configure Spring Security's two built-in authentication methods, how AuthenticationEntryPoint/AuthenticationSuccessHandler/AuthenticationFailureHandler customize their failure and success behavior, and how the two methods can run side by side on the same application.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-http-basic-and-form-login",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-http-basic-and-form-login",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 5, \"Implementing authentication\", section 5.3, p. 125-133",
@@ -1216,7 +1216,7 @@
     ],
     "summary": "How Spring profiles let different properties and beans apply depending on which profile is active, why setting spring.profiles.active outside of application.yml keeps environment-specific config properly separated, and how the book's multi-document spring.profiles: prod YAML syntax has since been replaced by spring.config.activate.on-profile.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-profiles",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-profiles",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 5, \"Working with configuration properties\", section 5.3, p. 129-133",
@@ -1265,7 +1265,7 @@
     ],
     "summary": "How Spring Security decides, after authentication succeeds, whether a request is actually allowed — via the GrantedAuthority contract, the hasAuthority()/hasAnyAuthority() methods for fine-grained authorities, hasRole()/hasAnyRole() and the ROLE_ prefix convention for coarser-grained roles, and denyAll() for blanket restrictions — plus the access() method's escape hatch into raw SpEL for anything the named methods can't express.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-authorization-authorities-and-roles",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-authorization-authorities-and-roles",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 7, \"Configuring authorization: Restricting access\", section 7.1, p. 153-171",
@@ -1362,7 +1362,7 @@
     ],
     "summary": "How @RestController and the HTTP-method mapping annotations (@GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping) map CRUD operations onto REST endpoints, why PUT and PATCH have genuinely different replace-vs-merge semantics that the annotations alone don't enforce, and how Spring Framework 6's ProblemDetail (RFC 7807) now gives 404s and other error responses a structured body instead of an empty one.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-rest-controllers",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-rest-controllers",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.1, p. 138-149",
@@ -1411,7 +1411,7 @@
     ],
     "summary": "How Spring Security's matcher methods (anyRequest(), mvcMatchers()/requestMatchers()) select which requests an authorization rule applies to, why rule order must go from specific to general, how to combine a path with an HTTP method, and why the book's own security argument for preferring MVC matchers over Ant matchers is now built into requestMatchers() by default.",
     "publishedAt": "2026-08-04",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-authorization-matcher-methods",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-authorization-matcher-methods",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 8, \"Configuring authorization: Applying restrictions\", sections 8.1-8.2, p. 172-184",
@@ -1667,7 +1667,7 @@
     ],
     "summary": "How adding spring-boot-starter-data-rest exposes every Spring Data repository as a hypermedia REST API with zero controller code, how @RepositoryRestResource and @RestResource adjust paths and exposure, and how the book's ResourceProcessor became today's RepresentationModelProcessor for adding custom links.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-data-rest-repositories",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-data-rest-repositories",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 6, \"Creating REST services\", section 6.3 \"Enabling data-backed services\", p. 160-168",
@@ -2087,7 +2087,7 @@
     ],
     "summary": "How Spring for Apache Kafka wraps the raw Kafka client in an autoconfigured KafkaTemplate and @KafkaListener, and why Kafka's log-based, replayable, partition-ordered model behaves differently from JMS and AMQP queue consumption.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-kafka-messaging",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-kafka-messaging",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 8, \"Sending messages asynchronously\", section 8.3 \"Messaging with Kafka\", p. 202-208",
@@ -2315,7 +2315,7 @@
     ],
     "summary": "Spring's non-blocking HTTP client — retrieve()/bodyToMono/bodyToFlux, reactive request bodies, onStatus error handling, the exchangeToMono replacement for the leak-prone exchange(), and reactive Spring Security with SecurityWebFilterChain.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-webclient-reactive-consumption",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-webclient-reactive-consumption",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 11, \"Developing reactive APIs\", sections 11.4-11.5, p. 285-295",
@@ -2369,7 +2369,7 @@
     ],
     "summary": "Actuator adds production-readiness endpoints to a Spring Boot app — /health, /info, /metrics, /env, /beans, /mappings & more — over HTTP and JMX, plus how to expose and consume them safely.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-boot-actuator-endpoints",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-boot-actuator-endpoints",
     "references": [
       {
         "label": "Craig Walls, \"Spring in Action\", 5th Edition (Manning, 2019) — Chapter 16, \"Working with Spring Boot Actuator\", sections 16.1-16.2, p. 395-415",
@@ -3879,7 +3879,7 @@
     ],
     "summary": "CsrfFilter sits in the filter chain, lets GET/HEAD/TRACE/OPTIONS through untouched and demands a token (handed to the client earlier via a CsrfTokenRepository) for every other method, so a fresh Spring Security project rejecting an authenticated POST with 403 is CSRF protection working as designed, not a bug — the fix is passing the token back (hidden form field for server-rendered apps, a cookie via CookieCsrfTokenRepository for SPAs) or, when genuinely appropriate, excluding specific request matchers or disabling it for bearer-token-only APIs; since Spring Security 6.1 the default handler for reading the token became XorCsrfTokenRequestAttributeHandler (BREACH-resistant, deferred token loading) in place of the book's simpler default.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-csrf-protection",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-csrf-protection",
     "references": [
       {
         "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.1 \"Applying cross-site request forgery (CSRF) protection in applications\" (10.1.1-10.1.3), p. 213-234",
@@ -3943,7 +3943,7 @@
     ],
     "summary": "CORS is a browser mechanism that relaxes the same-origin policy rather than a server-side restriction — an unconfigured cross-origin call still executes on the server and only its response is withheld from JavaScript — configured either per endpoint with Spring MVC's @CrossOrigin or centrally via http.cors() plus a CorsConfigurationSource whose CorsFilter must run before Spring Security's authentication and authorization so credential-less preflight OPTIONS requests are not rejected with 401; the book's WebSecurityConfigurerAdapter.configure(HttpSecurity) container is now a SecurityFilterChain bean and the raw lambda source a UrlBasedCorsConfigurationSource bean, while CorsConfiguration, @CrossOrigin, and http.cors() themselves are unchanged, with today's additions being originPatterns (required instead of the wildcard once allowCredentials is true), preFlightRequestHandler, and the WHATWG Fetch Standard superseding the W3C CORS spec the book cites for simple-request rules.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-cors-configuration",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-cors-configuration",
     "references": [
       {
         "label": "Spring Security in Action (Manning, 2020) — Chapter 10, \"Applying CSRF protection and CORS\", section 10.2, \"Using cross-origin resource sharing\", p. 235-243",
@@ -4754,7 +4754,7 @@
     ],
     "summary": "How spring-security-test establishes a principal for a test — @WithMockUser fabricating a UserDetails with no lookup (roles auto-prefixed ROLE_, authorities not, usable at class level and overridable per-method with @WithAnonymousUser), @WithUserDetails loading a real user through a UserDetailsService bean so the principal is your own implementation, and a custom annotation wired to a WithSecurityContextFactory via @WithSecurityContext when the concrete Authentication type matters — all three skipping authentication entirely, which is why the AuthenticationProvider/PasswordEncoder/success-and-failure-handler path must be driven separately through MockMvc with httpBasic() or the formLogin() request builder plus the authenticated()/unauthenticated() result matchers; the book's JUnit 4 era idiom is now @ExtendWith(SpringExtension.class)/@SpringJUnitConfig (implied by @SpringBootTest), and springSecurity() is applied automatically under Spring Boot but still explicit via .apply(springSecurity()) outside it.",
     "publishedAt": "2026-08-06",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-security-testing-mock-users-and-authentication",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-security-testing-mock-users-and-authentication",
     "references": [
       {
         "label": "Laurențiu Spilcă, \"Spring Security in Action\" (Manning, 2020) — Chapter 20, \"Spring Security testing\", sections 20.1 \"Using mock users for tests\" (p. 493-500), 20.2 \"Testing with users from a UserDetailsService\" (p. 500-501), 20.3 \"Using custom Authentication objects for testing\" (p. 501-505), and 20.5 \"Testing authentication\" (p. 507-510)",
@@ -5108,7 +5108,7 @@
     ],
     "summary": "How ApplicationEventPublisher decouples a publisher from its listeners, and why choosing between @EventListener and @TransactionalEventListener (and its phase) decides whether a listener can veto the operation, sees rolled-back work, or is silently skipped without a transaction.",
     "publishedAt": "2026-09-30",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-application-events",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-application-events",
     "references": [
       {
         "label": "Spring Framework Reference: Standard and Custom Events",
@@ -5154,7 +5154,7 @@
     ],
     "summary": "How Spring Modulith turns a Spring Boot monolith into a modular monolith: every direct subpackage is an application module, subpackages are internal, and ApplicationModules.verify() fails the build on cycles, access to internal types, and undeclared dependencies.",
     "publishedAt": "2026-09-30",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-application-modules-and-verification",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-modulith-application-modules-and-verification",
     "references": [
       {
         "label": "Spring Modulith Reference: Fundamentals",
@@ -5205,7 +5205,7 @@
     ],
     "summary": "How @ApplicationModuleListener (async, after commit, in its own transaction) and the Event Publication Registry make events between modules durable: publications are written in the business transaction, tracked through PUBLISHED, COMPLETED and FAILED, resubmitted, and optionally externalized to a broker.",
     "publishedAt": "2026-09-30",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-events-and-publication-registry",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-modulith-events-and-publication-registry",
     "references": [
       {
         "label": "Spring Modulith Reference: Working with Application Events",
@@ -5252,7 +5252,7 @@
     ],
     "summary": "How @ApplicationModuleTest boots one module at a time, how Scenario and AssertablePublishedEvents test event-driven collaboration between modules, and how Documenter generates C4 diagrams and module canvases from the same model.",
     "publishedAt": "2026-09-30",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/spring-concepts/spring-modulith-testing-and-documentation",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/spring-concepts/spring-modulith-testing-and-documentation",
     "references": [
       {
         "label": "Spring Modulith Reference: Integration Testing Application Modules",

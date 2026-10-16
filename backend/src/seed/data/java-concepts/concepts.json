@@ -23,7 +23,7 @@
     ],
     "summary": "What each interface is for, why Iterable forces you to implement Iterator, and why the JDK collections are built this way.",
     "publishedAt": "2026-07-25",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/iterator-vs-iterable",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/iterator-vs-iterable",
     "references": [
       {
         "label": "Iterable — Java SE 25 API",
@@ -66,7 +66,7 @@
     ],
     "summary": "How instanceof, switch, and record patterns let you test an object's structure and extract its data in one step, instead of casting after a type check.",
     "publishedAt": "2026-07-26",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/pattern-matching",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/pattern-matching",
     "references": [
       {
         "label": "Pattern Matching — Java SE 26 Language Guide",
@@ -99,7 +99,7 @@
     ],
     "summary": "The generic root interface of the Collections Framework — what add, remove, and bulk operations guarantee, and why several of them can throw at runtime instead of failing to compile.",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/collection-interface",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/collection-interface",
     "references": [
       {
         "label": "Collection — Java SE 25 API",
@@ -143,7 +143,7 @@
     ],
     "summary": "How List builds a positional, duplicate-allowing sequence on top of Collection — indexed access, sublists, sort, and the unmodifiable lists produced by List.of().",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/list-interface",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/list-interface",
     "references": [
       {
         "label": "List — Java SE 25 API",
@@ -182,7 +182,7 @@
     ],
     "summary": "How Set forbids duplicates, how SortedSet and NavigableSet layer ordering and closest-match lookups on top of it, and why their range views are backed by the original set.",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/set-interface",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/set-interface",
     "references": [
       {
         "label": "Set — Java SE 25 API",
@@ -226,7 +226,7 @@
     ],
     "summary": "Why Queue defines two parallel families of methods — one that throws on failure, one that reports it — and what that means for empty and fixed-length queues.",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/queue-interface",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/queue-interface",
     "references": [
       {
         "label": "Queue — Java SE 25 API",
@@ -265,7 +265,7 @@
     ],
     "summary": "How Deque extends Queue into a double-ended queue that can also act as a stack, and how its addFirst/addLast, peek, and remove families each split into a throwing and a reporting version.",
     "publishedAt": "2026-07-27",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/deque-interface",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/deque-interface",
     "references": [
       {
         "label": "Deque — Java SE 25 API",
@@ -303,7 +303,7 @@
     ],
     "summary": "How parameterized types move casts and type-mismatch checks from runtime to compile time, what bounded types and PECS wildcards (extends/super) actually constrain, and why erasure means there's really only one class file per generic type at runtime.",
     "publishedAt": "2026-08-02",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/generics",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/generics",
     "references": [
       {
         "label": "Generics (The Java Tutorials) — Oracle",
@@ -346,7 +346,7 @@
     ],
     "summary": "How a record turns a data-holder class into one line (canonical/compact constructors, free equals/hashCode/toString, shallow immutability), and how sealed classes/interfaces replace \"anyone can extend this\" with an explicit, exhaustive permits list — the pairing that makes closed hierarchies safe to model.",
     "publishedAt": "2026-08-02",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/records-and-sealed-types",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/records-and-sealed-types",
     "references": [
       {
         "label": "Java SE Language Documentation — Record Classes",
@@ -399,7 +399,7 @@
     ],
     "summary": "How Comparator decouples ordering from a type entirely (unlike the one fixed Comparable.compareTo()), how comparing()/thenComparing() build multi-key comparators without a hand-written compare(), and what the static algorithms on Collections (sort, shuffle, unmodifiable/synchronized/checked views) actually guarantee.",
     "publishedAt": "2026-08-02",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/comparators-and-collection-algorithms",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/comparators-and-collection-algorithms",
     "references": [
       {
         "label": "Comparator — Java SE 25 API",
@@ -447,7 +447,7 @@
     ],
     "summary": "How HttpClient's builder pattern replaced HttpURLConnection's low-level, awkward API — synchronous send() vs. asynchronous sendAsync() returning a CompletableFuture, and how BodyHandlers decides what shape the response body arrives in.",
     "publishedAt": "2026-08-02",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/httpclient-and-java-net-http",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/httpclient-and-java-net-http",
     "references": [
       {
         "label": "HttpClient — Java SE 25 API (java.net.http)",
@@ -490,7 +490,7 @@
     ],
     "summary": "Why Pattern.compile() and Matcher exist as two separate objects (compile once, match many), the difference between find()/matches()/lookingAt(), and how capturing groups — numbered and named — pull substrings out of a match instead of just testing yes/no.",
     "publishedAt": "2026-08-02",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/regular-expressions",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/regular-expressions",
     "references": [
       {
         "label": "Pattern — Java SE 25 API",
@@ -575,7 +575,7 @@
     ],
     "summary": "How a lambda expression implements a functional interface's single abstract method, the expression- vs. block-body syntax forms, the java.util.function catalogue, the effectively-final rule behind variable capture, and the four kinds of method references.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/lambda-expressions",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/lambda-expressions",
     "references": [
       {
         "label": "java.util.function — Java SE 25 API",
@@ -633,7 +633,7 @@
     ],
     "summary": "Why a stream is a lazy, single-use conduit rather than a data structure, how the pipeline shape (source → intermediate ops → terminal op) makes filter-then-findFirst short-circuit instead of scanning everything, how Collectors and the primitive stream specializations work under the hood, and when parallel streams actually help.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/stream-api-fundamentals",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/stream-api-fundamentals",
     "references": [
       {
         "label": "java.util.stream — Java SE 25 API",
@@ -696,7 +696,7 @@
     ],
     "summary": "Why Thread.suspend/resume/stop were deprecated for corrupting shared state, the cooperative-shutdown pattern that replaced them, and why virtual threads solve a different problem (thread cost) rather than that same correctness problem.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/thread-model-legacy-vs-virtual-threads",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/thread-model-legacy-vs-virtual-threads",
     "references": [
       {
         "label": "Virtual Threads — Java SE developer guide",
@@ -739,7 +739,7 @@
     ],
     "summary": "How java.nio.file replaces java.io.File with informative, specific exceptions instead of boolean returns, adds DirectoryStream for closeable/filterable directory iteration, first-class symbolic-link support, and WatchService for reacting to filesystem changes instead of polling.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/nio2-path-and-files-api",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/nio2-path-and-files-api",
     "references": [
       {
         "label": "Files — Java SE 25 API",
@@ -787,7 +787,7 @@
     ],
     "summary": "The byte-stream vs. character-stream split (InputStream/OutputStream vs. Reader/Writer), how Closeable/AutoCloseable/Flushable and try-with-resources guarantee resource cleanup with suppressed exceptions, buffering and PrintWriter, and how Serializable/ObjectInputFilter turn an object graph into bytes while guarding against deserialization attacks.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/io-streams-fundamentals",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/io-streams-fundamentals",
     "references": [
       {
         "label": "InputStream — Java SE 25 API",
@@ -865,7 +865,7 @@
     ],
     "summary": "How @Retention/RetentionPolicy control whether an annotation survives past source, the @Target/@Inherited/@Repeatable meta-annotations, reading annotations at runtime via AnnotatedElement, and the built-in @Deprecated/@SafeVarargs/@FunctionalInterface/@Documented annotations.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/annotations-in-java",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/annotations-in-java",
     "references": [
       {
         "label": "java.lang.annotation package — Java SE API",
@@ -928,7 +928,7 @@
     ],
     "summary": "The Comparable<T> natural-ordering contract and its equals-consistency recommendation, AutoCloseable vs. Closeable idempotency rules, StackWalker as the lazy, modern replacement for stack-trace inspection, and ProcessBuilder/Process/ProcessHandle for launching and managing OS processes.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/java-lang-essential-utility-types",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/java-lang-essential-utility-types",
     "references": [
       {
         "label": "Comparable — Java SE API",
@@ -991,7 +991,7 @@
     ],
     "summary": "How JShell lets you evaluate expressions, declare variables/methods/classes, and get immediate feedback without a full class/main-method wrapper — the  result-variable convention, forward references, essential /commands, and how it differs from single-file source-code launching.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/jshell-repl",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/jshell-repl",
     "references": [
       {
         "label": "Introduction to JShell — Java SE 25",
@@ -1034,7 +1034,7 @@
     ],
     "summary": "How ServerSocket/Socket implement the accept-connect-read-write primitive under every web server, and the literal byte-level shape of an HTTP/1.1 request/response (request line, headers, blank-line terminator, Content-Length/chunked bodies, status code classes).",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/sockets-and-raw-http-anatomy",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/sockets-and-raw-http-anatomy",
     "references": [
       {
         "label": "ServerSocket — java.net API docs (Java SE 25)",
@@ -1082,7 +1082,7 @@
     ],
     "summary": "How a component scan actually works underneath: a recursive directory walk over compiled .class files, Class.forName + isAnnotationPresent to find marker-annotated classes, and why real frameworks read bytecode metadata via ASM instead of loading every candidate class.",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/classpath-scanning-via-reflection",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/classpath-scanning-via-reflection",
     "references": [
       {
         "label": "Class.forName() — java.lang API docs (Java SE 25)",
@@ -1130,7 +1130,7 @@
     ],
     "summary": "How session state is faked on top of stateless HTTP: a random session ID, a Set-Cookie/Cookie round trip, and a server-side map keyed by that ID — plus what's missing from the minimal version (expiration, invalidation, externalized storage) and current cookie security attributes (Secure, SameSite).",
     "publishedAt": "2026-08-05",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/http-sessions-under-the-hood",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/http-sessions-under-the-hood",
     "references": [
       {
         "label": "MDN — Using HTTP cookies (attributes, security considerations)",
@@ -1184,7 +1184,7 @@
     ],
     "summary": "How ArrayList's resizable-array storage gives O(1) indexed access at the cost of O(n) inserts/removes away from the end, and how to manage its capacity directly.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-list",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/array-list",
     "references": [
       {
         "label": "ArrayList — Java SE 25 API",
@@ -1223,7 +1223,7 @@
     ],
     "summary": "How LinkedList's node-based storage inverts ArrayList's trade-off — O(n) indexed access in exchange for cheap insert/remove — while implementing List, Deque, and Queue at once.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-list",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/linked-list",
     "references": [
       {
         "label": "LinkedList — Java SE 25 API",
@@ -1267,7 +1267,7 @@
     ],
     "summary": "How HashSet's hash-table storage gives average O(1) add/contains/remove with no iteration-order guarantee, and what breaks lookups when an element's hash-relevant fields mutate.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-set",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/hash-set",
     "references": [
       {
         "label": "HashSet — Java SE 25 API",
@@ -1306,7 +1306,7 @@
     ],
     "summary": "How LinkedHashSet adds insertion-order iteration on top of HashSet's lookup performance by threading a linked list through the hash table's entries.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-set",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/linked-hash-set",
     "references": [
       {
         "label": "LinkedHashSet — Java SE 25 API",
@@ -1345,7 +1345,7 @@
     ],
     "summary": "How TreeSet keeps elements in ascending order via a tree structure, why uniqueness there is decided by compareTo() rather than equals(), and the O(log n) cost that pays for.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-set",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/tree-set",
     "references": [
       {
         "label": "TreeSet — Java SE 25 API",
@@ -1384,7 +1384,7 @@
     ],
     "summary": "How PriorityQueue orders elements by comparator instead of insertion order via a heap, and why iterating it does not visit elements in priority order the way repeated poll() does.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/priority-queue",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/priority-queue",
     "references": [
       {
         "label": "PriorityQueue — Java SE 25 API",
@@ -1423,7 +1423,7 @@
     ],
     "summary": "How ArrayDeque's array-backed, capacity-unrestricted storage makes it the JDK-recommended stack/queue over legacy Stack or LinkedList when null elements aren't needed.",
     "publishedAt": "2026-08-07",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/array-deque",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/array-deque",
     "references": [
       {
         "label": "ArrayDeque — Java SE 25 API",
@@ -1461,7 +1461,7 @@
     ],
     "summary": "How HashMap's hash-table storage gives average O(1) get/put with no iteration-order guarantee, and how put() silently replaces the value of an existing key.",
     "publishedAt": "2026-08-12",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/hash-map",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/hash-map",
     "references": [
       {
         "label": "HashMap — Java SE 25 API",
@@ -1499,7 +1499,7 @@
     ],
     "summary": "How TreeMap keeps keys in ascending order via a red-black tree, why key equality there is decided by compareTo() rather than equals()/hashCode(), and the O(log n) cost that pays for.",
     "publishedAt": "2026-08-12",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/tree-map",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/tree-map",
     "references": [
       {
         "label": "TreeMap — Java SE 25 API",
@@ -1538,7 +1538,7 @@
     ],
     "summary": "How LinkedHashMap adds insertion-order (or access-order) iteration on top of HashMap's lookup performance, and how overriding removeEldestEntry() turns it into a bounded LRU cache.",
     "publishedAt": "2026-08-12",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/linked-hash-map",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/linked-hash-map",
     "references": [
       {
         "label": "LinkedHashMap — Java SE 25 API",
@@ -1660,7 +1660,7 @@
     ],
     "summary": "The java.util.concurrent toolkit — executors and thread pools, Callable/Future, coordination primitives like CountDownLatch and Semaphore, explicit Locks, and atomic variables — as the higher-level alternative to hand-rolled Thread and synchronized code.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/concurrency-utilities-executors-and-synchronizers",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/concurrency-utilities-executors-and-synchronizers",
     "references": [
       {
         "label": "ExecutorService — java.util.concurrent",
@@ -1728,7 +1728,7 @@
     ],
     "summary": "A divide-and-conquer engine for true multi-core parallelism, where a ForkJoinPool runs recursively-split RecursiveAction/RecursiveTask work via work-stealing.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/fork-join-framework",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/fork-join-framework",
     "references": [
       {
         "label": "ForkJoinPool — Java SE 25 API",
@@ -1780,7 +1780,7 @@
     ],
     "summary": "Named static methods can replace or supplement constructors for clearer, cacheable, subtype-flexible object creation, and the Builder pattern tames classes with many optional fields.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/static-factory-methods-and-builder-pattern",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/static-factory-methods-and-builder-pattern",
     "references": [
       {
         "label": "Boolean — Java SE 25 API",
@@ -1890,7 +1890,7 @@
     ],
     "summary": "The documented contracts behind Object's three most-overridden methods, why breaking symmetry or skipping hashCode() fails silently instead of at compile time, and how records satisfy all three for free.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/equals-hashcode-and-tostring-contracts",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/equals-hashcode-and-tostring-contracts",
     "references": [
       {
         "label": "Object — Java SE 25 API",
@@ -2287,7 +2287,7 @@
     ],
     "summary": "Implementing Serializable bypasses your constructor's invariant checks and exposes internals as permanent API — see why, and how readObject discipline, the serialization proxy pattern, and ObjectInputFilter contain the risk.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/serialization-risks-and-safer-alternatives",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/serialization-risks-and-safer-alternatives",
     "references": [
       {
         "label": "Serializable — Java SE API",
@@ -2464,7 +2464,7 @@
     ],
     "summary": "How lock-ordering deadlocks happen between threads, and how consistent lock ordering, open calls, and timed lock attempts prevent and diagnose them.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/deadlock-lock-ordering-and-avoidance",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/deadlock-lock-ordering-and-avoidance",
     "references": [
       {
         "label": "ReentrantLock — tryLock(long, TimeUnit)",
@@ -2517,7 +2517,7 @@
     ],
     "summary": "Why a compound action built from thread-safe calls on a synchronized collection can still race, and how ConcurrentHashMap and CopyOnWriteArrayList solve it with weakly consistent iteration and atomic compound-action methods instead.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/concurrent-collections-and-compound-actions",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/concurrent-collections-and-compound-actions",
     "references": [
       {
         "label": "ConcurrentHashMap — Java SE 25 API",
@@ -2570,7 +2570,7 @@
     ],
     "summary": "How BlockingQueue's blocking put/take turn the producer-consumer pattern into a few lines of code, and why bounded queues provide real backpressure instead of just delaying an OutOfMemoryError.",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/blocking-queues-and-producer-consumer",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/blocking-queues-and-producer-consumer",
     "references": [
       {
         "label": "BlockingQueue — java.util.concurrent",
@@ -2633,7 +2633,7 @@
     ],
     "summary": "How Thread.interrupt() actually works as a cooperative status flag, why swallowing InterruptedException is the most common concurrency bug, and how to cancel tasks correctly via interruption policy and Future.cancel().",
     "publishedAt": "2026-08-13",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/task-cancellation-and-interruption",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/task-cancellation-and-interruption",
     "references": [
       {
         "label": "Thread.interrupt() — java.lang.Thread API docs",
@@ -2830,7 +2830,7 @@
     ],
     "summary": "Covers the JCIP formula for computing an optimal thread pool size and the ThreadPoolExecutor API for work queues, saturation policies, thread factories, and extension hooks.",
     "publishedAt": "2026-08-14",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/configuring-thread-pool-executor",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/configuring-thread-pool-executor",
     "references": [
       {
         "label": "ThreadPoolExecutor — Java SE 25 API",
@@ -2943,7 +2943,7 @@
     ],
     "summary": "StructuredTaskScope (still preview in Java 25, JEP 505) makes a fan-out of concurrent subtasks a try-with-resources block that owns their lifetime — no task can outlive its scope, siblings are cancelled automatically on failure, and the whole operation shows up nested in a thread dump instead of as a flat pool of Futures.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/structured-concurrency",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/structured-concurrency",
     "references": [
       {
         "label": "JEP 505: Structured Concurrency (Fifth Preview)",
@@ -2991,7 +2991,7 @@
     ],
     "summary": "ScopedValue (finalized in Java 25 by JEP 506) replaces ThreadLocal's mutable, leak-prone per-thread slot with an immutable binding whose lifetime is exactly the dynamic extent of a run()/call() lambda — no set(), no remove() to forget, and automatic inheritance by subtasks forked in a StructuredTaskScope.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/scoped-values",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/scoped-values",
     "references": [
       {
         "label": "JEP 506 — Scoped Values",
@@ -3019,7 +3019,7 @@
     ],
     "summary": "Optional exists to make 'this might not have a value' part of a method's return type instead of a null a caller has to remember to check — and why the JDK itself warns against using it as a field, a parameter, or inside a collection, plus the isPresent()-then-get() anti-pattern and the orElse-vs-orElseGet eagerness trap that trip up most first uses.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/optional-correct-usage",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/optional-correct-usage",
     "references": [
       {
         "label": "Optional — Java SE 25 API docs",
@@ -3052,7 +3052,7 @@
     ],
     "summary": "How thenApply, thenCompose, thenCombine, allOf, and the exception handlers compose async work without blocking — and the nested-future, common-pool, and swallowed-exception traps that come with them.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/completablefuture-composition",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/completablefuture-composition",
     "references": [
       {
         "label": "CompletableFuture — Java SE 25 API docs",
@@ -3132,7 +3132,7 @@
     ],
     "summary": "java.time replaced the mutable, thread-unsafe, 0-indexed-month java.util.Date and Calendar with a family of small immutable types that each model exactly one idea — why an Instant has no getYear(), why Duration and Period genuinely cannot be the same type, what \"plus one day\" means across a DST transition, and why a static final DateTimeFormatter is safe where a shared SimpleDateFormat was a production bug.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/java-time-dates-and-durations",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/java-time-dates-and-durations",
     "references": [
       {
         "label": "java.time — Java SE 25 API docs",
@@ -3170,7 +3170,7 @@
     ],
     "summary": "How the triple-quote text block writes multi-line SQL, JSON, and HTML without \\n escapes or + concatenation — and the precise incidental-whitespace algorithm behind it, where the closing delimiter's own column decides how much indentation is stripped, trailing spaces vanish unless fenced with \\s, and line terminators are normalized to \\n. Still exactly a String at runtime, with no interpolation and no way to tell it apart from a regular literal.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/text-blocks",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/text-blocks",
     "references": [
       {
         "label": "JEP 378: Text Blocks",
@@ -3203,7 +3203,7 @@
     ],
     "summary": "The switch statement and the switch expression are two constructs sharing one keyword: colon form falls through and produces nothing, while an arrow-form expression runs exactly one arm, produces a value via yield when the arm is a block, and must be provably exhaustive or the compiler rejects it.",
     "publishedAt": "2026-08-18",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/switch-expressions",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/switch-expressions",
     "references": [
       {
         "label": "JEP 361: Switch Expressions",
@@ -3330,7 +3330,7 @@
     ],
     "summary": "The JDK still has no JSON support, so JSON work means picking a library and one of three processing models — data binding, the tree model, or streaming — all of which Jackson provides as the de facto standard.",
     "publishedAt": "2026-08-19",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/json-processing-in-java",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/json-processing-in-java",
     "references": [
       {
         "label": "Jackson databind — FasterXML/jackson-databind",
@@ -3626,7 +3626,7 @@
     ],
     "summary": "How java.math.BigDecimal and BigInteger give arbitrary precision and explicit rounding where double and long silently lose money or overflow.",
     "publishedAt": "2026-08-19",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger",
     "references": [
       {
         "label": "BigDecimal — Java SE 25 API",
@@ -4235,7 +4235,7 @@
     ],
     "summary": "JEP 431's SequencedCollection/SequencedSet/SequencedMap give every collection with a real encounter order — List, Deque, LinkedHashSet, TreeSet, LinkedHashMap, TreeMap — one uniform getFirst/getLast/addFirst/addLast/reversed() API, deliberately excluding HashSet, HashMap, and PriorityQueue since none has a stable encounter order to expose.",
     "publishedAt": "2026-08-19",
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/java-concepts/sequenced-collections",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/java-concepts/sequenced-collections",
     "references": [
       {
         "label": "JEP 431: Sequenced Collections",
