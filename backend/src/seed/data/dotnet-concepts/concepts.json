@@ -1920,7 +1920,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/relationships-keys-and-delete-behavior"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/relationships-keys-and-delete-behavior"
   },
   {
     "slug": "generated-values-defaults-and-computed-columns",
@@ -2269,7 +2269,7 @@
         "feature": "dotnet-concepts"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
     "references": [
       {
         "label": "Domain events: design and implementation, Microsoft Learn",
@@ -2646,7 +2646,7 @@
       }
     ],
     "id": 701,
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/global-and-named-query-filters"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/global-and-named-query-filters"
   },
   {
     "slug": "ef-core-functions-and-database-specific-translation",
@@ -3786,7 +3786,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/minimal-apis-routing-and-route-groups"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/minimal-apis-routing-and-route-groups"
   },
   {
     "slug": "dtos-and-the-api-contract",
@@ -3858,7 +3858,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dtos-and-the-api-contract"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/dtos-and-the-api-contract"
   },
   {
     "slug": "kestrel-iis-and-hosting-models",
@@ -3966,7 +3966,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/middleware-pipeline-and-program-cs"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/middleware-pipeline-and-program-cs"
   },
   {
     "slug": "parameter-binding-and-endpoint-filters",
@@ -4033,7 +4033,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/parameter-binding-and-endpoint-filters"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/parameter-binding-and-endpoint-filters"
   },
   {
     "slug": "problem-details-and-global-exception-handling",
@@ -4110,7 +4110,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/problem-details-and-global-exception-handling"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/problem-details-and-global-exception-handling"
   },
   {
     "slug": "whats-new-in-aspnet-core-10",
@@ -4599,7 +4599,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/rest-semantics-status-codes-and-idempotency"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/rest-semantics-status-codes-and-idempotency"
   },
   {
     "slug": "input-validation-in-minimal-apis",
@@ -4661,7 +4661,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/input-validation-in-minimal-apis"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/input-validation-in-minimal-apis"
   },
   {
     "slug": "configuration-and-the-options-pattern",
@@ -4715,7 +4715,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/configuration-and-the-options-pattern"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/configuration-and-the-options-pattern"
   },
   {
     "slug": "openapi-document-generation",
@@ -5173,7 +5173,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/dependency-injection-and-service-lifetimes"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/dependency-injection-and-service-lifetimes"
   },
   {
     "slug": "ef-core-crud-operations-and-seeding",
@@ -5230,7 +5230,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/ef-core-crud-operations-and-seeding"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-crud-operations-and-seeding"
   },
   {
     "slug": "from-crud-to-modular-monolith",
@@ -5297,7 +5297,7 @@
         "type": "doc"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/from-crud-to-modular-monolith"
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/from-crud-to-modular-monolith"
   },
   {
     "slug": "clean-architecture-in-four-projects",
@@ -5342,7 +5342,7 @@
         "feature": "dotnet-concepts"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/clean-architecture-in-four-projects",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/clean-architecture-in-four-projects",
     "references": [
       {
         "label": "Common web application architectures, Microsoft Learn",

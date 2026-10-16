@@ -29,7 +29,7 @@
         "feature": "testing-concepts"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-testing-concepts/testing-domain-events-with-mstest",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-domain-events-with-mstest",
     "references": [
       {
         "label": "MSTest test lifecycle, Microsoft Learn",
@@ -105,7 +105,7 @@
         "feature": "testing-concepts"
       }
     ],
-    "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-testing-concepts/testing-clean-architecture-with-mstest",
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-testing-concepts/testing-clean-architecture-with-mstest",
     "references": [
       {
         "label": "Data-driven testing in MSTest, Microsoft Learn",
