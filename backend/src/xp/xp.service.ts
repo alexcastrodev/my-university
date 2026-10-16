@@ -28,6 +28,8 @@ export interface DailyGoalStatus {
 
 export interface LeaderboardEntry {
   userId: number;
+  /** Where the row links to. Safe to show: the board only lists users whose profile is public. */
+  publicProfileId: string;
   displayName: string;
   avatarUrl: string;
   total: number;
@@ -183,6 +185,22 @@ export class XpService {
       order: { updatedAt: 'DESC' },
       take: limit,
     });
+  }
+
+  /**
+   * One page of the user's activity, newest first (ties broken by id so the order is stable), for the
+   * "Load more" list. Asks for one row more than `limit` to know whether another page exists without a
+   * second query. Offset paging: a row recorded between two pages only shifts the list, and the client
+   * drops repeats by id.
+   */
+  async getHistoryPage(userId: number, limit: number, offset: number): Promise<{ items: UserXpEntry[]; hasMore: boolean }> {
+    const rows = await this.repo.find({
+      where: { userId },
+      order: { updatedAt: 'DESC', id: 'DESC' },
+      take: limit + 1,
+      skip: offset,
+    });
+    return { items: rows.slice(0, limit), hasMore: rows.length > limit };
   }
 
   /** All entries since a given instant — unlike `getHistory`, not capped by count, so a "this
@@ -370,11 +388,13 @@ export class XpService {
       .innerJoin('x.user', 'u')
       .where('u.profilePublic = true')
       .select('x.userId', 'userId')
+      .addSelect('u.publicProfileId', 'publicProfileId')
       .addSelect('u.displayName', 'displayName')
       .addSelect('u.displayNameOverride', 'displayNameOverride')
       .addSelect('u.avatarUrl', 'avatarUrl')
       .addSelect('COALESCE(SUM(x.exp), 0)', 'total')
       .groupBy('x.userId')
+      .addGroupBy('u.publicProfileId')
       .addGroupBy('u.displayName')
       .addGroupBy('u.displayNameOverride')
       .addGroupBy('u.avatarUrl')
@@ -382,6 +402,7 @@ export class XpService {
       .limit(limit)
       .getRawMany<{
         userId: number;
+        publicProfileId: string;
         displayName: string;
         displayNameOverride: string | null;
         avatarUrl: string;
@@ -392,6 +413,7 @@ export class XpService {
       const total = Number(row.total);
       return {
         userId: row.userId,
+        publicProfileId: row.publicProfileId,
         displayName: row.displayNameOverride ?? row.displayName,
         avatarUrl: row.avatarUrl,
         total,

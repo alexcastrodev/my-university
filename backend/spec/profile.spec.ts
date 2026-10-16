@@ -152,4 +152,26 @@ describe('leaderboard and privacy', () => {
   it('is never stored', async () => {
     expect((await get('/xp/leaderboard')).headers.get('cache-control')).toBe('no-store');
   });
+
+  it('gives each row the public profile id it links to, and that id really opens the profile', async () => {
+    const u = await user('pp-board-link');
+    await put(`/java-concepts/iterator-vs-iterable/read`, {}, { Cookie: u.cookie });
+
+    const row = (await json<{ userId: number; publicProfileId: string; displayName: string }[]>(await get('/xp/leaderboard'))).find((r) => r.userId === u.id)!;
+    expect(row.publicProfileId).toBe(u.publicProfileId);
+    expect(row.publicProfileId).toMatch(UUID_V7);
+    const opened = await profile(row.publicProfileId);
+    expect(opened.status).toBe(200);
+    expect((await json<Profile>(opened)).displayName).toBe(row.displayName);
+  });
+
+  it('only ever lists users whose profile opens, so no row links to a 404', async () => {
+    const [open, hidden] = [await user('pp-board-open'), await user('pp-board-hidden')];
+    for (const u of [open, hidden]) await put(`/java-concepts/iterator-vs-iterable/read`, {}, { Cookie: u.cookie });
+    await setPublic(hidden.cookie, false);
+
+    for (const row of await json<{ publicProfileId: string }[]>(await get('/xp/leaderboard'))) {
+      expect((await profile(row.publicProfileId)).status, row.publicProfileId).toBe(200);
+    }
+  });
 });
