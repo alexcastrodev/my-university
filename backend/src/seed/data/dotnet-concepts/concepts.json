@@ -185,7 +185,8 @@
         "url": "https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/jit/viewing-jit-dumps.md",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/roslyn-il-and-the-jit"
   },
   {
     "slug": "file-based-apps",
@@ -261,7 +262,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/file-based-apps"
   },
   {
     "slug": "sdk-style-projects-msbuild-and-directory-build-props",
@@ -327,7 +329,8 @@
         "url": "https://github.com/dotnet/msbuild/blob/main/documentation/wiki/Binary-Log.md",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/sdk-style-projects-msbuild-and-directory-build-props"
   },
   {
     "slug": "assemblies-frameworks-and-the-host-resolver",
@@ -859,7 +862,8 @@
         "url": "https://devblogs.microsoft.com/dotnet/rewriting-nuget-restore-in-dotnet-9/",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/nuget-restore-versions-and-dependency-resolution"
   },
   {
     "slug": "central-package-management-and-package-source-mapping",
@@ -905,7 +909,8 @@
         "url": "https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1507",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/central-package-management-and-package-source-mapping"
   },
   {
     "slug": "self-contained-single-file-and-trimmed-publishing",
@@ -1235,7 +1240,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/fixing-warnings",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/source-generators-and-aot-friendly-code"
   },
   {
     "slug": "aggregates-entities-and-value-objects",
@@ -1450,7 +1456,8 @@
         "url": "https://github.com/DapperLib/Dapper",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/ef-core-ado-net-dapper-and-nosql"
   },
   {
     "slug": "ef-core-nosql-cosmos-db-and-mongodb",
@@ -3170,7 +3177,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-component-lifecycle-and-parameters"
   },
   {
     "slug": "blazor-data-access-and-streaming-rendering",
@@ -3236,7 +3244,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-data-access-and-streaming-rendering"
   },
   {
     "slug": "blazor-forms-editform-and-validation",
@@ -3297,7 +3306,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-forms-editform-and-validation"
   },
   {
     "slug": "razor-syntax-and-component-compilation",
