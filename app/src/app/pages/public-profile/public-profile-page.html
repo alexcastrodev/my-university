@@ -15,46 +15,16 @@
           <button type="button" class="btn" (click)="load()" i18n="@@publicProfile.retry">Try again</button>
         </div>
       } @else {
-        <header class="profile-header">
-          <img class="avatar" [src]="current.profile.avatarUrl" alt="" width="72" height="72" />
-          <div class="identity">
-            <h1 class="display-name">{{ current.profile.displayName }}</h1>
-            <span class="level" i18n="@@publicProfile.level">Level {{ current.profile.level.number }} · {{ current.profile.level.title }}</span>
-            <span class="xp" i18n="@@publicProfile.xp">{{ current.profile.xp }} XP</span>
-          </div>
-          <div class="counters">
-            <div class="counter">
-              <span class="counter-value" data-testid="public-badge-count">{{ current.profile.badges.length }}</span>
-              <span class="counter-label" i18n="@@publicProfile.badges">Badges</span>
-            </div>
-            <div class="counter">
-              <span class="counter-value" data-testid="public-trophy-count">{{ current.profile.trophies.length }}</span>
-              <span class="counter-label" i18n="@@publicProfile.trophies">Trophies</span>
-            </div>
-          </div>
-        </header>
+        <app-profile-header
+          [avatarUrl]="current.profile.avatarUrl"
+          [displayName]="current.profile.displayName"
+          [level]="current.profile.level"
+          [xp]="current.profile.xp"
+          [badgeCount]="current.profile.badges.length"
+          [trophyCount]="current.profile.trophies.length"
+        />
 
-        @if (current.profile.trophies.length > 0) {
-          <section aria-labelledby="trophies-title">
-            <h2 id="trophies-title" class="section-title" i18n="@@publicProfile.trophies">Trophies</h2>
-            <ul class="cards">
-              @for (award of current.profile.trophies; track award.id) {
-                <li><app-award-card [award]="award" /></li>
-              }
-            </ul>
-          </section>
-        }
-
-        @if (current.profile.badges.length > 0) {
-          <section aria-labelledby="badges-title">
-            <h2 id="badges-title" class="section-title" i18n="@@publicProfile.badges">Badges</h2>
-            <ul class="cards">
-              @for (award of current.profile.badges; track award.id) {
-                <li><app-award-card [award]="award" /></li>
-              }
-            </ul>
-          </section>
-        }
+        <app-awards-sections [trophies]="current.profile.trophies" [badges]="current.profile.badges" />
 
         @if (current.profile.badges.length === 0 && current.profile.trophies.length === 0) {
           <p class="state" i18n="@@publicProfile.empty">No badges or trophies yet.</p>

@@ -55,8 +55,8 @@ describe('PublicProfilePage', () => {
     expect(el.querySelector('.level')!.textContent).toContain('Level 3');
     expect(el.querySelector('.level')!.textContent).toContain('Compiler Whisperer');
     expect(el.querySelector('.xp')!.textContent).toContain('329 XP');
-    expect(el.querySelector('[data-testid="public-badge-count"]')!.textContent).toBe('2');
-    expect(el.querySelector('[data-testid="public-trophy-count"]')!.textContent).toBe('1');
+    expect(el.querySelector('[data-testid="badge-count"]')!.textContent).toBe('2');
+    expect(el.querySelector('[data-testid="trophy-count"]')!.textContent).toBe('1');
     expect(Array.from(el.querySelectorAll('.award-title')).map((n) => n.textContent)).toEqual(['Distributed Systems Lab', 'Workloads', 'Networking']);
   });
 

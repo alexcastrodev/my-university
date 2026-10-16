@@ -4,7 +4,7 @@ import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AchievementsView, AwardView } from '../models/achievements.model';
 import { User } from '../models/auth.model';
-import { XpSummary } from '../models/xp.model';
+import { XpHistoryEntry, XpSummary } from '../models/xp.model';
 import { AuthService } from './auth.service';
 import { XpService } from './xp.service';
 import { XpToastService } from './xp-toast.service';
@@ -152,5 +152,88 @@ describe('XpService achievements', () => {
     currentUser.set(null);
     await service.syncAchievements(false);
     http.expectNone('/api/xp/achievements/sync');
+  });
+});
+
+describe('XpService activity paging', () => {
+  const entry = (id: number): XpHistoryEntry => ({ id, sourceType: 'concept-read', sourceId: `c${id}`, exp: 10, updatedAt: '2026-10-01T00:00:00.000Z' });
+  const page = (http: Http, offset: number) => http.expectOne((r) => r.url === '/api/xp/history/paged' && r.params.get('offset') === String(offset) && r.params.get('limit') === '20');
+
+  afterEach(() => TestBed.inject(HttpTestingController).verify());
+
+  it('loads the first page and remembers whether there is more', () => {
+    const { service, http } = setup();
+    service.loadHistory();
+    expect(service.historyLoading()).toBeTrue();
+    page(http, 0).flush({ items: [entry(3), entry(2)], hasMore: true });
+    expect(service.history().map((e) => e.id)).toEqual([3, 2]);
+    expect(service.historyHasMore()).toBeTrue();
+    expect(service.historyLoading()).toBeFalse();
+  });
+
+  it('asks for the next page from the number already loaded, and appends it', () => {
+    const { service, http } = setup();
+    service.loadHistory();
+    page(http, 0).flush({ items: [entry(5), entry(4)], hasMore: true });
+    service.loadMoreHistory();
+    page(http, 2).flush({ items: [entry(3), entry(2)], hasMore: false });
+    expect(service.history().map((e) => e.id)).toEqual([5, 4, 3, 2]);
+    expect(service.historyHasMore()).toBeFalse();
+  });
+
+  it('drops a row it already has: one recorded in between only shifts the list', () => {
+    const { service, http } = setup();
+    service.loadHistory();
+    page(http, 0).flush({ items: [entry(5), entry(4)], hasMore: true });
+    service.loadMoreHistory();
+    page(http, 2).flush({ items: [entry(4), entry(3)], hasMore: false }); // 4 slid down by a new row at the top
+    expect(service.history().map((e) => e.id)).toEqual([5, 4, 3]);
+  });
+
+  it('does nothing when there is no more, or while a page is already coming', () => {
+    const { service, http } = setup();
+    service.loadMoreHistory(); // nothing loaded, hasMore false
+    http.expectNone('/api/xp/history/paged');
+    service.loadHistory();
+    service.loadMoreHistory(); // first page still in flight
+    service.loadHistory();
+    http.expectOne((r) => r.url === '/api/xp/history/paged').flush({ items: [], hasMore: false });
+  });
+
+  it('starts over when loaded again', () => {
+    const { service, http } = setup();
+    service.loadHistory();
+    page(http, 0).flush({ items: [entry(2), entry(1)], hasMore: true });
+    service.loadHistory();
+    page(http, 0).flush({ items: [entry(9)], hasMore: false });
+    expect(service.history().map((e) => e.id)).toEqual([9]);
+    expect(service.historyHasMore()).toBeFalse();
+  });
+
+  it('keeps what was loaded when a page fails, flags it, and a retry continues from there', () => {
+    const { service, http } = setup();
+    service.loadHistory();
+    page(http, 0).flush({ items: [entry(4), entry(3)], hasMore: true });
+    service.loadMoreHistory();
+    page(http, 2).flush('boom', { status: 500, statusText: 'Server Error' });
+    expect(service.historyError()).toBeTrue();
+    expect(service.history().map((e) => e.id)).toEqual([4, 3]);
+    expect(service.historyLoading()).toBeFalse();
+
+    service.loadMoreHistory();
+    expect(service.historyError()).toBeFalse();
+    page(http, 2).flush({ items: [entry(2)], hasMore: false });
+    expect(service.history().map((e) => e.id)).toEqual([4, 3, 2]);
+  });
+
+  it('drops a page that arrives after the user changed, and does nothing when logged out', () => {
+    const { service, http, currentUser } = setup();
+    service.loadHistory();
+    currentUser.set(user(2));
+    page(http, 0).flush({ items: [entry(1)], hasMore: true });
+    expect(service.history()).toEqual([]);
+    currentUser.set(null);
+    service.loadHistory();
+    http.expectNone('/api/xp/history/paged');
   });
 });

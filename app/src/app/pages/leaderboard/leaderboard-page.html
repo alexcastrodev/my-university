@@ -13,8 +13,10 @@
           @for (entry of xpService.leaderboard(); track entry.userId; let rank = $index) {
             <li class="leaderboard-item" [class.leaderboard-item-self]="entry.userId === auth.currentUser()?.id">
               <span class="leaderboard-rank">#{{ rank + 1 }}</span>
-              <img class="avatar-sm" [src]="entry.avatarUrl" [alt]="entry.displayName" />
-              <span class="leaderboard-name">{{ entry.displayName }}</span>
+              <a class="leaderboard-link" [routerLink]="['/u', entry.publicProfileId]">
+                <img class="avatar-sm" [src]="entry.avatarUrl" [alt]="entry.displayName" />
+                <span class="leaderboard-name">{{ entry.displayName }}</span>
+              </a>
               <span class="leaderboard-level" i18n="@@leaderboard.level">Lvl {{ entry.levelNumber }}</span>
               <span class="leaderboard-total" i18n="@@leaderboard.xp">{{ entry.total }} XP</span>
             </li>

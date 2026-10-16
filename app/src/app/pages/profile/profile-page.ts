@@ -1,35 +1,22 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { XpHistoryEntry } from '../../models/xp.model';
+import { AwardsSections } from '../../components/awards-sections/awards-sections';
+import { ProfileHeader } from '../../components/profile-header/profile-header';
+import { SourceLabel } from '../../components/source-label/source-label';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
-import { COMPLEMENTARY_AREAS } from '../computer-science/complementary-studies.data';
+import { publicProfileUrl } from '../../shared/public-profile-url';
+import { buildBreakdownRows } from '../../shared/xp-breakdown';
 
-/** i18n keys the template turns into text; anything else (an area name) is printed as is. */
-const SOURCE_LABELS: Record<string, string> = {
-  lesson: 'profile.source.lessons',
-  'skill-check': 'profile.source.skillChecks',
-  'concept-read': 'profile.source.concepts',
-  'episode-watched': 'profile.source.minutes',
-  'daily-card': 'profile.source.dailyCards',
-  badge: 'profile.source.badges',
-  trophy: 'profile.source.trophies',
-};
-
-interface BreakdownRow {
-  key: string;
-  label: string;
-  total: number;
-}
-
-const READ_TYPES = new Set(['concept-read', 'episode-watched']);
-const CS_TITLE = 'Computer Science';
-
+/**
+ * The owner's own profile: the same view a visitor gets at `/u/<id>` (header, awards), plus what only
+ * the owner can do or see: rename, choose who can see it, level progress, streak and the daily goal.
+ * XP breakdown and the activity list live on their own page (`/profile/activity`).
+ */
 @Component({
   selector: 'app-profile-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, RouterLink],
+  imports: [AwardsSections, ProfileHeader, RouterLink, SourceLabel],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
 })
@@ -53,53 +40,90 @@ export class ProfilePage implements OnInit {
     return Math.min(100, Math.round((goal.earnedToday / goal.goal) * 100));
   });
 
-  badgeCount = computed(() => this.xpService.achievements()?.awards.filter((a) => a.type === 'badge').length ?? 0);
-  trophyCount = computed(() => this.xpService.achievements()?.awards.filter((a) => a.type === 'trophy').length ?? 0);
-
-  /**
-   * XP per kind of activity. Concept and minute XP is split by area (Spring, Kubernetes, ...) using the
-   * area breakdown, so the profile no longer calls all of it "Java Concepts"; what no area claims stays
-   * under a generic "Concepts" row.
-   */
-  breakdownRows = computed<BreakdownRow[]>(() => {
-    const breakdown = this.xpService.summary()?.breakdown ?? [];
-    const rows: BreakdownRow[] = breakdown
-      .filter((e) => !READ_TYPES.has(e.sourceType))
-      .map((e) => ({ key: e.sourceType, label: this.sourceLabel(e.sourceType), total: e.total }));
-
-    const readTotal = breakdown.filter((e) => READ_TYPES.has(e.sourceType)).reduce((sum, e) => sum + e.total, 0);
-    let claimed = 0;
-    for (const area of this.xpService.areas()) {
-      claimed += area.xp;
-      const title = COMPLEMENTARY_AREAS.find((a) => a.slug === area.module)?.title ?? CS_TITLE;
-      rows.push({ key: `area:${area.module}`, label: title, total: area.xp });
-    }
-    if (readTotal - claimed > 0) rows.push({ key: 'concepts', label: this.sourceLabel('concept-read'), total: readTotal - claimed });
-    return rows.sort((a, b) => b.total - a.total);
-  });
+  private awards = computed(() => this.xpService.achievements()?.awards ?? []);
+  badges = computed(() => this.awards().filter((a) => a.type === 'badge'));
+  trophies = computed(() => this.awards().filter((a) => a.type === 'trophy'));
 
   /** The kind of activity with the most XP earned: the topic the user has engaged with the most. */
   favoriteTopic = computed(() => {
-    const top = this.breakdownRows()[0];
+    const top = buildBreakdownRows(this.xpService.summary(), this.xpService.areas())[0];
     return top ? { label: top.label, total: top.total } : null;
   });
+
+  // Editing the name, and who can see the profile.
+  editing = signal(false);
+  draft = signal('');
+  saving = signal(false);
+  message = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
+  copied = signal(false);
+
+  /** On unless the server says otherwise: public profiles are the default. */
+  isPublic = computed(() => this.auth.currentUser()?.profilePublic !== false);
+  publicId = computed(() => (this.isPublic() ? (this.auth.currentUser()?.publicProfileId ?? null) : null));
 
   ngOnInit(): void {
     if (!this.auth.currentUser()) return;
     this.xpService.loadSummary();
-    this.xpService.loadHistory();
     this.xpService.loadStreak();
     this.xpService.loadDailyGoal();
     this.xpService.loadAreas();
+    void this.xpService.syncAchievements(false);
   }
 
-  sourceLabel(sourceType: string): string {
-    return SOURCE_LABELS[sourceType] ?? sourceType;
+  startEdit(): void {
+    this.draft.set(this.auth.currentUser()?.displayName ?? '');
+    this.message.set(null);
+    this.editing.set(true);
   }
 
-  /** What a history line points at: an award by its title, anything else by its source id. */
-  entryName(entry: XpHistoryEntry): string {
-    if (entry.sourceType !== 'badge' && entry.sourceType !== 'trophy') return entry.sourceId;
-    return this.xpService.achievements()?.awards.find((a) => a.type === entry.sourceType && a.id === entry.sourceId)?.title ?? '';
+  cancelEdit(): void {
+    this.editing.set(false);
+  }
+
+  save(): void {
+    this.submitName(this.draft());
+  }
+
+  resetToGithubName(): void {
+    this.submitName(null);
+  }
+
+  setPublic(profilePublic: boolean): void {
+    if (profilePublic === this.isPublic() || this.saving()) return;
+    this.saving.set(true);
+    this.message.set(null);
+    this.auth.updateProfilePublic(profilePublic).subscribe({
+      next: () => this.finish({ kind: 'success', text: $localize`:@@settings.saved:Saved.` }),
+      error: () => this.finish({ kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` }),
+    });
+  }
+
+  async copyLink(): Promise<void> {
+    const id = this.publicId();
+    if (!id) return;
+    try {
+      await navigator.clipboard.writeText(publicProfileUrl(id));
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2000);
+    } catch {
+      // Clipboard access can be denied: the link is one click away on the public page.
+    }
+  }
+
+  private submitName(displayName: string | null): void {
+    this.saving.set(true);
+    this.message.set(null);
+    this.auth.updateDisplayName(displayName).subscribe({
+      next: () => {
+        this.editing.set(false);
+        this.finish({ kind: 'success', text: $localize`:@@settings.saved:Saved.` });
+      },
+      error: () => this.finish({ kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` }),
+    });
+  }
+
+  private finish(message: { kind: 'success' | 'error'; text: string }): void {
+    this.saving.set(false);
+    this.message.set(message);
   }
 }

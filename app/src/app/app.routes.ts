@@ -54,6 +54,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/public-profile/public-profile-page').then((m) => m.PublicProfilePage),
   },
   {
+    path: 'profile/activity',
+    loadComponent: () => import('./pages/activity/activity-page').then((m) => m.ActivityPage),
+  },
+  {
     path: 'profile/achievements',
     loadComponent: () => import('./pages/achievements/achievements-page').then((m) => m.AchievementsPage),
   },

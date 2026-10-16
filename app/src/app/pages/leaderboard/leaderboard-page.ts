@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
@@ -6,7 +7,8 @@ import { XpService } from '../../services/xp.service';
 @Component({
   selector: 'app-leaderboard-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './leaderboard-page.html',
+  imports: [RouterLink],
+  templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
 })
 export class LeaderboardPage implements OnInit {

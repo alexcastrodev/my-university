@@ -1,7 +1,13 @@
-import { Controller, Get, NotFoundException, Param, Post, Res } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Post, Query, Res } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 import { CurrentUserId } from '../auth/session';
 import { XpService } from './xp.service';
+
+/** A query value as an integer within bounds; anything missing or not a number falls back to `fallback`. */
+function clampInt(value: string | undefined, fallback: number, min: number, max: number): number {
+  const n = Number.parseInt(value ?? '', 10);
+  return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : fallback;
+}
 
 @Controller('xp')
 export class XpController {
@@ -20,6 +26,16 @@ export class XpController {
   @Get('history')
   getHistory(@CurrentUserId() userId: number) {
     return this.service.getHistory(userId);
+  }
+
+  /** Paged activity for the "Load more" list: `{ items, hasMore }`. `limit` is clamped to 1 to 50 (default 20). */
+  @Get('history/paged')
+  getHistoryPage(
+    @CurrentUserId() userId: number,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.service.getHistoryPage(userId, clampInt(limit, 20, 1, 50), clampInt(offset, 0, 0, 100_000));
   }
 
   @Get('streak')

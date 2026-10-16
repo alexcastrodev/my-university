@@ -284,7 +284,6 @@
     "notFoundPage.backHome": "← Back to home",
     "profile.loginPrompt": "Log in with GitHub to track your progress.",
     "profile.continueGithub": "Continue with GitHub",
-    "profile.level": "Level {$INTERPOLATION}",
     "profile.xpTotal": "{$INTERPOLATION} XP",
     "profile.xpToNextLevel": "{$INTERPOLATION} XP to next level",
     "profile.maxLevel": "Max level reached",
@@ -296,9 +295,6 @@
     "profile.favoriteTopic.title": "Favorite Topic",
     "profile.source.lessons": "Lessons",
     "profile.source.skillChecks": "Skill Checks",
-    "profile.achievements.badges": "Badges",
-    "profile.achievements.trophies": "Trophies",
-    "profile.achievements.view": "View achievements",
     "profile.source.badges": "Badges",
     "profile.source.concepts": "Concepts",
     "profile.source.dailyCards": "Daily cards",
@@ -542,6 +538,16 @@
     "settings.publicProfile.private": "Private",
     "settings.publicProfile.linkLabel": "Your public profile link",
     "settings.publicProfile.copied": "Copied",
-    "settings.publicProfile.copy": "Copy link"
+    "settings.publicProfile.copy": "Copy link",
+    "activity.title": "XP and activity",
+    "activity.loading": "Loading…",
+    "activity.error": "Could not load your activity.",
+    "activity.loadMore": "Load more",
+    "profile.cancel": "Cancel",
+    "profile.editName": "Edit name",
+    "profile.viewAsVisitor": "View as visitor",
+    "profile.moreLinks.aria": "More about your progress",
+    "profile.link.progress": "Track your progress",
+    "profile.link.activity": "XP breakdown and recent activity"
   }
 }

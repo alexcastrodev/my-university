@@ -1,42 +1,71 @@
 <div class="page">
   <div class="page-body">
-    @if (!auth.currentUser()) {
-      <div class="login-prompt">
-        <p i18n="@@profile.loginPrompt">Log in with GitHub to track your progress.</p>
-        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
-      </div>
-    } @else if (xpService.summary(); as summary) {
-      <div class="profile-header">
-        <img class="avatar-lg" [src]="auth.currentUser()!.avatarUrl" [alt]="auth.currentUser()!.displayName" />
-        <div class="profile-identity">
-          <h1 class="display-name">{{ auth.currentUser()!.displayName }}</h1>
-          <span class="github-login">&#64;{{ auth.currentUser()!.githubLogin }}</span>
-        </div>
-      </div>
+    @if (auth.currentUser(); as user) {
+      <app-profile-header
+        [avatarUrl]="user.avatarUrl"
+        [displayName]="user.displayName"
+        [level]="xpService.summary()?.level ?? null"
+        [xp]="xpService.summary()?.total ?? null"
+        [badgeCount]="badges().length"
+        [trophyCount]="trophies().length"
+      >
+        <span class="github-login">&#64;{{ user.githubLogin }}</span>
 
-      <div class="level-card">
-        <div class="level-info">
-          <span class="level-number" i18n="@@profile.level">Level {{ summary.level.number }}</span>
-          <span class="level-title">{{ summary.level.title }}</span>
-        </div>
-        <div class="xp-total" i18n="@@profile.xpTotal">{{ summary.total }} XP</div>
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="progressPercent()"></div>
-        </div>
-        @if (summary.level.nextLevelXp !== null) {
-          <span class="progress-label" i18n="@@profile.xpToNextLevel">{{ summary.level.nextLevelXp - summary.total }} XP to next level</span>
+        @if (editing()) {
+          <div class="edit-form">
+            <input
+              class="name-input"
+              type="text"
+              maxlength="80"
+              [value]="draft()"
+              (input)="draft.set($any($event.target).value)"
+              (keydown.enter)="save()"
+              i18n-aria-label="@@settings.displayName.ariaLabel" aria-label="Display name"
+            />
+            <div class="actions">
+              <button type="button" class="btn primary-btn" data-testid="save-name" [disabled]="saving()" (click)="save()">@if (saving()) { <ng-container i18n="@@settings.saving">Saving…</ng-container> } @else { <ng-container i18n="@@settings.save">Save</ng-container> }</button>
+              <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="cancelEdit()" i18n="@@profile.cancel">Cancel</button>
+              <button type="button" class="btn secondary-btn" [disabled]="saving()" (click)="resetToGithubName()" i18n="@@settings.resetGithub">Reset to GitHub name</button>
+            </div>
+          </div>
         } @else {
-          <span class="progress-label" i18n="@@profile.maxLevel">Max level reached</span>
+          <div class="owner-actions">
+            <button type="button" class="btn secondary-btn" data-testid="edit-name" (click)="startEdit()" i18n="@@profile.editName">Edit name</button>
+          </div>
         }
-      </div>
 
-      <a class="card achievements-link" routerLink="/profile/achievements">
-        <span class="achievements-counts">
-          <span class="achievements-count"><strong data-testid="profile-badge-count">{{ badgeCount() }}</strong> <ng-container i18n="@@profile.achievements.badges">Badges</ng-container></span>
-          <span class="achievements-count"><strong data-testid="profile-trophy-count">{{ trophyCount() }}</strong> <ng-container i18n="@@profile.achievements.trophies">Trophies</ng-container></span>
-        </span>
-        <span class="achievements-cta" i18n="@@profile.achievements.view">View achievements</span>
-      </a>
+        <div class="visibility" role="group" i18n-aria-label="@@settings.publicProfile.ariaLabel" aria-label="Public profile">
+          <button type="button" class="btn" data-testid="profile-public" [class.primary-btn]="isPublic()" [class.secondary-btn]="!isPublic()" [attr.aria-pressed]="isPublic()" [disabled]="saving()" (click)="setPublic(true)" i18n="@@settings.publicProfile.public">Public</button>
+          <button type="button" class="btn" data-testid="profile-private" [class.primary-btn]="!isPublic()" [class.secondary-btn]="isPublic()" [attr.aria-pressed]="!isPublic()" [disabled]="saving()" (click)="setPublic(false)" i18n="@@settings.publicProfile.private">Private</button>
+          @if (publicId(); as id) {
+            <a class="link" data-testid="view-as-visitor" [routerLink]="['/u', id]" i18n="@@profile.viewAsVisitor">View as visitor</a>
+            <button type="button" class="link link-button" data-testid="copy-link" (click)="copyLink()">@if (copied()) { <ng-container i18n="@@settings.publicProfile.copied">Copied</ng-container> } @else { <ng-container i18n="@@settings.publicProfile.copy">Copy link</ng-container> }</button>
+          }
+        </div>
+
+        @if (message(); as msg) {
+          <p class="feedback" [class.error]="msg.kind === 'error'" role="status">{{ msg.text }}</p>
+        }
+      </app-profile-header>
+
+      @if (xpService.summary(); as summary) {
+        <div class="level-card">
+          <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-fill" [style.width.%]="progressPercent()"></div>
+          </div>
+          @if (summary.level.nextLevelXp !== null) {
+            <span class="progress-label" i18n="@@profile.xpToNextLevel">{{ summary.level.nextLevelXp - summary.total }} XP to next level</span>
+          } @else {
+            <span class="progress-label" i18n="@@profile.maxLevel">Max level reached</span>
+          }
+        </div>
+      }
+
+      @if (badges().length === 0 && trophies().length === 0) {
+        <p class="empty-state" i18n="@@achievements.empty">Nothing here yet. Finish every concept in a session to earn a badge, and every session in a track to earn a trophy.</p>
+      } @else {
+        <app-awards-sections [trophies]="trophies()" [badges]="badges()" />
+      }
 
       <div class="stats-grid">
         @if (xpService.streak(); as streak) {
@@ -69,9 +98,7 @@
             <h2 class="section-title" i18n="@@profile.favoriteTopic.title">Favorite Topic</h2>
           </div>
           @if (favoriteTopic(); as favorite) {
-            <span class="favorite-topic-value">
-              <ng-container *ngTemplateOutlet="sourceName; context: { $implicit: favorite.label }" />
-            </span>
+            <span class="favorite-topic-value"><app-source-label [label]="favorite.label" /></span>
             <span class="favorite-topic-sub" i18n="@@profile.favoriteTopic.xpEarned">{{ favorite.total }} XP earned</span>
           } @else {
             <span class="favorite-topic-empty" i18n="@@profile.favoriteTopic.empty">Not enough data yet</span>
@@ -94,51 +121,15 @@
         </div>
       }
 
-      <div class="card">
-        <h2 class="section-title" i18n="@@profile.breakdown.title">XP Breakdown</h2>
-        @if (summary.breakdown.length === 0) {
-          <p class="empty-state" i18n="@@profile.breakdown.empty">No XP earned yet — complete a lesson or mark something as read to get started.</p>
-        } @else {
-          <ul class="breakdown-list">
-            @for (row of breakdownRows(); track row.key) {
-              <li class="breakdown-item">
-                <span><ng-container *ngTemplateOutlet="sourceName; context: { $implicit: row.label }" /></span>
-                <span i18n="@@profile.xpTotal">{{ row.total }} XP</span>
-              </li>
-            }
-          </ul>
-        }
-      </div>
-
-      <div class="card">
-        <h2 class="section-title" i18n="@@profile.activity.title">Recent Activity</h2>
-        @if (xpService.history().length === 0) {
-          <p class="empty-state" i18n="@@profile.activity.empty">Nothing here yet.</p>
-        } @else {
-          <ul class="history-list">
-            @for (entry of xpService.history(); track entry.id) {
-              <li class="history-item">
-                <span class="history-source"><ng-container *ngTemplateOutlet="sourceName; context: { $implicit: sourceLabel(entry.sourceType) }" /></span>
-                <span class="history-id">{{ entryName(entry) }}</span>
-                <span class="history-exp" i18n="@@profile.activity.exp">+{{ entry.exp }} XP</span>
-              </li>
-            }
-          </ul>
-        }
+      <nav class="more-links" i18n-aria-label="@@profile.moreLinks.aria" aria-label="More about your progress">
+        <a class="more-link" routerLink="/profile/achievements" data-testid="link-progress" i18n="@@profile.link.progress">Track your progress</a>
+        <a class="more-link" routerLink="/profile/activity" data-testid="link-activity" i18n="@@profile.link.activity">XP breakdown and recent activity</a>
+      </nav>
+    } @else {
+      <div class="login-prompt">
+        <p i18n="@@profile.loginPrompt">Log in with GitHub to track your progress.</p>
+        <a class="btn github-btn" href="/api/auth/github" i18n="@@profile.continueGithub">Continue with GitHub</a>
       </div>
     }
   </div>
 </div>
-
-<ng-template #sourceName let-label>
-  @switch (label) {
-    @case ('profile.source.lessons') { <ng-container i18n="@@profile.source.lessons">Lessons</ng-container> }
-    @case ('profile.source.skillChecks') { <ng-container i18n="@@profile.source.skillChecks">Skill Checks</ng-container> }
-    @case ('profile.source.concepts') { <ng-container i18n="@@profile.source.concepts">Concepts</ng-container> }
-    @case ('profile.source.minutes') { <ng-container i18n="@@profile.source.minutes">Minutes</ng-container> }
-    @case ('profile.source.dailyCards') { <ng-container i18n="@@profile.source.dailyCards">Daily cards</ng-container> }
-    @case ('profile.source.badges') { <ng-container i18n="@@profile.source.badges">Badges</ng-container> }
-    @case ('profile.source.trophies') { <ng-container i18n="@@profile.source.trophies">Trophies</ng-container> }
-    @default { {{ label }} }
-  }
-</ng-template>

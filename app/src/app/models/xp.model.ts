@@ -43,8 +43,16 @@ export interface DailyGoalStatus {
   goal: number;
 }
 
+/** One page of the activity list; `hasMore` says whether "Load more" has anything left to fetch. */
+export interface XpHistoryPage {
+  items: XpHistoryEntry[];
+  hasMore: boolean;
+}
+
 export interface LeaderboardEntry {
   userId: number;
+  /** Where the row links to: the board only lists users whose profile is public. */
+  publicProfileId: string;
   displayName: string;
   avatarUrl: string;
   total: number;

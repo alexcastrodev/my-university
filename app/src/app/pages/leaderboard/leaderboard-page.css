@@ -78,6 +78,22 @@
   object-fit: cover;
 }
 
+.leaderboard-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.leaderboard-link:hover .leaderboard-name,
+.leaderboard-link:focus-visible .leaderboard-name {
+  color: var(--mu-accent);
+  text-decoration: underline;
+}
+
 .leaderboard-name {
   flex: 1;
   font-weight: 600;
