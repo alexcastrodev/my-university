@@ -3447,7 +3447,8 @@
         "type": "doc"
       }
     ],
-    "id": 600
+    "id": 600,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/filesystem-apis-and-cross-platform-paths"
   },
   {
     "slug": "system-text-json-serialization-and-options",
@@ -3610,7 +3611,8 @@
         "type": "doc"
       }
     ],
-    "id": 611
+    "id": 611,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/system-text-json-source-generation-and-utf8jsonreader"
   },
   {
     "slug": "compression-zip-gzip-brotli-and-tar",
@@ -3671,7 +3673,8 @@
         "type": "doc"
       }
     ],
-    "id": 601
+    "id": 601,
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/compression-zip-gzip-brotli-and-tar"
   },
   {
     "slug": "json-converters-contracts-and-schema-export",
@@ -4548,7 +4551,8 @@
         "url": "https://github.com/dotnet/runtime/blob/release/10.0/src/libraries/System.Linq/src/System/Linq/Sum.cs",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/writing-linq-operators-and-how-linq-is-implemented"
   },
   {
     "slug": "idisposable-finalizers-and-deterministic-cleanup",
@@ -4710,7 +4714,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/csharp-concepts/garbage-collector-generations-and-the-loh"
   },
   {
     "slug": "threads-threadpool-and-starvation",
