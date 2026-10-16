@@ -228,6 +228,11 @@
         "label": "Top-Level Programs, Implicit Usings and Namespaces",
         "slug": "top-level-programs-implicit-usings-and-namespaces",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "What's New in C# 14: A Map of the Features",
+        "slug": "whats-new-in-csharp-14",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1197,6 +1202,11 @@
         "label": "Generated Regex and ReDoS",
         "slug": "generated-regex-and-redos",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1254,11 +1264,6 @@
         "feature": "csharp-concepts"
       },
       {
-        "label": "Relationships, Keys and Delete Behavior",
-        "slug": "relationships-keys-and-delete-behavior",
-        "feature": "dotnet-concepts"
-      },
-      {
         "label": "Records and with Expressions",
         "slug": "records-and-with-expressions",
         "feature": "csharp-concepts"
@@ -1267,6 +1272,11 @@
         "label": "Struct and Record Equality",
         "slug": "struct-and-record-equality",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1675,6 +1685,11 @@
         "label": "What's New in EF Core 10: A Map",
         "slug": "whats-new-in-ef-core-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2238,6 +2253,11 @@
         "feature": "dotnet-testing-concepts"
       },
       {
+        "label": "Events, the Observer Pattern and Memory Leaks",
+        "slug": "events-observer-pattern-and-memory-leaks",
+        "feature": "csharp-concepts"
+      },
+      {
         "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
@@ -2246,11 +2266,6 @@
         "label": "DbContext Lifetime and Change Tracking",
         "slug": "dbcontext-lifetime-and-change-tracking",
         "feature": "dotnet-concepts"
-      },
-      {
-        "label": "Events, the Observer Pattern and Memory Leaks",
-        "slug": "events-observer-pattern-and-memory-leaks",
-        "feature": "csharp-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
@@ -2297,6 +2312,11 @@
         "feature": "dotnet-concepts"
       },
       {
+        "label": "IDisposable, Finalizers and Deterministic Cleanup",
+        "slug": "idisposable-finalizers-and-deterministic-cleanup",
+        "feature": "csharp-concepts"
+      },
+      {
         "label": "Hosted Services and BackgroundService",
         "slug": "hosted-services-and-backgroundservice",
         "feature": "dotnet-concepts"
@@ -2305,11 +2325,6 @@
         "label": "Blazor Data Access and Streaming Rendering",
         "slug": "blazor-data-access-and-streaming-rendering",
         "feature": "dotnet-concepts"
-      },
-      {
-        "label": "IDisposable, Finalizers and Deterministic Cleanup",
-        "slug": "idisposable-finalizers-and-deterministic-cleanup",
-        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2414,14 +2429,19 @@
         "feature": "jvm-concepts"
       },
       {
-        "label": "DTOs and the API Contract",
-        "slug": "dtos-and-the-api-contract",
-        "feature": "dotnet-concepts"
-      },
-      {
         "label": "Expression Trees and IQueryable Providers",
         "slug": "expression-trees-and-iqueryable-providers",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ, Deferred Execution, and Iterators",
+        "slug": "linq-deferred-execution-and-iterators",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2846,6 +2866,11 @@
         "label": "DbContext Lifetime and Change Tracking",
         "slug": "dbcontext-lifetime-and-change-tracking",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
+        "feature": "csharp-concepts"
       },
       {
         "label": "Dependency Injection and Service Lifetimes",
@@ -3432,14 +3457,14 @@
         "feature": "java-concepts"
       },
       {
-        "label": "REST Semantics: Status Codes and Idempotency",
-        "slug": "rest-semantics-status-codes-and-idempotency",
-        "feature": "dotnet-concepts"
-      },
-      {
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3600,6 +3625,11 @@
         "label": "Multithreaded Algorithms: Work and Span Analysis",
         "slug": "multithreaded-algorithms-work-span-analysis",
         "feature": "algorithms-concepts"
+      },
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
       },
       {
         "label": "Threads, the ThreadPool, and Starvation",
@@ -4469,6 +4499,11 @@
         "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "System.Text.Json: Serialization and Options",
+        "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -5096,13 +5131,13 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Primary Constructors for Classes and Structs",
-        "slug": "primary-constructors-for-classes-and-structs",
+        "label": "IDisposable, Finalizers and Deterministic Cleanup",
+        "slug": "idisposable-finalizers-and-deterministic-cleanup",
         "feature": "csharp-concepts"
       },
       {
-        "label": "IDisposable, Finalizers and Deterministic Cleanup",
-        "slug": "idisposable-finalizers-and-deterministic-cleanup",
+        "label": "Primary Constructors for Classes and Structs",
+        "slug": "primary-constructors-for-classes-and-structs",
         "feature": "csharp-concepts"
       }
     ],
