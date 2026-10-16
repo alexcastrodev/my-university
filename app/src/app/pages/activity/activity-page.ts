@@ -1,21 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SourceLabel } from '../../components/source-label/source-label';
 import { XpHistoryEntry } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
 import { XpService } from '../../services/xp.service';
 import { buildBreakdownRows, sourceLabel } from '../../shared/xp-breakdown';
 
-/** Where the XP came from, and the activity behind it, newest first with "Load more". */
+/** The Activity tab of the profile: where the XP came from, and the activity behind it, newest first with "Load more". */
 @Component({
   selector: 'app-activity-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, SourceLabel],
+  imports: [SourceLabel],
   templateUrl: './activity-page.html',
   styleUrl: './activity-page.css',
 })
 export class ActivityPage implements OnInit {
-  protected auth = inject(AuthService);
+  private auth = inject(AuthService);
   protected xpService = inject(XpService);
 
   protected breakdownRows = computed(() => buildBreakdownRows(this.xpService.summary(), this.xpService.areas()));

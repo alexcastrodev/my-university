@@ -1,35 +1,41 @@
 <div class="page">
-  <div class="page-body">
-    @if (state(); as current) {
-      @if (current.kind === 'loading') {
+  @if (state(); as current) {
+    @if (current.kind === 'loading') {
+      <div class="page-body">
         <p class="state" role="status" i18n="@@publicProfile.loading">Loading profile…</p>
-      } @else if (current.kind === 'missing') {
+      </div>
+    } @else if (current.kind === 'missing') {
+      <div class="page-body">
         <div class="card state-box" role="alert">
           <h1 class="state-title" i18n="@@publicProfile.missing.title">Profile not found</h1>
           <p i18n="@@publicProfile.missing.body">This profile is private or does not exist.</p>
           <a class="btn" routerLink="/" i18n="@@publicProfile.home">Go to the home page</a>
         </div>
-      } @else if (current.kind === 'error') {
+      </div>
+    } @else if (current.kind === 'error') {
+      <div class="page-body">
         <div class="card state-box" role="alert">
           <p i18n="@@publicProfile.error">Could not load this profile.</p>
           <button type="button" class="btn" (click)="load()" i18n="@@publicProfile.retry">Try again</button>
         </div>
-      } @else {
-        <app-profile-header
-          [avatarUrl]="current.profile.avatarUrl"
-          [displayName]="current.profile.displayName"
-          [level]="current.profile.level"
-          [xp]="current.profile.xp"
-          [badgeCount]="current.profile.badges.length"
-          [trophyCount]="current.profile.trophies.length"
-        />
+      </div>
+    } @else {
+      <app-profile-banner
+        [avatarUrl]="current.profile.avatarUrl"
+        [displayName]="current.profile.displayName"
+        [level]="current.profile.level"
+        [xp]="current.profile.xp"
+        [badgeCount]="current.profile.badges.length"
+        [trophyCount]="current.profile.trophies.length"
+      />
 
+      <div class="page-body">
         <app-awards-sections [trophies]="current.profile.trophies" [badges]="current.profile.badges" />
 
         @if (current.profile.badges.length === 0 && current.profile.trophies.length === 0) {
           <p class="state" i18n="@@publicProfile.empty">No badges or trophies yet.</p>
         }
-      }
+      </div>
     }
-  </div>
+  }
 </div>

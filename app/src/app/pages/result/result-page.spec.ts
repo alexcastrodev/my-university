@@ -98,6 +98,9 @@ describe('ResultPage', () => {
     expect(Array.from(links).some((a) => a.textContent?.includes('Review Answers'))).toBe(false);
   });
 
+  // The fake below shadows the real clipboard on the navigator instance: drop it so other specs can spy on the real one.
+  afterEach(() => { delete (navigator as unknown as { clipboard?: unknown }).clipboard; });
+
   it('copies the share link to the clipboard and shows a brief confirmation', async () => {
     const writeText = jasmine.createSpy('writeText').and.resolveTo(undefined);
     Object.defineProperty(navigator, 'clipboard', {

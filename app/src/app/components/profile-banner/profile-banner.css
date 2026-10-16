@@ -1,0 +1,52 @@
+/* A flat band across the page, like the head of a profile on a social site; it follows the theme. */
+.band {
+  background: var(--mu-surface);
+  border-bottom: 1px solid var(--mu-line);
+}
+.inner { max-width: 960px; margin: 0 auto; padding: 1.75rem 1.5rem 0; }
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem 2rem; flex-wrap: wrap; padding-bottom: 1rem; }
+
+.who { display: flex; gap: 1.25rem; align-items: flex-start; min-width: 0; flex: 1 1 380px; }
+.avatar { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; background: var(--mu-bg-alt); border: 3px solid var(--mu-line); }
+.identity { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; flex: 1; }
+
+.name-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.display-name { font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--mu-ink); overflow-wrap: anywhere; }
+.visibility {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--mu-success-soft);
+  color: var(--mu-success-strong);
+  border: 1px solid var(--mu-success-border);
+}
+.visibility-private { background: var(--mu-bg-alt); color: var(--mu-muted); border-color: var(--mu-line); }
+.handle { font-size: 0.85rem; color: var(--mu-muted); }
+
+.level { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.4rem; max-width: 22rem; }
+.level-line { font-size: 0.85rem; font-weight: 700; color: var(--mu-accent); }
+.level-bar { height: 8px; border-radius: 4px; background: var(--mu-bg-alt); overflow: hidden; }
+.level-fill { height: 100%; border-radius: 4px; background: var(--mu-accent); transition: width 0.3s ease; }
+.level-note { font-size: 0.75rem; color: var(--mu-muted); }
+
+.actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.7rem; }
+.actions:empty { display: none; }
+
+.side { display: flex; flex-direction: column; gap: 0.75rem; flex: 0 1 22rem; min-width: 0; }
+
+/* The numbers share the width evenly, so labels and values line up whatever their length. */
+.stats { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin: 0; padding: 0.7rem 0; border: 1px solid var(--mu-line); border-radius: 12px; }
+.stat { display: flex; flex-direction: column-reverse; align-items: center; text-align: center; }
+.stat + .stat { border-left: 1px solid var(--mu-line); }
+.stat-value { margin: 0; font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--mu-ink); }
+.stat-label { font-size: 0.75rem; color: var(--mu-muted); margin-top: 0.25rem; }
+
+@media (max-width: 640px) {
+  .inner { padding: 1.25rem 1rem 0; }
+  .who { flex-direction: column; }
+  .avatar { width: 80px; height: 80px; }
+  .side { flex-basis: auto; width: 100%; }
+}

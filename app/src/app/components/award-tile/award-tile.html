@@ -1,0 +1,21 @@
+<div
+  class="award"
+  [class.award-trophy]="award().type === 'trophy'"
+  [class.award-retired]="award().retired"
+  [attr.title]="award().trackTitle ? award().title + ' · ' + award().trackTitle : award().title"
+>
+  <app-award-hex [award]="award()" />
+  <div class="body">
+    <span class="sr-only">@if (award().type === 'badge') { <ng-container i18n="@@achievements.kind.badge">Badge</ng-container> } @else { <ng-container i18n="@@achievements.kind.trophy">Trophy</ng-container> }</span>
+    <h3 class="award-title">{{ award().title }}</h3>
+    <span class="award-meta">
+      @if (award().type === 'badge' && award().trackTitle) { <span class="award-track">{{ award().trackTitle }}</span> }
+      <time class="award-date" [attr.datetime]="award().awardedAt">{{ award().awardedAt | date: 'mediumDate' }}</time>
+    </span>
+  </div>
+  <div class="chips">
+    @if (award().passed) { <span class="chip chip-passed" i18n="@@achievements.passed">Passed</span> }
+    @if (award().retired) { <span class="chip chip-retired" i18n="@@achievements.previousCatalog">Previous catalog</span> }
+    <span class="chip chip-xp" i18n="@@achievements.exp">+{{ award().exp }} XP</span>
+  </div>
+</div>

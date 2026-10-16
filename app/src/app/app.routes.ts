@@ -46,20 +46,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
   },
   {
+    // One shell (banner, edit panel, tabs) with the three sections inside it.
     path: 'profile',
-    loadComponent: () => import('./pages/profile/profile-page').then((m) => m.ProfilePage),
+    loadComponent: () => import('./pages/profile/profile-layout').then((m) => m.ProfileLayout),
+    children: [
+      { path: '', loadComponent: () => import('./pages/profile/overview/profile-overview').then((m) => m.ProfileOverview) },
+      { path: 'achievements', loadComponent: () => import('./pages/achievements/achievements-page').then((m) => m.AchievementsPage) },
+      { path: 'activity', loadComponent: () => import('./pages/activity/activity-page').then((m) => m.ActivityPage) },
+    ],
   },
   {
     path: 'u/:publicProfileId',
     loadComponent: () => import('./pages/public-profile/public-profile-page').then((m) => m.PublicProfilePage),
-  },
-  {
-    path: 'profile/activity',
-    loadComponent: () => import('./pages/activity/activity-page').then((m) => m.ActivityPage),
-  },
-  {
-    path: 'profile/achievements',
-    loadComponent: () => import('./pages/achievements/achievements-page').then((m) => m.AchievementsPage),
   },
   {
     path: 'java/exams',

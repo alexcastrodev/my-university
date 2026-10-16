@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AwardsSections } from '../../components/awards-sections/awards-sections';
-import { ProfileHeader } from '../../components/profile-header/profile-header';
+import { ProfileBanner } from '../../components/profile-banner/profile-banner';
 import { PublicProfile } from '../../models/public-profile.model';
 import { SeoService } from '../../services/seo.service';
 
@@ -15,7 +15,7 @@ type State = { kind: 'loading' } | { kind: 'missing' } | { kind: 'error' } | { k
 @Component({
   selector: 'app-public-profile-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AwardsSections, ProfileHeader, RouterLink],
+  imports: [AwardsSections, ProfileBanner, RouterLink],
   templateUrl: './public-profile-page.html',
   styleUrl: './public-profile-page.css',
 })

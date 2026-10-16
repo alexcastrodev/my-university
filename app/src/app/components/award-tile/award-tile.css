@@ -1,0 +1,63 @@
+.award {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  min-width: 0;
+}
+.award-retired { opacity: 0.8; }
+
+.body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.award-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--mu-ink);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.award-meta {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--mu-muted);
+  min-width: 0;
+}
+.award-track { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.award-track::after { content: '\00b7'; margin-left: 0.4rem; }
+.award-date { white-space: nowrap; }
+
+.chips { flex: none; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; max-width: 9rem; }
+/* On a phone the chips would squeeze the title to one word: drop them under the text, aligned with it (hex 40px + gap). */
+@media (max-width: 520px) {
+  .award { flex-wrap: wrap; }
+  .chips { flex: 1 1 100%; justify-content: flex-start; max-width: none; padding-left: calc(40px + 0.75rem); }
+}
+.chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--mu-line);
+  color: var(--mu-ink-soft);
+  white-space: nowrap;
+}
+.chip-passed { background: var(--mu-success-soft); border-color: var(--mu-success-border); color: var(--mu-success-strong); }
+.chip-retired { background: var(--mu-bg-alt); color: var(--mu-muted); }
+.chip-xp { background: var(--mu-accent-soft); border-color: var(--mu-accent-border); color: var(--mu-accent-strong); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

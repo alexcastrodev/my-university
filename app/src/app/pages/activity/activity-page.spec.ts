@@ -53,10 +53,10 @@ function setup(o: Options = {}) {
 }
 
 describe('ActivityPage', () => {
-  it('asks to log in and loads nothing without a session', () => {
-    const { el, xp } = setup({ user: null });
-    expect(el.textContent).toContain('Log in with GitHub');
+  it('loads nothing without a session (the profile shell shows the login prompt instead)', () => {
+    const { xp } = setup({ user: null });
     expect(xp.loadHistory).not.toHaveBeenCalled();
+    expect(xp.loadSummary).not.toHaveBeenCalled();
   });
 
   it('loads the summary, the areas, the first page of activity, and the awards that name some lines', () => {
@@ -65,10 +65,6 @@ describe('ActivityPage', () => {
     expect(xp.loadAreas).toHaveBeenCalled();
     expect(xp.loadHistory).toHaveBeenCalled();
     expect(xp.syncAchievements).toHaveBeenCalledOnceWith(false);
-  });
-
-  it('links back to the profile', () => {
-    expect(setup().q('.back-link')!.getAttribute('href')).toBe('/profile');
   });
 
   describe('XP breakdown', () => {

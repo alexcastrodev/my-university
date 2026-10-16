@@ -1,0 +1,17 @@
+:host { display: inline-flex; flex: none; }
+
+.hex {
+  width: 40px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mu-info);
+  background: var(--mu-info-soft);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.hex-trophy { color: var(--mu-warning); background: var(--mu-warning-soft); }
+.hex app-track-icon { display: flex; }
+
+.hex-small { width: 32px; height: 37px; }
+.hex-small app-track-icon { transform: scale(0.8); }
