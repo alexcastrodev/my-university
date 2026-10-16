@@ -3673,6 +3673,72 @@
     ]
   },
   {
+    "slug": "json-patch-and-partial-updates",
+    "id": 313,
+    "category": "ASP.NET Core",
+    "title": "JSON Patch and Partial Updates",
+    "topic": "Minimal APIs",
+    "summary": "PUT versus PATCH, RFC 6902 operations applied to C# objects with the new System.Text.Json package in .NET 10, why a failure halfway does not roll anything back, a safe PATCH endpoint with a DTO and validation, the threats the framework leaves to you, and merge patch as the alternative.",
+    "publishedAt": "2026-10-16",
+    "requires": [
+      "problem-details-and-global-exception-handling"
+    ],
+    "related": [
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "JsonPatch in ASP.NET Core web API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/web-api/jsonpatch",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "JsonPatchDocument<TModel> class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.jsonpatch.systemtextjson.jsonpatchdocument-1",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 6902: JavaScript Object Notation (JSON) Patch, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc6902",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 7396: JSON Merge Patch, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc7396",
+        "type": "doc"
+      }
+    ]
+  },
+  {
     "slug": "rest-semantics-status-codes-and-idempotency",
     "id": 21,
     "category": "ASP.NET Core",
