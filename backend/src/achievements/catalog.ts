@@ -254,13 +254,12 @@ const awardKey = (type: AwardType, id: string) => `${type}:${id}`;
 /**
  * Awards the user has earned but that are not recorded yet, badges before trophies. A trophy needs
  * every unit the track has today, so old badges never stand in for a unit added later. Retired,
- * invalid, disabled and empty sets never award.
+ * invalid and empty sets never award.
  */
 export function evaluateAwards(
   catalog: Catalog,
   unitDates: ReadonlyMap<string, Date>,
   existing: ReadonlySet<string>,
-  enabledTrackIds: ReadonlySet<string>,
 ): PendingAward[] {
   const pending: PendingAward[] = [];
   const completion = (units: Unit[]): Date | null => {
@@ -275,7 +274,7 @@ export function evaluateAwards(
   };
 
   for (const track of catalog.tracks) {
-    if (!track.valid || track.status !== 'active' || !enabledTrackIds.has(track.trackId)) continue;
+    if (!track.valid || track.status !== 'active') continue;
     if (track.sessions.length >= 2) {
       for (const session of track.sessions) {
         const completedAt = completion(session.units);
@@ -324,11 +323,10 @@ export function computeProgress(
   catalog: Catalog,
   doneKeys: ReadonlySet<string>,
   awardedKeys: ReadonlySet<string>,
-  enabledTrackIds: ReadonlySet<string>,
 ): TrackProgress[] {
   const count = (units: Unit[]) => units.filter((u) => doneKeys.has(unitKey(u))).length;
   return catalog.tracks
-    .filter((t) => t.valid && t.status === 'active' && enabledTrackIds.has(t.trackId))
+    .filter((t) => t.valid && t.status === 'active')
     .map((track) => {
       const sessions = track.sessions.map((s): SessionProgress => {
         const done = count(s.units);

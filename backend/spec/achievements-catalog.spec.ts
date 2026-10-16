@@ -52,7 +52,6 @@ const j = (slug: string): Unit => ({ sourceType: 'concept-read', sourceId: `jvm:
 const cc = (slug: string): Unit => ({ sourceType: 'concept-read', sourceId: `cc:foundations:discrete-math-logic:${slug}` });
 const day = (n: number) => new Date(Date.UTC(2026, 9, n));
 const dates = (entries: [Unit, Date][]) => new Map(entries.map(([u, d]) => [unitKey(u), d]));
-const ALL = new Set([T1, T2, T3]);
 const catalog = buildCatalog(seed, manifest);
 
 describe('buildCatalog', () => {
@@ -74,7 +73,7 @@ describe('buildCatalog', () => {
     expect(messages).toContain('label "Beta 2" belong to no session');
     expect(built.tracks[0].valid).toBe(false);
     const everything = dates(built.tracks.flatMap((t) => t.units).map((u) => [u, day(1)]));
-    expect(evaluateAwards(built, everything, new Set(), ALL).filter((a) => a.sourceId === T1)).toEqual([]);
+    expect(evaluateAwards(built, everything, new Set()).filter((a) => a.sourceId === T1)).toEqual([]);
   });
 
   it('rejects ids that are not canonical UUIDv7 or are used twice', () => {
@@ -162,17 +161,17 @@ describe('evaluateAwards', () => {
   const gamma = ['g', 'h', 'i'].map(k);
 
   it('awards nothing for an incomplete session', () => {
-    expect(evaluateAwards(catalog, dates([[k('a'), day(1)], [k('b'), day(2)]]), new Set(), ALL)).toEqual([]);
+    expect(evaluateAwards(catalog, dates([[k('a'), day(1)], [k('b'), day(2)]]), new Set())).toEqual([]);
   });
 
   it('awards the badge when the session completes, dated by its latest unit and worth 2 XP per unit', () => {
-    const out = evaluateAwards(catalog, dates(alpha.map((u, i): [Unit, Date] => [u, day(1 + i)])), new Set(), ALL);
+    const out = evaluateAwards(catalog, dates(alpha.map((u, i): [Unit, Date] => [u, day(1 + i)])), new Set());
     expect(out).toEqual([{ sourceType: 'badge', sourceId: S1, exp: 3 * AWARD_XP.badgePerUnit, completedAt: day(3) }]);
   });
 
   it('awards badges before the trophy, and the trophy needs every unit, dated by the latest one', () => {
     const all = [...alpha, ...beta, ...gamma];
-    const out = evaluateAwards(catalog, dates(all.map((u, i): [Unit, Date] => [u, day(1 + i)])), new Set(), ALL);
+    const out = evaluateAwards(catalog, dates(all.map((u, i): [Unit, Date] => [u, day(1 + i)])), new Set());
     expect(out.map((a) => [a.sourceType, a.sourceId])).toEqual([['badge', S1], ['badge', S2], ['badge', S3], ['trophy', T1]]);
     expect(out[3]).toMatchObject({ exp: 3 * AWARD_XP.trophyPerModule, completedAt: day(9) });
   });
@@ -182,33 +181,39 @@ describe('evaluateAwards', () => {
     const existing = new Set([`badge:${S1}`, `badge:${S2}`, `badge:${S3}`]);
     const done = dates([...alpha, ...beta, ...gamma].map((u): [Unit, Date] => [u, day(1)]));
     // everything the user had read is still read, but the new unit is not: no trophy, no repeated badge
-    expect(evaluateAwards(grown, done, existing, ALL)).toEqual([]);
+    expect(evaluateAwards(grown, done, existing)).toEqual([]);
     done.set(unitKey(k('j')), day(5));
-    expect(evaluateAwards(grown, done, existing, ALL)).toEqual([{ sourceType: 'trophy', sourceId: T1, exp: 3 * AWARD_XP.trophyPerModule, completedAt: day(5) }]);
+    expect(evaluateAwards(grown, done, existing)).toEqual([{ sourceType: 'trophy', sourceId: T1, exp: 3 * AWARD_XP.trophyPerModule, completedAt: day(5) }]);
   });
 
   it('never repeats an award that already exists', () => {
     const done = dates([...alpha, ...beta, ...gamma].map((u): [Unit, Date] => [u, day(1)]));
     const existing = new Set([`badge:${S1}`, `badge:${S2}`, `badge:${S3}`, `trophy:${T1}`]);
-    expect(evaluateAwards(catalog, done, existing, ALL)).toEqual([]);
+    expect(evaluateAwards(catalog, done, existing)).toEqual([]);
   });
 
   it('gives a one-session track only the trophy, and a direct-unit track a trophy worth 5 XP', () => {
     const done = dates([...['x', 'y', 'z'].map(j), cc('p'), cc('q')].map((u): [Unit, Date] => [u, day(2)]));
-    expect(evaluateAwards(catalog, done, new Set(), ALL)).toEqual([
+    expect(evaluateAwards(catalog, done, new Set())).toEqual([
       { sourceType: 'trophy', sourceId: T2, exp: AWARD_XP.trophyPerModule, completedAt: day(2) },
       { sourceType: 'trophy', sourceId: T3, exp: AWARD_XP.trophyPerModule, completedAt: day(2) },
     ]);
   });
 
-  it('skips disabled, retired and empty tracks, and an empty allowlist awards nothing', () => {
+  it('awards on every active track at once, with no per-track switch', () => {
+    const done = dates([...alpha, ...beta, ...gamma, ...['x', 'y', 'z'].map(j), cc('p'), cc('q')].map((u): [Unit, Date] => [u, day(1)]));
+    const out = evaluateAwards(catalog, done, new Set());
+    expect(out.map((a) => [a.sourceType, a.sourceId])).toEqual([
+      ['badge', S1], ['badge', S2], ['badge', S3], ['trophy', T1], ['trophy', T2], ['trophy', T3],
+    ]);
+  });
+
+  it('never awards for a retired track or for an empty one', () => {
     const done = dates([...alpha, ...beta, ...gamma, cc('p'), cc('q')].map((u): [Unit, Date] => [u, day(1)]));
-    expect(evaluateAwards(catalog, done, new Set(), new Set())).toEqual([]);
-    expect(evaluateAwards(catalog, done, new Set(), new Set([T3])).map((a) => a.sourceId)).toEqual([T3]);
     const retired = buildCatalog(seed, [{ ...manifest[0], status: 'retired' }]);
-    expect(evaluateAwards(retired, done, new Set(), ALL)).toEqual([]);
+    expect(evaluateAwards(retired, done, new Set())).toEqual([]);
     const empty = buildCatalog(seed, [{ trackId: T3, title: 'Empty', status: 'active', source: { kind: 'curriculum', module: 'foundations', discipline: 'empty' } }]);
-    expect(evaluateAwards(empty, done, new Set(), ALL)).toEqual([]);
+    expect(evaluateAwards(empty, done, new Set())).toEqual([]);
   });
 
   it('keeps a lesson and a concept with the same id apart', () => {
@@ -221,7 +226,7 @@ describe('computeProgress', () => {
   const done = (units: Unit[]) => new Set(units.map(unitKey));
 
   it('reports partial progress and suggests the first unread unit, never gating anything', () => {
-    const [k8s] = computeProgress(catalog, done([k('a'), k('b'), k('d')]), new Set(), ALL);
+    const [k8s] = computeProgress(catalog, done([k('a'), k('b'), k('d')]), new Set());
     expect(k8s).toMatchObject({ done: 3, total: 9, complete: false, awarded: false, nextUnit: k('c') });
     expect(k8s.sessions.map((s) => [s.done, s.complete])).toEqual([[2, false], [1, false], [0, false]]);
   });
@@ -230,15 +235,17 @@ describe('computeProgress', () => {
     const grown = buildCatalog({ ...seed, concepts: { ...seed.concepts, 'kubernetes-concepts': [...seed.concepts['kubernetes-concepts'], concept('j', 'Gamma')] } }, manifest);
     const everything = done(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'].map(k));
     const awarded = new Set([`badge:${S3}`, `trophy:${T1}`]);
-    const [k8s] = computeProgress(grown, everything, awarded, ALL);
+    const [k8s] = computeProgress(grown, everything, awarded);
     expect(k8s).toMatchObject({ awarded: true, complete: false, newSinceAward: 1, nextUnit: k('j') });
     expect(k8s.sessions[2]).toMatchObject({ awarded: true, complete: false, newSinceAward: 1 });
     expect(k8s.sessions[0]).toMatchObject({ awarded: false, complete: true, newSinceAward: 0 });
   });
 
-  it('lists only enabled valid tracks', () => {
-    expect(computeProgress(catalog, new Set(), new Set(), new Set([T3])).map((t) => t.trackId)).toEqual([T3]);
-    expect(computeProgress(catalog, new Set(), new Set(), new Set())).toEqual([]);
+  it('lists every valid active track, and leaves out retired and invalid ones', () => {
+    expect(computeProgress(catalog, new Set(), new Set()).map((t) => t.trackId)).toEqual([T1, T2, T3]);
+    expect(computeProgress(buildCatalog(seed, [{ ...manifest[0], status: 'retired' }]), new Set(), new Set())).toEqual([]);
+    const renamed = { ...seed, concepts: { ...seed.concepts, 'kubernetes-concepts': seed.concepts['kubernetes-concepts'].map((c) => (c.topic === 'Beta' ? { ...c, topic: 'Beta 2' } : c)) } };
+    expect(computeProgress(buildCatalog(renamed, manifest), new Set(), new Set()).map((t) => t.trackId)).toEqual([T2, T3]);
   });
 });
 

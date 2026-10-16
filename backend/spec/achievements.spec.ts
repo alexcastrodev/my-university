@@ -4,8 +4,7 @@ import { getCatalog } from '../src/achievements/load-seed';
 import { fromSourceId, parseCurriculumSourceId } from '../src/concept-lookup/concept-lookup.constants';
 import { get, json, login, post, put } from './helpers';
 
-// The CI stack enables Kubernetes, OCP java-25 and software-distributed/distributed-systems-laboratory
-// (.ci/compose.test.yml). Every other track is disabled, which these specs rely on.
+// Every valid, active track in the manifest awards: there is no per-track switch.
 const catalog = getCatalog();
 const track = (pick: (t: CatalogTrack) => boolean) => catalog.tracks.find(pick)!;
 const k8s = track((t) => t.source.kind === 'concepts' && t.source.module === 'kubernetes-concepts');
@@ -54,13 +53,15 @@ describe('auth', () => {
 });
 
 describe('GET /xp/achievements', () => {
-  it('lists only the enabled tracks, with nothing done and no awards, for a fresh user', async () => {
+  it('lists every valid active track, with nothing done and no awards, for a fresh user', async () => {
     const cookie = await user('ach-fresh');
     const body = await achievements(cookie);
+    const expected = catalog.tracks.filter((t) => t.valid && t.status === 'active').map((t) => t.trackId);
     expect(body.awards).toEqual([]);
-    expect(body.progress.map((p) => p.trackId).sort()).toEqual([k8s.trackId, j25.trackId, ccSmall.trackId].sort());
+    expect(expected.length).toBeGreaterThanOrEqual(57);
+    expect(body.progress.map((p) => p.trackId).sort()).toEqual([...expected].sort());
     expect(body.progress.find((p) => p.trackId === k8s.trackId)).toMatchObject({ done: 0, total: 50, complete: false });
-    expect(body.progress.some((p) => p.trackId === j21.trackId || p.trackId === ccOff.trackId)).toBe(false);
+    expect(body.progress.some((p) => p.trackId === j21.trackId)).toBe(true);
   });
 
   it('never grants anything: reading is not writing', async () => {
@@ -169,14 +170,14 @@ describe('POST /xp/achievements/sync: trophies', () => {
     expect(await xpTotal(cookie)).toBe(ccSmall.units.length * 10 + AWARD_XP.trophyPerModule);
   });
 
-  it('awards nothing for a track that is not enabled, even when it is completed', async () => {
-    const cookie = await user('ach-off');
+  it('awards a trophy on any track with no per-track switch, here one that used to be off in CI', async () => {
+    const cookie = await user('ach-any');
     await completeAll(cookie, ccOff, ccOff.units);
-    expect(await sync(cookie)).toEqual([]);
-    const state = await achievements(cookie);
-    expect(state.awards).toEqual([]);
-    expect(state.progress.some((p) => p.trackId === ccOff.trackId)).toBe(false);
-    expect(await xpTotal(cookie)).toBe(ccOff.units.length * 10);
+    const awards = await sync(cookie);
+    expect(awards).toHaveLength(1);
+    expect(awards[0]).toMatchObject({ type: 'trophy', id: ccOff.trackId, exp: AWARD_XP.trophyPerModule });
+    expect(await xpTotal(cookie)).toBe(ccOff.units.length * 10 + AWARD_XP.trophyPerModule);
+    expect((await achievements(cookie)).progress.find((p) => p.trackId === ccOff.trackId)).toMatchObject({ complete: true, awarded: true });
   });
 });
 
