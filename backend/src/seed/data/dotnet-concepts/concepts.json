@@ -22,6 +22,16 @@
         "label": "Zeitwerk Autoloading and Modularizing Large Rails Apps",
         "slug": "zeitwerk-autoloading-and-modularizing-rails-apps",
         "feature": "rubyonrails-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -76,6 +86,11 @@
         "label": "What's New in .NET 10: A Map of the Platform",
         "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "C# Language Versions, the Compiler and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -132,6 +147,11 @@
         "label": "The .class File Format: Header, Constant Pool, Fields, and Methods",
         "slug": "class-file-structure",
         "feature": "jvm-concepts"
+      },
+      {
+        "label": "C# Language Versions, the Compiler and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -269,6 +289,11 @@
         "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
         "slug": "file-based-apps",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Top-Level Programs, Implicit Usings and Namespaces",
+        "slug": "top-level-programs-implicit-usings-and-namespaces",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -471,6 +496,36 @@
         "label": "What's New in EF Core 10: A Map",
         "slug": "whats-new-in-ef-core-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Properties, init Accessors and the field Keyword",
+        "slug": "properties-init-accessors-and-the-field-keyword",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Extension Members and Extension Blocks (C# 14)",
+        "slug": "extension-members-and-extension-blocks",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -532,6 +587,16 @@
         "label": "NuGet Restore, Versions and Dependency Resolution",
         "slug": "nuget-restore-versions-and-dependency-resolution",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Migrating from Newtonsoft.Json to System.Text.Json",
+        "slug": "migrating-from-newtonsoft-to-system-text-json",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "BinaryFormatter Removal and Safe Serialization",
+        "slug": "binaryformatter-removal-and-safe-serialization",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -746,7 +811,28 @@
     "requires": [
       "sdk-style-projects-msbuild-and-directory-build-props"
     ],
-    "related": [],
+    "related": [
+      {
+        "label": "Central Package Management and Package Source Mapping",
+        "slug": "central-package-management-and-package-source-mapping",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-Targeting and .NET Standard",
+        "slug": "multi-targeting-and-netstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      }
+    ],
     "references": [
       {
         "label": "NuGet package dependency resolution, Microsoft Learn",
@@ -923,6 +1009,11 @@
         "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
         "slug": "system-text-json-source-generation-and-utf8jsonreader",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1045,6 +1136,11 @@
         "label": ".NET Support Lifecycle and Choosing a Target",
         "slug": "dotnet-support-lifecycle-and-choosing-a-target",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "C# Language Versions, the Compiler and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -1176,6 +1272,11 @@
         "label": "Struct and Record Equality",
         "slug": "struct-and-record-equality",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1227,6 +1328,16 @@
         "label": "Spring Data JPA Repositories",
         "slug": "spring-data-jpa-repositories",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -1674,6 +1785,31 @@
         "label": "What's New in .NET 10: A Map of the Platform",
         "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Raw SQL, Unmapped Types and Views",
+        "slug": "raw-sql-unmapped-types-and-views",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF.Functions and Database-Specific Translation",
+        "slug": "ef-core-functions-and-database-specific-translation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core with NoSQL: Cosmos DB and MongoDB",
+        "slug": "ef-core-nosql-cosmos-db-and-mongodb",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "LINQ: Sets, Joins, Grouping and Lookups",
+        "slug": "linq-sets-joins-grouping-and-lookups",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2049,6 +2185,11 @@
         "label": "EF Core Logging, Query Tags and Diagnostics",
         "slug": "ef-core-logging-query-tags-and-diagnostics",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2115,6 +2256,16 @@
         "label": "Events, the Observer Pattern and Memory Leaks",
         "slug": "events-observer-pattern-and-memory-leaks",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/domain-events-and-consistency-boundaries",
@@ -2164,6 +2315,16 @@
         "label": "IDisposable, Finalizers and Deterministic Cleanup",
         "slug": "idisposable-finalizers-and-deterministic-cleanup",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Data Access and Streaming Rendering",
+        "slug": "blazor-data-access-and-streaming-rendering",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2215,6 +2376,11 @@
         "label": "JDBC and JPA Performance",
         "slug": "jdbc-jpa-performance",
         "feature": "jvm-concepts"
+      },
+      {
+        "label": "LINQ: Sets, Joins, Grouping and Lookups",
+        "slug": "linq-sets-joins-grouping-and-lookups",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2271,6 +2437,11 @@
         "label": "LINQ, Deferred Execution, and Iterators",
         "slug": "linq-deferred-execution-and-iterators",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2327,6 +2498,11 @@
         "label": "Transactions, ACID, and Isolation Levels",
         "slug": "transactions-acid-and-isolation-levels",
         "feature": "system-design"
+      },
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2506,6 +2682,11 @@
         "label": "Full-Text Search and Vector Embedding Indexes",
         "slug": "full-text-and-vector-search-indexes",
         "feature": "system-design-concepts"
+      },
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -2573,6 +2754,16 @@
         "label": "Flyway Integration with Hibernate ORM",
         "slug": "flyway-integration-with-hibernate-orm",
         "feature": "quarkus-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From CRUD to Modular Monolith",
+        "slug": "from-crud-to-modular-monolith",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2680,6 +2871,11 @@
         "label": "Threads, the ThreadPool, and Starvation",
         "slug": "threads-threadpool-and-starvation",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2742,6 +2938,11 @@
         "label": "Spring MVC Request Handling",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2803,6 +3004,11 @@
         "label": "Spring MVC Request Handling",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Static Files and MapStaticAssets",
+        "slug": "static-files-and-mapstaticassets",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2864,6 +3070,11 @@
         "label": "Spring MVC Request Handling",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Route Constraints, Short-Circuit Routes and Handler Results",
+        "slug": "route-constraints-short-circuit-and-handler-results",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -2919,6 +3130,11 @@
       {
         "label": "Dependency Injection and Service Lifetimes",
         "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
         "feature": "dotnet-concepts"
       }
     ],
@@ -3179,6 +3395,11 @@
         "label": "Razor Syntax and Component Compilation",
         "slug": "razor-syntax-and-component-compilation",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WebAssembly Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3239,6 +3460,11 @@
         "label": "Async Streams with IAsyncEnumerable",
         "slug": "async-streams-iasyncenumerable",
         "feature": "csharp-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3285,6 +3511,11 @@
         "label": "The Transactional Outbox Pattern",
         "slug": "outbox-pattern",
         "feature": "system-design"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3398,6 +3629,11 @@
       {
         "label": "LINQ: Operator Families and Query Syntax",
         "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Threads, the ThreadPool, and Starvation",
+        "slug": "threads-threadpool-and-starvation",
         "feature": "csharp-concepts"
       }
     ],
@@ -3586,6 +3822,11 @@
         "label": "Blazor Forms: EditForm and Validation",
         "slug": "blazor-forms-editform-and-validation",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance in EF Core",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -3689,6 +3930,11 @@
         "label": "Dependency Injection and Service Lifetimes",
         "slug": "dependency-injection-and-service-lifetimes",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Delegates and Multicast Invocation",
+        "slug": "delegates-and-multicast-invocation",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -3750,6 +3996,11 @@
         "label": "Spring MVC Request Handling",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -3820,6 +4071,11 @@
       {
         "label": "Exceptions: try, catch, Filters and finally",
         "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
         "feature": "csharp-concepts"
       }
     ],
@@ -3898,6 +4154,36 @@
         "label": "What's New in .NET 10: A Map of the Platform",
         "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Patch and Partial Updates",
+        "slug": "json-patch-and-partial-updates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async Streams with IAsyncEnumerable",
+        "slug": "async-streams-iasyncenumerable",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -4076,6 +4362,11 @@
         "label": "Spring MVC Request Handling and Data Binding",
         "slug": "spring-mvc-request-handling",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4264,6 +4555,11 @@
         "label": "DTOs and the API Contract",
         "slug": "dtos-and-the-api-contract",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "In-Memory Queues with Channels",
+        "slug": "in-memory-queues-with-channels",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4325,6 +4621,11 @@
       {
         "label": "What's New in ASP.NET Core 10: A Map",
         "slug": "whats-new-in-aspnet-core-10",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Blazor Forms: EditForm and Validation",
+        "slug": "blazor-forms-editform-and-validation",
         "feature": "dotnet-concepts"
       }
     ],
@@ -4433,6 +4734,11 @@
         "label": "What's New in ASP.NET Core 10: A Map",
         "slug": "whats-new-in-aspnet-core-10",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Converters, Contract Customization and Schema Export",
+        "slug": "json-converters-contracts-and-schema-export",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -4505,6 +4811,11 @@
       {
         "label": "System.Text.Json: Serialization and Options",
         "slug": "system-text-json-serialization-and-options",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "IDisposable, Finalizers and Deterministic Cleanup",
+        "slug": "idisposable-finalizers-and-deterministic-cleanup",
         "feature": "csharp-concepts"
       }
     ],
@@ -4765,6 +5076,11 @@
         "label": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
         "slug": "spring-security-cors-configuration",
         "feature": "spring-concepts"
+      },
+      {
+        "label": "Blazor WebAssembly Client and API Integration",
+        "slug": "blazor-webassembly-client-and-api-integration",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -4942,6 +5258,11 @@
         "label": "Clean Architecture in Four Projects",
         "slug": "clean-architecture-in-four-projects",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
       }
     ],
     "references": [
@@ -5009,6 +5330,11 @@
         "label": "Testing Clean Architecture with MSTest",
         "slug": "testing-clean-architecture-with-mstest",
         "feature": "dotnet-testing-concepts"
+      },
+      {
+        "label": "Mapping the Domain with EF Core",
+        "slug": "mapping-the-domain-with-ef-core",
+        "feature": "dotnet-concepts"
       }
     ],
     "labUrl": "https://github.com/castrolabs/university-kurz-java-labs/tree/master/dotnet-concepts/clean-architecture-in-four-projects",
