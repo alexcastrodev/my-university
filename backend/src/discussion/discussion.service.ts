@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   HttpException,
   HttpStatus,
@@ -8,14 +9,31 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, MoreThan, Repository } from 'typeorm';
 import { User } from '../auth/user.entity';
+import {
+  CONCEPT_MODULES,
+  ConceptSourceType,
+  fromSourceId,
+  parseCurriculumSourceId,
+} from '../concept-lookup/concept-lookup.constants';
 import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
+import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionVote } from './discussion-vote.entity';
-import { CreateThreadDto, TopicDto } from './discussion.dto';
 import {
+  CreateThreadDto,
+  FeedAreasDto,
+  FeedDto,
+  TopicDto,
+} from './discussion.dto';
+import {
+  areaPrefixes,
+  areaSql,
   assembleThreads,
   CommentRow,
+  decodeFeedCursor,
+  FeedScope,
+  feedPage,
   POSTS_PER_MINUTE,
   quoteAppearsIn,
   ThreadView,
@@ -37,6 +55,47 @@ export interface MarkerDetail {
   commentCount: number;
   threads: ThreadView[];
 }
+
+export interface FeedItem {
+  markerId: number;
+  area: string;
+  conceptTitle: string;
+  slug: string;
+  route: string[];
+  lang: string;
+  quote: string;
+  commentCount: number;
+  resolvedCount: number;
+  lastActivityAt: Date;
+  startedByMe: boolean;
+  participatedByMe: boolean;
+}
+
+export interface FeedPage {
+  items: FeedItem[];
+  nextCursor: string | null;
+}
+
+interface FeedRow {
+  id: number;
+  topicKey: string;
+  lang: string;
+  quote: string;
+  area: string;
+  commentCount: string;
+  resolvedCount: string;
+  lastActivityAt: Date;
+  cursorAt: string;
+  startedByMe: boolean;
+  participatedByMe: boolean;
+}
+
+const AREA_SQL = areaSql(areaPrefixes(CONCEPT_MODULES), 'm."topicKey"');
+const SCOPE_SQL: Record<FeedScope, string> = {
+  all: 'TRUE',
+  mine: '"startedByMe"',
+  participated: '"participatedByMe"',
+};
 
 /** GitHub ids (comma separated) allowed to remove anyone's comment. Empty means nobody can. */
 function moderatorIds(): Set<string> {
@@ -105,6 +164,118 @@ export class DiscussionService {
       commentCount: Number(row['commentCount']),
       resolvedCount: Number(row['resolvedCount']),
     }));
+  }
+
+  /**
+   * One page of the discussion feed: markers with at least one live comment, most recent comment
+   * first (ties by id), after the cursor. Concepts removed since are skipped.
+   */
+  async feed(dto: FeedDto, viewerId: number | null): Promise<FeedPage> {
+    const cursor = dto.cursor ? decodeFeedCursor(dto.cursor) : null;
+    if (dto.cursor && !cursor) throw new BadRequestException('Invalid cursor');
+
+    const rows: FeedRow[] = await this.markers.query(
+      `${this.feedSql(dto.scope)}
+       SELECT *, to_char("lastActivityAt", 'YYYY-MM-DD"T"HH24:MI:SS.US') AS "cursorAt"
+         FROM feed
+        WHERE ($3::varchar IS NULL OR "area" = $3)
+          AND ($4::timestamp IS NULL OR ("lastActivityAt", "id") < ($4::timestamp, $5::int))
+        ORDER BY "lastActivityAt" DESC, "id" DESC
+        LIMIT $6`,
+      [
+        viewerId,
+        dto.lang ?? null,
+        dto.area ?? null,
+        cursor?.at ?? null,
+        cursor?.id ?? null,
+        dto.limit + 1,
+      ],
+    );
+    const page = feedPage(rows, dto.limit);
+    return {
+      items: page.rows.flatMap((row) => this.feedItem(row) ?? []),
+      nextCursor: page.nextCursor,
+    };
+  }
+
+  /** Feed markers per area under the same scope and language, busiest area first. */
+  async feedAreas(
+    dto: FeedAreasDto,
+    viewerId: number | null,
+  ): Promise<{ area: string; count: number }[]> {
+    const rows: { area: string; count: string }[] = await this.markers.query(
+      `${this.feedSql(dto.scope)}
+       SELECT "area", COUNT(*) AS "count"
+         FROM feed
+        WHERE "area" IS NOT NULL
+        GROUP BY "area"
+        ORDER BY COUNT(*) DESC, "area"`,
+      [viewerId, dto.lang ?? null],
+    );
+    return rows.map((r) => ({ area: r.area, count: Number(r.count) }));
+  }
+
+  /**
+   * CTEs shared by the feed and its area counts; $1 is the viewer (or null), $2 the language (or
+   * null). A personal scope first narrows to the viewer's markers through the author index, so it
+   * never aggregates the whole table.
+   */
+  private feedSql(scope: FeedScope): string {
+    const onlyViewers =
+      scope === 'all'
+        ? ''
+        : `AND c."markerId" IN (
+             SELECT "markerId" FROM "discussion_comment"
+              WHERE "authorId" = $1 AND "deletedAt" IS NULL)`;
+    return `WITH activity AS (
+        SELECT c."markerId",
+               MAX(c."createdAt") AS "lastActivityAt",
+               COUNT(*) AS "commentCount",
+               COUNT(*) FILTER (
+                 WHERE c."parentId" IS NULL AND c."acceptedReplyId" IS NOT NULL
+               ) AS "resolvedCount",
+               COALESCE(BOOL_OR(c."parentId" IS NULL AND c."authorId" = $1::int), false) AS "startedByMe",
+               COALESCE(BOOL_OR(c."authorId" = $1::int), false) AS "participatedByMe"
+          FROM "discussion_comment" c
+         WHERE c."deletedAt" IS NULL ${onlyViewers}
+         GROUP BY c."markerId"
+      ), feed AS (
+        SELECT m."id", m."topicKey", m."lang", m."quote", ${AREA_SQL} AS "area",
+               a."lastActivityAt", a."commentCount", a."resolvedCount",
+               a."startedByMe", a."participatedByMe"
+          FROM activity a
+          JOIN "discussion_marker" m ON m."id" = a."markerId"
+         WHERE ($2::varchar IS NULL OR m."lang" = $2)
+           AND ${SCOPE_SQL[scope]}
+      )`;
+  }
+
+  private feedItem(row: FeedRow): FeedItem | null {
+    const [sourceType, ...rest] = row.topicKey.split(':');
+    const sourceId = rest.join(':');
+    const where =
+      parseCurriculumSourceId(sourceId) ??
+      fromSourceId(sourceType as ConceptSourceType, sourceId);
+    const detail = this.lookup.resolveConceptDetail(
+      sourceType as ConceptSourceType,
+      sourceId,
+      row.lang as Language,
+    );
+    if (!where || !detail) return null;
+    return {
+      markerId: row.id,
+      area: row.area,
+      conceptTitle: detail.title,
+      slug: where.slug,
+      route: detail.route,
+      lang: row.lang,
+      quote: row.quote,
+      commentCount: Number(row.commentCount),
+      resolvedCount: Number(row.resolvedCount),
+      lastActivityAt: row.lastActivityAt,
+      startedByMe: row.startedByMe,
+      participatedByMe: row.participatedByMe,
+    };
   }
 
   async getMarker(

@@ -411,6 +411,102 @@ describe('discussions: edit and remove', () => {
   });
 });
 
+describe('discussions: feed', () => {
+  const feed = async (query: string, cookie?: string) =>
+    json<{ items: any[]; nextCursor: string | null }>(
+      await get(`/discussions/feed?${query}`, cookie ? { Cookie: cookie } : {}),
+    );
+
+  it('is public for everything, uncached, and needs a session for the personal scopes', async () => {
+    const all = await get('/discussions/feed?lang=en');
+    expect(all.status).toBe(200);
+    expect(all.headers.get('cache-control')).toContain('no-store');
+    expect((await get('/discussions/feed?scope=mine')).status).toBe(401);
+    expect((await get('/discussions/feed?scope=participated')).status).toBe(
+      401,
+    );
+    expect((await get('/discussions/feed/areas?scope=mine')).status).toBe(401);
+  });
+
+  it('rejects a forged cursor, a bad limit and an unknown scope', async () => {
+    expect((await get('/discussions/feed?cursor=bm9wZQ')).status).toBe(400);
+    expect((await get('/discussions/feed?limit=51')).status).toBe(400);
+    expect((await get('/discussions/feed?limit=0')).status).toBe(400);
+    expect((await get('/discussions/feed?scope=everyone')).status).toBe(400);
+  });
+
+  it('pages by cursor, newest activity first, and a reply bumps a marker to the top', async () => {
+    const cara = await login(`disc-feed-c-${Date.now()}`);
+    const opened = [];
+    for (let i = 0; i < 3; i++) opened.push(await openThread(cara.cookie));
+    const ids = opened.map((o) => o.markerId).reverse();
+
+    const first = await feed('scope=mine&lang=en&limit=2', cara.cookie);
+    expect(first.items.map((i) => i.markerId)).toEqual(ids.slice(0, 2));
+    expect(first.nextCursor).toEqual(expect.any(String));
+    expect(first.items[0]).toMatchObject({
+      area: MODULE,
+      slug,
+      route: ['/java/java-concepts', slug],
+      lang: 'en',
+      quote,
+      commentCount: 1,
+      resolvedCount: 0,
+      startedByMe: true,
+      participatedByMe: true,
+    });
+    expect(first.items[0].conceptTitle).toEqual(expect.any(String));
+
+    const second = await feed(
+      `scope=mine&lang=en&limit=2&cursor=${first.nextCursor}`,
+      cara.cookie,
+    );
+    expect(second.items.map((i) => i.markerId)).toEqual(ids.slice(2));
+    expect(second.nextCursor).toBeNull();
+
+    const dan = await login(`disc-feed-d-${Date.now()}`);
+    await post(
+      `/discussions/markers/${opened[0].markerId}/comments`,
+      { parentId: opened[0].commentId, body: 'Late answer' },
+      { Cookie: dan.cookie },
+    );
+    const bumped = await feed('scope=mine&lang=en', cara.cookie);
+    expect(bumped.items[0]).toMatchObject({
+      markerId: opened[0].markerId,
+      commentCount: 2,
+    });
+
+    const areas = await json<{ area: string; count: number }[]>(
+      await get('/discussions/feed/areas?scope=mine&lang=en', {
+        Cookie: cara.cookie,
+      }),
+    );
+    expect(areas).toEqual([{ area: MODULE, count: 3 }]);
+  });
+
+  it('tells threads you opened from ones you only answered', async () => {
+    const eva = await login(`disc-feed-e-${Date.now()}`);
+    const fay = await login(`disc-feed-f-${Date.now()}`);
+    const { markerId, commentId } = await openThread(eva.cookie);
+    await post(
+      `/discussions/markers/${markerId}/comments`,
+      { parentId: commentId, body: 'An answer' },
+      { Cookie: fay.cookie },
+    );
+
+    const mine = await feed('scope=mine', fay.cookie);
+    expect(mine.items.some((i) => i.markerId === markerId)).toBe(false);
+    const participated = await feed('scope=participated', fay.cookie);
+    expect(
+      participated.items.find((i) => i.markerId === markerId),
+    ).toMatchObject({ startedByMe: false, participatedByMe: true });
+    expect(
+      (await feed(`area=${MODULE}`)).items.every((i) => i.area === MODULE),
+    ).toBe(true);
+    expect((await feed('area=no-such-area')).items).toEqual([]);
+  });
+});
+
 describe('discussions: flooding', () => {
   it('stops one account after ten comments in a minute', async () => {
     const { cookie } = await login(`disc-flood-${Date.now()}`);

@@ -10,6 +10,7 @@ import {
   Post,
   Put,
   Query,
+  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,10 +19,19 @@ import {
   AcceptDto,
   CommentBodyDto,
   CreateThreadDto,
+  FeedAreasDto,
+  FeedDto,
   ReplyDto,
   TopicDto,
 } from './discussion.dto';
+import { FeedScope } from './discussion.logic';
 import { DiscussionService } from './discussion.service';
+
+/** The feed is public, but "mine" and "participated" only mean something with a session. */
+function viewerFor(scope: FeedScope, userId: number | null): number | null {
+  if (scope !== 'all' && userId === null) throw new UnauthorizedException();
+  return userId;
+}
 
 /**
  * Lives under /api/discussions on purpose: nginx caches the concept routes for an hour, and
@@ -43,6 +53,23 @@ export class DiscussionController {
   @Header('Cache-Control', 'no-store')
   summary(@Query() topic: TopicDto) {
     return this.service.summary(topic);
+  }
+
+  /** Markers across every concept, most recent activity first, a keyset page at a time. */
+  @Get('feed')
+  @Header('Cache-Control', 'no-store')
+  feed(@Query() dto: FeedDto, @OptionalUserId() userId: number | null) {
+    return this.service.feed(dto, viewerFor(dto.scope, userId));
+  }
+
+  /** How many feed markers each area has, for the area chips. */
+  @Get('feed/areas')
+  @Header('Cache-Control', 'no-store')
+  feedAreas(
+    @Query() dto: FeedAreasDto,
+    @OptionalUserId() userId: number | null,
+  ) {
+    return this.service.feedAreas(dto, viewerFor(dto.scope, userId));
   }
 
   @Get('markers/:id')

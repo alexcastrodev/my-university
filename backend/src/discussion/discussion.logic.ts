@@ -145,3 +145,90 @@ export function assembleThreads(
       ];
     });
 }
+
+/** Which markers the feed lists: every one, the ones whose thread the viewer opened, or any they commented on. */
+export const FEED_SCOPES = ['all', 'mine', 'participated'] as const;
+export type FeedScope = (typeof FEED_SCOPES)[number];
+export const FEED_DEFAULT_LIMIT = 20;
+export const FEED_MAX_LIMIT = 50;
+
+/**
+ * Keyset position in the feed: the last row's activity time and id. `at` is Postgres' own text of
+ * the timestamp (microseconds), not a JS Date, which would round to milliseconds and make the
+ * next page skip or repeat rows that share the millisecond.
+ */
+export interface FeedCursor {
+  at: string;
+  id: number;
+}
+
+const CURSOR_AT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$/;
+
+export function encodeFeedCursor(cursor: FeedCursor): string {
+  return Buffer.from(JSON.stringify([cursor.at, cursor.id])).toString(
+    'base64url',
+  );
+}
+
+/** The cursor a previous page handed out, or null when it is not one of ours. */
+export function decodeFeedCursor(raw: string): FeedCursor | null {
+  try {
+    const value: unknown = JSON.parse(
+      Buffer.from(raw, 'base64url').toString('utf8'),
+    );
+    if (!Array.isArray(value) || value.length !== 2) return null;
+    const [at, id] = value as unknown[];
+    if (typeof at !== 'string' || !CURSOR_AT.test(at)) return null;
+    if (typeof id !== 'number' || !Number.isSafeInteger(id) || id < 1)
+      return null;
+    return { at, id };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Cuts one page out of rows fetched with `limit + 1`, already ordered by activity then id, both
+ * descending. The extra row only says there is more; the cursor points at the last row kept.
+ */
+export function feedPage<T extends { cursorAt: string; id: number }>(
+  rows: T[],
+  limit: number,
+): { rows: T[]; nextCursor: string | null } {
+  if (rows.length <= limit) return { rows, nextCursor: null };
+  const page = rows.slice(0, limit);
+  const last = page[page.length - 1];
+  return {
+    rows: page,
+    nextCursor: encodeFeedCursor({ at: last.cursorAt, id: last.id }),
+  };
+}
+
+/**
+ * `topicKey` prefix -> area, most specific first (the order `fromSourceId` resolves in). A Computer
+ * Science concept (`concept-read:cc:<module>:<discipline>:<slug>`) has its curriculum module as area,
+ * written here as null: the area is read from the key itself.
+ */
+export function areaPrefixes(
+  modules: readonly { module: string; sourceType: string; prefix: string }[],
+): [prefix: string, area: string | null][] {
+  const tracks = modules
+    .map((m): [string, string] => [`${m.sourceType}:${m.prefix}`, m.module])
+    .sort((a, b) => b[0].length - a[0].length);
+  return [['concept-read:cc:', null], ...tracks];
+}
+
+/** SQL expression for the area of the topic key in `column`, so the feed can filter and count by it. */
+export function areaSql(
+  prefixes: [string, string | null][],
+  column: string,
+): string {
+  const branches = prefixes.map(([prefix, area]) => {
+    // Prefixes and areas come from code constants; the guard keeps them safe as SQL literals.
+    if (!/^[a-z0-9:-]+$/.test(`${prefix}${area ?? ''}`))
+      throw new Error(`unsafe area prefix ${prefix}`);
+    const then = area === null ? `split_part(${column}, ':', 3)` : `'${area}'`;
+    return `WHEN ${column} LIKE '${prefix}%' THEN ${then}`;
+  });
+  return `CASE ${branches.join(' ')} END`;
+}
