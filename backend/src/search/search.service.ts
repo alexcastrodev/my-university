@@ -147,6 +147,8 @@ interface ContentSource {
   list: (lang: Language) => IndexedEntry[];
 }
 
+const MAX_QUERY_LENGTH = 200;
+
 @Injectable()
 export class SearchService implements OnApplicationBootstrap {
   private readonly log = new Logger(SearchService.name);
@@ -438,7 +440,8 @@ export class SearchService implements OnApplicationBootstrap {
     query: string,
     options: SearchOptions = {},
   ): Promise<SearchResponse> {
-    const term = query.trim();
+    // `?q=a&q=b` arrives as an array, and nothing stops a megabyte-long term: only a bounded string gets through.
+    const term = (typeof query === 'string' ? query : '').trim().slice(0, MAX_QUERY_LENGTH);
     if (term.length < 2)
       return { query: term, results: [], total: 0, facets: {} };
 

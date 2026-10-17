@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { XpService } from '../xp/xp.service';
@@ -103,13 +103,24 @@ export class ExamService {
       throw new ForbiddenException();
     }
 
+    // A finished attempt is a closed record: re-submitting it would let a reader keep re-grading
+    // (and overwrite their XP entry) until a lucky answer set sticks.
+    if (attempt.finishedAt) throw new ConflictException('Attempt already submitted');
+
     // Grade over the full set of shown questions when the client provides it
     // (so skipped questions count toward the total); otherwise fall back to the
     // answered ones for backward compatibility.
     const ids = [
       ...new Set((questionIds?.length ? questionIds : Object.keys(answers).map(Number)).filter(Number.isInteger)),
     ];
-    const questions = ids.length ? await this.questionRepo.findBy(ids.map((qid) => ({ id: qid }))) : [];
+    // The client names the questions it showed, so bound that list: an exam never serves more
+    // than `questionCount`, and an unbounded array would turn into one huge IN query.
+    const exam = await this.getExam(attempt.examId);
+    if (ids.length > (exam?.questionCount ?? 50)) throw new BadRequestException('Too many questions');
+    // Only this exam's questions count: ids of other exams must not inflate (or probe) this attempt.
+    const questions = ids.length
+      ? (await this.questionRepo.findBy(ids.map((qid) => ({ id: qid })))).filter((q) => q.examId === attempt.examId)
+      : [];
 
     let score = 0;
     const review: QuestionReview[] = questions.map((q) => {

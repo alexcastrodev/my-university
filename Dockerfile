@@ -71,6 +71,7 @@ ENV NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE=1
 # Drop the stock welcome page so it can't shadow a route.
 RUN mkdir -p /var/cache/nginx/api && rm -rf /usr/share/nginx/html/*
 COPY nginx.conf /etc/nginx/templates/default.conf.template
+COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
 COPY --from=frontend-build /repo/app/dist/ocp-simulator/browser /usr/share/nginx/html
 COPY backend/src/seed/data /public/content
 RUN chmod -R a+rX /public/content /usr/share/nginx/html

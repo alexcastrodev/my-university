@@ -18,6 +18,8 @@ services:
       target: api
     environment:
       - NODE_ENV=development
+      # Opts in to dev-login and the _test/* routes the specs use; production never sets it.
+      - ENABLE_DEV_AUTH=1
       - SESSION_SECRET
       - DATABASE_URL=postgres://postgres@postgres:5432/ocp_java
       - MEILI_HOST=http://meilisearch:7700
