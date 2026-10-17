@@ -51,6 +51,7 @@
   {
     "slug": "spring-security-authentication-architecture",
     "id": 2,
+    "session": "Authentication Architecture",
     "category": "Spring Security",
     "title": "Spring Security Authentication Architecture",
     "topic": "Spring Security",
@@ -99,6 +100,7 @@
   {
     "slug": "spring-batch-chunk-processing",
     "id": 3,
+    "session": "Chunk Processing and the Job Model",
     "category": "Spring Batch",
     "title": "Spring Batch Chunk-Oriented Processing",
     "topic": "Spring Batch",
@@ -200,6 +202,7 @@
   {
     "slug": "spring-security-user-management",
     "id": 5,
+    "session": "Users and Passwords",
     "category": "Spring Security",
     "title": "Spring Security User Management",
     "topic": "Spring Security",
@@ -249,6 +252,7 @@
   {
     "slug": "spring-batch-job-model",
     "id": 6,
+    "session": "Chunk Processing and the Job Model",
     "category": "Spring Batch",
     "title": "Spring Batch Job Repository, Launcher, and Job Model",
     "topic": "Spring Batch",
@@ -351,6 +355,7 @@
   {
     "slug": "spring-security-jdbc-ldap-user-management",
     "id": 8,
+    "session": "Users and Passwords",
     "category": "Spring Security",
     "title": "Spring Security JDBC and LDAP User Management",
     "topic": "Spring Security",
@@ -399,6 +404,7 @@
   {
     "slug": "spring-batch-job-instance-execution-flow",
     "id": 9,
+    "session": "Chunk Processing and the Job Model",
     "category": "Spring Batch",
     "title": "Spring Batch Non-Linear Flow and Job Instance Identity",
     "topic": "Spring Batch",
@@ -506,6 +512,7 @@
   {
     "slug": "spring-security-password-encoding",
     "id": 11,
+    "session": "Users and Passwords",
     "category": "Spring Security",
     "title": "Spring Security PasswordEncoder Contract and Encoding Strategies",
     "topic": "Spring Security",
@@ -555,6 +562,7 @@
   {
     "slug": "spring-batch-job-configuration-attributes",
     "id": 12,
+    "session": "Chunk Processing and the Job Model",
     "category": "Spring Batch",
     "title": "Spring Batch Job Configuration: Restart, Incrementer, and Validator",
     "topic": "Spring Batch",
@@ -652,6 +660,7 @@
   {
     "slug": "spring-security-crypto-module",
     "id": 14,
+    "session": "Users and Passwords",
     "category": "Spring Security",
     "title": "Spring Security Crypto Module: Key Generators and Encryptors",
     "topic": "Spring Security",
@@ -700,6 +709,7 @@
   {
     "slug": "spring-batch-fault-tolerant-step-configuration",
     "id": 15,
+    "session": "Fault Tolerance, Skip and Retry",
     "category": "Spring Batch",
     "title": "Spring Batch Fault-Tolerant Steps: Skip, Retry, and Transaction Attributes",
     "topic": "Spring Batch",
@@ -802,6 +812,7 @@
   {
     "slug": "spring-security-authentication-provider-contract",
     "id": 17,
+    "session": "Authentication Architecture",
     "category": "Spring Security",
     "title": "Spring Security: the Authentication and AuthenticationProvider Contracts",
     "topic": "Spring Security",
@@ -850,6 +861,7 @@
   {
     "slug": "spring-batch-job-repository-database-configuration",
     "id": 18,
+    "session": "Chunk Processing and the Job Model",
     "category": "Spring Batch",
     "title": "Spring Batch Job Repository: Choosing and Configuring the Persistence Layer",
     "topic": "Spring Batch",
@@ -952,6 +964,7 @@
   {
     "slug": "spring-security-context-thread-propagation",
     "id": 20,
+    "session": "Authentication Architecture",
     "category": "Spring Security",
     "title": "Spring Security: SecurityContext Storage and Thread Propagation",
     "topic": "Spring Security",
@@ -1000,6 +1013,7 @@
   {
     "slug": "spring-batch-step-scope-and-spel-late-binding",
     "id": 21,
+    "session": "Step Scope, Listeners and XML Configuration",
     "category": "Spring Batch",
     "title": "Spring Batch Step Scope and SpEL Late Binding",
     "topic": "Spring Batch",
@@ -1097,6 +1111,7 @@
   {
     "slug": "spring-security-http-basic-and-form-login",
     "id": 23,
+    "session": "Authentication Architecture",
     "category": "Spring Security",
     "title": "Spring Security: HTTP Basic and Form-Based Login Authentication",
     "topic": "Spring Security",
@@ -1146,6 +1161,7 @@
   {
     "slug": "spring-batch-execution-listeners",
     "id": 24,
+    "session": "Step Scope, Listeners and XML Configuration",
     "category": "Spring Batch",
     "title": "Spring Batch Listeners: Hooking Into Job, Step, and Item Lifecycle Events",
     "topic": "Spring Batch",
@@ -1243,6 +1259,7 @@
   {
     "slug": "spring-security-authorization-authorities-and-roles",
     "id": 26,
+    "session": "Authorization and Request Matching",
     "category": "Spring Security",
     "title": "Spring Security Authorization: Authorities and Roles",
     "topic": "Spring Security",
@@ -1292,6 +1309,7 @@
   {
     "slug": "spring-batch-xml-configuration-inheritance",
     "id": 27,
+    "session": "Step Scope, Listeners and XML Configuration",
     "category": "Spring Batch",
     "title": "Spring Batch XML Configuration Inheritance: abstract and parent",
     "topic": "Spring Batch",
@@ -1389,6 +1407,7 @@
   {
     "slug": "spring-security-authorization-matcher-methods",
     "id": 29,
+    "session": "Authorization and Request Matching",
     "category": "Spring Security",
     "title": "Spring Security: Selecting Requests with Matcher Methods",
     "topic": "Spring Security",
@@ -1438,6 +1457,7 @@
   {
     "slug": "spring-batch-job-launcher-api-and-async-launching",
     "id": 30,
+    "session": "Launching and Scheduling Jobs",
     "category": "Spring Batch",
     "title": "The Spring Batch Launcher API: Synchronous vs. Asynchronous Job Launches",
     "topic": "Spring Batch",
@@ -1539,6 +1559,7 @@
   {
     "slug": "spring-batch-command-line-launching",
     "id": 32,
+    "session": "Launching and Scheduling Jobs",
     "category": "Spring Batch",
     "title": "Launching Spring Batch Jobs from the Command Line",
     "topic": "Spring Batch",
@@ -1592,6 +1613,7 @@
   {
     "slug": "spring-security-authorization-ant-matchers",
     "id": 33,
+    "session": "Authorization and Request Matching",
     "category": "Spring Security",
     "title": "Spring Security Authorization: Ant Matchers and the Trailing-Slash Gotcha",
     "topic": "Spring Security",
@@ -1699,6 +1721,7 @@
   {
     "slug": "spring-security-authorization-regex-matchers",
     "id": 35,
+    "session": "Authorization and Request Matching",
     "category": "Spring Security",
     "title": "Spring Security Authorization: Regex Matchers as the Last Resort",
     "topic": "Spring Security",
@@ -1752,6 +1775,7 @@
   {
     "slug": "spring-batch-job-schedulers-cron-and-spring-scheduler",
     "id": 36,
+    "session": "Launching and Scheduling Jobs",
     "category": "Spring Batch",
     "title": "Triggering Spring Batch Jobs: cron vs. the Spring Scheduler",
     "topic": "Spring Batch",
@@ -2502,6 +2526,7 @@
   {
     "slug": "spring-batch-web-application-launching",
     "id": 50,
+    "session": "Launching and Scheduling Jobs",
     "category": "Spring Batch",
     "title": "Launching Spring Batch Jobs from a Web Application",
     "topic": "Spring Batch",
@@ -2545,6 +2570,7 @@
   {
     "slug": "spring-batch-stopping-jobs-gracefully",
     "id": 51,
+    "session": "Launching and Scheduling Jobs",
     "category": "Spring Batch",
     "title": "Stopping Spring Batch Jobs Gracefully",
     "topic": "Spring Batch",
@@ -2593,6 +2619,7 @@
   {
     "slug": "spring-batch-reading-flat-files",
     "id": 52,
+    "session": "Reading Data",
     "category": "Spring Batch",
     "title": "Reading Flat Files in Spring Batch",
     "topic": "Spring Batch",
@@ -2636,6 +2663,7 @@
   {
     "slug": "spring-batch-reading-xml-and-multiple-resources",
     "id": 53,
+    "session": "Reading Data",
     "category": "Spring Batch",
     "title": "Reading XML and Multiple Resources in Spring Batch",
     "topic": "Spring Batch",
@@ -2679,6 +2707,7 @@
   {
     "slug": "spring-batch-database-item-readers",
     "id": 54,
+    "session": "Reading Data",
     "category": "Spring Batch",
     "title": "Reading from Relational Databases: JDBC and ORM Item Readers",
     "topic": "Spring Batch",
@@ -2727,6 +2756,7 @@
   {
     "slug": "spring-batch-custom-and-service-readers",
     "id": 55,
+    "session": "Reading Data",
     "category": "Spring Batch",
     "title": "Custom and Service ItemReaders in Spring Batch",
     "topic": "Spring Batch",
@@ -2775,6 +2805,7 @@
   {
     "slug": "spring-batch-writing-files",
     "id": 56,
+    "session": "Writing and Processing Data",
     "category": "Spring Batch",
     "title": "Writing Files in Spring Batch",
     "topic": "Spring Batch",
@@ -2818,6 +2849,7 @@
   {
     "slug": "spring-batch-database-item-writers",
     "id": 57,
+    "session": "Writing and Processing Data",
     "category": "Spring Batch",
     "title": "Spring Batch Database Item Writers",
     "topic": "Spring Batch",
@@ -2866,6 +2898,7 @@
   {
     "slug": "spring-batch-advanced-item-writers",
     "id": 58,
+    "session": "Writing and Processing Data",
     "category": "Spring Batch",
     "title": "Advanced and Composite Item Writers in Spring Batch",
     "topic": "Spring Batch",
@@ -2919,6 +2952,7 @@
   {
     "slug": "spring-batch-item-processing-and-transformation",
     "id": 59,
+    "session": "Writing and Processing Data",
     "category": "Spring Batch",
     "title": "Item Processing and Transformation: The ItemProcessor Contract",
     "topic": "Spring Batch",
@@ -2967,6 +3001,7 @@
   {
     "slug": "spring-batch-filtering-and-validating-items",
     "id": 60,
+    "session": "Writing and Processing Data",
     "category": "Spring Batch",
     "title": "Spring Batch Filtering and Validating Items",
     "topic": "Spring Batch",
@@ -3020,6 +3055,7 @@
   {
     "slug": "spring-batch-skip-policy-and-listeners",
     "id": 61,
+    "session": "Fault Tolerance, Skip and Retry",
     "category": "Spring Batch",
     "title": "Spring Batch Skipping Instead of Failing: SkipPolicy and SkipListener",
     "topic": "Spring Batch",
@@ -3073,6 +3109,7 @@
   {
     "slug": "spring-batch-retry-policy-and-retrytemplate",
     "id": 62,
+    "session": "Fault Tolerance, Skip and Retry",
     "category": "Spring Batch",
     "title": "Spring Batch Retrying on Error: RetryPolicy, RetryTemplate, and AOP Retry",
     "topic": "Spring Batch",
@@ -3131,6 +3168,7 @@
   {
     "slug": "spring-batch-restart-and-recovery",
     "id": 63,
+    "session": "Fault Tolerance, Skip and Retry",
     "category": "Spring Batch",
     "title": "Spring Batch Restart and Recovery: Resuming Failed Jobs Where They Left Off",
     "topic": "Spring Batch",
@@ -3189,6 +3227,7 @@
   {
     "slug": "spring-batch-transaction-configuration",
     "id": 64,
+    "session": "Transactions and Job Flow",
     "category": "Spring Batch",
     "title": "Spring Batch Transaction Management and Configuration",
     "topic": "Spring Batch",
@@ -3242,6 +3281,7 @@
   {
     "slug": "spring-batch-transaction-patterns",
     "id": 65,
+    "session": "Transactions and Job Flow",
     "category": "Spring Batch",
     "title": "Spring Batch Transaction Management Patterns",
     "topic": "Spring Batch",
@@ -3285,6 +3325,7 @@
   {
     "slug": "spring-batch-controlling-flow-and-exit-status",
     "id": 66,
+    "session": "Transactions and Job Flow",
     "category": "Spring Batch",
     "title": "Controlling Job Flow in Spring Batch: BatchStatus vs. ExitStatus",
     "topic": "Spring Batch",
@@ -3328,6 +3369,7 @@
   {
     "slug": "spring-batch-sharing-data-between-steps",
     "id": 67,
+    "session": "Transactions and Job Flow",
     "category": "Spring Batch",
     "title": "Sharing Data Between Steps and Externalizing Flows in Spring Batch",
     "topic": "Spring Batch",
@@ -3386,6 +3428,7 @@
   {
     "slug": "spring-batch-monitoring-and-jobexplorer",
     "id": 68,
+    "session": "Monitoring and Testing",
     "category": "Spring Batch",
     "title": "Monitoring Spring Batch Jobs: JobExplorer, JobOperator, and Metadata Schema",
     "topic": "Spring Batch",
@@ -3439,6 +3482,7 @@
   {
     "slug": "spring-batch-multithreaded-and-parallel-steps",
     "id": 69,
+    "session": "Scaling Out",
     "category": "Spring Batch",
     "title": "Scaling Spring Batch Locally: Multithreaded Steps and Parallel Flows",
     "topic": "Spring Batch",
@@ -3492,6 +3536,7 @@
   {
     "slug": "spring-batch-remote-chunking",
     "id": 70,
+    "session": "Scaling Out",
     "category": "Spring Batch",
     "title": "Remote Chunking: Scaling a Step Across Machines",
     "topic": "Spring Batch",
@@ -3560,6 +3605,7 @@
   {
     "slug": "spring-batch-partitioning",
     "id": 71,
+    "session": "Scaling Out",
     "category": "Spring Batch",
     "title": "Fine-Grained Scaling in Spring Batch: Partitioning a Step",
     "topic": "Spring Batch",
@@ -3638,6 +3684,7 @@
   {
     "slug": "spring-batch-unit-testing-with-junit-and-mockito",
     "id": 72,
+    "session": "Monitoring and Testing",
     "category": "Spring Batch",
     "title": "Unit Testing Batch Components with JUnit and Mockito",
     "topic": "Spring Batch",
@@ -3716,6 +3763,7 @@
   {
     "slug": "spring-batch-integration-and-functional-testing",
     "id": 73,
+    "session": "Monitoring and Testing",
     "category": "Spring Batch",
     "title": "Integration and Functional Testing of Spring Batch Jobs",
     "topic": "Spring Batch",
@@ -3799,6 +3847,7 @@
   {
     "slug": "spring-security-custom-filters-in-the-chain",
     "id": 74,
+    "session": "Filters, CSRF and CORS",
     "category": "Spring Security",
     "title": "Custom Filters in the Spring Security Filter Chain",
     "topic": "Spring Security",
@@ -3857,6 +3906,7 @@
   {
     "slug": "spring-security-csrf-protection",
     "id": 75,
+    "session": "Filters, CSRF and CORS",
     "category": "Spring Security",
     "title": "CSRF Protection: CsrfFilter, CsrfTokenRepository, and Practical Customization",
     "topic": "Spring Security",
@@ -3921,6 +3971,7 @@
   {
     "slug": "spring-security-cors-configuration",
     "id": 76,
+    "session": "Filters, CSRF and CORS",
     "category": "Spring Security",
     "title": "CORS: Same-Origin Policy, Preflight, and @CrossOrigin vs http.cors()",
     "topic": "Spring Security",
@@ -3995,6 +4046,7 @@
   {
     "slug": "spring-security-custom-token-based-authentication",
     "id": 77,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "Hand-Rolled Token Authentication: The Pre-OAuth2 Case Study",
     "topic": "Spring Security",
@@ -4073,6 +4125,7 @@
   {
     "slug": "spring-security-oauth2-fundamentals-and-grant-types",
     "id": 78,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "OAuth 2 Fundamentals and Grant Types",
     "topic": "Spring Security",
@@ -4161,6 +4214,7 @@
   {
     "slug": "spring-security-oauth2-client-and-sso",
     "id": 79,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "Implementing an OAuth2 Client: Single Sign-On with ClientRegistration",
     "topic": "Spring Security",
@@ -4244,6 +4298,7 @@
   {
     "slug": "spring-security-oauth2-authorization-server",
     "id": 80,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "Implementing an OAuth2 Authorization Server: From Spring Security OAuth to Spring Authorization Server",
     "topic": "Spring Security",
@@ -4342,6 +4397,7 @@
   {
     "slug": "spring-security-oauth2-resource-server-approaches",
     "id": 81,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "OAuth 2 Resource Server: Remote Check, Blackboarding, and Local Validation",
     "topic": "Spring Security",
@@ -4430,6 +4486,7 @@
   {
     "slug": "spring-security-jwt-signing-symmetric-and-asymmetric",
     "id": 82,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "JWT Signing: Symmetric vs. Asymmetric Keys",
     "topic": "Spring Security",
@@ -4528,6 +4585,7 @@
   {
     "slug": "spring-security-method-security-preauthorization-and-postauthorization",
     "id": 83,
+    "session": "Method Security and Testing",
     "category": "Spring Security",
     "title": "Method Security: Preauthorization and Postauthorization",
     "topic": "Spring Security",
@@ -4586,6 +4644,7 @@
   {
     "slug": "spring-security-method-security-filtering-and-spring-data",
     "id": 84,
+    "session": "Method Security and Testing",
     "category": "Spring Security",
     "title": "Method Security Filtering: @PreFilter, @PostFilter, and Spring Data",
     "topic": "Spring Security",
@@ -4639,6 +4698,7 @@
   {
     "slug": "spring-security-keycloak-authorization-server-integration",
     "id": 85,
+    "session": "Tokens and OAuth 2",
     "category": "Spring Security",
     "title": "Keycloak as the Authorization Server for a Spring Resource Server",
     "topic": "Spring Security",
@@ -4732,6 +4792,7 @@
   {
     "slug": "spring-security-testing-mock-users-and-authentication",
     "id": 86,
+    "session": "Method Security and Testing",
     "category": "Spring Security",
     "title": "Spring Security Testing: Mock Users and Authentication",
     "topic": "Spring Security",
@@ -4801,6 +4862,7 @@
   {
     "slug": "spring-security-testing-authorization-csrf-and-cors",
     "id": 87,
+    "session": "Method Security and Testing",
     "category": "Spring Security",
     "title": "Testing Authorization, CSRF, and CORS with spring-security-test",
     "topic": "Spring Security",

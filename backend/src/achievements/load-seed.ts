@@ -21,7 +21,7 @@ export function loadSeedWithTitles(manifest: TrackManifest[]): { seed: SeedInput
   for (const track of manifest) {
     const { source } = track;
     if (source.kind === 'concepts' && !seed.concepts[source.module]) {
-      const list = readJson<(TitledConcept & { topic?: string; category?: string })[]>(join(DATA_ROOT, source.module, 'concepts.json'));
+      const list = readJson<(TitledConcept & { topic?: string; category?: string; session?: string })[]>(join(DATA_ROOT, source.module, 'concepts.json'));
       seed.concepts[source.module] = list;
       for (const concept of list) {
         const resolved = toSourceId(source.module, concept.slug);

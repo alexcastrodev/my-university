@@ -2,6 +2,7 @@
   {
     "slug": "junit-5-fundamentals",
     "id": 1,
+    "session": "JUnit 5",
     "category": "Java",
     "title": "JUnit 5 Fundamentals",
     "summary": "The JUnit 5 test lifecycle, assertions vs. assumptions, nested/tagged tests, and parameterized/dynamic tests — from JUnit in Action, Third Edition, Ch. 2.",
@@ -28,6 +29,7 @@
   {
     "slug": "junit-5-architecture",
     "id": 2,
+    "session": "JUnit 5",
     "category": "Java",
     "title": "JUnit 5 Architecture",
     "summary": "How Platform, Jupiter, and Vintage fit together to run new and legacy tests side by side, plus a short JUnit 4-to-5 migration reference — from JUnit in Action, Third Edition, Ch. 3.1/3.3 (and a short Ch. 4 note).",
@@ -58,6 +60,7 @@
   {
     "slug": "software-testing-principles",
     "id": 3,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "Software Testing Principles",
     "summary": "Unit vs. integration vs. system vs. acceptance testing, and black-box vs. white-box testing — the vocabulary behind how a test suite is organized, from JUnit in Action, Third Edition, Ch. 5.",
@@ -83,6 +86,7 @@
   {
     "slug": "test-quality-and-testable-code",
     "id": 4,
+    "session": "Writing Good Unit Tests",
     "category": "Java",
     "title": "Test Quality and Testable Code",
     "summary": "Measuring coverage with JaCoCo, writing testable code (Law of Demeter, composition over conditionals), and how TDD/BDD/mutation testing fit the development cycle — from JUnit in Action, Third Edition, Ch. 6.",
@@ -108,6 +112,7 @@
   {
     "slug": "selenium-browser-testing",
     "id": 7,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "Selenium Browser Testing",
     "summary": "Driving a real browser through the WebDriver interface — element lookup, cross-browser parameterized tests, and the Page Object model — with notes on what changed from the book's Selenium 3 to today's Selenium 4, from JUnit in Action, Third Edition, Ch. 15.",
@@ -138,6 +143,7 @@
   {
     "slug": "junit-5-extension-model",
     "id": 6,
+    "session": "JUnit 5",
     "category": "Java",
     "title": "JUnit 5 Extension Model",
     "summary": "The five extension points (conditional execution, lifecycle callbacks, parameter resolution, exception handling, instance postprocessing) behind @ExtendWith — the same mechanism MockitoExtension and SpringExtension use — from JUnit in Action, Third Edition, Ch. 14.",
@@ -163,6 +169,7 @@
   {
     "slug": "test-doubles-stubs-and-mocking",
     "id": 5,
+    "session": "Test Doubles and Mocking",
     "category": "Java",
     "title": "Test Doubles: Stubs and Mocking",
     "summary": "Stubs vs. mocks as two strategies for faking a collaborator, and how to create and verify mocks with Mockito — from JUnit in Action, Third Edition, Ch. 7–8.",
@@ -194,6 +201,7 @@
   {
     "slug": "spring-testcontext-and-springextension",
     "id": 8,
+    "session": "Spring and Database Testing",
     "category": "Spring",
     "title": "Testing Spring with SpringExtension",
     "summary": "Loading a Spring ApplicationContext into a JUnit 5 test with @ExtendWith(SpringExtension.class) and @ContextConfiguration, injecting beans via @Autowired — with a note on today's @SpringJUnitConfig shortcut, from JUnit in Action, Third Edition, Ch. 16.",
@@ -220,6 +228,7 @@
   {
     "slug": "spring-boot-testing",
     "id": 9,
+    "session": "Spring and Database Testing",
     "category": "Spring",
     "title": "Testing Spring Boot Applications",
     "summary": "Bootstrapping a full application context with @SpringBootTest — component scanning, auto-configuration, and bean autowiring — plus today's faster test slices (@WebMvcTest, @DataJpaTest) and the @MockBean→@MockitoBean change, from JUnit in Action, Third Edition, Ch. 17.",
@@ -251,6 +260,7 @@
   {
     "slug": "spring-rest-api-testing-mockmvc",
     "id": 10,
+    "session": "Spring and Database Testing",
     "category": "Spring",
     "title": "Testing a REST API with MockMvc",
     "summary": "Driving a Spring REST controller through MockMvc — simulated HTTP requests, status/content-type/jsonPath assertions, and a mocked data layer — with today's @WebMvcTest slice, @MockitoBean (replacing @MockBean), and the Spring 6 NestedServletException change, from JUnit in Action, Third Edition, Ch. 18.",
@@ -287,6 +297,7 @@
   {
     "slug": "testing-jdbc-and-spring-jdbc",
     "id": 11,
+    "session": "Spring and Database Testing",
     "category": "Spring",
     "title": "Testing JDBC and Spring JDBC",
     "summary": "Testing data-access code against an in-memory database — from raw JDBC (Connection/PreparedStatement/ResultSet) to Spring's JdbcTemplate/NamedParameterJdbcTemplate — with notes on obsolete Class.forName driver loading, injected JdbcTemplate over JdbcDaoSupport, and the @JdbcTest slice, from JUnit in Action, Third Edition, Ch. 19.1–19.3.",
@@ -318,6 +329,7 @@
   {
     "slug": "testing-jpa-hibernate",
     "id": 12,
+    "session": "Spring and Database Testing",
     "category": "Spring",
     "title": "Testing JPA and Hibernate",
     "summary": "Testing a JPA/Hibernate persistence layer — entity mapping, persistence.xml, and EntityManager queries against a test database — with the critical javax→jakarta package move (Hibernate 6 / Spring 6), the @DataJpaTest slice, and Testcontainers for real-database integration tests, from JUnit in Action, Third Edition, Ch. 19.4–19.6.",
@@ -354,6 +366,7 @@
   {
     "slug": "test-driven-development",
     "id": 13,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "Test-Driven Development",
     "summary": "The red-green-refactor cycle — write a failing test first, add the smallest code to pass, then refactor safely — driving design with JUnit 5, from JUnit in Action, Third Edition, Ch. 20.",
@@ -379,6 +392,7 @@
   {
     "slug": "bdd-with-cucumber",
     "id": 14,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "BDD with Cucumber",
     "summary": "Writing behavior specifications in business-readable Gherkin (Given/When/Then) and binding them to Java step definitions with Cucumber — with today's io.cucumber + JUnit 5 Platform setup replacing the book's obsolete info.cukes/@RunWith(Cucumber.class), from JUnit in Action, Third Edition, Ch. 21.",
@@ -409,6 +423,7 @@
   {
     "slug": "test-pyramid-strategy",
     "id": 15,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "The Test Pyramid Strategy",
     "summary": "How to distribute tests across levels — many fast unit tests at the base, fewer integration/system/acceptance tests toward the top — what to test at each level, and which tool fits each, from JUnit in Action, Third Edition, Ch. 22.",
@@ -434,6 +449,7 @@
   {
     "slug": "four-pillars-of-a-good-unit-test",
     "id": 16,
+    "session": "Writing Good Unit Tests",
     "category": "Java",
     "title": "The Four Pillars of a Good Unit Test",
     "summary": "Protection against regressions, resistance to refactoring, fast feedback, and maintainability — the four attributes that judge any automated test, and why no test can maximize all four at once.",
@@ -455,6 +471,7 @@
   {
     "slug": "testing-by-code-type",
     "id": 17,
+    "session": "Principles, Strategy and End-to-End",
     "category": "Java",
     "title": "Testing by Code Type: The Four Quadrants",
     "summary": "A map of production code by complexity/domain significance and collaborator count — where unit testing pays off best, where it's a waste, and how the Humble Object pattern fixes the code that's genuinely hard to test.",
@@ -475,6 +492,7 @@
   {
     "slug": "classical-vs-london-schools",
     "id": 18,
+    "session": "Test Doubles and Mocking",
     "category": "Java",
     "title": "Classical vs. London Schools of Unit Testing",
     "summary": "Two genuinely different definitions of test \"isolation\" — mock every collaborator (London) vs. mock only shared/volatile dependencies (classical) — and why they disagree about what a unit even is.",
@@ -495,6 +513,7 @@
   {
     "slug": "managed-vs-unmanaged-dependencies",
     "id": 19,
+    "session": "Test Doubles and Mocking",
     "category": "Java",
     "title": "Managed vs. Unmanaged Dependencies in Integration Tests",
     "summary": "Why an integration test should hit a real database (a managed dependency) but mock an SMTP server or message bus (an unmanaged dependency) — and why mocking a managed dependency quietly breaks resistance to refactoring.",
@@ -531,7 +550,8 @@
         "type": "doc"
       }
     ],
-    "id": 20
+    "id": 20,
+    "session": "Test Doubles and Mocking"
   },
   {
     "slug": "three-styles-of-unit-testing",
@@ -556,7 +576,8 @@
         "type": "doc"
       }
     ],
-    "id": 21
+    "id": 21,
+    "session": "Writing Good Unit Tests"
   },
   {
     "slug": "functional-architecture-and-testability",
@@ -576,7 +597,8 @@
         "type": "doc"
       }
     ],
-    "id": 22
+    "id": 22,
+    "session": "Writing Good Unit Tests"
   },
   {
     "slug": "unit-testing-anti-patterns",
@@ -602,7 +624,8 @@
         "type": "doc"
       }
     ],
-    "id": 23
+    "id": 23,
+    "session": "Writing Good Unit Tests"
   },
   {
     "slug": "mocking-best-practices",
@@ -627,7 +650,8 @@
         "type": "doc"
       }
     ],
-    "id": 24
+    "id": 24,
+    "session": "Test Doubles and Mocking"
   },
   {
     "slug": "unit-test-structure-aaa-and-naming",
@@ -652,7 +676,8 @@
         "type": "doc"
       }
     ],
-    "id": 25
+    "id": 25,
+    "session": "Writing Good Unit Tests"
   },
   {
     "slug": "reusing-test-fixtures-and-parameterized-tests",
@@ -678,7 +703,8 @@
         "type": "doc"
       }
     ],
-    "id": 26
+    "id": 26,
+    "session": "JUnit 5"
   },
   {
     "slug": "database-testing-prerequisites-and-transactions",
@@ -704,7 +730,8 @@
         "type": "doc"
       }
     ],
-    "id": 27
+    "id": 27,
+    "session": "Spring and Database Testing"
   },
   {
     "slug": "database-testing-lifecycle-and-scope",
@@ -729,6 +756,7 @@
         "type": "doc"
       }
     ],
-    "id": 28
+    "id": 28,
+    "session": "Spring and Database Testing"
   }
 ]

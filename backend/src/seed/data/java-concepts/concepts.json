@@ -2,6 +2,7 @@
   {
     "slug": "iterator-vs-iterable",
     "id": 1,
+    "session": "Collection Interfaces",
     "title": "Iterator vs Iterable",
     "topic": "Collections",
     "related": [
@@ -45,6 +46,7 @@
   {
     "slug": "pattern-matching",
     "id": 2,
+    "session": "Modern Syntax",
     "title": "Pattern Matching",
     "topic": "Language Features",
     "related": [
@@ -78,6 +80,7 @@
   {
     "slug": "collection-interface",
     "id": 3,
+    "session": "Collection Interfaces",
     "title": "The Collection Interface",
     "topic": "Collections",
     "related": [
@@ -121,6 +124,7 @@
   {
     "slug": "list-interface",
     "id": 4,
+    "session": "Collection Interfaces",
     "title": "The List Interface",
     "topic": "Collections",
     "requires": ["collection-interface"],
@@ -160,6 +164,7 @@
   {
     "slug": "set-interface",
     "id": 5,
+    "session": "Collection Interfaces",
     "title": "The Set Interface",
     "topic": "Collections",
     "requires": ["collection-interface"],
@@ -204,6 +209,7 @@
   {
     "slug": "queue-interface",
     "id": 6,
+    "session": "Collection Interfaces",
     "title": "The Queue Interface",
     "topic": "Collections",
     "requires": ["collection-interface"],
@@ -243,6 +249,7 @@
   {
     "slug": "deque-interface",
     "id": 7,
+    "session": "Collection Interfaces",
     "title": "The Deque Interface",
     "topic": "Collections",
     "requires": ["queue-interface"],
@@ -282,6 +289,7 @@
   {
     "slug": "generics",
     "id": 8,
+    "session": "Types, Generics and Classes",
     "title": "Generics: Bounded Types, Wildcards, and Erasure",
     "topic": "Language Features",
     "related": [
@@ -325,6 +333,7 @@
   {
     "slug": "records-and-sealed-types",
     "id": 9,
+    "session": "Modern Syntax",
     "title": "Records and Sealed Types",
     "topic": "Language Features",
     "related": [
@@ -378,6 +387,7 @@
   {
     "slug": "comparators-and-collection-algorithms",
     "id": 10,
+    "session": "Collection Interfaces",
     "title": "Comparators and Collection Algorithms",
     "topic": "Collections",
     "related": [
@@ -426,6 +436,7 @@
   {
     "slug": "httpclient-and-java-net-http",
     "id": 11,
+    "session": "HTTP and Web",
     "title": "HttpClient: The Modern java.net.http API",
     "topic": "I/O & Networking",
     "related": [
@@ -469,6 +480,7 @@
   {
     "slug": "regular-expressions",
     "id": 12,
+    "session": "Text, Numbers, Time and Data",
     "title": "Regular Expressions with Pattern and Matcher",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -507,6 +519,7 @@
   {
     "slug": "project-valhalla",
     "id": 13,
+    "session": "Modern Syntax",
     "title": "Project Valhalla: Value Classes",
     "topic": "Language Features",
     "related": [
@@ -554,6 +567,7 @@
   {
     "slug": "lambda-expressions",
     "id": 14,
+    "session": "Lambdas, Streams and String Internals",
     "title": "Lambda Expressions",
     "topic": "Language Features",
     "related": [
@@ -612,6 +626,7 @@
   {
     "slug": "stream-api-fundamentals",
     "id": 15,
+    "session": "Lambdas, Streams and String Internals",
     "title": "Stream API Fundamentals",
     "topic": "Language Features",
     "related": [
@@ -675,6 +690,7 @@
   {
     "slug": "thread-model-legacy-vs-virtual-threads",
     "id": 16,
+    "session": "Threads and Executors",
     "title": "Thread Model: Legacy Control vs. Virtual Threads",
     "topic": "Concurrency",
     "related": [
@@ -718,6 +734,7 @@
   {
     "slug": "nio2-path-and-files-api",
     "id": 17,
+    "session": "Files and Channels",
     "title": "NIO.2: The Path and Files API",
     "topic": "I/O & Networking",
     "related": [
@@ -766,6 +783,7 @@
   {
     "slug": "io-streams-fundamentals",
     "id": 18,
+    "session": "Files and Channels",
     "title": "java.io: Streams, Closing Resources, and Serialization",
     "topic": "I/O & Networking",
     "related": [
@@ -844,6 +862,7 @@
   {
     "slug": "annotations-in-java",
     "id": 19,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Annotations: Retention, Meta-Annotations, and Reflection",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -907,6 +926,7 @@
   {
     "slug": "java-lang-essential-utility-types",
     "id": 20,
+    "session": "Reflection, Classloading and Runtime",
     "title": "java.lang Essentials: Comparable, AutoCloseable, StackWalker, ProcessBuilder",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -970,6 +990,7 @@
   {
     "slug": "jshell-repl",
     "id": 21,
+    "session": "Tooling, Logging and Security",
     "title": "JShell: The Java REPL",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -1013,6 +1034,7 @@
   {
     "slug": "sockets-and-raw-http-anatomy",
     "id": 22,
+    "session": "HTTP and Web",
     "title": "Sockets and the Raw Anatomy of an HTTP Request",
     "topic": "I/O & Networking",
     "related": [
@@ -1061,6 +1083,7 @@
   {
     "slug": "classpath-scanning-via-reflection",
     "id": 23,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Classpath Scanning via Reflection",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -1109,6 +1132,7 @@
   {
     "slug": "http-sessions-under-the-hood",
     "id": 24,
+    "session": "HTTP and Web",
     "title": "HTTP Sessions Under the Hood",
     "topic": "I/O & Networking",
     "related": [
@@ -1162,6 +1186,7 @@
   {
     "slug": "array-list",
     "id": 25,
+    "session": "Lists, Sets and Queues",
     "title": "The ArrayList Class",
     "topic": "Collections",
     "requires": ["list-interface"],
@@ -1201,6 +1226,7 @@
   {
     "slug": "linked-list",
     "id": 26,
+    "session": "Lists, Sets and Queues",
     "title": "The LinkedList Class",
     "topic": "Collections",
     "requires": ["list-interface", "deque-interface"],
@@ -1245,6 +1271,7 @@
   {
     "slug": "hash-set",
     "id": 27,
+    "session": "Lists, Sets and Queues",
     "title": "The HashSet Class",
     "topic": "Collections",
     "requires": ["set-interface"],
@@ -1284,6 +1311,7 @@
   {
     "slug": "linked-hash-set",
     "id": 28,
+    "session": "Lists, Sets and Queues",
     "title": "The LinkedHashSet Class",
     "topic": "Collections",
     "requires": ["hash-set"],
@@ -1323,6 +1351,7 @@
   {
     "slug": "tree-set",
     "id": 29,
+    "session": "Lists, Sets and Queues",
     "title": "The TreeSet Class",
     "topic": "Collections",
     "requires": ["set-interface"],
@@ -1362,6 +1391,7 @@
   {
     "slug": "priority-queue",
     "id": 30,
+    "session": "Lists, Sets and Queues",
     "title": "The PriorityQueue Class",
     "topic": "Collections",
     "requires": ["queue-interface"],
@@ -1401,6 +1431,7 @@
   {
     "slug": "array-deque",
     "id": 31,
+    "session": "Lists, Sets and Queues",
     "title": "The ArrayDeque Class",
     "topic": "Collections",
     "requires": ["deque-interface"],
@@ -1440,6 +1471,7 @@
   {
     "slug": "hash-map",
     "id": 32,
+    "session": "Maps",
     "title": "The HashMap Class",
     "topic": "Collections",
     "related": [
@@ -1478,6 +1510,7 @@
   {
     "slug": "tree-map",
     "id": 33,
+    "session": "Maps",
     "title": "The TreeMap Class",
     "topic": "Collections",
     "related": [
@@ -1516,6 +1549,7 @@
   {
     "slug": "linked-hash-map",
     "id": 34,
+    "session": "Maps",
     "title": "The LinkedHashMap Class",
     "topic": "Collections",
     "requires": ["hash-map"],
@@ -1555,6 +1589,7 @@
   {
     "slug": "weak-hash-map",
     "id": 102,
+    "session": "Maps",
     "title": "The WeakHashMap Class",
     "topic": "Collections",
     "related": [
@@ -1592,6 +1627,7 @@
   {
     "slug": "exception-handling-fundamentals",
     "id": 35,
+    "session": "Design, Errors and Serialization",
     "title": "Exception Handling Fundamentals",
     "topic": "API Design & Craft",
     "related": [
@@ -1639,6 +1675,7 @@
   {
     "slug": "concurrency-utilities-executors-and-synchronizers",
     "id": 36,
+    "session": "Threads and Executors",
     "title": "The Concurrency Utilities: Executors, Synchronizers, and Locks",
     "topic": "Concurrency",
     "related": [
@@ -1707,6 +1744,7 @@
   {
     "slug": "fork-join-framework",
     "id": 37,
+    "session": "Threads and Executors",
     "title": "The Fork/Join Framework",
     "topic": "Concurrency",
     "related": [
@@ -1808,7 +1846,8 @@
         "type": "doc"
       }
     ],
-    "id": 38
+    "id": 38,
+    "session": "Object Contracts and Immutability"
   },
   {
     "slug": "singleton-and-noninstantiable-classes",
@@ -1865,7 +1904,8 @@
         "type": "doc"
       }
     ],
-    "id": 39
+    "id": 39,
+    "session": "Object Contracts and Immutability"
   },
   {
     "slug": "equals-hashcode-and-tostring-contracts",
@@ -1908,7 +1948,8 @@
         "type": "doc"
       }
     ],
-    "id": 40
+    "id": 40,
+    "session": "Object Contracts and Immutability"
   },
   {
     "slug": "immutability-and-defensive-copying",
@@ -1955,7 +1996,8 @@
         "type": "doc"
       }
     ],
-    "id": 41
+    "id": 41,
+    "session": "Object Contracts and Immutability"
   },
   {
     "slug": "composition-over-inheritance",
@@ -2002,7 +2044,8 @@
         "type": "doc"
       }
     ],
-    "id": 42
+    "id": 42,
+    "session": "Design, Errors and Serialization"
   },
   {
     "slug": "enum-patterns-strategy-and-collections",
@@ -2049,7 +2092,8 @@
         "type": "doc"
       }
     ],
-    "id": 43
+    "id": 43,
+    "session": "Types, Generics and Classes"
   },
   {
     "slug": "varargs-pitfalls-and-safe-usage",
@@ -2096,7 +2140,8 @@
         "type": "doc"
       }
     ],
-    "id": 44
+    "id": 44,
+    "session": "Types, Generics and Classes"
   },
   {
     "slug": "parameter-validation-and-fail-fast",
@@ -2163,7 +2208,8 @@
         "type": "doc"
       }
     ],
-    "id": 45
+    "id": 45,
+    "session": "Design, Errors and Serialization"
   },
   {
     "slug": "method-overloading-and-signature-design",
@@ -2210,7 +2256,8 @@
         "type": "doc"
       }
     ],
-    "id": 46
+    "id": 46,
+    "session": "Types, Generics and Classes"
   },
   {
     "slug": "exception-design-philosophy",
@@ -2262,7 +2309,8 @@
         "type": "doc"
       }
     ],
-    "id": 47
+    "id": 47,
+    "session": "Design, Errors and Serialization"
   },
   {
     "slug": "serialization-risks-and-safer-alternatives",
@@ -2325,7 +2373,8 @@
         "type": "doc"
       }
     ],
-    "id": 48
+    "id": 48,
+    "session": "Design, Errors and Serialization"
   },
   {
     "slug": "visibility-and-safe-publication",
@@ -2382,7 +2431,8 @@
         "type": "doc"
       }
     ],
-    "id": 49
+    "id": 49,
+    "session": "Memory Model and Synchronization"
   },
   {
     "slug": "abstract-queued-synchronizer-and-custom-locks",
@@ -2439,7 +2489,8 @@
         "type": "doc"
       }
     ],
-    "id": 50
+    "id": 50,
+    "session": "Memory Model and Synchronization"
   },
   {
     "slug": "deadlock-lock-ordering-and-avoidance",
@@ -2492,7 +2543,8 @@
         "type": "doc"
       }
     ],
-    "id": 51
+    "id": 51,
+    "session": "Memory Model and Synchronization"
   },
   {
     "slug": "concurrent-collections-and-compound-actions",
@@ -2545,7 +2597,8 @@
         "type": "doc"
       }
     ],
-    "id": 52
+    "id": 52,
+    "session": "Concurrent Data and Modern Concurrency"
   },
   {
     "slug": "blocking-queues-and-producer-consumer",
@@ -2608,7 +2661,8 @@
         "type": "doc"
       }
     ],
-    "id": 53
+    "id": 53,
+    "session": "Concurrent Data and Modern Concurrency"
   },
   {
     "slug": "task-cancellation-and-interruption",
@@ -2661,7 +2715,8 @@
         "type": "doc"
       }
     ],
-    "id": 54
+    "id": 54,
+    "session": "Threads and Executors"
   },
   {
     "slug": "executor-shutdown-and-jvm-exit",
@@ -2748,7 +2803,8 @@
         "type": "doc"
       }
     ],
-    "id": 55
+    "id": 55,
+    "session": "Threads and Executors"
   },
   {
     "slug": "reducing-lock-contention",
@@ -2805,7 +2861,8 @@
         "type": "doc"
       }
     ],
-    "id": 56
+    "id": 56,
+    "session": "Memory Model and Synchronization"
   },
   {
     "slug": "configuring-thread-pool-executor",
@@ -2848,7 +2905,8 @@
         "type": "doc"
       }
     ],
-    "id": 57
+    "id": 57,
+    "session": "Threads and Executors"
   },
   {
     "slug": "javadoc-and-api-documentation",
@@ -2885,7 +2943,8 @@
         "type": "doc"
       }
     ],
-    "id": 58
+    "id": 58,
+    "session": "Tooling, Logging and Security"
   },
   {
     "slug": "java-naming-conventions",
@@ -2917,11 +2976,13 @@
         "type": "doc"
       }
     ],
-    "id": 59
+    "id": 59,
+    "session": "Tooling, Logging and Security"
   },
   {
     "slug": "structured-concurrency",
     "id": 60,
+    "session": "Concurrent Data and Modern Concurrency",
     "title": "Structured Concurrency: StructuredTaskScope",
     "topic": "Concurrency",
     "related": [
@@ -2970,6 +3031,7 @@
   {
     "slug": "scoped-values",
     "id": 61,
+    "session": "Concurrent Data and Modern Concurrency",
     "title": "Scoped Values: A Modern Replacement for ThreadLocal",
     "topic": "Concurrency",
     "related": [
@@ -3008,6 +3070,7 @@
   {
     "slug": "optional-correct-usage",
     "id": 62,
+    "session": "Design, Errors and Serialization",
     "title": "Optional: Correct Usage and the API's Own Warnings",
     "topic": "API Design & Craft",
     "related": [
@@ -3031,6 +3094,7 @@
   {
     "slug": "completablefuture-composition",
     "id": 63,
+    "session": "Threads and Executors",
     "title": "CompletableFuture: Composing Asynchronous Work",
     "topic": "Concurrency",
     "related": [
@@ -3074,6 +3138,7 @@
   {
     "slug": "var-local-type-inference",
     "id": 64,
+    "session": "Modern Syntax",
     "title": "var: Local Variable Type Inference",
     "topic": "Language Features",
     "related": [
@@ -3111,6 +3176,7 @@
   {
     "slug": "java-time-dates-and-durations",
     "id": 65,
+    "session": "Text, Numbers, Time and Data",
     "title": "java.time: Dates, Times, and Durations",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3154,6 +3220,7 @@
   {
     "slug": "text-blocks",
     "id": 66,
+    "session": "Modern Syntax",
     "title": "Text Blocks: Multi-Line String Literals",
     "topic": "Language Features",
     "related": [
@@ -3187,6 +3254,7 @@
   {
     "slug": "switch-expressions",
     "id": 67,
+    "session": "Modern Syntax",
     "title": "Switch Expressions: yield, Arrow Labels, and Exhaustiveness",
     "topic": "Language Features",
     "related": [
@@ -3220,6 +3288,7 @@
   {
     "slug": "java-platform-module-system",
     "id": 68,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "The Java Platform Module System (JPMS)",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3267,6 +3336,7 @@
   {
     "slug": "thread-stack-memory",
     "id": 69,
+    "session": "Memory Model and Synchronization",
     "title": "Thread Stack Memory: Locals, Frames, and Why It's Not Shared",
     "topic": "Concurrency",
     "related": [
@@ -3314,6 +3384,7 @@
   {
     "slug": "json-processing-in-java",
     "id": 70,
+    "session": "Text, Numbers, Time and Data",
     "title": "JSON Processing in Java",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3387,6 +3458,7 @@
   {
     "slug": "foreign-function-and-memory-api",
     "id": 71,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "Foreign Function and Memory API",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3439,6 +3511,7 @@
   {
     "slug": "jdk-builtin-http-server",
     "id": 72,
+    "session": "HTTP and Web",
     "title": "The JDK's Built-in HTTP Server",
     "topic": "I/O & Networking",
     "related": [
@@ -3501,6 +3574,7 @@
   {
     "slug": "multi-client-servers-and-unix-domain-sockets",
     "id": 73,
+    "session": "HTTP and Web",
     "title": "Multi-Client Servers and Unix Domain Sockets",
     "topic": "I/O & Networking",
     "related": [
@@ -3563,6 +3637,7 @@
   {
     "slug": "resource-bundles-and-locale",
     "id": 74,
+    "session": "Text, Numbers, Time and Data",
     "title": "Resource Bundles and Locale",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3615,6 +3690,7 @@
   {
     "slug": "exact-arithmetic-with-bigdecimal-and-biginteger",
     "id": 75,
+    "session": "Text, Numbers, Time and Data",
     "title": "Exact Arithmetic with BigDecimal and BigInteger",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3658,6 +3734,7 @@
   {
     "slug": "vector-api-simd-arithmetic",
     "id": 76,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "Vector API: Explicit SIMD Arithmetic",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3705,6 +3782,7 @@
   {
     "slug": "method-handles-and-runtime-class-generation",
     "id": 77,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Method Handles and Runtime Class Generation",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -3782,6 +3860,7 @@
   {
     "slug": "nested-and-inner-classes",
     "id": 78,
+    "session": "Types, Generics and Classes",
     "title": "Nested and Inner Classes",
     "topic": "Language Features",
     "related": [
@@ -3834,6 +3913,7 @@
   {
     "slug": "flexible-constructor-bodies",
     "id": 79,
+    "session": "Modern Syntax",
     "title": "Flexible Constructor Bodies",
     "topic": "Language Features",
     "related": [
@@ -3876,6 +3956,7 @@
   {
     "slug": "default-static-private-interface-methods",
     "id": 80,
+    "session": "Types, Generics and Classes",
     "title": "Default, Static, and Private Interface Methods",
     "topic": "Language Features",
     "related": [
@@ -3943,6 +4024,7 @@
   {
     "slug": "graalvm-native-image-compilation",
     "id": 81,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "GraalVM Native Image Compilation",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4005,6 +4087,7 @@
   {
     "slug": "jlink-custom-runtime-images",
     "id": 82,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "jlink and jdeps: Custom Runtime Images",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4052,6 +4135,7 @@
   {
     "slug": "logging-in-java",
     "id": 83,
+    "session": "Tooling, Logging and Security",
     "title": "Logging in Java: SLF4J, Logback, and java.util.logging",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4109,6 +4193,7 @@
   {
     "slug": "data-oriented-programming",
     "id": 84,
+    "session": "Design, Errors and Serialization",
     "title": "Data-Oriented Programming",
     "topic": "API Design & Craft",
     "related": [
@@ -4166,6 +4251,7 @@
   {
     "slug": "uri-url-urn",
     "id": 85,
+    "session": "HTTP and Web",
     "title": "URI, URL, and URN",
     "topic": "I/O & Networking",
     "related": [
@@ -4213,6 +4299,7 @@
   {
     "slug": "sequenced-collections",
     "id": 86,
+    "session": "Collection Interfaces",
     "title": "Sequenced Collections: SequencedCollection, SequencedSet, SequencedMap",
     "topic": "Collections",
     "requires": ["list-interface", "set-interface"],
@@ -4267,6 +4354,7 @@
   {
     "slug": "runtime-environment-introspection",
     "id": 87,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Runtime Environment Introspection: System Properties, Environment Variables, and Runtime",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4324,6 +4412,7 @@
   {
     "slug": "string-pool-and-interning",
     "id": 88,
+    "session": "Lambdas, Streams and String Internals",
     "title": "The String Pool and Interning",
     "topic": "Language Features",
     "related": [
@@ -4361,6 +4450,7 @@
   {
     "slug": "scanner-class",
     "id": 89,
+    "session": "Text, Numbers, Time and Data",
     "title": "The Scanner Class",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4393,6 +4483,7 @@
   {
     "slug": "formatter-and-format-specifiers",
     "id": 90,
+    "session": "Text, Numbers, Time and Data",
     "title": "Formatter and Format Specifiers",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4430,6 +4521,7 @@
   {
     "slug": "java-memory-model-and-happens-before",
     "id": 91,
+    "session": "Memory Model and Synchronization",
     "title": "The Java Memory Model: Happens-Before and Reordering",
     "topic": "Concurrency",
     "related": [
@@ -4467,6 +4559,7 @@
   {
     "slug": "classloading-and-the-delegation-model",
     "id": 92,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Classloading: The Delegation Model and Custom Class Loaders",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4494,6 +4587,7 @@
   {
     "slug": "cryptography-in-java-security-apis",
     "id": 93,
+    "session": "Tooling, Logging and Security",
     "title": "Cryptography in Java: MessageDigest, Cipher, and KeyStore",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4546,6 +4640,7 @@
   {
     "slug": "nio-channels-and-buffers",
     "id": 94,
+    "session": "Files and Channels",
     "title": "NIO Channels and Buffers: The Non-Blocking I/O Model",
     "topic": "I/O & Networking",
     "related": [
@@ -4593,6 +4688,7 @@
   {
     "slug": "stream-collectors-and-parallel-streams",
     "id": 95,
+    "session": "Lambdas, Streams and String Internals",
     "title": "Stream Collectors and Parallel Streams",
     "topic": "Language Features",
     "related": [
@@ -4635,6 +4731,7 @@
   {
     "slug": "weak-soft-and-phantom-references",
     "id": 96,
+    "session": "Reflection, Classloading and Runtime",
     "title": "Weak, Soft, and Phantom References: GC-Aware Reference Types",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4692,6 +4789,7 @@
   {
     "slug": "threadlocal-and-inheritable-threadlocal",
     "id": 97,
+    "session": "Concurrent Data and Modern Concurrency",
     "title": "ThreadLocal: Per-Thread State, Leaks, and InheritableThreadLocal",
     "topic": "Concurrency",
     "related": [
@@ -4719,6 +4817,7 @@
   {
     "slug": "object-clone-and-cloneable",
     "id": 98,
+    "session": "Object Contracts and Immutability",
     "title": "Object.clone() and the Cloneable Anti-Pattern",
     "topic": "API Design & Craft",
     "related": [
@@ -4756,6 +4855,7 @@
   {
     "slug": "unicode-code-points-and-surrogate-pairs",
     "id": 99,
+    "session": "Lambdas, Streams and String Internals",
     "title": "Unicode Code Points and Surrogate Pairs in String",
     "topic": "Language Features",
     "related": [
@@ -4783,6 +4883,7 @@
   {
     "slug": "arrays-sorting-searching-and-comparison",
     "id": 100,
+    "session": "Text, Numbers, Time and Data",
     "title": "Arrays: Sorting, Searching, and Deep Comparison",
     "topic": "Core APIs & Tooling",
     "related": [
@@ -4825,6 +4926,7 @@
   {
     "slug": "varhandle-lock-free-field-access",
     "id": 101,
+    "session": "Memory Model and Synchronization",
     "title": "VarHandle: Lock-Free Access to Ordinary Fields",
     "topic": "Concurrency",
     "related": [
@@ -4867,6 +4969,7 @@
   {
     "slug": "equals-vs-compareto",
     "id": 104,
+    "session": "Object Contracts and Immutability",
     "title": "equals() vs compareTo()",
     "topic": "API Design & Craft",
     "related": [
@@ -4914,6 +5017,7 @@
   {
     "slug": "project-leyden-aot-cache",
     "id": 103,
+    "session": "Modules, Packaging and Native Delivery",
     "title": "Project Leyden: AOT Cache, Warm-up and Startup",
     "topic": "Core APIs & Tooling",
     "related": [

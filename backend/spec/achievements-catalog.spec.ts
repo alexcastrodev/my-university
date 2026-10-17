@@ -156,6 +156,55 @@ describe('buildCatalog: categories and merged topics', () => {
   });
 });
 
+describe('buildCatalog: editorial sessions', () => {
+  const c = (slug: string, topic: string, session?: string) => ({ slug, topic, category: 'One', session });
+  const spring: SeedInput = {
+    ...seed,
+    concepts: {
+      'spring-concepts': [
+        c('a1', 'Left', 'First'), c('a2', 'Right', 'First'), c('a3', 'Left', 'First'),
+        c('b1', 'Left', 'Second'), c('b2', 'Right', 'Second'), c('b3', 'Right', 'Second'),
+        c('o1', 'Other'),
+      ],
+    },
+  };
+  const bySession = (extra: Partial<Extract<TrackManifest['source'], { kind: 'concepts' }>>, sessions?: TrackManifest['sessions']): TrackManifest => ({
+    trackId: T1, title: 'Spring', status: 'active',
+    source: { kind: 'concepts', module: 'spring-concepts', groupBy: 'session', category: 'One', ...extra }, sessions,
+  });
+
+  it('refuses a concept that has no session, so a new concept must be placed', () => {
+    const built = buildCatalog(spring, [bySession({ topic: undefined }, [
+      { sessionId: S1, title: 'First', label: 'First' },
+      { sessionId: S2, title: 'Second', label: 'Second' },
+    ])]);
+    // the concept with no session is a label of its own: a new concept must be placed, not ignored
+    expect(built.problems.map((p) => p.message)).toEqual(['1 unit(s) under label "" belong to no session (new topic without a manifest entry?)']);
+    expect(built.tracks[0].valid).toBe(false);
+  });
+
+  it('builds a track of two sessions from the field, and narrows a track by topic', () => {
+    const clean: SeedInput = { ...spring, concepts: { 'spring-concepts': spring.concepts['spring-concepts'].filter((x) => x.slug !== 'o1') } };
+    const built = buildCatalog(clean, [bySession({}, [
+      { sessionId: S1, title: 'First', label: 'First' },
+      { sessionId: S2, title: 'Second', label: 'Second' },
+    ])]);
+    expect(built.problems).toEqual([]);
+    expect(built.tracks[0].sessions.map((s) => s.units.map((u) => u.sourceId))).toEqual([
+      ['spring:a1', 'spring:a2', 'spring:a3'], ['spring:b1', 'spring:b2', 'spring:b3'],
+    ]);
+    const left = buildCatalog(clean, [bySession({ topic: 'Left' }, [{ sessionId: S1, title: 'First', label: 'First' }, { sessionId: S2, title: 'Second', label: 'Second' }])]);
+    expect(left.tracks[0].units.map((u) => u.sourceId)).toEqual(['spring:a1', 'spring:a3', 'spring:b1']);
+  });
+
+  it('allows a concepts track with no sessions: a trophy only, and every concept counts', () => {
+    const built = buildCatalog(spring, [bySession({}, undefined)]);
+    expect(built.problems).toEqual([]);
+    expect(built.tracks[0]).toMatchObject({ valid: true, sessions: [] });
+    expect(built.tracks[0].units).toHaveLength(7);
+  });
+});
+
 describe('evaluateAwards', () => {
   const alpha = ['a', 'b', 'c'].map(k);
   const beta = ['d', 'e', 'f'].map(k);
@@ -370,12 +419,13 @@ describe('published catalog (real seeds)', () => {
     for (const u of units.filter((x) => x.sourceType === 'lesson')) expect(u.sourceId).toMatch(/^j(21|25)-\d+-\d+[a-z]?$/);
   });
 
-  it('the merge-only waves cover every concept of their module, in sessions of 3 to 12 (no warning)', () => {
+  it('waves B to E cover every concept of their module, in sessions of 3 to 12 (no warning)', () => {
     const seeds = loadSeed(MANIFEST);
     const waves: [string, string | undefined, number][] = [
       ['dotnet-concepts', undefined, 81], ['csharp-concepts', undefined, 74], ['jvm-concepts', undefined, 19],
       ['quarkus-concepts', undefined, 16], ['ruby-concepts', undefined, 29], ['rubyonrails-concepts', undefined, 19],
-      ['spring-concepts', 'Spring Boot', 35],
+      ['spring-concepts', undefined, 97], ['system-design-concepts', undefined, 82], ['testing-concepts', undefined, 28],
+      ['algorithms-concepts', undefined, 63], ['java-concepts', undefined, 104], ['database-concepts', undefined, 136],
     ];
     for (const [module, category, expected] of waves) {
       const tracks = real.tracks.filter((t) => t.source.kind === 'concepts' && t.source.module === module);
