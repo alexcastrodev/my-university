@@ -157,7 +157,7 @@ export class XpService {
     this.announced.add(key);
     const badge = award.type === 'badge';
     this.toast.show(award.exp, {
-      icon: badge ? '🏅' : '🏆',
+      icon: badge ? 'badge' : 'trophy',
       label: badge
         ? $localize`:@@xpToast.badge:Badge unlocked: ${award.title}:title:`
         : $localize`:@@xpToast.trophy:Trophy unlocked: ${award.title}:title:`,
