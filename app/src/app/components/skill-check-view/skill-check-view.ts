@@ -52,16 +52,11 @@ export class SkillCheckView implements OnInit {
     this.examService.getExam(this.examId()).subscribe({
       next: (exam) => {
         this.passingScore.set(exam.passingScore);
-        this.examService.getQuestions(this.examId(), 10, this.topic()).subscribe({
-          next: (qs) => {
-            this.questions.set(qs);
-            this.examService.startAttempt(this.examId()).subscribe({
-              next: (attempt) => {
-                this.attemptId.set(attempt.id);
-                this.state.set('ready');
-              },
-              error: () => this.state.set('ready'),
-            });
+        this.examService.startAttempt(this.examId(), { limit: 10, topic: this.topic() }).subscribe({
+          next: (attempt) => {
+            this.questions.set(attempt.questions);
+            this.attemptId.set(attempt.id);
+            this.state.set('ready');
           },
           error: () => this.state.set('ready'),
         });

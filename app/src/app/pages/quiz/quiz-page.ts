@@ -38,11 +38,13 @@ export class QuizPage implements OnInit, OnDestroy {
     this.examService.getExam(id).subscribe({
       next: (exam) => {
         this.timeLeft.set(exam.durationMinutes * 60);
-        this.examService.startAttempt(id).subscribe((attempt) => {
-          this.attemptId.set(attempt.id);
-        });
-        this.examService.getQuestions(id, exam.questionCount).subscribe({
-          next: (qs) => { this.questions.set(qs); this.loading.set(false); this.startTimer(); },
+        this.examService.startAttempt(id, { limit: exam.questionCount }).subscribe({
+          next: (attempt) => {
+            this.attemptId.set(attempt.id);
+            this.questions.set(attempt.questions);
+            this.loading.set(false);
+            this.startTimer();
+          },
           error: () => this.loading.set(false),
         });
       },

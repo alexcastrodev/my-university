@@ -237,6 +237,59 @@ describe('POST /exam/attempts/:id/submit', () => {
   });
 });
 
+describe('served attempts: the server decides which questions count', () => {
+  const start = async (body: object, cookie?: string) =>
+    json<any>(await post(`/exam/${EXAM_ID}/attempts`, body, cookie ? { Cookie: cookie } : {}));
+  const hasSkillCheckXp = async (cookie: string) =>
+    (await json<any>(await get('/xp/summary', { Cookie: cookie }))).breakdown.some(
+      (b: any) => b.sourceType === 'skill-check',
+    );
+
+  it('returns the drawn questions without the answer key', async () => {
+    const attempt = await start({ serve: true, limit: 3 });
+    expect(attempt.questions).toHaveLength(3);
+    for (const q of attempt.questions) {
+      expect(q.correctKeys).toBeUndefined();
+      expect(q.explanation).toBeUndefined();
+    }
+  });
+
+  it('grades exactly the served questions, whatever questionIds the client reports', async () => {
+    const attempt = await start({ serve: true, limit: 4 });
+    const foreign = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=1`));
+    const result = await json<any>(
+      await post(`/exam/attempts/${attempt.id}/submit`, {
+        answers: {},
+        questionIds: [attempt.questions[0].id, foreign[0].id],
+      }),
+    );
+    expect(result.total).toBe(4);
+    expect(result.review.map((r: any) => r.id)).toEqual(attempt.questions.map((q: any) => q.id));
+  });
+
+  it('404s when the exam does not exist', async () => {
+    const res = await post('/exam/no-such-exam/attempts', { serve: true });
+    expect(res.status).toBe(404);
+  });
+
+  it('pays XP only for a served attempt', async () => {
+    const served = await login(`served-xp-${Date.now()}`);
+    const legacy = await login(`legacy-xp-${Date.now()}`);
+
+    const a = await start({ serve: true, limit: 2 }, served.cookie);
+    await post(`/exam/attempts/${a.id}/submit`, { answers: {} }, { Cookie: served.cookie });
+    expect(await hasSkillCheckXp(served.cookie)).toBe(true);
+
+    const b = await start({}, legacy.cookie);
+    const ids = (await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=2`))).map((q) => q.id);
+    const result = await json<any>(
+      await post(`/exam/attempts/${b.id}/submit`, { answers: {}, questionIds: ids }, { Cookie: legacy.cookie }),
+    );
+    expect(result.total).toBe(2); // still graded...
+    expect(await hasSkillCheckXp(legacy.cookie)).toBe(false); // ...but never paid
+  });
+});
+
 describe('GET /exam/:examId/attempts/:id', () => {
   it('returns the persisted review for a submitted attempt', async () => {
     const questions = await json<any[]>(await get(`/exam/${EXAM_ID}/questions?limit=3`));

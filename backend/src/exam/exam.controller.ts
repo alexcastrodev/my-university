@@ -41,8 +41,23 @@ export class ExamController {
   }
 
   @Post(':examId/attempts')
-  start(@Param('examId') examId: string, @OptionalUserId() userId: number | null) {
-    return this.service.startAttempt(examId, userId ?? undefined);
+  start(
+    @Param('examId') examId: string,
+    @OptionalUserId() userId: number | null,
+    @Body('serve') serve?: unknown,
+    @Body('topic') topic?: unknown,
+    @Body('limit') limit?: unknown,
+  ) {
+    return this.service.startAttempt(
+      examId,
+      userId ?? undefined,
+      serve === true
+        ? {
+            topic: typeof topic === 'string' && topic ? topic : undefined,
+            limit: typeof limit === 'number' ? limit : undefined,
+          }
+        : undefined,
+    );
   }
 
   @Post('attempts/:id/submit')
