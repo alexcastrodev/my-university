@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, MoreThanOrEqual, Repository } from 'typeorm';
+import { EntityManager, In, MoreThanOrEqual, Repository } from 'typeorm';
 import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
 import { getCatalog, getUnitTitles } from '../achievements/load-seed';
 import {
@@ -78,8 +78,9 @@ export class XpService {
     sourceType: XpSourceType,
     sourceId: string,
     exp: number,
+    repo: Repository<UserXpEntry> = this.repo,
   ): Promise<void> {
-    await this.repo
+    await repo
       .createQueryBuilder()
       .insert()
       .into(UserXpEntry)
@@ -88,12 +89,33 @@ export class XpService {
       .execute();
   }
 
-  async grantLessonXp(userId: number, lessonId: string): Promise<void> {
-    await this.awardOnce(userId, 'lesson', lessonId, 10);
+  /**
+   * Records a completed unit and, in the same transaction, every award that completes with it. The
+   * per-user lock serializes this with any other grant or sync of the same user, so the returned awards
+   * are exactly the ones this call inserted. `within` runs first in the transaction (a lesson's
+   * `Progress` row), so an error anywhere undoes the unit, the progress and the awards together.
+   */
+  private grantUnitXp(
+    userId: number,
+    sourceType: UnitSourceType,
+    sourceId: string,
+    within?: (manager: EntityManager) => Promise<void>,
+  ): Promise<AwardView[]> {
+    return this.repo.manager.transaction(async (manager) => {
+      await manager.query('SELECT pg_advisory_xact_lock($1)', [userId]);
+      await within?.(manager);
+      await this.awardOnce(userId, sourceType, sourceId, 10, manager.getRepository(UserXpEntry));
+      return this.recordPendingAwards(userId, manager.getRepository(UserXpEntry));
+    });
   }
 
-  async grantConceptReadXp(userId: number, slug: string): Promise<void> {
-    await this.awardOnce(userId, 'concept-read', slug, 10);
+  /** A lesson completed. `within` is the progress write that belongs to the same transaction. */
+  grantLessonXp(userId: number, lessonId: string, within?: (manager: EntityManager) => Promise<void>): Promise<AwardView[]> {
+    return this.grantUnitXp(userId, 'lesson', lessonId, within);
+  }
+
+  grantConceptReadXp(userId: number, slug: string): Promise<AwardView[]> {
+    return this.grantUnitXp(userId, 'concept-read', slug);
   }
 
   async grantEpisodeWatchedXp(userId: number, slug: string): Promise<void> {
@@ -289,8 +311,8 @@ export class XpService {
   }
 
   /** Awards already recorded for a user, newest first. Retired and disabled ones are included: an award is permanent. */
-  private async awardRows(userId: number) {
-    const rows = await this.repo.find({
+  private async awardRows(userId: number, repo: Repository<UserXpEntry> = this.repo) {
+    const rows = await repo.find({
       where: { userId, sourceType: In(AWARD_TYPES) },
       select: { sourceType: true, sourceId: true, exp: true, updatedAt: true },
       order: { updatedAt: 'DESC', id: 'DESC' },
@@ -299,8 +321,8 @@ export class XpService {
   }
 
   /** One query for everything a user has completed: unit key -> when. The input of every award decision. */
-  private async unitDates(userId: number): Promise<Map<string, Date>> {
-    const rows = await this.repo.find({
+  private async unitDates(userId: number, repo: Repository<UserXpEntry> = this.repo): Promise<Map<string, Date>> {
+    const rows = await repo.find({
       where: { userId, sourceType: In(UNIT_TYPES) },
       select: { sourceType: true, sourceId: true, updatedAt: true },
     });
@@ -332,9 +354,9 @@ export class XpService {
   }
 
   /** Awards the user has earned but that are not recorded yet. Never writes. */
-  private async pendingAwards(userId: number) {
+  private async pendingAwards(userId: number, repo: Repository<UserXpEntry> = this.repo) {
     const catalog = getCatalog();
-    const [existing, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    const [existing, dates] = await Promise.all([this.awardRows(userId, repo), this.unitDates(userId, repo)]);
     const pending = evaluateAwards(catalog, dates, new Set(existing.map((a) => `${a.sourceType}:${a.sourceId}`)));
     return { catalog, pending };
   }
@@ -355,11 +377,20 @@ export class XpService {
    * latest unit that completed it, so it never creates an activity day that did not exist.
    */
   async syncAchievements(userId: number): Promise<AwardView[]> {
-    const { catalog, pending } = await this.pendingAwards(userId);
+    return this.repo.manager.transaction(async (manager: EntityManager) => {
+      // One sync per user at a time: the decision and the inserts see the same units, and a second
+      // call waits and then finds nothing left to record.
+      await manager.query('SELECT pg_advisory_xact_lock($1)', [userId]);
+      return this.recordPendingAwards(userId, manager.getRepository(UserXpEntry));
+    });
+  }
 
+  /** The body of a sync; the caller holds the user's lock and owns the transaction. */
+  private async recordPendingAwards(userId: number, repo: Repository<UserXpEntry>): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId, repo);
     const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
     for (const award of pending) {
-      const result = await this.repo
+      const result = await repo
         .createQueryBuilder()
         .insert()
         .into(UserXpEntry)

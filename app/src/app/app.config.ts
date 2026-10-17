@@ -3,6 +3,7 @@ import { provideRouter, withComponentInputBinding, withInMemoryScrolling, withNa
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { awardsInterceptor } from './interceptors/awards.interceptor';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { absoluteUrlInterceptor } from './interceptors/ssr-absolute-url.interceptor';
 import { provideClientHydration, withEventReplay, withHttpTransferCacheOptions, withNoIncrementalHydration } from '@angular/platform-browser';
@@ -18,7 +19,7 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
       withNavigationErrorHandler(recoverFromChunkLoadError),
     ),
-    provideHttpClient(withInterceptors([credentialsInterceptor, absoluteUrlInterceptor])),
+    provideHttpClient(withInterceptors([credentialsInterceptor, absoluteUrlInterceptor, awardsInterceptor])),
     provideClientHydration(
       withEventReplay(),
       withNoIncrementalHydration(),

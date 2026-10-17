@@ -21,7 +21,7 @@ interface Progress {
 interface Achievements { awards: Award[]; progress: Progress[] }
 
 /** Marks one unit done through the same endpoint the app uses for it. */
-async function complete(cookie: string, t: CatalogTrack, unit: Unit): Promise<void> {
+async function complete(cookie: string, t: CatalogTrack, unit: Unit): Promise<Award[]> {
   const headers = { Cookie: cookie };
   let res: Response;
   if (unit.sourceType === 'lesson') {
@@ -34,10 +34,14 @@ async function complete(cookie: string, t: CatalogTrack, unit: Unit): Promise<vo
     res = await put(`/kubernetes-concepts/${unit.sourceId.slice('kubernetes:'.length)}/read`, {}, headers);
   }
   expect(res.status, `completing ${unit.sourceId}`).toBe(200);
+  return (await json<{ newAwards: Award[] }>(res)).newAwards;
 }
 
+/** Completes the units in order and returns every award the completions handed back, in order. */
 const completeAll = async (cookie: string, t: CatalogTrack, units: Unit[]) => {
-  for (const unit of units) await complete(cookie, t, unit);
+  const awards: Award[] = [];
+  for (const unit of units) awards.push(...(await complete(cookie, t, unit)));
+  return awards;
 };
 const sync = async (cookie: string) =>
   (await json<{ newAwards: Award[] }>(await post('/xp/achievements/sync', {}, { Cookie: cookie }))).newAwards;
@@ -64,14 +68,14 @@ describe('GET /xp/achievements', () => {
     expect(body.progress.some((p) => p.trackId === j21.trackId)).toBe(true);
   });
 
-  it('never grants anything: reading is not writing', async () => {
+  it('never grants anything by reading: only a completion does', async () => {
     const cookie = await user('ach-readonly');
     const session = k8s.sessions[0];
     await completeAll(cookie, k8s, session.units);
     const before = await xpTotal(cookie);
-    for (let i = 0; i < 3; i++) expect((await achievements(cookie)).awards).toEqual([]);
+    for (let i = 0; i < 3; i++) expect((await achievements(cookie)).awards.map((a) => a.id)).toEqual([session.sessionId]);
     expect(await xpTotal(cookie)).toBe(before);
-    expect(before).toBe(session.units.length * 10);
+    expect(before).toBe(session.units.length * (10 + AWARD_XP.badgePerUnit));
   });
 
   it('suggests the first unread unit in editorial order, whatever order the user read in, and never blocks', async () => {
@@ -93,16 +97,15 @@ describe('GET /xp/achievements', () => {
 });
 
 describe('POST /xp/achievements/sync: badges', () => {
-  it('awards a completed session once, worth 2 XP per unit, dated by the last unit, and adds it to the XP total', async () => {
+  it('awards a completed session on its last unit, once, worth 2 XP per unit, dated by the last unit, and adds it to the XP total', async () => {
     const cookie = await user('ach-badge');
     const session = k8s.sessions[0];
     const n = session.units.length;
-    await completeAll(cookie, k8s, session.units);
+    const awards = await completeAll(cookie, k8s, session.units);
 
     const history = await json<{ sourceId: string; updatedAt: string }[]>(await get('/xp/history', { Cookie: cookie }));
     const lastUnit = Math.max(...history.filter((h) => session.units.some((u) => u.sourceId === h.sourceId)).map((h) => Date.parse(h.updatedAt)));
 
-    const awards = await sync(cookie);
     expect(awards).toHaveLength(1);
     expect(awards[0]).toMatchObject({ type: 'badge', id: session.sessionId, title: session.title, exp: n * AWARD_XP.badgePerUnit, retired: false, passed: false });
     // the award takes the day of an existing unit, so it cannot invent an activity day
@@ -115,30 +118,49 @@ describe('POST /xp/achievements/sync: badges', () => {
     expect(state.progress.find((p) => p.trackId === k8s.trackId)!.sessions[0]).toMatchObject({ complete: true, awarded: true });
   });
 
+  it('returns the awards a completion earned, and only those, in the completion response itself', async () => {
+    const cookie = await user('ach-inline');
+    const session = k8s.sessions[0];
+    const slugOf = (u: Unit) => u.sourceId.slice('kubernetes:'.length);
+    const read = async (u: Unit) => json<{ newAwards: Award[] }>(await put(`/kubernetes-concepts/${slugOf(u)}/read`, {}, { Cookie: cookie }));
+
+    const early = session.units.slice(0, -1);
+    for (const u of early) expect((await read(u)).newAwards).toEqual([]);
+    const last = session.units[session.units.length - 1];
+    const done = await read(last);
+    expect(done.newAwards).toHaveLength(1);
+    expect(done.newAwards[0]).toMatchObject({ type: 'badge', id: session.sessionId, exp: session.units.length * AWARD_XP.badgePerUnit });
+
+    expect((await read(last)).newAwards).toEqual([]);
+    expect(await sync(cookie)).toEqual([]);
+    expect(await xpTotal(cookie)).toBe(session.units.length * (10 + AWARD_XP.badgePerUnit));
+  });
+
+  it('does not hand one request the awards another request inserted', async () => {
+    const cookie = await user('ach-race');
+    const session = k8s.sessions[0];
+    const slugOf = (u: Unit) => u.sourceId.slice('kubernetes:'.length);
+    const units = session.units;
+    for (const u of units.slice(0, -2)) await put(`/kubernetes-concepts/${slugOf(u)}/read`, {}, { Cookie: cookie });
+
+    const last2 = units.slice(-2);
+    const results = await Promise.all(last2.map(async (u) => json<{ newAwards: Award[] }>(await put(`/kubernetes-concepts/${slugOf(u)}/read`, {}, { Cookie: cookie }))));
+    expect(results.flatMap((r) => r.newAwards)).toHaveLength(1);
+  });
+
   it('does not change the streak or add a second activity day', async () => {
     const cookie = await user('ach-streak');
     await completeAll(cookie, k8s, k8s.sessions[0].units);
     const before = await json<{ current: number; longest: number }>(await get('/xp/streak', { Cookie: cookie }));
-    await sync(cookie);
+    expect(await sync(cookie)).toEqual([]);
     expect(await json(await get('/xp/streak', { Cookie: cookie }))).toEqual(before);
     expect(before).toEqual({ current: 1, longest: 1 });
-  });
-
-  it('records each award exactly once when syncs run at the same time', async () => {
-    const cookie = await user('ach-race');
-    const session = k8s.sessions[1];
-    await completeAll(cookie, k8s, session.units);
-    const results = await Promise.all([sync(cookie), sync(cookie), sync(cookie), sync(cookie)]);
-    expect(results.flat()).toHaveLength(1);
-    expect(await xpTotal(cookie)).toBe(session.units.length * (10 + AWARD_XP.badgePerUnit));
-    expect((await achievements(cookie)).awards).toHaveLength(1);
   });
 
   it('awards an OCP module badge from its lessons, labelled passed because it ends in a skill check', async () => {
     const cookie = await user('ach-ocp');
     const session = j25.sessions[0];
-    await completeAll(cookie, j25, session.units);
-    const awards = await sync(cookie);
+    const awards = await completeAll(cookie, j25, session.units);
     expect(awards).toHaveLength(1);
     expect(awards[0]).toMatchObject({ type: 'badge', id: session.sessionId, exp: session.units.length * AWARD_XP.badgePerUnit, passed: true });
     const progress = (await achievements(cookie)).progress.find((p) => p.trackId === j25.trackId)!;
@@ -150,8 +172,7 @@ describe('POST /xp/achievements/sync: badges', () => {
 describe('POST /xp/achievements/sync: trophies', () => {
   it('awards ten badges then the trophy when a whole track is done, and nothing more on repeat', async () => {
     const cookie = await user('ach-track');
-    await completeAll(cookie, k8s, k8s.units);
-    const awards = await sync(cookie);
+    const awards = await completeAll(cookie, k8s, k8s.units);
     expect(awards.map((a) => a.type)).toEqual([...Array(10).fill('badge'), 'trophy']);
     expect(awards[10]).toMatchObject({ id: k8s.trackId, exp: k8s.sessions.length * AWARD_XP.trophyPerModule, retired: false });
     const bonus = k8s.units.length * AWARD_XP.badgePerUnit + k8s.sessions.length * AWARD_XP.trophyPerModule;
@@ -163,8 +184,7 @@ describe('POST /xp/achievements/sync: trophies', () => {
 
   it('gives a track of direct units a trophy only, worth 5 XP', async () => {
     const cookie = await user('ach-cc');
-    await completeAll(cookie, ccSmall, ccSmall.units);
-    const awards = await sync(cookie);
+    const awards = await completeAll(cookie, ccSmall, ccSmall.units);
     expect(awards).toHaveLength(1);
     expect(awards[0]).toMatchObject({ type: 'trophy', id: ccSmall.trackId, title: ccSmall.title, exp: AWARD_XP.trophyPerModule });
     expect(await xpTotal(cookie)).toBe(ccSmall.units.length * 10 + AWARD_XP.trophyPerModule);
@@ -172,8 +192,7 @@ describe('POST /xp/achievements/sync: trophies', () => {
 
   it('awards a trophy on any track with no per-track switch, here one that used to be off in CI', async () => {
     const cookie = await user('ach-any');
-    await completeAll(cookie, ccOff, ccOff.units);
-    const awards = await sync(cookie);
+    const awards = await completeAll(cookie, ccOff, ccOff.units);
     expect(awards).toHaveLength(1);
     expect(awards[0]).toMatchObject({ type: 'trophy', id: ccOff.trackId, exp: AWARD_XP.trophyPerModule });
     expect(await xpTotal(cookie)).toBe(ccOff.units.length * 10 + AWARD_XP.trophyPerModule);
@@ -241,12 +260,10 @@ describe('GET /xp/achievements/catalog', () => {
     const session = k8s.sessions[0];
     await completeAll(cookie, k8s, session.units);
     const before = await xpTotal(cookie);
-    const waiting = (await catalogOf(cookie)).find((t) => t.trackId === k8s.trackId)!;
-    expect(waiting.done).toBe(session.units.length);
-    expect(waiting.sessions[0]).toMatchObject({ done: session.units.length, awarded: false });
+    const entry = (await catalogOf(cookie)).find((t) => t.trackId === k8s.trackId)!;
+    expect(entry.done).toBe(session.units.length);
+    expect(entry.sessions[0]).toMatchObject({ done: session.units.length, awarded: true });
     expect(await xpTotal(cookie)).toBe(before);
-    await sync(cookie);
-    expect((await catalogOf(cookie)).find((t) => t.trackId === k8s.trackId)!.sessions[0].awarded).toBe(true);
   });
 
   it('does not show one user another user\'s progress', async () => {

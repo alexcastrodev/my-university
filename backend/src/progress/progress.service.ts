@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { LessonStatus } from '../lesson/lesson.entity';
 import { User } from '../auth/user.entity';
+import type { AwardView } from '../achievements/view';
 import { XpService } from '../xp/xp.service';
 import { Progress } from './progress.entity';
 
@@ -23,20 +24,23 @@ export class ProgressService {
     courseId: string,
     lessonId: string,
     status: LessonStatus,
-  ): Promise<Progress> {
+  ): Promise<Progress & { newAwards: AwardView[] }> {
     const userExists = await this.userRepo.existsBy({ id: userId });
     if (!userExists) throw new UnauthorizedException();
 
-    let progress = await this.repo.findOne({ where: { userId, courseId, lessonId } });
-    if (!progress) {
-      progress = this.repo.create({ userId, courseId, lessonId });
-    }
-    progress.status = status;
-    const saved = await this.repo.save(progress);
-    if (status === 'completed') {
-      await this.xpService.grantLessonXp(userId, lessonId);
-    }
-    return saved;
+    const write = async (manager: EntityManager): Promise<Progress> => {
+      const repo = manager.getRepository(Progress);
+      const progress = (await repo.findOne({ where: { userId, courseId, lessonId } })) ?? repo.create({ userId, courseId, lessonId });
+      progress.status = status;
+      return repo.save(progress);
+    };
+    if (status !== 'completed') return { ...(await write(this.repo.manager)), newAwards: [] };
+
+    let saved!: Progress;
+    const newAwards = await this.xpService.grantLessonXp(userId, lessonId, async (manager) => {
+      saved = await write(manager);
+    });
+    return { ...saved, newAwards };
   }
 
   async getMap(userId: number, courseId: string): Promise<Record<string, LessonStatus>> {

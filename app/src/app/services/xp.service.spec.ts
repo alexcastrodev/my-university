@@ -103,6 +103,23 @@ describe('XpService achievements', () => {
     expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
   });
 
+  it('announces awards received with an action once, refreshes the collection, and ignores a user who left', async () => {
+    const { service, http, toasts, currentUser } = setup();
+    service.receiveAwards(1, [badge()]);
+    service.receiveAwards(1, [badge()]);
+    await tick();
+    http.expectOne('/api/xp/achievements/sync').flush({ newAwards: [] });
+    await tick();
+    http.expectOne('/api/xp/achievements').flush(VIEW);
+    await tick();
+    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+
+    currentUser.set(user(2));
+    service.receiveAwards(1, [badge({ id: 'b2' })]);
+    http.expectNone('/api/xp/achievements/sync');
+    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+  });
+
   it('runs syncs one at a time', async () => {
     const { service, http } = setup();
     const first = service.syncAchievements(false);
