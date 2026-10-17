@@ -48,6 +48,10 @@ export class ExamAttempt {
   @Column({ default: 0 })
   total: number;
 
+  /** Ids of the questions the server served for this attempt, in order; null when the client picked them (legacy). */
+  @Column('jsonb', { nullable: true })
+  questionIds: number[] | null;
+
   @Column('jsonb')
   answers: Record<number, string[]>;
 

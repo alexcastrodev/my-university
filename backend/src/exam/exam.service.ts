@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { XpService } from '../xp/xp.service';
@@ -56,14 +56,17 @@ export class ExamService {
   }
 
   async getQuestions(examId: string, topic?: string, limit?: number): Promise<PublicQuestion[]> {
+    return (await this.sampleQuestions(examId, topic, limit)).map((q) => this.toPublic(q));
+  }
+
+  private async sampleQuestions(examId: string, topic?: string, limit?: number): Promise<Question[]> {
     const exam = await this.getExam(examId);
     const maxQuestions = exam?.questionCount ?? 50;
     const requestedLimit = Number.isFinite(limit) && limit && limit > 0 ? limit : maxQuestions;
     const questionLimit = Math.min(requestedLimit, maxQuestions);
     const qb = this.questionRepo.createQueryBuilder('q').where('q.examId = :examId', { examId });
     if (topic) qb.andWhere('q.topic = :topic', { topic });
-    const questions = await qb.orderBy('RANDOM()').limit(questionLimit).getMany();
-    return questions.map((q) => this.toPublic(q));
+    return qb.orderBy('RANDOM()').limit(questionLimit).getMany();
   }
 
   async getQuestion(id: number): Promise<PublicQuestion | null> {
@@ -84,9 +87,26 @@ export class ExamService {
     };
   }
 
-  async startAttempt(examId: string, userId?: number): Promise<ExamAttempt> {
-    const attempt = this.attemptRepo.create({ examId, answers: {}, ...(userId ? { userId } : {}) });
-    return this.attemptRepo.save(attempt);
+  /**
+   * With `serve`, the server draws the questions and remembers them on the attempt: that list, not
+   * anything the client reports later, is what gets graded and what can earn XP. Without it (older
+   * clients) the attempt is still gradable but never pays XP.
+   */
+  async startAttempt(
+    examId: string,
+    userId?: number,
+    serve?: { topic?: string; limit?: number },
+  ): Promise<ExamAttempt & { questions?: PublicQuestion[] }> {
+    const questions = serve ? await this.sampleQuestions(examId, serve.topic, serve.limit) : undefined;
+    if (serve && !(await this.getExam(examId))) throw new NotFoundException();
+    const attempt = this.attemptRepo.create({
+      examId,
+      answers: {},
+      questionIds: questions ? questions.map((q) => q.id) : null,
+      ...(userId ? { userId } : {}),
+    });
+    const saved = await this.attemptRepo.save(attempt);
+    return questions ? { ...saved, questions: questions.map((q) => this.toPublic(q)) } : saved;
   }
 
   async submitAttempt(
@@ -107,24 +127,27 @@ export class ExamService {
     // (and overwrite their XP entry) until a lucky answer set sticks.
     if (attempt.finishedAt) throw new ConflictException('Attempt already submitted');
 
-    // Grade over the full set of shown questions when the client provides it
-    // (so skipped questions count toward the total); otherwise fall back to the
-    // answered ones for backward compatibility.
-    const ids = [
+    // A served attempt is graded over exactly the questions the server drew for it. Only an
+    // attempt without a served list (a client that predates it) falls back to the ids the client
+    // reports, which are bounded and restricted to this exam, and which can never pay XP.
+    const served = attempt.questionIds;
+    const ids = served ?? [
       ...new Set((questionIds?.length ? questionIds : Object.keys(answers).map(Number)).filter(Number.isInteger)),
     ];
-    // The client names the questions it showed, so bound that list: an exam never serves more
-    // than `questionCount`, and an unbounded array would turn into one huge IN query.
+    // An exam never serves more than `questionCount`; an unbounded array would turn into one huge IN query.
     const exam = await this.getExam(attempt.examId);
     if (ids.length > (exam?.questionCount ?? 50)) throw new BadRequestException('Too many questions');
     // Only this exam's questions count: ids of other exams must not inflate (or probe) this attempt.
-    const questions = ids.length
-      ? (await this.questionRepo.findBy(ids.map((qid) => ({ id: qid })))).filter((q) => q.examId === attempt.examId)
-      : [];
+    const byId = new Map(
+      (ids.length ? await this.questionRepo.findBy(ids.map((qid) => ({ id: qid }))) : [])
+        .filter((q) => q.examId === attempt.examId)
+        .map((q) => [q.id, q] as const),
+    );
+    const questions = ids.flatMap((qid) => byId.get(qid) ?? []);
 
     let score = 0;
     const review: QuestionReview[] = questions.map((q) => {
-      const given = answers[q.id] ?? [];
+      const given = Array.isArray(answers[q.id]) ? answers[q.id] : [];
       const correct = [...given].sort().join(',') === [...q.correctKeys].sort().join(',');
       if (correct) score++;
       return {
@@ -149,7 +172,7 @@ export class ExamService {
     attempt.finishedAt = new Date();
     const saved = await this.attemptRepo.save(attempt);
 
-    if (attempt.userId) {
+    if (attempt.userId && served) {
       await this.xpService.grantSkillCheckXp(attempt.userId, attempt.examId, score, questions.length);
     }
 

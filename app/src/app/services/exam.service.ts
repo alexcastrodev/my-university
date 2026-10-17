@@ -31,8 +31,12 @@ export class ExamService {
     return this.http.get<ExamQuestion[]>(`${this.base}/${examId}/questions${qs}`);
   }
 
-  startAttempt(examId: string): Observable<ExamAttempt> {
-    return this.http.post<ExamAttempt>(`${this.base}/${examId}/attempts`, {});
+  /** Starts an attempt and has the server draw its questions: only those can be graded and earn XP. */
+  startAttempt(examId: string, options: { limit?: number; topic?: string } = {}): Observable<ExamAttempt & { questions: ExamQuestion[] }> {
+    return this.http.post<ExamAttempt & { questions: ExamQuestion[] }>(`${this.base}/${examId}/attempts`, {
+      serve: true,
+      ...options,
+    });
   }
 
   submitAttempt(
