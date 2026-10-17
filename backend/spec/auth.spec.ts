@@ -71,6 +71,16 @@ describe('PUT /auth/settings', () => {
     expect(me.displayName).toBe('Custom Name');
   });
 
+  it('rejects a display name that is not a string or is too long', async () => {
+    const { cookie } = await login(`settings-bad-${Date.now()}`);
+    const tooLong = await put('/auth/settings', { displayName: 'x'.repeat(51) }, { Cookie: cookie });
+    expect(tooLong.status).toBe(400);
+    const notText = await put('/auth/settings', { displayName: { evil: true } }, { Cookie: cookie });
+    expect(notText.status).toBe(400);
+    const fine = await put('/auth/settings', { displayName: 'x'.repeat(50) }, { Cookie: cookie });
+    expect(fine.status).toBe(200);
+  });
+
   it('clearing the override via an empty string reverts to the raw GitHub name', async () => {
     const rawName = `raw-name-${Date.now()}`;
     const { cookie } = await login(rawName);

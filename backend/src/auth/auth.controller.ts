@@ -23,6 +23,8 @@ import {
   setSession,
 } from './session';
 
+const MAX_DISPLAY_NAME = 50;
+
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -85,6 +87,13 @@ export class AuthController {
   ) {
     if (profilePublic !== undefined && typeof profilePublic !== 'boolean') {
       throw new BadRequestException('profilePublic must be a boolean');
+    }
+    if (displayName !== undefined && displayName !== null) {
+      // Shown on the leaderboard, in discussions and on share images: bounded text only.
+      if (typeof displayName !== 'string') throw new BadRequestException('displayName must be a string or null');
+      if (displayName.trim().length > MAX_DISPLAY_NAME) {
+        throw new BadRequestException(`displayName must have at most ${MAX_DISPLAY_NAME} characters`);
+      }
     }
     if (displayName !== undefined) {
       await this.service.updateDisplayNameOverride(userId, displayName);

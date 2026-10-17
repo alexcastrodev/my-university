@@ -49,6 +49,24 @@ describe('PUT /progress/:courseId/:lessonId', () => {
     expect(body.status).toBe('completed');
   });
 
+  it('rejects an unknown status', async () => {
+    const res = await put(`/progress/${COURSE_ID}/${lessonId}`, { status: 'mastered' }, { Cookie: cookie });
+    expect(res.status).toBe(400);
+  });
+
+  it('404s for a lesson that does not exist, so no XP can be minted from invented ids', async () => {
+    const before = await json<any>(await get('/xp', { Cookie: cookie }));
+    const res = await put(`/progress/${COURSE_ID}/not-a-real-lesson`, { status: 'completed' }, { Cookie: cookie });
+    expect(res.status).toBe(404);
+    const after = await json<any>(await get('/xp', { Cookie: cookie }));
+    expect(after.total).toBe(before.total);
+  });
+
+  it('404s for a real lesson under the wrong course', async () => {
+    const res = await put(`/progress/some-other-course/${lessonId}`, { status: 'completed' }, { Cookie: cookie });
+    expect(res.status).toBe(404);
+  });
+
   it('returns 401 for an invalid / forged session cookie', async () => {
     const res = await put(`/progress/${COURSE_ID}/${lessonId}`, { status: 'completed' }, { Cookie: 'uid=999999' });
     expect(res.status).toBe(401);

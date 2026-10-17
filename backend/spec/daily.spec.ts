@@ -86,18 +86,37 @@ describe('POST /daily/complete', () => {
 
   it('grants XP for a read card and is idempotent for the same calendar day', async () => {
     const { cookie } = await login(`daily-complete-read-${Date.now()}`);
+    const slug = (await json<any[]>(await get('/java-concepts')))[0].slug;
+    await put(`/java-concepts/${slug}/read`, {}, { Cookie: cookie });
     const before = await json<any>(await get('/xp/summary', { Cookie: cookie }));
 
-    const first = await post('/daily/complete', { type: 'read', sourceId: 'some-concept' }, { Cookie: cookie });
+    const first = await post('/daily/complete', { type: 'read', sourceId: slug }, { Cookie: cookie });
     expect(first.status).toBe(201);
     expect((await json<any>(first)).xpAwarded).toBeGreaterThan(0);
 
     const afterFirst = await json<any>(await get('/xp/summary', { Cookie: cookie }));
     expect(afterFirst.total).toBeGreaterThan(before.total);
 
-    await post('/daily/complete', { type: 'read', sourceId: 'some-concept' }, { Cookie: cookie });
+    await post('/daily/complete', { type: 'read', sourceId: slug }, { Cookie: cookie });
     const afterSecond = await json<any>(await get('/xp/summary', { Cookie: cookie }));
     expect(afterSecond.total).toBe(afterFirst.total); // same day, same card — no double XP
+  });
+
+  it('mints no XP for a card that is not in the reader\'s session', async () => {
+    const { cookie } = await login(`daily-complete-fake-${Date.now()}`);
+    const slug = (await json<any[]>(await get('/java-concepts')))[0].slug;
+    await put(`/java-concepts/${slug}/read`, {}, { Cookie: cookie });
+    const before = await json<any>(await get('/xp/summary', { Cookie: cookie }));
+
+    for (const sourceId of ['made-up-1', 'made-up-2']) {
+      const res = await post('/daily/complete', { type: 'read', sourceId }, { Cookie: cookie });
+      expect(res.status).toBe(404);
+    }
+    const badType = await post('/daily/complete', { type: 'bonus', sourceId: slug }, { Cookie: cookie });
+    expect(badType.status).toBe(400);
+
+    const after = await json<any>(await get('/xp/summary', { Cookie: cookie }));
+    expect(after.total).toBe(before.total);
   });
 
   it('rejects a write completion with empty text', async () => {
