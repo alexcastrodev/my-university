@@ -40,6 +40,18 @@ describe('GET /dotnet-testing-concepts', () => {
     ]);
   });
 
+  it('serves the Lab section apart from the concept sections, in both languages', async () => {
+    for (const lang of ['en', 'pt-BR']) {
+      const body = await json<any>(
+        await get(
+          `/dotnet-testing-concepts/testing-clean-architecture-with-mstest?lang=${lang}`,
+        ),
+      );
+      expect(body.lab).toContain('TODO-NN');
+      expect(body.sections.map((s: any) => s.title)).not.toContain('Lab');
+    }
+  });
+
   it('includes structured references with label, url and type', async () => {
     const body = await json<any>(
       await get('/dotnet-testing-concepts/testing-domain-events-with-mstest'),

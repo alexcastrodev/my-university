@@ -1,0 +1,119 @@
+<ng-template #postCard let-c let-thread="thread" let-isReply="isReply">
+  <article class="post" [class.reply]="isReply">
+    <header class="post-head">
+      <span class="avatar" [class.me]="c.mine">
+        @if (c.author?.avatarUrl) {
+          <img [src]="c.author.avatarUrl" alt="" />
+        } @else {
+          {{ initials(c) }}
+        }
+      </span>
+      <div class="who">
+        @if (c.deleted) {
+          <em class="removed" i18n="@@lab.removed">Post removed</em>
+        } @else {
+          <strong class="name">{{ name(c) }}</strong>
+          <span class="time">{{ ago(c.createdAt) }}</span>
+        }
+      </div>
+    </header>
+
+    @if (!c.deleted) {
+      @if (isReply) {
+        <blockquote class="quote">
+          <strong class="quote-by" i18n="@@lab.quoteBy">{{ name(thread.root) }} said:</strong>
+          <p>{{ excerpt(thread.root) }}</p>
+        </blockquote>
+      }
+      <p class="post-body">{{ c.body }}</p>
+      <footer class="post-actions">
+        <button
+          type="button"
+          class="vote"
+          [class.voted]="c.votedByMe"
+          [disabled]="c.mine || !signedIn() || busy()"
+          [attr.aria-pressed]="c.votedByMe"
+          i18n-aria-label="@@lab.upvote"
+          aria-label="Upvote"
+          (click)="vote(c)"
+        >▲ {{ c.votes }}</button>
+        @if (signedIn()) {
+          <button type="button" class="link" (click)="toggleReply(thread)" i18n="@@lab.reply">Reply</button>
+        }
+        @if (c.mine) {
+          <button type="button" class="link danger" (click)="remove(c)">
+            @if (confirmingDelete() === c.id) {
+              <ng-container i18n="@@lab.confirm">Confirm</ng-container>
+            } @else {
+              <ng-container i18n="@@lab.delete">Delete</ng-container>
+            }
+          </button>
+        }
+      </footer>
+    }
+  </article>
+</ng-template>
+
+<section class="lab-hero">
+  <div class="lab-hero-text">
+    <h2 class="lab-title" i18n="@@lab.title">Hands-on lab</h2>
+    <p class="lab-sub" i18n="@@lab.subtitle">Practice this concept on real code, then come back to compare notes.</p>
+  </div>
+  <a class="lab-cta" [href]="labUrl()" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+    <span i18n="@@lab.open">Open lab</span>
+  </a>
+</section>
+
+@if (labHtml(); as html) {
+  <div class="lab-body" [innerHTML]="html"></div>
+}
+
+<section class="lab-discussion" aria-labelledby="lab-discussion-title">
+  <h2 id="lab-discussion-title" class="discussion-title" i18n="@@lab.discussion">Discussion · {{ count() }}</h2>
+
+  @if (signedIn()) {
+    <div class="composer">
+      <textarea
+        rows="3"
+        [value]="draft()"
+        [maxLength]="maxBody"
+        i18n-placeholder="@@lab.placeholder"
+        placeholder="Stuck on a TODO or found a better way? Share it with other students..."
+        (input)="onInput(draft, $event)"
+      ></textarea>
+      <button type="button" class="send" [disabled]="!canSend(draft())" (click)="post()" i18n="@@lab.post">Post</button>
+    </div>
+  } @else {
+    <a routerLink="/login" class="signin" i18n="@@lab.signIn">Sign in to join the discussion</a>
+  }
+  @if (failed()) {
+    <p class="error" role="alert" i18n="@@lab.error">Could not send. Try again in a moment.</p>
+  }
+
+  @if (detail() !== null && threads().length === 0) {
+    <p class="muted" i18n="@@lab.empty">No posts yet. Be the first to share how the lab went.</p>
+  }
+
+  @for (thread of threads(); track thread.root.id) {
+    <div class="thread">
+      <ng-container *ngTemplateOutlet="postCard; context: { $implicit: thread.root, thread, isReply: false }" />
+      @for (r of thread.replies; track r.id) {
+        <ng-container *ngTemplateOutlet="postCard; context: { $implicit: r, thread, isReply: true }" />
+      }
+      @if (replyingTo() === thread.root.id) {
+        <div class="composer inline">
+          <textarea
+            rows="2"
+            [value]="replyDraft()"
+            [maxLength]="maxBody"
+            i18n-placeholder="@@lab.replyPlaceholder"
+            placeholder="Write a reply..."
+            (input)="onInput(replyDraft, $event)"
+          ></textarea>
+          <button type="button" class="send" [disabled]="!canSend(replyDraft())" (click)="reply(thread)" i18n="@@lab.send">Send</button>
+        </div>
+      }
+    </div>
+  }
+</section>

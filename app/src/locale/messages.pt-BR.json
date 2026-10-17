@@ -972,6 +972,25 @@
     "profile.slug.error.format": "Use apenas letras minúsculas, números e hífens simples, sem hífen no início ou no fim.",
     "profile.slug.error.reserved": "Esse nome é reservado. Escolha outro.",
     "profile.slug.error.taken": "Esse link já está em uso. Escolha outro.",
-    "profile.close": "Fechar"
+    "profile.close": "Fechar",
+    "conceptTabs.concept": "Conceito",
+    "conceptTabs.lab": "Lab",
+    "lab.removed": "Post removido",
+    "lab.quoteBy": "{$INTERPOLATION} disse:",
+    "lab.upvote": "Votar",
+    "lab.reply": "Responder",
+    "lab.confirm": "Confirmar",
+    "lab.delete": "Excluir",
+    "lab.title": "Lab prático",
+    "lab.subtitle": "Pratique este conceito em código de verdade e volte para comparar anotações.",
+    "lab.open": "Abrir lab",
+    "lab.discussion": "Discussão · {$INTERPOLATION}",
+    "lab.placeholder": "Travou em um TODO ou achou um jeito melhor? Compartilhe com os outros alunos...",
+    "lab.post": "Publicar",
+    "lab.signIn": "Entre para participar da discussão",
+    "lab.error": "Não foi possível enviar. Tente novamente em instantes.",
+    "lab.empty": "Nenhum post ainda. Seja o primeiro a contar como foi o lab.",
+    "lab.replyPlaceholder": "Escreva uma resposta...",
+    "lab.send": "Enviar"
   }
 }

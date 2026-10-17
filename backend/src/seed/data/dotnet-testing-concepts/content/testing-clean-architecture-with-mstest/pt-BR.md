@@ -354,6 +354,21 @@ pirâmide.
   com todas as referências é mais simples e deixa um teste de domínio alcançar o
   EF Core.
 
+## Lab
+
+A API multi-tenant do lab de Clean Architecture já está implementada em quatro projetos. Sua tarefa é escrever os testes MSTest, um projeto de teste por camada, e perceber que cada camada pede um tipo diferente de teste.
+
+**O que você vai praticar**
+
+- Testes de domínio com `[DataRow]`, sem nenhum setup.
+- Testes de caso de uso contra um fake em memória da porta do repositório.
+- Testes HTTP com um host de verdade e um arquivo SQLite novo por teste.
+- Um teste de regra que quebra o build quando uma camada referencia o que não deve.
+
+**Pré-requisitos:** o concept e o lab de Clean Architecture in Four Projects, MSTest básico, .NET 10 SDK.
+
+**Como funciona:** cada método de teste já está declarado com uma dica e falha com `TODO-NN: write this test` até você escrevê-lo. Rode `dotnet test` até tudo ficar verde. Os TODOs opcionais pedem para quebrar o código de produção de propósito e ver qual camada percebe.
+
 ## Documentation Links
 
 - [Data-driven testing in MSTest, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven) (doc)

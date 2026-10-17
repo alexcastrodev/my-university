@@ -515,3 +515,67 @@ describe('discussions: flooding', () => {
     expect((await newThread(cookie)).status).toBe(429);
   });
 });
+
+describe('discussions: lab', () => {
+  const labTopic = () =>
+    `module=dotnet-testing-concepts&slug=testing-clean-architecture-with-mstest&lang=en`;
+  const labPost = (cookie: string, body: string) =>
+    post(
+      '/discussions/lab',
+      {
+        module: 'dotnet-testing-concepts',
+        slug: 'testing-clean-architecture-with-mstest',
+        lang: 'en',
+        body,
+      },
+      { Cookie: cookie },
+    );
+
+  it('needs a session to post, but anyone can read, uncached', async () => {
+    const res = await post('/discussions/lab', {
+      module: 'dotnet-testing-concepts',
+      slug: 'testing-clean-architecture-with-mstest',
+      lang: 'en',
+      body: 'hi',
+    });
+    expect(res.status).toBe(401);
+    const read = await get(`/discussions/lab?${labTopic()}`);
+    expect(read.status).toBe(200);
+    expect(read.headers.get('cache-control')).toContain('no-store');
+  });
+
+  it('keeps every post on one marker, takes replies, and stays out of the paragraph summary', async () => {
+    const ana = await login(`lab-ana-${Date.now()}`);
+    const bia = await login(`lab-bia-${Date.now()}`);
+    const first = await json<{ markerId: number; commentId: number }>(
+      await labPost(ana.cookie, 'TODO-04 fails on my machine'),
+    );
+    const second = await json<{ markerId: number; commentId: number }>(
+      await labPost(bia.cookie, 'Same here, SQLite path issue'),
+    );
+    expect(second.markerId).toBe(first.markerId);
+
+    const reply = await post(
+      `/discussions/markers/${first.markerId}/comments`,
+      { parentId: first.commentId, body: 'Use a temp file per test' },
+      { Cookie: bia.cookie },
+    );
+    expect(reply.status).toBe(201);
+
+    const lab = await json<any>(
+      await get(`/discussions/lab?${labTopic()}`, { Cookie: ana.cookie }),
+    );
+    expect(lab.id).toBe(first.markerId);
+    expect(lab.threads.length).toBeGreaterThanOrEqual(2);
+
+    const summary = await json<any[]>(await get(`/discussions?${labTopic()}`));
+    expect(summary.find((m) => m.id === first.markerId)).toBeUndefined();
+  });
+
+  it('404s for a concept that does not exist', async () => {
+    const res = await get(
+      '/discussions/lab?module=dotnet-testing-concepts&slug=nope-nope&lang=en',
+    );
+    expect(res.status).toBe(404);
+  });
+});

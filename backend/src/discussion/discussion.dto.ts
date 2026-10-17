@@ -69,6 +69,14 @@ export class CreateThreadDto extends TopicDto {
   body: string;
 }
 
+export class CreateLabPostDto extends TopicDto {
+  @Transform(trim)
+  @IsString()
+  @MinLength(1)
+  @MaxLength(MAX_BODY_LENGTH)
+  body: string;
+}
+
 export class CommentBodyDto {
   @Transform(trim)
   @IsString()

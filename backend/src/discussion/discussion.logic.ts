@@ -232,3 +232,6 @@ export function areaSql(
   });
   return `CASE ${branches.join(' ')} END`;
 }
+
+/** Anchor of the marker that holds a concept's lab discussion; never a hash, so it cannot clash with a paragraph. */
+export const LAB_ANCHOR = 'lab';

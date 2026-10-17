@@ -1,0 +1,27 @@
+.concept-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin: 1.25rem 0 1.5rem;
+  border-bottom: 1px solid var(--mu-line);
+}
+
+.concept-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--mu-muted);
+  cursor: pointer;
+}
+
+.concept-tab:hover {
+  color: var(--mu-ink);
+}
+
+.concept-tab.active {
+  color: var(--mu-accent);
+  border-bottom-color: var(--mu-accent);
+}

@@ -18,6 +18,7 @@ import { CurrentUserId, OptionalUserId } from '../auth/session';
 import {
   AcceptDto,
   CommentBodyDto,
+  CreateLabPostDto,
   CreateThreadDto,
   FeedAreasDto,
   FeedDto,
@@ -79,6 +80,20 @@ export class DiscussionController {
     @OptionalUserId() userId: number | null,
   ) {
     return this.service.getMarker(id, userId);
+  }
+
+  @Get('lab')
+  @Header('Cache-Control', 'no-store')
+  getLab(@Query() topic: TopicDto, @OptionalUserId() userId: number | null) {
+    return this.service.getLab(topic, userId);
+  }
+
+  @Post('lab')
+  createLabPost(
+    @CurrentUserId() userId: number,
+    @Body() dto: CreateLabPostDto,
+  ) {
+    return this.service.createLabPost(userId, dto);
   }
 
   @Post('threads')

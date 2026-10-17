@@ -347,6 +347,21 @@ half a second, which is the shape of the pyramid.
   of each test project enforce what its tests may touch. One project with all
   references is simpler and lets a domain test reach for EF Core.
 
+## Lab
+
+The multi-tenant API from the Clean Architecture lab is already implemented in four projects. Your job is to write the MSTest tests, one test project per layer, and to see that each layer needs a different kind of test.
+
+**What you will practice**
+
+- Domain tests with `[DataRow]`, with no setup at all.
+- Use case tests against an in-memory fake of the repository port.
+- HTTP tests with a real host and a fresh SQLite file per test.
+- A rule test that fails the build when a layer references what it must not.
+
+**Prerequisites:** the Clean Architecture in Four Projects concept and lab, basic MSTest, .NET 10 SDK.
+
+**How it works:** every test method is already declared with a hint and fails with `TODO-NN: write this test` until you write it. Run `dotnet test` until everything is green. The optional TODOs ask you to break the production code on purpose and see which layer notices.
+
 ## Documentation Links
 
 - [Data-driven testing in MSTest, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-data-driven) (doc)

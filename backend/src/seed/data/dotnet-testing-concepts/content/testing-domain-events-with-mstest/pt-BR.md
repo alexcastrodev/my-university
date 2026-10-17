@@ -332,6 +332,21 @@ Uma mudança que deixa tudo verde é um teste faltando. A marcação
   acima mostram que o desenho sem essa janela (despachar antes do commit, linha
   do outbox na mesma transação) se comporta como prometido.
 
+## Lab
+
+O módulo de pedidos do lab de Domain Events já está implementado. Sua tarefa é escrever os testes MSTest que provam que ele funciona e aprender onde um teste precisa fazer o assert para o resultado significar algo.
+
+**O que você vai praticar**
+
+- Testar o agregado isolado, com `FakeTimeProvider` para os timestamps.
+- Testar o interceptor de `SaveChanges` contra um pipeline real do EF Core.
+- Provar que a linha do outbox é gravada junto com o pedido, e que nenhum dos dois existe depois de um save que falha.
+- Provar que um consumidor sobrevive a entrega duplicada.
+
+**Pré-requisitos:** o concept e o lab de Domain Events and Consistency Boundaries, MSTest básico, .NET 10 SDK.
+
+**Como funciona:** cada método de teste já está declarado com uma dica e falha com `TODO-NN: write this test` até você escrevê-lo. Alguns testes só provam algo se o assert estiver no lugar certo, por exemplo não pelo mesmo `DbContext` que acabou de falhar. Os TODOs opcionais pedem para mutar o código de produção e conferir se a sua suíte percebe.
+
 ## Documentation Links
 
 - [MSTest test lifecycle, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle) (doc)

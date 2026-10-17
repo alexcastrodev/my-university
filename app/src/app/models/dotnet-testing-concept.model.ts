@@ -29,6 +29,7 @@ export interface DotNetTestingConcept extends DotNetTestingConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: DotNetTestingConceptSection[];
+  lab?: string;
   references: DotNetTestingConceptReference[];
   related: ConceptLinkRef[];
 }

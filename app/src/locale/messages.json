@@ -575,6 +575,25 @@
     "profile.slug.error.format": "Use only lowercase letters, numbers and single hyphens, with no hyphen at the start or end.",
     "profile.slug.error.reserved": "That name is reserved. Pick another.",
     "profile.slug.error.taken": "That link is already taken. Pick another.",
-    "profile.close": "Close"
+    "profile.close": "Close",
+    "conceptTabs.concept": "Concept",
+    "conceptTabs.lab": "Lab",
+    "lab.removed": "Post removed",
+    "lab.quoteBy": "{$INTERPOLATION} said:",
+    "lab.upvote": "Upvote",
+    "lab.reply": "Reply",
+    "lab.confirm": "Confirm",
+    "lab.delete": "Delete",
+    "lab.title": "Hands-on lab",
+    "lab.subtitle": "Practice this concept on real code, then come back to compare notes.",
+    "lab.open": "Open lab",
+    "lab.discussion": "Discussion · {$INTERPOLATION}",
+    "lab.placeholder": "Stuck on a TODO or found a better way? Share it with other students...",
+    "lab.post": "Post",
+    "lab.signIn": "Sign in to join the discussion",
+    "lab.error": "Could not send. Try again in a moment.",
+    "lab.empty": "No posts yet. Be the first to share how the lab went.",
+    "lab.replyPlaceholder": "Write a reply...",
+    "lab.send": "Send"
   }
 }

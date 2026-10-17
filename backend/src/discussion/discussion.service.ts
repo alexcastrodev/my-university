@@ -21,6 +21,7 @@ import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionVote } from './discussion-vote.entity';
 import {
+  CreateLabPostDto,
   CreateThreadDto,
   FeedAreasDto,
   FeedDto,
@@ -35,6 +36,7 @@ import {
   FeedScope,
   feedPage,
   POSTS_PER_MINUTE,
+  LAB_ANCHOR,
   quoteAppearsIn,
   ThreadView,
   VoteInfo,
@@ -150,7 +152,7 @@ export class DiscussionService {
               ) AS "resolvedCount"
          FROM "discussion_marker" m
          LEFT JOIN "discussion_comment" c ON c."markerId" = m."id"
-        WHERE m."topicKey" = $1 AND m."lang" = $2
+        WHERE m."topicKey" = $1 AND m."lang" = $2 AND m."anchorKey" <> '${LAB_ANCHOR}'
         GROUP BY m."id"
        HAVING COUNT(c."id") FILTER (WHERE c."deletedAt" IS NULL) > 0
         ORDER BY m."blockIndex", m."id"`,
@@ -246,6 +248,7 @@ export class DiscussionService {
           FROM activity a
           JOIN "discussion_marker" m ON m."id" = a."markerId"
          WHERE ($2::varchar IS NULL OR m."lang" = $2)
+           AND m."anchorKey" <> '${LAB_ANCHOR}'
            AND ${SCOPE_SQL[scope]}
       )`;
   }
@@ -321,33 +324,80 @@ export class DiscussionService {
     if (!quoteAppearsIn(sections, dto.quote)) throw new NotFoundException();
     await this.assertCanPost(userId);
 
+    return this.postRoot(
+      userId,
+      topicKey,
+      dto.lang,
+      dto.anchorKey,
+      dto.blockIndex,
+      dto.quote,
+      dto.body,
+    );
+  }
+
+  /** The lab's discussion: one marker per concept and language, an empty detail until the first post. */
+  async getLab(
+    topic: TopicDto,
+    viewerId: number | null,
+  ): Promise<MarkerDetail> {
+    const { topicKey } = this.resolveTopic(topic);
+    const marker = await this.markers.findOneBy({
+      topicKey,
+      lang: topic.lang,
+      anchorKey: LAB_ANCHOR,
+      blockIndex: 0,
+    });
+    if (!marker) return { id: 0, quote: '', commentCount: 0, threads: [] };
+    return this.getMarker(marker.id, viewerId);
+  }
+
+  /** A new top-level post in the lab's discussion; answers go through `reply` like any thread. */
+  async createLabPost(
+    userId: number,
+    dto: CreateLabPostDto,
+  ): Promise<{ markerId: number; commentId: number }> {
+    const { topicKey } = this.resolveTopic(dto);
+    await this.assertCanPost(userId);
+    return this.postRoot(
+      userId,
+      topicKey,
+      dto.lang,
+      LAB_ANCHOR,
+      0,
+      'Lab',
+      dto.body,
+    );
+  }
+
+  private async postRoot(
+    userId: number,
+    topicKey: string,
+    lang: string,
+    anchorKey: string,
+    blockIndex: number,
+    quote: string,
+    body: string,
+  ): Promise<{ markerId: number; commentId: number }> {
     // Two readers commenting on a fresh paragraph at once must end up on the same marker.
     await this.markers
       .createQueryBuilder()
       .insert()
       .into(DiscussionMarker)
-      .values({
-        topicKey,
-        lang: dto.lang,
-        anchorKey: dto.anchorKey,
-        blockIndex: dto.blockIndex,
-        quote: dto.quote,
-      })
+      .values({ topicKey, lang, anchorKey, blockIndex, quote })
       .orIgnore()
       .execute();
     const marker = await this.markers.findOneByOrFail({
       topicKey,
-      lang: dto.lang,
-      anchorKey: dto.anchorKey,
-      blockIndex: dto.blockIndex,
+      lang,
+      anchorKey,
+      blockIndex,
     });
-
     const comment = await this.comments.save(
       this.comments.create({
         markerId: marker.id,
         parentId: null,
         authorId: userId,
-        body: dto.body,
+        body,
       }),
     );
     return { markerId: marker.id, commentId: comment.id };

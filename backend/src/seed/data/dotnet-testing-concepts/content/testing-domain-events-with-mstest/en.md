@@ -329,6 +329,21 @@ A change that leaves everything green is a missing test. The
   design without that window (dispatch before the commit, outbox row in the same
   transaction) behaves as promised.
 
+## Lab
+
+The ordering module from the Domain Events lab is already implemented. Your job is to write the MSTest tests that prove it works, and to learn where a test must assert for the result to mean anything.
+
+**What you will practice**
+
+- Testing the aggregate on its own, with a `FakeTimeProvider` for timestamps.
+- Testing the `SaveChanges` interceptor against a real EF Core pipeline.
+- Proving the outbox row commits together with the order, and that neither exists after a failed save.
+- Proving a consumer survives duplicate delivery.
+
+**Prerequisites:** the Domain Events and Consistency Boundaries concept and lab, basic MSTest, .NET 10 SDK.
+
+**How it works:** every test method is already declared with a hint and fails with `TODO-NN: write this test` until you write it. Some tests only prove something if you assert in the right place, for example not through the same `DbContext` that just failed. The optional TODOs ask you to mutate the production code and check that your suite notices.
+
 ## Documentation Links
 
 - [MSTest test lifecycle, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle) (doc)
