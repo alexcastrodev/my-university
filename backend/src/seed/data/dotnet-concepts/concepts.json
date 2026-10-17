@@ -1115,7 +1115,8 @@
         "url": "https://learn.microsoft.com/en-us/nuget/create-packages/sign-a-package",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/packaging-and-publishing-a-nuget-library"
   },
   {
     "slug": "multi-targeting-and-netstandard",
@@ -3053,7 +3054,8 @@
         "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/static-server-rendering",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/blazor-static-ssr-and-enhanced-navigation"
   },
   {
     "slug": "blazor-routing-layouts-and-navigation",
