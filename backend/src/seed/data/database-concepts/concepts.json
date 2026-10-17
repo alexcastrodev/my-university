@@ -2,6 +2,7 @@
   {
     "slug": "postgresql-rpo-rto-planning",
     "id": 1,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "RPO and RTO Planning for a Highly Available PostgreSQL Cluster",
     "topic": "HA & Replication",
@@ -45,6 +46,7 @@
   {
     "slug": "postgresql-node-count-and-placement",
     "id": 2,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Node Count and Geographic Placement",
     "topic": "HA & Replication",
@@ -93,6 +95,7 @@
   {
     "slug": "postgresql-quorum-and-connection-indirection",
     "id": 3,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Quorum Voting and Connection Indirection",
     "topic": "HA & Replication",
@@ -141,6 +144,7 @@
   {
     "slug": "postgresql-split-brain-prevention",
     "id": 4,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Split-Brain Prevention: Fencing, STONITH, and SMITH",
     "topic": "HA & Replication",
@@ -189,6 +193,7 @@
   {
     "slug": "postgresql-multi-master-clusters",
     "id": 5,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Multi-Master Clusters: Latency, Mesh Overhead, and Zero-RTO Failover",
     "topic": "HA & Replication",
@@ -242,6 +247,7 @@
   {
     "slug": "postgresql-sla-and-acceptable-downtime",
     "id": 6,
+    "session": "High Availability Planning",
     "category": "PostgreSQL",
     "title": "PostgreSQL SLA Design: Defining Acceptable Downtime",
     "topic": "HA & Replication",
@@ -300,6 +306,7 @@
   {
     "slug": "postgresql-conf-initial-tuning",
     "id": 7,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Initial Configuration: Connections, Memory, WAL, and Planner Costs",
     "topic": "Configuration & Tuning",
@@ -353,6 +360,7 @@
   {
     "slug": "sql-limiting-and-random-sampling",
     "id": 8,
+    "session": "Query Techniques",
     "category": "SQL",
     "title": "Limiting and Randomly Sampling Query Results",
     "topic": "Query Techniques",
@@ -406,6 +414,7 @@
   {
     "slug": "sql-nulls-and-pattern-matching",
     "id": 9,
+    "session": "Query Techniques",
     "category": "SQL",
     "title": "Handling NULLs and Pattern Matching in SQL",
     "topic": "Query Techniques",
@@ -459,6 +468,7 @@
   {
     "slug": "sql-conditional-and-null-sorting",
     "id": 10,
+    "session": "Query Techniques",
     "category": "SQL",
     "title": "Conditional Sorting: NULLs and Data-Dependent Order in SQL",
     "topic": "Query Techniques",
@@ -507,6 +517,7 @@
   {
     "slug": "postgresql-pg-settings-context-and-scope",
     "id": 11,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "PostgreSQL pg_settings: Restart, Reload, and Session-Scope Contexts",
     "topic": "Configuration & Tuning",
@@ -560,6 +571,7 @@
   {
     "slug": "sql-union-and-set-operations",
     "id": 12,
+    "session": "Query Techniques",
     "category": "SQL",
     "title": "Stacking Rowsets: UNION, UNION ALL, and the Wider Set-Operator Family",
     "topic": "Query Techniques",
@@ -613,6 +625,7 @@
   {
     "slug": "postgresql-table-activity-and-bloat-stats",
     "id": 13,
+    "session": "Monitoring and Troubleshooting",
     "category": "PostgreSQL",
     "title": "Finding Your Busiest Tables: Activity and Bloat Stats in PostgreSQL",
     "topic": "Monitoring & Troubleshooting",
@@ -661,6 +674,7 @@
   {
     "slug": "sql-anti-joins-and-optional-joins",
     "id": 14,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Anti-Joins and Optional Joins: Finding Missing Rows and Adding Data Without Losing Rows",
     "topic": "Joins & Set Operations",
@@ -709,6 +723,7 @@
   {
     "slug": "postgresql-cache-warming-after-restart",
     "id": 15,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "Defusing Cache Poisoning: Warming PostgreSQL's Cache After a Restart",
     "topic": "Configuration & Tuning",
@@ -757,6 +772,7 @@
   {
     "slug": "sql-comparing-two-tables-for-equality",
     "id": 16,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Comparing Two Tables for Equality (Cardinality and Values)",
     "topic": "Joins & Set Operations",
@@ -810,6 +826,7 @@
   {
     "slug": "postgresql-terminating-rogue-connections",
     "id": 17,
+    "session": "Monitoring and Troubleshooting",
     "category": "PostgreSQL",
     "title": "Terminating Rogue Connections: pg_cancel_backend, pg_terminate_backend, and tcpkill",
     "topic": "Monitoring & Troubleshooting",
@@ -858,6 +875,7 @@
   {
     "slug": "sql-avoiding-cartesian-products",
     "id": 18,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Identifying and Avoiding Cartesian Products",
     "topic": "Joins & Set Operations",
@@ -906,6 +924,7 @@
   {
     "slug": "postgresql-concurrent-index-creation",
     "id": 19,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "Reducing Contention with Concurrent Index Creation",
     "topic": "Configuration & Tuning",
@@ -949,6 +968,7 @@
   {
     "slug": "sql-joins-with-aggregates-avoiding-fanout",
     "id": 20,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Performing Joins When Using Aggregates: Avoiding Fan-Out",
     "topic": "Joins & Set Operations",
@@ -997,6 +1017,7 @@
   {
     "slug": "postgresql-server-migration-via-streaming-replication",
     "id": 21,
+    "session": "Migrations and Data Distribution",
     "category": "PostgreSQL",
     "title": "Migrating a PostgreSQL Server with Streaming Replication",
     "topic": "HA & Replication",
@@ -1045,6 +1066,7 @@
   {
     "slug": "sql-outer-joins-with-aggregates",
     "id": 22,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Performing Outer Joins When Using Aggregates",
     "topic": "Joins & Set Operations",
@@ -1093,6 +1115,7 @@
   {
     "slug": "postgresql-minor-upgrades-via-node-switching",
     "id": 23,
+    "session": "Migrations and Data Distribution",
     "category": "PostgreSQL",
     "title": "Applying PostgreSQL Software Upgrades with Zero Downtime via Node Switching",
     "topic": "HA & Replication",
@@ -1141,6 +1164,7 @@
   {
     "slug": "sql-full-outer-joins-for-missing-data",
     "id": 24,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Returning Missing Data from Both Tables with FULL OUTER JOIN",
     "topic": "Joins & Set Operations",
@@ -1189,6 +1213,7 @@
   {
     "slug": "sql-deleting-duplicate-records",
     "id": 25,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Deleting Duplicate Records",
     "topic": "Joins & Set Operations",
@@ -1242,6 +1267,7 @@
   {
     "slug": "postgresql-hardware-failure-mitigation",
     "id": 26,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "Mitigating Hardware Failure: Delayed WAL Archiving vs. recovery_min_apply_delay",
     "topic": "HA & Replication",
@@ -1295,6 +1321,7 @@
   {
     "slug": "postgresql-kernel-tuning-for-availability",
     "id": 27,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "PostgreSQL Kernel Tuning for Availability: Dirty Pages, Swappiness, and THP",
     "topic": "Configuration & Tuning",
@@ -1348,6 +1375,7 @@
   {
     "slug": "sql-merge-statement-upsert",
     "id": 28,
+    "session": "Query Techniques",
     "category": "SQL",
     "title": "Merging Records: The MERGE Statement and MySQL's Upsert Alternative",
     "topic": "Query Techniques",
@@ -1401,6 +1429,7 @@
   {
     "slug": "postgresql-connection-pooling-haproxy-pgbouncer",
     "id": 29,
+    "session": "Configuration and Tuning",
     "category": "PostgreSQL",
     "title": "Connection Pooling and Proxying: HAProxy and PgBouncer",
     "topic": "Configuration & Tuning",
@@ -1449,6 +1478,7 @@
   {
     "slug": "postgresql-troubleshooting-activity-statements-and-locks",
     "id": 30,
+    "session": "Monitoring and Troubleshooting",
     "category": "PostgreSQL",
     "title": "Troubleshooting with pg_stat_activity, pg_stat_statements, and Locks",
     "topic": "Monitoring & Troubleshooting",
@@ -1502,6 +1532,7 @@
   {
     "slug": "postgresql-monitoring-telegraf-influxdb-grafana",
     "id": 31,
+    "session": "Monitoring and Troubleshooting",
     "category": "PostgreSQL",
     "title": "Monitoring with Telegraf, InfluxDB, and Grafana",
     "topic": "Monitoring & Troubleshooting",
@@ -1555,6 +1586,7 @@
   {
     "slug": "postgresql-streaming-replication-hot-standby-and-slots",
     "id": 32,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "Streaming Replication, Hot Standby, and Replication Slots",
     "topic": "HA & Replication",
@@ -1623,6 +1655,7 @@
   {
     "slug": "postgresql-native-logical-replication",
     "id": 33,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "Native Logical Replication: Publications and Subscriptions",
     "topic": "HA & Replication",
@@ -1686,6 +1719,7 @@
   {
     "slug": "postgresql-backup-barman-and-pgbackrest",
     "id": 34,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "Backup Management: Barman and pgBackRest",
     "topic": "HA & Replication",
@@ -1734,6 +1768,7 @@
   {
     "slug": "postgresql-ha-automation-with-repmgr",
     "id": 35,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "HA Automation with repmgr",
     "topic": "HA & Replication",
@@ -1787,6 +1822,7 @@
   {
     "slug": "postgresql-ha-automation-with-patroni",
     "id": 36,
+    "session": "Replication, Backup and Failover Automation",
     "category": "PostgreSQL",
     "title": "HA Automation with Patroni",
     "topic": "HA & Replication",
@@ -1840,6 +1876,7 @@
   {
     "slug": "postgresql-data-distribution-fdw-and-sharding",
     "id": 37,
+    "session": "Migrations and Data Distribution",
     "category": "PostgreSQL",
     "title": "Data Distribution: Foreign Data Wrappers and DIY Sharding",
     "topic": "HA & Replication",
@@ -1893,6 +1930,7 @@
   {
     "slug": "sql-deleting-referenced-records",
     "id": 38,
+    "session": "Joins and Record Cleanup",
     "category": "SQL",
     "title": "Deleting Records Referenced from Another Table",
     "topic": "Joins & Set Operations",
@@ -1946,6 +1984,7 @@
   {
     "slug": "sql-delimited-data-and-lists",
     "id": 39,
+    "session": "Strings and Text",
     "category": "SQL",
     "title": "Delimited Data: Rows to Lists and Back",
     "topic": "String & Text Processing",
@@ -2005,6 +2044,7 @@
   {
     "slug": "sql-string-parsing-and-validation",
     "id": 40,
+    "session": "Strings and Text",
     "category": "SQL",
     "title": "String Parsing and Validation: Stripping, Splitting, and Type-Checking Text",
     "topic": "String & Text Processing",
@@ -2073,6 +2113,7 @@
   {
     "slug": "sql-regex-pattern-matching-in-sql",
     "id": 41,
+    "session": "Strings and Text",
     "category": "SQL",
     "title": "Regex and Pattern Matching in SQL",
     "topic": "String & Text Processing",
@@ -2127,6 +2168,7 @@
   {
     "slug": "sql-running-totals-and-moving-aggregates",
     "id": 42,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Running Totals, Running Products, and Moving Aggregates",
     "topic": "Window Functions & Analytics",
@@ -2176,6 +2218,7 @@
   {
     "slug": "sql-median-mode-and-outliers",
     "id": 43,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Mode, Median, and Outlier Detection with MAD",
     "topic": "Window Functions & Analytics",
@@ -2225,6 +2268,7 @@
   {
     "slug": "sql-date-arithmetic-between-two-dates",
     "id": 44,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Date Arithmetic: Shifting Dates and Measuring Intervals",
     "topic": "Date & Time",
@@ -2278,6 +2322,7 @@
   {
     "slug": "sql-business-day-calculations",
     "id": 45,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Business Days and Weekday Counts in a Date Range",
     "topic": "Date & Time",
@@ -2331,6 +2376,7 @@
   {
     "slug": "sql-date-truncation-and-parts",
     "id": 46,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Date Truncation and Date Parts",
     "topic": "Date & Time",
@@ -2384,6 +2430,7 @@
   {
     "slug": "sql-quarter-and-calendar-generation",
     "id": 47,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Generating Calendars and Quarter Boundaries",
     "topic": "Date & Time",
@@ -2432,6 +2479,7 @@
   {
     "slug": "sql-weekday-search-in-date-ranges",
     "id": 48,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Weekday Search in Date Ranges",
     "topic": "Date & Time",
@@ -2485,6 +2533,7 @@
   {
     "slug": "sql-date-gaps-and-overlapping-ranges",
     "id": 49,
+    "session": "Dates and Time",
     "category": "SQL",
     "title": "Date Gaps, Missing Dates, and Overlapping Ranges",
     "topic": "Date & Time",
@@ -2543,6 +2592,7 @@
   {
     "slug": "sql-gaps-and-islands",
     "id": 50,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Gaps and Islands: Consecutive Values and Sequence Generation",
     "topic": "Window Functions & Analytics",
@@ -2607,6 +2657,7 @@
   {
     "slug": "sql-differences-between-adjacent-rows",
     "id": 51,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Differences Between Adjacent Rows and Filling Gaps",
     "topic": "Window Functions & Analytics",
@@ -2661,6 +2712,7 @@
   {
     "slug": "sql-pagination-top-n-and-extremes-per-group",
     "id": 52,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Pagination, Top-N with Ties, and Extremes per Group",
     "topic": "Window Functions & Analytics",
@@ -2710,6 +2762,7 @@
   {
     "slug": "sql-window-function-ranking-and-navigation",
     "id": 53,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "SQL: Window Function Ranking and Row Navigation",
     "topic": "Window Functions & Analytics",
@@ -2763,6 +2816,7 @@
   {
     "slug": "sql-pivoting-rows-to-columns",
     "id": 54,
+    "session": "Pivoting, Hierarchies and Money",
     "category": "SQL",
     "title": "Pivoting Rows into Columns",
     "topic": "Advanced Query Patterns",
@@ -2811,6 +2865,7 @@
   {
     "slug": "sql-unpivoting-columns-to-rows",
     "id": 55,
+    "session": "Pivoting, Hierarchies and Money",
     "category": "SQL",
     "title": "Unpivoting Columns to Rows",
     "topic": "Advanced Query Patterns",
@@ -2860,6 +2915,7 @@
   {
     "slug": "sql-buckets-and-histograms",
     "id": 56,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Bucketing Data and Text Histograms",
     "topic": "Window Functions & Analytics",
@@ -2924,6 +2980,7 @@
   {
     "slug": "sql-subtotals-and-rollup",
     "id": 57,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Subtotals and Grand Totals: ROLLUP, CUBE, and GROUPING SETS",
     "topic": "Window Functions & Analytics",
@@ -2973,6 +3030,7 @@
   {
     "slug": "sql-moving-window-aggregations",
     "id": 58,
+    "session": "Window Functions and Analytics",
     "category": "SQL",
     "title": "Multi-Partition and Moving-Range Window Aggregations",
     "topic": "Window Functions & Analytics",
@@ -3027,6 +3085,7 @@
   {
     "slug": "sql-hierarchical-parent-child-relationships",
     "id": 59,
+    "session": "Pivoting, Hierarchies and Money",
     "category": "SQL",
     "title": "Hierarchical Parent-Child Relationships with Self-Joins",
     "topic": "Advanced Query Patterns",
@@ -3070,6 +3129,7 @@
   {
     "slug": "sql-recursive-hierarchy-queries",
     "id": 60,
+    "session": "Pivoting, Hierarchies and Money",
     "category": "SQL",
     "title": "Recursive Hierarchy Queries and Tree Traversal",
     "topic": "Advanced Query Patterns",
@@ -3119,6 +3179,7 @@
   {
     "slug": "sql-float-vs-numeric-for-money",
     "id": 61,
+    "session": "Pivoting, Hierarchies and Money",
     "category": "SQL",
     "title": "Why Float Fails for Money: NUMERIC, Cents-as-Integers, and BigDecimal",
     "topic": "Advanced Query Patterns",
@@ -3167,6 +3228,7 @@
   {
     "slug": "mongodb-document-model-and-collections",
     "id": 62,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "The Document Model: Documents, Collections, and ObjectIds",
     "topic": "Document Model",
@@ -3235,6 +3297,7 @@
   {
     "slug": "mongodb-crud-operations",
     "id": 63,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Writes: Inserts, Update Operators, Upserts, and Deletes",
     "topic": "Document Model",
@@ -3293,6 +3356,7 @@
   {
     "slug": "mongodb-querying-and-cursors",
     "id": 64,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Querying: Conditionals, Projections, and Cursors",
     "topic": "Query Techniques",
@@ -3351,6 +3415,7 @@
   {
     "slug": "mongodb-indexing-fundamentals",
     "id": 65,
+    "session": "Indexing and Performance",
     "category": "MongoDB",
     "title": "MongoDB Indexes: B-Trees, Compound Prefixes, and the Query Planner",
     "topic": "Indexing & Performance",
@@ -3414,6 +3479,7 @@
   {
     "slug": "dynamodb-data-modeling-approach",
     "id": 66,
+    "session": "Data Modeling",
     "category": "DynamoDB",
     "title": "DynamoDB Data Modeling: An Access-Patterns-First Approach",
     "topic": "Data Modeling",
@@ -3467,6 +3533,7 @@
   {
     "slug": "dynamodb-core-concepts-keys-and-item-collections",
     "id": 67,
+    "session": "Core Concepts and API",
     "category": "DynamoDB",
     "title": "DynamoDB Core Concepts: Primary Keys, Partitions, and Item Collections",
     "topic": "Key Design & Partitioning",
@@ -3520,6 +3587,7 @@
   {
     "slug": "dynamodb-single-table-design",
     "id": 68,
+    "session": "Data Modeling",
     "category": "DynamoDB",
     "title": "Single-Table Design in DynamoDB: Why It Exists and When Not To Use It",
     "topic": "Data Modeling",
@@ -3578,6 +3646,7 @@
   {
     "slug": "dynamodb-one-to-many-relationship-strategies",
     "id": 69,
+    "session": "Relationships and Migration",
     "category": "DynamoDB",
     "title": "DynamoDB One-to-Many Relationships: Five Modeling Strategies",
     "topic": "Relationship Strategies",
@@ -3631,6 +3700,7 @@
   {
     "slug": "dynamodb-many-to-many-relationship-strategies",
     "id": 70,
+    "session": "Relationships and Migration",
     "category": "DynamoDB",
     "title": "DynamoDB Strategies for Many-to-Many Relationships",
     "topic": "Relationship Strategies",
@@ -3679,6 +3749,7 @@
   {
     "slug": "mongodb-choosing-a-shard-key",
     "id": 73,
+    "session": "Indexing and Performance",
     "category": "MongoDB",
     "title": "Choosing a MongoDB Shard Key: Ascending, Hashed, and Zoned Distributions",
     "topic": "Indexing & Performance",
@@ -3762,6 +3833,7 @@
   {
     "slug": "mongodb-aggregation-pipeline",
     "id": 71,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Aggregation Pipelines: Stages, Expressions, and Accumulators",
     "topic": "Query Techniques",
@@ -3840,6 +3912,7 @@
   {
     "slug": "mongodb-schema-design-patterns",
     "id": 72,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Schema Design: Patterns, Embedding vs. Referencing, and Cardinality",
     "topic": "Document Model",
@@ -3933,6 +4006,7 @@
   {
     "slug": "mongodb-time-series-collections",
     "id": 74,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Time Series Collections: Bucketing, Granularity, and What You Give Up",
     "topic": "Document Model",
@@ -3996,6 +4070,7 @@
   {
     "slug": "mongodb-atlas-search-and-vector-search",
     "id": 75,
+    "session": "Document Model and Queries",
     "category": "MongoDB",
     "title": "MongoDB Search and Vector Search: $search, $vectorSearch, and RAG Retrieval",
     "topic": "Query Techniques",
@@ -4079,6 +4154,7 @@
   {
     "slug": "cassandra-cql-data-model",
     "id": 76,
+    "session": "Fundamentals and Data Modeling",
     "category": "Cassandra",
     "title": "The Cassandra Query Language: Keyspaces, Partitions, Columns, and CQL Types",
     "topic": "CQL Fundamentals",
@@ -4127,6 +4203,7 @@
   {
     "slug": "cassandra-data-modeling-methodology",
     "id": 77,
+    "session": "Fundamentals and Data Modeling",
     "category": "Cassandra",
     "title": "Cassandra Data Modeling: Query-First Design, Chebotko Diagrams, and Partition Sizing",
     "topic": "Data Modeling",
@@ -4190,6 +4267,7 @@
   {
     "slug": "cassandra-consistency-levels",
     "id": 78,
+    "session": "Consistency and Architecture",
     "category": "Cassandra",
     "title": "Cassandra Consistency Levels: Tunable Consistency, Quorums, and Coordinator Nodes",
     "topic": "Consistency & Replication",
@@ -4248,6 +4326,7 @@
   {
     "slug": "cassandra-write-path-and-lightweight-transactions",
     "id": 79,
+    "session": "Consistency and Architecture",
     "category": "Cassandra",
     "title": "Cassandra Write Path and Lightweight Transactions",
     "topic": "Consistency & Replication",
@@ -4316,6 +4395,7 @@
   {
     "slug": "cassandra-read-path-and-repair",
     "id": 80,
+    "session": "Consistency and Architecture",
     "category": "Cassandra",
     "title": "Cassandra Read Path, Last-Write-Wins, and Read Repair",
     "topic": "Consistency & Replication",
@@ -4442,6 +4522,7 @@
       }
     ],
     "id": 81,
+    "session": "Data Types and Commands",
     "category": "Redis"
   },
   {
@@ -4515,6 +4596,7 @@
       }
     ],
     "id": 82,
+    "session": "Data Types and Commands",
     "category": "Redis"
   },
   {
@@ -4578,6 +4660,7 @@
       }
     ],
     "id": 83,
+    "session": "Patterns and Coordination",
     "category": "Redis"
   },
   {
@@ -4636,6 +4719,7 @@
       }
     ],
     "id": 84,
+    "session": "Patterns and Coordination",
     "category": "Redis"
   },
   {
@@ -4684,6 +4768,7 @@
       }
     ],
     "id": 85,
+    "session": "Scaling, Durability and Security",
     "category": "Redis"
   },
   {
@@ -4742,7 +4827,8 @@
         "type": "doc"
       }
     ],
-    "id": 86
+    "id": 86,
+    "session": "Core Concepts and API"
   },
   {
     "slug": "dynamodb-api-action-types-query-scan-item-operations",
@@ -4800,7 +4886,8 @@
         "type": "doc"
       }
     ],
-    "id": 87
+    "id": 87,
+    "session": "Core Concepts and API"
   },
   {
     "slug": "cassandra-storage-attached-indexes",
@@ -4858,7 +4945,8 @@
         "type": "doc"
       }
     ],
-    "id": 88
+    "id": 88,
+    "session": "Indexing and Vector Search"
   },
   {
     "slug": "redis-persistence-rdb-vs-aof",
@@ -4921,7 +5009,8 @@
         "type": "doc"
       }
     ],
-    "id": 89
+    "id": 89,
+    "session": "Scaling, Durability and Security"
   },
   {
     "slug": "redis-acls-and-tls-security",
@@ -4979,7 +5068,8 @@
         "type": "doc"
       }
     ],
-    "id": 90
+    "id": 90,
+    "session": "Scaling, Durability and Security"
   },
   {
     "slug": "redis-streams",
@@ -5057,7 +5147,8 @@
         "type": "doc"
       }
     ],
-    "id": 91
+    "id": 91,
+    "session": "Data Types and Commands"
   },
   {
     "slug": "redis-8-stack-in-core-json-search-vectorsets-timeseries",
@@ -5150,7 +5241,8 @@
         "type": "doc"
       }
     ],
-    "id": 92
+    "id": 92,
+    "session": "Modern Redis"
   },
   {
     "slug": "cassandra-distributed-architecture-gossip-tokens-vnodes",
@@ -5208,7 +5300,8 @@
         "type": "doc"
       }
     ],
-    "id": 93
+    "id": 93,
+    "session": "Consistency and Architecture"
   },
   {
     "slug": "mongodb-multi-document-transactions",
@@ -5271,7 +5364,8 @@
         "type": "doc"
       }
     ],
-    "id": 94
+    "id": 94,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "mongodb-replica-sets-topology-and-elections",
@@ -5339,7 +5433,8 @@
         "type": "doc"
       }
     ],
-    "id": 95
+    "id": 95,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "mongodb-sharding-architecture",
@@ -5402,7 +5497,8 @@
         "type": "doc"
       }
     ],
-    "id": 96
+    "id": 96,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "dynamodb-what-is-dynamodb-and-when-to-use-it",
@@ -5455,7 +5551,8 @@
         "type": "doc"
       }
     ],
-    "id": 97
+    "id": 97,
+    "session": "Core Concepts and API"
   },
   {
     "slug": "dynamodb-migration-strategies-for-single-table-design",
@@ -5508,7 +5605,8 @@
         "type": "doc"
       }
     ],
-    "id": 98
+    "id": 98,
+    "session": "Relationships and Migration"
   },
   {
     "slug": "cassandra-storage-engine-internals",
@@ -5561,7 +5659,8 @@
         "type": "doc"
       }
     ],
-    "id": 99
+    "id": 99,
+    "session": "Consistency and Architecture"
   },
   {
     "slug": "mongodb-security-authentication-and-encryption",
@@ -5629,7 +5728,8 @@
         "type": "doc"
       }
     ],
-    "id": 100
+    "id": 100,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "cassandra-secondary-indexes-and-materialized-views",
@@ -5677,7 +5777,8 @@
         "type": "doc"
       }
     ],
-    "id": 101
+    "id": 101,
+    "session": "Indexing and Vector Search"
   },
   {
     "slug": "cassandra-vector-search-and-vector-type",
@@ -5740,7 +5841,8 @@
         "type": "doc"
       }
     ],
-    "id": 102
+    "id": 102,
+    "session": "Indexing and Vector Search"
   },
   {
     "slug": "redis-transactions-and-pipelines",
@@ -5798,7 +5900,8 @@
         "type": "doc"
       }
     ],
-    "id": 103
+    "id": 103,
+    "session": "Data Types and Commands"
   },
   {
     "slug": "redis-sentinel-for-high-availability",
@@ -5841,7 +5944,8 @@
         "type": "doc"
       }
     ],
-    "id": 104
+    "id": 104,
+    "session": "Scaling, Durability and Security"
   },
   {
     "slug": "redis-functions-replacing-ad-hoc-lua-scripting",
@@ -5899,7 +6003,8 @@
         "type": "doc"
       }
     ],
-    "id": 105
+    "id": 105,
+    "session": "Modern Redis"
   },
   {
     "slug": "mongodb-special-indexes-geospatial-text-ttl-capped-gridfs",
@@ -5962,7 +6067,8 @@
         "type": "doc"
       }
     ],
-    "id": 106
+    "id": 106,
+    "session": "Indexing and Performance"
   },
   {
     "slug": "mongodb-replica-set-connectivity-and-read-write-concern",
@@ -6025,7 +6131,8 @@
         "type": "doc"
       }
     ],
-    "id": 107
+    "id": 107,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "dynamodb-using-the-api-well-expressions-and-avoiding-orms",
@@ -6093,7 +6200,8 @@
         "type": "doc"
       }
     ],
-    "id": 108
+    "id": 108,
+    "session": "Core Concepts and API"
   },
   {
     "slug": "dynamodb-modeling-to-implementation-practical-rules",
@@ -6146,7 +6254,8 @@
         "type": "doc"
       }
     ],
-    "id": 109
+    "id": 109,
+    "session": "Data Modeling"
   },
   {
     "slug": "dynamodb-filtering-strategies-sparse-indexes-composite-sort-keys",
@@ -6204,7 +6313,8 @@
         "type": "doc"
       }
     ],
-    "id": 110
+    "id": 110,
+    "session": "Data Modeling"
   },
   {
     "slug": "cassandra-beyond-relational-cap-theorem-tradeoffs",
@@ -6252,7 +6362,8 @@
         "type": "doc"
       }
     ],
-    "id": 111
+    "id": 111,
+    "session": "Fundamentals and Data Modeling"
   },
   {
     "slug": "cassandra-architecture-elevator-pitch",
@@ -6310,7 +6421,8 @@
         "type": "doc"
       }
     ],
-    "id": 112
+    "id": 112,
+    "session": "Fundamentals and Data Modeling"
   },
   {
     "slug": "cassandra-application-development-with-the-java-driver",
@@ -6368,7 +6480,8 @@
         "type": "doc"
       }
     ],
-    "id": 113
+    "id": 113,
+    "session": "Fundamentals and Data Modeling"
   },
   {
     "slug": "cassandra-security-authentication-rbac-encryption",
@@ -6421,7 +6534,8 @@
         "type": "doc"
       }
     ],
-    "id": 114
+    "id": 114,
+    "session": "Operating a Cluster"
   },
   {
     "slug": "redis-pubsub-messaging-patterns",
@@ -6489,7 +6603,8 @@
         "type": "doc"
       }
     ],
-    "id": 115
+    "id": 115,
+    "session": "Data Types and Commands"
   },
   {
     "slug": "redis-task-queues-and-delayed-jobs",
@@ -6552,7 +6667,8 @@
         "type": "doc"
       }
     ],
-    "id": 116
+    "id": 116,
+    "session": "Patterns and Coordination"
   },
   {
     "slug": "redis-licensing-history-and-the-valkey-fork",
@@ -6600,7 +6716,8 @@
         "type": "doc"
       }
     ],
-    "id": 117
+    "id": 117,
+    "session": "Modern Redis"
   },
   {
     "slug": "mongodb-monitoring-and-backup",
@@ -6673,7 +6790,8 @@
         "type": "doc"
       }
     ],
-    "id": 118
+    "id": 118,
+    "session": "Replication, Sharding and Security"
   },
   {
     "slug": "cassandra-migration-and-integrations-kafka-spark",
@@ -6731,7 +6849,8 @@
         "type": "doc"
       }
     ],
-    "id": 119
+    "id": 119,
+    "session": "Fundamentals and Data Modeling"
   },
   {
     "slug": "redis-memory-optimization-and-internal-encodings",
@@ -6789,7 +6908,8 @@
         "type": "doc"
       }
     ],
-    "id": 120
+    "id": 120,
+    "session": "Data Types and Commands"
   },
   {
     "slug": "dynamodb-sorting-strategies",
@@ -6847,7 +6967,8 @@
         "type": "doc"
       }
     ],
-    "id": 121
+    "id": 121,
+    "session": "Data Modeling"
   },
   {
     "slug": "dynamodb-additional-strategies-uniqueness-sequential-ids-pagination",
@@ -6900,7 +7021,8 @@
         "type": "doc"
       }
     ],
-    "id": 122
+    "id": 122,
+    "session": "Data Modeling"
   },
   {
     "slug": "dynamodb-worked-case-study-adjacency-list-and-gsi-overloading",
@@ -6948,7 +7070,8 @@
         "type": "doc"
       }
     ],
-    "id": 123
+    "id": 123,
+    "session": "Relationships and Migration"
   },
   {
     "slug": "dynamodb-whats-changed-since-2020",
@@ -7011,7 +7134,8 @@
         "type": "doc"
       }
     ],
-    "id": 124
+    "id": 124,
+    "session": "Core Concepts and API"
   },
   {
     "slug": "cassandra-cluster-deployment-and-sizing",
@@ -7064,7 +7188,8 @@
         "type": "doc"
       }
     ],
-    "id": 125
+    "id": 125,
+    "session": "Operating a Cluster"
   },
   {
     "slug": "cassandra-monitoring-nodetool-virtual-tables-metrics",
@@ -7117,7 +7242,8 @@
         "type": "doc"
       }
     ],
-    "id": 126
+    "id": 126,
+    "session": "Operating a Cluster"
   },
   {
     "slug": "cassandra-maintenance-repair-node-operations-backup",
@@ -7165,7 +7291,8 @@
         "type": "doc"
       }
     ],
-    "id": 127
+    "id": 127,
+    "session": "Operating a Cluster"
   },
   {
     "slug": "cassandra-performance-tuning-caching-compaction-jvm-gc",
@@ -7218,7 +7345,8 @@
         "type": "doc"
       }
     ],
-    "id": 128
+    "id": 128,
+    "session": "Operating a Cluster"
   },
   {
     "slug": "couchdb-document-model-and-mvcc",

@@ -30,8 +30,11 @@ export const trophyXp = (track: { sessions: readonly unknown[] }): number => AWA
 export const hasBadges = (track: { sessions: readonly unknown[] }): boolean => track.sessions.length >= 2;
 
 export type TrackSource =
-  /** `category` keeps only the concepts of that category, so one module can feed several tracks. */
-  | { kind: 'concepts'; module: string; groupBy: 'topic' | 'category'; category?: string }
+  /**
+   * `category` / `topic` keep only the concepts under that label, so one module can feed several tracks.
+   * `groupBy: 'session'` binds sessions to the editorial `session` field of each concept in the seed.
+   */
+  | { kind: 'concepts'; module: string; groupBy: 'topic' | 'category' | 'session'; category?: string; topic?: string }
   | { kind: 'curriculum'; module: string; discipline: string }
   | { kind: 'course'; courseId: string };
 
@@ -57,7 +60,7 @@ export interface TrackManifest {
 /** What the loader read from the seeds; `buildCatalog` never touches the filesystem. */
 export interface SeedInput {
   /** concepts.json of each concept module, in file order. */
-  concepts: Record<string, { slug: string; topic?: string; category?: string }[]>;
+  concepts: Record<string, { slug: string; topic?: string; category?: string; session?: string }[]>;
   /** Slugs of each curriculum discipline, keyed `module/discipline`. */
   curriculum: Record<string, string[]>;
   /** Course modules in order, keyed by course id. `label` is the module file name without `.json`. */
@@ -108,6 +111,7 @@ function unitsOfSource(track: TrackManifest, seed: SeedInput): { all: Unit[]; by
     if (!list) return `no concepts.json loaded for ${source.module}`;
     for (const concept of list) {
       if (source.category !== undefined && concept.category !== source.category) continue;
+      if (source.topic !== undefined && concept.topic !== source.topic) continue;
       const resolved = toSourceId(source.module, concept.slug);
       if (!resolved || resolved.sourceType !== 'concept-read') return `${source.module} is not a concept-read module`;
       const unit: Unit = { sourceType: 'concept-read', sourceId: resolved.sourceId };
@@ -163,7 +167,8 @@ function buildTrack(track: TrackManifest, seed: SeedInput, problems: CatalogProb
   }
 
   if (!track.sessions?.length) {
-    if (track.source.kind !== 'curriculum' && found.all.length > 0) fail('a track of this kind needs sessions');
+    // Direct units (a CC discipline, or a concepts track kept to a trophy) need no sessions; a course does.
+    if (track.source.kind === 'course' && found.all.length > 0) fail('a course track needs sessions');
     result.units = found.all;
   } else {
     const bound = new Set<string>();
