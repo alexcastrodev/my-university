@@ -44,6 +44,10 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+The login shortcuts (`dev-login` and the `_test/*` routes the specs use) answer 404 unless
+`ENABLE_DEV_AUTH=1` is set, and never work with `NODE_ENV=production`. The docker compose stack
+sets the flag; when running `start:dev` by hand, export it yourself.
+
 ## Run tests
 
 ```bash

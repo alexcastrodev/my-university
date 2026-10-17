@@ -4,7 +4,6 @@ import {
   Body,
   Controller,
   Get,
-  NotFoundException,
   Post,
   Put,
   Query,
@@ -13,6 +12,7 @@ import {
 } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
+import { assertDevAuth, devAuthEnabled } from './dev-auth';
 import { GithubOauthService } from './github-oauth.service';
 import {
   clearOauthState,
@@ -108,13 +108,13 @@ export class AuthController {
   /** Lets the login page know whether the dev-login shortcut is available. */
   @Get('dev-mode')
   devMode() {
-    return { enabled: process.env.NODE_ENV !== 'production' };
+    return { enabled: devAuthEnabled() };
   }
 
   /** Dev-only: logs in as a stable local account without going through GitHub. */
   @Post('dev-login')
   async devLogin(@Res({ passthrough: true }) reply: FastifyReply) {
-    if (process.env.NODE_ENV === 'production') throw new NotFoundException();
+    assertDevAuth();
     const user = await this.service.upsertDevUser();
     setSession(reply, user.id);
     return user;
@@ -126,7 +126,7 @@ export class AuthController {
     @Body('displayName') displayName: string,
     @Res({ passthrough: true }) reply: FastifyReply,
   ) {
-    if (process.env.NODE_ENV === 'production') throw new NotFoundException();
+    assertDevAuth();
     const user = await this.service.createTestUser(
       displayName || `test-${Date.now()}`,
     );
@@ -137,7 +137,7 @@ export class AuthController {
   /** Test-only: wipes every user created via `_test/login`, so a spec run starts from a clean leaderboard. */
   @Post('_test/reset')
   async testReset() {
-    if (process.env.NODE_ENV === 'production') throw new NotFoundException();
+    assertDevAuth();
     await this.service.deleteTestUsers();
     return { ok: true };
   }
