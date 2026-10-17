@@ -11,7 +11,7 @@ import { mountTree } from './tree-render';
 function parseFenceSource(source: string): { type: string; body: string } {
   const lines = source.split('\n');
   const typeLineIndex = lines.findIndex((line) => line.trim().length > 0);
-  const type = /^type:\s*(.+)$/.exec((lines[typeLineIndex] ?? '').trim())?.[1]?.trim() ?? '';
+  const type = /^type:[ \t]*(\S.*)$/.exec((lines[typeLineIndex] ?? '').trim())?.[1]?.trim() ?? '';
   return { type, body: lines.slice(typeLineIndex + 1).join('\n') };
 }
 
