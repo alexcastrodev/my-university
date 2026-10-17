@@ -115,6 +115,17 @@ describe('POST /xp/achievements/sync: badges', () => {
     expect(state.progress.find((p) => p.trackId === k8s.trackId)!.sessions[0]).toMatchObject({ complete: true, awarded: true });
   });
 
+  it('records an award exactly once when syncs run in parallel', async () => {
+    const cookie = await user('ach-parallel');
+    const session = k8s.sessions[0];
+    await completeAll(cookie, k8s, session.units);
+
+    const runs = await Promise.all([sync(cookie), sync(cookie), sync(cookie), sync(cookie)]);
+    expect(runs.flat()).toHaveLength(1);
+    expect((await achievements(cookie)).awards.map((a) => a.id)).toEqual([session.sessionId]);
+    expect(await xpTotal(cookie)).toBe(session.units.length * (10 + AWARD_XP.badgePerUnit));
+  });
+
   it('does not change the streak or add a second activity day', async () => {
     const cookie = await user('ach-streak');
     await completeAll(cookie, k8s, k8s.sessions[0].units);

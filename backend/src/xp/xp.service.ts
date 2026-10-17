@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, MoreThanOrEqual, Repository } from 'typeorm';
+import { EntityManager, In, MoreThanOrEqual, Repository } from 'typeorm';
 import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
 import { getCatalog, getUnitTitles } from '../achievements/load-seed';
 import {
@@ -289,8 +289,8 @@ export class XpService {
   }
 
   /** Awards already recorded for a user, newest first. Retired and disabled ones are included: an award is permanent. */
-  private async awardRows(userId: number) {
-    const rows = await this.repo.find({
+  private async awardRows(userId: number, repo: Repository<UserXpEntry> = this.repo) {
+    const rows = await repo.find({
       where: { userId, sourceType: In(AWARD_TYPES) },
       select: { sourceType: true, sourceId: true, exp: true, updatedAt: true },
       order: { updatedAt: 'DESC', id: 'DESC' },
@@ -299,8 +299,8 @@ export class XpService {
   }
 
   /** One query for everything a user has completed: unit key -> when. The input of every award decision. */
-  private async unitDates(userId: number): Promise<Map<string, Date>> {
-    const rows = await this.repo.find({
+  private async unitDates(userId: number, repo: Repository<UserXpEntry> = this.repo): Promise<Map<string, Date>> {
+    const rows = await repo.find({
       where: { userId, sourceType: In(UNIT_TYPES) },
       select: { sourceType: true, sourceId: true, updatedAt: true },
     });
@@ -332,9 +332,9 @@ export class XpService {
   }
 
   /** Awards the user has earned but that are not recorded yet. Never writes. */
-  private async pendingAwards(userId: number) {
+  private async pendingAwards(userId: number, repo: Repository<UserXpEntry> = this.repo) {
     const catalog = getCatalog();
-    const [existing, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    const [existing, dates] = await Promise.all([this.awardRows(userId, repo), this.unitDates(userId, repo)]);
     const pending = evaluateAwards(catalog, dates, new Set(existing.map((a) => `${a.sourceType}:${a.sourceId}`)));
     return { catalog, pending };
   }
@@ -355,23 +355,29 @@ export class XpService {
    * latest unit that completed it, so it never creates an activity day that did not exist.
    */
   async syncAchievements(userId: number): Promise<AwardView[]> {
-    const { catalog, pending } = await this.pendingAwards(userId);
+    return this.repo.manager.transaction(async (manager: EntityManager) => {
+      // One sync per user at a time: the decision and the inserts see the same units, and a second
+      // call waits and then finds nothing left to record.
+      await manager.query('SELECT pg_advisory_xact_lock($1)', [userId]);
+      const repo = manager.getRepository(UserXpEntry);
+      const { catalog, pending } = await this.pendingAwards(userId, repo);
 
-    const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
-    for (const award of pending) {
-      const result = await this.repo
-        .createQueryBuilder()
-        .insert()
-        .into(UserXpEntry)
-        .values({ userId, sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt })
-        .orIgnore()
-        .returning('id')
-        .execute();
-      if (result.raw.length > 0) {
-        inserted.push({ sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt });
+      const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
+      for (const award of pending) {
+        const result = await repo
+          .createQueryBuilder()
+          .insert()
+          .into(UserXpEntry)
+          .values({ userId, sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt })
+          .orIgnore()
+          .returning('id')
+          .execute();
+        if (result.raw.length > 0) {
+          inserted.push({ sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt });
+        }
       }
-    }
-    return describeAwards(catalog, inserted);
+      return describeAwards(catalog, inserted);
+    });
   }
 
   /**
