@@ -19,8 +19,8 @@ interface TitleLayout {
 
 @Injectable()
 export class OgImageService {
-  async render(rawTitle: string | undefined): Promise<Buffer> {
-    const svg = this.buildSvg(this.sanitizeTitle(rawTitle));
+  async render(rawTitle: string | undefined, subtitle?: string): Promise<Buffer> {
+    const svg = this.buildSvg(this.sanitizeTitle(rawTitle), subtitle);
     return sharp(Buffer.from(svg)).png().toBuffer();
   }
 
@@ -32,7 +32,7 @@ export class OgImageService {
       : title;
   }
 
-  private buildSvg(title: string): string {
+  private buildSvg(title: string, subtitle?: string): string {
     const layout = this.layoutTitle(title);
     const titleStartY =
       HEIGHT / 2 - ((layout.lines.length - 1) * layout.lineHeight) / 2;
@@ -49,7 +49,7 @@ export class OgImageService {
   <rect x="0" y="0" width="14" height="${HEIGHT}" fill="${ACCENT_COLOR}" />
   <text x="${MARGIN_X}" y="120" font-family="${FONT_FAMILY}" font-size="26" font-weight="700" letter-spacing="2" fill="${ACCENT_COLOR}">MY UNIVERSITY</text>
   <text font-family="${FONT_FAMILY}" font-size="${layout.fontSize}" font-weight="700" fill="${TITLE_COLOR}">${titleTspans}</text>
-  <text x="${MARGIN_X}" y="${HEIGHT - 70}" font-family="${FONT_FAMILY}" font-size="24" fill="${MUTED_COLOR}">university.kurz.fyi</text>
+${subtitle ? `  <text x="${MARGIN_X}" y="${HEIGHT - 130}" font-family="${FONT_FAMILY}" font-size="32" font-weight="700" fill="${ACCENT_COLOR}">${this.escapeXml(subtitle)}</text>\n` : ''}  <text x="${MARGIN_X}" y="${HEIGHT - 70}" font-family="${FONT_FAMILY}" font-size="24" fill="${MUTED_COLOR}">university.kurz.fyi</text>
 </svg>`;
   }
 

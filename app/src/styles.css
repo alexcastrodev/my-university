@@ -1180,3 +1180,36 @@ pre.dz-block .dz-marker {
   font-size: 0.78rem;
   color: var(--mu-faint);
 }
+
+/* Print: light palette whatever the theme, and keep colored badges and bars in the output. */
+@media print {
+  :root,
+  :root[data-theme='dark'] {
+    --mu-ink: #111827;
+    --mu-ink-soft: #374151;
+    --mu-muted: #6b7280;
+    --mu-faint: #9ca3af;
+    --mu-line: #e5e7eb;
+    --mu-surface: #ffffff;
+    --mu-bg: #ffffff;
+    --mu-bg-alt: #f3f4f6;
+    --mu-accent: #c74634;
+    --mu-accent-soft: #fff1ef;
+    --mu-divider: #d1d5db;
+  }
+
+  h2 {
+    break-after: avoid;
+  }
+
+  li {
+    break-inside: avoid;
+  }
+
+  html,
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

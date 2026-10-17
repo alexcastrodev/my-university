@@ -186,10 +186,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    // Public learner profile: per-id and it can turn private at any moment, so the shell is rendered in
-    // the browser and the data is fetched fresh (the API answers `no-store`), never baked into SSR output.
+    // Public learner profile: the server renders only the shell and the share tags (the og:image points at
+    // the API, which checks that the profile is public). The profile itself is fetched in the browser, never
+    // baked into SSR output, since it can turn private at any moment.
     path: 'u/:profileKey',
-    renderMode: RenderMode.Client,
+    renderMode: RenderMode.Server,
   },
   {
     path: 'settings',
