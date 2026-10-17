@@ -78,8 +78,9 @@ export class XpService {
     sourceType: XpSourceType,
     sourceId: string,
     exp: number,
+    repo: Repository<UserXpEntry> = this.repo,
   ): Promise<void> {
-    await this.repo
+    await repo
       .createQueryBuilder()
       .insert()
       .into(UserXpEntry)
@@ -88,12 +89,33 @@ export class XpService {
       .execute();
   }
 
-  async grantLessonXp(userId: number, lessonId: string): Promise<void> {
-    await this.awardOnce(userId, 'lesson', lessonId, 10);
+  /**
+   * Records a completed unit and, in the same transaction, every award that completes with it. The
+   * per-user lock serializes this with any other grant or sync of the same user, so the returned awards
+   * are exactly the ones this call inserted. `within` runs first in the transaction (a lesson's
+   * `Progress` row), so an error anywhere undoes the unit, the progress and the awards together.
+   */
+  private grantUnitXp(
+    userId: number,
+    sourceType: UnitSourceType,
+    sourceId: string,
+    within?: (manager: EntityManager) => Promise<void>,
+  ): Promise<AwardView[]> {
+    return this.repo.manager.transaction(async (manager) => {
+      await manager.query('SELECT pg_advisory_xact_lock($1)', [userId]);
+      await within?.(manager);
+      await this.awardOnce(userId, sourceType, sourceId, 10, manager.getRepository(UserXpEntry));
+      return this.recordPendingAwards(userId, manager.getRepository(UserXpEntry));
+    });
   }
 
-  async grantConceptReadXp(userId: number, slug: string): Promise<void> {
-    await this.awardOnce(userId, 'concept-read', slug, 10);
+  /** A lesson completed. `within` is the progress write that belongs to the same transaction. */
+  grantLessonXp(userId: number, lessonId: string, within?: (manager: EntityManager) => Promise<void>): Promise<AwardView[]> {
+    return this.grantUnitXp(userId, 'lesson', lessonId, within);
+  }
+
+  grantConceptReadXp(userId: number, slug: string): Promise<AwardView[]> {
+    return this.grantUnitXp(userId, 'concept-read', slug);
   }
 
   async grantEpisodeWatchedXp(userId: number, slug: string): Promise<void> {
@@ -359,25 +381,28 @@ export class XpService {
       // One sync per user at a time: the decision and the inserts see the same units, and a second
       // call waits and then finds nothing left to record.
       await manager.query('SELECT pg_advisory_xact_lock($1)', [userId]);
-      const repo = manager.getRepository(UserXpEntry);
-      const { catalog, pending } = await this.pendingAwards(userId, repo);
-
-      const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
-      for (const award of pending) {
-        const result = await repo
-          .createQueryBuilder()
-          .insert()
-          .into(UserXpEntry)
-          .values({ userId, sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt })
-          .orIgnore()
-          .returning('id')
-          .execute();
-        if (result.raw.length > 0) {
-          inserted.push({ sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt });
-        }
-      }
-      return describeAwards(catalog, inserted);
+      return this.recordPendingAwards(userId, manager.getRepository(UserXpEntry));
     });
+  }
+
+  /** The body of a sync; the caller holds the user's lock and owns the transaction. */
+  private async recordPendingAwards(userId: number, repo: Repository<UserXpEntry>): Promise<AwardView[]> {
+    const { catalog, pending } = await this.pendingAwards(userId, repo);
+    const inserted: { sourceType: AwardType; sourceId: string; exp: number; updatedAt: Date }[] = [];
+    for (const award of pending) {
+      const result = await repo
+        .createQueryBuilder()
+        .insert()
+        .into(UserXpEntry)
+        .values({ userId, sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt })
+        .orIgnore()
+        .returning('id')
+        .execute();
+      if (result.raw.length > 0) {
+        inserted.push({ sourceType: award.sourceType, sourceId: award.sourceId, exp: award.exp, updatedAt: award.completedAt });
+      }
+    }
+    return describeAwards(catalog, inserted);
   }
 
   /**

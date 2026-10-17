@@ -106,6 +106,17 @@ export class XpService {
     return this.syncChain;
   }
 
+  /**
+   * Awards an action just earned, straight from its response. The server already recorded them in the
+   * same transaction as the unit, so this only announces (once per award) and refreshes the collection.
+   * Ignored when the user changed since the request was sent.
+   */
+  receiveAwards(userId: number, awards: AwardView[]): void {
+    if (this.auth.currentUser()?.id !== userId) return;
+    const fresh = awards.filter((award) => this.announce(userId, award));
+    if (fresh.length > 0) void this.syncAchievements(false);
+  }
+
   /** Loads the catalog of everything that can be earned, with the user's progress. Never rejects; failure sets the error flag. */
   async loadAchievementCatalog(): Promise<void> {
     const user = this.auth.currentUser();
@@ -139,9 +150,10 @@ export class XpService {
     }
   }
 
-  private announce(userId: number, award: AwardView): void {
+  /** Shows the toast for an award; false when this user was already told about it. */
+  private announce(userId: number, award: AwardView): boolean {
     const key = `${userId}:${award.type}:${award.id}`;
-    if (this.announced.has(key)) return;
+    if (this.announced.has(key)) return false;
     this.announced.add(key);
     const badge = award.type === 'badge';
     this.toast.show(award.exp, {
@@ -150,6 +162,7 @@ export class XpService {
         ? $localize`:@@xpToast.badge:Badge unlocked: ${award.title}:title:`
         : $localize`:@@xpToast.trophy:Trophy unlocked: ${award.title}:title:`,
     });
+    return true;
   }
 
   /** First page of the activity list; replaces whatever was loaded before. */

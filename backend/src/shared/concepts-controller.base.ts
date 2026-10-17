@@ -71,7 +71,7 @@ export abstract class ConceptsControllerBase<
   async markRead(@Param('slug') slug: string, @CurrentUserId() userId: number) {
     const concept = this.service.findBySlug(slug);
     if (!concept) throw new NotFoundException();
-    await this.xp.grantConceptReadXp(userId, this.sourceId(slug));
-    return { read: true };
+    const newAwards = await this.xp.grantConceptReadXp(userId, this.sourceId(slug));
+    return { read: true, newAwards };
   }
 }

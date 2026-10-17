@@ -86,10 +86,10 @@ export class CurriculumController {
   ) {
     const concept = this.service.findBySlug(mod, discipline, slug);
     if (!concept) throw new NotFoundException();
-    await this.xp.grantConceptReadXp(
+    const newAwards = await this.xp.grantConceptReadXp(
       userId,
       this.sourceId(mod, discipline, slug),
     );
-    return { read: true };
+    return { read: true, newAwards };
   }
 }
