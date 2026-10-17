@@ -991,6 +991,16 @@
     "lab.error": "Não foi possível enviar. Tente novamente em instantes.",
     "lab.empty": "Nenhum post ainda. Seja o primeiro a contar como foi o lab.",
     "lab.replyPlaceholder": "Escreva uma resposta...",
-    "lab.send": "Enviar"
+    "lab.send": "Enviar",
+    "editor.toolbar": "Formatação",
+    "editor.bold": "Negrito",
+    "editor.italic": "Itálico",
+    "editor.code": "Código inline",
+    "editor.codeBlock": "Bloco de código",
+    "editor.list": "Lista",
+    "editor.link": "Link",
+    "editor.strike": "Tachado",
+    "editor.quote": "Citação",
+    "editor.numbered": "Lista numerada"
   }
 }

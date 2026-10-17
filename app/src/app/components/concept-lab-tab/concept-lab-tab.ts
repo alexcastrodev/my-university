@@ -16,6 +16,8 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { CommentView, MarkerDetail, ThreadView } from '../../discussion/discussion.model';
+import { renderPostMarkdown } from '../../shared/post-markdown';
+import { PostEditor } from '../post-editor/post-editor';
 import { timeAgo } from '../../discussion/time-ago';
 
 const API = '/api/discussions';
@@ -31,7 +33,7 @@ const QUOTE_CHARS = 220;
 @Component({
   selector: 'app-concept-lab-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgTemplateOutlet],
+  imports: [RouterLink, NgTemplateOutlet, PostEditor],
   templateUrl: './concept-lab-tab.html',
   styleUrl: './concept-lab-tab.css',
 })
@@ -115,8 +117,8 @@ export class ConceptLabTab {
     this.replyingTo.set(this.replyingTo() === thread.root.id ? null : thread.root.id);
   }
 
-  protected onInput(signalRef: { set(v: string): void }, event: Event): void {
-    signalRef.set((event.target as HTMLTextAreaElement).value);
+  protected html(markdown: string): string {
+    return renderPostMarkdown(markdown);
   }
 
   protected name(comment: CommentView): string {

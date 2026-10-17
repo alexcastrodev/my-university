@@ -72,18 +72,6 @@
   margin: 0.5rem 0 0 2.75rem;
 }
 
-.composer textarea {
-  width: 100%;
-  box-sizing: border-box;
-  resize: vertical;
-  font: inherit;
-  color: var(--mu-ink);
-  background: var(--mu-surface);
-  border: 1px solid var(--mu-line);
-  border-radius: 8px;
-  padding: 0.65rem 0.8rem;
-}
-
 .send {
   background: var(--mu-accent);
   color: var(--mu-white);
@@ -183,9 +171,8 @@
   font-size: 0.88rem;
 }
 
-.quote p {
-  margin: 0.2rem 0 0;
-  white-space: pre-wrap;
+.quote .md {
+  margin-top: 0.2rem;
 }
 
 .quote-by {
@@ -194,11 +181,52 @@
 }
 
 .post-body {
-  margin: 0;
-  white-space: pre-wrap;
   overflow-wrap: anywhere;
   color: var(--mu-ink);
   line-height: 1.55;
+}
+
+:host ::ng-deep .md > :first-child {
+  margin-top: 0;
+}
+
+:host ::ng-deep .md > :last-child {
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .md p {
+  margin: 0.5rem 0;
+}
+
+:host ::ng-deep .md ul,
+:host ::ng-deep .md ol {
+  margin: 0.5rem 0;
+  padding-left: 1.4rem;
+}
+
+:host ::ng-deep .md a {
+  color: var(--mu-accent);
+}
+
+:host ::ng-deep .md code {
+  background: var(--mu-bg-alt);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.88em;
+}
+
+:host ::ng-deep .md pre {
+  margin: 0.6rem 0;
+  padding: 0.75rem 0.9rem;
+  overflow-x: auto;
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+:host ::ng-deep .md pre code {
+  background: none;
+  padding: 0;
 }
 
 .post-actions {

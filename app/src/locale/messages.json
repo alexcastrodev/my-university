@@ -594,6 +594,16 @@
     "lab.error": "Could not send. Try again in a moment.",
     "lab.empty": "No posts yet. Be the first to share how the lab went.",
     "lab.replyPlaceholder": "Write a reply...",
-    "lab.send": "Send"
+    "lab.send": "Send",
+    "editor.toolbar": "Formatting",
+    "editor.bold": "Bold",
+    "editor.italic": "Italic",
+    "editor.code": "Inline code",
+    "editor.codeBlock": "Code block",
+    "editor.list": "List",
+    "editor.link": "Link",
+    "editor.strike": "Strikethrough",
+    "editor.quote": "Quote",
+    "editor.numbered": "Numbered list"
   }
 }

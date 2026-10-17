@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.editor {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.editor:focus-within {
+  border-color: var(--mu-accent);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.3rem 0.45rem;
+  background: var(--mu-surface-alt);
+  border-bottom: 1px solid var(--mu-line);
+}
+
+.tool {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  color: var(--mu-ink-soft);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tool:hover {
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink);
+}
+
+.sep {
+  width: 1px;
+  height: 1.1rem;
+  margin: 0 0.3rem;
+  background: var(--mu-line);
+}
+
+.area {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  overflow-y: hidden;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--mu-ink);
+  font: inherit;
+  line-height: 1.5;
+  padding: 0.7rem 0.85rem;
+}

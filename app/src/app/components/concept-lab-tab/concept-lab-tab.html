@@ -22,10 +22,10 @@
       @if (isReply) {
         <blockquote class="quote">
           <strong class="quote-by" i18n="@@lab.quoteBy">{{ name(thread.root) }} said:</strong>
-          <p>{{ excerpt(thread.root) }}</p>
+          <div class="md" [innerHTML]="html(excerpt(thread.root))"></div>
         </blockquote>
       }
-      <p class="post-body">{{ c.body }}</p>
+      <div class="post-body md" [innerHTML]="html(c.body)"></div>
       <footer class="post-actions">
         <button
           type="button"
@@ -74,14 +74,13 @@
 
   @if (signedIn()) {
     <div class="composer">
-      <textarea
-        rows="3"
-        [value]="draft()"
+      <app-post-editor
+        [(value)]="draft"
         [maxLength]="maxBody"
         i18n-placeholder="@@lab.placeholder"
         placeholder="Stuck on a TODO or found a better way? Share it with other students..."
-        (input)="onInput(draft, $event)"
-      ></textarea>
+        (submitted)="post()"
+      />
       <button type="button" class="send" [disabled]="!canSend(draft())" (click)="post()" i18n="@@lab.post">Post</button>
     </div>
   } @else {
@@ -103,14 +102,14 @@
       }
       @if (replyingTo() === thread.root.id) {
         <div class="composer inline">
-          <textarea
-            rows="2"
-            [value]="replyDraft()"
+          <app-post-editor
+            [(value)]="replyDraft"
+            [minRows]="3"
             [maxLength]="maxBody"
             i18n-placeholder="@@lab.replyPlaceholder"
             placeholder="Write a reply..."
-            (input)="onInput(replyDraft, $event)"
-          ></textarea>
+            (submitted)="reply(thread)"
+          />
           <button type="button" class="send" [disabled]="!canSend(replyDraft())" (click)="reply(thread)" i18n="@@lab.send">Send</button>
         </div>
       }
