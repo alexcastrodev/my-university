@@ -76,7 +76,8 @@ jobs:
           bad = [m.group(0).split('{')[0].strip()
                  for m in re.finditer(r"    location [^\n]*\{\n(?:(?!\n    \}).)*\n    \}", conf, re.S)
                  if 'add_header' in m.group(0) and 'security-headers.conf' not in m.group(0)]
-          if 'include /etc/nginx/snippets/security-headers.conf;' not in conf.split('location')[0]:
+          server_head = conf.split('server {')[1].split('    location ')[0]
+          if 'include /etc/nginx/snippets/security-headers.conf;' not in server_head:
               bad.append('server block')
           if bad:
               sys.exit('missing security-headers include in: ' + ', '.join(bad))
@@ -84,6 +85,17 @@ jobs:
           for h in X-Content-Type-Options X-Frame-Options Referrer-Policy Permissions-Policy Content-Security-Policy; do
             grep -q "add_header $h " security-headers.conf || { echo "security-headers.conf lacks $h"; exit 1; }
           done
+
+      - name: Scripts stay nonce-only in the CSP
+        run: |
+          set -euo pipefail
+          policy=$(grep -E "^\s+default \"default-src" nginx.conf)
+          script_src=$(echo "$policy" | grep -oE "script-src[^;]*")
+          echo "$script_src"
+          case "$script_src" in *unsafe-inline*|*unsafe-eval*) echo "script-src must not allow unsafe-inline/unsafe-eval"; exit 1;; esac
+          echo "$script_src" | grep -q "nonce-" || { echo "script-src lost its nonce"; exit 1; }
+          # The nonce is only useful if the SSR locations stamp it on the inline scripts.
+          [ "$(grep -c "sub_filter '<script'" nginx.conf)" -ge 2 ] || { echo "SSR locations must stamp the nonce"; exit 1; }
 
       - name: Dev login shortcuts stay opt-in
         run: |
