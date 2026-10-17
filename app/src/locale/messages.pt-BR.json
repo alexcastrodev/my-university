@@ -1001,6 +1001,20 @@
     "editor.link": "Link",
     "editor.strike": "Tachado",
     "editor.quote": "Citação",
-    "editor.numbered": "Lista numerada"
+    "editor.numbered": "Lista numerada",
+    "header.nav.notifications": "Notificações",
+    "notifications.title": "Notificações",
+    "notifications.markAll": "Marcar todas como lidas",
+    "notifications.loginPrompt": "Entre para ver as respostas aos seus comentários.",
+    "notifications.loading": "Carregando notificações...",
+    "notifications.error": "Não foi possível carregar as notificações.",
+    "notifications.empty": "Nenhuma resposta ainda. Quando alguém responder a um comentário seu, aparece aqui.",
+    "notifications.replied": "{$INTERPOLATION} respondeu ao seu comentário",
+    "notifications.inLab": "Lab",
+    "notifications.inParagraph": "Discussão do parágrafo",
+    "settings.notifications.title": "Notificações",
+    "settings.notifications.hint": "Receba uma notificação quando alguém responder ao seu comentário, em uma discussão de parágrafo ou de lab. Desligando, nenhuma nova é criada.",
+    "settings.notifications.on": "Ligadas",
+    "settings.notifications.off": "Desligadas"
   }
 }

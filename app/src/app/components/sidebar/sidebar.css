@@ -170,6 +170,19 @@
   white-space: nowrap;
 }
 
+.nav-item .badge {
+  margin-left: auto;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.07);
   color: var(--mu-white);

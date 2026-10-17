@@ -22,6 +22,7 @@ import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DiscussionComment } from './discussion/discussion-comment.entity';
 import { DiscussionMarker } from './discussion/discussion-marker.entity';
 import { DiscussionModule } from './discussion/discussion.module';
+import { Notification } from './discussion/notification.entity';
 import { DiscussionVote } from './discussion/discussion-vote.entity';
 import { DatabaseConceptsModule } from './database-concepts/database-concepts.module';
 import { JavaConceptsModule } from './java-concepts/java-concepts.module';
@@ -70,6 +71,7 @@ import { XpModule } from './xp/xp.module';
         DiscussionMarker,
         DiscussionComment,
         DiscussionVote,
+        Notification,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.

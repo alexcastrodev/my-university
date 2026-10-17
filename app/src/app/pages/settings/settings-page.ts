@@ -48,6 +48,27 @@ export class SettingsPage {
   profileMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
   copied = signal(false);
 
+  /** On unless the server says otherwise: replies notify by default. */
+  protected readonly notifyReplies = computed(() => this.auth.currentUser()?.notifyReplies !== false);
+  notifySaving = signal(false);
+  notifyMessage = signal<{ kind: 'success' | 'error'; text: string } | null>(null);
+
+  setNotifyReplies(on: boolean): void {
+    if (on === this.notifyReplies() || this.notifySaving()) return;
+    this.notifySaving.set(true);
+    this.notifyMessage.set(null);
+    this.auth.updateNotifyReplies(on).subscribe({
+      next: () => {
+        this.notifySaving.set(false);
+        this.notifyMessage.set({ kind: 'success', text: $localize`:@@settings.saved:Saved.` });
+      },
+      error: () => {
+        this.notifySaving.set(false);
+        this.notifyMessage.set({ kind: 'error', text: $localize`:@@settings.error:Something went wrong. Try again.` });
+      },
+    });
+  }
+
   displayName = signal(this.auth.currentUser()?.displayName ?? '');
   saving = signal(false);
   message = signal<{ kind: 'success' | 'error'; text: string } | null>(null);

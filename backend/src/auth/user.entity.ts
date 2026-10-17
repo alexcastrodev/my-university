@@ -46,6 +46,10 @@ export class User {
   @Column({ type: 'varchar', length: 30, nullable: true, unique: true })
   profileSlug: string | null;
 
+  /** Whether replies to this user's comments create notifications. On by default. */
+  @Column({ default: true })
+  notifyReplies: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 
