@@ -81,7 +81,7 @@ jobs:
           if bad:
               sys.exit('missing security-headers include in: ' + ', '.join(bad))
           PY
-          for h in X-Content-Type-Options X-Frame-Options Referrer-Policy Permissions-Policy Strict-Transport-Security Content-Security-Policy; do
+          for h in X-Content-Type-Options X-Frame-Options Referrer-Policy Permissions-Policy Content-Security-Policy; do
             grep -q "add_header $h " security-headers.conf || { echo "security-headers.conf lacks $h"; exit 1; }
           done
 

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConceptSourceType, fromSourceId, parseCurriculumSourceId } from '../concept-lookup/concept-lookup.constants';
@@ -15,6 +15,7 @@ import {
 } from './daily-content';
 
 export type DailyCardType = 'read' | 'notice' | 'write';
+const DAILY_CARD_TYPES: readonly DailyCardType[] = ['read', 'notice', 'write'];
 
 /** Flat XP per card — matches the four-card "about five minutes" framing from the mockup. */
 const XP_PER_CARD = 20;
@@ -344,12 +345,25 @@ export class DailyService {
     sourceId: string,
     options: { text?: string },
   ): Promise<{ xpAwarded: number }> {
+    if (!DAILY_CARD_TYPES.includes(type)) throw new BadRequestException('Invalid card type');
+    let text: string | undefined;
     if (type === 'write') {
-      const text = options.text?.trim();
+      text = typeof options.text === 'string' ? options.text.trim() : undefined;
       if (!text) throw new BadRequestException('write completion requires non-empty text');
       if (text.length > WRITE_MAX_LENGTH) {
         throw new BadRequestException(`text exceeds ${WRITE_MAX_LENGTH} characters`);
       }
+    }
+
+    // Completing a card pays XP, so only cards of the reader's own session count. Without this,
+    // any `sourceId` string (a fresh one per call) minted XP without limit. The ids come from the
+    // read history and are the same in every language.
+    const session = await this.buildSession(userId);
+    if (typeof sourceId !== 'string' || !session.cards.some((c) => c.type === type && c.sourceId === sourceId)) {
+      throw new NotFoundException('No such card in today\'s session');
+    }
+
+    if (type === 'write' && text) {
       await this.writeAnswers.save(this.writeAnswers.create({ userId, sourceId, text }));
     }
 
