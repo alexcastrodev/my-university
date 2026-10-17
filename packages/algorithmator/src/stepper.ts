@@ -28,7 +28,9 @@ export interface Stepper {
 export function mountStepper(el: HTMLElement, meta: string | undefined, handlers: StepperHandlers): Stepper {
   const header = document.createElement('div');
   header.className = 'concept-viz-header';
-  header.innerHTML = `<span>${meta ?? ''}</span>`;
+  const metaEl = document.createElement('span');
+  metaEl.textContent = meta ?? '';
+  header.appendChild(metaEl);
 
   const controls = document.createElement('div');
   controls.className = 'concept-viz-controls';

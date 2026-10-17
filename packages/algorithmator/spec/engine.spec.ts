@@ -213,3 +213,22 @@ describe('mountViz — row layout', () => {
     expect(el.querySelectorAll('.concept-viz-row-token')).toHaveLength(0);
   });
 });
+
+describe('mountViz: labels and meta are text, never markup', () => {
+  it('does not turn HTML in a slot label or in meta into elements', () => {
+    vi.useFakeTimers();
+    const el = document.createElement('div');
+    const payload = '<img src=x onerror="window.__pwned = true">';
+    const cleanup = mountViz(el, {
+      meta: payload,
+      slots: [{ id: '0', label: payload }],
+      steps: [{ caption: 'c', place: { token: 'a', slot: '0' } }],
+    });
+    expect(el.querySelector('img')).toBeNull();
+    expect(el.querySelector('.concept-viz-slot-label')?.textContent).toBe(payload);
+    expect(el.querySelector('.concept-viz-header span')?.textContent).toBe(payload);
+    cleanup();
+    vi.advanceTimersByTime(5000);
+    vi.useRealTimers();
+  });
+});

@@ -120,3 +120,12 @@ describe('renderConceptViz', () => {
     cleanup();
   });
 });
+
+describe('renderConceptViz: type line parsing', () => {
+  it('stays fast on a type line padded with a very long run of spaces', () => {
+    const el = document.createElement('div');
+    const started = performance.now();
+    renderConceptViz(el, `type:${' '.repeat(200_000)}\u0000`);
+    expect(performance.now() - started).toBeLessThan(500);
+  });
+});

@@ -13,6 +13,14 @@ const CELL_HEIGHT = 78; // container height: a 52px token box + gap + its index 
 const CELL_GAP = 10;
 const CELL_STEP = CELL_WIDTH + CELL_GAP;
 
+/** A label span built with textContent: slot labels are text, never markup. */
+function labelSpan(className: string, text: string): HTMLSpanElement {
+  const span = document.createElement('span');
+  span.className = className;
+  span.textContent = text;
+  return span;
+}
+
 /**
  * Renders `scene.slots` once, then plays `scene.steps` into `el` — autoplaying from the start,
  * with Prev/Next/Play-Pause/Replay controls (via stepper.ts) so a reader can take over and step
@@ -48,7 +56,7 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
       const cellEl = document.createElement('div');
       cellEl.className = 'concept-viz-cell';
       cellEl.style.left = `${index * CELL_STEP}px`;
-      cellEl.innerHTML = `<span class="concept-viz-cell-label">${slot.label}</span>`;
+      cellEl.appendChild(labelSpan('concept-viz-cell-label', slot.label));
       slotsEl.appendChild(cellEl);
       slotEls.set(slot.id, cellEl);
     });
@@ -56,7 +64,7 @@ export function mountViz(el: HTMLElement, scene: VizScene): () => void {
     scene.slots.forEach((slot) => {
       const slotEl = document.createElement('div');
       slotEl.className = 'concept-viz-slot';
-      slotEl.innerHTML = `<span class="concept-viz-slot-label">${slot.label}</span>`;
+      slotEl.appendChild(labelSpan('concept-viz-slot-label', slot.label));
       slotsEl.appendChild(slotEl);
       slotEls.set(slot.id, slotEl);
     });
