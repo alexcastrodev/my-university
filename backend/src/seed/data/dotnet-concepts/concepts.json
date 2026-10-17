@@ -971,7 +971,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/networking/10.0/http3-disabled-with-publishtrimmed",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/self-contained-single-file-and-trimmed-publishing"
   },
   {
     "slug": "native-aot-and-its-limits",
@@ -1052,7 +1053,8 @@
         "url": "https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/native-aot-and-its-limits"
   },
   {
     "slug": "packaging-and-publishing-a-nuget-library",
@@ -2153,7 +2155,8 @@
         "url": "https://learn.microsoft.com/en-us/ef/core/modeling/keyless-entity-types",
         "type": "doc"
       }
-    ]
+    ],
+    "labUrl": "https://github.com/castrolabs/university-kurz-labs/tree/master/dotnet-concepts/reverse-engineering-an-existing-database"
   },
   {
     "slug": "raw-sql-unmapped-types-and-views",
