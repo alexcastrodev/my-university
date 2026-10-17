@@ -199,6 +199,31 @@ describe('POST /exam/attempts/:id/submit', () => {
     }
   });
 
+  it('refuses to re-submit a finished attempt', async () => {
+    const a = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    expect((await post(`/exam/attempts/${a.id}/submit`, { answers: {} })).status).toBe(201);
+    expect((await post(`/exam/attempts/${a.id}/submit`, { answers: {} })).status).toBe(409);
+  });
+
+  it('rejects more questionIds than the exam serves', async () => {
+    const a = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const questionIds = Array.from({ length: 5000 }, (_, i) => i + 1);
+    const res = await post(`/exam/attempts/${a.id}/submit`, { answers: {}, questionIds });
+    expect(res.status).toBe(400);
+  });
+
+  it('ignores question ids that belong to another exam', async () => {
+    const exams = await json<any[]>(await get('/exam/list'));
+    const other = exams.find((e) => e.id !== EXAM_ID);
+    if (!other) return;
+    const foreign = await json<any[]>(await get(`/exam/${other.id}/questions?limit=2`));
+    const a = await json<any>(await post(`/exam/${EXAM_ID}/attempts`, {}));
+    const result = await json<any>(
+      await post(`/exam/attempts/${a.id}/submit`, { answers: {}, questionIds: foreign.map((q) => q.id) }),
+    );
+    expect(result.total).toBe(0);
+  });
+
   it('returns 500 when attempt id does not exist', async () => {
     const res = await post('/exam/attempts/999999/submit', { answers: {} });
     expect(res.status).toBeGreaterThanOrEqual(400);
