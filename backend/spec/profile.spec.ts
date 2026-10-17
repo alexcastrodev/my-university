@@ -324,3 +324,24 @@ describe('vanity slug and the leaderboard', () => {
     expect((await profile((await row()).profileSlug!)).status).toBe(200);
   });
 });
+
+describe('GET /og/profile/:key (share image)', () => {
+  const png = async (key: string) => {
+    const res = await get(`/og/profile/${key}`);
+    return { res, bytes: Buffer.from(await res.arrayBuffer()) };
+  };
+
+  it('draws a PNG for a public profile, and the same generic image for a private or unknown one', async () => {
+    const u = await user('pp-og');
+    const open = await png(u.publicProfileId);
+    expect(open.res.status).toBe(200);
+    expect(open.res.headers.get('content-type')).toBe('image/png');
+
+    await setPublic(u.cookie, false);
+    const closed = await png(u.publicProfileId);
+    const unknown = await png('01a14000-0000-7000-8000-00000000dead');
+    expect(closed.res.status).toBe(200);
+    expect(closed.bytes.equals(unknown.bytes)).toBe(true);
+    expect(closed.bytes.equals(open.bytes)).toBe(false);
+  });
+});

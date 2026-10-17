@@ -44,6 +44,12 @@ describe('PublicProfilePage', () => {
     expect(seoSet).toHaveBeenCalledWith(jasmine.objectContaining({ noindex: true, path: `/u/${ID}` }));
   });
 
+  it('points the share image at the API, which checks that the profile is public', () => {
+    const { http, seoSet } = setup();
+    http.expectOne(`/api/profile/${ID}`);
+    expect(seoSet).toHaveBeenCalledWith(jasmine.objectContaining({ image: `/api/og/profile/${ID}` }));
+  });
+
   it('shows a loading state, then the name, level, XP, counters and awards', async () => {
     const { fixture, el, http } = setup();
     expect(el.textContent).toContain('Loading profile');

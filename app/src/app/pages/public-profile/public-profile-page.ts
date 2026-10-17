@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AwardsSections } from '../../components/awards-sections/awards-sections';
 import { ProfileBanner } from '../../components/profile-banner/profile-banner';
@@ -23,6 +24,7 @@ export class PublicProfilePage implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private seo = inject(SeoService);
+  private platformId = inject(PLATFORM_ID);
 
   protected state = signal<State>({ kind: 'loading' });
 
@@ -32,9 +34,11 @@ export class PublicProfilePage implements OnInit {
       title: 'Learner profile',
       description: 'Badges and trophies earned on My University.',
       path: `/u/${key}`,
+      image: `/api/og/profile/${encodeURIComponent(key)}`,
       noindex: true,
     });
-    this.load(key);
+    // The server renders only the shell and the tags above; the data is fetched in the browser.
+    if (isPlatformBrowser(this.platformId)) this.load(key);
   }
 
   /** `key` is the profile's slug or its id: the API accepts either. */

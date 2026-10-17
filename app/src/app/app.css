@@ -13,3 +13,22 @@
     display: none;
   }
 }
+
+/* Printing (the public profile is the page people save as PDF): drop the app chrome. The light
+   palette and color-exact printing live in styles.css, since :root cannot be scoped here. */
+@media print {
+  app-sidebar,
+  app-footer,
+  app-bottom-nav,
+  app-daily-return-pill,
+  app-xp-toast,
+  app-chunk-reload-toast,
+  app-ask-ai-tooltip,
+  app-search-palette {
+    display: none !important;
+  }
+
+  .app-shell {
+    margin-left: 0;
+  }
+}
