@@ -1,0 +1,110 @@
+name: Security scan
+
+# Static checks that run on every PR (and weekly, to catch rules and advisories published later):
+# secrets in the diff and history, CodeQL on the TypeScript code, and dependency changes with
+# known advisories or disallowed licenses. Dependency advisories for the lockfiles themselves
+# are covered by security-audit.yml.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '43 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-scan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # The image is pinned by tag and run directly: the marketplace action needs a license key
+      # for organisations. Allowlist and rationale live in .gitleaks.toml.
+      - name: Scan history
+        run: |
+          docker run --rm -v "$PWD":/repo zricethezav/gitleaks:v8.30.0 \
+            detect --source /repo --config /repo/.gitleaks.toml --no-banner --redact
+
+  codeql:
+    name: CodeQL (javascript-typescript)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:javascript-typescript
+
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
+  config-guards:
+    name: Config guards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Cheap regression tests for hardening that is easy to undo by accident.
+      - name: nginx sends the security headers from every location that sets add_header
+        run: |
+          set -euo pipefail
+          # A location with its own add_header drops inherited ones, so it must include the snippet.
+          python3 - <<'PY'
+          import re, sys
+          conf = open('nginx.conf').read()
+          bad = [m.group(0).split('{')[0].strip()
+                 for m in re.finditer(r"    location [^\n]*\{\n(?:(?!\n    \}).)*\n    \}", conf, re.S)
+                 if 'add_header' in m.group(0) and 'security-headers.conf' not in m.group(0)]
+          if 'include /etc/nginx/snippets/security-headers.conf;' not in conf.split('location')[0]:
+              bad.append('server block')
+          if bad:
+              sys.exit('missing security-headers include in: ' + ', '.join(bad))
+          PY
+          for h in X-Content-Type-Options X-Frame-Options Referrer-Policy Permissions-Policy Strict-Transport-Security Content-Security-Policy; do
+            grep -q "add_header $h " security-headers.conf || { echo "security-headers.conf lacks $h"; exit 1; }
+          done
+
+      - name: Dev login shortcuts stay opt-in
+        run: |
+          set -euo pipefail
+          # Controllers must go through assertDevAuth()/devAuthEnabled(), never a bare NODE_ENV check.
+          if grep -n "NODE_ENV" backend/src/auth/auth.controller.ts; then
+            echo "auth.controller.ts must use dev-auth.ts, not NODE_ENV"; exit 1
+          fi
+          if grep -n "ENABLE_DEV_AUTH" Dockerfile deploy.sh .github/workflows/deploy.yml; then
+            echo "ENABLE_DEV_AUTH must never be set for production images or deploys"; exit 1
+          fi

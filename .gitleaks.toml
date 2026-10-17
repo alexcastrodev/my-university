@@ -1,0 +1,16 @@
+title = "my-university gitleaks"
+
+[extend]
+useDefault = true
+
+# The scan flagged 73 historical findings, all verified as non-secrets: curl/JWT examples in the
+# teaching content, the `anchorKey: 'abcdef...'` hex fixtures in specs, and a shields.io token URL
+# in a README badge. Anything outside these paths still fails the build.
+[allowlist]
+description = "teaching content, test fixtures and docs"
+paths = [
+  '''backend/src/seed/data/.*\.md''',
+  '''backend/spec/.*''',
+  '''app/src/.*\.spec\.ts''',
+  '''backend/README\.md''',
+]
