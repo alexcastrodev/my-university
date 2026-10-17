@@ -604,6 +604,20 @@
     "editor.link": "Link",
     "editor.strike": "Strikethrough",
     "editor.quote": "Quote",
-    "editor.numbered": "Numbered list"
+    "editor.numbered": "Numbered list",
+    "header.nav.notifications": "Notifications",
+    "notifications.title": "Notifications",
+    "notifications.markAll": "Mark all as read",
+    "notifications.loginPrompt": "Sign in to see replies to your comments.",
+    "notifications.loading": "Loading notifications...",
+    "notifications.error": "Could not load the notifications.",
+    "notifications.empty": "No replies yet. When someone answers one of your comments, it shows up here.",
+    "notifications.replied": "{$INTERPOLATION} replied to your comment",
+    "notifications.inLab": "Lab",
+    "notifications.inParagraph": "Paragraph discussion",
+    "settings.notifications.title": "Notifications",
+    "settings.notifications.hint": "Get a notification when someone replies to your comment, in a paragraph discussion or in a lab discussion. Turn it off and no new ones are created.",
+    "settings.notifications.on": "On",
+    "settings.notifications.off": "Off"
   }
 }

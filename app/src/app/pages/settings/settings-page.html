@@ -20,6 +20,7 @@
         </div>
         <nav class="link-list" i18n-aria-label="@@settings.account.title" aria-label="Account">
           <a class="link-row" routerLink="/profile" i18n="@@header.userMenu.profile">Profile</a>
+          <a class="link-row" routerLink="/notifications" i18n="@@header.nav.notifications">Notifications</a>
           <a class="link-row" routerLink="/leaderboard" i18n="@@header.nav.leaderboard">Leaderboard</a>
           <button type="button" class="link-row logout" (click)="logout()" i18n="@@header.userMenu.logout">Logout</button>
         </nav>
@@ -46,6 +47,18 @@
         </div>
 
         @if (message(); as msg) {
+          <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
+        }
+      </div>
+
+      <div class="card">
+        <h2 class="section-title" i18n="@@settings.notifications.title">Notifications</h2>
+        <p class="hint" i18n="@@settings.notifications.hint">Get a notification when someone replies to your comment, in a paragraph discussion or in a lab discussion. Turn it off and no new ones are created.</p>
+        <div class="toggle-group" role="group" i18n-aria-label="@@settings.notifications.title" aria-label="Notifications">
+          <button type="button" class="btn" data-testid="notify-on" [class.primary-btn]="notifyReplies()" [class.secondary-btn]="!notifyReplies()" [attr.aria-pressed]="notifyReplies()" [disabled]="notifySaving()" (click)="setNotifyReplies(true)" i18n="@@settings.notifications.on">On</button>
+          <button type="button" class="btn" data-testid="notify-off" [class.primary-btn]="!notifyReplies()" [class.secondary-btn]="notifyReplies()" [attr.aria-pressed]="!notifyReplies()" [disabled]="notifySaving()" (click)="setNotifyReplies(false)" i18n="@@settings.notifications.off">Off</button>
+        </div>
+        @if (notifyMessage(); as msg) {
           <p class="feedback" [class.error]="msg.kind === 'error'">{{ msg.text }}</p>
         }
       </div>

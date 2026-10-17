@@ -13,6 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { catchError, filter, forkJoin, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 import { LanguageService } from '../../services/language.service';
 import { ResumeService } from '../../services/resume.service';
 import { ActivityService } from '../../services/activity.service';
@@ -44,6 +45,7 @@ const NARROW_QUERY = '(max-width: 1199px)';
 })
 export class Sidebar {
   protected auth = inject(AuthService);
+  protected notifications = inject(NotificationService);
   protected xpService = inject(XpService);
   protected themeService = inject(ThemeService);
   private languageService = inject(LanguageService);

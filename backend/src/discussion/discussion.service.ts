@@ -20,6 +20,7 @@ import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionVote } from './discussion-vote.entity';
+import { NotificationService } from './notification.service';
 import {
   CreateLabPostDto,
   CreateThreadDto,
@@ -119,6 +120,7 @@ export class DiscussionService {
     @InjectRepository(DiscussionVote) private votes: Repository<DiscussionVote>,
     @InjectRepository(User) private users: Repository<User>,
     private lookup: ConceptLookupService,
+    private notifications: NotificationService,
   ) {}
 
   /** The concept the request names, or 404. Also hands back its sections for the quote check. */
@@ -412,6 +414,7 @@ export class DiscussionService {
   ): Promise<{ commentId: number }> {
     let parent = await this.comments.findOneBy({ id: parentId, markerId });
     if (!parent || parent.deletedAt) throw new NotFoundException();
+    const addressed = parent.authorId;
     if (parent.parentId !== null) {
       parent = await this.comments.findOneBy({ id: parent.parentId, markerId });
       if (!parent || parent.deletedAt) throw new NotFoundException();
@@ -425,6 +428,8 @@ export class DiscussionService {
         body,
       }),
     );
+    // Whoever the reply answered, and the thread's owner when that is someone else.
+    await this.notifications.notifyReply(comment, [addressed, parent.authorId]);
     return { commentId: comment.id };
   }
 

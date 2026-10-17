@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="page-body">
+    <div class="head">
+      <h1 class="page-title" i18n="@@notifications.title">Notifications</h1>
+      @if (notifications.unread() > 0) {
+        <button type="button" class="link-btn" (click)="notifications.markAllRead()" i18n="@@notifications.markAll">Mark all as read</button>
+      }
+    </div>
+
+    @if (!auth.currentUser()) {
+      <div class="state">
+        <p i18n="@@notifications.loginPrompt">Sign in to see replies to your comments.</p>
+        <a routerLink="/login" class="link-btn" i18n="@@reviewQueue.logIn">Log In</a>
+      </div>
+    } @else if (notifications.loading() && notifications.items().length === 0) {
+      <p class="state" role="status" i18n="@@notifications.loading">Loading notifications...</p>
+    } @else if (notifications.error()) {
+      <div class="state" role="alert">
+        <p i18n="@@notifications.error">Could not load the notifications.</p>
+        <button type="button" class="link-btn" (click)="notifications.load()" i18n="@@discussions.retry">Try again</button>
+      </div>
+    } @else if (notifications.items().length === 0) {
+      <p class="state" i18n="@@notifications.empty">No replies yet. When someone answers one of your comments, it shows up here.</p>
+    } @else {
+      <ul class="list">
+        @for (item of notifications.items(); track item.id) {
+          <li>
+            <a class="item" [class.unread]="!item.read" [routerLink]="item.route" [queryParams]="query(item)" (click)="notifications.markRead(item)">
+              <div class="item-head">
+                <span class="who" i18n="@@notifications.replied">{{ item.actor }} replied to your comment</span>
+                <span class="time">{{ ago(item.createdAt) }}</span>
+              </div>
+              @if (item.excerpt) {
+                <p class="excerpt">{{ item.excerpt }}</p>
+              }
+              <span class="where">{{ item.conceptTitle }} · @if (item.lab) { <ng-container i18n="@@notifications.inLab">Lab</ng-container> } @else { <ng-container i18n="@@notifications.inParagraph">Paragraph discussion</ng-container> }</span>
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

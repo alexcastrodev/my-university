@@ -84,9 +84,13 @@ export class AuthController {
     @Body('displayName') displayName: string | null | undefined,
     @Body('language') language: string | undefined,
     @Body('profilePublic') profilePublic: unknown,
+    @Body('notifyReplies') notifyReplies: unknown,
   ) {
     if (profilePublic !== undefined && typeof profilePublic !== 'boolean') {
       throw new BadRequestException('profilePublic must be a boolean');
+    }
+    if (notifyReplies !== undefined && typeof notifyReplies !== 'boolean') {
+      throw new BadRequestException('notifyReplies must be a boolean');
     }
     if (displayName !== undefined && displayName !== null) {
       // Shown on the leaderboard, in discussions and on share images: bounded text only.
@@ -100,6 +104,9 @@ export class AuthController {
     }
     if (profilePublic !== undefined) {
       await this.service.updateProfilePublic(userId, profilePublic);
+    }
+    if (notifyReplies !== undefined) {
+      await this.service.updateNotifyReplies(userId, notifyReplies);
     }
     if (language !== undefined) {
       await this.service.updatePreferredLanguage(userId, language);

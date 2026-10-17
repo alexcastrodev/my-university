@@ -7,6 +7,9 @@ import { DiscussionController } from './discussion.controller';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionService } from './discussion.service';
 import { DiscussionVote } from './discussion-vote.entity';
+import { Notification } from './notification.entity';
+import { NotificationController } from './notification.controller';
+import { NotificationService } from './notification.service';
 
 @Module({
   imports: [
@@ -14,11 +17,12 @@ import { DiscussionVote } from './discussion-vote.entity';
       DiscussionMarker,
       DiscussionComment,
       DiscussionVote,
+      Notification,
       User,
     ]),
     ConceptLookupModule,
   ],
-  controllers: [DiscussionController],
-  providers: [DiscussionService],
+  controllers: [DiscussionController, NotificationController],
+  providers: [DiscussionService, NotificationService],
 })
 export class DiscussionModule {}

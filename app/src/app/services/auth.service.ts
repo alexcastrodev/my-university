@@ -52,6 +52,12 @@ export class AuthService {
   }
 
   /** Turns the public profile on or off (it also leaves or rejoins the leaderboard) and syncs the cached user. */
+  updateNotifyReplies(notifyReplies: boolean): Observable<User> {
+    return this.http
+      .put<User>('/api/auth/settings', { notifyReplies })
+      .pipe(tap((user) => this.setUser(user)));
+  }
+
   updateProfilePublic(profilePublic: boolean): Observable<User> {
     return this.http
       .put<User>('/api/auth/settings', { profilePublic })

@@ -66,6 +66,10 @@ export class AuthService {
   }
 
   /** Turns the public profile (and the leaderboard listing) on or off for this user. */
+  async updateNotifyReplies(id: number, notifyReplies: boolean): Promise<void> {
+    await this.repo.update(id, { notifyReplies });
+  }
+
   async updateProfilePublic(id: number, profilePublic: boolean): Promise<User> {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException();
