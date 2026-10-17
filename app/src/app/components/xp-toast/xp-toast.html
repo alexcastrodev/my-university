@@ -1,7 +1,7 @@
 <div class="xp-toast-container" aria-live="polite">
   @for (toast of toastService.toasts(); track toast.id) {
     <div class="xp-toast">
-      <span class="xp-toast-icon" aria-hidden="true">{{ toast.icon ?? '⚡' }}</span>
+      <span class="xp-toast-icon" aria-hidden="true"><app-track-icon [slug]="toast.icon ?? 'practice'" /></span>
       <span class="xp-toast-text">@if (toast.label) { {{ toast.label }} · } +{{ toast.amount }} XP</span>
     </div>
   }

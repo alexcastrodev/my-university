@@ -120,6 +120,42 @@ describe('XpService achievements', () => {
     expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
   });
 
+  it('ignores a summary that arrives after the user changed, and does not toast it', async () => {
+    const { service, http, toasts, currentUser } = setup();
+    service.loadSummary();
+    flushSummary(http, 100);
+    await tick();
+    http.expectOne('/api/xp/achievements/sync').flush({ newAwards: [] });
+    await tick();
+    http.expectOne('/api/xp/achievements').flush(VIEW);
+    await tick();
+
+    service.loadSummary();
+    currentUser.set(user(2));
+    flushSummary(http, 500);
+    await tick();
+    expect(service.summary()?.total).toBe(100);
+    http.expectNone('/api/xp/achievements/sync');
+    expect(toasts()).toEqual([]);
+  });
+
+  it('keeps the award toast of an action that finishes while a quiet sync is still pending', async () => {
+    const { service, http, toasts } = setup();
+    const quiet = service.syncAchievements(false);
+    service.receiveAwards(1, [badge()]);
+    await tick();
+    http.expectOne('/api/xp/achievements/sync').flush({ newAwards: [] });
+    await tick();
+    http.expectOne('/api/xp/achievements').flush(VIEW);
+    await quiet;
+    await tick();
+    http.expectOne('/api/xp/achievements/sync').flush({ newAwards: [] }); // the refresh the award asked for
+    await tick();
+    http.expectOne('/api/xp/achievements').flush(VIEW);
+    await tick();
+    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+  });
+
   it('runs syncs one at a time', async () => {
     const { service, http } = setup();
     const first = service.syncAchievements(false);

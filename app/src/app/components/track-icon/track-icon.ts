@@ -25,6 +25,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @case ('kubernetes-concepts') { <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v6.5M12 14.5V21M4.2 7.5l5.6 3.2M14.2 13.3l5.6 3.2M4.2 16.5l5.6-3.2M14.2 10.7l5.6-3.2"/> }
     @case ('algorithms-concepts') { <path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/> }
     @case ('trophy') { <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/> }
+    @case ('badge') { <path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="m9 11 2 2 4-4"/> }
     @case ('read') { <path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2V4z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8V4z"/> }
     @case ('practice') { <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/> }
     @case ('review') { <path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/> }

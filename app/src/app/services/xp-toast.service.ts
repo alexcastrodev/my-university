@@ -5,6 +5,7 @@ export interface XpToast {
   amount: number;
   /** Set for an award ("Badge unlocked: ..."); a plain XP toast has none. */
   label?: string;
+  /** A `TrackIcon` slug: `badge` or `trophy` for an award; a plain XP toast uses the bolt. */
   icon?: string;
 }
 
