@@ -76,7 +76,8 @@ jobs:
           bad = [m.group(0).split('{')[0].strip()
                  for m in re.finditer(r"    location [^\n]*\{\n(?:(?!\n    \}).)*\n    \}", conf, re.S)
                  if 'add_header' in m.group(0) and 'security-headers.conf' not in m.group(0)]
-          if 'include /etc/nginx/snippets/security-headers.conf;' not in conf.split('location')[0]:
+          server_head = conf.split('server {')[1].split('    location ')[0]
+          if 'include /etc/nginx/snippets/security-headers.conf;' not in server_head:
               bad.append('server block')
           if bad:
               sys.exit('missing security-headers include in: ' + ', '.join(bad))
