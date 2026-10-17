@@ -25,7 +25,7 @@ export class OgImageService {
   }
 
   private sanitizeTitle(rawTitle: string | undefined): string {
-    const title = (rawTitle ?? '').trim();
+    const title = (typeof rawTitle === 'string' ? rawTitle : '').trim();
     if (!title) return DEFAULT_TITLE;
     return title.length > MAX_TITLE_LENGTH
       ? `${title.slice(0, MAX_TITLE_LENGTH - 1)}…`
