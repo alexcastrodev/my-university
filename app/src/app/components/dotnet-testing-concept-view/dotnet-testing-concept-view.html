@@ -17,7 +17,7 @@
       </div>
     }
 
-    <div [hidden]="tab() === 'lab'">
+    <div [hidden]="!!c.labUrl && tab() === 'lab'">
       @for (section of sections(); track section.title) {
         <section class="concept-section">
           <h2 class="section-title">{{ section.title }}</h2>

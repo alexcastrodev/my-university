@@ -32,6 +32,7 @@ export interface SpringConcept extends SpringConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: SpringConceptSection[];
+  lab?: string;
   references: SpringConceptReference[];
   related: ConceptLinkRef[];
 }

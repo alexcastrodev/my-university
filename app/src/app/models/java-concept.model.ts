@@ -29,6 +29,7 @@ export interface JavaConcept extends JavaConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: JavaConceptSection[];
+  lab?: string;
   references: JavaConceptReference[];
   related: ConceptLinkRef[];
 }

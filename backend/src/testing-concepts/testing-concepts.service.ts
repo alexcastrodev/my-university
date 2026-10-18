@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 import {
   readConceptContent,
-  splitSections,
+  splitLabSection,
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptReference } from '../shared/concept-types';
@@ -31,6 +31,8 @@ export interface TestingConceptDetail extends TestingConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
+  /** Markdown of the `## Lab` section, kept out of `sections` so it only shows in the Lab tab. */
+  lab?: string;
   references: ConceptReference[];
 }
 
@@ -128,7 +130,7 @@ export class TestingConceptsService {
       availableLanguages,
       version,
       updatedAt,
-      sections: splitSections(body),
+      ...splitLabSection(body),
       references: meta.references,
     };
   }

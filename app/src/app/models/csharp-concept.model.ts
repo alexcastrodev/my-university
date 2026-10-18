@@ -37,6 +37,7 @@ export interface CSharpConcept extends CSharpConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: CSharpConceptSection[];
+  lab?: string;
   references: CSharpConceptReference[];
   related: ConceptLinkRef[];
 }

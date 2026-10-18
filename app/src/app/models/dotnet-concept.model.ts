@@ -38,6 +38,7 @@ export interface DotNetConcept extends DotNetConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: DotNetConceptSection[];
+  lab?: string;
   references: DotNetConceptReference[];
   related: ConceptLinkRef[];
 }

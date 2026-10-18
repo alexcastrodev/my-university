@@ -42,6 +42,7 @@ export interface KubernetesConcept extends KubernetesConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: KubernetesConceptSection[];
+  lab?: string;
   references: KubernetesConceptReference[];
   related: ConceptLinkRef[];
 }
