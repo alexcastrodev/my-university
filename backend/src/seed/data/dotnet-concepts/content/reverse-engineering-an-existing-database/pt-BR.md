@@ -194,6 +194,42 @@ Depois de atualizar o pacote, compare suas cópias com os templates novos.
   `modelBuilder.Entity<Customer>().Property(c => c.CustId).ValueGeneratedOnAdd()`;
   com essa linha, os dois inserts que falharam antes funcionaram.
 
+## Lab
+
+Neste lab você roda o scaffolder do EF Core 10 (o motor por trás de `dotnet ef dbcontext scaffold`) contra um pequeno banco SQLite legado e lê o que ele produz: nomes, chaves, defaults, uma tabela de junção, uma view, uma tabela sem chave primária e uma coluna cujo tipo o scaffolder teve que adivinhar. Depois você altera o resultado com segurança, usando uma classe `partial` escrita à mão que sobrevive a um novo scaffold. Você recebe o banco legado e o scaffolder já montados (`LegacySchema` e `CreateScaffolder`), e o resto são stubs que lançam `NotImplementedException`. A ideia central é que o código gerado nunca se edita: o que é seu mora em outro arquivo.
+
+**O cenário**
+
+O banco legado usa nomes em maiúsculas com sublinhado de propósito.
+
+- `LegacySchema.cs` (pronto): cria `CUSTOMER`, `ORDER_HDR`, `ORDER_LINE` (chave composta), `TAG`, `ORDER_TAG` (tabela de junção simples), `AUDIT_LOG` (sem chave primária) e a view `V_ORDER_TOTALS` (a coluna do `SUM` não tem tipo declarado).
+- `Scaffolding.cs`: `ScaffoldSettings` (os flags da CLI como um record), `ScaffoldModel` e `ScaffoldToDirectory` para implementar. `Scaffold` já devolve nome de arquivo e código-fonte em memória.
+- `Presets.cs`, `Findings.cs` e `PartialExtension.cs`: presets de flags, leitura do texto gerado e o arquivo escrito à mão.
+
+O scaffolder roda dentro do processo de teste, sem `dotnet-ef`, servidor ou rede. Os testes conferem trechos do código gerado e o compilam com Roslyn para provar que o seu código à mão se encaixa.
+
+**O que você vai fazer, passo a passo**
+
+1. **Traduzir flags em chamada (TODO-00).** Em `ScaffoldModel`, chame `IReverseEngineerScaffolder.ScaffoldModel` com tabelas, `UseDatabaseNames`, `NoPluralize`, `UseDataAnnotations`, nome do contexto e namespaces, suprimindo o `OnConfiguring` e o aviso da connection string (o equivalente a `--no-onconfiguring`).
+2. **Nomes do banco (TODO-01).** Em `Presets.DatabaseNames`, mantenha os nomes como o banco os tem (`--use-database-names --no-pluralize`), então `CUSTOMER` continua `CUSTOMER`.
+3. **Data annotations (TODO-02).** Em `Presets.DataAnnotations`, use atributos (`[Table]`, `[Column]`, `[Key]`, `[Keyless]`) em vez de chamadas Fluent. Repare no que continua no `OnModelCreating` mesmo assim (`OnDelete`, `ValueGeneratedNever`, a tabela de junção).
+4. **Só algumas tabelas (TODO-03).** Em `Presets.OnlyTables`, escaneie só as tabelas ou views nomeadas (`--table`).
+5. **Ler o que o scaffolder decidiu (TODO-04).** Em `Findings.KeylessEntities`, ache as entidades sem chave pelo `HasNoKey()`. Em `ByteArrayProperties`, ache as propriedades tipadas como `byte[]` porque a coluna da view não tinha tipo.
+6. **Estender sem editar (TODO-05).** Em `PartialExtension.Source`, escreva um segundo arquivo com `partial class LegacyDb` (`OnModelCreatingPartial`, com cascade em `OrderLine`) e `partial class Customer` (uma propriedade `Display`). Ele precisa compilar com o código gerado e sobreviver a um novo scaffold.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que a tabela de junção virou skip navigations em vez de uma classe, por que o `AuditLog` e a view são keyless e por que o seu arquivo parcial continua valendo depois de adicionar uma coluna e escanear de novo.
+
+**Desafios opcionais**
+
+- **TODO-06:** `ScaffoldToDirectory` escreve os arquivos em disco. Sem `force` o scaffolder deve se recusar a sobrescrever (o equivalente a `--output-dir Models` e `--force`).
+- **TODO-07:** `PartialExtension.SourceWithGeneratedKeys` corrige o `ValueGeneratedNever()` que o scaffolder adivinhou para colunas `INTEGER PRIMARY KEY`, mantendo o cascade.
+
+**Pré-requisitos:** C# e EF Core básicos (DbContext, Fluent API, data annotations), SQL básico (chaves primárias e estrangeiras, views) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada stub lança `NotImplementedException("TODO-NN")`, então os testes vermelhos indicam o TODO que falta.
+
 ## Documentation Links
 
 - [Reverse engineering, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/) (doc)

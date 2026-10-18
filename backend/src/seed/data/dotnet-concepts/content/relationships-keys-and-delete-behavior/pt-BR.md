@@ -211,6 +211,41 @@ associação.
   depois exige classe, `UsingEntity<T>` e migration; comece com classe de junção
   explícita se a associação tende a ganhar dados.
 
+## Lab
+
+Neste lab você configura relacionamentos do EF Core em SQLite e observa como a chave estrangeira, o comportamento de exclusão, chaves compostas e alternativas, chaves em shadow e uma entidade de junção muito-para-muitos mudam o que acontece quando linhas desaparecem. Você recebe os modelos e dois contextos com os pontos de configuração vazios (`TODO`), e dois métodos de `ShopService` que lançam `NotImplementedException`. A ideia central é que o comportamento de exclusão decide quem tem a última palavra, o banco ou o EF Core, e que isso só aparece quando os filhos não estão carregados em memória.
+
+**O cenário**
+
+Dois modelos pequenos dividem o lab, e os testes rodam em SQLite em memória com um contexto novo para cada verificação.
+
+- `ShopContext.cs`: categorias, fornecedores, produtos, avaliações (`Review`) e tags. `Review` não tem propriedade de chave estrangeira de propósito, então o EF cria uma coluna `ProductId` em shadow. `ProductTag` é a entidade de junção.
+- `LegacyContext.cs`: pedidos que apontam para o cliente pelo e-mail e linhas de pedido com chave de duas colunas.
+- `ShopService.cs`: `GetReviewProductIdAsync` e `DetachReviewAsync` para implementar. `DeleteSupplierAsync` já vem pronto.
+
+Como cada checagem usa um contexto novo, os filhos nunca são carregados a menos que o teste os carregue. É isso que expõe a diferença entre `ClientSetNull` e `SetNull`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Anular no banco (TODO-00).** Em `ShopContext`, configure `Product` para `Supplier` com `DeleteBehavior.SetNull`, de modo que o BANCO anule `SupplierId` ao apagar o fornecedor, mesmo sem produtos carregados.
+2. **Proibir apagar (TODO-01).** Como `CategoryId` é obrigatória, o padrão é cascade. Configure `Product` para `Category` de forma que apagar uma categoria que ainda tem produtos falhe.
+3. **Entidade de junção (TODO-02).** Mantenha as skip navigations de `Product.Tags`, mas use `UsingEntity<ProductTag>` e dê a `AddedOn` o default de banco `CURRENT_TIMESTAMP` com `HasDefaultValueSql`.
+4. **Chave composta e alternativa (TODO-03 e TODO-04).** Em `LegacyContext`, declare a chave primária `(OrderId, LineNo)` de `OrderLine` e aponte `Order.CustomerEmail` para `Customer.Email` com `HasForeignKey` e `HasPrincipalKey`.
+5. **Ler a chave em shadow (TODO-05).** Em `GetReviewProductIdAsync`, leia a coluna de chave estrangeira de uma `Review` com `EF.Property<int>`.
+6. **Apagar órfão (TODO-06).** Em `DetachReviewAsync`, carregue o produto com as avaliações, remova a avaliação de `product.Reviews` e salve, sem chamar `Remove` na avaliação: o EF deve apagá-la porque ela não existe sem produto.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que `SetNull` funciona sem carregar os produtos, por que a categoria com produtos lança `DbUpdateException` e por que mudar o e-mail de um cliente (chave alternativa) lança `InvalidOperationException`.
+
+**Desafios opcionais**
+
+- **TODO-07:** imprima `Database.GenerateCreateScript()` do `ShopContext` e ache a cláusula `ON DELETE` de cada chave estrangeira. Qual delas não tem nenhuma?
+
+**Pré-requisitos:** C# e LINQ, `async`/`await`, EF Core básico (`DbContext`, `DbSet`, `SaveChanges`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os pontos a preencher são comentários `TODO-NN` em `ShopContext.cs`, `LegacyContext.cs` e `ShopService.cs`, e cada teste vermelho mostra o que ainda falta.
+
 ## Documentation Links
 
 - [Introduction to relationships, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/relationships) (doc)

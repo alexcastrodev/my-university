@@ -159,6 +159,49 @@ public async Task HandleAsync(OrderPlacedIntegrationEvent e, CancellationToken c
   de seguir num debugger. Mantenha pequeno o número de reações por evento e
   nomeie-as pelo que fazem.
 
+## Lab
+
+Neste lab você levanta eventos de domínio a partir de um agregado, despacha esses eventos de um interceptor de `SaveChanges` do EF Core dentro da mesma transação, traduz o evento em uma linha de outbox e consome o evento de integração em outra transação, de forma idempotente. Você recebe o `DbContext`, o dispatcher e os tipos de evento prontos, mas a lógica de negócio está vazia: o pedido não levanta nada, o interceptor não despacha nada e o handler e o consumidor lançam `NotImplementedException`. A ideia central é a fronteira de consistência: o que precisa ser atômico com o pedido entra na mesma transação, e o que mora em outro agregado acontece depois, na sua própria transação.
+
+**O cenário**
+
+Quando um `Order` é feito, duas coisas devem acontecer: um evento de integração para outros módulos e pontos de fidelidade para o cliente. As duas vivem em agregados diferentes, então não podem dividir uma transação.
+
+O fluxo é:
+
+- `Order.Place`: levanta OrderPlaced (o agregado só registra)
+- `Interceptor`: antes do commit, despacha os eventos dos agregados rastreados
+- `OrderPlacedHandler`: mesma transação: adiciona um OutboxMessage ao lado do pedido
+- `LoyaltyConsumer`: transação própria, depois do commit: dá pontos ao Customer
+
+- `Model.cs`: `Order.Place` (a implementar) e `Customer` com `AwardPoints`.
+- `Events.cs` (pronto): `AggregateRoot`, `OrderPlaced`, `OrderPlacedIntegrationEvent`, `OutboxMessage` e `ProcessedMessage` (a caixa de entrada).
+- `Dispatching.cs`: `DomainEventDispatcher` (pronto) e `DomainEventsInterceptor` (a implementar).
+- `Handlers.cs`: `OrderPlacedHandler` e `LoyaltyConsumer` (a implementar).
+
+Os testes usam SQLite em memória e abrem vários contextos na mesma conexão, para ver o que foi mesmo gravado.
+
+**O que você vai fazer, passo a passo**
+
+1. **Levantar o evento (TODO-00).** Em `Order.Place`, rejeite total menor ou igual a zero com `ArgumentOutOfRangeException`. Senão, crie o pedido (`Guid.CreateVersion7()`) e faça `Raise` de um `OrderPlaced`, usando `clock.GetUtcNow()`. O agregado só registra, nunca publica.
+2. **Despachar antes do commit (TODO-01).** Em `SavingChangesAsync`, colete os eventos de todo `AggregateRoot` rastreado (`ChangeTracker.Entries<AggregateRoot>()`), limpe-os primeiro (senão um segundo `SaveChanges` despacha de novo) e chame `dispatcher.DispatchAsync` para cada um.
+3. **Escrever o outbox (TODO-02).** Em `OrderPlacedHandler`, traduza o evento para um `OrderPlacedIntegrationEvent` (um único `Guid` novo como `MessageId` e id da linha) e adicione um `OutboxMessage` a `db.OutboxMessages`, sem chamar `SaveChanges`: o `SaveChanges` externo grava pedido e linha juntos.
+4. **Consumir uma vez (TODO-03).** Em `LoyaltyConsumer`, abra um contexto com `newContext()`, dê os pontos ao cliente (crie-o se não existir) e registre um `ProcessedMessage(e.MessageId, Name)` na mesma transação. Se já estiver lá, ignore a mensagem.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Preste atenção nos três testes que conferem o que NÃO está no banco depois de uma falha ou de uma entrega duplicada. Você deve conseguir explicar por que um handler que lança desfaz o pedido, por que não há linha de outbox sem pedido e por que a mesma mensagem entregue duas vezes dá pontos só uma vez.
+
+**Desafios opcionais**
+
+- **TODO-04:** mova o despacho para `SavedChangesAsync` (depois do commit). Qual teste falha, e qual falha você nunca veria em teste (uma queda entre o commit e o despacho)?
+- **TODO-05:** faça o `OrderPlacedHandler` chamar `db.SaveChangesAsync()`. O que acontece com os eventos, e por que o interceptor precisa limpá-los antes?
+- **TODO-06:** registre o handler `Exploding` só para `OrderPlaced` e mova o trabalho de fidelidade para um handler dentro da transação. O que uma queda do serviço de fidelidade faz com o checkout agora?
+
+**Pré-requisitos:** agregados e EF Core básico, `SaveChangesInterceptor` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada ponto a preencher lança `NotImplementedException` com um comentário `TODO-NN` explicando o passo, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Domain events: design and implementation, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation) (doc)

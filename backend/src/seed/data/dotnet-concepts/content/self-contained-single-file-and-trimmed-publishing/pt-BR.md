@@ -268,6 +268,42 @@ tamanho.
   e JSON por reflection ficam desligados em apps .NET 10 com trimming até você
   religar.
 
+## Lab
+
+Neste lab você descreve em MSBuild as chaves de publicação (dependente de framework, self-contained com `RuntimeIdentifier`, single file, trimming, feature switches, ReadyToRun) e vê os analisadores de trim e de single-file apontarem o código que quebraria num app publicado, para depois corrigi-lo. Você recebe a estrutura pronta, com `ProjectFiles` e `AnalyzerFiles` lançando `NotImplementedException`, e o seu trabalho é devolver o texto de `.csproj` e de um pequeno programa C#. A ideia central é sentir que publicar é uma decisão de projeto que o SDK infere em parte (por exemplo, `PublishSingleFile` liga o analisador sozinho), e que o código com reflection só mostra o problema depois de publicado.
+
+**O cenário**
+
+O problema é publicar um executável enxuto sem quebrar o que depende de reflection.
+
+- `ProjectFiles.cs`: métodos que devolvem `.csproj` (`FrameworkDependentProject`, `SelfContainedSingleFileProject`, `TrimmedProject`, `SlimRuntimeProject`).
+- `AnalyzerFiles.cs`: `AnalyzerProject` (projeto com os analisadores ligados) e `FixedProgram` (a versão corrigida do programa).
+- `SampleCode.cs`: o `RiskyProgram`, que já vem pronto e tem quatro problemas clássicos: tipo escolhido por string (IL2057), reflection sobre um `Type` sem anotação (IL2070), JSON por reflection (IL2026) e `Assembly.Location` (IL3000).
+
+Este lab não roda `dotnet publish`: isso baixaria runtime packs de dezenas de MB. Os testes avaliam o projeto com `dotnet msbuild -getProperty` e rodam `dotnet build` de um projeto dependente de framework, em que os analisadores já emitem os mesmos avisos `IL`. Tudo offline.
+
+**O que você vai fazer, passo a passo**
+
+1. **Dependente de framework (TODO-00).** Em `FrameworkDependentProject`, faça um console `net10.0` sem RID, com `SelfContained` e `UseAppHost` falsos. O teste passa um RID só na linha de comando para provar que ele não implica self-contained.
+2. **Self-contained e single file (TODO-01).** Em `SelfContainedSingleFileProject`, defina o RID, `SelfContained`, `PublishSingleFile` e `IncludeNativeLibrariesForSelfExtract`. Não escreva a propriedade do analisador: `PublishSingleFile` já liga `EnableSingleFileAnalyzer`.
+3. **Trimming (TODO-02).** Em `TrimmedProject`, ligue `PublishTrimmed`, defina `TrimMode` e crie um `TrimmerRootAssembly` por assembly que o ILLink nunca deve cortar.
+4. **Runtime enxuto (TODO-03).** Em `SlimRuntimeProject`, desligue o que o app não usa (`InvariantGlobalization`, `EventSourceSupport`, `UseSystemResourceKeys`), religue `Http3Support` (o trimming o desliga no .NET 10) e use `TrimmerSingleWarn` falso para ver todos os avisos.
+5. **Ver os avisos (TODO-04).** Em `AnalyzerProject`, ligue os analisadores de trim e de single-file (via `PublishTrimmed` e `PublishSingleFile` ou direto) para que o build de `RiskyProgram` emita IL2026, IL2057, IL2070 e IL3000.
+6. **Corrigir o código (TODO-05).** Em `FixedProgram`, troque `Type.GetType` por `typeof(Plugin)`, anote o parâmetro com `[DynamicallyAccessedMembers]`, use um `JsonSerializerContext` gerado por source generator e troque `Assembly.Location` por `AppContext.BaseDirectory`. O programa deve imprimir as mesmas quatro linhas, sem nenhum aviso IL. Este passo depende do TODO-04.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde (leva uns 4 a 10 segundos). Você deve conseguir explicar qual aviso vem de qual linha do `RiskyProgram` e por que a versão corrigida continua funcionando depois do trimming.
+
+**Desafios opcionais**
+
+- **TODO-06:** `ReadyToRunCompressedProject` combina `PublishReadyToRun` e `EnableCompressionInSingleFile`.
+- **TODO-07:** `StrictAnalyzerProject` põe IL2026, IL2057 e IL2070 em `WarningsAsErrors`, de modo que o build falhe em vez de avisar.
+
+**Pré-requisitos:** o texto do concept sobre publicação self-contained, single-file e trimmed, estrutura básica de `.csproj` (`PropertyGroup`, `ItemGroup`) e o .NET 10 SDK (10.0.100).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Enquanto um TODO não for implementado, o teste dele falha com `NotImplementedException`. Depois, como acompanhamento manual (precisa de rede na primeira vez), rode `dotnet publish -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true -p:PublishTrimmed=true` num projeto de console e compare o tamanho das saídas.
+
 ## Documentation Links
 
 - [.NET application publishing overview, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/deploying/) (doc)

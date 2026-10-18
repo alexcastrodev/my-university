@@ -226,6 +226,42 @@ aproxima com CDS e o AOT cache do Project Leyden.
   Até os nomes sobrevivem, menos os de variáveis locais, porque ficam no `.pdb`, não no
   assembly: `long sum` voltou como `long num`.
 
+## Lab
+
+Neste lab você usa o compilador de C# como biblioteca. O projeto já tem a estrutura pronta e os métodos de `CompilerPipeline`, `IlInspector` e `SyntaxAndJit` lançam `NotImplementedException`. O seu trabalho é implementá-los para compilar texto C# em memória, executar o resultado e depois ler o IL e os metadados que o Roslyn gerou. A ideia central é ver com os próprios olhos que o pipeline inteiro é dado inspecionável: `checked` vira `add.ovf`, Debug e Release geram IL diferente, a sintaxe não sabe o que o modelo semântico sabe, e as dicas para o JIT estão nos metadados.
+
+**O cenário**
+
+Você escreve as ferramentas que "abrem a caixa" do compilador, e os testes usam uma classe `Calc` pequena (`Add`, `AddChecked`, `Twice`) como cobaia.
+
+- `CompilerPipeline.cs`: `Compile` transforma texto C# em um `byte[]` de assembly (com diagnósticos) e `Run` carrega esse assembly e executa um método estático.
+- `IlInspector.cs`: `GetMethodIl` lê os bytes de IL de um método direto dos metadados e `ReadOpCodes` converte esses bytes numa lista de opcodes.
+- `SyntaxAndJit.cs`: consultas na árvore de sintaxe e no modelo semântico, mais a leitura de `MethodImplAttributes`. A classe `Hints` (`Cold`, `Hot`, `Plain`) já vem pronta.
+
+Os testes só comparam opcodes e diagnósticos, nunca tamanhos de bytes nem tempo, então não dependem da versão do compilador.
+
+**O que você vai fazer, passo a passo**
+
+1. **Compilar em memória (TODO-00).** Em `Compile`, use `CSharpSyntaxTree.ParseText`, `CSharpCompilation.Create` com `References` e `CSharpCompilationOptions(kind, optimizationLevel: optimization)`, e `Emit` num `MemoryStream`. Erros como `CS0029` voltam como diagnósticos, sem exceção, e `Image` fica nulo.
+2. **Executar e descarregar (TODO-01).** Em `Run`, carregue a imagem num `AssemblyLoadContext` coletável, ache o método público estático por reflection e invoque. Sempre chame `Unload()`, mesmo se a chamada lançar, e não desembrulhe a `TargetInvocationException`.
+3. **Ler o IL sem carregar (TODO-03).** Em `GetMethodIl`, use `PEReader` e `MetadataReader` para achar o tipo e o método e devolver `GetMethodBody(...).GetILBytes()`. Método inexistente deve lançar `ArgumentException`.
+4. **Decodificar opcodes (TODO-02).** Em `ReadOpCodes`, ande pelos bytes: o prefixo `0xFE` indica opcode de dois bytes, e cada operando é pulado conforme `OperandType` (0, 1, 2, 4 ou 8 bytes, e o caso especial de `InlineSwitch`).
+5. **Sintaxe versus semântica (TODO-04).** `DeclaredMethodNames` só precisa da árvore de sintaxe. `TypeOfInitializer` precisa compilar e perguntar ao `GetSemanticModel` o tipo de `1 + 2L`: só ele sabe que é `long`.
+6. **Dicas para o JIT (TODO-05).** Em `GetImplFlags`, devolva `GetMethodImplementationFlags()` e perceba que `NoInlining` e `AggressiveInlining` são metadados legíveis sem executar nada.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde (os dois testes `Bonus_` só passam se você fizer os opcionais). Você deve conseguir explicar por que `AddChecked` tem `add.ovf` e `Add` não, e por que o IL de Debug tem `nop` e o de Release não.
+
+**Desafios opcionais**
+
+- **TODO-06:** `GetEntryPointName` lê o token do ponto de entrada no cabeçalho PE. Para top-level statements o nome é `<Main>$`, e para uma biblioteca o resultado é nulo.
+- **TODO-07:** `ForceJit` chama `RuntimeHelpers.PrepareMethod`. Depois, fora dos testes, rode seu app com `DOTNET_TieredCompilation=0` e com `DOTNET_TieredPGO=0` e anote quais partes do pipeline do JIT você mudou. Não meça tempo num teste unitário.
+
+**Pré-requisitos:** C# básico e reflection, a noção de que C# compila para IL e o JIT compila o IL na primeira chamada, e o .NET 10 SDK (o lab usa o pacote `Microsoft.CodeAnalysis.CSharp` 5.0.0).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Todos os métodos começam lançando `NotImplementedException` e cada TODO está num comentário dentro do método, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Managed execution process, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/managed-execution-process) (doc)

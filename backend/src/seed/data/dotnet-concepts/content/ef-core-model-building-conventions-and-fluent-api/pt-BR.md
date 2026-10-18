@@ -229,6 +229,45 @@ ainda executou o `OnModelCreating`, porque precisa do modelo de design-time.
   `dotnet ef dbcontext optimize`, e o app roda com o formato antigo. Regenere no
   build, e pule o recurso para modelos pequenos.
 
+## Lab
+
+Neste lab você vê quem vence quando uma convenção, uma data annotation e a Fluent API discordam, e organiza a configuração do modelo com `IEntityTypeConfiguration<T>`, uma convenção de finalização do modelo e `HasData`. Você recebe `Product` e `Category` mapeados só por convenções e atributos, e os pontos de configuração estão vazios, com comentários `TODO`. A ideia central é que o modelo do EF Core é um conjunto de metadados em camadas (convenção, atributo, Fluent API), e os testes inspecionam esses metadados em vez de abrir um banco de servidor.
+
+**O cenário**
+
+Uma loja tem produtos e categorias, e o modelo precisa de nomes de tabela e coluna, tamanhos, índices, conversão de enum e dados iniciais.
+
+- `Entities.cs`: `Product` (com `[MaxLength(50)]` em `Name`, `Sku`, `Price`, um enum `Status`, `CachedLabel`) e `Category` (com `[MaxLength(50)]` em `Slug`).
+- `Configurations.cs`: `ProductConfiguration` e `CategoryConfiguration`, ambas `IEntityTypeConfiguration<T>`.
+- `ShopDbContext.cs`: `OnModelCreating`, `ConfigureConventions` e a `DefaultStringLengthConvention` (uma `IModelFinalizingConvention`).
+- `ShopDbOptions.cs`: as opções do contexto, com SQLite em memória.
+
+Os testes lêem os metadados do modelo (`IModel`) e também criam o banco com `EnsureCreated` para ver o `HasData` e o índice único funcionando.
+
+**O que você vai fazer, passo a passo**
+
+1. **Tabela e tamanho (TODO-00).** Em `ProductConfiguration`, mapeie `Product` para a tabela `products` e permita 120 caracteres em `Name`. Como `Name` também tem `[MaxLength(50)]`, descubra quem vence (a Fluent API).
+2. **Sku único (TODO-01).** Limite `Sku` a 20 caracteres e crie um índice único.
+3. **Coluna de preço (TODO-02).** Guarde `Price` na coluna `unit_price` com precisão 18 e escala 2.
+4. **Fora do modelo (TODO-03).** Ignore `CachedLabel`, um valor só de runtime.
+5. **Aplicar as configurações (TODO-04).** Em `OnModelCreating`, aplique todas as `IEntityTypeConfiguration<T>` do assembly.
+6. **Convenção de tamanho (TODO-05 e TODO-06).** Em `DefaultStringLengthConvention`, dê 200 caracteres a toda propriedade string pelo construtor de convenção (`property.Builder.HasMaxLength`), para que atributos e Fluent ainda possam sobrescrever. Registre-a em `ConfigureConventions` e armazene `ProductStatus` como texto.
+7. **Dados iniciais (TODO-07).** Em `CategoryConfiguration`, use `HasData` para duas categorias: Id 1 "Books" (slug "books") e Id 2 "Games" (slug "games"). `HasData` exige chaves explícitas.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que `Category.Slug` continua com 50 caracteres mesmo com a convenção de 200, e por que `Category` continua na tabela `Categories` enquanto `Product` vai para `products`.
+
+**Desafios opcionais**
+
+- **TODO-08:** em `ShopDbOptions`, um `UseSeeding` que adiciona uma terceira categoria em runtime. Compare com `HasData`: só `HasData` entra numa migration.
+- **TODO-09:** uma check constraint `CK_products_price` para que `unit_price` não seja negativo.
+- **TODO-10:** em `PreConventionShopDbContext`, defina o tamanho padrão com `Properties<string>().HaveMaxLength` e veja o que acontece com o `[MaxLength(50)]` de `Category.Slug`.
+
+**Pré-requisitos:** noções de EF Core (`DbContext`, `DbSet`, a ideia de migrations), atributos como `[MaxLength]` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os testes usam SQLite em memória, sem servidor. Os pontos a preencher são comentários `TODO-NN` dentro de `Configurations.cs`, `ShopDbContext.cs` e `ShopDbOptions.cs`, e cada teste vermelho aponta o que ainda falta.
+
 ## Documentation Links
 
 - [Creating and configuring a model, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/) (doc)

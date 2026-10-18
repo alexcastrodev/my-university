@@ -173,6 +173,42 @@ resolver before blaming your own graph.
   warnings visible locally and fail only in a dedicated audit job, with
   `NuGetAuditSuppress` as a last resort and a note on why.
 
+## Lab
+
+In this lab you build a tiny dependency resolver over an in-memory package feed, so you can watch the NuGet restore rules turn into code. You receive `Feed` and `Dep` ready, plus `Pick` and `Run` already written, which call your functions. Your job is to implement `VersionRules` and `Resolver`. The core idea is to feel that `Version="1.2"` does not mean "exactly 1.2" or "the newest", but "the lowest available version that satisfies it", and that the request nearest the root decides each package. No network, no real restore.
+
+**The scenario**
+
+The problem is deciding which version of each package enters the graph and explaining the warnings you know as `NU1605` and `NU1107`.
+
+- `Feed.cs`: `Feed` stores id, version and dependencies in memory, and `Dep` is an edge with the range written as in a project (`"1.0"`, `"[1.0]"`, `"1.*"`). It is already complete.
+- `VersionRules.cs`: `Compare` and `Satisfies`, the ordering and range notation rules.
+- `Resolver.cs`: `PickLowest`, `PickFloating`, `PickForGroup`, `Resolve` and `Diagnose`. `Pick` and `Run` already call these functions.
+
+The lab uses the `NuGet.Versioning` 6.12.1 package (`NuGetVersion`, `VersionRange`, `VersionComparer`). The tests build small feeds in code and check the resolved versions and the exact diagnostic messages. Nothing depends on time, the network or the file system.
+
+**What you will do, step by step**
+
+1. **Ordering and ranges (TODO-00).** In `Compare`, compare with `VersionComparer.Default` and return only the sign (`1.0.0-beta.2 < 1.0.0`, `1.0 == 1.0.0`, build metadata ignored). In `Satisfies`, use `VersionRange.Parse(...).Satisfies(...)` and notice that `1.0` means `>= 1.0`.
+2. **Lowest applicable version (TODO-01).** In `PickLowest`, keep the candidates that satisfy the range and return the lowest one, or null.
+3. **Floating ranges (TODO-02).** In `PickFloating`, `1.*` takes the highest matching version and ignores pre-releases. `VersionRange.FindBestMatch` already does that.
+4. **Cousins (TODO-03).** In `PickForGroup`, several branches ask for the same package at the same depth: the lowest version that satisfies all the ranges wins, or null.
+5. **Nearest wins (TODO-04).** In `Resolve`, walk the graph breadth first from the roots. The first level that requests an id decides it, deeper requests are ignored, and a direct reference beats a transitive one. If the group is unsatisfiable, fall back to `Pick` with the first range.
+6. **Diagnostics (TODO-05).** In `Diagnose`, check each edge against what was resolved and produce `NU1101`, `NU1102`, `NU1605` (the direct reference won with a lower version) and `NU1107` (conflict), ordered by id and with versions printed with `ToNormalizedString()`.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why `NU1605` disappears when you raise the direct reference, and why a deeper request in the graph does not change the choice.
+
+**Optional challenges**
+
+- **TODO-06:** `Why` returns the shortest chain from a root to a transitive package, like `dotnet nuget why`.
+- **TODO-07:** `CheckLocked` compares a lock file with a fresh resolution and returns `NU1004` when they differ, the idea behind `--locked-mode`.
+
+**Prerequisites:** basic C# and LINQ, the idea of `PackageReference`, transitive dependencies and `obj/project.assets.json`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods start by throwing `NotImplementedException` and each TODO is described in a comment inside them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [NuGet package dependency resolution, Microsoft Learn](https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution) (doc)

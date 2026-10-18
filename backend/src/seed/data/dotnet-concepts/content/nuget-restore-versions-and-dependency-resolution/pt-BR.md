@@ -177,6 +177,42 @@ de atualizar o SDK, compare com o resolvedor legado antes de culpar o seu grafo.
   audit dedicado, com `NuGetAuditSuppress` como último recurso e uma nota dizendo
   o porquê.
 
+## Lab
+
+Neste lab você constrói um resolvedor de dependências minúsculo sobre um feed de pacotes em memória, para ver as regras do restore do NuGet virarem código. Você recebe `Feed` e `Dep` prontos, mais `Pick` e `Run` já escritos que chamam as suas funções. O seu trabalho é implementar `VersionRules` e `Resolver`. A ideia central é sentir que `Version="1.2"` não significa "exatamente 1.2" nem "o mais novo", e sim "a menor versão disponível que satisfaz", e que a requisição mais próxima da raiz decide cada pacote. Sem rede, sem restore de verdade.
+
+**O cenário**
+
+O problema é decidir qual versão de cada pacote entra no grafo e explicar os avisos que você conhece como `NU1605` e `NU1107`.
+
+- `Feed.cs`: `Feed` guarda id, versão e dependências em memória, e `Dep` é uma aresta com a faixa escrita como num projeto (`"1.0"`, `"[1.0]"`, `"1.*"`). Já está completo.
+- `VersionRules.cs`: `Compare` e `Satisfies`, as regras de ordem e de notação de faixas.
+- `Resolver.cs`: `PickLowest`, `PickFloating`, `PickForGroup`, `Resolve` e `Diagnose`. `Pick` e `Run` já chamam essas funções.
+
+O lab usa o pacote `NuGet.Versioning` 6.12.1 (`NuGetVersion`, `VersionRange`, `VersionComparer`). Os testes montam feeds pequenos em código e conferem versões resolvidas e as mensagens exatas dos diagnósticos. Nada depende de tempo, rede ou disco.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ordem e faixas (TODO-00).** Em `Compare`, compare com `VersionComparer.Default` e devolva só o sinal (`1.0.0-beta.2 < 1.0.0`, `1.0 == 1.0.0`, metadados de build ignorados). Em `Satisfies`, use `VersionRange.Parse(...).Satisfies(...)` e perceba que `1.0` significa `>= 1.0`.
+2. **Menor versão aplicável (TODO-01).** Em `PickLowest`, filtre os candidatos que satisfazem a faixa e devolva o menor, ou nulo.
+3. **Faixas flutuantes (TODO-02).** Em `PickFloating`, `1.*` pega a maior versão compatível e ignora pré-lançamentos. `VersionRange.FindBestMatch` já faz isso.
+4. **Primos (TODO-03).** Em `PickForGroup`, vários ramos pedem o mesmo pacote na mesma profundidade: ganha a menor versão que satisfaz todas as faixas, ou nulo.
+5. **O mais próximo vence (TODO-04).** Em `Resolve`, ande no grafo em largura a partir das raízes. O primeiro nível que pede um id decide, pedidos mais fundos são ignorados, e uma referência direta vence uma transitiva. Se o grupo for insatisfazível, caia para `Pick` com a primeira faixa.
+6. **Diagnósticos (TODO-05).** Em `Diagnose`, confira cada aresta contra o resolvido e produza `NU1101`, `NU1102`, `NU1605` (a referência direta ganhou com versão menor) e `NU1107` (conflito), na ordem por id e com versões em `ToNormalizedString()`.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que o `NU1605` some quando você sobe a referência direta, e por que um pedido mais fundo no grafo não muda a escolha.
+
+**Desafios opcionais**
+
+- **TODO-06:** `Why` devolve o caminho mais curto de uma raiz até um pacote transitivo, como o `dotnet nuget why`.
+- **TODO-07:** `CheckLocked` compara um lock file com uma resolução nova e devolve `NU1004` se divergirem, a ideia do `--locked-mode`.
+
+**Pré-requisitos:** C# básico e LINQ, a ideia de `PackageReference`, dependências transitivas e `obj/project.assets.json`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos começam lançando `NotImplementedException` e cada TODO está descrito em comentário dentro deles, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [NuGet package dependency resolution, Microsoft Learn](https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution) (doc)

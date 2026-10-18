@@ -224,6 +224,45 @@ whenever its definition changes. In my test `Migrate()` still ran
   `dotnet ef dbcontext optimize`, and the app runs with the old shape. Regenerate
   in the build, and skip the feature for small models.
 
+## Lab
+
+In this lab you see who wins when a convention, a data annotation and the Fluent API disagree, and you organize the model configuration with `IEntityTypeConfiguration<T>`, a model finalizing convention and `HasData`. You receive `Product` and `Category` mapped only by conventions and attributes, and the configuration points are empty, with `TODO` comments. The core idea is that the EF Core model is a layered set of metadata (convention, attribute, Fluent API), and the tests inspect that metadata instead of opening a database server.
+
+**The scenario**
+
+A shop has products and categories, and the model needs table and column names, lengths, indexes, enum conversion and seed data.
+
+- `Entities.cs`: `Product` (with `[MaxLength(50)]` on `Name`, `Sku`, `Price`, a `Status` enum, `CachedLabel`) and `Category` (with `[MaxLength(50)]` on `Slug`).
+- `Configurations.cs`: `ProductConfiguration` and `CategoryConfiguration`, both `IEntityTypeConfiguration<T>`.
+- `ShopDbContext.cs`: `OnModelCreating`, `ConfigureConventions` and the `DefaultStringLengthConvention` (an `IModelFinalizingConvention`).
+- `ShopDbOptions.cs`: the context options, using in-memory SQLite.
+
+The tests read the model metadata (`IModel`) and also create the database with `EnsureCreated` to see `HasData` and the unique index at work.
+
+**What you will do, step by step**
+
+1. **Table and length (TODO-00).** In `ProductConfiguration`, map `Product` to the `products` table and allow 120 characters in `Name`. Since `Name` also has `[MaxLength(50)]`, find out who wins (the Fluent API).
+2. **Unique Sku (TODO-01).** Limit `Sku` to 20 characters and create a unique index.
+3. **Price column (TODO-02).** Store `Price` in the `unit_price` column with precision 18 and scale 2.
+4. **Out of the model (TODO-03).** Ignore `CachedLabel`, a runtime-only value.
+5. **Apply the configurations (TODO-04).** In `OnModelCreating`, apply every `IEntityTypeConfiguration<T>` in the assembly.
+6. **Length convention (TODO-05 and TODO-06).** In `DefaultStringLengthConvention`, give every string property 200 characters through the convention builder (`property.Builder.HasMaxLength`), so attributes and Fluent calls can still override it. Register it in `ConfigureConventions` and store `ProductStatus` as text.
+7. **Seed data (TODO-07).** In `CategoryConfiguration`, use `HasData` for two categories: Id 1 "Books" (slug "books") and Id 2 "Games" (slug "games"). `HasData` needs explicit keys.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why `Category.Slug` keeps 50 characters even with the 200 character convention, and why `Category` stays in the `Categories` table while `Product` goes to `products`.
+
+**Optional challenges**
+
+- **TODO-08:** in `ShopDbOptions`, a `UseSeeding` that adds a third category at runtime. Compare with `HasData`: only `HasData` lands in a migration.
+- **TODO-09:** a check constraint `CK_products_price` so `unit_price` cannot be negative.
+- **TODO-10:** in `PreConventionShopDbContext`, set the default length with `Properties<string>().HaveMaxLength` and see what happens to the `[MaxLength(50)]` on `Category.Slug`.
+
+**Prerequisites:** EF Core basics (`DbContext`, `DbSet`, the idea of migrations), attributes such as `[MaxLength]` and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The tests use in-memory SQLite, with no server. The places to fill in are `TODO-NN` comments inside `Configurations.cs`, `ShopDbContext.cs` and `ShopDbOptions.cs`, and each red test points at what is still missing.
+
 ## Documentation Links
 
 - [Creating and configuring a model, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/) (doc)

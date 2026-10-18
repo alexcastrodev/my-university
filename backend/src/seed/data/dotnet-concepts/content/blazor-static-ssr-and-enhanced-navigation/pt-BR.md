@@ -206,6 +206,40 @@ que onde um proxy faz buffer a página degrada com elegância para um load norma
   return; // não dependa de uma exceção para encerrar o handler
   ```
 
+## Lab
+
+Neste lab você constrói um Blazor Web App que usa só renderização estática no servidor (sem circuito e sem WebAssembly) e vê exatamente o que o servidor envia: páginas HTML comuns, um parâmetro de rota com restrição de tipo, uma query string ligada a um componente e um `EditForm` aprimorado que posta com token antiforgery, valida e segue o padrão Post/Redirect/Get. Você recebe o projeto `BlazorSsrLab` com cinco páginas, e o `Program.cs` registra só `AddRazorComponents()`, sem modo de renderização interativo. A ideia central é que o HTML puro já funciona sozinho e que o script `blazor.web.js` só acrescenta navegação e formulários aprimorados por cima.
+
+**O cenário**
+
+Hoje a home está vazia, o layout não carrega o script do Blazor, a rota de pedidos não tem restrição, a busca ignora a query string e o contato é um formulário comum que o Blazor não trata.
+
+- `Home.razor`, `Orders.razor`, `Search.razor`, `Contact.razor`, `Thanks.razor`: as páginas, envolvidas por `MainLayout.razor` e `App.razor`.
+- `ContactModel.cs`: o modelo do formulário, com `[Required(ErrorMessage = "Name is required")]` em `Name`.
+- `Program.cs`: `AddRazorComponents`, `UseAntiforgery` e `MapRazorComponents<App>`.
+- `SsrTests.cs`: chama o app em memória com `WebApplicationFactory` e confere HTML, status e cabeçalhos. Nenhum navegador é usado.
+
+**O que você vai fazer, passo a passo**
+
+1. **Home em HTML puro (TODO-00).** Em `Home.razor`, renderize `<h1>Home</h1>` e um parágrafo com a hora de renderização (`<span id="stamp">` com `DateTime.UtcNow.Ticks`). O teste confere `text/html` e que a página não referencia `blazor.server.js` nem `blazor.webassembly.js`.
+2. **Carregar o script (TODO-01).** Em `App.razor`, carregue `_framework/blazor.web.js`. O `<base href="/" />` já está lá e o teste confere os dois.
+3. **Restrição de rota (TODO-02).** Em `Orders.razor`, restrinja a rota a inteiro: `/orders/42` mostra `Order 42` e `/orders/abc` deve dar `404`.
+4. **Query string (TODO-03).** Em `Search.razor`, ligue o valor `term` da query string ao parâmetro `Term`. `/search?term=blazor` mostra `Results for: blazor`, e um valor como `<b>` deve sair codificado (`&lt;b&gt;`).
+5. **Formulário aprimorado (TODO-04).** Em `Contact.razor`, troque o formulário comum por um `EditForm` com `FormName` `contact` e `Enhance`. O HTML deve ter `method="post"`, `data-enhance`, o campo oculto `_handler` com valor `contact`, o token antiforgery e um input `Model.Name`. Mantenha `DataAnnotationsValidator` e um `ValidationMessage`, e chame `Submit` num post válido.
+6. **Ligar o post e redirecionar (TODO-05).** Ligue o formulário postado em `Model` com `[SupplyParameterFromForm]`. Nome vazio re-renderiza a página com `200` e `Name is required`. Nome válido responde `302` para `/thanks?name=Ana` (Post/Redirect/Get), e essa página mostra `Thanks, Ana`.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar o que o servidor devolve em cada rota e por que o `EditForm` adiciona o token antiforgery sozinho. Os testes não executam o `blazor.web.js`, então para ver a navegação e os formulários aprimorados no navegador rode `dotnet run --project src/BlazorSsrLab`, abra a URL impressa e acompanhe a aba Network (um `fetch` por navegação em vez de recarregar o documento).
+
+**Desafios opcionais**
+
+- **TODO-06:** o teste `ShouldRejectPostWithoutAntiforgeryToken` (categoria `Bonus`) posta em `/contact` com o cookie mas sem o campo do token e espera `400`. Não há código a escrever: leia o `Program.cs`, ache a linha que faz o servidor rejeitar esse post e explique por que o `EditForm` do TODO-04 adiciona o token para você.
+
+**Pré-requisitos:** noções de ASP.NET Core (roteamento, middleware, `WebApplicationFactory`), componentes Razor básicos (`@page`, `[Parameter]`, `@code`) e o .NET 10 SDK (os testes usam xUnit e `Microsoft.AspNetCore.Mvc.Testing`, restaurados do nuget.org).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Para rodar só o trabalho obrigatório, use `dotnet test --filter "Category!=Bonus"`. Cada TODO está marcado em comentário no arquivo `.razor` correspondente, e os testes vermelhos mostram o que ainda falta.
+
 ## Documentation Links
 
 - [ASP.NET Core Blazor navigation, enhanced navigation and form handling, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation) (doc)

@@ -208,6 +208,40 @@ can have top-level statements`. Keep scripts in their own folder.
 - **A shebang ties the script to an installed SDK.** The target machine needs
   .NET 10 on `PATH`; for machines without it, publish the native binary instead.
 
+## Lab
+
+In this lab you learn to write C# programs that live in a single `.cs` file and run with `dotnet run app.cs`, with no project file. You receive the `Apps` class with five methods that throw `NotImplementedException`; each one must return the text of a single-file program. The tests save that text as `app.cs` in a temporary folder and run the real SDK. The core idea is to feel what the SDK does for you (it generates an implicit project) and what it hides by default (for example, that this project targets Native AOT).
+
+**The scenario**
+
+The problem is writing small C# scripts without project ceremony.
+
+- `src/FileBasedAppsLab/Apps.cs`: five methods (`HelloApp`, `AppWithArgs`, `AppWithProperty`, `ShebangApp`, `AppWithCompileError`) that return source code as a string. Raw string literals (`"""`) keep the text readable.
+- `FileBasedAppTests.cs`: saves the text as `app.cs`, runs `dotnet run app.cs` as a child process and checks the output and the exit code.
+
+Each test starts the SDK, so it takes a few seconds (the whole suite takes 5 to 60 seconds, and the first run on a machine is the slowest). The lab never uses `#:package`, because that would need NuGet.
+
+**What you will do, step by step**
+
+1. **Hello without a project (TODO-00).** In `HelloApp`, return a program made only of top-level statements that prints exactly `hello from a file-based app`. No `Main`, no `.csproj`.
+2. **Arguments and exit code (TODO-01).** In `AppWithArgs`, use the implicit `args` variable: print the arguments joined by `,` and return `args.Length` as the exit code. The test passes the arguments after `--`.
+3. **Property directive (TODO-02).** In `AppWithProperty`, start with `#:property PublishAot=false` and print `RuntimeFeature.IsDynamicCodeSupported`. The test expects `True`. Notice that the fourth test runs the same probe without the directive and expects `False`: that is the Native AOT default of the generated project.
+4. **Shebang (TODO-03).** In `ShebangApp`, the first line must be `#!/usr/bin/env dotnet`, followed by a program that prints `shebang ok`. The compiler accepts this as a first line (the test is skipped on Windows).
+5. **Compile error (TODO-04).** In `AppWithCompileError`, return a program that does not compile (for example, using a name that does not exist). The run must exit with a non-zero code and print a `CSxxxx` error.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why the same line prints `False` without the directive and `True` with it, and what the SDK did so the program could run without a project.
+
+**Optional challenges**
+
+- **TODO-05:** the last test runs `dotnet project convert app.cs` on your `AppWithProperty`. Open the generated `app.csproj` and find `PackAsTool`, `UserSecretsId` and `PublishAot`: which did you write, and which did the SDK add?
+- **TODO-06:** in a scratch folder, put a class `Greeter` in `greeter.cs` and use it from `app.cs`. On SDK 10.0.100 the build fails with `CS0103`, because the app is exactly one file. Check whether your SDK supports `#:include` before relying on it.
+
+**Prerequisites:** C# top-level statements and raw string literals, and the .NET 10 SDK (10.0.100 or later) on your `PATH`.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Each method starts by throwing `NotImplementedException` with a `TODO-NN` comment explaining the expected program, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [File-based apps, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps) (doc)

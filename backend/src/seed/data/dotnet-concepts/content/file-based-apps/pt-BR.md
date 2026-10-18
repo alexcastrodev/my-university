@@ -216,6 +216,40 @@ top-level statements`. Mantenha scripts numa pasta própria.
 - **Um shebang amarra o script a um SDK instalado.** A máquina de destino precisa
   do .NET 10 no `PATH`; para máquinas sem ele, publique o binário nativo.
 
+## Lab
+
+Neste lab você aprende a escrever programas C# que vivem em um único arquivo `.cs` e rodam com `dotnet run app.cs`, sem arquivo de projeto. Você recebe a classe `Apps` com cinco métodos que lançam `NotImplementedException`; cada um deve devolver o texto de um programa de arquivo único. Os testes salvam esse texto como `app.cs` numa pasta temporária e rodam o SDK de verdade. A ideia central é sentir o que o SDK faz por você (gera um projeto implícito) e o que ele esconde por padrão (por exemplo, que esse projeto mira Native AOT).
+
+**O cenário**
+
+O problema é escrever scripts C# pequenos sem cerimônia de projeto.
+
+- `src/FileBasedAppsLab/Apps.cs`: cinco métodos (`HelloApp`, `AppWithArgs`, `AppWithProperty`, `ShebangApp`, `AppWithCompileError`) que retornam código-fonte como string. Raw string literals (`"""`) deixam o texto legível.
+- `FileBasedAppTests.cs`: salva o texto como `app.cs`, executa `dotnet run app.cs` como processo filho e confere saída e código de saída.
+
+Cada teste inicia o SDK, então leva alguns segundos (a suíte toda leva de 5 a 60 segundos, e a primeira execução na máquina é a mais lenta). O lab nunca usa `#:package`, porque isso exigiria NuGet.
+
+**O que você vai fazer, passo a passo**
+
+1. **Hello sem projeto (TODO-00).** Em `HelloApp`, devolva um programa só de top-level statements que imprime exatamente `hello from a file-based app`. Sem `Main`, sem `.csproj`.
+2. **Argumentos e código de saída (TODO-01).** Em `AppWithArgs`, use a variável implícita `args`: imprima os argumentos separados por `,` e retorne `args.Length` como exit code. O teste passa os argumentos depois de `--`.
+3. **Diretiva de propriedade (TODO-02).** Em `AppWithProperty`, comece com `#:property PublishAot=false` e imprima `RuntimeFeature.IsDynamicCodeSupported`. O teste espera `True`. Repare que o quarto teste roda a mesma sonda sem a diretiva e espera `False`: é o padrão Native AOT do projeto gerado.
+4. **Shebang (TODO-03).** Em `ShebangApp`, a primeira linha precisa ser `#!/usr/bin/env dotnet`, seguida de um programa que imprime `shebang ok`. O compilador aceita isso como primeira linha (o teste é ignorado no Windows).
+5. **Erro de compilação (TODO-04).** Em `AppWithCompileError`, devolva um programa que não compila (por exemplo, usando um nome inexistente). A execução deve sair com código diferente de zero e imprimir um erro `CSxxxx`.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que a mesma linha imprime `False` sem a diretiva e `True` com ela, e o que o SDK fez para o programa rodar sem projeto.
+
+**Desafios opcionais**
+
+- **TODO-05:** o último teste roda `dotnet project convert app.cs` no seu `AppWithProperty`. Abra o `app.csproj` gerado e ache `PackAsTool`, `UserSecretsId` e `PublishAot`: quais você escreveu e quais o SDK adicionou?
+- **TODO-06:** numa pasta de rascunho, coloque uma classe `Greeter` em `greeter.cs` e use em `app.cs`. No SDK 10.0.100 o build falha com `CS0103`, porque o app é exatamente um arquivo. Verifique se o seu SDK suporta `#:include` antes de depender dele.
+
+**Pré-requisitos:** top-level statements e raw string literals de C#, e o .NET 10 SDK (10.0.100 ou superior) no `PATH`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método começa lançando `NotImplementedException` com um comentário `TODO-NN` explicando o programa esperado, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [File-based apps, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps) (doc)

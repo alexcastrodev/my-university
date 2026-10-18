@@ -197,6 +197,43 @@ Native AOT service plain ADO.NET is the option with no caveats.
   matters on a path called thousands of times per second and rarely elsewhere.
   Optimize the query and the indexes first.
 
+## Lab
+
+In this lab you run the same small domain through three data-access layers (plain ADO.NET, Dapper and EF Core) over a single in-memory SQLite database, and finish with a tiny document store. You receive the schema and the seed data ready, and the data-access classes are stubs that throw `NotImplementedException`. The core idea is to feel what each tool costs and delivers (manual SQL and mapping, manual SQL with automatic mapping, LINQ with change tracking), mix two of them in one transaction, and see what you gain and lose when the data shape is flexible. Everything runs inside the test process: no server, no Docker, no network.
+
+**The scenario**
+
+The domain has categories and products. The price column is called `unit_price`, but the property is called `UnitPrice`, on purpose.
+
+- `Schema.cs` (ready): creates `Categories`, `Products` (with `CHECK (unit_price >= 0)`) and `Documents`, and seeds the categories Books, Games and Empty.
+- `AdoNetProducts.cs`, `DapperProducts.cs`, `EfProducts.cs`: the stubs to implement, one per tool.
+- `DocumentStore.cs`: the key and JSON document store (optional).
+- `AppDbContext.cs` and `Models.cs` (ready): the EF Core context and the `Product` and `Category` entities.
+
+Each test opens an in-memory connection and keeps it open, so the database lives as long as the test.
+
+**What you will do, step by step**
+
+1. **ADO.NET by hand (TODO-00).** In `FindByCategory` and `Add`, use `SqliteCommand` with parameters (never string concatenation) and map the `SqliteDataReader` row by row. `Add` uses `INSERT ... RETURNING Id` and honors `cmd.Transaction`. A hostile input such as `x'); DROP TABLE Products; --` must be stored literally.
+2. **Transaction (TODO-01).** In `AddAll`, insert everything in one transaction: if a row violates the `CHECK`, nothing may stay stored.
+3. **Dapper (TODO-02).** In `FindByCategory`, use `Query<T>` with an anonymous parameter object and make `unit_price` map to `UnitPrice` (`DefaultTypeMap.MatchNamesWithUnderscores` or an alias in the `SELECT`). The result must equal the ADO.NET one.
+4. **No N+1 (TODO-03).** In `CategoriesWithProducts`, bring every category (including the empty one) with its products in one query: `LEFT JOIN`, `Query<Category, Product?, Category>` with `splitOn` and a dictionary to reuse the `Category`.
+5. **Read-only EF Core (TODO-04).** In `ListReadOnly`, write the same query in LINQ without change tracking. The test checks that `ChangeTracker.Entries()` stays empty, while a normal query tracks.
+6. **Mix in one transaction (TODO-05).** In `RaisePrices`, open an EF transaction, share `db.Database.GetDbConnection()` and pass `tx.GetDbTransaction()` to Dapper to multiply the prices. With `commit` false everything must be undone.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain when you would choose each tool and why Dapper reported 3 updated rows even in the rollback case, yet left no trace.
+
+**Optional challenges**
+
+- **TODO-06:** `DocumentStore` implements `Put`, `Get` and `FindKeys` by JSON path (`json_extract`). Notice that nothing stops a document from pointing to a category that does not exist.
+- **TODO-07:** `DapperProducts.AddAll` inserts a whole list with a single `Execute` call.
+
+**Prerequisites:** basic C# and LINQ, basic SQL (SELECT, JOIN, INSERT, transactions), EF Core basics and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Each method starts by throwing `NotImplementedException` with a `TODO-NN` comment saying what to do, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Entity Framework Core overview, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/) (doc)

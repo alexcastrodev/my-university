@@ -200,6 +200,41 @@ and both foreign keys cascade, so deleting either side removes the association.
   class, `UsingEntity<T>` and a migration; start with an explicit join class if
   the association is likely to grow data.
 
+## Lab
+
+In this lab you configure EF Core relationships on SQLite and watch how the foreign key, the delete behavior, composite and alternate keys, shadow keys and a many-to-many join entity change what happens when rows disappear. You receive the models and two contexts with the configuration points empty (`TODO`), and two `ShopService` methods that throw `NotImplementedException`. The core idea is that the delete behavior decides who has the last word, the database or EF Core, and that this only shows up when the children are not loaded in memory.
+
+**The scenario**
+
+Two small models share the lab, and the tests run on in-memory SQLite with a new context for every check.
+
+- `ShopContext.cs`: categories, suppliers, products, reviews (`Review`) and tags. `Review` has no foreign key property on purpose, so EF creates a shadow `ProductId` column. `ProductTag` is the join entity.
+- `LegacyContext.cs`: orders that point at a customer by e-mail and order lines with a two-column key.
+- `ShopService.cs`: `GetReviewProductIdAsync` and `DetachReviewAsync` to implement. `DeleteSupplierAsync` is already provided.
+
+Since each check uses a new context, children are never loaded unless the test loads them. That is what exposes the difference between `ClientSetNull` and `SetNull`.
+
+**What you will do, step by step**
+
+1. **Null it in the database (TODO-00).** In `ShopContext`, configure `Product` to `Supplier` with `DeleteBehavior.SetNull`, so the DATABASE nulls `SupplierId` when the supplier is deleted, even if the products were never loaded.
+2. **Forbid the delete (TODO-01).** Since `CategoryId` is required, the default is cascade. Configure `Product` to `Category` so deleting a category that still has products fails.
+3. **Join entity (TODO-02).** Keep the skip navigations of `Product.Tags`, but use `UsingEntity<ProductTag>` and give `AddedOn` the database default `CURRENT_TIMESTAMP` with `HasDefaultValueSql`.
+4. **Composite and alternate keys (TODO-03 and TODO-04).** In `LegacyContext`, declare the primary key `(OrderId, LineNo)` of `OrderLine` and point `Order.CustomerEmail` at `Customer.Email` with `HasForeignKey` and `HasPrincipalKey`.
+5. **Read the shadow key (TODO-05).** In `GetReviewProductIdAsync`, read the foreign key column of a `Review` with `EF.Property<int>`.
+6. **Delete the orphan (TODO-06).** In `DetachReviewAsync`, load the product with its reviews, remove the review from `product.Reviews` and save, without calling `Remove` on the review: EF must delete it because it cannot exist without a product.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why `SetNull` works without loading the products, why the category with products throws `DbUpdateException`, and why changing a customer's e-mail (an alternate key) throws `InvalidOperationException`.
+
+**Optional challenges**
+
+- **TODO-07:** print `Database.GenerateCreateScript()` for `ShopContext` and find the `ON DELETE` clause of each foreign key. Which one has none?
+
+**Prerequisites:** C# and LINQ, `async`/`await`, basic EF Core (`DbContext`, `DbSet`, `SaveChanges`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The places to fill in are `TODO-NN` comments in `ShopContext.cs`, `LegacyContext.cs` and `ShopService.cs`, and each red test shows what is still missing.
+
 ## Documentation Links
 
 - [Introduction to relationships, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/relationships) (doc)

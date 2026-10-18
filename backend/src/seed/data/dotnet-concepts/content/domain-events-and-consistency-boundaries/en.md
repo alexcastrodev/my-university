@@ -155,6 +155,49 @@ public async Task HandleAsync(OrderPlacedIntegrationEvent e, CancellationToken c
   flow of a use case is scattered across files and hard to follow in a debugger.
   Keep the number of reactions per event small and named after what they do.
 
+## Lab
+
+In this lab you raise domain events from an aggregate, dispatch them from an EF Core `SaveChanges` interceptor in the same transaction, translate them into an outbox row, and consume the integration event in a separate transaction, idempotently. You receive the `DbContext`, the dispatcher and the event types ready, but the business logic is empty: the order raises nothing, the interceptor dispatches nothing, and the handler and the consumer throw `NotImplementedException`. The core idea is the consistency boundary: what must be atomic with the order goes in the same transaction, and what lives in another aggregate happens afterwards, in its own transaction.
+
+**The scenario**
+
+When an `Order` is placed, two things must follow: an integration event for other modules and loyalty points for the customer. The two live in different aggregates, so they cannot share a transaction.
+
+The flow is:
+
+- `Order.Place`: raises OrderPlaced (the aggregate only records it)
+- `Interceptor`: before the commit, dispatches the events of tracked aggregates
+- `OrderPlacedHandler`: same transaction: adds an OutboxMessage next to the order
+- `LoyaltyConsumer`: own transaction, after the commit: awards points to the Customer
+
+- `Model.cs`: `Order.Place` (to implement) and `Customer` with `AwardPoints`.
+- `Events.cs` (ready): `AggregateRoot`, `OrderPlaced`, `OrderPlacedIntegrationEvent`, `OutboxMessage` and `ProcessedMessage` (the inbox).
+- `Dispatching.cs`: `DomainEventDispatcher` (ready) and `DomainEventsInterceptor` (to implement).
+- `Handlers.cs`: `OrderPlacedHandler` and `LoyaltyConsumer` (to implement).
+
+The tests use in-memory SQLite and open several contexts on the same connection, so you can see what was really committed.
+
+**What you will do, step by step**
+
+1. **Raise the event (TODO-00).** In `Order.Place`, reject a total less than or equal to zero with `ArgumentOutOfRangeException`. Otherwise build the order (`Guid.CreateVersion7()`) and `Raise` an `OrderPlaced`, using `clock.GetUtcNow()`. The aggregate only records, it never publishes.
+2. **Dispatch before the commit (TODO-01).** In `SavingChangesAsync`, collect the events of every tracked `AggregateRoot` (`ChangeTracker.Entries<AggregateRoot>()`), clear them first (otherwise a second `SaveChanges` dispatches again) and call `dispatcher.DispatchAsync` for each one.
+3. **Write the outbox (TODO-02).** In `OrderPlacedHandler`, translate the event into an `OrderPlacedIntegrationEvent` (one new `Guid` used as both the `MessageId` and the row id) and add an `OutboxMessage` to `db.OutboxMessages`, without calling `SaveChanges`: the outer `SaveChanges` commits the order and the row together.
+4. **Consume once (TODO-03).** In `LoyaltyConsumer`, open a context with `newContext()`, award the points to the customer (create it if missing) and record a `ProcessedMessage(e.MessageId, Name)` in the same transaction. If it is already there, skip the message.
+
+**How you know you are done**
+
+`dotnet test` is green. Pay attention to the three tests that check what is NOT in the database after a failure or a duplicate delivery. You should be able to explain why a handler that throws rolls back the order, why there is never an outbox row without an order, and why the same message delivered twice awards points only once.
+
+**Optional challenges**
+
+- **TODO-04:** move the dispatch to `SavedChangesAsync` (after the commit). Which test fails, and which failure would you never see in tests (a crash between the commit and the dispatch)?
+- **TODO-05:** make `OrderPlacedHandler` call `db.SaveChangesAsync()`. What happens to the events, and why does the interceptor need to clear them first?
+- **TODO-06:** register the `Exploding` handler only for `OrderPlaced`, then move the loyalty work into an in-transaction handler. What does a loyalty outage do to checkout now?
+
+**Prerequisites:** aggregates and basic EF Core, `SaveChangesInterceptor` and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Each place to fill in throws `NotImplementedException` with a `TODO-NN` comment explaining the step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Domain events: design and implementation, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation) (doc)

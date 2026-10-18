@@ -174,6 +174,41 @@ SQL fragments are provider-specific: `CURRENT_TIMESTAMP` and `||` on SQLite,
   can feed several tables; client-generated GUIDs avoid a round trip when inserting
   a graph. Moving between them later is a data migration.
 
+## Lab
+
+In this lab you tell EF Core which values the database produces (defaults, clock, computed columns, triggers), so it leaves them out of the `INSERT`, reads them back, and does not confuse "not set" with an intentional `0`. You receive the `Account` entity, a `ShopDatabase.Create` that already creates the schema and a trigger, and an empty `OnModelCreating` with `TODO` comments. With a silent model, every value is sent by the application or stays empty. The core idea is that EF only lets the database decide when you declare it, and that the sentinel value of each property must be chosen carefully.
+
+**The scenario**
+
+An account (`Account`) has `Status`, `Credits`, `CreatedAt`, `UpdatedAt` and `FullName`, and the database should fill all of them.
+
+- `Entities.cs`: `Account` (with `Credits` initialized to `-1` in C#, `FullName`, `Initials`) and `Ticket` (with a `Guid` `Ref`).
+- `ShopDatabase.cs`: creates the schema with `EnsureCreated` and a trigger `Accounts_SetUpdatedAt` that sets `UpdatedAt` after each update.
+- `ShopDbContext.cs`: where the configuration goes.
+
+The tests run on in-memory SQLite. The lab leaves out sequences, because SQLite has none, and row versions, which belong to another concept.
+
+**What you will do, step by step**
+
+1. **Text default (TODO-00).** On `Status`, configure the database default `"Active"`. In C# it is null until saved, and the test expects the value to come back filled, while an explicitly set `Status` must be respected.
+2. **Numeric default with a sentinel (TODO-01).** `Credits` defaults to 10 in the database, but the C# initializer is `-1` and an intentional `0` must be stored as `0`. Choose which value acts as the sentinel so EF decides when to omit the column from the `INSERT`.
+3. **Database clock (TODO-02).** Make `CreatedAt` come from `HasDefaultValueSql("CURRENT_TIMESTAMP")`.
+4. **Stored computed column (TODO-03).** `FullName` is `FirstName || ' ' || LastName` as a stored computed column. After changing the last name and saving, the new value must come back.
+5. **Trigger (TODO-04).** `UpdatedAt` is filled by the trigger. Tell EF it is generated on add or update, and make sure the new value is read back after the trigger ran (SQLite `RETURNING` reports values before triggers).
+
+**How you know you are done**
+
+`dotnet test` is green. The tests also insert a row with raw SQL to prove that the defaults live in the database, not only in EF. You should be able to explain why `Credits = 0` must be stored as zero and why filtering by `FullName` becomes SQL on the computed column.
+
+**Optional challenges**
+
+- **TODO-05:** a client-side `GuidValueGenerator` for `Ticket.Ref`, which is not a key and so no convention generates it.
+- **TODO-06:** a virtual (not stored) computed column for `Initials`, built with `upper(substr(FirstName, 1, 1)) || upper(substr(LastName, 1, 1))`. The current tests do not cover either challenge, so check the result yourself.
+
+**Prerequisites:** basic EF Core (`DbContext`, `SaveChanges`), a little SQL (`DEFAULT`, computed columns, triggers) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The configuration to write is in the `TODO-NN` comments inside `OnModelCreating`, and the red tests show what the model does not declare yet.
+
 ## Documentation Links
 
 - [Generated values, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties) (doc)
