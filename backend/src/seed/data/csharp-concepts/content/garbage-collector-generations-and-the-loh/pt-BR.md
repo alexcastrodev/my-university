@@ -189,6 +189,42 @@ com heap grande.
   gráfico de memória bonito numa demo e pior em produção, promovendo dados
   vivos e somando pausas. Meça com counters antes de manter uma.
 
+## Lab
+
+Neste lab você recebe `Heap`, `Weak`, `Resurrector` e `Buffers` com os métodos sem corpo. Cada TODO pede um pequeno experimento contra o runtime de verdade, e o seu trabalho é devolver o que ele relata. Você observa gerações, promoção, o large object heap, referências fracas e pooling com medições reais, em vez de palpites. Os testes nunca dependem de tamanhos exatos de heap, e todos ficam numa única classe com a paralelização desligada, para nenhum outro teste coletar ou alocar enquanto um deles mede.
+
+**O cenário**
+
+Experimentos curtos sobre o coletor de lixo.
+
+- `Heap.cs`: `GenerationOfNewByteArray`, `GenerationsAfterCollections` e `CollectionsTriggeredBy` (e dois métodos opcionais).
+- `Tracking.cs`: `Weak.Of` e `Weak.IsAlive`, e a classe `Resurrector`, com finalizador e `Track`.
+- `Buffers.cs`: `UseNewArray` (já pronto, aloca um array novo por chamada) e `UsePooledArray`.
+
+Os testes de referência fraca criam o lixo num método `NoInlining` e depois forçam uma coleta completa, para o JIT não manter o objeto vivo no frame do chamador.
+
+**O que você vai fazer, passo a passo**
+
+1. **Onde um array nasce (TODO-00).** `GenerationOfNewByteArray` aloca um `byte[length]` e devolve `GC.GetGeneration` dele. Objetos de 85.000 bytes ou mais (cabeçalho incluído) vão para o large object heap, que é logicamente parte da geração 2, então já nascem reportando 2.
+2. **Promoção (TODO-01).** `GenerationsAfterCollections` devolve a geração do valor medida depois de `GC.Collect(0)`, depois de `GC.Collect(1)` e depois de `GC.Collect(2)`, nessa ordem. Um sobrevivente sobe uma geração por coleta da sua geração, até a 2.
+3. **Forçar e medir uma coleta (TODO-02).** `CollectionsTriggeredBy` lança `ArgumentOutOfRangeException` se a geração for negativa ou maior que `GC.MaxGeneration`; senão, roda `GC.Collect(generation)` e devolve quanto `GC.CollectionCount(generation)` cresceu por causa disso.
+4. **Referência fraca (TODO-03).** `Weak.Of` devolve um `WeakReference<T>` que não mantém o valor vivo, e `Weak.IsAlive` devolve `true` enquanto o alvo não foi coletado (`TryGetTarget`).
+5. **Ressurreição (TODO-04).** No finalizador de `Resurrector`, guarde `this` em `Saved` (e não lance exceção: um erro num finalizador derruba o processo). Em `Track`, devolva duas referências fracas: `Short` (não acompanha a ressurreição) e `Long` (`trackResurrection: true`). A curta é limpa antes do finalizador, a longa sobrevive.
+6. **Pooling no lugar do LOH (TODO-05).** `UsePooledArray` aluga um buffer de pelo menos `size` bytes de `ArrayPool<byte>.Shared`, passa para `work` e devolve o resultado, devolvendo o buffer ao pool num `finally`, mesmo que `work` lance exceção. Lembre que o buffer pode ser maior que `size`.
+
+**Como saber que terminou**
+
+`dotnet test` (e depois `dotnet test -c Release`) fica todo verde. Você deve conseguir explicar por que um array de 100.000 bytes já nasce na geração 2, o que diferencia uma referência fraca curta de uma longa e por que o pool quase não aloca enquanto `UseNewArray` aloca um array de 1 MB por chamada.
+
+**Desafios opcionais**
+
+- **TODO-06:** `RequestLohCompaction` pede uma compactação única do LOH (`CompactOnce`), roda um `GC.Collect()` bloqueante e devolve o modo lido depois, que volta sozinho ao padrão.
+- **TODO-07:** `GenerationOfPinnedArray` aloca no pinned object heap com `GC.AllocateArray<byte>(length, pinned: true)` e devolve a geração (2).
+
+**Pré-requisitos:** tipos por referência e o heap gerenciado, finalizadores e `WeakReference`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`, e depois `dotnet test -c Release`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Fundamentals of garbage collection, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals) (doc)

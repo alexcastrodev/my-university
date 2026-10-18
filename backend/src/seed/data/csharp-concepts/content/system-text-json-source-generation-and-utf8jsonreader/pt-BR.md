@@ -212,6 +212,42 @@ async streams.
 - **Números são texto até você pedir.** `GetDouble` pode perder dígitos que
   `GetDecimal` mantém, então escolha pelo significado do campo.
 
+## Lab
+
+Neste lab você recebe `AppJsonContext` como uma classe parcial quase vazia (com um `[JsonSerializable(typeof(Status))]` provisório só para o gerador ter o que emitir) e `Codec` com os métodos **vazios**. O seu trabalho é trocar o JSON baseado em reflection por um `JsonSerializerContext` gerado em tempo de compilação, entender o que ele descobre e o que não descobre, e descer para `Utf8JsonReader` e `Utf8JsonWriter` quando quiser processar JSON sem montar objetos nem strings. O gerador já vem no SDK, então não há pacote: você só declara atributos.
+
+**O cenário**
+
+Pedidos (`Order`) serializados com metadados gerados, e payloads processados direto em bytes UTF-8.
+
+- `Models.cs`: `Status`, `Order` (com um array `Tags`) e `Person`, que **não** é registrado de propósito: é o "tipo esquecido".
+- `AppJsonContext.cs`: o contexto a configurar.
+- `Codec.cs`: `Serialize`, `Deserialize`, `SerializeAll`, `IsRegistered`, `SerializeWithFallback`, `ReadTokens`, `SumPaid`, `WriteSummary`, `WriteInvalid` e `ReadTokensInChunks`.
+
+Coleções não são descobertas pelo gerador: precisam ser listadas.
+
+**O que você vai fazer, passo a passo**
+
+1. **Declarar o contexto (TODO-00).** Em `AppJsonContext`, adicione `[JsonSourceGenerationOptions(JsonSerializerDefaults.Web, UseStringEnumConverter = true)]`, registre `Order` e `Order[]` com `[JsonSerializable]` e apague o placeholder. Em `Codec.Serialize` e `Deserialize`, use `AppJsonContext.Default.Order` (não a sobrecarga com `JsonSerializerOptions`, que usa reflection). Um payload em minúsculas deve ser aceito.
+2. **Serializar coleções e perguntar ao contexto (TODO-01).** `SerializeAll` usa `AppJsonContext.Default.OrderArray`, então converta com `ToArray()` antes (`List<Order>` não tem metadados). `IsRegistered` pergunta ao contexto com `GetTypeInfo`, em vez de tentar serializar e capturar a exceção.
+3. **Manter reflection como fallback (TODO-02).** Em `SerializeWithFallback`, monte `JsonSerializerOptions(JsonSerializerDefaults.Web)` cujo `TypeInfoResolver` é `JsonTypeInfoResolver.Combine(AppJsonContext.Default, new DefaultJsonTypeInfoResolver())`: tipos listados usam código gerado e `Person` cai para reflection.
+4. **Ler sem alocar (TODO-03).** `ReadTokens` percorre o payload com `Utf8JsonReader` e devolve o `TokenType` de cada token; JSON inválido deve virar `JsonException`. `SumPaid` soma o `total` das linhas com `status` igual a `"paid"` sem alocar strings, usando `ValueTextEquals("status"u8)` e `GetDecimal()`. A ordem das chaves varia, objetos e arrays aninhados são pulados com `Skip()` e a linha termina num `EndObject` com `CurrentDepth` 1. O reader é um `ref struct`: passe por `ref`.
+5. **Escrever direto no buffer (TODO-04).** `WriteSummary` escreve `{"count":N,"orders":[...]}` num `IBufferWriter<byte>` com `Utf8JsonWriter`, sem string intermediária nem indentação, com `JavaScriptEncoder.UnsafeRelaxedJsonEscaping` quando `relaxedEncoder` for verdadeiro, e chama `Flush()`. `WriteInvalid` escreve `StartObject`, um número solto e `EndObject`, com `SkipValidation` vindo do parâmetro: o writer validador deve lançar `InvalidOperationException` sozinho.
+6. **Ler dados que chegam em pedaços (TODO-05).** `ReadTokensInChunks` dá o mesmo resultado de `ReadTokens`, fingindo que os dados chegam `chunkSize` bytes por vez. Guarde `offset` e `available`, crie o `Utf8JsonReader` com `isFinalBlock: available == utf8Json.Length` e o `state`, leia até `Read()` devolver false, avance `offset` por `BytesConsumed` e guarde `reader.CurrentState`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `List<Order>` não está registrado enquanto `Status` está, o que o fallback combinado resolve e por que o writer com `SkipValidation` produz `{1}`.
+
+**Desafios opcionais**
+
+- **TODO-06:** adicione um segundo contexto com `GenerationMode = JsonSourceGenerationMode.Serialization`. Escreva um `Order` com ele e depois tente ler um. O que acontece e por quê?
+- **TODO-07:** faça o parse com `JsonDocument`, devolva um `JsonElement` de um método que já descartou o documento e observe a exceção. Depois devolva `element.Clone()`.
+
+**Pré-requisitos:** records e atributos em C#, `JsonSerializer.Serialize`/`Deserialize` básicos, noções de `Span<T>` e `ref struct`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica (em `AppJsonContext.cs` e `Codec.cs`), então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [How to use source generation in System.Text.Json, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation) (doc)

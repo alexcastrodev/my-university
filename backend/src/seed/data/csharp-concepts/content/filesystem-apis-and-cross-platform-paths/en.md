@@ -259,6 +259,44 @@ record at a time, or put your own cache in front.
   for pipes, and every call needs an offset you computed. For sequential text or
   stream pipelines, `FileStream` with a buffer is simpler and usually as fast.
 
+## Lab
+
+In this lab you get `FileOps` and `RecordFile` with **empty bodies** (`NotImplementedException`). Your job is to handle the edges of `System.IO`: build paths from untrusted input without escaping a folder, enumerate trees with `EnumerationOptions`, replace files without ever leaving them half-written, use `FileShare` to refuse concurrent opens and read and write records by offset with `RandomAccess`. The core idea is that each API has a trap (`Path.Combine`, platform casing, symbolic links) and the lab makes you step on each one.
+
+**The scenario**
+
+File operations that must behave the same on Windows, Linux and macOS.
+
+- `FileOps.SafeJoin`: joins user input to a base folder and confines the result.
+- `FileOps.FindFiles` and `CountByName`: recursive enumeration with depth, casing and symbolic links.
+- `FileOps.SaveAtomically`: writes a file without ever damaging the old one.
+- `FileOps.TryOpenExclusive`: opens with `FileShare.None`.
+- `RecordFile`: a file of 4-byte (`int`) records accessed by index with no stream position, deliberately with no `FileStream`.
+
+Every test creates its own temp folder and deletes it afterwards, and assertions never hard-code `/` or `\`: they use `Path.Combine`. The symbolic link test returns early if the link cannot be created (Windows without privileges). On Unix `FileShare` is emulated with advisory locks, and the test stays inside one process, where both behaviors match.
+
+**What you will do, step by step**
+
+1. **Confine user input (TODO-00).** In `SafeJoin`, use `Path.Join`, not `Path.Combine`: a `"/etc/passwd"` must become a relative piece, not replace the base. Resolve with `Path.GetFullPath` and throw `InvalidOperationException` if the result leaves the base (watch out for `..` and for a sibling folder like `<base>2`). Compare against the full base path with a trailing separator, using `StringComparison.Ordinal`.
+2. **Find files portably (TODO-01).** `FindFiles` returns paths **relative** to the root (`Path.GetRelativePath`), sorted with `StringComparer.Ordinal`. Use `Directory.EnumerateFiles` with an `EnumerationOptions` that recurses, matches case-insensitively and explicitly, and honors `MaxRecursionDepth` (depth 0 means only the files directly inside).
+3. **Decide about symbolic links (TODO-02).** `CountByName` counts the files with that name under the root. With `followLinks` false, skip `FileAttributes.ReparsePoint` in `AttributesToSkip`; with true, the default behavior applies.
+4. **Save atomically (TODO-03).** `SaveAtomically` writes to a temp file in the **same folder** (`Path.GetRandomFileName()` and `FileMode.CreateNew`) and then swaps it in with `File.Move(tmp, path, overwrite: true)`. If enumerating or writing fails, delete the temp file and let the exception propagate. When it finishes, no temp file may be left over.
+5. **Refuse concurrent opens (TODO-04).** `TryOpenExclusive` opens the existing file for reading and writing with `FileShare.None`. Return `null` if another handle already holds it (catch `IOException`), but do not swallow `FileNotFoundException`.
+6. **Access records by offset (TODO-05).** In `RecordFile`: open or create the file with `File.OpenHandle` and keep the `SafeFileHandle`; `Count` comes from `RandomAccess.GetLength`; `Read` uses `RandomAccess.Read` with offset `index * RecordSize` and throws `ArgumentOutOfRangeException` for a negative index or `>= Count`; `Write` uses `RandomAccess.Write`, grows the file (the gap reads as zeros) and must be safe across threads on different indexes.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `Path.Combine` would be unsafe with user input, why the temp file must live in the same folder as the destination and why `RandomAccess` removes the need for a `FileStream` position.
+
+**Optional challenges**
+
+- **TODO-06:** write a helper that returns a `FileStream` on a new temp file that deletes itself when disposed (`FileOptions.DeleteOnClose`, `Path.GetRandomFileName()`, `FileMode.CreateNew`). Why is that better than `Path.GetTempFileName()`?
+- **TODO-07:** write one test that proves `Directory.EnumerateFiles` is lazy and `Directory.GetFiles` is a snapshot (create a file between the call and the iteration). When would you choose each one?
+
+**Prerequisites:** C# classes, `IEnumerable<T>` and LINQ basics, `FileStream` basics (`using`, `FileMode`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Path.Join method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.join) (doc)

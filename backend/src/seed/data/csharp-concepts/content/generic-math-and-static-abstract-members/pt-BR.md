@@ -235,6 +235,41 @@ ferramenta errada.
   ganha são autores de bibliotecas. Para um tipo concreto só, um método não
   genérico é mais fácil de ler.
 
+## Lab
+
+Neste lab você recebe `Algorithms` e dois tipos de valor (`Money` e `SafeMoney`) com os corpos **vazios** (`NotImplementedException`). O seu trabalho é escrever algoritmos genéricos que funcionam para `int`, `double`, `decimal`, `BigInteger` e para um tipo seu, restringindo o parâmetro de tipo à menor interface de `System.Numerics` de que ele precisa. A ideia central é sentir que `static abstract` deixa você chamar `T.Zero` ou `T.AdditiveIdentity` direto no tipo, e ver onde a divisão inteira e o `checked` mudam o resultado.
+
+**O cenário**
+
+Uma soma, uma média e alguns utilitários numéricos escritos uma vez só, sem um método para cada tipo.
+
+- `Algorithms.cs`: `Sum`, `Average`, `AverageAs`, `Clamp01`, `Bits` e `SumChecked`, cada um com sua constraint genérica (`IAdditionOperators`, `INumber<T>`, `IBinaryInteger<T>`).
+- `Money.cs`, `Money`: um valor que **não é um número**. Não tem divisão nem comparação, só `+` e um zero, e mesmo assim entra em `Sum`.
+- `Money.cs`, `SafeMoney`: a mesma ideia, mas com um `operator checked +` para respeitar o contexto `checked`. O `operator +` normal já vem pronto.
+
+Repare que cada método pede o mínimo: a soma precisa de `+` e de um zero, nada mais.
+
+**O que você vai fazer, passo a passo**
+
+1. **Somar com a menor constraint (TODO-00).** Em `Sum`, comece de `T.AdditiveIdentity` e some cada valor com `+=`. Uma sequência vazia devolve o zero do tipo.
+2. **Fazer seu próprio tipo entrar na soma (TODO-01).** Em `Money`, implemente `operator +` somando os centavos em contexto `unchecked` (o `+` simples dá a volta no overflow) e `AdditiveIdentity` devolvendo o zero.
+3. **Evitar divisão inteira e overflow (TODO-02).** Em `Average`, divida a soma pela quantidade convertida com `T.CreateChecked` e note o que acontece com `int`. Em `AverageAs<T, TResult>`, acumule em `TResult` (comece de `TResult.Zero` e converta cada valor com `TResult.CreateChecked`) e divida pela contagem convertida.
+4. **Usar membros estáticos de interface (TODO-03 e TODO-04).** `Clamp01` limita entre `T.Zero` e `T.One` para qualquer `INumber<T>`. `Bits` conta os bits ligados de qualquer largura inteira com `T.PopCount`.
+5. **Pedir `checked` no algoritmo e honrar no tipo (TODO-05).** Em `SumChecked`, some dentro de um contexto `checked`: `total = checked(total + v)`. Em `SafeMoney`, o `operator checked +` lança `OverflowException` no overflow, usando um contexto `checked` na soma. Só tipos que definem esse operador ficam protegidos: `Money` continua dando a volta.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Average<int>([1, 2])` dá 1 e `AverageAs<int, double>` dá 1.5, por que `SumChecked<double>` devolve infinito em vez de lançar, e por que `SumChecked<Money>` não protege nada.
+
+**Desafios opcionais**
+
+- **TODO-06:** tente `List<INumber<int>> list = [];` e `var z = INumber<int>.Zero;`. Leia os erros do compilador (CS8920, CS8926) e explique por que essas interfaces são constraints, não tipos para variáveis.
+- **TODO-07:** `Clamp01` usa só `T.Clamp`, `T.Zero` e `T.One`, mas exige o `INumber<T>` inteiro. Que interfaces menores ainda dariam zero, um e comparações? O que `Money` ganharia, e o que se perde em legibilidade?
+
+**Pré-requisitos:** generics e constraints em C#, interfaces com membros `static abstract` (C# 11) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` com um comentário `TODO-NN` explicando o passo, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Generic math, .NET, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/generics/math) (doc)

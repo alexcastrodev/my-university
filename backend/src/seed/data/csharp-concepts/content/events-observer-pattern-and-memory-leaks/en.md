@@ -248,6 +248,42 @@ when `maybe` is not null.
   add { lock (_gate) _handlers.Add(value); }
   ```
 
+## Lab
+
+In this lab you get a long-lived publisher (`TickSource`) and the event args ready, plus several **stubbed** classes that throw `NotImplementedException`. Your job is to implement the standard event-raising pattern, return subscriptions as `IDisposable` and prove, with a `WeakReference`, that the classic leak is gone. The core idea is to feel that an event is a strong reference from the publisher to each subscriber: if nobody unsubscribes, the subscriber never dies.
+
+**The scenario**
+
+A publisher that lives forever (like a static application clock) keeps alive subscribers nobody else uses, unless they unsubscribe.
+
+- `Models.cs`: `ValueChangedEventArgs` and `TickSource` (already done, with `HandlerCount` and `Raise`) and `PriceFeed`, where `Subscribe` is missing.
+- `Account.cs`: `Account` with the `BalanceChanged` event, `Deposit` and `OnBalanceChanged`.
+- `Widget.cs`: `Widget` (subscribes to `TickSource`), `WidgetFactory` (creates a widget and returns only a `WeakReference`) and `LambdaListener`.
+- `Bonus.cs`: `Button` with custom `add`/`remove` accessors and `Subscriber.Attach`.
+
+Notice that `WidgetFactory.Create` is marked `NoInlining`: without it the JIT may keep the widget alive in the caller's frame and the collection test would be misleading.
+
+**What you will do, step by step**
+
+1. **Raise the event the standard way (TODO-00).** In `Account.Deposit`, throw `ArgumentOutOfRangeException` when the amount is less than or equal to zero; otherwise update the balance and call `OnBalanceChanged` with the old and new balance. In `OnBalanceChanged`, raise `BalanceChanged` with `this` as sender, reading the event once with `?.Invoke`. With no subscribers nothing happens.
+2. **Subscribe and unsubscribe with the same method (TODO-01).** In the `Widget` constructor, keep the source and subscribe `OnTick`. In `Dispose`, do `-=` with the same method so the `TickSource` stops holding the widget.
+3. **Return the subscription as an IDisposable (TODO-02).** In `PriceFeed.Subscribe`, subscribe the handler and return an `IDisposable` whose `Dispose` unsubscribes. Calling `Dispose` twice must be harmless. A small private class or a lambda-based `IDisposable` both work.
+4. **Prove the leak with a WeakReference (TODO-03).** In `WidgetFactory.Create`, create a `Widget` on the source, dispose it when `dispose` is `true` and return only a `WeakReference`, keeping no local reference. One test shows that without `Dispose` the widget stays alive, and the other shows that with `Dispose` it gets collected.
+5. **Remember that a lambda written twice is two delegates (TODO-04).** In `LambdaListener`, `Attach` subscribes a handler that increments `Count` and `Detach` removes exactly the same instance. Store the delegate (or use a method group), because repeating the lambda creates another delegate and `-=` removes nothing.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `ShouldLeakWhenTheWidgetIsNeverDisposed` sees `IsAlive == true` and `HandlerCount == 1`, and why after `Dispose` the same widget is collected.
+
+**Optional challenges**
+
+- **TODO-05:** in `Button.Click`, write `add`/`remove` accessors that store the handlers in a list under a `lock`, ignoring `null` (the shape of a C# 14 `partial event` implementation).
+- **TODO-06:** in `Subscriber.Attach`, subscribe only when `maybe` is not null, using C# 14 null-conditional assignment: `maybe?.BalanceChanged += handler;`.
+
+**Prerequisites:** delegates and multicast delegates, `IDisposable` and `using`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Unimplemented methods throw `NotImplementedException` and the `TODO-NN` comments in the code explain what to do, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Standard .NET event patterns, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/event-pattern) (doc)

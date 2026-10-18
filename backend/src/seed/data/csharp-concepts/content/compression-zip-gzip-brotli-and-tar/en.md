@@ -187,6 +187,40 @@ while ((n = src.Read(buf)) > 0)
   particular holds state; stream with `Create` mode when you can.
 - **Do not trust a header length as a limit.** Count bytes as you read.
 
+## Lab
+
+In this lab you get `Codecs`, `ZipTools` and `TarTools` with **empty methods** (`NotImplementedException`). Your job is to compress and decompress with the stream codecs, build and read ZIP and tar archives in memory and extract untrusted archives without letting them write outside a folder or expand without bound. The core idea is that compressors are `Stream` decorators with lifecycle traps (the trailer is only written on `Dispose`) and that a hostile archive can lie about sizes and paths.
+
+**The scenario**
+
+Everything runs in memory except the extraction tests, which use a unique temp folder that the tests delete. The tests never assert exact compressed sizes (they vary by runtime), only round trips, "smaller than the input" and behavior.
+
+- `Codecs.cs`: `Gzip`/`Gunzip` and `BrotliCompress`/`BrotliDecompress`.
+- `ZipTools.cs`: `CreateZip`, `ReadZip` (with a byte limit) and `ExtractSafely`.
+- `TarTools.cs`: `CreateTarGz` and `ReadTarGz`.
+
+**What you will do, step by step**
+
+1. **Compress with GZip (TODO-00).** Compress with `GZipStream` into a `MemoryStream` and return the bytes. Trap: the compressor only writes the header and trailer when disposed, and disposing it also disposes the `MemoryStream` unless `leaveOpen` is `true`. `Gunzip` decompresses, and data that is not gzip must give `InvalidDataException`.
+2. **Switch to Brotli with a level (TODO-01).** Same pattern with `BrotliStream`, honoring the requested `CompressionLevel` (`Fastest`, `Optimal` or `SmallestSize`).
+3. **Create a ZIP in memory (TODO-02).** `CreateZip` uses `ZipArchiveMode.Create`, one entry per file. Remember `leaveOpen` and to dispose the archive **before** `ToArray()`. An empty dictionary must produce a valid, empty ZIP.
+4. **Read with a decompression bomb guard (TODO-03).** `ReadZip` reads every file entry (skipping names ending in `/`) into a dictionary keyed by `FullName`. Count the bytes while copying and throw `InvalidDataException` when the total exceeds `maxTotalBytes`, summed across all entries. Do not trust `entry.Length`: headers can lie.
+5. **Extract without zip-slip (TODO-04).** `ExtractSafely` creates the destination if missing and resolves each entry with `Path.GetFullPath`, comparing against the destination full path **with** a trailing separator (so `out-evil` does not pass for `out`). Throw `InvalidDataException` for a bad entry (`../`, an absolute path, a sibling folder) and validate **all** entries before writing any.
+6. **Stack tar and gzip (TODO-05).** `CreateTarGz` uses a `TarWriter` (Pax format) on top of a `GZipStream`, because tar has no compression of its own; dispose order matters: `TarWriter` first, then the `GZipStream`. `ReadTarGz` uses a decompressing `GZipStream` under a `TarReader` and collects the entries that have a `DataStream`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `ToArray()` breaks without `leaveOpen`, why validation must come before writing and why the limit is counted during the copy.
+
+**Optional challenges**
+
+- **TODO-06:** truncate a valid gzip stream in half and decompress it with `CopyTo`. Does it throw? What would you carry alongside the data (length, hash) to detect a cut-off download?
+- **TODO-07:** reimplement `CreateZip` with the .NET 10 async API (`ZipArchive.CreateAsync`, `OpenAsync`) and compare with `ZipArchiveMode.Update`: delete one entry from an existing archive and add another.
+
+**Prerequisites:** `Stream` and `MemoryStream`, `using` and `IDisposable`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [What's new in .NET libraries for .NET 10, ZIP files, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries) (doc)

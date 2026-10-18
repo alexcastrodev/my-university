@@ -201,6 +201,43 @@ processo.
   `Dictionary<string,string>` local como cache de deduplicação pode ser
   descartado.
 
+## Lab
+
+Neste lab você recebe `TextOps`, uma classe com **oito operações pequenas de texto** que lançam `NotImplementedException`. Cada uma tem uma comparação certa, e os testes alimentam textos em que as escolhas discordam: maiúscula contra minúscula, `é` pré-composto contra `e` mais acento combinante, hífen suave, o `I` turco e `file10` contra `file2`. A ideia central é decidir, caso a caso, entre comparação ordinal (para máquinas) e cultural (para pessoas), sem cair em bugs que dependem do locale.
+
+**O cenário**
+
+Textos que precisam ser ordenados, comparados e normalizados, uns para identificadores e protocolos, outros para gente ler.
+
+- `TextOps.SortForPerson` e `SortOrdinal`: a ordenação cultural contra a por unidade de código UTF-16.
+- `TextOps.SameIdentifier`, `SameText` e `LowerProtocol`: igualdade sem cultura, igualdade para pessoas e minúsculas sem depender do locale.
+- `TextOps.NaturalOrder`: ordem numérica, para `file2` vir antes de `file10`.
+- `TextOps.ContainsIgnoringAccents` e `Canonical`: busca ignorando acentos e caixa, e a instância internada de uma string.
+
+Os testes culturais precisam de ICU, presente numa instalação normal de macOS, Linux ou Windows. Num container sem ICU, ou com `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1`, eles falham de propósito (veja o desafio opcional).
+
+**O que você vai fazer, passo a passo**
+
+1. **Ordenar do jeito que a pessoa espera (TODO-00).** Em `SortForPerson`, crie um comparer cultural com `StringComparer.Create(culture, CompareOptions.None)` e ordene com ele. Em inglês `äpple` fica junto de `apple`, em sueco o `ä` vem depois do `z`.
+2. **Ordenar igual em qualquer máquina (TODO-01).** `SortOrdinal` ordena por unidade de código UTF-16.
+3. **Comparar identificadores sem cultura (TODO-02).** `SameIdentifier` ignora a caixa sem nenhuma consulta de cultura, como em nomes de header e extensões (`OrdinalIgnoreCase`).
+4. **Comparar texto para pessoas (TODO-03).** `SameText` trata como iguais sequências canonicamente equivalentes (`e` com acento combinante contra a letra pré-composta) e caracteres de peso zero, usando a cultura invariante.
+5. **Minúsculas de protocolo (TODO-04).** `LowerProtocol` não pode depender da cultura atual: `"TITLE"` vira `"title"` até sob `tr-TR`.
+6. **Ordem natural e busca sem acento (TODO-05 e TODO-06).** `NaturalOrder` usa o `CompareOptions.NumericOrdering` do .NET 10 com a cultura invariante. `ContainsIgnoringAccents` usa `CompareInfo.IndexOf` invariante com `CompareOptions.IgnoreNonSpace | IgnoreCase`.
+7. **Internar a string (TODO-07).** `Canonical` devolve a instância do pool, para strings iguais compartilharem um só objeto.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar quando usar ordinal e quando usar cultural, e por que o `LowerProtocol` falharia na Turquia se usasse a cultura atual.
+
+**Desafios opcionais**
+
+- **TODO-08:** rode os testes prontos com `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1`. Quais falham, e qual devolveria em silêncio uma resposta errada em produção?
+
+**Pré-requisitos:** strings e LINQ em C#, noções de `CultureInfo` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Best practices for comparing strings in .NET, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings) (doc)

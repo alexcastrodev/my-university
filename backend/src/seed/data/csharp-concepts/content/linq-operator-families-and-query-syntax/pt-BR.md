@@ -232,6 +232,43 @@ mesmo que o valor caiba.
   tipo errado, o que é certo para uma coleção mista e errado quando todo item
   deveria ser um `T`; use `Cast` quando um tipo inesperado for bug.
 
+## Lab
+
+Neste lab você recebe `Queries`, uma classe estática com onze métodos pequenos que lançam `NotImplementedException`, e três records (`User`, `Product`, `Player`). O seu trabalho é escolher o operador LINQ certo por família (elemento, quantificador, agregação, ordenação, particionamento, filtro por tipo) e escrever consultas em query syntax com `let` e `into`. A ideia central é que cada método é pequeno, mas o operador certo muda o que acontece com entrada vazia, com duplicatas e sob outra cultura.
+
+**O cenário**
+
+Consultas sobre usuários, produtos, jogadores e palavras, todas em `Queries.cs`.
+
+- `FindByEmail`: achar um usuário por e-mail, ignorando a caixa.
+- `AllInStock` e `MostExpensive`: um quantificador e uma agregação que devolve o item.
+- `Ranking` e `SortedKeys`: ordenação por várias chaves e ordenação ordinal.
+- `Page` e `BatchSums`: paginação e lotes.
+- `IntsOnly` e `AllInts`: filtrar e converter por tipo sobre `object?`.
+- `Describe` e `RepeatedLengths`: as duas escritas em query syntax.
+
+**O que você vai fazer, passo a passo**
+
+1. **Escolher o operador de elemento (TODO-00).** `FindByEmail` devolve o usuário com aquele e-mail (sem diferenciar caixa) ou `null` se não houver. E-mail deveria ser único, então mais de um resultado é bug de dados e deve virar `InvalidOperationException`. Escolha o operador de elemento que diz exatamente isso.
+2. **Cuidar da verdade vácua e do item inteiro (TODO-01).** `AllInStock` é `true` só se a sequência não é vazia e todo produto tem `Stock > 0`: `All` numa sequência vazia é `true`, mas prateleira vazia não é "em estoque". `MostExpensive` devolve o produto de maior `Price`, ou `null` se vazio, com o operador que devolve o item e não só o máximo.
+3. **Ordenar por várias chaves (TODO-02).** `Ranking` devolve os nomes por `Team` crescente, `Score` decrescente e `Name` crescente (ordinal), com `OrderBy` seguido de `ThenBy`: um segundo `OrderBy` começaria uma nova ordenação primária e perderia o agrupamento por time. `SortedKeys` usa `Order()` com um comparer ordinal para o resultado ser igual em qualquer cultura.
+4. **Particionar (TODO-03).** `Page` devolve os itens de uma página de base 1 (a página 1 tem os primeiros `pageSize`), e uma página além do fim é uma lista vazia, não exceção. `BatchSums` divide em lotes de `batchSize` (o último pode ser menor) com o operador de particionamento e soma cada lote.
+5. **Filtrar ou afirmar tipos (TODO-04).** `IntsOnly` guarda só os itens que são `int` (strings, nulls e `long` encaixotado são ignorados). `AllInts` trata todo item como `int` e deixa um item de outro tipo falhar com `InvalidCastException`; devolva uma lista para a consulta executar ali.
+6. **Escrever em query syntax (TODO-05).** `Describe` usa `let` para calcular o tamanho uma vez, mantém palavras com mais de 3 caracteres, ordena por tamanho decrescente e depois pela palavra, e seleciona `"palavra:tamanho"` (por exemplo `"banana:6"`). `RepeatedLengths` usa `group ... by ... into g` e devolve os tamanhos compartilhados por mais de uma palavra, crescentes, cada um uma vez.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar a diferença entre `OfType` (filtra) e `Cast` (afirma), o que acontece com `All` numa sequência vazia e por que `ThenBy` e um segundo `OrderBy` dão resultados diferentes.
+
+**Desafios opcionais**
+
+- **TODO-06:** rode `from w in words.AsQueryable() let len = w.Length where len > 3 select w` e imprima `.Expression`. Ache o identificador transparente e conte quantos `Select` o `let` acrescentou.
+- **TODO-07:** escreva um `Box<T>` com os métodos `Where` e `Select` e use-o em `from x in box where x > 10 select x * 2`. Por que a query syntax compila para um tipo que não é uma sequência?
+
+**Pré-requisitos:** execução adiada (deferred execution) em LINQ, lambdas e `IEnumerable<T>`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Standard query operators overview, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/) (doc)

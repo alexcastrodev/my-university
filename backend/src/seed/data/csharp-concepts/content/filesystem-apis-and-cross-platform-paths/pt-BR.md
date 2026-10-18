@@ -274,6 +274,44 @@ na frente.
   texto sequencial ou pipelines de stream, `FileStream` com buffer é mais simples
   e geralmente tão rápido.
 
+## Lab
+
+Neste lab você recebe `FileOps` e `RecordFile` com os corpos **vazios** (`NotImplementedException`). O seu trabalho é tratar as bordas do `System.IO`: montar caminhos a partir de entrada não confiável sem escapar de uma pasta, enumerar árvores com `EnumerationOptions`, trocar arquivos sem nunca deixá-los pela metade, usar `FileShare` para recusar aberturas concorrentes e ler e escrever registros por offset com `RandomAccess`. A ideia central é que cada API tem uma armadilha (`Path.Combine`, case da plataforma, links simbólicos) e o lab faz você pisar em cada uma.
+
+**O cenário**
+
+Operações de arquivo que precisam funcionar igual em Windows, Linux e macOS.
+
+- `FileOps.SafeJoin`: junta uma entrada do usuário a uma pasta base e confina o resultado.
+- `FileOps.FindFiles` e `CountByName`: enumeração recursiva com profundidade, caixa e links simbólicos.
+- `FileOps.SaveAtomically`: grava um arquivo sem nunca danificar o antigo.
+- `FileOps.TryOpenExclusive`: abre com `FileShare.None`.
+- `RecordFile`: um arquivo de registros de 4 bytes (`int`) acessados por índice, sem posição de stream, de propósito sem `FileStream`.
+
+Cada teste cria sua própria pasta temporária e a apaga depois, e as asserções nunca fixam `/` ou `\`: usam `Path.Combine`. O teste de link simbólico retorna cedo se o link não puder ser criado (Windows sem privilégio). No Unix o `FileShare` é emulado com locks consultivos, e o teste fica dentro de um processo, onde os dois comportamentos coincidem.
+
+**O que você vai fazer, passo a passo**
+
+1. **Confinar a entrada do usuário (TODO-00).** Em `SafeJoin`, use `Path.Join`, não `Path.Combine`: um `"/etc/passwd"` deve virar um pedaço relativo, não substituir a base. Resolva com `Path.GetFullPath` e lance `InvalidOperationException` se o resultado sair da base (cuidado com `..` e com uma pasta irmã como `<base>2`). Compare com o caminho base completo terminado em separador, usando `StringComparison.Ordinal`.
+2. **Buscar arquivos de forma portável (TODO-01).** `FindFiles` devolve caminhos **relativos** à raiz (`Path.GetRelativePath`), ordenados com `StringComparer.Ordinal`. Use `Directory.EnumerateFiles` com um `EnumerationOptions` que recursa, ignora a caixa explicitamente e respeita `MaxRecursionDepth` (profundidade 0 são só os arquivos diretos).
+3. **Decidir sobre links simbólicos (TODO-02).** `CountByName` conta os arquivos com aquele nome sob a raiz. Com `followLinks` falso, pule `FileAttributes.ReparsePoint` em `AttributesToSkip`; com verdadeiro, vale o comportamento padrão.
+4. **Gravar de forma atômica (TODO-03).** `SaveAtomically` escreve num arquivo temporário na **mesma pasta** (`Path.GetRandomFileName()` e `FileMode.CreateNew`) e depois troca com `File.Move(tmp, path, overwrite: true)`. Se a enumeração ou a escrita falhar, apague o temporário e deixe a exceção subir. No fim não pode sobrar nenhum temporário.
+5. **Recusar abertura concorrente (TODO-04).** `TryOpenExclusive` abre o arquivo existente para leitura e escrita com `FileShare.None`. Devolva `null` se outro handle já o segura (capture `IOException`), mas não engula `FileNotFoundException`.
+6. **Acessar registros por offset (TODO-05).** Em `RecordFile`: abra ou crie o arquivo com `File.OpenHandle` e guarde o `SafeFileHandle`; `Count` vem de `RandomAccess.GetLength`; `Read` usa `RandomAccess.Read` com offset `index * RecordSize` e lança `ArgumentOutOfRangeException` para índice negativo ou `>= Count`; `Write` usa `RandomAccess.Write`, cresce o arquivo (a lacuna lê como zeros) e tem que ser seguro entre threads em índices diferentes.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Path.Combine` seria inseguro com entrada do usuário, por que o temporário precisa estar na mesma pasta do destino e por que `RandomAccess` dispensa o controle de posição de um `FileStream`.
+
+**Desafios opcionais**
+
+- **TODO-06:** escreva um helper que devolve um `FileStream` num arquivo temporário novo que se apaga ao ser descartado (`FileOptions.DeleteOnClose`, `Path.GetRandomFileName()`, `FileMode.CreateNew`). Por que isso é melhor que `Path.GetTempFileName()`?
+- **TODO-07:** escreva um teste que prove que `Directory.EnumerateFiles` é preguiçoso e `Directory.GetFiles` é um snapshot (crie um arquivo entre a chamada e a iteração). Quando escolher cada um?
+
+**Pré-requisitos:** classes, `IEnumerable<T>` e noções de LINQ em C#, noções de `FileStream` (`using`, `FileMode`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Path.Join method, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.join) (doc)

@@ -260,6 +260,45 @@ chamado `extension` agora dá error CS9306 "Types and aliases cannot be named
 - **Sem estado, sem polimorfismo.** Extensões não podem ser virtuais nem
   guardar dados; quando precisar de um dos dois, embrulhe o tipo ou herde dele.
 
+## Lab
+
+Neste lab você recebe `Extensions.cs` com os **blocos de extensão do C# 14** já declarados, mas cada membro devolve um valor provisório (`false`, `""`, `[]`, `new(-1)` ou nada). O seu trabalho é trocar cada placeholder pela lógica real, para quem chama poder escrever `names.IsEmpty`, `Money.Zero` ou `counter.Increment()` como se os próprios tipos declarassem esses membros. A ideia central é ver que um bloco `extension` acrescenta propriedades, membros estáticos e até receivers `null` ou `ref` a tipos que você não controla.
+
+**O cenário**
+
+Você estende tipos que não são seus (`IEnumerable<T>`, `string?`, `int`) e um tipo do próprio lab (`Money`), sem tocar neles.
+
+- `Money.cs`: `record Money(int Amount)`, o tipo que ganha um membro estático.
+- `Extensions.cs`, `SequenceExtensions`: um bloco genérico `extension<T>(IEnumerable<T> source)` com `IsEmpty` e `JoinWith`, e um bloco `extension(IEnumerable<int>)` para membros estáticos.
+- `MoneyExtensions`: um bloco `extension(Money)` com a propriedade estática `Zero`.
+- `TextExtensions`: um bloco com receiver `string?` e `IsBlank`.
+- `RefExtensions`: um bloco com receiver `ref int` e `Increment`.
+
+Um membro de extensão é uma chamada estática por baixo dos panos, e um dos testes chama `SequenceExtensions.JoinWith(names, ",")` direto pela classe.
+
+**O que você vai fazer, passo a passo**
+
+1. **Propriedade e método de instância (TODO-00 e TODO-01).** No bloco genérico, faça `IsEmpty` ser `true` quando a sequência não tem elementos (use `source.Any()`) e `JoinWith(separator)` juntar os elementos com `string.Join`.
+2. **Membros estáticos em tipos de fora (TODO-02).** No bloco `extension(IEnumerable<int>)`, `Sequence(start, count)` devolve `count` inteiros consecutivos a partir de `start` (`Enumerable.Range`). Em `MoneyExtensions`, `Zero` é uma propriedade de extensão estática que devolve `new Money(0)`.
+3. **Aceitar receiver nulo (TODO-03).** `IsBlank` é `true` para null, vazio e só espaços. O receiver pode ser null: como é uma chamada estática por baixo, o membro não lança sozinho.
+4. **Receiver por ref (TODO-04).** `Increment` soma um à variável de quem chama, porque o receiver é passado por `ref`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `null.IsBlank` funciona sem `NullReferenceException`, e por que `counter.Increment()` altera a variável original.
+
+**Desafios opcionais**
+
+Estes três não têm teste pronto, então você mesmo confere chamando o código.
+
+- **TODO-05:** adicione `operator +` em `IEnumerable<T>`, para `names + others` concatenar as duas sequências.
+- **TODO-06:** crie `MathExtensions` com `extension(Math)` e um método estático `Remap(double v, double fromLo, double fromHi, double toLo, double toHi)` que mapeia `v` linearmente entre as duas faixas, de modo que `Math.Remap(5, 0, 10, 0, 100)` seja 50.
+- **TODO-07:** adicione `operator *(Money left, int factor)` em `MoneyExtensions`, para `new Money(10) * 3` ser `Money(30)`.
+
+**Pré-requisitos:** extension methods clássicos (parâmetro `this`), generics e `IEnumerable<T>`, e um .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O projeto já compila, então os sinais do que falta são os testes vermelhos e os comentários `TODO-NN` ao lado de cada placeholder.
+
 ## Documentation Links
 
 - [What's new in C# 14: extension members, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14) (doc)

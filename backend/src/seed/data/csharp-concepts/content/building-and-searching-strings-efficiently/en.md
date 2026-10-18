@@ -155,6 +155,43 @@ to check an order of magnitude, never to publish a conclusion.
   matching. For user-visible, linguistic search you still need culture-aware
   methods and their cost.
 
+## Lab
+
+In this lab you get `Text`, a static class with five text operations that throw `NotImplementedException`. Your job is to build text without a pile of garbage (`StringBuilder`, `string.Create`) and search it with vectorized, ordinal `SearchValues`. The core idea is that each choice here changes allocation: the tests measure allocated bytes with generous margins, to tell "a handful of bytes" apart from "a new string per piece".
+
+**The scenario**
+
+Generate a CSV, write a large buffer, format a fixed-width code and scan text for forbidden characters and keywords, all in `Text.cs`.
+
+- `BuildCsv(rows)`: builds the CSV from a list of rows.
+- `CreateBuilder(expectedLength)` and `WriteChunks(builder, writer)`: pre-size a `StringBuilder` and write its content without `ToString()`.
+- `FormatTag(prefix, number)`: returns something like `ORD-00042`.
+- `IndexOfForbidden(text)`: index of the first of `< > & " '`, or -1.
+- `IndexOfKeyword(text)`: index where the first of `error`, `fatal` or `panic` starts, or -1.
+
+The tests use a warm-up call before measuring, so they tell orders of magnitude apart, not exact bytes.
+
+**What you will do, step by step**
+
+1. **Build the CSV with a StringBuilder (TODO-00).** In `BuildCsv`, use a `StringBuilder`, not `+=`. The fields of a row are joined with `,` and every row, including the last, ends with `\n`. No rows gives `""`. With `+=` over thousands of pieces the copying would turn quadratic.
+2. **Pre-size and stream the chunks (TODO-01a and TODO-01b).** `CreateBuilder` returns a builder that holds `expectedLength` chars in a single chunk. `WriteChunks` writes the content to the `TextWriter` **without** calling `ToString()`, using `GetChunks()` and writing each chunk's `Span`.
+3. **Format straight into the final string (TODO-02).** `FormatTag` returns `<prefix>-<number as 5 digits, zero padded>` using `string.Create`, passing the data as state so the lambda stays `static` and only the final string is allocated. Throw `ArgumentOutOfRangeException` when the number is below 0 or above 99999.
+4. **Search characters with SearchValues (TODO-03).** Create a `private static readonly SearchValues<char>` with the forbidden characters, once, and use it in `IndexOfForbidden`. Creating the set inside the method would allocate on every call.
+5. **Search keywords without depending on culture (TODO-04).** Create a `SearchValues<string>` with `error`, `fatal` and `panic` and `StringComparison.OrdinalIgnoreCase`, and use it in `IndexOfKeyword`. Matching is ordinal, so the current culture (such as `tr-TR`, where `PANIC` would not match `panic` in a cultural comparison) does not change the result.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the `SearchValues` must be `static readonly`, why `string.Create` allocates only the result and what changes between `+=` and `StringBuilder` in terms of copies.
+
+**Optional challenges**
+
+- **TODO-05:** rent a `char[]` from `ArrayPool<char>.Shared` to build a string of a known size, slice to the length you need and return the array in a `finally`. Why can you not rely on `buffer.Length` or on zeroed contents?
+- **TODO-06:** replace `FormatTag` with `Span<char>.TryWrite` over a small `stackalloc` buffer. What happens when the text does not fit?
+
+**Prerequisites:** C# strings, `Span<char>` and `ReadOnlySpan<char>`, lambdas and `static` lambdas, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [StringBuilder class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder) (doc)

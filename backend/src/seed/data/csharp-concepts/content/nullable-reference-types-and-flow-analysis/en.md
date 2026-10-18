@@ -237,6 +237,40 @@ produces `null`, which is why `GetType()` never reports `Nullable`.
 - **Migration takes time.** File-level `#nullable` lets you move gradually;
   turning everything on at once usually ends in a pile of `!`.
 
+## Lab
+
+In this lab you get a project with `<Nullable>enable</Nullable>` that **produces nullable warnings on purpose**: `User.Nickname` hides a null with `null!`, `FindUser` cannot say it may return null, `TryGetUser` and `Trim` miss the flow-analysis attributes and `Connection` triggers CS8618. Your job is to tell the compiler the truth about null: annotate the types, help flow analysis with attributes, keep the guard clauses that are still needed and see how `Nullable<T>` differs from a nullable reference type. Read the compiler warnings while you work: they are part of the exercise.
+
+**The scenario**
+
+A small in-memory user registry, where some users have a nickname and others do not.
+
+- `Models.cs`: `User` (with a required `Email` and a `Nickname`) and `Connection` (an `_endpoint` field set by `Initialize`).
+- `Nulls.cs`: the static methods to complete: `DisplayName`, `FindUser`, `TryGetUser`, `Trim`, `Require`, `Compare` and `FirstOrNull<T>`.
+
+Nullable annotations are stored in metadata, so the tests read them with `NullabilityInfoContext` and check the attributes with reflection. Compiling is not enough: the signature has to tell the truth.
+
+**What you will do, step by step**
+
+1. **Declare the nickname as optional (TODO-00 and TODO-01).** Make `User.Nickname` nullable and remove the `null!`. Then, in `DisplayName`, return the nickname, or the email when the nickname is null or white space, using `string.IsNullOrWhiteSpace` and no `!` operator.
+2. **Make the return type tell the truth (TODO-02).** `FindUser` returns the user or null (the dictionary has `GetValueOrDefault`), so change the return type to `User?`.
+3. **Teach the compiler with attributes (TODO-03, TODO-04 and TODO-05).** In `TryGetUser`, set the `out` parameter from `FindUser` and annotate it with `[NotNullWhen(true)]`, so callers can use `user` after an `if` without checking again. On `Connection.Initialize`, use `[MemberNotNull]` so the CS8618 warning disappears without changing the field type. In `Trim`, return the trimmed value (or null) and annotate the return value with `[NotNullIfNotNull(nameof(value))]`.
+4. **Keep the run-time guard (TODO-06).** `Require` throws `ArgumentNullException` when the value is null. The compiler warns callers who pass null, but nothing is enforced at run time, so the guard clause is still needed.
+5. **Understand lifted operators and Nullable<T> (TODO-07 and TODO-08).** In `Compare`, return `"equal"`, `"less"` or `"greater"`; with exactly one null side, `"unordered"`, and two nulls are `"equal"`. Check what `a < b` and `a > b` give with `int?`. In `FirstOrNull<T>`, return the first item or null; for `T?` to mean `Nullable<T>`, add the constraint on `T`.
+
+**How you know you are done**
+
+`dotnet test` is all green and the build has no more nullable warnings. You should be able to explain the difference between `string?` (only a compiler annotation) and `int?` (a real `Nullable<int>`), and why `Require` still needs the `throw`.
+
+**Optional challenges**
+
+- **TODO-09:** add `Nulls.TryFirst<T>(IEnumerable<T>, Func<T, bool>, out T value)` and annotate `value` with `[MaybeNullWhen(false)]`.
+- **TODO-10:** add `Nulls.CountBy<TKey>(IEnumerable<TKey>)` returning a `Dictionary<TKey, int>`, with the `notnull` constraint on `TKey`.
+
+**Prerequisites:** C# classes, properties and generics, value types versus reference types, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods in `Nulls.cs` throw `NotImplementedException` and each `TODO-NN` is a comment in the code, so the red tests and the compiler warnings show what is left.
+
 ## Documentation Links
 
 - [Nullable reference types, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/null-safety/nullable-reference-types) (doc)

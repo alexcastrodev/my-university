@@ -230,6 +230,43 @@ the value fits.
   which is right for a mixed collection and wrong when every item was supposed
   to be a `T`; use `Cast` when an unexpected type is a bug.
 
+## Lab
+
+In this lab you get `Queries`, a static class with eleven small methods that throw `NotImplementedException`, and three records (`User`, `Product`, `Player`). Your job is to pick LINQ operators by family (element, quantifier, aggregation, ordering, partitioning, type filtering) and write queries in query syntax with `let` and `into`. The core idea is that each method is small, but the right operator changes what happens on empty input, on duplicates and under another culture.
+
+**The scenario**
+
+Queries over users, products, players and words, all in `Queries.cs`.
+
+- `FindByEmail`: find a user by email, ignoring case.
+- `AllInStock` and `MostExpensive`: a quantifier and an aggregation that returns the item.
+- `Ranking` and `SortedKeys`: multi-key ordering and ordinal ordering.
+- `Page` and `BatchSums`: paging and batching.
+- `IntsOnly` and `AllInts`: filtering and converting by type over `object?`.
+- `Describe` and `RepeatedLengths`: the two written in query syntax.
+
+**What you will do, step by step**
+
+1. **Pick the element operator (TODO-00).** `FindByEmail` returns the user with that email (case-insensitive) or `null` when there is none. Emails are supposed to be unique, so more than one match is a data bug and must surface as `InvalidOperationException`. Pick the element operator that says exactly that.
+2. **Mind vacuous truth and the whole item (TODO-01).** `AllInStock` is `true` only when the sequence is not empty and every product has `Stock > 0`: `All` on an empty sequence is `true`, but an empty shelf is not "in stock". `MostExpensive` returns the product with the highest `Price`, or `null` when empty, with the operator that returns the item and not just the maximum value.
+3. **Order by several keys (TODO-02).** `Ranking` returns the names by `Team` ascending, `Score` descending and `Name` ascending (ordinal), with `OrderBy` followed by `ThenBy`: a second `OrderBy` would start a new primary ordering and discard the team grouping. `SortedKeys` uses `Order()` with an ordinal comparer so the result is the same under every culture.
+4. **Partition (TODO-03).** `Page` returns the items of a 1-based page (page 1 holds the first `pageSize`), and a page past the end is an empty list, not an exception. `BatchSums` splits into batches of `batchSize` (the last one may be smaller) with the partitioning operator and sums each batch.
+5. **Filter or assert types (TODO-04).** `IntsOnly` keeps only the items that are an `int` (strings, nulls and boxed `long` are skipped). `AllInts` treats every item as an `int` and lets an item of another type fail with `InvalidCastException`; return a list so the query runs there.
+6. **Write in query syntax (TODO-05).** `Describe` uses `let` to compute the length once, keeps words longer than 3 characters, orders by length descending and then by word, and selects `"word:length"` (for example `"banana:6"`). `RepeatedLengths` uses `group ... by ... into g` and returns the lengths shared by more than one word, ascending, each once.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain the difference between `OfType` (filters) and `Cast` (asserts), what happens with `All` on an empty sequence and why `ThenBy` and a second `OrderBy` give different results.
+
+**Optional challenges**
+
+- **TODO-06:** run `from w in words.AsQueryable() let len = w.Length where len > 3 select w` and print `.Expression`. Find the transparent identifier and count how many `Select` calls the `let` added.
+- **TODO-07:** write a `Box<T>` with `Where` and `Select` methods and use it in `from x in box where x > 10 select x * 2`. Why does query syntax compile for a type that is not a sequence?
+
+**Prerequisites:** deferred execution in LINQ, lambdas and `IEnumerable<T>`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Standard query operators overview, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/) (doc)

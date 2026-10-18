@@ -263,6 +263,45 @@ constante.
   IL3050) que o provider em memória pode precisar de código gerado em runtime, o
   que uma aplicação Native AOT não consegue fazer.
 
+## Lab
+
+Neste lab você recebe uma lista em memória de `Order` consultada por um pequeno provider de log que delega ao provider em memória, e várias classes com corpos **vazios**. O seu trabalho é ver uma lambda como dado: construir uma à mão, reescrever outra com um `ExpressionVisitor`, observar um `IQueryProvider` receber a árvore de cada operador e manter valores capturados como variáveis em vez de constantes. Os testes só usam `AsQueryable()`, sem banco.
+
+**O cenário**
+
+Predicados sobre `Order(Id, Customer, Total)` tratados como árvores de expressão.
+
+- `Builders.cs`: `TotalGreaterThan` (a construir) e `TotalAboveConstant` (já pronto, com o valor embutido como constante) e `TotalAboveCaptured` (a construir).
+- `Combinators.cs`: o método `Or<T>`, o `ReplaceParameter` (um `ExpressionVisitor`) e o `MemberCollector`, que já tem `Collect` pronto.
+- `LoggingQuery.cs`: `LoggingQueryable<T>` (já pronto) e `LoggingProvider`, que recebe a árvore de cada operador.
+- `OrderQueries.cs`: `Filter`, com filtros opcionais.
+
+Repare que `TotalAboveConstant` é a referência do que não fazer no TODO-01: o valor entra como constante, então cada valor diferente é uma árvore diferente (e, no EF Core, um texto SQL diferente).
+
+**O que você vai fazer, passo a passo**
+
+1. **Construir uma lambda à mão (TODO-00).** Em `TotalGreaterThan`, monte `o => o.Total > value` com `Expression.Parameter` (chame o parâmetro de `"o"`), `Expression.Property`, `Expression.Constant`, `Expression.GreaterThan` e `Expression.Lambda`. O teste compara com a árvore que o compilador geraria.
+2. **Guardar a variável, não o valor (TODO-01).** Em `TotalAboveCaptured`, a árvore deve referenciar a variável `min` (um campo num objeto de closure), não o valor atual. A dica: o corpo de `() => min` é exatamente esse acesso a membro.
+3. **Trocar um parâmetro por outro (TODO-02).** Em `ReplaceParameter.VisitParameter`, devolva `to` quando o nó for `from` e o nó intacto nos outros casos.
+4. **Combinar dois predicados (TODO-03).** Em `Or`, reescreva `right.Body` para usar o parâmetro de `left` e combine os dois corpos com `Expression.OrElse`. Duas lambdas têm dois objetos de parâmetro diferentes, mesmo com o mesmo nome `"o"`.
+5. **Listar os membros lidos (TODO-04).** Em `MemberCollector.VisitMember`, registre `node.Member.Name` (uma vez por nome, na ordem de aparição) e continue caminhando pela árvore.
+6. **Ver o provider trabalhar (TODO-05 e TODO-06).** Em `CreateQuery<TElement>`, registre `"CreateQuery: <nome do método>"` (a expressão é uma `MethodCallExpression`), delegue ao provider interno e embrulhe o resultado para o próximo operador também ser registrado. Em `Execute<TResult>`, registre `"Execute: <expressão>"` e delegue.
+7. **Filtros opcionais (TODO-07).** Em `OrderQueries.Filter`, encadeie um `Where` para cada filtro que tem valor e nenhum `Where` para filtro nulo. `customer` é correspondência exata e `minTotal` é `Total >= minTotal`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `TotalAboveCaptured` não contém `150` no texto da árvore e `TotalAboveConstant` contém, e por que o log mostra `CreateQuery` a cada operador mas `Execute` só quando o resultado é pedido.
+
+**Desafios opcionais**
+
+- **TODO-08:** adicione `And<T>` ao lado de `Or<T>`.
+- **TODO-09:** adicione `OrderQueries.OrderByProperty(source, "Total", descending)` montando a chamada `OrderBy` à mão e enviando-a para `source.Provider.CreateQuery`.
+- **TODO-10:** tente escrever uma lambda de bloco, um `?.`, um padrão `is` e uma switch expression como `Expression<Func<Order, ...>>`. Anote os códigos de erro do compilador (CS0834, CS8072, CS8122, CS8514).
+
+**Pré-requisitos:** LINQ com `IEnumerable<T>` e `IQueryable<T>`, lambdas e closures, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos ainda não implementados lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Expression trees, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/) (doc)

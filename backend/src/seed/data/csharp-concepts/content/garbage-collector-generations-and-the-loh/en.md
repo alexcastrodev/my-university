@@ -184,6 +184,42 @@ collection, which can pause a process with a large heap for a long time.
   memory graph look better in a demo and worse in production, by promoting
   live data and adding pauses. Measure with counters before keeping one.
 
+## Lab
+
+In this lab you get `Heap`, `Weak`, `Resurrector` and `Buffers` with methods that have no body. Each TODO asks you to run a small experiment against the real runtime, and your job is to return what it reports. You observe generations, promotion, the large object heap, weak references and pooling with real measurements instead of guesses. The tests never depend on exact heap sizes, and all of them live in a single class with parallelization turned off, so no other test can collect or allocate while one of them is measuring.
+
+**The scenario**
+
+Short experiments on the garbage collector.
+
+- `Heap.cs`: `GenerationOfNewByteArray`, `GenerationsAfterCollections` and `CollectionsTriggeredBy` (plus two optional methods).
+- `Tracking.cs`: `Weak.Of` and `Weak.IsAlive`, and the `Resurrector` class, with a finalizer and `Track`.
+- `Buffers.cs`: `UseNewArray` (already done, allocates a new array per call) and `UsePooledArray`.
+
+The weak reference tests create the garbage in a `NoInlining` method and then force a full collection, so the JIT cannot keep the object alive in the caller's frame.
+
+**What you will do, step by step**
+
+1. **Where an array is born (TODO-00).** `GenerationOfNewByteArray` allocates a `byte[length]` and returns its `GC.GetGeneration`. Objects of 85,000 bytes or more (header included) go to the large object heap, which is logically part of generation 2, so they report 2 right away.
+2. **Promotion (TODO-01).** `GenerationsAfterCollections` returns the generation of the value measured after `GC.Collect(0)`, then after `GC.Collect(1)`, then after `GC.Collect(2)`, in that order. A survivor moves up one generation per collection of its generation, until generation 2.
+3. **Force and measure a collection (TODO-02).** `CollectionsTriggeredBy` throws `ArgumentOutOfRangeException` when the generation is negative or greater than `GC.MaxGeneration`; otherwise it runs `GC.Collect(generation)` and returns how much `GC.CollectionCount(generation)` grew because of it.
+4. **Weak reference (TODO-03).** `Weak.Of` returns a `WeakReference<T>` that does not keep the value alive, and `Weak.IsAlive` returns `true` while the target has not been collected (`TryGetTarget`).
+5. **Resurrection (TODO-04).** In the `Resurrector` finalizer, store `this` in `Saved` (and do not throw: an error in a finalizer crashes the process). In `Track`, return two weak references: `Short` (does not track resurrection) and `Long` (`trackResurrection: true`). The short one is cleared before the finalizer, the long one survives.
+6. **Pooling instead of the LOH (TODO-05).** `UsePooledArray` rents a buffer of at least `size` bytes from `ArrayPool<byte>.Shared`, passes it to `work` and returns the result, giving the buffer back to the pool in a `finally`, even when `work` throws. Remember the buffer may be longer than `size`.
+
+**How you know you are done**
+
+`dotnet test` (and then `dotnet test -c Release`) is all green. You should be able to explain why a 100,000 byte array is born in generation 2, what separates a short weak reference from a long one and why the pool allocates almost nothing while `UseNewArray` allocates a 1 MB array per call.
+
+**Optional challenges**
+
+- **TODO-06:** `RequestLohCompaction` asks for a one-time LOH compaction (`CompactOnce`), runs a blocking `GC.Collect()` and returns the mode read back afterwards, which resets itself to the default.
+- **TODO-07:** `GenerationOfPinnedArray` allocates on the pinned object heap with `GC.AllocateArray<byte>(length, pinned: true)` and returns its generation (2).
+
+**Prerequisites:** reference types and the managed heap, finalizers and `WeakReference`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`, and then `dotnet test -c Release`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Fundamentals of garbage collection, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals) (doc)

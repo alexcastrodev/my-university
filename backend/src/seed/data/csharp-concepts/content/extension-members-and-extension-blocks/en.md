@@ -250,6 +250,45 @@ type named `extension` is now error CS9306 "Types and aliases cannot be named
 - **No state, no polymorphism.** Extensions cannot be virtual or store data;
   when you need either, wrap the type or derive from it.
 
+## Lab
+
+In this lab you get `Extensions.cs` with the **C# 14 extension blocks** already declared, but every member returns a placeholder value (`false`, `""`, `[]`, `new(-1)` or nothing). Your job is to replace each placeholder with the real logic, so callers can write `names.IsEmpty`, `Money.Zero` or `counter.Increment()` as if the types themselves declared those members. The core idea is to see that an `extension` block adds properties, static members and even `null` or `ref` receivers to types you do not control.
+
+**The scenario**
+
+You extend types that are not yours (`IEnumerable<T>`, `string?`, `int`) and a type from the lab itself (`Money`), without touching them.
+
+- `Money.cs`: `record Money(int Amount)`, the type that gets a static member.
+- `Extensions.cs`, `SequenceExtensions`: a generic `extension<T>(IEnumerable<T> source)` block with `IsEmpty` and `JoinWith`, and an `extension(IEnumerable<int>)` block for static members.
+- `MoneyExtensions`: an `extension(Money)` block with the static property `Zero`.
+- `TextExtensions`: a block with a `string?` receiver and `IsBlank`.
+- `RefExtensions`: a block with a `ref int` receiver and `Increment`.
+
+An extension member is a static call underneath, and one of the tests calls `SequenceExtensions.JoinWith(names, ",")` directly through the class.
+
+**What you will do, step by step**
+
+1. **Instance property and method (TODO-00 and TODO-01).** In the generic block, make `IsEmpty` be `true` when the sequence has no elements (use `source.Any()`) and `JoinWith(separator)` join the elements with `string.Join`.
+2. **Static members on outside types (TODO-02).** In the `extension(IEnumerable<int>)` block, `Sequence(start, count)` returns `count` consecutive integers beginning at `start` (`Enumerable.Range`). In `MoneyExtensions`, `Zero` is a static extension property returning `new Money(0)`.
+3. **Accept a null receiver (TODO-03).** `IsBlank` is `true` for null, empty and white space. The receiver may be null: since it is a static call underneath, the member does not throw by itself.
+4. **Receiver by ref (TODO-04).** `Increment` adds one to the caller's variable, because the receiver is passed by `ref`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `null.IsBlank` works without a `NullReferenceException`, and why `counter.Increment()` changes the original variable.
+
+**Optional challenges**
+
+These three have no ready-made test, so you check them yourself by calling the code.
+
+- **TODO-05:** add `operator +` on `IEnumerable<T>`, so `names + others` concatenates the two sequences.
+- **TODO-06:** create `MathExtensions` with `extension(Math)` and a static method `Remap(double v, double fromLo, double fromHi, double toLo, double toHi)` that maps `v` linearly between the two ranges, so `Math.Remap(5, 0, 10, 0, 100)` is 50.
+- **TODO-07:** add `operator *(Money left, int factor)` to `MoneyExtensions`, so `new Money(10) * 3` is `Money(30)`.
+
+**Prerequisites:** classic extension methods (`this` parameter), generics and `IEnumerable<T>`, and a .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The project already compiles, so what is left shows up as red tests and as the `TODO-NN` comments next to each placeholder.
+
 ## Documentation Links
 
 - [What's new in C# 14: extension members, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14) (doc)

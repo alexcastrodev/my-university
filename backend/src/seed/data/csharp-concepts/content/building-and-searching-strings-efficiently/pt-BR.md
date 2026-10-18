@@ -157,6 +157,43 @@ serve para conferir a ordem de grandeza, nunca para publicar uma conclusão.
   cultura. Para busca linguística, visível ao usuário, você ainda precisa dos métodos
   com cultura e do custo deles.
 
+## Lab
+
+Neste lab você recebe `Text`, uma classe estática com cinco operações de texto que lançam `NotImplementedException`. O seu trabalho é montar texto sem uma pilha de lixo (`StringBuilder`, `string.Create`) e procurar nele com `SearchValues` vetorizado e ordinal. A ideia central é que cada escolha aqui muda a alocação: os testes medem bytes alocados com margens generosas, para separar "poucos bytes" de "uma string nova por pedaço".
+
+**O cenário**
+
+Gerar um CSV, escrever um buffer grande, formatar um código de largura fixa e varrer texto procurando caracteres proibidos e palavras-chave, tudo em `Text.cs`.
+
+- `BuildCsv(rows)`: monta o CSV de uma lista de linhas.
+- `CreateBuilder(expectedLength)` e `WriteChunks(builder, writer)`: pré-dimensionar um `StringBuilder` e escrever seu conteúdo sem `ToString()`.
+- `FormatTag(prefix, number)`: devolve algo como `ORD-00042`.
+- `IndexOfForbidden(text)`: índice do primeiro de `< > & " '`, ou -1.
+- `IndexOfKeyword(text)`: índice onde começa a primeira de `error`, `fatal` ou `panic`, ou -1.
+
+Os testes usam um aquecimento antes de medir, então eles distinguem a ordem de grandeza, não bytes exatos.
+
+**O que você vai fazer, passo a passo**
+
+1. **Montar o CSV com StringBuilder (TODO-00).** Em `BuildCsv`, use um `StringBuilder`, não `+=`. Os campos de uma linha são juntados com `,` e toda linha, inclusive a última, termina em `\n`. Sem linhas, devolva `""`. Com `+=` em milhares de pedaços a cópia viraria quadrática.
+2. **Pré-dimensionar e transmitir os chunks (TODO-01a e TODO-01b).** `CreateBuilder` devolve um builder que cabe `expectedLength` caracteres num único chunk. `WriteChunks` escreve o conteúdo no `TextWriter` **sem** chamar `ToString()`, usando `GetChunks()` e escrevendo o `Span` de cada chunk.
+3. **Formatar direto na string final (TODO-02).** `FormatTag` devolve `<prefix>-<número com 5 dígitos, com zeros à esquerda>` usando `string.Create`, passando os dados como state para a lambda ser `static` e só a string final ser alocada. Lance `ArgumentOutOfRangeException` se o número for menor que 0 ou maior que 99999.
+4. **Procurar caracteres com SearchValues (TODO-03).** Crie um campo `private static readonly SearchValues<char>` com os caracteres proibidos, uma vez só, e use-o em `IndexOfForbidden`. Criar o conjunto dentro do método alocaria a cada chamada.
+5. **Procurar palavras-chave sem depender da cultura (TODO-04).** Crie um `SearchValues<string>` com `error`, `fatal` e `panic` e `StringComparison.OrdinalIgnoreCase`, e use-o em `IndexOfKeyword`. A comparação é ordinal, então a cultura atual (como `tr-TR`, em que `PANIC` não casaria com `panic` numa comparação cultural) não muda o resultado.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o `SearchValues` precisa ser `static readonly`, por que `string.Create` aloca só o resultado e o que muda entre `+=` e `StringBuilder` em termos de cópias.
+
+**Desafios opcionais**
+
+- **TODO-05:** alugue um `char[]` de `ArrayPool<char>.Shared` para montar uma string de tamanho conhecido, corte no tamanho necessário e devolva o array num `finally`. Por que você não pode confiar em `buffer.Length` nem em conteúdo zerado?
+- **TODO-06:** troque `FormatTag` por `Span<char>.TryWrite` sobre um buffer `stackalloc` pequeno. O que acontece quando o texto não cabe?
+
+**Pré-requisitos:** strings, `Span<char>` e `ReadOnlySpan<char>` em C#, lambdas e lambdas `static`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [StringBuilder class, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder) (doc)

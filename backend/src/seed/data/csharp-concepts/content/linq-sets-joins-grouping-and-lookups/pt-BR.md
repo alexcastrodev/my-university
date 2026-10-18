@@ -222,6 +222,42 @@ operadores de conjunto `By` não foram traduzidos neste teste.
   pedidos da Ana voltaram como 150 e depois 50; acrescente `OrderBy` antes de
   depender da ordem.
 
+## Lab
+
+Neste lab você recebe `Queries`, uma classe estática com **seis métodos vazios** sobre `Customer` e `Order`. O seu trabalho é usar `Join`, `GroupJoin`, o `LeftJoin` que chegou no .NET 10, `ToLookup`, `ExceptBy` e `GroupBy` em dados em memória e observar o que cada um mantém ou descarta. A ideia central é que os "sabores" de join só diferem quando há dados de borda, e os dados do lab foram montados para isso.
+
+**O cenário**
+
+Clientes e pedidos em memória. Um pedido não tem cliente (`CustomerId` é `null`) e um cliente não tem pedidos, e é isso que faz os joins se comportarem de forma diferente.
+
+- `Models.cs`: `Customer(Id, Name, Email)` e `Order(Id, int? CustomerId, Total)`.
+- `Queries.InnerJoin`, `LeftJoin` e `CountOrders`: as três formas de juntar clientes e pedidos.
+- `Queries.OrdersByCustomer`: um `ILookup` por cliente.
+- `Queries.NewCustomers`: subtração de conjuntos por e-mail.
+- `Queries.TotalPerCustomer`: soma por cliente.
+
+**O que você vai fazer, passo a passo**
+
+1. **Inner join (TODO-00).** `InnerJoin` devolve uma linha por par (cliente, pedido) que casa, com `Join`. Clientes sem pedido e pedidos sem cliente não aparecem. `Customer.Id` é `int` e `Order.CustomerId` é `int?`: os dois seletores de chave precisam ter o mesmo tipo, então converta um deles.
+2. **Left join (TODO-01).** `LeftJoin` é como o anterior, mas clientes sem pedido aparecem uma vez com total `null`. Use o operador `LeftJoin` do .NET 10, com `customers` como lado esquerdo; o seletor de resultado recebe um pedido `null` quando não há par.
+3. **Contar com GroupJoin (TODO-02).** `CountOrders` devolve uma linha por cliente com o número de pedidos, zero incluído. O `GroupJoin` nunca descarta um elemento da esquerda.
+4. **Lookup imediato (TODO-03).** `OrdersByCustomer` monta um lookup por `CustomerId` com `ToLookup`. Diferente de `GroupBy`, o `ToLookup` executa agora: mudanças posteriores na lista de origem não aparecem, e pedir uma chave ausente devolve uma sequência vazia em vez de lançar exceção.
+5. **Subtrair conjuntos (TODO-04).** `NewCustomers` devolve os clientes de `incoming` cujo `Email` não está em `known`, comparando sem diferenciar caixa e sem e-mails repetidos no resultado. Use `ExceptBy`, que já é uma operação de conjunto e remove duplicatas, em vez de montar um `HashSet` à mão.
+6. **Agrupar e materializar (TODO-05).** `TotalPerCustomer` soma os totais por cliente com `GroupBy`, ignorando pedidos sem cliente e ordenando pelo id. O `GroupBy` é adiado: devolva uma lista materializada.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o pedido de `CustomerId` nulo some do inner join e do left join, por que "Caio" aparece com total nulo só no left join, e por que o lookup não enxerga um pedido adicionado depois.
+
+**Desafios opcionais**
+
+- **TODO-06:** implemente `LeftJoin` de novo com `GroupJoin`, `SelectMany` e `DefaultIfEmpty`, do jeito anterior ao .NET 10, e compare o código.
+- **TODO-07:** troque `ToLookup` por `GroupBy(...).ToDictionary(...)` e observe o que acontece numa chave ausente.
+
+**Pré-requisitos:** noções de LINQ (`Where`, `Select`), tuplas e records, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Set operations, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/set-operations) (doc)
