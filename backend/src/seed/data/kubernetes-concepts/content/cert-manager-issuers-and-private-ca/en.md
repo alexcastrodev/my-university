@@ -144,6 +144,39 @@ A `Certificate` stuck `READY False` shows the reason in its events and in the re
 - **In-cluster root vs corporate intermediate.** An in-cluster root is quick to set up and becomes one more root to distribute and protect (its key lives in a Secret). A corporate intermediate fits existing trust and governance, at the cost of involving the PKI owners.
 - **Short vs long certificate lifetimes.** Short lifetimes limit the damage of a leaked key and are free with automatic renewal; they make any renewal failure visible sooner. Monitor `certmanager_certificate_expiration_timestamp_seconds`.
 
+## Lab
+
+In this lab you get a `tls.yaml` with an issuer, a Certificate and an Ingress that should give `shop.lab` HTTPS with a certificate from the company's private CA, but do not work. Your job is to find and fix three independent defects, editing only that file. The core idea is to feel that with cert-manager almost every issuance problem is written in the `status` of the objects (issuer, Certificate), and that three pieces must agree: where the issuer reads the CA, which names the certificate covers and which Secret the Ingress hands to Traefik.
+
+**The scenario**
+
+The private CA is in the Secret `lab-ca` in the `web` namespace, and a client that trusts only that CA must be able to open `https://shop.lab`. The tests install cert-manager on a real k3s (with its bundled Traefik, started by Testcontainers) and verify TLS with `curl --cacert`.
+
+- `src/test/resources/k8s/apps.yaml`: the `shop` app in `web`, the `lab-ca` Secret (the CA) and a `client` Pod whose `curl` trusts only that CA. Given.
+- `src/main/resources/k8s/tls.yaml`: a `lab-ca` `ClusterIssuer`, a `shop` `Certificate` (output Secret `shop-tls`) and the `shop` `Ingress` with its `tls` section. This is your file.
+- `src/test/java/CertManagerTest.java`: applies your manifest and checks the certificate and the HTTPS connection.
+
+The CA Secret stays where it is: you fix the manifest, you do not move the CA.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the conditions.** The failure messages show the conditions of the issuers and of the Certificate, and the subject and issuer of the certificate Traefik actually served.
+2. **Make the issuer Ready (TODO-00).** Today it never becomes ready. Read its status and think about where a `ClusterIssuer` looks for the CA Secret compared with where it actually is, then pick the kind of issuer that reads the Secret in the `web` namespace.
+3. **Make Traefik serve the issued certificate (TODO-01).** Even with the certificate issued, Traefik answers with its own default certificate. Compare the `secretName` of the Certificate with the one in the Ingress.
+4. **Cover the right name (TODO-02).** Traefik picks the certificate by matching the requested host against the names inside each one, and uses the default when none matches. Look at the Certificate's `dnsNames` and adjust them to the host the client opens.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/cert-manager-issuers-and-private-ca test` passes `certificateIsIssued` and `httpsIsTrustedWithThePrivateCa`. You should be able to explain which condition of each object revealed each defect, and why Traefik silently falls back to the default certificate when the Secret or the name does not match.
+
+**Optional challenges**
+
+- **TODO-03:** instead of a Certificate object, add the annotation `cert-manager.io/issuer: lab-ca` to the Ingress and delete the Certificate. What does cert-manager create, and from which fields of the Ingress?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container, which downloads cert-manager v1.21.2 and pulls the `busybox` and `curl` images), Java and Maven, and the article cert-manager: Issuers and a Private CA.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/cert-manager-issuers-and-private-ca test`. The `TODO-00`, `TODO-01` and `TODO-02` comments in `tls.yaml` mark each defect. The first run is slow because cert-manager is downloaded and installed.
+
 ## Documentation Links
 
 - [cert-manager docs: Installation](https://cert-manager.io/docs/installation/): Helm and static manifests.

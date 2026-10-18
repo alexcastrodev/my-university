@@ -124,6 +124,37 @@ Verificado no add-on do MicroK8s: essa rota ficou `Accepted` e `ResolvedRefs`, e
 - **DaemonSet com hostPort vs Service LoadBalancer.** O add-on do MicroK8s ocupa 80/443 direto no nó, perfeito para um nó; com vários nós você precisa de algo na frente (DNS round robin, MetalLB, um load balancer externo).
 - **Classes de compatibilidade vs reescrever manifests.** A classe `nginx` no Traefik faz manifests antigos rodarem na hora; depender dela no longo prazo é depender de uma camada de compatibilidade em vez das funcionalidades nativas do controller.
 
+## Lab
+
+Neste lab você recebe duas rotas que não funcionam: um Ingress para o `shop.lab` que só serve a página inicial, e um `HTTPRoute` do Gateway API para o `blog.lab` que nunca atende nada. Seu trabalho é editar só `routes.yaml`. A ideia central é sentir como um controlador de ingress (o Traefik que vem no k3s) casa host e caminho, e como o Gateway API separa quem é dono do Gateway (a plataforma) de quem anexa rotas a ele (o time), com a resposta de cada problema escrita nas conditions do status da rota.
+
+**O cenário**
+
+Dois apps no namespace `web` (busybox servindo HTTP na porta 8080) precisam ficar acessíveis por hostname pelo Traefik. Os testes sobem um k3s de verdade com o Traefik e o provider de Gateway API ligados e mandam requisições reais com cabeçalhos `Host` diferentes.
+
+- `src/test/resources/k8s/traefik-config.yaml`: liga o provider `kubernetesGateway` do Traefik. Dado.
+- `src/test/resources/k8s/apps.yaml`: Deployments e Services `shop` (com `/` e `/cart/`) e `blog`, mais um Pod `client` de onde saem as requisições. Dado.
+- `src/main/resources/k8s/routes.yaml`: o `Ingress` `shop` e o `HTTPRoute` `blog`. É o seu arquivo.
+- O `Gateway` `traefik-gateway` em `kube-system` (listener `web`, porta 8000) pertence ao time de plataforma e os testes conferem que ele não mudou.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia o status.** A mensagem de falha mostra as conditions do `HTTPRoute`, que dizem por que ele não foi aceito.
+2. **Liberar todas as páginas do shop (TODO-00).** A home funciona, mas `/cart/` e o resto dão 404. Olhe o `pathType` do caminho `/` no Ingress e escolha o tipo que também cobre os sub-caminhos.
+3. **Fazer a rota do blog funcionar (TODO-01).** O `HTTPRoute` está em `web` e aponta para um Gateway em `kube-system`. Descubra pelas conditions o que o listener do Gateway permite, e resolva do seu lado, sem editar nada em `kube-system`. Lembre que o blog deve ser servido por `HTTPRoute`, não por um Ingress.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/ingress-controllers-and-gateway-api test` passa nos quatro testes: `shopServesEveryPage`, `blogIsServedThroughTheGatewayApi`, `unknownHostsGetA404` e `platformGatewayIsUnchanged`. Você deve conseguir explicar por que o Ingress com `Exact` só atendia a home e que condition do `HTTPRoute` apontava o problema do blog.
+
+**Desafios opcionais**
+
+- **TODO-02:** em vez de um Gateway por time, a plataforma poderia deixar rotas de `web` anexarem ao `traefik-gateway`. Qual campo do Gateway mudaria, e o que se perde com isso?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s`, que instala o Traefik e baixa `busybox`), Java e Maven, e o artigo Ingress Controllers and the Gateway API.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/ingress-controllers-and-gateway-api test`. Os comentários `TODO-00` e `TODO-01` em `routes.yaml` marcam o que falta. A primeira execução demora, porque o Traefik é instalado por um job do Helm depois que o cluster sobe.
+
 ## Documentation Links
 
 - [Kubernetes docs: Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/): regras, tipos de path, TLS, IngressClass.

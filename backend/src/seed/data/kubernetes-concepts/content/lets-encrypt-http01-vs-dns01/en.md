@@ -117,6 +117,36 @@ cert-manager renews at two thirds of the lifetime by default, so it adapts on it
 - **Wildcard vs per-host certificates.** One wildcard simplifies configuration; its key is shared by every service using it, so a leak affects all of them.
 - **Public certificates vs a private CA.** Public certificates need no trust distribution; a private CA works without any external dependency or rate limit.
 
+## Lab
+
+In this lab you get a `tls.yaml` that asks an ACME CA (the protocol of Let's Encrypt) for a wildcard certificate using the HTTP-01 challenge, and issues nothing. Your job is to understand why and fix it, editing only that file. The core idea is to feel what HTTP-01 can and cannot prove: it proves you control a specific host by serving a token over HTTP, so it cannot prove a wildcard (that needs DNS-01). And when issuance stalls, the explanation lives in the ACME objects (Order and Challenges).
+
+**The scenario**
+
+The cluster simulates a public domain: cluster DNS points `shop.lab` and `www.shop.lab` at the ingress controller, as public DNS would, and the challenge is validated by Pebble, Let's Encrypt's own ACME test server, which really fetches `http://<domain>/.well-known/acme-challenge/<token>`.
+
+- `src/test/resources/k8s/coredns-custom.yaml` and `pebble.yaml`: the lab's DNS, Pebble at `https://pebble:14000/dir`, the `shop` app and a `client` Pod. Given.
+- `src/main/resources/k8s/tls.yaml`: an ACME `ClusterIssuer` `acme` with an `http01` solver, a `shop` `Certificate` and the `Ingress` with the hosts `shop.lab` and `www.shop.lab`. This is your file.
+- `server` and `caBundle` point at Pebble. With the real Let's Encrypt only `server` would change.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the ACME objects.** The failure message shows the Certificate, CertificateRequest, Order, Challenges and the latest warnings.
+2. **Replace the wildcard with names HTTP-01 can prove (TODO-00).** The Certificate asks for `*.shop.lab` and no challenge is even created. Find the reason in the Order status and ask for a certificate that covers `shop.lab` and `www.shop.lab`.
+3. **Fix the solver (TODO-01).** With the right names, the challenges stay pending. The solver uses an `ingressClassName`: check which controller serves Ingresses in this cluster and use its class name, so the challenge is served by the controller Pebble can reach.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/lets-encrypt-http01-vs-dns01 test` passes `certificateIsIssuedByTheAcmeCa` and `bothHostsServeTheIssuedCertificate`: `certificate/shop` becomes Ready covering both hosts and both serve a certificate issued by Pebble's CA. You should be able to explain why a wildcard needs DNS-01 and where to look (Order, Challenge) when an issuance stays pending.
+
+**Optional challenges**
+
+- **TODO-02:** a wildcard needs DNS-01. Write (without running) the solver for your DNS provider, following cert-manager's documentation. Which credentials does it need, and why is that a bigger risk than HTTP-01?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container, which downloads cert-manager v1.21.2 and pulls Pebble from `ghcr.io`), Java and Maven, and the article Let's Encrypt with cert-manager: HTTP-01 vs DNS-01. The lab cert-manager: Issuers and a Private CA helps but is not required.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/lets-encrypt-http01-vs-dns01 test`. The `TODO-00` and `TODO-01` comments in `tls.yaml` mark what is left. The first run is slow because cert-manager and Pebble are downloaded.
+
 ## Documentation Links
 
 - [cert-manager docs: ACME](https://cert-manager.io/docs/configuration/acme/): issuer configuration, solvers, selectors.

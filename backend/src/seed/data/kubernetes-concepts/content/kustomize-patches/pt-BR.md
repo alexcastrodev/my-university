@@ -137,6 +137,44 @@ Um strategic merge patch usado com um `target` é aplicado em cada recurso casad
 - **Patches com target vs patches por recurso.** Targets eliminam duplicação entre muitos recursos; também deixam menos óbvio, do ponto de vista do recurso, o que o modificou.
 - **Aplicar patches vs parametrizar a base.** Muitos patches para o mesmo campo em todo overlay indicam que a base deveria expô-lo de outra forma (um valor de generator, uma replacement ou um component).
 
+## Lab
+
+Neste lab você recebe um overlay de produção com três patches defeituosos: um quebra o build, um descarta configuração em silêncio e um deixa de cobrir Deployments que deveria. Seu trabalho é consertar os três, editando só os arquivos de `overlays/production`. A ideia central é sentir quando usar cada tipo de patch: o JSON 6902 é preciso mas depende de caminhos que existam, e o strategic merge combina listas pela chave (como `env` por `name`) mas substitui listas sem chave de merge (como `envFrom`).
+
+**O cenário**
+
+A base tem três Deployments, todos lendo o ConfigMap `app-config` por `envFrom`: `web` (label `role: web`, com uma lista `env`) e dois workers, `worker` e `worker-emails` (label `role: worker`, sem lista `env`). Os testes constroem e aplicam o overlay num k3s de verdade, iniciado pelo Testcontainers, e inspecionam os Deployments resultantes. O overlay precisa:
+
+- adicionar `TZ=UTC` a todo Deployment, sem perder o `PORT` do `web`;
+- dar ao `worker` o Secret `worker-secrets` além do `app-config`;
+- rodar todo worker com 3 réplicas, enquanto o `web` fica com 2.
+
+Os arquivos:
+
+- `overlays/production/kustomization.yaml`: os patches, com um comentário `TODO` em cada um.
+- `overlays/production/worker-secrets-patch.yaml`: o patch de strategic merge do `worker`.
+- `overlays/production/worker-secrets.yaml`: o Secret `worker-secrets`. Dado.
+- `base/`: os três Deployments e o `configMapGenerator` do `app-config`. Não mexa.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode o overlay e leia o erro.** Veja o resultado com `kubectl kustomize src/main/resources/kustomize/overlays/production`. Hoje o build falha com `doc is missing path`.
+2. **Consertar o patch de timezone (TODO-00).** O patch JSON 6902 acrescenta ao fim da lista `env`, que só o `web` tem, e por isso o build inteiro falha. Reescreva como strategic merge, que combina `env` pelo `name`, para funcionar com e sem lista `env`, sem criar uma lista `env` na base.
+3. **Não perder o `app-config` no worker (TODO-01).** `envFrom` não tem chave de merge, então o strategic merge substitui a lista inteira e o patch descarta a referência ao ConfigMap. Ajuste o patch para manter as duas fontes.
+4. **Selecionar os workers por label (TODO-02).** O patch de réplicas escolhe o Deployment pelo nome, então `worker-emails` fica de fora. Selecione pelo label `role=worker`, para cobrir também workers adicionados à base depois.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kustomize-patches test` passa em `overlayBuilds`, `everyDeploymentGetsTimezone`, `workerKeepsSharedConfigAndGetsItsSecret` e `everyWorkerHasThreeReplicas`. Você deve conseguir explicar por que cada patch falhava e como o JSON 6902 e o strategic merge tratam listas de formas diferentes.
+
+**Desafios opcionais**
+
+- **TODO-03:** remova a liveness probe do `web` (adicione uma à base antes) com um strategic merge patch usando `$patch: delete`, e depois com uma operação `remove` do JSON 6902. Qual dos dois quebra se a ordem dos containers na base mudar?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s`), Java e Maven, e o artigo Kustomize Patches: Strategic Merge vs JSON 6902.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/kustomize-patches test`. Para ver o YAML renderizado enquanto trabalha, use `kubectl kustomize src/main/resources/kustomize/overlays/production`. Os comentários `TODO-00`, `TODO-01` e `TODO-02` marcam o que falta.
+
 ## Documentation Links
 
 - [Kustomize reference: patches](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/): formatos, targets, patches inline e em arquivo.

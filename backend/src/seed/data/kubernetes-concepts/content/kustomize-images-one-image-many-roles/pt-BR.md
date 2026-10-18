@@ -148,6 +148,38 @@ Todos os papéis vão para a versão nova no mesmo apply. Se o release exige ord
 - **Tags vs digests nos overlays.** Tags são legíveis e fáceis de subir; digests garantem exatamente o que roda e são ilegíveis em revisões. Alguns times mantêm tags no Git e deixam o CI resolvê-las para digests na hora de renderizar.
 - **Argumentos vs entrypoints separados.** Um único entrypoint com argumento de papel mantém a imagem simples; comandos separados por papel deixam os papéis explícitos e evitam que um papel suba sem querer componentes de outro.
 
+## Lab
+
+Neste lab você recebe uma base em que a mesma imagem roda em três papéis (API, worker e um Job de migração) e um overlay `prod` que tenta trocar a imagem de todos de uma vez, mas um dos papéis não obedece. Seu trabalho é descobrir por quê e fazer o `prod` apontar os três para o mirror da empresa, fixado por digest. A ideia central é sentir que o campo `images` do Kustomize troca a imagem em um só lugar, mas só casa pelo nome exatamente como ele está escrito, e que um digest identifica um build de forma imutável, ao contrário de uma tag.
+
+**O cenário**
+
+O mesmo build roda como Deployment `api`, Deployment `worker` e Job `migrate`; só os argumentos mudam. Os testes renderizam o overlay com o Kustomize embutido no `kubectl`, usando um container k3s iniciado pelo Testcontainers só para ter o `kubectl`.
+
+- `src/main/resources/kustomize/base/app.yaml`: os três papéis, cada um com seu `args` (`role=api`, `role=worker`, `role=migrate`). Repare em como a imagem de cada um está escrita.
+- `src/main/resources/kustomize/overlays/prod/kustomization.yaml`: o overlay que você edita. Hoje tem uma entrada em `images` que só muda a tag para `1.38`.
+- `src/test/java/ImagesTest.java`: renderiza o overlay e extrai todas as imagens.
+
+Todos os papéis devem rodar exatamente `registry.lab/mirror/busybox@sha256:bdf57e528e45e4433820e045b29b4597825a1c9e38353532d90a01445013f82e`. Você pode editar o overlay e, se quiser, arrumar a base.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia a lista de imagens.** A mensagem de falha mostra as imagens dos papéis renderizados e deixa claro qual deles não seguiu a entrada.
+2. **Descobrir por que um papel ignora o `images` (TODO-00).** Compare como cada papel escreve o nome da imagem. A entrada casa pelo nome, então um nome escrito de outro jeito passa batido. Corrija isso, na base ou de forma que a entrada passe a cobrir os três.
+3. **Usar o mirror e o digest (TODO-01).** Troque a entrada para apontar o registro do mirror e fixar o digest dado, em vez de uma tag, para que os três papéis acabem com uma única imagem idêntica.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kustomize-images-one-image-many-roles test` passa em `everyRoleRunsTheSameImage`, `prodRunsTheReleaseFromTheMirror` e `rolesStillDifferByTheirArguments`. Você deve conseguir explicar por que o Job escapava da entrada e por que a troca de imagem fica em um só lugar, sem perder os argumentos de cada papel.
+
+**Desafios opcionais**
+
+- **TODO-02:** no CI, `kustomize edit set image busybox=registry.lab/mirror/busybox@sha256:...` escreve a mesma entrada para você. Por que um digest torna um rollback, e a auditoria do que rodou em produção, mais confiáveis que uma tag?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` pelo `kubectl` dele), Java e Maven, e o artigo Kustomize Images: One Image, Many Roles.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/kustomize-images-one-image-many-roles test`. Os comentários `TODO-00` e `TODO-01` em `overlays/prod/kustomization.yaml` marcam o que falta. Para ver o resultado, use `kubectl kustomize` no overlay.
+
 ## Documentation Links
 
 - [Kustomize reference: images](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/images/): `newName`, `newTag`, `digest`.

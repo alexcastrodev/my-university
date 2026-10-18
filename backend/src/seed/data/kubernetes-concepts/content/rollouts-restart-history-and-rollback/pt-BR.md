@@ -122,6 +122,38 @@ kubectl -n team-a rollout resume deploy/web          # um rollout com as duas mu
 - **`rollout undo` vs seguir em frente.** O undo é o caminho mais rápido de volta a um estado bom conhecido; seguir em frente com uma correção mantém Git e cluster sincronizados. Na prática: undo primeiro para estancar o problema, depois faça o Git bater.
 - **`revisionHistoryLimit` longo vs curto.** Mais revisões significam mais alvos de rollback e mais ReplicaSets parados poluindo o `kubectl get rs`.
 
+## Lab
+
+Neste lab você recebe um script `rollback.sh` quase vazio e um cluster com uma release ruim no ar. Seu trabalho é escrever o script de operações que recupera o serviço: voltar para uma revisão específica que funcionava e depois reiniciar os Pods para que leiam um ConfigMap alterado. A ideia central é sentir como o histórico de rollout funciona: `rollout undo` sem argumento volta só uma revisão (que pode ser a ruim), um rollback é uma revisão nova e não um retrocesso do contador, e um ConfigMap alterado só chega aos Pods quando eles reiniciam.
+
+**O cenário**
+
+O teste sobe um k3s de verdade (pelo Testcontainers), faz o deploy de `web` com 2 réplicas e `maxUnavailable: 0`, e publica três revisões, cada uma com uma annotation `kubernetes.io/change-cause`.
+
+- `v1`: funciona.
+- `v2`: sobe sem problemas, mas tem um bug.
+- `v3`: usa uma imagem que não existe, então o rollout trava (os Pods da v2 continuam atendendo).
+
+Depois o teste muda o `GREETING` do ConfigMap `web-config` para `bonjour` e roda o seu `src/main/resources/rollback.sh` dentro do nó, com `kubectl` como admin. O arquivo `src/test/resources/k8s/web.yaml` com o app é dado, e `rollback.sh` é o único arquivo que você edita. O script começa com `kubectl rollout undo deploy/web`, que não resolve o problema.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia o histórico.** A mensagem de falha inclui o `rollout history`, com as revisões e seus change-causes.
+2. **Voltar para a última revisão boa e esperar (TODO-00).** Volte o `deploy/web` para a revisão que funcionava, escolhendo-a pelo número, e aguarde o fim do rollout. Veja por que o `undo` sem argumento não serve: ele volta para a revisão anterior, a v2 com bug.
+3. **Fazer os Pods lerem o ConfigMap novo e esperar (TODO-01).** O ConfigMap mudou, mas os Pods só o leem ao iniciar. Provoque um reinício controlado do Deployment, sem editar o seu manifesto, e aguarde o rollout terminar.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/rollouts-restart-history-and-rollback test` passa em `scriptSucceeds`, `everyPodServesTheLastGoodVersionWithTheNewConfig` (os dois Pods respondem `v1 bonjour`) e `rollbackAndRestartAreNewRevisions` (o Deployment está na revisão 5 e a revisão 1 sumiu do histórico). Você deve conseguir explicar por que o rollback e o reinício cada um criaram uma revisão nova.
+
+**Desafios opcionais**
+
+- **TODO-02:** por que a revisão 1 sumiu do histórico, e que change-cause a revisão 5 mostra? O que faria um `kubectl rollout undo` (sem `--to-revision`) logo depois do seu script?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele), Java e Maven, e o artigo Rollouts: Status, Restart, History and Rollback.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/rollouts-restart-history-and-rollback test`. Os comentários `TODO-00` e `TODO-01` em `rollback.sh` marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Deployments (updating, rolling back, pausing)](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/): mecânica de rollout e histórico de revisões.

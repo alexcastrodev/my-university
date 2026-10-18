@@ -146,6 +146,38 @@ All roles move to the new version in the same apply. If the release needs orderi
 - **Tags vs digests in overlays.** Tags are readable and easy to bump; digests guarantee exactly what runs and are unreadable in reviews. Some teams keep tags in Git and let CI resolve them to digests at render time.
 - **Arguments vs separate entrypoints.** A single entrypoint with a role argument keeps the image simple; separate commands per role make roles explicit and avoid one role accidentally starting another's components.
 
+## Lab
+
+In this lab you get a base where the same image runs in three roles (API, worker and a migration Job) and a `prod` overlay that tries to change the image of all of them at once, but one role does not obey. Your job is to find out why and make `prod` point all three at the company mirror, pinned by digest. The core idea is to feel that Kustomize's `images` field changes the image in one place, but only matches the name exactly as it is written, and that a digest identifies a build immutably, unlike a tag.
+
+**The scenario**
+
+The same build runs as the `api` Deployment, the `worker` Deployment and the `migrate` Job; only the arguments differ. The tests render the overlay with the Kustomize built into `kubectl`, using a k3s container started by Testcontainers just to have `kubectl`.
+
+- `src/main/resources/kustomize/base/app.yaml`: the three roles, each with its own `args` (`role=api`, `role=worker`, `role=migrate`). Notice how each one writes its image.
+- `src/main/resources/kustomize/overlays/prod/kustomization.yaml`: the overlay you edit. Today it has an `images` entry that only changes the tag to `1.38`.
+- `src/test/java/ImagesTest.java`: renders the overlay and extracts all the images.
+
+Every role must run exactly `registry.lab/mirror/busybox@sha256:bdf57e528e45e4433820e045b29b4597825a1c9e38353532d90a01445013f82e`. You can edit the overlay and, if you like, tidy up the base.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the image list.** The failure message shows the images of the rendered roles and makes clear which one did not follow the entry.
+2. **Find out why one role ignores `images` (TODO-00).** Compare how each role writes its image name. The entry matches by name, so a name written differently slips past. Fix that, in the base or in a way that makes the entry cover all three.
+3. **Use the mirror and the digest (TODO-01).** Change the entry to point at the mirror registry and pin the given digest instead of a tag, so the three roles end up with one identical image.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kustomize-images-one-image-many-roles test` passes `everyRoleRunsTheSameImage`, `prodRunsTheReleaseFromTheMirror` and `rolesStillDifferByTheirArguments`. You should be able to explain why the Job escaped the entry and why the image change lives in one place without losing each role's arguments.
+
+**Optional challenges**
+
+- **TODO-02:** in CI, `kustomize edit set image busybox=registry.lab/mirror/busybox@sha256:...` writes the same entry for you. Why does a digest make a rollback, and an audit of what ran in production, more reliable than a tag?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container for its `kubectl`), Java and Maven, and the article Kustomize Images: One Image, Many Roles.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/kustomize-images-one-image-many-roles test`. The `TODO-00` and `TODO-01` comments in `overlays/prod/kustomization.yaml` mark what is left. To see the result, run `kubectl kustomize` on the overlay.
+
 ## Documentation Links
 
 - [Kustomize reference: images](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/images/): `newName`, `newTag`, `digest`.

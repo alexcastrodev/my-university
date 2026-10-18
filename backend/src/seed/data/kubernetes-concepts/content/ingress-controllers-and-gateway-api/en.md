@@ -122,6 +122,37 @@ Verified on the MicroK8s add-on: this route became `Accepted` and `ResolvedRefs`
 - **hostPort DaemonSet vs LoadBalancer Service.** The MicroK8s add-on binds 80/443 directly on the node, perfect for one node; with several nodes you need something in front (DNS round robin, MetalLB, an external load balancer).
 - **Compatibility classes vs rewriting manifests.** The `nginx` class on Traefik gets old manifests running immediately; relying on it long term means depending on a compatibility layer instead of the controller's native features.
 
+## Lab
+
+In this lab you get two routes that do not work: an Ingress for `shop.lab` that only serves the home page, and a Gateway API `HTTPRoute` for `blog.lab` that never serves anything. Your job is to edit only `routes.yaml`. The core idea is to feel how an ingress controller (the Traefik bundled with k3s) matches host and path, and how the Gateway API separates who owns the Gateway (the platform) from who attaches routes to it (the team), with the answer to each problem written in the route's status conditions.
+
+**The scenario**
+
+Two apps in the `web` namespace (busybox serving HTTP on port 8080) must be reachable by hostname through Traefik. The tests start a real k3s with Traefik and its Gateway API provider enabled and send real requests with different `Host` headers.
+
+- `src/test/resources/k8s/traefik-config.yaml`: turns on Traefik's `kubernetesGateway` provider. Given.
+- `src/test/resources/k8s/apps.yaml`: Deployments and Services `shop` (with `/` and `/cart/`) and `blog`, plus a `client` Pod the requests are sent from. Given.
+- `src/main/resources/k8s/routes.yaml`: the `shop` `Ingress` and the `blog` `HTTPRoute`. This is your file.
+- The `traefik-gateway` `Gateway` in `kube-system` (listener `web`, port 8000) belongs to the platform team and the tests check that it did not change.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the status.** The failure message shows the `HTTPRoute` conditions, which say why it was not accepted.
+2. **Make every shop page reachable (TODO-00).** The home page works, but `/cart/` and the rest return 404. Look at the `pathType` of the `/` path in the Ingress and pick the type that also covers sub-paths.
+3. **Make the blog route work (TODO-01).** The `HTTPRoute` lives in `web` and points to a Gateway in `kube-system`. Use the conditions to find out what the Gateway's listener allows, and fix it on your side without editing anything in `kube-system`. Remember the blog must be served by an `HTTPRoute`, not an Ingress.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/ingress-controllers-and-gateway-api test` passes all four tests: `shopServesEveryPage`, `blogIsServedThroughTheGatewayApi`, `unknownHostsGetA404` and `platformGatewayIsUnchanged`. You should be able to explain why the `Exact` Ingress only served the home page and which `HTTPRoute` condition pointed at the blog problem.
+
+**Optional challenges**
+
+- **TODO-02:** instead of a Gateway per team, the platform could let routes from `web` attach to `traefik-gateway`. Which field of the Gateway would change, and what is given up?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container, which installs Traefik and pulls `busybox`), Java and Maven, and the article Ingress Controllers and the Gateway API.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/ingress-controllers-and-gateway-api test`. The `TODO-00` and `TODO-01` comments in `routes.yaml` mark what is left. The first run is slow because Traefik is installed by a Helm job after the cluster starts.
+
 ## Documentation Links
 
 - [Kubernetes docs: Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/): rules, path types, TLS, IngressClass.
