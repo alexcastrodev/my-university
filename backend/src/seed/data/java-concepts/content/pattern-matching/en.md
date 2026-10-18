@@ -223,6 +223,41 @@ case Integer i:   // error: c falls through into this label
 if (obj instanceof List<String> list) { }   // error: Object cannot be safely cast to List<String>
 ```
 
+## Lab
+
+In this lab you get the `Shape` hierarchy ready and the `ShapeCalculator` class with two empty methods. Your job is to write them using pattern matching in `switch`. The core idea is to see, together in one place, three features the article presents separately: the exhaustiveness of a `switch` over sealed types (no `default`), the explicit `case null` and the guarded pattern (`when`).
+
+**The scenario**
+
+Computing areas of geometric shapes and describing objects of varied types.
+
+- `Shape`: a `sealed interface` that permits exactly `Circle`, `Rectangle` and `Triangle`.
+- `Circle(double radius)`, `Rectangle(double width, double height)` and `Triangle(double base, double height)`: records that implement `Shape`.
+- `ShapeCalculator.area(Shape)`: returns the area of the shape.
+- `ShapeCalculator.describe(Object)`: returns text describing any object, including `null`.
+
+Because `Shape` is sealed, the compiler knows which subtypes exist. That is what lets `area()` be a `switch` without `default`.
+
+**What you will do, step by step**
+
+1. **Compute the area (TODO-00).** Write `area()` as an exhaustive `switch` over `Shape`, with no `default`. The circle is `PI * radius^2`, the rectangle is `width * height` and the triangle is `0.5 * base * height`.
+2. **Handle `null` (TODO-01).** In `describe()`, add an explicit `case null` that returns `"nothing to describe"`.
+3. **Deconstruct the circle (TODO-02).** Use a record pattern on `Circle` to extract the radius and return `"circle with radius " + radius`.
+4. **Use a guarded pattern (TODO-03).** For `String`, use `when`: if the length is exactly 1, return `"short string: " + s`; otherwise `"string: " + s`.
+5. **Close with the fallback (TODO-04).** For any other object, return `"unrecognized: " + obj`. Case order matters, because the compiler rejects a pattern already covered by an earlier one.
+
+**How you know you are done**
+
+`mvn test` is all green. A good sign of understanding: you can explain why `area()` does not need a `default` and what the compiler would say if you removed the `case Triangle`.
+
+**Optional challenges**
+
+- **BONUS-00:** add the `Rectangle` and `Triangle` cases to `describe()`, using record patterns to include the dimensions in the output (for example, `"rectangle 3.0x4.0"`).
+
+**Prerequisites:** basic `instanceof` and `switch`, records and sealed interfaces. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/pattern-matching` and run `mvn test` (from the root: `mvn -pl java-concepts/pattern-matching test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Pattern Matching — Java SE 26 Language Guide](https://docs.oracle.com/en/java/javase/26/language/pattern-matching.html) — doc

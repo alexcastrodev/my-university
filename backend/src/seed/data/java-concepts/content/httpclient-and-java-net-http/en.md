@@ -85,6 +85,39 @@ The `BodyHandler` passed to `send()`/`sendAsync()` determines `HttpResponse<T>`'
 - **Choosing the wrong `BodyHandler` for the size of the response matters.** `ofString()`/`ofByteArray()` buffer the entire body in memory before returning — fine for a small JSON payload, a poor choice for a multi-gigabyte download where `ofFile()` (or `ofInputStream()` for manual streaming) avoids holding the whole thing in memory at once.
 - **`sendAsync()`'s original reason to exist — not tying up one of a limited number of platform threads on I/O wait — mostly disappears on virtual threads (JDK 21+).** A virtual thread blocked in `send()` doesn't pin an OS thread the way a platform thread would; current guidance for virtual-thread-based code favors the simpler synchronous `send()` plus spawning many virtual threads for concurrency, over composing `CompletableFuture` chains to avoid blocking a thread type that's no longer scarce.
 
+## Lab
+
+In this lab you get `ApiClient`, a small wrapper around `java.net.http.HttpClient`, with empty methods. Your job is to fill them in. The core idea is to practice the builder API of `HttpRequest`, the difference between the blocking `send()` and the `sendAsync()` that returns a `CompletableFuture`, and why forgetting `.exceptionally()` on an async chain lets failures vanish silently.
+
+**The scenario**
+
+A client that makes a GET to a URL and returns the response body, both synchronously and asynchronously.
+
+- `ApiClient.get(URI)`: synchronous GET that returns the body as a `String`.
+- `ApiClient.getAsync(URI)`: asynchronous GET that returns a `CompletableFuture<String>`.
+- `ApiClient.getAsyncWithFallback(URI, fallback)`: an async version that recovers from failures (optional).
+- `ApiException`: an exception (with `statusCode()`) thrown for non-2xx responses.
+
+The tests start a real local HTTP server with `com.sun.net.httpserver.HttpServer`, which is part of the JDK. There is no extra dependency and no external network access, and you still exercise the real `send()`/`sendAsync()` flow.
+
+**What you will do, step by step**
+
+1. **Build the request (TODO-00).** Build a GET `HttpRequest` for `uri` with the `Accept: application/json` header.
+2. **Send synchronously (TODO-01).** Call `client.send(...)` with `HttpResponse.BodyHandlers.ofString()`. If the status is not between 200 and 299, throw `new ApiException(response.statusCode())`. Otherwise return the body.
+3. **Send asynchronously (TODO-02).** Build the same request, use `client.sendAsync(...)` and turn the `HttpResponse<String>` into just its body with `thenApply`.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what happens to the exception of a failed request if nobody handles the `CompletableFuture`, and on which thread each variant waits for the response.
+
+**Optional challenges**
+
+- **TODO-03:** implement `getAsyncWithFallback()`, recovering from a failed request (for example, connection refused) with a default value through `CompletableFuture.exceptionally()`.
+
+**Prerequisites:** basic Java syntax, `CompletableFuture` basics (`thenApply`, `exceptionally`) and exception handling. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/httpclient-and-java-net-http` and run `mvn test` (from the root: `mvn -pl java-concepts/httpclient-and-java-net-http test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [HttpClient — Java SE 25 API (java.net.http)](https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpClient.html) — doc

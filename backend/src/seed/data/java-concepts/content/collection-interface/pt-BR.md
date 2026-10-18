@@ -134,6 +134,40 @@ fixed.add("Cid"); // UnsupportedOperationException
   Integer[] wrongType = names.toArray(new Integer[0]); // ArrayStoreException
   ```
 
+## Lab
+
+Neste lab você recebe a classe utilitária `CollectionOps` com quatro métodos estáticos vazios. Seu trabalho é implementá-los usando as operações em massa da interface `Collection`. A ideia central é entender a diferença entre `retainAll` (interseção) e `removeAll` (diferença), duas operações fáceis de trocar por engano, e fazer isso sem mutar as coleções recebidas.
+
+**O cenário**
+
+Operações de conjunto sobre coleções de `String`.
+
+- `intersection(a, b)`: elementos presentes nas duas coleções.
+- `difference(a, b)`: elementos de `a` que não estão em `b`.
+- `removeBlank(source)`: a coleção sem as strings vazias ou só com espaços.
+- `toStringArray(source)`: a coleção convertida em um `String[]` de verdade.
+
+Os testes verificam que `a`, `b` e `source` continuam com o mesmo tamanho depois das chamadas, então copiar antes de alterar é parte do exercício.
+
+**O que você vai fazer, passo a passo**
+
+1. **Interseção (TODO-00).** Copie `a` para uma nova coleção mutável e chame `retainAll(b)` nela. Devolva a cópia, nunca altere `a` ou `b`.
+2. **Diferença (TODO-01).** Mesma estrutura: copie `a` e chame `removeAll(b)`. Compare com o passo anterior e note como uma troca de método inverte o resultado.
+3. **Remover brancos (TODO-02).** Copie `source` e use `removeIf` com um `Predicate` que identifica strings em branco (`isBlank()`).
+4. **Converter para array (TODO-03).** Use a sobrecarga de `toArray` que recebe um gerador (`IntFunction<T[]>`, por exemplo `String[]::new`). Há um teste que confere que o resultado é `String[]` e não `Object[]`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir dizer qual operação mantém e qual remove os elementos em comum, e por que `toArray()` sem argumentos não serviria aqui.
+
+**Desafios opcionais**
+
+- **BONUS-00:** adicione `overlaps(Collection<String> a, Collection<String> b)`, que devolve `true` se as coleções compartilham ao menos um elemento, sem montar uma interseção completa.
+
+**Pré-requisitos:** sintaxe básica de Java e `ArrayList`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/collection-interface` e rode `mvn test` (da raiz: `mvn -pl java-concepts/collection-interface test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Collection — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html) — doc

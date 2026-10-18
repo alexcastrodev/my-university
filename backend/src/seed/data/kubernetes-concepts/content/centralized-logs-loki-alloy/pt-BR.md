@@ -129,6 +129,37 @@ Logs crescem rápido. Decida de antemão:
 - **Add-on vs charts upstream.** O add-on é um comando só, com componentes desatualizados e sem suporte; os charts upstream são atuais e precisam ser configurados e atualizados por você.
 - **Agente em cada nó vs sidecars.** Um agente em DaemonSet coleta tudo com um Pod por nó; sidecars só fazem sentido para aplicações que não conseguem logar no stdout.
 
+## Lab
+
+Neste lab você recebe um pipeline do Grafana Alloy que descobre Pods e lê seus logs, mas nada chega ao Loki, os logs não têm label de namespace e as senhas passariam em texto puro. O seu trabalho é consertar o `alloy-config.yaml` para entregar os logs ao Loki, deixá-los pesquisáveis por namespace e mascarar senhas antes de saírem do cluster. A ideia central é sentir que em Loki você busca por labels, que o lugar certo para esconder dados sensíveis é o pipeline de coleta, e que o Alloy só diz o que está errado nos próprios logs.
+
+**O cenário**
+
+O teste sobe Loki e Alloy num cluster Kubernetes real (k3s, subido pelo Testcontainers) e consulta a API do Loki.
+
+- `src/test/resources/k8s/logging.yaml`: já vem pronto. Tem o Loki (binário único, armazenamento local), o Alloy, que lê a configuração do ConfigMap `alloy-config`, um Pod `checkout` no namespace `shop` que loga `order N placed` e `login user=alice password=hunter2` a cada segundo, e um Pod `client` para consultar o Loki.
+- `src/main/resources/k8s/alloy-config.yaml`: o único arquivo que você edita. O ConfigMap traz o pipeline do Alloy: `discovery.kubernetes`, `discovery.relabel`, `loki.source.kubernetes` e `loki.write`.
+- `src/test/java/CentralizedLogsTest.java`: exige que `{namespace="shop"}` retorne os logs do checkout, que nenhuma linha guardada contenha a senha e que as linhas de login mostrem `password=****`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes e ler a mensagem.** Ela mostra os labels que o Loki conhece e os últimos erros do Alloy.
+2. **Fazer os logs chegarem ao Loki (TODO-00).** Leia os logs do próprio Alloy: eles dizem por que o `loki.write` não entrega. Confira o endereço do `endpoint` e o que ele precisa ter para o Loki aceitar o envio.
+3. **Torná-los pesquisáveis por namespace (TODO-01).** Consultas selecionam logs por labels. Adicione ao `discovery.relabel` uma regra que copie o namespace do Pod (um rótulo `__meta_kubernetes_*`) para o label `namespace`, como já é feito para `pod` e `container`.
+4. **Mascarar as senhas (TODO-02).** Coloque um componente `loki.process` entre o `loki.source.kubernetes` e o `loki.write`, com uma regra de substituição que troque o valor da senha por `****`, e faça a fonte encaminhar para ele. Assim o dado sensível nunca sai do cluster.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/centralized-logs-loki-alloy test` passa: `{namespace="shop"}` devolve as linhas `order ... placed`, as linhas de login aparecem com `password=****` e `hunter2` não existe em nenhum log guardado. Você deve conseguir explicar por que mascarar no Alloy é mais seguro do que depender de quem consulta.
+
+**Desafios opcionais**
+
+- **TODO-03:** adicione o label `app` do Pod como label do Loki e depois pense em adicionar o número do pedido como outro. Por que o primeiro é aceitável e o segundo é um problema para o Loki?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s`, que baixa Loki e Alloy de `mirror.gcr.io` e `busybox`) e o artigo "Centralized Logs with Loki and Grafana Alloy".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/centralized-logs-loki-alloy test`. Os comentários `TODO-00` a `TODO-02` em `alloy-config.yaml` marcam os três pontos.
+
 ## Documentation Links
 
 - [Grafana: Migrate from Promtail to Grafana Alloy](https://grafana.com/docs/alloy/latest/set-up/migrate/from-promtail/): `alloy convert` e o caminho de migração.

@@ -194,6 +194,39 @@ request chegar a `ProductController`.
   permanecem inalteradas em relação ao que já está documentado no conceito
   irmão "Autorização no Spring Security: Authorities e Roles".
 
+## Lab
+
+Neste lab você recebe um `SecurityConfig` vazio (cada método lança `UnsupportedOperationException`) e uma pequena API de admin já pronta. O seu trabalho é escrever as regras de autorização na ordem certa. A ideia central é sentir na prática que as regras de `requestMatchers()` são avaliadas na ordem em que foram declaradas e a primeira que casa vence: um matcher amplo declarado antes de um mais específico engole o específico sem nenhum aviso.
+
+**O cenário**
+
+Uma API de admin com três endpoints protegidos por papéis diferentes, testada com `MockMvc` e HTTP Basic.
+
+- `AdminController`: expõe `GET /admin/dashboard`, `GET /admin/health` e `GET /reports`.
+- `SecurityConfig`: o que você implementa. Precisa de um `PasswordEncoder`, de um `UserDetailsService` em memória e do `SecurityFilterChain`.
+- `SecurityConfigTest`: verifica 200, 401 e 403 para cada combinação de usuário e rota.
+- `MatcherShadowingDemonstrationTest`: monta a sua própria configuração, deliberadamente na ordem errada (`/admin/**` antes de `/admin/health`), e afirma que `/admin/health` devolve 401. Ele é independente do seu código e já passa desde o início: serve para você ver o bug antes de evitá-lo.
+
+**O que você vai fazer, passo a passo**
+
+1. **Fornecer o encoder e os usuários (TODO-00 e TODO-01).** Retorne um `BCryptPasswordEncoder` e um `InMemoryUserDetailsManager` com `admin/admin123` (`ROLE_ADMIN`), `manager/manager123` (`ROLE_MANAGER`) e `user/user123` (`ROLE_USER`), montados com `User.withUsername(...).password(passwordEncoder.encode(...)).authorities(...)`.
+2. **Declarar a regra estreita primeiro (TODO-02).** Dentro de `authorizeHttpRequests(...)`, coloque `/admin/health` com `permitAll()` antes de qualquer outra. É aqui que mora a lição do lab.
+3. **Declarar a regra ampla logo depois (TODO-03 e TODO-04).** `/admin/**` com `hasRole("ADMIN")`, imediatamente após o TODO-02, e `/reports` com `hasRole("MANAGER")`.
+4. **Fechar com um catch-all explícito (TODO-05).** `anyRequest().denyAll()`, para que todo caminho não previsto seja negado de forma visível na revisão, e não por um padrão implícito.
+5. **Habilitar Basic e devolver a chain (TODO-06 e TODO-07).** Use `httpBasic(Customizer.withDefaults())`, desligue o CSRF com `csrf(AbstractHttpConfigurer::disable)` e retorne `http.build()`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que `/admin/health` responde 200 sem credenciais na sua configuração e 401 na configuração quebrada, e por que mesmo assim uma senha errada em `/admin/health` ainda dá 401 (`permitAll()` pula a autorização, não a autenticação).
+
+**Desafios opcionais**
+
+- **TODO-08:** troque a regra de `/reports` para `hasAnyRole("MANAGER", "ADMIN")` para que admins também entrem, sem mudar a posição dela entre as regras.
+
+**Pré-requisitos:** noções básicas de Spring Framework, `hasRole()`/`hasAuthority()` (lab de authorities e roles) e `MockMvc`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Enquanto os TODOs não forem feitos, os testes de `SecurityConfigTest` falham (o contexto nem sobe, porque os métodos lançam `UnsupportedOperationException`), e só o teste de demonstração passa.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 8, "Configuring authorization: Applying restrictions", sections 8.1-8.2, p. 172-184 — doc

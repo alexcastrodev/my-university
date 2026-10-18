@@ -190,6 +190,39 @@ biblioteca de template).
   `javax.validation.*` desde a migração de namespace do Jakarta EE no
   Spring Boot 3.0.
 
+## Lab
+
+Neste lab você recebe um formulário de pedido (`Order`) sem nenhuma validação e um controller com o handler vazio. Seu trabalho é declarar regras de Bean Validation no objeto e ligá-las ao handler com `@Valid` e `Errors`, de forma que um envio inválido seja barrado antes de chegar à lógica de negócio. A ideia central é a posição do `Errors`: ele só captura os erros do argumento **imediatamente anterior**, e errar isso compila sem reclamar.
+
+**O cenário**
+
+Um checkout recebe nome, rua, número de cartão, validade e CVV, e deve reexibir o formulário quando algo estiver errado.
+
+- `Order`: o objeto de comando com `name`, `street`, `ccNumber`, `ccExpiration` e `ccCVV`, ainda sem anotações.
+- `OrderController`: `GET /orders` devolve a view `orderForm`; `POST /orders` recebe `@Valid Order order, Errors errors` e ainda lança `UnsupportedOperationException`.
+- `ValidationLabApplication`: a classe `@SpringBootApplication`.
+- `OrderControllerTest`: `@WebMvcTest` com `MockMvc`, um teste por campo inválido mais um caso totalmente válido que deve redirecionar para `/orders/current`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Campos obrigatórios (TODO-00).** Anote `name` e `street` com `@NotBlank` e uma `message`.
+2. **Cartão de crédito (TODO-01).** Anote `ccNumber` com `@CreditCardNumber` (com `message`), que faz a checagem de Luhn e pega números digitados errado.
+3. **Validade (TODO-02).** Anote `ccExpiration` com `@Pattern` (com `message`) exigindo o formato `MM/YY`. Escreva a regex pensando nos casos do teste: `12/28` passa, `2028-12` não.
+4. **CVV (TODO-03).** Anote `ccCVV` com `@Digits(integer = 3, fraction = 0)` e uma `message`, para que `1234` seja rejeitado.
+5. **Decidir o destino (TODO-04).** Em `processOrder`, se `errors.hasErrors()` devolva `"orderForm"` para reexibir o formulário; caso contrário devolva `"redirect:/orders/current"`. Note que `Errors` vem logo depois de `@Valid Order`.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar por que o teste de erro espera status 200 com a view `orderForm` (o formulário é reexibido, não é um erro HTTP) e por que o `Errors` precisa vir colado ao argumento validado.
+
+**Desafios opcionais**
+
+- **TODO-05:** adicione `processOrderMisordered(@Valid Order order, String note, Errors errors)` em `POST /orders/misordered`, com um `@RequestParam(required = false) String note` entre os dois. Envie um pedido inválido e compare a resposta com a de `processOrder`: é a armadilha silenciosa da adjacência.
+
+**Pré-requisitos:** Spring MVC básico, anotações em Java e envio de formulários HTTP.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-mvc-bean-validation` e rode `mvn test`. Os testes de campo inválido falham até as anotações existirem, e o de pedido válido falha até você implementar `processOrder`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 2, "Developing web applications", section 2.3, "Validating form input", p. 45-50 — doc

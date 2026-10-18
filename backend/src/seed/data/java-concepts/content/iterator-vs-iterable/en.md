@@ -122,6 +122,38 @@ Every collection in the JDK follows this same pattern: `Collection` extends `Ite
   it.remove(); // UnsupportedOperationException
   ```
 
+## Lab
+
+In this lab you get the `NameRoster` class, which already stores names in an internal list and implements `Iterable<String>`, but whose `Iterator` is still missing. Your job is to build that iterator from scratch. The core idea is to feel in practice why `Iterable` forces you to supply an `Iterator`: the `for-each` loop only works because of it, and the tricky part is removing an element mid-traversal without skipping the next one.
+
+**The scenario**
+
+A roster of names that must be traversable with `for-each`, with manual `hasNext()`/`next()` calls and with safe removal.
+
+- `NameRoster`: stores the names in a `List<String>`, with `add()` and `size()` ready and `iterator()` left to implement.
+- `RosterIterator` (private inner class): has two fields, `cursor` (the next position to read) and `lastReturned` (the position of the last name `next()` returned, or -1).
+
+Notice that the iterator is an inner class, so it can see the roster's `names` list. Each call to `iterator()` creates a new iterator with its own cursor, which is why two iterators over the same roster move independently (there is a test for that).
+
+**What you will do, step by step**
+
+1. **Return the iterator (TODO-00).** In `iterator()`, return a new `RosterIterator` instance.
+2. **Implement `hasNext()` (TODO-01).** Return `true` while the cursor is still inside the list size.
+3. **Implement `next()` (TODO-02).** Throw `NoSuchElementException` if `hasNext()` is false. Otherwise store the position in `lastReturned`, advance the cursor and return the name.
+4. **Implement `remove()` (TODO-03).** Remove the element at `lastReturned` from the list with `names.remove(lastReturned)` and move the cursor back by one. The reason: after the removal the next name slides into the removed slot, and without stepping back it would be skipped. A test covers exactly that.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain, with a three-name example, why `remove()` has to touch the cursor, and why `Iterable` and `Iterator` are two separate contracts (one is a factory, the other holds the traversal state).
+
+**Optional challenges**
+
+- **BONUS-00:** make `remove()` throw `IllegalStateException` if it is called before `next()` or twice in a row without a `next()` in between, as the real `Iterator` contract requires.
+
+**Prerequisites:** basic Java syntax, `List`/`ArrayList` and a notion of interfaces. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/iterator-vs-iterable` and run `mvn test` (from the repository root: `mvn -pl java-concepts/iterator-vs-iterable test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments in the code carry the hints, so the list of red tests is your checklist.
+
 ## Documentation Links
 
 - [Iterable — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html) — doc

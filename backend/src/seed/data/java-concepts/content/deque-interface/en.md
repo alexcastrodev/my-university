@@ -129,6 +129,42 @@ Iterator<Integer> it = d.descendingIterator(); // walks 3, 2, 1
   ```
 - **push()/pop() and the Queue-inherited offer()/poll() don't agree on which end is "the front"** — `push`/`pop` operate at the head (LIFO), while `offer`/`poll` operate tail-in, head-out (FIFO); mixing both idioms on the same `Deque` instance produces a traversal order that depends on which pair of methods was used to build it, not on the data alone.
 
+## Lab
+
+In this lab you get `CommandHistory`, a bounded command history backed by an `ArrayDeque<String>`, with empty methods. Your job is to implement it. The core idea is to use the two method families of `Deque` (the throwing ones and the ones that report through return values) to build a structure that evicts the oldest entry silently instead of crashing, and to use `descendingIterator()` to walk in reverse order.
+
+**The scenario**
+
+A command history with undo, like the one in an editor or terminal.
+
+- `CommandHistory(capacity)`: holds the commands in `commands`, limited to `capacity`. `size()` is already done.
+- `record(command)`: records a command as the most recent one.
+- `undoLast()`: undoes and returns the most recent one.
+- `peekMostRecent()`: peeks at the most recent one.
+- `mostRecentFirst()`: lists everything, newest to oldest.
+- `oldestFirst()`: lists everything in natural order (optional).
+
+A new command goes in at the tail and the oldest stays at the head. Working out which end is which is part of the exercise.
+
+**What you will do, step by step**
+
+1. **Record with eviction (TODO-00).** Add the command at the tail with `addLast`. If the size goes over `capacity`, remove the oldest with `pollFirst`, which does not throw even if the structure is empty.
+2. **Undo safely (TODO-01).** Use `pollLast`, which returns `null` on an empty history instead of throwing.
+3. **Peek (TODO-02).** Use `peekLast`: it looks but does not remove.
+4. **List newest to oldest (TODO-03).** Walk with `descendingIterator()` filling a `List`.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `undoLast()` never throws, and how the reverse order comes "for free" from `descendingIterator()`, without copying or reversing the list by hand.
+
+**Optional challenges**
+
+- **TODO-04:** implement `oldestFirst()`, which returns the commands in the deque's natural order. A test marked as bonus covers it.
+
+**Prerequisites:** basic Java syntax, the `Queue` interface and iterators. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/deque-interface` and run `mvn test` (from the root: `mvn -pl java-concepts/deque-interface test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Deque — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html) — doc

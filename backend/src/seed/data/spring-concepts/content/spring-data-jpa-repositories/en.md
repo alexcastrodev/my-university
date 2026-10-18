@@ -218,6 +218,38 @@ unreadable.
   replacement, since `CrudRepository` still works exactly as the book
   describes it.
 
+## Lab
+
+In this lab you get `Author` and `Book` as plain classes, **not yet mapped** as JPA entities, and an `AuthorRepository` whose query loads only the authors. Your job is to map the relationship and fix the N+1 problem. The core idea is to measure instead of guess: the test counts the real SQL queries through Hibernate's statistics API, so you see the N+1 and the fix as numbers.
+
+**The scenario**
+
+An `Author` has many `Book`s. Since `@OneToMany` is lazy by default, reading each author's `getBooks()` fires one extra query per author.
+
+- `Author`: has `id`, `name` and `books`, with the `addBook` helper that keeps both sides of the relationship in sync.
+- `Book`: has `id`, `title` and `author`.
+- `AuthorRepository`: a `ListCrudRepository` with `findByNameContainingIgnoreCase` (already works by naming convention) and `findAllWithBooksJoinFetch()`, whose `@Query` does not fetch the books yet.
+- `AuthorRepositoryTest`: a `@DataJpaTest` that creates 3 authors (with 2, 3 and 3 books), clears the session and resets the statistics. One test proves the N+1 with `findAll()`, another requires exactly one query from `findAllWithBooksJoinFetch()`.
+- `src/test/resources/application.properties`: turns on `hibernate.generate_statistics`.
+
+**What you will do, step by step**
+
+1. **Map `Author` (TODO-00).** Add `@Entity`, `@Id` with `@GeneratedValue(strategy = GenerationType.IDENTITY)` on `id`, and `@OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)` on `books`.
+2. **Map `Book` (TODO-01).** Add `@Entity`, `@Id` with `@GeneratedValue(strategy = GenerationType.IDENTITY)` and, on `author`, `@ManyToOne` with `@JoinColumn(name = "author_id")`. Without these two steps the context does not even start.
+3. **Fix the N+1 (TODO-02).** Replace the query of `findAllWithBooksJoinFetch()` with `select distinct a from Author a join fetch a.books`. Authors and books now come together in a single query.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why the `findAll()` test expects one query per author (the book list is loaded on demand), why `join fetch` reduces that to one, and what `distinct` is for.
+
+**Optional challenges**
+
+- **TODO-03:** get the same result without writing JPQL, using `@EntityGraph(attributePaths = "books")` on a method like `findAllBy()`. The README calls this method `findAllWithBooksEntityGraph()`, while the code comment suggests `findAllBy()`; either works, since there is no test for it.
+
+**Prerequisites:** basic Spring Data JPA (`@Entity`, `@Id`, repository interfaces), `@OneToMany` and `@ManyToOne` associations, and SQL joins.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-data-jpa-repositories` and run `mvn test`. The tests fail until the entities are mapped and the query is fixed.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 3, "Working with data", section 3.2, p. 75-83 — doc

@@ -76,6 +76,39 @@ t.suspend(); // compile error: cannot find symbol — removed in Java SE 23
 - **O desligamento cooperativo adiciona uma pequena dose de cerimônia** — o próprio laço da tarefa precisa verificar uma flag ou tratar `InterruptedException`, em vez do (inseguro) one-liner `stop()`; não existe forma de forçar o término de uma thread que não está cooperando, por design.
 - **Hábitos de pooling da era das platform threads não desaparecem sozinhos** — código que envolve virtual threads em um `ExecutorService` de tamanho fixo (em vez de `newVirtualThreadPerTaskExecutor()`) mantém a mentalidade antiga de escassez e joga fora a maior parte da escalabilidade que as virtual threads oferecem, sem estar errado de nenhuma forma que o compilador consiga sinalizar.
 
+## Lab
+
+Neste lab você recebe `TaskRunner`, que recebe trabalho na forma de `Supplier<String>` e o executa fora da thread que chamou, com os métodos vazios. Seu trabalho é implementá-los. A ideia central é ver a diferença mecânica entre iniciar uma thread de plataforma e uma virtual thread, e como rodar muitas tarefas ao mesmo tempo em virtual threads sem gerenciar um pool à mão.
+
+**O cenário**
+
+Executar tarefas que devolvem uma `String` de três formas diferentes.
+
+- `runOnPlatformThread(task)`: roda numa thread clássica e devolve o resultado.
+- `runOnVirtualThread(task)`: a mesma coisa, numa virtual thread.
+- `runAllConcurrently(tasks)`: roda uma lista de tarefas em paralelo, uma virtual thread por tarefa, e devolve os resultados na ordem de submissão.
+- `isVirtual(thread)`: informa se uma `Thread` é virtual (opcional).
+
+Os testes conferem em que tipo de thread a tarefa realmente rodou e que ela não rodou na thread do chamador.
+
+**O que você vai fazer, passo a passo**
+
+1. **Thread de plataforma (TODO-00).** Crie uma `new Thread(...)`, inicie, espere com `join()` e devolva o valor de `task.get()`. O resultado precisa escapar do `Runnable` de algum jeito, por exemplo com um array ou um `AtomicReference<String>` declarado fora da thread.
+2. **Virtual thread (TODO-01).** Mesmo desenho, mas inicie com `Thread.ofVirtual().start(...)`, que devolve a thread já iniciada, e faça `join()` nela.
+3. **Concorrência com ordem (TODO-02).** Abra um `Executors.newVirtualThreadPerTaskExecutor()` em try-with-resources, envie cada tarefa como `Callable` com `submit()`, guarde os `Future` na ordem e chame `get()` em cada um nessa mesma ordem. Assim o resultado segue a ordem da lista, não a de conclusão.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde, incluindo o teste que exige os resultados na ordem de submissão. Você deve conseguir explicar por que não foi preciso dimensionar um pool de threads e o que o `close()` do executor faz ao sair do try-with-resources.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `isVirtual()`, informando se a `Thread` recebida é uma virtual thread.
+
+**Pré-requisitos:** sintaxe básica de Java e `Runnable`/`Callable`. O projeto usa Java 21 e Maven, que é a versão que traz as virtual threads como recurso final.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/thread-model-legacy-vs-virtual-threads` e rode `mvn test` (da raiz: `mvn -pl java-concepts/thread-model-legacy-vs-virtual-threads test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Virtual Threads (Java SE developer guide)](https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html) — doc

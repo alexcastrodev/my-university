@@ -134,6 +134,40 @@ O PSA cobre só o spec do Pod, com níveis fixos. Engines de política como **Ky
 - **Aplicar na hora vs avisar primeiro.** Aplicar de uma vez protege imediatamente e pode quebrar o próximo deploy de um workload existente; warn e audit primeiro dão uma lista para corrigir sem downtime.
 - **PSA vs uma engine de políticas.** O PSA é embutido, rápido e sem manutenção, com regras fixas; Kyverno ou Gatekeeper são flexíveis e são mais um componente crítico no caminho do admission.
 
+## Lab
+
+Neste lab você recebe um namespace `prod` sem nenhuma proteção e um Deployment que roda como root. O seu trabalho é fazer o namespace aplicar o padrão de segurança `restricted` e, depois, fazer o Deployment rodar nele. A ideia central é sentir que o Pod Security Admission valida Pods, não Deployments: o `kubectl apply` do Deployment continua funcionando, mas o ReplicaSet é rejeitado em silêncio, e a razão só aparece nos eventos.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers), cujo controlador embutido de Pod Security Admission checa cada Pod, recebe seus manifestos nesta ordem.
+
+- `src/main/resources/k8s/namespace.yaml`: o namespace `prod`, que você precisa rotular.
+- `src/test/resources/k8s/root-pod.yaml`: já vem pronto, um Pod sem `securityContext`, ou seja, root com capabilities padrão. O teste tenta criá-lo e ele deve ser rejeitado.
+- `src/main/resources/k8s/web.yaml`: um Deployment `web` (busybox servindo `ok` na porta 8080) em `prod`.
+- `src/test/java/PodSecurityTest.java`: confere os labels do namespace, a rejeição do Pod root e que o `web` tem um Pod disponível, rodando com usuário diferente de 0 e respondendo na 8080.
+
+Você edita `namespace.yaml` e `web.yaml`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** Tudo roda como root e nada é rejeitado.
+2. **Rotular o namespace (TODO-00).** Em `prod`, adicione os labels `pod-security.kubernetes.io/*` para impor o nível `restricted`, fixando a versão em `latest`, e ligue também `warn` e `audit` no mesmo nível.
+3. **Rodar de novo e ler o evento (TODO-01).** O `kubectl apply` do Deployment ainda passa, mas o rollout nunca termina. Leia o evento `FailedCreate` que a mensagem de falha mostra: ele lista cada exigência que o Pod viola.
+4. **Adicionar cada configuração pedida (TODO-01).** No `web.yaml`, ajuste o `securityContext` conforme a mensagem pede, um item de cada vez. O app pode rodar com qualquer usuário (use 1000) e escuta na 8080, então não precisa de privilégios.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/pod-security-admission test` passa: `prod` impõe `restricted` (e avisa e audita nele), o Pod root é rejeitado pelo API server e o `web` roda como não-root respondendo `ok`. Você deve conseguir explicar por que o erro apareceu no ReplicaSet e não no `kubectl apply`.
+
+**Desafios opcionais**
+
+- **TODO-02:** rotule o namespace com `enforce: baseline` e `warn: restricted`. Aplique o Deployment original à mão: o que o `kubectl apply` imprime, e o Pod sobe? Quando essa combinação é útil?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele) e o artigo "Pod Security Standards and Admission".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/pod-security-admission test`. Os comentários `TODO-00` em `namespace.yaml` e `TODO-01` em `web.yaml` marcam o que mudar.
+
 ## Documentation Links
 
 - [Kubernetes docs: Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/): controles exatos de cada nível.

@@ -110,6 +110,38 @@ increase(kube_pod_container_status_restarts_total[1h]) > 0
 - **Seleção por label vs selecionar tudo.** Exigir o label `release` deixa várias instâncias de Prometheus coexistirem; selecionar tudo é mais simples num cluster com uma única stack.
 - **Storage local vs remote write.** Um PVC mantém o histórico no nó; `remote_write` para Mimir, Thanos ou um serviço gerenciado o mantém fora do cluster, que é o que você quer quando o próprio nó falha.
 
+## Lab
+
+Neste lab você recebe um Prometheus gerenciado pelo Prometheus Operator, um app que expõe métricas e um `ServiceMonitor` quebrado que deveria ligar os dois. O seu trabalho é consertar o `ServiceMonitor` até o Prometheus coletar as duas réplicas do app. A ideia central é sentir que o Prometheus nunca reclama de um `ServiceMonitor` que ele ignora ou não consegue casar: a única pista é um target que não aparece.
+
+**O cenário**
+
+O teste instala o operator (v0.94.1) num cluster Kubernetes real (k3s, subido pelo Testcontainers) e consulta a API do Prometheus.
+
+- `src/test/resources/k8s/app.yaml`: já vem pronto, com o Deployment `example-app` (2 réplicas) no namespace `shop`, expondo métricas na porta `web`, e o Service `example-app` com o label `app: example-app`.
+- `src/test/resources/k8s/monitoring.yaml`: já vem pronto, com o Prometheus `lab` no namespace `monitoring`. Ele carrega ServiceMonitors de qualquer namespace, mas só os que tiverem o label definido no seu `serviceMonitorSelector`.
+- `src/main/resources/k8s/servicemonitor.yaml`: o único arquivo que você edita. Hoje tem três erros.
+- `src/test/java/ServiceMonitorTest.java`: exige `up{namespace="shop"}` igual a 1 nas duas réplicas e as métricas próprias do app (`version{namespace="shop"}`) armazenadas.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes e ler a mensagem.** Ela mostra o que o Prometheus carregou de fato: os scrape pools, os targets saudáveis e quantos endpoints cada pool descartou.
+2. **Fazer o Prometheus `lab` carregar o ServiceMonitor (TODO-00).** Leia o `serviceMonitorSelector` do Prometheus em `monitoring.yaml` e dê ao `ServiceMonitor` os labels em `metadata` que ele exige.
+3. **Selecionar o Service certo (TODO-01).** O `selector.matchLabels` escolhe Services pelos labels. Compare com os labels reais do Service em `app.yaml`.
+4. **Apontar para a porta certa (TODO-02).** O `port` do endpoint é o nome de uma porta do Service, não um número inventado. Veja como a porta se chama no `app.yaml`.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/prometheus-grafana-and-servicemonitors test` passa: as duas réplicas aparecem como saudáveis e as métricas do app estão no Prometheus. Você deve conseguir dizer, para cada um dos três erros, qual sintoma ele produz (nenhum scrape pool, pool sem targets, targets descartados).
+
+**Desafios opcionais**
+
+- **TODO-03:** o Grafana lê do Prometheus com PromQL. Escreva a consulta que um painel usaria para a taxa de requisições do `example-app` por Pod nos últimos 5 minutos e teste-a na API do Prometheus, como o teste faz.
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s`, que baixa o Prometheus Operator v0.94.1 e imagens de `quay.io`) e o artigo "Prometheus, Grafana and ServiceMonitors".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/prometheus-grafana-and-servicemonitors test`. Os comentários `TODO-00` a `TODO-02` em `servicemonitor.yaml` marcam os três pontos a consertar. A primeira execução baixa bastante coisa e demora.
+
 ## Documentation Links
 
 - [kube-prometheus-stack chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack): values, selectors, storage.

@@ -217,6 +217,41 @@ Além do modelo de módulos: `@ApplicationModuleListener` e o **Event Publicatio
 - **Banco compartilhado, módulos separados.** Os módulos continuam compartilhando um schema, a não ser que você discipline a posse das tabelas. O Spring Modulith não impede `notification` de escrever SQL contra as tabelas de `publishing` pelo próprio `JdbcClient`. Trate a posse das tabelas como a posse dos pacotes (cada tabela tem um módulo dono) se quiser que a extração continue possível.
 - **Um monolito modular é um destino, não só uma etapa.** O caminho para microservices é real (extraia o módulo cuja API é só eventos e poucas chamadas), mas para a maioria das aplicações o monolito modular é o estado final certo: bem estruturado, um deploy, e nenhuma rede no meio de cada caso de uso.
 
+## Lab
+
+Neste lab você recebe um monolito Spring Boot organizado por feature que funciona, mas que tem fronteiras frouxas: um ciclo entre módulos e um módulo mexendo no repositório interno do outro. O seu trabalho é transformá-lo num monolito modular cujas fronteiras são conferidas por um teste. A ideia central é sentir que o Spring Modulith trata cada subpacote direto como um módulo, que o pacote base de um módulo é a sua API, e que `verify()` falha quando você viola isso.
+
+**O cenário**
+
+`com.kurz.contentmod` tem dois subpacotes diretos, então o Modulith enxerga dois módulos: `publishing` e `notification`.
+
+- `publishing`: `PublishingService` (publica conteúdo), `ContentRepository` (guarda em memória), `Content`, `ContentPublished` (o evento) e `ContentCatalog` (a leitura que outros módulos podem usar).
+- `notification`: `NotificationService` (guarda os envios), `SubscriberRepository` (package-private) e `DigestService`.
+- `ModularityTest`: roda `ApplicationModules.of(ContentModApplication.class)` com `verify()` e checagens pontuais, sem subir o Spring.
+- `ContentModApplicationTest`: sobe a aplicação e garante que o refactoring não mudou o comportamento.
+
+Dois problemas estruturais: `PublishingService` chama `NotificationService`, que por sua vez recebe um `publishing.Content`, formando um **ciclo**; e `DigestService` injeta direto o `ContentRepository`, que é público e está no pacote base de `publishing`, ou seja, na API do módulo. Rode os testes primeiro e leia a mensagem de `Violations`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Esconder o repositório (TODO-00).** Mova `ContentRepository` para `com.kurz.contentmod.publishing.internal`. Ele continua `public`, porque `PublishingService` ainda o usa. Repare que `DigestService` continua compilando: o erro só aparece ao rodar o `ModularityTest`.
+2. **Dar uma API de leitura (TODO-01).** Implemente `ContentCatalog.recentTitles(int)` devolvendo os títulos mais recentes, do mais novo para o mais antigo, e faça o `DigestService` usá-lo no lugar do repositório.
+3. **Quebrar o ciclo com um evento (TODO-02).** Em `PublishingService`, publique um `ContentPublished` com `ApplicationEventPublisher` em vez de chamar `NotificationService`, e transforme `NotificationService.notifySubscribers` num `@EventListener` de `ContentPublished`.
+4. **Declarar as dependências permitidas (TODO-03).** Crie `notification/package-info.java` com `@ApplicationModule(allowedDependencies = "publishing")`, para que qualquer dependência nova de `notification` em outro módulo faça `verify()` falhar.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde, incluindo `verify()`. Você consegue explicar por que mover a classe para `internal` a tira da API do módulo, por que o evento desfaz o ciclo e o que o `@ApplicationModule` passa a proteger.
+
+**Desafios opcionais**
+
+- **TODO-04:** mova `ContentPublished` para `publishing.events`, marque o pacote com `@NamedInterface("events")` num `package-info.java` próprio e mude a declaração de notification para `allowedDependencies = {"publishing", "publishing :: events"}`. Depois remova `"publishing"` da lista e leia quais tipos o `verify()` passa a rejeitar.
+- **TODO-05:** adicione um terceiro módulo, `analytics`, que conta eventos `ContentPublished`, e imprima `ApplicationModules.of(ContentModApplication.class)` para ver como o Modulith o descreve.
+
+**Pré-requisitos:** pacotes Java e visibilidade `public` vs package-private, beans do Spring e `ApplicationEventPublisher` (lab de application events), JUnit 5 e AssertJ.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Os testes marcados com o número de cada TODO no `@DisplayName` ficam vermelhos até você resolvê-los, e o `verify()` descreve cada violação na mensagem de erro.
+
 ## Documentation Links
 
 - [Spring Modulith Reference: Fundamentals](https://docs.spring.io/spring-modulith/reference/fundamentals.html): módulos de aplicação, pacotes de API vs internos, named interfaces, `@ApplicationModule`, estratégias de detecção.

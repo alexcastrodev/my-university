@@ -475,6 +475,38 @@ login e desfaria todo o arranjo.
   integrações de terceiros, e mais perguntas cujas únicas respostas foram
   escritas para a stack de servlet.
 
+## Lab
+
+Neste lab você recebe um `IngredientClient` com quatro métodos que ainda lançam `UnsupportedOperationException`. O seu trabalho é implementá-los em cima de um `WebClient`. A ideia central é sentir que timeouts, retries e recuperação de erro não são configurações especiais do cliente: são operadores comuns do Reactor encadeados na resposta, e que montar um `Mono` ou `Flux` não faz nenhuma chamada de rede até alguém se inscrever.
+
+**O cenário**
+
+Um cliente reativo para uma API externa de ingredientes, testado com `StepVerifier` e sem `.block()`.
+
+- `Ingredient`: um record com `id`, `name` e `type`.
+- `IngredientClient`: recebe um `WebClient` no construtor e devolve `Mono`/`Flux` descrevendo cada requisição.
+- `IngredientClientTest`: sobe a API falsa com o `HttpServer` do próprio JDK (sem servidor de mock externo e sem Docker). Os ids mudam o comportamento: `FLTO` responde 200, `FLAKY` devolve 503 nas duas primeiras tentativas, `BROKEN` sempre 503, `SLOW` demora 400 ms e qualquer outro é 404.
+
+Um ponto estrutural: uma resposta não-2xx não lança exceção no ponto da chamada, ela termina o publisher com um sinal de erro (`WebClientResponseException`). Um dos testes confere isso para o 404.
+
+**O que você vai fazer, passo a passo**
+
+1. **Buscar um ingrediente (TODO-00).** Em `getIngredient(id)`, use `webClient.get().uri("/ingredients/{id}", id).retrieve().bodyToMono(Ingredient.class)`.
+2. **Buscar a coleção (TODO-01).** Em `getIngredients()`, mesmo formato, mas em `"/ingredients"` com `bodyToFlux(Ingredient.class)`.
+3. **Tornar a chamada resiliente (TODO-02).** Em `getIngredientResilient(id)`, parta de `getIngredient(id)` e encadeie `retryWhen(Retry.backoff(3, Duration.ofMillis(50)))` para repetir falhas transitórias com backoff, e `onErrorResume(...)` para devolver `new Ingredient(id, "UNKNOWN", "UNKNOWN")` quando as tentativas acabarem. Nada aqui é específico de `WebClient`.
+
+**Como saber que terminou**
+
+Os testes de `FLTO`, da coleção, do 404, de `FLAKY` e de `BROKEN` passam. Você consegue explicar por que `FLAKY` termina com sucesso (a terceira tentativa responde 200) e `BROKEN` cai no fallback, e por que o `StepVerifier` basta para disparar a requisição.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `getIngredientWithTimeout(id, timeout)`: parta de `getIngredient(id)`, aplique `.timeout(timeout)` e depois `.onErrorResume(...)` com o mesmo fallback. Atenção: o teste `shouldFallbackOnTimeout` existe na suíte e falha enquanto este método não for implementado, então um `mvn test` totalmente verde depende dele.
+
+**Pré-requisitos:** Project Reactor básico (`Mono`, `Flux`, `subscribe`), uso básico de `WebClient` (`get().uri(...).retrieve()`) e familiaridade com `StepVerifier`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Os métodos não implementados lançam `UnsupportedOperationException`, então os testes correspondentes ficam vermelhos até você completar cada TODO.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 11,

@@ -115,6 +115,37 @@ It does not affect anything else; controllers emit new events as things happen. 
 - **`kubectl events` vs `get events`.** The dedicated command sorts correctly and aggregates nicely; `get events` supports custom output formats and works everywhere.
 - **Exporting events vs relying on the API.** Exporting needs a pipeline but gives history and search; the API is zero-setup and forgetful by design.
 
+## Lab
+
+In this lab you receive a `latest-warning.sh` script that looks right and prints the wrong event. Your job is to find out which events it misses and why, and make it really print the most recent Warning in the namespace. The core idea is to feel that sorting events by `.lastTimestamp` is not reliable: not every event fills that field.
+
+**The scenario**
+
+A real Kubernetes cluster (k3s, started by Testcontainers) receives, in the `shop` namespace, a Job that fails and, a few seconds later, a Pod that asks for more memory than any node has.
+
+- `src/test/resources/k8s/migrate.yaml`: given, a `migrate` Job that fails once, early (`backoffLimit: 0`).
+- `src/test/resources/k8s/report.yaml`: given, a `report` Pod created later, requesting `100Gi` of memory, which no node can fit.
+- `src/main/resources/latest-warning.sh`: the only file you edit. It takes the namespace and today runs `kubectl get events --field-selector type=Warning --sort-by=.lastTimestamp` and takes the last line.
+- `src/test/java/EventsTest.java`: runs the script inside the node and requires exactly one line: the `FailedScheduling` warning for `pod/report`, with `Insufficient memory`.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The script prints the Job's warning, which is older. The failure message lists every warning with its `lastTimestamp` and `eventTime`.
+2. **Understand what is missing (TODO-00).** Compare the two time fields in the listing: events from different sources fill different fields, and one that leaves a field empty does not sort the way you expect.
+3. **Print the really most recent Warning (TODO-00).** Rewrite the script to sort by a criterion that covers every event, or use another way of listing events that already orders them, and print a single line with reason, object and message.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kubernetes-events test` passes: the script exits successfully, prints exactly one line and it is the `FailedScheduling` for `pod/report`. You should be able to explain why `--sort-by=.lastTimestamp` picked the Job's event.
+
+**Optional challenges**
+
+- **TODO-01:** print every warning for a single object (for example `pod/report`), including repeated ones. How does `kubectl events` show an event that happened many times, and which field holds the count for each kind of event?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container and pull `busybox` inside it) and the article "Kubernetes Events".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/kubernetes-events test`. The `TODO-00` comment in `latest-warning.sh` marks what to change, and the test prints every warning in the namespace when the result is wrong.
+
 ## Documentation Links
 
 - [kubectl events reference](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/): filtering, watching, sorting.

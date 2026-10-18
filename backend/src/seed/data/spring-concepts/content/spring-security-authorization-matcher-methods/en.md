@@ -180,6 +180,39 @@ ever reaches `ProductController`.
   unchanged from what's already documented in the sibling "Spring Security
   Authorization: Authorities and Roles" concept.
 
+## Lab
+
+In this lab you get an empty `SecurityConfig` (every method throws `UnsupportedOperationException`) and a small admin API that is already built. Your job is to write the authorization rules in the right order. The core idea is to feel in practice that `requestMatchers()` rules are evaluated in declaration order and the first match wins: a broad matcher declared before a more specific one swallows the specific one without any warning.
+
+**The scenario**
+
+An admin API with three endpoints protected by different roles, tested with `MockMvc` and HTTP Basic.
+
+- `AdminController`: exposes `GET /admin/dashboard`, `GET /admin/health` and `GET /reports`.
+- `SecurityConfig`: what you implement. It needs a `PasswordEncoder`, an in-memory `UserDetailsService` and the `SecurityFilterChain`.
+- `SecurityConfigTest`: checks 200, 401 and 403 for each combination of user and route.
+- `MatcherShadowingDemonstrationTest`: builds its own configuration, deliberately in the wrong order (`/admin/**` before `/admin/health`), and asserts that `/admin/health` returns 401. It is independent of your code and passes from the start: it is there so you see the bug before you avoid it.
+
+**What you will do, step by step**
+
+1. **Provide the encoder and the users (TODO-00 and TODO-01).** Return a `BCryptPasswordEncoder` and an `InMemoryUserDetailsManager` with `admin/admin123` (`ROLE_ADMIN`), `manager/manager123` (`ROLE_MANAGER`) and `user/user123` (`ROLE_USER`), built with `User.withUsername(...).password(passwordEncoder.encode(...)).authorities(...)`.
+2. **Declare the narrow rule first (TODO-02).** Inside `authorizeHttpRequests(...)`, put `/admin/health` with `permitAll()` before any other rule. This is where the lesson of the lab lives.
+3. **Declare the broad rule right after (TODO-03 and TODO-04).** `/admin/**` with `hasRole("ADMIN")`, immediately after TODO-02, and `/reports` with `hasRole("MANAGER")`.
+4. **Close with an explicit catch-all (TODO-05).** `anyRequest().denyAll()`, so every unplanned path is denied in a way that is visible in review, not through an implicit default.
+5. **Enable Basic and return the chain (TODO-06 and TODO-07).** Use `httpBasic(Customizer.withDefaults())`, disable CSRF with `csrf(AbstractHttpConfigurer::disable)` and return `http.build()`.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why `/admin/health` answers 200 without credentials in your configuration and 401 in the broken one, and why a wrong password on `/admin/health` still gives 401 (`permitAll()` skips authorization, not authentication).
+
+**Optional challenges**
+
+- **TODO-08:** change the `/reports` rule to `hasAnyRole("MANAGER", "ADMIN")` so admins can reach it too, without changing its position among the rules.
+
+**Prerequisites:** basic Spring Framework, `hasRole()`/`hasAuthority()` (the authorities and roles lab) and `MockMvc`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. Until the TODOs are done, the `SecurityConfigTest` tests fail (the context does not even start, because the methods throw `UnsupportedOperationException`), and only the demonstration test passes.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 8, "Configuring authorization: Applying restrictions", sections 8.1-8.2, p. 172-184 — doc

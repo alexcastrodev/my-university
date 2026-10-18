@@ -113,6 +113,41 @@ if (queue.offer(item)) {
   ```
 - **FIFO é uma convenção que algumas implementações escolhem, não uma garantia que a própria `Queue` faz** — uma `PriorityQueue` implementa a mesma interface mas ordena elementos por prioridade em vez de ordem de inserção, então código que assume comportamento first-in-first-out estrito só pelo tipo `Queue` está assumindo mais do que a interface promete.
 
+## Lab
+
+Neste lab você recebe `TicketCounter`, uma fila de atendimento com capacidade fixa, com quatro métodos vazios. Seu trabalho é implementá-los escolhendo, em cada caso, a variante certa de `Queue`. A ideia central é sentir as duas famílias paralelas de métodos: as que lançam exceção quando falham e as que avisam por valor de retorno (`false` ou `null`).
+
+**O cenário**
+
+Uma fila de clientes com limite de tamanho.
+
+- `TicketCounter`: guarda a fila em `line`, uma `ArrayBlockingQueue<String>` criada com a capacidade informada no construtor. `waiting()` (quantos esperam) já está pronto.
+- `tryEnqueue(customer)`: tenta entrar na fila.
+- `nextInLine()`: espia quem é o próximo, sem tirar da fila.
+- `serveNext()`: atende o próximo e o remove.
+- `serveNextOrNull()`: o mesmo, mas sem lançar exceção.
+
+Como a fila é limitada, "cheia" e "vazia" são situações reais, e os testes exercitam as duas.
+
+**O que você vai fazer, passo a passo**
+
+1. **Entrar sem estourar (TODO-00).** Use `offer()`, que devolve `false` quando a fila está cheia em vez de lançar `IllegalStateException` como o `add()` faria.
+2. **Espiar a cabeça (TODO-01).** Use `peek()`, que devolve `null` se a fila está vazia e não remove ninguém.
+3. **Atender com exceção (TODO-02).** Use `remove()`, que lança `NoSuchElementException` numa fila vazia. Aqui a fila vazia é bug de quem chamou.
+4. **Atender sem exceção (TODO-03).** Use `poll()`, que faz o mesmo trabalho, mas devolve `null` quando não há ninguém.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde, incluindo a ordem FIFO (primeiro a entrar, primeiro a sair). Você deve conseguir dizer quando prefere cada família: exceção quando o estado inválido é erro de programação, retorno especial quando ele é uma situação normal.
+
+**Desafios opcionais**
+
+- **BONUS-00:** implemente `drainAll()`, devolvendo um `List<String>` com todos os clientes restantes, em ordem, esvaziando a fila com `poll()` repetido até acabar.
+
+**Pré-requisitos:** sintaxe básica de Java e a interface `Collection`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/queue-interface` e rode `mvn test` (da raiz: `mvn -pl java-concepts/queue-interface test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Queue — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html) — doc

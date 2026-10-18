@@ -103,6 +103,41 @@ Ambos recompilam a regex internamente a cada chamada — tudo bem para uma verif
 - **Quantificadores greedy podem silenciosamente capturar mais do que o pretendido quando um coringa abrange caracteres que você não esperava incluir** — `"e.+d"` dando match desde o primeiro `e` até o *último* `d` da string é correto pela especificação, não um bug, mas surpreende quem espera o menor match.
 - **`group(n)` e `start()`/`end()` lançam `IllegalStateException` se chamados antes de um match bem-sucedido** — sempre verifique o retorno booleano de `matches()`/`find()`/`lookingAt()` antes de chamar qualquer método que leia o resultado do match.
 
+## Lab
+
+Neste lab você recebe `LogLineParser` com os padrões `Pattern` já declarados e os métodos vazios. Seu trabalho é usá-los. A ideia central é sentir a diferença entre `matches()` (a entrada inteira precisa casar) e `find()` (procura um trecho e pode ser chamado em loop para achar todas as ocorrências), ver grupos nomeados deixando a extração legível e entender por que um quantificador relutante (`.*?`) faz o padrão parar no primeiro delimitador.
+
+**O cenário**
+
+Linhas de log no formato `yyyy-MM-dd LEVEL message`.
+
+- `LOG_LINE`: padrão com os grupos nomeados `date`, `level` e `message`.
+- `QUOTED`: padrão `"(.*?)"`, já relutante, para texto entre aspas.
+- `LogEntry(date, level, message)`: record que representa uma linha lida.
+- `parse(line)`: lê uma linha e devolve um `Optional<LogEntry>`.
+- `findAllErrorMessages(log)`: varre um log de várias linhas e devolve as mensagens de nível `ERROR`.
+- `extractFirstQuoted(text)`: devolve o primeiro trecho entre aspas.
+
+Você não precisa escrever nenhuma regex: o foco é como usar `Matcher` com os padrões prontos.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ler uma linha (TODO-00).** Use `LOG_LINE.matcher(line)` e `matches()`. Se casar, monte um `LogEntry` com `group("date")`, `group("level")` e `group("message")`. Se não, devolva `Optional.empty()`. Os testes incluem uma linha sem nível e uma com texto antes da data, que `matches()` deve rejeitar.
+2. **Achar todos os ERROR (TODO-01).** Use `LOG_LINE.matcher(log)` e `find()` num loop, coletando a mensagem das ocorrências com nível `ERROR`.
+3. **Extrair o primeiro trecho entre aspas (TODO-02).** Use `QUOTED` com `find()` e devolva `group(1)`, ou `""` se não houver aspas. Com várias aspas no texto, só o primeiro trecho deve voltar.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que `extractFirstQuoted` devolveria se `QUOTED` fosse `"(.*)"` (guloso) e por que `matches()` rejeita uma linha que `find()` aceitaria.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `maskDigits()`, trocando cada dígito do texto por `#` com `String.replaceAll()`.
+
+**Pré-requisitos:** sintaxe básica de Java e de regex (classes de caracteres e quantificadores). O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/regular-expressions` e rode `mvn test` (da raiz: `mvn -pl java-concepts/regular-expressions test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` explicam cada passo, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Pattern — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html) — doc

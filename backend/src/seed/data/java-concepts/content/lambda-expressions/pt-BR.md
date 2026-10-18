@@ -179,6 +179,40 @@ run(() -> System.out.println("hi"));   // compile error: reference to run is amb
   ```
 - **Um lambda é mais difícil de debugar do que um método nomeado.** Stack traces mostram um nome de frame sintético como `lambda$main$0` em vez de um nome de método descritivo, e vários lambdas na mesma linha de código-fonte não dão ao debugger nada para distingui-los — extrair um corpo de lambda não trivial para um método nomeado (e referenciá-lo com `::`) muitas vezes se paga na primeira vez que precisa de um breakpoint.
 
+## Lab
+
+Neste lab você recebe `TextPipeline`, que processa listas de linhas de texto, com os métodos vazios. Seu trabalho é implementá-los. A ideia central é passar comportamento como dado: em vez de fixar no código o que manter ou como reescrever cada linha, a classe recebe um `Predicate<String>` e um `Function<String, String>`, e você aprende a compor funções pequenas em maiores em vez de escrever um condicional ou um loop gigante.
+
+**O cenário**
+
+Um pipeline de texto cujo comportamento vem de fora.
+
+- `filter(lines, predicate)`: mantém só as linhas que satisfazem o predicado.
+- `transform(lines, transformer)`: aplica uma função a cada linha.
+- `containsAndLongerThan(needle, minLength)`: devolve um único predicado composto.
+- `countBlankLines(lines)`: conta linhas em branco.
+- `trimThenUpper()`: devolve uma função composta (opcional).
+
+Os testes cobrem a ordem preservada, o caso sem nenhuma linha que satisfaça o predicado e linhas só com espaços.
+
+**O que você vai fazer, passo a passo**
+
+1. **Filtrar e transformar (TODO-00 e TODO-01).** Percorra as linhas preservando a ordem: em `filter()`, mantenha só as que passam no predicado; em `transform()`, aplique a função a cada uma e junte os resultados numa nova lista.
+2. **Compor predicados (TODO-02).** Monte dois predicados pequenos (a linha contém `needle`; o tamanho é pelo menos `minLength`) e combine-os com `Predicate.and()`. O resultado é um só `Predicate<String>` que exige as duas condições.
+3. **Contar brancos com method reference (TODO-03).** Use `String::isBlank` para contar as linhas em branco. `isBlank()` considera uma linha só com espaços como branca, e é isso que o teste verifica.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar a diferença entre escrever o predicado como lambda e como method reference, e mostrar como `and()` evita um `if` aninhado.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `trimThenUpper()`, devolvendo uma única `Function<String, String>` que compõe `String::trim` e `String::toUpperCase` com `Function.andThen()`.
+
+**Pré-requisitos:** sintaxe básica de Java, generics e interfaces. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/lambda-expressions` e rode `mvn test` (da raiz: `mvn -pl java-concepts/lambda-expressions test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [java.util.function — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/package-summary.html) — doc

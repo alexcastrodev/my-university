@@ -555,6 +555,41 @@ moved around it:
   handful of `httpBasic()`/`formLogin()` tests for the flow and use mock users
   everywhere else.
 
+## Lab
+
+In this lab you get an empty `SecurityConfig` and an empty `SecurityContext` factory, along with a test suite that is already written and worth reading closely. Your job is to implement what the tests exercise. The core idea is to feel what `@WithMockUser`, `@WithUserDetails` and a custom `@WithSecurityContext` factory do and do not do: all of them fabricate a `SecurityContext` directly, skipping real authentication, which makes them fast and also able to hide a bug that a real login would catch.
+
+**The scenario**
+
+An inventory API with two users whose account status is deliberately different: `john`, an enabled admin, and `mary`, whose account is **disabled**.
+
+- `InventoryController`: `GET /inventory/view` and `GET /inventory/admin`.
+- `SecurityConfig`: the in-memory user store, the encoder and the authorization rules you implement.
+- `WithCustomAdmin`: a test annotation of its own, carrying a `username`.
+- `CustomAdminSecurityContextFactory`: the factory behind the annotation. It lives in `src/test`, not `src/main`, and it is also a TODO of yours.
+- `SecurityConfigTest`: uses `@ExtendWith(SpringExtension.class)` with `@ContextConfiguration`, not the manual bootstrap of the other labs, because the security test annotations are only applied by Spring's `TestExecutionListener`.
+
+The central point is two tests that make the same request as `mary` and get different answers: with `@WithUserDetails("mary")` she reaches the endpoint (200), with real HTTP Basic she gets 401.
+
+**What you will do, step by step**
+
+1. **Provide encoder and users (TODO-00 and TODO-01).** Return a `BCryptPasswordEncoder` and an `InMemoryUserDetailsManager` with `john`/`john123` (`ROLE_ADMIN`) and `mary`/`mary123` (`ROLE_USER`, with `.disabled(true)`).
+2. **Write the authorization rules (TODO-02).** In `authorizeHttpRequests(...)`, require `hasRole("ADMIN")` on `/inventory/admin` and `authenticated()` on `anyRequest()`.
+3. **Enable Basic and return the chain (TODO-03 and TODO-04).** Use `httpBasic(Customizer.withDefaults())`, disable CSRF and return `http.build()`.
+4. **Build the context by hand (TODO-05).** In `createSecurityContext(...)`, create an empty context with `SecurityContextHolder.createEmptyContext()`, build a `UsernamePasswordAuthenticationToken.authenticated(withCustomAdmin.username(), null, List.of(new SimpleGrantedAuthority("ROLE_ADMIN")))`, set it on the context and return it. Notice this never calls the `UserDetailsService`, so even a nonexistent user like `carol` becomes an admin.
+
+**How you know you are done**
+
+`mvn test` is all green. What matters most is understanding why each test passes or fails: you can explain why a green `@WithUserDetails` test does not prove that a disabled or locked account cannot log in, and that "is it authorized?" and "could it authenticate?" are different questions.
+
+**Optional challenges**
+
+- **TODO-06:** add a third user, `legacyuser`/`legacyuser123` (`ROLE_USER`), with `.credentialsExpired(true)`. Real authentication rejects it for a different reason than `mary`, but the mock annotations still skip the check.
+
+**Prerequisites:** basic Spring Framework, `UserDetailsService`/`GrantedAuthority` (the authorities and roles lab) and `MockMvc`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. Before the TODOs the context does not start (the methods throw `UnsupportedOperationException`), so the tests are red and the list of them is your checklist.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 20, "Spring Security testing", sections 20.1 "Using mock users for tests" (p. 493-500), 20.2 "Testing with users from a UserDetailsService" (p. 500-501), 20.3 "Using custom Authentication objects for testing" (p. 501-505), and 20.5 "Testing authentication" (p. 507-510) — doc

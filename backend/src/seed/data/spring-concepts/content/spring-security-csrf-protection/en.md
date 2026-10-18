@@ -341,6 +341,41 @@ Spring Security 7.0 folds all of that into `csrf.spa()`, which sets up the cooki
 - **Opting out of BREACH masking makes cookie-based setups "just work" — that's why it's tempting.** `CsrfTokenRequestAttributeHandler` removes the masking mismatch that breaks a naive SPA configuration, and it is the wrong fix: the correct one is a request handler that resolves headers plainly while still masking rendered output (`SpaCsrfTokenRequestHandler`, or `csrf.spa()` on 7.0+).
 - **CSRF and CORS solve different problems and neither substitutes for the other.** A permissive CORS policy does not create a CSRF vulnerability (form-based CSRF never reads the response), and a strict one does not remove the need for CSRF tokens. `SameSite` cookies genuinely do reduce CSRF exposure, but Spring Security doesn't control session-cookie creation and the reference documentation recommends treating `SameSite` "as a defense in depth rather than the sole protection against CSRF attacks".
 
+## Lab
+
+In this lab you get a `SecurityConfig` and a `CsrfTokenController` that still throw `UnsupportedOperationException`, along with a small product API and a webhook that are already built. Your job is to configure CSRF. The core idea is to feel why a `POST`/`PUT`/`DELETE` fails with 403 in a default Spring Security setup while a `GET` never does, and how to exempt one legitimately non-browser endpoint without weakening protection everywhere else.
+
+**The scenario**
+
+An API with safe routes and state-changing routes, tested with `MockMvc`.
+
+- `ProductController`: `GET /products` (safe), `POST /products`, `PUT /products/{id}` and `DELETE /products/{id}` (state-changing).
+- `WebhookController`: `POST /webhooks/notify`, a machine-to-machine callback, never called by a browser carrying a session cookie.
+- `CsrfTokenController`: `GET /csrf`, which must return the current request's token.
+- `SecurityConfig`: the `SecurityFilterChain` you complete.
+- `SecurityConfigTest`: checks that `GET` passes without a token, that write methods without a token get 403 and with `with(csrf())` get 200, and that the webhook passes without a token.
+
+Note that the lab is about CSRF, not about who may call what: that is why every route is permitted and only CSRF tells the results apart.
+
+**What you will do, step by step**
+
+1. **Permit the requests (TODO-00).** In `securityFilterChain()`, use `authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())`, to isolate the effect of CSRF.
+2. **Exempt only the webhook (TODO-01).** Use `csrf(csrf -> csrf.ignoringRequestMatchers("/webhooks/**"))`. Do not call `csrf(...disable)`: protection must stay on for every other path.
+3. **Return the chain (TODO-02).** Return `http.build()`.
+4. **Expose the token (TODO-03).** In `CsrfTokenController.csrf()`, read the `"_csrf"` request attribute and return the value with `((CsrfToken) request.getAttribute("_csrf")).getToken()`. `CsrfFilter` already put the token there, ahead of the controller.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why `with(csrf())` exists in the tests (a request without a token is indistinguishable from a forged one to the filter) and why the webhook can be left out without creating CSRF risk.
+
+**Optional challenges**
+
+- **TODO-04:** switch the token repository to `CookieCsrfTokenRepository.withHttpOnlyFalse()` inside the `csrf(...)` customizer from TODO-01, so the token also arrives in a JavaScript-readable cookie, the pattern for an SPA frontend on the same backend.
+
+**Prerequisites:** basic Spring Framework, `SecurityFilterChain`/`HttpSecurity` and `MockMvc`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. Before the TODOs the context does not start, because `securityFilterChain()` throws `UnsupportedOperationException`, so every `SecurityConfigTest` test is red.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 10, "Applying CSRF protection and CORS", section 10.1 "Applying cross-site request forgery (CSRF) protection in applications" (10.1.1-10.1.3), p. 213-234](https://www.manning.com/books/spring-security-in-action) — doc

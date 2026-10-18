@@ -143,6 +143,41 @@ for.
   element to sneak into an otherwise generically-typed collection — otherwise
   it's overhead with nothing to catch.
 
+## Lab
+
+In this lab you get `EmployeeDirectory`, which stores employees in an internal list, with the sorting and lookup methods left empty. Your job is to implement them. The core idea is to build multi-key sorts with `Comparator.comparing()`/`thenComparing()` and to understand the difference between a defensive copy and a live view returned by `Collections.unmodifiableList()`.
+
+**The scenario**
+
+An employee directory that must be listed in different ways without messing up its internal order.
+
+- `Employee(firstName, lastName, salary)`: a record declared in the same file.
+- `EmployeeDirectory`: holds the `employees` list, with `add()` ready.
+- `sortedByLastThenFirst()` and `sortedBySalaryDescending()`: sorted lists.
+- `unmodifiableView()`: read-only access to the internal list.
+- `highestPaid()`: the best-paid employee.
+
+The tests check that sorting does not change the internal order and that the view reflects additions made later.
+
+**What you will do, step by step**
+
+1. **Sort by last name then first name (TODO-00).** Build the comparator with `Comparator.comparing(...)` and `thenComparing(...)`, sort a copy of the list (never the internal one) and return the copy.
+2. **Sort by salary descending (TODO-01).** Use `Comparator.comparingDouble(...)`, invert it with `reversed()`, sort a copy and return it.
+3. **Return a read-only view (TODO-02).** Wrap the internal list with `Collections.unmodifiableList`. It is not a copy: an `add()` made later must show up in the view, and trying to change the view throws `UnsupportedOperationException`.
+4. **Find the best-paid (TODO-03).** Use `Collections.max` with a salary comparator, in a single call. On an empty directory it throws `NoSuchElementException`, as the test expects.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain the difference between copying the list (the result is frozen) and wrapping it in a view (the result follows the original), and say when each one is the right choice.
+
+**Optional challenges**
+
+- **TODO-04:** implement `lowestPaid()`, the same idea as `highestPaid()` in the opposite direction.
+
+**Prerequisites:** basic Java syntax, lambdas and method references, and basic `List` usage. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/comparators-and-collection-algorithms` and run `mvn test` (from the root: `mvn -pl java-concepts/comparators-and-collection-algorithms test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments give hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Comparator — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html) — doc

@@ -201,6 +201,39 @@ except in production.
   `@Profile`'s method-level and class-level behavior, and the `spring.profiles.active`
   activation mechanism itself, are otherwise unchanged since the book.
 
+## Lab
+
+In this lab you get an application with three properties files and a `DataSeeder` bean, all **unconnected** to profiles. Your job is to use profiles so the same codebase behaves differently per environment, and prove with tests which profile wins and which bean really does not exist. The core idea is to demystify `@Profile("!prod")`: it means "active unless `prod` is active", so with **no** profile active the bean is still created.
+
+**The scenario**
+
+A `DataSeeder` that must exist in every environment except `prod`, and an environment label that changes per profile.
+
+- `AppConfig`: a `@Configuration` with the `dataSeeder()` bean, which returns a `DevDataSeeder`.
+- `DataSeeder` and `DevDataSeeder`: the interface and the implementation whose `seedsData()` returns `true`.
+- `EnvironmentProperties`: a `record` with `label` and `verboseLogging`, read from `app.environment.*`.
+- `application.properties`: the defaults (`label=Local`, `verbose-logging=false`). `application-dev.properties` and `application-prod.properties` only hold comments with what to fill in.
+- `ProfileActivationTest`: starts the application with `SpringApplicationBuilder` for `dev`, for `prod` and for no profile, and checks beans and properties. For `prod`, it expects `NoSuchBeanDefinitionException`.
+
+**What you will do, step by step**
+
+1. **Make the bean conditional (TODO-00).** Annotate `dataSeeder()` with `@Profile("!prod")`.
+2. **Bind the properties (TODO-01 and TODO-02).** Annotate `EnvironmentProperties` with `@ConfigurationProperties(prefix = "app.environment")` and `AppConfig` with `@EnableConfigurationProperties(EnvironmentProperties.class)`.
+3. **Override in dev (TODO-03).** In `application-dev.properties`, set `app.environment.label=Development` and `app.environment.verbose-logging=true`.
+4. **Override in prod (TODO-04).** In `application-prod.properties`, set only `app.environment.label=Production`. The test expects `verboseLogging` to stay `false`, inherited from the default.
+
+**How you know you are done**
+
+`mvn test` is green (six tests). You should be able to explain why the test with no profile still sees the `DataSeeder` and the `Local` label, and why `prod` only overrides what it declares.
+
+**Optional challenges**
+
+- **TODO-05:** in `application.properties`, set `spring.profiles.group.production=prod,audit` and create an `AuditLogger` bean with `@Profile("audit")` in `AppConfig`, so activating just `production` turns on `prod` and `audit` together. There is no ready-made test for it.
+
+**Prerequisites:** basic Spring Boot bean wiring, `@ConfigurationProperties` with records and `.properties` files.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-boot-profiles` and run `mvn test`. The tests fail until the annotations and properties files are filled in; the `TODO`s live in `AppConfig`, `EnvironmentProperties` and the `application*.properties` files.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 5, "Working with configuration properties", section 5.3, p. 129-133 — doc

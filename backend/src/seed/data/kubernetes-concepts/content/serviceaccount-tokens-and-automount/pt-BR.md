@@ -130,6 +130,38 @@ Desligar o automount por padrão e conceder acesso à API de forma explícita de
 - **ServiceAccounts por aplicação vs `default`.** Contas dedicadas dão permissões precisas e logs de auditoria claros; adicionam um objeto por aplicação.
 - **Tokens projetados com audience vs segredos de vida longa.** Tokens com audience e expiração limitam o estrago de um vazamento; Secrets de token de vida longa nunca expiram e precisam ser rotacionadas à mão.
 
+## Lab
+
+Neste lab você recebe um namespace em que alguém fez um Pod funcionar dando o papel `edit` à ServiceAccount `default`, de modo que todo Pod do namespace carrega um token capaz de ler e alterar quase tudo, Secrets incluídos. O seu trabalho é tirar o token de quem não precisa e dar ao único Pod que chama a API uma identidade própria com uma única permissão. A ideia central é sentir que, por padrão, o Kubernetes monta um credencial de API em todo Pod, e que quem ganhar execução de código no container herda as permissões dela.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers) recebe o namespace `team-a` com um ConfigMap `settings` e um Secret `db`, e o seu manifesto.
+
+- `web`: um Pod comum que nunca chama a API do Kubernetes.
+- `watcher`: um Pod com `curl` que lista os ConfigMaps do namespace pela API e nada além disso.
+- `default-edit`: um `RoleBinding` que dá o `ClusterRole` `edit` à ServiceAccount `default`. É o atalho a ser desfeito.
+- `src/main/resources/k8s/app.yaml`: o único arquivo que você edita.
+- `src/test/java/ServiceAccountTokensTest.java`: executa dentro dos Pods e confere que o `web` não tem token algum, que o `watcher` lista ConfigMaps (HTTP 200) mas não lê Secrets (HTTP 403), que ele roda como `config-watcher` e que a ServiceAccount `default` ficou sem permissões.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** Veja quais verificações falham e perceba que o `watcher` só funciona por causa do atalho.
+2. **Tirar o token do `web` (TODO-00).** Faça o Kubernetes não montar o token da ServiceAccount nesse Pod, para que o diretório de credenciais nem exista dentro do container.
+3. **Dar identidade própria ao watcher (TODO-01).** Apague o `RoleBinding` `default-edit` e crie uma ServiceAccount `config-watcher`, um `Role` em `team-a` que só pode `get`, `list` e `watch` em `configmaps`, e um `RoleBinding` entre eles. Depois faça o Pod `watcher` rodar como `config-watcher`.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/serviceaccount-tokens-and-automount test` passa. Você deve conseguir explicar por que o `web` ficou sem token, por que o `watcher` recebe 200 para ConfigMaps mas 403 para Secrets, e por que tirar o `edit` da `default` protege também qualquer Pod futuro do namespace.
+
+**Desafios opcionais**
+
+- **TODO-02:** decodifique o token do watcher (`cut -d. -f2 token | base64 -d`) e leia as claims `aud`, `exp` e o nome do Pod ao qual ele está vinculado. O que acontece com o token quando o Pod é apagado?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `busybox` e `curlimages/curl` dentro dele) e os artigos "ServiceAccount Tokens and Automount" e "RBAC and Least Privilege".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/serviceaccount-tokens-and-automount test`. Os comentários `TODO-00` e `TODO-01` em `app.yaml` marcam o que mudar.
+
 ## Documentation Links
 
 - [Kubernetes docs: Service Accounts](https://kubernetes.io/docs/concepts/security/service-accounts/): ServiceAccounts padrão, tokens, casos de uso.

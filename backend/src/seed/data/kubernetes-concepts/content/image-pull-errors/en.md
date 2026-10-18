@@ -105,6 +105,38 @@ Docker Hub limits anonymous and free pulls. The message contains `429 Too Many R
 - **Single-architecture vs multi-platform builds.** Single-architecture builds are faster; multi-platform builds let the same tag run on amd64 and arm64 nodes without surprises.
 - **Node-level trust vs public certificates.** A private CA requires configuring every node; a publicly trusted certificate on the registry needs none.
 
+## Lab
+
+In this lab you receive a k3s node that tries to pull an image from a private registry whose certificate was signed by a private CA, and nothing works yet. Your job is to make the node trust that CA and then discover that the error changed and was a different problem. The core idea is to feel that `ErrImagePull` and `ImagePullBackOff` cover very different causes (TLS trust and a missing tag) and that the event message tells you which one you have.
+
+**The scenario**
+
+The tests start a real registry (`registry:3` with TLS) reachable as `registry.lab`, copy `busybox:1.37` into it as `registry.lab/tools/busybox:1.37` and start a k3s node with the CA at `/etc/rancher/k3s/lab-ca.crt`.
+
+- `src/main/resources/registries.yaml`: the containerd configuration for the node, copied to `/etc/rancher/k3s/registries.yaml`. It starts as `configs: {}`. k3s reads this file only when it starts.
+- `src/main/resources/k8s/web.yaml`: a `web` Deployment that uses `registry.lab/tools/busybox:1.37.0`.
+- `src/test/java/ImagePullTest.java`: checks that `web` runs and that `registries.yaml` trusts the CA instead of disabling verification. On failure it shows the node's latest pull error and the tags that exist in the registry.
+
+You only edit `registries.yaml` and `web.yaml`.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the error.** The failure message carries the node's latest `Failed to pull` event and the registry's tags. Read the cause stated in the event.
+2. **Make the node trust the registry (TODO-00).** In `registries.yaml`, configure `registry.lab` with the CA that is already at `/etc/rancher/k3s/lab-ca.crt`. Do not turn TLS verification off: the `tlsIsStillVerified` test rejects `insecure_skip_verify`.
+3. **Run again and read the new error (TODO-01).** With the registry trusted, the pull still fails, but for a different reason. Compare the image in `web.yaml` with the registry's tag list and fix the image reference.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/image-pull-errors test` passes: `web` becomes available, a `kubectl exec` into it answers `ok` and `registries.yaml` uses the lab CA without `insecure_skip_verify`. You should be able to tell, just from the event message, whether the problem is in the node's configuration or in the manifest.
+
+**Optional challenges**
+
+- **TODO-02:** the error is the same `ErrImagePull` / `ImagePullBackOff` for both problems. Which part of the event message tells you, at a glance, whether to look at the node's configuration or at the manifest?
+
+**Prerequisites:** Docker running locally (the tests start `registry:3`, `crane` and `rancher/k3s` containers) and the article "ImagePullBackOff and ErrImagePull".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/image-pull-errors test`. The `TODO-00` and `TODO-01` comments in the files mark what to change, and the test failure shows the current pull error.
+
 ## Documentation Links
 
 - [Kubernetes docs: Images](https://kubernetes.io/docs/concepts/containers/images/): pull policy, private registries, multi-architecture images.

@@ -164,6 +164,38 @@ No add-on o Alertmanager seleciona AlertmanagerConfigs de todos os namespaces (v
 - **Roteamento central vs AlertmanagerConfig por namespace.** A configuração central mantém um único lugar para revisar; objetos por namespace deixam os times donos do próprio roteamento, ao preço de mais lugares para olhar.
 - **Alertar por causas vs por sintomas.** Alertas por causas (CPU em 80%) são barulhentos e muitas vezes irrelevantes; alertas por sintomas (crash loops, taxas de erro, um disco prestes a encher) apontam para o que precisa de ação.
 
+## Lab
+
+Neste lab você recebe uma regra de alerta (`PrometheusRule`) que parece razoável e não faz nada: o Prometheus não a carrega, a expressão não casa com nenhuma série e o `for` de uma hora a deixaria muda por tempo demais. O seu trabalho é consertar a regra até o alerta chegar ao Alertmanager. A ideia central é sentir que um alerta pode falhar em silêncio em três lugares diferentes (seleção da regra, expressão e tempo), e que cada um deixa um sintoma distinto.
+
+**O cenário**
+
+O teste instala o Prometheus Operator (v0.94.1) num cluster Kubernetes real (k3s, subido pelo Testcontainers) e consulta as APIs do Prometheus e do Alertmanager.
+
+- `src/test/resources/k8s/app.yaml`: já vem pronto, com o `example-app` (2 réplicas) no namespace `shop`, seu ServiceMonitor, e um Pod `bad-client` que pede uma página inexistente a cada segundo, então o app responde 404 o tempo todo.
+- `src/test/resources/k8s/monitoring.yaml`: já vem pronto, com o Prometheus `lab` e o Alertmanager `lab` em `monitoring`. O Prometheus carrega PrometheusRules de qualquer namespace, mas só as que tiverem o label do seu `ruleSelector`.
+- `src/main/resources/k8s/rules.yaml`: o único arquivo que você edita. Tem o alerta `ExampleAppErrors`, para erros 4xx ou 5xx.
+- `src/test/java/AlertingTest.java`: em até uns dois minutos e meio, exige que o Prometheus tenha carregado a regra e que o alerta esteja disparando no Alertmanager com `severity: warning`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes e ler as mensagens.** Elas mostram os grupos de regras que o Prometheus carregou, os alertas dele com o estado, e os labels reais de `http_requests_total`.
+2. **Fazer o Prometheus carregar a regra (TODO-00).** Leia o `ruleSelector` em `monitoring.yaml` e dê à `PrometheusRule` o label que ele exige.
+3. **Casar a expressão com as séries do app (TODO-01).** A expressão não retorna nada. Compare os nomes e valores dos labels que ela usa com os labels reais da métrica, que a mensagem de falha lista.
+4. **Disparar em cerca de um minuto (TODO-02).** O `for: 1h` é longo demais. A equipe quer saber de erros em cerca de um minuto, mas não por causa de um erro isolado: escolha um `for` que faça as duas coisas.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/alertmanager-basic-alerts test` passa: o Prometheus carregou `ExampleAppErrors` e o Alertmanager recebeu o alerta com `severity: warning`. Você deve conseguir dizer qual dos três erros faz a regra sumir da lista, qual a deixa sem série e qual a deixa em `pending` para sempre.
+
+**Desafios opcionais**
+
+- **TODO-03:** roteie alertas `severity: warning` para um receiver com um `AlertmanagerConfig` em `shop`. Que label o `AlertmanagerConfig` precisa ter, e que matcher o operator acrescenta sozinho às rotas?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s`, que baixa o Prometheus Operator v0.94.1 e imagens de `quay.io`), o artigo "Alertmanager and Basic Alerts" e, opcionalmente, o lab "Prometheus, Grafana and ServiceMonitors".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/alertmanager-basic-alerts test`. Os comentários `TODO-00` a `TODO-02` em `rules.yaml` marcam os três pontos. A primeira execução baixa bastante coisa e demora.
+
 ## Documentation Links
 
 - [Prometheus docs: Alerting rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/): `expr`, `for`, labels e annotations.

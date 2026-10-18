@@ -141,6 +141,37 @@ A dump is consistent and portable, and it is a point in time: everything after t
 - **Compressed dumps vs plain SQL.** Compression saves space and hides content from quick checks; verify by decompressing, not by looking at the file size.
 - **Logical vs physical backups.** Logical backups are simple and version-portable with a coarse RPO; physical backups with log archiving give point-in-time recovery at the cost of more tooling.
 
+## Lab
+
+In this lab you receive a backup CronJob that "succeeds" without data: with the database down the dump fails, yet the Job ends `Complete`, and the file it produced passes `gzip -t`. Your job is to make the backup fail loudly when the dump fails, take the password out of the manifest and stop two runs from happening at once. The core idea is to feel that a shell pipeline returns the exit code of its last command, so an empty backup can look like a success to whoever monitors it.
+
+**The scenario**
+
+A real MariaDB on a real Kubernetes cluster (k3s, started by Testcontainers).
+
+- `src/test/resources/k8s/db.yaml`: given, with the `db` Deployment and Service, and a `db-backups` PVC. The root password comes from the `db-root` Secret, and the `shop` database gets an `orders` table with three rows.
+- `src/main/resources/k8s/backup.yaml`: the only file you edit. The `db-backup` CronJob (`30 2 * * *`, UTC, `backoffLimit: 1`, `restartPolicy: Never`) runs `mariadb-dump ... | gzip` into a dated file on the PVC and then a `gzip -t`.
+- `src/test/java/DatabaseBackupTest.java`: triggers the CronJob twice with `kubectl create job --from=cronjob/db-backup`, the first with the database up and the second with the database scaled to zero, and checks the manifest.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The second run is the interesting one: `mariadb-dump` cannot connect, and the Job still ends `Complete`.
+2. **Make any failure in the pipeline fail the Job (TODO-00).** A pipeline returns the status of its last command, `gzip`, which is fine with empty input. Make a failure anywhere in the pipeline bring the Job down. The image's `sh` has no `pipefail`, but `bash` does.
+3. **Take the password out of the manifest (TODO-01).** Today it is written in the command, visible in the manifest and in the container's `ps`. Read it from the `db-root` Secret (key `password`) into the `MYSQL_PWD` variable, which the MariaDB client reads by itself, and remove `-p` from the command.
+4. **Forbid overlapping runs (TODO-02).** A slow backup must never overlap with the next one. Set the CronJob's concurrency policy accordingly.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs test` passes: with the database up the Job completes and the dump contains the `INSERT INTO` statements, with the database down it fails, the password comes from a `secretKeyRef` and the concurrency policy is `Forbid`. You should be able to explain why a backup that "finished successfully" can be empty.
+
+**Optional challenges**
+
+- **TODO-03:** replace `gzip -t` with a check of the dump's content (the last line of a complete `mariadb-dump` output is `-- Dump completed on <date>`). Why is `gzip -t` alone not a backup check?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container and pull `mariadb` and `busybox` inside it) and the articles "Jobs, CronJobs and restartPolicy" and "Logical Database Backups with kubectl exec and CronJobs".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs test`. The `TODO-00` to `TODO-02` comments in `backup.yaml` mark what to do. The first run pulls the MariaDB image (about 100 MB).
+
 ## Documentation Links
 
 - [kubectl exec reference](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/): `-i`, `-t` and container selection.

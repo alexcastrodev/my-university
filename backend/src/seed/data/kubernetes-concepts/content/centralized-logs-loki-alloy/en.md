@@ -127,6 +127,37 @@ Logs grow fast. Decide up front:
 - **Add-on vs upstream charts.** The add-on is one command with outdated, unsupported components; upstream charts are current and must be configured and upgraded by you.
 - **Agent on every node vs sidecars.** A DaemonSet agent collects everything with one Pod per node; sidecars only make sense for apps that cannot log to stdout.
 
+## Lab
+
+In this lab you receive a Grafana Alloy pipeline that discovers Pods and reads their logs, but nothing reaches Loki, the logs have no namespace label and passwords would go through in plain text. Your job is to fix `alloy-config.yaml` so it delivers logs to Loki, makes them searchable by namespace and masks passwords before they leave the cluster. The core idea is to feel that in Loki you search by labels, that the right place to hide sensitive data is the collection pipeline, and that Alloy only tells you what is wrong in its own logs.
+
+**The scenario**
+
+The test starts Loki and Alloy on a real Kubernetes cluster (k3s, started by Testcontainers) and queries Loki's API.
+
+- `src/test/resources/k8s/logging.yaml`: given. It has Loki (single binary, local storage), Alloy, which reads its configuration from the `alloy-config` ConfigMap, a `checkout` Pod in the `shop` namespace that logs `order N placed` and `login user=alice password=hunter2` every second, and a `client` Pod to query Loki from.
+- `src/main/resources/k8s/alloy-config.yaml`: the only file you edit. The ConfigMap holds Alloy's pipeline: `discovery.kubernetes`, `discovery.relabel`, `loki.source.kubernetes` and `loki.write`.
+- `src/test/java/CentralizedLogsTest.java`: requires `{namespace="shop"}` to return the checkout logs, no stored line to contain the password and the login lines to show `password=****`.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the message.** It shows the labels Loki knows and Alloy's last errors.
+2. **Make the logs reach Loki (TODO-00).** Read Alloy's own logs: they say why `loki.write` does not deliver. Check the `endpoint` address and what it needs for Loki to accept the push.
+3. **Make them searchable by namespace (TODO-01).** Queries select logs by labels. Add a rule to `discovery.relabel` that copies the Pod's namespace (a `__meta_kubernetes_*` label) into the `namespace` label, like the ones already there for `pod` and `container`.
+4. **Mask the passwords (TODO-02).** Put a `loki.process` component between `loki.source.kubernetes` and `loki.write`, with a replace stage that swaps the password value for `****`, and make the source forward to it. That way the sensitive data never leaves the cluster.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/centralized-logs-loki-alloy test` passes: `{namespace="shop"}` returns the `order ... placed` lines, the login lines appear with `password=****` and `hunter2` exists in no stored log. You should be able to explain why masking in Alloy is safer than relying on whoever queries.
+
+**Optional challenges**
+
+- **TODO-03:** add the Pod's `app` label as a Loki label, and then think about adding the order number as another one. Why is the first fine and the second a problem for Loki?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container, which pulls Loki and Alloy from `mirror.gcr.io` and `busybox`) and the article "Centralized Logs with Loki and Grafana Alloy".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/centralized-logs-loki-alloy test`. The `TODO-00` to `TODO-02` comments in `alloy-config.yaml` mark the three places.
+
 ## Documentation Links
 
 - [Grafana: Migrate from Promtail to Grafana Alloy](https://grafana.com/docs/alloy/latest/set-up/migrate/from-promtail/): `alloy convert` and the migration path.

@@ -143,6 +143,37 @@ Um dump é consistente e portável, e é um instante no tempo: tudo depois do ú
 - **Dumps comprimidos vs SQL puro.** Compressão economiza espaço e esconde o conteúdo de verificações rápidas; verifique descomprimindo, não olhando o tamanho do arquivo.
 - **Backups lógicos vs físicos.** Backups lógicos são simples e portáveis entre versões, com um RPO grosso; backups físicos com arquivamento de logs dão recuperação a um ponto no tempo ao custo de mais ferramentas.
 
+## Lab
+
+Neste lab você recebe um CronJob de backup que "dá certo" mesmo sem dados: com o banco fora do ar o dump falha, mas o Job termina `Complete`, e o arquivo gerado passa em `gzip -t`. O seu trabalho é fazer o backup falhar alto quando o dump falha, tirar a senha do manifesto e impedir que duas execuções rodem ao mesmo tempo. A ideia central é sentir que um pipeline de shell devolve o código de saída do último comando, então um backup vazio pode parecer um sucesso para quem monitora.
+
+**O cenário**
+
+Um MariaDB real num cluster Kubernetes real (k3s, subido pelo Testcontainers).
+
+- `src/test/resources/k8s/db.yaml`: já vem pronto, com o Deployment e o Service `db`, e um PVC `db-backups`. A senha de root vem do Secret `db-root`, e o banco `shop` ganha uma tabela `orders` com três linhas.
+- `src/main/resources/k8s/backup.yaml`: o único arquivo que você edita. O CronJob `db-backup` (`30 2 * * *`, UTC, `backoffLimit: 1`, `restartPolicy: Never`) roda `mariadb-dump ... | gzip` num arquivo datado no PVC e depois um `gzip -t`.
+- `src/test/java/DatabaseBackupTest.java`: dispara o CronJob duas vezes com `kubectl create job --from=cronjob/db-backup`, a primeira com o banco no ar e a segunda com o banco escalado para zero, e confere o manifesto.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** A segunda execução é a interessante: o `mariadb-dump` não conecta, e mesmo assim o Job termina `Complete`.
+2. **Fazer qualquer falha no pipeline falhar o Job (TODO-00).** Um pipeline devolve o status do último comando, o `gzip`, que vai bem com entrada vazia. Faça uma falha em qualquer ponto do pipeline derrubar o Job. A imagem usa um `sh` que não tem `pipefail`, mas o `bash` tem.
+3. **Tirar a senha do manifesto (TODO-01).** Hoje ela está escrita no comando, visível no manifesto e no `ps` do container. Leia-a do Secret `db-root` (chave `password`) para a variável `MYSQL_PWD`, que o cliente do MariaDB lê sozinho, e remova o `-p` do comando.
+4. **Proibir execuções sobrepostas (TODO-02).** Um backup lento nunca deve se sobrepor ao seguinte. Defina a política de concorrência do CronJob de acordo.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs test` passa: com o banco no ar o Job completa e o dump contém os `INSERT INTO`, com o banco fora ele falha, a senha vem de um `secretKeyRef` e a política de concorrência é `Forbid`. Você deve conseguir explicar por que um backup que "terminou com sucesso" pode estar vazio.
+
+**Desafios opcionais**
+
+- **TODO-03:** troque o `gzip -t` por uma checagem do conteúdo do dump (a última linha de um `mariadb-dump` completo é `-- Dump completed on <data>`). Por que o `gzip -t` sozinho não é uma verificação de backup?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `mariadb` e `busybox` dentro dele) e os artigos "Jobs, CronJobs and restartPolicy" e "Logical Database Backups with kubectl exec and CronJobs".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/logical-database-backups-with-kubectl-exec-and-cronjobs test`. Os comentários `TODO-00` a `TODO-02` em `backup.yaml` marcam o que fazer. A primeira execução baixa a imagem do MariaDB (cerca de 100 MB).
+
 ## Documentation Links
 
 - [kubectl exec reference](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/): `-i`, `-t` e seleção de container.

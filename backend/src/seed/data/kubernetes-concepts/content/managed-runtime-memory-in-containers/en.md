@@ -98,6 +98,39 @@ Compare it with the heap ceiling. If the working set keeps growing while the hea
 - **Percentage vs absolute heap settings.** A percentage follows the limit automatically; an absolute value (`-Xmx`, `--max-old-space-size`) is explicit and silently drifts when someone changes only the limit.
 - **Runtime defaults vs explicit flags.** Defaults change between runtime versions and container sizes (GC choice, thread counts); explicit settings make behaviour predictable at the cost of one more thing to maintain.
 
+## Lab
+
+In this lab you receive a Java app that loads 200 MiB into an in-memory cache, running in a container with a 512Mi limit, and a JVM with default settings. Your job is to size the JVM for that limit: heap relative to the limit, the right garbage collector and a process that exits when the heap runs out. The core idea is to feel that the JVM picks a heap and a collector on its own from the memory it sees, and that this automatic choice rarely suits your container.
+
+**The scenario**
+
+A real Kubernetes cluster (k3s, started by Testcontainers) runs the app with Temurin 25.
+
+- `src/main/java/CacheWarmup.java`: the app, given. It prints the max heap, the garbage collectors and whether `ExitOnOutOfMemoryError` is on, and then loads 200 MiB in 64 KiB entries.
+- `src/main/resources/k8s/cache.yaml`: the only file you edit. A `cache` Deployment with `eclipse-temurin:25-jre`, a memory limit and request of `512Mi`, and the compiled class mounted at `/app`.
+- `src/test/java/RuntimeMemoryTest.java`: copies the class to the node, applies your manifest and checks the result.
+
+The test requires the limit to stay `512Mi`, the cache to warm up with no restart, the max heap to be 60 to 80% of the limit set as a percentage (no `-Xmx`), the JVM to use G1 and `ExitOnOutOfMemoryError` to be on.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The failure message shows the app's output: how much heap the JVM chose on its own and which collector.
+2. **Size the heap (TODO-00).** The app needs 200 MiB of live data and dies on startup. Give the heap 60 to 80% of the container limit, as a percentage of the limit (as a JVM option passed through an environment variable), so it follows the limit if that changes. The rest is left for metaspace, threads and off-heap memory.
+3. **Choose G1 (TODO-01).** With this little memory available, the JVM picks the Serial collector, which stops the application for every collection. Select G1 explicitly.
+4. **Exit on OOM (TODO-02).** If the heap does run out, the process must exit so Kubernetes restarts it, instead of staying alive and broken. Turn on the matching JVM option.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/managed-runtime-memory-in-containers test` passes: the cache warms up with no restart and the app's output shows a heap between 60 and 80% of 512 MiB, `G1 Young Generation` and `exit on OOM: true`. You should be able to explain why the heap cannot be 100% of the limit.
+
+**Optional challenges**
+
+- **TODO-03:** set `MaxRAMPercentage=100` and make the app keep allocating after warm-up. What kills it first, the JVM or the kernel, and how does each case look in `kubectl get pod` and in the logs?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container, which pulls `eclipse-temurin:25-jre` from `mirror.gcr.io`) and the article "Managed Runtime Memory in Containers".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/managed-runtime-memory-in-containers test`. The `TODO-00` to `TODO-02` comments in `cache.yaml` mark what to do. The first run is slow because the image has to be pulled.
+
 ## Documentation Links
 
 - [Kubernetes docs: Assign Memory Resources to Containers](https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/): limits and OOM behaviour.

@@ -97,6 +97,40 @@ Combining the two gives you a hierarchy that is both closed (nothing outside `pe
   ```
 - **Record patterns (JDK 21) and unnamed patterns (JDK 21, JEP 456) make destructuring records inside a `switch` noticeably terser than when records first shipped in JDK 16** — e.g., matching `Point(var x, _)` to bind only `x` and discard `y` with `_`. That refinement lives in the mechanics of pattern matching itself, not in what a record or a sealed type *is*, so it's covered in depth by the `pattern-matching` concept rather than here.
 
+## Lab
+
+In this lab you get the sealed interface `PaymentMethod` with three records and the `PaymentMethods` class, all with validations and methods left to write. Your job is to complete the code. The core idea is to see two features working together: the compact constructor, which validates data before it goes into the record's fields, and the sealed hierarchy, which allows an exhaustive `switch` with no `default`.
+
+**The scenario**
+
+Payment methods in a closed, known set.
+
+- `PaymentMethod`: a `sealed interface` that permits exactly `CreditCard`, `BankTransfer` and `DigitalWallet`.
+- `CreditCard(number, expiryMonth, expiryYear)`, `BankTransfer(iban)` and `DigitalWallet(provider, accountId)`: the records.
+- `PaymentMethods.describe()`: a descriptive text for each method.
+- `PaymentMethods.feePercentage()`: the processing fee of each method.
+
+Everything lives in `PaymentMethod.java`. `DigitalWallet` has no validation to write, only the other two records do.
+
+**What you will do, step by step**
+
+1. **Validate the card (TODO-00).** In the compact constructor of `CreditCard`, throw `IllegalArgumentException("number must not be blank")` if the number is null or blank, and `IllegalArgumentException("expiryMonth must be between 1 and 12")` if the month is out of range. Because the code runs before the assignment, an invalid `CreditCard` never exists.
+2. **Validate the transfer (TODO-01).** In `BankTransfer`, throw `IllegalArgumentException("iban must not be blank")` for a null or blank IBAN.
+3. **Describe (TODO-02).** Write an exhaustive `switch`: `"Credit card ending in "` plus the last 4 digits, `"Bank transfer to "` plus the IBAN and `"Digital wallet via "` plus the provider.
+4. **Compute the fee (TODO-03).** Another exhaustive `switch`: `0.029` for the card, `0.0` for the transfer and `0.015` for the digital wallet.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what the compiler does if you add a fourth record to `permits` and forget to handle it in the `switch` expressions, and why that is better than a `default`.
+
+**Optional challenges**
+
+- **TODO-04:** implement `isFeeWaived()` with the same kind of exhaustive `switch`, returning `true` only for `BankTransfer`.
+
+**Prerequisites:** basic Java syntax, `switch` expressions and basic exception handling. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/records-and-sealed-types` and run `mvn test` (from the root: `mvn -pl java-concepts/records-and-sealed-types test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Java SE Language Documentation — Record Classes](https://docs.oracle.com/en/java/javase/25/language/records.html) — doc

@@ -199,6 +199,36 @@ greeting:
   (e.g. the SQL Cookbook's claim about PostgreSQL needing a `NULLS
   FIRST`/`LAST` workaround).
 
+## Lab
+
+In this lab you get a configuration `record` and a `@Configuration` class with no connection to Spring Boot at all. Your job is to make Boot fill the `record` from the environment and give it sensible defaults when configuration is missing. The core idea is **relaxed binding**: `app.max-retries` lands on `maxRetries` automatically, including nested objects and lists, without a single `@Value`.
+
+**The scenario**
+
+A small configuration with an application name, a retry count, allowed origins and a nested notification object.
+
+- `AppProperties`: the `record` with `name`, `maxRetries`, `allowedOrigins` (a list) and `notification`, which is a nested `record` `Notification(channel, enabled)`. The compact constructor is empty.
+- `AppConfig`: an empty `@Configuration`.
+- `AppPropertiesBindingTest`: uses `ApplicationContextRunner` with `AppConfig`. One test passes kebab-case properties and checks the values; another passes only `app.name` and `app.max-retries` and expects the defaults.
+
+**What you will do, step by step**
+
+1. **Declare the prefix (TODO-00).** Annotate `AppProperties` with `@ConfigurationProperties(prefix = "app")` so Boot knows where to read from.
+2. **Register the bean (TODO-01).** Annotate `AppConfig` with `@EnableConfigurationProperties(AppProperties.class)`. Without it, no `AppProperties` bean exists in the context.
+3. **Apply defaults (TODO-02).** In the compact constructor, when `allowedOrigins` is null use `List.of()`, and when `notification` is null use `new Notification("email", true)`. Remove the `throw` that is there. That way nobody using the object has to null-check.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why `app.max-retries`, `APP_MAX_RETRIES` and `app.maxRetries` produce the same result, and where the values `email` and `true` come from when the notification properties are not provided.
+
+**Optional challenges**
+
+- **TODO-03:** add the static factory `AppProperties.disabled(String name, int maxRetries)` that returns an instance with notifications turned off, handy in tests that do not care about the channel.
+
+**Prerequisites:** basic Spring Boot bean wiring (`@Configuration`, `@Bean`), Java records and key/value properties files.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-boot-configuration-properties` and run `mvn test`. The tests fail until the annotation, the registration and the constructor are in place.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 5, "Working with configuration properties", section 5.1, p. 114-122 — doc

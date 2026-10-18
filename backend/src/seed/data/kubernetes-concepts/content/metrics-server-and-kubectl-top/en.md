@@ -109,6 +109,37 @@ HPA percentages are relative to **requests**. A Deployment without CPU requests 
 - **Sizing from peaks vs averages.** Peaks protect against OOM kills and waste some capacity; averages pack more workloads and fail under load.
 - **Manual right-sizing vs VPA.** Manual review is transparent and periodic; VPA recommendations are continuous and need their own component.
 
+## Lab
+
+In this lab you receive a `worker` Deployment that keeps its CPU busy and a HorizontalPodAutoscaler (HPA) that should scale it, but the autoscaler shows `<unknown>`. Your job is to make the HPA able to compute utilization and to keep a `kubectl apply` from undoing its decisions. The core idea is to feel that the HPA measures CPU relative to the `request`, and that the manifest's `replicas` field fights the autoscaler on every deploy.
+
+**The scenario**
+
+A real Kubernetes cluster (k3s, started by Testcontainers) ships metrics-server, so `kubectl top` and CPU autoscaling work as in production.
+
+- `src/main/resources/k8s/worker.yaml`: the only file you edit. It has the `worker` Deployment (busybox in a CPU loop, `replicas: 1`) and the `worker` HPA, which targets 50% CPU utilization with 1 to 3 replicas.
+- `src/test/java/AutoscalingTest.java`: applies the manifest and checks, in order, that the HPA reads a utilization and `kubectl top pods` shows the worker, that the CPU limit is `200m`, and that the HPA scales to 3 replicas and still has 3 after another `kubectl apply` of the same file.
+
+metrics-server needs a minute or two to answer after the cluster starts, and the starter takes about six minutes to fail.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the HPA's conditions.** The failure message shows why it cannot compute a utilization.
+2. **Make the HPA compute utilization and set the limit (TODO-00).** In the `worker` container, declare resources: a CPU `request`, which the percentage utilization needs in order to exist, and a `limit` of `200m` so the worker cannot take more than 0.2 CPU.
+3. **Leave the replica count to the HPA (TODO-01).** With the autoscaler working, every `kubectl apply` of the file goes back to `replicas: 1`. Make the manifest stop declaring the count, so `apply` leaves it to the HPA.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/metrics-server-and-kubectl-top test` passes: the HPA has a CPU utilization, the limit is `200m`, the worker reaches 3 replicas and a new `apply` keeps 3. You should be able to explain why the HPA stays at `<unknown>` without a `request` and why the fixed `replicas` in the manifest undid the scaling.
+
+**Optional challenges**
+
+- **TODO-02:** while the test runs, compare `kubectl top pods` with the HPA's `TARGETS` column. With a `request` of `100m` and a `limit` of `200m`, why does the HPA report 200% and never more?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container and pull `busybox` inside it), the article "metrics-server and kubectl top" and patience: metrics-server needs a minute or two after the cluster starts.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/metrics-server-and-kubectl-top test`. The `TODO-00` and `TODO-01` comments in `worker.yaml` mark where to change things.
+
 ## Documentation Links
 
 - [Kubernetes docs: Resource metrics pipeline](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/): metrics-server and the Metrics API.

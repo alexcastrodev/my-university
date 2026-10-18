@@ -207,6 +207,41 @@ Inside a single module, `@ApplicationModuleTest` with `Scenario` does the transa
 - **Events are serialized and must stay readable.** Publications are stored as JSON and deserialized on resubmission, possibly after a deployment. Renaming or reshaping an event record breaks pending publications. Treat event types as a contract with versioning, as you would a message schema (see `data-encoding-formats-and-schema-evolution` in System Design).
 - **Async listeners lose the caller's context.** The listener runs on another thread: no request scope, no `SecurityContext` unless propagated, no guaranteed ordering between events. Put everything the listener needs into the event.
 
+## Lab
+
+In this lab you get two modules (`publishing` and `notification`) linked by an event, but with a fragile flow: the publishing service does not exist yet and the listener runs inside the publisher's transaction. Your job is to make the integration survive failures. The core idea is to feel that the publishing transaction must never depend on the notification side being up, and that a notification that failed stays recoverable, because Spring Modulith recorded it in the Event Publication Registry.
+
+**The scenario**
+
+`publishing` stores content and publishes `ContentPublished`. `notification` reacts by sending an e-mail through `MailGateway`, which the tests can switch off to simulate an outage.
+
+- `PublishingService`: the entry point, with `publish(String)` still to implement.
+- `NotificationListener`: today it uses `@EventListener`, meaning it runs synchronously inside the publishing transaction.
+- `MailGateway`: simulates an SMTP server. With `setDown(true)` sending throws `IllegalStateException`.
+- `NotificationRecovery`: what an ops endpoint or a `@Scheduled` job would call once the gateway is back.
+- `EventPublicationRegistryTest`: reads the `event_publication` table directly and uses Awaitility, because the correct listener is asynchronous.
+
+Note that `spring-modulith-starter-jdbc` is already on the classpath: every publication to a transactional listener is written to `EVENT_PUBLICATION` in the same transaction as the business data and later marked `COMPLETED` or `FAILED`. The test is also not `@Transactional`, because the registry only does its job on a real commit or rollback.
+
+**What you will do, step by step**
+
+1. **Publish in a single transaction (TODO-00).** In `PublishingService.publish(String)`, INSERT into `content` (with a `GeneratedKeyHolder` for the id), publish `ContentPublished(id, title)` and only then apply the late rule: if the title contains "spam", throw `IllegalArgumentException`. Since the registry row is born in the same transaction, a rejected title must leave neither content nor a publication.
+2. **Swap the listener (TODO-01).** In `NotificationListener`, replace `@EventListener` with Spring Modulith's default integration listener: asynchronous, after commit, in its own transaction and tracked by the registry. That way a mail outage does not break publishing and the failed delivery stays as `FAILED`.
+3. **Resend what failed (TODO-02).** In `NotificationRecovery.retryFailed()`, use `FailedEventPublications` with `ResubmissionOptions.defaults()` to resubmit every `FAILED` publication.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain the lifecycle of a row in `event_publication` (created at commit, `COMPLETED` if the listener finished, `FAILED` if it threw) and why a rollback leaves neither content nor a publication.
+
+**Optional challenges**
+
+- **TODO-03:** set `spring.modulith.events.completion-mode=delete` and adapt the tests: what does the table look like after a successful delivery? Try `archive` too.
+- **TODO-04:** switch the listener to a plain `@TransactionalEventListener`. The tests still pass, because the registry tracks any transactional listener. Log the thread name to see what Modulith's integration listener adds (async and a new transaction).
+
+**Prerequisites:** `@TransactionalEventListener` and transaction phases (the application events lab), Modulith modules and verification (the previous lab) and basic JDBC with `JdbcClient`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. At first `publish()` throws `UnsupportedOperationException` and so does `retryFailed()`, so the tests tagged with each TODO number in the `@DisplayName` stay red until you solve them.
+
 ## Documentation Links
 
 - [Spring Modulith Reference: Working with Application Events](https://docs.spring.io/spring-modulith/reference/events.html): `@ApplicationModuleListener`, the Event Publication Registry, lifecycle, resubmission, completion modes, externalization.

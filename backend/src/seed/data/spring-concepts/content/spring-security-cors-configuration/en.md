@@ -271,6 +271,39 @@ What changed and what did not:
 - **`allowCredentials(true)` is a trust decision, not a convenience flag.** It sends cookies and authorization headers to the configured origins, exposing session identifiers and CSRF tokens; the Spring documentation words it as establishing "a high level of trust with the configured domains". Enable it only for origins you actually control.
 - **Order matters more than configuration style.** Whichever style you pick, CORS must be handled ahead of Spring Security's authentication and authorization, because preflight `OPTIONS` requests carry no credentials. Configuring `@CrossOrigin` while leaving `http.cors(...)` off is the standard way to get preflights answered with `401`.
 
+## Lab
+
+In this lab you get an empty `SecurityConfig` (both methods throw `UnsupportedOperationException`) and a small API that is already built. Your job is to configure CORS centrally, with a `CorsConfigurationSource` wired into the `SecurityFilterChain`. The core idea is to feel that CORS is a browser-side relaxation, not a server-side restriction, and that once you configure it this way, a controller's `@CrossOrigin` is no longer consulted.
+
+**The scenario**
+
+An API that, from a browser, should only be called by a single trusted origin: `https://trusted.example.com`. Authorization is left fully open on purpose, because the subject is CORS.
+
+- `OrdersController`: `GET /orders` and `POST /orders` (JSON), with nothing about CORS in the code. The chain handles that, before the controller runs.
+- `PartnersController`: `GET /partners` annotated with `@CrossOrigin` for `https://legacy-partner.example.com`, an origin that is not in the global configuration. It exists to prove that the annotation is ignored.
+- `SecurityConfig`: the `UrlBasedCorsConfigurationSource` and the `SecurityFilterChain` you complete.
+- `SecurityConfigTest`: fires `OPTIONS` preflights and real requests with the `Origin` header, and checks the `Access-Control-Allow-*` headers.
+
+Note the two behaviors the tests make explicit: with CORS active, `CorsFilter` checks every request that carries `Origin` (a `GET` from a disallowed origin also gets 403), and a call with no `Origin`, like a curl or one server calling another, goes straight through.
+
+**What you will do, step by step**
+
+1. **Describe the policy (TODO-00).** In `corsConfigurationSource()`, build a `CorsConfiguration` with the origin `https://trusted.example.com`, the methods `GET` and `POST` and the headers `Content-Type` and `Authorization`, using `setAllowedOrigins`, `setAllowedMethods` and `setAllowedHeaders` with `List.of(...)`.
+2. **Register the policy (TODO-01).** Create a `UrlBasedCorsConfigurationSource`, call `registerCorsConfiguration("/**", config)` and return the source.
+3. **Wire it into the chain (TODO-02 and TODO-03).** In `securityFilterChain()`, use `http.cors(cors -> cors.configurationSource(corsConfigurationSource()))`, permit everything with `authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())`, disable CSRF with `csrf(AbstractHttpConfigurer::disable)` and return `http.build()`.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why the preflight from `https://legacy-partner.example.com` to `/partners` gets 403 despite the `@CrossOrigin`, and why CORS does not protect the server from a client that simply does not send `Origin`.
+
+**Optional challenges**
+
+- **TODO-04:** register a second, stricter `CorsConfiguration` for `/admin/**`: same trusted origin, but only the `GET` method, modelling a read-only surface for that origin. Register it before returning the source.
+
+**Prerequisites:** basic Spring Framework, `SecurityFilterChain`/`HttpSecurity` and `MockMvc`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. Before the TODOs the context does not start, because the methods throw `UnsupportedOperationException`, so every `SecurityConfigTest` test is red.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 10, "Applying CSRF protection and CORS", section 10.2, "Using cross-origin resource sharing", p. 235-243](https://www.manning.com/books/spring-security-in-action) — doc

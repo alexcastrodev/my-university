@@ -131,6 +131,42 @@ Iterator<Integer> it = d.descendingIterator(); // walks 3, 2, 1
   ```
 - **push()/pop() e os offer()/poll() herdados de Queue não concordam sobre qual ponta é "a frente"** — `push`/`pop` operam na cabeça (LIFO), enquanto `offer`/`poll` operam entra-na-cauda-sai-na-cabeça (FIFO); misturar os dois idiomas na mesma instância de `Deque` produz uma ordem de percurso que depende de qual par de métodos foi usado para construí-la, não só dos dados em si.
 
+## Lab
+
+Neste lab você recebe `CommandHistory`, um histórico de comandos limitado, apoiado em um `ArrayDeque<String>`, com os métodos vazios. Seu trabalho é implementá-lo. A ideia central é usar as duas famílias de métodos de `Deque` (as que lançam exceção e as que reportam por retorno) para construir uma estrutura que descarta o mais antigo em silêncio em vez de quebrar, e usar `descendingIterator()` para percorrer na ordem inversa.
+
+**O cenário**
+
+Um histórico de comandos com desfazer, como o de um editor ou terminal.
+
+- `CommandHistory(capacity)`: guarda os comandos em `commands`, com o limite de `capacity`. `size()` já está pronto.
+- `record(command)`: registra um comando como o mais recente.
+- `undoLast()`: desfaz e devolve o mais recente.
+- `peekMostRecent()`: espia o mais recente.
+- `mostRecentFirst()`: lista tudo, do mais novo ao mais antigo.
+- `oldestFirst()`: lista tudo na ordem natural (opcional).
+
+O comando novo entra no fim e o mais antigo fica no início. Descobrir qual ponta é qual faz parte do exercício.
+
+**O que você vai fazer, passo a passo**
+
+1. **Registrar com despejo (TODO-00).** Adicione o comando no fim com `addLast`. Se o tamanho passar de `capacity`, remova o mais antigo com `pollFirst`, que não lança exceção mesmo se a estrutura estiver vazia.
+2. **Desfazer com segurança (TODO-01).** Use `pollLast`, que devolve `null` num histórico vazio em vez de lançar exceção.
+3. **Espiar (TODO-02).** Use `peekLast`: olha, mas não remove.
+4. **Listar do mais novo ao mais antigo (TODO-03).** Percorra com `descendingIterator()` preenchendo uma `List`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `undoLast()` nunca lança exceção, e como a ordem inversa sai "de graça" do `descendingIterator()`, sem copiar nem inverter a lista à mão.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `oldestFirst()`, que devolve os comandos na ordem natural do deque. Há um teste marcado como bonus para ele.
+
+**Pré-requisitos:** sintaxe básica de Java, a interface `Queue` e iteradores. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/deque-interface` e rode `mvn test` (da raiz: `mvn -pl java-concepts/deque-interface test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` explicam cada passo, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Deque — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Deque.html) — doc

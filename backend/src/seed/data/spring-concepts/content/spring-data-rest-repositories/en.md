@@ -257,6 +257,40 @@ sequenceDiagram
   `spring-mvc-hateoas-hypermedia`'s `@Relation` discussion) a deliberate
   choice rather than a default for external-facing APIs.
 
+## Lab
+
+In this lab you get a `Photo` class that is not yet a JPA entity and a `PhotoRepository` that is just an empty `CrudRepository`. Your job is to map the entity and make two adjustments to the repository. The core idea is to feel that, without writing any `@RestController`, Spring Data REST already generates a full hypermedia API, and that you prove it by looking at the real HAL JSON returned, not only the HTTP status.
+
+**The scenario**
+
+A photo API exposed directly from a JPA repository.
+
+- `Photo`: the model with `id`, `caption` and `photographer`. Today it is a plain class.
+- `PhotoRepository`: `CrudRepository<Photo, Long>`, the source of every generated endpoint.
+- `PhotoRestLabApplication`: the Spring Boot application (`spring-boot-starter-data-rest` is already in the `pom.xml`).
+- `application.properties`: sets `spring.data.rest.return-body-on-create=true`, so `POST` returns the body.
+- `PhotoRestApiTest`: starts the application with `MockMvc` and asserts on `_links.self.href` and `_embedded.photos[...]`.
+
+Note that the automatic pluralizer in Spring Data REST turns `Photo` into `/photoes`, not `/photos`. The tests require the correct path and also check that `/photoes` returns 404.
+
+**What you will do, step by step**
+
+1. **Turn `Photo` into an entity (TODO-00).** Add `@Entity` and mark `id` with `@Id` and `@GeneratedValue(strategy = GenerationType.IDENTITY)`. Without it the repository has no managed type and the context does not even start.
+2. **Fix the collection path (TODO-01).** Annotate `PhotoRepository` with `@RepositoryRestResource(path = "photos", collectionResourceRel = "photos", itemResourceRel = "photos")`. The `path` changes the URL and the two `Rel` values change the name under `_embedded`.
+3. **Expose a search (TODO-02).** Add `List<Photo> findByPhotographerIgnoreCase(@Param("photographer") String photographer)`. With no controller and no `@Query`, the method shows up at `/photos/search/findByPhotographerIgnoreCase`. The `@Param` is needed because, without the `-parameters` flag, Spring Data cannot recover the parameter name.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain where the `_links.self` links and the `_embedded.photos` list came from without you writing any web code, and why the pluralization mistake shows up as a JSON that differs from what was expected.
+
+**Optional challenges**
+
+- **TODO-03:** override `deleteById` in `PhotoRepository` with `@RestResource(exported = false)`, so `DELETE /photos/{id}` answers `405 Method Not Allowed`. Exposure in Spring Data REST is opt-out: every inherited method is reachable over HTTP until you turn it off.
+
+**Prerequisites:** basic Spring Data JPA (`@Entity`, `@Id`, repository interfaces) and HAL basics (`_links`, `_embedded`).
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. At first the context fails to start because `Photo` has no `@Entity`, and afterwards each failing test points at the JSON that still does not match.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 6,

@@ -136,6 +136,40 @@ Erasure is also why two overloads that only differ by two different type paramet
   ```
 - **The diamond operator (`<>`) and `var` reduce verbosity but only work where the compiler can infer the type argument from context** — an assignment or constructor call, not a bare field declaration. Readability is otherwise unaffected: the erased runtime behavior is identical either way.
 
+## Lab
+
+In this lab you get the `NumberBox<T extends Number & Comparable<T>>` class with empty methods. Your job is to implement them. The core idea is to see how a bounded type gives you, at compile time, access to the methods the bound guarantees, and how the PECS rule (`? extends` for producers, `? super` for consumers) lets a static method accept the widest possible range of arguments.
+
+**The scenario**
+
+A box of numbers that sums and finds the maximum, plus a utility to copy between lists.
+
+- `NumberBox<T extends Number & Comparable<T>>`: stores the items in an internal `items` list. Because `T` is a `Number`, every item has `doubleValue()`; because it is `Comparable<T>`, items can be compared with each other.
+- `add`, `sum` and `max`: the box operations.
+- `copyAll(source, destination)`: a generic static method that copies from one list to another.
+- `isIn(x, values)`: a search over an array (optional).
+
+Look at the bounds of `copyAll`: `List<? extends T>` is only read (producer) and `List<? super T>` is only written (consumer).
+
+**What you will do, step by step**
+
+1. **Add (TODO-00).** Put the item in the internal list.
+2. **Sum (TODO-01).** Accumulate each item's `doubleValue()`. This only compiles because of the `Number` bound. An empty box sums to 0.
+3. **Find the maximum (TODO-02).** Compare with `compareTo()`, allowed by the `Comparable<T>` bound. If the box is empty, throw `new NoSuchElementException("box is empty")`.
+4. **Copy with PECS (TODO-03).** Copy each element from `source` to `destination`, in order. The tests copy from a narrower list into a wider one, including a `List<Object>`, which `List<T>` on both sides would not allow.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `sum()` would not compile with a plain `<T>`, and why swapping `? extends` for `? super` in `copyAll` would break compilation.
+
+**Optional challenges**
+
+- **TODO-04:** implement the generic method `isIn(T x, T[] values)`, which looks for a value equal to `x` using `compareTo()`.
+
+**Prerequisites:** basic generics syntax (`<T>`), `Comparable`/`compareTo()` and basic `List` usage. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/generics` and run `mvn test` (from the root: `mvn -pl java-concepts/generics test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Generics (The Java Tutorials) — Oracle](https://docs.oracle.com/javase/tutorial/java/generics/index.html) — doc

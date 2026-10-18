@@ -587,6 +587,41 @@ coisas se moveram ao redor disso:
   `httpBasic()`/`formLogin()` para o fluxo e use mock users em todo o
   resto.
 
+## Lab
+
+Neste lab você recebe um `SecurityConfig` e uma factory de `SecurityContext` vazios, junto com uma suíte de testes já escrita que vale a pena ler com atenção. O seu trabalho é implementar o que os testes exercitam. A ideia central é sentir o que `@WithMockUser`, `@WithUserDetails` e uma factory customizada de `@WithSecurityContext` fazem e o que não fazem: todas fabricam um `SecurityContext` direto, pulando a autenticação real, o que as torna rápidas e também capazes de esconder um bug que um login de verdade pegaria.
+
+**O cenário**
+
+Uma API de inventário com dois usuários de status de conta deliberadamente diferentes: `john`, um admin habilitado, e `mary`, cuja conta está **desabilitada**.
+
+- `InventoryController`: `GET /inventory/view` e `GET /inventory/admin`.
+- `SecurityConfig`: o user store em memória, o encoder e as regras de autorização que você implementa.
+- `WithCustomAdmin`: uma anotação de teste própria, que carrega um `username`.
+- `CustomAdminSecurityContextFactory`: a factory por trás da anotação. Fica em `src/test`, não em `src/main`, e também é um TODO seu.
+- `SecurityConfigTest`: usa `@ExtendWith(SpringExtension.class)` com `@ContextConfiguration`, e não o bootstrap manual dos outros labs, porque as anotações de teste de segurança só são aplicadas pelo `TestExecutionListener` do Spring.
+
+O ponto central está em dois testes que fazem a mesma requisição como `mary` e recebem respostas diferentes: com `@WithUserDetails("mary")` ela chega ao endpoint (200), com HTTP Basic real ela leva 401.
+
+**O que você vai fazer, passo a passo**
+
+1. **Fornecer encoder e usuários (TODO-00 e TODO-01).** Retorne um `BCryptPasswordEncoder` e um `InMemoryUserDetailsManager` com `john`/`john123` (`ROLE_ADMIN`) e `mary`/`mary123` (`ROLE_USER`, com `.disabled(true)`).
+2. **Escrever as regras de autorização (TODO-02).** Em `authorizeHttpRequests(...)`, exija `hasRole("ADMIN")` em `/inventory/admin` e `authenticated()` em `anyRequest()`.
+3. **Habilitar Basic e devolver a chain (TODO-03 e TODO-04).** Use `httpBasic(Customizer.withDefaults())`, desligue o CSRF e retorne `http.build()`.
+4. **Montar o contexto à mão (TODO-05).** Em `createSecurityContext(...)`, crie um contexto vazio com `SecurityContextHolder.createEmptyContext()`, construa um `UsernamePasswordAuthenticationToken.authenticated(withCustomAdmin.username(), null, List.of(new SimpleGrantedAuthority("ROLE_ADMIN")))`, coloque-o no contexto e devolva. Repare que isso nunca chama o `UserDetailsService`, então até um usuário inexistente como `carol` vira admin.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. O mais importante é entender por que cada teste passa ou falha: você consegue explicar por que um teste verde com `@WithUserDetails` não prova que uma conta desabilitada ou bloqueada não consegue logar, e que "está autorizado?" e "conseguiria se autenticar?" são perguntas diferentes.
+
+**Desafios opcionais**
+
+- **TODO-06:** adicione um terceiro usuário, `legacyuser`/`legacyuser123` (`ROLE_USER`), com `.credentialsExpired(true)`. A autenticação real o rejeita por um motivo diferente do de `mary`, mas as anotações de mock continuam pulando a checagem.
+
+**Pré-requisitos:** noções básicas de Spring Framework, `UserDetailsService`/`GrantedAuthority` (lab de authorities e roles) e `MockMvc`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Antes dos TODOs o contexto não sobe (os métodos lançam `UnsupportedOperationException`), então os testes ficam vermelhos e a lista deles é o seu checklist.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 20, "Spring Security testing", sections 20.1 "Using mock users for tests" (p. 493-500), 20.2 "Testing with users from a UserDetailsService" (p. 500-501), 20.3 "Using custom Authentication objects for testing" (p. 501-505), and 20.5 "Testing authentication" (p. 507-510) — doc

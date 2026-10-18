@@ -471,6 +471,32 @@ flowchart LR
   do que throughput, retry bloqueante na partição principal é a escolha
   correta — e mais lenta.
 
+## Lab
+
+Neste lab você recebe uma aplicação Spring Boot com um publisher e um listener de Kafka que ainda não fazem nada: `publish()` não envia e `handle()` nem está registrado como listener. O seu trabalho é ligar os dois. A ideia central é sentir na prática que a chave de envio quase nunca é opcional: o Kafka roteia por `hash(chave) % partições`, e é a chave que garante que os eventos do mesmo pedido caiam na mesma partição e sejam consumidos em ordem.
+
+**O cenário**
+
+Eventos de pedido (`OrderEvent` com `orderId` e `status`) publicados em um tópico e consumidos por um listener.
+
+- `OrderEventPublisher`: encapsula um `KafkaTemplate<String, OrderEvent>` e define o tópico `orders.topic`.
+- `OrderEventListener`: guarda o que recebe numa fila e expõe `poll(timeout, unit)` para o teste esperar a próxima mensagem. Cada item é um `ReceivedOrderEvent` com o evento e a partição de origem.
+- `OrderMessagingIntegrationTest`: usa `@EmbeddedKafka` com 3 partições, um broker real em processo, sem Docker e sem serviço externo.
+- `src/test/resources/application.properties`: já configura os (de)serializadores JSON e o `auto-offset-reset=earliest`, então você não mexe em configuração.
+
+**O que você vai fazer, passo a passo**
+
+1. **Publicar com chave (TODO-00).** Em `OrderEventPublisher.publish()`, chame `kafkaTemplate.send(TOPIC, event.orderId(), event)` e devolva o `CompletableFuture`. Usar o id do pedido como chave é o que garante a mesma partição e a ordem de envio para esse pedido.
+2. **Registrar o listener (TODO-01).** Em `OrderEventListener.handle()`, anote o método com `@KafkaListener(topics = OrderEventPublisher.TOPIC, groupId = "order-lab-consumer")` e adicione o parâmetro `@Header(KafkaHeaders.RECEIVED_PARTITION) int partition` ao lado do `OrderEvent`. Coloque `new ReceivedOrderEvent(event, partition)` na fila `received`. O `KafkaTemplate` não tem `receive()`, então o listener é a única forma de consumir.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o segundo teste falharia se a chave fosse omitida ou diferente em cada envio (os três eventos poderiam cair em partições distintas) e por que o primeiro teste confere o recebimento no listener, e não só que `send()` não lançou exceção.
+
+**Pré-requisitos:** injeção de dependência básica do Spring (`@Service`, `@Component`, injeção por construtor) e noções de Kafka: tópicos, partições, produtores e consumidores.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. O broker embarcado leva alguns segundos para subir, então esta suíte é mais lenta que as outras. No começo os dois testes falham, porque `publish()` e `handle()` lançam `UnsupportedOperationException`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 8,

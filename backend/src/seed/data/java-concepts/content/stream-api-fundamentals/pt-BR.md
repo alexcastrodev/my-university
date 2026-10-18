@@ -169,6 +169,42 @@ List<Integer> runningTotal = Stream.of(1, 2, 3, 4)
 - **O acumulador/combinador de um `reduce`/`collect` paralelo precisa ser associativo, ou o resultado se torna dependente da ordem e não confiável.** A falha clássica é reutilizar a mesma função para os dois papéis quando eles precisam ser diferentes — multiplicar as raízes quadradas de dois elementos não é a mesma operação que multiplicar dois produtos parciais já computados.
 - **`forEach()` não garante a ordem de encontro em uma stream paralela.** Código que depende de processar elementos na ordem da fonte precisa de `forEachOrdered()` em vez disso, o que reintroduz a coordenação que `forEach()` estava evitando.
 
+## Lab
+
+Neste lab você recebe `SalesReport`, com os métodos de relatório vazios, e o record `Sale` pronto. Seu trabalho é implementar cada relatório como um pipeline de stream. A ideia central é ganhar conforto com filter/map/reduce/collect, de modo que resumir uma coleção deixe de ser um `for` com variáveis acumuladoras e passe a ser uma descrição declarativa do resultado desejado.
+
+**O cenário**
+
+Perguntas sobre uma lista de vendas.
+
+- `Sale(product, amount)`: um produto e um valor.
+- `totalAmount(sales)`: soma de todos os valores.
+- `productNamesSorted(sales)`: nomes de produto distintos, em ordem alfabética.
+- `topSaleByAmount(sales)`: a venda de maior valor.
+- `totalsByProduct(sales)`: total por produto, em um `Map<String, Double>`.
+- `averageAmount(sales)`: média dos valores (opcional).
+
+Todos os métodos recebem uma `List<Sale>` e devem ser escritos como pipeline, não como loop.
+
+**O que você vai fazer, passo a passo**
+
+1. **Somar (TODO-00).** Use `mapToDouble` seguido de `sum()`. Numa lista vazia o total é zero, e há um teste para isso.
+2. **Nomes distintos e ordenados (TODO-01).** Extraia o produto de cada venda com `map`, elimine repetidos com `distinct()`, ordene com `sorted()` e colete em uma lista.
+3. **Maior venda (TODO-02).** Use `max` com `Comparator.comparingDouble(Sale::amount)`. O `max` devolve um `Optional`: transforme o caso vazio em `NoSuchElementException("no sales")`.
+4. **Agrupar e somar (TODO-03).** Use `Collectors.groupingBy` com `Collectors.summingDouble` para obter o total por produto.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir apontar, em cada método, qual passo é intermediário (`map`, `distinct`, `sorted`) e qual é terminal, e explicar por que nada executa até o terminal ser chamado.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `averageAmount()`, devolvendo a média dos valores, ou `0.0` se a lista estiver vazia. Compare como você expressa "sem vendas" aqui (um resultado vazio) com o que `topSaleByAmount()` faz para a mesma entrada (uma exceção).
+
+**Pré-requisitos:** sintaxe básica de Java, lambdas e method references. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/stream-api-fundamentals` e rode `mvn test` (da raiz: `mvn -pl java-concepts/stream-api-fundamentals test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [java.util.stream — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html) — doc

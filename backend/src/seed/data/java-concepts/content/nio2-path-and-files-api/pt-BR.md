@@ -149,6 +149,40 @@ for (Path p : ds) { /* IllegalStateException at iterator() */ }
 - **Suporte a links simbólicos depende do sistema de arquivos e do SO** — `Files.createSymbolicLink()` lança `UnsupportedOperationException` em sistemas de arquivos sem suporte a links, e no Windows normalmente exige privilégios elevados ou Developer Mode; código que cria links precisa de um caminho alternativo ou de um requisito documentado.
 - **`WatchService` é best-effort, não uma garantia em tempo real** — eventos podem ser coalescidos, chegar com latência dependente da plataforma, e transbordar em um único evento `OVERFLOW` se muitos se acumularem antes de você drená-los; é pouco confiável sobre sistemas de arquivos em rede e não substitui verificar o estado com `Files` depois que um evento dispara.
 
+## Lab
+
+Neste lab você recebe `FileVault`, um pequeno auxiliar de sistema de arquivos com os métodos vazios. Seu trabalho é implementá-los. A ideia central é fazer o dia a dia de E/S (ler, escrever, listar e copiar) com `Path` e `Files`, sem a cerimônia do velho `java.io.File`: o `Path` descreve onde algo está, e a classe utilitária `Files` faz o trabalho.
+
+**O cenário**
+
+Operações comuns sobre arquivos de texto e diretórios.
+
+- `writeText(file, content)`: grava texto, criando o arquivo se preciso.
+- `readText(file)`: lê o conteúdo inteiro.
+- `listFileNames(directory)`: nomes dos arquivos regulares direto dentro de um diretório.
+- `copy(source, target)`: copia um arquivo, sobrescrevendo o destino.
+- `deleteIfPresent(file)`: apaga se existir (opcional).
+
+Os testes usam `@TempDir` do JUnit, então cada teste trabalha numa pasta temporária própria e você não suja o disco.
+
+**O que você vai fazer, passo a passo**
+
+1. **Gravar e ler (TODO-00 e TODO-01).** Use `Files.writeString` e `Files.readString`. Os testes conferem o ciclo completo (o que foi gravado volta idêntico) e a leitura de um arquivo que já existia.
+2. **Listar nomes (TODO-02).** Use `Files.list(directory)`, que não entra em subdiretórios. Mantenha só arquivos regulares, converta cada `Path` para o nome do arquivo e ordene alfabeticamente. O `Stream<Path>` devolvido precisa ser fechado, então use try-with-resources nele.
+3. **Copiar sobrescrevendo (TODO-03).** Use `Files.copy` com `StandardCopyOption.REPLACE_EXISTING`. Sem essa opção, copiar sobre um destino existente lança `FileAlreadyExistsException`, e um teste cobre esse caso.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que o stream de `Files.list` precisa ser fechado e o que é um `Path` em comparação com o `Files` que opera sobre ele.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `deleteIfPresent()`, que apaga o arquivo se ele existir e não faz nada (sem exceção) se não existir.
+
+**Pré-requisitos:** sintaxe básica de Java e exceções checadas (`IOException`). O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/nio2-path-and-files-api` e rode `mvn test` (da raiz: `mvn -pl java-concepts/nio2-path-and-files-api test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Files — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html) — doc

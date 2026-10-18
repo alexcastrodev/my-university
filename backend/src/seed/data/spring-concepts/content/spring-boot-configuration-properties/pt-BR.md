@@ -209,6 +209,36 @@ greeting:
   pontos deste workflow (ex.: a afirmação do SQL Cookbook sobre o PostgreSQL
   precisar de um workaround `NULLS FIRST`/`LAST`).
 
+## Lab
+
+Neste lab você recebe um `record` de configuração e uma classe `@Configuration` sem nenhuma ligação com o Spring Boot. Seu trabalho é fazer o Boot preencher o `record` a partir do ambiente e dar defaults sensatos quando faltar configuração. A ideia central é o **relaxed binding**: `app.max-retries` cai em `maxRetries` automaticamente, incluindo objetos aninhados e listas, sem um único `@Value`.
+
+**O cenário**
+
+Uma configuração pequena com nome da aplicação, número de tentativas, origens permitidas e um objeto aninhado de notificação.
+
+- `AppProperties`: o `record` com `name`, `maxRetries`, `allowedOrigins` (lista) e `notification`, que é um `record` aninhado `Notification(channel, enabled)`. O construtor compacto está vazio.
+- `AppConfig`: uma `@Configuration` sem conteúdo.
+- `AppPropertiesBindingTest`: usa `ApplicationContextRunner` com `AppConfig`. Um teste passa propriedades em kebab-case e confere os valores; outro passa só `app.name` e `app.max-retries` e espera os defaults.
+
+**O que você vai fazer, passo a passo**
+
+1. **Declarar o prefixo (TODO-00).** Anote `AppProperties` com `@ConfigurationProperties(prefix = "app")` para o Boot saber de onde ler.
+2. **Registrar o bean (TODO-01).** Anote `AppConfig` com `@EnableConfigurationProperties(AppProperties.class)`. Sem isso, nenhum bean `AppProperties` existe no contexto.
+3. **Aplicar defaults (TODO-02).** No construtor compacto, quando `allowedOrigins` vier nulo use `List.of()`, e quando `notification` vier nulo use `new Notification("email", true)`. Remova o `throw` que está lá. Assim quem usa o objeto nunca precisa checar `null`.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar por que `app.max-retries`, `APP_MAX_RETRIES` e `app.maxRetries` produzem o mesmo resultado, e de onde vêm os valores `email` e `true` quando as propriedades de notificação não são informadas.
+
+**Desafios opcionais**
+
+- **TODO-03:** adicione a fábrica estática `AppProperties.disabled(String name, int maxRetries)` que devolve uma instância com notificações desligadas, útil em testes que não ligam para o canal.
+
+**Pré-requisitos:** wiring básico de beans no Spring Boot (`@Configuration`, `@Bean`), records em Java e arquivos de propriedades chave/valor.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-boot-configuration-properties` e rode `mvn test`. Os testes falham até a anotação, o registro e o construtor estarem prontos.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 5, "Working with configuration properties", section 5.1, p. 114-122 — doc

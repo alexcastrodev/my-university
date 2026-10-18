@@ -167,6 +167,42 @@ List<Integer> runningTotal = Stream.of(1, 2, 3, 4)
 - **A parallel `reduce`/`collect`'s accumulator and combiner must be associative, or the result becomes order-dependent and unreliable.** The classic failure is reusing the same function for both roles when they need to differ — multiplying two elements' square roots is not the same operation as multiplying two already-computed partial products.
 - **`forEach()` does not guarantee encounter order on a parallel stream.** Code that depends on processing elements in source order needs `forEachOrdered()` instead, which reintroduces the coordination `forEach()` was avoiding.
 
+## Lab
+
+In this lab you get `SalesReport`, with the report methods left empty, and the `Sale` record ready. Your job is to implement each report as a stream pipeline. The core idea is to gain comfort with filter/map/reduce/collect, so that summarizing a collection stops being a `for` loop with accumulator variables and becomes a declarative description of the result you want.
+
+**The scenario**
+
+Questions about a list of sales.
+
+- `Sale(product, amount)`: a product and an amount.
+- `totalAmount(sales)`: the sum of all amounts.
+- `productNamesSorted(sales)`: distinct product names, in alphabetical order.
+- `topSaleByAmount(sales)`: the sale with the highest amount.
+- `totalsByProduct(sales)`: the total per product, in a `Map<String, Double>`.
+- `averageAmount(sales)`: the average amount (optional).
+
+Every method receives a `List<Sale>` and must be written as a pipeline, not a loop.
+
+**What you will do, step by step**
+
+1. **Sum (TODO-00).** Use `mapToDouble` followed by `sum()`. On an empty list the total is zero, and a test covers that.
+2. **Distinct, sorted names (TODO-01).** Extract each sale's product with `map`, drop repeats with `distinct()`, order with `sorted()` and collect into a list.
+3. **Top sale (TODO-02).** Use `max` with `Comparator.comparingDouble(Sale::amount)`. `max` returns an `Optional`: turn the empty case into `NoSuchElementException("no sales")`.
+4. **Group and sum (TODO-03).** Use `Collectors.groupingBy` with `Collectors.summingDouble` to get the total per product.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to point out, in each method, which step is intermediate (`map`, `distinct`, `sorted`) and which is terminal, and explain why nothing runs until the terminal operation is called.
+
+**Optional challenges**
+
+- **TODO-04:** implement `averageAmount()`, returning the average amount, or `0.0` if the list is empty. Compare how you express "no sales" here (an empty result) with what `topSaleByAmount()` does for the same input (an exception).
+
+**Prerequisites:** basic Java syntax, lambdas and method references. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/stream-api-fundamentals` and run `mvn test` (from the root: `mvn -pl java-concepts/stream-api-fundamentals test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [java.util.stream — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/package-summary.html) — doc

@@ -269,6 +269,40 @@ sequenceDiagram
   `@Relation` em `spring-mvc-hateoas-hypermedia`) uma escolha deliberada, não
   um padrão, para APIs voltadas ao público externo.
 
+## Lab
+
+Neste lab você recebe uma classe `Photo` que ainda não é uma entidade JPA e um `PhotoRepository` que é só um `CrudRepository` vazio. O seu trabalho é mapear a entidade e dar dois ajustes ao repositório. A ideia central é sentir que, sem escrever nenhum `@RestController`, o Spring Data REST já gera uma API hipermídia completa, e que você prova isso olhando o JSON HAL real devolvido, não só o status HTTP.
+
+**O cenário**
+
+Uma API de fotos exposta diretamente a partir de um repositório JPA.
+
+- `Photo`: o modelo com `id`, `caption` e `photographer`. Hoje é uma classe comum.
+- `PhotoRepository`: `CrudRepository<Photo, Long>`, a fonte de todos os endpoints gerados.
+- `PhotoRestLabApplication`: a aplicação Spring Boot (o `spring-boot-starter-data-rest` já está no `pom.xml`).
+- `application.properties`: liga `spring.data.rest.return-body-on-create=true`, para o `POST` devolver o corpo.
+- `PhotoRestApiTest`: sobe a aplicação com `MockMvc` e afirma sobre `_links.self.href` e `_embedded.photos[...]`.
+
+Repare que o pluralizador automático do Spring Data REST transforma `Photo` em `/photoes`, e não em `/photos`. Os testes exigem o caminho correto e também verificam que `/photoes` dá 404.
+
+**O que você vai fazer, passo a passo**
+
+1. **Transformar `Photo` em entidade (TODO-00).** Adicione `@Entity` e marque `id` com `@Id` e `@GeneratedValue(strategy = GenerationType.IDENTITY)`. Sem isso o repositório não tem um tipo gerenciado e o contexto nem sobe.
+2. **Corrigir o caminho da coleção (TODO-01).** Anote `PhotoRepository` com `@RepositoryRestResource(path = "photos", collectionResourceRel = "photos", itemResourceRel = "photos")`. O `path` muda a URL e os dois `Rel` mudam o nome sob `_embedded`.
+3. **Expor uma busca (TODO-02).** Adicione `List<Photo> findByPhotographerIgnoreCase(@Param("photographer") String photographer)`. Sem controller e sem `@Query`, o método aparece em `/photos/search/findByPhotographerIgnoreCase`. O `@Param` é necessário porque, sem a flag `-parameters`, o Spring Data não recupera o nome do parâmetro.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar de onde vieram os links `_links.self` e a lista `_embedded.photos` sem que você tenha escrito código de web, e por que o erro de pluralização aparece como um JSON diferente do esperado.
+
+**Desafios opcionais**
+
+- **TODO-03:** sobrescreva `deleteById` em `PhotoRepository` com `@RestResource(exported = false)`, para que `DELETE /photos/{id}` responda `405 Method Not Allowed`. A exposição no Spring Data REST é opt-out: todo método herdado fica acessível por HTTP até você desligá-lo.
+
+**Pré-requisitos:** Spring Data JPA básico (`@Entity`, `@Id`, interfaces de repositório) e noções de HAL (`_links`, `_embedded`).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. No começo o contexto falha ao subir, por causa do `Photo` sem `@Entity`, e depois cada teste que falha aponta o JSON que ainda não bate.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 6,

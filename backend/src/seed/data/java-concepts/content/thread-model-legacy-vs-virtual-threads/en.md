@@ -74,6 +74,39 @@ t.suspend(); // compile error: cannot find symbol — removed in Java SE 23
 - **Cooperative shutdown adds a small amount of ceremony** — the task's own loop has to check a flag or handle `InterruptedException`, versus the (unsafe) one-liner `stop()`; there's no way to force-terminate a thread that isn't cooperating, by design.
 - **Pooling habits from the platform-thread era don't just disappear** — code that wraps virtual threads in a fixed-size `ExecutorService` (instead of `newVirtualThreadPerTaskExecutor()`) keeps the old scarcity mindset and throws away most of the scalability virtual threads offer, without being wrong in any way the compiler can flag.
 
+## Lab
+
+In this lab you get `TaskRunner`, which takes work as a `Supplier<String>` and runs it outside the calling thread, with empty methods. Your job is to implement them. The core idea is to see the mechanical difference between starting a platform thread and a virtual thread, and how to run many tasks at the same time on virtual threads without managing a thread pool by hand.
+
+**The scenario**
+
+Running tasks that return a `String` in three different ways.
+
+- `runOnPlatformThread(task)`: runs on a classic thread and returns the result.
+- `runOnVirtualThread(task)`: the same, on a virtual thread.
+- `runAllConcurrently(tasks)`: runs a list of tasks in parallel, one virtual thread per task, and returns the results in submission order.
+- `isVirtual(thread)`: reports whether a `Thread` is virtual (optional).
+
+The tests check which kind of thread the task really ran on and that it did not run on the caller's thread.
+
+**What you will do, step by step**
+
+1. **Platform thread (TODO-00).** Create a `new Thread(...)`, start it, wait with `join()` and return the value of `task.get()`. The result has to escape the `Runnable` somehow, for example with an array or an `AtomicReference<String>` declared outside the thread.
+2. **Virtual thread (TODO-01).** Same design, but start it with `Thread.ofVirtual().start(...)`, which returns the already started thread, and `join()` it.
+3. **Concurrency with order (TODO-02).** Open an `Executors.newVirtualThreadPerTaskExecutor()` in try-with-resources, submit each task as a `Callable` with `submit()`, keep the `Future`s in order and call `get()` on each one in that same order. That way the result follows the list order, not completion order.
+
+**How you know you are done**
+
+`mvn test` is all green, including the test that requires results in submission order. You should be able to explain why you did not need to size a thread pool and what the executor's `close()` does when the try-with-resources block exits.
+
+**Optional challenges**
+
+- **TODO-03:** implement `isVirtual()`, reporting whether the given `Thread` is a virtual thread.
+
+**Prerequisites:** basic Java syntax and `Runnable`/`Callable`. The project uses Java 21 and Maven, the version where virtual threads are a final feature.
+
+**How to run it:** clone the repository, go into `java-concepts/thread-model-legacy-vs-virtual-threads` and run `mvn test` (from the root: `mvn -pl java-concepts/thread-model-legacy-vs-virtual-threads test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Virtual Threads (Java SE developer guide)](https://docs.oracle.com/en/java/javase/25/core/virtual-threads.html) — doc

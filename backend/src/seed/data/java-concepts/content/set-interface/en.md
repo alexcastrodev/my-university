@@ -146,6 +146,40 @@ nums.tailSet(5, false);         // elements > 5, excluding 5 itself
   ```
 - **Ordering assumes every element is mutually comparable, and nothing checks that up front** — a `TreeSet` accepts any `Object` at compile time (or via a `Comparator<? super E>`), so inserting an element that can't actually be compared to the others doesn't fail until an ordering operation forces the comparison, surfacing as a `ClassCastException` from `compareTo()` rather than from `Set` itself.
 
+## Lab
+
+In this lab you get `PriceBook`, which stores prices (in cents) in a `NavigableSet<Integer>` (a `TreeSet`), with the lookup methods left empty. Your job is to implement them. The core idea is to use the "closest match" methods of `NavigableSet` and to see how `Set.of()` treats duplicates differently from `Set.add()`: instead of ignoring them, it rejects them.
+
+**The scenario**
+
+A sorted price table where you look for the price closest to a value.
+
+- `PriceBook`: holds the prices in `prices`, with `addPrice(int)` already done.
+- `cheapestAtLeast(cents)`: the smallest price greater than or equal to `cents`.
+- `mostExpensiveAtMost(cents)`: the largest price less than or equal to `cents`.
+- `nextPriceAbove(cents)`: the smallest price strictly greater than `cents`.
+- `uniquePrices(Integer...)`: builds an immutable `Set` from the given prices.
+
+The first three return `null` when no price meets the criterion, and the tests cover that case.
+
+**What you will do, step by step**
+
+1. **Ceiling and floor (TODO-00 and TODO-01).** Use `ceiling` for "smallest that is greater or equal" and `floor` for "largest that is less or equal". Both include the value itself if it exists.
+2. **Next above (TODO-02).** Use `higher`, which is strict: it does not return the value itself. Compare it with `ceiling` to fix the difference in your head.
+3. **Immutable set (TODO-03).** Build the `Set` with `Set.of(...)`, the factory that throws on repeated elements. One test expects duplicates to be rejected and another expects an unmodifiable set.
+
+**How you know you are done**
+
+`mvn test` is all green. For a set like `{100, 250, 400}`, you should be able to say what `ceiling(250)`, `higher(250)` and `floor(99)` return, and why `Set.of(1, 1)` fails while calling `add(1)` twice on a `TreeSet` does not.
+
+**Optional challenges**
+
+- **TODO-04:** implement `discountRange()`, returning a `NavigableSet` view of the prices in `[minCentsInclusive, maxCentsExclusive)` with `subSet` and explicit inclusive/exclusive bounds.
+
+**Prerequisites:** basic Java syntax and `Set`/`TreeSet`. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/set-interface` and run `mvn test` (from the root: `mvn -pl java-concepts/set-interface test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each one, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Set — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html) — doc

@@ -101,6 +101,41 @@ Both recompile the regex internally on every call — fine for a one-off check, 
 - **Greedy quantifiers can silently grab more than intended when a wildcard spans across characters you didn't expect to be included** — `"e.+d"` matching all the way from the first `e` to the *last* `d` in the string is correct-by-specification, not a bug, but it surprises people expecting the shortest match.
 - **`group(n)` and `start()`/`end()` throw `IllegalStateException` if called before a successful match** — always check the boolean return of `matches()`/`find()`/`lookingAt()` before calling any method that reads the match result.
 
+## Lab
+
+In this lab you get `LogLineParser` with the `Pattern` constants already declared and the methods left empty. Your job is to use them. The core idea is to feel the difference between `matches()` (the whole input must fit) and `find()` (looks for a subsequence and can be called in a loop to find every occurrence), to see named groups making extraction readable and to understand why a reluctant quantifier (`.*?`) makes the pattern stop at the first delimiter.
+
+**The scenario**
+
+Log lines in the format `yyyy-MM-dd LEVEL message`.
+
+- `LOG_LINE`: a pattern with the named groups `date`, `level` and `message`.
+- `QUOTED`: the pattern `"(.*?)"`, already reluctant, for quoted text.
+- `LogEntry(date, level, message)`: a record representing a parsed line.
+- `parse(line)`: reads one line and returns an `Optional<LogEntry>`.
+- `findAllErrorMessages(log)`: scans a multi-line log and returns the messages at `ERROR` level.
+- `extractFirstQuoted(text)`: returns the first quoted substring.
+
+You do not need to write any regex: the focus is how to use `Matcher` with the ready-made patterns.
+
+**What you will do, step by step**
+
+1. **Parse one line (TODO-00).** Use `LOG_LINE.matcher(line)` and `matches()`. If it matches, build a `LogEntry` from `group("date")`, `group("level")` and `group("message")`. If not, return `Optional.empty()`. The tests include a line with no level and one with text before the date, which `matches()` must reject.
+2. **Find every ERROR (TODO-01).** Use `LOG_LINE.matcher(log)` and `find()` in a loop, collecting the message of the occurrences whose level is `ERROR`.
+3. **Extract the first quoted substring (TODO-02).** Use `QUOTED` with `find()` and return `group(1)`, or `""` if there are no quotes. With several quoted parts in the text, only the first one must come back.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what `extractFirstQuoted` would return if `QUOTED` were `"(.*)"` (greedy) and why `matches()` rejects a line that `find()` would accept.
+
+**Optional challenges**
+
+- **TODO-03:** implement `maskDigits()`, replacing every digit in the text with `#` using `String.replaceAll()`.
+
+**Prerequisites:** basic Java syntax and basic regex syntax (character classes and quantifiers). The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/regular-expressions` and run `mvn test` (from the root: `mvn -pl java-concepts/regular-expressions test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain each step, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Pattern — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/regex/Pattern.html) — doc
