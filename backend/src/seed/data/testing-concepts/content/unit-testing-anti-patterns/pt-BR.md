@@ -268,6 +268,37 @@ Clock systemClock() {
 - **Mockar uma classe concreta para preservar parte dela costuma significar que a classe tem duas responsabilidades**: separar o I/O (uma interface de gateway) da lógica de domínio (uma calculadora simples) remove a necessidade de stubar parcialmente uma classe concreta, e cada metade se torna independente e totalmente testável.
 - **Injete o tempo, não o chame**: `Clock.fixed(...)` em testes e `Clock.systemDefaultZone()` em produção dão exatamente a mesma costura que abstrações no estilo `DateTimeProvider` resolvem em outras linguagens, sem adicionar estado ambiente/estático compartilhado entre testes.
 
+## Lab
+
+Neste lab você recebe `Membership`, `TaxCalculator` e `Receipt` **prontos e funcionando**. Não há código de produção para escrever: o seu trabalho é escrever testes que evitam, de propósito, três anti-padrões do artigo: testar estado privado, vazar conhecimento de domínio para o valor esperado do teste e depender direto do relógio do sistema. A ideia central é sentir que o jeito "óbvio" de escrever cada um desses testes é justamente o errado, e que o código de produção já foi desenhado para permitir o jeito certo.
+
+**O cenário**
+
+Três classes pequenas, cada uma ilustrando um dos anti-padrões.
+
+- `Membership`: começa `STANDARD`. `upgrade()` muda para `PREMIUM`, e `discountRate()` devolve 0 ou 0.15 conforme o nível. O campo `level` é privado e SEM getter, de propósito. `renew(Clock)` grava `renewedAt` usando o relógio recebido por parâmetro (nada de `Clock.systemDefaultZone()` por dentro), e `getRenewedAt()` o devolve.
+- `TaxCalculator`: cálculo puro, sem I/O, com taxa de 8% e arredondamento para 2 casas.
+- `Receipt`: formata subtotal, imposto e total numa string, usando um `TaxCalculator`.
+- `AntiPatternsTest`: três grupos `@Nested`, um por anti-padrão, cada um com um comentário explicando a armadilha.
+
+**O que você vai fazer, passo a passo**
+
+1. **Sem testar estado privado (TODO-00).** Em `WhenTestingUpgrade`, crie um `new Membership()` e confira `discountRate()` igual a `BigDecimal.ZERO`. Chame `upgrade()` e confira `discountRate()` igual a `new BigDecimal("0.15")`. Não adicione nem use getter para `level`: assertar pelo que um chamador de verdade observa mantém o teste vivo mesmo que a representação interna mude.
+2. **Sem vazar conhecimento de domínio (TODO-01).** Em `WhenComputingTax`, adicione um `@CsvSource` com linhas `subtotal, expectedTax` calculadas à mão, cobrindo no mínimo 10.00, 25.50, 100.00 e 0.00. Nunca derive o esperado com `subtotal.multiply(RATE)` dentro do teste: isso copiaria a fórmula do `TaxCalculator` (e o bug dela, se houver) e o teste jamais o pegaria.
+3. **Sem depender do relógio (TODO-02).** Em `WhenRenewing`, monte `Clock.fixed(Instant.parse("2020-01-01T00:00:00Z"), ZoneOffset.UTC)`, chame `membership.renew(fixedClock)` e confira que `getRenewedAt()` é exatamente esse `Instant`. Comparar com `Instant.now()` deixaria o teste não determinístico.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que cada um dos três testes seria mais fácil de escrever do jeito errado, e o que no código de produção (o getter ausente, a taxa isolada, o `Clock` por parâmetro) tornou o jeito certo possível.
+
+**Desafios opcionais**
+
+- **TODO-03:** teste `Receipt.summarize()` com um `TaxCalculator` real (sem mock, porque ele não tem I/O e dublá-lo só adicionaria indireção) e com a string esperada escrita à mão: `"Subtotal: 50.00, Tax: 4.00, Total: 54.00"`.
+
+**Pré-requisitos:** fundamentos de JUnit 5 (`@Test`, `@Nested`, `@ParameterizedTest`) e ler `Membership`, `TaxCalculator` e `Receipt` em `src/main/java`, reparando quais campos têm getter e quais não.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/unit-testing-anti-patterns` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/unit-testing-anti-patterns test`). Os métodos de teste começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, "Unit Testing Principles, Practices, and Patterns" (Manning, 2020), Capítulo 11 "Unit testing anti-patterns", pp. 259-273

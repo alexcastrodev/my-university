@@ -147,6 +147,38 @@ An `Opaque` Secret can be consumed with `envFrom`/`secretKeyRef` exactly like a 
 - **One big ConfigMap vs several.** One per concern (app, tenant, feature flags) keeps ownership clear; each extra source adds another silent last-wins collision risk.
 - **Restart on change vs hot reload.** Restarting is predictable and works for every app; hot reload of mounted files avoids restarts but needs code that re-reads configuration safely.
 
+## Lab
+
+In this lab you get an `app` Pod that consumes a ConfigMap and a Secret as environment variables and is stuck in `CreateContainerConfigError`. Your job is to get it running, one error at a time, and find out where a variable nobody declared comes from. The core idea is that the kubelet reports only the first problem it finds (so every fix reveals the next failure) and that Kubernetes injects environment variables on its own.
+
+**The scenario**
+
+The test creates, in the `example` namespace, the ConfigMap `app-config` (`APP_MODE=production` and `LOG_LEVEL=info`, shared by every app, so do not change it), the `db-credentials` Secret and a `redis` Service (port 6379). It then applies your `app.yaml`. The app refuses to start if `REDIS_PORT` is set to something that is not a number.
+
+- `src/main/resources/k8s/app.yaml`: your file. It uses `envFrom` with two ConfigMaps (`app-config` and `feature-flags`) and an `env` entry with `DB_PASSWORD` coming from a Secret.
+
+The cluster is removed at the end of each run, so the clues are in the failure messages, which include the Pod's state and message.
+
+**What you will do, step by step**
+
+1. **Run it and fix one error at a time.** All five tests fail at first. Run again after each change.
+2. **Make `feature-flags` optional (TODO-00).** That ConfigMap only exists in some environments. Here it does not exist and that must not stop the Pod from starting. See what the reference field allows.
+3. **Fix the Secret key (TODO-01).** `DB_PASSWORD` points to a key the Secret does not have. List the keys with `kubectl -n example describe secret db-credentials` and reference the right one.
+4. **Find where `REDIS_PORT` comes from (TODO-02).** The Pod starts and crashes with "REDIS_PORT is not a number", and nobody in the file sets that variable. Look at `kubectl -n example get svc`: Kubernetes injects Docker-link-style environment variables for existing Services. Turn that off without renaming anything; the app finds redis through DNS anyway.
+5. **Override for this Pod only (TODO-03).** `app-config` sets `LOG_LEVEL=info` for everyone. Make this Pod run with `LOG_LEVEL=debug` without changing the ConfigMap. Think about the precedence between `env` and `envFrom`.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/configmaps-and-environment-variables test` passes completely: the Pod is up with no restarts, `DB_PASSWORD` is `s3cret`, `APP_MODE` is `production`, `LOG_LEVEL` is `debug` while the ConfigMap still says `info`, and `REDIS_SERVICE_HOST` is empty. You should be able to explain why one error hid the next and how a Service can break an app that never mentioned it.
+
+**Optional challenges**
+
+- **TODO-04:** add `prefix: FF_` to the `feature-flags` source and create the ConfigMap with one key. Which variable name does the container get? What happens if two `envFrom` sources define the same key?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "ConfigMaps and Environment Variables", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/configmaps-and-environment-variables test`. The first run pulls the k3s image (about 250 MB). A broken starter takes about two minutes, and once fixed it takes around 30 seconds. You only edit `app.yaml`.
+
 ## Documentation Links
 
 - [Kubernetes docs: ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/): creation, consumption, immutable ConfigMaps.

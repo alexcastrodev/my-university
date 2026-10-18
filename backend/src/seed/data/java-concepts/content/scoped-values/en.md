@@ -167,6 +167,36 @@ The companion `visibility-and-safe-publication` concept covers what it takes to 
 
 - **Interop with frameworks and thread pools you don't control.** A task handed to an executor you did not create runs on a thread outside your extent, so the binding does not follow it; the value has to be captured explicitly and rebound inside the task if it needs to cross that boundary.
 
+## Lab
+
+In this lab you get `RequestContext`, a class that carries the current user (and a locale) through a call chain without threading a parameter through every method, using `ScopedValue` instead of `ThreadLocal`. Your job is to fill in the reads and the bindings. The core idea is to feel that a `ScopedValue` has no `set()`: you only read it, or bind a value for the duration of a piece of code.
+
+**The scenario**
+
+Each request has its own user, and code deep in the stack needs to see it without anyone passing it along.
+
+- `RequestContext`: two private `ScopedValue<String>`s (`CURRENT_USER` and `CURRENT_LOCALE`) behind static methods. `currentLocale()` is already written and returns `"en-US"` when nothing is bound.
+- `RequestContextTest`: besides the basic cases, it has tests for nesting, for two concurrent threads and for a child thread created by hand.
+
+**What you will do, step by step**
+
+1. **Read the bound value (TODO-00 to TODO-02).** `currentUser()` uses `get()` and lets the `NoSuchElementException` bubble up unhandled when nothing is bound. `hasCurrentUser()` uses `isBound()`. `currentUserOrDefault(fallback)` uses `orElse(...)`.
+2. **Bind during an action (TODO-03 and TODO-04).** For the version that returns a result, use `ScopedValue.where(CURRENT_USER, user).call(...)` and return whatever the action returns. For the `Runnable` version, use `where(...).run(...)`. The binding must not be visible before the call nor after it returns.
+
+Once everything is green, reread two tests carefully. `nestedRunAsShadowsThenRestores` shows that a new binding only shadows the previous one within its extent and does not leak upward. `plainChildThreadDoesNotInheritBinding` shows that a thread you start yourself is outside the extent: only a `StructuredTaskScope` subtask sees the parent's binding automatically.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `ScopedValue` is immutable and limited to an extent, and why that avoids the leaks and implicit inheritance that `ThreadLocal` has.
+
+**Optional challenges**
+
+- **TODO-05:** implement `runAs(user, locale, action)` binding `CURRENT_USER` and `CURRENT_LOCALE` together, by chaining a second `.where(...)` onto the `Carrier` returned by the first and then calling `.run(action)`.
+
+**Prerequisites:** `ThreadLocal`, lambdas and `Runnable`, and JDK 25.
+
+**How to run it:** clone the repository, go into `java-concepts/scoped-values` and run `mvn test` (or, from the root, `mvn -pl java-concepts/scoped-values test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [JEP 506 — Scoped Values](https://openjdk.org/jeps/506) — doc

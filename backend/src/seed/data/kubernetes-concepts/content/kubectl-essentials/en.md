@@ -119,6 +119,39 @@ kubectl explain pod.spec.containers.resources --recursive
 - **`--dry-run=client` vs `server`.** Client is offline and instant; server needs cluster access but reports what the cluster would actually accept.
 - **`-o yaml` for debugging vs for authoring.** Great for seeing effective state and defaults; noisy and non-portable as a source file.
 
+## Lab
+
+In this lab you get an `ops.sh` with three everyday `kubectl` tasks in the `shop` namespace, each written the naive way that causes a classic accident. Your job is to fix the script. The core idea is that `kubectl` does exactly what you ask, in the current namespace, to every object that matches, and that table output is made for humans, not for parsing.
+
+**The scenario**
+
+The `shop` namespace already has a `cache` Deployment, a bare `web-stable` Pod and two canary Pods labelled `track=canary`. The test runs your script on the node of a real cluster (k3s via Testcontainers), with `kubectl` configured as cluster admin.
+
+- `src/main/resources/ops.sh`: your file, with three commands and one TODO for each.
+- `src/main/resources/k8s/api.yaml`: an `api` Deployment (`busybox:1.37`) with no namespace in the manifest. You may edit it if you want.
+- `src/test/resources/k8s/shop.yaml`: given, with the `cache` (image `busybox:1.36`), `web-stable` and the two canaries.
+
+Note that `web-stable` is a bare Pod: if it is deleted by mistake, nothing brings it back.
+
+**What you will do, step by step**
+
+1. **Run it and read the failures.** Each task goes wrong in its own way, so run before editing.
+2. **Deploy into the right namespace (TODO-00).** The `kubectl apply` of `api.yaml` lands in the namespace of the current context, which is `default`. Make `api` go to `shop` and nothing to `default`, by naming the namespace in the command (or in the manifest).
+3. **Delete only the canaries (TODO-01).** `delete pods --all` takes `web-stable` with it. Use a label selector to remove only the `track=canary` Pods.
+4. **Build the report from fields (TODO-02).** Today the script runs `awk` over the `-o wide` table, which changes with the version and the column widths. Print one line per Deployment, as `<name> <image>`, sorted by name and nothing else, reading the object's fields with `-o jsonpath` or `-o custom-columns`. Remember that the lines printed by `kubectl apply` must not pollute the report.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kubectl-essentials test` passes completely: `api` is in `shop` and nothing was deployed into `default`, the canary Pods are gone and `web-stable` still has the same UID, and the script prints exactly `api busybox:1.37` and `cache busybox:1.36`. You should be able to explain what each of the three accidents would have caused in production.
+
+**Optional challenges**
+
+- **TODO-03:** before deleting, run the same command with `--dry-run=client`. What does it print, and why is that a good habit for any delete with a selector?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "kubectl Essentials", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/kubectl-essentials test`. You edit `ops.sh` (and may edit `api.yaml`); the TODO comments mark each task.
+
 ## Documentation Links
 
 - [kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/): the canonical cheat sheet.

@@ -171,6 +171,38 @@ and its outcome checked afterward with `isCompletedNormally()` (finished, no exc
 - **A `ForkJoinTask` should avoid blocking I/O and outside synchronization.** `compute()` methods that use `synchronized` blocks, wait on I/O, or otherwise block hold up a worker thread that the pool expects to stay busy computing, which defeats the pool's efficiency assumptions.
 - **Parallel streams run on the shared common pool — contention is shared too.** Because `parallelStream()` submits to `ForkJoinPool.commonPool()` by default, a long-blocking or I/O-heavy task placed inside a parallel stream pipeline can starve *other, unrelated* code elsewhere in the same JVM that also relies on the common pool for its own parallel work.
 
+## Lab
+
+In this lab you complete two divide-and-conquer tasks, `ParallelSum` (a `RecursiveTask`) and `ParallelSquare` (a `RecursiveAction`), and prove they are genuinely parallel, not just an array walk written recursively. The central trap: calling `compute()` directly on both halves, instead of `fork()`/`join()` or `invokeAll()`, returns the right answer but runs everything on a single thread.
+
+**The scenario**
+
+Both algorithms split the range in half until it is small (`SEQUENTIAL_THRESHOLD = 500`) and then compute the piece directly.
+
+- `ParallelSum.java`: sums a range of a `long[]` and returns a `Long`. It also takes a `Set<String> threadNamesUsed`, instrumentation that records the thread of each leaf.
+- `ParallelSquare.java`: squares every element of the range in place, with no result to combine.
+
+The test `computeSumsLargeArrayAcrossMultipleThreads` uses that instrumentation to require that more than one thread ran leaves. A serial-in-disguise version passes on the sum and fails there.
+
+**What you will do, step by step**
+
+1. **Sum base case (TODO-00).** In `ParallelSum`, record `Thread.currentThread().getName()` into `threadNamesUsed` and sum sequentially from `data[start]` to `data[end - 1]`, returning the total.
+2. **Sum recursive case (TODO-01).** `fork()` one of the halves, compute or fork the other, `join()` each and add the two results. This is what allows concurrent execution.
+3. **Square base case (TODO-02).** In `ParallelSquare`, square in place every element from `data[start]` to `data[end - 1]`.
+4. **Square recursive case (TODO-03).** Run `left` and `right` concurrently and wait for both to finish. Since there is no result to combine, `ForkJoinTask.invokeAll(left, right)` fits better than a separate `fork()`/`join()` pair.
+
+**How you know you are done**
+
+`mvn test` is all green, including the test that requires more than one thread. You should be able to explain why the sum would be right even with `compute()` called directly on the halves and why the parallelism test would still fail.
+
+**Optional challenges**
+
+- **TODO-04:** implement `ParallelSum.sumOnCommonPool(long[] data)`, summing the whole array without ever constructing a `ForkJoinPool`. Build a `ParallelSum` covering everything, with a throwaway set for `threadNamesUsed` (for example `ConcurrentHashMap.newKeySet()`), and return `task.invoke()`. Triggering the task outside any pool routes it to `ForkJoinPool.commonPool()`.
+
+**Prerequisites:** recursion and basic `java.util.concurrent` (a `Thread`/`ExecutorService` mental model helps, but is not required).
+
+**How to run it:** clone the repository, go into `java-concepts/fork-join-framework` and run `mvn test` (or, from the root, `mvn -pl java-concepts/fork-join-framework test`). The pending spots throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [ForkJoinPool — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ForkJoinPool.html) — doc

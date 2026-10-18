@@ -206,6 +206,37 @@ socket.close();     // this is what actually unblocks it
 ```
 - **`cancel(true)` só garante entrega, não conformidade** — ele diz a você que a interrupção foi entregue com sucesso à thread em execução, não que a task percebeu e de fato parou; uma task que ignora seu próprio interrupt status continua rodando não importa quantas vezes `cancel()` seja chamado.
 
+## Lab
+
+Neste lab você recebe `CancellablePoller`, um `Runnable` que simula uma sondagem periódica, com o laço e os auxiliares de cancelamento por implementar. Seu trabalho é fazer a tarefa parar de forma cooperativa quando for interrompida. A ideia central é tratar `InterruptedException` do jeito certo: nunca engolir a interrupção, ou propagando, ou restaurando o status de interrupção da thread.
+
+**O cenário**
+
+A interrupção em Java é um pedido educado, não uma ordem: a tarefa precisa perceber o pedido e parar sozinha.
+
+- `CancellablePoller`: implementa `run()` com `pollCount` (um `AtomicInteger`) e a constante `POLL_INTERVAL_MILLIS` de 20 ms. Tem os auxiliares estáticos `awaitTermination` e `interruptAndAwaitTermination`, e os métodos `takeOrPropagate` e `takeQuietly` sobre uma `BlockingQueue<String>`.
+- `CancellablePollerTest`: inicia uma thread, interrompe e confere que ela termina logo, além de casos com thread que ignora a interrupção e fila vazia.
+
+Este lab não tem README: tudo o que está aqui vem do código e dos testes.
+
+**O que você vai fazer, passo a passo**
+
+1. **Escrever o laço cancelável (TODO-00).** Em `run()`, repita enquanto `Thread.currentThread().isInterrupted()` for falso: durma `POLL_INTERVAL_MILLIS` com `Thread.sleep` e incremente `pollCount`. Se o `sleep` lançar `InterruptedException`, restaure o status com `Thread.currentThread().interrupt()` e saia do laço, em vez de continuar sondando.
+2. **Esperar o término (TODO-01 e TODO-02).** `awaitTermination` usa `Thread.join(long)` e devolve se a thread realmente terminou no prazo. `interruptAndAwaitTermination` interrompe a thread e espera do mesmo jeito. O teste com uma thread que ignora a interrupção deve devolver `false`.
+3. **Propagar a interrupção (TODO-03).** `takeOrPropagate` chama `take()` da fila e deixa a `InterruptedException` subir sem tratar.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que o `catch` que apenas registra e segue em frente é um bug, e por que restaurar o status é necessário depois que a exceção já limpou a flag.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `takeQuietly`, que pega o próximo item da fila e, se for interrompido enquanto espera, restaura o status de interrupção e devolve `null` em vez de lançar.
+
+**Pré-requisitos:** threads em Java, `Thread.sleep`, `join` e `BlockingQueue`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/task-cancellation-and-interruption` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/task-cancellation-and-interruption test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Thread.interrupt() — java.lang.Thread API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#interrupt()) — doc

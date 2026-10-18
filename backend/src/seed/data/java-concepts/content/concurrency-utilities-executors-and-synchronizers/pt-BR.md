@@ -405,6 +405,38 @@ vira um gargalo.
                               // atomic together.
   ```
 
+## Lab
+
+Neste lab você recebe a classe `WorkCoordinator`, que reúne quatro primitivas de sincronização de `java.util.concurrent` atrás de uma única classe, cada método exercitando exatamente uma delas. A ideia central é usar cada sincronizador para aquilo em que ele é bom: um portão de largada que abre uma vez, um ponto de encontro reutilizável por rodada, uma catraca que limita acesso a um recurso e um lock reentrante. Escolher a primitiva errada, ou esquecer de liberar o que adquiriu, não quebra a compilação: faz um teste falhar ou travar.
+
+**O cenário**
+
+Várias threads participantes precisam largar juntas, se encontrar a cada rodada, disputar um número limitado de permissões e incrementar um contador compartilhado.
+
+- `WorkCoordinator.java`: o construtor recebe `participantCount` e `permits` e cria um `CountDownLatch` (portão de largada), um `CyclicBarrier` (encontro por rodada), um `Semaphore` (permissões), um `ReentrantLock` e um `AtomicInteger` (contador).
+
+Note a diferença de vida útil: o portão do `CountDownLatch` nunca pode ser reaberto nem reiniciado, enquanto o `CyclicBarrier` se reinicia sozinho e serve para a próxima rodada.
+
+**O que você vai fazer, passo a passo**
+
+1. **Sinalizar a chegada (TODO-00).** Em `arriveAtStartupGate()`, chame `countDown()` no latch. O portão só abre depois que todos os participantes chamarem isso uma vez.
+2. **Esperar o portão (TODO-01).** Em `awaitStartupGate()`, bloqueie com `await()` até a contagem chegar a zero.
+3. **Encontro por rodada (TODO-02).** Em `awaitRoundBarrier()`, chame `await()` na barreira: ela bloqueia até `participantCount` threads chegarem e libera todas juntas. A mesma instância será usada de novo na rodada seguinte, ao contrário do latch.
+4. **Rodar com permissão (TODO-03).** Em `runWithPermit()`, adquira uma permissão (`acquire()`), rode a tarefa e libere a permissão em um `finally`. Se a tarefa lançar e a liberação não estiver no `finally`, a permissão vaza para sempre e todo chamador futuro trava.
+5. **Incrementar sob lock (TODO-04).** Em `incrementUnderLock()`, adquira o lock, incremente o contador, libere o lock em um `finally` e devolva o novo valor.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde, sem travar. Você deve conseguir explicar por que o latch serve para largada única e a barreira para rodadas, e o que acontece com o semáforo quando a tarefa lança uma exceção.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `reentrantDoubleIncrement()`: adquira o lock e então chame `incrementUnderLock()`, que adquire o MESMO lock de novo na mesma thread, duas vezes, antes de liberar em um `finally`, devolvendo o resultado da segunda chamada. Um lock não reentrante travaria contra si mesmo aqui, e o `ReentrantLock` não.
+
+**Pré-requisitos:** threads e `Runnable`, e noções de `synchronized` e estado mutável compartilhado.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/concurrency-utilities-executors-and-synchronizers` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/concurrency-utilities-executors-and-synchronizers test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [ExecutorService — java.util.concurrent](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html) — doc

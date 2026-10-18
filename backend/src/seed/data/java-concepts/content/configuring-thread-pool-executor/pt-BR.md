@@ -359,6 +359,38 @@ public class TimingThreadPool extends ThreadPoolExecutor {
   memória, mas se a demanda voltar de repente, novas threads precisam ser
   criadas antes que essas tarefas possam começar a rodar.
 
+## Lab
+
+Neste lab você recebe `ExecutorFactory`, uma fábrica com cinco métodos que devem montar `ThreadPoolExecutor`s com configurações diferentes. Seu trabalho é preencher os parâmetros do construtor de cada um. A ideia central é sentir como o tipo de fila e a política de rejeição mudam o comportamento do pool sob uma rajada de tarefas: crescer além do núcleo, enfileirar sem limite, rejeitar ou empurrar o trabalho de volta para quem submeteu.
+
+**O cenário**
+
+O mesmo pool se comporta de forma bem diferente conforme o tamanho do núcleo, o máximo, a fila e o que fazer quando tudo está cheio.
+
+- `ExecutorFactory`: `scalingPool`, `fixedCorePool`, `abortingPool`, `callerRunsPool` e o opcional `namedThreadPool`.
+- `ExecutorFactoryTest`: envia rajadas de tarefas que dormem, coleta os nomes das threads usadas num conjunto e confere quantas threads rodaram, se houve `RejectedExecutionException` e em qual thread o excesso executou.
+
+Este lab não tem README: tudo o que está aqui vem do código e dos testes.
+
+**O que você vai fazer, passo a passo**
+
+1. **Pool que escala (TODO-00).** Em `scalingPool(core, max, queueCapacity)`, use keep-alive de 30 segundos e uma `ArrayBlockingQueue` limitada. Com fila limitada, quando ela enche o pool cresce além do núcleo até o máximo. Com fila ilimitada isso nunca aconteceria.
+2. **Pool de tamanho fixo (TODO-01).** Em `fixedCorePool(core)`, use o mesmo valor para núcleo e máximo, keep-alive 0 e uma `LinkedBlockingQueue` sem capacidade. As tarefas além do núcleo ficam na fila e nenhuma thread nova nasce.
+3. **Rejeitar quando saturar (TODO-02).** Em `abortingPool`, mesma forma do pool que escala, mas com o construtor de seis argumentos e `ThreadPoolExecutor.AbortPolicy` explícita: pool e fila cheios lançam `RejectedExecutionException`.
+4. **Empurrar de volta ao chamador (TODO-03).** Em `callerRunsPool`, troque a política por `CallerRunsPolicy`, para que o excesso rode na thread que submeteu em vez de lançar exceção.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir prever, para cada pool, quantas threads distintas aparecem numa rajada e por que `CallerRunsPolicy` freia o produtor naturalmente.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `namedThreadPool`, igual ao `abortingPool`, mas com um `ThreadFactory` próprio (construtor de sete argumentos) que nomeia as threads `<poolName>-<n>`, com `n` começando em 1.
+
+**Pré-requisitos:** `ExecutorService`, `Runnable` e noções de filas bloqueantes.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/configuring-thread-pool-executor` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/configuring-thread-pool-executor test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [ThreadPoolExecutor — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html) — doc

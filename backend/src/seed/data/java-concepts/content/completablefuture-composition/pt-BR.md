@@ -282,6 +282,36 @@ Essa é toda a razão de `join()` existir, e por que ele é o método a que voc�
   ```
 - **Para fan-out com cancelamento, `StructuredTaskScope` hoje é a ferramenta com formato melhor** — um scope cancela automaticamente as ramificações perdedoras ou irmãs e amarra o ciclo de vida de cada subtarefa ao bloco que a envolve, exatamente o que `allOf`/`anyOf` não fazem (veja [[structured-concurrency]]). `CompletableFuture` continua sendo a escolha certa onde o trabalho é genuinamente independente, reativo, ou completado externamente — uma ponte de callback, um aquecimento de cache, um controller retornando um future para seu container — nenhum dos quais se encaixa num ciclo de vida limitado a um bloco.
 
+## Lab
+
+Neste lab você recebe `ProfileService`, que busca o perfil de um usuário em dois passos assíncronos: primeiro resolve o nome de usuário num id, depois carrega o perfil desse id. Os dois passos já existem e devolvem `CompletableFuture`. Seu trabalho é compor os dois corretamente e tratar a falha de qualquer um. A ideia central é que a segunda consulta depende do resultado da primeira, e essa dependência é o que dita qual método de composição usar.
+
+**O cenário**
+
+Um nome de usuário desconhecido, ou um id sem perfil por trás, deve falhar de forma controlada, e o resultado não pode vir como um future dentro de outro future.
+
+- `ProfileService`: `findUserId(username)` e `loadProfile(userId)` já prontos (usam `supplyAsync` e lançam `NoSuchElementException` quando não acham), a constante `DEFAULT_PROFILE` e os métodos que você vai escrever.
+- `Profile`: um record com `userId` e `displayName`.
+- `ProfileServiceTest`: confere o sucesso, as duas falhas (usuário sem id, id sem perfil), o padrão e a descrição da falha.
+
+**O que você vai fazer, passo a passo**
+
+1. **Encadear sem aninhar (TODO-00).** Em `lookupProfile(username)`, ligue `findUserId` a `loadProfile` com o método que achata em vez de aninhar. O retorno é `CompletableFuture<Profile>`: se o método escolhido embrulhar um future dentro de outro, o código nem compila contra essa assinatura.
+2. **Recuperar de qualquer falha (TODO-01).** Em `lookupProfileOrDefault`, reaproveite `lookupProfile` e, em caso de falha (usuário desconhecido ou id solto), caia em `DEFAULT_PROFILE` em vez de propagar a exceção.
+3. **Descrever os dois desfechos (TODO-02).** Em `describeLookup`, devolva `"found: <displayName>"` no sucesso e `"failed: <mensagem>"` na falha. A exceção que o estágio seguinte recebe costuma ser uma `CompletionException` embrulhando a causa real, então desembrulhe antes de ler a mensagem.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar a diferença entre `thenApply` e `thenCompose` para este caso e por que a mensagem precisa ser lida da causa e não do embrulho.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `combinedGreeting(usernameA, usernameB)` buscando os dois usernames de forma concorrente, já que nenhum depende do outro, e juntando os nomes num `"<nome> & <nome>"` quando ambos terminarem.
+
+**Pré-requisitos:** lambdas, `CompletableFuture` básico (`supplyAsync`, `thenApply`) e noções de exceções.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/completablefuture-composition` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/completablefuture-composition test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [CompletableFuture — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html) — doc

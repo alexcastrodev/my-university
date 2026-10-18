@@ -132,6 +132,37 @@ private Passenger passenger; // UnsatisfiedDependencyException if the context ha
 - **Field injection into tests is convenient but not the recommended production style** — `@Autowired` on a field reads cleanly in a test, yet Spring itself recommends constructor injection for application beans (immutability, easier standalone construction); a test can use either, but mirroring field injection everywhere carries the habit into production code where it's discouraged.
 - **The context ties the test to configuration, not just code** — a bean rename or a missing `@ContextConfiguration` resource fails the test at context-load time with a wiring error rather than an assertion failure, which is a different debugging path than a pure unit test.
 
+## Lab
+
+In this lab you get `MessageService` and `AppConfig` **already built and working**. Your job is to write four ordered tests in `MessageServiceContextLifecycleTest` that tell one continuous story. The core idea is to feel that the Spring TestContext caches and reuses the `ApplicationContext` across test methods with identical configuration, and that `@DirtiesContext` is what forces it to build a new one.
+
+**The scenario**
+
+This is a plain Spring test, with no Spring Boot and no component scanning. The service's mutable state is what makes the leak between tests visible.
+
+- `MessageService`: keeps an in-memory history. `addMessage` appends and `getHistory` returns an unmodifiable view.
+- `AppConfig`: Java configuration with the `@Bean messageService()`. The static counter `creationCount` goes up whenever Spring actually calls that method, that is, for every new context.
+- `MessageServiceContextLifecycleTest`: uses `@ExtendWith(SpringExtension.class)` and `@ContextConfiguration(classes = AppConfig.class)`. The tests carry `@Order(1)` to `@Order(4)` with `@TestMethodOrder(MethodOrderer.OrderAnnotation.class)` on purpose: the story only makes sense in the order it is written.
+
+**What you will do, step by step**
+
+1. **First test (TODO-00).** Check that `AppConfig.creationCount.get()` is 1 (the context was just built), add a message ("first") and check that the history has 1 entry.
+2. **Second test (TODO-01).** Check that the counter is still 1 (no new context) and that the history already contains "first", the message from the previous test. This proves the same context and the same bean instance served both tests. That leak is exactly what `@DirtiesContext` exists to stop.
+3. **Dirty the context (TODO-02).** The third test is already annotated with `@DirtiesContext`. Just add another message ("third"). No assert on the counter is needed: its job is to mutate state and mark the context for replacement.
+4. **A fresh context (TODO-03).** In the fourth test, check that the counter is now 2 and that the history is empty. If it saw "first" or "third", `@DirtiesContext` would have failed to force a fresh context.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why the counter stays at 1 in tests 1 and 2 and only goes to 2 in test 4, and what would break if the test order were not fixed.
+
+**Optional challenges**
+
+- **TODO-04:** add a fifth `@Test` with `@Order(5)` asserting that `messageService.getHistory().add("x")` throws `UnsupportedOperationException`, since `getHistory()` returns an unmodifiable view.
+
+**Prerequisites:** JUnit 5 fundamentals and reading `MessageService` and `AppConfig` in `src/main/java`, especially what `AppConfig.creationCount` counts and when it goes up.
+
+**How to run it:** clone the repository, go into `testing-concepts/spring-testcontext-and-springextension` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/spring-testcontext-and-springextension test`). The four methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Spring TestContext Framework — Spring Framework docs](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html) — doc

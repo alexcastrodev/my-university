@@ -97,6 +97,39 @@ private RegistrationManager registrationManager; // fails if the bean lives outs
 private CountryRepository countryRepository;
 ```
 
+## Lab
+
+Neste lab você recebe uma aplicação Spring Boot **pronta e funcionando** (`OrderService`, `InventoryService`, `InventoryListener` e `GreetingController`) e duas classes de teste com métodos que falham de propósito. Seu trabalho é escrever dois tipos diferentes de teste sobre a mesma aplicação: um `@SpringBootTest` com o contexto completo e um slice estreito com `@WebMvcTest`. A ideia central é ver com os próprios olhos quando cada um é a ferramenta certa: o slice é barato e testa uma camada isolada, o contexto completo é o único que prova que os beans realmente colaboram.
+
+**O cenário**
+
+Fazer um pedido atualiza o estoque, mas sem que um bean chame o outro.
+
+- `OrderService.placeOrder(order)`: só publica um `OrderPlacedEvent`. Nunca fala com o `InventoryService`.
+- `InventoryListener`: um `@EventListener` que reage ao evento e chama `InventoryService.reserve(...)`. Roda de forma síncrona na thread de quem publicou, então quando `placeOrder` retorna o estoque já mudou.
+- `InventoryService`: estoque em memória (`widget` com 100 e `gadget` com 50). `reserve` lança `IllegalArgumentException` para produto desconhecido e `IllegalStateException` se faltar estoque.
+- `GreetingController`: `GET /greeting` devolve "Hello, Kurz!" e não tem colaboradores.
+- `OrderPlacingIntegrationTest` (`@SpringBootTest`) e `GreetingControllerSliceTest` (`@WebMvcTest(GreetingController.class)`) são os testes a completar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Provar a cadeia ponta a ponta (TODO-00).** Em `OrderPlacingIntegrationTest`, chame `orderService.placeOrder(new Order("widget", 10))` e confira que `inventoryService.getStock("widget")` agora é 90. Só funciona porque o contexto completo liga evento, listener e serviço como as mesmas instâncias que você injetou. Um slice `@WebMvcTest` nem carregaria o `InventoryListener`.
+2. **Provar o efeito cumulativo (TODO-01).** Faça dois pedidos de 5 unidades de "gadget" e confira o estoque indo de 50 para 45 e depois para 40. Isso mostra que o estado mudado por um bean é visto por outro, porque todos compartilham o mesmo contexto em cache.
+3. **Testar o endpoint pelo slice (TODO-03).** Em `GreetingControllerSliceTest`, faça `GET /greeting` com `MockMvc`, confira `status().isOk()` e o corpo "Hello, Kurz!" com `content().string(...)`.
+4. **Provar o que o slice não carrega (TODO-04).** Confira que `applicationContext.getBeanNamesForType(InventoryService.class)` tem tamanho 0. O controller não depende do serviço, então o slice nunca o carrega: escolher entre `@SpringBootTest` e slice não é só velocidade, é quais beans entram no teste.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o teste de estoque não faria sentido com um mock do `InventoryService`, e por que o slice testa só uma camada mas inicia bem mais rápido.
+
+**Desafios opcionais**
+
+- **TODO-02:** confira que `orderService.placeOrder(new Order("unknown", 1))` lança `IllegalArgumentException`. Como o `@EventListener` é síncrono por padrão, a exceção do `reserve` volta por `publishEvent(...)` até a sua chamada.
+
+**Pré-requisitos:** o lab de Spring REST API Testing with MockMvc (`@WebMvcTest`, `MockMvc`) e ler `OrderService`, `InventoryService`, `InventoryListener`, `OrderPlacedEvent` e `GreetingController` em `src/main/java` antes de escrever qualquer teste.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/spring-boot-testing` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/spring-boot-testing test`). Os métodos de teste começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Testando Aplicações Spring Boot: referência do Spring Boot](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html) (doc)

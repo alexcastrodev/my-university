@@ -146,6 +146,39 @@ mvc.perform(get("/passengers/30")).andExpect(status().isNotFound());
 
 - **`@SpringBootTest` completo para um teste de controller é mais pesado do que o necessário**: inicializa a aplicação inteira (toda a auto-configuração, cada bean) só para testar um controller; a fatia carrega uma fração disso, então preferir `@WebMvcTest` mantém a suíte da camada web rápida.
 
+## Lab
+
+Neste lab você recebe `ItemController` e `ItemServiceImpl` **prontos e funcionando**. Seu trabalho é testar o controller na camada web com `MockMvc`, com o serviço real trocado por um mock do Mockito via `@WebMvcTest`. A ideia central é sentir o que um slice faz: carrega só a infraestrutura MVC e o controller que você nomeia, e você roteiriza o colaborador a cada teste, sem subir a aplicação inteira.
+
+**O cenário**
+
+Um catálogo de itens exposto por uma API REST.
+
+- `ItemController`: `GET /items` devolve a lista e `GET /items/{id}` devolve o item, ou 404 por `ResponseEntity.notFound()` quando não existe.
+- `ItemService`: a interface que o controller recebe pelo construtor (`findAll()` e `findById(Long)`, que devolve `Optional<Item>`).
+- `ItemServiceImpl`: a implementação real, um `@Service` com três itens. O slice nunca a carrega, e é exatamente isso que um dos testes vai provar.
+- `Item`: um record com `id`, `name` e `category`.
+- `ItemControllerTest`: usa `@WebMvcTest(ItemController.class)`, um `MockMvc` e um `@MockitoBean ItemService`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Listar itens (TODO-00).** Roteirize `itemService.findAll()` para devolver dois `Item` à sua escolha. Faça `GET /items`, confira `status().isOk()` e use `jsonPath` para checar que o array tem tamanho 2 e que `$[0].name` bate com o primeiro item.
+2. **Buscar um item existente (TODO-01).** Roteirize `itemService.findById(1L)` com `Optional.of(...)`. Faça `GET /items/1`, confira 200 e compare `$.id` e `$.name` com os campos do item.
+3. **Buscar um item ausente (TODO-02).** Roteirize `findById(999L)` para devolver `Optional.empty()`, faça `GET /items/999` e confira `status().isNotFound()`. O controller mapeia a ausência para 404, nunca para corpo nulo com 200.
+4. **Provar o que o slice não carrega (TODO-03).** Embrulhe `applicationContext.getBean(ItemServiceImpl.class)` em `assertThrows(NoSuchBeanDefinitionException.class, ...)`. Se passar, o `@WebMvcTest` carregou só a camada web, o oposto do que um `@SpringBootTest` faria com o mesmo controller.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o `ItemServiceImpl` não aparece no contexto, por que sem o `@MockitoBean` o teste nem subiria (o controller precisa de um `ItemService`) e o que o teste do passo 4 ensina sobre o escopo de um slice.
+
+**Desafios opcionais**
+
+- **TODO-04:** use `Mockito.verify(itemService)` para provar que `getById(...)` chamou `itemService.findById(...)` com exatamente o id do path variable, e não só que a resposta parecia certa.
+
+**Pré-requisitos:** o lab de Test Doubles: Stubs and Mocking (`when`/`verify` do Mockito) e ler `ItemController`, `ItemService` e `ItemServiceImpl` em `src/main/java` antes de escrever qualquer teste.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/spring-rest-api-testing-mockmvc` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/spring-rest-api-testing-mockmvc test`). Os métodos de teste começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Testando a Camada Web com MockMvc: referência do Spring Boot](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.with-mock-environment) (doc)

@@ -126,6 +126,38 @@ It also explains, precisely, why the London and classical schools of unit testin
 - **London-school suites are structurally more exposed to this failure mode than classical-school suites** — not because London mocks "more" but because it doesn't distinguish intra-system from inter-system communication when deciding what to mock, so a larger fraction of its mocks end up targeting implementation details by default.
 - **"Only mock at the boundary" is a design constraint, not just a testing tip** — a class whose collaborators can't be told apart as "internal" vs. "crosses to another system" (e.g., a domain object that directly holds an `EmailGateway` reference alongside plain domain collaborators) makes this rule hard to apply consistently; keeping inter-system calls concentrated in an application-services layer (rather than scattered through domain classes) is what makes "mock only the boundary" a rule you can actually follow.
 
+## Lab
+
+In this lab you get `TransferService` **already built and working**. Your job is to test it by applying the article's boundary rule: only mock communications that cross the application boundary and stay observable to something outside it. `Ledger` (in-process) is never mocked in this lab; `AuditGateway` (the true system boundary) is the only thing that is. The core idea is to feel that verifying internal calls makes a test fragile, while asserting the observable outcome lets it survive refactoring.
+
+**The scenario**
+
+A transfer debits an account and, only if that works, notifies an audit system.
+
+- `Ledger`: an in-process collaborator that keeps balances in memory (`openAccount`, `hasSufficientFunds`, `debit`, `balanceOf`). No outside client talks to it, it is an implementation detail.
+- `AuditGateway`: an interface (`logTransfer(accountId, amountCents)`) standing in for an out-of-process audit system. Something outside is really watching that call, so it is observable behavior.
+- `TransferService.transfer(accountId, amountCents)`: returns `false` without touching anything when the balance is short; otherwise it debits the `Ledger`, calls `logTransfer` and returns `true`.
+- `TransferServiceTest`: has only `mockAuditGateway` as a `@Mock` (with `MockitoExtension`), and a factory method `createLedgerWithBalance(...)` to implement.
+
+**What you will do, step by step**
+
+1. **Build a real ledger (TODO-00).** In `createLedgerWithBalance`, create a new `Ledger`, call `openAccount(accountId, startingBalanceCents)` and return it. It is a real object, never a mock, and every test goes through here.
+2. **A successful transfer (TODO-01).** With `createLedgerWithBalance("acct-1", 1000)`, build `new TransferService(ledger, mockAuditGateway)`, call `transfer("acct-1", 400)` and check that it returns `true` and that `ledger.balanceOf("acct-1")` is 600, the real ledger's state. Only then `verify` `logTransfer("acct-1", 400)` on the gateway: here `verify` is legitimate because the gateway is the boundary.
+3. **Insufficient balance (TODO-02).** With only 100 cents, `transfer("acct-1", 400)` returns `false` and the balance is still 100. Use `Mockito.verifyNoInteractions(mockAuditGateway)` to prove the boundary was never touched.
+4. **Transfer the exact balance (TODO-03).** Avoid the tempting but fragile alternative of mocking `Ledger` and doing `verify(mockLedger).debit(...)`, because no client asked for "call `debit()`". With a real ledger of 500, do `transfer("acct-1", 500)`, check `true` and that `balanceOf("acct-1")` is 0. The test looks at the outcome, not at the internal call that produced it.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why renaming `Ledger.debit()` would not break your tests, and why the `AuditGateway` `verify` is acceptable while a `Ledger` `verify` would not be.
+
+**Optional challenges**
+
+- **TODO-04:** with 1000 cents, do `transfer("acct-1", 100)` twice and use `Mockito.verify(mockAuditGateway, Mockito.times(2))` to confirm two calls to `logTransfer("acct-1", 100)`. Counting calls is legitimate because what is verified is the boundary.
+
+**Prerequisites:** the `test-doubles-stubs-and-mocking` lab (Mockito `@Mock`, `when()`, `verify()`), the observable behavior and mock fragility article (mock vs stub, intra-system vs inter-system) and reading `TransferService`, `Ledger` and `AuditGateway` in `src/main/java`.
+
+**How to run it:** clone the repository, go into `testing-concepts/observable-behavior-and-mock-fragility` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/observable-behavior-and-mock-fragility test`). The factory throws `UnsupportedOperationException` and the tests start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, *Unit Testing Principles, Practices, and Patterns* (Manning, 2020) — Chapter 5 "Mocks and Test Fragility", sections 5.1-5.4, pp. 92-118 — book

@@ -214,6 +214,36 @@ Note a nomeação `plus`/`times`: Java não tem sobrecarga de operadores, então
 - **A escala é ilimitada, e o custo também** — `BigInteger` cresce com o valor e a precisão de `BigDecimal` cresce a cada `multiply`, então aritmética exata encadeada sobre entrada fornecida pelo usuário pode consumir quantidades surpreendentes de memória e CPU. `MathContext` em cada operação, ou um `setScale()` periódico, limita isso.
 - **A legibilidade sofre** — uma fórmula escrita em chamadas de método `BigDecimal` é materialmente mais difícil de ler e revisar do que a mesma fórmula em operadores, o que é um argumento real para manter a camada de aritmética exata fina e bem testada em vez de espalhá-la pelo modelo de domínio.
 
+## Lab
+
+Neste lab você recebe `MoneySplitter`, um conjunto de utilitários de dinheiro construídos sobre `BigDecimal`, com todos os métodos por implementar. Seu trabalho é fazer cada um produzir um resultado exato: ler um valor decimal sem erro, calcular uma fatia arredondada, dividir um total entre várias pessoas de modo que a soma volte ao total e converter uma quantia com escala e arredondamento explícitos. A ideia central é que nenhum valor monetário pode passar por um `double`, nem na entrada nem na saída.
+
+**O cenário**
+
+Dividir dez reais entre três pessoas não fecha em centavos redondos, e o sistema não pode perder nem inventar um centavo.
+
+- `MoneySplitter`: os métodos estáticos `parseExact`, `shareOf`, `splitEvenly`, `convertCurrency` e o opcional `sumExact`.
+- `MoneySplitterTest`: confere os dígitos exatos, a escala preservada, que `0.1 + 0.2` seja exatamente `0.3`, que o `RoundingMode` seja respeitado e que as fatias somem sempre o total.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ler o valor exato (TODO-00).** Em `parseExact`, construa o `BigDecimal` direto do texto. Não passe por `Double.parseDouble(...)` nem por `new BigDecimal(double)`, que importariam o erro do ponto flutuante binário para um valor escrito em decimal. A escala do texto (`2.50`, não `2.5`) deve ser preservada.
+2. **Calcular uma fatia (TODO-01).** Em `shareOf`, divida o total pelo número de pessoas com escala 2 e o `RoundingMode` recebido, e não um fixo no código. Passar escala e modo é obrigatório: o `divide` de um argumento lança `ArithmeticException` quando a divisão não termina, como em 10 / 3.
+3. **Dividir sem perder centavos (TODO-02).** Em `splitEvenly`, valide que o número de pessoas é positivo, calcule as fatias com `RoundingMode.DOWN` e distribua os centavos que sobraram, um para cada uma das primeiras fatias. Reatribua o resultado de cada `add()`/`subtract()`: `BigDecimal` é imutável e um retorno descartado não faz nada.
+4. **Converter com política explícita (TODO-03).** Em `convertCurrency`, multiplique pela taxa (a multiplicação sempre tem resposta exata) e arredonde o produto para `targetScale` com o `roundingMode`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `0.1` em `double` não é exato, e por que arredondar cada fatia isoladamente não garante que a soma feche.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `sumExact`, somando todos os valores a partir de `BigDecimal.ZERO` e devolvendo zero para uma lista vazia.
+
+**Pré-requisitos:** sintaxe básica de Java, tipos numéricos e a ideia de ponto flutuante.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [BigDecimal — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigDecimal.html) — doc

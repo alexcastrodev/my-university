@@ -97,6 +97,35 @@ To retrieve elements in priority order, repeated `poll()` (or `remove()`) calls 
 - **Elements must be mutually comparable, or a `Comparator` must be supplied** — as with `TreeSet`, a comparison failure surfaces as a `ClassCastException` at the point an ordering operation runs, not at compile time or insertion time in isolation.
 - **`null` elements are rejected outright** (`NullPointerException`), for the same reason `Queue` disallows `null` elsewhere: `null` doubles as the empty-queue sentinel for `peek()`/`poll()`.
 
+## Lab
+
+In this lab you get the `Task` record and the `TaskScheduler` class, which already builds a priority-ordered `PriorityQueue<Task>`, and you implement submitting, taking and peeking at tasks. The core idea is to understand that `PriorityQueue` orders by a `Comparator`, not by insertion order, and that the only reliable way to read the elements in that order is repeated `poll()`, never iteration.
+
+**The scenario**
+
+A scheduler receives tasks with a name and a priority, and must always hand out the most urgent one. A LOWER priority number means more urgent.
+
+- `Task.java`: a record with `name` and `priority`. Already written.
+- `TaskScheduler.java`: holds a `PriorityQueue<Task>` built with `Comparator.comparingInt(Task::priority)`, that is, a min-heap by priority number. The methods are yours.
+
+**What you will do, step by step**
+
+1. **Submit (TODO-00).** In `submit()`, create a `Task` with the name and priority and put it in the queue. Arrival order does not matter, the comparator decides.
+2. **Take the next one (TODO-01).** In `takeNext()`, remove and return the most urgent task, or `null` when none remain. Think about which queue operation returns `null` instead of throwing.
+3. **Peek at the next one (TODO-02).** In `peekNext()`, return the most urgent one WITHOUT removing it, or `null` if empty.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why submitting priorities out of order still makes `takeNext()` always deliver the smallest, and why a `for` loop over the queue does not guarantee that order.
+
+**Optional challenges**
+
+- **TODO-03:** implement `drainInPriorityOrder()`, returning a `List<Task>` with all remaining tasks in ascending priority order and leaving the scheduler empty. Do repeated `poll()` until nothing is left. Copying the queue's iterator into a list does NOT give priority order.
+
+**Prerequisites:** basic Java syntax, `Comparator` and `Queue`.
+
+**How to run it:** clone the repository, go into `java-concepts/priority-queue` and run `mvn test` (or, from the root, `mvn -pl java-concepts/priority-queue test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 593–594 — book

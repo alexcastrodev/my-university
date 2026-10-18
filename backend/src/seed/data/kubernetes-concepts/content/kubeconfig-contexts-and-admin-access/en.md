@@ -141,6 +141,35 @@ On the node itself:
 - **Long-lived vs short-lived tokens.** `kubectl create token` tokens expire (one hour by default), which is ideal for CI jobs that request one per run. A long-lived token Secret (`kubernetes.io/service-account-token`) survives forever and must be rotated by hand.
 - **Merged KUBECONFIG vs one file per cluster.** Merging is convenient for interactive work; for automation, a dedicated single-context file per target is the safest default.
 
+## Lab
+
+In this lab you get a naive `merge.sh` that merges the kubeconfigs of two clusters and apparently works, yet one of the clusters disappears. Your job is to produce a single file with one context per cluster and make `staging` the default. The core idea is to feel that `kubectl` merges kubeconfigs by name (and the first file wins), so two files where everything is called `default` collide silently, and that the default context decides which cluster a forgotten flag lands on.
+
+**The scenario**
+
+The test starts two real clusters (k3s via Testcontainers), `staging` and `prod`, and copies their admin kubeconfigs to `/lab/staging.yaml` and `/lab/prod.yaml` on a machine that reaches both. As k3s writes them, cluster, user and context are all called `default` in both files.
+
+- `src/main/resources/merge.sh`: your file. It must write `/lab/merged.yaml`. The starting version uses `KUBECONFIG=...:... kubectl config view --flatten`, which is the naive merge.
+- `src/test/java/KubeconfigTest.java`: uses only the merged file against both clusters and compares the node each context reaches with each cluster's node.
+
+**What you will do, step by step**
+
+1. **Watch the naive merge fail.** Run the tests before editing. The script succeeds, and yet `--context staging` and `--context prod` do not reach different clusters: one was swallowed.
+2. **Rename before merging (TODO-00).** Give each file its own names for cluster, user and context (`staging` and `prod`), using the `kubectl config` subcommands on each file, and only then merge. Keep the certificates embedded: the result must be self-contained, with no paths to other files (`--flatten` already takes care of that).
+3. **Protect the default (TODO-01).** Set the current context of the final file to `staging`, so anyone who forgets `--context` lands on staging and never on prod.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kubeconfig-contexts-and-admin-access test` passes completely: `--context staging` and `--context prod` each reach their own cluster, `kubectl config current-context` answers `staging` and the file contains `certificate-authority-data` instead of paths. You should be able to explain why the naive merge raised no error and why the default context is a safety decision.
+
+**Optional challenges**
+
+- **TODO-02:** both files hold client certificates in `system:masters`. What can such a certificate do that no RBAC rule can take away, and what would you hand out instead to a colleague who only deploys to staging?
+
+**Prerequisites:** Docker running (the test starts two `rancher/k3s` containers), the article "Kubeconfig, Contexts and Admin Access", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/kubeconfig-contexts-and-admin-access test`. You only edit `merge.sh`; the TODO comments in it mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Organizing cluster access using kubeconfig files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/): merge rules and precedence.

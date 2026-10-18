@@ -402,6 +402,38 @@ counters where even an atomic compare-and-swap loop becomes a bottleneck.
                               // atomic together.
   ```
 
+## Lab
+
+In this lab you get the `WorkCoordinator` class, which bundles four `java.util.concurrent` synchronization primitives behind a single class, each method exercising exactly one of them. The core idea is to use each synchronizer for what it is good at: a startup gate that opens once, a rendezvous reusable every round, a throttle that limits access to a resource and a reentrant lock. Picking the wrong primitive, or forgetting to release what you acquired, does not break compilation: it makes a test fail or hang.
+
+**The scenario**
+
+Several participant threads must start together, meet each round, compete for a limited number of permits and increment a shared counter.
+
+- `WorkCoordinator.java`: the constructor takes `participantCount` and `permits` and creates a `CountDownLatch` (startup gate), a `CyclicBarrier` (round rendezvous), a `Semaphore` (permits), a `ReentrantLock` and an `AtomicInteger` (counter).
+
+Note the difference in lifetime: the `CountDownLatch` gate can never be reopened or reset, while the `CyclicBarrier` resets itself and serves the next round.
+
+**What you will do, step by step**
+
+1. **Signal arrival (TODO-00).** In `arriveAtStartupGate()`, call `countDown()` on the latch. The gate only opens after every participant has called this once.
+2. **Wait for the gate (TODO-01).** In `awaitStartupGate()`, block with `await()` until the count reaches zero.
+3. **Round rendezvous (TODO-02).** In `awaitRoundBarrier()`, call `await()` on the barrier: it blocks until `participantCount` threads arrive and releases them all together. The same instance will be used again next round, unlike the latch.
+4. **Run with a permit (TODO-03).** In `runWithPermit()`, acquire a permit (`acquire()`), run the task and release the permit in a `finally`. If the task throws and the release is not in `finally`, the permit leaks forever and every future caller blocks.
+5. **Increment under a lock (TODO-04).** In `incrementUnderLock()`, acquire the lock, increment the counter, release the lock in a `finally` and return the new value.
+
+**How you know you are done**
+
+`mvn test` is all green, without hanging. You should be able to explain why the latch fits a one-time start and the barrier fits rounds, and what happens to the semaphore when the task throws.
+
+**Optional challenges**
+
+- **TODO-05:** implement `reentrantDoubleIncrement()`: acquire the lock and then call `incrementUnderLock()`, which acquires the SAME lock again on the same thread, twice, before releasing in a `finally`, returning the result of the second call. A non-reentrant lock would deadlock against itself here, and `ReentrantLock` does not.
+
+**Prerequisites:** threads and `Runnable`, and basics of `synchronized` and shared mutable state.
+
+**How to run it:** clone the repository, go into `java-concepts/concurrency-utilities-executors-and-synchronizers` and run `mvn test` (or, from the root, `mvn -pl java-concepts/concurrency-utilities-executors-and-synchronizers test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [ExecutorService — java.util.concurrent](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html) — doc

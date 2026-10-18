@@ -96,6 +96,35 @@ ts.subSet("C", "F"); // [C, D, E] — >= C, < F
   ```
 - **Elements must be mutually comparable, and nothing enforces that at compile time when no `Comparator` is supplied** — inserting an object that can't actually be compared to the others compiles fine and fails at the point a comparison is forced, as a `ClassCastException` thrown from `compareTo()`, not from `TreeSet` itself.
 
+## Lab
+
+In this lab you get the `ScoreBoard` class, which keeps scores in a `TreeSet<Integer>`, and you use the always-sorted storage and the closest-match lookups of `NavigableSet` (`ceiling` and `floor`) instead of sorting a list every time you need order. The core idea is to notice that a `TreeSet` already keeps everything sorted and answers questions a plain `Set` cannot.
+
+**The scenario**
+
+A scoreboard records the scores of a game and must tell the highest, the lowest and which score is nearest to a target, upward or downward.
+
+- `ScoreBoard.java`: holds `scores` (a `TreeSet<Integer>`). Every method is yours.
+
+**What you will do, step by step**
+
+1. **Record (TODO-00).** In `record()`, add the score. Recording one that already exists changes nothing, which is `Set` semantics.
+2. **Extremes (TODO-01 and TODO-02).** `highest()` returns the largest and `lowest()` the smallest. When nothing has been recorded, let the natural exception happen, without catching and rethrowing. Think about which `TreeSet` method throws in that case instead of returning `null`.
+3. **Neighbor upward (TODO-03).** In `closestAtLeast()`, return the smallest recorded score that is `>= target`, or `null` if none qualifies. That is `ceiling`.
+4. **Neighbor downward (TODO-04).** In `closestAtMost()`, return the largest recorded score that is `<= target`, or `null`. That is `floor`.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why none of these methods needed to sort anything and what `ceiling` and `floor` return when the target is already in the set.
+
+**Optional challenges**
+
+- **TODO-05:** implement `between()`, returning every score in the inclusive range `[low, high]` as a `SortedSet<Integer>`.
+
+**Prerequisites:** basic Java syntax and familiarity with the `Set` interface.
+
+**How to run it:** clone the repository, go into `java-concepts/tree-set` and run `mvn test` (or, from the root, `mvn -pl java-concepts/tree-set test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 592–593 — book

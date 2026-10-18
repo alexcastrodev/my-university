@@ -147,6 +147,36 @@ Disabling the add-on keeps the data by default; `microk8s disable hostpath-stora
 - **`Delete` vs `Retain`.** `Delete` keeps the disk clean automatically; `Retain` protects you from a `kubectl delete namespace` wiping a database, at the price of cleaning up released PVs by hand.
 - **Node resolvers vs explicit forwarders.** Following `/etc/resolv.conf` adapts when the node's DNS changes; explicit forwarders are predictable and survive VPN or DHCP changes, but must be updated when the network changes.
 
+## Lab
+
+In this lab you get an `addons.sh` that configures the add-ons of a fresh MicroK8s 1.35 node and a `storageclass.yaml` for a database. Your job is to make DNS really forward to the resolvers you chose and to fix the StorageClass. The core idea is that enabling an add-on that is already active may change nothing, and that the reclaim policy and the provisioner decide whether the database data survives deleting its claim.
+
+**The scenario**
+
+The test installs MicroK8s 1.35 in an Ubuntu VM created with Multipass, copies your files, runs the script as root and then starts a database Pod that uses the `db-retain` class.
+
+- `src/main/resources/addons.sh`: enables `dns` with the forwarders `1.1.1.1,8.8.8.8`, enables `hostpath-storage` and applies the StorageClass.
+- `src/main/resources/storageclass.yaml`: the `db-retain` class, whose volumes must live under `/mnt/db-volumes` (a dedicated disk in real life) and which must not delete the data when the claim is removed.
+- `src/test/resources/db.yaml`: given. A `db-data` PVC on the `db-retain` class and a Pod that writes `keep-me` to a `marker` file in the volume.
+
+**What you will do, step by step**
+
+1. **Run it and read the failure.** Run the tests before editing to see what the cluster really does.
+2. **Make DNS change (TODO-00).** The `dns` add-on is already enabled on a fresh install, so check what that line really changes in the CoreDNS ConfigMap (the `Corefile`). The test expects `forward . 1.1.1.1 8.8.8.8` and a Pod resolving `example.com`.
+3. **Fix the StorageClass (TODO-01).** Three things in the object do not match the description in the file. Compare each field with what the comment asks for: the directory of the volumes, whether data is kept after the claim is deleted, and the fact that `microk8s-hostpath` must remain the only default class.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/microk8s-addons-dns-and-hostpath-storage test` passes completely: the `Corefile` forwards to `1.1.1.1 8.8.8.8` and a Pod resolves external names, there is exactly one default StorageClass (`microk8s-hostpath`), and after deleting the Pod and the claim the PersistentVolume is `Released` with the `marker` file still on disk. You should be able to explain the difference between `Delete` and `Retain` and why a `Released` volume cannot be reused automatically.
+
+**Optional challenges**
+
+- **TODO-02:** write 200 MiB into a 50 Mi claim on `db-retain`. What happens, and what does that mean for a node's disk?
+
+**Prerequisites:** [Multipass](https://canonical.com/multipass) installed (the VM is deleted at the end), the article "MicroK8s Add-ons: DNS and Hostpath Storage", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/microk8s-addons-dns-and-hostpath-storage test`. Each run takes a few minutes. You edit `addons.sh` and `storageclass.yaml`, and the TODO comments show where to work.
+
 ## Documentation Links
 
 - [MicroK8s: Add-ons](https://canonical.com/microk8s/docs/addons): full list and what each installs.

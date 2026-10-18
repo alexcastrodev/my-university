@@ -126,6 +126,38 @@ class CountryRepositoryIT {
 - **Gerenciamento manual de transação é propenso a erro**: o `em.getTransaction().begin()/commit()` do livro precisa ser combinado corretamente e desfeito à mão em caso de falha; um `commit()` esquecido ou um rollback ausente deixa os dados do teste em um estado indefinido, motivo pelo qual a transação-por-teste (rollback automático) do Spring é preferível.
 - **Erros de mapeamento aparecem tarde**: um `@Column` com nome errado ou incompatibilidade de tipo compila sem problemas e só falha na geração de schema ou em tempo de query, não em tempo de build, então testes de ORM são essenciais precisamente porque o compilador não consegue verificar o mapeamento.
 
+## Lab
+
+Neste lab você recebe `Country` e `CountryRepository` **prontos e funcionando** (um repositório Spring Data JPA não tem corpo de método: o Spring gera a implementação a partir da assinatura e do `@Query`). Seu trabalho é escrever testes com `@DataJpaTest` e `TestEntityManager` que provam que as consultas geradas estão certas e que expõem um comportamento mais sutil: o contexto de persistência guarda as escritas em buffer e só as manda ao banco quando faz flush.
+
+**O cenário**
+
+Um catálogo de países mapeado com JPA.
+
+- `Country`: entidade com `id` (`GenerationType.IDENTITY`), `name` e `codeName`, com `setName` para mutar o nome.
+- `CountryRepository`: `findByCodeName` (devolve `Optional`) e `searchByNameFragment`, uma consulta JPQL com `LIKE %:fragment%`.
+- `CountryRepositoryTest`: o `setUp()` já grava France, Finland e Germany com `persistAndFlush` e limpa o contexto de persistência. Também existe o helper `readNameFromDatabaseDirectly(id)`, que consulta o banco com um `JdbcTemplate` puro, ignorando o Hibernate. É ele que deixa o teste ver o que de fato está gravado, independente do que o contexto de persistência acredita.
+
+**O que você vai fazer, passo a passo**
+
+1. **Achar por código (TODO-00).** `findByCodeName("FR")` deve devolver um `Optional` presente com um `Country` de nome "France".
+2. **Código inexistente (TODO-01).** `findByCodeName("XX")` devolve um `Optional` vazio, sem lançar exceção. Compare com o `CountryDao` do lab de JDBC, que lançava.
+3. **Busca por trecho (TODO-02).** `searchByNameFragment("ranc")` deve devolver exatamente um país, "France", o que prova que o `LIKE` casa um trecho em qualquer posição, e não só prefixo ou nome exato.
+4. **O exercício principal: flush (TODO-03).** Busque a France com `entityManager.find(Country.class, franceId)` e chame `setName("New France")`, sem `save`/`persist`, confiando no dirty checking. Logo em seguida, confira que `readNameFromDatabaseDirectly(franceId)` AINDA devolve "France": o setter só mudou a entidade em memória, e o Hibernate não mandou o UPDATE. Chame `entityManager.flush()` e confira que agora o helper devolve "New France".
+5. **IDENTITY e o id imediato (TODO-04).** Faça `entityManager.persist(new Country("Spain", "ES"))`, sem `persistAndFlush`, e confira que `getId()` já não é nulo sem nenhum flush seu. Com IDENTITY, só o auto-incremento do banco gera o id, então o Hibernate precisa executar o INSERT na hora, ao contrário de uma estratégia adiada como SEQUENCE.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que a leitura direta ainda via o valor antigo antes do flush e quando o Hibernate faz flush sozinho, e por que o INSERT acontece já no `persist()` com IDENTITY.
+
+**Desafios opcionais**
+
+- **TODO-05:** salve um novo país com `countryRepository.save(new Country("Italy", "IT"))` e confira que `count()` agora é 4 (os 3 do `setUp()` mais o novo).
+
+**Pré-requisitos:** o lab `testing-jdbc-and-spring-jdbc` (ou base equivalente de teste JDBC/H2) e ler `Country` e `CountryRepository` em `src/main/java`, reparando no `GenerationType.IDENTITY`.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/testing-jpa-hibernate` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/testing-jpa-hibernate test`). Os métodos de teste começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Migração da Jakarta Persistence (JPA): de `javax` para `jakarta` (guia de migração do Hibernate 6 ORM)](https://docs.jboss.org/hibernate/orm/6.0/migration-guide/migration-guide.html) (doc)

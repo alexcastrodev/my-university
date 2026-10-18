@@ -215,6 +215,38 @@ class file versions up to 61.0
 - **`ACC_SUPER` é um bit de compatibilidade histórico** — toda classe compilada desde o Java 1.0.2 tem essa flag setada automaticamente, existindo só para que um JVM moderno continue resolvendo corretamente chamadas `invokespecial` da forma como class files pré-1.0.2 esperavam; não há razão para se preocupar com isso em código escrito hoje.
 - **Entradas do constant pool começam em 1 e nunca existe a entrada `#0`** — o índice `0` é reservado como um valor explícito de "sem referência" (usado, por exemplo, por uma classe sem superclasse), então as entradas do pool sempre começam a contar em `#1`, o que costuma pegar quem escreve um parser à mão assumindo indexação baseada em 0.
 
+## Lab
+
+Neste lab você recebe uma classe minúscula (`Counter`) e duas ferramentas com os corpos ainda **por implementar**. Seu trabalho é fazer os testes passarem lendo, byte a byte, o `.class` que o `javac` gerou e perguntando por reflexão quais flags de acesso o compilador gravou. A ideia central é sentir que um arquivo `.class` não é mágica: é um layout binário rígido (magic number, versão, constant pool, flags, campos, métodos) em que até a diferença entre campo de instância e campo estático é só um bit (`ACC_STATIC`).
+
+**O cenário**
+
+`Counter` tem um campo de instância (`value`, um por objeto) e um estático (`valueInstance`, um por classe). Você vai confirmar nos bytes e nas flags o que isso significa.
+
+- `Counter.java`: a classe com `value`, `valueInstance` e um construtor que atribui os dois. O comentário diz que `value` carrega `ACC_PUBLIC`, mas a declaração ainda não pede isso.
+- `ClassFileReader.java`: lê os bytes crus de `Counter.class` (os mesmos que o `javap` interpreta). Tem `readMagicNumber`, `readMajorVersion` e, opcional, `readConstantPoolCount`.
+- `FieldFlags.java`: `isPublic` e `isStatic`, que decodificam as flags de um campo por reflexão.
+- Os testes (`ClassFileReaderTest`, `FieldFlagsTest`, `CounterTest`) abrem `Counter.class` com `getResourceAsStream` e conferem o resultado.
+
+**O que você vai fazer, passo a passo**
+
+1. **Corrigir a declaração (TODO-00).** Em `Counter.java`, adicione o modificador que dá a `value` a flag `ACC_PUBLIC` prometida no comentário. É o que o `FieldFlagsTest` espera.
+2. **Ler o magic number (TODO-01).** Em `ClassFileReader.readMagicNumber`, embrulhe o `InputStream` num `DataInputStream` e leia os 4 primeiros bytes como um `int` (`readInt()`). Todo `.class` começa com `0xCAFEBABE`.
+3. **Ler a versão major (TODO-02).** Em `readMajorVersion`, pule o magic number (4 bytes) e a minor version (2 bytes) e leia a major version. Os dois campos de versão são sem sinal, então use `readUnsignedShort()`. O teste espera 65, o número da versão 21 do Java.
+4. **Decodificar as flags (TODO-03 e TODO-04).** Em `FieldFlags`, busque o `Field` pelo nome e use `getModifiers()` junto com `Modifier` para responder `isPublic` e `isStatic`. São os mesmos bits do `access_flags` gravado no arquivo.
+
+**Como saber que terminou**
+
+`mvn test` passa. Compile o lab e rode `javap -v -p` em `target/classes/Counter.class` (o comando exato está no README): você deve achar o magic number e a versão no topo, as `flags:` de `value` e `valueInstance` na seção `Fields:` batendo com o que o `FieldFlagsTest` afirma, e a constant pool começando em `#1`, não em `#0`.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `readConstantPoolCount()`: pule 8 bytes (magic, minor e major) e leia o `constant_pool_count`. Compare com a indexação a partir de `#1` que você viu no `javap`.
+
+**Pré-requisitos:** sintaxe básica de Java, `InputStream` e `DataInputStream`, noções de reflexão (`Class`, `Field`, `Modifier`).
+
+**Como rodar:** clone o repositório, entre em `jvm-concepts/class-file-structure` e rode `mvn test` (ou, da raiz, `mvn -pl jvm-concepts/class-file-structure test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [The class File Format — Java Virtual Machine Specification, SE 25](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html) — doc

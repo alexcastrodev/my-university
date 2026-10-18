@@ -105,6 +105,38 @@ O kubelet lê a Secret de pull na hora do pull. Atualize a Secret (mesmo nome) e
 - **`IfNotPresent` vs `Always`.** `IfNotPresent` torna o início dos Pods independente do registry; só é correto com tags imutáveis. `Always` tolera tags móveis e amarra todo início ao registry.
 - **Tags vs digests.** Digests são os mais precisos e os menos legíveis; tags são legíveis e só são seguras quando o seu processo nunca as reutiliza.
 
+## Lab
+
+Neste lab você recebe um Deployment que puxa uma imagem de um registry privado que exige login, e um Secret com as credenciais que o kubelet deveria usar. O seu trabalho é fazer o Pod subir e garantir que um restart rode a imagem nova quando o time republica a mesma tag. A ideia central é que o Kubernetes só usa um pull secret que você referencia explicitamente (e no namespace certo) e que o `imagePullPolicy` decide se uma tag já presente no nó é confiável.
+
+**O cenário**
+
+O teste sobe um registry real com autenticação (`registry:3` com htpasswd e TLS) ao lado de um nó k3s, ambos via Testcontainers. O registry `registry.lab` aceita o usuário `lab` com a senha `lab-password`, e o nó já confia na CA dele. O teste publica o BusyBox 1.36 como `registry.lab/team-a/web:1.0`, aplica o seu arquivo e depois publica o BusyBox 1.37 na mesma tag e roda `kubectl rollout restart`.
+
+- `src/main/resources/k8s/app.yaml`: o seu arquivo. Tem o Namespace `team-a`, o Secret `registry-creds` do tipo `kubernetes.io/dockerconfigjson` e o Deployment `web` (1 réplica) com a imagem `registry.lab/team-a/web:1.0`.
+- `src/test/resources/registry/`: certificados, htpasswd e `registries.yaml`, dados prontos para o registry e para o containerd do nó.
+
+Repare em onde cada objeto foi declarado: o Namespace é `team-a`, e o Secret e o Deployment não estão no mesmo lugar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar e ler os Warnings.** Rode os testes antes de editar: a mensagem de falha mostra os eventos `Warning` do namespace `team-a`, que explicam por que o pull falha.
+2. **Usar as credenciais (TODO-00).** Faça o kubelet usar o Secret `registry-creds` ao puxar a imagem do Deployment, referenciando-o no spec do Pod.
+3. **Ler o aviso com atenção (TODO-01).** Se ainda falhar, um dos Warnings diz o porquê. Compare o namespace do Secret com o do Pod: um pull secret só é visto pelos Pods do mesmo namespace.
+4. **Fazer o restart pegar a imagem nova (TODO-02).** O time republica a tag `1.0` com hotfixes. Com o comportamento padrão para uma tag fixa, o nó reaproveita a cópia que já tem. Escolha o `imagePullPolicy` que força a consulta ao registry a cada início de contêiner.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/image-pull-secrets-and-pull-policy test` passa por inteiro: `deploy/web` sobe com a imagem do registry privado e, depois do push na mesma tag e do `rollout restart`, o novo Pod roda o BusyBox 1.37. Você deve conseguir explicar por que o pull falhava sem credenciais, por que o namespace importa e por que uma tag mutável pede `imagePullPolicy: Always`.
+
+**Desafios opcionais**
+
+- **TODO-03:** em vez de adicionar `imagePullSecrets` a cada Pod, anexe o Secret ao ServiceAccount `default` de `team-a`. Quais Pods o recebem, e quando?
+
+**Pré-requisitos:** Docker rodando (o teste sobe contêineres `registry:3`, `crane` e `rancher/k3s`), o artigo "Image Pull Secrets and Pull Policy", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/image-pull-secrets-and-pull-policy test`. Você edita apenas o `app.yaml`, e os comentários TODO ficam dentro do spec do Pod.
+
 ## Documentation Links
 
 - [Kubernetes docs: Images (image pull policy)](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy): padrões e comportamento de cada policy.

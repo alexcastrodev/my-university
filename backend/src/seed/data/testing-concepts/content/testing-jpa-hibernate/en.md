@@ -124,6 +124,38 @@ class CountryRepositoryIT {
 - **Manual transaction management is error-prone** — the book's `em.getTransaction().begin()/commit()` must be paired correctly and rolled back on failure by hand; a forgotten `commit()` or missing rollback leaves the test's data in an undefined state, which is why Spring's transaction-per-test (auto-rollback) is preferred.
 - **Mapping errors surface late** — a wrong `@Column` name or type mismatch compiles fine and only fails at schema generation or query time, not at build time, so ORM tests are essential precisely because the compiler can't verify the mapping.
 
+## Lab
+
+In this lab you get `Country` and `CountryRepository` **already built and working** (a Spring Data JPA repository has no method bodies: Spring generates the implementation from the signature and the `@Query`). Your job is to write tests with `@DataJpaTest` and `TestEntityManager` that prove the generated queries are correct and that expose a subtler behavior: the persistence context buffers writes and only sends them to the database when it flushes.
+
+**The scenario**
+
+A country catalog mapped with JPA.
+
+- `Country`: an entity with `id` (`GenerationType.IDENTITY`), `name` and `codeName`, with `setName` to mutate the name.
+- `CountryRepository`: `findByCodeName` (returns an `Optional`) and `searchByNameFragment`, a JPQL query with `LIKE %:fragment%`.
+- `CountryRepositoryTest`: `setUp()` already stores France, Finland and Germany with `persistAndFlush` and clears the persistence context. There is also a `readNameFromDatabaseDirectly(id)` helper that queries the database with a plain `JdbcTemplate`, bypassing Hibernate. It is what lets a test see what is actually stored, independent of what the persistence context believes.
+
+**What you will do, step by step**
+
+1. **Find by code (TODO-00).** `findByCodeName("FR")` must return a present `Optional` with a `Country` named "France".
+2. **Unknown code (TODO-01).** `findByCodeName("XX")` returns an empty `Optional`, with no exception. Compare with the `CountryDao` in the JDBC lab, which threw.
+3. **Search by fragment (TODO-02).** `searchByNameFragment("ranc")` must return exactly one country, "France", which proves the `LIKE` matches a fragment anywhere, not just a prefix or an exact name.
+4. **The key exercise: flush (TODO-03).** Fetch France with `entityManager.find(Country.class, franceId)` and call `setName("New France")`, with no `save`/`persist`, relying on dirty checking. Right after, check that `readNameFromDatabaseDirectly(franceId)` STILL returns "France": the setter only changed the in-memory entity, and Hibernate has not sent the UPDATE. Call `entityManager.flush()` and check that the helper now returns "New France".
+5. **IDENTITY and the immediate id (TODO-04).** Do `entityManager.persist(new Country("Spain", "ES"))`, not `persistAndFlush`, and check that `getId()` is already non-null without any flush from you. With IDENTITY only the database auto-increment generates the id, so Hibernate has to run the INSERT right away, unlike a deferred strategy such as SEQUENCE.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why the direct read still saw the old value before the flush and when Hibernate flushes on its own, and why the INSERT happens at `persist()` with IDENTITY.
+
+**Optional challenges**
+
+- **TODO-05:** save a new country with `countryRepository.save(new Country("Italy", "IT"))` and check that `count()` is now 4 (the 3 from `setUp()` plus the new one).
+
+**Prerequisites:** the `testing-jdbc-and-spring-jdbc` lab (or equivalent JDBC/H2 testing background) and reading `Country` and `CountryRepository` in `src/main/java`, noting the `GenerationType.IDENTITY`.
+
+**How to run it:** clone the repository, go into `testing-concepts/testing-jpa-hibernate` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/testing-jpa-hibernate test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Jakarta Persistence (JPA) migration — `javax` to `jakarta` (Hibernate 6 ORM guide)](https://docs.jboss.org/hibernate/orm/6.0/migration-guide/migration-guide.html) — doc

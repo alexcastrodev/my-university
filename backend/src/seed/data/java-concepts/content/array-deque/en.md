@@ -97,6 +97,37 @@ queue.poll(); // "A" — first offered, first polled
 - **Not synchronized** — same caveat as every other class covered here; concurrent access from multiple threads needs external synchronization or a concurrent collection instead.
 - **Array-backed storage avoids `LinkedList`'s per-node allocation**, which is why the JDK documentation recommends `ArrayDeque` over `LinkedList` for stack/queue use when `null` elements aren't needed — the trade-off is the same amortized-resize cost `ArrayList` pays, in exchange for no per-element node overhead.
 
+## Lab
+
+In this lab you get the `DequeToolkit` class, a collection of string utilities in which each one is naturally solved with a deque. You use `ArrayDeque` as a stack (`push` and `pop`) to match brackets and reverse text, and then use BOTH ends of the same deque at once to check a palindrome.
+
+**The scenario**
+
+Three classic problems, one structure.
+
+- `DequeToolkit.isBalanced()`: tells whether every `(`, `[` and `{` has its matching close in the right order. `"([{}])"` is balanced, `"([)]"` and `"("` are not.
+- `DequeToolkit.isPalindrome()`: tells whether the text reads the same backwards.
+- `DequeToolkit.reverse()`: returns the text's characters reversed, as a `List<Character>`.
+- `DequeToolkit.rotateLeft()`: optional, rotates a deque in place.
+
+**What you will do, step by step**
+
+1. **Balance brackets (TODO-00).** Use an `ArrayDeque<Character>` as a stack. Push each opening bracket. On each closing one, pop and check that it matches: an empty stack or a wrong pair means unbalanced. At the end the stack must be empty. Ignore any character that is not one of the six brackets.
+2. **Check a palindrome (TODO-01).** Load every character into an `ArrayDeque<Character>` and repeatedly compare `pollFirst()` with `pollLast()`, until fewer than 2 characters remain. This is the deque being consumed from both ends at once.
+3. **Reverse (TODO-02).** Push each character in order with `push()` and then `pop()` everything into the result list. The last in is the first out, and that is what reverses the text.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `"([)]"` fails even though it has the same number of opens and closes, and why the stack and the two ends of the deque are different tools on the same class.
+
+**Optional challenges**
+
+- **TODO-03:** implement `rotateLeft()`, rotating the contents of the given deque left by `positions` IN PLACE: the first elements move to the end, keeping their relative order. Rotating `[1,2,3,4,5]` by 2 gives `[3,4,5,1,2]`. The hint is to do `pollFirst()` followed by `offerLast()` of the value, `positions` times.
+
+**Prerequisites:** basic Java syntax and basics of arrays and `char[]`.
+
+**How to run it:** clone the repository, go into `java-concepts/array-deque` and run `mvn test` (or, from the root, `mvn -pl java-concepts/array-deque test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 594–595 — book

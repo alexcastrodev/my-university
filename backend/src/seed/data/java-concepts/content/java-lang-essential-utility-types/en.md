@@ -213,6 +213,36 @@ exposes.
   `redirectErrorStream(true)`, `inheritIO()`, or consuming the streams on
   a separate thread avoids it.
 
+## Lab
+
+In this lab you get three small classes with empty methods and must complete them so that two `java.lang` contracts really work: `Comparable`, which gives a type a natural ordering, and `AutoCloseable`, which makes it usable in try-with-resources. The core idea is to see that implementing the interface is not enough: the contract (the sign of `compareTo`, an idempotent `close()`) is what makes the rest of the platform, such as `sort` and `try`, work with your type.
+
+**The scenario**
+
+Money values must be sorted and pooled connections must be closed safely. The concept also covers `StackWalker` and `ProcessBuilder`, but this lab focuses on the two pieces that are easiest to test.
+
+- `Money.java`: holds a currency (`currency`) and an amount in cents (`amountCents`) and declares `Comparable<Money>`. `equals`, `hashCode` and `toString` are already done.
+- `PooledConnection.java`: declares `AutoCloseable`, has an `id` and a closed or open state.
+- `ConnectionUtils.java`: brings the two together, sorting lists of `Money` and (in the challenge) using a connection that is always closed.
+
+**What you will do, step by step**
+
+1. **Give money a natural ordering (TODO-00).** In `Money.compareTo()`, compare by `amountCents` only, ignoring the currency in this exercise. Return negative, zero or positive as `Comparable` requires. The hint is `Long.compare(a, b)`, which avoids the overflow risk of a subtraction.
+2. **Implement the connection state (TODO-01 and TODO-02).** `isClosed()` returns whether the connection has been closed. `close()` marks it closed and must be safe to call twice, without throwing. This matters because try-with-resources and the caller's own code can end up closing the same resource.
+3. **Sort without mutating (TODO-03).** In `ConnectionUtils.sortedByAmount()`, return a NEW list with the same `Money` objects in ascending natural order, without changing the list you received.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `compareTo` and `equals` differ here (one ignores the currency, the other does not) and why closing twice must not fail.
+
+**Optional challenges**
+
+- **TODO-04:** implement `ConnectionUtils.openAndUse()` with try-with-resources: get the connection from the `Supplier`, pass it to the `Consumer` and guarantee it is closed even if the action throws.
+
+**Prerequisites:** basic Java syntax and familiarity with generics.
+
+**How to run it:** clone the repository, go into `java-concepts/java-lang-essential-utility-types` and run `mvn test` (or, from the root, `mvn -pl java-concepts/java-lang-essential-utility-types test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` and carry a `TODO-NN` comment, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Comparable — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html) — doc

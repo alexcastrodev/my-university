@@ -110,6 +110,35 @@ Plum
 - **Average O(1) operations assume a reasonably distributed `hashCode()`** — a poor hash function that collides heavily degrades `get`/`put`/`remove` toward O(n) within a bucket (O(log n) since JDK 8, once a bucket treeifies past 8 entries), since every colliding key has to be checked with `equals()`.
 - **`HashMap` is not synchronized and allows one `null` key** — for concurrent access, use `ConcurrentHashMap` instead (see the HTTP Sessions Under the Hood concept for it in a real server-side use).
 
+## Lab
+
+In this lab you get the `PriceCatalog` class, which keeps prices in a `HashMap<String, Double>`, and you implement the basic operations of a map. The core idea is to use the return value of `put()` to tell an insert from an update, and to walk `entrySet()` with `Map.Entry` when you need the key and the value at the same time.
+
+**The scenario**
+
+A catalog maps product name to price, and must report the previous price when changing one, apply discounts and find the most expensive product.
+
+- `PriceCatalog.java`: holds `prices` (a `Map<String, Double>` backed by a `HashMap`). `size()` is already written. The other methods return `Optional` when a value may not exist.
+
+**What you will do, step by step**
+
+1. **Set a price (TODO-00).** In `setPrice()`, store the price with `put()` and return the PREVIOUS price inside an `Optional`, or `Optional.empty()` if the product was new. `put()` already returns the old value (or `null`), so no extra lookup is needed.
+2. **Look up (TODO-01).** In `getPrice()`, return the product's price or `Optional.empty()`. `get()` on a missing key returns `null` and does not throw, so check for that before wrapping.
+3. **Apply a discount (TODO-02).** In `applyDiscount()`, read the current price, compute `price * (1 - percentOff / 100.0)` and `put()` the new value, the same read-then-write pattern as a balance deposit. If the product does not exist, return `false` and change nothing.
+4. **Find the most expensive (TODO-03).** In `mostExpensive()`, walk `prices.entrySet()` comparing `Map.Entry.getValue()` and return the KEY of the highest price, or `Optional.empty()` if the catalog is empty. Here `entrySet()` is the right tool because you need the key and the value together.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what `put()` returns in each case (new key and existing key) and why the discount does not use `keySet()` with an extra `get()` per key.
+
+**Optional challenges**
+
+- **TODO-04:** implement `totalValue()`, summing every price in the catalog via `entrySet()`.
+
+**Prerequisites:** basic Java syntax and familiarity with `Optional`.
+
+**How to run it:** clone the repository, go into `java-concepts/hash-map` and run `mvn test` (or, from the root, `mvn -pl java-concepts/hash-map test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 612–614 — book

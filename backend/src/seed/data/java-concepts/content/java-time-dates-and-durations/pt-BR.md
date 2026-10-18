@@ -318,6 +318,37 @@ Um driver JDBC moderno entrega tipos `java.time` diretamente — `rs.getObject("
   ```
 - **Esses tipos são `Serializable`, mas não da forma ingênua.** Todo tipo de `java.time` se serializa através de um proxy de serialização package-private em vez de expor seus campos como API permanente, que é exatamente a técnica de contenção descrita em `serialization-risks-and-safer-alternatives` — vale a pena saber se você os serializa, e vale a pena copiar se você escreve seus próprios tipos de valor.
 
+## Lab
+
+Neste lab você recebe `ScheduleCalculator`, com quatro métodos por implementar que mostram duas formas de "somar um dia" a um `ZonedDateTime`: uma que soma tempo decorrido (`Duration`) e outra que soma um dia de calendário (`Period`). A ideia central é ver que num dia comum as duas dão o mesmo resultado, mas numa virada de horário de verão (DST) elas divergem.
+
+**O cenário**
+
+Somar "um dia" é ambíguo: pode ser exatamente 24 horas ou o mesmo horário do relógio no dia seguinte, e a diferença aparece quando o dia tem 23 ou 25 horas.
+
+- `ScheduleCalculator`: `plusOneElapsedDay`, `plusOneCalendarDay`, `elapsedTimeAcross`, `landsOnSameWallClockTime` e o opcional `plusOneCalendarMonthClamped`.
+- `ScheduleCalculatorTest`: os testes provam a divergência usando as regras reais da zona de fuso, e não uma data fixa no código.
+
+**O que você vai fazer, passo a passo**
+
+1. **Somar tempo decorrido (TODO-00).** Em `plusOneElapsedDay`, some exatamente 24 horas com `Duration`. Isso soma ao instante, então o horário do relógio pode mudar ao cruzar uma transição de DST.
+2. **Somar um dia de calendário (TODO-01).** Em `plusOneCalendarDay`, some um dia com `Period`. Isso soma à data e hora locais e reavalia contra as regras da zona, então cai no mesmo horário do relógio no dia seguinte, mesmo quando esse dia não tem 24 horas.
+3. **Medir e comparar (TODO-02 e TODO-03).** Em `elapsedTimeAcross`, devolva a `Duration` exata entre os dois instantes. Em `landsOnSameWallClockTime`, compare só a hora local dos dois argumentos, ignorando a data e o deslocamento da zona.
+
+Os testes cobrem um dia comum, a lacuna da primavera (spring forward), em que o tempo decorrido desloca o relógio e o dia de calendário não, e a sobreposição do outono (fall back), em que o dia de calendário leva 25 horas decorridas.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar quando usar `Duration` e quando usar `Period` para agendar algo, e por que um dia de calendário nem sempre dura 24 horas.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `plusOneCalendarMonthClamped`, somando um mês com `Period` e verificando que o resultado fica no último dia do mês seguinte quando o dia de origem não existe lá (somar um mês a 31 de janeiro não pode cair em 3 de março).
+
+**Pré-requisitos:** sintaxe básica de Java, a ideia de fuso horário e horário de verão, e noções da API `java.time`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/java-time-dates-and-durations` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/java-time-dates-and-durations test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [java.time — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/package-summary.html) — doc

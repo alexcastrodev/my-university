@@ -99,6 +99,37 @@ queue.poll(); // "A" — first offered, first polled
 - **Não sincronizada** — mesma ressalva das demais classes cobertas aqui; acesso concorrente de múltiplas threads precisa de sincronização externa ou de uma collection concorrente.
 - **O armazenamento baseado em array evita a alocação por nó da `LinkedList`**, motivo pelo qual a documentação do JDK recomenda `ArrayDeque` em vez de `LinkedList` para uso como pilha/fila quando elementos `null` não são necessários — o trade-off é o mesmo custo de redimensionamento amortizado que `ArrayList` paga, em troca de nenhuma sobrecarga de nó por elemento.
 
+## Lab
+
+Neste lab você recebe a classe `DequeToolkit`, uma coleção de utilitários sobre strings em que cada um é resolvido naturalmente com um deque. Você usa o `ArrayDeque` como pilha (`push` e `pop`) para casar parênteses e inverter texto, e depois usa as DUAS pontas do mesmo deque ao mesmo tempo para verificar um palíndromo.
+
+**O cenário**
+
+Três problemas clássicos, uma estrutura só.
+
+- `DequeToolkit.isBalanced()`: diz se todo `(`, `[` e `{` tem o fechamento correspondente na ordem certa. `"([{}])"` é balanceada, `"([)]"` e `"("` não.
+- `DequeToolkit.isPalindrome()`: diz se o texto é igual lido de trás para frente.
+- `DequeToolkit.reverse()`: devolve os caracteres do texto invertidos, como `List<Character>`.
+- `DequeToolkit.rotateLeft()`: opcional, rotaciona um deque no lugar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Balancear colchetes (TODO-00).** Use um `ArrayDeque<Character>` como pilha. Empilhe cada abertura. Em cada fechamento, desempilhe e confira se combina: pilha vazia ou par errado significa desbalanceada. No fim a pilha precisa estar vazia. Ignore qualquer caractere que não seja um dos seis colchetes.
+2. **Verificar palíndromo (TODO-01).** Carregue todos os caracteres em um `ArrayDeque<Character>` e compare repetidamente `pollFirst()` com `pollLast()`, até restarem menos de 2 caracteres. É o deque sendo consumido pelas duas pontas ao mesmo tempo.
+3. **Inverter (TODO-02).** Empilhe cada caractere em ordem com `push()` e depois `pop()` tudo para a lista de resultado. O último a entrar é o primeiro a sair, e é isso que inverte o texto.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `"([)]"` falha mesmo tendo o mesmo número de aberturas e fechamentos, e por que a pilha e as duas pontas do deque são ferramentas diferentes sobre a mesma classe.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `rotateLeft()`, rotacionando o conteúdo do deque recebido para a esquerda em `positions` posições, NO LUGAR: os primeiros elementos vão para o fim, mantendo a ordem relativa. Rotacionar `[1,2,3,4,5]` por 2 dá `[3,4,5,1,2]`. A dica é fazer `pollFirst()` seguido de `offerLast()` do valor, `positions` vezes.
+
+**Pré-requisitos:** sintaxe básica de Java e noções de arrays e `char[]`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/array-deque` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/array-deque test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 594–595 — book

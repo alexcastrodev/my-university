@@ -169,6 +169,36 @@ O conceito complementar `visibility-and-safe-publication` cobre o que é necess�
 
 - **Interop com frameworks e thread pools que você não controla.** Uma tarefa entregue a um executor que você não criou roda em uma thread fora da sua extensão, então o binding não a acompanha; o valor precisa ser capturado explicitamente e re-vinculado dentro da tarefa se precisar cruzar essa fronteira.
 
+## Lab
+
+Neste lab você recebe `RequestContext`, uma classe que carrega o usuário atual (e um locale) por uma cadeia de chamadas sem passar parâmetro em cada método, usando `ScopedValue` no lugar de `ThreadLocal`. Seu trabalho é preencher as leituras e as vinculações. A ideia central é sentir que um `ScopedValue` não tem `set()`: você só lê, ou vincula um valor durante a execução de um trecho de código.
+
+**O cenário**
+
+Cada requisição tem seu usuário, e o código fundo na pilha precisa enxergá-lo sem que ninguém o repasse.
+
+- `RequestContext`: dois `ScopedValue<String>` privados (`CURRENT_USER` e `CURRENT_LOCALE`) atrás de métodos estáticos. `currentLocale()` já está pronto e devolve `"en-US"` quando nada está vinculado.
+- `RequestContextTest`: além dos casos básicos, tem testes de aninhamento, de duas threads concorrentes e de uma thread filha criada à mão.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ler o valor vinculado (TODO-00 a TODO-02).** `currentUser()` usa `get()` e deixa a `NoSuchElementException` subir sem tratar quando nada está vinculado. `hasCurrentUser()` usa `isBound()`. `currentUserOrDefault(fallback)` usa `orElse(...)`.
+2. **Vincular durante uma ação (TODO-03 e TODO-04).** Para a versão que devolve resultado, use `ScopedValue.where(CURRENT_USER, user).call(...)` e retorne o que a ação devolver. Para a versão `Runnable`, use `where(...).run(...)`. O vínculo não pode ser visível antes da chamada nem depois do retorno.
+
+Depois de tudo verde, releia dois testes com calma. `nestedRunAsShadowsThenRestores` mostra que um novo vínculo só sombreia o anterior dentro da sua extensão e não vaza para cima. `plainChildThreadDoesNotInheritBinding` mostra que uma thread que você mesmo inicia está fora da extensão: só uma subtarefa de `StructuredTaskScope` enxerga o vínculo do pai automaticamente.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `ScopedValue` é imutável e limitado a uma extensão, e por que isso evita os vazamentos e a herança implícita que o `ThreadLocal` tem.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `runAs(user, locale, action)` vinculando `CURRENT_USER` e `CURRENT_LOCALE` ao mesmo tempo, encadeando um segundo `.where(...)` no `Carrier` devolvido pelo primeiro e chamando `.run(action)`.
+
+**Pré-requisitos:** `ThreadLocal`, lambdas e `Runnable`, e o JDK 25.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/scoped-values` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/scoped-values test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [JEP 506 — Scoped Values](https://openjdk.org/jeps/506) — doc

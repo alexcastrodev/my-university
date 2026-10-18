@@ -98,6 +98,35 @@ ts.subSet("C", "F"); // [C, D, E] — >= C, < F
   ```
 - **Os elementos precisam ser mutuamente comparáveis, e nada garante isso em tempo de compilação quando nenhum `Comparator` é fornecido** — inserir um objeto que na verdade não pode ser comparado aos demais compila sem problemas e falha só no ponto em que uma comparação é forçada, como um `ClassCastException` lançado de dentro de `compareTo()`, não do próprio `TreeSet`.
 
+## Lab
+
+Neste lab você recebe a classe `ScoreBoard`, que guarda pontuações em um `TreeSet<Integer>`, e usa a ordenação permanente e as buscas de vizinho mais próximo do `NavigableSet` (`ceiling` e `floor`) em vez de ordenar uma lista toda vez que precisa de ordem. A ideia central é perceber que um `TreeSet` já mantém tudo ordenado e responde perguntas que um `Set` comum não consegue.
+
+**O cenário**
+
+Um placar registra as pontuações de um jogo e precisa dizer a maior, a menor e qual é a pontuação mais próxima de um alvo, para cima ou para baixo.
+
+- `ScoreBoard.java`: guarda `scores` (um `TreeSet<Integer>`). Todos os métodos são seus.
+
+**O que você vai fazer, passo a passo**
+
+1. **Registrar (TODO-00).** Em `record()`, adicione a pontuação. Registrar uma que já existe não muda nada, que é a semântica de `Set`.
+2. **Extremos (TODO-01 e TODO-02).** `highest()` devolve a maior e `lowest()` a menor. Quando nada foi registrado, deixe a exceção natural acontecer, sem capturar e relançar. Pense qual método do `TreeSet` lança nesse caso, em vez de devolver `null`.
+3. **Vizinho para cima (TODO-03).** Em `closestAtLeast()`, devolva a menor pontuação registrada que seja `>= target`, ou `null` se nenhuma servir. É o `ceiling`.
+4. **Vizinho para baixo (TODO-04).** Em `closestAtMost()`, devolva a maior pontuação registrada que seja `<= target`, ou `null`. É o `floor`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que nenhum desses métodos precisou ordenar nada e o que `ceiling` e `floor` devolvem quando o alvo já está no conjunto.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `between()`, devolvendo todas as pontuações do intervalo fechado `[low, high]` como um `SortedSet<Integer>`.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com a interface `Set`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/tree-set` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/tree-set test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 592–593 — book

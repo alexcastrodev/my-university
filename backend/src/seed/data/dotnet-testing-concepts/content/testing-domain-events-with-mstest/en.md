@@ -331,18 +331,40 @@ A change that leaves everything green is a missing test. The
 
 ## Lab
 
-The ordering module from the Domain Events lab is already implemented. Your job is to write the MSTest tests that prove it works, and to learn where a test must assert for the result to mean anything.
+In this lab you get the ordering module from the Domain Events lab **already built and working**. There is no production code to write: your job is to write the MSTest tests that prove it works. The core idea is to feel that, with domain events, a test only proves something if the assert is in the right place. Reading the result through the same `DbContext` that just failed can pass for the wrong reason, so you will read the committed state through a fresh context.
 
-**What you will practice**
+**The scenario**
 
-- Testing the aggregate on its own, with a `FakeTimeProvider` for timestamps.
-- Testing the `SaveChanges` interceptor against a real EF Core pipeline.
-- Proving the outbox row commits together with the order, and that neither exists after a failed save.
-- Proving a consumer survives duplicate delivery.
+An order is placed, raises an event, the event is handled inside the same transaction and a consumer reacts after the commit.
 
-**Prerequisites:** the Domain Events and Consistency Boundaries concept and lab, basic MSTest, .NET 10 SDK.
+- `Model.cs`: `Order.Place(customerId, total, clock)` rejects a non-positive total and raises `OrderPlaced`. `Customer.AwardPoints` adds points.
+- `Dispatching.cs`: `DomainEventDispatcher` and `DomainEventsInterceptor`, which dispatches the events in `SavingChangesAsync` (before the commit) and clears the aggregate's events.
+- `Handlers.cs`: `OrderPlacedHandler` writes an outbox row in the same transaction. `LoyaltyConsumer` runs after the commit, on its own context, and uses an inbox table (`ProcessedMessage`) to ignore repeated messages.
+- `tests/Ordering.Tests/TestDatabase.cs`: in-memory SQLite with one connection per test. `NewContext(dispatcher)` creates contexts with the interceptor and `Plain()` creates one without handlers, to read back what was committed.
 
-**How it works:** every test method is already declared with a hint and fails with `TODO-NN: write this test` until you write it. Some tests only prove something if you assert in the right place, for example not through the same `DbContext` that just failed. The optional TODOs ask you to mutate the production code and check that your suite notices.
+Note `MSTestSettings.cs`: tests run in parallel. Each test gets a new instance of the class, so instance fields are safe and `static` fields are not.
+
+**What you will do, step by step**
+
+1. **Test the pure aggregate (TODO-00).** In `OrderAggregateTests`, check the single `OrderPlaced` that is raised (id, customer and total), its time using a `FakeTimeProvider`, and the rejection of invalid totals with `[DataRow]` for 0 and -5. Careful: `Assert.ThrowsExactly<T>` wants exactly type `T`, not a derived one.
+2. **Complete the fakes (TODO-01).** In `TestDoubles.cs`, make `RecordingHandler` keep every `OrderPlaced` it receives in a list the tests can read, and make `ExplodingHandler` throw `InvalidOperationException`, like a loyalty service that is down.
+3. **Isolate the database per test (TODO-02).** In `DomainEventsInterceptorTests`, keep a `TestDatabase` in a `readonly` field and dispose it at the end (`IDisposable`). `OutboxTests` already does it this way.
+4. **Test the interceptor (TODO-03).** Register a `RecordingHandler`, save an order and check what the handler saw. Save twice and prove the event is dispatched only once and the aggregate is left with no events. With a handler that throws, prove the rollback by reading through `TestDatabase.Plain`.
+5. **Test the outbox (TODO-04).** After a successful save there must be one order and one outbox row. Register `OrderPlacedHandler` and then `ExplodingHandler`, so the outbox row is added before the failure, and prove that neither the order nor the row reached the database.
+6. **Test the consumer (TODO-05).** Call `LoyaltyConsumer` directly, with no worker and no `Thread.Sleep`. Check that points are awarded in its own transaction, that the same message delivered twice awards points only once (with one inbox row), and that different messages for the same customer accumulate. Pass the `TestContext`'s `CancellationToken` instead of `CancellationToken.None`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You can explain why every database assert uses a fresh context and why dispatching before the commit makes the rollback take the outbox row with it.
+
+**Optional challenges**
+
+- **TODO-06:** run only the integration tests with `dotnet test --filter "TestCategory=Integration"` and everything else with `--filter "TestCategory!=Integration"`.
+- **TODO-07:** mutation check. Remove `ClearDomainEvents` from the interceptor, move the dispatch to `SavedChangesAsync` and make `LoyaltyConsumer` skip the inbox check. Each change should turn at least one test red, otherwise a test is missing.
+
+**Prerequisites:** the Domain Events and Consistency Boundaries concept and lab, basic MSTest (`[TestClass]`, `[TestMethod]`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every test method is already declared with a hint in a comment and fails with `TODO-NN: write this test` until you write it, so the list of red tests is your checklist.
 
 ## Documentation Links
 

@@ -213,6 +213,38 @@ class file versions up to 61.0
 - **`ACC_SUPER` is a historical compatibility bit** — every class compiled since Java 1.0.2 has it set automatically, existing only so a modern JVM can still correctly resolve `invokespecial` calls the way pre-1.0.2 class files expected; there's no reason to reason about it in code written today.
 - **Constant pool entries are 1-indexed and never entry `#0`** — index `0` is reserved as an explicit "no reference" value (used, for example, by a class with no superclass), so pool entries always start counting at `#1`, which trips up anyone writing a parser by hand and assuming 0-based indexing.
 
+## Lab
+
+In this lab you get a tiny class (`Counter`) and two tools whose bodies are still **unimplemented**. Your job is to make the tests pass by reading, byte by byte, the `.class` file that `javac` produced and by asking reflection which access flags the compiler wrote. The core idea is to feel that a `.class` file is not magic: it is a rigid binary layout (magic number, version, constant pool, flags, fields, methods) in which even the difference between an instance field and a static field is just one bit (`ACC_STATIC`).
+
+**The scenario**
+
+`Counter` has an instance field (`value`, one per object) and a static one (`valueInstance`, one per class). You will confirm in the bytes and in the flags what that means.
+
+- `Counter.java`: the class with `value`, `valueInstance` and a constructor that assigns both. A comment says `value` carries `ACC_PUBLIC`, but the declaration does not ask for it yet.
+- `ClassFileReader.java`: reads the raw bytes of `Counter.class` (the same bytes `javap` parses). It has `readMagicNumber`, `readMajorVersion` and, optionally, `readConstantPoolCount`.
+- `FieldFlags.java`: `isPublic` and `isStatic`, which decode a field's flags through reflection.
+- The tests (`ClassFileReaderTest`, `FieldFlagsTest`, `CounterTest`) open `Counter.class` with `getResourceAsStream` and check the result.
+
+**What you will do, step by step**
+
+1. **Fix the declaration (TODO-00).** In `Counter.java`, add the modifier that gives `value` the `ACC_PUBLIC` flag promised by the comment. This is what `FieldFlagsTest` expects.
+2. **Read the magic number (TODO-01).** In `ClassFileReader.readMagicNumber`, wrap the `InputStream` in a `DataInputStream` and read the first 4 bytes as an `int` (`readInt()`). Every `.class` starts with `0xCAFEBABE`.
+3. **Read the major version (TODO-02).** In `readMajorVersion`, skip the magic number (4 bytes) and the minor version (2 bytes), then read the major version. Both version fields are unsigned, so use `readUnsignedShort()`. The test expects 65, the Java 21 version number.
+4. **Decode the flags (TODO-03 and TODO-04).** In `FieldFlags`, look up the `Field` by name and use `getModifiers()` together with `Modifier` to answer `isPublic` and `isStatic`. These are the same bits as the `access_flags` stored in the file.
+
+**How you know you are done**
+
+`mvn test` passes. Compile the lab and run `javap -v -p` on `target/classes/Counter.class` (the exact command is in the README): you should find the magic number and version at the top, the `flags:` of `value` and `valueInstance` in the `Fields:` section matching what `FieldFlagsTest` asserts, and the constant pool starting at `#1`, not `#0`.
+
+**Optional challenges**
+
+- **TODO-05:** implement `readConstantPoolCount()`: skip 8 bytes (magic, minor and major) and read the `constant_pool_count`. Compare it with the `#1`-based indexing you saw in `javap`.
+
+**Prerequisites:** basic Java syntax, `InputStream` and `DataInputStream`, reflection basics (`Class`, `Field`, `Modifier`).
+
+**How to run it:** clone the repository, go into `jvm-concepts/class-file-structure` and run `mvn test` (or, from the root, `mvn -pl jvm-concepts/class-file-structure test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the red tests show what is left.
+
 ## Documentation Links
 
 - [The class File Format — Java Virtual Machine Specification, SE 25](https://docs.oracle.com/javase/specs/jvms/se25/html/jvms-4.html) — doc

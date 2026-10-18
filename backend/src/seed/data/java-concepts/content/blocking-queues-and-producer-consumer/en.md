@@ -147,6 +147,38 @@ received.appendStep("processed"); // safe: this thread now has exclusive access
 - **`put()` and `take()` declare `InterruptedException`, so every caller must decide how to respond to it** — swallowing the exception silently (an empty `catch` block) throws away the information that the thread was asked to stop; restoring the interrupt (`Thread.currentThread().interrupt()`) or propagating the checked exception are the two sound options, not ignoring it.
 - **A consumer loop built on `take()` never exits by itself** — `while (true) { queue.take(); ... }` has no natural termination condition, so a real shutdown needs an explicit signal (interrupting the consumer thread, or having producers enqueue a recognizable "poison pill" item) that the queue itself does not provide.
 
+## Lab
+
+In this lab you get `BoundedWorkQueue<T>`, a thin wrapper over a fixed-capacity `ArrayBlockingQueue`, with all of its put and take methods left to implement. Your job is to wire each one to the right `BlockingQueue` method. The core idea is to feel the difference between blocking until there is room (or an item) and giving up after a deadline, which is what gives a producer-consumer pair backpressure.
+
+**The scenario**
+
+A producer hands items to a consumer through a bounded queue: if the queue fills up the producer waits, and if it empties the consumer waits.
+
+- `BoundedWorkQueue`: creates the `ArrayBlockingQueue` in the constructor and exposes `submit`, `fetch`, `trySubmitWithin`, `fetchWithin`, the optional `submitAll` and `size()`.
+- `BoundedWorkQueueTest`: starts real threads, waits 150 ms and checks that the producer or consumer is still alive, blocked, and that no exception was thrown.
+
+This lab has no README: everything here comes from the code and the tests.
+
+**What you will do, step by step**
+
+1. **Block instead of throwing (TODO-00 and TODO-01).** `submit` uses `put` and `fetch` uses `take`. With a full queue `submit` waits instead of blowing up; with an empty queue `fetch` waits instead of returning `null`. Both propagate `InterruptedException`.
+2. **Wait with a deadline (TODO-02 and TODO-03).** `trySubmitWithin` uses `offer(item, timeout, unit)` and returns whether the item went in. `fetchWithin` uses `poll(timeout, unit)` and returns `null` if nothing arrived in time. The timeout comes in milliseconds, so convert it with `TimeUnit.MILLISECONDS`.
+
+Run the tests and notice that the blocking ones depend on timing: the producer only finishes after the consumer drains the queue.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `add`/`remove` do not fit here (they throw instead of waiting), and when to choose `put`/`take` over `offer`/`poll` with a timeout.
+
+**Optional challenges**
+
+- **TODO-04:** implement `submitAll(List<T>)`, sending each item in order and reusing `submit`, so the caller blocks exactly like a single `submit` would when the queue fills up.
+
+**Prerequisites:** basic Java syntax, threads and `InterruptedException`, and the producer-consumer idea.
+
+**How to run it:** clone the repository, go into `java-concepts/blocking-queues-and-producer-consumer` and run `mvn test` (or, from the root, `mvn -pl java-concepts/blocking-queues-and-producer-consumer test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [BlockingQueue — java.util.concurrent](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/BlockingQueue.html) — doc

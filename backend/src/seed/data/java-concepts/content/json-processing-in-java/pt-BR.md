@@ -372,6 +372,40 @@ module com.example.app {
 - **Jackson 2 e 3 coexistem, o que é um recurso e um risco** — os pacotes renomeados deixam as duas majors conviverem em um classpath durante uma migração, mas nada impede metade de um codebase de importar cada um, e os tipos não interoperam. Duas classes `JsonNode` com o mesmo simple name produzem mensagens de erro que soam como absurdo até você notar o pacote.
 - **Nenhum padrão significa nenhuma portabilidade de idiomas** — tratamento de JSON em Java é uma escolha de biblioteca sem padrão de plataforma, então o conhecimento não transfere limpo entre codebases (anotações do Jackson, `@SerializedName` do Gson, `@JsonbProperty` do JSON-B resolvem o mesmo problema de formas diferentes). A JEP 540 estreita isso só para os casos mais simples; ela não dá ao ecossistema uma API de binding comum.
 
+## Lab
+
+Neste lab você recebe `ManifestProcessor`, que precisa ler um documento JSON de manifesto de pacote (nome, versão, descrição, colaboradores) em um record `PackageManifest`, ler dois campos que não fazem parte do record (`homepage` e `publisher.city`) pelo modelo de árvore e montar um `JsonMapper` estrito. A ideia central é escolher a ferramenta certa para cada situação: data binding para o que você modela, árvore para o que não modela e um mapper estrito quando um campo inesperado deve ser tratado como bug.
+
+**O cenário**
+
+O manifesto tem `name`, `version`, `description`, `contributors`, mas também `homepage` e um objeto `publisher`, deixados de propósito fora do record para praticar a navegação numa forma que você não modelou como classe.
+
+- `ManifestProcessor`: o record aninhado `PackageManifest` e os métodos estáticos `readManifest`, `createStrictMapper`, `readHomepage`, `readPublisherCity` e o opcional `readManifests`.
+- `ManifestProcessorTest`: inclui testes de evolução de esquema, em que um campo desconhecido ou ausente no JSON não deve quebrar o mapper padrão.
+
+O lab usa o Jackson 3 (pacotes `tools.jackson`), com `JsonMapper` e `JsonNode`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Fazer o data binding (TODO-00).** Em `readManifest`, chame `mapper.readValue(json, PackageManifest.class)`.
+2. **Construir um mapper estrito (TODO-01).** Em `createStrictMapper`, use `JsonMapper.builder()` e habilite `DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES`. Um mapper comum já tolera campos não modelados, por isso a estrictez precisa ser ligada, e não desligada.
+3. **Ler um campo pela árvore (TODO-02).** Em `readHomepage`, use `mapper.readTree(json)` e `path("homepage")`, não `get(...)`: `path` devolve um `MissingNode` em vez de `null` quando o campo falta. Chame `asText("unknown")` para ter o padrão em um passo.
+4. **Navegar com JSON Pointer (TODO-03).** Em `readPublisherCity`, use `at("/publisher/city")` para chegar direto ao campo aninhado e devolva `"unknown"` quando `isMissingNode()`, senão `asText()`.
+
+O teste `shouldToleratesUnknownFieldByDefault` só depende do TODO-00: ele existe para mostrar que um `JsonMapper` comum já tolera um campo não modelado, e é por isso que o TODO-01 precisa optar pela rigidez.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `path` é mais seguro que `get` para campos opcionais e quando um mapper estrito vale a pena.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `readManifests`, ligando um array JSON a uma `List<PackageManifest>` com `TypeReference`, evitando a armadilha da `ClassCastException` de ligar direto a `List.class`, que perde o tipo do elemento por erasure.
+
+**Pré-requisitos:** records, genéricos e noções de JSON.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/json-processing-in-java` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/json-processing-in-java test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Jackson databind — FasterXML/jackson-databind](https://github.com/FasterXML/jackson-databind) — doc

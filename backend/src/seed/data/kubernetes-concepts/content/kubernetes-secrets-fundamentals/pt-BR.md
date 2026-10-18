@@ -101,6 +101,37 @@ Esta é a parte que decide se tudo funciona ou não:
 - **`kubectl create` imperativo não combina com GitOps.** O Git não pode guardar Secrets em texto puro, então times com GitOps criptografam antes do commit (Sealed Secrets, SOPS) ou referenciam gerenciadores externos. A saída de `kubectl create ... --dry-run=client -o yaml` é um bom ponto de partida para qualquer um dos dois.
 - **`immutable: true` troca flexibilidade por segurança e escala.** Rotacionar vira "criar `tenant-alpha-v2`, apontar o Deployment para ela, apagar a v1", o que tem mais passos, mas dá um rollout automático e um rollback limpo.
 
+## Lab
+
+Neste lab você recebe um namespace `shop` já montado, com um "banco de dados" que só aceita o usuário `app` com a senha `s3cret`, uma `api` que faz login nele com a senha vinda de um Secret, e um job de relatórios com a sua própria identidade. O seu trabalho é corrigir um único arquivo, `secrets.yaml`, até três coisas ficarem certas. A ideia central é perceber que um Secret é só um valor em base64 (sem proteção nenhuma), que um byte a mais quebra a autenticação e que o acesso a um Secret não deve abrir todos os outros.
+
+**O cenário**
+
+Uma loja tem uma `api` que precisa da senha do banco, e um job de relatórios que precisa ler apenas o próprio token. Tudo roda em um cluster Kubernetes real (k3s, iniciado pelo Testcontainers).
+
+- `src/test/resources/k8s/shop.yaml`: dado pronto, não edite. Cria o namespace, o "banco" (um servidor HTTP com basic auth), a `api` (que só fica `Ready` enquanto o banco aceita a senha), o Secret `report-creds` e o ServiceAccount `reports`.
+- `src/main/resources/k8s/secrets.yaml`: o seu arquivo. Tem o Secret `db-creds` com a senha em base64, mais um `Role` e um `RoleBinding` para o `reports`.
+
+Repare que o teste aplica primeiro o `shop.yaml` e depois o seu `secrets.yaml`, então a `api` começa a subir já referenciando o Secret que você vai corrigir.
+
+**O que você vai fazer, passo a passo**
+
+1. **Descobrir por que a api nunca fica pronta (TODO-00).** Rode os testes antes de mexer em qualquer coisa: a mensagem de falha mostra o valor guardado em base64. Decodifique com `base64 -d | od -c` e compare com `s3cret`. O valor foi gerado com `echo`, então há um byte a mais no fim. Corrija o campo `password` para ser exatamente a senha.
+2. **Tornar o Secret imutável (TODO-01).** `db-creds` não pode mudar no lugar: uma senha nova significa um Secret novo e um rollout. Marque-o como imutável e o próprio servidor passa a recusar qualquer `patch`.
+3. **Restringir o acesso do `reports` (TODO-02).** O `Role` atual dá `get` e `list` em todos os Secrets do namespace, e `list` devolve o conteúdo de cada um, inclusive `db-creds`. Deixe o `reports` ler somente `report-creds`, e pense em qual verbo e em qual campo da regra isso exige.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubernetes-secrets-fundamentals test` fica todo verde: a `api` fica `Ready`, o `patch` em `db-creds` falha e o `kubectl auth can-i` responde `yes` para `get secret/report-creds` e `no` para `get secret/db-creds` e para `list secrets`. Você deve conseguir explicar por que `list` é tão perigoso quanto `get` e por que a imutabilidade empurra a rotação para um novo Secret.
+
+**Desafios opcionais**
+
+- **TODO-03:** com `db-creds` imutável, rotacione a senha. O que você cria, o que muda no Deployment e o que acontece com o Secret antigo?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "Kubernetes Secrets Fundamentals", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/kubernetes-secrets-fundamentals test`. Rode uma vez antes de editar: os testes que falham e a mensagem do primeiro mostram o que falta. Você edita apenas o `secrets.yaml`.
+
 ## Documentation Links
 
 - [Kubernetes docs: Secrets](https://kubernetes.io/docs/concepts/configuration/secret/): tipos, `data` vs `stringData`, Secrets imutáveis, limite de tamanho.

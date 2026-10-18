@@ -130,6 +130,36 @@ Cada método parecido com setter retorna `this`, o que é o que torna as chamada
   ```
 - **O construtor compacto de um record (veja `records-and-sealed-types`) é a alternativa mais enxuta quando há apenas alguns campos, majoritariamente obrigatórios** — ele valida em um só lugar sem a cerimônia de uma classe builder separada. Porém isso não ajuda quando vários campos são genuinamente opcionais: o construtor canônico de um record ainda recebe todo componente posicionalmente, então um record sozinho não resolve o problema telescópico que um builder resolve.
 
+## Lab
+
+Neste lab você recebe o record imutável `ServerConfig` com a estrutura pronta e os corpos vazios, e implementa nele um `Builder` fluente e duas fábricas estáticas. A ideia central é ver por que uma classe com vários campos opcionais e interdependentes pede mais que um construtor público: fábricas estáticas que dão nome à intenção (e podem compartilhar instâncias) e um builder cujas regras são validadas uma única vez, em `build()`, e não espalhadas pelos setters.
+
+**O cenário**
+
+Uma configuração de servidor tem dois campos obrigatórios e vários opcionais, dois deles com restrições reais.
+
+- `ServerConfig.java`: o record com `host`, `port`, `useTls`, `tlsCertificatePath`, `maxConnections` (um `Integer` que pode ser `null`, significando "não definido"), `unlimited` e `connectionTimeoutSeconds`. Contém a classe aninhada `Builder` (timeout padrão de 30 segundos) e as fábricas estáticas.
+- Regras: `tlsCertificatePath` só é exigido quando `useTls` está ligado, e `maxConnections` e `unlimited` são mutuamente exclusivos.
+
+**O que você vai fazer, passo a passo**
+
+1. **Os setters do Builder (TODO-01).** Implemente os cinco setters fluentes (`useTls()`, `tlsCertificatePath(...)`, `maxConnections(...)`, `unlimited()` e `connectionTimeoutSeconds(...)`). Cada um só atribui o campo e devolve `this`. NENHUMA validação entra aqui.
+2. **Validar em `build()` (TODO-00).** Valide, nesta ordem, lançando `IllegalStateException` com uma mensagem que diga qual regra falhou: host nulo ou em branco; porta fora de 1 a 65535; `useTls` ligado sem `tlsCertificatePath` preenchido; `maxConnections` definido junto com `unlimited`. Se tudo passar, construa e devolva o `ServerConfig`. Fazer isso em um único lugar é o ponto do padrão.
+3. **Fábrica nomeada (TODO-02).** Em `localhost(int port)`, devolva `new Builder("localhost", port).build()`. O nome da fábrica diz a intenção que o construtor não diria.
+4. **Fábrica com cache (TODO-03).** Em `defaultConfig()`, construa a configuração padrão (host `localhost`, porta 8080) uma vez, guarde em `cachedDefaultConfig` e devolva sempre a MESMA instância nas chamadas seguintes.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Preste atenção ao teste `settersShouldNeverValidateOnlyBuildShould`: ele confere que chamar um setter com um valor conflitante NÃO lança, e que só o `build()` pega o conflito. Você deve conseguir explicar por que `defaultConfig()` pode devolver sempre o mesmo objeto (o record é imutável).
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `withPort(ServerConfig base, int newPort)`, uma fábrica que devolve uma cópia da configuração com só a porta trocada. Reconstrua pelos campos de `base` com um novo `Builder`. Como `maxConnections` pode ser `null`, só chame `.maxConnections(...)` quando ele não for `null`.
+
+**Pré-requisitos:** sintaxe básica de Java e records.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/static-factory-methods-and-builder-pattern` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/static-factory-methods-and-builder-pattern test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Boolean — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html) — doc

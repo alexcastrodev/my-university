@@ -204,6 +204,37 @@ socket.close();     // this is what actually unblocks it
 ```
 - **`cancel(true)` only guarantees delivery, not compliance** — it tells you the interrupt was successfully sent to the running thread, not that the task noticed and actually stopped; a task ignoring its own interrupt status keeps running regardless of how many times `cancel()` is called.
 
+## Lab
+
+In this lab you get `CancellablePoller`, a `Runnable` that simulates periodic polling, with the loop and the cancellation helpers left to implement. Your job is to make the task stop cooperatively when it is interrupted. The core idea is to handle `InterruptedException` the right way: never swallow the interruption, either propagate it or restore the thread's interrupt status.
+
+**The scenario**
+
+Interruption in Java is a polite request, not an order: the task has to notice the request and stop on its own.
+
+- `CancellablePoller`: implements `run()` with `pollCount` (an `AtomicInteger`) and the 20 ms `POLL_INTERVAL_MILLIS` constant. It has the static helpers `awaitTermination` and `interruptAndAwaitTermination`, and the `takeOrPropagate` and `takeQuietly` methods over a `BlockingQueue<String>`.
+- `CancellablePollerTest`: starts a thread, interrupts it and checks that it ends promptly, plus cases with a thread that ignores interruption and with an empty queue.
+
+This lab has no README: everything here comes from the code and the tests.
+
+**What you will do, step by step**
+
+1. **Write the cancellable loop (TODO-00).** In `run()`, repeat while `Thread.currentThread().isInterrupted()` is false: sleep `POLL_INTERVAL_MILLIS` with `Thread.sleep` and increment `pollCount`. If `sleep` throws `InterruptedException`, restore the status with `Thread.currentThread().interrupt()` and leave the loop instead of polling on.
+2. **Wait for termination (TODO-01 and TODO-02).** `awaitTermination` uses `Thread.join(long)` and returns whether the thread really finished within the deadline. `interruptAndAwaitTermination` interrupts the thread and waits the same way. The test with a thread that ignores interruption must return `false`.
+3. **Propagate the interruption (TODO-03).** `takeOrPropagate` calls the queue's `take()` and lets the `InterruptedException` bubble up untouched.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why a `catch` that only logs and carries on is a bug, and why restoring the status is needed after the exception has already cleared the flag.
+
+**Optional challenges**
+
+- **TODO-04:** implement `takeQuietly`, which takes the next item from the queue and, if interrupted while waiting, restores the interrupt status and returns `null` instead of throwing.
+
+**Prerequisites:** threads in Java, `Thread.sleep`, `join` and `BlockingQueue`.
+
+**How to run it:** clone the repository, go into `java-concepts/task-cancellation-and-interruption` and run `mvn test` (or, from the root, `mvn -pl java-concepts/task-cancellation-and-interruption test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Thread.interrupt() — java.lang.Thread API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Thread.html#interrupt()) — doc

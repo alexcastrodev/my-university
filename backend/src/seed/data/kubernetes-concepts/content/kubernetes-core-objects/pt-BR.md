@@ -119,6 +119,37 @@ O nome do ReplicaSet é o nome do Deployment mais um hash do template do Pod (la
 - **Um namespace por aplicação vs por componente.** Um por aplicação ou time (`team-a`, `team-b`) mantém cada um autocontido e fácil de apagar. Infraestrutura compartilhada (um cache ou fila usado por várias aplicações) fica melhor no seu próprio namespace, acessada por DNS entre namespaces.
 - **Labels são de graça, selectors são para sempre.** Coloque um conjunto pequeno e estável de labels no selector (`app`), e todo o resto (`version`, `team`) só em metadata, porque o selector não pode mudar depois.
 
+## Lab
+
+Neste lab você recebe um `web.yaml` com um namespace `shop`, um Pod avulso que serve `hello from <nome do pod>` e um Service na frente dele. O seu trabalho é transformar o Pod avulso em um Deployment e fazer o Service enxergar todas as réplicas. A ideia central é ver a cadeia de objetos que o Kubernetes constrói (Deployment, ReplicaSet, Pods) e entender que um Service escolhe Pods por labels, não por nome.
+
+**O cenário**
+
+É o primeiro deploy de um time: um servidor web e um Service `web` no namespace `shop`. O teste aplica o seu arquivo, sobe um Pod `client` para fazer requisições e depois apaga os Pods do web para ver se eles voltam.
+
+- `src/main/resources/k8s/web.yaml`: o seu arquivo, com o Namespace `shop`, o Pod `web` (label `app: web`, porta nomeada `http`) e o Service `web` (porta 80 para `targetPort: http`).
+- `src/test/java/CoreObjectsTest.java`: verifica a cadeia de donos, o balanceamento e a recuperação.
+
+Repare no seletor do Service: ele exige duas labels, `app: web` e `instance: web-0`, e só um Pod tem as duas.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar e ler as falhas.** Rode os testes antes de editar para ver o que o Pod avulso não garante.
+2. **Trocar o Pod por um Deployment (TODO-00).** Hoje, se o Pod for apagado (drain de nó, eviction, engano), nada o recria. Rode o mesmo contêiner por um Deployment com 2 réplicas, no namespace `shop`, com `selector.matchLabels` e as labels do template coerentes entre si, e mova as informações do Pod para o `template`. O Deployment cria um ReplicaSet, que é o dono dos Pods.
+3. **Fazer o Service selecionar todas as réplicas (TODO-01).** Com 2 réplicas, as duas precisam receber tráfego. Revise o `selector` do Service: ele só pode usar labels que todas as réplicas têm. O teste faz até 30 requisições a `http://web.shop` e espera ver respostas de dois nomes de Pod diferentes.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubernetes-core-objects test` passa por inteiro: cada Pod do web é dono de um ReplicaSet que pertence ao Deployment `web` com 2 réplicas prontas, as requisições chegam às duas réplicas e, depois de apagar todos os Pods, novos sobem e o Service volta a responder `200`. Você deve conseguir explicar quem é dono de quem e por que um Service sem endpoints não recebe tráfego.
+
+**Desafios opcionais**
+
+- **TODO-02:** troque a imagem do Deployment e rode `kubectl -n shop get rs`. Quantos ReplicaSets existem agora, e quais são as contagens de réplicas deles?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "Pods, ReplicaSets, Deployments, Services and Namespaces", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/kubernetes-core-objects test`. Você edita apenas o `web.yaml`, e os comentários TODO nele marcam os dois pontos.
+
 ## Documentation Links
 
 - [Kubernetes docs: Pods](https://kubernetes.io/docs/concepts/workloads/pods/): ciclo de vida, Pods com vários containers.

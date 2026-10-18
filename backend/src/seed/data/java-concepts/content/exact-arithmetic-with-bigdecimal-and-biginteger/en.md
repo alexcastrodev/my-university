@@ -293,6 +293,36 @@ and `a.add(b).multiply(c)` is as good as the syntax gets.
   which is a real argument for keeping the exact-arithmetic layer thin and
   well-tested rather than spreading it through the domain model.
 
+## Lab
+
+In this lab you get `MoneySplitter`, a set of money utilities built on `BigDecimal`, with every method left to implement. Your job is to make each one produce an exact result: parse a decimal value without error, compute a rounded share, split a total among several parties so the shares add back up to the total, and convert an amount with an explicit scale and rounding. The core idea is that no monetary value may pass through a `double`, neither on the way in nor on the way out.
+
+**The scenario**
+
+Splitting ten dollars among three people does not come out in round cents, and the system can neither lose nor invent a cent.
+
+- `MoneySplitter`: the static methods `parseExact`, `shareOf`, `splitEvenly`, `convertCurrency` and the optional `sumExact`.
+- `MoneySplitterTest`: checks the exact digits, the preserved scale, that `0.1 + 0.2` is exactly `0.3`, that the `RoundingMode` is honored and that the shares always sum to the total.
+
+**What you will do, step by step**
+
+1. **Parse the exact value (TODO-00).** In `parseExact`, build the `BigDecimal` straight from the text. Do not go through `Double.parseDouble(...)` or `new BigDecimal(double)`, which would import binary floating-point error into a value written as decimal. The scale of the text (`2.50`, not `2.5`) must be preserved.
+2. **Compute one share (TODO-01).** In `shareOf`, divide the total by the number of parties with scale 2 and the `RoundingMode` you receive, not one hardcoded. Passing both scale and mode is required: the one-argument `divide` throws `ArithmeticException` when the division does not terminate, as with 10 / 3.
+3. **Split without losing cents (TODO-02).** In `splitEvenly`, validate that the number of parties is positive, compute the shares with `RoundingMode.DOWN` and distribute the leftover cents, one to each of the first shares. Reassign the result of every `add()`/`subtract()`: `BigDecimal` is immutable and a discarded return value does nothing.
+4. **Convert with an explicit policy (TODO-03).** In `convertCurrency`, multiply by the rate (multiplication always has an exact answer) and round the product to `targetScale` with the `roundingMode`.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `0.1` as a `double` is not exact, and why rounding each share on its own does not guarantee the sum comes out right.
+
+**Optional challenges**
+
+- **TODO-04:** implement `sumExact`, adding all the amounts starting from `BigDecimal.ZERO` and returning zero for an empty list.
+
+**Prerequisites:** basic Java syntax, numeric types and the idea of floating point.
+
+**How to run it:** clone the repository, go into `java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger` and run `mvn test` (or, from the root, `mvn -pl java-concepts/exact-arithmetic-with-bigdecimal-and-biginteger test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [BigDecimal — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/math/BigDecimal.html) — doc

@@ -225,6 +225,39 @@ if (deadlocked != null) {
   ```
 - **Livelock não é deadlock** — uma thread em livelock nunca está bloqueada, está ativamente rodando e repetidamente tentando de novo uma operação que continua falhando (por exemplo, duas threads recuando uma para a outra em lockstep), então nada em um thread dump vai mostrar threads presas esperando por um lock; o conserto usual é adicionar aleatoriedade ao delay de retry para que as duas tentativas parem de colidir em lockstep.
 
+## Lab
+
+Neste lab você recebe `Account` e `TransferService` com os métodos centrais por implementar. Seu trabalho é escrever uma transferência de fundos que adquire dois locks sempre na mesma ordem. A ideia central é ver, com um teste multi-thread de verdade, por que travar "origem e depois destino" em toda chamada é um deadlock de ordem de locks esperando para acontecer.
+
+**O cenário**
+
+Duas threads transferem em sentidos opostos entre as mesmas duas contas, e cada uma segura um lock esperando o outro.
+
+- `Account`: tem `id`, `balance` e o lock intrínseco da própria conta. `debit` e `credit` assumem que quem chama já segura esse lock.
+- `TransferService`: `transfer` precisa segurar os locks das duas contas ao mesmo tempo para mover o dinheiro de forma atômica. Tem também o `TIE_LOCK` e o método opcional `transferUsingIdentityHash`.
+- `AccountTest` e `TransferServiceTest`: o teste de concorrência dispara muitas threads fazendo `alice -> bob` e `bob -> alice` ao mesmo tempo, com um prazo limite de 5 segundos.
+
+Repare que uma ordem inconsistente não gera um erro normal de asserção: o teste trava e estoura o prazo, com a mensagem de que os locks provavelmente entraram em deadlock.
+
+**O que você vai fazer, passo a passo**
+
+1. **Implementar `debit` e `credit` (TODO-00 e TODO-01).** Subtraia e some `amount` ao saldo. Eles não se sincronizam sozinhos: o chamador é o responsável por segurar o lock.
+2. **Implementar `transfer` com ordem consistente (TODO-02).** Decida qual conta tem o `id` menor, trave essa primeiro com `synchronized` e a outra depois, e só então chame `from.debit(amount)` e `to.credit(amount)`. A ordem depende do `id`, não de quem é origem ou destino, e é isso que impede o ciclo de espera.
+
+Os testes também cobrem transferir para a mesma conta (o saldo não muda) e a conservação do saldo total.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde, inclusive o teste concorrente. Você deve conseguir explicar por que, com a ordem pelo `id`, nenhuma thread pode segurar o segundo lock esperando o primeiro, e o que o teste faria se você travasse `from` e depois `to`.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `transferUsingIdentityHash`, uma estratégia alternativa que ordena os locks por `System.identityHashCode(...)` e usa o `TIE_LOCK` para o caso raríssimo de colisão de hash entre contas diferentes.
+
+**Pré-requisitos:** sintaxe básica de Java, blocos `synchronized` e locks intrínsecos. `ExecutorService` e `CountDownLatch` aparecem nos testes, mas você não precisa escrevê-los.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/deadlock-lock-ordering-and-avoidance` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/deadlock-lock-ordering-and-avoidance test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [ReentrantLock — tryLock(long, TimeUnit)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html) - doc

@@ -129,6 +129,38 @@ Reservations and honest requests make the first rare; correct limits make the se
 - **Reserving resources costs capacity.** 2 GiB reserved on an 8 GiB node is 25% you cannot schedule. Skipping it only moves the problem from `Pending` Pods to evictions and OOM kills of the node's own services.
 - **Limits equal to requests vs higher limits.** Equal values give predictability and the `Guaranteed` QoS class; higher limits let spiky services borrow idle memory, at the risk of the node running out when several spike together.
 
+## Lab
+
+In this lab you get a k3s node whose `allocatable` equals its `capacity` (nothing reserved for the system) and a `budget.sh` that divides the node's total memory by 256Mi. Your job is to reserve memory for the system and for Kubernetes, set an eviction threshold, and compute how many replicas the scheduler can still place, the way the scheduler computes it. The core idea is that the scheduler looks neither at the node's total memory nor at real usage: it compares Pod requests with `allocatable`.
+
+**The scenario**
+
+The test starts k3s with your `config.yaml` as `/etc/rancher/k3s/config.yaml`, deploys a `db` that requests 1Gi and a `worker` Deployment (256Mi per replica, starting at 0 replicas), and runs your `budget.sh`, which must print a number N. It then scales `worker` to N and to N+1.
+
+- `src/main/resources/config.yaml`: your k3s configuration file. Every key is a command-line flag, and `kubelet-arg` passes flags to the kubelet. It starts as `kubelet-arg: []`.
+- `src/main/resources/budget.sh`: your script. Today it divides the memory `capacity` by 262144 (256Mi in Ki).
+- `src/test/resources/k8s/worker.yaml`: given, with the `db` and the `worker`.
+
+The value of N depends on the memory of your Docker machine, so the test compares the number with what the scheduler really does, not with a constant.
+
+**What you will do, step by step**
+
+1. **Run it and look at both numbers.** Run the tests before editing: `capacity - allocatable` is zero and the budget is wrong.
+2. **Reserve memory and set eviction (TODO-00).** In `config.yaml`, reserve 512Mi for the system and 256Mi for Kubernetes, and make the kubelet evict Pods when less than 100Mi is available. Keep k3s's disk thresholds (`nodefs.available<5%` and `imagefs.available<5%`). The test requires `capacity - allocatable` to be exactly 868Mi.
+3. **Compute what the scheduler compares (TODO-01).** In `budget.sh`, start from `allocatable` (not `capacity`), subtract the requests of the Pods already on the node (the `db`, but also those in `kube-system`) and only then divide by 256Mi. Use `kubectl` to read those values.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/node-capacity-allocatable-and-memory-budget test` passes completely: `capacity - allocatable` is 868Mi, scaling `worker` to N schedules every replica and scaling to N+1 leaves one `Pending`. If your N is too high, a replica stays `Pending`; too low, the N+1 one still fits. You should be able to explain why the budget changes when other Pods request memory.
+
+**Optional challenges**
+
+- **TODO-02:** make the worker actually use 300Mi while requesting 256Mi. Does N change? What happens on a node where every replica does that?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Node Capacity, Allocatable and Memory Budget", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/node-capacity-allocatable-and-memory-budget test`. You edit `config.yaml` and `budget.sh`; the TODO comments describe what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Reserve Compute Resources for System Daemons](https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/): allocatable formula, `system-reserved`, `kube-reserved`.

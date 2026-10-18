@@ -228,6 +228,38 @@ just because it happens to add another listener mid-notification.
   frequently pays an O(n) copy on every single mutation; it fits a rarely-changed
   listener list, not a queue or buffer that's written as often as it's read.
 
+## Lab
+
+In this lab you get `ConcurrentRegistry`, a shared registry with three methods left to implement. Your job is to build "get or create", "set only if absent" and "increment" using the atomic compound methods of `ConcurrentHashMap`. The core idea is to see, with genuine multi-threaded tests, why a "check, then act" sequence built from individually thread-safe calls is not itself thread-safe.
+
+**The scenario**
+
+Many threads hit the same key at the same time, and every operation is a compound action: a read followed by a write that must count as a single step.
+
+- `ConcurrentRegistry`: has three `ConcurrentHashMap`s (accounts, nicknames and hit counts), the methods you will write and the readers `nicknameOf`, `hitsFor`, `size` and `constructions`.
+- `newAccount(id)`: already written. It counts how many constructions happened and deliberately sleeps 5 ms to widen the race window a naive implementation leaves open.
+- `ConcurrentRegistryTest`: uses dozens to hundreds of threads released together by a `CountDownLatch`.
+
+A naive version does not fail with a compile error, but because the race actually happens: extra constructions, more than one "winner" for the nickname or a count lower than expected.
+
+**What you will do, step by step**
+
+1. **Get or create the account (TODO-00).** In `getOrCreate(id)`, use an atomic map method (`computeIfAbsent`, `putIfAbsent` or `merge`) calling `newAccount(id)`. `containsKey` followed by `put` is not safe, even though each call is thread-safe, and the test's `constructions()` counter shows it.
+2. **Register the nickname only once (TODO-01).** In `registerNickname(id, nickname)`, set the nickname only if none exists and return `true` only if this call was the one that set it. Exactly one thread may win.
+3. **Count hits without losing updates (TODO-02).** In `recordHit(id)`, atomically increment the count, starting at 1 on the first hit. A `get` followed by `put` loses updates.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain exactly where the "check, then act" version lets two threads through and why the map's compound method closes that gap.
+
+**Optional challenges**
+
+- **TODO-03:** implement `clearNicknameIfMatches(id, expectedNickname)`, which atomically removes the nickname only if its current value equals the expected one and returns whether it was removed.
+
+**Prerequisites:** basic Java syntax and `ConcurrentHashMap` basics. `ExecutorService` and `CountDownLatch` appear in the tests, but you do not need to write them.
+
+**How to run it:** clone the repository, go into `java-concepts/concurrent-collections-and-compound-actions` and run `mvn test` (or, from the root, `mvn -pl java-concepts/concurrent-collections-and-compound-actions test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [ConcurrentHashMap — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html) — doc

@@ -215,6 +215,39 @@ escaped.get();                             // IllegalStateException — scope is
 ```
 - **The blocking-`join()` style reads unfamiliar to teams fluent in `CompletableFuture` chains** — structured concurrency deliberately puts the wait back in the caller (cheap, because the caller is usually a virtual thread) instead of composing callbacks, and code review habits built around non-blocking pipelines tend to flag it as a regression at first.
 
+## Lab
+
+In this lab you get `ProfileFetcher`, which must fetch a user and their orders at the same time and combine the results into a `Profile`. Your job is to write that fan-out with `StructuredTaskScope`, not the fetchers themselves (those are just test doubles). The core idea is that the scope makes the subtasks' lifecycle structural: if one fails, its sibling is cancelled, and nothing leaks out of the block.
+
+**The scenario**
+
+Two independent lookups, `userFetcher` and `ordersFetcher`, run concurrently and the result is only valid if both succeed.
+
+- `ProfileFetcher`: receives the two `Callable`s in its constructor and has `loadProfile()`, `loadProfileWithTimeout(Duration)` and the optional static `fetchFastest`.
+- `Profile` and `ProfileUnavailableException`: the combined result (`user` and `orders`) and the exception that wraps a subtask failure.
+- `ProfileFetcherTest`: checks the happy path, the failure wrapping, the cancellation of the slow sibling and the deadline.
+
+This lab uses JDK 25 with `--enable-preview` (already set in the `pom.xml`), because the `StructuredTaskScope` API with `Joiner` is still a preview.
+
+**What you will do, step by step**
+
+1. **Fan out with the default policy (TODO-00).** In `loadProfile()`, open a `StructuredTaskScope.open()`, `fork` both fetchers, call `join()` and build the `Profile` from the two `Subtask` results. If `join()` throws `StructuredTaskScope.FailedException`, catch it and rethrow as `new ProfileUnavailableException(e.getCause())`.
+2. **Bound the whole operation with one deadline (TODO-01).** In `loadProfileWithTimeout(timeout)`, do the same fan-out but open the scope with `Joiner.<Object>awaitAllSuccessfulOrThrow()` and a config function that calls `cf.withTimeout(timeout)`. That way one deadline covers everything, not one per call. If the deadline passes, `join()` throws `StructuredTaskScope.TimeoutException`, which must propagate unchanged.
+
+One test in particular, `loadProfileCancelsSlowSiblingOnFailure`, only passes if the failing subtask genuinely cancels its sibling: a version that "waits for both, then throws" passes the others and times out on this one.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why the `try` around the scope guarantees no subtask outlives the block, and what changes compared to joining `CompletableFuture`s by hand.
+
+**Optional challenges**
+
+- **TODO-02:** implement `fetchFastest(a, b)` with `Joiner.<String>anySuccessfulResultOrThrow()`, returning `scope.join()`, which hands back the first success and cancels the loser automatically. It is the hedged-request pattern that `CompletableFuture.anyOf()` cannot express on its own, since `anyOf()` only ignores the slower branch while it keeps running.
+
+**Prerequisites:** `Callable`, threads and `Future` in Java, and JDK 25.
+
+**How to run it:** clone the repository, go into `java-concepts/structured-concurrency` and run `mvn test` (or, from the root, `mvn -pl java-concepts/structured-concurrency test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [JEP 505: Structured Concurrency (Fifth Preview)](https://openjdk.org/jeps/505) — doc

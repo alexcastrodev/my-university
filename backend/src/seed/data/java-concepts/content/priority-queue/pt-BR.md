@@ -99,6 +99,35 @@ Para recuperar elementos em ordem de prioridade, chamadas repetidas de `poll()` 
 - **Os elementos precisam ser mutuamente comparáveis, ou um `Comparator` precisa ser fornecido** — assim como com `TreeSet`, uma falha de comparação aparece como `ClassCastException` no ponto em que uma operação de ordenação roda, não em tempo de compilação nem no momento da inserção isoladamente.
 - **Elementos `null` são rejeitados de imediato** (`NullPointerException`), pelo mesmo motivo que `Queue` proíbe `null` em outros lugares: `null` dobra como sentinela de fila-vazia para `peek()`/`poll()`.
 
+## Lab
+
+Neste lab você recebe o record `Task` e a classe `TaskScheduler`, que já cria uma `PriorityQueue<Task>` ordenada por prioridade, e implementa submeter, pegar e espiar tarefas. A ideia central é entender que a `PriorityQueue` ordena por um `Comparator`, e não pela ordem de inserção, e que a única forma confiável de ler os elementos nessa ordem é chamar `poll()` repetidamente, nunca iterar.
+
+**O cenário**
+
+Um agendador recebe tarefas com nome e prioridade, e deve entregar sempre a mais urgente. Número de prioridade MENOR significa mais urgente.
+
+- `Task.java`: um record com `name` e `priority`. Já pronto.
+- `TaskScheduler.java`: guarda uma `PriorityQueue<Task>` criada com `Comparator.comparingInt(Task::priority)`, ou seja, um min-heap pelo número de prioridade. Os métodos são seus.
+
+**O que você vai fazer, passo a passo**
+
+1. **Submeter (TODO-00).** Em `submit()`, crie uma `Task` com o nome e a prioridade e coloque na fila. A ordem de chegada não importa, quem decide é o comparator.
+2. **Pegar a próxima (TODO-01).** Em `takeNext()`, remova e devolva a tarefa mais urgente, ou `null` quando não restar nenhuma. Pense qual operação da fila devolve `null` em vez de lançar exceção.
+3. **Espiar a próxima (TODO-02).** Em `peekNext()`, devolva a mais urgente SEM removê-la, ou `null` se estiver vazia.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que submeter prioridades fora de ordem ainda faz `takeNext()` entregar sempre a menor, e por que um `for` sobre a fila não garante essa ordem.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `drainInPriorityOrder()`, devolvendo uma `List<Task>` com todas as tarefas restantes em ordem crescente de prioridade e deixando o agendador vazio. Faça `poll()` repetido até acabar. Copiar o iterador da fila para uma lista NÃO dá a ordem de prioridade.
+
+**Pré-requisitos:** sintaxe básica de Java, `Comparator` e `Queue`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/priority-queue` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/priority-queue test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 593–594 — book

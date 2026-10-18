@@ -49,6 +49,38 @@ How expensive the test is to understand and to keep working — how hard it is t
 - **Brittle tests max out protection + speed, sacrifice resistance** — a fast unit test that asserts heavily on implementation details (exact mock call sequences, internal state) can genuinely catch regressions quickly, but it also fails constantly on legitimate refactors, which is exactly the false-positive trap the field story above describes.
 - **A test that scores zero on any single attribute is worthless, not merely weaker** — because the four attributes combine multiplicatively rather than additively, a test with great protection and speed but zero resistance to refactoring isn't "pretty good" — it actively erodes trust in the whole suite, which is worse than not having the test at all.
 
+## Lab
+
+In this lab you get the `Invoice` class **already built and working** and a test class with methods that fail on purpose. There is no production code to write: your job is to write tests that each target one of the article's four pillars (protection against regressions, resistance to refactoring, fast feedback and maintainability). The core idea is to feel that every test asked for here could "just pass" if written carelessly, and that what matters is HOW you assert, not only WHAT you assert.
+
+**The scenario**
+
+An invoice sums line items and applies a bulk discount.
+
+- `LineItem`: a record with `name`, `quantity` and `unitPrice`. `lineTotal()` is price times quantity.
+- `Invoice`: `total()` sums the items, applies a 10% discount once the subtotal reaches 100.00 (inclusive) and rounds to 2 places. `itemCount()` just delegates to `items.size()`.
+- The summing of the items happens in a **private** `computeSubtotal()` method, on purpose: your test has to go through `total()`.
+- `InvoiceTest`: each method carries a TODO naming the pillar it must demonstrate.
+
+**What you will do, step by step**
+
+1. **Protect against regressions (TODO-00).** Build an `Invoice` with a single `LineItem("Widget", 3, new BigDecimal("40.00"))`, a subtotal of 120.00, above the threshold. Check that `total()` equals a HARDCODED `BigDecimal("108.00")` that you computed by hand. If you re-derived the expected value with `Invoice`'s own formula, the test would copy the bug along and catch nothing.
+2. **The boundary just below the threshold (TODO-01).** A single item of exactly 99.99, just under 100.00. `total()` must be `BigDecimal("99.99")`, with no discount.
+3. **Resist refactoring (TODO-02).** Use THREE items that sum to EXACTLY 100.00 (for example 50.00 + 30.00 + 20.00, quantity 1 each) and check that `total()` is `BigDecimal("90.00")`. Assert ONLY through `total()`: do not reference `computeSubtotal()` and do not add a getter for the subtotal. That way the test keeps passing if the private method is renamed, inlined or rewritten.
+4. **Keep it cheap (TODO-03).** An `Invoice` built from `List.of()` and `total()` equal to `BigDecimal("0.00")`, with no setup beyond the empty list. This is the kind of test that stays easy to read and to maintain as the class grows.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain which pillar each test earns and which one it gives up, and why the test in step 3 would survive a rewrite of `computeSubtotal()` while a test that depended on it would break.
+
+**Optional challenges**
+
+- **TODO-04:** write a test for `itemCount()` with any three items and compare how little it protects against regressions next to TODO-00, even though it is just as fast and just as resistant to refactoring.
+
+**Prerequisites:** JUnit 5 fundamentals (`@Test`, `assertEquals`) and reading `Invoice` and `LineItem` in `src/main/java`, noting that the summing happens in a private method.
+
+**How to run it:** clone the repository, go into `testing-concepts/four-pillars-of-a-good-unit-test` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/four-pillars-of-a-good-unit-test test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, *Unit Testing Principles, Practices, and Patterns* (Manning, 2020) — Chapter 4 "The Four Pillars of a Good Unit Test", pp. 67-86 — book

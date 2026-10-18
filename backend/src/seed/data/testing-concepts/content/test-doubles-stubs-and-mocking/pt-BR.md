@@ -113,6 +113,39 @@ Mockito.when(mockAccountManager.findAccountForUser("3")).thenReturn(unused);
 - **Um double precisa de uma interface (ou método sobrescrevível) para se anexar**: o Mockito consegue mockar classes concretas, mas um design com chamadas `new SomeDependency()` fixadas dentro da classe sob teste não dá ao Mockito nada para substituir sem refatoração adicional (por exemplo, injeção por construtor/setter); um stub escrito à mão tem o mesmo requisito.
 - **Stubs escritos à mão são difíceis de manter**: a própria ressalva do livro: um stub precisa reimplementar, de forma simplificada, a mesma lógica do que substitui, o que fica mais difícil de manter correto conforme o comportamento do sistema real evolui; cada situação nova tipicamente precisa da sua própria estratégia de stubbing, em vez de uma reutilizável.
 
+## Lab
+
+Neste lab você recebe o `CheckoutService` **pronto e funcionando**. Seu trabalho é testá-lo com os dois tipos de test double que o artigo distingue: um **stub** escrito à mão, com comportamento fixo, e **mocks do Mockito**, com comportamento roteirizado a cada teste. A ideia central é sentir a diferença: o stub é escrito uma vez e serve a qualquer teste que precise de um gateway que sempre aprova, e o mock é ajustado por cenário e permite verificar interações.
+
+**O cenário**
+
+O `CheckoutService` cobra um cliente por um `PaymentGateway` e o avisa por um `ReceiptSender`. Os dois entram pelo construtor, e é isso que permite trocá-los por doubles em vez de chamar um processador de pagamento de verdade.
+
+- `CheckoutService.checkout(customerId, amountCents)`: lança `IllegalArgumentException` se o valor não for positivo, cobra pelo gateway, e se for recusado envia "Payment declined" e lança `IllegalStateException`. Se for aprovado, envia o recibo e devolve o id da transação.
+- `PaymentGateway.charge` devolve um `PaymentResult(approved, transactionId)`. `ReceiptSender.send(customerId, message)` tem um único método abstrato.
+- `StubPaymentGateway` (em `src/test/java`): o stub, ainda por implementar.
+- `CheckoutServiceTest`: já tem `mockGateway` e `mockReceiptSender` declarados com `@Mock` e `MockitoExtension`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Escrever o stub (TODO-00).** Em `StubPaymentGateway.charge`, aprove sempre devolvendo um `PaymentResult` com `transactionId` "TXN-STUB", seja qual for o cliente ou o valor.
+2. **Teste de granularidade grossa com o stub (TODO-01).** Monte um `CheckoutService` com `new StubPaymentGateway()` e um `ReceiptSender` que não faz nada (uma lambda `(customerId, message) -> {}`). Confira que `checkout("cust-1", 500)` devolve "TXN-STUB". Sem Mockito.
+3. **Roteirizar uma aprovação (TODO-02).** Com `when(...).thenReturn(...)`, faça `mockGateway.charge("cust-1", 500)` devolver um resultado aprovado com id "TXN-1", chame `checkout` e confira que devolve "TXN-1".
+4. **Roteirizar uma recusa (TODO-03).** Faça o gateway devolver `approved = false`, confira que `checkout` lança `IllegalStateException` e use `Mockito.verify(...)` para provar que `mockReceiptSender.send` foi chamado com o id do cliente e a mensagem exata "Payment declined".
+5. **Provar que a validação vem primeiro (TODO-04).** Confira que `checkout("cust-1", 0)` lança `IllegalArgumentException` e use `Mockito.verifyNoInteractions(mockGateway, mockReceiptSender)` para provar que nenhum colaborador foi tocado.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar quando um stub basta e quando um mock é a ferramenta certa, e por que o teste do passo 5 precisa verificar a ausência de interações em vez de olhar o retorno.
+
+**Desafios opcionais**
+
+- **TODO-05:** escreva um teste que verifica os argumentos exatos com que `mockGateway.charge(...)` foi chamado, ou seja, a entrada do colaborador e não só a saída de `checkout()`.
+
+**Pré-requisitos:** fundamentos de JUnit 5 (`@Test`, `assertThrows`) e ler `CheckoutService`, `PaymentGateway`, `ReceiptSender` e `PaymentResult` em `src/main/java` antes de escrever qualquer teste.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/test-doubles-stubs-and-mocking` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/test-doubles-stubs-and-mocking test`). O stub lança `UnsupportedOperationException` e os testes começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Mockito: site oficial](https://site.mockito.org) (doc)

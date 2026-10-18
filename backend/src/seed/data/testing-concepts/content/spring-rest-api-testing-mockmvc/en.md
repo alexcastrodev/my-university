@@ -144,6 +144,39 @@ mvc.perform(get("/passengers/30")).andExpect(status().isNotFound());
 
 - **Full `@SpringBootTest` for a controller test is heavier than needed** — it boots the whole application (all auto-configuration, every bean) just to test one controller; the slice loads a fraction of that, so preferring `@WebMvcTest` keeps the web-layer suite fast.
 
+## Lab
+
+In this lab you get `ItemController` and `ItemServiceImpl` **already built and working**. Your job is to test the controller at the web layer with `MockMvc`, with the real service replaced by a Mockito mock through `@WebMvcTest`. The core idea is to feel what a slice does: it loads only the MVC infrastructure and the controller you name, and you script the collaborator per test, without starting the whole application.
+
+**The scenario**
+
+An item catalog exposed by a REST API.
+
+- `ItemController`: `GET /items` returns the list and `GET /items/{id}` returns the item, or 404 through `ResponseEntity.notFound()` when it does not exist.
+- `ItemService`: the interface the controller receives through its constructor (`findAll()` and `findById(Long)`, which returns `Optional<Item>`).
+- `ItemServiceImpl`: the real implementation, a `@Service` with three items. The slice never loads it, and that is exactly what one of the tests will prove.
+- `Item`: a record with `id`, `name` and `category`.
+- `ItemControllerTest`: uses `@WebMvcTest(ItemController.class)`, a `MockMvc` and a `@MockitoBean ItemService`.
+
+**What you will do, step by step**
+
+1. **List items (TODO-00).** Script `itemService.findAll()` to return two `Item`s of your choosing. Do `GET /items`, check `status().isOk()` and use `jsonPath` to check the array has size 2 and `$[0].name` matches the first item.
+2. **Get an existing item (TODO-01).** Script `itemService.findById(1L)` with `Optional.of(...)`. Do `GET /items/1`, check 200 and compare `$.id` and `$.name` with the item's fields.
+3. **Get a missing item (TODO-02).** Script `findById(999L)` to return `Optional.empty()`, do `GET /items/999` and check `status().isNotFound()`. The controller maps absence to 404, never to a null body with 200.
+4. **Prove what the slice does not load (TODO-03).** Wrap `applicationContext.getBean(ItemServiceImpl.class)` in `assertThrows(NoSuchBeanDefinitionException.class, ...)`. If it passes, `@WebMvcTest` loaded the web layer only, the opposite of what `@SpringBootTest` would do for the same controller.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why `ItemServiceImpl` is absent from the context, why without the `@MockitoBean` the test would not even start (the controller needs an `ItemService`) and what the test in step 4 teaches about the scope of a slice.
+
+**Optional challenges**
+
+- **TODO-04:** use `Mockito.verify(itemService)` to prove `getById(...)` called `itemService.findById(...)` with exactly the id from the path variable, not just that the response looked right.
+
+**Prerequisites:** the Test Doubles: Stubs and Mocking lab (Mockito `when`/`verify`) and reading `ItemController`, `ItemService` and `ItemServiceImpl` in `src/main/java` before writing any test.
+
+**How to run it:** clone the repository, go into `testing-concepts/spring-rest-api-testing-mockmvc` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/spring-rest-api-testing-mockmvc test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Testing the Web Layer with MockMvc — Spring Boot reference](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.with-mock-environment) — doc

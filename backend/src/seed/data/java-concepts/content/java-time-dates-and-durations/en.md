@@ -316,6 +316,37 @@ A modern JDBC driver will hand you `java.time` types directly — `rs.getObject(
   ```
 - **These types are `Serializable`, but not in the naive way.** Every `java.time` type writes itself through a package-private serialization proxy rather than exposing its fields as permanent API, which is exactly the containment technique described in `serialization-risks-and-safer-alternatives` — worth knowing if you serialize them, and worth copying if you write value types of your own.
 
+## Lab
+
+In this lab you get `ScheduleCalculator`, with four methods left to implement that show two ways of "adding a day" to a `ZonedDateTime`: one that adds elapsed time (`Duration`) and one that adds a calendar day (`Period`). The core idea is to see that on an ordinary day both give the same answer, but across a daylight saving time (DST) transition they diverge.
+
+**The scenario**
+
+Adding "a day" is ambiguous: it can be exactly 24 hours or the same wall-clock time the next day, and the difference shows up when the day has 23 or 25 hours.
+
+- `ScheduleCalculator`: `plusOneElapsedDay`, `plusOneCalendarDay`, `elapsedTimeAcross`, `landsOnSameWallClockTime` and the optional `plusOneCalendarMonthClamped`.
+- `ScheduleCalculatorTest`: the tests prove the divergence using the time zone's real rules, not a date hardcoded in the code.
+
+**What you will do, step by step**
+
+1. **Add elapsed time (TODO-00).** In `plusOneElapsedDay`, add exactly 24 hours with `Duration`. That adds to the instant, so the wall-clock time can change when crossing a DST transition.
+2. **Add a calendar day (TODO-01).** In `plusOneCalendarDay`, add one day with `Period`. That adds to the local date-time and re-resolves against the zone's rules, so it lands on the same wall-clock time the next day, even when that day is not 24 hours long.
+3. **Measure and compare (TODO-02 and TODO-03).** In `elapsedTimeAcross`, return the exact `Duration` between the two instants. In `landsOnSameWallClockTime`, compare only the local time-of-day of the two arguments, ignoring the date and the zone offset.
+
+The tests cover an ordinary day, the spring-forward gap, where elapsed time shifts the wall clock and the calendar day does not, and the fall-back overlap, where the calendar day takes 25 elapsed hours.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain when to use `Duration` and when to use `Period` to schedule something, and why a calendar day is not always 24 hours.
+
+**Optional challenges**
+
+- **TODO-04:** implement `plusOneCalendarMonthClamped`, adding one month with `Period` and verifying that the result clamps to the last day of the following month when the source day does not exist there (adding a month to January 31st must not land on March 3rd).
+
+**Prerequisites:** basic Java syntax, the idea of time zones and daylight saving time, and the `java.time` API basics.
+
+**How to run it:** clone the repository, go into `java-concepts/java-time-dates-and-durations` and run `mvn test` (or, from the root, `mvn -pl java-concepts/java-time-dates-and-durations test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [java.time — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/package-summary.html) — doc

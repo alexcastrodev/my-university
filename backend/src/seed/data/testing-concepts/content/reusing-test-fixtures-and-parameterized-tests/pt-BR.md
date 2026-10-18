@@ -133,6 +133,40 @@ O AssertJ é a contraparte do ecossistema Java para o Fluent Assertions (.NET) d
 - **Testes parametrizados trocam quantidade de testes por clareza por linha**: colapsar tudo em um único teste parametrizado com nome genérico pode fazer um relatório de falha dizer *que* algo quebrou sem dizer *o quê*, sem ler os valores reais da linha que falhou.
 - **Uma fixture compartilhada em uma classe base só é segura quando toda subclasse genuinamente precisa dela de forma idêntica**: a mesma régua de "todo teste precisa exatamente disto" que justifica uma conexão de banco de dados em uma classe base de teste de integração não se estende a fixtures que só alguns testes usam, que pertencem de volta a métodos de fábrica por teste.
 
+## Lab
+
+Neste lab você recebe `Order` e `Inventory` **prontos e funcionando**. Seu trabalho é testá-los aplicando duas ideias do artigo: reaproveitar fixtures com métodos de fábrica privados em vez de campos compartilhados num `@BeforeEach`, e juntar testes de fronteira quase idênticos em `@ParameterizedTest`s. A ideia central é sentir por que um `Inventory` mutável não pode ser um campo da classe de teste, e quando `@CsvSource` basta e quando só `@MethodSource` resolve.
+
+**O cenário**
+
+Um pedido consome estoque e carrega duas regras puras de negócio.
+
+- `Inventory`: estoque por SKU, mutável de propósito (`addStock`, `quantityOf`, `remove`). `remove` devolve `false` e deixa o estoque intacto se não há unidades suficientes, nunca decrementa pela metade.
+- `Order.place(sku, quantity)`: devolve o resultado do `remove` do inventário.
+- `Order.shippingFeeCents(total)`: frete grátis (0) a partir de 5000, 499 de 2000 até menos de 5000, e 999 abaixo disso.
+- `Order.isWithinReturnWindow(purchaseDate, today)`: devolução até 30 dias depois da compra, inclusive.
+- `OrderTest`: NÃO tem `@BeforeEach` nem campos `Inventory`/`Order` compartilhados, de propósito. Um campo compartilhado deixaria o `place()` de um teste mudar o estoque inicial de todos os outros.
+
+**O que você vai fazer, passo a passo**
+
+1. **Escrever a fábrica (TODO-00).** Em `createInventoryWithStock(sku, quantity)`, crie um `Inventory` novo, chame `addStock(sku, quantity)` uma vez e devolva. É o padrão Object Mother: cada teste chama a fábrica e ganha o seu próprio objeto.
+2. **Pedido que dá certo (TODO-01).** Com `createInventoryWithStock("SKU-1", 10)`, monte `new Order(inventory)`, chame `place("SKU-1", 5)`, confira `true` e que `inventory.quantityOf("SKU-1")` agora é 5.
+3. **Pedido que falha (TODO-02).** Com só 3 unidades, `place("SKU-1", 5)` devolve `false` e o estoque continua 3: um pedido recusado não pode decrementar parcialmente. É um `Inventory` novo, que o teste anterior não afetou.
+4. **Frete por faixas (TODO-03).** Adicione um `@CsvSource` com linhas `orderTotalCents, expectedFeeCents` que travem as faixas, cobrindo o valor logo abaixo e o valor exato de cada fronteira (1999 e 2000, 4999 e 5000).
+5. **Janela de devolução (TODO-04 e TODO-05).** Adicione `@MethodSource("returnWindowCases")` ao teste e implemente `returnWindowCases()` devolvendo um `Stream<Arguments>` de triplas `(purchaseDate, today, expected)` construídas com `LocalDate.now()`: 30 dias depois da compra (dentro, `true`), 31 dias depois (fora, `false`) e no próprio dia da compra (`true`). Como a aritmética com `LocalDate.now()` não é constante de compilação, aqui `@CsvSource` ou `@ValueSource` não servem.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar o que daria errado se `Inventory` fosse um campo compartilhado e por que o teste da janela de devolução precisa de `@MethodSource`.
+
+**Desafios opcionais**
+
+- **TODO-06:** reescreva os asserts de `placeSucceedsWhenEnoughInventory` com o `assertThat(...).isEqualTo(...)` e `isTrue()` fluentes do AssertJ no lugar de `assertEquals`/`assertTrue`, e compare como a frase "sujeito, ação, objeto" lê contra os argumentos posicionais esperado/atual.
+
+**Pré-requisitos:** fundamentos de JUnit 5 (`@Test`, `@ParameterizedTest`, `assertEquals`) e ler `Order` e `Inventory` em `src/main/java`.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/reusing-test-fixtures-and-parameterized-tests` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/reusing-test-fixtures-and-parameterized-tests test`). A fábrica e o `returnWindowCases()` lançam `UnsupportedOperationException` e os outros testes começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, "Unit Testing Principles, Practices, and Patterns" (Manning, 2020), Capítulo 3 "The anatomy of a unit test", Seções 3.3, 3.5-3.6, pp. 50-63 (book)

@@ -107,6 +107,35 @@ Integer[] ia2 = al.toArray(Integer[]::new); // JDK 11+, equivalent, no throwaway
   }
   ```
 
+## Lab
+
+In this lab you get the `Playlist` class, which wraps an `ArrayList<String>` holding tracks in play order, and you implement the list's positional operations. The core idea is to see what `ArrayList` does for you when you insert or remove in the middle: the neighboring elements shift one position, and that shows up directly in the result.
+
+**The scenario**
+
+A playlist must accept tracks at the end, insert a track at a position, remove by position and hand itself back as an array.
+
+- `Playlist.java`: holds `tracks` (an `ArrayList<String>`). `size()` and `trackAt(int)` are already written and serve as tools for the tests. You implement the rest.
+
+**What you will do, step by step**
+
+1. **Append at the end (TODO-00).** In `addTrack()`, add the track to the end of the list.
+2. **Insert at a position (TODO-01).** In `insertAt()`, use the version of `add` that takes the index. Everything at that position or after it moves one position later.
+3. **Remove by position (TODO-02).** In `removeAt()`, remove the track at the given index. Everything that came after moves one position earlier.
+4. **Hand it back as an array (TODO-03).** In `toArray()`, return a `String[]`, not an `Object[]`. The list's no-argument `toArray()` returns `Object[]`, so you need the version that takes an array of the desired type.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what happens to the indexes of the other tracks after `insertAt` and `removeAt`, and why that makes these operations more expensive near the start of the list than near the end.
+
+**Optional challenges**
+
+- **TODO-04:** implement `prepareForBulkLoad()`, hinting to the `ArrayList` that about `expectedTotal` tracks are coming, to avoid repeated reallocation of the backing array.
+
+**Prerequisites:** basic Java syntax, generics and the `List` interface.
+
+**How to run it:** clone the repository, go into `java-concepts/array-list` and run `mvn test` (or, from the root, `mvn -pl java-concepts/array-list test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 585–589 — book
