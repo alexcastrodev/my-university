@@ -204,6 +204,44 @@ separate topic.
 - **`AsNoTracking` is not a cure for a shared context.** It avoids stale entities
   but not the concurrency exception, which comes from sharing the instance.
 
+## Lab
+
+In this lab you get a small Blazor Web App that lists products from an in-memory SQLite database, but with data access not wired up. Your job is to register the `DbContext` factory, implement the read service and make the `/products` page deliver a placeholder first and the data later. The core idea is to feel in practice the safe way to read a database from Blazor: one short-lived `DbContext` per operation through `IDbContextFactory<T>`, read-only queries without change tracking, and `[StreamRendering]` so the browser does not sit waiting for the query.
+
+**The scenario**
+
+Two pages show the same product list: `/products` should stream, and `/products-plain` is the contrast, which waits for the data before sending anything. To control slowness without any delay, the pages await an `ILoadGate` before querying. In production it completes immediately (`ImmediateGate`); the tests replace it with a gate they hold closed.
+
+- `Program.cs`: starts the in-memory SQLite (shared-cache, with a "keeper" connection in DI so the database does not vanish) and seeds three products.
+- `ProductService.cs`: `IProductService` and `DbProductService`, which receives an `IDbContextFactory<ShopContext>`.
+- `Components/Pages/Products.razor`: the page that should stream.
+- `Components/Pages/ProductsPlain.razor`: the same page without `[StreamRendering]`, already done, only for comparison.
+- `Models.cs`: `Product`, `ShopContext` and the `ILoadGate`.
+
+The tests run the whole app in memory with `WebApplicationFactory<Program>`.
+
+**What you will do, step by step**
+
+1. **Register data access (TODO-00).** In `Program.cs`, use `AddDbContextFactory` with `UseSqlite(connectionString)` and register `IProductService` as `DbProductService` (scoped).
+2. **Read with one context per call (TODO-01).** In `ListAsync`, create a context from the factory for this call only (and dispose it), use `AsNoTracking` and return the products ordered by name.
+3. **Run overlapping queries (TODO-02).** In `CountConcurrentlyAsync`, start the requested number of queries with `Task.Run` and `Task.WhenAll`, each one creating its own context. A `DbContext` is not thread safe, and that is exactly why each query needs its own.
+4. **Load in the page (TODO-03).** In `Products.razor`, in `OnInitializedAsync`, `await Gate.WaitAsync()` and then `items = await Service.ListAsync()`.
+5. **Turn on streaming (TODO-04).** Put `@attribute [StreamRendering]` on `Products.razor`. The first flush must contain `Loading...` and the data arrives later in the same response as a streaming update (`blazor-ssr` markup).
+6. **Expose the JSON (TODO-05).** In `Program.cs`, expose `IProductService.ListAsync` as `GET /api/products`, the shape a WebAssembly client would call, since it cannot reach the database.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain the difference between `/products` and `/products-plain` in what reaches the browser and when, and why each parallel query needs its own context. The streaming test has a 15 second watchdog: if TODO-04 is missing it fails there instead of hanging, and a correct solution never waits for it.
+
+**Optional challenges**
+
+- **TODO-06:** implement `RenameAsync`: load the product, change the name and save inside one short-lived context, returning `false` for an unknown id.
+- **TODO-07 (no test):** in a scratch test or console app, inject a single `ShopContext` and run eight overlapping `CountAsync` calls with `Task.Run`. You will usually see the `InvalidOperationException` about a second operation on the same context (not guaranteed with SQLite). Then switch to the factory. What does `AsNoTracking` change here, and what does it not change?
+
+**Prerequisites:** C# with async/await, basic EF Core (`DbContext`, `DbSet`, LINQ), Razor components and the lifecycle (`OnInitializedAsync`), DI lifetimes and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The project compiles in the starter state, and the tests fail until you complete the TODOs marked in comments in `Program.cs`, `ProductService.cs` and `Products.razor`.
+
 ## Documentation Links
 
 - [ASP.NET Core Blazor with Entity Framework Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/blazor-ef-core) (doc)

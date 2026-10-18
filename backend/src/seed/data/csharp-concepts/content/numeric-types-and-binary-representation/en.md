@@ -369,6 +369,40 @@ interop with native APIs, not as a general "fast int".
   three decimal digits and is mostly a storage format, `Int128` is slower than
   `long` and `nint` ties your code to a platform detail.
 
+## Lab
+
+In this lab you get two **stubbed** static classes, `Bits` and `Numbers`, whose methods throw `NotImplementedException`, plus xUnit tests that already pin the surprising behaviors. Your job is to implement them. The core idea is to see what a number really is in memory: two's complement integers, shifts and masks, IEEE 754 `double` values that need a tolerance to compare, and `decimal` with its scale, which is the right type for money.
+
+**The scenario**
+
+A set of low-level utilities about numeric representation. Each TODO targets one representation and a test that exposes the catch (`int.MinValue`, `1 << 32`, `0.1 + 0.2`, `1.0m` versus `1.00m`).
+
+- `Bits.cs`: `ToBinary32`, `Negate`, the shifts (`ShiftRightArithmetic`, `ShiftRightLogical`, `OneShiftedLeft`), color packing (`PackRgb`, `Channel`), flags (`SetFlag`, `ClearFlag`, `HasFlag`) and `CountSetBits`/`NextPowerOfTwo`.
+- `Numbers.cs`: `Near` (comparing `double` values), `Scale` (the scale of a `decimal`) and `ToCents` (a price as exact cents).
+- `NumericTests.cs`: the tests, grouped by `// TODO-NN` comments. One test is not a TODO and only documents the problem: `0.3` is not equal to `0.1 + 0.2`.
+
+**What you will do, step by step**
+
+1. **Two's complement (TODO-00).** In `ToBinary32`, return the 32 characters with leading zeros (`Convert.ToString(value, 2)` is a starting point). In `Negate`, use neither unary `-` nor multiplication: invert the bits and add one. `int.MinValue` has no positive twin and must come back unchanged, with no exception.
+2. **Shifts (TODO-01).** Implement the arithmetic shift (copies the sign, `-16 >> 2` is `-4`), the logical one with `>>>` (fills with zeros, no cast to `uint`) and `1 << count` with the plain operator. Do not "fix" the fact that the count is masked to 5 bits: 32 wraps to 1 and 33 to 2, and the tests expect that.
+3. **Fields and flags in a `uint` (TODO-02).** `PackRgb` builds `0x00RRGGBB`, and `Channel` reads a channel back (index 0, 1 or 2, otherwise `ArgumentOutOfRangeException`). `SetFlag`, `ClearFlag` and `HasFlag` work on one bit, including bit 31. Remember that `byte` arithmetic happens in `int`.
+4. **Let the BCL count (TODO-03).** Use `BitOperations` in `CountSetBits` and `NextPowerOfTwo` (1000 becomes 1024, 64 stays 64, 0 becomes 1), with no loops.
+5. **Comparing `double` (TODO-04).** In `Near`, combine an absolute tolerance (near zero) and a relative one (large values): `|a - b| <= max(absolute, relative * max(|a|, |b|))`. No `==` and no `double.Epsilon`, and `NaN` is never near anything.
+6. **Decimal scale and cents (TODO-05).** `Scale` reads the digits after the point, trailing zeros included, from `decimal.GetBits`. `ToCents` converts to exact cents and throws `ArgumentException` for fractions of a cent (`1.999m`) instead of silently truncating.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `1.0m == 1.00m` while their scales differ, and why `Near` needs both kinds of tolerance.
+
+**Optional challenges**
+
+- **TODO-06:** write `MeanOfFinite(double[] values)`, which ignores `NaN` and infinities (`double.IsFinite`) and throws when nothing is finite. Add your own tests, including sorting a list that contains `NaN`.
+- **TODO-07:** multiply two `long.MaxValue` values with `Int128` and compare with `unchecked` `long` multiplication. Which one wraps?
+
+**Prerequisites:** C# basic types and operators, formatting values with an explicit culture, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The stubbed methods throw `NotImplementedException`, so red tests show what is left, and the `TODO-NN` comments carry a hint for each one.
+
 ## Documentation Links
 
 - [Integral numeric types, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types) (doc)

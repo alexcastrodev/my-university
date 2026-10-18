@@ -183,6 +183,37 @@ app.MapPost("/pay", ([FromKeyedServices("stripe")] IPaymentGateway gateway) => .
   Scrutor add scanning and decoration on top; a different container is rarely
   worth the migration.
 
+## Lab
+
+In this lab you get a set of game store services and an `AddGameStoreServices` that registers nothing, so every test that resolves a service fails. Your job is to work out the lifetime each service needs, register it with the right one, fix the single class that cannot be a singleton as written and create a scope by hand for code that runs outside a request. The core idea is to feel what transient, scoped and singleton mean in practice and what a captive dependency is.
+
+**The scenario**
+
+The tests build the provider with `ValidateScopes` and `ValidateOnBuild` turned on, the same checks ASP.NET Core applies in `Development`. So a lifetime mistake becomes an exception when the provider is built.
+
+- `Services.cs`: `RequestState` and `FakeDb` (each with its own `Guid`; `FakeDb` also knows whether it was seeded and disposed), `ISystemClock`/`SystemClock`, `ReceiptNumberGenerator`, the `CatalogReader` (which holds a `FakeDb`) and, for the optional part, `IPaymentGateway` with `StripeGateway` and `PaypalGateway`, and the `CheckoutService`.
+- `ServiceRegistration.cs`: `AddGameStoreServices`, empty, with the registration TODOs.
+- `StartupTasks.cs`: `SeedDatabase(IServiceProvider root)`, which runs outside any request.
+
+**What you will do, step by step**
+
+1. **Register by lifetime (TODO-00, TODO-01 and TODO-02).** `RequestState` and `FakeDb` must live exactly one request (scoped). `ISystemClock` with `SystemClock` is stateless and shared by everyone (singleton). `ReceiptNumberGenerator` must hand out a new instance on every request for it (transient).
+2. **Provoke and fix the captive dependency (TODO-03).** Register `CatalogReader` as a singleton and run the tests. Read the exception about the scoped service and then fix the class in `Services.cs`: make it depend on `IServiceScopeFactory`, create a scope inside `Lookup()`, resolve the `FakeDb` from that scope and dispose the scope afterwards. That way each lookup uses a fresh `FakeDb`.
+3. **Create the scope by hand (TODO-04).** In `StartupTasks.SeedDatabase`, create a scope, resolve the `FakeDb` from the scope's provider, call `Seed()` and return the instance. The scope must be disposed when the method ends, which also disposes the `FakeDb`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why a singleton cannot hold a scoped service, why the test provider reports it already at build time, and why the `FakeDb` returned by `SeedDatabase` shows up as seeded and already disposed.
+
+**Optional challenges**
+
+- **TODO-05:** register `StripeGateway` and `PaypalGateway` as keyed singletons (`"stripe"` and `"paypal"`), `CheckoutService` as scoped, and make `CheckoutService` ask for the `"stripe"` one with `[FromKeyedServices]`.
+- **TODO-06:** switch `ValidateOnBuild` and `ValidateScopes` off in the test helper and run again. Which test still catches the captive dependency?
+
+**Prerequisites:** constructor injection, `IServiceCollection` and `IServiceProvider`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state nothing is registered, so the tests fail, and each TODO is marked in a comment in `ServiceRegistration.cs`, `Services.cs` and `StartupTasks.cs`.
+
 ## Documentation Links
 
 - [Dependency injection in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection) (doc)

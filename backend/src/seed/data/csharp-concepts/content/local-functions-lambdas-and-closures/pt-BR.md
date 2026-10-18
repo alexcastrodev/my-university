@@ -262,6 +262,46 @@ criadas no laço (3, 3, 3).
   tipo natural, e `params` ainda exige tipos explícitos nos parâmetros da
   lambda, mesmo no C# 14.
 
+## Lab
+
+Neste lab você recebe a classe estática `Functions` **esboçada**, com cinco métodos que lançam `NotImplementedException`, e testes xUnit prontos. O seu trabalho é implementá-los. Cada método devolve um delegate ou uma sequência preguiçosa, então o que você captura, e quando, decide se os testes passam. A ideia central é capturar variáveis de propósito, escapar da armadilha da variável de laço compartilhada e usar uma função local para validar argumentos de forma ansiosa em um iterador.
+
+**O cenário**
+
+Cinco pequenas fábricas de funções em `Functions.cs`, sem nenhum outro tipo de apoio.
+
+- `MakeCounter`: devolve um contador que lembra o último valor entre chamadas.
+- `MakeReaders`: devolve uma lista de funções, uma por iteração de um laço `for`.
+- `Squares`: uma sequência de quadrados, preguiçosa por natureza.
+- `IntParser`: um `Func<string, int>` que converte texto.
+- `Memoize`: embrulha uma função com um cache.
+
+Em `FunctionsTests.cs`, os testes inspecionam o comportamento dos delegates: contadores independentes, valores por iteração e o número de chamadas ao cálculo original.
+
+**O que você vai fazer, passo a passo**
+
+1. **Variável capturada que sobrevive (TODO-00).** Em `MakeCounter`, guarde a contagem numa variável local capturada pela lambda, de modo que as chamadas devolvam 1, 2, 3. Cada chamada a `MakeCounter()` cria o seu próprio contador, e o teste confere que dois contadores não se misturam.
+2. **Um valor por iteração (TODO-01).** Em `MakeReaders`, crie `count` funções num `for` em que a função `i` devolve `i`. A variável de laço é uma só para todas as iterações, então copie-a para uma variável local declarada dentro do corpo antes de capturar.
+3. **Validar antes de iterar (TODO-02).** Em `Squares`, lance `ArgumentNullException` imediatamente quando `source` for `null`, mesmo que ninguém enumere o resultado. Um iterador (`yield return`) adia o corpo inteiro, então valide no método externo e delegue a iteração a uma função local `static`.
+4. **Method group em vez de wrapper (TODO-03).** Em `IntParser`, devolva `int.Parse` diretamente como `Func<string, int>`, sem embrulhar numa lambda.
+5. **Cache capturado (TODO-04).** Em `Memoize`, devolva uma função que chama `compute` uma única vez por argumento distinto, guardando o resultado num `Dictionary` capturado pela lambda retornada.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `MakeReaders` sem a cópia local devolveria o mesmo valor em todas as funções, e por que `Squares(null!)` só lança na chamada se a validação ficar fora do iterador.
+
+**Desafios opcionais**
+
+Não há esqueleto nem teste para estes, então você escreve ambos.
+
+- **TODO-05:** uma lambda com valor padrão de parâmetro (C# 12).
+- **TODO-06:** uma lambda com parâmetro `out` e sem tipos declarados (C# 14).
+- **TODO-07:** uma lambda `static`, que não pode capturar nada.
+
+**Pré-requisitos:** delegates (`Func`, `Action`), lambdas, iteradores (`yield return`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método esboçado lança `NotImplementedException` e traz um comentário `TODO-NN` com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Lambda expressions and anonymous functions, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions) (doc)

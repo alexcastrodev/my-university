@@ -204,6 +204,42 @@ static string Parse(string line) => line.Split(' ', StringSplitOptions.RemoveEmp
   com guarda não cobre `["move", "a", "b"]`; quem pega é o braço
   `[var cmd, ..]`. Mantenha um braço genérico depois dos braços com guarda.
 
+## Lab
+
+Neste lab você recebe a classe estática `Patterns` com sete métodos **esboçados**, que lançam `NotImplementedException`, e testes xUnit prontos. O seu trabalho é implementá-los casando a forma de objetos, tuplas e sequências com padrões de propriedade, posicionais e de lista. A ideia central é ver o que cada padrão permite e quando ele não pode ser usado: um padrão de propriedade estendido é seguro contra `null`, um posicional exige `Deconstruct`, e um padrão de lista aceita uma fatia, mas a ordem dos braços decide qual caso vence.
+
+**O cenário**
+
+Pequenos casos reais: filtrar clientes, classificar coordenadas, controlar uma porta, interpretar comandos e descrever sequências.
+
+- `Models.cs`: os records `Address(City, Country)`, `Customer(Name, Address?, Orders)` e `Point(X, Y)`, e os enums `State` (`Closed`, `Open`, `Locked`) e `Trigger` (`Open`, `Close`, `Lock`, `Unlock`).
+- `Patterns.cs`: os métodos a implementar, um por TODO, cada um com a lista de casos no comentário.
+- `PatternTests.cs`: os testes, com bordas como endereço nulo, linhas com espaços extras e comandos com números inválidos.
+
+Como `Customer` e `Point` são records, o `Deconstruct` já existe e os padrões posicionais funcionam sem código extra.
+
+**O que você vai fazer, passo a passo**
+
+1. **Padrão de propriedade estendido (TODO-00).** Em `IsLisbonRegular`, use um único padrão com `Address.City` e `Orders > 0`. Se `Address` for `null`, a resposta deve ser `false`, sem exceção.
+2. **Padrão posicional (TODO-01).** Em `Quadrant`, faça switch no `Point` combinando padrões relacionais e descartes (`_`) para devolver `origin`, `x-axis`, `y-axis` e `Q1` a `Q4`.
+3. **Máquina de estados com tupla (TODO-02).** Em `Next`, faça switch em `(state, trigger)` com as quatro transições válidas. O braço de descarte lança `InvalidOperationException` com a mensagem `"{trigger} is not valid in {state}"`.
+4. **Padrões de lista e fatias (TODO-03 e TODO-04).** Em `Describe`, trate `[]`, um elemento e `[var first, .. var rest]`, juntando a fatia com vírgula. Em `Inner`, use um único padrão de lista sobre a `string` com fatia para extrair o que está entre `(` e `)`, ou `null` se o texto não estiver embrulhado.
+5. **Parser de comandos (TODO-05).** Em `Parse`, divida a linha por espaços (ignorando entradas vazias) e faça switch no array. A ordem importa: um `move` com números inválidos precisa cair em `unknown command 'move'`, o que pede um `when` ou um padrão que valide os inteiros.
+6. **Tuplas boxeadas e records (TODO-06).** Em `IsOrigin`, o parâmetro é `object`: o padrão posicional funciona sobre a tupla boxeada, e para `Point` você precisa de um padrão de tipo antes (`Point(0, 0)`).
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `IsLisbonRegular` não lança com `Address` nulo e por que a ordem dos braços em `Parse` muda o resultado.
+
+**Desafios opcionais**
+
+- **TODO-07:** crie `Sum(ReadOnlySpan<int>)` com recursão `[var head, .. var tail]`. Por que não aloca para um span, mas alocaria para um `int[]`?
+- **TODO-08:** crie uma classe `Rgb` com seu próprio `Deconstruct` e um método `IsGray(Rgb)` que a casa com um padrão posicional.
+
+**Pré-requisitos:** padrões de tipo, constante e relacionais, records e switch expressions, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método esboçado lança `NotImplementedException` e traz um comentário `TODO-NN` com os casos esperados, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Patterns, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns) (doc)

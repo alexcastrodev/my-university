@@ -256,6 +256,42 @@ formatter-based serialization is obsolete.
   `SetUnhandledExceptionHandler` can keep the process alive, and continuing
   after an unknown failure can leave shared state corrupted.
 
+## Lab
+
+In this lab you get the static class `Handlers` and the exception `OrderRejectedException` **stubbed**, together with xUnit tests that describe the expected behavior. Your job is to implement them. The core idea is to see the two-pass model of exception handling: the runtime first searches for a handler (running the `when` filters) and only then unwinds the stack running the `finally` blocks. That is why a filter runs **before** the inner `finally` blocks, and the tests' log makes it visible.
+
+**The scenario**
+
+Small functions that run a piece of work (`Action`) and handle whatever it throws.
+
+- `Errors.cs`: the `Failure` enum (`None`, `NotFound`, `Io`, `Transient`, `Permanent`, `Unexpected`), the ready-made `RemoteException` (with `StatusCode`) and `OrderRejectedException`, which you complete.
+- `Handlers.cs`: `Classify`, `RunWithCleanup`, `ObserveTwoPasses`, `TryCapture` and `CollectMessages`, plus the `Record` helper, which is already written: it adds an entry to the log and returns `true`, ideal for use inside a filter.
+- `HandlerTests.cs`: the tests, which check both the result and the order of the log entries.
+
+Note that `OrderRejectedException` compiles as it is (the constructor calls `base(message)`), so it does not throw `NotImplementedException`: it is its test that stays red.
+
+**What you will do, step by step**
+
+1. **Order the catch clauses and filter (TODO-00).** In `Classify`, use several `catch` clauses: `FileNotFoundException` comes before `IOException`, `RemoteException when StatusCode >= 500` becomes `Transient`, any other `RemoteException` becomes `Permanent`, and the rest is `Unexpected`. With no exception, return `None`.
+2. **`finally` always runs (TODO-01).** In `RunWithCleanup`, log `start`, run the work and log `cleanup` in a `finally`. Do not catch the exception: it must reach the caller.
+3. **See the two passes (TODO-02).** In `ObserveTwoPasses`, put the work in an inner `try/finally` that logs `finally` and, outside it, a `catch (Exception) when (Record(log, "filter"))` that logs `catch`. Run the tests and check the order: `filter`, `finally`, `catch`.
+4. **Rethrow without losing the stack (TODO-03).** In `TryCapture`, return `ExceptionDispatchInfo.Capture(exception)` if something is thrown, and `null` otherwise. The test later calls `info.Throw()` and checks that `Boom` still shows up in the stack trace.
+5. **Unwrap the `AggregateException` (TODO-04).** In `CollectMessages`, call `Wait()` on the task, and if it faults use `Flatten()` to return the message of every inner exception. A successful task gives an empty list.
+6. **A custom exception (TODO-05).** In `OrderRejectedException`, pass the inner exception to the base constructor and store the `orderId` in the `OrderId` property.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the log ends up as `["filter", "finally", "catch"]` and not `["finally", "filter", "catch"]`, and why `RunWithCleanup` must not have a `catch`.
+
+**Optional challenges**
+
+- **TODO-06:** replace `throw e;` with `throw;` in a `catch` block you write and compare the stack traces. Which frames disappear?
+- **TODO-07:** measure with `Stopwatch` how long 100000 throw/catch cycles take versus 100000 `int.TryParse` failures.
+
+**Prerequisites:** basic `try`/`catch`, the exception class hierarchy (`IOException`, `FileNotFoundException`), `Task` basics and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The `Handlers` methods throw `NotImplementedException` until you implement them, and the `TODO-NN` comments explain each one, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Exception-handling statements, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements) (doc)

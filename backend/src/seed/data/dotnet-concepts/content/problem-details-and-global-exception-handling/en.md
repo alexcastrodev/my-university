@@ -191,6 +191,39 @@ log inside the handler when it matters.
 - **Content negotiation is a trap.** An `Accept: text/html` request gets no
   JSON document. If browsers hit the API, decide what they should see.
 
+## Lab
+
+In this lab you get an API with four failure scenarios that today return empty bodies or whatever the host decides. Your job is to wire up the problem details service, the exception handler middleware, status code pages and an `IExceptionHandler` that maps your own exception types. The core idea is to make a 404, an unknown route, a timeout and an unhandled exception all answer with the same `application/problem+json` shape, without leaking exception messages to clients.
+
+**The scenario**
+
+- `Program.cs`: registers the services and the pipeline (with TODOs) and maps `/games/{id:int}` (only id 1 exists, the others throw `GameNotFoundException`), `/timeout` (throws a `TimeoutException` with an internal host in the message) and `/boom` (throws an `InvalidOperationException` with `password=secret123` in the message).
+- `GameNotFoundException.cs`: the domain exception, with the message `Game {id} not found`.
+- `DomainExceptionHandler.cs`: an `IExceptionHandler` with a `switch` that decides status and title. It returns `false` for what is not its own and writes with `IProblemDetailsService`. Only our own exception messages are safe to show in `Detail`.
+
+The tests run in the `Production` environment and check the content type, `Instance`, `Retry-After` and that no secret leaks.
+
+**What you will do, step by step**
+
+1. **Register problem details (TODO-00).** In `Program.cs`, call `AddProblemDetails` and customize it so that every document gets `Instance` set to the request path (when not already set).
+2. **Register and enable the handler (TODO-01 and TODO-02).** Register `DomainExceptionHandler` as an exception handler and add the exception handler middleware, so thrown exceptions become responses.
+3. **Give empty responses a body (TODO-03).** Add status code pages. Registering the service alone does not write a body for an unknown route: find out which middleware asks for it.
+4. **Map the exceptions (TODO-04 and TODO-05).** In the `switch` of `DomainExceptionHandler`, `GameNotFoundException` becomes `(404, "Game not found")` and `TimeoutException` becomes `(503, "Service temporarily unavailable")`.
+5. **Say when to retry (TODO-06).** For the timeout, which is temporary, send a `Retry-After` header of 5 seconds.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `/boom` answers a generic 500 without the exception message, why the handler returns `false` for unknown exceptions and why `AddProblemDetails` alone does not cover the unknown route.
+
+**Optional challenges**
+
+- **TODO-07:** request `/boom` with `curl` using `Accept: text/html` and compare it with `Accept: application/json`. What does the default writer do?
+- **TODO-08:** replace the `return false` for unknown exceptions with `return true` without writing anything. What does the client receive?
+
+**Prerequisites:** basic Minimal APIs, middleware order (the pipeline lab) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The app compiles in the starter state and the tests fail until you complete the TODOs marked in comments in `Program.cs` and `DomainExceptionHandler.cs`.
+
 ## Documentation Links
 
 - [Handle errors in ASP.NET Core APIs, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api) (doc)

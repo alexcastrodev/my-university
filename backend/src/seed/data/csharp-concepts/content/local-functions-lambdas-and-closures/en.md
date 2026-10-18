@@ -253,6 +253,46 @@ variable shared by every lambda created in the loop (3, 3, 3).
 - **Type inference has edges.** Overloaded method groups have no natural type,
   and `params` still needs explicit lambda parameter types even in C# 14.
 
+## Lab
+
+In this lab you get the **stubbed** static class `Functions`, with five methods that throw `NotImplementedException`, plus ready xUnit tests. Your job is to implement them. Each method returns a delegate or a lazy sequence, so what you capture, and when, decides whether the tests pass. The core idea is to capture variables on purpose, escape the shared loop variable trap and use a local function to validate arguments eagerly in an iterator.
+
+**The scenario**
+
+Five small function factories in `Functions.cs`, with no other supporting types.
+
+- `MakeCounter`: returns a counter that remembers the last value between calls.
+- `MakeReaders`: returns a list of functions, one per iteration of a `for` loop.
+- `Squares`: a sequence of squares, lazy by nature.
+- `IntParser`: a `Func<string, int>` that parses text.
+- `Memoize`: wraps a function with a cache.
+
+In `FunctionsTests.cs`, the tests inspect the behavior of the delegates: independent counters, per-iteration values and the number of calls to the original computation.
+
+**What you will do, step by step**
+
+1. **A captured variable that survives (TODO-00).** In `MakeCounter`, keep the count in a local variable captured by the lambda, so successive calls return 1, 2, 3. Each call to `MakeCounter()` creates its own counter, and the test checks that two counters do not mix.
+2. **One value per iteration (TODO-01).** In `MakeReaders`, build `count` functions in a `for` loop where function `i` returns `i`. The loop variable is shared by every iteration, so copy it into a local declared inside the body before capturing it.
+3. **Validate before iterating (TODO-02).** In `Squares`, throw `ArgumentNullException` right away when `source` is `null`, even if nobody enumerates the result. An iterator (`yield return`) defers its whole body, so validate in the outer method and delegate the iteration to a `static` local function.
+4. **Method group instead of a wrapper (TODO-03).** In `IntParser`, return `int.Parse` directly as a `Func<string, int>`, without wrapping it in a lambda.
+5. **A captured cache (TODO-04).** In `Memoize`, return a function that calls `compute` once per distinct argument, storing the result in a `Dictionary` captured by the returned lambda.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `MakeReaders` without the local copy would return the same value in every function, and why `Squares(null!)` only throws at the call if the validation sits outside the iterator.
+
+**Optional challenges**
+
+There is no stub or test for these, so you write both.
+
+- **TODO-05:** a lambda with a default parameter value (C# 12).
+- **TODO-06:** a lambda with an `out` parameter and no declared types (C# 14).
+- **TODO-07:** a `static` lambda, which cannot capture anything.
+
+**Prerequisites:** delegates (`Func`, `Action`), lambdas, iterators (`yield return`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and carries a `TODO-NN` comment with a hint, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Lambda expressions and anonymous functions, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions) (doc)

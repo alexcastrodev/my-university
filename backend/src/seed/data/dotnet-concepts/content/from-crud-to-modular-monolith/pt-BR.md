@@ -195,6 +195,42 @@ de arquitetura, e é o que transforma o layout de convenção em regra.
   de memória num módulo afeta todos eles. O layout modular reduz o custo de
   extração; ele não remove o runtime compartilhado.
 
+## Lab
+
+Neste lab você recebe uma solução que já tem o layout de módulos (um catálogo de jogos e um fluxo de pedidos), mas com a fronteira falsa: tudo é `public` e o módulo de pedidos chama o `GameStore` do catálogo diretamente. Além disso, um pedido guarda preço `0` em vez do preço pago. O seu trabalho é consertar a estrutura passo a passo e deixar o compilador dizer o que estava invadindo o outro módulo. A ideia central é transformar duas features que mexem nos internos uma da outra em dois módulos que só conversam por um contrato, com o compilador e alguns testes de arquitetura garantindo a fronteira.
+
+**O cenário**
+
+- `src/Host` (`GameStore.Host`): só compõe os módulos, chamando `AddCatalogModule`/`AddOrdersModule` e os `Map...Endpoints`.
+- `Catalog.Contracts`: `ICatalogModule` e `GameInfoDto`, a cara pública do catálogo.
+- `Catalog.Core`: `Game`, `GameStore`, `CatalogModuleApi` e `CatalogModule` (registro e endpoints).
+- `Orders.Contracts`: os formatos de request e response dos pedidos.
+- `Orders.Core`: `Order`, `OrderLine`, `OrderStore` e `OrdersModule`. Hoje referencia `Catalog.Core` no csproj.
+
+Os testes têm duas frentes: `OrderFlowTests` exercita a API de ponta a ponta (preço pago, `Location`, jogo inexistente, pedido sem linhas) e `ModuleBoundaryTests` confere com reflection as referências entre assemblies e que cada `Core` exporta só a classe do módulo.
+
+**O que você vai fazer, passo a passo**
+
+1. **Esconder o interior do catálogo (TODO-00).** Torne `internal` todos os tipos de `Catalog.Core`, exceto `CatalogModule` (inclusive `Game`, `GameStore` e `CatalogModuleApi`). A solução deixa de compilar, porque o `Orders.Core` usava esses tipos. É o compilador impondo a fronteira, e os próximos passos consertam isso.
+2. **Expor o catálogo por contrato (TODO-01).** Em `CatalogModuleApi.GetGamesAsync`, procure os ids no store e devolva um dicionário de `GameInfoDto` por id (ids que não existem simplesmente ficam de fora). Depois registre `ICatalogModule` com `CatalogModuleApi` (scoped) em `AddCatalogModule`.
+3. **Trocar a dependência de Orders (TODO-02).** Em `Orders.Core`, use `ICatalogModule` no lugar de `GameStore` nos dois endpoints e em `ToDto`, e em `Orders.Core.csproj` troque a referência a `Catalog.Core` por `Catalog.Contracts`.
+4. **Esconder o interior de pedidos (TODO-03).** Torne `internal` `Order`, `OrderLine` e `OrderStore`, deixando público só o `OrdersModule`.
+5. **Guardar o preço pago (TODO-04).** Ao fazer o pedido, copie o preço atual do jogo para `OrderLine.UnitPrice`. Um pedido deve manter o preço que foi pago, mesmo que o preço do catálogo mude depois.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar o que o compilador acusou depois do TODO-00 e por que isso é bom, por que `Orders.Core` pode referenciar `Catalog.Contracts` mas não `Catalog.Core`, e por que o total de um pedido antigo não muda quando o catálogo reajusta o preço.
+
+**Desafios opcionais**
+
+- **TODO-05:** adicione um teste de arquitetura que falha quando algum assembly `*.Contracts` expõe um tipo que não seja record nem interface.
+- **TODO-06:** recoloque `Orders.Core` -> `Catalog.Core` no csproj "temporariamente" e veja qual teste pega isso antes mesmo de o código usar o tipo.
+- **TODO-07:** troque os stores em memória por um schema PostgreSQL por módulo (`catalog` e `orders`), cada um com seu `DbContext` e sua tabela de histórico de migrations.
+
+**Pré-requisitos:** referências entre projetos e modificadores de acesso em C# (`public` vs `internal`), Minimal APIs e injeção de dependência, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial a solução compila, mas `GetGamesAsync` lança `NotImplementedException` e os testes de fronteira e de fluxo falham; os TODOs estão em comentário nos arquivos citados.
+
 ## Documentation Links
 
 - [Common web application architectures, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures) (doc)

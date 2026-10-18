@@ -193,6 +193,44 @@ compiler no copy is needed. Pass large structs with `in` only when they are
 - **Boolean parameters hide intent.** `Export(true, false)` needs named
   arguments or, better, an enum or options type.
 
+## Lab
+
+In this lab you get the **stubbed** static class `Methods`, with eight already fixed signatures that throw `NotImplementedException`, plus ready xUnit tests that call them with `ref`/`out`, named arguments and different numeric types. Your job is to write the bodies. The core idea is to feel how a parameter's passing mode changes what the caller sees: `ref` and `out` touch the caller's variables, `ref readonly` returns a reference instead of a copy, and overload resolution picks the best conversion on its own.
+
+**The scenario**
+
+A collection of short methods, each illustrating one kind of parameter.
+
+- `Methods.cs`: `Swap`, `TryDivide`, `Heaviest`, `Sum`, `BuildUrl` and three `Pick` overloads (`long`, `double` and `object`).
+- `Particle.cs`: a `readonly record struct Particle(string Name, double Mass)`, the type used by `Heaviest`.
+- `MethodsTests.cs`: the tests. For example, the `Heaviest` test uses `Unsafe.AreSame` to prove that you returned a reference to the array element, not a copy.
+
+Since the signatures are already in place, you only write the bodies.
+
+**What you will do, step by step**
+
+1. **Swap the caller's variables (TODO-00).** In `Swap`, exchange the two values. `ref` passes the caller's variables, not copies.
+2. **Assign every `out` on every path (TODO-01).** In `TryDivide`, return `false` when the divisor is zero and `true` otherwise, delivering quotient and remainder. Even on failure, both `out` parameters must receive a value (use 0).
+3. **Return a reference (TODO-02).** In `Heaviest`, find the element with the largest `Mass` and use `return ref particles[index];`. The caller gets a read-only reference, with no copy of the struct.
+4. **`params` without allocating (TODO-03).** In `Sum`, add up the values of a `params ReadOnlySpan<int>` (C# 13), so `Sum(1, 2, 3)` creates no array.
+5. **Optional and named (TODO-04).** In `BuildUrl`, return `http://host:port`, or `https://host:port` when `secure` is true. Default values are copied into the caller at compile time, which is why changing a default in a library requires recompiling its callers.
+6. **Predict the overload (TODO-05, TODO-06 and TODO-07).** Implement the three `Pick` methods, returning `"long"`, `"double"` and `"object"`. **Before running the tests**, predict which one `Pick(5)` binds to, then `Pick(5f)` and `Pick("five")`, and confirm.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `Pick(5)` picks `long` and not `double` or `object`, and why `Heaviest` with `ref readonly` does not let the caller assign through the result.
+
+**Optional challenges**
+
+There is no stub or test for these, so you write both.
+
+- **TODO-08:** `FindSlot`, which returns a `ref int` so the caller can write straight into the array element.
+- **TODO-09:** `CountValid`, using the discard `_` for an `out` value you do not need.
+
+**Prerequisites:** C# methods and structs, tuples and deconstruction (basic) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and carries a `TODO-NN` comment, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Method parameters and modifiers, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters) (doc)

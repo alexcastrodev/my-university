@@ -226,6 +226,40 @@ código gerado passa a existir duas vezes).
   esses arquivos, então adote quando o time inteiro e a imagem de CI já tiverem
   migrado.
 
+## Lab
+
+Neste lab você recebe um conjunto de tipos divididos em vários arquivos `Tipo.Parte.cs`, com as declarações de definição já escritas e as partes de implementação **esboçadas** (lançam `NotImplementedException`), mais testes xUnit prontos. O seu trabalho é preencher as implementações. A ideia central é entender o contrato entre código escrito à mão e a outra metade de um tipo parcial, que é exatamente o que acontece quando um source generator emite código para a sua classe.
+
+**O cenário**
+
+Cada tipo ilustra uma regra dos tipos e membros parciais, em `src/PartialLab`.
+
+- `Order.cs` e `Order.Comparison.cs`: as duas partes de `Order`. Modificadores e interfaces são mesclados entre as partes.
+- `Quiet.cs`, `Loud.cs` e `Loud.Hooks.cs`: o método parcial "legado" (`partial void`). Em `Quiet` ninguém o implementa, em `Loud` há uma implementação.
+- `Widget.cs`, `Widget.Members.cs` e `Widget.Lifecycle.cs`: as declarações de definição (construtor, propriedade, indexador, evento e método parciais) e as duas partes de implementação.
+- `Greeter.cs` e `Greeter.Generated.cs`: `Greeter.Generated.cs` **simula** o que um source generator emitiria. Nenhum pacote de generator é usado, e você **não deve editar** esse arquivo. Ele chama `Prefix`, que a sua parte precisa fornecer.
+
+**O que você vai fazer, passo a passo**
+
+1. **Mesclar modificadores e interfaces (TODO-00).** Em `Order.Comparison.cs`, adicione `sealed` só nesta segunda parte (não em `Order.cs`) e implemente `CompareTo` comparando por `Total`, com `null` ordenando primeiro (devolva 1). O teste confere que `Order` é sealed, herda de `Entity` e implementa `IComparable<Order>`.
+2. **Hooks que somem e hooks que existem (TODO-01).** Em `Quiet.Save`, chame `OnSaving(Expensive())` e devolva `"saved"`: como o hook não tem implementação, o compilador remove a chamada e o argumento, então `Expensive()` nunca roda. Em `Loud.Hooks.cs`, implemente o hook adicionando `"saving:<detail>"` a `Log`.
+3. **Propriedade, indexador e método parciais (TODO-02).** Em `Widget.Members.cs`, implemente `Title` (o getter devolve o valor guardado e o setter guarda o valor aparado com trim), o indexador (devolve `i` vezes o tamanho do widget) e `Describe` (`"<Title>:<this[1]>"`). A propriedade implementadora **não pode** ser auto-property (erro CS9250).
+4. **Construtor e evento parciais (TODO-03).** Em `Widget.Lifecycle.cs`, faça o construtor lançar `ArgumentOutOfRangeException` para tamanho zero ou negativo e guardar `_size`. Implemente o evento com `add` e `remove` sobre `_changed`, e `RaiseChanged` invocando os handlers, se houver.
+5. **Cumprir o contrato do gerador (TODO-04).** Em `Greeter.cs`, faça `Prefix` expor o parâmetro do construtor primário, e `GreetAll` juntar os `Greet` de todos os nomes separados por um espaço.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Expensive()` não roda em `Quiet`, e o que `Greeter` precisa oferecer para que a metade "gerada" compile.
+
+**Desafios opcionais**
+
+- **TODO-05:** reescreva a implementação de `Title` com a palavra-chave `field` do C# 14 no lugar do campo `_title`. A propriedade continua compilando como declaração implementadora?
+- **TODO-06:** adicione um segundo corpo para `Describe` em outro arquivo, ou remova a implementação de `Describe`. Leia o código do erro do compilador e relacione com a regra do concept.
+
+**Pré-requisitos:** classes, propriedades e eventos em C#, construtores primários e o .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os trechos esboçados lançam `NotImplementedException` e trazem comentários `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [partial type, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-type) (doc)

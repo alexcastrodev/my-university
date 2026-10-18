@@ -230,6 +230,42 @@ um atributo não pode usar um parâmetro de tipo do tipo que o contém.
 - **Genérico nem sempre é mais simples.** Um método que só lida com um tipo, ou
   que faz switch em `typeof(T)`, fica mais claro como sobrecargas.
 
+## Lab
+
+Neste lab você recebe métodos genéricos **sem as restrições** (constraints), um `TypeCounter<T>` esboçado e interfaces sem variância, junto com testes xUnit prontos. O seu trabalho é implementar os métodos, adicionar as restrições certas e marcar as interfaces como covariante ou contravariante. A ideia central é ver que uma restrição não é decoração: ela libera operações (`CompareTo`, `new T()`, `MemoryMarshal.AsBytes`), generics são reificados em tempo de execução, chamar um membro de interface por um parâmetro de tipo restrito evita boxing, e a variância decide quais atribuições entre tipos construídos são válidas.
+
+**O cenário**
+
+Três arquivos em `src/GenericsLab`.
+
+- `Generics.cs`: cinco métodos genéricos (`Max<T>`, `Create<T>`, `ByteCount<T>`, `Describe<T>`, `CompareViaConstraint<T>`) mais `CompareViaInterface`, que já vem pronto e serve de comparação, e `TypeCounter<T>`, que guarda estado por tipo construído.
+- `Variance.cs`: as classes `Animal` e `Dog`, as interfaces `IProducer<T>` e `IConsumer<T>` sem variância, e as implementações `Kennel` (produz `Dog`) e `AnimalLog` (consome `Animal`).
+- `GenericsTests.cs`: os testes. Vários usam reflection para checar a restrição ou a flag de variância, porque uma restrição faltando é uma propriedade de compilação e não dá para provar de outro jeito. Dois testes medem bytes alocados para provar que uma chamada restrita não faz boxing.
+
+**O que você vai fazer, passo a passo**
+
+1. **Restringir para poder comparar (TODO-00).** Em `Max<T>`, devolva o maior item e lance `InvalidOperationException` se a sequência for vazia. Restrinja `T` a `IComparable<T>` para chamar `CompareTo` sem cast.
+2. **Restringir para poder instanciar (TODO-01).** Em `Create<T>`, devolva um `new T()`. O compilador só permite isso com `class, new()`.
+3. **Restringir a `unmanaged` (TODO-02).** Em `ByteCount<T>`, interprete o valor como um `ReadOnlySpan<T>` de um elemento (`new ReadOnlySpan<T>(in value)`) e use `MemoryMarshal.AsBytes`. Isso só compila se `T` for `unmanaged`.
+4. **Usar a reificação (TODO-03 e TODO-04).** Em `Describe<T>`, devolva `"<nome do tipo>:<default>"` (`"Int32:0"`, `"String:null"`) com `typeof(T)` e `default(T)`. Em `TypeCounter<T>.Increment`, conte um acerto: cada `TypeCounter<X>` tem seu próprio estado estático, então `int` e `string` não compartilham `Hits`.
+5. **Comparar sem boxing (TODO-05).** Em `CompareViaConstraint<T>`, faça a mesma comparação de `CompareViaInterface`, mas por um parâmetro de tipo restrito a `IComparable<T>`, para que um `int` nunca seja boxeado. O teste exige zero bytes alocados em 10 mil chamadas.
+6. **Variância (TODO-06 e TODO-07).** Marque `IProducer<T>` como covariante (`out T`) e `IConsumer<T>` como contravariante (`in T`), de modo que um produtor de `Dog` sirva como produtor de `Animal`, e um consumidor de `Animal` sirva como consumidor de `Dog`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `List<Dog>` não é um `List<Animal>` e `IProducer<Dog>` é um `IProducer<Animal>`, e por que `CompareViaInterface` aloca e `CompareViaConstraint` não.
+
+**Desafios opcionais**
+
+Estes dois não têm esqueleto nem teste, então você escreve ambos.
+
+- **TODO-08:** crie `Generics.NameOf<T>(T value)`, que devolve `typeof(T).Name` e aceita `ReadOnlySpan<char>` com a anti-restrição `allows ref struct` do C# 13.
+- **TODO-09:** tente `object[] boxes = new string[1]; boxes[0] = 42;` e leia a exceção. Por que `IReadOnlyList<object>` não tem esse problema?
+
+**Pré-requisitos:** interfaces e herança em C#, tipos de valor contra tipos de referência e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos esboçados lançam `NotImplementedException`, e as restrições e a variância faltantes aparecem como testes de reflection vermelhos, com os comentários `TODO-NN` explicando cada um.
+
 ## Documentation Links
 
 - [Generic classes and methods, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics) (doc)

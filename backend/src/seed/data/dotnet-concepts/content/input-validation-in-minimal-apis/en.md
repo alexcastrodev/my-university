@@ -154,6 +154,39 @@ public sealed class NotFutureAttribute : ValidationAttribute
   size to the attribute (`[StringLength(50)]` and `HasMaxLength(50)`), or one
   of them is a lie.
 
+## Lab
+
+In this lab you get a games API that accepts anything: `POST /games` stores the DTO with no checks, so a game with no name or a price of 500 is created happily, and `GET /games?page=` accepts any page number. Your job is to declare the rules, turn on ASP.NET Core's built-in validation and discover one trap that makes the rules silently do nothing. The core idea is that invalid requests get rejected with `400 Bad Request` before the handler runs.
+
+**The scenario**
+
+The tests start the API in memory with `WebApplicationFactory<Program>` and check the status, the keys inside `errors` and that an invalid game is not stored.
+
+- `Program.cs`: registers `GameStore` and calls `MapGamesEndpoints`.
+- `GamesEndpoints.cs`: the `/games` group with `GET /` (`page` parameter, default 1) and `POST /`.
+- `CreateGameDto.cs`: the input record (`Name`, `GenreId`, `Price`, `ReleaseDate`).
+- `GameStore.cs`: the in-memory store, with `Add` and `Count`.
+
+**What you will do, step by step**
+
+1. **Turn validation on (TODO-00).** In `Program.cs`, register the ASP.NET Core validation services, so that data annotations are checked before the handler runs.
+2. **Declare the rules (TODO-01).** In `CreateGameDto`, annotate the positional parameters: `Name` required with at most 50 characters, `GenreId` from 1 to 50 and `Price` from 1 to 100.
+3. **Find the trap (TODO-02).** Run the tests after the first two steps: some POST tests should pass now but do not. Find out why this type is never validated (look closely at its declaration) and fix it. That is the point of the lab: the annotations can be right and still do nothing, with no error at all.
+4. **Validate a simple parameter (TODO-03).** In `GamesEndpoints`, reject `page` values outside 1 to 100 by annotating the parameter.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the handler does not even run with an invalid body, why every invalid field shows up in the same response and what was keeping the annotations from taking effect in TODO-02.
+
+**Optional challenges**
+
+- **TODO-04:** add a `NotFutureAttribute` (a custom `ValidationAttribute`) and apply it to `ReleaseDate` so a release date in the future is rejected.
+- **TODO-05:** send an invalid body with `curl` and read the response carefully. Note the casing of the keys under `errors`.
+
+**Prerequisites:** basic Minimal APIs (`MapGet`, `MapPost`, route groups), C# records and attributes, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The app compiles in the starter state, and the validation tests fail until you complete the TODOs marked in comments in `Program.cs`, `CreateGameDto.cs` and `GamesEndpoints.cs`.
+
 ## Documentation Links
 
 - [Validation in Minimal API apps, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis) (doc)

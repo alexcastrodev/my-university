@@ -235,6 +235,41 @@ experimento essa chamada alocou 48 bytes, o mesmo da versão interpolada, contra
   é custo para um template usado uma única vez, e você precisa guardar o objeto
   analisado em algum lugar (um campo `static readonly`).
 
+## Lab
+
+Neste lab você recebe um projeto pequeno com três peças **só esboçadas** (`Formatter`, `Money` e `DebugHandler`), cada uma lançando `NotImplementedException`, e uma suíte de testes xUnit já pronta. O seu trabalho é implementá-las. A ideia central é sentir na prática que formatar é decidir a cultura: o mesmo `decimal` vira `0.5` ou `0,5` conforme a máquina, e isso é ótimo para mostrar ao usuário e péssimo para uma chave de cache. Você também vai ver que uma string interpolada pode ser tratada por um handler que nem avalia os buracos quando o log está desligado.
+
+**O cenário**
+
+Uma pequena biblioteca de formatação de preços e de logs de depuração. Todo teste fixa a cultura (`en-US`, `pt-BR`, `de-DE`), então o resultado não depende da configuração da sua máquina.
+
+- `Formatter.cs`: três métodos estáticos, `Row` (linha de tabela alinhada), `CacheKey` (texto para máquina) e `Compact` (número sem zeros sobrando).
+- `Money.cs`: um `readonly record struct Money(decimal Amount, string Currency)` que implementa `IFormattable`, com os formatos `short` e `long`.
+- `Logging.cs`: o `Logger` e o `DebugHandler`, um `ref struct` marcado com `[InterpolatedStringHandler]` que embrulha um `DefaultInterpolatedStringHandler`.
+
+Em `FormatTests.cs`, alguns testes trocam `CultureInfo.CurrentCulture` para pt-BR ou de-DE de propósito. Rode os testes antes de começar: é esse tipo de armadilha que o lab quer que você enxergue.
+
+**O que você vai fazer, passo a passo**
+
+1. **Alinhar com a cultura recebida (TODO-00).** Em `Row`, monte o nome alinhado à esquerda em 10 caracteres e o preço alinhado à direita em 10, com duas casas e separador de milhar, usando a sintaxe `{valor,largura:formato}`. Use `string.Create(culture, $"...")` para o resultado seguir a cultura passada, não a da máquina.
+2. **Manter dado como dado (TODO-01).** Em `CacheKey`, devolva algo como `tea:1.5` com a cultura invariante. Uma chave de cache não é texto para uma pessoa, e não pode mudar em uma máquina pt-BR.
+3. **Formato customizado e a armadilha do zero (TODO-02).** Em `Compact`, mostre no máximo duas casas sem zeros à direita (`0.5`, `1234.57`, `2`), também sem depender da cultura. Cuidado: o formato `#.##` devolve string vazia para 0, e o teste exige `"0"`.
+4. **Escrever o seu `IFormattable` (TODO-03).** Em `Money.ToString(format, provider)`, trate `null`, `""` e `short` (quantia com `0.##` mais a primeira letra da moeda), `long` (`N2`, espaço e moeda) e lance `FormatException` para qualquer outro formato. Use `provider ?? CultureInfo.CurrentCulture`.
+5. **Pular trabalho quando o log está desligado (TODO-04).** No construtor de `DebugHandler`, use o parâmetro `out bool shouldAppend` para consultar `logger.Enabled`. Com `false`, o compilador não chama nenhum `AppendLiteral`/`AppendFormatted` e nem avalia as expressões dentro dos buracos.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Row` recebe a cultura e `CacheKey` não, e por que o teste `ShouldNotEvaluateTheHolesWhenTheLoggerIsDisabled` termina com `calls == 0`.
+
+**Desafios opcionais**
+
+- **TODO-05:** faça `Money` implementar `ISpanFormattable` e escreva em um `Span<char>` com `TryWrite`.
+- **TODO-06:** crie `Formatter.Greeting(name, count, culture)` usando um `static readonly CompositeFormat` interpretado uma única vez.
+
+**Pré-requisitos:** noções de interpolação de strings em C#, `CultureInfo` e `IFormatProvider`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O starter sinaliza o que falta pelos testes vermelhos: cada método esboçado lança `NotImplementedException` e os comentários `TODO-NN` explicam o que fazer.
+
 ## Documentation Links
 
 - [String interpolation using $, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) (doc)

@@ -269,6 +269,40 @@ conceito anterior.
   insuficiente" é um resultado esperado de uma chamada válida, candidato a um
   tipo de resultado ou a uma exception de domínio, não a `ArgumentException`.
 
+## Lab
+
+Neste lab você recebe a classe estática `Guards` **esboçada**, com oito métodos que lançam `NotImplementedException`, e testes xUnit prontos. O seu trabalho é implementá-los. A ideia central tem duas metades: erros de uso (um bug de quem chama) devem ser lançados o mais cedo possível, com mensagem precisa e `ParamName` correto, e uma falha já capturada deve ser relançada ou embrulhada sem perder a pilha original.
+
+**O cenário**
+
+Um pequeno serviço que recebe pedidos e lê configurações, cheio de validações de argumento.
+
+- `Models.cs`: `Customer` (com `Email?`) e `Order` (com `Customer?`, `Quantity` e `Discount`).
+- `Guards.cs`: os oito métodos a implementar, um por TODO. Entre eles há o helper privado `ThrowIndex`, marcado com `[DoesNotReturn]`.
+- `GuardTests.cs`: os testes. Eles conferem não só o tipo da exceção, mas também o `ParamName`, o `ActualValue`, o texto da mensagem e se o stack trace ainda menciona o método original.
+
+**O que você vai fazer, passo a passo**
+
+1. **Guards de uma linha (TODO-00).** Em `Place`, valide na ordem, com os helpers da BCL (`ArgumentNullException.ThrowIfNull`, `ThrowIfNullOrWhiteSpace`, `ThrowIfNegativeOrZero`, `ThrowIfGreaterThan`): pedido, cliente, e-mail, quantidade e desconto até 0.5m. O `ParamName` de cada exceção é o texto da expressão (`order.Customer`, `order.Customer.Email`...). Depois devolva `$"placed {order.Quantity}"`.
+2. **Seu próprio guard (TODO-01).** Em `NotDefault<T>`, lance `ArgumentException` quando o valor for `null` ou igual a `default(T)` (use `EqualityComparer<T>.Default`). O `ParamName` é o texto que o compilador já entrega em `expression`, via `CallerArgumentExpression`.
+3. **`throw` como expressão (TODO-02).** Em `FirstArg`, devolva o primeiro argumento ou lance `ArgumentException("No arguments.")`, tudo numa expressão condicional.
+4. **Manter o caminho quente pequeno (TODO-03 e TODO-04).** Em `Get`, teste os dois limites com `(uint)index >= (uint)values.Length` e delegue o erro a `ThrowIndex`. Em `ThrowIndex`, lance `ArgumentOutOfRangeException(nameof(index), index, $"Index must be below {length}.")`. Tirar o `throw` de `Get` o deixa pequeno o bastante para inlining.
+5. **Validar antes do `async` (TODO-05).** Em `SaveAsync`, torne o método **não** `async`, valide o `path` e devolva a task de uma função local `async` que faz `await Task.Yield()` e retorna `$"saved:{path}"`. Num método `async`, a exceção ficaria guardada na `Task` em vez de estourar na chamada.
+6. **Relançar e embrulhar (TODO-06 e TODO-07).** Em `LogAndRethrow`, registre a mensagem e relance com `throw;`, não `throw ex;`, que zera o stack trace. Em `LoadSetting`, converta o texto em `int` e, se falhar, lance `InvalidOperationException("Loading settings failed.")` com a `FormatException` como `InnerException`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o teste de `LogAndRethrow` procura `Boom` no stack trace, e por que `SaveAsync(null!)` precisa lançar na chamada, e não na hora do `await`.
+
+**Desafios opcionais**
+
+- **TODO-08:** crie `RethrowLater(Action, List<ExceptionDispatchInfo>)`, que captura a exceção num `catch` e deixa o chamador relançá-la depois com o stack trace original.
+- **TODO-09:** crie uma classe `Resource : IDisposable` cujo `Read()` seja protegido por `ObjectDisposedException.ThrowIf`.
+
+**Pré-requisitos:** `try`, `catch` e `finally`, atributos e parâmetros opcionais, noções de `async`/`await` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método esboçado lança `NotImplementedException` e traz um comentário `TODO-NN` com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Best practices for exceptions, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions) (doc)

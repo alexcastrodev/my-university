@@ -226,6 +226,41 @@ for the plain `string.Format`.
   cost for a template used a single time, and you must keep the parsed object
   somewhere (a `static readonly` field).
 
+## Lab
+
+In this lab you get a small project with three pieces that are **only stubbed** (`Formatter`, `Money` and `DebugHandler`), each one throwing `NotImplementedException`, plus a ready xUnit test suite. Your job is to implement them. The core idea is to feel in practice that formatting means choosing a culture: the same `decimal` becomes `0.5` or `0,5` depending on the machine, which is great for showing to a user and terrible for a cache key. You will also see that an interpolated string can be handled by a handler that does not even evaluate the holes when logging is off.
+
+**The scenario**
+
+A small library for formatting prices and debug logs. Every test pins its culture (`en-US`, `pt-BR`, `de-DE`), so the result does not depend on your machine settings.
+
+- `Formatter.cs`: three static methods, `Row` (an aligned table row), `CacheKey` (text for machines) and `Compact` (a number without extra zeros).
+- `Money.cs`: a `readonly record struct Money(decimal Amount, string Currency)` that implements `IFormattable`, with `short` and `long` formats.
+- `Logging.cs`: the `Logger` and the `DebugHandler`, a `ref struct` marked with `[InterpolatedStringHandler]` that wraps a `DefaultInterpolatedStringHandler`.
+
+In `FormatTests.cs`, some tests switch `CultureInfo.CurrentCulture` to pt-BR or de-DE on purpose. Run the tests before you start: this is exactly the kind of trap the lab wants you to see.
+
+**What you will do, step by step**
+
+1. **Align with the culture you receive (TODO-00).** In `Row`, build the name left-aligned in 10 characters and the price right-aligned in 10, with two decimals and group separators, using the `{value,width:format}` hole syntax. Use `string.Create(culture, $"...")` so the result follows the culture you were given, not the machine's.
+2. **Keep data as data (TODO-01).** In `CacheKey`, return something like `tea:1.5` using the invariant culture. A cache key is not text for a person, and it must not change on a pt-BR machine.
+3. **Custom format and the zero trap (TODO-02).** In `Compact`, show at most two decimals without trailing zeros (`0.5`, `1234.57`, `2`), also independent of the culture. Careful: the `#.##` format gives an empty string for 0, and the test requires `"0"`.
+4. **Write your own `IFormattable` (TODO-03).** In `Money.ToString(format, provider)`, handle `null`, `""` and `short` (amount with `0.##` plus the first letter of the currency), `long` (`N2`, a space and the currency), and throw `FormatException` for any other format. Use `provider ?? CultureInfo.CurrentCulture`.
+5. **Skip work when logging is off (TODO-04).** In the `DebugHandler` constructor, use the `out bool shouldAppend` parameter to consult `logger.Enabled`. With `false`, the compiler calls no `AppendLiteral`/`AppendFormatted` and does not even evaluate the expressions inside the holes.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `Row` receives the culture and `CacheKey` does not, and why `ShouldNotEvaluateTheHolesWhenTheLoggerIsDisabled` ends with `calls == 0`.
+
+**Optional challenges**
+
+- **TODO-05:** make `Money` implement `ISpanFormattable` and write into a `Span<char>` with `TryWrite`.
+- **TODO-06:** add `Formatter.Greeting(name, count, culture)` using a `static readonly CompositeFormat` parsed only once.
+
+**Prerequisites:** C# string interpolation basics, `CultureInfo` and `IFormatProvider`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The starter signals what is left through red tests: every stubbed method throws `NotImplementedException` and the `TODO-NN` comments say what to do.
+
 ## Documentation Links
 
 - [String interpolation using $, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) (doc)

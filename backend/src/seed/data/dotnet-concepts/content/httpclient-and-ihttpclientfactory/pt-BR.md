@@ -241,6 +241,41 @@ vez em 2009 ms.
 - **`GetFromJsonAsync` esconde o status code.** Ele lança em respostas sem sucesso,
   então use `GetAsync` quando precisar ler um corpo `ProblemDetails` de um `4xx`.
 
+## Lab
+
+Neste lab você recebe um cliente tipado `GamesClient` que lança `NotImplementedException`, um `CorrelationIdHandler` que só repassa a requisição e um `AddGamesClient` que registra um cliente "pelado". O seu trabalho é configurar a factory do jeito que o código de produção deveria (endereço base, handler de saída, tempo de vida da conexão no pool, rotação de handler) e tratar as três formas de uma chamada terminar mais cedo: um 404, um timeout e um cancelamento. A ideia central é ver que o `HttpClient` é só a ponta de um pipeline de handlers gerenciado pela `IHttpClientFactory`.
+
+**O cenário**
+
+Nenhuma rede é usada: os testes trocam o handler primário por um fake em processo (`FakeHandler`), que devolve JSON, um status, ou fica pendurado para sempre.
+
+- `ServiceCollectionExtensions.cs`: `AddGamesClient(baseAddress, timeout)`, com as constantes `ConnectionLifetime` (2 minutos) e `HandlerLifetime` (5 minutos).
+- `CorrelationIdHandler.cs`: um `DelegatingHandler` com a constante `X-Correlation-Id`.
+- `GamesClient.cs`: o cliente tipado, com `GetGameAsync`, `ReadFirstLineAsync` e duas variantes opcionais.
+- `Game.cs`: o record `Game` e a `GameServiceTimeoutException`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Configurar o cliente tipado (TODO-00).** Em `AddGamesClient`, defina `BaseAddress` e `Timeout` (padrão de 30 segundos).
+2. **Plugar o handler de saída (TODO-01 e TODO-04).** Registre `CorrelationIdHandler` como transient e adicione-o com `AddHttpMessageHandler`. Depois, no próprio handler, acrescente o header `X-Correlation-Id` (um novo `Guid` no formato "N") a menos que a requisição já traga um, e repasse a requisição para a cadeia.
+3. **Cuidar de conexões e handlers (TODO-02 e TODO-03).** Use um `SocketsHttpHandler` como handler primário com `PooledConnectionLifetime` igual a `ConnectionLifetime`, para uma mudança de DNS ser percebida, e faça a factory rotacionar o handler a cada `HandlerLifetime`.
+4. **Implementar a chamada (TODO-05).** Em `GetGameAsync`, faça `GET /games/{id}`: devolva `null` para 404, lance exceção para qualquer outro status de falha e leia o JSON em um `Game` nos demais casos. Descarte a resposta.
+5. **Separar timeout de cancelamento (TODO-06).** Um timeout do `HttpClient.Timeout` chega como `OperationCanceledException` que o chamador não pediu. Traduza-o para `GameServiceTimeoutException`, mas deixe um cancelamento pedido pelo `cancellationToken` seguir propagando sem alteração.
+6. **Não esperar o corpo todo (TODO-07).** Em `ReadFirstLineAsync`, faça o GET sem bufferizar o corpo (`HttpCompletionOption`), cheque o status e devolva só a primeira linha do stream. O método tem de retornar antes de o corpo terminar de chegar.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar para que servem a rotação de handler e o tempo de vida da conexão, por que o timeout e o cancelamento do chamador são exceções parecidas mas precisam de tratamentos diferentes, e por que o `ReadFirstLineAsync` não pode usar a opção padrão que espera o corpo.
+
+**Desafios opcionais**
+
+- **TODO-08:** `StreamGamesAsync` com `GetFromJsonAsAsyncEnumerable`, entregando cada `Game` conforme é desserializado.
+- **TODO-09:** uma sobrecarga de `GetGameAsync` com timeout por chamada, usando um `CancellationTokenSource` ligado ao token com `CancelAfter`, reportando `GameServiceTimeoutException`.
+
+**Pré-requisitos:** `async`/`await` e `CancellationToken`, injeção de dependência (lifetimes) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os testes falham (o cliente lança `NotImplementedException`), e cada TODO está marcado em comentário no arquivo correspondente.
+
 ## Documentation Links
 
 - [Use the IHttpClientFactory, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory) (doc)

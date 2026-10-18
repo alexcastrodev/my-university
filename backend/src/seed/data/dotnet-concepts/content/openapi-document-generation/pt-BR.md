@@ -279,6 +279,39 @@ roda. Proteja esse código (a documentação compara
   confere a API em execução contra o arquivo, então adicione um teste de contrato
   ou compare o documento versionado no CI.
 
+## Lab
+
+Neste lab você recebe uma API de jogos com os endpoints já escritos, mas nenhum documento OpenAPI servido. O seu trabalho é registrar o gerador do pacote `Microsoft.AspNetCore.OpenApi`, servir `/openapi/v1.json` e depois moldar o que há nele com metadados de endpoint, transformers, exclusão e mais de um documento nomeado. A ideia central é sentir que o documento OpenAPI é derivado do código, e que você controla seu conteúdo por metadados e transformers em vez de escrever o JSON à mão.
+
+**O cenário**
+
+Os testes sobem a API em ambiente `Development`, leem o JSON servido com `System.Text.Json.Nodes` e conferem caminhos e propriedades, não o texto inteiro (a saída do gerador muda entre versões).
+
+- `Program.cs`: tudo acontece aqui. Um grupo `/games` com `GET /{id}` (200 com `GameDto` ou 404), `GET /` e `GET /legacy`, mais `GET /internal/health` e `GET /admin/stats` fora do grupo.
+- `GameDto.cs`: o record `GameDto(Id, Name, Price)` usado nas respostas.
+
+**O que você vai fazer, passo a passo**
+
+1. **Servir o documento (TODO-00).** Chame `AddOpenApi` (documento "v1") e `MapOpenApi`, para `/openapi/v1.json` responder. O lambda de opções é onde entram os TODO-02 e TODO-06.
+2. **Descrever um endpoint (TODO-01).** Em `GET /games/{id}`, use metadados de endpoint para dar o resumo "Gets a game by id", o nome de operação (operationId) "GetGame", a tag "Games" e respostas tipadas: 200 com `GameDto` e 404.
+3. **Personalizar o documento (TODO-02).** Adicione um document transformer com título "Game Store API", versão "2.0.0" e um servidor com url "https://api.example.com".
+4. **Marcar um só endpoint como obsoleto (TODO-03).** Em `GET /games/legacy`, use um operation transformer anexado ao próprio endpoint, para que só ele fique `deprecated`.
+5. **Esconder sem remover (TODO-04).** Tire `/internal/health` do documento, mantendo o endpoint funcionando.
+6. **Criar um segundo documento (TODO-05).** Registre um documento chamado "admin" e faça `/admin/stats` aparecer só nele. Lembre que endpoints sem nome de grupo aparecem em todos os documentos.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir abrir `/openapi/v1.json` e `/openapi/admin.json` e explicar de onde vem cada pedaço do JSON, e por que `/games` aparece nos dois documentos enquanto `/admin/stats` aparece só em um.
+
+**Desafios opcionais**
+
+- **TODO-06:** adicione um schema transformer que define a descrição de todo `decimal` como `Money in euros`. Isso habilita o último teste (o de sufixo `_Bonus`).
+- **TODO-07:** defina `options.OpenApiVersion` como `OpenApiSpecVersion.OpenApi3_0` e compare como `price` e as propriedades anuláveis são escritos em 3.0 e em 3.1.
+
+**Pré-requisitos:** Minimal APIs e route groups, metadados de endpoint (lab de parameter binding) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Todo o trabalho fica em `src/OpenApiLab/Program.cs`, onde cada TODO está marcado em comentário ao lado do endpoint que ele afeta; no começo os testes falham porque nenhum documento é servido.
+
 ## Documentation Links
 
 - [Generate OpenAPI documents, ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi) (doc)

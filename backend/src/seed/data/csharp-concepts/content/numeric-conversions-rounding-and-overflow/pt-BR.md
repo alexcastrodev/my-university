@@ -402,6 +402,45 @@ explicitamente, como acima.
   runtime.** O resultado mudou entre o .NET 8 e o .NET 9, e os tipos inteiros
   pequenos mudam de novo no .NET 11. Valide a faixa e o `NaN` antes.
 
+## Lab
+
+Neste lab você recebe a classe estática `Conversions` **esboçada**, com seis métodos que lançam `NotImplementedException`, e testes xUnit prontos. O seu trabalho é implementá-los. A ideia central é escolher de forma explícita a conversão, o modo de arredondamento e a política de overflow, em vez de confiar no padrão de um cast, de `Convert` ou de `Math.Round`. Cada método tem um caso de borda em que o código óbvio dá um resultado errado ou silencioso (NaN, metades, estouro que dá a volta).
+
+**O cenário**
+
+Pequenos conversores numéricos que aparecem em qualquer sistema: brilho de pixel, valores em centavos, índices e somas.
+
+- `ToPixel` e `RoundToCents`: arredondamento com regra de negócio (`double` para `byte` e `decimal` para duas casas).
+- `ToIndex` e `ToIntWithConvert`: duas formas de ir de `double` para `int`, com regras diferentes para a parte fracionária.
+- `SumExact` e `TryAddExact`: soma de `int` sem estouro silencioso, uma lançando exceção e a outra seguindo o padrão Try.
+
+Tudo mora em `Conversions.cs`, e os testes em `ConversionTests.cs` fixam os valores de borda.
+
+**O que você vai fazer, passo a passo**
+
+1. **Pixel seguro (TODO-00).** Em `ToPixel`, arredonde metades para longe de zero (2.5 vira 3), limite o valor a 0..255 e mapeie NaN para 0. Um cast `(byte)` direto dá resultado não especificado fora da faixa, então limite antes de converter.
+2. **Arredondar dinheiro (TODO-01).** Em `RoundToCents`, arredonde para duas casas com as metades indo para longe de zero (2.345 vira 2.35, -2.345 vira -2.35). O `Math.Round` padrão usa arredondamento bancário, então escolha o `MidpointRounding` de forma explícita.
+3. **Truncar e falhar alto (TODO-02).** Em `ToIndex`, trunque em direção a zero (2.9 vira 2, -2.9 vira -2) e lance `OverflowException` para NaN, infinitos e valores fora da faixa de `int`. Um cast sem `checked` devolve lixo nesses casos.
+4. **Conhecer o `Convert` (TODO-03).** Em `ToIntWithConvert`, use `System.Convert`: `Convert.ToInt32` arredonda para o inteiro mais próximo e manda as metades para o vizinho par (2.5 vira 2, 3.5 vira 4), ao contrário do cast que trunca.
+5. **Detectar a volta (TODO-04).** Em `SumExact`, some os valores e lance `OverflowException` quando o total não cabe em `int`. Sem `checked`, a soma de `int` dá a volta em silêncio, tanto para cima quanto para baixo.
+6. **Padrão Try (TODO-05).** Em `TryAddExact`, devolva `true` e a soma quando couber, e `false` com `result = 0` quando não couber, sem exceção para uma falha esperada.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `ToIntWithConvert(2.5)` dá 2 enquanto `ToIndex(2.9)` dá 2 por motivo diferente, e quando preferir `SumExact` a `TryAddExact`.
+
+**Desafios opcionais**
+
+Os três não têm esqueleto nem teste, então você escreve ambos.
+
+- **TODO-06:** `NarrowChecked<TFrom, TTo>` usando `TTo.CreateChecked`.
+- **TODO-07:** `AddSaturating`, que limita o resultado à faixa de `int` em vez de lançar exceção ou dar a volta.
+- **TODO-08:** `SplitEvenly`, que divide um valor em partes cuja soma é exatamente o total.
+
+**Pré-requisitos:** tipos numéricos de C#, `checked` e `unchecked`, exceções e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos esboçados lançam `NotImplementedException`, então os testes vermelhos são o seu checklist, e os comentários `TODO-NN` explicam o caso de borda de cada um.
+
 ## Documentation Links
 
 - [Built-in numeric conversions, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions) (doc)

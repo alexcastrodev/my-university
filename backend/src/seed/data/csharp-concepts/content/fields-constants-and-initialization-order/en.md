@@ -213,6 +213,41 @@ because it exists only at the call site.
   unchecked promise. Use it for construction ergonomics, not as a validation
   guarantee.
 
+## Lab
+
+In this lab you get `Models.cs` with small types that **already compile**, each one exposing an initialization rule, plus ready xUnit tests that fail until you apply the rule. Your job is to edit those types. The core idea is to observe the exact order in which C# initializes an object and to choose the right kind of field (`const`, `static readonly`, `required`) for each job. Some tests use reflection to inspect the compiled shape of the type, because the rule is a property of the IL, not of the runtime output.
+
+**The scenario**
+
+Five small types, one per rule.
+
+- `Base` and `Derived`: the `Base` constructor calls a virtual method, and `Derived` has a field with an initializer (`_name`) and another only assigned in the constructor body (`_late`).
+- `Limits`: two configuration values, `MaxRetries` and `Timeout`, both currently mutable `static` fields.
+- `Precise` and `Relaxed`: two types with a `static readonly`, one without a static constructor (already marked `beforefieldinit`) and one that you adjust.
+- `Person`: `Name` and `Born` with `init`, an empty constructor and another that assigns everything.
+
+Notice there is no `NotImplementedException` here: the code runs, but the tests stay red until you do each TODO.
+
+**What you will do, step by step**
+
+1. **A virtual call in the constructor (TODO-00).** In `Base`, call `Describe()` in the constructor and store the result in `SeenByBase`. In `Derived`, override it to return `$"name={_name};late={_late ?? "null"}"`. The field initializer runs **before** the base constructor, but the assignment in the body runs **after** it, and that is what the test shows: `name=initialized;late=null`.
+2. **`const` versus `static readonly` (TODO-01).** In `Limits`, make `MaxRetries` a `const`, since it never changes. Make `Timeout` `static readonly`: a `const` would be copied into every compiled caller and would not reflect a new version of the library.
+3. **Lose `beforefieldinit` (TODO-02).** In `Precise`, add an empty static constructor. The compiler then stops marking the type as `beforefieldinit`, which changes when static initialization runs. `Relaxed` stays as the comparison.
+4. **`required` members (TODO-03).** In `Person`, mark `Name` and `Born` as `required`, so object initializers are forced to set them. The `(name, born)` constructor assigns everything, so put `[SetsRequiredMembers]` on it for the compiler to accept `new Person("Bia", 1985)`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `_late` shows up as `null` to `Base`, and why a public `const` in a library is a compatibility decision and not just a matter of style.
+
+**Optional challenges**
+
+- **TODO-04:** in `Counter<T>`, keep the count in a static field of the generic type itself, so `Counter<int>.Next()`, `Counter<int>.Next()` and `Counter<string>.Next()` return 1, 2, 1. Today it uses the shared field of `Shared`. There is no test for this challenge, so check it yourself.
+- **TODO-05:** in `Settings`, chain the constructors with `this(...)`: `()` uses `"localhost"` and 5432, `(host)` uses 5432, and only `(host, port)` assigns the properties and validates (a blank host throws `ArgumentException`, a port less than or equal to 0 throws `ArgumentOutOfRangeException`). Also untested.
+
+**Prerequisites:** C# classes, constructors and inheritance, `const`, `readonly` and `static`, and the .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Red tests tell you which rules are not applied yet, and the `TODO-NN` comments in `Models.cs` explain what to change in each type.
+
 ## Documentation Links
 
 - [Instance constructors, C# programming guide, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors) (doc)

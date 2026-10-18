@@ -391,6 +391,45 @@ as above.
   version.** The result changed between .NET 8 and .NET 9, and the small
   integer types change again in .NET 11. Validate range and `NaN` first.
 
+## Lab
+
+In this lab you get the **stubbed** static class `Conversions`, with six methods that throw `NotImplementedException`, plus ready xUnit tests. Your job is to implement them. The core idea is to choose the conversion, the rounding mode and the overflow policy explicitly, instead of trusting the default of a cast, of `Convert` or of `Math.Round`. Each method has an edge case where the obvious code gives a wrong or silent result (NaN, halves, wrap-around).
+
+**The scenario**
+
+Small numeric converters that show up in any system: pixel brightness, money in cents, indexes and sums.
+
+- `ToPixel` and `RoundToCents`: rounding with a business rule (`double` to `byte` and `decimal` to two decimals).
+- `ToIndex` and `ToIntWithConvert`: two ways to go from `double` to `int`, with different rules for the fractional part.
+- `SumExact` and `TryAddExact`: `int` addition without silent overflow, one throwing and the other following the Try pattern.
+
+Everything lives in `Conversions.cs`, and the tests in `ConversionTests.cs` pin the edge values.
+
+**What you will do, step by step**
+
+1. **Safe pixel (TODO-00).** In `ToPixel`, round halves away from zero (2.5 becomes 3), clamp the value to 0..255 and map NaN to 0. A plain `(byte)` cast gives unspecified results outside the range, so clamp before converting.
+2. **Round money (TODO-01).** In `RoundToCents`, round to two decimals with halves going away from zero (2.345 becomes 2.35, -2.345 becomes -2.35). The default `Math.Round` uses banker's rounding, so choose the `MidpointRounding` mode explicitly.
+3. **Truncate and fail loudly (TODO-02).** In `ToIndex`, truncate toward zero (2.9 becomes 2, -2.9 becomes -2) and throw `OverflowException` for NaN, infinities and values outside the `int` range. A cast without `checked` returns garbage in those cases.
+4. **Know `Convert` (TODO-03).** In `ToIntWithConvert`, use `System.Convert`: `Convert.ToInt32` rounds to the nearest integer and sends halves to the even neighbor (2.5 becomes 2, 3.5 becomes 4), unlike the truncating cast.
+5. **Detect the wrap-around (TODO-04).** In `SumExact`, add the values and throw `OverflowException` when the total does not fit in an `int`. Without `checked`, `int` addition wraps silently, both upward and downward.
+6. **The Try pattern (TODO-05).** In `TryAddExact`, return `true` and the sum when it fits, and `false` with `result = 0` when it does not, with no exception for an expected failure.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `ToIntWithConvert(2.5)` gives 2 while `ToIndex(2.9)` gives 2 for a different reason, and when to prefer `SumExact` over `TryAddExact`.
+
+**Optional challenges**
+
+None of the three has a stub or a test, so you write both.
+
+- **TODO-06:** `NarrowChecked<TFrom, TTo>` using `TTo.CreateChecked`.
+- **TODO-07:** `AddSaturating`, which clamps the result to the `int` range instead of throwing or wrapping.
+- **TODO-08:** `SplitEvenly`, which splits an amount into parts that add up to the exact total.
+
+**Prerequisites:** C# numeric types, `checked` and `unchecked`, exceptions and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The stubbed methods throw `NotImplementedException`, so red tests are your checklist, and the `TODO-NN` comments explain the edge case of each one.
+
 ## Documentation Links
 
 - [Built-in numeric conversions, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/numeric-conversions) (doc)

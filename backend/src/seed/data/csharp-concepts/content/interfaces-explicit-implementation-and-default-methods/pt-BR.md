@@ -238,6 +238,43 @@ implementa, usa essa implementação (para essa struct ele retornou um
   var sorted = versions.OrderBy(v => v.Minor).ToArray(); // empates mantêm a ordem de entrada
   ```
 
+## Lab
+
+Neste lab você recebe tipos que implementam interfaces comuns, mas com os corpos **faltando** (lançam `NotImplementedException`), e testes xUnit prontos. O seu trabalho é preenchê-los. A ideia central é dominar o que as interfaces permitem: implementar as interfaces de comparação, resolver duas interfaces que declaram o mesmo membro, escrever um método de interface com corpo padrão e esconder um membro atrás de uma implementação explícita. Vários testes usam reflection para confirmar que um membro **não** é público na classe, algo que não dá para provar chamando-o.
+
+**O cenário**
+
+Dois arquivos em `src/InterfacesLab`.
+
+- `Person.cs`: `Person(name, age)` declara `IComparable<Person>` e `IEquatable<Person>`, e `PersonByNameComparer` é uma ordenação alternativa.
+- `Members.cs`: as interfaces `IDrawable` e `IWeapon`, ambas com `Draw()`, e a classe `Cowboy` que implementa as duas. Também `ILogger` (com `Log` e `Info`), `ListLogger` e `Playlist`, que implementa `IEnumerable<string>`.
+
+Repare nos testes de forma: `typeof(Cowboy).GetMethod("Draw")` deve ser `null`, `ListLogger` não deve ter `Info`, e `Playlist` deve ter um único `GetEnumerator` público, o genérico.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ordem natural (TODO-00).** Em `Person.CompareTo`, ordene por `Age` e depois por `Name` com `string.CompareOrdinal`. Qualquer instância vem depois de `null`.
+2. **Ordem alternativa (TODO-01).** Em `PersonByNameComparer`, compare por `Name` ignorando maiúsculas e minúsculas. `null` ordena primeiro, e dois `null` são iguais.
+3. **Duas implementações explícitas (TODO-02).** Em `Cowboy`, troque o `Draw` público por `IDrawable.Draw` (devolvendo `"draws a picture"`) e `IWeapon.Draw` (devolvendo `"draws a gun"`). A classe não pode manter um `Draw` público.
+4. **Igualdade consistente (TODO-03).** Em `Person.Equals(Person?)`, duas pessoas são iguais quando a idade confere e o nome confere ignorando caixa. Sobrescreva também `Equals(object?)` e `GetHashCode` na mesma regra, para que pessoas iguais tenham o mesmo hash e caibam num `HashSet<Person>` sem duplicar.
+5. **Método padrão da interface (TODO-04).** Em `ILogger.Info`, escreva um corpo que chame `Log` com `"INFO: "` seguido da mensagem, para que quem implementa precise escrever só `Log`. Note que `ListLogger` não herda `Info` como membro da classe: só se chega nele pela interface.
+6. **Enumerador não genérico explícito (TODO-05).** Em `Playlist`, faça `IEnumerable.GetEnumerator` repassar ao `GetEnumerator` genérico. Por ser explícito, ele não aparece na superfície pública.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que chamar `Draw` exige um cast para a interface, e por que `Equals` e `GetHashCode` precisam concordar.
+
+**Desafios opcionais**
+
+Estes dois não têm esqueleto nem teste, então você escreve ambos.
+
+- **TODO-06:** crie `IUnit` com `static abstract string Symbol { get; }`, dois structs que a implementem e `Units.Describe<T>(double)` que devolva, por exemplo, `"5 m"`.
+- **TODO-07:** crie `ILeft` e `IRight`, ambas com um `Name` padrão, e uma classe `Both` que implementa as duas e resolve o conflito com implementações explícitas.
+
+**Pré-requisitos:** interfaces e classes em C#, ordenação e igualdade no .NET (`List<T>.Sort`, `HashSet<T>`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os trechos faltando lançam `NotImplementedException` e trazem comentários `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [interface keyword, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface) (doc)

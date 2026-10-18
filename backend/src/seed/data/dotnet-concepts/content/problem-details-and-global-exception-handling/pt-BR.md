@@ -198,6 +198,39 @@ handler quando importar.
   `Accept: text/html` não recebe o documento JSON. Se navegadores acessam a API,
   decida o que eles devem ver.
 
+## Lab
+
+Neste lab você recebe uma API com quatro cenários de falha que hoje devolvem corpos vazios ou o que o host decidir. O seu trabalho é ligar o serviço de problem details, o middleware de exception handler, as status code pages e um `IExceptionHandler` que mapeia os seus próprios tipos de exceção. A ideia central é fazer um 404, uma rota inexistente, um timeout e uma exceção não tratada responderem com o mesmo formato `application/problem+json`, sem vazar mensagens de exceção para os clientes.
+
+**O cenário**
+
+- `Program.cs`: registra os serviços e o pipeline (com TODOs) e mapeia `/games/{id:int}` (só o id 1 existe, os outros lançam `GameNotFoundException`), `/timeout` (lança `TimeoutException` com um host interno na mensagem) e `/boom` (lança `InvalidOperationException` com `password=secret123` na mensagem).
+- `GameNotFoundException.cs`: a exceção de domínio, com a mensagem `Game {id} not found`.
+- `DomainExceptionHandler.cs`: um `IExceptionHandler` com um `switch` que decide status e título. Devolve `false` para o que não é dele e escreve com `IProblemDetailsService`. Só a mensagem das exceções próprias é segura para aparecer em `Detail`.
+
+Os testes rodam em ambiente `Production` e conferem o content type, o `Instance`, o `Retry-After` e que nenhum segredo vaza.
+
+**O que você vai fazer, passo a passo**
+
+1. **Registrar os problem details (TODO-00).** Em `Program.cs`, chame `AddProblemDetails` e personalize para que todo documento tenha `Instance` igual ao caminho da requisição (quando ainda não estiver definido).
+2. **Registrar e ativar o handler (TODO-01 e TODO-02).** Registre `DomainExceptionHandler` como exception handler e adicione o middleware de exception handler, para que exceções lançadas virem respostas.
+3. **Dar corpo às respostas vazias (TODO-03).** Adicione as status code pages. Só registrar o serviço não escreve corpo numa rota desconhecida: descubra qual middleware pede isso.
+4. **Mapear as exceções (TODO-04 e TODO-05).** No `switch` de `DomainExceptionHandler`, `GameNotFoundException` vira `(404, "Game not found")` e `TimeoutException` vira `(503, "Service temporarily unavailable")`.
+5. **Avisar quando tentar de novo (TODO-06).** Para o timeout, que é temporário, envie o header `Retry-After` com 5 segundos.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `/boom` responde um 500 genérico sem a mensagem da exceção, por que o handler devolve `false` para exceções desconhecidas e por que o `AddProblemDetails` sozinho não cobre a rota inexistente.
+
+**Desafios opcionais**
+
+- **TODO-07:** peça `/boom` com `curl` usando `Accept: text/html` e compare com `Accept: application/json`. O que o writer padrão faz?
+- **TODO-08:** troque o `return false` das exceções desconhecidas por `return true` sem escrever nada. O que o cliente recebe?
+
+**Pré-requisitos:** Minimal APIs básicos, ordem dos middlewares (lab do pipeline) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O app compila no estado inicial e os testes falham até você completar os TODOs marcados em comentário em `Program.cs` e `DomainExceptionHandler.cs`.
+
 ## Documentation Links
 
 - [Handle errors in ASP.NET Core APIs, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api) (doc)

@@ -159,6 +159,41 @@ return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game.To
   posicionais precisam chegar às propriedades para serem lidos por alguns
   validadores. O conceito de validação cobre como o ASP.NET Core lida com isso.
 
+## Lab
+
+Neste lab você recebe uma entidade `Game` de persistência, quatro DTOs já declarados e uma classe de mapeamento cujos métodos ainda lançam `NotImplementedException`. O seu trabalho é implementar todo o mapeamento num só lugar. A ideia central é manter o contrato da API separado do modelo de persistência: um DTO por caso de uso, mapeado de e para a entidade em um único ponto, com uma projeção de query reutilizável, para que os handlers leiam como intenção, por exemplo `db.Games.Add(dto.ToEntity())`.
+
+**O cenário**
+
+`Game` tem `GenreId`, a navegação `Genre` e um `Id` gerado pelo banco. A API expõe quatro formas dele.
+
+- `Models.cs`: as entidades `Game` e `Genre`.
+- `Dtos.cs`: `CreateGameDto` e `UpdateGameDto` (entrada), `GameDetailsDto` (com o `GenreId` numérico) e `GameSummaryDto` (com o nome do gênero), todos records.
+- `GameMappingExtensions.cs`: o mapeamento inteiro, com `ToEntity`, `ApplyTo`, `ToDetailsDto`, `ToSummaryDto` e `SummaryProjection`.
+
+Os testes não usam banco nem HTTP: são testes de unidade do mapeamento, e um deles serializa o resumo para garantir que o JSON do contrato não muda.
+
+**O que você vai fazer, passo a passo**
+
+1. **Criar a entidade a partir do DTO (TODO-00).** Em `ToEntity`, monte um `Game` com os campos do `CreateGameDto` e não defina o `Id`, porque o banco é o dono dele.
+2. **Aplicar uma atualização (TODO-01).** Em `ApplyTo`, copie todos os campos do `UpdateGameDto` para o `Game` existente, exceto o `Id`.
+3. **Mapear para detalhes (TODO-02).** Em `ToDetailsDto`, devolva a forma de detalhes, em que o gênero é o `GenreId` numérico.
+4. **Mapear para resumo com mensagem clara (TODO-03).** Em `ToSummaryDto`, use o nome do gênero. Se a navegação `Genre` não foi carregada, lance `InvalidOperationException` com mensagem que cite `Genre`, em vez de deixar escapar uma `NullReferenceException`.
+5. **Escrever a projeção como Expression (TODO-04).** Troque o corpo de `SummaryProjection` por uma expressão que constrói um `GameSummaryDto` a partir de um `Game` (usando `g.Genre!.Name`). Ela é uma `Expression`, e não um método, para que um provider de query como o EF Core consiga traduzi-la em SQL e selecionar só essas colunas.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `ToDetailsDto` e `ToSummaryDto` existem como duas formas, por que `SummaryProjection` precisa ser uma `Expression` e não um `Func`, e o que acontece com o contrato quando um campo novo é esquecido no mapeamento.
+
+**Desafios opcionais**
+
+- **TODO-05:** faça `ToSummaryDto` reaproveitar `SummaryProjection` (compilando uma vez) para que os dois mapeamentos não divirjam. O que se perde e o que se ganha?
+- **TODO-06:** adicione `Description` em `Game` e em `CreateGameDto`, mas esqueça em `ToEntity`. Que teste você escreveria para pegar isso?
+
+**Pré-requisitos:** records e métodos de extensão em C#, LINQ e `IQueryable`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os testes falham com `NotImplementedException`, e cada método de `GameMappingExtensions.cs` traz o TODO correspondente em comentário.
+
 ## Documentation Links
 
 - [Records, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) (doc)

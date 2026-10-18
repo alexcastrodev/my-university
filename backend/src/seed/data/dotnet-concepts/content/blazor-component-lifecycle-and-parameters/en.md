@@ -224,6 +224,43 @@ component alive on the server.
   calling it by hand usually means the code runs outside the dispatcher and
   needs `InvokeAsync`.
 
+## Lab
+
+In this lab you get a Razor class library with several small components, each with a deliberate gap. Your job is to fill those gaps until the tests pass. The core idea is to make the Blazor component lifecycle visible and correct: the order of the hooks, the two renders of an async `OnInitializedAsync`, parameters that report back to the parent with `EventCallback<T>`, reloading only when a parameter really changed, cascading values, and code that wakes up outside the renderer's dispatcher.
+
+**The scenario**
+
+A set of teaching components, rendered in memory by the tests with bUnit (no browser, no JavaScript, no SignalR). Async work is driven by a `TaskCompletionSource` that the test completes, never by a delay.
+
+- `LifecycleProbe.razor`: records in the `CallLog` every hook that runs.
+- `AsyncLoader.razor`: shows "Loading..." while it waits for an `IDataSource`.
+- `SelectableCard.razor` and `CardPicker.razor`: a card that notifies its parent, and the parent that shows the choice.
+- `ProductView.razor`: loads a product name by `ProductId` and also receives a mutable `List<int>` (`Tags`).
+- `ThemedLabel.razor`: a label whose class depends on a theme.
+- `Ticker.razor`: counts events from a `TickSource`, which can fire on any thread.
+
+**What you will do, step by step**
+
+1. **Log the hooks (TODO-00).** In `LifecycleProbe`, override `SetParametersAsync` (calling the base), `OnInitialized`, `OnInitializedAsync`, `OnParametersSet`, `OnParametersSetAsync`, `OnAfterRender` and `OnAfterRenderAsync`, adding one entry to `Log` in each. Use the real `firstRender` value. You will see that on the second render the initialization hooks do not run again.
+2. **Load asynchronously (TODO-01).** In `AsyncLoader`, override `OnInitializedAsync`, `await Source.LoadAsync()` and keep the result in `data`. The component renders "Loading..." at the first `await` and again when the task completes.
+3. **Send events back to the parent (TODO-02).** In `SelectableCard`, mark `Name` with `[EditorRequired]` and make the button invoke the `EventCallback<string>` with the name (`@onclick`). Notice why `CardPicker` refreshes on its own: an `EventCallback` re-renders the owner of the callback.
+4. **Reload only when the id changed (TODO-03).** In `ProductView`, the `List<int>` makes `OnParametersSet` run on every parent render. Compare `ProductId` with `loadedId` and call the service only when it really changed.
+5. **Read the cascading theme (TODO-04).** In `ThemedLabel`, receive the theme with a `[CascadingParameter]` and use it in the class (`label-dark`, `label-light`...). Without a cascading value the class stays `label-light`.
+6. **Wake up outside the renderer (TODO-05).** In `Ticker`, move the state change and `StateHasChanged` inside `InvokeAsync`, and unsubscribe in `Dispose`. Without it the test that raises the event from a background thread breaks, and the component leaks its subscription.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain the hook order on the first and second render, why `ProductView` cannot trust `OnParametersSet` to detect a change, and why an event coming from another thread must go through `InvokeAsync`.
+
+**Optional challenges**
+
+- **TODO-06:** in `Badge`, capture undeclared attributes with `CaptureUnmatchedValues = true` in a `Dictionary<string, object>?` and apply them on the `span` with `@attributes`.
+- **TODO-07:** in `CounterBox`, override `ShouldRender` to skip the render when only `Other` changed, and confirm that `OnParametersSet` still runs.
+
+**Prerequisites:** async/await and `TaskCompletionSource` in C#, Razor components (`[Parameter]`, `@code`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The library already compiles; the tests for the required TODOs fail until you fill in each component, and each TODO is marked in a comment in the `.razor` file itself.
+
 ## Documentation Links
 
 - [ASP.NET Core Razor component lifecycle, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle) (doc)

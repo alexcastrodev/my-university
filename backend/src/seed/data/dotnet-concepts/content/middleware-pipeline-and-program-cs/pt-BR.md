@@ -195,6 +195,37 @@ incondicional.
   Use middleware para preocupações do host inteiro e um endpoint filter quando a
   lógica depende dos argumentos tipados de um handler.
 
+## Lab
+
+Neste lab você recebe um app com um portão de manutenção, um middleware de correlation id e alguns endpoints, mas com o pipeline incompleto e parcialmente na ordem errada. O seu trabalho é completá-lo e corrigi-lo. A ideia central é ler o `Program.cs` como um pipeline: saber o que `Use`, `Run` e `Map` fazem, por que a ordem importa, como um curto-circuito aparece visto de fora e como escrever um middleware por convenção.
+
+**O cenário**
+
+Os testes mandam requisições pelo servidor em memória e conferem headers, status e corpos.
+
+- `Program.cs`: o portão de manutenção (`app.Use`, que responde 503 quando `Maintenance:Enabled` está ligado, exceto em `/health`, e curto-circuita sem chamar `next`), o registro do `CorrelationIdMiddleware` e os endpoints `/health`, `/hello` e `/boom` (este lança `InvalidOperationException("kaboom")`).
+- `CorrelationIdMiddleware.cs`: o middleware por convenção (`InvokeAsync`), ainda sem lógica, com a constante do header `X-Correlation-Id`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Capturar exceções (TODO-00).** Adicione um middleware inline (`app.Use`) que envolve o resto do pipeline em try/catch e responde 500 com o corpo `caught: <mensagem>`. Decida onde ele deve ficar para enxergar as exceções de tudo que vem depois dele.
+2. **Corrigir a ordem (TODO-01).** O 503 do portão não leva o header `X-Correlation-Id`. Os dois registros estão invertidos: ajuste para que o id também esteja nas respostas curto-circuitadas.
+3. **Criar um ramo (TODO-02).** Mapeie `/branch` para um ramo separado (`Map`) cujo delegate terminal (`Run`) escreve `pathBase=<PathBase> path=<Path>`. Assim você vê `Path` e `PathBase` mudarem dentro do ramo.
+4. **Implementar o middleware (TODO-03).** Em `InvokeAsync`, use o header `X-Correlation-Id` da requisição se existir, senão gere um novo (um `Guid` no formato "N"). Guarde em `ctx.Items["CorrelationId"]` e escreva no header da resposta, tudo ANTES de chamar `next`, porque depois que a resposta começa os headers são somente leitura.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o middleware de erro precisa vir antes dos outros, por que o correlation id vem antes do portão, e por que o header não pode ser escrito depois do `next`.
+
+**Desafios opcionais**
+
+- **TODO-04:** registre um `app.Run(...)` terminal antes dos endpoints, veja quais testes quebram e remova.
+- **TODO-05:** adicione um middleware de cronômetro que define `X-Elapsed-Ms` com `Response.OnStarting`. Por que ele não pode definir o header depois do `next`?
+
+**Pré-requisitos:** Minimal APIs básicas, `async`/`await` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O app compila no estado inicial, e os testes dos TODOs obrigatórios falham até você completar `Program.cs` e `CorrelationIdMiddleware.cs`.
+
 ## Documentation Links
 
 - [ASP.NET Core Middleware, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/) (doc)

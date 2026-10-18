@@ -190,6 +190,43 @@ Três pontos de extensão, todos rodando em uma página `/custom`:
   validando o formulário e o endpoint evita duplicação, e também faz com que uma
   mudança em um seja mudança no outro.
 
+## Lab
+
+Neste lab você recebe uma biblioteca Razor com dois formulários que ainda não validam nada: o modelo `Signup` não tem regras, o `EditForm` não tem validador nem handlers de submit, o atributo customizado aceita tudo e nenhum erro de servidor aparece. O seu trabalho é ligar tudo isso. A ideia central é enxergar um formulário Blazor como três peças separadas (o modelo, o `EditContext` e os componentes que os leem) e exercitá-lo sem navegador.
+
+**O cenário**
+
+`SignupForm` edita um `Signup` (nome, idade, email, plano, termos) e `UsernameForm` edita um nome de usuário que o "servidor" pode recusar por já estar em uso. Os testes renderizam os componentes com bUnit e preenchem os campos com `Change(...)`, como um evento `change` do navegador. Sem navegador, JavaScript ou SignalR.
+
+- `Signup.cs`: o modelo, também `IValidatableObject`.
+- `SignupForm.razor`: o `EditForm` com `InputText`, `InputNumber`, `InputSelect` e `InputCheckbox`.
+- `NoBannedWordsAttribute.cs`: um `ValidationAttribute` customizado (`root` e `system` são proibidos).
+- `UsernameModel.cs` e `UsernameForm.razor`: o formulário do nome de usuário, com o parâmetro `IsTaken`.
+- `LabFieldCssClassProvider.cs`: o provedor de classes CSS por campo.
+
+**O que você vai fazer, passo a passo**
+
+1. **Declarar as regras no modelo (TODO-00).** Em `Signup`, `Name` obrigatório com 3 a 10 caracteres, `Age` de 18 a 120, `Email` com formato de email, e no `Validate` um resultado `admin is reserved.` para o membro `Name` quando for `admin` (ignorando maiúsculas).
+2. **Ligar o `EditForm` (TODO-01).** Em `SignupForm.razor`, adicione `<DataAnnotationsValidator />` e conecte `OnValidSubmit="HandleValid"` e `OnInvalidSubmit="HandleInvalid"`. Veja o que os testes dizem sobre quando a regra do `IValidatableObject` roda (mudança de campo ou submit) e por que aceitam os termos antes de esperá-la. Leia também o teste de `OnSubmit`: por que ele não combina com os outros dois callbacks?
+3. **Escrever o atributo (TODO-02).** Em `NoBannedWordsAttribute`, rejeite um valor igual (ignorando maiúsculas) a um de `Banned`, com a mensagem `{value} is banned.` ligada a `validationContext.MemberName`.
+4. **Mostrar um erro de servidor (TODO-03).** Em `UsernameForm.razor`, crie um `ValidationMessageStore`, limpe as mensagens do campo editado em `OnFieldChanged` (chamando `NotifyValidationStateChanged`) e, no `Save`, se `IsTaken(name)` for verdadeiro, adicione `{name} is already taken.`, notifique e saia sem salvar. Por que é você quem precisa limpar?
+5. **Estilizar pelo estado (TODO-04).** Em `LabFieldCssClassProvider`, devolva `pristine`, `touched bad` ou `touched ok`, e registre o provedor no `EditContext` do `SignupForm` com `SetFieldCssClassProvider`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que a regra do modelo só aparece no submit (e só depois que as regras das propriedades passam), por que digitar texto num campo numérico é um erro de binding que mantém o valor antigo, e por que as mensagens da store não somem sozinhas.
+
+**Desafios opcionais**
+
+Os testes bônus têm `[Trait("Category", "Bonus")]` e falham até você fazer estes itens. Para rodar só o obrigatório, use `dotnet test --filter "Category!=Bonus"`.
+
+- **TODO-05:** mostre `<p class="dirty">Unsaved changes</p>` enquanto `ctx.IsModified()` for verdadeiro e chame `ctx.MarkAsUnmodified()` após um save válido.
+- **TODO-06:** torne os termos obrigatórios com `[Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms.")]` em `Signup.Terms`. Por que o bool precisa desse truque em vez de `[Required]`?
+
+**Pré-requisitos:** componentes Razor básicos (`@code`, `[Parameter]`, `EventCallback`), data annotations (`[Required]`, `[Range]`, `IValidatableObject`) e o .NET 10 SDK (os testes usam bUnit 2.11.3, restaurado do nuget.org).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada TODO está marcado em comentário no código, e os testes dos TODOs obrigatórios falham até você implementá-los.
+
 ## Documentation Links
 
 - [ASP.NET Core Blazor forms validation, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation) (doc)

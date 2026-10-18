@@ -206,6 +206,43 @@ and lets the subsumption check protect you.
   do not cover a `double`. Add `double.NaN` and `null` arms explicitly when the
   input type allows them.
 
+## Lab
+
+In this lab you get the static class `Patterns` with six **stubbed** methods that throw `NotImplementedException`, plus ready xUnit tests that cover the edges. Your job is to implement them by replacing `if`/`else` chains with pattern matching: type, constant, relational, logical (`and`, `or`, `not`) and tuple patterns, and switch expressions. The core idea is to see what "exhaustive" means in practice: the compiler warns when a case is missing, but a value outside the enum can still blow up at runtime.
+
+**The scenario**
+
+Six small everyday decisions (describe a value, grade a score, check a weekday, check a letter, price a ticket, advance a traffic light), all in `Patterns.cs`, together with the enum `Light { Red, Yellow, Green }`.
+
+- `Describe(object?)`: `null`, negative, zero and positive integers, empty or non-empty text, `bool` and "other".
+- `Grade(int)`: a score from 0 to 100 as A, B, C or F.
+- `IsWeekday(DayOfWeek)` and `IsAsciiLetter(char)`: predicates written as a single `is` pattern.
+- `TicketPrice(int, bool)`: price by age and membership.
+- `Next(Light)`: the next traffic light state.
+
+In `PatternTests.cs`, the `[InlineData]` rows include the boundaries (89 and 90, 12 and 13, 64 and 65) and an undefined enum value, `(Light)99`.
+
+**What you will do, step by step**
+
+1. **One switch for many patterns (TODO-00).** In `Describe`, use a switch expression with type, constant and relational patterns (`null`, `int and < 0`, `0`, `""`, `string`, `bool` and the rest). The order of the arms matters.
+2. **Relational ranges (TODO-01).** In `Grade`, use `< 0 or > 100` to throw `ArgumentOutOfRangeException` and `>= 90`, `>= 80`, `>= 70` for the grades, with `F` for the rest.
+3. **Logical patterns (TODO-02 and TODO-03).** In `IsWeekday`, write a single `is not (... or ...)`. In `IsAsciiLetter`, combine ranges with `and`/`or` and mind the parentheses: `and` binds tighter than `or`.
+4. **Tuple pattern (TODO-04).** In `TicketPrice`, switch on `(age, isMember)`. Arms are tested top to bottom: a negative age throws, below 3 pays 0, below 13 pays 5, 65 and above pays 7, and everyone else pays 8 (members) or 10.
+5. **Exhaustiveness and its runtime cost (TODO-05).** In `Next`, list the three enum members with **no** discard arm. The compiler only warns when a member is missing, and `(Light)99` throws `SwitchExpressionException` at runtime.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the order of the arms matters in `TicketPrice`, and why the `(Light)99` test expects an exception instead of a compile-time warning.
+
+**Optional challenges**
+
+- **TODO-06:** add an arm to `Describe` that the compiler flags as unreachable (for example `int` before `int and < 0`) and read the error.
+- **TODO-07:** rewrite `TicketPrice` with a `when` clause instead of a tuple pattern and compare readability.
+
+**Prerequisites:** `switch` statements, the `is` operator and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and its comment lists the expected cases, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Patterns, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns) (doc)

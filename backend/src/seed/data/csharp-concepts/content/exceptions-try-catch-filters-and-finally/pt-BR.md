@@ -263,6 +263,42 @@ serialização baseada em formatter está obsoleta.
   depois de uma falha desconhecida pode deixar estado compartilhado
   corrompido.
 
+## Lab
+
+Neste lab você recebe a classe estática `Handlers` e a exceção `OrderRejectedException` **esboçadas**, junto com testes xUnit que descrevem o comportamento esperado. O seu trabalho é implementá-las. A ideia central é enxergar o modelo de duas passagens do tratamento de exceções: o runtime primeiro procura um handler (e roda os filtros `when`), e só depois desenrola a pilha executando os `finally`. Por isso um filtro roda **antes** dos `finally` internos, e o log dos testes deixa isso visível.
+
+**O cenário**
+
+Funções pequenas que executam um trabalho (`Action`) e tratam o que ele lança.
+
+- `Errors.cs`: o enum `Failure` (`None`, `NotFound`, `Io`, `Transient`, `Permanent`, `Unexpected`), a `RemoteException` (com `StatusCode`) já pronta e a `OrderRejectedException`, que você completa.
+- `Handlers.cs`: `Classify`, `RunWithCleanup`, `ObserveTwoPasses`, `TryCapture` e `CollectMessages`, mais o helper `Record`, que já vem escrito: ele adiciona uma entrada ao log e devolve `true`, ideal para usar dentro de um filtro.
+- `HandlerTests.cs`: os testes, que checam tanto o resultado quanto a ordem das entradas do log.
+
+Note que `OrderRejectedException` compila do jeito que está (o construtor chama `base(message)`), então ela não lança `NotImplementedException`: o teste dela é que fica vermelho.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ordenar os catch e filtrar (TODO-00).** Em `Classify`, use vários `catch`: `FileNotFoundException` vem antes de `IOException`, `RemoteException when StatusCode >= 500` vira `Transient`, outra `RemoteException` vira `Permanent`, e o resto é `Unexpected`. Sem exceção, devolva `None`.
+2. **`finally` sempre roda (TODO-01).** Em `RunWithCleanup`, registre `start`, rode o trabalho e registre `cleanup` num `finally`. Não capture a exceção: ela precisa chegar ao chamador.
+3. **Ver as duas passagens (TODO-02).** Em `ObserveTwoPasses`, ponha o trabalho num `try/finally` interno que registra `finally` e, por fora, um `catch (Exception) when (Record(log, "filter"))` que registra `catch`. Rode os testes e confira a ordem: `filter`, `finally`, `catch`.
+4. **Relançar sem perder a pilha (TODO-03).** Em `TryCapture`, devolva `ExceptionDispatchInfo.Capture(exception)` se algo for lançado, e `null` caso contrário. O teste chama `info.Throw()` depois e confere que `Boom` ainda aparece no stack trace.
+5. **Desembrulhar o `AggregateException` (TODO-04).** Em `CollectMessages`, chame `Wait()` na task, e se ela falhar use `Flatten()` para devolver a mensagem de cada exceção interna. Task bem-sucedida dá lista vazia.
+6. **Exceção própria (TODO-05).** Em `OrderRejectedException`, passe a exceção interna ao construtor base e guarde o `orderId` na propriedade `OrderId`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o log termina em `["filter", "finally", "catch"]` e não em `["finally", "filter", "catch"]`, e por que `RunWithCleanup` não deve ter `catch`.
+
+**Desafios opcionais**
+
+- **TODO-06:** troque `throw e;` por `throw;` num bloco `catch` que você escrever e compare os stack traces. Quais frames desaparecem?
+- **TODO-07:** meça com `Stopwatch` quanto tempo levam 100000 ciclos de throw/catch contra 100000 falhas de `int.TryParse`.
+
+**Pré-requisitos:** `try`/`catch` básico, a hierarquia de exceções (`IOException`, `FileNotFoundException`), noções de `Task` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos de `Handlers` lançam `NotImplementedException` até você implementá-los, e os comentários `TODO-NN` explicam cada um, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Exception-handling statements, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/exception-handling-statements) (doc)

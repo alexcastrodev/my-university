@@ -189,6 +189,42 @@ layout from a convention into a rule.
   module affects all of them. The modular layout lowers the cost of extraction;
   it does not remove the shared runtime.
 
+## Lab
+
+In this lab you get a solution that already has the module layout (a game catalog and an order flow), but with a fake boundary: everything is `public` and the orders module calls the catalog's `GameStore` directly. On top of that, an order stores a price of `0` instead of the price that was paid. Your job is to fix the structure one step at a time and let the compiler tell you what was reaching into the other module. The core idea is to turn two features that reach into each other's internals into two modules that talk only through a contract, with the compiler and a few architecture tests enforcing the boundary.
+
+**The scenario**
+
+- `src/Host` (`GameStore.Host`): only composes the modules, calling `AddCatalogModule`/`AddOrdersModule` and the `Map...Endpoints`.
+- `Catalog.Contracts`: `ICatalogModule` and `GameInfoDto`, the catalog's public face.
+- `Catalog.Core`: `Game`, `GameStore`, `CatalogModuleApi` and `CatalogModule` (registration and endpoints).
+- `Orders.Contracts`: the request and response shapes of orders.
+- `Orders.Core`: `Order`, `OrderLine`, `OrderStore` and `OrdersModule`. Today it references `Catalog.Core` in its csproj.
+
+The tests have two fronts: `OrderFlowTests` exercises the API end to end (price paid, `Location`, unknown game, order without lines) and `ModuleBoundaryTests` uses reflection to check the references between assemblies and that each `Core` exports only the module class.
+
+**What you will do, step by step**
+
+1. **Hide the catalog's interior (TODO-00).** Make every type in `Catalog.Core` `internal` except `CatalogModule` (including `Game`, `GameStore` and `CatalogModuleApi`). The solution stops compiling, because `Orders.Core` was using those types. That is the compiler enforcing the boundary, and the next steps fix it.
+2. **Expose the catalog through a contract (TODO-01).** In `CatalogModuleApi.GetGamesAsync`, look the ids up in the store and answer a dictionary of `GameInfoDto` keyed by id (ids that do not exist are simply absent). Then register `ICatalogModule` with `CatalogModuleApi` (scoped) in `AddCatalogModule`.
+3. **Swap Orders' dependency (TODO-02).** In `Orders.Core`, use `ICatalogModule` instead of `GameStore` in both endpoints and in `ToDto`, and in `Orders.Core.csproj` replace the reference to `Catalog.Core` with `Catalog.Contracts`.
+4. **Hide the orders interior (TODO-03).** Make `Order`, `OrderLine` and `OrderStore` `internal`, leaving only `OrdersModule` public.
+5. **Keep the price paid (TODO-04).** When the order is placed, copy the game's current price into `OrderLine.UnitPrice`. An order must keep the price that was paid, even if the catalog price changes later.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain what the compiler complained about after TODO-00 and why that is good, why `Orders.Core` may reference `Catalog.Contracts` but not `Catalog.Core`, and why an old order's total does not change when the catalog reprices the game.
+
+**Optional challenges**
+
+- **TODO-05:** add an architecture test that fails when any `*.Contracts` assembly exposes a type that is not a record or an interface.
+- **TODO-06:** add `Orders.Core` -> `Catalog.Core` back in the csproj "temporarily" and see which test catches it before the code even uses the type.
+- **TODO-07:** replace the in-memory stores with one PostgreSQL schema per module (`catalog` and `orders`), each with its own `DbContext` and migrations history table.
+
+**Prerequisites:** C# project references and access modifiers (`public` vs `internal`), Minimal APIs and dependency injection, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state the solution compiles, but `GetGamesAsync` throws `NotImplementedException` and the boundary and flow tests fail; the TODOs are in comments in the files mentioned.
+
 ## Documentation Links
 
 - [Common web application architectures, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures) (doc)
