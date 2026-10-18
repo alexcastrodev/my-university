@@ -356,18 +356,41 @@ pirâmide.
 
 ## Lab
 
-A API multi-tenant do lab de Clean Architecture já está implementada em quatro projetos. Sua tarefa é escrever os testes MSTest, um projeto de teste por camada, e perceber que cada camada pede um tipo diferente de teste.
+Neste lab você recebe a API multi-tenant do lab de Clean Architecture **pronta e funcionando**, dividida em quatro projetos (`Domain`, `Application`, `Infrastructure` e `Api`). Nada de código de produção para escrever: o seu trabalho é cobrir essa API com testes MSTest, um projeto de teste por camada. A ideia central é sentir na prática que cada camada pede um tipo diferente de teste. O domínio não precisa de setup nenhum, os casos de uso precisam de um fake, o HTTP precisa de um host de verdade com banco, e a própria arquitetura precisa de um teste de regra.
 
-**O que você vai praticar**
+**O cenário**
 
-- Testes de domínio com `[DataRow]`, sem nenhum setup.
-- Testes de caso de uso contra um fake em memória da porta do repositório.
-- Testes HTTP com um host de verdade e um arquivo SQLite novo por teste.
-- Um teste de regra que quebra o build quando uma camada referencia o que não deve.
+A API cadastra tenants identificados por um subdomínio (`acme.localhost`, por exemplo) e descobre o tenant atual pelo host da requisição.
 
-**Pré-requisitos:** o concept e o lab de Clean Architecture in Four Projects, MSTest básico, .NET 10 SDK.
+- `Tenancy.Domain/Tenant.cs`: a entidade. Normaliza o subdomínio (trim e minúsculas), valida com uma regex de 1 a 63 caracteres e gera um id versão 7.
+- `Tenancy.Application`: dois casos de uso, `CreateTenantHandler` (criado, inválido ou já existe) e `ResolveTenantHandler` (acha o tenant pelo host), que só conhecem a porta `ITenantRepository`.
+- `Tenancy.Infrastructure`: EF Core com SQLite, um índice único no subdomínio e o repositório `internal`.
+- `Tenancy.Api`: os endpoints `POST /tenants` e `GET /tenants/current` e o middleware que resolve o tenant.
 
-**Como funciona:** cada método de teste já está declarado com uma dica e falha com `TODO-NN: write this test` até você escrevê-lo. Rode `dotnet test` até tudo ficar verde. Os TODOs opcionais pedem para quebrar o código de produção de propósito e ver qual camada percebe.
+Repare nas referências de cada projeto de teste: `Tenancy.Domain.Tests` só enxerga o domínio, então um teste ali não consegue tocar EF Core ou HTTP nem por acidente. `Tenancy.Api.Tests` referencia tudo, porque é o único lugar onde as camadas se encontram.
+
+**O que você vai fazer, passo a passo**
+
+1. **Testar o domínio puro (TODO-00).** Em `TenantTests`, cubra a versão do id, a normalização e as entradas inválidas usando `[DataRow]`, o limite de 63 caracteres e o `Rename`. Sem mocks, sem banco, sem setup: só `new Tenant(...)` e asserts.
+2. **Escrever um fake da porta (TODO-01).** Implemente `FakeTenantRepository` em memória. É ele que deixa os casos de uso testáveis sem EF Core.
+3. **Testar os casos de uso (TODO-02 e TODO-03).** Para `CreateTenantHandler`, confira o status de cada desfecho (criado, inválido, já existe) e também o que ficou guardado no fake. Para `ResolveTenantHandler`, monte uma tabela de hosts com `[DynamicData]`.
+4. **Subir a API de verdade (TODO-04).** Em `TenantsApiTests`, crie uma `WebApplicationFactory` nova e um arquivo SQLite novo em `Path.GetTempPath()` por teste, com `[TestInitialize]` e um `[TestCleanup]` assíncrono que descarta a factory e apaga o arquivo. Use `Pooling=False` para o arquivo realmente fechar. É por teste porque os testes rodam em paralelo e cada um cria tenants.
+5. **Testar o contrato HTTP (TODO-05).** Garanta o status certo para cada desfecho (201, 400, 409, 404), a resolução do tenant pelo subdomínio e, pulando o handler, que o próprio banco rejeita um subdomínio duplicado pelo índice único.
+6. **Proteger a arquitetura (TODO-06).** Em `DependencyRuleTests`, escreva uma tabela `[DynamicData]` com o que cada camada nunca pode referenciar e leia as referências compiladas com `Assembly.GetReferencedAssemblies()`. Confirme também que os tipos de persistência continuam `internal`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde, e você consegue explicar por que cada teste mora no projeto em que está. Um bom sinal: os testes de domínio rodam em milissegundos, os de API demoram bem mais, e só existem poucos testes de API, apenas para o que atravessa camadas.
+
+**Desafios opcionais**
+
+- **TODO-07, teste de mutação:** quebre o código de produção de propósito (tire o `ToLowerInvariant`, pule o `ExistsAsync`, troque `Results.Conflict` por `Results.Ok`, remova o `.IsUnique()`, deixe `TenantRepository` público) e veja qual camada percebe. Cada mudança deve deixar pelo menos um teste vermelho.
+- **TODO-08:** adicione EF Core ao `Tenancy.Application` com uma classe derivada de `DbContext`. Qual teste falha, e o que a mensagem diz?
+- **TODO-09:** rode só os testes de arquitetura com `dotnet test --filter "TestCategory=Architecture"` e compare o tempo do projeto de domínio com o do projeto de API.
+
+**Pré-requisitos:** o concept e o lab de Clean Architecture in Four Projects, MSTest básico (`[TestClass]`, `[TestMethod]`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método de teste já está declarado com uma dica no comentário e falha com `TODO-NN: write this test` até você escrevê-lo, então a lista de testes vermelhos é o seu checklist.
 
 ## Documentation Links
 
