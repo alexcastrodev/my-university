@@ -250,6 +250,43 @@ os atributos `[field: ...]`, e o generator escreve os acessores em cima de `fiel
 - **Indexadores ficam de fora.** `field` não existe em acessores de indexador,
   então um indexador ainda precisa de um campo explícito.
 
+## Lab
+
+Neste lab você recebe quatro classes pequenas com **auto-properties comuns** e testes xUnit prontos que falham até você pôr lógica nos acessores. O seu trabalho é editar essas propriedades. A ideia central é ver que a palavra-chave `field` (C# 14) deixa você validar, normalizar ou dar um valor padrão preguiçoso dentro de uma auto-property, sem declarar um campo de apoio à mão, e que `init` serve para regras de construção.
+
+**O cenário**
+
+Quatro classes em `Models.cs`, cada uma com uma propriedade que precisa de lógica.
+
+- `Temperature.Celsius`: um `double` que não pode ficar abaixo do zero absoluto (-273.15).
+- `Person.Name`: uma propriedade `init` que deve guardar o nome aparado e rejeitar texto vazio.
+- `Document.Title`: um título com valor padrão `"untitled"` até alguém atribuir outro.
+- `Counter.Value`: um inteiro que dispara o evento `Changed` quando muda. O helper `OnChanged` já existe.
+
+Não há `NotImplementedException`: o código compila e roda como auto-properties simples, então os testes vermelhos mostram o que falta.
+
+**O que você vai fazer, passo a passo**
+
+1. **Validar no setter (TODO-00).** Em `Temperature.Celsius`, lance `ArgumentOutOfRangeException` para qualquer valor abaixo de -273.15 e use `field` no corpo do setter. O teste confere que, após uma rejeição, o valor anterior continua guardado.
+2. **Normalizar em um `init` (TODO-01).** Em `Person.Name`, mantenha a propriedade `init`-only, guarde o valor aparado e lance `ArgumentException` para `null`, vazio ou só espaços. Use `field` também no acessor `init`.
+3. **Padrão preguiçoso no getter (TODO-02).** Em `Document.Title`, devolva `"untitled"` até haver título, com `field ??= "untitled"` no getter. Mantenha o setter como um `set;` auto-implementado.
+4. **Evento só quando muda (TODO-03).** Em `Counter.Value`, dispare `Changed` com o novo valor apenas se ele realmente mudou. Atribuir o valor atual de novo não deve disparar nada. Use `field` para ler o valor antigo dentro do setter.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar o que o compilador gera por trás de `field`, e por que o setter de `Temperature` precisa validar antes de atribuir para preservar o valor anterior.
+
+**Desafios opcionais**
+
+Estes dois não têm esqueleto nem teste, então você cria as classes e os testes.
+
+- **TODO-04:** `Price.Amount`, normalizando o valor em um acessor `init`.
+- **TODO-05:** `Session.Token`, aplicando `[field: NonSerialized]` ao campo de apoio gerado pelo compilador.
+
+**Pré-requisitos:** propriedades e auto-properties em C#, eventos, exceções e o .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. As propriedades começam como auto-properties sem lógica, então os testes vermelhos mostram o que ainda precisa de validação, e os comentários `TODO-NN` em `Models.cs` dão a dica de cada uma.
+
 ## Documentation Links
 
 - [The field contextual keyword, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field) (doc)

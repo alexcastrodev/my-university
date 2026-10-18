@@ -221,6 +221,41 @@ realmente materializadas.
   de `IgnoreQueryFilters` para cada regra, com dados que mudariam a resposta
   (uma linha apagada, uma linha de outro tenant).
 
+## Lab
+
+Neste lab você declara soft delete e multi-tenancy uma única vez no modelo, desliga uma regra de cada vez com filtros nomeados e aplica uma mesma regra a toda entidade que tem o flag. Você recebe `AppDbContext` com duas entidades com `IsDeleted` e um id de tenant em `Blog`, mas sem nenhum filtro, então toda consulta devolve todas as linhas de todos os tenants. O seu trabalho é adicionar os filtros e depois as consultas que contornam deliberadamente um deles. A ideia central é que nomear os filtros (EF Core 10) permite ignorar só um, em vez do `IgnoreQueryFilters()` que derruba tudo, inclusive a isolação entre tenants.
+
+**O cenário**
+
+Um blog pertence a um tenant e pode ser apagado logicamente, e um post também pode ser apagado logicamente.
+
+- `Entities.cs`: a interface `ISoftDelete`, `Blog` (com `TenantId` e `IsDeleted`) e `Post` (com `IsDeleted`).
+- `AppDbContext.cs`: o contexto, que recebe o `tenantId`, e as constantes `SoftDeletionFilter` e `TenantFilter`. Compartilhar os nomes entre o modelo e as consultas evita erros de digitação, que `IgnoreQueryFilters` aceita em silêncio.
+- `BlogQueries.cs`: `Visible` (pronto), `IncludingDeleted`, `AcrossTenants` e `Undelete`, para ajustar.
+
+Os testes usam SQLite em memória e semeiam blogs de dois tenants (`t1` e `t2`), cada um com um blog apagado.
+
+**O que você vai fazer, passo a passo**
+
+1. **Filtro de tenant (TODO-00).** Em `OnModelCreating`, adicione em `Blog` um filtro nomeado `TenantFilter`: só linhas com `TenantId` igual a `_tenantId`, usando o overload de `HasQueryFilter` que recebe um nome. A lambda lê o campo, e o EF o transforma em parâmetro por instância do contexto.
+2. **Soft delete em tudo (TODO-01).** Percorra os tipos de entidade que implementam `ISoftDelete` e dê a cada um um filtro nomeado `SoftDeletionFilter` para `IsDeleted == false`. A lambda precisa ser montada com `System.Linq.Expressions` e aplicada com `entityType.SetQueryFilter(nome, lambda)`.
+3. **Incluir apagados (TODO-02).** Em `IncludingDeleted`, ignore só o filtro de soft delete: o tenant continua valendo.
+4. **Atravessar tenants (TODO-03).** Em `AcrossTenants`, ignore só o filtro de tenant: os apagados continuam escondidos.
+5. **Desfazer exclusão com segurança (TODO-04).** Em `Undelete`, encontre o blog com só o filtro de soft delete desligado. O filtro de tenant deve continuar ligado, para que o blog de outro tenant fique fora de alcance.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que `Undelete` com `IgnoreQueryFilters()` sem nome seria um bug de segurança, por que `Blog` tem dois filtros e `Post` só um, e por que cada instância do contexto enxerga o seu próprio tenant.
+
+**Desafios opcionais**
+
+- **TODO-05:** chame `IgnoreQueryFilters(["Typo"])` e veja o resultado. O EF Core reclama de um nome que não existe?
+- **TODO-06:** adicione um `HasQueryFilter` sem nome ao lado dos nomeados e leia a exceção lançada quando o modelo é construído. Não há teste para esses dois desafios.
+
+**Pré-requisitos:** EF Core básico (`DbContext`, `DbSet`, consultas LINQ), lambdas e árvores de expressão (leia o código, você vai montar uma) e o .NET 10 SDK. Os testes usam SQLite em memória, sem Docker.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O `OnModelCreating` está vazio com comentários `TODO-00` e `TODO-01`, e as consultas `IncludingDeleted`, `AcrossTenants` e `Undelete` ainda não ignoram filtro nenhum, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Global query filters, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/querying/filters) (doc)

@@ -292,6 +292,42 @@ funcionando bem, então espere ruído.
 - **Os símbolos ficam fora do binário.** Guarde o `.dSYM`, `.dbg` ou `.pdb` de
   cada release, senão os crash dumps de produção ficam ilegíveis.
 
+## Lab
+
+Neste lab você vê o que o Native AOT exige do seu código sem nunca rodar o compilador nativo. Você recebe a estrutura pronta e `Snippets.cs` com trechos de código já escritos, alguns deliberadamente hostis ao AOT. Em `AotFiles`, os métodos lançam `NotImplementedException` e devolvem texto: arquivos de projeto e pequenos arquivos C#. A ideia central é prever qual aviso (`IL2026` ou `IL3050`) cada trecho arriscado gera, trocar o código arriscado por código seguro para AOT e perceber que o analisador é a ferramenta do dia a dia, enquanto o publish real fica como acompanhamento manual.
+
+**O cenário**
+
+O problema é descobrir, em tempo de build, o que quebraria num binário nativo.
+
+- `AotFiles.cs`: os métodos a implementar (projetos e trechos de C#).
+- `Snippets.cs` (dado): `MakeGenericType`, `LoadFrom`, `JsonReflection` (hostis ao AOT), `SlowFactory` (anotada com `[RequiresDynamicCode]`) e `Clean` (sem problema).
+- `AotTests.cs` e `AotSandbox.cs`: gravam seu texto numa pasta descartável e usam o .NET CLI de duas formas: `dotnet msbuild -getProperty` para avaliar um projeto e `dotnet build` de uma biblioteca com os analisadores ligados, lendo os avisos.
+
+Os testes recusam construir qualquer projeto com `PublishAot`, porque o publish nativo baixaria o ILCompiler e exigiria toolchain nativa.
+
+**O que você vai fazer, passo a passo**
+
+1. **Projeto com PublishAot (TODO-00).** Em `PublishAotProject`, escreva um console `net10.0` com `OutputType` `Exe` e `PublishAot` verdadeiro. Os testes só avaliam: os três analisadores e `PublishTrimmed` devem seguir dele, e `InvariantGlobalization` não.
+2. **Biblioteca compatível (TODO-01).** Em `AotCompatibleLibrary`, use `IsAotCompatible` em vez de `PublishAot`: analisadores ligados, sem publicar nada.
+3. **Prever os avisos (TODO-02).** Em `WarningIdsForMakeGenericType`, `WarningIdsForLoadFrom` e `WarningIdsForJsonReflection`, devolva os ids que você espera. O teste constrói os três trechos e compara com a saída real.
+4. **JSON seguro (TODO-03).** Em `JsonSourceGeneratedSnippet`, escreva um `record Todo`, um `TodoJsonContext` com `[JsonSerializable]` e um `TodoJson` com `ToJson` e `FromJson` usando `TodoJsonContext.Default.Todo`. Sem avisos, e a biblioteca compilada precisa fazer o round-trip.
+5. **Genéricos que o compilador vê (TODO-04).** Em `GenericFactorySnippet`, troque `MakeGenericType` e `Array.CreateInstance` por `List<T> Create<T>()` e `T[] NewArray<T>(int)`.
+6. **Ser honesto sobre código dinâmico (TODO-05).** Em `DynamicCodeWrapperSnippet`, mantenha o `MakeGenericType` num método com `[RequiresDynamicCode]`. O aviso some do corpo e aparece no chamador que não repete a anotação.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde (cerca de 15 a 30 segundos, sem rede). Você deve conseguir explicar por que o aviso "se mudou" para os chamadores no TODO-05 e por que um analisador limpo não garante que o binário publicado funciona (uma classe de contexto JSON esquecida passa sem aviso).
+
+**Desafios opcionais**
+
+- **TODO-06:** `StrictAotLibrary` transforma `IL2026` e `IL3050` em erros com `WarningsAsErrors`.
+- **TODO-07:** `GuardedFactorySnippet` chama um método `[RequiresDynamicCode]` só dentro de `if (RuntimeFeature.IsDynamicCodeSupported)`, uma guarda que o analisador entende.
+
+**Pré-requisitos:** o texto do concept sobre Native AOT, estrutura básica de `.csproj` e de uma biblioteca sem NuGet, e o .NET 10 SDK (10.0.100).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos em `src/NativeAotLab/AotFiles.cs` começam lançando `NotImplementedException` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist. Para ver os analisadores no seu código, use `dotnet build -p:IsAotCompatible=true`.
+
 ## Documentation Links
 
 - [Native AOT deployment overview, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/) (doc)

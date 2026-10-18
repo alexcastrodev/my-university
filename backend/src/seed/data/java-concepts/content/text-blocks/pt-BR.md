@@ -212,6 +212,41 @@ String sql = """
         """);   // true — indistinguishable
 ```
 
+## Lab
+
+Neste lab você recebe `TextBlocks`, uma classe com seis métodos obrigatórios (mais um opcional) que devolvem uma `String` construída com um text block. O comentário de cada método dá o valor exato esperado, e reproduzi-lo obriga você a raciocinar sobre a remoção de indentação, a remoção de espaços no fim da linha e os dois escapes que só existem em text blocks. Não adianta colar um trecho e torcer para bater.
+
+**O cenário**
+
+O compilador aplica um algoritmo de espaço em branco incidental ao conteúdo de um text block, e o valor final depende de onde fica o delimitador de fechamento e de quanto cada linha está indentada.
+
+- `sqlQuery()`: um valor de três linhas com indentação relativa preservada e uma quebra de linha no final.
+- `htmlListNoTrailingNewline()`: uma lista HTML sem quebra de linha final.
+- `rightPaddedColors()`: linhas com espaços no fim que precisam sobreviver.
+- `wrapOneLine()`: uma frase única escrita em três linhas físicas.
+- `quotesInsideBlock()`: um valor com três aspas duplas seguidas.
+- `normalizeFromExternalSource(String)`: aplicar o mesmo algoritmo em tempo de execução a um texto que não veio de um literal.
+
+**O que você vai fazer, passo a passo**
+
+1. **Controlar indentação e quebra final (TODO-00 e TODO-01).** O compilador olha todas as linhas de conteúdo não vazias e também a linha do delimitador de fechamento, pega a menos indentada e remove essa quantidade de espaços de todas. Se o delimitador fica numa linha própria, o valor termina em `\n`; se fica logo após o último caractere, não termina.
+2. **Preservar espaços no fim (TODO-02).** Espaços no fim da linha são sempre removidos, não importa quantos você digite. O escape `\s` é aplicado depois e fixa um espaço no lugar.
+3. **Juntar linhas (TODO-03).** Uma barra invertida no fim da linha de código-fonte suprime o terminador dela, juntando-a com a linha seguinte. Esse escape só existe em text blocks.
+4. **Aspas triplas (TODO-04).** Uma ou duas aspas seguidas não precisam de escape; só uma sequência de três ou mais é ambígua com o delimitador, então basta escapar uma delas.
+5. **Normalizar em tempo de execução (TODO-05).** O texto simula um arquivo lido agora, então não pode ser um literal. A própria `String` oferece, como método de instância, o mesmo algoritmo de remoção de indentação, sem separar linhas à mão.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar, olhando um text block, quantos espaços serão removidos e se o valor termina em quebra de linha.
+
+**Desafios opcionais**
+
+- **TODO-06:** implemente `translateEscapesFromExternalSource`, convertendo sequências literais de escape (uma barra invertida seguida de `n`, por exemplo) em seus caracteres reais, do mesmo jeito que o conteúdo de um text block é processado depois da remoção de espaços.
+
+**Pré-requisitos:** sintaxe básica de Java, `String` e escapes como `\n`, e o Java 21.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/text-blocks` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/text-blocks test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [JEP 378: Text Blocks](https://openjdk.org/jeps/378) — doc

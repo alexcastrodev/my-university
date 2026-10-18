@@ -87,6 +87,39 @@ O `BodyHandler` passado para `send()`/`sendAsync()` determina o parâmetro de ti
 - **Escolher o `BodyHandler` errado para o tamanho da resposta importa.** `ofString()`/`ofByteArray()` bufferizam o corpo inteiro em memória antes de retornar — bom para um payload JSON pequeno, uma péssima escolha para um download de vários gigabytes, onde `ofFile()` (ou `ofInputStream()` para streaming manual) evita manter tudo em memória de uma vez.
 - **O motivo original de existência do `sendAsync()` — não travar uma das threads de plataforma, que são limitadas, esperando I/O — praticamente desaparece com virtual threads (JDK 21+).** Uma virtual thread bloqueada em `send()` não prende uma thread do SO da forma que uma platform thread prenderia; a orientação atual para código baseado em virtual threads favorece o `send()` síncrono, mais simples, disparando muitas virtual threads para concorrência, em vez de compor cadeias de `CompletableFuture` para evitar bloquear um tipo de thread que já não é mais escasso.
 
+## Lab
+
+Neste lab você recebe `ApiClient`, um pequeno invólucro sobre `java.net.http.HttpClient`, com os métodos vazios. Seu trabalho é preenchê-los. A ideia central é praticar a API de builders de `HttpRequest`, a diferença entre o `send()` bloqueante e o `sendAsync()` que devolve `CompletableFuture`, e por que esquecer o `.exceptionally()` numa cadeia assíncrona deixa falhas sumirem em silêncio.
+
+**O cenário**
+
+Um cliente que faz GET em uma URL e devolve o corpo da resposta, de forma síncrona e assíncrona.
+
+- `ApiClient.get(URI)`: GET síncrono que devolve o corpo como `String`.
+- `ApiClient.getAsync(URI)`: GET assíncrono que devolve um `CompletableFuture<String>`.
+- `ApiClient.getAsyncWithFallback(URI, fallback)`: versão assíncrona que se recupera de falhas (opcional).
+- `ApiException`: exceção (com `statusCode()`) lançada para respostas fora de 2xx.
+
+Os testes sobem um servidor HTTP local de verdade com `com.sun.net.httpserver.HttpServer`, que faz parte do JDK. Não há dependência extra nem acesso a rede externa, e mesmo assim você exercita o fluxo real de `send()`/`sendAsync()`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Montar a requisição (TODO-00).** Construa um `HttpRequest` GET para a `uri` com o cabeçalho `Accept: application/json`.
+2. **Enviar de forma síncrona (TODO-01).** Chame `client.send(...)` com `HttpResponse.BodyHandlers.ofString()`. Se o status não estiver entre 200 e 299, lance `new ApiException(response.statusCode())`. Senão, devolva o corpo.
+3. **Enviar de forma assíncrona (TODO-02).** Monte a mesma requisição, use `client.sendAsync(...)` e transforme o `HttpResponse<String>` apenas no seu corpo, com `thenApply`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que acontece com a exceção de uma requisição que falhou se ninguém tratar o `CompletableFuture`, e em que thread cada variante espera a resposta.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `getAsyncWithFallback()`, recuperando-se de uma requisição que falhou (por exemplo, conexão recusada) com um valor padrão via `CompletableFuture.exceptionally()`.
+
+**Pré-requisitos:** sintaxe básica de Java, noções de `CompletableFuture` (`thenApply`, `exceptionally`) e tratamento de exceções. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/httpclient-and-java-net-http` e rode `mvn test` (da raiz: `mvn -pl java-concepts/httpclient-and-java-net-http test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` explicam cada passo, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [HttpClient — Java SE 25 API (java.net.http)](https://docs.oracle.com/en/java/javase/25/docs/api/java.net.http/java/net/http/HttpClient.html) — doc

@@ -117,6 +117,37 @@ The ReplicaSet name is the Deployment name plus a hash of the Pod template (`pod
 - **One namespace per application vs per component.** One per application or team (`team-a`, `team-b`) keeps each one self-contained and easy to delete. Shared infrastructure (a cache or queue used by several applications) fits better in its own namespace, reached via cross-namespace DNS.
 - **Labels are free, selectors are forever.** Put a small, stable set of labels in the selector (`app`), and everything else (`version`, `team`) only in metadata, because the selector cannot change later.
 
+## Lab
+
+In this lab you get a `web.yaml` with a `shop` namespace, a bare Pod that serves `hello from <pod name>` and a Service in front of it. Your job is to turn the bare Pod into a Deployment and make the Service see every replica. The core idea is to see the chain of objects Kubernetes builds (Deployment, ReplicaSet, Pods) and understand that a Service picks Pods by labels, not by name.
+
+**The scenario**
+
+It is a team's first deployment: a web server and a `web` Service in the `shop` namespace. The test applies your file, starts a `client` Pod to make requests and then deletes the web Pods to see whether they come back.
+
+- `src/main/resources/k8s/web.yaml`: your file, with the `shop` Namespace, the `web` Pod (label `app: web`, named port `http`) and the `web` Service (port 80 to `targetPort: http`).
+- `src/test/java/CoreObjectsTest.java`: checks the ownership chain, the load spreading and the recovery.
+
+Look at the Service selector: it requires two labels, `app: web` and `instance: web-0`, and only one Pod has both.
+
+**What you will do, step by step**
+
+1. **Run it and read the failures.** Run the tests before editing to see what the bare Pod does not guarantee.
+2. **Replace the Pod with a Deployment (TODO-00).** Today, if the Pod is deleted (a node drain, an eviction, a mistake), nothing brings it back. Run the same container through a Deployment with 2 replicas, in the `shop` namespace, with `selector.matchLabels` and the template labels consistent with each other, and move the Pod's content into the `template`. The Deployment creates a ReplicaSet, which owns the Pods.
+3. **Make the Service select every replica (TODO-01).** With 2 replicas, both must receive traffic. Review the Service `selector`: it may only use labels that every replica has. The test makes up to 30 requests to `http://web.shop` and expects to see responses from two different Pod names.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kubernetes-core-objects test` passes completely: each web Pod is owned by a ReplicaSet that belongs to the `web` Deployment with 2 ready replicas, requests reach both replicas and, after deleting every Pod, new ones come up and the Service answers `200` again. You should be able to explain who owns whom and why a Service with no endpoints receives no traffic.
+
+**Optional challenges**
+
+- **TODO-02:** change the image of the Deployment and run `kubectl -n shop get rs`. How many ReplicaSets are there now, and what are their replica counts?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Pods, ReplicaSets, Deployments, Services and Namespaces", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/kubernetes-core-objects test`. You only edit `web.yaml`, and the TODO comments in it mark the two spots.
+
 ## Documentation Links
 
 - [Kubernetes docs: Pods](https://kubernetes.io/docs/concepts/workloads/pods/): lifecycle, multi-container Pods.

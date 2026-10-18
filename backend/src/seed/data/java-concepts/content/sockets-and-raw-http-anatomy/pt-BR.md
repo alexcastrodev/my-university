@@ -94,6 +94,41 @@ in.readNBytes(body, 0, contentLength);
 - **Ler uma conexão = uma thread não escala além de alguns milhares de clientes** — o loop `accept()` ingênuo mostrado aqui bloqueia uma thread por conexão; servidores reais usam ou um thread pool (limitado, ainda uma thread por conexão ativa) ou um modelo de I/O não bloqueante/orientado a eventos (o `NioEventLoop` do Netty, o `Selector` do Java NIO) precisamente para evitar esse teto. Virtual threads (veja `thread-model-legacy-vs-virtual-threads`) tornam o modelo ingênuo "uma thread por conexão" viável de novo em uma escala muito maior, já que uma virtual thread bloqueada não prende uma thread do SO enquanto espera.
 - **Keep-alive troca recursos do servidor por latência por requisição** — uma conexão keep-alive ociosa ainda mantém um socket (e, sem virtual threads, uma thread do SO) aberto no servidor entre requisições, mas evita repetir o handshake TCP a cada requisição subsequente na mesma conexão; timeouts de ociosidade do lado do servidor existem especificamente para recuperar esses recursos de clientes que nunca voltam.
 
+## Lab
+
+Neste lab você recebe a classe `RawHttpMessage` com todos os métodos vazios e monta, e depois desmonta, uma requisição HTTP como ela realmente é no fio: texto puro com um formato rígido. A ideia central é enxergar o que um cliente HTTP esconde de você: a linha de requisição, as linhas de cabeçalho, a linha em branco que separa tudo do corpo e o `Content-Length` calculado em bytes.
+
+**O cenário**
+
+Em vez de usar uma biblioteca HTTP, você escreve e interpreta o texto da requisição à mão.
+
+- `requestLine()`: monta a linha inicial, no formato `"METHOD path HTTP/1.1\r\n"`.
+- `buildRequest()`: monta a requisição completa (linha de requisição, um `Name: value\r\n` por cabeçalho, linha em branco e corpo).
+- `parseHeaders()`: transforma um bloco de linhas de cabeçalho em um `Map` que preserva a ordem.
+- `parseMethod()`: extrai só o método de uma requisição crua.
+- `sendOverSocket()`: opcional, manda os bytes por um `java.net.Socket` de verdade.
+
+Note que o fim de linha do HTTP é CRLF (`\r\n`), não só `\n`. Os testes verificam o texto exato.
+
+**O que você vai fazer, passo a passo**
+
+1. **Montar a linha de requisição (TODO-00).** Método, espaço, caminho, espaço, `HTTP/1.1` e CRLF.
+2. **Montar a requisição inteira (TODO-01).** Depois da linha de requisição, emita um `Name: value\r\n` por entrada de `headers`, na ordem de iteração do mapa, depois a linha em branco (`\r\n`) e então o corpo. Se `body` for nulo ou vazio, a linha em branco continua lá, mas sem texto depois dela. Se o corpo existir, adicione `Content-Length` automaticamente, com o tamanho em bytes de `body.getBytes(StandardCharsets.UTF_8).length`, mesmo que o chamador não o tenha informado. Bytes e caracteres diferem em UTF-8, e é por isso que a conta é feita em bytes.
+3. **Interpretar cabeçalhos (TODO-02).** Quebre o bloco em linhas, separe cada uma no primeiro `:`, tire o espaço depois dos dois-pontos e guarde em um `LinkedHashMap` para manter a ordem.
+4. **Extrair o método (TODO-03).** Dada uma requisição crua, devolva só o primeiro token da linha de requisição (`GET`, por exemplo).
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir escrever de memória a forma de uma requisição HTTP/1.1 e explicar por que a linha em branco é o que separa cabeçalhos de corpo.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `sendOverSocket()`: abra um `Socket` para `host:port` em try-with-resources, escreva os bytes da requisição, dê flush e leia tudo que o outro lado devolver com `readAllBytes()`. O teste sobe um `ServerSocket` descartável em uma porta efêmera, então é uma viagem de ida e volta real pela rede, sem biblioteca HTTP.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com `Map`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/sockets-and-raw-http-anatomy` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/sockets-and-raw-http-anatomy test`). Cada método pendente lança `UnsupportedOperationException("Not implemented yet.")` e tem um comentário `TODO-NN` explicando o formato esperado, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [ServerSocket — java.net API docs (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html) — doc

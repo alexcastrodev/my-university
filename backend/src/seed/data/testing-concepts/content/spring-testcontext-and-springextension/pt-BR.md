@@ -134,6 +134,37 @@ private Passenger passenger; // UnsatisfiedDependencyException if the context ha
 - **Injeção por campo em testes é conveniente, mas não é o estilo recomendado para produção**: `@Autowired` em um campo se lê de forma limpa em um teste, mas o próprio Spring recomenda injeção por construtor para beans de aplicação (imutabilidade, construção standalone mais fácil); um teste pode usar qualquer uma das duas, mas espelhar injeção por campo em toda parte carrega o hábito para o código de produção, onde é desencorajado.
 - **O contexto acopla o teste à configuração, não só ao código**: renomear um bean ou um recurso ausente em `@ContextConfiguration` faz o teste falhar no momento de carregamento do contexto, com um erro de conexão, em vez de uma falha de asserção, o que é um caminho de depuração diferente de um teste unitário puro.
 
+## Lab
+
+Neste lab você recebe `MessageService` e `AppConfig` **prontos e funcionando**. Seu trabalho é escrever quatro testes ordenados em `MessageServiceContextLifecycleTest` que contam uma história contínua. A ideia central é sentir que o Spring TestContext guarda em cache e reaproveita o `ApplicationContext` entre métodos com a mesma configuração, e que é o `@DirtiesContext` que força a construção de um contexto novo.
+
+**O cenário**
+
+É um teste Spring simples, sem Spring Boot e sem component scan. O estado mutável do serviço é o que torna visível o vazamento entre testes.
+
+- `MessageService`: guarda um histórico em memória. `addMessage` acrescenta e `getHistory` devolve uma visão não modificável.
+- `AppConfig`: configuração Java com o `@Bean messageService()`. O contador estático `creationCount` sobe sempre que o Spring realmente chama esse método, ou seja, a cada contexto novo.
+- `MessageServiceContextLifecycleTest`: usa `@ExtendWith(SpringExtension.class)` e `@ContextConfiguration(classes = AppConfig.class)`. Os testes têm `@Order(1)` a `@Order(4)` com `@TestMethodOrder(MethodOrderer.OrderAnnotation.class)` de propósito: a história só faz sentido na ordem escrita.
+
+**O que você vai fazer, passo a passo**
+
+1. **Primeiro teste (TODO-00).** Confira que `AppConfig.creationCount.get()` é 1 (o contexto acabou de ser criado), adicione uma mensagem ("first") e confira que o histórico tem 1 item.
+2. **Segundo teste (TODO-01).** Confira que o contador continua em 1 (nenhum contexto novo) e que o histórico já contém "first", a mensagem do teste anterior. É a prova de que o mesmo contexto e a mesma instância do bean serviram os dois testes. Esse vazamento é exatamente o que o `@DirtiesContext` existe para impedir.
+3. **Sujar o contexto (TODO-02).** O terceiro teste já está anotado com `@DirtiesContext`. Só adicione outra mensagem ("third"). Não precisa assert sobre o contador: o papel dele é mutar o estado e marcar o contexto para descarte.
+4. **Contexto novo (TODO-03).** No quarto teste, confira que o contador agora é 2 e que o histórico está vazio. Se ele visse "first" ou "third", o `@DirtiesContext` teria falhado em forçar um contexto novo.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o contador fica em 1 nos testes 1 e 2 e vai a 2 só no teste 4, e o que quebraria se a ordem dos testes não fosse fixada.
+
+**Desafios opcionais**
+
+- **TODO-04:** adicione um quinto `@Test` com `@Order(5)` afirmando que `messageService.getHistory().add("x")` lança `UnsupportedOperationException`, já que `getHistory()` devolve uma visão não modificável.
+
+**Pré-requisitos:** fundamentos de JUnit 5 e ler `MessageService` e `AppConfig` em `src/main/java`, principalmente o que `AppConfig.creationCount` conta e quando ele sobe.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/spring-testcontext-and-springextension` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/spring-testcontext-and-springextension test`). Os quatro métodos começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Spring TestContext Framework: documentação do Spring Framework](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html) (doc)

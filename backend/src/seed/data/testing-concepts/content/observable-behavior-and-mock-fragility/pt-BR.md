@@ -128,6 +128,38 @@ Isso também explica, com precisão, por que as escolas London e clássica de te
 - **Suítes no estilo London são estruturalmente mais expostas a esse modo de falha do que suítes no estilo clássico**: não porque London mocka "mais", mas porque não distingue comunicação intra-sistema de inter-sistemas ao decidir o que mockar, então uma fração maior de seus mocks acaba alvejando detalhes de implementação por padrão.
 - **"Mocke só na fronteira" é uma restrição de design, não apenas uma dica de teste**: uma classe cujos colaboradores não podem ser distinguidos como "internos" vs. "cruzam para outro sistema" (por exemplo, um objeto de domínio que segura diretamente uma referência a um `EmailGateway` ao lado de colaboradores de domínio simples) torna essa regra difícil de aplicar de forma consistente; manter chamadas inter-sistemas concentradas em uma camada de serviços de aplicação (em vez de espalhadas por classes de domínio) é o que torna "mocke só a fronteira" uma regra realmente seguível.
 
+## Lab
+
+Neste lab você recebe o `TransferService` **pronto e funcionando**. Seu trabalho é testá-lo aplicando a regra de fronteira do artigo: só se faz mock de comunicações que cruzam a fronteira da aplicação e continuam observáveis por algo de fora. O `Ledger` (em processo) nunca vira mock neste lab; o `AuditGateway` (a fronteira real do sistema) é a única coisa que vira. A ideia central é sentir que verificar chamadas internas deixa o teste frágil, enquanto assertar o resultado observável o deixa sobreviver a refatorações.
+
+**O cenário**
+
+Uma transferência debita uma conta e, só se der certo, avisa um sistema de auditoria.
+
+- `Ledger`: colaborador em processo que guarda saldos em memória (`openAccount`, `hasSufficientFunds`, `debit`, `balanceOf`). Nenhum cliente de fora fala com ele, é detalhe de implementação.
+- `AuditGateway`: interface (`logTransfer(accountId, amountCents)`) que representa um sistema de auditoria fora do processo. Alguém de fora está de fato observando essa chamada, então ela é comportamento observável.
+- `TransferService.transfer(accountId, amountCents)`: devolve `false` sem tocar em nada se não há saldo; senão debita o `Ledger`, chama `logTransfer` e devolve `true`.
+- `TransferServiceTest`: tem apenas `mockAuditGateway` como `@Mock` (com `MockitoExtension`), e um método de fábrica `createLedgerWithBalance(...)` a implementar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Construir um ledger de verdade (TODO-00).** Em `createLedgerWithBalance`, crie um `Ledger` novo, chame `openAccount(accountId, startingBalanceCents)` e devolva. É um objeto real, nunca um mock, e todos os testes passam por aqui.
+2. **Transferência com sucesso (TODO-01).** Com `createLedgerWithBalance("acct-1", 1000)`, monte `new TransferService(ledger, mockAuditGateway)`, chame `transfer("acct-1", 400)` e confira que devolve `true` e que `ledger.balanceOf("acct-1")` é 600, o estado do ledger real. Só então faça `verify` de `logTransfer("acct-1", 400)` no gateway: aqui o `verify` é legítimo porque o gateway é a fronteira.
+3. **Saldo insuficiente (TODO-02).** Com só 100 centavos, `transfer("acct-1", 400)` devolve `false` e o saldo continua 100. Use `Mockito.verifyNoInteractions(mockAuditGateway)` para provar que a fronteira nunca foi tocada.
+4. **Transferir o saldo exato (TODO-03).** Evite a alternativa tentadora e frágil de mockar o `Ledger` e fazer `verify(mockLedger).debit(...)`, porque nenhum cliente pediu "chame `debit()`". Com um ledger real de 500, faça `transfer("acct-1", 500)`, confira `true` e que `balanceOf("acct-1")` é 0. O teste olha o resultado, não a chamada interna que o produziu.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que renomear `Ledger.debit()` não quebraria seus testes, e por que o `verify` do `AuditGateway` é aceitável enquanto um `verify` do `Ledger` não seria.
+
+**Desafios opcionais**
+
+- **TODO-04:** com 1000 centavos, faça `transfer("acct-1", 100)` duas vezes e use `Mockito.verify(mockAuditGateway, Mockito.times(2))` para confirmar duas chamadas a `logTransfer("acct-1", 100)`. Contar chamadas é legítimo porque quem está sendo verificado é a fronteira.
+
+**Pré-requisitos:** o lab `test-doubles-stubs-and-mocking` (`@Mock`, `when()`, `verify()` do Mockito), o artigo de observable behavior and mock fragility (mock vs stub, intra-sistema vs inter-sistemas) e ler `TransferService`, `Ledger` e `AuditGateway` em `src/main/java`.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/observable-behavior-and-mock-fragility` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/observable-behavior-and-mock-fragility test`). A fábrica lança `UnsupportedOperationException` e os testes começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, *Unit Testing Principles, Practices, and Patterns* (Manning, 2020), Capítulo 5 "Mocks and Test Fragility", seções 5.1-5.4, pp. 92-118 (book)

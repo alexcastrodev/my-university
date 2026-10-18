@@ -77,6 +77,41 @@ class NotAController {
 - **DFS-over-`target/classes` only works for exploded classpaths, not packaged JARs** — walking a `File` tree assumes classes exist as loose `.class` files on disk; a production deployment running from a fat JAR has no such directory to walk, which is one reason real scanners (Spring's included) resolve classpath entries generically (JAR URLs, module paths) rather than assuming a filesystem directory.
 - **Reflection-based discovery trades startup time for zero configuration** — no XML/properties file lists which classes are controllers, which is convenient, but the entire classpath (or scanned base packages) has to be walked at startup to find out; narrowing `@ComponentScan(basePackages = ...)` to the smallest sufficient package list directly reduces this cost, same principle as the naive scanner's `BASE_PACKAGE` constant.
 
+## Lab
+
+In this lab you get five support classes already written and you implement `ComponentScanner`, the part of a container that filters candidates and instantiates the survivors. The core idea is to separate two independent questions that frameworks like Spring ask at startup, "does this type implement interface X?" and "does this type carry annotation Y?", and to finish by turning a `Class` object into a live instance.
+
+**The scenario**
+
+The scanner receives a `List<Class<?>>` of candidates and answers what a container asks when it boots. Discovering that list (walking directories and jars) is left out on purpose: the filtering and instantiating mechanics are the same.
+
+- `Notifier.java`: an interface with one `notify(String)` method.
+- `Component.java`: a marker annotation, retained at run time.
+- `EmailNotifier.java`: implements `Notifier` AND has `@Component`.
+- `SmsNotifier.java`: implements `Notifier`, but does NOT have the annotation.
+- `LegacyHelper.java`: has `@Component`, but does NOT implement `Notifier`.
+- `ComponentScanner.java`: what you implement.
+
+The three candidates cover every combination on purpose. Checking the interface and checking the annotation are independent tests, and the tests catch a scanner that conflates them.
+
+**What you will do, step by step**
+
+1. **Filter by interface (TODO-00).** In `findImplementations()`, return the classes in `candidates` that implement `targetInterface`, not including the interface itself, preserving input order. The tool is `Class.isAssignableFrom()`. Mind the direction: it is the interface that asks whether it can be assigned from the candidate class.
+2. **Filter by annotation (TODO-01).** In `findAnnotated()`, return the classes annotated with `annotationType`, also in order, using `Class.isAnnotationPresent()`.
+3. **Instantiate (TODO-02).** In `instantiateAll()`, create one instance of each class with `getDeclaredConstructor().newInstance()` and return them in the same order. This is how a container turns metadata into objects.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `SmsNotifier` shows up in one filter and `LegacyHelper` in the other, and why neither is in the intersection.
+
+**Optional challenges**
+
+- **TODO-03:** implement `findAnnotatedImplementations()`, returning only the candidates that implement the interface AND carry the annotation. Try building it on top of the two methods you already wrote.
+
+**Prerequisites:** basic Java syntax, interfaces and annotations.
+
+**How to run it:** clone the repository, go into `java-concepts/classpath-scanning-via-reflection` and run `mvn test` (or, from the root, `mvn -pl java-concepts/classpath-scanning-via-reflection test`). The scanner methods start by throwing `UnsupportedOperationException("Not implemented yet.")` with hints in the `TODO-NN` comments, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Class.forName() — java.lang API docs (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html#forName(java.lang.String)) — doc

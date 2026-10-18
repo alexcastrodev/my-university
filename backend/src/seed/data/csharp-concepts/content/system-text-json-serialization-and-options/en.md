@@ -257,6 +257,39 @@ config-style JSON: comments and a trailing comma both throw by default.
   Relying on a record's constructor for validation needs
   `RespectRequiredConstructorParameters`, or `Strict`.
 
+## Lab
+
+In this lab you get `JsonCodec`, a wrapper around `JsonSerializer` whose `Write`, `Read`, `ReadStrict`, `ReadConfig`, `WriteForJavaScript` and `ReadFromJavaScript` methods are **already written**, but with the four `JsonSerializerOptions` instances empty and the `Shape` hierarchy unannotated. Your job is to build the option sets a real application needs and see how each setting changes what is written, what is accepted and what fails loudly. The defaults of `System.Text.Json` are lenient on read and silent on loss, so most tests check that a bad payload now throws or that a name is now matched.
+
+**The scenario**
+
+Four shared option sets: the everyday one, a strict one for contracts, a lenient one for config files and one for JavaScript clients.
+
+- `JsonCodec.cs`: `Options`, `StrictOptions`, `ConfigOptions` and `JavaScriptOptions` (all `new()` for now) and the wrapper methods.
+- `Models.cs`: `Order` (with `Status` and a nullable `Note`), `Person`, `Ledger` (a `long` and a `decimal`) and the `Shape`, `Circle`, `Square` hierarchy.
+
+The options must be built **once** and reused: creating a converter or a `JsonSerializerOptions` per call is expensive.
+
+**What you will do, step by step**
+
+1. **Build the everyday options (TODO-00).** Start from `JsonSerializerDefaults.Web` (camelCase names, case-insensitive reads, quoted numbers accepted). On top of that, omit null properties when writing and write enums as camelCase strings while rejecting enum numbers when reading (`JsonStringEnumConverter` with `allowIntegerValues: false`). Create the converter once.
+2. **Use the .NET 10 strict preset (TODO-01).** Point `StrictOptions` at the strict preset: unmapped members, duplicate properties and missing constructor arguments must all fail.
+3. **Make the hierarchy round-trip (TODO-02).** Annotate `Shape` with `[JsonPolymorphic]` and `[JsonDerivedType]` for `Circle` and `Square`, with the discriminator values `"circle"` and `"square"` and the discriminator property named `"kind"`. An unknown discriminator must fail.
+4. **Accept config files (TODO-03).** Derive `ConfigOptions` from `Options` with the copy constructor, skipping comments and allowing trailing commas.
+5. **Serve JavaScript clients (TODO-04).** JavaScript loses precision above 2^53. Derive `JavaScriptOptions` from `Options`, write numbers as strings and still accept quoted numbers on read.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why a payload with differently cased names is accepted by `Options` and why an extra member only fails with `StrictOptions`, and why the discriminator is written first when the static type is the base.
+
+**Optional challenges**
+
+- **TODO-05:** measure `JsonSerializer.Serialize` 20,000 times with one shared options instance and with a `new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } }` per call. Compare time and allocated bytes.
+
+**Prerequisites:** C# records and attributes, basic JSON and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The `TODO-NN` comments sit above each option and above `Shape`, and the red tests show what is still missing.
+
 ## Documentation Links
 
 - [How to instantiate JsonSerializerOptions, reuse and Web defaults, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/configure-options) (doc)

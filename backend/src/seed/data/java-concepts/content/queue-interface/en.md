@@ -111,6 +111,41 @@ if (queue.offer(item)) {
   ```
 - **FIFO is a convention some implementations choose, not a guarantee `Queue` itself makes** — a `PriorityQueue` implements the same interface but orders elements by priority rather than insertion order, so code that assumes strict first-in-first-out behavior from the `Queue` type alone is assuming more than the interface promises.
 
+## Lab
+
+In this lab you get `TicketCounter`, a fixed-capacity service line, with four empty methods. Your job is to implement them, picking the right `Queue` variant in each case. The core idea is to feel the two parallel method families: the ones that throw when they fail and the ones that report it through a return value (`false` or `null`).
+
+**The scenario**
+
+A line of customers with a size limit.
+
+- `TicketCounter`: holds the line in `line`, an `ArrayBlockingQueue<String>` created with the capacity given to the constructor. `waiting()` (how many are waiting) is already done.
+- `tryEnqueue(customer)`: tries to join the line.
+- `nextInLine()`: peeks at who is next, without removing them.
+- `serveNext()`: serves the next customer and removes them.
+- `serveNextOrNull()`: the same, but without throwing.
+
+Since the queue is bounded, "full" and "empty" are real situations, and the tests exercise both.
+
+**What you will do, step by step**
+
+1. **Join without blowing up (TODO-00).** Use `offer()`, which returns `false` when the line is full instead of throwing `IllegalStateException` like `add()` would.
+2. **Peek at the head (TODO-01).** Use `peek()`, which returns `null` if the line is empty and removes nobody.
+3. **Serve with an exception (TODO-02).** Use `remove()`, which throws `NoSuchElementException` on an empty line. Here an empty line is a caller bug.
+4. **Serve without an exception (TODO-03).** Use `poll()`, which does the same job but returns `null` when nobody is there.
+
+**How you know you are done**
+
+`mvn test` is all green, including the FIFO order (first in, first out). You should be able to say when you prefer each family: an exception when the invalid state is a programming error, a special return value when it is a normal situation.
+
+**Optional challenges**
+
+- **BONUS-00:** implement `drainAll()`, returning a `List<String>` with every remaining customer, in order, emptying the line by polling repeatedly until it is empty.
+
+**Prerequisites:** basic Java syntax and the `Collection` interface. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/queue-interface` and run `mvn test` (from the root: `mvn -pl java-concepts/queue-interface test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Queue — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Queue.html) — doc

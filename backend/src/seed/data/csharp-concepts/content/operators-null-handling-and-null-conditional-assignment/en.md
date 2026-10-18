@@ -218,6 +218,40 @@ non-nullable `string Name` gives CS8625.
 - **`&` and `|` run both sides.** Correct when both side effects must happen,
   surprising everywhere else. Default to `&&` and `||` in conditions.
 
+## Lab
+
+In this lab you get the **stubbed** static class `Operations`, with nine one-line methods that throw `NotImplementedException`, plus ready xUnit tests. Your job is to implement them with the C# null operators (`?.`, `?[]`, `??`, `??=` and the C# 14 null-conditional assignment). The core idea is to feel that these operators are not just sugar: they decide whether the right-hand side even runs, and they come with precedence and `null` comparison traps that turn into silent bugs.
+
+**The scenario**
+
+Small operations over an order model where almost anything can be `null`.
+
+- `Models.cs`: `Customer` (`Name`, `Nickname?`, `Age`), `Order` (with a `Customer?`) and `Button` (with a `Clicked` event).
+- `Operations.cs`: the nine methods to implement, one per TODO.
+- `NullTests.cs`: the tests. Several of them **count how many times the right-hand side runs**: with `customer?.Name = newName()`, the call only happens when `customer` is not `null`. That is how a test proves the short-circuit.
+
+**What you will do, step by step**
+
+1. **Assign only if it exists (TODO-00).** In `Rename`, use `customer?.Name = newName()`. If `customer` is `null`, `newName` does not even run.
+2. **Compound assignment (TODO-01).** In `Birthday`, add one year with a conditional `+=` and return the value of the expression: the new age, or `null` when there is no customer.
+3. **Combine `?.` with `??=` (TODO-02).** In `EnsureNickname`, set the nickname to the fallback only when the customer exists and the nickname is still `null`, in a single statement.
+4. **Chains, events and indexers (TODO-03, TODO-04 and TODO-05).** In `SetCustomerName`, the order and customer chain must stop silently at the first `null`. In `Subscribe`, use `?.` with `+=` on the `Clicked` event. In `Put`, assign through the indexer with `?[]` and make sure `value()` does not run for a null dictionary.
+5. **Defuse the lifted comparison (TODO-06).** In `IsShort`, `numbers?.Length < 2` is `false` for `null`, because comparing a null `int?` is always false. Say what `null` means with `??`, since here a missing array counts as empty.
+6. **Precedence and evaluation (TODO-07 and TODO-08).** In `Total`, `bonus ?? 0 + 10` parses as `bonus ?? (0 + 10)`, so fix it to add 10 to the bonus. In `BothValid`, `&&` would skip the second check: use the eager `&` to run both, as you would when collecting every validation error.
+
+**How you know you are done**
+
+`dotnet test` is all green. Looking at the `calls` counters, you should be able to explain which right-hand side runs and which is skipped in each method, and why `?.Length < 2` and `?? 0 + 10` mislead.
+
+**Optional challenges**
+
+- **TODO-09:** add `BirthdayOf(Func<Customer?> getCustomer)` that adds ten years with `getCustomer()?.Age += 10` and prove the receiver is evaluated only once.
+- **TODO-10:** add `TryRename(Customer?, string)` that uses the assignment as a value (`string? written = customer?.Name = name`) and reports whether anything was written. What is the type of that expression?
+
+**Prerequisites:** nullable reference types and `?.` for reading, events and indexers, and the .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and carries a `TODO-NN` comment with a hint, so red tests are your checklist.
+
 ## Documentation Links
 
 - [What's new in C# 14, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14) (doc)

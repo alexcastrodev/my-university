@@ -214,6 +214,36 @@ um `Process` em um `ProcessHandle` para informações (como
   `redirectErrorStream(true)`, `inheritIO()`, ou consumir os streams em uma
   thread separada evita isso.
 
+## Lab
+
+Neste lab você recebe três classes pequenas com os métodos vazios e deve completá-las para que dois contratos de `java.lang` funcionem de verdade: `Comparable`, que dá a um tipo uma ordem natural, e `AutoCloseable`, que o torna utilizável em try-with-resources. A ideia central é ver que implementar a interface não basta: o contrato (sinal do `compareTo`, `close()` idempotente) é o que faz o resto da plataforma, como `sort` e `try`, funcionar com o seu tipo.
+
+**O cenário**
+
+Valores monetários precisam ser ordenados e conexões de um pool precisam ser fechadas com segurança. O concept cobre também `StackWalker` e `ProcessBuilder`, mas este lab foca nos dois pedaços mais fáceis de testar.
+
+- `Money.java`: guarda uma moeda (`currency`) e um valor em centavos (`amountCents`) e declara `Comparable<Money>`. `equals`, `hashCode` e `toString` já estão prontos.
+- `PooledConnection.java`: declara `AutoCloseable`, tem um `id` e um estado de fechada ou não.
+- `ConnectionUtils.java`: junta os dois, ordenando listas de `Money` e (no desafio) usando uma conexão com garantia de fechamento.
+
+**O que você vai fazer, passo a passo**
+
+1. **Dar ordem natural ao dinheiro (TODO-00).** Em `Money.compareTo()`, compare apenas por `amountCents`, ignorando a moeda neste exercício. Devolva negativo, zero ou positivo como o `Comparable` exige. A dica é `Long.compare(a, b)`, que evita o risco de overflow de uma subtração.
+2. **Implementar o estado da conexão (TODO-01 e TODO-02).** `isClosed()` devolve se a conexão já foi fechada. `close()` marca como fechada e precisa ser seguro chamar duas vezes, sem lançar exceção. Isso importa porque o try-with-resources e o código do chamador podem acabar fechando o mesmo recurso.
+3. **Ordenar sem mutar (TODO-03).** Em `ConnectionUtils.sortedByAmount()`, devolva uma lista NOVA com os mesmos objetos `Money` em ordem crescente pela ordem natural, sem alterar a lista recebida.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `compareTo` e `equals` aqui são diferentes (um ignora a moeda, o outro não) e por que fechar duas vezes não pode falhar.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `ConnectionUtils.openAndUse()` com try-with-resources: pegue a conexão do `Supplier`, passe ao `Consumer` e garanta que ela seja fechada mesmo se a ação lançar.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com generics.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/java-lang-essential-utility-types` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/java-lang-essential-utility-types test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` e trazem um comentário `TODO-NN`, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Comparable — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html) — doc

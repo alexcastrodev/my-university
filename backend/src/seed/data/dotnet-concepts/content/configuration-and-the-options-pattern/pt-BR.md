@@ -157,6 +157,37 @@ carrega credenciais; uma de PostgreSQL com senha não pode.
   cofre para credenciais de alto valor, já que aparecem em listagens de
   processos e em crash dumps em algumas plataformas.
 
+## Lab
+
+Neste lab você recebe uma biblioteca com três pontos vazios de configuração: montar o `IConfiguration` a partir de várias fontes, ler uma connection string obrigatória com segurança e ligar uma seção a uma classe de opções tipada validada na inicialização. O seu trabalho é implementar os três. A ideia central é sentir que a configuração é uma pilha de fontes em que a última vence, e que uma configuração faltando ou fora da faixa deve derrubar a aplicação no startup, e não na primeira vez que alguém usar o valor.
+
+**O cenário**
+
+`AppConfiguration.Build` deve se comportar como `WebApplication.CreateBuilder`: um arquivo base, um arquivo opcional de ambiente, variáveis de ambiente e a linha de comando, cada um sobrescrevendo o anterior. Os testes montam a configuração a partir de streams JSON em memória e sobem um host de verdade, então a falha acontece onde aconteceria em produção.
+
+- `AppConfiguration.cs`: `Build(baseJson, environmentJson, args)`, a constante de prefixo `GSLAB_` das variáveis de ambiente e a extensão `GetRequiredConnectionString`.
+- `StoreOptions.cs`: a classe de opções da seção `Store`, com `Name` obrigatório e `PageSize` de 1 a 100 (padrão 20).
+- `StoreOptionsRegistration.cs`: o método `AddStoreOptions`, ainda vazio.
+
+**O que você vai fazer, passo a passo**
+
+1. **Montar as fontes na ordem certa (TODO-00).** Em `Build`, adicione, em precedência crescente: o JSON base, o JSON de ambiente (quando não for nulo), as variáveis de ambiente com o prefixo `GSLAB_` e os argumentos de linha de comando. Uma fonte posterior sobrescreve uma anterior para a mesma chave.
+2. **Falhar com uma mensagem útil (TODO-01).** Em `GetRequiredConnectionString`, devolva a connection string pelo nome e, se faltar, lance `InvalidOperationException` com uma mensagem que contenha o nome, em vez de devolver `null`.
+3. **Registrar as opções com validação no startup (TODO-02).** Em `AddStoreOptions`, registre `StoreOptions` ligado à seção `Store`, valide as data annotations e faça a checagem rodar quando o host inicia (não no primeiro uso). Assim um `Name` ausente ou um `PageSize` de 500 impede o host de subir, com `OptionsValidationException`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar a ordem de precedência das quatro fontes, por que o `PageSize` volta ao padrão 20 quando a chave não existe e por que validar no startup é melhor do que descobrir o erro em tempo de requisição.
+
+**Desafios opcionais**
+
+- **TODO-03:** imprima `((IConfigurationRoot)configuration).GetDebugView()` num teste e descubra qual provider forneceu cada chave.
+- **TODO-04:** troque `IOptions<StoreOptions>` por `IOptionsMonitor<StoreOptions>` num teste e mude a fonte em memória. O que cada interface devolve depois?
+
+**Pré-requisitos:** noções de `IConfiguration` e JSON, injeção de dependência (`IServiceCollection`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os métodos lançam `NotImplementedException` e os testes falham, com os TODOs marcados em comentário em cada arquivo.
+
 ## Documentation Links
 
 - [Configuration in ASP.NET Core, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/) (doc)

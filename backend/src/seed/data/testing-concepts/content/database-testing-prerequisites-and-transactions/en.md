@@ -98,6 +98,40 @@ Reusing one `EntityManager`/session across a test's arrange, act, and assert sec
 - **State-based schema delivery is a legitimate, temporary choice pre-launch** — the data-motion argument against it only bites once there's real production data that can't simply be regenerated; picking migrations from day one on a pre-launch project is optional rigor, not a hard requirement yet.
 - **Separate transactions per test section cost real test execution time** compared to one shared session — accept that cost deliberately, since the alternative (a passing test that doesn't match production behavior) is a false positive, one of the most expensive kinds of test failure to eventually track down.
 
+## Lab
+
+In this lab you get `TransferService` **already built and working** and two test classes with methods that fail on purpose. Your job is to prove that the transaction boundary really works, and to understand why the way you write the *test* decides whether that proof is real or a coincidence. The core idea: a NON-`@Transactional` test class lets `transfer()` run in its own real transaction, and a `@Transactional` class gets an automatic rollback of every test, with no manual cleanup.
+
+**The scenario**
+
+Moving money between accounts as a single atomic operation.
+
+- `Account`: an entity with `owner` (unique), `balanceCents` and `closed`. `debit` and `credit` change the balance.
+- `AccountRepository`: a JPA repository with `findByOwner`, which returns an `Optional`.
+- `TransferService.transfer(from, to, amountCents)`: a `@Transactional` method that debits the source and then throws `IllegalStateException` if the destination account is closed. The exception must undo the debit.
+- `TransferServiceTest` (`@SpringBootTest`, not `@Transactional`) and `TransactionRollbackTest` (`@SpringBootTest` with `@Transactional` on the class) are the tests to complete.
+
+Read the class comment of `TransferServiceTest`. If it were transactional, `transfer()` (propagation `REQUIRED`) would join the test's transaction instead of opening its own, and re-reading the balance inside the same test could still see the debit that was not rolled back yet. The test would pass or fail for the wrong reason. The cost of keeping the class non-transactional is manual cleanup: `tearDown()` already calls `deleteAll()`.
+
+**What you will do, step by step**
+
+1. **Prove the rollback (TODO-00).** In `TransferServiceTest`, call `transferService.transfer(checkingId, closedId, 5_000)` and check that it throws `IllegalStateException`. Then reload the checking account with `accountRepository.findById(checkingId)` and check that the balance is still 10_000: the debit made earlier in the same call was undone with everything else.
+2. **Prove the commit (TODO-01).** Save an open destination account (for example `new Account("Savings", 0, false)`), transfer 3_000 and check that it does not throw. Reload both accounts: checking must have 7_000 and the destination 3_000.
+3. **A row visible in its own test (TODO-02).** In `TransactionRollbackTest`, save an `Account` with owner "Temp Rollback Check" and check that `findByOwner("Temp Rollback Check")` is present.
+4. **A row that does not leak (TODO-03).** In another test, check that `findByOwner("Temp Rollback Check")` is EMPTY. Nobody deleted anything: the previous test's transaction was rolled back on its own, and this holds whichever order JUnit runs the two in.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why `TransferServiceTest` needs `tearDown()` and `TransactionRollbackTest` does not, and what would change in the rollback test if you put `@Transactional` on the first class.
+
+**Optional challenges**
+
+- **TODO-04:** in `TransactionRollbackTest`, save an `Account` with owner "Temp Commit Check", use `TestTransaction.flagForCommit()` and `TestTransaction.end()` to force a real commit mid-test and check that the row survived. Then delete it yourself, because the automatic rollback no longer applies to it.
+
+**Prerequisites:** the `testing-jpa-hibernate` lab (or equivalent Spring Data JPA and `@Transactional` background) and reading `Account`, `AccountRepository` and `TransferService` in `src/main/java`.
+
+**How to run it:** clone the repository, go into `testing-concepts/database-testing-prerequisites-and-transactions` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/database-testing-prerequisites-and-transactions test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, "Unit Testing Principles, Practices, and Patterns" (Manning, 2020) — Chapter 10 "Testing the database", Sections 10.1-10.2, pp. 230-243 — book

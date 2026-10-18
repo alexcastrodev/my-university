@@ -239,6 +239,37 @@ existe) é idêntico nos dois casos, então o método não distingue os dois.
   capacidade que não existia na versão do Spring 5/Spring Boot 2 do
   framework.
 
+## Lab
+
+Neste lab você recebe um `BookController` com os três handlers vazios, guardando livros em memória. Seu trabalho é implementá-los para que cada resposta carregue o status HTTP e o corpo certos. A ideia central é por que `ResponseEntity` importa: devolver `null` ou um objeto simples sempre responde `200 OK`, mesmo quando o recurso não existe.
+
+**O cenário**
+
+Uma API JSON de livros, sem banco, só um mapa em memória.
+
+- `Book`: um `record` com `id`, `title` e `author`.
+- `BookController`: `@RestController` em `/books`, com um `ConcurrentHashMap<Long, Book>` e um `AtomicLong nextId` que começa em 1. Tem `createBook` (`POST`), `getBook` (`GET /{id}`) e `getAllBooks` (`GET`), todos lançando `UnsupportedOperationException`.
+- `RestApiApplication`: a classe `@SpringBootApplication`.
+- `BookControllerTest`: `@WebMvcTest` com `MockMvc`, uma fatia que carrega só a camada web, sem banco nem contexto completo.
+
+**O que você vai fazer, passo a passo**
+
+1. **Criar (TODO-00).** Em `createBook`, pegue um id com `nextId.getAndIncrement()`, guarde no mapa um novo `Book` com esse id e o título e autor recebidos, e devolva o livro guardado. A anotação `@ResponseStatus(HttpStatus.CREATED)` já cuida do 201.
+2. **Buscar um (TODO-01).** Em `getBook`, devolva `ResponseEntity.ok(book)` quando o id existir e um 404 sem corpo (`ResponseEntity.notFound().build()`) quando não existir. Nunca devolva um `Book` nulo: o teste exige um 404 de verdade com corpo vazio.
+3. **Listar (TODO-02).** Em `getAllBooks`, devolva os valores do mapa como uma `List`.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar o que o Spring responderia para um id inexistente se `getBook` devolvesse `null` direto (um `200` com corpo vazio) e por que `ResponseEntity` dá controle sobre o status.
+
+**Desafios opcionais**
+
+- **TODO-03:** adicione `DELETE /books/{id}` devolvendo `204 No Content`, existindo o id ou não. Não há teste pronto, então teste na mão ou escreva um.
+
+**Pré-requisitos:** Spring MVC básico (`@Controller`, anotações de mapeamento), códigos HTTP (`200`, `201`, `404`) e JSON (o lab usa o Jackson padrão do Spring Boot).
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-boot-rest-controllers` e rode `mvn test`. Os testes falham com `UnsupportedOperationException` até você implementar os handlers.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 6, "Creating REST services", section 6.1, p. 138-149 — doc

@@ -83,6 +83,39 @@ A lista ligada extra só muda a ordem de *iteração* — `add`/`contains`/`remo
 - **O controle da lista ligada custa um pouco de memória extra por entrada** comparado a um `HashSet` puro, em troca da garantia de ordenação — pague esse custo só quando a ordem realmente for usada.
 - **Continua sem ordem ordenada** — o `LinkedHashSet` preserva a ordem de inserção, não a ordem crescente; use `TreeSet` quando os próprios elementos precisarem ditar a ordem.
 
+## Lab
+
+Neste lab você recebe a classe `RecentSearches` e implementa um histórico de buscas com capacidade máxima, sem repetições e em ordem de inserção, usando `LinkedHashSet`. O ponto central é remover a entrada mais antiga manualmente pelo `Iterator`, a técnica clássica que funciona em qualquer versão do JDK, e perceber que re-adicionar um elemento já presente em um `Set` não faz nada, nem muda a posição dele.
+
+**O cenário**
+
+Uma caixa de busca guarda as últimas consultas digitadas, até um limite. Cada consulta aparece no máximo uma vez, e o histórico é lido da mais antiga para a mais nova.
+
+- `RecentSearches.java`: guarda `searches` (um `LinkedHashSet<String>`) e a `capacity` recebida no construtor. Você implementa gravar, listar e consultar.
+
+Duas regras guiam o comportamento:
+
+- **Buscar de novo uma consulta já registrada NÃO a move.** `Set.add()` em um elemento que já existe é um no-op: não reinsere e não reordena. A consulta mantém a posição da primeira vez.
+- **Uma consulta realmente nova, com o histórico cheio, expulsa a mais antiga.** O iterador do `LinkedHashSet` percorre do mais antigo para o mais novo, então o primeiro elemento dele é sempre o candidato à remoção.
+
+**O que você vai fazer, passo a passo**
+
+1. **Gravar com limite (TODO-00).** Em `record()`, se a consulta já está presente, não faça nada. Se é nova e adicioná-la passaria de `capacity`, primeiro obtenha o iterador, avance uma vez e chame `Iterator.remove()` para expulsar a mais antiga. Depois adicione a nova.
+2. **Listar em ordem (TODO-01).** Em `history()`, devolva as buscas em ordem de inserção, da mais antiga para a mais nova, como uma `List` nova.
+3. **Consultar (TODO-02).** Em `hasSearched()`, devolva se a consulta está registrada e ainda não foi expulsa.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que repetir uma busca não a "renova" neste histórico e por que o primeiro elemento do iterador é o certo para expulsar.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `mostRecent()`, devolvendo a busca adicionada mais recentemente que ainda está presente, ou `null` quando nada foi registrado.
+
+**Pré-requisitos:** sintaxe básica de Java, a interface `Set` e `Iterator`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/linked-hash-set` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/linked-hash-set test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 591–592 — book

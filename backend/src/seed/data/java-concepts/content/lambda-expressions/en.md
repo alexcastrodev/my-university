@@ -177,6 +177,40 @@ run(() -> System.out.println("hi"));   // compile error: reference to run is amb
   ```
 - **A lambda is harder to debug than a named method.** Stack traces show a synthetic frame name like `lambda$main$0` instead of a descriptive method name, and several lambdas on the same source line give a debugger nothing to distinguish them by — extracting a non-trivial lambda body into a named method (and referencing it with `::`) often pays for itself the first time it needs a breakpoint.
 
+## Lab
+
+In this lab you get `TextPipeline`, which processes lists of text lines, with empty methods. Your job is to implement them. The core idea is to pass behavior as data: instead of hardcoding what to keep or how to rewrite each line, the class receives a `Predicate<String>` and a `Function<String, String>`, and you learn to compose small functions into bigger ones instead of writing one huge conditional or loop.
+
+**The scenario**
+
+A text pipeline whose behavior comes from outside.
+
+- `filter(lines, predicate)`: keeps only the lines that satisfy the predicate.
+- `transform(lines, transformer)`: applies a function to each line.
+- `containsAndLongerThan(needle, minLength)`: returns a single composed predicate.
+- `countBlankLines(lines)`: counts blank lines.
+- `trimThenUpper()`: returns a composed function (optional).
+
+The tests cover preserved order, the case where no line satisfies the predicate and whitespace-only lines.
+
+**What you will do, step by step**
+
+1. **Filter and transform (TODO-00 and TODO-01).** Walk the lines preserving order: in `filter()`, keep only those that pass the predicate; in `transform()`, apply the function to each one and gather the results in a new list.
+2. **Compose predicates (TODO-02).** Build two small predicates (the line contains `needle`; the length is at least `minLength`) and combine them with `Predicate.and()`. The result is one `Predicate<String>` that requires both conditions.
+3. **Count blanks with a method reference (TODO-03).** Use `String::isBlank` to count the blank lines. `isBlank()` treats a whitespace-only line as blank, which is what the test checks.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain the difference between writing the predicate as a lambda and as a method reference, and show how `and()` avoids a nested `if`.
+
+**Optional challenges**
+
+- **TODO-04:** implement `trimThenUpper()`, returning a single `Function<String, String>` that composes `String::trim` and `String::toUpperCase` with `Function.andThen()`.
+
+**Prerequisites:** basic Java syntax, generics and interfaces. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/lambda-expressions` and run `mvn test` (from the root: `mvn -pl java-concepts/lambda-expressions test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [java.util.function — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/package-summary.html) — doc

@@ -334,18 +334,40 @@ Uma mudança que deixa tudo verde é um teste faltando. A marcação
 
 ## Lab
 
-O módulo de pedidos do lab de Domain Events já está implementado. Sua tarefa é escrever os testes MSTest que provam que ele funciona e aprender onde um teste precisa fazer o assert para o resultado significar algo.
+Neste lab você recebe o módulo de pedidos do lab de Domain Events **pronto e funcionando**. Não há código de produção para escrever: o seu trabalho é escrever os testes MSTest que provam que ele funciona. A ideia central é sentir que, em eventos de domínio, um teste só prova algo se o assert estiver no lugar certo. Ler o resultado pelo mesmo `DbContext` que acabou de falhar pode passar pelo motivo errado, então você vai ler o estado commitado por um contexto novo.
 
-**O que você vai praticar**
+**O cenário**
 
-- Testar o agregado isolado, com `FakeTimeProvider` para os timestamps.
-- Testar o interceptor de `SaveChanges` contra um pipeline real do EF Core.
-- Provar que a linha do outbox é gravada junto com o pedido, e que nenhum dos dois existe depois de um save que falha.
-- Provar que um consumidor sobrevive a entrega duplicada.
+Um pedido é feito, levanta um evento, o evento é tratado dentro da mesma transação e um consumidor reage depois do commit.
 
-**Pré-requisitos:** o concept e o lab de Domain Events and Consistency Boundaries, MSTest básico, .NET 10 SDK.
+- `Model.cs`: `Order.Place(customerId, total, clock)` rejeita total não positivo e levanta `OrderPlaced`. `Customer.AwardPoints` soma pontos.
+- `Dispatching.cs`: `DomainEventDispatcher` e `DomainEventsInterceptor`, que despacha os eventos em `SavingChangesAsync` (antes do commit) e limpa os eventos do agregado.
+- `Handlers.cs`: `OrderPlacedHandler` grava uma linha no outbox na mesma transação. `LoyaltyConsumer` roda depois do commit, em contexto próprio, e usa uma tabela de inbox (`ProcessedMessage`) para ignorar mensagens repetidas.
+- `tests/Ordering.Tests/TestDatabase.cs`: SQLite em memória com uma conexão por teste. `NewContext(dispatcher)` cria contextos com o interceptor e `Plain()` cria um sem handlers, para reler o que foi commitado.
 
-**Como funciona:** cada método de teste já está declarado com uma dica e falha com `TODO-NN: write this test` até você escrevê-lo. Alguns testes só provam algo se o assert estiver no lugar certo, por exemplo não pelo mesmo `DbContext` que acabou de falhar. Os TODOs opcionais pedem para mutar o código de produção e conferir se a sua suíte percebe.
+Repare em `MSTestSettings.cs`: os testes rodam em paralelo. Cada teste ganha uma instância nova da classe, então campos de instância são seguros e campos `static` não são.
+
+**O que você vai fazer, passo a passo**
+
+1. **Testar o agregado puro (TODO-00).** Em `OrderAggregateTests`, confira o único `OrderPlaced` levantado (id, cliente e total), o horário usando um `FakeTimeProvider` e a rejeição de totais inválidos com `[DataRow]` para 0 e -5. Cuidado: `Assert.ThrowsExactly<T>` exige exatamente o tipo `T`, não um derivado.
+2. **Completar os fakes (TODO-01).** Em `TestDoubles.cs`, faça o `RecordingHandler` guardar cada `OrderPlaced` recebido numa lista legível pelos testes, e o `ExplodingHandler` lançar `InvalidOperationException`, como um serviço de fidelidade fora do ar.
+3. **Isolar o banco por teste (TODO-02).** Em `DomainEventsInterceptorTests`, guarde um `TestDatabase` num campo `readonly` e descarte-o ao fim (`IDisposable`). `OutboxTests` já faz assim.
+4. **Testar o interceptor (TODO-03).** Registre um `RecordingHandler`, salve um pedido e veja o que o handler recebeu. Salve duas vezes e prove que o evento é despachado uma só vez e que o agregado fica sem eventos. Com um handler que lança, prove o rollback lendo por `TestDatabase.Plain`.
+5. **Testar o outbox (TODO-04).** Depois de um save com sucesso, deve existir um pedido e uma linha de outbox. Registre `OrderPlacedHandler` e depois `ExplodingHandler`, para a linha do outbox ser adicionada antes da falha, e prove que nem pedido nem linha chegaram ao banco.
+6. **Testar o consumidor (TODO-05).** Chame o `LoyaltyConsumer` direto, sem worker nem `Thread.Sleep`. Confira que os pontos são dados na transação própria, que a mesma mensagem entregue duas vezes dá pontos uma vez só (com uma linha de inbox), e que mensagens diferentes do mesmo cliente se acumulam. Passe o `CancellationToken` do `TestContext` em vez de `CancellationToken.None`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você consegue explicar por que cada assert de banco usa um contexto novo e por que o despacho antes do commit faz o rollback levar junto a linha do outbox.
+
+**Desafios opcionais**
+
+- **TODO-06:** rode só os testes de integração com `dotnet test --filter "TestCategory=Integration"` e o resto com `--filter "TestCategory!=Integration"`.
+- **TODO-07:** teste de mutação. Remova o `ClearDomainEvents` do interceptor, mova o despacho para `SavedChangesAsync` e faça o `LoyaltyConsumer` pular a checagem do inbox. Cada mudança deve deixar ao menos um teste vermelho, senão falta um teste.
+
+**Pré-requisitos:** o concept e o lab de Domain Events and Consistency Boundaries, MSTest básico (`[TestClass]`, `[TestMethod]`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método de teste já está declarado com uma dica no comentário e falha com `TODO-NN: write this test` até você escrevê-lo, então a lista de testes vermelhos é o seu checklist.
 
 ## Documentation Links
 

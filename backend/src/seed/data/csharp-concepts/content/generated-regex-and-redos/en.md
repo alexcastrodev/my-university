@@ -199,6 +199,41 @@ lookaround or backreferences. Also cap the input length before you match: a
   Regex.IsMatch("aab", @"a+ab");       // True
   ```
 
+## Lab
+
+In this lab you get `Patterns` with four regexes (three still unimplemented, one built the old way) and `InputValidator`, which validates untrusted text against the vulnerable pattern `^(a+)+$`. Your job is to declare the regexes with `[GeneratedRegex]`, see when the generator falls back to a plain `Regex` and defend the validator against catastrophic backtracking (ReDoS) with a timeout, a safer pattern and an input length cap. The core idea is that a timeout is a safety net, not the fix.
+
+**The scenario**
+
+A hostile 41 character input (`aaaa...!`) must not pin a CPU core. The tests never rely on slow runs: only on the timeout firing or on the fixed pattern answering at once.
+
+- `Patterns.cs`, `Date()`: must capture the named groups `y`, `m` and `d` from text like `2025-11-11`.
+- `Patterns.cs`, `Legacy()`: the vulnerable `^(a+)+$` pattern with a 200 ms timeout, currently created with `new Regex`.
+- `Patterns.cs`, `Safe()` and `Linear()`: the two defenses, a rewritten pattern and the same text on the non-backtracking engine.
+- `InputValidator.cs`: `Check`, which returns `Valid`, `Invalid`, `TooLong` or `TimedOut`, with `MaxLength = 2048`.
+
+**What you will do, step by step**
+
+1. **Generate the date regex (TODO-00).** Turn `Date()` into a `partial` method with `[GeneratedRegex]` (the class is already `partial`), with the groups `y`, `m` and `d`. The generator returns the same cached instance and a type derived from `Regex`.
+2. **Generate the vulnerable pattern and keep the timeout (TODO-01).** Make `Legacy()` generated, preserving the 200 ms. With the hostile input it must throw `RegexMatchTimeoutException`.
+3. **Write a safe pattern (TODO-02).** Rewrite the pattern to accept exactly the same strings as `Legacy()` but without catastrophic backtracking, generated with a 1000 ms timeout (a safety net, not the fix).
+4. **Switch engines (TODO-03).** Keep the `Legacy` pattern text, but run it on the non-backtracking engine and generate the method. Then check what type the generator actually gave you.
+5. **Protect the validator (TODO-04 and TODO-05).** In `InputValidator.Check`, reject input longer than `MaxLength` first, before running any regex. Then match with `Patterns.Legacy()` and turn `RegexMatchTimeoutException` into `ValidationResult.TimedOut` instead of letting it escape.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `Safe()` and `Linear()` accept the hostile input without a timeout and which type `Linear()` returns (and what that says about what the generator can do).
+
+**Optional challenges**
+
+- **TODO-06:** add a get-only `partial Regex DateProp { get; }` with the same pattern as `Date()` (partial properties, C# 13).
+- **TODO-07:** add `Patterns.CountDates(string text)` using `Regex.Count` on `Date()`.
+- **TODO-08:** add an `.editorconfig` that raises `SYSLIB1045` to a warning, then write a `new Regex("\\d+")` call and read the build output.
+
+**Prerequisites:** basic `System.Text.RegularExpressions`, C# `partial` methods and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Methods not yet implemented throw `NotImplementedException` and the `TODO-NN` comments say what to do, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [.NET regular expression source generators, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-source-generators) (doc)

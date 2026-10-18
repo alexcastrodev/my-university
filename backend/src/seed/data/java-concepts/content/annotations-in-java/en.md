@@ -196,6 +196,38 @@ public void oldMethod() { }
 - **A repeated annotation's container type is a separate declaration you must maintain in lockstep** — renaming or re-scoping the repeatable annotation without updating its `@Repeatable`-referenced container breaks compilation, not just at the use site but at the declaration itself.
 - **Annotation values must be compile-time constants** (primitives, `String`, `Class` literals, enum constants, or arrays/annotations of those) — there's no way to pass a runtime-computed value, which pushes any dynamic configuration out of the annotation and into whatever reads it.
 
+## Lab
+
+In this lab you get the `@Important` annotation and a sample class already written, and you implement `AuditScanner`, which discovers through reflection which methods of a class carry that annotation. The goal is to feel in practice what makes an annotation useful at run time: the `RUNTIME` retention policy lets the marker survive into the JVM, and reflection reads it back to drive behavior, the same idea JUnit and Spring use to find `@Test` and `@Transactional`.
+
+**The scenario**
+
+An auditor needs to list, justify and count the critical methods of a service, without anyone maintaining that list by hand.
+
+- `Important.java`: the annotation, declared with `@Retention(RetentionPolicy.RUNTIME)` and `@Target(ElementType.METHOD)`, with a `value()` that defaults to the empty string. Already written.
+- `SampleService.java`: the fixture class. Three of its four methods have `@Important`, and one of them (`validateState`) gives no value. Also already written.
+- `AuditScanner.java`: the class you implement. It takes any `Class<?>` and inspects its declared methods.
+
+Note that `Class.getDeclaredMethods()` makes no ordering guarantee. That is why the tests compare sets of names and the size, not a list in declaration order.
+
+**What you will do, step by step**
+
+1. **List the annotated methods (TODO-00).** In `findImportantMethods()`, walk the type's declared methods and return the name of each one where `Method.isAnnotationPresent(Important.class)` is true. The unannotated method (`logHeartbeat`) must not show up.
+2. **Read the reason (TODO-01).** In `reasonFor()`, find the method by name and return the `value()` of the annotation obtained with `Method.getAnnotation(Important.class)`. When the annotation carries no value, the result is the default empty string. If the method exists but is not annotated, or does not exist at all, throw `NoSuchElementException(methodName)`.
+3. **Count (TODO-02).** In `countImportant()`, return how many declared methods have `@Important`. You can reuse the logic from step 1.
+
+**How you know you are done**
+
+`mvn test` is all green. A good sign of understanding: you can explain what would change if the annotation were declared without `@Retention(RUNTIME)` (reflection would no longer see it) and why the tests do not depend on the order of `getDeclaredMethods()`.
+
+**Optional challenges**
+
+- **TODO-03:** implement `findImportantMethodsSorted()`, returning the same names as `findImportantMethods()` in alphabetical order.
+
+**Prerequisites:** basic Java syntax and familiarity with `java.lang.reflect.Method`.
+
+**How to run it:** clone the repository, go into `java-concepts/annotations-in-java` and run `mvn test` (or, from the root, `mvn -pl java-concepts/annotations-in-java test`). Every `AuditScanner` method starts by throwing `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` hint comment, so the list of red tests is your checklist.
+
 ## Documentation Links
 
 - [java.lang.annotation package — Java SE API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/package-summary.html) — doc

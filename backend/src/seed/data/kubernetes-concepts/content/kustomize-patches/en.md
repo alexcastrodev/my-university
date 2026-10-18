@@ -135,6 +135,44 @@ A strategic merge patch used with a `target` is applied to every match; its own 
 - **Targeted patches vs per-resource patches.** Targets remove duplication across many resources; they also make it less obvious, from the resource's point of view, what modified it.
 - **Patching vs parameterising the base.** Many patches for the same field in every overlay signal that the base should expose it differently (a generator value, a replacement, or a component).
 
+## Lab
+
+In this lab you get a production overlay with three faulty patches: one breaks the build, one silently drops configuration and one misses Deployments it should cover. Your job is to fix all three, editing only the files under `overlays/production`. The core idea is to feel when to use each kind of patch: JSON 6902 is precise but depends on paths that exist, and strategic merge combines lists by key (like `env` by `name`) but replaces lists with no merge key (like `envFrom`).
+
+**The scenario**
+
+The base has three Deployments, all reading the `app-config` ConfigMap through `envFrom`: `web` (label `role: web`, with an `env` list) and two workers, `worker` and `worker-emails` (label `role: worker`, no `env` list). The tests build and apply the overlay on a real k3s started by Testcontainers and inspect the resulting Deployments. The overlay must:
+
+- add `TZ=UTC` to every Deployment, without losing `web`'s own `PORT`;
+- give `worker` the `worker-secrets` Secret in addition to `app-config`;
+- run every worker with 3 replicas, while `web` keeps 2.
+
+The files:
+
+- `overlays/production/kustomization.yaml`: the patches, with a `TODO` comment on each.
+- `overlays/production/worker-secrets-patch.yaml`: the strategic merge patch for `worker`.
+- `overlays/production/worker-secrets.yaml`: the `worker-secrets` Secret. Given.
+- `base/`: the three Deployments and the `app-config` `configMapGenerator`. Do not touch.
+
+**What you will do, step by step**
+
+1. **Build the overlay and read the error.** See the result with `kubectl kustomize src/main/resources/kustomize/overlays/production`. Today the build fails with `doc is missing path`.
+2. **Fix the timezone patch (TODO-00).** The JSON 6902 patch appends to the end of the `env` list, which only `web` has, so the whole build fails. Rewrite it as a strategic merge, which combines `env` by `name`, so it works with and without an `env` list, without adding an `env` list to the base.
+3. **Do not lose `app-config` in the worker (TODO-01).** `envFrom` has no merge key, so strategic merge replaces the whole list and the patch drops the ConfigMap reference. Adjust the patch to keep both sources.
+4. **Select the workers by label (TODO-02).** The replicas patch picks the Deployment by name, so `worker-emails` is left out. Select by the label `role=worker` so it also covers workers added to the base later.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kustomize-patches test` passes `overlayBuilds`, `everyDeploymentGetsTimezone`, `workerKeepsSharedConfigAndGetsItsSecret` and `everyWorkerHasThreeReplicas`. You should be able to explain why each patch failed and how JSON 6902 and strategic merge treat lists differently.
+
+**Optional challenges**
+
+- **TODO-03:** remove `web`'s liveness probe (add one to the base first) with a strategic merge patch using `$patch: delete`, then with a JSON 6902 `remove` operation. Which one breaks if the base's container order changes?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container), Java and Maven, and the article Kustomize Patches: Strategic Merge vs JSON 6902.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/kustomize-patches test`. To see the rendered YAML while you work, use `kubectl kustomize src/main/resources/kustomize/overlays/production`. The `TODO-00`, `TODO-01` and `TODO-02` comments mark what is left.
+
 ## Documentation Links
 
 - [Kustomize reference: patches](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/): formats, targets, inline and file patches.

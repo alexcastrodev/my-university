@@ -272,6 +272,39 @@ lançam exceção por padrão.
   Confiar no construtor de um record como validação exige
   `RespectRequiredConstructorParameters`, ou `Strict`.
 
+## Lab
+
+Neste lab você recebe `JsonCodec`, um wrapper em volta de `JsonSerializer` com os métodos `Write`, `Read`, `ReadStrict`, `ReadConfig`, `WriteForJavaScript` e `ReadFromJavaScript` **já prontos**, mas com as quatro instâncias de `JsonSerializerOptions` vazias e a hierarquia `Shape` sem anotações. O seu trabalho é montar os conjuntos de opções que uma aplicação real precisa e ver como cada configuração muda o que é escrito, o que é aceito e o que falha alto. Os padrões do `System.Text.Json` são tolerantes na leitura e silenciosos na perda, então a maioria dos testes confere que um payload ruim agora lança exceção ou que um nome agora casa.
+
+**O cenário**
+
+Quatro conjuntos de opções compartilhados: o do dia a dia, um estrito para contratos, um tolerante para arquivos de configuração e um para clientes JavaScript.
+
+- `JsonCodec.cs`: `Options`, `StrictOptions`, `ConfigOptions` e `JavaScriptOptions` (todos `new()` por enquanto) e os métodos wrapper.
+- `Models.cs`: `Order` (com `Status` e uma `Note` anulável), `Person`, `Ledger` (um `long` e um `decimal`) e a hierarquia `Shape`, `Circle`, `Square`.
+
+As opções devem ser construídas **uma vez só** e reaproveitadas: criar um conversor ou um `JsonSerializerOptions` por chamada é caro.
+
+**O que você vai fazer, passo a passo**
+
+1. **Montar as opções do dia a dia (TODO-00).** Parta de `JsonSerializerDefaults.Web` (nomes em camelCase, leitura sem diferenciar caixa, números entre aspas aceitos). Por cima, omita propriedades nulas ao escrever e escreva enums como strings em camelCase, rejeitando números de enum na leitura (`JsonStringEnumConverter` com `allowIntegerValues: false`). Crie o conversor uma vez.
+2. **Usar o preset estrito do .NET 10 (TODO-01).** Aponte `StrictOptions` para o preset estrito: membros não mapeados, propriedades duplicadas e argumentos de construtor ausentes devem todos falhar.
+3. **Fazer a hierarquia ir e voltar (TODO-02).** Anote `Shape` com `[JsonPolymorphic]` e `[JsonDerivedType]` para `Circle` e `Square`, com os discriminadores `"circle"` e `"square"` e a propriedade de discriminador chamada `"kind"`. Um discriminador desconhecido deve falhar.
+4. **Aceitar arquivos de configuração (TODO-03).** Derive `ConfigOptions` de `Options` com o construtor de cópia, pulando comentários e permitindo vírgulas finais.
+5. **Servir clientes JavaScript (TODO-04).** O JavaScript perde precisão acima de 2^53. Derive `JavaScriptOptions` de `Options`, escreva números como strings e continue aceitando números entre aspas na leitura.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o mesmo payload com nomes em outra caixa é aceito por `Options` e por que um membro extra só falha com `StrictOptions`, e por que o discriminador sai primeiro quando o tipo estático é a base.
+
+**Desafios opcionais**
+
+- **TODO-05:** meça `JsonSerializer.Serialize` 20.000 vezes com uma instância compartilhada de opções e com um `new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } }` por chamada. Compare tempo e bytes alocados.
+
+**Pré-requisitos:** records e atributos em C#, noções de JSON e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os comentários `TODO-NN` ficam sobre cada opção e sobre `Shape`, e os testes vermelhos mostram o que ainda falta.
+
 ## Documentation Links
 
 - [How to instantiate JsonSerializerOptions, reuse and Web defaults, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/configure-options) (doc)

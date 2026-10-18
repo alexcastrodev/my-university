@@ -168,6 +168,39 @@ erro da API com um único parser.
   devolver `200` para um erro. `TypedResults` e testes que verificam o status
   code são o que mantém o contrato honesto.
 
+## Lab
+
+Neste lab você recebe uma API CRUD de jogos em memória que compila, mas em que todo handler responde `200 OK`, até para um jogo que não existe. O seu trabalho é corrigir cada endpoint para que um cliente HTTP genérico, um proxy que refaz tentativas e um front end possam confiar na resposta. A ideia central é sentir os status codes que os clientes REST esperam: `404` para recurso ausente, `201` com `Location` na criação, `204` em update e delete, e um `DELETE` idempotente.
+
+**O cenário**
+
+Os testes descrevem o contrato, então vale ler os nomes deles primeiro. Eles usam `WebApplicationFactory<Program>` e criam jogos pela própria API.
+
+- `GameStore.cs`: o store em memória (`All`, `Find`, `Add`, `Replace` que devolve `false` se o id não existe, e `Remove`) e os records `Game`, `CreateGameDto` e `UpdateGameDto`.
+- `GamesEndpoints.cs`: o grupo `/games` com GET lista, GET por id, POST, PUT e DELETE, todos devolvendo 200 hoje, e a constante `GetGameEndpointName`.
+- `Program.cs`: registra o store e chama `MapGamesEndpoints`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Responder 404 para o que não existe (TODO-00).** Em `GET /games/{id}`, devolva `404 Not Found` quando o jogo não existe, e `200` com o jogo quando existe.
+2. **Criar com 201 e Location (TODO-01).** Dê ao GET por id o nome de rota `GetGameEndpointName` e faça o `POST /games` responder `201 Created` com `CreatedAtRoute`, apontando o header `Location` para o novo jogo e devolvendo-o no corpo. O cliente deve conseguir seguir o `Location`. Repare que enviar o mesmo POST duas vezes cria dois jogos: o POST não é idempotente.
+3. **Atualizar com 404 ou 204 (TODO-02).** Em `PUT /games/{id}`, devolva `404` para um id desconhecido e `204 No Content` depois de substituir o jogo. Repare que o mesmo PUT repetido deixa o mesmo estado: o PUT é idempotente.
+4. **Apagar sempre com 204 (TODO-03).** Em `DELETE /games/{id}`, devolva `204 No Content` toda vez, inclusive quando o jogo já tinha sumido. É isso que torna o delete seguro de repetir.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar a diferença de idempotência entre POST, PUT e DELETE, e por que um proxy pode repetir um PUT ou um DELETE mas não um POST sem risco.
+
+**Desafios opcionais**
+
+- **TODO-04:** faça o handler do GET por id devolver `Results<Ok<Game>, NotFound>` com `TypedResults`, para que as respostas possíveis apareçam na assinatura.
+- **TODO-05:** registre `AddProblemDetails()`.
+- **TODO-06:** adicione `UseExceptionHandler()` e `UseStatusCodePages()`, chame `GET /games/9999` e compare o corpo com e sem os TODO-05 e TODO-06.
+
+**Pré-requisitos:** Minimal APIs e route groups básicos, verbos HTTP e famílias de status code, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O app compila no estado inicial, e os testes de status falham porque tudo responde 200, até você corrigir cada handler seguindo os comentários TODO em `GamesEndpoints.cs`.
+
 ## Documentation Links
 
 - [Create responses in Minimal API apps, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses) (doc)

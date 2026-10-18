@@ -113,6 +113,40 @@ Time every step, write the numbers into the runbook, and repeat after big change
 - **Rebuild from Git vs restore the control plane.** Rebuilding is reproducible and tests your bootstrap path; restoring dqlite is faster only if the bootstrap is not automated, and harder to verify.
 - **Snapshots vs copies.** Snapshots are instant and local; copies to another system are slower and survive the loss of the original storage. You need copies; snapshots are an optimisation.
 
+## Lab
+
+In this lab you get two Velero objects, a `Backup` and a `Restore`, that look right but protect little: the backup stores only the Kubernetes object definitions, without the volume data, and the restore would land on top of production. Your job is to fix both files. The core idea is to feel the difference between having a backup and having a backup you have proven restorable: only a restore drill, run next to production, shows that the data comes back.
+
+**The scenario**
+
+A shop has a database in the `shop` namespace whose data lives on a PersistentVolume. The test installs everything on a real k3s started by Testcontainers, writes a unique order into the database, applies your backup, waits, applies your restore and checks the result. A run takes a few minutes.
+
+- `src/test/resources/k8s/storage.yaml`: an S3-compatible object store (SeaweedFS) for the backups. Given.
+- `src/test/resources/k8s/velero.yaml`: Velero installed from its Helm chart, with the AWS plugin and the node agent that copies volume data. Given.
+- `src/test/resources/k8s/shop.yaml`: the `shop` namespace, the `data` PVC and the `db` Deployment. Given.
+- `src/main/resources/k8s/backup.yaml`: the `shop-backup` `Backup`, in the `velero` namespace. Yours.
+- `src/main/resources/k8s/restore.yaml`: the `shop-drill` `Restore`. Yours.
+
+These are the same objects that `velero backup create` and `velero restore create` produce.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The `backupIncludesTheVolumeData` failure lists the `podvolumebackups` and shows that the backup only holds object definitions.
+2. **Include the volume data in the backup (TODO-00).** The `Backup` only selects the `shop` namespace. Ask Velero to also copy the contents of the Pods' volumes (file system backup through the node agent), so that the `data` volume shows up as `Completed`.
+3. **Restore next to production (TODO-01).** The `Restore` uses `shop-backup` and would come back over `shop`. Map the namespace to `shop-drill` so the drill creates a working copy without touching production.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/volume-backups-velero-and-restore-drills test` passes `backupIncludesTheVolumeData`, `drillRestoresTheDataNextToProduction` (the database in `shop-drill` contains the order written before the backup) and `productionIsUntouched` (the same production Pod, with the order still there). You should be able to explain why a "Completed" backup can hold no data at all and why the drill runs in a separate namespace.
+
+**Optional challenges**
+
+- **TODO-02:** turn the backup into a `Schedule` that runs every night and keeps backups for 14 days. Which fields do you need, and how would you notice that it stopped producing backups?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container, which installs the Velero Helm chart and pulls images from `mirror.gcr.io`), Java and Maven, patience (a run takes a few minutes) and the article Volume Backups, Velero and Restore Drills.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/volume-backups-velero-and-restore-drills test`. The `TODO-00` comment in `backup.yaml` and the `TODO-01` comment in `restore.yaml` mark what is left.
+
 ## Documentation Links
 
 - [Velero docs: File System Backup](https://velero.io/docs/main/file-system-backup/): how FSB works and its limitations (hostPath).

@@ -143,6 +143,35 @@ No próprio nó:
 - **Tokens de vida longa vs curta.** Tokens de `kubectl create token` expiram (uma hora por padrão), o que é ideal para jobs de CI que pedem um por execução. Uma Secret de token de vida longa (`kubernetes.io/service-account-token`) dura para sempre e precisa ser rotacionada à mão.
 - **KUBECONFIG combinado vs um arquivo por cluster.** Combinar é prático para trabalho interativo; para automação, um arquivo dedicado com um único contexto por destino é o padrão mais seguro.
 
+## Lab
+
+Neste lab você recebe um `merge.sh` ingênuo que junta o kubeconfig de dois clusters e, aparentemente, funciona, mas um dos clusters some. O seu trabalho é gerar um único arquivo com um contexto por cluster e fazer o `staging` ser o padrão. A ideia central é sentir que o `kubectl` mescla kubeconfigs por nome (e o primeiro arquivo vence), então dois arquivos em que tudo se chama `default` colidem em silêncio, e que o contexto padrão decide em qual cluster um comando esquecido vai cair.
+
+**O cenário**
+
+O teste sobe dois clusters reais (k3s via Testcontainers), `staging` e `prod`, e copia os kubeconfigs de administrador deles para `/lab/staging.yaml` e `/lab/prod.yaml` em uma máquina que alcança os dois. Do jeito que o k3s os escreve, cluster, usuário e contexto se chamam `default` nos dois arquivos.
+
+- `src/main/resources/merge.sh`: o seu arquivo. Deve escrever `/lab/merged.yaml`. A versão inicial usa `KUBECONFIG=...:... kubectl config view --flatten`, que é o merge ingênuo.
+- `src/test/java/KubeconfigTest.java`: usa só o arquivo mesclado contra os dois clusters e compara o nó que cada contexto alcança com o nó de cada cluster.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ver o merge ingênuo falhar.** Rode os testes antes de editar. O script termina com sucesso e, mesmo assim, `--context staging` e `--context prod` não alcançam clusters diferentes: um deles foi engolido.
+2. **Renomear antes de mesclar (TODO-00).** Dê a cada arquivo nomes próprios para cluster, usuário e contexto (`staging` e `prod`), usando os subcomandos de `kubectl config` sobre cada arquivo, e só então faça o merge. Mantenha os certificados embutidos: o resultado precisa ser autocontido, sem caminhos para outros arquivos (o `--flatten` já cuida disso).
+3. **Proteger o padrão (TODO-01).** Defina o contexto atual do arquivo final como `staging`, para que quem esquecer o `--context` caia no staging e nunca na produção.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubeconfig-contexts-and-admin-access test` passa por inteiro: `--context staging` e `--context prod` alcançam cada um o seu cluster, `kubectl config current-context` responde `staging` e o arquivo contém `certificate-authority-data` em vez de caminhos. Você deve conseguir explicar por que o merge ingênuo não deu erro e por que o contexto padrão é uma decisão de segurança.
+
+**Desafios opcionais**
+
+- **TODO-02:** os dois arquivos trazem certificados de cliente em `system:masters`. O que um certificado assim pode fazer que nenhuma regra de RBAC consegue tirar, e o que você entregaria a um colega que só faz deploy no staging?
+
+**Pré-requisitos:** Docker rodando (o teste sobe dois containers `rancher/k3s`), o artigo "Kubeconfig, Contexts and Admin Access", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/kubeconfig-contexts-and-admin-access test`. Você edita apenas o `merge.sh`; os comentários TODO nele marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Organizing cluster access using kubeconfig files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/): regras de combinação e precedência.

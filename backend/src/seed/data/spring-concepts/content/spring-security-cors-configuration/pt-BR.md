@@ -448,6 +448,39 @@ O que mudou e o que não mudou:
   `http.cors(...)` desligado é a forma padrão de ter preflights respondidos
   com `401`.
 
+## Lab
+
+Neste lab você recebe um `SecurityConfig` vazio (os dois métodos lançam `UnsupportedOperationException`) e uma pequena API já pronta. O seu trabalho é configurar o CORS de forma centralizada, com um `CorsConfigurationSource` ligado ao `SecurityFilterChain`. A ideia central é sentir que o CORS é um relaxamento do lado do navegador, não uma restrição do servidor, e que, depois de configurá-lo assim, o `@CrossOrigin` de um controller deixa de ser consultado.
+
+**O cenário**
+
+Uma API que só deve ser chamada, a partir de um navegador, por uma única origem confiável: `https://trusted.example.com`. A autorização fica totalmente aberta de propósito, porque o assunto é CORS.
+
+- `OrdersController`: `GET /orders` e `POST /orders` (JSON), sem nada de CORS no código. Quem cuida disso é a chain, antes do controller rodar.
+- `PartnersController`: `GET /partners` anotado com `@CrossOrigin` para `https://legacy-partner.example.com`, uma origem que não está na configuração global. Ele existe para provar que a anotação é ignorada.
+- `SecurityConfig`: o `UrlBasedCorsConfigurationSource` e o `SecurityFilterChain` que você completa.
+- `SecurityConfigTest`: dispara preflights `OPTIONS` e requisições reais com o header `Origin`, e confere os headers `Access-Control-Allow-*`.
+
+Repare nos dois comportamentos que os testes deixam explícitos: com CORS ativo, o `CorsFilter` verifica toda requisição que traz `Origin` (um `GET` de origem não permitida também dá 403), e uma chamada sem `Origin`, como um curl ou um servidor chamando outro, passa direto.
+
+**O que você vai fazer, passo a passo**
+
+1. **Descrever a política (TODO-00).** Em `corsConfigurationSource()`, monte um `CorsConfiguration` com a origem `https://trusted.example.com`, os métodos `GET` e `POST` e os headers `Content-Type` e `Authorization`, usando `setAllowedOrigins`, `setAllowedMethods` e `setAllowedHeaders` com `List.of(...)`.
+2. **Registrar a política (TODO-01).** Crie um `UrlBasedCorsConfigurationSource`, chame `registerCorsConfiguration("/**", config)` e devolva o source.
+3. **Ligar na chain (TODO-02 e TODO-03).** Em `securityFilterChain()`, use `http.cors(cors -> cors.configurationSource(corsConfigurationSource()))`, libere tudo com `authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())`, desligue o CSRF com `csrf(AbstractHttpConfigurer::disable)` e retorne `http.build()`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o preflight para `https://legacy-partner.example.com` em `/partners` dá 403 apesar do `@CrossOrigin`, e por que o CORS não protege o servidor de um cliente que simplesmente não manda `Origin`.
+
+**Desafios opcionais**
+
+- **TODO-04:** registre uma segunda `CorsConfiguration`, mais restrita, para `/admin/**`: mesma origem confiável, mas só o método `GET`, modelando uma superfície somente leitura para essa origem. Registre antes de devolver o source.
+
+**Pré-requisitos:** noções básicas de Spring Framework, `SecurityFilterChain`/`HttpSecurity` e `MockMvc`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Antes dos TODOs o contexto não sobe, porque os métodos lançam `UnsupportedOperationException`, então todos os testes de `SecurityConfigTest` ficam vermelhos.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 10, "Applying CSRF protection and CORS", section 10.2, "Using cross-origin resource sharing", p. 235-243](https://www.manning.com/books/spring-security-in-action) — doc

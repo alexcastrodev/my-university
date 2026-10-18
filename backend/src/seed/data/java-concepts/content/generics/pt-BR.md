@@ -138,6 +138,40 @@ Erasure também é o motivo pelo qual duas sobrecargas que diferem só por dois 
   ```
 - **O operador diamond (`<>`) e `var` reduzem verbosidade, mas só funcionam onde o compilador consegue inferir o argumento de tipo pelo contexto** — uma atribuição ou chamada de construtor, não uma declaração de campo isolada. A legibilidade não é afetada de outra forma: o comportamento em runtime após o erasure é idêntico de qualquer jeito.
 
+## Lab
+
+Neste lab você recebe a classe `NumberBox<T extends Number & Comparable<T>>` com os métodos vazios. Seu trabalho é implementá-los. A ideia central é ver como um tipo com limites (bounded type) dá acesso, em tempo de compilação, aos métodos que o limite garante, e como a regra PECS (`? extends` para produtor, `? super` para consumidor) deixa um método estático aceitar a maior variedade possível de argumentos.
+
+**O cenário**
+
+Uma caixa de números que soma e acha o maior, mais um utilitário para copiar entre listas.
+
+- `NumberBox<T extends Number & Comparable<T>>`: guarda os itens numa lista interna `items`. Como `T` é `Number`, todo item tem `doubleValue()`; como é `Comparable<T>`, itens se comparam entre si.
+- `add`, `sum` e `max`: as operações da caixa.
+- `copyAll(source, destination)`: método estático genérico que copia de uma lista para outra.
+- `isIn(x, values)`: busca em um array (opcional).
+
+Repare nos limites de `copyAll`: `List<? extends T>` só é lida (produtor) e `List<? super T>` só é escrita (consumidor).
+
+**O que você vai fazer, passo a passo**
+
+1. **Adicionar (TODO-00).** Coloque o item na lista interna.
+2. **Somar (TODO-01).** Acumule `doubleValue()` de cada item. Isso só compila por causa do limite `Number`. Uma caixa vazia soma 0.
+3. **Achar o maior (TODO-02).** Compare com `compareTo()`, permitido pelo limite `Comparable<T>`. Se a caixa estiver vazia, lance `new NoSuchElementException("box is empty")`.
+4. **Copiar com PECS (TODO-03).** Copie cada elemento de `source` para `destination`, na ordem. Os testes copiam de uma lista mais específica para uma mais ampla, inclusive para uma `List<Object>`, algo que `List<T>` nos dois lados não permitiria.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `sum()` não compilaria com um simples `<T>`, e por que trocar `? extends` por `? super` em `copyAll` quebraria a compilação.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente o método genérico `isIn(T x, T[] values)`, que procura um valor igual a `x` usando `compareTo()`.
+
+**Pré-requisitos:** sintaxe básica de generics (`<T>`), `Comparable`/`compareTo()` e uso básico de `List`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/generics` e rode `mvn test` (da raiz: `mvn -pl java-concepts/generics test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Generics (The Java Tutorials) — Oracle](https://docs.oracle.com/javase/tutorial/java/generics/index.html) — doc

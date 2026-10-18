@@ -349,18 +349,41 @@ half a second, which is the shape of the pyramid.
 
 ## Lab
 
-The multi-tenant API from the Clean Architecture lab is already implemented in four projects. Your job is to write the MSTest tests, one test project per layer, and to see that each layer needs a different kind of test.
+In this lab you get the multi-tenant API from the Clean Architecture lab **already built and working**, split into four projects (`Domain`, `Application`, `Infrastructure` and `Api`). There is no production code to write: your job is to cover that API with MSTest tests, one test project per layer. The core idea is to feel in practice that each layer needs a different kind of test. The domain needs no setup at all, the use cases need a fake, HTTP needs a real host with a database, and the architecture itself needs a rule test.
 
-**What you will practice**
+**The scenario**
 
-- Domain tests with `[DataRow]`, with no setup at all.
-- Use case tests against an in-memory fake of the repository port.
-- HTTP tests with a real host and a fresh SQLite file per test.
-- A rule test that fails the build when a layer references what it must not.
+The API registers tenants identified by a subdomain (`acme.localhost`, for example) and finds the current tenant from the request host.
 
-**Prerequisites:** the Clean Architecture in Four Projects concept and lab, basic MSTest, .NET 10 SDK.
+- `Tenancy.Domain/Tenant.cs`: the entity. It normalizes the subdomain (trim and lower case), validates it with a 1 to 63 character regex and generates a version 7 id.
+- `Tenancy.Application`: two use cases, `CreateTenantHandler` (created, invalid or taken) and `ResolveTenantHandler` (finds the tenant from the host), which only know the `ITenantRepository` port.
+- `Tenancy.Infrastructure`: EF Core on SQLite, a unique index on the subdomain and an `internal` repository.
+- `Tenancy.Api`: the `POST /tenants` and `GET /tenants/current` endpoints and the middleware that resolves the tenant.
 
-**How it works:** every test method is already declared with a hint and fails with `TODO-NN: write this test` until you write it. Run `dotnet test` until everything is green. The optional TODOs ask you to break the production code on purpose and see which layer notices.
+Look at each test project's references: `Tenancy.Domain.Tests` can only see the domain, so a test there cannot reach EF Core or HTTP even by accident. `Tenancy.Api.Tests` references everything, because it is the only place where the layers meet.
+
+**What you will do, step by step**
+
+1. **Test the pure domain (TODO-00).** In `TenantTests`, cover the id version, normalization and invalid inputs with `[DataRow]`, the 63 character boundary and `Rename`. No mocks, no database, no setup: just `new Tenant(...)` and asserts.
+2. **Write a fake of the port (TODO-01).** Implement an in-memory `FakeTenantRepository`. It is what makes the use cases testable without EF Core.
+3. **Test the use cases (TODO-02 and TODO-03).** For `CreateTenantHandler`, check the status of each outcome (created, invalid, taken) and also what was stored in the fake. For `ResolveTenantHandler`, build a table of hosts with `[DynamicData]`.
+4. **Start the real API (TODO-04).** In `TenantsApiTests`, create a new `WebApplicationFactory` and a new SQLite file in `Path.GetTempPath()` per test, with `[TestInitialize]` and an async `[TestCleanup]` that disposes the factory and deletes the file. Use `Pooling=False` so the file really closes. It is per test because tests run in parallel and each one creates tenants.
+5. **Test the HTTP contract (TODO-05).** Make sure each outcome gets the right status (201, 400, 409, 404), that the tenant is resolved from the subdomain and, skipping the handler, that the database itself rejects a duplicate subdomain through the unique index.
+6. **Guard the architecture (TODO-06).** In `DependencyRuleTests`, write one `[DynamicData]` table with what each layer must never reference and read the compiled references with `Assembly.GetReferencedAssemblies()`. Also check that the persistence types stay `internal`.
+
+**How you know you are done**
+
+`dotnet test` is all green, and you can explain why each test lives in the project it does. A good sign: the domain tests run in milliseconds, the API tests take much longer, and there are only a few API tests, just for what crosses layers.
+
+**Optional challenges**
+
+- **TODO-07, mutation check:** break the production code on purpose (drop `ToLowerInvariant`, skip `ExistsAsync`, return `Results.Ok` instead of `Results.Conflict`, remove `.IsUnique()`, make `TenantRepository` public) and see which layer notices. Each change should turn at least one test red.
+- **TODO-08:** add EF Core to `Tenancy.Application` with a class that derives from `DbContext`. Which test fails, and what does its message say?
+- **TODO-09:** run only the architecture tests with `dotnet test --filter "TestCategory=Architecture"` and compare how long the domain project takes with the API project.
+
+**Prerequisites:** the Clean Architecture in Four Projects concept and lab, basic MSTest (`[TestClass]`, `[TestMethod]`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every test method is already declared with a hint in a comment and fails with `TODO-NN: write this test` until you write it, so the list of red tests is your checklist.
 
 ## Documentation Links
 

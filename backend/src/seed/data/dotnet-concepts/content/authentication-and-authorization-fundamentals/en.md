@@ -245,6 +245,44 @@ endpoint with and without credentials.
   and you still choose between 403 and a 404 that does not reveal the resource
   exists.
 
+## Lab
+
+In this lab you get an API where the endpoints already exist but there is no security at all: every protected endpoint fails with a `500` because no authentication or authorization service is registered. Your job is to wire the cookie scheme, a fallback policy, role, claim and custom-requirement policies and a resource-based check. The core idea is to be able to predict, for each request, whether it gets a 200, a 401, a 403 or a redirect, and why.
+
+**The scenario**
+
+The `/login` endpoint signs in whoever asks without a password (demo only, it must never ship), so the tests can create `ana` (role `admin`, department `sales`, age 30) and `bob` (age 16) with a real cookie. No Docker and no external identity provider. Everything lives in `Program.cs` and `Requirements.cs`.
+
+- `/public`, `/fallback`, `/text`, `/text-401`, `/me`: endpoints to compare anonymous access, the fallback policy and the default policy.
+- `/admin`, `/sales`, `/adult`: endpoints for the named policies.
+- `/doc/{owner}`: uses `IAuthorizationService` to check whether the user owns the document.
+- `Requirements.cs`: `MinimumAgeRequirement` with `MinimumAgeHandler`, and `OwnerRequirement` with `OwnerHandler` (resource-based).
+
+`/fallback` has no metadata on purpose: only the fallback policy can protect it.
+
+**What you will do, step by step**
+
+1. **Register the services (TODO-00 and TODO-01).** Register authentication with the cookie scheme as the default and register `MinimumAgeHandler` and `OwnerHandler` as singleton `IAuthorizationHandler` services.
+2. **Close everything by default (TODO-02).** Use `AddAuthorizationBuilder` and set a fallback policy that requires an authenticated user, so an endpoint without any authorization metadata is still closed.
+3. **Create the named policies (TODO-03).** `AdminOnly` (role `admin`), `Sales` (claim `department` equal to `sales`) and `Adult` (a `MinimumAgeRequirement` of 18).
+4. **Sign in with an authenticated identity (TODO-04).** In `/login`, an identity only counts as authenticated when it has an authentication type. Create it with the cookie scheme name and sign the principal in.
+5. **Open and close endpoints (TODO-05, TODO-06 and TODO-07).** Make `/public` anonymous, require an authenticated user (the default policy, no name) on `/text` and `/me`, and make `/text-401` require authentication but answer 401 instead of redirecting to the login page.
+6. **Attach the policies (TODO-08).** Protect `/admin`, `/sales` and `/adult` with the policy of the same name.
+7. **Write the handlers (TODO-09 and TODO-10).** `MinimumAgeHandler` reads the `age` claim and calls `context.Succeed(requirement)` when it parses to a number greater than or equal to `requirement.Age`; otherwise it does nothing (an unmet requirement is a 403). `OwnerHandler` succeeds only when the user's `Identity.Name` equals the resource (the document owner).
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to look at any endpoint and say 200, 401, 403 or redirect, and explain the difference between authentication (who you are) and authorization (what you may do). Notice which endpoints redirect to `/Account/Login` and which answer 401, and why, and why a user without the `age` claim gets 403 on `/adult`.
+
+**Optional challenges**
+
+- **TODO-11:** add `/admin-redirect`, protected by `AdminOnly`, that keeps redirecting an anonymous caller to the login page even though it returns JSON (`AllowCookieRedirect`).
+- **TODO-12:** in the tests, replace the cookie scheme with a test scheme that authenticates from an `X-Test-User` header (`ConfigureTestServices`), so a test needs no `/login` call.
+
+**Prerequisites:** basic Minimal APIs, middleware order (the pipeline lab) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state the protected endpoints answer 500 and the tests fail, with each TODO marked in a comment in `Program.cs` and `Requirements.cs`.
+
 ## Documentation Links
 
 - [Overview of ASP.NET Core Authentication, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/) (doc)

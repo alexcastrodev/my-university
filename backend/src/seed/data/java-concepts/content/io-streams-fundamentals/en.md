@@ -146,6 +146,36 @@ The pattern is an allow/deny list separated by semicolons: `com.example.Session`
 - **Deserializing untrusted data is a security risk, not just a data-integrity one.** `readObject()` on attacker-controlled bytes can instantiate arbitrary classes on the classpath before any application code runs; `ObjectInputFilter` mitigates this with an allow-list, but the safest option is avoiding deserialization of untrusted input entirely — parsing into a plain data format (JSON, a DTO) instead.
 - **Plain `java.io` still earns its place next to NIO.2's `Path`/`Files`.** The stream abstraction (`InputStream`/`Reader` and friends) is what most APIs — HTTP clients, compression libraries, serialization — actually consume, so `java.io` remains the interop layer even in code that otherwise does file-system navigation and bulk file operations through `Path`/`Files` (see the NIO.2 concept for that API in depth).
 
+## Lab
+
+In this lab you get `StreamTools`, a small toolbox for `java.io` streams, with four empty methods. Your job is to implement them. The core idea is to work with the two classic groups, byte streams (`InputStream`/`OutputStream`) and character streams (`Reader`/`Writer`), and to understand who owns closing a stream: the code that passes it into a method, or the method itself.
+
+**The scenario**
+
+Utilities that receive streams already opened by the caller.
+
+- `countLines(Reader)`: counts the available lines.
+- `copy(InputStream, OutputStream)`: copies every byte from one to the other.
+- `readAllText(InputStream)`: reads everything and decodes it as UTF-8.
+- `writeLines(Writer, List<String>)`: writes each line followed by a line separator.
+
+None of these methods closes the stream it receives. Whoever opened it owns it, and closing early would break code that still needs it. Only a resource a method opens itself is the method's to close.
+
+**What you will do, step by step**
+
+1. **Count lines (TODO-00).** Wrap the `Reader` in a `BufferedReader` and call `readLine()` in a loop until it returns `null`. Do not close the reader.
+2. **Copy bytes (TODO-01).** `InputStream` has a method (since JDK 9) that transfers everything to an `OutputStream` in one call. Look for it and close neither stream.
+3. **Read as text (TODO-02).** Read all the bytes and decode them as UTF-8 (`StandardCharsets.UTF_8`), without closing the stream.
+4. **Write lines (TODO-03).** Write each line followed by a separator, so that reading back with `readLine()` reproduces the original lines. A `BufferedWriter` offers `newLine()`, with the correct separator for the platform. Since you will not close the writer, think about what you need to do for the data to actually reach its destination (`flush()`).
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain the "whoever opens, closes" rule and why decoding with an explicit charset (UTF-8) is safer than relying on the platform default.
+
+**Prerequisites:** basic Java syntax and checked exceptions (`IOException`). The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/io-streams-fundamentals` and run `mvn test` (from the root: `mvn -pl java-concepts/io-streams-fundamentals test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [InputStream — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html) — doc

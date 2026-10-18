@@ -113,6 +113,35 @@ Um script de bootstrap é o primeiro passo certo. Conforme o número de clusters
 - **Sleeps fixos vs esperas explícitas.** Sleeps ou são curtos demais (instáveis) ou longos demais (lentos); esperas explícitas são precisas e falham com uma mensagem clara.
 - **Script vs GitOps.** Um script é transparente e não tem componente extra; o GitOps adiciona um controller para rodar e dá reconciliação contínua e detecção de desvios.
 
+## Lab
+
+Neste lab você recebe um `bootstrap.sh` imperativo que prepara o namespace `team-a` e só funciona uma vez, e seu trabalho é transformá-lo em um script que pode rodar a cada mudança. A ideia central é sentir o que é idempotência na prática: cada comando deve criar o que falta, atualizar o que mudou e dar sucesso quando nada mudou. E, como o script roda em CI, a senha nunca pode aparecer na saída.
+
+**O cenário**
+
+O script prepara o cluster para um time, com duas variáveis de entrada (`LOG_LEVEL` e `DB_PASSWORD`). Os testes rodam num k3s de verdade, iniciado pelo Testcontainers, e executam o script três vezes: num cluster vazio (`info` e uma primeira senha), de novo com `debug` e uma senha rotacionada, e uma terceira vez com os mesmos valores da segunda.
+
+- `src/main/resources/bootstrap.sh`: o único arquivo que você edita. Hoje tem seis comandos `kubectl create`: o namespace `team-a`, um label, o ConfigMap `app-config` com `LOG_LEVEL`, o Secret `db-creds` com `DB_PASSWORD`, a ServiceAccount `deployer` e o RoleBinding `deployer-edit` que dá a ela o papel `edit`.
+- `src/test/java/BootstrapTest.java`: confere que as três execuções saem com 0, que o cluster termina com `debug` e a senha rotacionada, que o label e as permissões existem e que nenhuma senha (em texto ou base64) aparece na saída.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes primeiro.** A segunda execução falha já na primeira linha, porque o namespace já existe.
+2. **Tornar cada comando idempotente (TODO-00).** Cada linha funciona num cluster vazio e quebra na segunda vez. Reescreva-as para criar o que falta, atualizar o que mudou e ter sucesso quando nada mudou. Um padrão comum é gerar o manifesto com `--dry-run=client -o yaml` e aplicá-lo com `kubectl apply`. Atenção ao label do namespace e ao valor do ConfigMap e do Secret, que precisam refletir a execução mais recente.
+3. **Manter a senha fora da saída (TODO-01).** Os logs de CI guardam tudo para sempre. Garanta que a senha, em texto ou em base64, nunca apareça na saída do script, o que inclui o que o `kubectl apply` e o `-o yaml` costumam imprimir.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/idempotent-cluster-bootstrap test` passa em `everyRunSucceeds`, `theClusterHasTheLatestValues`, `theRestIsInPlace` e `passwordsNeverReachTheOutput`. Você deve conseguir explicar por que `create` não é idempotente e `apply` é, e por que o base64 de um Secret não protege a senha no log.
+
+**Desafios opcionais**
+
+- **TODO-02:** mude o RoleBinding para `--clusterrole=view` e rode o script num cluster em que ele já existe com `edit`. O que acontece, e por que o `kubectl apply` não consegue corrigir isso?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s`), Java e Maven, e o artigo Idempotent Cluster Bootstrap.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/idempotent-cluster-bootstrap test`. Os comentários `TODO-00` e `TODO-01` em `bootstrap.sh` marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Declarative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/): por que o apply converge.

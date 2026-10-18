@@ -116,6 +116,32 @@ DataSource dataSource() {
 
 - **Empacotamento JAR-first é uma escolha deliberada da era cloud** — o Spring Initializr define por padrão novos projetos para empacotamento em JAR executável (servidor embarcado) em vez de WAR, o que se encaixa bem em deploy em container/cloud, mas é uma mudança mental para quem está acostumado a fazer deploy de WARs em um servidor de aplicação standalone.
 
+## Lab
+
+Neste lab você recebe uma mini autoconfiguração do Spring Boot com o esqueleto pronto e dois pontos vazios. Seu trabalho é implementar o serviço padrão e fazer a autoconfiguração **recuar** quando a aplicação já tem o próprio bean. A ideia central é sentir o mecanismo que o Spring Boot usa para `DataSource` e `ObjectMapper`: a autoconfiguração oferece um default, mas nunca briga com o que o usuário definiu.
+
+**O cenário**
+
+Uma autoconfiguração contribui com um `GreetingService` padrão, e o teste verifica as duas situações: ninguém definiu o bean, e o usuário definiu o seu.
+
+- `GreetingService`: a interface, com um único método `greet()`.
+- `DefaultGreetingService`: a implementação padrão, ainda sem corpo.
+- `GreetingAutoConfiguration`: a classe `@AutoConfiguration` com o método `@Bean greetingService()` que devolve o default.
+- `GreetingAutoConfigurationTest`: usa `ApplicationContextRunner` para subir só essa autoconfiguração, sem iniciar uma aplicação inteira. Um teste não define nada, o outro registra um `CustomGreetingConfig` com o próprio `GreetingService`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Implementar o serviço padrão (TODO-00).** Em `DefaultGreetingService.greet()`, troque o `UnsupportedOperationException` por um retorno de `"Hello from the default greeting service!"`, exatamente esse texto, porque o teste compara a string.
+2. **Fazer o default recuar (TODO-01).** Em `GreetingAutoConfiguration`, adicione `@ConditionalOnMissingBean` ao método `greetingService()`. Sem isso, o contexto do segundo teste teria dois beans do mesmo tipo (o do usuário e o default) e o `hasSingleBean` falharia. Com a anotação, o default só nasce quando ninguém mais definiu um `GreetingService`.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar por que a autoconfiguração precisa ser condicional: ela é carregada para todas as aplicações, então só pode agir quando o usuário não decidiu nada, e o segundo teste prova que o bean do usuário vence.
+
+**Pré-requisitos:** injeção de dependência básica (`@Bean`, `@Configuration`) e o conceito de autoconfiguração do Spring Boot (`@ConditionalOnClass`, `@ConditionalOnMissingBean`).
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-boot-autoconfiguration` e rode `mvn test`. Os testes começam falhando por causa do `UnsupportedOperationException` e dos dois comentários `TODO`; rode até todos passarem.
+
 ## Documentation Links
 
 - [Spring in Action, 5th Edition (Manning, 2019) — Chapter 1: "Getting started with Spring", p. 3-18](https://www.manning.com/books/spring-in-action-fifth-edition) — doc

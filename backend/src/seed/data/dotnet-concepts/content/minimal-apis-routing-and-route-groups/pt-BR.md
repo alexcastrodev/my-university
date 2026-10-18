@@ -187,6 +187,41 @@ lista de chamadas: `app.MapGamesEndpoints(); app.MapGenresEndpoints();`.
   existe um gerador separado de request delegates, com seus próprios limites
   sobre o binding suportado.
 
+## Lab
+
+Neste lab você recebe uma API de jogos que sobe, mas não mapeia nenhum endpoint: `MapGamesEndpoints` existe e está vazio, e o `Program` o chama direto na raiz. O seu trabalho é construir os endpoints um por vez, cada um exercitando uma fonte de binding diferente, e agrupá-los numa route group. A ideia central é sentir como o Minimal API decide de onde vem cada parâmetro (rota, query, body, serviço), como um nome de rota permite que um `201` aponte para o recurso criado, e como um grupo compartilha prefixo e metadados.
+
+**O cenário**
+
+Uma loja de jogos com um `GameStore` em memória que já começa com três jogos. Os testes sobem a API em memória com `WebApplicationFactory<Program>` e verificam o espaço de URLs, os valores ligados e os metadados que o grupo anexa.
+
+- `Program.cs`: registra o `GameStore` como singleton e chama `app.MapGamesEndpoints()`.
+- `GamesEndpoints.cs`: a extensão de `IEndpointRouteBuilder` onde ficam os endpoints, cada TODO com a regra em comentário.
+- `GameStore.cs`: `Game`, `CreateGameRequest` e o store, com `Add`, `Search` e `Count`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Prefixar tudo com `/api` (TODO-00).** Em `Program.cs`, mapeie os endpoints de jogos dentro de uma route group `/api`, sem mexer nos caminhos dentro de `GamesEndpoints`. Depois disso `/games` na raiz deve dar 404.
+2. **Criar o grupo `/games` (TODO-01).** Em `GamesEndpoints`, crie um grupo para `/games` com a tag `Games`. Todos os endpoints abaixo são mapeados nele, com caminhos relativos.
+3. **Ligar a query string (TODO-02).** `GET /` recebe `genre` (opcional) e `page` (padrão 1) e devolve `Results.Ok(new { genre, page })`.
+4. **Ligar o id da rota (TODO-03).** `GET /{id}` com restrição de inteiro, para que `/games/abc` seja 404 e não 400. Devolva `Results.Ok(new { kind = "byId", id })` e dê à rota o nome `GetGameEndpointName`.
+5. **Fazer o literal vencer o parâmetro (TODO-04).** `GET /search` liga `q` da query e usa `GameStore.Search`, devolvendo `Results.Ok(new { kind = "search", results })`. Garanta que `/{id}` não o engula.
+6. **Injetar um serviço (TODO-05).** `GET /count` recebe o `GameStore` do container e devolve `Results.Ok(new { total = store.Count })`.
+7. **Criar com Location (TODO-06).** `POST /` recebe um `CreateGameRequest` do body, adiciona ao store e responde 201 com um header `Location` que aponta para a rota nomeada.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar de onde vem cada parâmetro de cada handler, por que `/api/games/abc` dá 404 e por que o `Location` do `201` é montado a partir do nome da rota e não de uma string escrita à mão.
+
+**Desafios opcionais**
+
+- **TODO-07:** tire a restrição `:int` de `/{id}` e peça `/api/games/abc`. Que status você recebe e por que é diferente de 404?
+- **TODO-08:** troque o handler de `count` por um `GET` com parâmetro de tipo complexo e chame. Leia a exceção e explique por que o app subiu normalmente.
+
+**Pré-requisitos:** lambdas e métodos de extensão em C#, verbos e status codes HTTP e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O app compila no estado inicial, e os testes falham até você mapear cada endpoint seguindo os comentários TODO.
+
 ## Documentation Links
 
 - [Minimal APIs overview, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/overview) (doc)

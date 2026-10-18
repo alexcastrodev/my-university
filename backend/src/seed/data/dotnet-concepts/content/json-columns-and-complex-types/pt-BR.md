@@ -220,6 +220,42 @@ JSON, então filtre pela coleção antes (`Where(c => c.Shipping.Count > 0)`).
   atualizações parciais são geradas de jeitos diferentes. Rode testes de
   integração no banco que vai para produção.
 
+## Lab
+
+Neste lab você guarda value objects e listas em colunas JSON com os complex types do EF Core 10, consulta dentro do documento e altera um membro dele, tanto com uma instrução só quanto pelo change tracking. Você recebe a entidade `Customer` e o contexto `ShopDbContext` sem nada mapeado, e as consultas em `CustomerQueries` lançam `NotImplementedException`. A ideia central é ver que, sem o mapeamento, o `Address` não vira nada útil, e que com ele o EF traduz filtros por membros do JSON para SQL e sabe atualizar um pedaço do documento.
+
+**O cenário**
+
+Um cliente tem um endereço obrigatório, um endereço de cobrança opcional, uma lista de endereços de entrega e uma lista de tags.
+
+- `Customer.cs`: `Customer` (`Address`, `Billing?`, `Shipping` como `List<Address>`, `Tags` como `List<string>`) e o `record Address(Street, City, Country)`.
+- `ShopDbContext.cs`: `OnModelCreating` com os `TODO` de mapeamento.
+- `CustomerQueries.cs`: as consultas e atualizações a implementar.
+
+Os testes rodam em SQLite em memória, semeiam três clientes (Ana, Bruno, Clara) e inspecionam o JSON gravado com `json_extract`. Repare que `Tags` não precisa de configuração: descubra por quê (é uma coleção de primitivos).
+
+**O que você vai fazer, passo a passo**
+
+1. **Mapear os complex types (TODO-00 a TODO-02).** Em `OnModelCreating`, mapeie `Address` como complex property guardada em uma coluna JSON, faça o mesmo com o opcional `Billing` e mapeie `Shipping` como complex collection em uma coluna JSON.
+2. **Filtrar dentro do JSON (TODO-03).** Em `NamesByCityAsync`, devolva, em ordem, os nomes dos clientes cujo `Address.City` é a cidade pedida.
+3. **Coleção de primitivos (TODO-04).** Em `NamesWithTagAsync`, filtre pelos clientes cuja lista `Tags` contém a tag.
+4. **Coleção complexa (TODO-05).** Em `NamesShippingToAsync`, use `Shipping.Any(...)` para achar clientes com ao menos um endereço de entrega no país.
+5. **Alterar pelo change tracking (TODO-06).** Em `MoveAsync`, carregue o cliente, substitua o `Address` por uma cópia com a nova cidade (é um record) e chame `SaveChanges`.
+6. **Alterar em lote (TODO-07).** Em `AppendToCityAsync`, faça um único `ExecuteUpdate` que acrescenta um sufixo a `Address.City` de todos os clientes do país, sem carregar entidades, e devolva o número de linhas afetadas.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar a diferença entre substituir o valor complexo inteiro (TODO-06) e atualizar um membro dentro do documento (TODO-07), e por que a consulta por cidade não carrega nenhum cliente em memória para filtrar.
+
+**Desafios opcionais**
+
+- **TODO-08:** atualize `Shipping[0].City` em lote sem criar elementos para clientes com lista vazia (sem esse filtro o SQLite cria um elemento pela metade).
+- **TODO-09:** leia o texto JSON guardado de um endereço com SQL bruto (`Database.SqlQuery<string>`, com a coluna chamada `Value`).
+
+**Pré-requisitos:** EF Core básico e LINQ, records de C# e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os testes usam SQLite em memória. Cada método de consulta lança `NotImplementedException` com um comentário `TODO-NN` e, sem o mapeamento, os testes de leitura e escrita também falham, então a lista de testes vermelhos é o seu checklist.
+
 ## Documentation Links
 
 - [Complex types, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/complex-types) (doc)

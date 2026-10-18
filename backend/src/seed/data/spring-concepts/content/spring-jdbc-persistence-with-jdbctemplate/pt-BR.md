@@ -169,6 +169,37 @@ cada restart contra um banco de produção real.
   de forma destrutiva a cada restart; aplicações reais recorrem a Flyway ou
   Liquibase assim que o schema precisa evoluir com segurança entre ambientes.
 
+## Lab
+
+Neste lab você recebe um `IngredientRepository` com todos os métodos vazios, apoiado em um `JdbcTemplate` e em uma tabela `Ingredient`. Seu trabalho é trocar o boilerplate de conexão, statement e result set do JDBC puro por chamadas ao `JdbcTemplate`. A ideia central é perceber que `queryForObject()` não é só um `query()` que devolve um item: ele **exige** exatamente uma linha e lança exceção se vier zero ou mais de uma.
+
+**O cenário**
+
+Um repositório de ingredientes (`id`, `name`, `type`) sobre um banco H2 em memória que o próprio teste cria e popula com quatro linhas.
+
+- `Ingredient`: um `record` com `id`, `name` e o enum `Type` (`WRAP`, `PROTEIN`, `VEGGIES`, `CHEESE`, `SAUCE`).
+- `IngredientRepository`: recebe o `JdbcTemplate` no construtor e tem `findAll`, `findById`, `findFirstIngredientOfType`, `save`, `deleteById` e o `RowMapper` privado `mapRowToIngredient`.
+- `IngredientRepositoryTest`: cria a tabela em um `@BeforeEach`, sem subir o Spring, e a derruba no `@AfterEach`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Mapear linhas (TODO-04).** Comece por `mapRowToIngredient`, que todos os outros usam: monte um `Ingredient` com `rs.getString("id")`, `rs.getString("name")` e `Ingredient.Type.valueOf(rs.getString("type"))`.
+2. **Listar (TODO-00).** Em `findAll`, use `jdbc.query("select id, name, type from Ingredient", ...)` passando `mapRowToIngredient` como referência de método.
+3. **Buscar um (TODO-01 e TODO-02).** Em `findById`, use `jdbc.queryForObject(...)` com `where id=?` e o `id` como parâmetro. Em `findFirstIngredientOfType`, faça o mesmo com `where type=?`. Repare que `type` não é único: o teste chama com `"WRAP"`, que casa duas linhas, e espera `IncorrectResultSizeDataAccessException`. Para um `id` inexistente o Spring lança `EmptyResultDataAccessException` sozinho.
+4. **Gravar (TODO-03).** Em `save`, use `jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)", ...)` passando `ingredient.type().name()` como terceiro parâmetro.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar por que a mesma consulta por `type` funciona para `"PROTEIN"` e falha para `"WRAP"`, e o que `queryForObject()` está garantindo por você.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `deleteById` com `jdbc.update("delete from Ingredient where id=?", id)`. Não há teste para ele, então escreva um você mesmo.
+
+**Pré-requisitos:** SQL básico (`select`, `insert`, `where`), `ResultSet` e tratamento de exceções em Java.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-jdbc-persistence-with-jdbctemplate` e rode `mvn test`. Os testes falham com `UnsupportedOperationException` até você implementar os métodos.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 3, "Working with data", section 3.1, p. 56-74 — doc

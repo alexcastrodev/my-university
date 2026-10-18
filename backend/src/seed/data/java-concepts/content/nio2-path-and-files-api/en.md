@@ -145,6 +145,40 @@ for (Path p : ds) { /* IllegalStateException at iterator() */ }
 - **Symbolic link support is filesystem- and OS-dependent** — `Files.createSymbolicLink()` throws `UnsupportedOperationException` on filesystems without link support, and on Windows it typically requires elevated privileges or Developer Mode; code that creates links needs a fallback path or a documented requirement.
 - **`WatchService` is best-effort, not a real-time guarantee** — events can coalesce, arrive with platform-dependent latency, and overflow into a single `OVERFLOW` event if too many queue up before you drain them; it's unreliable over network filesystems and isn't a substitute for verifying state with `Files` after an event fires.
 
+## Lab
+
+In this lab you get `FileVault`, a small filesystem helper with empty methods. Your job is to implement them. The core idea is to do everyday I/O (reading, writing, listing and copying) with `Path` and `Files`, without the ceremony of the old `java.io.File`: the `Path` describes where something is, and the `Files` utility class does the work.
+
+**The scenario**
+
+Common operations on text files and directories.
+
+- `writeText(file, content)`: writes text, creating the file if needed.
+- `readText(file)`: reads the whole content.
+- `listFileNames(directory)`: names of the regular files directly inside a directory.
+- `copy(source, target)`: copies a file, overwriting the target.
+- `deleteIfPresent(file)`: deletes it if it exists (optional).
+
+The tests use JUnit's `@TempDir`, so each test works in its own temporary folder and you do not litter the disk.
+
+**What you will do, step by step**
+
+1. **Write and read (TODO-00 and TODO-01).** Use `Files.writeString` and `Files.readString`. The tests check the full round trip (what was written comes back identical) and reading a file that already existed.
+2. **List names (TODO-02).** Use `Files.list(directory)`, which does not descend into subdirectories. Keep only regular files, turn each `Path` into its file name and sort alphabetically. The returned `Stream<Path>` must be closed, so use try-with-resources on it.
+3. **Copy with overwrite (TODO-03).** Use `Files.copy` with `StandardCopyOption.REPLACE_EXISTING`. Without that option, copying over an existing target throws `FileAlreadyExistsException`, and a test covers the overwrite case.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why the stream from `Files.list` must be closed and what a `Path` is compared with the `Files` class that operates on it.
+
+**Optional challenges**
+
+- **TODO-04:** implement `deleteIfPresent()`, which deletes the file if it exists and does nothing (no exception) if it does not.
+
+**Prerequisites:** basic Java syntax and checked exceptions (`IOException`). The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/nio2-path-and-files-api` and run `mvn test` (from the root: `mvn -pl java-concepts/nio2-path-and-files-api test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments carry hints, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Files — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html) — doc

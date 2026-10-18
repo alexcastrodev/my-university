@@ -109,6 +109,35 @@ kubectl get pods         # READY 0/1 = readiness falhando; RESTARTS subindo = li
 - **Readiness incluindo dependências vs não.** Incluí-las protege quem chama de uma réplica que não consegue trabalhar; excluí-las evita que todas as réplicas sumam do Service juntas.
 - **Períodos curtos vs longos.** Detecção mais rápida custa mais tráfego de probe e mais falsos positivos sob carga.
 
+## Lab
+
+Neste lab você recebe dois manifestos com dois erros de probe: uma liveness probe que mata uma app lenta antes de ela terminar de subir, e um Deployment sem readiness probe que deixa uma versão quebrada substituir todos os Pods saudáveis. O seu trabalho é corrigir os dois. A ideia central é que cada probe responde a uma pergunta diferente (já terminou de iniciar? está travada? pode receber tráfego?) e que a probe errada, ou a ausência dela, faz o Kubernetes tomar a decisão errada.
+
+**O cenário**
+
+O teste aplica os dois manifestos no namespace `example` de um cluster real (k3s via Testcontainers) e roda em tempo real, então leva uns três minutos.
+
+- `src/main/resources/k8s/slow.yaml`: o Pod `slow`, uma app que leva cerca de 40 segundos para começar a responder `/healthz`. Ele tem uma `livenessProbe` (`periodSeconds: 10`, `failureThreshold: 3`) que o mata antes de ele subir.
+- `src/main/resources/k8s/web.yaml`: um Deployment `web` com 2 réplicas e um Service. Depois que ele sobe, o teste faz o rollout de `VERSION=2`, que inicia mas nunca serve `/readyz`, e confere o que o Service devolve 45 segundos depois.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar e ler as falhas.** Rode antes de editar: o `slow` fica reiniciando, e depois do rollout quebrado ninguém serve `/readyz` enquanto o `kubectl rollout status` diz que está tudo bem.
+2. **Dar tempo de partida à app lenta (TODO-00).** No `slow.yaml`, adicione uma `startupProbe` no mesmo endpoint, com um orçamento (`periodSeconds` vezes `failureThreshold`) de pelo menos 60 segundos. Não afrouxe a liveness: depois que a app está de pé, uma trava ainda deve ser detectada em cerca de 30 segundos. A startup probe desliga a liveness até a primeira vez que passa.
+3. **Bloquear a versão quebrada (TODO-01).** No `web.yaml`, adicione uma `readinessProbe` em `/readyz`. Sem ela, o Pod conta como `Ready` assim que o contêiner inicia, e o rollout troca todos os Pods saudáveis pelos quebrados. Com ela, os Pods novos nunca ficam prontos, o rollout trava e os Pods antigos continuam atendendo.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/startup-liveness-readiness-probes test` passa por inteiro: o `slow` sobe sem nenhum restart, a startup probe tem pelo menos 60 s e a liveness continua reagindo em até 30 s, o Service ainda responde `ok` em `/readyz` depois do rollout quebrado e `kubectl rollout status` sai com erro em vez de reportar sucesso. Você deve conseguir explicar o que cada probe faz quando falha (reiniciar, ou tirar do Service) e por que o rollout travado é o comportamento desejado.
+
+**Desafios opcionais**
+
+- **TODO-02:** remova `terminationGracePeriodSeconds: 5` do `slow.yaml` e rode a versão inicial de novo. Por que a app consegue responder `/healthz` uma vez, mesmo que a liveness probe já tenha decidido matá-la?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "Startup, Liveness and Readiness Probes", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/startup-liveness-readiness-probes test`. Uma execução leva cerca de três minutos (a app lenta, a janela da liveness e o rollout acontecem em tempo real). Você edita apenas `slow.yaml` e `web.yaml`, e os comentários TODO marcam os pontos.
+
 ## Documentation Links
 
 - [Kubernetes docs: Liveness, Readiness, and Startup Probes](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/): conceitos e interações.

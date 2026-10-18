@@ -196,6 +196,43 @@ The insight starter adds the actuator and observability modules:
 - **Generated documentation is only as good as the code's names.** The canvas lists what the bytecode shows: stereotypes, bean references, event types. It will not explain *why* a dependency exists, and a module full of generic `Helper` beans produces a useless canvas. Pair it with a few hand-written architecture decision records.
 - **Observability per module has a cost.** Wrapping module API calls in observations adds spans and overhead on every call. Sample traces in production and enable it where the insight is worth it.
 
+## Lab
+
+In this lab the application is already finished and correct: the tests are what you write. You get four test classes whose methods only call `fail("TODO-NN: not implemented yet")`. Your job is to test one module at a time instead of the whole application, assert on the events a module publishes and consumes, and generate architecture documentation straight from the code. The core idea is to feel that `@ApplicationModuleTest` starts only one module, and that this changes what you need to simulate.
+
+**The scenario**
+
+Two modules in `com.kurz.moduletests`.
+
+- `publishing`: `PublishingService.publish(title)` stores a row and publishes `ContentPublished`, and `ContentCatalog` is the read API (it uses `JdbcClient`).
+- `notification`: `NotificationListener` (an `@ApplicationModuleListener`) reacts to `ContentPublished` and publishes `NotificationSent` with 2 recipients, and `DigestService` uses `ContentCatalog`, a bean from the other module.
+- `PublishingModuleTests` and `NotificationModuleTests`: each sits in its module's package and uses `@ApplicationModuleTest`, which starts only that module (`STANDALONE` mode).
+- `ModularityTests`: already has `verify()` and a documentation test to complete.
+
+Note that `NotificationModuleTests` does not even start the context at first: `DigestService` needs `ContentCatalog`, which lives in `publishing`, and that module is not started.
+
+**What you will do, step by step**
+
+1. **Assert the published event (TODO-00).** In `PublishingModuleTests`, call `publishing.publish("Modular monoliths")` and use the injected `AssertablePublishedEvents` to check that a `ContentPublished` with that title was published (`assertThat(events).contains(...).matching(ContentPublished::title, ...)`).
+2. **Prove it is a slice (TODO-01).** Check that the context has exactly one `PublishingService` and does not contain the notification module's `digestService` and `notificationListener` beans.
+3. **Make the notification context start (TODO-02, first part).** Run the class as it is, read why the context does not start and fix it without booting `publishing`, replacing the missing bean with a mock via a `@MockitoBean` field.
+4. **Use `Scenario` (TODO-02).** With the injected `Scenario`, publish a `ContentPublished(42, "Modular monoliths")`, wait for a `NotificationSent` whose title matches and verify it reports 2 recipients. The listener is asynchronous, and `Scenario` does the waiting for you, with no `Thread.sleep`.
+5. **Test the digest with the stubbed catalog (TODO-03).** Make the mock's `recentTitles(3)` return `List.of("C", "B", "A")` and assert that `weeklyDigest()` is `"This week: C, B, A"`.
+6. **Generate the documentation (TODO-04).** In `ModularityTests`, use `new Documenter(modules).writeDocumentation()`, run it once, look inside `target/spring-modulith-docs` and assert that `components.puml`, one `module-<name>.puml` and one `module-<name>.adoc` per module, and `all-docs.adoc` exist.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why a module test needs neither the database nor the other module, what the mock replaces and that `Scenario` swaps the `sleep` for an event-driven wait.
+
+**Optional challenges**
+
+- **TODO-05:** remove the mock and use `@ApplicationModuleTest(mode = BootstrapMode.DIRECT_DEPENDENCIES)`. Which beans are in the context now, and what does that cost when `publishing` needs a database?
+- **TODO-06:** open `target/spring-modulith-docs/module-notification.adoc`, find the "Bean references" and "Events listened to" rows and render `components.puml` in any PlantUML viewer.
+
+**Prerequisites:** modules and `verify()` (the application modules lab), `@ApplicationModuleListener` (the events and publication registry lab), JUnit 5, AssertJ and basic Mockito.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. Each test to complete fails with `TODO-NN: not implemented yet` until you write it, and `NotificationModuleTests` fails right at context startup.
+
 ## Documentation Links
 
 - [Spring Modulith Reference: Integration Testing Application Modules](https://docs.spring.io/spring-modulith/reference/testing.html): `@ApplicationModuleTest`, bootstrap modes, `PublishedEvents`, `Scenario`, change-aware test execution.

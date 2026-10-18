@@ -210,6 +210,41 @@ String sql = """
         """);   // true — indistinguishable
 ```
 
+## Lab
+
+In this lab you get `TextBlocks`, a class with six required methods (plus one optional) that return a `String` built from a text block. Each method's comment gives the exact target value, and reproducing it forces you to reason about indentation stripping, trailing-whitespace stripping and the two escapes that only exist in text blocks. Pasting a snippet and hoping it matches will not work.
+
+**The scenario**
+
+The compiler applies an incidental-whitespace algorithm to a text block's content, and the final value depends on where the closing delimiter sits and how much each line is indented.
+
+- `sqlQuery()`: a three-line value with relative indentation preserved and a trailing newline.
+- `htmlListNoTrailingNewline()`: an HTML list with no trailing newline.
+- `rightPaddedColors()`: lines with trailing spaces that must survive.
+- `wrapOneLine()`: a single sentence written across three physical lines.
+- `quotesInsideBlock()`: a value containing three consecutive double quotes.
+- `normalizeFromExternalSource(String)`: applying the same algorithm at runtime to text that did not come from a literal.
+
+**What you will do, step by step**
+
+1. **Control indentation and the trailing newline (TODO-00 and TODO-01).** The compiler looks at every non-blank content line and also at the line holding the closing delimiter, takes the least indented one and strips that many spaces from all of them. If the delimiter sits on its own line the value ends in `\n`; if it sits right after the last character it does not.
+2. **Preserve trailing spaces (TODO-02).** Trailing spaces are always stripped, no matter how many you type. The `\s` escape is applied afterward and pins a space in place.
+3. **Join lines (TODO-03).** A backslash at the end of a source line suppresses that line's terminator, joining it with the next line. This escape only exists in text blocks.
+4. **Triple quotes (TODO-04).** One or two quotes in a row need no escape; only a run of three or more is ambiguous with the delimiter, so escaping one of them is enough.
+5. **Normalize at runtime (TODO-05).** The text simulates a file read just now, so it cannot be a literal. `String` itself exposes the same indentation-stripping algorithm as an instance method, with no manual line splitting.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to look at a text block and say how many spaces will be stripped and whether the value ends with a newline.
+
+**Optional challenges**
+
+- **TODO-06:** implement `translateEscapesFromExternalSource`, converting literal escape sequences (a backslash followed by `n`, for example) into their real characters, the same way a text block's content is processed after whitespace stripping.
+
+**Prerequisites:** basic Java syntax, `String` and escapes such as `\n`, and Java 21.
+
+**How to run it:** clone the repository, go into `java-concepts/text-blocks` and run `mvn test` (or, from the root, `mvn -pl java-concepts/text-blocks test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [JEP 378: Text Blocks](https://openjdk.org/jeps/378) — doc

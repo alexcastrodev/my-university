@@ -121,6 +121,39 @@ O `explain` lê o schema do API server, então sempre bate com a versão do seu 
 - **`--dry-run=client` vs `server`.** O client é offline e instantâneo; o server precisa de acesso ao cluster mas reporta o que o cluster aceitaria de fato.
 - **`-o yaml` para depurar vs para escrever.** Ótimo para ver o estado efetivo e os defaults; barulhento e não portável como arquivo fonte.
 
+## Lab
+
+Neste lab você recebe um `ops.sh` com três tarefas cotidianas de `kubectl` no namespace `shop`, cada uma escrita do jeito ingênuo que causa um acidente clássico. O seu trabalho é corrigir o script. A ideia central é que o `kubectl` faz exatamente o que você pede, no namespace atual, para todos os objetos que casam, e que a saída em tabela é feita para humanos, não para ser parseada.
+
+**O cenário**
+
+O namespace `shop` já tem um Deployment `cache`, um Pod avulso `web-stable` e dois Pods canary com a label `track=canary`. O teste roda o seu script no nó de um cluster real (k3s via Testcontainers), com o `kubectl` configurado como administrador.
+
+- `src/main/resources/ops.sh`: o seu arquivo, com três comandos e um TODO para cada.
+- `src/main/resources/k8s/api.yaml`: um Deployment `api` (`busybox:1.37`) sem namespace no manifesto. Você pode editá-lo, se quiser.
+- `src/test/resources/k8s/shop.yaml`: dado pronto, com o `cache` (imagem `busybox:1.36`), o `web-stable` e os dois canaries.
+
+Repare que `web-stable` é um Pod avulso: se for apagado por engano, nada o recria.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar e ler as falhas.** Cada tarefa dá errado do seu próprio jeito, então rode antes de editar.
+2. **Implantar no namespace certo (TODO-00).** O `kubectl apply` do `api.yaml` cai no namespace do contexto atual, que é `default`. Faça o `api` ir para `shop` e nada para `default`, indicando o namespace no comando (ou no manifesto).
+3. **Apagar só os canaries (TODO-01).** O `delete pods --all` leva também o `web-stable`. Use um seletor de label para remover apenas os Pods `track=canary`.
+4. **Gerar o relatório pelos campos (TODO-02).** Hoje o script faz `awk` sobre a tabela de `-o wide`, que muda com a versão e com a largura das colunas. Imprima uma linha por Deployment, no formato `<nome> <imagem>`, ordenada por nome e sem mais nada, lendo os campos do objeto com `-o jsonpath` ou `-o custom-columns`. Lembre que as linhas de `kubectl apply` não podem poluir o relatório.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubectl-essentials test` passa por inteiro: o `api` está em `shop` e nada foi implantado em `default`, os Pods canary sumiram e o `web-stable` continua com o mesmo UID, e o script imprime exatamente `api busybox:1.37` e `cache busybox:1.36`. Você deve conseguir explicar o que cada um dos três acidentes teria causado em produção.
+
+**Desafios opcionais**
+
+- **TODO-03:** antes de apagar, rode o mesmo comando com `--dry-run=client`. O que ele imprime, e por que é um bom hábito para qualquer `delete` com seletor?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "kubectl Essentials", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/kubectl-essentials test`. Você edita o `ops.sh` (e pode editar o `api.yaml`); os comentários TODO marcam cada tarefa.
+
 ## Documentation Links
 
 - [kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/): a cola canônica.

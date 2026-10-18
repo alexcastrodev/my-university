@@ -179,6 +179,41 @@ Os trechos de SQL dependem do provider: `CURRENT_TIMESTAMP` e `||` no SQLite,
   simples; sequência alimenta várias tabelas; GUID gerado no cliente evita ida ao
   banco ao inserir um grafo. Trocar depois é uma migração de dados.
 
+## Lab
+
+Neste lab você diz ao EF Core quais valores o banco produz (defaults, relógio, colunas computadas, triggers), para que ele os deixe de fora do `INSERT`, os leia de volta e não confunda "não definido" com um `0` intencional. Você recebe a entidade `Account`, um `ShopDatabase.Create` que já cria o esquema e uma trigger, e um `OnModelCreating` vazio com comentários `TODO`. Com o modelo mudo, todo valor é enviado pela aplicação ou fica vazio. A ideia central é que o EF só deixa o banco decidir quando você declara isso, e que o valor sentinela de cada propriedade precisa ser escolhido com cuidado.
+
+**O cenário**
+
+Uma conta (`Account`) tem `Status`, `Credits`, `CreatedAt`, `UpdatedAt` e `FullName`, e o banco deve preencher todos eles.
+
+- `Entities.cs`: `Account` (com `Credits` inicializado em `-1` no C#, `FullName`, `Initials`) e `Ticket` (com `Ref` do tipo `Guid`).
+- `ShopDatabase.cs`: cria o esquema com `EnsureCreated` e uma trigger `Accounts_SetUpdatedAt` que atualiza `UpdatedAt` depois de cada update.
+- `ShopDbContext.cs`: onde ficam as configurações.
+
+Os testes rodam em SQLite em memória. O lab deixa de fora sequences, porque o SQLite não as tem, e row versions, que pertencem a outro concept.
+
+**O que você vai fazer, passo a passo**
+
+1. **Default de texto (TODO-00).** Em `Status`, configure o default de banco `"Active"`. No C# ele é nulo até salvar, e o teste espera que o valor volte preenchido, mas que um `Status` definido explicitamente seja respeitado.
+2. **Default numérico com sentinela (TODO-01).** `Credits` tem default 10 no banco, mas o inicializador C# é `-1` e um `0` intencional precisa ser gravado como `0`. Escolha qual valor funciona como sentinela para o EF decidir quando omitir a coluna do `INSERT`.
+3. **Relógio do banco (TODO-02).** Faça `CreatedAt` ser preenchido por `HasDefaultValueSql("CURRENT_TIMESTAMP")`.
+4. **Coluna computada armazenada (TODO-03).** `FullName` é `FirstName || ' ' || LastName` como coluna computada e armazenada. Depois de mudar o sobrenome e salvar, o novo valor deve voltar.
+5. **Trigger (TODO-04).** `UpdatedAt` é preenchido pela trigger. Diga ao EF que ele é gerado ao adicionar ou atualizar, e garanta que o novo valor seja lido depois que a trigger rodou (o `RETURNING` do SQLite informa valores antes das triggers).
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Os testes também inserem uma linha por SQL bruto para provar que os defaults vivem no banco, e não só no EF. Você deve conseguir explicar por que `Credits = 0` precisa ser gravado como zero e por que filtrar por `FullName` vira SQL na coluna computada.
+
+**Desafios opcionais**
+
+- **TODO-05:** um `GuidValueGenerator` do lado do cliente para `Ticket.Ref`, que não é chave e por isso nenhuma convenção o gera.
+- **TODO-06:** uma coluna computada virtual (não armazenada) para `Initials`, montada com `upper(substr(FirstName, 1, 1)) || upper(substr(LastName, 1, 1))`. Os testes atuais não cobrem os dois desafios, então confira o resultado você mesmo.
+
+**Pré-requisitos:** EF Core básico (`DbContext`, `SaveChanges`), um pouco de SQL (`DEFAULT`, colunas computadas, triggers) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. A configuração a escrever está nos comentários `TODO-NN` dentro de `OnModelCreating`, e os testes vermelhos mostram o que o modelo ainda não declara.
+
 ## Documentation Links
 
 - [Generated values, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties) (doc)

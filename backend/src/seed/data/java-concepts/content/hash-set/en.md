@@ -106,6 +106,37 @@ The exact order depends on each element's hash code and the table's current capa
 - **Average O(1) operations assume a reasonably distributed `hashCode()`** — a poor hash function that collides heavily degrades `add`/`contains`/`remove` toward O(n), since every colliding element has to be checked with `equals()`.
 - **`HashSet` is not synchronized** — same caveat as `ArrayList`/`LinkedList` for concurrent or in-loop structural modification.
 
+## Lab
+
+In this lab you get the `TagIndex` class, which keeps an item's tags in a `HashSet<String>`, and you implement set algebra on top of it: intersection, difference and, in the challenge, union. The core idea is to do these operations with `retainAll()`, `removeAll()` and `addAll()` on defensive COPIES, so that asking something about two sets never changes either of them.
+
+**The scenario**
+
+An item (an article, a photo, a bookmark) has tags, and tags are case-insensitive: `"Java"` and `"java"` are the same tag.
+
+- `TagIndex.java`: holds `tags` (a `Set<String>` backed by a `HashSet`). `size()` is already written. You implement adding, checking and comparing with another index.
+
+Those set methods (`retainAll`, `removeAll`, `addAll`) MODIFY the set they are called on. Calling them directly on `tags` would corrupt the index, and the tests check precisely that neither index changes.
+
+**What you will do, step by step**
+
+1. **Add with normalization (TODO-00).** In `addTag()`, convert the tag to lower case, add it to the set and return `true` if it was new or `false` if it was already there. The return value of `Set.add()` already answers that.
+2. **Check ignoring case (TODO-01).** In `hasTag()`, convert to lower case and check for presence.
+3. **Intersection (TODO-02).** In `commonTagsWith()`, copy this index's tags into a new `HashSet` and apply `retainAll()` with the other's tags. The result is a NEW set with the tags present in both.
+4. **Difference (TODO-03).** In `tagsOnlyInThis()`, copy this index's tags and apply `removeAll()` with the other's, leaving only what exists here and not there.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what would happen to the original index if `retainAll()` were called directly on `tags`, and why the copy fixes it.
+
+**Optional challenges**
+
+- **TODO-04:** implement `allTagsCombined()` (the union) with `addAll()` on a copy, again without mutating either index.
+
+**Prerequisites:** basic Java syntax and familiarity with the `Set` interface.
+
+**How to run it:** clone the repository, go into `java-concepts/hash-set` and run `mvn test` (or, from the root, `mvn -pl java-concepts/hash-set test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 590–591 — book

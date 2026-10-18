@@ -245,6 +245,44 @@ Expressions.
   parâmetro renomeia uma variável usada em todos os membros, e argumentos
   nomeados em chamadas (`new Greeter(name: "Ana")`) também dependem dele.
 
+## Lab
+
+Neste lab você recebe `Models.cs` com tipos escritos com construtores primários que **já compilam**, mas escondem armadilhas, e testes xUnit prontos que falham até você corrigi-las. O seu trabalho é editar esses tipos. A ideia central é entender o que um parâmetro de construtor primário realmente é numa classe ou struct: um campo oculto, capturado e **mutável**, não uma propriedade. Isso explica por que o estado pode divergir, por que não há validação automática e por que um struct zerado ignora o construtor.
+
+**O cenário**
+
+Vários tipos pequenos em `Models.cs`, cada um com um problema a resolver. O compilador já avisa (CS9124 e CS9107) sobre dois deles: esses avisos apontam estado que pode se desencontrar.
+
+- `Account(string owner)`: guarda `owner` duas vezes, em `Owner` e num campo oculto mutável usado por `Describe()` e `Rename()`.
+- `OrderService(IRepo repo)`: usa `repo` direto, sem validar e sem ser readonly.
+- `Counter(int start)`: um `struct` cujo `Value` lê o parâmetro capturado.
+- `BankAccount` e `Savings`: `Savings` repassa `id` e `owner` à base e também os captura.
+- `Coordinates` e `Service`: os dois tipos usados pelos desafios.
+
+O teste `DefaultStructHasZeroedParameters` já passa e só documenta o fato de que `default(Counter)` não passa pelo construtor.
+
+**O que você vai fazer, passo a passo**
+
+1. **Uma só fonte de verdade (TODO-00).** Em `Account`, faça `Owner` ser `{ get; private set; }`, atribua-o em `Rename()` e leia `Owner` (não o parâmetro) em `Describe()`. Assim o parâmetro deixa de ser capturado.
+2. **Readonly e validação (TODO-01).** Em `OrderService`, guarde o parâmetro num campo `_repo` readonly, lance `ArgumentNullException(nameof(repo))` no inicializador se for nulo e use `_repo` em `Load()`. O teste confere o nome do parâmetro e, por reflection, que o campo é `IsInitOnly`.
+3. **Construtor sem parâmetros num struct (TODO-02).** Em `Counter`, `new Counter().Value` hoje é 0, o parâmetro zerado. Declare um construtor sem parâmetros que encadeia ao primário com `this(1)`.
+4. **Parar de capturar o que a base já guarda (TODO-03).** Em `Savings`, `ToString()` usa os parâmetros capturados e fica velho quando `Owner` muda. Use as propriedades herdadas `Id` e `Owner`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde e os avisos CS9124 e CS9107 somem. Você deve conseguir explicar por que `Counter` aceita `Increment()` mudando o parâmetro e por que `default(Counter).Value` continua sendo 0.
+
+**Desafios opcionais**
+
+- **TODO-04:** transforme `Coordinates` num record posicional `Coordinates(int X, int Y)`, para ganhar `X`, `Y` e igualdade por valor.
+- **TODO-05:** em `Service`, declare `private readonly string name = name.Trim();`, de modo que o membro enxergue o campo readonly (que sombreia o parâmetro) e `Show()` devolva o texto aparado.
+
+Esses dois não têm teste, então confira você mesmo.
+
+**Pré-requisitos:** classes, structs e construtores em C#, noções de injeção de dependência e o .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O código compila desde o início (veja os avisos do compilador), e os testes vermelhos mostram o que falta. Os comentários `TODO-NN` em `Models.cs` explicam o que mudar em cada tipo.
+
 ## Documentation Links
 
 - [Instance constructors, primary constructors section, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors#primary-constructors) (doc)

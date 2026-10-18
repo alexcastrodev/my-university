@@ -72,6 +72,37 @@ String strongId = UUID.randomUUID().toString();      // cryptographically strong
 - **Sessões vs. tokens sem estado (JWT) é uma escolha arquitetural real, não uma preferência de estilo** — uma sessão mantém o estado no servidor (fácil de invalidar imediatamente removendo a entrada, mas exige um armazenamento compartilhado/sticky entre instâncias); um token assinado mantém o estado no cliente (trivialmente escalável horizontalmente, sem precisar de armazenamento do lado servidor, mas não pode ser revogado antes de sua expiração sem um mecanismo extra de denylist). Nenhum dos dois é estritamente melhor — a escolha depende de o que importa mais para um dado sistema: revogação instantânea ou escalabilidade sem estado.
 - **Livro vs. hoje: o cookie do exemplo está sem dois atributos que a orientação atual trata como obrigatórios para um cookie de sessão, não opcionais.** `Set-Cookie: SESSION_ID=...; Path=/; HttpOnly` define `HttpOnly` (corretamente — ele bloqueia o JavaScript de ler o cookie, mitigando o roubo de sessão via XSS) mas omite `Secure` (que impede o cookie de ser enviado por HTTP puro, mitigando interceptação em nível de rede) e `SameSite` (que controla se o cookie é enviado em requisições cross-site, mitigando CSRF — `Strict` é a recomendação atual especificamente para um cookie de autenticação). Um cookie de sessão escrito hoje deveria se parecer mais com `SESSION_ID=...; Path=/; HttpOnly; Secure; SameSite=Strict`.
 
+## Lab
+
+Neste lab você recebe a classe `SessionStore` com os métodos vazios e constrói à mão o que um container de servlets faz por baixo de `HttpSession`: gerar um id, guardar atributos no servidor, acompanhar a atividade para decidir expiração e, no desafio, devolver o id ao cliente por um `Set-Cookie`. A ideia central é que uma sessão é só contabilidade em memória, e que lógica de expiração fica testável quando o tempo entra como parâmetro.
+
+**O cenário**
+
+Uma tabela em memória guarda sessões, cada uma com um id, um conjunto de atributos e o instante do último acesso. Não há container nem HTTP, só a contabilidade por baixo.
+
+- `SessionStore.java`: a única classe. Ela tem uma classe interna `Session` (atributos e `lastAccessed`) e um mapa de id para sessão. Todos os métodos sensíveis ao tempo recebem um `Instant` em vez de chamar `Instant.now()`.
+
+Essa decisão é deliberada: lógica de expiração que lê o relógio do sistema só se testa esperando. Passando o "agora" como parâmetro, os testes usam instantes fixos e nenhum `Thread.sleep()`. Outra regra que vale notar: um id desconhecido sempre lança `NoSuchElementException`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Criar a sessão (TODO-00).** Em `createSession()`, gere um id único (`UUID.randomUUID().toString()` serve), guarde uma `Session` nova com `now` como último acesso e devolva o id.
+2. **Registrar atividade (TODO-01).** Em `touch()`, mova o último acesso da sessão para `now`. Só `touch()` e `createSession()` contam como atividade, de propósito.
+3. **Ler e escrever atributos (TODO-02 e TODO-03).** `put()` guarda o valor sob a chave, sem mexer no último acesso. `get()` devolve o valor ou `null` se a chave nunca foi guardada. Nos dois, id desconhecido lança `NoSuchElementException(sessionId)`.
+4. **Decidir a expiração (TODO-04).** Em `isExpired()`, devolva `true` quando o tempo entre o último acesso e `now` for MAIOR que `timeout`. Pense no caso de borda: exatamente igual ao timeout ainda não expirou.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que passar o `Instant` como parâmetro dispensa `Thread.sleep()` nos testes e por que `put()` não renova a sessão.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `setCookieHeader()`, devolvendo o valor do cabeçalho `Set-Cookie` no formato `JSESSIONID=<id>; Path=/; HttpOnly` (sem o prefixo `Set-Cookie: `), com `NoSuchElementException` para id desconhecido.
+
+**Pré-requisitos:** sintaxe básica de Java, `java.time.Instant` e `java.time.Duration`, e familiaridade com `Map`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/http-sessions-under-the-hood` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/http-sessions-under-the-hood test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [MDN — Using HTTP cookies (attributes, security considerations)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) — doc

@@ -106,6 +106,35 @@ ll.set(2, val + " Changed");
 - **Todo elemento é envolvido em um objeto nó**, carregando referências prev/next junto com o valor — mais overhead de memória por elemento do que o array de suporte plano do `ArrayList`, independentemente de quantos elementos estejam armazenados.
 - **Não é sincronizado**, assim como o `ArrayList` — modificação estrutural concorrente (inclusive durante a iteração) não é segura e tipicamente aparece como `ConcurrentModificationException`.
 
+## Lab
+
+Neste lab você recebe a classe `PlaybackQueue`, que embrulha um `LinkedList<String>`, e usa o `LinkedList` como `List` e como `Deque` ao mesmo tempo. A ideia central é que a mesma estrutura serve para uma fila comum (esperar a vez) e para "tocar a seguir" (furar a fila), porque oferece operações nas duas pontas além das posicionais.
+
+**O cenário**
+
+Uma fila de reprodução tem a faixa da frente tocando agora. Faixas novas esperam no fim, algumas pulam para o começo, e pular uma faixa remove a atual.
+
+- `PlaybackQueue.java`: guarda `queue` (um `LinkedList<String>`). `size()` já está pronto. Os outros métodos você implementa.
+
+**O que você vai fazer, passo a passo**
+
+1. **Entrar no fim da fila (TODO-00).** Em `enqueue()`, adicione a faixa ao final: a adição normal, de quem espera a vez.
+2. **Furar a fila (TODO-01).** Em `playNext()`, adicione a faixa ao INÍCIO, para que toque logo depois da que está tocando agora, à frente de tudo que já estava enfileirado. Pense qual método de `Deque` faz isso em uma só operação.
+3. **Espiar a faixa atual (TODO-02).** Em `nowPlaying()`, devolva a faixa da frente SEM removê-la. Se a fila estiver vazia, deixe a exceção natural acontecer, sem capturar e relançar.
+4. **Pular (TODO-03).** Em `skip()`, remova e devolva a faixa da frente, também deixando a exceção natural em caso de fila vazia. A diferença entre os métodos que lançam e os que devolvem `null` é justamente o ponto: escolha a variante que lança.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar a diferença entre `nowPlaying()` e `skip()` em termos de quem muda a fila, e o que acontece com uma fila vazia em cada um.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `insertAt()`, inserindo a faixa na posição dada (0 é a frente) com a inserção posicional de `List` que o `LinkedList` também oferece.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com `List` e `Deque`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/linked-list` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/linked-list test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 589–590 — book

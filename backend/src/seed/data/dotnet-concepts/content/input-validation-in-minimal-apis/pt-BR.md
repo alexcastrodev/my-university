@@ -159,6 +159,39 @@ public sealed class NotFutureAttribute : ValidationAttribute
   banco ao atributo (`[StringLength(50)]` e `HasMaxLength(50)`), ou um dos dois
   está mentindo.
 
+## Lab
+
+Neste lab você recebe uma API de jogos que aceita qualquer coisa: o `POST /games` armazena o DTO sem nenhuma checagem, então um jogo sem nome ou com preço 500 é criado sem reclamar, e `GET /games?page=` aceita qualquer página. O seu trabalho é declarar as regras, ligar a validação embutida do ASP.NET Core e descobrir uma armadilha que faz as regras não terem efeito nenhum. A ideia central é que requisições inválidas sejam rejeitadas com `400 Bad Request` antes de o handler rodar.
+
+**O cenário**
+
+Os testes sobem a API em memória com `WebApplicationFactory<Program>` e conferem o status, as chaves dentro de `errors` e que um jogo inválido não é armazenado.
+
+- `Program.cs`: registra o `GameStore` e chama `MapGamesEndpoints`.
+- `GamesEndpoints.cs`: o grupo `/games` com `GET /` (parâmetro `page`, padrão 1) e `POST /`.
+- `CreateGameDto.cs`: o record de entrada (`Name`, `GenreId`, `Price`, `ReleaseDate`).
+- `GameStore.cs`: o store em memória, com `Add` e `Count`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ligar a validação (TODO-00).** Em `Program.cs`, registre os serviços de validação do ASP.NET Core, para que as data annotations sejam checadas antes do handler.
+2. **Declarar as regras (TODO-01).** Em `CreateGameDto`, anote os parâmetros posicionais: `Name` obrigatório com no máximo 50 caracteres, `GenreId` de 1 a 50 e `Price` de 1 a 100.
+3. **Descobrir a armadilha (TODO-02).** Rode os testes depois dos dois primeiros passos: alguns testes de POST deveriam passar e não passam. Descubra por que esse tipo nunca é validado (olhe com atenção a declaração dele) e corrija. Esse é o ponto do lab: as anotações podem estar certas e mesmo assim não fazer nada, sem erro nenhum.
+4. **Validar um parâmetro simples (TODO-03).** Em `GamesEndpoints`, rejeite valores de `page` fora de 1 a 100 anotando o parâmetro.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o handler nem chega a rodar com um body inválido, por que todos os campos inválidos aparecem na mesma resposta e o que estava impedindo as anotações de valer no TODO-02.
+
+**Desafios opcionais**
+
+- **TODO-04:** crie um `NotFutureAttribute` (um `ValidationAttribute` customizado) e aplique em `ReleaseDate` para rejeitar datas de lançamento no futuro.
+- **TODO-05:** envie um body inválido com `curl` e leia a resposta com atenção. Note a capitalização das chaves em `errors`.
+
+**Pré-requisitos:** Minimal APIs básicos (`MapGet`, `MapPost`, route groups), records e atributos em C# e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O app compila no estado inicial, e os testes de validação falham até você completar os TODOs marcados em comentário em `Program.cs`, `CreateGameDto.cs` e `GamesEndpoints.cs`.
+
 ## Documentation Links
 
 - [Validation in Minimal API apps, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#validation-support-in-minimal-apis) (doc)

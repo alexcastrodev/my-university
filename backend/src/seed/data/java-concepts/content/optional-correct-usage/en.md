@@ -244,6 +244,37 @@ The `flatMap(Optional::stream)` form has no `get()` in it at all, so there is no
   ```
 - **Wrapping every return value in `Optional` is its own kind of noise.** A method that genuinely cannot fail to produce a result should return the result, not an `Optional` of it; and a team that has not agreed on where the boundary is ends up with call sites that mix `Optional` chains, null checks, and defensive `isPresent()` guards for the same data, which is harder to read than either convention applied consistently.
 
+## Lab
+
+In this lab you get `PreferenceResolver`, a class with five lookups of preferences that may or may not have a value. Your job is to implement each one with `Optional`'s combinators, without manual `isPresent()`/`get()` checks. The core idea is to feel what each combinator expresses and when a default value gets computed, which matters a lot when that default is expensive.
+
+**The scenario**
+
+A nickname, a UI theme, the zip code of an address and a list of optional nicknames: all of them may be absent, and the code has to cope without a loose `null`.
+
+- `PreferenceResolver`: the methods `normalize`, `displayName`, `resolveTheme`, `zipOf`, `presentNicknames` and the optional `requireNickname`.
+- `Address`: a nested record with the `zip`.
+- `PreferenceResolverTest`: checks the present and absent cases of each method, including whether the theme's `Supplier` is called or not.
+
+**What you will do, step by step**
+
+1. **Wrap the possibly null (TODO-00).** In `normalize`, turn a nickname that may be `null` into an `Optional`, treating `null` as absent (`Optional.ofNullable`).
+2. **Simple and lazy defaults (TODO-01 and TODO-02).** In `displayName`, return the nickname or the literal `"Guest"`. In `resolveTheme`, return the stored theme or whatever the `Supplier` produces, never calling the `Supplier` when a theme is already stored. That is what separates a combinator that takes a `Supplier` from one that takes an already computed value.
+3. **Navigate without `if` (TODO-03).** In `zipOf`, extract the zip code from the address, or `"UNKNOWN"` if the address is absent, chaining the mapping instead of testing `isPresent()`.
+4. **Collect only the present ones (TODO-04).** In `presentNicknames`, filter out the empty `Optional`s of a `List<Optional<String>>` and gather the values into a list, keeping the original order.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `orElse(value)` and `orElseGet(supplier)` behave differently when the default is expensive, and why `Optional` suits a return type but not a field or parameter.
+
+**Optional challenges**
+
+- **TODO-05:** implement `requireNickname`, which returns the nickname when present or throws `NoSuchElementException("nickname required")` when absent.
+
+**Prerequisites:** basic Java syntax, lambdas and the idea of a missing value with `null`.
+
+**How to run it:** clone the repository, go into `java-concepts/optional-correct-usage` and run `mvn test` (or, from the root, `mvn -pl java-concepts/optional-correct-usage test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Optional — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html) — doc

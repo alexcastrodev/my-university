@@ -585,6 +585,38 @@ graph LR
   judgment about operational tooling rather than something a snippet
   demonstrates.
 
+## Lab
+
+In this lab you get a minimal Spring Boot web application with Actuator on the classpath, but almost nothing of it visible: only `/actuator/health` responds, and it says as little as possible. Your job is not to write Java code but to edit `application.properties`. The core idea is to feel Actuator's two independent configuration axes: which endpoints are exposed over HTTP, and how `/health` aggregates several components into a single status.
+
+**The scenario**
+
+A sample application whose tests start the real app on a random port and make real HTTP requests.
+
+- `ActuatorLabApplication`: the `@SpringBootApplication` class, with no logic of its own.
+- `src/main/resources/application.properties`: where all the TODOs live, each as a commented-out line with a hint. It already has `info.app.name=Kurz Actuator Lab`.
+- `ActuatorEndpointsTest`: checks `/actuator/health` with `components`, `/actuator/info` with the app name, `/actuator/beans` reachable, `/actuator/loggers` still 404 and `/actuator/health/readiness` including `diskSpace`.
+- `HealthAggregationDownTest`: forces the built-in `diskSpace` indicator to `DOWN` (an absurd threshold, with no custom `HealthIndicator`) and checks that the aggregate `/actuator/health` becomes `DOWN` with HTTP 503. This test does not depend on you.
+
+**What you will do, step by step**
+
+1. **Choose what to expose (TODO-00).** Add `management.endpoints.web.exposure.include=health,info,beans`. Leave `loggers` out on purpose: the test asserts it stays 404.
+2. **Show the health details (TODO-01).** Add `management.endpoint.health.show-details=always` so `/actuator/health` carries the `components` block, not just the aggregate status.
+3. **Make `info` show up (TODO-02).** Add `management.info.env.enabled=true`. On modern Boot the `env` contributor is opt-in, so without it the existing `info.app.name` does not reach `/actuator/info`.
+4. **Build the readiness group (TODO-03).** Add `management.endpoint.health.probes.enabled=true` and `management.endpoint.health.group.readiness.include=readinessState,diskSpace`, so the `readiness` group includes `diskSpace` next to the default `readinessState`.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain the difference between exposing an endpoint and configuring what it shows, and why a single `DOWN` component brings down the overall `/health` status and changes the HTTP code to 503.
+
+**Optional challenges**
+
+- **TODO-04:** uncomment the `micrometer-registry-prometheus` dependency in `pom.xml`, add `prometheus` to `exposure.include`, run the application and `curl http://localhost:8080/actuator/prometheus` to see the Prometheus text format.
+
+**Prerequisites:** the `spring-boot-starter-actuator` dependency and what it auto-configures, basic `application.properties` configuration and being able to make an HTTP request and read JSON.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. The `ActuatorEndpointsTest` tests fail until you uncomment and complete each property, so the list of failures is your checklist.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 16,

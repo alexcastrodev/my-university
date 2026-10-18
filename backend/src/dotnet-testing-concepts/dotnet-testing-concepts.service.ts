@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 import {
   readConceptContent,
-  splitSections,
+  splitLabSection,
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
@@ -43,7 +43,6 @@ interface ConceptMeta extends DotNetTestingConceptSummary {
 }
 
 const DATA_DIR = join(__dirname, '../seed/data/dotnet-testing-concepts');
-const LAB_SECTION_TITLE = 'Lab';
 const FRONTMATTER_FIELDS = [
   'title',
   'summary',
@@ -109,9 +108,6 @@ export class DotNetTestingConceptsService {
       updatedAt,
     } = readConceptContent(DATA_DIR, meta.slug, lang, FRONTMATTER_FIELDS);
 
-    const all = splitSections(body);
-    const lab = all.find((section) => section.title === LAB_SECTION_TITLE);
-
     return {
       slug: meta.slug,
       id: meta.id,
@@ -124,8 +120,7 @@ export class DotNetTestingConceptsService {
       availableLanguages,
       version,
       updatedAt,
-      sections: all.filter((section) => section !== lab),
-      ...(lab && { lab: lab.content }),
+      ...splitLabSection(body),
       references: meta.references,
       related: meta.related,
     };

@@ -192,6 +192,42 @@ templates.
   `modelBuilder.Entity<Customer>().Property(c => c.CustId).ValueGeneratedOnAdd()`;
   with that line, the two inserts that failed before succeeded.
 
+## Lab
+
+In this lab you run the EF Core 10 scaffolder (the engine behind `dotnet ef dbcontext scaffold`) against a small legacy SQLite database and read what it produces: names, keys, defaults, a join table, a view, a table without a primary key and a column whose type the scaffolder had to guess. Then you change the output safely, using a hand-written `partial` class that survives a re-scaffold. You receive the legacy database and the scaffolder already built (`LegacySchema` and `CreateScaffolder`), and the rest are stubs that throw `NotImplementedException`. The core idea is that generated code is never edited: what is yours lives in another file.
+
+**The scenario**
+
+The legacy database uses upper-case snake names on purpose.
+
+- `LegacySchema.cs` (ready): creates `CUSTOMER`, `ORDER_HDR`, `ORDER_LINE` (composite key), `TAG`, `ORDER_TAG` (a plain join table), `AUDIT_LOG` (no primary key) and the view `V_ORDER_TOTALS` (its `SUM` column has no declared type).
+- `Scaffolding.cs`: `ScaffoldSettings` (the CLI flags as a record), plus `ScaffoldModel` and `ScaffoldToDirectory` to implement. `Scaffold` already returns file name and source text in memory.
+- `Presets.cs`, `Findings.cs` and `PartialExtension.cs`: flag presets, reading the generated text and the hand-written file.
+
+The scaffolder runs inside the test process, with no `dotnet-ef`, server or network. The tests check substrings of the generated code and compile it with Roslyn to prove your hand-written code fits.
+
+**What you will do, step by step**
+
+1. **Translate flags into a call (TODO-00).** In `ScaffoldModel`, call `IReverseEngineerScaffolder.ScaffoldModel` with tables, `UseDatabaseNames`, `NoPluralize`, `UseDataAnnotations`, context name and namespaces, suppressing `OnConfiguring` and the connection string warning (the equivalent of `--no-onconfiguring`).
+2. **Database names (TODO-01).** In `Presets.DatabaseNames`, keep names as the database has them (`--use-database-names --no-pluralize`), so `CUSTOMER` stays `CUSTOMER`.
+3. **Data annotations (TODO-02).** In `Presets.DataAnnotations`, use attributes (`[Table]`, `[Column]`, `[Key]`, `[Keyless]`) instead of Fluent calls. Notice what stays in `OnModelCreating` anyway (`OnDelete`, `ValueGeneratedNever`, the join table).
+4. **Only some tables (TODO-03).** In `Presets.OnlyTables`, scaffold only the named tables or views (`--table`).
+5. **Read what the scaffolder decided (TODO-04).** In `Findings.KeylessEntities`, find the keyless entities through `HasNoKey()`. In `ByteArrayProperties`, find the properties typed as `byte[]` because the view column had no declared type.
+6. **Extend without editing (TODO-05).** In `PartialExtension.Source`, write a second file with `partial class LegacyDb` (`OnModelCreatingPartial`, with cascade on `OrderLine`) and `partial class Customer` (a `Display` property). It must compile with the generated code and survive a re-scaffold.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why the join table became skip navigations instead of a class, why `AuditLog` and the view are keyless, and why your partial file still works after adding a column and scaffolding again.
+
+**Optional challenges**
+
+- **TODO-06:** `ScaffoldToDirectory` writes the files to disk. Without `force` the scaffolder must refuse to overwrite (the equivalent of `--output-dir Models` and `--force`).
+- **TODO-07:** `PartialExtension.SourceWithGeneratedKeys` fixes the `ValueGeneratedNever()` the scaffolder guessed for `INTEGER PRIMARY KEY` columns, keeping the cascade.
+
+**Prerequisites:** basic C# and EF Core (DbContext, Fluent API, data annotations), basic SQL (primary and foreign keys, views) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Each stub throws `NotImplementedException("TODO-NN")`, so the red tests tell you which TODO is missing.
+
 ## Documentation Links
 
 - [Reverse engineering, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/) (doc)

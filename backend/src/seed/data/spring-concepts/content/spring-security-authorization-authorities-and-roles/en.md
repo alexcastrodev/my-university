@@ -238,6 +238,37 @@ rather than trying to enumerate every path it should *not* serve.
   .requestMatchers("/db/**").hasAllAuthorities("db", "ROLE_ADMIN")
   ```
 
+## Lab
+
+In this lab you get two classes with empty methods and four tests that form a small table of combinations. Your job is to grant admin privileges in different ways and check access with `hasRole` and `hasAuthority`. The core idea is the asymmetry of the `ROLE_` prefix: `hasRole("ADMIN")` looks for the authority `"ROLE_ADMIN"`, while `hasAuthority("ADMIN")` looks for the literal text `"ADMIN"`, and mixing them up silently denies access.
+
+**The scenario**
+
+Users with the "same" admin privilege written in different ways, and authorization checks without a servlet filter or a web request.
+
+- `AuthorityGrantor`: builds `UserDetails` with `grantAdminRole`, `grantAdminAuthorityWithoutRolePrefix` and `grantAdminRoleUsingRolesBuilder`, all still throwing `UnsupportedOperationException`.
+- `AccessChecks`: has `isGrantedByRole` and `isGrantedByAuthority`, which evaluate a user's authorities with `AuthorityAuthorizationManager`.
+- `AuthorityGrantorTest` and `AccessChecksTest`: check the granted authorities and the four grant-and-check combinations.
+
+**What you will do, step by step**
+
+1. **Grant with the prefix (TODO-00).** In `grantAdminRole`, build the user with `User.withUsername(...).password(...).authorities("ROLE_ADMIN").build()`. It is exactly the string `hasRole("ADMIN")` looks for.
+2. **Grant without the prefix (TODO-01).** In `grantAdminAuthorityWithoutRolePrefix`, use `.authorities("ADMIN")`. It is the common mistake: it satisfies `hasAuthority("ADMIN")` but not `hasRole("ADMIN")`.
+3. **Check by role (TODO-02).** In `isGrantedByRole`, create a `UsernamePasswordAuthenticationToken(user, null, user.getAuthorities())` and evaluate it with `AuthorityAuthorizationManager.hasRole(role).authorize(...).isGranted()`.
+4. **Check by authority (TODO-03).** In `isGrantedByAuthority`, do the same with `AuthorityAuthorizationManager.hasAuthority(authority)`, which compares the literal text with no prefix.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to fill in the table of four combinations from memory (grant `ROLE_ADMIN` or `ADMIN`, check by role or by authority) and explain which ones pass and why.
+
+**Optional challenges**
+
+- **TODO-04:** implement `grantAdminRoleUsingRolesBuilder` with `.roles("ADMIN")`, which adds `ROLE_` by itself. Passing an already prefixed value here throws at build time.
+
+**Prerequisites:** basic Spring Framework and `UserDetails`/`GrantedAuthority` (see the user management lab).
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-security-authorization-authorities-and-roles` and run `mvn test`. The tests fail with `UnsupportedOperationException` until you resolve the TODOs in both classes.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 7, "Configuring authorization: Restricting access", section 7.1, p. 153-171 — doc

@@ -235,6 +235,43 @@ collections will disagree.
   var sorted = versions.OrderBy(v => v.Minor).ToArray(); // ties keep their input order
   ```
 
+## Lab
+
+In this lab you get types that implement common interfaces but with the bodies **missing** (they throw `NotImplementedException`), plus ready xUnit tests. Your job is to fill them in. The core idea is to master what interfaces allow: implementing the comparison interfaces, resolving two interfaces that declare the same member, writing an interface method with a default body and hiding a member behind an explicit implementation. Several tests use reflection to confirm that a member is **not** public on the class, something you cannot prove by calling it.
+
+**The scenario**
+
+Two files in `src/InterfacesLab`.
+
+- `Person.cs`: `Person(name, age)` declares `IComparable<Person>` and `IEquatable<Person>`, and `PersonByNameComparer` is an alternative ordering.
+- `Members.cs`: the interfaces `IDrawable` and `IWeapon`, both with `Draw()`, and the `Cowboy` class that implements both. Also `ILogger` (with `Log` and `Info`), `ListLogger` and `Playlist`, which implements `IEnumerable<string>`.
+
+Notice the shape tests: `typeof(Cowboy).GetMethod("Draw")` must be `null`, `ListLogger` must not have `Info`, and `Playlist` must have a single public `GetEnumerator`, the generic one.
+
+**What you will do, step by step**
+
+1. **Natural order (TODO-00).** In `Person.CompareTo`, order by `Age` and then by `Name` with `string.CompareOrdinal`. Any instance sorts after `null`.
+2. **Alternative order (TODO-01).** In `PersonByNameComparer`, compare by `Name` ignoring case. `null` sorts first, and two `null` values are equal.
+3. **Two explicit implementations (TODO-02).** In `Cowboy`, replace the public `Draw` with `IDrawable.Draw` (returning `"draws a picture"`) and `IWeapon.Draw` (returning `"draws a gun"`). The class must not keep a public `Draw`.
+4. **Consistent equality (TODO-03).** In `Person.Equals(Person?)`, two people are equal when the age matches and the name matches ignoring case. Also override `Equals(object?)` and `GetHashCode` under the same rule, so equal people have the same hash and fit in a `HashSet<Person>` without duplicating.
+5. **Default interface method (TODO-04).** In `ILogger.Info`, write a body that calls `Log` with `"INFO: "` followed by the message, so implementers only have to write `Log`. Note that `ListLogger` does not inherit `Info` as a class member: you only reach it through the interface.
+6. **Explicit non-generic enumerator (TODO-05).** In `Playlist`, make `IEnumerable.GetEnumerator` forward to the generic `GetEnumerator`. Being explicit, it stays off the public surface.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why calling `Draw` requires a cast to the interface, and why `Equals` and `GetHashCode` must agree.
+
+**Optional challenges**
+
+These two have no stub or test, so you write both.
+
+- **TODO-06:** add `IUnit` with `static abstract string Symbol { get; }`, two structs that implement it and `Units.Describe<T>(double)` that returns, for example, `"5 m"`.
+- **TODO-07:** add `ILeft` and `IRight`, both with a default `Name`, and a class `Both` that implements both and resolves the conflict with explicit implementations.
+
+**Prerequisites:** C# interfaces and classes, sorting and equality in .NET (`List<T>.Sort`, `HashSet<T>`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The missing parts throw `NotImplementedException` and carry `TODO-NN` comments, so red tests are your checklist.
+
 ## Documentation Links
 
 - [interface keyword, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/interface) (doc)

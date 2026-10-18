@@ -89,6 +89,41 @@ Everything in the namespace goes, including its PVCs (and with a `Delete` reclai
 - **Copied credentials vs cross-namespace access.** Copies per namespace are more objects to manage and give each application its own identity and blast radius.
 - **Scripted order vs GitOps sync waves.** A bootstrap script is explicit and easy to read; Argo CD sync waves or Flux `dependsOn` express the same ordering declaratively and keep enforcing it continuously.
 
+## Lab
+
+In this lab you get a deploy script that only runs `kubectl apply -f /lab/deploy/` and fails on an empty cluster. Your job is to make the script work on the first attempt, with no errors at all, by organizing the order in which things are created and waiting for what needs waiting for. The core idea is to feel that `kubectl apply` on a directory does not understand dependencies: it applies in alphabetical order, a custom object cannot be born in the same step as its definition, and the script should only return when the app is really available. Running it twice or retrying until it works is not the fix.
+
+**The scenario**
+
+The `src/main/resources/deploy/` directory holds the objects of a shop, and the test copies it to `/lab/deploy` on a fresh k3s node (started by Testcontainers) and runs your `deploy.sh`.
+
+- `namespace.yaml`: the `shop` Namespace.
+- `app.yaml`: a `web-config` ConfigMap and a `web` Deployment in `shop`. The app takes a few seconds to become ready (the readinessProbe only passes after a `sleep 5`).
+- `widget-crd.yaml`: the CustomResourceDefinition of the `Widget` kind.
+- `widget.yaml`: a `Widget` called `default-widget` in `shop`.
+- `src/main/resources/deploy.sh`: the script you edit, with one `TODO` per defect.
+
+You may reorganize `deploy/` freely: new directories and `kustomization.yaml` files.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the errors from the first run.** The failure message lists every error `kubectl` printed.
+2. **Create the Namespace before what is inside it (TODO-00).** Alphabetical order puts `app.yaml` before `namespace.yaml`. Organize the directory with Kustomize (`kustomization.yaml` files) so each object is created after what it needs.
+3. **Create the Widget only once the CRD is served (TODO-01).** A custom resource cannot be created in the same step as its CRD. Apply the CRD first and wait until the API server serves the new kind, and only then apply the rest.
+4. **Wait for the app (TODO-02).** `kubectl apply` returns as soon as the objects are accepted, not when the Pod is ready. Make the script return only when `deploy/web` is available.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/multi-namespace-layout-and-apply-order test` passes `firstRunSucceedsWithoutErrors` (exit 0 and no "error" on stderr), `everythingIsCreated`, `returnsOnlyWhenWebIsAvailable` and `secondRunSucceedsToo`. You should be able to explain why each wait exists and why the script also works when run a second time.
+
+**Optional challenges**
+
+- **TODO-03:** put the CRD and the `Widget` in the same kustomization and apply it once. Kustomize sorts CRDs first; why does it still fail?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the article Multi-Namespace Layout and Apply Order.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/multi-namespace-layout-and-apply-order test`. The `TODO-00`, `TODO-01` and `TODO-02` comments in `deploy.sh` mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/): scope, DNS, when to use several.

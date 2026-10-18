@@ -144,6 +144,32 @@ jshell> /list
 jshell> FileInputStream fin = new FileInputStream("myfile.txt"); // no try/catch, no import needed here
 ```
 
+## Lab
+
+In this lab you get the `SnippetEvaluator` class with two empty methods and use the embeddable JShell API (`jdk.jshell.JShell`) to run Java code that only exists as a `String` at run time. The core idea is to realize that the interactive `jshell` is just a shell: the engine underneath is a live evaluation session that accumulates state between snippets until it is closed.
+
+**The scenario**
+
+A Java program receives pieces of code as text and must return the value each one produces, without compiling anything by hand. `jdk.jshell` ships with the JDK, with no extra dependency and no module flags.
+
+- `SnippetEvaluator.evaluate()`: takes one snippet (`"2 + 2"`) and returns its value as a `String` (`"4"`).
+- `SnippetEvaluator.evaluateAll()`: takes several snippets and runs them together, so a variable declared in one is still there for the next.
+
+Two details from the README are worth knowing first. `eval()` returns a `List<SnippetEvent>` because one snippet can affect others (redefining a method updates whatever used it), and the event for what you just submitted is the last one in the list. And a declaration needs its terminating semicolon (`"int x = 5;"`), while a bare expression (`"2 + 2"`) does not.
+
+**What you will do, step by step**
+
+1. **Evaluate one snippet (TODO-00).** In `evaluate()`, create an engine with `JShell.builder().build()` inside a try-with-resources (it is `AutoCloseable`), call `eval(expression)` and return the event's `value()`, which is a `String` or `null` when the snippet produces no value (a statement, for example).
+2. **Share the session (TODO-01).** In `evaluateAll()`, open exactly ONE `JShell` instance for the whole call, evaluate each expression against it, in order, and close it at the end. Return the values in the same order. This is what makes `"int x = 5;"` followed by `"x * 2"` work: opening one instance per snippet would throw the state away.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `evaluateAll()` cannot simply call `evaluate()` in a loop and what closing the `JShell` does to the declared variables.
+
+**Prerequisites:** basic Java syntax and try-with-resources.
+
+**How to run it:** clone the repository, go into `java-concepts/jshell-repl` and run `mvn test` (or, from the root, `mvn -pl java-concepts/jshell-repl test`). Both methods start by throwing `UnsupportedOperationException("Not implemented yet.")` with the hint in the `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Introduction to JShell — Java SE 25](https://docs.oracle.com/en/java/javase/25/jshell/introduction-jshell.html) — doc

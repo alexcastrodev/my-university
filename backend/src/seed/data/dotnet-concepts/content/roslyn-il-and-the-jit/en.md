@@ -220,6 +220,42 @@ with CDS and the AOT cache of Project Leyden.
   Even the names survive, except local variable names, because they live in the `.pdb`, not in
   the assembly: `long sum` came back as `long num`.
 
+## Lab
+
+In this lab you use the C# compiler as a library. The project structure is ready and the methods of `CompilerPipeline`, `IlInspector` and `SyntaxAndJit` throw `NotImplementedException`. Your job is to implement them so you can compile C# text in memory, run the result, and then read the IL and the metadata Roslyn produced. The core idea is to see with your own eyes that the whole pipeline is inspectable data: `checked` becomes `add.ovf`, Debug and Release produce different IL, the syntax does not know what the semantic model knows, and the JIT hints live in metadata.
+
+**The scenario**
+
+You write the tools that "open the box" of the compiler, and the tests use a small `Calc` class (`Add`, `AddChecked`, `Twice`) as the guinea pig.
+
+- `CompilerPipeline.cs`: `Compile` turns C# text into an assembly `byte[]` (with diagnostics) and `Run` loads that assembly and invokes a static method.
+- `IlInspector.cs`: `GetMethodIl` reads the IL bytes of a method straight from the metadata and `ReadOpCodes` turns those bytes into a list of opcodes.
+- `SyntaxAndJit.cs`: queries on the syntax tree and the semantic model, plus reading `MethodImplAttributes`. The `Hints` class (`Cold`, `Hot`, `Plain`) is already provided.
+
+The tests only compare opcodes and diagnostics, never byte sizes or timing, so they do not depend on the compiler version.
+
+**What you will do, step by step**
+
+1. **Compile in memory (TODO-00).** In `Compile`, use `CSharpSyntaxTree.ParseText`, `CSharpCompilation.Create` with `References` and `CSharpCompilationOptions(kind, optimizationLevel: optimization)`, and `Emit` into a `MemoryStream`. Errors such as `CS0029` come back as diagnostics, not exceptions, and `Image` stays null.
+2. **Run and unload (TODO-01).** In `Run`, load the image into a collectible `AssemblyLoadContext`, find the public static method with reflection and invoke it. Always call `Unload()`, even if the call throws, and do not unwrap the `TargetInvocationException`.
+3. **Read IL without loading (TODO-03).** In `GetMethodIl`, use `PEReader` and `MetadataReader` to find the type and the method and return `GetMethodBody(...).GetILBytes()`. A missing method must throw `ArgumentException`.
+4. **Decode opcodes (TODO-02).** In `ReadOpCodes`, walk the bytes: the `0xFE` prefix means a two-byte opcode, and each operand is skipped according to `OperandType` (0, 1, 2, 4 or 8 bytes, plus the special case of `InlineSwitch`).
+5. **Syntax versus semantics (TODO-04).** `DeclaredMethodNames` only needs the syntax tree. `TypeOfInitializer` needs a compilation and asks `GetSemanticModel` for the type of `1 + 2L`: only it knows that is a `long`.
+6. **JIT hints (TODO-05).** In `GetImplFlags`, return `GetMethodImplementationFlags()` and notice that `NoInlining` and `AggressiveInlining` are metadata you can read without running anything.
+
+**How you know you are done**
+
+`dotnet test` is green (the two `Bonus_` tests only pass if you do the optional items). You should be able to explain why `AddChecked` has `add.ovf` and `Add` does not, and why the Debug IL has `nop` and the Release IL does not.
+
+**Optional challenges**
+
+- **TODO-06:** `GetEntryPointName` reads the entry point token from the PE header. For top-level statements the name is `<Main>$`, and for a library the result is null.
+- **TODO-07:** `ForceJit` calls `RuntimeHelpers.PrepareMethod`. Then, outside the tests, run your app with `DOTNET_TieredCompilation=0` and with `DOTNET_TieredPGO=0` and write down which parts of the JIT pipeline you changed. Do not measure time in a unit test.
+
+**Prerequisites:** basic C# and reflection, the idea that C# compiles to IL and the JIT compiles the IL on first call, and the .NET 10 SDK (the lab uses the `Microsoft.CodeAnalysis.CSharp` 5.0.0 package).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every method starts by throwing `NotImplementedException` and each TODO is described in a comment inside the method, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Managed execution process, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/managed-execution-process) (doc)

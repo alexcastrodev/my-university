@@ -144,6 +144,38 @@ Se a StorageClass tem `allowVolumeExpansion: true`, aumente `spec.resources.requ
 - **`Delete` vs `Retain`.** `Delete` mantém o armazenamento arrumado e torna apagamentos acidentais fatais; `Retain` torna acidentes recuperáveis e deixa a limpeza com você.
 - **Armazenamento local do nó vs em rede.** Discos locais são rápidos e simples e prendem os dados a um nó; armazenamento em rede (Ceph, Longhorn, discos de nuvem) sobrevive à perda do nó e custa latência e complexidade operacional.
 
+## Lab
+
+Neste lab você recebe um `storage.yaml` com uma StorageClass, um PersistentVolumeClaim e um Deployment `notes`, e o Pod fica Pending. Seu trabalho é consertar três defeitos nesse único arquivo para que o serviço tenha armazenamento que realmente persiste. A ideia central é sentir as três fronteiras do ciclo de vida do dado: o claim precisa casar com uma StorageClass que existe, o app precisa escrever dentro do ponto onde o volume está montado, e a `reclaimPolicy` decide se o dado sobrevive quando alguém apaga o claim por engano.
+
+**O cenário**
+
+Um serviço de notas acrescenta uma linha a `/data/notes.txt` toda vez que o container inicia. Os testes rodam num k3s de verdade, iniciado pelo Testcontainers.
+
+- StorageClass `local-retain`: usa o provisioner `rancher.io/local-path` do k3s, com `volumeBindingMode: WaitForFirstConsumer`.
+- PersistentVolumeClaim `notes-data` (100Mi, `ReadWriteOnce`) no namespace `example`.
+- Deployment `notes` (estratégia `Recreate`): o container `busybox` grava em `/data/notes.txt` e monta o volume em algum caminho.
+- `src/test/java/PersistentVolumesTest.java`: aplica o arquivo, apaga o Pod, escala para zero, apaga o claim e olha o PersistentVolume.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia o aviso do scheduler.** A falha mostra o warning do Pod Pending, que diz por que o claim não faz bind.
+2. **Usar a StorageClass definida no arquivo (TODO-00).** O claim pede uma classe que não existe no cluster. Liste as classes (`kubectl get storageclass`) e aponte o `storageClassName` para a que o arquivo define.
+3. **Fazer as escritas caírem no volume (TODO-01).** O app grava em `/data/notes.txt`, mas o volume está montado em outro caminho, então o dado vai para o filesystem efêmero do container. Confira o `mountPath` e alinhe com o caminho que o app usa.
+4. **Manter o volume quando o claim for apagado (TODO-02).** Com `reclaimPolicy: Delete`, apagar o claim apaga também o PersistentVolume e os dados no nó. Troque a política para que o volume sobreviva.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/persistent-volumes-and-storageclasses test` passa em `claimBindsAndThePodRuns`, `dataSurvivesAPodRestart` (o Pod novo encontra duas linhas em `/data/notes.txt`) e `volumeSurvivesDeletingTheClaim` (o PersistentVolume continua existindo, em fase `Released`). Você deve conseguir explicar por que cada um dos três defeitos produzia um sintoma diferente.
+
+**Desafios opcionais**
+
+- **TODO-03:** depois que o claim é apagado, o PV fica `Released`, mas um claim novo com o mesmo nome não faz bind nele. Descubra o motivo (`kubectl get pv -o yaml`, olhe `spec.claimRef`) e faça um claim novo reaproveitar os dados antigos.
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele), Java e Maven, e o artigo PersistentVolumes, Claims and StorageClasses.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/persistent-volumes-and-storageclasses test`. Uma execução leva cerca de dois minutos. Os comentários `TODO-00`, `TODO-01` e `TODO-02` em `storage.yaml` marcam cada defeito.
+
 ## Documentation Links
 
 - [Kubernetes docs: Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/): ciclo de vida, access modes, reclaim policies, expansão.

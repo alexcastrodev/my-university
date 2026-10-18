@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 import {
   readConceptContent,
-  splitSections,
+  splitLabSection,
   ConceptSection,
 } from '../shared/concept-content';
 import { ConceptLinkRef, ConceptReference } from '../shared/concept-types';
@@ -38,6 +38,8 @@ export interface DotNetConceptDetail extends DotNetConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: ConceptSection[];
+  /** Markdown of the `## Lab` section, kept out of `sections` so it only shows in the Lab tab. */
+  lab?: string;
   references: ConceptReference[];
   related: ConceptLinkRef[];
 }
@@ -129,7 +131,7 @@ export class DotNetConceptsService {
       availableLanguages,
       version,
       updatedAt,
-      sections: splitSections(body),
+      ...splitLabSection(body),
       references: meta.references,
       related: meta.related,
     };

@@ -172,6 +172,39 @@ template-library-agnostic).
   rather than `javax.validation.*` since the Jakarta EE namespace migration in
   Spring Boot 3.0.
 
+## Lab
+
+In this lab you get an order form (`Order`) with no validation at all and a controller with an empty handler. Your job is to declare Bean Validation rules on the object and wire them to the handler with `@Valid` and `Errors`, so an invalid submission is rejected before it reaches business logic. The core idea is the position of `Errors`: it only captures the errors of the argument **immediately before it**, and getting that wrong compiles without complaint.
+
+**The scenario**
+
+A checkout receives a name, a street, a card number, an expiration date and a CVV, and must redisplay the form when something is wrong.
+
+- `Order`: the command object with `name`, `street`, `ccNumber`, `ccExpiration` and `ccCVV`, still without annotations.
+- `OrderController`: `GET /orders` returns the `orderForm` view; `POST /orders` takes `@Valid Order order, Errors errors` and still throws `UnsupportedOperationException`.
+- `ValidationLabApplication`: the `@SpringBootApplication` class.
+- `OrderControllerTest`: `@WebMvcTest` with `MockMvc`, one test per invalid field plus a fully valid case that must redirect to `/orders/current`.
+
+**What you will do, step by step**
+
+1. **Required fields (TODO-00).** Annotate `name` and `street` with `@NotBlank` and a `message`.
+2. **Credit card (TODO-01).** Annotate `ccNumber` with `@CreditCardNumber` (with a `message`), which runs the Luhn check and catches mistyped numbers.
+3. **Expiration (TODO-02).** Annotate `ccExpiration` with `@Pattern` (with a `message`) requiring the `MM/YY` shape. Write the regex with the test cases in mind: `12/28` passes, `2028-12` does not.
+4. **CVV (TODO-03).** Annotate `ccCVV` with `@Digits(integer = 3, fraction = 0)` and a `message`, so `1234` is rejected.
+5. **Choose the destination (TODO-04).** In `processOrder`, if `errors.hasErrors()` return `"orderForm"` to redisplay the form; otherwise return `"redirect:/orders/current"`. Note that `Errors` comes right after `@Valid Order`.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why the error tests expect status 200 with the `orderForm` view (the form is redisplayed, it is not an HTTP error) and why `Errors` must sit right next to the validated argument.
+
+**Optional challenges**
+
+- **TODO-05:** add `processOrderMisordered(@Valid Order order, String note, Errors errors)` on `POST /orders/misordered`, with a `@RequestParam(required = false) String note` between the two. Post an invalid order and compare the response with `processOrder`: this is the silent adjacency trap.
+
+**Prerequisites:** basic Spring MVC, Java annotations and HTTP form submission.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-mvc-bean-validation` and run `mvn test`. The invalid-field tests fail until the annotations exist, and the valid-order test fails until you implement `processOrder`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 2, "Developing web applications", section 2.3, "Validating form input", p. 45-50 — doc

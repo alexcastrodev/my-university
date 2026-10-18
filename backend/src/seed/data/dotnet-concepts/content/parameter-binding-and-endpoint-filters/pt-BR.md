@@ -227,6 +227,43 @@ para uma lambda que devolve texto, `Ok<string>` para `TypedResults.Ok`.
   aceitável numa API autenticada por token e uma porta aberta num formulário HTML
   autenticado por cookie.
 
+## Lab
+
+Neste lab você recebe uma API com vários endpoints pela metade, e a primeira coisa que você nota é que todos falham com 500, até os que você não tocou. O seu trabalho é descobrir por quê e depois construir os binders customizados e um filtro. A ideia central é entender como os Minimal APIs ligam os parâmetros do handler (rota, query, header, serviços, body), como estender o binding com `TryParse` e `BindAsync`, como expandir um tipo de request com `[AsParameters]` e como rodar uma regra em volta de um grupo inteiro com um endpoint filter.
+
+**O cenário**
+
+Uma API de exemplo com endpoints que exercitam cada fonte de binding. Os testes usam `WebApplicationFactory<Program>`.
+
+- `Program.cs`: mapeia `/map`, `/who`, `/search/{category}`, `/time` e um grupo `/orders`.
+- `Point.cs`: `TryParse` para `/map?p=12.3,10.1`.
+- `Caller.cs`: `BindAsync` para `/who`.
+- `SearchRequest.cs`: um record usado com `[AsParameters]`.
+- `Clock.cs`: o serviço usado por `/time`.
+- `CreateOrder.cs` e `OrderValidationFilter.cs`: o body do pedido e o filtro que o valida.
+
+**O que você vai fazer, passo a passo**
+
+1. **Achar o 500 geral (TODO-00).** Leia o log da primeira requisição e registre em `Program.cs` o serviço que falta. Um único handler com assinatura ruim derruba a aplicação inteira, por isso todos os endpoints falham.
+2. **Explicitar a origem do `Clock` (TODO-01).** Em `/time`, marque o parâmetro com uma fonte explícita, para que um registro esquecido nunca caia no body da requisição.
+3. **Parsear o `Point` (TODO-02).** Em `Point.TryParse`, leia `x,y` (dois doubles separados por vírgula) e devolva `false` se faltar ou estiver malformado. Use a cultura invariante para que `12.3` funcione em qualquer servidor.
+4. **Ligar o `Caller` (TODO-03).** Em `Caller.BindAsync`, leia o nome do header `X-Caller` e, se faltar, da query `caller`. Devolva `null` (um 400) se nenhum tiver valor. Não lance exceção: ela viraria 500.
+5. **Dar uma fonte a cada propriedade (TODO-04).** Em `SearchRequest`, `Category` vem da rota, `Page` da query e `Tenant` do header `X-Tenant`.
+6. **Escrever e anexar o filtro (TODO-05 e TODO-06).** Em `OrderValidationFilter`, devolva `Results.ValidationProblem(...)` quando `Name` estiver em branco (chave `name`) ou `Quantity` não for positiva (chave `quantity`); caso contrário, troque o argumento 0 por uma cópia com `Name` aparado, para o handler só ver dados limpos. Depois anexe o filtro ao grupo `/orders` em `Program.cs`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que um único handler quebrado derruba todos os endpoints, quando um `BindAsync` devolve 400 em vez de 500 e por que o filtro roda antes do handler.
+
+**Desafios opcionais**
+
+- **TODO-07:** remova o registro do TODO-00 e chame `/time` com e sem `[FromServices]`. Compare os status.
+- **TODO-08:** adicione um parâmetro `[FromHeader] int[]` e envie `X-Nums: 3, 4`. O que acontece quando o header falta?
+
+**Pré-requisitos:** Minimal APIs e route groups básicos, records e membros estáticos em C# e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial quase todos os testes falham (até os de endpoints que você ainda não tocou), e os TODOs estão marcados em comentário nos arquivos.
+
 ## Documentation Links
 
 - [Parameter binding in Minimal API apps, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding) (doc)

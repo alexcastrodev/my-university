@@ -104,6 +104,35 @@ ll.set(2, val + " Changed");
 - **Every element is wrapped in a node object**, carrying prev/next references alongside the value — more per-element memory overhead than `ArrayList`'s flat backing array, independent of how many elements are stored.
 - **Not synchronized**, same as `ArrayList` — concurrent structural modification (including during iteration) is unsafe and typically surfaces as `ConcurrentModificationException`.
 
+## Lab
+
+In this lab you get the `PlaybackQueue` class, which wraps a `LinkedList<String>`, and you use `LinkedList` as both a `List` and a `Deque` at once. The core idea is that the same structure serves an ordinary queue (wait your turn) and "play next" (jump the line), because it offers operations at both ends on top of the positional ones.
+
+**The scenario**
+
+A playback queue has the front track playing right now. New tracks wait at the back, some jump to the front, and skipping a track removes the current one.
+
+- `PlaybackQueue.java`: holds `queue` (a `LinkedList<String>`). `size()` is already written. You implement the other methods.
+
+**What you will do, step by step**
+
+1. **Join the back of the queue (TODO-00).** In `enqueue()`, add the track at the end: the normal addition, from someone waiting their turn.
+2. **Jump the line (TODO-01).** In `playNext()`, add the track at the FRONT, so it plays right after whatever is playing now, ahead of everything already queued. Think about which `Deque` method does this in a single operation.
+3. **Peek at the current track (TODO-02).** In `nowPlaying()`, return the front track WITHOUT removing it. If the queue is empty, let the natural exception happen, without catching and rethrowing.
+4. **Skip (TODO-03).** In `skip()`, remove and return the front track, again letting the natural exception happen on an empty queue. The difference between methods that throw and methods that return `null` is exactly the point: pick the variant that throws.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain the difference between `nowPlaying()` and `skip()` in terms of who changes the queue, and what happens with an empty queue in each.
+
+**Optional challenges**
+
+- **TODO-04:** implement `insertAt()`, inserting the track at the given position (0 is the front) with the `List`-style positional insertion that `LinkedList` also offers.
+
+**Prerequisites:** basic Java syntax and familiarity with `List` and `Deque`.
+
+**How to run it:** clone the repository, go into `java-concepts/linked-list` and run `mvn test` (or, from the root, `mvn -pl java-concepts/linked-list test`). The pending methods throw `UnsupportedOperationException("Not implemented yet.")` with a `TODO-NN` comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 589–590 — book

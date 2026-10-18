@@ -128,6 +128,41 @@ O terceiro argumento do construtor de `LinkedHashMap` (`accessOrder = true`) já
 - **Uma view `reversed()` ser viva, não uma cópia, é um comportamento real para se projetar em torno dele.** Passar uma view `list.reversed()` para algum lugar que depois muta a lista original altera o que a view produz na próxima leitura — geralmente o comportamento desejado para um relatório vivo, um bug se o chamador assumiu um snapshot; tire uma cópia explícita (`new ArrayList<>(list.reversed())`) quando uma ordem congelada é o que de fato se precisa.
 - **Isso se encaixa sobre a hierarquia de tipos já existente, então um tipo já tinha cobertura parcial antes do JDK 21** — `Deque` já tinha `getFirst()`/`addFirst()` etc. muito antes de `SequencedCollection` existir; a JEP 431 não adicionou comportamento novo a `Deque`, ela deu um nome a essa forma que já existia e estendeu essa mesma forma para `List`, `LinkedHashSet` e o lado dos maps, que antes não tinham nada comparável.
 
+## Lab
+
+Neste lab você recebe `SequencedOps`, uma classe utilitária com cinco métodos por implementar, cada um isolando uma mecânica das coleções sequenciadas do Java 21. Seu trabalho é usar os métodos novos de `SequencedCollection` e `SequencedMap` no lugar dos truques antigos. A ideia central é que "primeiro", "último" e "invertido" agora fazem parte do contrato, então você pode escrever código genérico sobre qualquer coleção com ordem definida.
+
+**O cenário**
+
+Listas, deques, `LinkedHashSet` e mapas ordenados passam a compartilhar as mesmas operações de ponta.
+
+- `firstOrThrow`: o primeiro elemento de uma lista, com a exceção certa quando está vazia.
+- `addToFront`: inserir no início de qualquer `SequencedCollection`.
+- `reversedView`: uma visão invertida e viva de uma lista.
+- `firstValueOrNull`: o valor da primeira entrada de um `SequencedMap`.
+- `recordMostRecent`: um auxiliar de LRU sobre um `LinkedHashMap`.
+- `SequencedOpsTest`: inclui testes com `ArrayList`, `ArrayDeque`, `LinkedHashSet`, `LinkedHashMap` e `TreeMap`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Primeiro elemento com a exceção certa (TODO-00).** Em `firstOrThrow`, use o método de `SequencedCollection` que lança `NoSuchElementException` na lista vazia. `list.get(0)` lança `IndexOutOfBoundsException` para a mesma condição, e não é isso que o teste espera.
+2. **Código genérico (TODO-01).** Em `addToFront`, escreva só contra o contrato de `SequencedCollection`, sem tipo concreto, para que o mesmo método funcione sem alteração com `ArrayList`, `ArrayDeque` e `LinkedHashSet`.
+3. **Visão, não cópia (TODO-02).** Em `reversedView`, devolva a visão invertida que o próprio `SequencedCollection` declara. Uma mudança estrutural feita pela lista original deve aparecer na visão, e vice-versa.
+4. **Primeira entrada direta (TODO-03).** Em `firstValueOrNull`, use o método de `SequencedMap` para a primeira entrada, sem iterador nem percorrer `keySet`/`values`, e devolva `null` se o mapa estiver vazio. Ele deve funcionar até com um `TreeMap`.
+5. **LRU com `putLast` e `pollFirstEntry` (TODO-04).** Em `recordMostRecent`, se a chave já existe, atualize o valor e mova-a para o fim; senão, insira como última entrada. Depois, se o mapa passar de `capacity`, remova a entrada da frente (a menos recentemente usada).
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Releia os testes de `reversedView` e confira que a mutação de um lado aparece no outro. Você deve conseguir explicar por que uma visão viva é perigosa quando você queria um instantâneo.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `frozenReversedCopy`, que devolve uma cópia invertida que não reflete mudanças posteriores na lista: a correção para quando a visão viva é a ferramenta errada.
+
+**Pré-requisitos:** coleções básicas (`List`, `Deque`, `LinkedHashMap`) e o Java 21.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/sequenced-collections` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/sequenced-collections test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [JEP 431: Sequenced Collections](https://openjdk.org/jeps/431) — doc

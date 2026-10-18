@@ -266,6 +266,37 @@ Clock systemClock() {
 - **Mocking a concrete class to preserve part of it usually means the class has two responsibilities** — splitting the I/O (a gateway interface) from the domain logic (a plain calculator) removes the need to partially stub a concrete class at all, and each half becomes independently, fully testable.
 - **Inject time, don't call it** — `Clock.fixed(...)` in tests and `Clock.systemDefaultZone()` in production give the exact same seam that `DateTimeProvider`-style abstractions solve in other languages, without adding any ambient/static state shared across tests.
 
+## Lab
+
+In this lab you get `Membership`, `TaxCalculator` and `Receipt` **already built and working**. There is no production code to write: your job is to write tests that deliberately avoid three anti-patterns from the article: testing private state, leaking domain knowledge into the test's expected value and depending directly on the system clock. The core idea is to feel that the "obvious" way to write each of these tests is exactly the wrong one, and that the production code was already designed to allow the right way.
+
+**The scenario**
+
+Three small classes, each illustrating one of the anti-patterns.
+
+- `Membership`: starts as `STANDARD`. `upgrade()` switches to `PREMIUM`, and `discountRate()` returns 0 or 0.15 depending on the level. The `level` field is private with NO getter, on purpose. `renew(Clock)` stores `renewedAt` using the clock passed as a parameter (no `Clock.systemDefaultZone()` inside), and `getRenewedAt()` returns it.
+- `TaxCalculator`: a pure calculation, no I/O, with an 8% rate and rounding to 2 places.
+- `Receipt`: formats subtotal, tax and total into a string, using a `TaxCalculator`.
+- `AntiPatternsTest`: three `@Nested` groups, one per anti-pattern, each with a comment explaining the trap.
+
+**What you will do, step by step**
+
+1. **Do not test private state (TODO-00).** In `WhenTestingUpgrade`, create a `new Membership()` and check `discountRate()` equals `BigDecimal.ZERO`. Call `upgrade()` and check `discountRate()` equals `new BigDecimal("0.15")`. Do not add or use a getter for `level`: asserting through what a real caller observes keeps the test alive even if the internal representation changes.
+2. **Do not leak domain knowledge (TODO-01).** In `WhenComputingTax`, add a `@CsvSource` with `subtotal, expectedTax` rows computed by hand, covering at least 10.00, 25.50, 100.00 and 0.00. Never derive the expected value with `subtotal.multiply(RATE)` inside the test: that would copy `TaxCalculator`'s formula (and its bug, if any) and the test could never catch it.
+3. **Do not depend on the clock (TODO-02).** In `WhenRenewing`, build `Clock.fixed(Instant.parse("2020-01-01T00:00:00Z"), ZoneOffset.UTC)`, call `membership.renew(fixedClock)` and check that `getRenewedAt()` is exactly that `Instant`. Comparing against `Instant.now()` would make the test nondeterministic.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why each of the three tests would be easier to write the wrong way, and what in the production code (the missing getter, the isolated rate, the `Clock` parameter) made the right way possible.
+
+**Optional challenges**
+
+- **TODO-03:** test `Receipt.summarize()` with a real `TaxCalculator` (no mock, because it has no I/O and doubling it would only add indirection) and a hand-written expected string: `"Subtotal: 50.00, Tax: 4.00, Total: 54.00"`.
+
+**Prerequisites:** JUnit 5 fundamentals (`@Test`, `@Nested`, `@ParameterizedTest`) and reading `Membership`, `TaxCalculator` and `Receipt` in `src/main/java`, noting which fields have getters and which do not.
+
+**How to run it:** clone the repository, go into `testing-concepts/unit-testing-anti-patterns` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/unit-testing-anti-patterns test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, "Unit Testing Principles, Practices, and Patterns" (Manning, 2020) — Chapter 11 "Unit testing anti-patterns", pp. 259-273

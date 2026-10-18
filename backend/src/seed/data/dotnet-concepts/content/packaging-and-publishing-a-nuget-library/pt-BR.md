@@ -198,6 +198,41 @@ certificados autoemitidos são rejeitados.
 - **Versões imutáveis** protegem os consumidores, mas um release ruim só se
   corrige com uma nova versão.
 
+## Lab
+
+Neste lab você transforma uma biblioteca em pacote NuGet editando só o arquivo de projeto. Você recebe a classe `PackagingFiles` com métodos que lançam `NotImplementedException`, e cada um deve devolver o texto de um `.csproj` (e de um arquivo props). Os testes rodam `dotnet pack`, abrem o `.nupkg` como zip e conferem o `.nuspec` e a lista de arquivos. A ideia central é ver que um pacote é só um zip com um manifesto, e que cada decisão de metadado, versão, `lib/`, `buildTransitive/` ou dependência aparece de forma visível dentro dele.
+
+**O cenário**
+
+O problema é empacotar uma biblioteca `Contoso.Greeter` com tudo o que um consumidor espera, sem sair do `.csproj`.
+
+- `src/PackagingLab/PackagingFiles.cs`: os métodos a implementar. `ReadmeMarkdown` e `CoreProject()` (uma segunda biblioteca, `Contoso.Core` 2.0.0, usada no TODO-05) já vêm prontos.
+- `PackagingTests.cs` e `PackSandbox.cs`: gravam seu texto numa pasta descartável, rodam `dotnet pack -c Release -o out` e inspecionam o zip.
+
+Tudo é offline: os projetos não têm `PackageReference`, nada é enviado a nenhum feed e os alvos são `net10.0` e `netstandard2.1`, cobertos pelos reference packs do SDK. Repare que `PackageId` e `AssemblyName` são diferentes de propósito: um nomeia o pacote, o outro nomeia a DLL dentro dele.
+
+**O que você vai fazer, passo a passo**
+
+1. **Metadados e versão (TODO-00).** Em `LibraryProject`, preencha id, autores, descrição, licença, URLs, tags e repositório, e monte `1.2.3-beta.4` com `VersionPrefix` e `VersionSuffix` (não use `Version`). O `PackageId` deve ser `Contoso.Greeter` e o `AssemblyName` `Greeter`.
+2. **Readme e símbolos (TODO-01).** Em `LibraryProjectWithReadmeAndSymbols`, declare o readme duas vezes (a propriedade `PackageReadmeFile` mais um item `None` com `Pack="true"`) e peça um `.snupkg` com `IncludeSymbols` e `SymbolPackageFormat`.
+3. **Não empacotar (TODO-02).** Em `NotPackableProject`, use `IsPackable` falso e confirme que não sai pacote nenhum.
+4. **Vários frameworks (TODO-03).** Em `MultiTargetProject`, use `TargetFrameworks` (plural, com ponto e vírgula) para `net10.0` e `netstandard2.1` e veja duas pastas em `lib/`.
+5. **buildTransitive (TODO-04).** Escreva `BuildTransitiveProps` (um `<Project>` sem `Sdk` que define `GreeterEnabled`) e `ProjectWithBuildTransitive`, que empacota o arquivo com `Pack="true"` e `PackagePath` para ele cair em `buildTransitive\Contoso.Greeter.props`.
+6. **Dependência, não DLL embutida (TODO-05).** Em `DependentProject`, referencie `Contoso.Core` por `ProjectReference`. No `.nuspec` ele deve virar uma dependência e `Contoso.Core.dll` não pode ser copiada para `lib/`.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde (leva de 20 a 40 segundos, um `dotnet pack` por teste). Você deve conseguir explicar o que há dentro do seu pacote olhando `unzip -l out/*.nupkg` e `unzip -p out/*.nupkg '*.nuspec'`.
+
+**Desafios opcionais**
+
+- **TODO-06:** `ReproducibleProject` liga `Deterministic`, `ContinuousIntegrationBuild`, `PublishRepositoryUrl` e `EmbedUntrackedSources`.
+- **TODO-07:** `PackOnBuildProject` usa `GeneratePackageOnBuild` para que um `dotnet build` também gere o `.nupkg`.
+
+**Pré-requisitos:** estrutura básica de `.csproj` (`PropertyGroup`, `ItemGroup`), o texto do concept sobre empacotar e publicar uma biblioteca NuGet, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método começa lançando `NotImplementedException` com um comentário `TODO-NN` dizendo o que o arquivo precisa conter, então os testes vermelhos mostram o que falta. Publicar de verdade (`dotnet nuget push`) é um acompanhamento manual e nunca faz parte dos testes.
+
 ## Documentation Links
 
 - [dotnet pack command](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack)

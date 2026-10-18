@@ -189,6 +189,43 @@ is rarely worth it: interned strings live for the life of the process.
   user input grows a pool that is never freed; a local `Dictionary<string,string>`
   as a deduplicating cache can be released.
 
+## Lab
+
+In this lab you get `TextOps`, a class with **eight small text operations** that throw `NotImplementedException`. Each one has one right comparison, and the tests feed text where the choices disagree: uppercase against lowercase, precomposed `é` against `e` plus a combining accent, a soft hyphen, the Turkish `I` and `file10` against `file2`. The core idea is to decide, case by case, between ordinal comparison (for machines) and cultural comparison (for people), without falling into locale-dependent bugs.
+
+**The scenario**
+
+Text that has to be sorted, compared and normalized, some of it for identifiers and protocols, some for people to read.
+
+- `TextOps.SortForPerson` and `SortOrdinal`: cultural ordering against UTF-16 code unit ordering.
+- `TextOps.SameIdentifier`, `SameText` and `LowerProtocol`: equality with no culture, equality for people and lower-casing that never depends on the locale.
+- `TextOps.NaturalOrder`: numeric ordering, so `file2` comes before `file10`.
+- `TextOps.ContainsIgnoringAccents` and `Canonical`: search ignoring accents and case, and the interned instance of a string.
+
+The cultural tests need ICU, which is present on a normal macOS, Linux or Windows install. In a container without ICU, or with `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1`, they fail by design (see the optional challenge).
+
+**What you will do, step by step**
+
+1. **Sort the way a person expects (TODO-00).** In `SortForPerson`, build a cultural comparer with `StringComparer.Create(culture, CompareOptions.None)` and sort with it. In English `äpple` sits next to `apple`, in Swedish `ä` comes after `z`.
+2. **Sort the same on every machine (TODO-01).** `SortOrdinal` sorts by UTF-16 code unit.
+3. **Compare identifiers with no culture (TODO-02).** `SameIdentifier` ignores case with no culture lookup at all, as for header names and extensions (`OrdinalIgnoreCase`).
+4. **Compare text meant for people (TODO-03).** `SameText` treats canonically equivalent sequences (`e` plus a combining accent against the precomposed letter) and zero-weight characters as equal, using the invariant culture.
+5. **Lower-case protocol text (TODO-04).** `LowerProtocol` must not depend on the current culture: `"TITLE"` becomes `"title"` even under `tr-TR`.
+6. **Natural order and accent-free search (TODO-05 and TODO-06).** `NaturalOrder` uses the .NET 10 `CompareOptions.NumericOrdering` with the invariant culture. `ContainsIgnoringAccents` uses the invariant `CompareInfo.IndexOf` with `CompareOptions.IgnoreNonSpace | IgnoreCase`.
+7. **Intern the string (TODO-07).** `Canonical` returns the pooled instance, so equal strings share one object.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain when to use ordinal and when to use cultural comparison, and why `LowerProtocol` would fail in Turkey if it used the current culture.
+
+**Optional challenges**
+
+- **TODO-08:** run the finished tests with `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1`. Which ones fail, and which one would silently return a wrong answer in production?
+
+**Prerequisites:** C# strings and LINQ, `CultureInfo` basics and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Best practices for comparing strings in .NET, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings) (doc)

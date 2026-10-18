@@ -138,6 +138,38 @@ kubectl create job --from=cronjob/nightly-backup backup-manual-1
 - **Low `backoffLimit` vs default.** A migration should fail fast (0 to 2 retries), because retrying a half-applied migration rarely helps. A flaky network import benefits from more retries.
 - **Migration Job vs migration on startup.** A Job gives one explicit, ordered step and works with many replicas. On-startup migration is simpler for one replica, but a failing migration becomes a CrashLoopBackOff of the service itself.
 
+## Lab
+
+In this lab you get a `jobs.yaml` with four one-off Jobs, and each has a wrong or missing setting. Your job is to adjust each Job so it ends the way it should: accepted and completed, failing fast, stopped by a deadline, and cleaned up after it finishes. The core idea is that a Job is not a Deployment: `restartPolicy` has different allowed values, attempts and deadlines are configured on the Job itself, and nothing disappears on its own without `ttlSecondsAfterFinished`.
+
+**The scenario**
+
+The test applies the file in the `example` namespace of a real cluster (k3s via Testcontainers) and watches the four Jobs for up to 90 seconds.
+
+- `migrate`: must be accepted by the API server and complete.
+- `flaky-import`: always fails (exits with code 3) and must be declared failed after exactly 2 attempts.
+- `report`: hangs forever (sleeps 3600 s) and must be stopped after 20 seconds.
+- `cleanup`: must disappear, Pods included, shortly after it finishes.
+
+**What you will do, step by step**
+
+1. **Run it and read the validation (TODO-00).** Run the tests before editing: the failure for `migrate` contains the API server's validation message. Pick a `restartPolicy` that is valid for a Job and keeps each failed attempt in its own Pod, so the logs stay inspectable.
+2. **Limit the attempts (TODO-01).** With the default retry limit, `flaky-import` takes minutes to be declared failed. Allow only one retry, so it ends up `Failed` after 2 attempts (`BackoffLimitExceeded`).
+3. **Impose a deadline (TODO-02).** `report` never finishes. Make Kubernetes stop the whole Job after 20 seconds, no matter how many retries remain (`DeadlineExceeded`). Think about how this deadline differs from the attempt limit.
+4. **Clean up after finishing (TODO-03).** Finished Jobs and Pods stay forever. Ask Kubernetes to delete `cleanup` (and its Pods) at most 30 seconds after it finishes.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/jobs-and-restart-policy test` passes completely: `migrate` is `Complete`, `flaky-import` is `Failed/BackoffLimitExceeded` with exactly 2 failed attempts, `report` is `Failed/DeadlineExceeded`, and `cleanup` completed and then ceased to exist. You should be able to explain the difference between `backoffLimit` and `activeDeadlineSeconds` and why `Always` does not work for a Job.
+
+**Optional challenges**
+
+- **TODO-04:** change the image tag of `migrate` and apply the file again while the Job still exists. Which error do you get, and which of the four Jobs would make a repeated `kubectl apply` of this file fail in a real pipeline?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Jobs, CronJobs and restartPolicy", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/jobs-and-restart-policy test`. A run takes one to two minutes. You only edit `jobs.yaml`, and each TODO sits above the Job it fixes.
+
 ## Documentation Links
 
 - [Kubernetes docs: Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/): completions, parallelism, backoff limit, deadlines, Pod failure policy.

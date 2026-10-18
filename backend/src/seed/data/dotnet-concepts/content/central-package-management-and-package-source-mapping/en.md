@@ -199,6 +199,41 @@ local-folder source, so treat the exact trigger as the docs describe it.
   prefix is not reserved on the public feed, someone else can still publish it
   there, and a `*` default pointing at that feed would trust it.
 
+## Lab
+
+In this lab you write the files that turn dependency handling into repository policy: a `Directory.Packages.props` that centralizes versions, projects that reference packages without a version, and a `nuget.config` with package source mapping. You receive the `PackageFiles` and `SourceMapping` classes with methods that throw `NotImplementedException`; each one returns the text of a file, and at the end you apply the source mapping resolution rule yourself. The core idea is to see that the version stops living in the `.csproj` and that each package can only come from the source the mapping allows.
+
+**The scenario**
+
+The problem is keeping versions consistent across many projects and preventing an internal package from being pulled from a public feed.
+
+- `src/CentralPackageManagementLab/PackageFiles.cs`: generates `Directory.Packages.props`, the `.csproj`, the nested version, the props with `GlobalPackageReference` and (optionally) the transitive pinning one.
+- `src/CentralPackageManagementLab/SourceMapping.cs`: generates the `nuget.config` and applies the pattern matching rule.
+
+The MSBuild files are evaluated with `dotnet msbuild <project> -getItem:... -getProperty:...`, with no restore and no network. Source mapping is only resolved by NuGet at restore time and cannot be evaluated offline, so the tests parse the XML and use your `SourceMapping.Resolve`.
+
+**What you will do, step by step**
+
+1. **Turn CPM on (TODO-00).** In `DirectoryPackagesProps`, set `ManagePackageVersionsCentrally` to `true` and declare one `PackageVersion Include Version` per dictionary entry.
+2. **Reference without a version (TODO-01).** In `ProjectFile`, generate a `Microsoft.NET.Sdk` `net10.0` project with one `PackageReference` per id and no `Version` attribute. For the ids in `versionOverrides`, use `VersionOverride`.
+3. **Nested props (TODO-02).** In `NestedDirectoryPackagesProps`, import the parent file with `GetPathOfFileAbove` (MSBuild only imports the nearest one) and add your own `PackageVersion` items.
+4. **Global packages (TODO-03).** In `GlobalPackagesProps`, add `GlobalPackageReference` on top of what already exists. Those packages reach every project as build-only dependencies.
+5. **Write the nuget.config (TODO-04).** In `NuGetConfig`, start with `<clear />`, list `<add key value />` under `packageSources` and generate a `<packageSource key>` with `<package pattern>` for each mapping.
+6. **Apply the rule (TODO-05).** In `Resolve`, return the allowed source for an id: an exact id beats a prefix, a longer prefix beats a shorter one, `*` is the weakest, and with no match the result is null. Ids compare case-insensitively.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why `Contoso.Core` matches an exact id before `Contoso.Cor*`, and why the `.csproj` no longer holds any version.
+
+**Optional challenges**
+
+- **TODO-06:** `TransitivePinningProps` turns on `CentralPackageTransitivePinningEnabled`, so packages that only appear transitively are pinned too.
+- **TODO-07:** `Unmapped` lists the ids that no pattern matches. Think about why, once any mapping exists, restore fails with `NU1100` for them.
+
+**Prerequisites:** `PackageReference` and basic MSBuild items and properties, NuGet sources and `nuget.config`, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The tests only need the .NET 10 SDK, no network. Each method throws `NotImplementedException` with a `TODO-NN` comment explaining the expected text, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Central Package Management, Microsoft Learn](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management) (doc)

@@ -200,6 +200,41 @@ class ApplicationEventsTest {
   ```
 - **Só dentro do processo.** Application events nunca saem da JVM. Outro serviço, ou outra instância do mesmo serviço, não os vê. Atravessar a fronteira do processo exige um broker (`spring-kafka-messaging`, `spring-rabbitmq-messaging`) ou a externalização de eventos do Spring Modulith.
 
+## Lab
+
+Neste lab você recebe um serviço que publica conteúdo numa tabela H2 e anuncia cada publicação com um evento, mais quatro listeners que ainda não estão configurados do jeito certo. O seu trabalho é implementar a publicação e escolher a anotação (e a fase) certa de cada listener. A ideia central é sentir que `@EventListener` e `@TransactionalEventListener` com cada `TransactionPhase` decidem o que o listener enxerga quando a transação do publicador faz commit, faz rollback ou nem existe.
+
+**O cenário**
+
+`ContentService` grava linhas na tabela `content` (com `title` `UNIQUE`) e publica um `ContentPublished(id, title)` por linha. Cada listener precisa de uma relação diferente com a transação:
+
+- `TitleValidator`: deve poder vetar uma publicação. Se lançar exceção, o INSERT precisa ser desfeito. Rejeita títulos com "spam".
+- `SearchIndexer`: só pode indexar o que realmente foi commitado.
+- `RollbackAlerter`: só pode registrar o que teve a transação revertida.
+- `DraftNotifier`: reage a `DraftSaved`, publicado por `DraftService`, que roda sem nenhuma transação.
+
+Repare que `publishAll(List)` roda numa única transação: com `["Intro", "Part 2", "Intro"]`, o título duplicado falha depois de dois eventos já terem sido publicados. Os testes usam esse lote para pegar listeners que reagem a trabalho que nunca aconteceu. A classe de teste também não é `@Transactional` de propósito: cada chamada precisa de uma transação real, senão `AFTER_COMMIT` e `AFTER_ROLLBACK` só disparariam no fim do método de teste.
+
+**O que você vai fazer, passo a passo**
+
+1. **Implementar a publicação (TODO-00).** Em `ContentService.publish(String)`, torne o método transacional, faça o INSERT com `jdbc.sql(...).param(...).update(keys, "id")` usando um `GeneratedKeyHolder`, publique `ContentPublished(id, title)` pelo `ApplicationEventPublisher` e devolva o id. O evento tem de sair dentro da transação, é isso que permite aos listeners escolher uma fase.
+2. **Deixar o validador vetar (TODO-01).** Anote `TitleValidator.on(...)` de modo que ele rode na thread do publicador, dentro da transação ainda aberta, e sua exceção suba por `publishEvent()`.
+3. **Indexar só após o commit (TODO-02).** Em `SearchIndexer.on(...)`, use um listener transacional na fase de commit. Um `@EventListener` simples indexaria títulos de lotes que depois sofrem rollback.
+4. **Alertar só após o rollback (TODO-03).** Em `RollbackAlerter.on(...)`, use a fase de rollback (dica: `TransactionPhase`).
+5. **Fazer o notifier rodar sem transação (TODO-04).** `DraftNotifier` já é um `@TransactionalEventListener`, mas nunca é chamado, porque `DraftService` publica sem transação. Mantenha-o transacional e faça-o rodar também quando não houver transação.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar, para cada um dos quatro listeners, por que aquela anotação e aquela fase, e o que aconteceria no lote duplicado se o `SearchIndexer` fosse um `@EventListener` comum.
+
+**Desafios opcionais**
+
+- **TODO-05:** adicione `@EnableAsync` à aplicação e `@Async` em `SearchIndexer.on(...)`, e logue `Thread.currentThread().getName()` dentro dele. Qual teste passa a falhar, e o que você precisaria (dica: Awaitility) para testar um listener assíncrono de forma confiável?
+
+**Pré-requisitos:** beans do Spring e injeção por construtor, `@Transactional` e o que um rollback desfaz, e JDBC básico com `JdbcClient`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. No começo `publish()` lança `UnsupportedOperationException` e os listeners ainda não têm as anotações, então os testes marcados com o número de cada TODO no `@DisplayName` ficam vermelhos até você resolvê-los.
+
 ## Documentation Links
 
 - [Spring Framework Reference: Standard and Custom Events](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events): `ApplicationEventPublisher`, `@EventListener`, condições, ordem, listeners assíncronos.

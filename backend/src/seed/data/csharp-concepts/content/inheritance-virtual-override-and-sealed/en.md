@@ -260,6 +260,41 @@ them is instance state, constructors and single inheritance.
   can travel far before failing. Prefer `is T x` or a cast that throws where the
   wrong type is a bug.
 
+## Lab
+
+In this lab you get `Models.cs` with a small hierarchy (animals, reports and shapes) and a `CountingBag` that inherits from `Bag` and miscounts. Everything **already compiles**, but the xUnit tests fail until you adjust the types. Your job is to edit those classes. The core idea is to predict and control which method runs: `virtual`/`override` dispatch by runtime type, `new` hides by static type, and `sealed` and `abstract` shape the hierarchy. In the end you see why inheriting from a class whose virtual methods call each other is fragile.
+
+**The scenario**
+
+Five small inheritance problems in `Models.cs`.
+
+- `Animal` and `Dog`: `Speak()` is currently hidden with `new` in `Dog`, `Describe()` too (and stays that way on purpose), and `Clone()` is not virtual.
+- `Report` and `SalesReport`: a report that calls `Title()` to render itself, with a fixed creation date.
+- `Shape`, `Circle` and `Square`, plus `ShapeText.Describe`, which currently always returns `"unknown"`.
+- `Bag` and `CountingBag`: `Bag.AddRange` calls the virtual `Add`, so `CountingBag` counts each item twice.
+
+The tests use reflection to check the shape of the types (abstract, sealed, the return type of `Clone`, the base type of `CountingBag`) as well as behavior.
+
+**What you will do, step by step**
+
+1. **Virtual and override (TODO-00).** Make `Animal.Speak()` virtual and replace the hiding method in `Dog` with an `override` that returns `"Dog.Speak > "` followed by `base.Speak()`. The test uses an `Animal` variable pointing to a `Dog`, to prove that the runtime type wins. `Describe()` stays with `new`, and the test shows that there the static type wins.
+2. **Abstract base and sealed leaf (TODO-01).** Make `Report` abstract, with a `protected` constructor and an abstract `Title()`. Make `SalesReport` `sealed`.
+3. **Covariant return (TODO-02).** Make `Animal.Clone()` virtual and have `Dog` override it returning `Dog`, so callers need no cast.
+4. **Pattern switch (TODO-03).** In `ShapeText.Describe`, use a switch expression in this order: a `Circle` with `Radius > 10` becomes `"big circle"`, any other `Circle` becomes `"circle {radius}"`, a `Square` becomes `"square {side}"` and everything else, including `null`, becomes `"unknown"`.
+5. **Composition instead of inheritance (TODO-04).** Make `CountingBag` `sealed`, drop the inheritance from `Bag`, hold its own `List<string>` and expose only `Add`, `AddRange`, `Added` and `Count`, counting each item exactly once. The test requires the base type to be `object`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `a.Speak()` and `a.Describe()` give results from different classes for the same object, and why the original `CountingBag` counted six for three items.
+
+**Optional challenges**
+
+- **TODO-05:** in `Circle`, make `Area()` a `sealed override`, to stop further overriding. There is no test for this, so check it yourself (for example by trying to override it in a subclass).
+
+**Prerequisites:** C# classes and inheritance, type patterns and switch expressions, and the .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The code compiles from the start, so red tests are your checklist, and the `TODO-NN` comments in `Models.cs` explain what to change in each type.
+
 ## Documentation Links
 
 - [Inheritance, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance) (doc)

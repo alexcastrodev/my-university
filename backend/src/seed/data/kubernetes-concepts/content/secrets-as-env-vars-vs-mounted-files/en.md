@@ -95,6 +95,35 @@ $ crictl inspect <container-id> | grep DB_PASSWORD     # on the node
 - **`subPath` is a convenience that silently opts out of updates.** Fine for files that never change, a trap for anything rotated.
 - **Restart-on-change is the most predictable rotation strategy.** It is slower than in-place reload, but every Pod converges to the same value through a normal, observable rolling update, and it works the same for env vars and files.
 
+## Lab
+
+In this lab you get an `app` Pod that reads the database password from `/etc/app/secrets/DB_PASSWORD` on every connection, while operations rotate the `db-credentials` Secret without restarting Pods. The problem is that the Pod delivers the password in a way that never updates. Your job is to edit `app.yaml` so the application sees the new value. The core idea is to feel the difference between an environment variable (copied into the process at start) and a mounted file (updated by the kubelet), and how a `subPath` defeats that update.
+
+**The scenario**
+
+The test creates the Secret with `DB_PASSWORD=old-111`, applies your `app.yaml`, rotates the Secret to `new-222` with `kubectl apply` (same name, no restart) and waits up to 150 seconds for the file inside the Pod to change. Everything runs on a real cluster (k3s via Testcontainers).
+
+- `src/main/resources/k8s/app.yaml`: your file. The Pod exposes the password as the `DB_PASSWORD` environment variable and also mounts the Secret as a single file with `subPath`.
+- `src/test/resources/k8s/naive-app.yaml`: the same Pod in its starting state (before any TODO), kept for comparison.
+
+**What you will do, step by step**
+
+1. **Observe the naive Pod.** Run the tests before editing. `naiveEnvVarAndSubPathKeepTheOldPassword` passes: long after the rotation, the Pod with an environment variable and a `subPath` still sees `old-111`.
+2. **Take the password out of the environment (TODO-00).** Remove the `DB_PASSWORD` variable. The app only reads the file, and a variable never changes after start, besides leaking into child processes and crash dumps.
+3. **Mount the directory, not the file (TODO-01).** Replace the single-file mount with `subPath` by a mount of the Secret as a directory at `/etc/app/secrets`. That way the kubelet can update the content in place; `subPath` mounts are never updated.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/secrets-as-env-vars-vs-mounted-files test` passes completely: the password is not in the process environment and the file holds `new-222` after the rotation. The passing run prints how long the kubelet took to refresh the file (usually 60 to 90 seconds). You should be able to explain why that delay exists and why `subPath` and environment variables require restarting the Pod.
+
+**Optional challenges**
+
+- **TODO-02:** add `defaultMode: 0400` to the Secret volume and check it with `stat -c %a /etc/app/secrets/..data/DB_PASSWORD`. Why does `ls -la /etc/app/secrets` show `DB_PASSWORD` as a symlink?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Secrets as Environment Variables vs Mounted Files", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/secrets-as-env-vars-vs-mounted-files test`. Expect two to three minutes per run, because the rotation is real and the kubelet only refreshes Secret volumes periodically. You only edit `app.yaml`.
+
 ## Documentation Links
 
 - [Distribute Credentials Securely Using Secrets](https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/): `env`, `envFrom` and volume examples.

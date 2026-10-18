@@ -185,6 +185,43 @@ Three extension points, all run in one `/custom` page:
   and the endpoint saves duplication, and it also means a change in one is a
   change in the other.
 
+## Lab
+
+In this lab you get a Razor class library with two forms that do not validate anything yet: the `Signup` model has no rules, the `EditForm` has no validator and no submit handlers, the custom attribute accepts everything and no server error is ever shown. Your job is to wire all of that up. The core idea is to see a Blazor form as three separate pieces (the model, the `EditContext` and the components that read them) and exercise it without a browser.
+
+**The scenario**
+
+`SignupForm` edits a `Signup` (name, age, email, plan, terms) and `UsernameForm` edits a user name that the "server" may reject as already taken. The tests render the components with bUnit and fill the inputs with `Change(...)`, like a browser `change` event. No browser, JavaScript or SignalR.
+
+- `Signup.cs`: the model, also an `IValidatableObject`.
+- `SignupForm.razor`: the `EditForm` with `InputText`, `InputNumber`, `InputSelect` and `InputCheckbox`.
+- `NoBannedWordsAttribute.cs`: a custom `ValidationAttribute` (`root` and `system` are banned).
+- `UsernameModel.cs` and `UsernameForm.razor`: the user name form, with the `IsTaken` parameter.
+- `LabFieldCssClassProvider.cs`: the per-field CSS class provider.
+
+**What you will do, step by step**
+
+1. **Declare the rules on the model (TODO-00).** In `Signup`, `Name` required with 3 to 10 characters, `Age` from 18 to 120, `Email` that looks like an email, and in `Validate` a result `admin is reserved.` for member `Name` when it is `admin` (ignoring case).
+2. **Wire the `EditForm` (TODO-01).** In `SignupForm.razor`, add `<DataAnnotationsValidator />` and connect `OnValidSubmit="HandleValid"` and `OnInvalidSubmit="HandleInvalid"`. Check what the tests say about when the `IValidatableObject` rule runs (field change or submit) and why they accept the terms before expecting it. Also read the `OnSubmit` test: why can it not be combined with the other two callbacks?
+3. **Write the attribute (TODO-02).** In `NoBannedWordsAttribute`, reject a value equal (ignoring case) to one of `Banned`, with the message `{value} is banned.` attached to `validationContext.MemberName`.
+4. **Show a server-side error (TODO-03).** In `UsernameForm.razor`, create a `ValidationMessageStore`, clear the edited field's messages in `OnFieldChanged` (calling `NotifyValidationStateChanged`) and, in `Save`, if `IsTaken(name)` is true add `{name} is already taken.`, notify and return without saving. Why must you clear them yourself?
+5. **Style from the state (TODO-04).** In `LabFieldCssClassProvider`, return `pristine`, `touched bad` or `touched ok`, and register the provider on the `SignupForm` `EditContext` with `SetFieldCssClassProvider`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the model rule only appears on submit (and only after the property rules pass), why typing text into a number input is a binding error that keeps the old value, and why the store messages do not disappear on their own.
+
+**Optional challenges**
+
+The bonus tests carry `[Trait("Category", "Bonus")]` and fail until you do these items. To run only the required work, use `dotnet test --filter "Category!=Bonus"`.
+
+- **TODO-05:** show `<p class="dirty">Unsaved changes</p>` while `ctx.IsModified()` is true and call `ctx.MarkAsUnmodified()` after a valid save.
+- **TODO-06:** make the terms mandatory with `[Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms.")]` on `Signup.Terms`. Why does the bool need this trick instead of `[Required]`?
+
+**Prerequisites:** basic Razor components (`@code`, `[Parameter]`, `EventCallback`), data annotations (`[Required]`, `[Range]`, `IValidatableObject`) and the .NET 10 SDK (the tests use bUnit 2.11.3, restored from nuget.org).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Each TODO is marked in a comment in the code, and the tests for the required TODOs fail until you implement them.
+
 ## Documentation Links
 
 - [ASP.NET Core Blazor forms validation, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation) (doc)

@@ -258,6 +258,40 @@ original goes in as `innerException`. To rethrow outside the `catch` block, use
   expected result of a valid call, a candidate for a result type or a domain
   exception, not for `ArgumentException`.
 
+## Lab
+
+In this lab you get the **stubbed** static class `Guards`, with eight methods that throw `NotImplementedException`, plus ready xUnit tests. Your job is to implement them. The core idea has two halves: usage errors (a bug in the caller) should be thrown as early as possible, with a precise message and the right `ParamName`, and a failure you have already caught should be rethrown or wrapped without losing the original stack.
+
+**The scenario**
+
+A small service that receives orders and loads settings, full of argument validation.
+
+- `Models.cs`: `Customer` (with `Email?`) and `Order` (with `Customer?`, `Quantity` and `Discount`).
+- `Guards.cs`: the eight methods to implement, one per TODO. Among them is the private helper `ThrowIndex`, marked with `[DoesNotReturn]`.
+- `GuardTests.cs`: the tests. They check not only the exception type but also the `ParamName`, the `ActualValue`, the message text and whether the stack trace still mentions the original method.
+
+**What you will do, step by step**
+
+1. **One-line guards (TODO-00).** In `Place`, validate in order, with the BCL helpers (`ArgumentNullException.ThrowIfNull`, `ThrowIfNullOrWhiteSpace`, `ThrowIfNegativeOrZero`, `ThrowIfGreaterThan`): order, customer, email, quantity and a discount up to 0.5m. The `ParamName` of each exception is the expression text (`order.Customer`, `order.Customer.Email`...). Then return `$"placed {order.Quantity}"`.
+2. **Your own guard (TODO-01).** In `NotDefault<T>`, throw `ArgumentException` when the value is `null` or equals `default(T)` (use `EqualityComparer<T>.Default`). The `ParamName` is the text the compiler already hands you in `expression`, through `CallerArgumentExpression`.
+3. **`throw` as an expression (TODO-02).** In `FirstArg`, return the first argument or throw `ArgumentException("No arguments.")`, all in one conditional expression.
+4. **Keep the hot path small (TODO-03 and TODO-04).** In `Get`, test both bounds with `(uint)index >= (uint)values.Length` and delegate the error to `ThrowIndex`. In `ThrowIndex`, throw `ArgumentOutOfRangeException(nameof(index), index, $"Index must be below {length}.")`. Moving the `throw` out of `Get` keeps it small enough to inline.
+5. **Validate before the `async` (TODO-05).** In `SaveAsync`, make the method **non**-`async`, validate `path` and return the task of an `async` local function that does `await Task.Yield()` and returns `$"saved:{path}"`. In an `async` method, the exception would be stored in the `Task` instead of blowing up at the call.
+6. **Rethrow and wrap (TODO-06 and TODO-07).** In `LogAndRethrow`, log the message and rethrow with `throw;`, not `throw ex;`, which resets the stack trace. In `LoadSetting`, parse the text as an `int` and, on failure, throw `InvalidOperationException("Loading settings failed.")` with the `FormatException` as its `InnerException`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the `LogAndRethrow` test looks for `Boom` in the stack trace, and why `SaveAsync(null!)` must throw at the call and not at the `await`.
+
+**Optional challenges**
+
+- **TODO-08:** add `RethrowLater(Action, List<ExceptionDispatchInfo>)`, which captures the exception in a `catch` and lets the caller rethrow it later with the original stack trace.
+- **TODO-09:** add a class `Resource : IDisposable` whose `Read()` is guarded with `ObjectDisposedException.ThrowIf`.
+
+**Prerequisites:** `try`, `catch` and `finally`, attributes and optional parameters, `async`/`await` basics and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and carries a `TODO-NN` comment with a hint, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Best practices for exceptions, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions) (doc)

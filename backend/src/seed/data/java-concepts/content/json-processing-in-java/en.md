@@ -370,6 +370,40 @@ module com.example.app {
 - **Jackson 2 and 3 coexist, which is a feature and a hazard** — the renamed packages let both majors live on one classpath during a migration, but nothing stops half a codebase from importing each, and the types do not interoperate. Two `JsonNode` classes with the same simple name produce error messages that read like nonsense until you notice the package.
 - **No standard means no portability of idioms** — JSON handling in Java is a library choice with no platform default, so knowledge does not transfer cleanly between codebases (Jackson annotations, Gson's `@SerializedName`, JSON-B's `@JsonbProperty` all solve the same problem differently). JEP 540 narrows this only for the simplest cases; it does not give the ecosystem a common binding API.
 
+## Lab
+
+In this lab you get `ManifestProcessor`, which must read a package-manifest JSON document (name, version, description, contributors) into a `PackageManifest` record, read two fields that are not part of the record (`homepage` and `publisher.city`) through the tree model and build a strict `JsonMapper`. The core idea is to pick the right tool for each situation: data binding for what you model, the tree for what you do not, and a strict mapper when an unexpected field should be treated as a bug.
+
+**The scenario**
+
+The manifest has `name`, `version`, `description` and `contributors`, but also `homepage` and a `publisher` object, deliberately left out of the record to practice navigating a shape you did not model as a class.
+
+- `ManifestProcessor`: the nested `PackageManifest` record and the static methods `readManifest`, `createStrictMapper`, `readHomepage`, `readPublisherCity` and the optional `readManifests`.
+- `ManifestProcessorTest`: includes schema-evolution tests, where an unknown or missing field in the JSON must not break the default mapper.
+
+The lab uses Jackson 3 (`tools.jackson` packages), with `JsonMapper` and `JsonNode`.
+
+**What you will do, step by step**
+
+1. **Do the data binding (TODO-00).** In `readManifest`, call `mapper.readValue(json, PackageManifest.class)`.
+2. **Build a strict mapper (TODO-01).** In `createStrictMapper`, use `JsonMapper.builder()` and enable `DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES`. A plain mapper already tolerates unmodeled fields, which is why strictness has to be switched on, not off.
+3. **Read a field through the tree (TODO-02).** In `readHomepage`, use `mapper.readTree(json)` and `path("homepage")`, not `get(...)`: `path` returns a `MissingNode` instead of `null` when the field is missing. Call `asText("unknown")` to get the default in one step.
+4. **Navigate with a JSON Pointer (TODO-03).** In `readPublisherCity`, use `at("/publisher/city")` to reach the nested field directly and return `"unknown"` when `isMissingNode()`, otherwise `asText()`.
+
+The test `shouldToleratesUnknownFieldByDefault` only depends on TODO-00: it exists to show that a plain `JsonMapper` already tolerates an unmodeled field, which is why TODO-01 has to opt in to strictness.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `path` is safer than `get` for optional fields and when a strict mapper is worth it.
+
+**Optional challenges**
+
+- **TODO-04:** implement `readManifests`, binding a JSON array into a `List<PackageManifest>` with `TypeReference`, avoiding the `ClassCastException` trap of binding straight to `List.class`, which loses the element type to erasure.
+
+**Prerequisites:** records, generics and JSON basics.
+
+**How to run it:** clone the repository, go into `java-concepts/json-processing-in-java` and run `mvn test` (or, from the root, `mvn -pl java-concepts/json-processing-in-java test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Jackson databind — FasterXML/jackson-databind](https://github.com/FasterXML/jackson-databind) — doc

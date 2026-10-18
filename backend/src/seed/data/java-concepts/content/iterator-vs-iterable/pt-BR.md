@@ -124,6 +124,38 @@ Toda coleção do JDK segue esse mesmo padrão: `Collection` estende `Iterable`,
   it.remove(); // UnsupportedOperationException
   ```
 
+## Lab
+
+Neste lab você recebe a classe `NameRoster`, que já guarda nomes numa lista interna e implementa `Iterable<String>`, mas com o `Iterator` ainda por escrever. Seu trabalho é construir esse iterador do zero. A ideia central é sentir na prática por que `Iterable` obriga você a entregar um `Iterator`: o `for-each` só funciona por causa dele, e a parte difícil é remover um elemento no meio da travessia sem pular o próximo.
+
+**O cenário**
+
+Uma lista de nomes (um "roster") que precisa poder ser percorrida com `for-each`, com `hasNext()`/`next()` manuais e com remoção segura.
+
+- `NameRoster`: guarda os nomes em uma `List<String>`, com `add()` e `size()` prontos e `iterator()` por implementar.
+- `RosterIterator` (classe interna privada): tem dois campos, `cursor` (a próxima posição a ler) e `lastReturned` (a posição do último nome devolvido por `next()`, ou -1).
+
+Repare que o iterador é uma classe interna, então ele enxerga a lista `names` do roster. Cada chamada a `iterator()` cria um iterador novo com o seu próprio cursor, por isso dois iteradores sobre o mesmo roster andam de forma independente (há um teste para isso).
+
+**O que você vai fazer, passo a passo**
+
+1. **Devolver o iterador (TODO-00).** Em `iterator()`, retorne uma nova instância de `RosterIterator`.
+2. **Implementar `hasNext()` (TODO-01).** Retorne `true` enquanto o cursor ainda estiver dentro do tamanho da lista.
+3. **Implementar `next()` (TODO-02).** Lance `NoSuchElementException` se `hasNext()` for falso. Caso contrário, guarde a posição em `lastReturned`, avance o cursor e devolva o nome.
+4. **Implementar `remove()` (TODO-03).** Remova da lista o elemento em `lastReturned` com `names.remove(lastReturned)` e volte o cursor uma posição. O motivo: depois da remoção o próximo nome escorrega para a posição removida, e sem recuar o cursor ele seria pulado. Há um teste exatamente para isso.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar, com um exemplo de três nomes, por que `remove()` precisa mexer no cursor, e por que `Iterable` e `Iterator` são dois contratos separados (um fabrica, o outro guarda o estado da travessia).
+
+**Desafios opcionais**
+
+- **BONUS-00:** faça `remove()` lançar `IllegalStateException` se for chamado antes de `next()` ou duas vezes seguidas sem um `next()` no meio, como o contrato real de `Iterator` exige.
+
+**Pré-requisitos:** sintaxe básica de Java, `List`/`ArrayList` e noção de interfaces. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/iterator-vs-iterable` e rode `mvn test` (da raiz do repositório: `mvn -pl java-concepts/iterator-vs-iterable test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` no código trazem as dicas, então a lista de testes vermelhos é o seu checklist.
+
 ## Documentation Links
 
 - [Iterable — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html) — doc

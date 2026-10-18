@@ -168,6 +168,36 @@ A maioria das aplicações só precisa de um caminho: ler `/run/secrets/alpha/DB
 - **`items` faz o spec do Pod depender da lista de chaves.** Adicionar uma chave na Secret não chega à aplicação até o spec do Pod listá-la também. É explícito e revisável, mas também é mais um lugar para esquecer.
 - **O last-wins silencioso é um bug de runtime, não um erro de deploy.** Nada no cluster o detecta. Cubra com um teste que lê os arquivos montados, como faz o lab, ou com uma policy (Kyverno, OPA Gatekeeper) que exija `items` em sources de secret dentro de volumes projected.
 
+## Lab
+
+Neste lab você recebe um Pod que já monta dois Secrets (`tenant-alpha` e `tenant-beta`) no mesmo diretório com um volume `projected`. Parece certo, mas os dois Secrets têm as chaves `DB_USER` e `DB_PASSWORD`. O seu trabalho é editar o `pod.yaml` para que as credenciais dos dois tenants convivam. A ideia central é ver que o Kubernetes não rejeita o conflito e nem emite um evento: a fonte que vem depois simplesmente vence, e só o mapeamento explícito de chaves resolve.
+
+**O cenário**
+
+Uma aplicação precisa das credenciais de banco dos dois tenants, mais uma chave própria de cada um, em um layout como `/run/secrets/alpha/DB_PASSWORD` e `/run/secrets/beta/DB_PASSWORD`. O teste roda em um cluster real (k3s via Testcontainers) e cria o namespace e os Secrets como você faria à mão, com `kubectl create secret generic --from-env-file`.
+
+- `src/main/resources/secrets/example/alpha.env` e `beta.env`: dados prontos. Ambos definem `DB_USER` e `DB_PASSWORD`; o alpha traz também `ALPHA_API_KEY` e o beta `BETA_WEBHOOK_TOKEN`.
+- `src/main/resources/k8s/pod.yaml`: o seu arquivo, com o volume `projected` montado somente leitura em `/run/secrets`.
+- `src/test/resources/k8s/naive-pod.yaml`: a projeção "óbvia" (as duas fontes no mesmo diretório, sem `items`), mantida só para comparação.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ver o conflito acontecer.** Antes de editar, rode os testes. `naiveProjectionSilentlyLetsTheLastSourceWin` já passa e conta a história toda: no Pod ingênuo, o `DB_PASSWORD` é o do beta.
+2. **Separar o alpha (TODO-00).** Na fonte `tenant-alpha`, use `items` para mapear cada chave para um caminho sob `alpha/` (a chave `DB_PASSWORD` vira o path `alpha/DB_PASSWORD`). Liste todas as chaves, inclusive `ALPHA_API_KEY`.
+3. **Separar o beta (TODO-01).** Faça o mesmo para `tenant-beta` sob `beta/`. Lembre que `items` é uma lista de permissão: uma chave que você esquece de listar some do volume em silêncio, sem erro.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/projected-volumes-combining-multiple-secrets test` passa por inteiro: cada tenant tem `DB_USER` e `DB_PASSWORD` no próprio diretório, `ALPHA_API_KEY` e `BETA_WEBHOOK_TOKEN` estão presentes, e uma escrita em `/run/secrets` falha porque o mount é somente leitura. Você deve conseguir explicar por que o conflito de nomes não gera erro e por que `items` cobra que você liste tudo.
+
+**Desafios opcionais**
+
+- **TODO-02:** adicione `defaultMode: 0400` ao volume projetado e confira com `kubectl -n example exec app -- stat -c %a /run/secrets/alpha/DB_PASSWORD`. Depois rode `ls -la /run/secrets`: por que `alpha` e `beta` são links simbólicos para um diretório `..data`?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "Kubernetes Secrets Fundamentals", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/projected-volumes-combining-multiple-secrets test` (ou entre na pasta do lab e rode `mvn test`). A primeira execução baixa a imagem do k3s (cerca de 250 MB); as seguintes levam uns 30 segundos. Você edita apenas o `pod.yaml`.
+
 ## Documentation Links
 
 - [Kubernetes docs: Projected Volumes](https://kubernetes.io/docs/concepts/storage/projected-volumes/): sources suportadas, `items`, `defaultMode`, `serviceAccountToken`.

@@ -108,6 +108,37 @@ A ordem exata depende do hash code de cada elemento e da capacidade atual da tab
 - **Operações O(1) em média assumem um `hashCode()` razoavelmente bem distribuído** — uma função de hash ruim que colide muito degrada `add`/`contains`/`remove` até O(n), já que todo elemento colidente precisa ser checado com `equals()`.
 - **`HashSet` não é sincronizado** — mesma ressalva de `ArrayList`/`LinkedList` para modificação estrutural concorrente ou dentro de um loop.
 
+## Lab
+
+Neste lab você recebe a classe `TagIndex`, que guarda as tags de um item em um `HashSet<String>`, e implementa álgebra de conjuntos sobre ela: interseção, diferença e, no desafio, união. A ideia central é fazer essas operações com `retainAll()`, `removeAll()` e `addAll()` sobre CÓPIAS defensivas, para que perguntar algo sobre dois conjuntos nunca altere nenhum deles.
+
+**O cenário**
+
+Um item (um artigo, uma foto, um favorito) tem tags, e tags são case-insensitive: `"Java"` e `"java"` são a mesma tag.
+
+- `TagIndex.java`: guarda `tags` (um `Set<String>` sobre `HashSet`). `size()` já está pronto. Você implementa adicionar, consultar e comparar com outro índice.
+
+Esses métodos de conjunto (`retainAll`, `removeAll`, `addAll`) MODIFICAM o conjunto em que são chamados. Chamá-los direto em `tags` corromperia o índice, e os testes verificam justamente que nenhum dos dois índices muda.
+
+**O que você vai fazer, passo a passo**
+
+1. **Adicionar normalizando (TODO-00).** Em `addTag()`, converta a tag para minúsculas, adicione ao conjunto e devolva `true` se ela era nova ou `false` se já existia. O retorno de `Set.add()` já responde isso.
+2. **Consultar sem diferenciar caixa (TODO-01).** Em `hasTag()`, converta para minúsculas e verifique a presença.
+3. **Interseção (TODO-02).** Em `commonTagsWith()`, copie as tags deste índice para um novo `HashSet` e aplique `retainAll()` com as tags do outro. O resultado é um conjunto NOVO com as tags presentes nos dois.
+4. **Diferença (TODO-03).** Em `tagsOnlyInThis()`, copie as tags deste índice e aplique `removeAll()` com as do outro, ficando só com o que existe aqui e não lá.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que aconteceria com o índice original se `retainAll()` fosse chamado diretamente sobre `tags`, e por que a cópia resolve.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `allTagsCombined()` (a união) com `addAll()` sobre uma cópia, de novo sem mutar nenhum dos índices.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com a interface `Set`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/hash-set` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/hash-set test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 590–591 — book

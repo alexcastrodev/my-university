@@ -230,6 +230,44 @@ pode manter esse formato de quatro camadas por dentro.
   resultado por caso de uso. Exceções são mais curtas e servem para casos
   realmente excepcionais.
 
+## Lab
+
+Neste lab você recebe uma API multi-tenant organizada em quatro projetos, com o layout, as portas (interfaces) e o middleware prontos, mas com as regras de cada camada por fazer: o domínio aceita qualquer string como subdomínio, os handlers e o repositório lançam `NotImplementedException` e o endpoint que cria um tenant ainda não existe. O seu trabalho é preencher cada camada, de baixo para cima. A ideia central é sentir a regra de dependência (`Domain` <- `Application` <- `Infrastructure` e `Api`): as regras de negócio não conhecem EF Core nem HTTP, e por isso cada camada pode ser testada sozinha.
+
+**O cenário**
+
+Um tenant é identificado por um subdomínio (`acme.example.com` pertence ao tenant `acme`).
+
+- `Tenancy.Domain/Tenant.cs`: a entidade, com `Id` versão 7, o `Subdomain` e o `Rename`. Sem nenhuma dependência.
+- `Tenancy.Application`: os casos de uso `CreateTenantHandler` e `ResolveTenantHandler` e as portas `ITenantRepository` e `ITenantContext`.
+- `Tenancy.Infrastructure`: EF Core com SQLite, `TenancyDbContext`, `TenantConfiguration`, o `TenantRepository` (`internal`) e o registro de DI.
+- `Tenancy.Api`: o `TenantResolutionMiddleware` (já pronto), os endpoints e o composition root.
+
+Os testes são divididos por camada: os de domínio não precisam de nada, os de aplicação usam um repositório fake, os de API sobem a pilha inteira contra um arquivo SQLite temporário, e um último grupo confere a própria regra de dependência.
+
+**O que você vai fazer, passo a passo**
+
+Comece de baixo: domínio, depois aplicação, depois o resto.
+
+1. **Proteger o domínio (TODO-00 e TODO-01).** Em `Tenant`, aplique trim, minúsculas e valide: 1 a 63 letras, dígitos ou hífens, sem começar nem terminar em hífen, lançando `ArgumentException` para valor inválido e mantendo o `Id` versão 7. Em `Rename`, aplique as mesmas regras, mantenha o `Id` e deixe o subdomínio atual intacto quando o novo for inválido.
+2. **Escrever os casos de uso (TODO-02 e TODO-03).** `CreateTenantHandler` cria o `Tenant` (quem decide o que é válido é o domínio) e responde `InvalidSubdomain` com a mensagem de erro se ele lançar, `SubdomainTaken` se o repositório disser que já existe, ou grava e responde `Created` com o tenant. `ResolveTenantHandler` pega o primeiro rótulo do host (`acme.example.com` vira `acme`, sem diferenciar maiúsculas), trata um host de um rótulo só (`localhost`) como sem subdomínio e, no resto, responde `Found` ou `NotFound`.
+3. **Mapear a persistência (TODO-04 e TODO-05).** Em `TenantConfiguration`, defina `Id` como chave, `Subdomain` obrigatório com tamanho máximo 63 e um índice único, para o próprio banco rejeitar duplicatas. O mapeamento fica aqui para o domínio continuar livre de persistência. Em `TenantRepository`, implemente os três métodos com EF Core: leituras sem tracking e `AddAsync` persistindo de fato.
+4. **Traduzir para HTTP (TODO-06).** Em `TenantsEndpoints`, faça o `POST /` chamar o `CreateTenantHandler` e traduzir o resultado: `Created` vira 201 com `Location` e um `TenantDto` (nunca a entidade), `SubdomainTaken` vira 409 e `InvalidSubdomain` vira 400, ambos com a mensagem. O handler não sabe nada de HTTP; este é o único lugar que sabe.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde, nos três projetos de teste. Você deve conseguir explicar por que cada teste mora no projeto em que está, por que o repositório e a configuração são `internal`, e como os testes de dependência garantem que a `Application` nunca passe a referenciar EF Core.
+
+**Desafios opcionais**
+
+- **TODO-07:** adicione `using Microsoft.EntityFrameworkCore;` a um arquivo de `Tenancy.Application` e tente usar `DbContext`. O que impede você, e qual teste falharia se você forçasse?
+- **TODO-08:** troque o SQLite por PostgreSQL mudando só `Tenancy.Infrastructure` (pacote e `UseNpgsql`). Quais projetos não mudaram?
+- **TODO-09:** escreva um segundo `ITenantRepository` que guarda os tenants num dicionário e registre-o nos testes de API. O que isso diz sobre a fronteira entre as camadas?
+
+**Pré-requisitos:** classes, interfaces e referências entre projetos em C#, Minimal APIs e injeção de dependência, noções de EF Core e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os métodos lançam `NotImplementedException` e os testes falham, com cada TODO marcado em comentário no arquivo da camada correspondente.
+
 ## Documentation Links
 
 - [Common web application architectures, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures) (doc)

@@ -113,6 +113,37 @@ A single-node cluster behind a firewall has no public API endpoint, and it shoul
 - **Stored tokens vs OIDC federation.** Stored tokens work everywhere and must be rotated; OIDC removes stored secrets and needs API server configuration.
 - **Namespace-scoped vs cluster-wide deploy identity.** Scoped identities limit the blast radius of a leaked CI secret; cluster-wide identities are simpler for pipelines that manage many namespaces and dangerous for the same reason.
 
+## Lab
+
+In this lab you get the deploy step of a pipeline that always ends green, even when the release does not come up, and a CI ServiceAccount with `cluster-admin`. Your job is to write the deploy step so the job fails when the release does not come up and the previous version keeps running, and to reduce the pipeline's credentials to the minimum it needs. The core idea is to feel that `kubectl set image` returns as soon as the API server stores the change (not when the app is healthy), and that a leaked CI token is worth as much as the permissions you gave it.
+
+**The scenario**
+
+The test starts a real k3s (through Testcontainers), applies your RBAC, builds a kubeconfig holding only the `ci-deployer` ServiceAccount's token and runs your `deploy.sh` twice, as two pipeline runs: with `IMAGE=busybox:1.37` (must succeed, with 2 available replicas) and with `IMAGE=busybox:0.0-does-not-exist` (must fail the job and leave `busybox:1.37` in the Deployment).
+
+- `src/main/resources/deploy.sh`: the deploy step. It applies `/lab/k8s/app.yaml` and runs `kubectl set image` with the `IMAGE` variable.
+- `src/main/resources/k8s/ci-rbac.yaml`: the `shop` namespace, the `ci-deployer` ServiceAccount and a `ClusterRoleBinding` to `cluster-admin`.
+- `src/test/resources/k8s/app.yaml`: the `web` Deployment (2 replicas, `maxUnavailable: 0`). Given.
+- `src/test/java/CiDeployTest.java`: runs the pipeline and also checks that CI can patch Deployments in `shop` but cannot read Secrets, deploy to other namespaces or create cluster role bindings.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The broken release reports success, because the script waits for nothing.
+2. **Wait for the rollout and roll back on failure (TODO-00).** After `set image`, wait for the rollout to finish with a time limit. If it does not complete, revert the Deployment to the previous revision and make the script exit with a non-zero code so the job fails. Since `set -eu` aborts at the first error, plan the flow so the rollback happens before exiting.
+3. **Replace `cluster-admin` with the minimum (TODO-01).** Today a leaked token would own the entire cluster. Replace the `ClusterRoleBinding` with a `Role` and a `RoleBinding` in `shop` only, with the permissions `deploy.sh` really uses. Hint: `kubectl rollout undo` also reads ReplicaSets.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/deploying-from-ci-pipeline test` passes `goodReleaseSucceeds`, `badReleaseFailsTheJobAndIsRolledBack` and `ciCredentialsAreLimitedToDeployingInShop`. You should be able to explain which verbs and resources the pipeline really needs and why the rollback is part of the job, not a manual action.
+
+**Optional challenges**
+
+- **TODO-02:** the token in the test lives one hour. How would a real pipeline get short-lived credentials without storing a token at all (look up OIDC federation for your CI system), and what changes if the CI system is compromised?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the article Deploying from a CI Pipeline.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/deploying-from-ci-pipeline test`. The `TODO-00` comment in `deploy.sh` and the `TODO-01` comment in `ci-rbac.yaml` mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Authenticating (OpenID Connect tokens)](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens): trusting an external issuer.

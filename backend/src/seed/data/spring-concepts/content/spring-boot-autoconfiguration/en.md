@@ -114,6 +114,32 @@ DataSource dataSource() {
 
 - **JAR-first packaging is a deliberate cloud-era choice** — Spring Initializr defaults new projects to executable JAR packaging (embedded server) instead of WAR, which suits container/cloud deployment but is a mental shift for anyone used to deploying WARs to a standalone app server.
 
+## Lab
+
+In this lab you get a tiny Spring Boot autoconfiguration with the skeleton ready and two empty spots. Your job is to implement the default service and make the autoconfiguration **back off** when the application already has its own bean. The core idea is to feel the mechanism Spring Boot uses for `DataSource` and `ObjectMapper`: the autoconfiguration offers a default, but never fights what the user defined.
+
+**The scenario**
+
+An autoconfiguration contributes a default `GreetingService`, and the test checks both situations: nobody defined the bean, and the user defined theirs.
+
+- `GreetingService`: the interface, with a single `greet()` method.
+- `DefaultGreetingService`: the default implementation, still without a body.
+- `GreetingAutoConfiguration`: the `@AutoConfiguration` class with the `@Bean greetingService()` method that returns the default.
+- `GreetingAutoConfigurationTest`: uses `ApplicationContextRunner` to start just this autoconfiguration, without booting a whole application. One test defines nothing, the other registers a `CustomGreetingConfig` with its own `GreetingService`.
+
+**What you will do, step by step**
+
+1. **Implement the default service (TODO-00).** In `DefaultGreetingService.greet()`, replace the `UnsupportedOperationException` with a return of `"Hello from the default greeting service!"`, exactly that text, because the test compares the string.
+2. **Make the default back off (TODO-01).** In `GreetingAutoConfiguration`, add `@ConditionalOnMissingBean` to the `greetingService()` method. Without it, the second test's context would have two beans of the same type (the user's and the default) and `hasSingleBean` would fail. With the annotation, the default only exists when nobody else defined a `GreetingService`.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why an autoconfiguration must be conditional: it is loaded for every application, so it can only act when the user has not decided anything, and the second test proves the user's bean wins.
+
+**Prerequisites:** basic dependency injection (`@Bean`, `@Configuration`) and the Spring Boot autoconfiguration concept (`@ConditionalOnClass`, `@ConditionalOnMissingBean`).
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-boot-autoconfiguration` and run `mvn test`. The tests start out failing because of the `UnsupportedOperationException` and the two `TODO` comments; keep running until they all pass.
+
 ## Documentation Links
 
 - [Spring in Action, 5th Edition (Manning, 2019) — Chapter 1: "Getting started with Spring", p. 3-18](https://www.manning.com/books/spring-in-action-fifth-edition) — doc

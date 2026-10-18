@@ -118,6 +118,38 @@ capabilities:
 - **Sistema de arquivos raiz somente leitura vs conveniência.** Containers imutáveis impedem que um atacante persista arquivos e obrigam você a declarar todo caminho gravável; aplicações que escrevem caches em lugares inesperados falham na primeira execução.
 - **Configurações de nível de Pod vs de container.** Campos de nível de Pod deixam os manifests curtos; configurações de container são necessárias quando sidecars têm exigências diferentes.
 
+## Lab
+
+Neste lab você recebe um Deployment do nginx que serve a página de boas-vindas, mas como root, com as capabilities padrão e um sistema de arquivos gravável. O seu trabalho é endurecer o container com `securityContext` e depois resolver o problema que isso causa, sem enfraquecer nenhuma das configurações. A ideia central é sentir que cada restrição de segurança tem um custo, e que a imagem oficial do nginx foi feita supondo que pode ser root e escrever em disco.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers) recebe o seu `web.yaml` e um Pod `client` já pronto.
+
+- `src/main/resources/k8s/web.yaml`: o único arquivo que você edita. Tem o Deployment `web` (`nginx:1.29-alpine`, porta `http` 80, readiness probe em `/`) e o Service `web` na porta 80.
+- `src/test/resources/k8s/client.yaml`: o Pod `client` (busybox) de onde o teste faz a requisição a `http://web`.
+- `src/test/java/SecurityContextTest.java`: lê `/proc/1/status` dentro do container e verifica o resultado.
+
+O teste exige que o container não consiga escrever no sistema de arquivos raiz, que o processo principal tenha `CapEff: 0000000000000000`, `NoNewPrivs: 1` e `Seccomp: 2`, que não rode como UID 0 e que `http://web` ainda devolva a página do nginx.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** O nginx serve a página, mas como root, com capabilities padrão e disco gravável, então as verificações de segurança falham.
+2. **Endurecer o container (TODO-00).** Adicione o `securityContext` nos dois níveis: no do Pod, o usuário não-root e o perfil seccomp padrão do runtime, e no do container, sistema de arquivos raiz somente leitura, sem escalada de privilégios e sem nenhuma capability. Cada valor corresponde a uma linha de `/proc/1/status` que o teste lê.
+3. **Fazer o nginx funcionar assim (TODO-01).** Agora ele quebra ao iniciar, e a mensagem de falha mostra as últimas linhas de log. Resolva de uma de duas formas: dar ao nginx diretórios graváveis (volumes `emptyDir` nos caminhos em que ele escreve) ou trocar por uma imagem feita para rodar sem privilégios. Lembre que um nginx sem privilégios não escuta na porta 80, então o Service precisa continuar respondendo na 80. Em nenhum caso você pode afrouxar o que fez no passo anterior.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/securitycontext-hardening test` passa. Você deve conseguir explicar o que cada linha de `/proc/1/status` prova e por que o nginx precisou de ajuda para rodar sob essas restrições.
+
+**Desafios opcionais**
+
+- **TODO-02:** resolva o TODO-01 também do outro jeito. Se você trocou de imagem, volte para `nginx:1.29-alpine` e descubra todos os diretórios em que ele precisa escrever; se manteve a imagem oficial, experimente `nginxinc/nginx-unprivileged`. Qual solução você preferiria manter?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `nginx` e `busybox` dentro dele) e o artigo "securityContext Hardening".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/securitycontext-hardening test`. Os comentários `TODO-00` e `TODO-01` em `web.yaml` marcam o que fazer.
+
 ## Documentation Links
 
 - [Kubernetes docs: Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/): todos os campos com exemplos.

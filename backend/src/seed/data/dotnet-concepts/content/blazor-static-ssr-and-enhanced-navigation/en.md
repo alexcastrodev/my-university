@@ -198,6 +198,40 @@ load.
   return; // do not rely on an exception to end the handler
   ```
 
+## Lab
+
+In this lab you build a Blazor Web App that uses only static server-side rendering (no circuit, no WebAssembly) and see exactly what the server sends: plain HTML pages, a route parameter with a type constraint, a query string bound into a component, and an enhanced `EditForm` that posts with an antiforgery token, validates and follows Post/Redirect/Get. You receive the `BlazorSsrLab` project with five pages, and `Program.cs` registers only `AddRazorComponents()`, with no interactive render mode. The core idea is that plain HTML already works on its own and that the `blazor.web.js` script only adds enhanced navigation and forms on top.
+
+**The scenario**
+
+Today the home page is empty, the layout does not load the Blazor script, the order route has no constraint, the search page ignores the query string and the contact page is a plain form that Blazor does not handle.
+
+- `Home.razor`, `Orders.razor`, `Search.razor`, `Contact.razor`, `Thanks.razor`: the pages, wrapped by `MainLayout.razor` and `App.razor`.
+- `ContactModel.cs`: the form model, with `[Required(ErrorMessage = "Name is required")]` on `Name`.
+- `Program.cs`: `AddRazorComponents`, `UseAntiforgery` and `MapRazorComponents<App>`.
+- `SsrTests.cs`: calls the app in memory with `WebApplicationFactory` and checks the HTML, status codes and headers. No browser is involved.
+
+**What you will do, step by step**
+
+1. **Home as plain HTML (TODO-00).** In `Home.razor`, render `<h1>Home</h1>` and a paragraph with the render time (`<span id="stamp">` holding `DateTime.UtcNow.Ticks`). The test checks `text/html` and that the page references neither `blazor.server.js` nor `blazor.webassembly.js`.
+2. **Load the script (TODO-01).** In `App.razor`, load `_framework/blazor.web.js`. The `<base href="/" />` is already there and the test checks both.
+3. **Route constraint (TODO-02).** In `Orders.razor`, constrain the route to an integer: `/orders/42` shows `Order 42` and `/orders/abc` must return `404`.
+4. **Query string (TODO-03).** In `Search.razor`, bind the `term` query string value into the `Term` parameter. `/search?term=blazor` shows `Results for: blazor`, and a value like `<b>` must come out encoded (`&lt;b&gt;`).
+5. **Enhanced form (TODO-04).** In `Contact.razor`, replace the plain form with an `EditForm` with `FormName` `contact` and `Enhance`. The HTML must have `method="post"`, `data-enhance`, the hidden `_handler` field with value `contact`, the antiforgery token and an input `Model.Name`. Keep `DataAnnotationsValidator` and a `ValidationMessage`, and call `Submit` on a valid post.
+6. **Bind the post and redirect (TODO-05).** Bind the posted form into `Model` with `[SupplyParameterFromForm]`. An empty name re-renders the page with `200` and `Name is required`. A valid name answers `302` to `/thanks?name=Ana` (Post/Redirect/Get), and that page shows `Thanks, Ana`.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain what the server returns for each route and why the `EditForm` adds the antiforgery token by itself. The tests never execute `blazor.web.js`, so to see enhanced navigation and forms in the browser run `dotnet run --project src/BlazorSsrLab`, open the printed URL and watch the Network tab (one `fetch` per navigation instead of a full document reload).
+
+**Optional challenges**
+
+- **TODO-06:** the test `ShouldRejectPostWithoutAntiforgeryToken` (category `Bonus`) posts to `/contact` with the cookie but without the token field and expects `400`. There is no code to write: read `Program.cs`, find the line that makes the server reject that post and explain why the `EditForm` from TODO-04 adds the token for you.
+
+**Prerequisites:** ASP.NET Core basics (routing, middleware, `WebApplicationFactory`), Razor components basics (`@page`, `[Parameter]`, `@code`) and the .NET 10 SDK (the tests use xUnit and `Microsoft.AspNetCore.Mvc.Testing`, restored from nuget.org).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. To run only the required work, use `dotnet test --filter "Category!=Bonus"`. Each TODO is marked in a comment in the matching `.razor` file, and the red tests show what is still missing.
+
 ## Documentation Links
 
 - [ASP.NET Core Blazor navigation, enhanced navigation and form handling, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation) (doc)

@@ -107,6 +107,38 @@ O Docker Hub limita pulls anônimos e gratuitos. A mensagem contém `429 Too Man
 - **Builds de arquitetura única vs multiplataforma.** Builds de arquitetura única são mais rápidos; builds multiplataforma permitem que a mesma tag rode em nós amd64 e arm64 sem surpresas.
 - **Confiança por nó vs certificados públicos.** Uma CA privada exige configurar cada nó; um certificado publicamente confiável no registry não exige nada.
 
+## Lab
+
+Neste lab você recebe um nó k3s que tenta baixar uma imagem de um registry privado cujo certificado foi assinado por uma CA própria, e nada funciona ainda. O seu trabalho é fazer o nó confiar nessa CA e, depois, descobrir que o erro mudou e era outro problema. A ideia central é sentir que `ErrImagePull` e `ImagePullBackOff` cobrem causas muito diferentes (confiança TLS e tag inexistente) e que a mensagem do evento diz qual delas você tem.
+
+**O cenário**
+
+Os testes sobem um registry real (`registry:3` com TLS) alcançável como `registry.lab`, copiam `busybox:1.37` para ele como `registry.lab/tools/busybox:1.37` e iniciam um nó k3s com a CA em `/etc/rancher/k3s/lab-ca.crt`.
+
+- `src/main/resources/registries.yaml`: a configuração do containerd no nó, copiada para `/etc/rancher/k3s/registries.yaml`. Começa como `configs: {}`. O k3s só lê esse arquivo quando inicia.
+- `src/main/resources/k8s/web.yaml`: um Deployment `web` que usa `registry.lab/tools/busybox:1.37.0`.
+- `src/test/java/ImagePullTest.java`: verifica que o `web` roda e que o `registries.yaml` confia na CA em vez de desligar a verificação. Se falhar, mostra o último erro de pull do nó e as tags que existem no registry.
+
+Você edita apenas `registries.yaml` e `web.yaml`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes e ler o erro.** A mensagem de falha traz o último evento `Failed to pull` do nó e as tags do registry. Leia a causa dita no evento.
+2. **Fazer o nó confiar no registry (TODO-00).** No `registries.yaml`, configure o `registry.lab` com a CA que já está em `/etc/rancher/k3s/lab-ca.crt`. Não desligue a verificação TLS: o teste `tlsIsStillVerified` rejeita `insecure_skip_verify`.
+3. **Rodar de novo e ler o novo erro (TODO-01).** Com o registry confiável, o pull ainda falha, mas por outro motivo. Compare a imagem do `web.yaml` com a lista de tags do registry e corrija a referência da imagem.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/image-pull-errors test` passa: o `web` fica disponível, um `kubectl exec` nele responde `ok` e o `registries.yaml` usa a CA do lab sem `insecure_skip_verify`. Você deve conseguir dizer, só olhando a mensagem do evento, se o problema está na configuração do nó ou no manifesto.
+
+**Desafios opcionais**
+
+- **TODO-02:** o erro é o mesmo `ErrImagePull` / `ImagePullBackOff` nos dois problemas. Qual parte da mensagem do evento diz, num relance, se você deve olhar a configuração do nó ou o manifesto?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem containers `registry:3`, `crane` e `rancher/k3s`) e o artigo "ImagePullBackOff and ErrImagePull".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/image-pull-errors test`. Os comentários `TODO-00` e `TODO-01` nos arquivos marcam o que mudar, e a falha do teste mostra o erro de pull atual.
+
 ## Documentation Links
 
 - [Kubernetes docs: Images](https://kubernetes.io/docs/concepts/containers/images/): pull policy, registries privados, imagens multiarquitetura.

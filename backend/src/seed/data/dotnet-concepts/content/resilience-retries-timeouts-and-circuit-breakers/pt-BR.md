@@ -127,6 +127,39 @@ O timeout externo limitou toda a sequência em cerca de um segundo, enquanto o i
   services.AddHttpClient("custom").RemoveAllResilienceHandlers().AddStandardHedgingHandler();
   ```
 
+## Lab
+
+Neste lab você recebe dois clientes HTTP nomeados, `orders` e `catalog`, sem nenhuma resiliência. O seu trabalho é configurar o `Microsoft.Extensions.Http.Resilience` (Polly v8) neles e observar o que cada estratégia faz com o número de requisições que chegam ao servidor. A ideia central é sentir que retry, timeout e circuit breaker não são enfeites: cada um muda a contagem de chamadas, e configurados errado eles se atrapalham (um POST repetido pode criar três pedidos, um breaker que nunca abre não protege ninguém).
+
+**O cenário**
+
+Nada de rede nem servidor real. Os testes usam o `ScriptedHandler`, um `HttpMessageHandler` em processo que conta os acessos (`Hits`) e responde 503, fica pendurado ou se recupera sob demanda.
+
+- `ResilienceClients.cs`: tudo o que você mexe fica aqui. `AddOrdersClient` e `ConfigureOrders` (retries e timeouts), `AddCatalogClient` e `ConfigureCatalog` (circuit breaker), e dois clientes opcionais, `pricing` e `strict`.
+
+Leia com atenção os erros de validação que as opções lançam: eles fazem parte da lição (por exemplo, o `SamplingDuration` do breaker precisa ser pelo menos o dobro do timeout por tentativa, e `MaxRetryAttempts` não pode ser 0).
+
+**O que você vai fazer, passo a passo**
+
+1. **Ligar o handler padrão (TODO-00 e TODO-01).** Em `AddOrdersClient` e `AddCatalogClient`, adicione o standard resilience handler, configurado respectivamente por `ConfigureOrders` e `ConfigureCatalog`.
+2. **Configurar os retries de `orders` (TODO-02 e TODO-03).** Permita 2 retries com atraso base de 10 ms (os testes precisam continuar rápidos) e nunca repita métodos inseguros como POST.
+3. **Configurar os timeouts de `orders` (TODO-04).** Timeout por tentativa de 300 ms, timeout total de 5 s e `SamplingDuration` do breaker de 10 s, para satisfazer a regra de validação.
+4. **Desligar o retry de GET em `catalog` (TODO-05).** O `MaxRetryAttempts` não pode ser 0: descubra o método que desativa os retries para um verbo, para o breaker enxergar cada falha uma vez só.
+5. **Ajustar o circuit breaker (TODO-06).** Timeout por tentativa de 1 s, total de 5 s, e um breaker que abre depois de 5 chamadas quando pelo menos metade falhou em 10 s, ficando aberto por 1 s. O `MinimumThroughput` padrão é 100, e é por isso que ele nunca abriria nos testes.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar, olhando `Hits`, por que um GET que falha duas vezes chega a 3 acessos, por que um POST fica em 1, por que o circuito aberto lança `BrokenCircuitException` sem tocar o servidor e como ele fecha de novo depois que uma sonda dá certo.
+
+**Desafios opcionais**
+
+- **TODO-07:** em `pricing`, use `AddStandardHedgingHandler` (envia uma segunda requisição depois de 100 ms de silêncio, no máximo uma tentativa extra).
+- **TODO-08:** em `strict`, monte um pipeline próprio com `AddResilienceHandler` chamado "strict": timeout externo de 1 s, depois um retry (3 tentativas, 50 ms) e um timeout interno de 300 ms. A ordem importa: a primeira estratégia adicionada é a mais externa.
+
+**Pré-requisitos:** `IHttpClientFactory` e clientes nomeados (lab de HttpClient), idempotência dos métodos HTTP e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os clientes não têm resiliência, então os testes que dependem de retry, timeout ou breaker falham até você completar os TODOs marcados em comentário em `ResilienceClients.cs`.
+
 ## Documentation Links
 
 - [Build resilient HTTP apps: Key development patterns, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience) (doc)

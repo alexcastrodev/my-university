@@ -109,6 +109,38 @@ No endpoints means the selector matches no **ready** Pod: wrong labels or failin
 - **Fixed vs random nodePort.** Fixed ports are stable for users and firewalls and require you to manage collisions; random ports need no coordination and change whenever the Service is recreated.
 - **`externalTrafficPolicy: Cluster` vs `Local`.** Cluster spreads traffic evenly and hides the client IP; Local preserves the client IP and can leave nodes without local Pods unable to answer.
 
+## Lab
+
+In this lab you get a `shop.yaml` with a 2-replica Deployment and two Services that do not work. Your job is to fix the three most common reasons a Service does not answer. The core idea is that a Service is just a selector plus a port mapping: if the selector matches no Pod, there are no endpoints, and if the target port is wrong, the connection is refused even with endpoints.
+
+**The scenario**
+
+The test applies your file and a `client` Pod (given) on a real cluster (k3s via Testcontainers), reads the EndpointSlices and makes real HTTP requests.
+
+- `src/main/resources/k8s/shop.yaml`: the `shop` Deployment (2 replicas, labels `app: shop` and `tier: web`, server on port 8080 with a named port `http` and a readiness probe), the `shop` ClusterIP Service (reachable inside the cluster at `http://shop`, port 80) and the `shop-public` NodePort Service (port 30080 on every node).
+- `src/test/resources/k8s/client.yaml`: the `client` Pod, where the requests come from.
+
+Look at the Pod labels and the selectors of both Services; and note that one Service uses `targetPort` by number and the other by name.
+
+**What you will do, step by step**
+
+1. **Run it and look at what is missing.** Run the tests before editing. `kubectl get endpointslices -l kubernetes.io/service-name=shop` shows what the Service really selects.
+2. **Give `shop` endpoints (TODO-00).** The Service has no endpoints. Compare its `selector` with the Pods' labels and fix it.
+3. **Send traffic to the right port (TODO-01).** With endpoints, `http://shop` still refuses connections. Look at which port the container really listens on and fix the `targetPort`.
+4. **Fix the NodePort (TODO-02).** The API server rejects `shop-public`: read the error from `kubectl apply`. There is an allowed range for `nodePort`, and port 30080 is inside it.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/services-clusterip-and-nodeport test` passes completely: the EndpointSlice of `shop` lists both replicas, `http://shop` answers `shop ok` from `client`, and `shop-public` is created with node port 30080 and answers on the node's IP. You should be able to explain the difference between `port`, `targetPort` and `nodePort` and what `kubectl get endpointslices` tells you about a broken Service.
+
+**Optional challenges**
+
+- **TODO-03:** remove `nodePort` from `shop-public` entirely and apply it again. Which port does it get, and why is a fixed value only worth it when something outside the cluster depends on it?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Services: ClusterIP and NodePort", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/services-clusterip-and-nodeport test`. You only edit `shop.yaml`, and the TODO comments mark the three spots.
+
 ## Documentation Links
 
 - [Kubernetes docs: Service](https://kubernetes.io/docs/concepts/services-networking/service/): types, ports, selectors.

@@ -246,6 +246,37 @@ A forma `flatMap(Optional::stream)` não tem nenhum `get()` nela, então não h�
   ```
 - **Envolver todo valor de retorno em `Optional` é seu próprio tipo de ruído.** Um método que genuinamente não pode falhar em produzir um resultado deveria retornar o resultado, não um `Optional` dele; e uma equipe que não combinou onde está o limite acaba com pontos de chamada que misturam cadeias de `Optional`, checagens de null e guardas defensivas de `isPresent()` para os mesmos dados, o que é mais difícil de ler do que qualquer uma das duas convenções aplicada de forma consistente.
 
+## Lab
+
+Neste lab você recebe `PreferenceResolver`, uma classe com cinco resoluções de preferências que podem ou não ter valor. Seu trabalho é implementar cada uma com os combinadores de `Optional`, sem as checagens manuais `isPresent()`/`get()`. A ideia central é sentir o que cada combinador expressa e quando um valor padrão é calculado, o que importa muito quando esse padrão é caro.
+
+**O cenário**
+
+Apelido, tema da interface, CEP de um endereço e uma lista de apelidos opcionais: todos podem estar ausentes, e o código precisa lidar com isso sem `null` solto.
+
+- `PreferenceResolver`: os métodos `normalize`, `displayName`, `resolveTheme`, `zipOf`, `presentNicknames` e o opcional `requireNickname`.
+- `Address`: um record aninhado com o `zip`.
+- `PreferenceResolverTest`: confere os casos presente e ausente de cada método, incluindo se o `Supplier` do tema é chamado ou não.
+
+**O que você vai fazer, passo a passo**
+
+1. **Embrulhar o possivelmente nulo (TODO-00).** Em `normalize`, transforme um apelido que pode ser `null` num `Optional`, tratando `null` como ausente (`Optional.ofNullable`).
+2. **Padrões simples e preguiçosos (TODO-01 e TODO-02).** Em `displayName`, devolva o apelido ou o literal `"Guest"`. Em `resolveTheme`, devolva o tema guardado ou o que o `Supplier` produzir, sem nunca chamar o `Supplier` quando já existe um tema. Isso é o que separa um combinador que recebe um `Supplier` de outro que recebe o valor já calculado.
+3. **Navegar sem `if` (TODO-03).** Em `zipOf`, extraia o CEP do endereço, ou `"UNKNOWN"` se o endereço estiver ausente, encadeando o mapeamento em vez de testar `isPresent()`.
+4. **Coletar só os presentes (TODO-04).** Em `presentNicknames`, filtre os `Optional` vazios de uma `List<Optional<String>>` e junte os valores numa lista, mantendo a ordem original.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `orElse(valor)` e `orElseGet(supplier)` se comportam diferente quando o valor padrão é caro, e por que `Optional` serve como tipo de retorno mas não como campo ou parâmetro.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `requireNickname`, que devolve o apelido quando presente ou lança `NoSuchElementException("nickname required")` quando ausente.
+
+**Pré-requisitos:** sintaxe básica de Java, lambdas e a ideia de ausência de valor com `null`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/optional-correct-usage` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/optional-correct-usage test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Optional — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html) — doc

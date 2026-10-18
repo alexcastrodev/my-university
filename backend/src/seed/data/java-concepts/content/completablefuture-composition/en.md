@@ -280,6 +280,36 @@ That is the whole reason `join()` exists, and why it is the one you reach for in
   ```
 - **For fan-out-with-cancellation, `StructuredTaskScope` is now the better-shaped tool** — a scope cancels the losing or sibling branches automatically and ties every subtask's lifetime to the enclosing block, which is exactly what `allOf`/`anyOf` do not do (see [[structured-concurrency]]). `CompletableFuture` remains the right choice where the work is genuinely independent, reactive, or externally completed — a callback bridge, a cache warm-up, a controller returning a future to its container — none of which fit a block-scoped lifetime.
 
+## Lab
+
+In this lab you get `ProfileService`, which looks up a user's profile in two async steps: first it resolves a username to an id, then it loads the profile for that id. Both steps already exist and return a `CompletableFuture`. Your job is to compose them correctly and to handle the failure of either one. The core idea is that the second lookup depends on the first one's result, and that dependency is what dictates which composition method to use.
+
+**The scenario**
+
+An unknown username, or an id with no profile behind it, must fail in a controlled way, and the result cannot come back as a future inside another future.
+
+- `ProfileService`: `findUserId(username)` and `loadProfile(userId)` already written (they use `supplyAsync` and throw `NoSuchElementException` when they find nothing), the `DEFAULT_PROFILE` constant and the methods you will write.
+- `Profile`: a record with `userId` and `displayName`.
+- `ProfileServiceTest`: checks success, both failures (username without an id, id without a profile), the default and the failure description.
+
+**What you will do, step by step**
+
+1. **Chain without nesting (TODO-00).** In `lookupProfile(username)`, connect `findUserId` to `loadProfile` with the method that flattens instead of nesting. The return type is `CompletableFuture<Profile>`: if the chosen method wraps a future inside a future, the code will not even compile against that signature.
+2. **Recover from any failure (TODO-01).** In `lookupProfileOrDefault`, reuse `lookupProfile` and, on failure (unknown username or dangling id), fall back to `DEFAULT_PROFILE` instead of propagating the exception.
+3. **Describe both outcomes (TODO-02).** In `describeLookup`, return `"found: <displayName>"` on success and `"failed: <message>"` on failure. The exception a downstream stage receives is usually a `CompletionException` wrapping the real cause, so unwrap it before reading the message.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain the difference between `thenApply` and `thenCompose` for this case and why the message must be read from the cause and not from the wrapper.
+
+**Optional challenges**
+
+- **TODO-03:** implement `combinedGreeting(usernameA, usernameB)` looking up both usernames concurrently, since neither depends on the other, and joining the names into `"<name> & <name>"` once both finish.
+
+**Prerequisites:** lambdas, basic `CompletableFuture` (`supplyAsync`, `thenApply`) and exceptions.
+
+**How to run it:** clone the repository, go into `java-concepts/completablefuture-composition` and run `mvn test` (or, from the root, `mvn -pl java-concepts/completablefuture-composition test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [CompletableFuture — Java SE 25 API docs](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/CompletableFuture.html) — doc

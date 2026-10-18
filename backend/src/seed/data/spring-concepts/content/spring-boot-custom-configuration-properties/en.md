@@ -236,6 +236,37 @@ tooling sugar and has no effect on whether the property actually binds.
   `@ConfigurationPropertiesScan` or `@EnableConfigurationProperties` — they
   cannot be `@Component`-discovered, confirmed via the current reference.
 
+## Lab
+
+In this lab you get an email configuration `record` (`MailProperties`) with the validation constraints already written, but **nothing wired** to Spring Boot. Your job is to make Boot fill the `record` from the environment and **fail startup** when a value is invalid. The core idea is fail-fast: a blank host or an out-of-range port should bring the context down at startup, not turn into a mysterious runtime bug.
+
+**The scenario**
+
+Outbound mail configuration with `host`, `port`, `retryCount` and `enabled`, read from `mail.*` properties.
+
+- `MailProperties`: the `record`. `host` already has `@NotBlank` and `port` already has `@Min`/`@Max` (1 to 65535); `retryCount` has no constraint yet.
+- `MailConfig`: an empty `@Configuration`.
+- `MailPropertiesBindingTest`: uses `ApplicationContextRunner` with `MailConfig`. It covers valid binding, relaxed binding of `mail.retry-count`, and three startup failures (blank host, port 70000 and negative retry count). In the first two, the test checks that the failure message mentions `mail.host` or `mail.port`.
+
+**What you will do, step by step**
+
+1. **Bind the prefix (TODO-00).** Annotate `MailProperties` with `@ConfigurationProperties(prefix = "mail")`. Relaxed binding is what carries `mail.retry-count` to `retryCount`.
+2. **Turn validation on (TODO-01).** Also annotate it with `@Validated` (from `org.springframework.validation.annotation`). Without it, the Jakarta constraints exist but are ignored during binding.
+3. **Complete the constraints (TODO-02).** Add `@PositiveOrZero` with a `message` to `retryCount`, so `-1` fails at startup.
+4. **Register the bean (TODO-03).** Annotate `MailConfig` with `@EnableConfigurationProperties(MailProperties.class)`. Without it, no `MailProperties` bean exists in the context.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain the difference between the two things the test proves: binding (kebab-case names reaching the record components) and validation (invalid values stopping the context from starting), and which annotation is responsible for each.
+
+**Optional challenges**
+
+- **TODO-04:** add the static factory `MailProperties.disabled(String host, int port)` that returns an instance with `retryCount` 0 and `enabled` false, useful in tests and environments that must never send mail.
+
+**Prerequisites:** basic Spring Boot bean wiring, records and constructor binding, and Jakarta Bean Validation annotations (`@NotBlank`, `@Min`, `@Max`).
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-boot-custom-configuration-properties` and run `mvn test`. The tests fail until the annotations are in place; start from the `TODO` comments in `MailProperties` and `MailConfig`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 5, "Working with configuration properties", section 5.2, p. 122-129 — doc

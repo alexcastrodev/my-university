@@ -99,6 +99,35 @@ lifecycle:
 - **Recreate** is simple and safe for stateful singletons, and always costs a short outage. For a single-replica database there is no rolling option that avoids it anyway.
 - **Aggressive vs conservative values.** High `maxSurge`/`maxUnavailable` finish rollouts faster; `maxUnavailable: 0` guarantees capacity but needs surge room.
 
+## Lab
+
+In this lab you get two Deployments whose rollout strategy is wrong for what each one does. Your job is to adjust only the `strategy` field of each. The core idea is that `RollingUpdate` and `Recreate` answer different questions: a stateless app must keep full capacity even when the new image is broken, and a singleton must never run twice at the same time.
+
+**The scenario**
+
+The test runs on a real cluster (k3s via Testcontainers) and simulates two incidents.
+
+- `src/main/resources/k8s/web.yaml`: a stateless web app with 2 replicas behind a Service, with a `readinessProbe`. Someone tuned the rollout to "save resources" with `maxSurge: 0` and `maxUnavailable: 1`. The test rolls out an image tag that does not exist and, 30 seconds later, checks how many replicas are still available and whether the Service still answers.
+- `src/main/resources/k8s/singleton.yaml`: a scheduler with 1 replica that must never have two instances (every job would fire twice). The test does a `rollout restart` and counts, twice per second, how many of its Pods are `Running` at the same time.
+
+**What you will do, step by step**
+
+1. **Run it and read both failures.** Run the tests before editing to watch both incidents happen.
+2. **Protect the web capacity (TODO-00).** In `web.yaml`, change `maxSurge` and `maxUnavailable` so a rollout never goes below 2 available Pods. Think about which combination lets a new Pod start without taking down any old one, and why, with a broken image, the rollout stalls while the Service keeps answering from the old replicas.
+3. **Stop the singleton from running twice (TODO-01).** In `singleton.yaml`, choose the strategy that stops the old Pod before starting the new one. The price is a gap with no instance, which is acceptable here.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/deployment-strategies-rollingupdate-vs-recreate test` passes completely: during the broken rollout the web app keeps 2 available replicas and the Service answers `ok`, the singleton never has more than one `Running` Pod at the same time, and it comes back with 1 available replica. You should be able to explain why each workload needs a different strategy and which risk each choice accepts.
+
+**Optional challenges**
+
+- **TODO-02:** set `replicas: 4` on `web` with the default strategy (25% / 25%) and roll out the broken image again. How many Pods exist and how many are available? Work out the rounding rule from what you see.
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the article "Deployment Strategies: RollingUpdate vs Recreate", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/deployment-strategies-rollingupdate-vs-recreate test`. A run takes about 90 seconds. You only edit the `strategy` of each Deployment, and the TODO comments mark the spot.
+
 ## Documentation Links
 
 - [Kubernetes docs: Deployments (strategy)](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy): Recreate, RollingUpdate, maxSurge and maxUnavailable.

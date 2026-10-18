@@ -148,6 +148,40 @@ nums.tailSet(5, false);         // elements > 5, excluding 5 itself
   ```
 - **A ordenação assume que todo elemento é mutuamente comparável, e nada verifica isso de antemão** — um `TreeSet` aceita qualquer `Object` em tempo de compilação (ou via um `Comparator<? super E>`), então inserir um elemento que não pode de fato ser comparado aos outros só falha quando uma operação de ordenação força a comparação, surgindo como um `ClassCastException` vindo de `compareTo()`, e não do próprio `Set`.
 
+## Lab
+
+Neste lab você recebe `PriceBook`, que guarda preços (em centavos) num `NavigableSet<Integer>` (um `TreeSet`), com os métodos de busca vazios. Seu trabalho é implementá-los. A ideia central é usar os métodos de "vizinho mais próximo" do `NavigableSet` e ver como `Set.of()` trata duplicatas de forma diferente de `Set.add()`: em vez de ignorar, ele rejeita.
+
+**O cenário**
+
+Uma tabela de preços ordenada em que se procura o preço mais próximo de um valor.
+
+- `PriceBook`: guarda os preços em `prices`, com `addPrice(int)` já pronto.
+- `cheapestAtLeast(cents)`: o menor preço maior ou igual a `cents`.
+- `mostExpensiveAtMost(cents)`: o maior preço menor ou igual a `cents`.
+- `nextPriceAbove(cents)`: o menor preço estritamente maior que `cents`.
+- `uniquePrices(Integer...)`: constrói um `Set` imutável a partir dos preços recebidos.
+
+Os três primeiros devolvem `null` quando não existe preço que atenda ao critério, e os testes cobrem esse caso.
+
+**O que você vai fazer, passo a passo**
+
+1. **Teto e piso (TODO-00 e TODO-01).** Use `ceiling` para "menor que seja maior ou igual" e `floor` para "maior que seja menor ou igual". Ambos incluem o próprio valor se ele existir.
+2. **Próximo acima (TODO-02).** Use `higher`, que é estrito: não devolve o próprio valor. Compare com `ceiling` para fixar a diferença.
+3. **Conjunto imutável (TODO-03).** Construa o `Set` com `Set.of(...)`, a fábrica que lança exceção ao receber elementos repetidos. Há um teste que espera a rejeição de duplicatas e outro que espera um conjunto imutável.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir dizer, para um conjunto como `{100, 250, 400}`, o que `ceiling(250)`, `higher(250)` e `floor(99)` devolvem, e por que `Set.of(1, 1)` falha enquanto `add(1)` duas vezes num `TreeSet` não.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `discountRange()`, devolvendo uma visão `NavigableSet` dos preços em `[minCentsInclusive, maxCentsExclusive)` com `subSet` e limites inclusivo/exclusivo explícitos.
+
+**Pré-requisitos:** sintaxe básica de Java e `Set`/`TreeSet`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/set-interface` e rode `mvn test` (da raiz: `mvn -pl java-concepts/set-interface test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` explicam cada um, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Set — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html) — doc

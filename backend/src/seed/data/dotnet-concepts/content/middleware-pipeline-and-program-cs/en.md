@@ -188,6 +188,37 @@ developer exception page, and keep production behavior as the unconditional path
   Use middleware for host-wide concerns and an endpoint filter when the logic
   depends on the typed arguments of a handler.
 
+## Lab
+
+In this lab you get an app with a maintenance gate, a correlation id middleware and a few endpoints, but the pipeline is incomplete and partly in the wrong order. Your job is to complete and fix it. The core idea is to read `Program.cs` as a pipeline: know what `Use`, `Run` and `Map` do, why order matters, how a short-circuit looks from the outside and how to write a convention-based middleware.
+
+**The scenario**
+
+The tests send requests through the in-memory server and check headers, status codes and bodies.
+
+- `Program.cs`: the maintenance gate (`app.Use`, which answers 503 when `Maintenance:Enabled` is on, except for `/health`, and short-circuits by not calling `next`), the `CorrelationIdMiddleware` registration and the endpoints `/health`, `/hello` and `/boom` (which throws `InvalidOperationException("kaboom")`).
+- `CorrelationIdMiddleware.cs`: the convention-based middleware (`InvokeAsync`), still without logic, with the `X-Correlation-Id` header constant.
+
+**What you will do, step by step**
+
+1. **Catch exceptions (TODO-00).** Add an inline middleware (`app.Use`) that wraps the rest of the pipeline in try/catch and answers 500 with the body `caught: <message>`. Decide where it must go so it can see exceptions from everything after it.
+2. **Fix the order (TODO-01).** The gate's 503 has no `X-Correlation-Id` header. The two registrations are in the wrong order: fix it so the id is also present on short-circuited responses.
+3. **Create a branch (TODO-02).** Map `/branch` to a separate branch (`Map`) whose terminal delegate (`Run`) writes `pathBase=<PathBase> path=<Path>`. This way you see `Path` and `PathBase` change inside the branch.
+4. **Implement the middleware (TODO-03).** In `InvokeAsync`, use the request's `X-Correlation-Id` header when present, otherwise generate a new one (a `Guid` in "N" format). Store it in `ctx.Items["CorrelationId"]` and write it to the response header, all BEFORE calling `next`, because once the response starts the headers are read-only.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the error middleware must come before the others, why the correlation id comes before the gate, and why the header cannot be written after `next`.
+
+**Optional challenges**
+
+- **TODO-04:** register a terminal `app.Run(...)` before the endpoints, see which tests break and remove it.
+- **TODO-05:** add a timer middleware that sets `X-Elapsed-Ms` using `Response.OnStarting`. Why can it not set the header after `next`?
+
+**Prerequisites:** basic Minimal APIs, `async`/`await` and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The app compiles in the starter state, and the tests for the required TODOs fail until you complete `Program.cs` and `CorrelationIdMiddleware.cs`.
+
 ## Documentation Links
 
 - [ASP.NET Core Middleware, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/) (doc)

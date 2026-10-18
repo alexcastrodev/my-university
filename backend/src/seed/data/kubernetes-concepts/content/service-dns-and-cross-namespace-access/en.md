@@ -103,6 +103,38 @@ Now `db` works as a short name inside `team-a`. There is no proxying and no port
 - **Lower `ndots` vs default.** Fewer wasted queries for external names, at the risk of breaking short-name lookups of multi-part names like `db.shared` (1 dot is still under 2, fine; but review before lowering further).
 - **ExternalName alias vs direct name.** An alias hides where a dependency lives and makes moving it easy; it also hides where a dependency lives when you debug.
 
+## Lab
+
+In this lab you get a database already running in the `shared` namespace and a `team-a.yaml` manifest with two apps that cannot talk to it: both fail with `wget: bad address`, which is how an NXDOMAIN looks from inside a container. Your job is to edit only that manifest. The core idea is to feel how cluster DNS resolves Service names: the short name only works inside its own namespace, the qualified name crosses namespaces, and for an app you cannot change you need a local alias without duplicating the database.
+
+**The scenario**
+
+A Service `db` (port 8080, a busybox HTTP server that answers `db ok`) lives in the `shared` namespace. Two apps in `team-a` need it. The tests run on a real k3s cluster started by Testcontainers.
+
+- `src/test/resources/k8s/shared.yaml`: the database in `shared` (Deployment and Service `db`). It is given, do not touch it.
+- `src/main/resources/k8s/team-a.yaml`: the `team-a` namespace and two Deployments. This is your file.
+- `api`: reads the database URL from the `DB_URL` variable and is only ready (readinessProbe) while the database answers.
+- `legacy`: has the URL `http://database:8080` baked into its image and you cannot change it.
+- `src/test/java/ServiceDnsTest.java`: makes the requests from inside the Pods and checks the result.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the failure.** Both apps return `wget: bad address`. That tells you the problem is name resolution, not networking or the port.
+2. **Fix `DB_URL` for `api` (TODO-00).** The current value is `http://db:8080`, which DNS looks up in `team-a`. Use the Service name qualified with its namespace so the resolver reaches the `db` in `shared`.
+3. **Give `legacy` the name `database` (TODO-01).** You cannot change the app, so create a Service in `team-a` that makes the name `database` resolve to the same database, without running a second copy and without writing an IP into the manifest. The tests reject a second database and also a Service with its own ClusterIP, so think about which kind of Service only returns a name instead of an address.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/service-dns-and-cross-namespace-access test` passes all three tests: `apiReachesTheDatabase`, `legacyReachesTheDatabase` and `theDatabaseRunsOnlyOnce`. You should be able to explain why `db` only works inside the namespace, what the qualified name adds, and why the alias does not create a second database.
+
+**Optional challenges**
+
+- **TODO-02:** run `cat /etc/resolv.conf` in the `api` Pod. Which search domains make `db.shared` work, and how many DNS queries does `ndots:5` cause for a name like `example.com` before the real one?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the article Service DNS and Cross-Namespace Access.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/service-dns-and-cross-namespace-access test`. The `TODO-00` and `TODO-01` comments in `team-a.yaml` mark what is left, and the test failures show what still does not answer.
+
 ## Documentation Links
 
 - [Kubernetes docs: DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/): record formats, `dnsPolicy`, `dnsConfig`.

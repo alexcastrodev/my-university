@@ -246,6 +246,37 @@ resto, em vez de tentar enumerar cada caminho que *não* deveria servir.
   .requestMatchers("/db/**").hasAllAuthorities("db", "ROLE_ADMIN")
   ```
 
+## Lab
+
+Neste lab você recebe duas classes com métodos vazios e quatro testes que formam uma pequena tabela de combinações. Seu trabalho é conceder privilégios de admin de formas diferentes e checar acesso com `hasRole` e `hasAuthority`. A ideia central é a assimetria do prefixo `ROLE_`: `hasRole("ADMIN")` procura a authority `"ROLE_ADMIN"`, enquanto `hasAuthority("ADMIN")` procura o texto literal `"ADMIN"`, e confundir os dois nega acesso em silêncio.
+
+**O cenário**
+
+Usuários com o "mesmo" privilégio de admin escrito de jeitos diferentes, e verificações de autorização sem filtro de servlet nem requisição web.
+
+- `AuthorityGrantor`: constrói `UserDetails` com `grantAdminRole`, `grantAdminAuthorityWithoutRolePrefix` e `grantAdminRoleUsingRolesBuilder`, todos ainda lançando `UnsupportedOperationException`.
+- `AccessChecks`: tem `isGrantedByRole` e `isGrantedByAuthority`, que avaliam as authorities de um usuário com `AuthorityAuthorizationManager`.
+- `AuthorityGrantorTest` e `AccessChecksTest`: conferem as authorities concedidas e as quatro combinações de conceder e checar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Conceder com o prefixo (TODO-00).** Em `grantAdminRole`, monte o usuário com `User.withUsername(...).password(...).authorities("ROLE_ADMIN").build()`. É exatamente a string que `hasRole("ADMIN")` procura.
+2. **Conceder sem o prefixo (TODO-01).** Em `grantAdminAuthorityWithoutRolePrefix`, use `.authorities("ADMIN")`. É o erro comum: satisfaz `hasAuthority("ADMIN")`, mas não `hasRole("ADMIN")`.
+3. **Checar por role (TODO-02).** Em `isGrantedByRole`, crie um `UsernamePasswordAuthenticationToken(user, null, user.getAuthorities())` e avalie com `AuthorityAuthorizationManager.hasRole(role).authorize(...).isGranted()`.
+4. **Checar por authority (TODO-03).** Em `isGrantedByAuthority`, faça o mesmo com `AuthorityAuthorizationManager.hasAuthority(authority)`, que compara o texto literal sem prefixo.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir preencher de cabeça a tabela das quatro combinações (conceder `ROLE_ADMIN` ou `ADMIN`, checar com role ou com authority) e explicar quais passam e por quê.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `grantAdminRoleUsingRolesBuilder` com `.roles("ADMIN")`, que adiciona o `ROLE_` sozinho. Passar um valor já prefixado aqui lança exceção na construção.
+
+**Pré-requisitos:** Spring Framework básico e `UserDetails`/`GrantedAuthority` (veja o lab de user management).
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-security-authorization-authorities-and-roles` e rode `mvn test`. Os testes falham com `UnsupportedOperationException` até você resolver os TODOs das duas classes.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 7, "Configuring authorization: Restricting access", section 7.1, p. 153-171 — doc

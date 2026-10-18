@@ -30,5 +30,6 @@ export interface TestingConcept extends TestingConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: TestingConceptSection[];
+  lab?: string;
   references: TestingConceptReference[];
 }

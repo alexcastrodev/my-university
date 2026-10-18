@@ -142,6 +142,39 @@ Mantenha um pequeno script com pares "deve conectar" e "deve ser bloqueado" e ro
 - **Só ingress vs ingress e egress.** Políticas de ingress protegem serviços e são fáceis de acertar; políticas de egress impedem exfiltração e exigem listar explicitamente DNS, API server e endpoints externos.
 - **NetworkPolicy padrão vs políticas específicas do CNI.** A API padrão é portável e limitada (sem regras L7, sem padrões para o cluster todo, sem deny explícito); as políticas do Calico e do Cilium adicionam isso e prendem você ao CNI.
 
+## Lab
+
+Neste lab você recebe um namespace compartilhado com um banco e um cache, e um `policies.yaml` que parece proteger o banco mas deixa quatro coisas erradas ao mesmo tempo. O seu trabalho é fechar o namespace para que só um tipo de Pod de outro namespace alcance o banco, mantendo um egress restrito que não quebre o DNS. A ideia central é sentir que uma NetworkPolicy só restringe os Pods que ela seleciona, e que a diferença entre dois seletores na mesma lista ou em itens separados muda completamente o significado.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers, cujo controlador embutido aplica NetworkPolicies) recebe os Pods de `src/test/resources/k8s/workloads.yaml`, que já vem pronto.
+
+- `shared`: `db` e `cache` (HTTP na 8080) e um Pod `impostor` com o label `app=api`.
+- `team-a`: um Pod `api` (`app=api`).
+- `team-b`: um Pod `client`.
+- `src/main/resources/k8s/policies.yaml`: o único arquivo que você edita. Já traz um `default-deny-egress` em `team-a` (mantenha) e uma `allow-api-to-db` em `shared` com um erro de seletor.
+- `src/test/java/NetworkPoliciesTest.java`: faz requisições HTTP reais e exige que `team-a/api` alcance `db.shared` pelo nome e que nada mais alcance `db` ou `cache`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** Quatro coisas falham de uma vez: `team-a/api` nem resolve nomes, `team-b` alcança o `cache` e `shared/impostor` alcança os dois serviços.
+2. **Fechar o ingress de `shared` (TODO-00).** O `cache` não é selecionado por política nenhuma, então o cluster inteiro chega nele. Adicione uma política de negar por padrão o tráfego de entrada para todos os Pods de `shared`.
+3. **Corrigir os seletores (TODO-01).** Em `allow-api-to-db`, os dois seletores estão em itens separados da lista `from`, o que significa "qualquer Pod de `team-a`" OU "qualquer Pod com `app=api`" (inclusive o impostor em `shared`). Junte-os no mesmo item para significar "Pods `app=api` **em** `team-a`".
+4. **Liberar o DNS e o tráfego até o banco (TODO-02).** Com o egress negado, o `api` não resolve `db.shared`. Permita as consultas DNS (UDP e TCP 53 para os Pods do kube-dns em `kube-system`) e o tráfego de `team-a` para o `db` em `shared` na porta 8080.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/network-policies-default-deny test` passa: `team-a/api` busca `db` pelo nome e `impostor`, `team-b` e qualquer outro são bloqueados. Você deve conseguir explicar por que o `namespaceSelector` e o `podSelector` no mesmo item são um E, e em itens separados são um OU.
+
+**Desafios opcionais**
+
+- **TODO-03:** remova a regra de DNS da sua solução e rode `nslookup db.shared` a partir de `team-a/api`. Que erro a aplicação vê, e por que ele parece um problema de DNS e não de NetworkPolicy?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele) e o artigo "NetworkPolicies and Default Deny".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/network-policies-default-deny test`. Os comentários `TODO-00` a `TODO-02` em `policies.yaml` marcam o que fazer. As regras de permissão podem levar alguns segundos para ser programadas, e o teste já repete a tentativa.
+
 ## Documentation Links
 
 - [Kubernetes docs: Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/): semântica, políticas padrão, comportamento dos selectors.

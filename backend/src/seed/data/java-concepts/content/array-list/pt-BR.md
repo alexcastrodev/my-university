@@ -109,6 +109,35 @@ Integer[] ia2 = al.toArray(Integer[]::new); // JDK 11+, equivalent, no throwaway
   }
   ```
 
+## Lab
+
+Neste lab você recebe a classe `Playlist`, que embrulha um `ArrayList<String>` com as faixas em ordem de reprodução, e implementa as operações posicionais da lista. A ideia central é ver o que o `ArrayList` faz por você quando você insere ou remove no meio: os elementos vizinhos deslocam uma posição, e isso aparece direto no resultado.
+
+**O cenário**
+
+Uma playlist precisa receber faixas no fim, inserir uma faixa em uma posição, remover por posição e se entregar como array.
+
+- `Playlist.java`: guarda `tracks` (um `ArrayList<String>`). `size()` e `trackAt(int)` já estão prontos e servem de ferramenta para os testes. O resto você implementa.
+
+**O que você vai fazer, passo a passo**
+
+1. **Acrescentar no fim (TODO-00).** Em `addTrack()`, adicione a faixa ao final da lista.
+2. **Inserir em uma posição (TODO-01).** Em `insertAt()`, use a versão de `add` que recebe o índice. Tudo que estava naquela posição ou depois dela vai uma posição para a frente.
+3. **Remover por posição (TODO-02).** Em `removeAt()`, remova a faixa do índice dado. Tudo que vinha depois recua uma posição.
+4. **Entregar como array (TODO-03).** Em `toArray()`, devolva um `String[]`, e não um `Object[]`. O `toArray()` sem argumentos da lista devolve `Object[]`, então é preciso a versão que recebe um array do tipo desejado.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que acontece com os índices das outras faixas depois de `insertAt` e `removeAt`, e por que isso torna essas operações mais caras no começo da lista do que no fim.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `prepareForBulkLoad()`, avisando o `ArrayList` de que cerca de `expectedTotal` faixas vão chegar, para evitar realocações repetidas do array interno.
+
+**Pré-requisitos:** sintaxe básica de Java, generics e a interface `List`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/array-list` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/array-list test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 585–589 — book

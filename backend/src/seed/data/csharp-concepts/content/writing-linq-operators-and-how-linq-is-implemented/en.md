@@ -201,6 +201,41 @@ Value Types, Reference Types and Boxing measured.
   and `Any` with a predicate allocate nothing and can beat a naive loop;
   longer pipelines allocate an iterator per stage on every run.
 
+## Lab
+
+In this lab you get `MyLinq`, a static class with six LINQ operators that have no body. Your job is to write them as iterator methods, validate arguments eagerly, release the source when a consumer stops early and special-case `ICollection<T>` and `IList<T>` the way `System.Linq` does. The core idea is that laziness and fast paths are observed through counters, never through timing: the tests count how many items were pulled and how many enumerators were created and disposed.
+
+**The scenario**
+
+The tests feed your operators from two spy classes, in `Spies.cs`.
+
+- `TrackedSource`: an iterator that records how many items were pulled (`Pulled`), how many enumerations started (`Enumerations`) and how many enumerators were disposed (`Disposed`).
+- `ListSpy`: an `IList<int>` that counts the enumerators requested (`EnumeratorsCreated`).
+- `MyLinq.cs`: `MyWhere`, `MySelect`, `MyTake`, `MyDistinctBy`, `MyChunk`, `MyCount` and `MyElementAt`.
+
+A method containing `yield` cannot validate eagerly, so the recipe is to split it in two.
+
+**What you will do, step by step**
+
+1. **Validate now, iterate later (TODO-00).** In `MyWhere` and `MySelect`, validate `source` and `predicate` or `selector` in the public method (the `ArgumentNullException` must fire at the call, not at the first `MoveNext`) and return a private iterator method that does the `yield return`. The predicate and selector run once per element, only when the item is pulled, and are re-evaluated on each enumeration.
+2. **Stop without an extra MoveNext (TODO-01).** `MyTake` validates eagerly (null source, negative count) and then yields at most `count` items. Stop right after the last one: do not call `MoveNext` on the source once you have enough, and do not touch the source at all when `count` is 0. Leaving the iterator early must dispose the source enumerator (`foreach`/`finally` does it for you).
+3. **Streaming with a "seen" set (TODO-02).** `MyDistinctBy` yields each element whose key has not been seen yet, without buffering the whole source, running `keySelector` once per element. Keep the set of seen keys **inside** the iterator, so every enumeration starts empty. Validate the arguments eagerly.
+4. **Split into chunks (TODO-03).** `MyChunk` yields arrays of `size` items, and the last one may be shorter. Pull from the source only as far as the consumer asks (the first chunk pulls exactly `size` items). Throw `ArgumentOutOfRangeException` eagerly when `size < 1`, do not yield an empty trailing chunk and dispose the enumerator when the consumer stops early. The arrays must be independent.
+5. **Interface fast paths (TODO-04).** `MyCount`: if the source is an `ICollection<T>`, return `Count` without creating an enumerator; otherwise enumerate and count. `MyElementAt`: if the source is an `IList<T>`, use the indexer; otherwise enumerate until the index. A negative or too large index throws `ArgumentOutOfRangeException` on both paths, and the enumerator must be disposed.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why validation cannot live in the method with `yield`, why `source.MyWhere(...).MySelect(...).First()` pulls only three items out of 100 and why the source's `finally` runs even on a `break`.
+
+**Optional challenges**
+
+- **TODO-05:** write `MyZip` that stops at the shorter sequence. When the first sequence ends, it must not pull from the second one, and both enumerators must be disposed.
+- **TODO-06:** write `MyTryGetNonEnumeratedCount` that answers for `ICollection<T>` and returns `false` for iterators, like `Enumerable.TryGetNonEnumeratedCount`. Why can `MyWhere` never answer?
+
+**Prerequisites:** extension methods and generics, `yield return` and `IEnumerable<T>`/`IEnumerator<T>`, deferred execution (see the deferred execution lab) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [How to extend LINQ, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-extend-linq) (doc)

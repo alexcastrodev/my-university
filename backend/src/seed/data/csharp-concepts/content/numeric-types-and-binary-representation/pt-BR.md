@@ -375,6 +375,40 @@ para constantes maiores) e não existe sufixo de literal, então escreva
   de três dígitos decimais e é mais um formato de armazenamento, `Int128` é mais
   lento que `long` e `nint` amarra seu código a um detalhe da plataforma.
 
+## Lab
+
+Neste lab você recebe duas classes estáticas **esboçadas**, `Bits` e `Numbers`, com métodos que lançam `NotImplementedException`, e testes xUnit que já fixam os comportamentos surpreendentes. O seu trabalho é implementá-las. A ideia central é ver o que um número realmente é na memória: inteiros em complemento de dois, deslocamentos e máscaras, `double` IEEE 754 que exige tolerância para comparar, e `decimal` com sua escala, que é o tipo certo para dinheiro.
+
+**O cenário**
+
+Um conjunto de utilitários de baixo nível sobre representação numérica. Cada TODO mira uma representação e um teste que expõe a pegadinha (`int.MinValue`, `1 << 32`, `0.1 + 0.2`, `1.0m` contra `1.00m`).
+
+- `Bits.cs`: `ToBinary32`, `Negate`, os deslocamentos (`ShiftRightArithmetic`, `ShiftRightLogical`, `OneShiftedLeft`), o empacotamento de cor (`PackRgb`, `Channel`), as flags (`SetFlag`, `ClearFlag`, `HasFlag`) e `CountSetBits`/`NextPowerOfTwo`.
+- `Numbers.cs`: `Near` (comparação de `double`), `Scale` (escala de um `decimal`) e `ToCents` (preço em centavos exatos).
+- `NumericTests.cs`: os testes, organizados por comentários `// TODO-NN`. Há também um teste que não é TODO e só documenta o problema: `0.3` não é igual a `0.1 + 0.2`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Complemento de dois (TODO-00).** Em `ToBinary32`, devolva os 32 caracteres com zeros à esquerda (`Convert.ToString(value, 2)` é um ponto de partida). Em `Negate`, não use o `-` unário nem multiplicação: inverta os bits e some um. `int.MinValue` não tem par positivo e deve voltar igual, sem exceção.
+2. **Deslocamentos (TODO-01).** Implemente o deslocamento aritmético (copia o sinal, `-16 >> 2` dá `-4`), o lógico com `>>>` (preenche com zeros, sem cast para `uint`) e `1 << count` com o operador simples. Não "conserte" o fato de a contagem ser mascarada em 5 bits: 32 vira 1 e 33 vira 2, e os testes esperam isso.
+3. **Campos e flags num `uint` (TODO-02).** `PackRgb` monta `0x00RRGGBB`, e `Channel` lê um canal de volta (índice 0, 1 ou 2, senão `ArgumentOutOfRangeException`). `SetFlag`, `ClearFlag` e `HasFlag` operam num bit, inclusive o 31. Lembre que aritmética de `byte` acontece em `int`.
+4. **Deixe a BCL contar (TODO-03).** Use `BitOperations` em `CountSetBits` e `NextPowerOfTwo` (1000 vira 1024, 64 continua 64, 0 vira 1), sem laços.
+5. **Comparar `double` (TODO-04).** Em `Near`, combine tolerância absoluta (perto de zero) e relativa (valores grandes): `|a - b| <= max(absolute, relative * max(|a|, |b|))`. Nada de `==` nem de `double.Epsilon`, e `NaN` nunca é próximo de nada.
+6. **Escala do decimal e centavos (TODO-05).** `Scale` lê os dígitos depois da vírgula, zeros incluídos, a partir de `decimal.GetBits`. `ToCents` converte para centavos exatos e lança `ArgumentException` para frações de centavo (`1.999m`), em vez de truncar em silêncio.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `1.0m == 1.00m` mas as escalas diferem, e por que `Near` precisa dos dois tipos de tolerância.
+
+**Desafios opcionais**
+
+- **TODO-06:** escreva `MeanOfFinite(double[] values)`, que ignora `NaN` e infinitos (`double.IsFinite`) e lança exceção se nada for finito. Crie seus próprios testes, incluindo ordenar uma lista com `NaN`.
+- **TODO-07:** multiplique dois `long.MaxValue` com `Int128` e compare com a multiplicação `unchecked` de `long`. Qual dos dois dá a volta?
+
+**Pré-requisitos:** tipos básicos e operadores de C#, formatar valores com cultura explícita e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos esboçados lançam `NotImplementedException`, então os testes vermelhos mostram o que falta, e os comentários `TODO-NN` trazem a dica de cada um.
+
 ## Documentation Links
 
 - [Integral numeric types, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types) (doc)

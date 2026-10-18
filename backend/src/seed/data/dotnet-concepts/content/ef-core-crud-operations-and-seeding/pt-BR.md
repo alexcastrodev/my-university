@@ -215,6 +215,41 @@ vez.
   não a `NullReferenceException`. Projete em DTOs para que o formato da query e
   o formato do resultado sejam a mesma coisa.
 
+## Lab
+
+Neste lab você recebe um serviço de jogos e um helper de seed cujos métodos ainda lançam `NotImplementedException`. O seu trabalho é implementar o CRUD com EF Core sobre SQLite, projetar direto para DTOs e semear as linhas de referência de que uma chave estrangeira depende. A ideia central é sentir a diferença entre o que o change tracker sabe e o que realmente chegou ao banco, e quando vale carregar uma entidade ou emitir uma única instrução SQL.
+
+**O cenário**
+
+`Game` tem um `GenreId` obrigatório, então nenhum jogo pode ser guardado até a tabela `Genres` ter linhas. Os testes rodam contra um SQLite em memória e usam **um contexto novo para cada verificação**, de modo que um teste que passa prova que o dado chegou ao banco, e não apenas ao change tracker.
+
+- `Models.cs`: as entidades `Game` e `Genre` e os DTOs `CreateGameDto`, `GameDetailsDto` e `GameSummaryDto`.
+- `GameStoreContext.cs`: o `DbContext` com `Games` e `Genres`.
+- `GameStoreDb.cs`: o seed dos cinco gêneros (`Fighting`, `Roleplaying`, `Sports`, `Racing`, `Kids and Family`) e o `ConfigureSeeding`.
+- `GameService.cs`: o serviço com `CreateAsync`, `GetByIdAsync`, `ListAsync`, `UpdatePriceAsync`, `DeleteAsync` e um `SetPriceAsync` opcional.
+
+**O que você vai fazer, passo a passo**
+
+1. **Semear os gêneros de forma idempotente (TODO-00 e TODO-01).** Em `SeedGenres`, não faça nada se a tabela `Genres` já tem linhas (o seed roda a cada migrate); senão adicione um `Genre` por entrada de `GenreNames` e salve. Em `SeedGenresAsync`, faça o mesmo com os métodos assíncronos do EF Core.
+2. **Plugar o seed nas opções (TODO-02).** Em `ConfigureSeeding`, ligue os dois métodos com `UseSeeding` (para `Migrate`/`EnsureCreated`) e `UseAsyncSeeding` (para as versões assíncronas).
+3. **Criar (TODO-03).** Em `CreateAsync`, monte um `Game` a partir do DTO, adicione ao contexto, salve e devolva o id gerado pelo banco. Um jogo com gênero inexistente deve falhar com `DbUpdateException`.
+4. **Ler um registro (TODO-04).** Em `GetByIdAsync`, busque pela chave primária; devolva `null` se não existir, senão um `GameDetailsDto` (nunca a própria entidade).
+5. **Listar com projeção (TODO-05).** Em `ListAsync`, projete todos os jogos, ordenados por `Id`, direto em `GameSummaryDto` com o NOME do gênero, sem carregar entidades que você não vai modificar. O teste confere que o change tracker ficou vazio.
+6. **Atualizar e apagar (TODO-06 e TODO-07).** Em `UpdatePriceAsync`, carregue o jogo, mude só o preço e salve, devolvendo `false` se ele não existir. Em `DeleteAsync`, apague com uma única instrução e sem carregar o jogo, sem falhar se o id não existir.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que o seed precisa ser idempotente, por que `ListAsync` não deixa nada rastreado e por que `DeleteAsync` não precisa de um `SELECT` antes do `DELETE`.
+
+**Desafios opcionais**
+
+- **TODO-08:** implemente `SetPriceAsync` com `ExecuteUpdateAsync`: um único `UPDATE`, sem tracking.
+- **TODO-09:** ligue `LogTo(Console.WriteLine)` nas opções do teste e leia o SQL que `ListAsync` e `DeleteAsync` geram. Há um join? Há um `SELECT` antes do `DELETE`?
+
+**Pré-requisitos:** C# e LINQ, `async`/`await`, conceitos básicos de EF Core (`DbContext`, `DbSet`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. No estado inicial os métodos lançam `NotImplementedException` e os testes falham, com cada TODO marcado em comentário em `GameStoreDb.cs` e `GameService.cs`.
+
 ## Documentation Links
 
 - [Getting started with EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app) (doc)

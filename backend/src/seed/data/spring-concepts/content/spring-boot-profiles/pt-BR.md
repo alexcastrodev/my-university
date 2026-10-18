@@ -212,6 +212,39 @@ seed) que deveria rodar em todo lugar exceto em produção.
   mecanismo de ativação de `spring.profiles.active`, permanecem inalterados
   desde o livro.
 
+## Lab
+
+Neste lab você recebe uma aplicação com três arquivos de propriedades e um bean `DataSeeder`, tudo **sem ligação** com profiles. Seu trabalho é usar profiles para a mesma base de código se comportar de forma diferente por ambiente, e provar com testes qual profile vence e qual bean realmente não existe. A ideia central é desmistificar o `@Profile("!prod")`: ele significa "ativo a menos que `prod` esteja ativo", então com **nenhum** profile ativo o bean ainda é criado.
+
+**O cenário**
+
+Um `DataSeeder` que deve existir em todo ambiente menos `prod`, e um rótulo de ambiente que muda por profile.
+
+- `AppConfig`: `@Configuration` com o bean `dataSeeder()`, que devolve um `DevDataSeeder`.
+- `DataSeeder` e `DevDataSeeder`: a interface e a implementação cujo `seedsData()` retorna `true`.
+- `EnvironmentProperties`: um `record` com `label` e `verboseLogging`, lido de `app.environment.*`.
+- `application.properties`: os defaults (`label=Local`, `verbose-logging=false`). `application-dev.properties` e `application-prod.properties` só têm comentários com o que preencher.
+- `ProfileActivationTest`: sobe a aplicação com `SpringApplicationBuilder` para `dev`, para `prod` e para nenhum profile, e confere beans e propriedades. Para `prod`, espera `NoSuchBeanDefinitionException`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Condicionar o bean (TODO-00).** Anote `dataSeeder()` com `@Profile("!prod")`.
+2. **Ligar as propriedades (TODO-01 e TODO-02).** Anote `EnvironmentProperties` com `@ConfigurationProperties(prefix = "app.environment")` e `AppConfig` com `@EnableConfigurationProperties(EnvironmentProperties.class)`.
+3. **Sobrescrever no dev (TODO-03).** Em `application-dev.properties`, defina `app.environment.label=Development` e `app.environment.verbose-logging=true`.
+4. **Sobrescrever no prod (TODO-04).** Em `application-prod.properties`, defina só `app.environment.label=Production`. O teste espera que `verboseLogging` continue `false`, herdado do default.
+
+**Como saber que terminou**
+
+`mvn test` fica verde (seis testes). Você deve conseguir explicar por que o teste sem profile ainda enxerga o `DataSeeder` e vê o rótulo `Local`, e por que `prod` sobrescreve apenas o que declara.
+
+**Desafios opcionais**
+
+- **TODO-05:** em `application.properties`, defina `spring.profiles.group.production=prod,audit` e crie um bean `AuditLogger` com `@Profile("audit")` em `AppConfig`, para que ativar só `production` ligue `prod` e `audit` juntos. Não há teste pronto para isso.
+
+**Pré-requisitos:** wiring básico de beans no Spring Boot, `@ConfigurationProperties` com records e arquivos `.properties`.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-boot-profiles` e rode `mvn test`. Os testes falham até as anotações e os arquivos de propriedades estarem preenchidos; os `TODO` ficam em `AppConfig`, `EnvironmentProperties` e nos arquivos `application*.properties`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 5, "Working with configuration properties", section 5.3, p. 129-133 — doc

@@ -118,6 +118,41 @@ Every version returns an unmodifiable, value-based list. `null` elements are not
   ```
 - **sort() only needs elements that are actually mutually comparable, and that isn't checked until it runs** — `List<E>` doesn't require `E` to implement `Comparable` unless the caller uses natural ordering, so a list of genuinely incomparable objects compiles fine and only fails once `sort()` tries to compare two of them.
 
+## Lab
+
+In this lab you get `PlaylistManager`, which wraps a `List<String>` of song titles, with the positional methods left empty. Your job is to implement them. The core idea is to see that `List` has position-based operations and that `subList` returns a live view of the original list, not a copy: changing the view changes the playlist.
+
+**The scenario**
+
+A playlist where you insert by position, look up songs and sort.
+
+- `PlaylistManager`: holds the `songs` list, with `add()` and `songs()` already done.
+- `insertAt(index, song)`: inserts at a position, pushing the following songs back.
+- `firstIndexOf(song)`: first position of a song, or -1.
+- `nextUp(from, to)`: a slice of the playlist.
+- `sortAlphabetically()`: sorts the list itself.
+
+Notice that `songs()` returns the internal list. That is why the tests can prove that `nextUp` is a view and that sorting happens in place.
+
+**What you will do, step by step**
+
+1. **Insert by position (TODO-00).** Use `List.add(int, E)`, which shifts the following elements.
+2. **Search (TODO-01).** Use `indexOf`, which already returns -1 when nothing is found.
+3. **Return a view (TODO-02).** Use `subList(fromIndex, toIndex)` and return the result directly, without copying it into a new list. The test changes an element through the view and checks that the playlist changed.
+4. **Sort in place (TODO-03).** Sort `songs` ignoring case. The `String` class has a ready-made `Comparator` for that.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain what would happen if `nextUp` returned `new ArrayList<>(...)` instead of `subList`, and which test would reveal the difference.
+
+**Optional challenges**
+
+- **TODO-04:** implement `shout()`, which uppercases every title in place using `replaceAll` (a single `List` method).
+
+**Prerequisites:** basic Java syntax and `List`/`ArrayList`. The project uses Java 21 and Maven.
+
+**How to run it:** clone the repository, go into `java-concepts/list-interface` and run `mvn test` (from the root: `mvn -pl java-concepts/list-interface test`). The methods start out throwing `UnsupportedOperationException("Not implemented yet.")` and the `TODO-NN` comments explain what to do, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [List — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html) — doc

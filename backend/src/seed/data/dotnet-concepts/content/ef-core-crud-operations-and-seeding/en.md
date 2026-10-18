@@ -213,6 +213,41 @@ and inserted the genres in one go.
   `NullReferenceException`. Project into DTOs so the shape of the query and the
   shape of the result are the same thing.
 
+## Lab
+
+In this lab you get a game service and a seed helper whose methods still throw `NotImplementedException`. Your job is to implement CRUD with EF Core on SQLite, project straight into DTOs and seed the reference rows that a foreign key depends on. The core idea is to feel the difference between what the change tracker knows and what actually reached the database, and when it is worth loading an entity or issuing a single SQL statement.
+
+**The scenario**
+
+`Game` has a mandatory `GenreId`, so no game can be stored until the `Genres` table has rows. The tests run against an in-memory SQLite database and use a **new context for every check**, so a passing test proves the data reached the database and not just the change tracker.
+
+- `Models.cs`: the `Game` and `Genre` entities and the DTOs `CreateGameDto`, `GameDetailsDto` and `GameSummaryDto`.
+- `GameStoreContext.cs`: the `DbContext` with `Games` and `Genres`.
+- `GameStoreDb.cs`: the seed of the five genres (`Fighting`, `Roleplaying`, `Sports`, `Racing`, `Kids and Family`) and `ConfigureSeeding`.
+- `GameService.cs`: the service with `CreateAsync`, `GetByIdAsync`, `ListAsync`, `UpdatePriceAsync`, `DeleteAsync` and an optional `SetPriceAsync`.
+
+**What you will do, step by step**
+
+1. **Seed the genres idempotently (TODO-00 and TODO-01).** In `SeedGenres`, do nothing when the `Genres` table already has rows (the seed runs on every migrate); otherwise add one `Genre` per entry in `GenreNames` and save. In `SeedGenresAsync`, do the same with the asynchronous EF Core methods.
+2. **Hook the seed into the options (TODO-02).** In `ConfigureSeeding`, wire both methods with `UseSeeding` (for `Migrate`/`EnsureCreated`) and `UseAsyncSeeding` (for the async versions).
+3. **Create (TODO-03).** In `CreateAsync`, build a `Game` from the DTO, add it to the context, save and return the id the database generated. A game whose genre does not exist must fail with `DbUpdateException`.
+4. **Read one record (TODO-04).** In `GetByIdAsync`, look it up by primary key; return `null` when it does not exist, otherwise a `GameDetailsDto` (never the entity itself).
+5. **List with a projection (TODO-05).** In `ListAsync`, project every game, ordered by `Id`, straight into a `GameSummaryDto` carrying the genre NAME, without loading entities you will not modify. The test checks that the change tracker stayed empty.
+6. **Update and delete (TODO-06 and TODO-07).** In `UpdatePriceAsync`, load the game, change only the price and save, returning `false` when it does not exist. In `DeleteAsync`, delete with a single statement and without loading the game, and do not fail when the id does not exist.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the seed must be idempotent, why `ListAsync` leaves nothing tracked and why `DeleteAsync` needs no `SELECT` before the `DELETE`.
+
+**Optional challenges**
+
+- **TODO-08:** implement `SetPriceAsync` with `ExecuteUpdateAsync`: a single `UPDATE`, no tracking.
+- **TODO-09:** turn on `LogTo(Console.WriteLine)` in the test options and read the SQL that `ListAsync` and `DeleteAsync` produce. Is there a join? Is there a `SELECT` before the `DELETE`?
+
+**Prerequisites:** C# and LINQ, `async`/`await`, basic EF Core concepts (`DbContext`, `DbSet`) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state the methods throw `NotImplementedException` and the tests fail, with each TODO marked in a comment in `GameStoreDb.cs` and `GameService.cs`.
+
 ## Documentation Links
 
 - [Getting started with EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app) (doc)

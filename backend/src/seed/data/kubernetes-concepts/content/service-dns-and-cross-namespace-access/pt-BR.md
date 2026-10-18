@@ -105,6 +105,38 @@ Agora `db` funciona como nome curto dentro de `team-a`. Não há proxy nem mapea
 - **`ndots` menor vs padrão.** Menos consultas desperdiçadas para nomes externos, com o risco de quebrar buscas curtas de nomes com várias partes como `db.shared` (1 ponto ainda é menos que 2, tudo bem; mas revise antes de reduzir mais).
 - **Alias ExternalName vs nome direto.** Um alias esconde onde uma dependência mora e facilita movê-la; também esconde onde ela mora quando você está depurando.
 
+## Lab
+
+Neste lab você recebe um banco de dados já rodando no namespace `shared` e um manifesto `team-a.yaml` com dois apps que não conseguem falar com ele: ambos falham com `wget: bad address`, que é como um NXDOMAIN aparece dentro de um container. Seu trabalho é editar só esse manifesto. A ideia central é sentir como o DNS do cluster resolve nomes de Service: o nome curto só vale dentro do próprio namespace, o nome qualificado atravessa namespaces, e para um app que você não pode mudar é preciso criar um alias local sem duplicar o banco.
+
+**O cenário**
+
+Um Service `db` (porta 8080, um servidor HTTP do busybox que responde `db ok`) vive no namespace `shared`. Dois apps em `team-a` precisam dele. Os testes rodam num cluster k3s de verdade, iniciado pelo Testcontainers.
+
+- `src/test/resources/k8s/shared.yaml`: o banco em `shared` (Deployment e Service `db`). É dado, você não mexe.
+- `src/main/resources/k8s/team-a.yaml`: o namespace `team-a` e dois Deployments. É o seu arquivo.
+- `api`: lê a URL do banco na variável `DB_URL` e só fica pronto (readinessProbe) enquanto o banco responde.
+- `legacy`: tem a URL `http://database:8080` fixa na imagem e você não pode alterá-la.
+- `src/test/java/ServiceDnsTest.java`: faz as requisições de dentro dos Pods e confere o resultado.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia a falha.** Os dois apps devolvem `wget: bad address`. Isso diz que o problema é resolução de nome, não rede nem porta.
+2. **Corrigir o `DB_URL` do `api` (TODO-00).** O valor atual é `http://db:8080`, que o DNS procura em `team-a`. Use o nome do Service qualificado com o namespace, para que o resolver chegue ao `db` de `shared`.
+3. **Dar o nome `database` ao `legacy` (TODO-01).** Você não pode mudar o app, então crie em `team-a` um Service que faça o nome `database` resolver para o mesmo banco, sem rodar uma segunda cópia e sem escrever um IP no manifesto. Os testes rejeitam um segundo banco e também um Service com ClusterIP próprio, então pense em que tipo de Service apenas devolve um nome em vez de um endereço.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/service-dns-and-cross-namespace-access test` passa nos três testes: `apiReachesTheDatabase`, `legacyReachesTheDatabase` e `theDatabaseRunsOnlyOnce`. Você deve conseguir explicar por que `db` funciona só dentro do namespace, o que o nome qualificado adiciona e por que o alias não cria um segundo banco.
+
+**Desafios opcionais**
+
+- **TODO-02:** rode `cat /etc/resolv.conf` no Pod `api`. Quais search domains fazem `db.shared` funcionar, e quantas consultas DNS o `ndots:5` provoca para um nome como `example.com` antes da consulta certa?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele), Java e Maven, e o artigo Service DNS and Cross-Namespace Access.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/service-dns-and-cross-namespace-access test`. Os comentários `TODO-00` e `TODO-01` em `team-a.yaml` marcam o que falta, e as falhas dos testes mostram o que ainda não responde.
+
 ## Documentation Links
 
 - [Kubernetes docs: DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/): formatos de registro, `dnsPolicy`, `dnsConfig`.

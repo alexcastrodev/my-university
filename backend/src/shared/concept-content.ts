@@ -87,6 +87,22 @@ export function splitSections(body: string): ConceptSection[] {
   });
 }
 
+/** Title of the `## Lab` section; its markdown is served as `lab`, apart from the concept sections. */
+export const LAB_SECTION_TITLE = 'Lab';
+
+/** Splits a markdown body into its sections, pulling the `## Lab` one out into `lab` so only the Lab tab shows it. */
+export function splitLabSection(body: string): {
+  sections: ConceptSection[];
+  lab?: string;
+} {
+  const all = splitSections(body);
+  const lab = all.find((section) => section.title === LAB_SECTION_TITLE);
+  return {
+    sections: all.filter((section) => section !== lab),
+    ...(lab && { lab: lab.content }),
+  };
+}
+
 type ConceptContent<F extends string> = {
   language: Language;
   availableLanguages: Language[];

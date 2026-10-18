@@ -225,6 +225,43 @@ circuito foi encerrado. Um timer ou assinatura de evento criado em
 - **`StateHasChanged` em handler é um cheiro.** Eventos já re-renderizam; chamar
   na mão geralmente indica código fora do dispatcher que precisa de `InvokeAsync`.
 
+## Lab
+
+Neste lab você recebe uma biblioteca de componentes Razor com vários componentes pequenos, cada um com uma lacuna proposital. O seu trabalho é preencher essas lacunas até os testes passarem. A ideia central é tornar o ciclo de vida do componente Blazor visível e correto: a ordem dos hooks, os dois renders de um `OnInitializedAsync` assíncrono, parâmetros que avisam o pai com `EventCallback<T>`, recarregar só quando um parâmetro mudou de verdade, valores em cascata e código que acorda fora do dispatcher do renderer.
+
+**O cenário**
+
+Um conjunto de componentes didáticos, renderizados em memória pelos testes com bUnit (sem navegador, sem JavaScript, sem SignalR). O trabalho assíncrono é controlado por um `TaskCompletionSource` que o teste completa, nunca por um delay.
+
+- `LifecycleProbe.razor`: registra no `CallLog` cada hook que roda.
+- `AsyncLoader.razor`: mostra "Loading..." enquanto espera um `IDataSource`.
+- `SelectableCard.razor` e `CardPicker.razor`: um cartão que avisa o pai, e o pai que exibe a escolha.
+- `ProductView.razor`: carrega o nome de um produto por `ProductId` e também recebe um `List<int>` mutável (`Tags`).
+- `ThemedLabel.razor`: um rótulo cuja classe depende de um tema.
+- `Ticker.razor`: conta eventos de um `TickSource`, que pode disparar em qualquer thread.
+
+**O que você vai fazer, passo a passo**
+
+1. **Registrar os hooks (TODO-00).** Em `LifecycleProbe`, sobrescreva `SetParametersAsync` (chamando a base), `OnInitialized`, `OnInitializedAsync`, `OnParametersSet`, `OnParametersSetAsync`, `OnAfterRender` e `OnAfterRenderAsync`, adicionando uma entrada ao `Log` em cada um. Use o valor real de `firstRender`. Assim você vê que na segunda renderização os hooks de inicialização não rodam de novo.
+2. **Carregar de forma assíncrona (TODO-01).** Em `AsyncLoader`, sobrescreva `OnInitializedAsync`, dê `await Source.LoadAsync()` e guarde o resultado em `data`. O componente renderiza "Loading..." no primeiro `await` e de novo quando a task termina.
+3. **Devolver eventos ao pai (TODO-02).** Em `SelectableCard`, marque `Name` com `[EditorRequired]` e faça o botão invocar o `EventCallback<string>` com o nome (`@onclick`). Observe por que `CardPicker` atualiza sozinho: o `EventCallback` re-renderiza o dono do callback.
+4. **Recarregar só quando o id mudou (TODO-03).** Em `ProductView`, o `List<int>` faz o `OnParametersSet` rodar a cada render do pai. Compare `ProductId` com `loadedId` e só chame o serviço quando ele realmente mudou.
+5. **Ler o tema em cascata (TODO-04).** Em `ThemedLabel`, receba o tema com um `[CascadingParameter]` e use-o na classe (`label-dark`, `label-light`...). Sem valor em cascata, a classe continua `label-light`.
+6. **Acordar fora do renderer (TODO-05).** Em `Ticker`, mova a mudança de estado e o `StateHasChanged` para dentro de `InvokeAsync`, e cancele a inscrição no `Dispose`. Sem isso o teste que dispara o evento numa thread de fundo quebra, e o componente vaza a inscrição.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar a ordem dos hooks na primeira e na segunda renderização, por que `ProductView` não pode confiar em `OnParametersSet` para detectar mudança, e por que um evento vindo de outra thread precisa passar por `InvokeAsync`.
+
+**Desafios opcionais**
+
+- **TODO-06:** em `Badge`, capture os atributos não declarados com `CaptureUnmatchedValues = true` num `Dictionary<string, object>?` e aplique-os no `span` com `@attributes`.
+- **TODO-07:** em `CounterBox`, sobrescreva `ShouldRender` para pular o render quando só `Other` mudou, e confirme que `OnParametersSet` ainda roda.
+
+**Pré-requisitos:** async/await e `TaskCompletionSource` em C#, componentes Razor (`[Parameter]`, `@code`) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. A biblioteca já compila; os testes dos TODOs obrigatórios falham até você preencher cada componente, e cada TODO está marcado em comentário no próprio arquivo `.razor`.
+
 ## Documentation Links
 
 - [ASP.NET Core Razor component lifecycle, Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle) (doc)

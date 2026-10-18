@@ -197,6 +197,40 @@ while ((n = src.Read(buf)) > 0)
   particular guarda estado; use `Create` em streaming quando puder.
 - **Não confie no tamanho do cabeçalho como limite.** Conte os bytes enquanto lê.
 
+## Lab
+
+Neste lab você recebe `Codecs`, `ZipTools` e `TarTools` com os métodos **vazios** (`NotImplementedException`). O seu trabalho é comprimir e descomprimir com os codecs de stream, montar e ler arquivos ZIP e tar em memória e extrair arquivos não confiáveis sem deixá-los escrever fora de uma pasta nem expandir sem limite. A ideia central é que compressores são decorators de `Stream` com armadilhas de ciclo de vida (o trailer só é escrito no `Dispose`) e que um arquivo hostil pode mentir sobre tamanhos e caminhos.
+
+**O cenário**
+
+Tudo roda em memória, exceto os testes de extração, que usam uma pasta temporária única apagada pelos testes. Os testes nunca conferem tamanhos comprimidos exatos (variam com o runtime), só ida e volta, "menor que a entrada" e comportamento.
+
+- `Codecs.cs`: `Gzip`/`Gunzip` e `BrotliCompress`/`BrotliDecompress`.
+- `ZipTools.cs`: `CreateZip`, `ReadZip` (com limite de bytes) e `ExtractSafely`.
+- `TarTools.cs`: `CreateTarGz` e `ReadTarGz`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Comprimir com GZip (TODO-00).** Comprima com `GZipStream` num `MemoryStream` e devolva os bytes. Armadilha: o compressor só escreve cabeçalho e trailer quando é descartado, e descartá-lo também descarta o `MemoryStream`, a menos que `leaveOpen` seja `true`. `Gunzip` descomprime e dados que não são gzip devem dar `InvalidDataException`.
+2. **Trocar para Brotli com nível (TODO-01).** Mesmo padrão com `BrotliStream`, respeitando o `CompressionLevel` pedido (`Fastest`, `Optimal` ou `SmallestSize`).
+3. **Criar um ZIP em memória (TODO-02).** `CreateZip` usa `ZipArchiveMode.Create`, uma entrada por arquivo. Lembre do `leaveOpen` e de descartar o archive **antes** do `ToArray()`. Um dicionário vazio deve produzir um ZIP válido e vazio.
+4. **Ler com proteção contra decompression bomb (TODO-03).** `ReadZip` lê toda entrada de arquivo (ignorando nomes que terminam em `/`) para um dicionário por `FullName`. Conte os bytes enquanto copia e lance `InvalidDataException` quando o total passar de `maxTotalBytes`, somando todas as entradas. Não confie em `entry.Length`: cabeçalhos podem mentir.
+5. **Extrair sem zip-slip (TODO-04).** `ExtractSafely` cria o destino se faltar e resolve cada entrada com `Path.GetFullPath`, comparando com o caminho completo do destino **com** separador final (para `out-evil` não passar por `out`). Lance `InvalidDataException` para entrada ruim (`../`, caminho absoluto, pasta irmã) e valide **todas** as entradas antes de escrever qualquer uma.
+6. **Empilhar tar e gzip (TODO-05).** `CreateTarGz` usa um `TarWriter` (formato Pax) sobre um `GZipStream`, porque o tar não comprime sozinho; a ordem de descarte importa: `TarWriter` primeiro, depois o `GZipStream`. `ReadTarGz` usa um `GZipStream` de descompressão sob um `TarReader` e coleta as entradas que têm `DataStream`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que sem `leaveOpen` o `ToArray()` quebra, por que a validação precisa vir antes de escrever e por que o limite é contado durante a cópia.
+
+**Desafios opcionais**
+
+- **TODO-06:** corte um stream gzip válido ao meio e descomprima com `CopyTo`. Lança exceção? O que você levaria junto com os dados (tamanho, hash) para detectar um download cortado?
+- **TODO-07:** reimplemente `CreateZip` com a API assíncrona do .NET 10 (`ZipArchive.CreateAsync`, `OpenAsync`) e compare com `ZipArchiveMode.Update`: apague uma entrada de um archive existente e adicione outra.
+
+**Pré-requisitos:** `Stream` e `MemoryStream`, `using` e `IDisposable`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [What's new in .NET libraries for .NET 10, ZIP files, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/libraries) (doc)

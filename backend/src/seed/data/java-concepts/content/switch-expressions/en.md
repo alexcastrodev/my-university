@@ -186,6 +186,37 @@ enum Day { MONDAY, SATURDAY, SUNDAY }    // enum recompiled alone
 kind(Day.SUNDAY);                        // MatchException at runtime
 ```
 
+## Lab
+
+In this lab you get `OrderStatusWorkflow`, which models an order's lifecycle with the `OrderStatus` enum (`PLACED`, `PAID`, `SHIPPED`, `DELIVERED`, `CANCELLED`). Your job is to implement four methods (plus one optional), each forcing a different switch-expression mechanic. The core idea is to feel what the compiler guarantees: a switch expression must produce a value for every possible input.
+
+**The scenario**
+
+An order moves through statuses, has a shipping phase and a description, and must be read from a text code.
+
+- `OrderStatus`: the enum with the five statuses.
+- `OrderStatusWorkflow`: `nextStatus`, `shippingPhase`, `describe`, `parseStatus` and the optional `priority`, all static.
+- `OrderStatusWorkflowTest`: checks every status, the terminal ones, the explicit `null`, an unknown code and an empty one.
+
+**What you will do, step by step**
+
+1. **Exhaustiveness without `default` (TODO-00).** In `nextStatus`, use a switch expression with a `case` for every constant and no `default`: `PLACED` goes to `PAID`, `PAID` to `SHIPPED`, `SHIPPED` to `DELIVERED`, and `DELIVERED` and `CANCELLED` stay as they are. If you leave a constant out, the code simply does not compile.
+2. **Multi-value labels (TODO-01).** In `shippingPhase`, group comma-separated constants on one arrow arm: `PLACED` and `PAID` become `"preparing"`, `SHIPPED` and `DELIVERED` become `"in transit or delivered"`, and `CANCELLED` becomes `"cancelled"`.
+3. **A block arm with `yield` (TODO-02).** In `describe`, the `PAID` arm must be a block (`case PAID -> { ... }`) that computes the message in two steps, with a local variable `"Payment received"` and a `yield` of that value with `"; awaiting shipment"` appended. The other arms are simple expressions.
+4. **`null` and `default` over `String` (TODO-03).** In `parseStatus`, handle `case null` explicitly by throwing `IllegalArgumentException("status code must not be null")` (without it, a null selector throws `NullPointerException` before any `case` runs). Map the five codes to their constants and use a mandatory `default` throwing `IllegalArgumentException("unknown status code: " + code)`, since `String` is not an enum and the compiler cannot prove exhaustiveness.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why the switch over the enum needs no `default` and the one over `String` does, and the difference between `yield` and `->`.
+
+**Optional challenges**
+
+- **TODO-04:** implement `priority` with multi-value labels: `DELIVERED` and `CANCELLED` are 0, `PLACED` is 1, `PAID` is 2 and `SHIPPED` is 3.
+
+**Prerequisites:** enums, the classic `switch` and Java 21.
+
+**How to run it:** clone the repository, go into `java-concepts/switch-expressions` and run `mvn test` (or, from the root, `mvn -pl java-concepts/switch-expressions test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [JEP 361: Switch Expressions](https://openjdk.org/jeps/361) — doc

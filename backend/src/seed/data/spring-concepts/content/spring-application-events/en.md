@@ -198,6 +198,41 @@ class ApplicationEventsTest {
   ```
 - **In-process only.** Application events never leave the JVM. Another service, or another instance of the same service, does not see them. Crossing the process boundary means a broker (`spring-kafka-messaging`, `spring-rabbitmq-messaging`) or Spring Modulith's event externalization.
 
+## Lab
+
+In this lab you get a service that publishes content into an H2 table and announces each publication with an event, plus four listeners that are not yet set up the right way. Your job is to implement the publication and choose the right annotation (and phase) for each listener. The core idea is to feel that `@EventListener` and `@TransactionalEventListener` with each `TransactionPhase` decide what the listener sees when the publisher's transaction commits, rolls back or does not even exist.
+
+**The scenario**
+
+`ContentService` writes rows into the `content` table (with `title` `UNIQUE`) and publishes one `ContentPublished(id, title)` per row. Each listener needs a different relationship with the transaction:
+
+- `TitleValidator`: must be able to veto a publication. If it throws, the INSERT has to be undone. It rejects titles containing "spam".
+- `SearchIndexer`: may only index what was really committed.
+- `RollbackAlerter`: may only record what had its transaction rolled back.
+- `DraftNotifier`: reacts to `DraftSaved`, published by `DraftService`, which runs with no transaction at all.
+
+Note that `publishAll(List)` runs in a single transaction: with `["Intro", "Part 2", "Intro"]`, the duplicate title fails after two events were already published. The tests use that batch to catch listeners that react to work that never happened. The test class is also deliberately not `@Transactional`: each call needs a real transaction, otherwise `AFTER_COMMIT` and `AFTER_ROLLBACK` would only fire at the end of the test method.
+
+**What you will do, step by step**
+
+1. **Implement the publication (TODO-00).** In `ContentService.publish(String)`, make the method transactional, do the INSERT with `jdbc.sql(...).param(...).update(keys, "id")` using a `GeneratedKeyHolder`, publish `ContentPublished(id, title)` through the `ApplicationEventPublisher` and return the id. The event must go out inside the transaction, which is what lets the listeners choose a phase.
+2. **Let the validator veto (TODO-01).** Annotate `TitleValidator.on(...)` so it runs on the publisher's thread, inside the still-open transaction, and its exception propagates out of `publishEvent()`.
+3. **Index only after commit (TODO-02).** In `SearchIndexer.on(...)`, use a transactional listener on the commit phase. A plain `@EventListener` would index titles from batches that later roll back.
+4. **Alert only after rollback (TODO-03).** In `RollbackAlerter.on(...)`, use the rollback phase (hint: `TransactionPhase`).
+5. **Make the notifier run without a transaction (TODO-04).** `DraftNotifier` is already a `@TransactionalEventListener`, but it is never called, because `DraftService` publishes with no transaction. Keep it transactional and make it also run when no transaction exists.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain, for each of the four listeners, why that annotation and that phase, and what would happen in the duplicate batch if `SearchIndexer` were a plain `@EventListener`.
+
+**Optional challenges**
+
+- **TODO-05:** add `@EnableAsync` to the application and `@Async` to `SearchIndexer.on(...)`, and log `Thread.currentThread().getName()` inside it. Which test starts failing, and what would you need (hint: Awaitility) to test an asynchronous listener reliably?
+
+**Prerequisites:** Spring beans and constructor injection, `@Transactional` and what a rollback undoes, and basic JDBC with `JdbcClient`.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. At first `publish()` throws `UnsupportedOperationException` and the listeners do not have their annotations yet, so the tests tagged with each TODO number in the `@DisplayName` stay red until you solve them.
+
 ## Documentation Links
 
 - [Spring Framework Reference: Standard and Custom Events](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events): `ApplicationEventPublisher`, `@EventListener`, conditions, ordering, async listeners.

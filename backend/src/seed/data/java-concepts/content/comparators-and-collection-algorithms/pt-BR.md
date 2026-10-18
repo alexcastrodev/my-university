@@ -111,6 +111,41 @@ accounts.sort(Comparator.comparing(Account::balance));
 - **`synchronizedList()`/`synchronizedSet()` tornam chamadas de método individuais thread-safe, mas a iteração não é atômica por cima disso** — iterar uma lista sincronizada de uma thread enquanto outra thread a modifica ainda precisa de um bloco `synchronized` manual em volta da iteração inteira, ou pode lançar `ConcurrentModificationException`.
 - **`checkedList()`/`checkedSet()` trocam um pouco de overhead em runtime por falhar no ponto da inserção ruim de fato, não depois.** Vale a pena especificamente quando um tipo raw ou um cast inseguro torna possível que um elemento incompatível se infiltre numa coleção que, de resto, é genericamente tipada — do contrário é overhead sem nada para capturar.
 
+## Lab
+
+Neste lab você recebe `EmployeeDirectory`, que guarda funcionários numa lista interna, com os métodos de ordenação e consulta vazios. Seu trabalho é implementá-los. A ideia central é montar ordenações com vários critérios usando `Comparator.comparing()`/`thenComparing()` e entender a diferença entre uma cópia defensiva e uma visão viva devolvida por `Collections.unmodifiableList()`.
+
+**O cenário**
+
+Um diretório de funcionários que precisa ser listado de formas diferentes sem bagunçar a ordem interna.
+
+- `Employee(firstName, lastName, salary)`: record declarado no mesmo arquivo.
+- `EmployeeDirectory`: guarda a lista `employees`, com `add()` pronto.
+- `sortedByLastThenFirst()` e `sortedBySalaryDescending()`: listas ordenadas.
+- `unmodifiableView()`: acesso somente leitura à lista interna.
+- `highestPaid()`: o mais bem pago.
+
+Os testes conferem que ordenar não muda a ordem interna e que a visão reflete adições feitas depois.
+
+**O que você vai fazer, passo a passo**
+
+1. **Ordenar por sobrenome e nome (TODO-00).** Monte o comparador com `Comparator.comparing(...)` e `thenComparing(...)`, ordene uma cópia da lista (nunca a interna) e devolva a cópia.
+2. **Ordenar por salário decrescente (TODO-01).** Use `Comparator.comparingDouble(...)`, inverta com `reversed()`, ordene uma cópia e devolva.
+3. **Devolver uma visão somente leitura (TODO-02).** Envolva a lista interna com `Collections.unmodifiableList`. Não é cópia: um `add()` feito depois deve aparecer na visão, e tentar alterar a visão lança `UnsupportedOperationException`.
+4. **Achar o mais bem pago (TODO-03).** Use `Collections.max` com um comparador de salário, em uma chamada só. Num diretório vazio ele lança `NoSuchElementException`, como o teste espera.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar a diferença entre copiar a lista (o resultado fica congelado) e envolvê-la numa visão (o resultado acompanha a original), e dizer quando cada uma é a escolha certa.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `lowestPaid()`, a mesma ideia de `highestPaid()` na direção oposta.
+
+**Pré-requisitos:** sintaxe básica de Java, lambdas e method references, e uso básico de `List`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/comparators-and-collection-algorithms` e rode `mvn test` (da raiz: `mvn -pl java-concepts/comparators-and-collection-algorithms test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` dão dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Comparator — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html) — doc

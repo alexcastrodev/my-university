@@ -92,6 +92,41 @@ in.readNBytes(body, 0, contentLength);
 - **Reading one connection = one thread doesn't scale past a few thousand clients** — the naive `accept()` loop shown here blocks a thread per connection; real servers use either a thread pool (bounded, still one thread per active connection) or a non-blocking/event-driven I/O model (Netty's `NioEventLoop`, Java NIO's `Selector`) precisely to avoid that ceiling. Virtual threads (see `thread-model-legacy-vs-virtual-threads`) make the naive "one thread per connection" model viable again at a much higher scale, since a blocked virtual thread doesn't tie up an OS thread while it waits.
 - **Keep-alive trades server resources for per-request latency** — an idle keep-alive connection still holds a socket (and, without virtual threads, an OS thread) open on the server between requests, but avoids repeating the TCP handshake for every subsequent request on the same connection; server-side idle timeouts exist specifically to reclaim these resources from clients that never come back.
 
+## Lab
+
+In this lab you get the `RawHttpMessage` class with every method empty, and you build, then take apart, an HTTP request as it really is on the wire: plain text with a strict shape. The core idea is to see what an HTTP client hides from you: the request line, the header lines, the blank line that separates them from the body and the `Content-Length` computed in bytes.
+
+**The scenario**
+
+Instead of using an HTTP library, you write and interpret the request text by hand.
+
+- `requestLine()`: builds the first line, in the form `"METHOD path HTTP/1.1\r\n"`.
+- `buildRequest()`: builds the full request (request line, one `Name: value\r\n` per header, a blank line and the body).
+- `parseHeaders()`: turns a block of header lines into an order-preserving `Map`.
+- `parseMethod()`: extracts just the method from a raw request.
+- `sendOverSocket()`: optional, sends the bytes through a real `java.net.Socket`.
+
+Note that the HTTP line ending is CRLF (`\r\n`), not just `\n`. The tests check the exact text.
+
+**What you will do, step by step**
+
+1. **Build the request line (TODO-00).** Method, space, path, space, `HTTP/1.1` and CRLF.
+2. **Build the whole request (TODO-01).** After the request line, emit one `Name: value\r\n` per entry in `headers`, in the map's iteration order, then the blank line (`\r\n`) and then the body. If `body` is null or empty, the blank line is still there, but with no text after it. If a body exists, add `Content-Length` automatically, with the size in bytes from `body.getBytes(StandardCharsets.UTF_8).length`, even if the caller did not provide it. Bytes and characters differ in UTF-8, which is why the count is done in bytes.
+3. **Parse headers (TODO-02).** Split the block into lines, split each one at the first `:`, trim the space after the colon and store them in a `LinkedHashMap` to keep the order.
+4. **Extract the method (TODO-03).** Given a raw request, return just the first token of the request line (`GET`, for example).
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to write the shape of an HTTP/1.1 request from memory and explain why the blank line is what separates headers from body.
+
+**Optional challenges**
+
+- **TODO-04:** implement `sendOverSocket()`: open a `Socket` to `host:port` in a try-with-resources, write the request bytes, flush and read everything the other end sends back with `readAllBytes()`. The test stands up a throwaway `ServerSocket` on an ephemeral port, so it is a genuine round trip over the network stack, with no HTTP library.
+
+**Prerequisites:** basic Java syntax and familiarity with `Map`.
+
+**How to run it:** clone the repository, go into `java-concepts/sockets-and-raw-http-anatomy` and run `mvn test` (or, from the root, `mvn -pl java-concepts/sockets-and-raw-http-anatomy test`). Every pending method throws `UnsupportedOperationException("Not implemented yet.")` and has a `TODO-NN` comment explaining the expected format, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [ServerSocket — java.net API docs (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html) — doc

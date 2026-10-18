@@ -193,6 +193,38 @@ public class TimingThreadPool extends ThreadPoolExecutor {
 - **Large queue + small pool trades throughput for lower resource usage** — pairing a big bounded queue with few threads reduces memory, CPU, and context-switching costs, but can constrain how much work actually gets done concurrently; the queue size and pool size have to be tuned as a pair, not independently.
 - **Reaping idle threads (small core size) saves resources but adds latency** — letting the core pool shrink when idle frees memory, but if demand returns suddenly, new threads must be created before those tasks can start running.
 
+## Lab
+
+In this lab you get `ExecutorFactory`, a factory with five methods that must build `ThreadPoolExecutor`s with different configurations. Your job is to fill in the constructor parameters of each one. The core idea is to feel how the queue type and the rejection policy change the pool's behavior under a burst of tasks: growing past the core, queuing without limit, rejecting, or pushing the work back onto whoever submitted it.
+
+**The scenario**
+
+The same pool behaves very differently depending on the core size, the maximum, the queue and what to do when everything is full.
+
+- `ExecutorFactory`: `scalingPool`, `fixedCorePool`, `abortingPool`, `callerRunsPool` and the optional `namedThreadPool`.
+- `ExecutorFactoryTest`: sends bursts of sleeping tasks, collects the thread names used in a set and checks how many threads ran, whether a `RejectedExecutionException` happened and on which thread the overflow executed.
+
+This lab has no README: everything here comes from the code and the tests.
+
+**What you will do, step by step**
+
+1. **A pool that scales (TODO-00).** In `scalingPool(core, max, queueCapacity)`, use a 30 second keep-alive and a bounded `ArrayBlockingQueue`. With a bounded queue, once it fills the pool grows past the core up to the maximum. With an unbounded queue that would never happen.
+2. **A fixed-size pool (TODO-01).** In `fixedCorePool(core)`, use the same value for core and maximum, keep-alive 0 and a `LinkedBlockingQueue` with no capacity. Tasks beyond the core wait in the queue and no new thread is created.
+3. **Reject when saturated (TODO-02).** In `abortingPool`, same shape as the scaling pool, but with the six-argument constructor and an explicit `ThreadPoolExecutor.AbortPolicy`: pool and queue both full throw `RejectedExecutionException`.
+4. **Push back onto the caller (TODO-03).** In `callerRunsPool`, swap the policy for `CallerRunsPolicy`, so the overflow runs on the submitting thread instead of throwing.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to predict, for each pool, how many distinct threads show up in a burst and why `CallerRunsPolicy` naturally slows the producer down.
+
+**Optional challenges**
+
+- **TODO-04:** implement `namedThreadPool`, like `abortingPool` but with your own `ThreadFactory` (seven-argument constructor) that names threads `<poolName>-<n>`, with `n` starting at 1.
+
+**Prerequisites:** `ExecutorService`, `Runnable` and basic blocking queues.
+
+**How to run it:** clone the repository, go into `java-concepts/configuring-thread-pool-executor` and run `mvn test` (or, from the root, `mvn -pl java-concepts/configuring-thread-pool-executor test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [ThreadPoolExecutor — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html) — doc

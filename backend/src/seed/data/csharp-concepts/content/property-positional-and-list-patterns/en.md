@@ -201,6 +201,42 @@ static string Parse(string line) => line.Split(' ', StringSplitOptions.RemoveEmp
   arm with a guard does not cover `["move", "a", "b"]`; the `[var cmd, ..]` arm
   catches it. Keep a catch-all arm after guarded arms.
 
+## Lab
+
+In this lab you get the static class `Patterns` with seven **stubbed** methods that throw `NotImplementedException`, plus ready xUnit tests. Your job is to implement them by matching the shape of objects, tuples and sequences with property, positional and list patterns. The core idea is to see what each pattern allows and when it cannot be used: an extended property pattern is null-safe, a positional one needs a `Deconstruct`, and a list pattern accepts a slice, but the order of the arms decides which case wins.
+
+**The scenario**
+
+Small real-world cases: filtering customers, classifying coordinates, driving a door, parsing commands and describing sequences.
+
+- `Models.cs`: the records `Address(City, Country)`, `Customer(Name, Address?, Orders)` and `Point(X, Y)`, and the enums `State` (`Closed`, `Open`, `Locked`) and `Trigger` (`Open`, `Close`, `Lock`, `Unlock`).
+- `Patterns.cs`: the methods to implement, one per TODO, each with its list of cases in the comment.
+- `PatternTests.cs`: the tests, with edges such as a null address, lines with extra spaces and commands with invalid numbers.
+
+Since `Customer` and `Point` are records, `Deconstruct` already exists and positional patterns work with no extra code.
+
+**What you will do, step by step**
+
+1. **Extended property pattern (TODO-00).** In `IsLisbonRegular`, use a single pattern with `Address.City` and `Orders > 0`. If `Address` is `null`, the answer must be `false`, with no exception.
+2. **Positional pattern (TODO-01).** In `Quadrant`, switch on the `Point` combining relational patterns and discards (`_`) to return `origin`, `x-axis`, `y-axis` and `Q1` to `Q4`.
+3. **State machine with a tuple (TODO-02).** In `Next`, switch on `(state, trigger)` with the four valid transitions. The discard arm throws `InvalidOperationException` with the message `"{trigger} is not valid in {state}"`.
+4. **List patterns and slices (TODO-03 and TODO-04).** In `Describe`, handle `[]`, one element and `[var first, .. var rest]`, joining the slice with commas. In `Inner`, use a single list pattern on the `string` with a slice to extract what is between `(` and `)`, or `null` when the text is not wrapped.
+5. **Command parser (TODO-05).** In `Parse`, split the line on spaces (ignoring empty entries) and switch on the array. Order matters: a `move` with invalid numbers must fall through to `unknown command 'move'`, which calls for a `when` or a pattern that validates the integers.
+6. **Boxed tuples and records (TODO-06).** In `IsOrigin`, the parameter is `object`: the positional pattern works on the boxed tuple, and for `Point` you need a type pattern first (`Point(0, 0)`).
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `IsLisbonRegular` does not throw with a null `Address` and why the order of the arms in `Parse` changes the result.
+
+**Optional challenges**
+
+- **TODO-07:** add `Sum(ReadOnlySpan<int>)` using `[var head, .. var tail]` recursion. Why does it not allocate for a span but would for an `int[]`?
+- **TODO-08:** add a class `Rgb` with your own `Deconstruct` and an `IsGray(Rgb)` method that matches it with a positional pattern.
+
+**Prerequisites:** type, constant and relational patterns, records and switch expressions, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Every stubbed method throws `NotImplementedException` and carries a `TODO-NN` comment with the expected cases, so red tests are your checklist.
+
 ## Documentation Links
 
 - [Patterns, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns) (doc)

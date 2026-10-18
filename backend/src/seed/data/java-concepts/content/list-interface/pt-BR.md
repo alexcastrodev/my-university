@@ -120,6 +120,41 @@ Toda versão retorna uma lista não modificável, baseada em valor. Elementos `n
   ```
 - **sort() só precisa de elementos que sejam de fato mutuamente comparáveis, e isso não é checado até a execução** — `List<E>` não exige que `E` implemente `Comparable` a menos que o chamador use a ordem natural, então uma lista de objetos genuinamente incomparáveis compila normalmente e só falha quando `sort()` tenta comparar dois deles.
 
+## Lab
+
+Neste lab você recebe `PlaylistManager`, que envolve uma `List<String>` de títulos de músicas, com os métodos posicionais vazios. Seu trabalho é implementá-los. A ideia central é ver que `List` tem operações por posição e que `subList` devolve uma visão (view) viva da lista original, não uma cópia: alterar a visão altera a playlist.
+
+**O cenário**
+
+Uma playlist em que se insere por posição, se procura músicas e se ordena.
+
+- `PlaylistManager`: guarda a lista `songs`, com `add()` e `songs()` já prontos.
+- `insertAt(index, song)`: insere numa posição, empurrando as seguintes.
+- `firstIndexOf(song)`: primeira posição de uma música, ou -1.
+- `nextUp(from, to)`: um trecho da playlist.
+- `sortAlphabetically()`: ordena a própria lista.
+
+Note que `songs()` devolve a lista interna. É por isso que os testes conseguem provar que `nextUp` é uma visão e que a ordenação é feita no lugar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Inserir por posição (TODO-00).** Use `List.add(int, E)`, que desloca os elementos seguintes.
+2. **Procurar (TODO-01).** Use `indexOf`, que já devolve -1 quando não encontra.
+3. **Devolver uma visão (TODO-02).** Use `subList(fromIndex, toIndex)` e devolva o resultado direto, sem copiar para uma nova lista. O teste muda um elemento pela visão e confere que a playlist mudou.
+4. **Ordenar no lugar (TODO-03).** Ordene `songs` sem diferenciar maiúsculas de minúsculas. A classe `String` tem um `Comparator` pronto para isso.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que aconteceria se `nextUp` devolvesse `new ArrayList<>(...)` em vez de `subList`, e qual teste denunciaria a diferença.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `shout()`, que põe todos os títulos em maiúsculas no lugar usando `replaceAll` (um único método de `List`).
+
+**Pré-requisitos:** sintaxe básica de Java e `List`/`ArrayList`. O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/list-interface` e rode `mvn test` (da raiz: `mvn -pl java-concepts/list-interface test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` explicam o que fazer, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [List — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html) — doc

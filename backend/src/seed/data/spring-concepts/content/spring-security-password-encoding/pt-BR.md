@@ -133,6 +133,35 @@ cada usuário é tocada em seguida, se `upgradeEncoding` estiver conectado).
   (`Argon2Password4jPasswordEncoder`, `BcryptPassword4jPasswordEncoder`, e
   outros) como uma implementação alternativa dos mesmos algoritmos.
 
+## Lab
+
+Neste lab você recebe a classe `UserRegistry` com os métodos vazios. Seu trabalho é registrar usuários guardando só a senha **codificada** e autenticá-los depois sem nunca comparar a senha crua. A ideia central é sentir por que `matches()` é o único jeito correto de checar credenciais: o `BCryptPasswordEncoder` embute um salt aleatório, então a mesma senha gera um hash diferente a cada `encode()`.
+
+**O cenário**
+
+Um registro em memória de usuários e senhas, construído sobre qualquer `PasswordEncoder`.
+
+- `UserRegistry`: recebe um `PasswordEncoder` no construtor e mantém um `Map<String, String>` de username para senha codificada. Tem `register`, `authenticate`, `encodedPasswordOf` e a fábrica estática `usingDelegatingEncoder()`.
+- `UserRegistryTest`: usa `BCryptPasswordEncoder` e prova, entre outras coisas, que dois `encode()` da mesma senha nunca são iguais e que ainda assim ambos passam em `matches()`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Registrar (TODO-00).** Em `register`, codifique `rawPassword` com `passwordEncoder.encode(...)` e guarde o resultado no mapa, nunca a senha crua.
+2. **Autenticar (TODO-01 a TODO-03).** Em `authenticate`, busque a senha codificada do usuário. Se ele nunca foi registrado, devolva `false`. Senão, devolva `passwordEncoder.matches(rawPassword, encodedPassword)`. Não use `==` nem `.equals()` contra o valor codificado: com salt aleatório, isso rejeitaria quase sempre uma senha correta.
+3. **Consultar (TODO-04).** Em `encodedPasswordOf`, devolva a senha codificada dentro de um `Optional`, ou `Optional.empty()` quando o usuário não existe.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar por que o teste que registra "alice" duas vezes vê dois valores codificados diferentes e mesmo assim `authenticate` retorna `true`.
+
+**Desafios opcionais**
+
+- **TODO-05:** implemente `usingDelegatingEncoder()` com `PasswordEncoderFactories.createDelegatingPasswordEncoder()`. Os valores passam a vir com o prefixo `{bcrypt}`, o que permite à aplicação suportar vários algoritmos ao mesmo tempo. O teste marcado como opcional cobre isso.
+
+**Pré-requisitos:** Spring Framework básico e a diferença entre senha crua e credencial armazenada.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-security-password-encoding` e rode `mvn test`. Os testes falham com `UnsupportedOperationException` até você resolver os TODOs de `UserRegistry`.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 4, "Dealing with passwords", section 4.1, "Understanding the PasswordEncoder contract", p. 86-96 — doc

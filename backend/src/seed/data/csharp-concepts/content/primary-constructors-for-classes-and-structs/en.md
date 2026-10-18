@@ -242,6 +242,44 @@ Expressions.
   renames a variable used across every member, and named arguments at call
   sites (`new Greeter(name: "Ana")`) depend on it too.
 
+## Lab
+
+In this lab you get `Models.cs` with types written using primary constructors that **already compile** but hide traps, plus ready xUnit tests that fail until you fix them. Your job is to edit those types. The core idea is to understand what a primary constructor parameter really is in a class or struct: a hidden, captured and **mutable** field, not a property. That explains why state can drift apart, why there is no automatic validation and why a zeroed struct skips the constructor.
+
+**The scenario**
+
+Several small types in `Models.cs`, each with a problem to solve. The compiler already warns (CS9124 and CS9107) about two of them: those warnings point at state that can drift apart.
+
+- `Account(string owner)`: stores `owner` twice, in `Owner` and in a hidden mutable field used by `Describe()` and `Rename()`.
+- `OrderService(IRepo repo)`: uses `repo` directly, unvalidated and not readonly.
+- `Counter(int start)`: a `struct` whose `Value` reads the captured parameter.
+- `BankAccount` and `Savings`: `Savings` passes `id` and `owner` to the base and also captures them.
+- `Coordinates` and `Service`: the two types used by the optional challenges.
+
+The `DefaultStructHasZeroedParameters` test already passes and only documents the fact that `default(Counter)` does not go through the constructor.
+
+**What you will do, step by step**
+
+1. **A single source of truth (TODO-00).** In `Account`, make `Owner` `{ get; private set; }`, assign it in `Rename()` and read `Owner` (not the parameter) in `Describe()`. The parameter is then no longer captured.
+2. **Readonly and validation (TODO-01).** In `OrderService`, store the parameter in a readonly `_repo` field, throw `ArgumentNullException(nameof(repo))` in the initializer when it is null and use `_repo` in `Load()`. The test checks the parameter name and, through reflection, that the field is `IsInitOnly`.
+3. **A parameterless constructor on a struct (TODO-02).** In `Counter`, `new Counter().Value` is 0 today, the zeroed parameter. Declare a parameterless constructor that chains to the primary one with `this(1)`.
+4. **Stop capturing what the base already stores (TODO-03).** In `Savings`, `ToString()` uses the captured parameters and goes stale when `Owner` changes. Use the inherited `Id` and `Owner` properties instead.
+
+**How you know you are done**
+
+`dotnet test` is all green and the CS9124 and CS9107 warnings are gone. You should be able to explain why `Counter` lets `Increment()` change the parameter and why `default(Counter).Value` is still 0.
+
+**Optional challenges**
+
+- **TODO-04:** turn `Coordinates` into a positional record `Coordinates(int X, int Y)`, to get `X`, `Y` and value equality.
+- **TODO-05:** in `Service`, declare `private readonly string name = name.Trim();`, so the member sees the readonly field (which shadows the parameter) and `Show()` returns the trimmed text.
+
+Neither has a test, so check them yourself.
+
+**Prerequisites:** C# classes, structs and constructors, dependency injection basics and the .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The code compiles from the start (look at the compiler warnings), and red tests show what is left. The `TODO-NN` comments in `Models.cs` explain what to change in each type.
+
 ## Documentation Links
 
 - [Instance constructors, primary constructors section, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors#primary-constructors) (doc)

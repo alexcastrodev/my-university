@@ -131,6 +131,40 @@ AssertJ is the Java ecosystem's counterpart to the book's Fluent Assertions (.NE
 - **Parameterized tests trade test count for per-row clarity** — collapsing everything into one generically-named parameterized test can make a failure report tell you *that* something broke without telling you *what*, without reading the failing row's actual values.
 - **A shared fixture in a base class is only safe when every subclass genuinely needs it identically** — the same "every test needs this exact thing" bar that justifies a database connection in an integration-test base class does not extend to fixtures only some tests use, which belong back in per-test factory methods.
 
+## Lab
+
+In this lab you get `Order` and `Inventory` **already built and working**. Your job is to test them by applying two ideas from the article: reuse fixtures through private factory methods instead of shared `@BeforeEach` fields, and collapse near-identical boundary tests into `@ParameterizedTest`s. The core idea is to feel why a mutable `Inventory` cannot be a field of the test class, and when `@CsvSource` is enough and when only `@MethodSource` works.
+
+**The scenario**
+
+An order consumes stock and carries two pure business rules.
+
+- `Inventory`: stock per SKU, mutable on purpose (`addStock`, `quantityOf`, `remove`). `remove` returns `false` and leaves stock untouched when there are not enough units, never decrementing halfway.
+- `Order.place(sku, quantity)`: returns the result of the inventory's `remove`.
+- `Order.shippingFeeCents(total)`: free shipping (0) from 5000, 499 from 2000 up to below 5000, and 999 below that.
+- `Order.isWithinReturnWindow(purchaseDate, today)`: returns allowed up to 30 days after the purchase, inclusive.
+- `OrderTest`: has NO `@BeforeEach` and no shared `Inventory`/`Order` fields, on purpose. A shared field would let one test's `place()` change the starting stock for every other test.
+
+**What you will do, step by step**
+
+1. **Write the factory (TODO-00).** In `createInventoryWithStock(sku, quantity)`, create a new `Inventory`, call `addStock(sku, quantity)` once and return it. This is the Object Mother pattern: each test calls the factory and gets its own object.
+2. **An order that succeeds (TODO-01).** With `createInventoryWithStock("SKU-1", 10)`, build `new Order(inventory)`, call `place("SKU-1", 5)`, check `true` and that `inventory.quantityOf("SKU-1")` is now 5.
+3. **An order that fails (TODO-02).** With only 3 units, `place("SKU-1", 5)` returns `false` and the stock is still 3: a rejected order must not decrement partially. This is a brand new `Inventory`, unaffected by the previous test.
+4. **Shipping fee tiers (TODO-03).** Add a `@CsvSource` with `orderTotalCents, expectedFeeCents` rows that pin down the tiers, covering the value just below and the exact value of each boundary (1999 and 2000, 4999 and 5000).
+5. **Return window (TODO-04 and TODO-05).** Add `@MethodSource("returnWindowCases")` to the test and implement `returnWindowCases()` returning a `Stream<Arguments>` of `(purchaseDate, today, expected)` triples built from `LocalDate.now()`: 30 days after the purchase (inside, `true`), 31 days after (outside, `false`) and on the purchase date itself (`true`). Since arithmetic on `LocalDate.now()` is not a compile-time constant, `@CsvSource` or `@ValueSource` will not do here.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain what would go wrong if `Inventory` were a shared field and why the return window test needs `@MethodSource`.
+
+**Optional challenges**
+
+- **TODO-06:** rewrite the asserts of `placeSucceedsWhenEnoughInventory` with AssertJ's fluent `assertThat(...).isEqualTo(...)` and `isTrue()` instead of `assertEquals`/`assertTrue`, and compare how the "subject, action, object" phrasing reads against the positional expected/actual arguments.
+
+**Prerequisites:** JUnit 5 fundamentals (`@Test`, `@ParameterizedTest`, `assertEquals`) and reading `Order` and `Inventory` in `src/main/java`.
+
+**How to run it:** clone the repository, go into `testing-concepts/reusing-test-fixtures-and-parameterized-tests` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/reusing-test-fixtures-and-parameterized-tests test`). The factory and `returnWindowCases()` throw `UnsupportedOperationException` and the other tests start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, "Unit Testing Principles, Practices, and Patterns" (Manning, 2020) — Chapter 3 "The anatomy of a unit test", Sections 3.3, 3.5-3.6, pp. 50-63 — book

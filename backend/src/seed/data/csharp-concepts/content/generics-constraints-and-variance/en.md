@@ -224,6 +224,42 @@ type parameter of the enclosing type.
 - **Generic is not always simpler.** A method that only ever handles one type,
   or that switches on `typeof(T)`, is clearer as overloads.
 
+## Lab
+
+In this lab you get generic methods **with the constraints removed**, a stubbed `TypeCounter<T>` and interfaces without variance, together with ready xUnit tests. Your job is to implement the methods, add the right constraints and mark the interfaces as covariant or contravariant. The core idea is to see that a constraint is not decoration: it unlocks operations (`CompareTo`, `new T()`, `MemoryMarshal.AsBytes`), generics are reified at run time, calling an interface member through a constrained type parameter avoids boxing, and variance decides which assignments between constructed types are valid.
+
+**The scenario**
+
+Three files in `src/GenericsLab`.
+
+- `Generics.cs`: five generic methods (`Max<T>`, `Create<T>`, `ByteCount<T>`, `Describe<T>`, `CompareViaConstraint<T>`) plus `CompareViaInterface`, which is already written and serves as the comparison, and `TypeCounter<T>`, which keeps state per closed type.
+- `Variance.cs`: the classes `Animal` and `Dog`, the interfaces `IProducer<T>` and `IConsumer<T>` without variance, and the implementations `Kennel` (produces `Dog`) and `AnimalLog` (consumes `Animal`).
+- `GenericsTests.cs`: the tests. Several use reflection to check the constraint or the variance flag, because a missing constraint is a compile-time property and cannot be proven any other way. Two tests measure allocated bytes to prove that a constrained call does not box.
+
+**What you will do, step by step**
+
+1. **Constrain to compare (TODO-00).** In `Max<T>`, return the largest item and throw `InvalidOperationException` if the sequence is empty. Constrain `T` to `IComparable<T>` to call `CompareTo` without a cast.
+2. **Constrain to instantiate (TODO-01).** In `Create<T>`, return a `new T()`. The compiler only allows this with `class, new()`.
+3. **Constrain to `unmanaged` (TODO-02).** In `ByteCount<T>`, reinterpret the value as a one-element `ReadOnlySpan<T>` (`new ReadOnlySpan<T>(in value)`) and use `MemoryMarshal.AsBytes`. That only compiles when `T` is `unmanaged`.
+4. **Use reification (TODO-03 and TODO-04).** In `Describe<T>`, return `"<type name>:<default>"` (`"Int32:0"`, `"String:null"`) with `typeof(T)` and `default(T)`. In `TypeCounter<T>.Increment`, count one hit: each `TypeCounter<X>` has its own static state, so `int` and `string` do not share `Hits`.
+5. **Compare without boxing (TODO-05).** In `CompareViaConstraint<T>`, make the same comparison as `CompareViaInterface`, but through a type parameter constrained to `IComparable<T>`, so an `int` is never boxed. The test requires zero allocated bytes over 10 thousand calls.
+6. **Variance (TODO-06 and TODO-07).** Mark `IProducer<T>` as covariant (`out T`) and `IConsumer<T>` as contravariant (`in T`), so a producer of `Dog` works as a producer of `Animal`, and a consumer of `Animal` works as a consumer of `Dog`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `List<Dog>` is not a `List<Animal>` while `IProducer<Dog>` is an `IProducer<Animal>`, and why `CompareViaInterface` allocates and `CompareViaConstraint` does not.
+
+**Optional challenges**
+
+These two have no stub or test, so you write both.
+
+- **TODO-08:** add `Generics.NameOf<T>(T value)`, which returns `typeof(T).Name` and accepts `ReadOnlySpan<char>` by using the C# 13 `allows ref struct` anti-constraint.
+- **TODO-09:** try `object[] boxes = new string[1]; boxes[0] = 42;` and read the exception. Why does `IReadOnlyList<object>` not have this problem?
+
+**Prerequisites:** C# interfaces and inheritance, value types versus reference types and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The stubbed methods throw `NotImplementedException`, and the missing constraints and variance show up as red reflection tests, with the `TODO-NN` comments explaining each one.
+
 ## Documentation Links
 
 - [Generic classes and methods, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics) (doc)

@@ -307,6 +307,39 @@ if (deadlocked != null) {
   threads stuck waiting on a lock; the usual fix is adding randomness to the retry
   delay so the two retries stop colliding in lockstep.
 
+## Lab
+
+In this lab you get `Account` and `TransferService` with their core methods left to implement. Your job is to write a funds transfer that acquires two locks always in the same order. The core idea is to see, with a real multi-threaded test, why locking "source, then destination" on every call is a lock-ordering deadlock waiting to happen.
+
+**The scenario**
+
+Two threads transfer in opposite directions between the same two accounts, and each one holds a lock while waiting for the other.
+
+- `Account`: has an `id`, a `balance` and the account's own intrinsic lock. `debit` and `credit` assume the caller already holds that lock.
+- `TransferService`: `transfer` must hold both accounts' locks at once to move the money atomically. It also has the `TIE_LOCK` and the optional `transferUsingIdentityHash` method.
+- `AccountTest` and `TransferServiceTest`: the concurrency test fires many threads doing `alice -> bob` and `bob -> alice` at the same time, with a 5 second deadline.
+
+Note that an inconsistent order does not produce a normal assertion error: the test hangs and times out, with a message saying the locks likely deadlocked.
+
+**What you will do, step by step**
+
+1. **Implement `debit` and `credit` (TODO-00 and TODO-01).** Subtract and add `amount` to the balance. They do not synchronize themselves: the caller is responsible for holding the lock.
+2. **Implement `transfer` with a consistent order (TODO-02).** Decide which account has the smaller `id`, lock that one first with `synchronized` and the other second, and only then call `from.debit(amount)` and `to.credit(amount)`. The order depends on the `id`, not on which account is the source or destination, and that is what prevents the wait cycle.
+
+The tests also cover transferring to the same account (the balance does not change) and conservation of the total balance.
+
+**How you know you are done**
+
+`mvn test` is all green, including the concurrent test. You should be able to explain why, with ordering by `id`, no thread can hold the second lock while waiting for the first, and what the test would do if you locked `from` and then `to`.
+
+**Optional challenges**
+
+- **TODO-03:** implement `transferUsingIdentityHash`, an alternative strategy that orders the locks by `System.identityHashCode(...)` and uses the `TIE_LOCK` for the very rare hash collision between different accounts.
+
+**Prerequisites:** basic Java syntax, `synchronized` blocks and intrinsic locks. `ExecutorService` and `CountDownLatch` appear in the tests, but you do not need to write them.
+
+**How to run it:** clone the repository, go into `java-concepts/deadlock-lock-ordering-and-avoidance` and run `mvn test` (or, from the root, `mvn -pl java-concepts/deadlock-lock-ordering-and-avoidance test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [ReentrantLock — tryLock(long, TimeUnit)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html) - doc

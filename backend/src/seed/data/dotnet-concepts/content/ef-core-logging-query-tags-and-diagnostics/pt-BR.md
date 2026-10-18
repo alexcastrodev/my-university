@@ -230,6 +230,42 @@ Existem interceptors para conexões, transações, `SaveChanges` e materializaç
   interceptor que reescreve SQL é difícil de achar depois. Prefira `LogTo` ou
   `ILogger` quando só precisa observar.
 
+## Lab
+
+Neste lab você responde à pergunta "o que o EF Core realmente mandou para o banco?" com `ToQueryString`, categorias e event ids do `ILogger`, query tags e um interceptor, e vê o que `EnableSensitiveDataLogging` e `EnableDetailedErrors` mudam. Você recebe um catálogo minúsculo (`Product`) em SQLite em memória, sem Docker nem servidor, e vários pontos com `TODO` no código. A ideia central é que o diagnóstico do EF Core está em camadas (log, tags, interceptors) e que cada uma mostra uma coisa diferente: o texto do SQL, os parâmetros e quantos comandos foram emitidos.
+
+**O cenário**
+
+Os testes capturam o que o EF Core registra com um `ILoggerProvider` de teste que você termina primeiro, e depois conferem o texto do SQL, os parâmetros no log e o número de comandos.
+
+- `LogCapture.cs`: `ListLoggerProvider`, que guarda `LogEntry` (categoria, nível, event id, mensagem). O `Log` está vazio.
+- `CatalogQueries.cs`: `ExpensiveSql` e `Expensive` a implementar, e `LoadOneByOne` já pronto (o clássico N+1: um comando para os ids e um por linha).
+- `DbFactory.cs`: `Create`, que monta o `DbContext` com SQLite e recebe o logger factory, as duas flags de diagnóstico e os interceptors.
+- `CommandCounter.cs`: um `DbCommandInterceptor` que deve contar os comandos.
+- `Catalog.cs` (pronto): `Product`, o contexto e a semente.
+
+**O que você vai fazer, passo a passo**
+
+1. **Gravar os logs (TODO-00).** Em `ListLogger.Log`, adicione ao dono um `LogEntry` com a categoria, o nível, o event id e a mensagem formatada (`formatter(state, exception)`).
+2. **SQL sem executar (TODO-01).** Em `ExpensiveSql`, devolva o SQL (com o cabeçalho dos parâmetros) de "produtos com preço acima de `min`, ordenados por nome" sem executar. A variável `min` deve ser capturada para virar o parâmetro `@min`.
+3. **Tags (TODO-02).** Em `Expensive`, devolva a mesma consulta como `IQueryable`, marcada duas vezes com `TagWith` ("Catalog: expensive products" e "Called from the price list screen"). As tags viram comentários acima do SQL.
+4. **Logger e flags (TODO-03).** Em `DbFactory.Create`, mande os logs do EF para o `loggerFactory` e ligue ou desligue os dados sensíveis e os erros detalhados segundo as duas flags. Leia a mensagem `Executed DbCommand` com as flags desligadas e ligadas (`@min='?'` contra `@min='20'`).
+5. **Interceptors (TODO-04).** Ainda em `Create`, registre os interceptors recebidos.
+6. **Contar comandos (TODO-05 e TODO-06).** Em `CommandCounter`, conte o comando e guarde o texto em `ReaderExecuting` e faça o mesmo em `ReaderExecutingAsync`, que é um gancho separado.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que o `ToQueryString` não aparece no log de execução, por que os valores dos parâmetros ficam escondidos por padrão, o que `EnableDetailedErrors` muda numa propriedade nula e como o contador revela o N+1 (1 mais o número de linhas).
+
+**Desafios opcionais**
+
+- **TODO-07:** adicione `ExpensiveWithCallSite`, que também chama `TagWithCallSite()`. O que o comentário contém?
+- **TODO-08:** adicione `DbFactory.CreateWithLogTo(connection, Action<string> sink)`, que registra só `RelationalEventId.CommandExecuted` em `Information` por `LogTo`. Os testes atuais não cobrem esses dois itens.
+
+**Pré-requisitos:** consultas básicas do EF Core, `Microsoft.Extensions.Logging` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos principais lançam `NotImplementedException` e os demais pontos (`Log`, `Create`, `CommandCounter`) estão vazios com comentários `TODO-NN`, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Simple logging, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging) (doc)

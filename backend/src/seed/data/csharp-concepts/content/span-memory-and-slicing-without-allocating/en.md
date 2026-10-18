@@ -258,6 +258,45 @@ List<T> and Array Internals) skip checks the safe API makes.
   they move responsibility for layout, endianness, and lifetime to you. Keep
   them in small, tested helpers.
 
+## Lab
+
+In this lab you get `Slicing` with six methods that have no body and `Buffers.Squares`, which has to fill an inline array. Your job is to process text and arrays through `Span<T>` slices without copying, know why `Memory<T>` exists and use `stackalloc`, `params ReadOnlySpan<T>` and `[InlineArray]`. The core idea is that a slice is just a window over memory that already exists, and the tests measure that: they call each method many times, after a warm-up, and compare allocated bytes with wide margins, to tell "a few bytes" apart from "a new array or string per call".
+
+**The scenario**
+
+Small text and array operations, all written without `Split`, `Substring` or temporary arrays.
+
+- `Slicing.CountWords`: count words separated by spaces.
+- `Slicing.ParseInts`: read `"10,-20,30"` into a caller-owned span.
+- `Slicing.Middle`: a writable view of the array without its first and last element.
+- `Slicing.Sum`: add up values received through `params`.
+- `Slicing.ToHex`: bytes as upper case hex.
+- `Slicing.SumAsync`: sum a `Memory<int>` after an `await`.
+- `Buffers.Squares`: a `Buffer4`, an `[InlineArray(4)]` struct.
+
+**What you will do, step by step**
+
+1. **Count words without allocating (TODO-00).** In `CountWords`, count the words separated by one or more spaces using `Trim`, `IndexOf` and slicing on the span. No `Split` and no `Substring`.
+2. **Parse ints into a caller buffer (TODO-01).** In `ParseInts`, read a comma separated line, slice each field, pass the span to `int.Parse` and return how many ints were written to `destination`.
+3. **Return a view, not a copy (TODO-02).** `Middle` returns a `Span<int>` of the array without its first and last element, with `AsSpan` and a range. Writing to the span must change the array.
+4. **Params without an array (TODO-03).** Change the parameter of `Sum` to `params ReadOnlySpan<int>` (C# 13), so calls such as `Sum(1, 2, 3)` do not allocate an array, and add up the values. Passing an array still works.
+5. **Format straight into the buffer (TODO-04).** `ToHex` returns the bytes as upper case hex (`"00FF10AB"`), formatting into a `stackalloc` buffer (or a heap buffer when the input is large) and allocating only the result string. `byte.TryFormat(span, out _, "X2")` writes without allocating.
+6. **Memory after the await (TODO-05).** In `SumAsync`, do `await Task.Yield()` and then sum the data. A `Span` cannot live across an `await`, so read `data.Span` only after it, in a place with no `await` after it.
+7. **Inline array (TODO-06).** `Squares` returns a `Buffer4` with 0, 1, 4 and 9. An inline array converts implicitly to `Span<int>`, so fill it through a span.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `Split(' ')` would allocate an array and several strings per call, and why a `Span` cannot cross an `await` while a `Memory<T>` can.
+
+**Optional challenges**
+
+- **TODO-07:** add `StartsWithZero(this ReadOnlySpan<int> span)` and call it directly on an `int[]`. The C# 14 first-class span conversions make this bind.
+- **TODO-08:** add `AsBytes(ReadOnlySpan<int>)` that views the ints as bytes with `MemoryMarshal.AsBytes`.
+
+**Prerequisites:** C# arrays and strings, value types versus reference types, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Memory<T> and Span<T> usage guidelines, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines) (doc)

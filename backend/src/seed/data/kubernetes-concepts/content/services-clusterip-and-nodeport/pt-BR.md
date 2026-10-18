@@ -111,6 +111,38 @@ Sem endpoints significa que o selector não casa com nenhum Pod **pronto**: labe
 - **nodePort fixo vs aleatório.** Portas fixas são estáveis para usuários e firewalls e exigem que você gerencie colisões; portas aleatórias não precisam de coordenação e mudam sempre que o Service é recriado.
 - **`externalTrafficPolicy: Cluster` vs `Local`.** Cluster distribui o tráfego por igual e esconde o IP do cliente; Local preserva o IP do cliente e pode deixar nós sem Pods locais incapazes de responder.
 
+## Lab
+
+Neste lab você recebe um `shop.yaml` com um Deployment de 2 réplicas e dois Services que não funcionam. O seu trabalho é corrigir os três motivos mais comuns de um Service não responder. A ideia central é que um Service é só um seletor mais um mapeamento de portas: se o seletor não casa com nenhum Pod, não há endpoints, e se a porta de destino está errada, a conexão é recusada mesmo com endpoints.
+
+**O cenário**
+
+O teste aplica o seu arquivo e um Pod `client` (dado pronto) em um cluster real (k3s via Testcontainers), lê os EndpointSlices e faz requisições HTTP de verdade.
+
+- `src/main/resources/k8s/shop.yaml`: o Deployment `shop` (2 réplicas, labels `app: shop` e `tier: web`, servidor na porta 8080 com porta nomeada `http` e readiness probe), o Service ClusterIP `shop` (acessível dentro do cluster em `http://shop`, porta 80) e o Service NodePort `shop-public` (porta 30080 em cada nó).
+- `src/test/resources/k8s/client.yaml`: o Pod `client`, de onde partem as requisições.
+
+Repare nas labels do Pod e nos seletores dos dois Services; e que um deles usa `targetPort` por número e o outro por nome.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar e olhar o que falta.** Rode os testes antes de editar. `kubectl get endpointslices -l kubernetes.io/service-name=shop` mostra o que o Service realmente seleciona.
+2. **Dar endpoints ao `shop` (TODO-00).** O Service não tem endpoints. Compare o `selector` dele com as labels dos Pods e corrija.
+3. **Mandar o tráfego para a porta certa (TODO-01).** Com endpoints, `http://shop` ainda recusa conexões. Olhe em qual porta o contêiner realmente escuta e acerte o `targetPort`.
+4. **Corrigir o NodePort (TODO-02).** O API server rejeita o `shop-public`: leia o erro do `kubectl apply`. Há um intervalo permitido para `nodePort`, e a porta 30080 está nele.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/services-clusterip-and-nodeport test` passa por inteiro: o EndpointSlice do `shop` lista as duas réplicas, `http://shop` responde `shop ok` a partir do `client`, e o `shop-public` é criado com o node port 30080 e responde no IP do nó. Você deve conseguir explicar a diferença entre `port`, `targetPort` e `nodePort` e o que `kubectl get endpointslices` diz sobre um Service quebrado.
+
+**Desafios opcionais**
+
+- **TODO-03:** remova o `nodePort` do `shop-public` e aplique de novo. Que porta ele recebe, e por que um valor fixo só vale a pena quando algo fora do cluster depende dele?
+
+**Pré-requisitos:** Docker rodando (o teste sobe um container `rancher/k3s` e baixa `busybox` dentro dele), o artigo "Services: ClusterIP and NodePort", Java e Maven.
+
+**Como rodar:** clone o repositório e, na raiz, rode `mvn -pl kubernetes-concepts/services-clusterip-and-nodeport test`. Você edita apenas o `shop.yaml`, e os comentários TODO marcam os três pontos.
+
 ## Documentation Links
 
 - [Kubernetes docs: Service](https://kubernetes.io/docs/concepts/services-networking/service/): tipos, portas, selectors.

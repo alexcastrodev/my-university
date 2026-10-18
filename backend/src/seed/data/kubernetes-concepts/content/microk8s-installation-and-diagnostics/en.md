@@ -133,6 +133,36 @@ sudo journalctl -u snap.microk8s.daemon-kubelite --since "10 min ago"
 - **The `microk8s` group is convenient and powerful.** Adding a user to it is granting full cluster access, not "permission to run kubectl".
 - **Single package, single failure domain.** One `kubelite` process restart restarts the whole control plane and the kubelet. That is fine for one node; for real availability you need three nodes (`microk8s add-node`) and the `ha-cluster` add-on.
 
+## Lab
+
+In this lab you get a nearly empty `install.sh` that only runs `snap install microk8s --classic`. Your job is to turn it into a real install script that pins the Kubernetes version, returns only when the cluster works, lets the normal user run `kubectl` and collects a diagnostics report. The core idea is that "installed without errors" is not the same as "cluster ready", and that a provisioning script has to be reproducible (today, next month and next year).
+
+**The scenario**
+
+The test creates an Ubuntu 24.04 VM with Multipass (2 CPUs, 4 GB of memory, 12 GB of disk), copies your script into it and runs it as root. Production runs Kubernetes 1.34. The machine's normal user is called `ubuntu`.
+
+- `src/main/resources/install.sh`: your file, with `set -euo pipefail` and four TODOs as comments.
+- `src/test/java/MicroK8sInstallTest.java` and `MicroK8sVm.java`: the test and the helper that drives the VM. Without Multipass installed, the tests are skipped.
+
+**What you will do, step by step**
+
+1. **Pin the version (TODO-00).** Without a channel, snap installs whatever "stable" is on the day, which changes over time. Choose the right channel so MicroK8s tracks `1.34/stable`, ends up as 1.34 and stays on it.
+2. **Wait until the cluster is usable (TODO-01).** The script must not return before the node is `Ready`. MicroK8s has a status command with a wait option for this. The test reads the node's `Ready` condition right after the script finishes.
+3. **Give `ubuntu` access without sudo (TODO-02).** Find out which group MicroK8s uses to control access and add the user to it. Remember that `microk8s kubectl` has to work for that user without `sudo`.
+4. **Collect the diagnostics (TODO-03).** Generate the MicroK8s inspection report and leave it at `/home/ubuntu/diagnostics.tar.gz`, readable by `ubuntu`. The test lists the tarball and looks for the `kubelite` files.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/microk8s-installation-and-diagnostics test` passes completely: the script exits with 0, `snap list` shows 1.34 on the `1.34/stable` channel, the node is `Ready` when the script returns, `ubuntu` runs `microk8s kubectl get nodes` and the tarball is an inspection report. You should be able to explain what each line of the script protects against (a moving version, a race with startup, missing permissions).
+
+**Optional challenges**
+
+- **TODO-04:** open the report. Which file shows the flags `kubelite` was started with, and which one shows the state of every MicroK8s service?
+
+**Prerequisites:** [Multipass](https://canonical.com/multipass) installed (the VM is deleted at the end), the article "MicroK8s Installation and Diagnostics", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/microk8s-installation-and-diagnostics test`. Run it once before editing; each run takes a few minutes. You only edit `install.sh`, and the TODO comments in it show what is left.
+
 ## Documentation Links
 
 - [MicroK8s: Getting started](https://canonical.com/microk8s/docs/getting-started): install, group membership, first commands.

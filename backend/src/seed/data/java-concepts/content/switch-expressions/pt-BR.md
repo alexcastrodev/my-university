@@ -188,6 +188,37 @@ enum Day { MONDAY, SATURDAY, SUNDAY }    // enum recompiled alone
 kind(Day.SUNDAY);                        // MatchException at runtime
 ```
 
+## Lab
+
+Neste lab você recebe `OrderStatusWorkflow`, que modela o ciclo de vida de um pedido com o enum `OrderStatus` (`PLACED`, `PAID`, `SHIPPED`, `DELIVERED`, `CANCELLED`). Seu trabalho é implementar quatro métodos (mais um opcional), cada um forçando uma mecânica diferente de switch expression. A ideia central é sentir o que o compilador garante: um switch expression precisa produzir um valor para toda entrada possível.
+
+**O cenário**
+
+Um pedido avança de status, tem uma fase de envio e uma descrição, e precisa ser lido a partir de um código de texto.
+
+- `OrderStatus`: o enum com os cinco status.
+- `OrderStatusWorkflow`: `nextStatus`, `shippingPhase`, `describe`, `parseStatus` e o opcional `priority`, todos estáticos.
+- `OrderStatusWorkflowTest`: confere cada status, os terminais, o `null` explícito, um código desconhecido e vazio.
+
+**O que você vai fazer, passo a passo**
+
+1. **Exaustividade sem `default` (TODO-00).** Em `nextStatus`, use um switch expression com um `case` para cada constante e nenhum `default`: `PLACED` vai a `PAID`, `PAID` a `SHIPPED`, `SHIPPED` a `DELIVERED`, e `DELIVERED` e `CANCELLED` ficam como estão. Se você esquecer uma constante, o código simplesmente não compila.
+2. **Rótulos múltiplos (TODO-01).** Em `shippingPhase`, agrupe constantes separadas por vírgula num mesmo braço com seta: `PLACED` e `PAID` viram `"preparing"`, `SHIPPED` e `DELIVERED` viram `"in transit or delivered"`, e `CANCELLED` vira `"cancelled"`.
+3. **Braço com bloco e `yield` (TODO-02).** Em `describe`, o braço `PAID` deve ser um bloco (`case PAID -> { ... }`) que calcula a mensagem em dois passos, com uma variável local `"Payment received"` e um `yield` desse valor com `"; awaiting shipment"` no fim. Os outros braços são expressões simples.
+4. **`null` e `default` sobre `String` (TODO-03).** Em `parseStatus`, trate `case null` explicitamente lançando `IllegalArgumentException("status code must not be null")` (sem ele, um seletor nulo estoura `NullPointerException` antes de qualquer `case`). Mapeie os cinco códigos às constantes e use um `default` obrigatório lançando `IllegalArgumentException("unknown status code: " + code)`, já que `String` não é um enum e o compilador não consegue provar a exaustividade.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que o switch sobre o enum dispensa o `default` e o switch sobre `String` não, e a diferença entre `yield` e `->`.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `priority` com rótulos múltiplos: `DELIVERED` e `CANCELLED` valem 0, `PLACED` vale 1, `PAID` vale 2 e `SHIPPED` vale 3.
+
+**Pré-requisitos:** enums, o `switch` clássico e o Java 21.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/switch-expressions` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/switch-expressions test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [JEP 361: Switch Expressions](https://openjdk.org/jeps/361) — doc

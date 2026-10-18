@@ -200,6 +200,44 @@ quando elas forem `readonly`.
 - **Parâmetros booleanos escondem a intenção.** `Export(true, false)` pede
   argumentos nomeados ou, melhor ainda, um enum ou um tipo de opções.
 
+## Lab
+
+Neste lab você recebe a classe estática `Methods` **esboçada**, com oito assinaturas já fixadas que lançam `NotImplementedException`, e testes xUnit prontos que as chamam com `ref`/`out`, argumentos nomeados e tipos numéricos diferentes. O seu trabalho é implementar os corpos. A ideia central é sentir como o modo de passagem de um parâmetro muda o que o chamador enxerga: `ref` e `out` mexem nas variáveis dele, `ref readonly` devolve uma referência em vez de uma cópia, e a resolução de overload escolhe sozinha a melhor conversão.
+
+**O cenário**
+
+Uma coleção de métodos curtos, cada um ilustrando um tipo de parâmetro.
+
+- `Methods.cs`: `Swap`, `TryDivide`, `Heaviest`, `Sum`, `BuildUrl` e três sobrecargas de `Pick` (`long`, `double` e `object`).
+- `Particle.cs`: um `readonly record struct Particle(string Name, double Mass)`, o tipo usado por `Heaviest`.
+- `MethodsTests.cs`: os testes. Por exemplo, o de `Heaviest` usa `Unsafe.AreSame` para provar que você devolveu uma referência ao elemento do array, e não uma cópia.
+
+Como as assinaturas já estão prontas, você só escreve os corpos.
+
+**O que você vai fazer, passo a passo**
+
+1. **Trocar variáveis do chamador (TODO-00).** Em `Swap`, troque os dois valores. O `ref` passa as variáveis dele, não cópias.
+2. **Atribuir todo `out` em todo caminho (TODO-01).** Em `TryDivide`, devolva `false` quando o divisor for zero e `true` caso contrário, entregando quociente e resto. Mesmo na falha, os dois `out` precisam receber valor (use 0).
+3. **Devolver uma referência (TODO-02).** Em `Heaviest`, ache o elemento de maior `Mass` e use `return ref particles[index];`. O chamador recebe uma referência somente leitura, sem cópia do struct.
+4. **`params` sem alocar (TODO-03).** Em `Sum`, some os valores de um `params ReadOnlySpan<int>` (C# 13), assim `Sum(1, 2, 3)` não cria um array.
+5. **Opcionais e nomeados (TODO-04).** Em `BuildUrl`, devolva `http://host:porta`, ou `https://host:porta` quando `secure` for verdadeiro. Os valores padrão são copiados para o chamador em tempo de compilação, por isso mudar um padrão numa biblioteca exige recompilar quem a usa.
+6. **Prever o overload (TODO-05, TODO-06 e TODO-07).** Implemente as três `Pick`, devolvendo `"long"`, `"double"` e `"object"`. **Antes de rodar os testes**, preveja a qual delas `Pick(5)` se liga, e depois `Pick(5f)` e `Pick("five")`, e confirme.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Pick(5)` escolhe `long` e não `double` nem `object`, e por que `Heaviest` com `ref readonly` não permite ao chamador atribuir pelo resultado.
+
+**Desafios opcionais**
+
+Não há esqueleto nem teste para estes, então você escreve ambos.
+
+- **TODO-08:** `FindSlot`, que devolve um `ref int` para o chamador escrever direto no elemento do array.
+- **TODO-09:** `CountValid`, usando o descarte `_` para um valor `out` que você não precisa.
+
+**Pré-requisitos:** métodos e structs em C#, tuplas e desconstrução (básico) e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método esboçado lança `NotImplementedException` e traz um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Method parameters and modifiers, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters) (doc)

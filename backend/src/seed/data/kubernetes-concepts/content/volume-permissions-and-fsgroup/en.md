@@ -108,6 +108,35 @@ Compare the process's UID and groups with the directory's numeric owner, group a
 - **`Always` vs `OnRootMismatch`.** `Always` repairs ownership drift inside the volume on every start; `OnRootMismatch` starts much faster on large volumes and trusts that nothing changed ownership underneath.
 - **Root entrypoints vs non-root everywhere.** Letting images that need it start as root is pragmatic; strict non-root requires image-specific configuration but passes `restricted` Pod Security.
 
+## Lab
+
+In this lab you get a Pod that must run as non-root and read a private key from a Secret mounted with `defaultMode: 0400`, but it never manages to. Your job is to adjust only the Pod's `securityContext`, in two steps, without loosening the file's permission. The core idea is to feel that "who am I" (the process's user and group) and "who owns the file" (the volume's owner and group) are separate things, and that `fsGroup` is what gives the volume a group the process recognizes, without making the key readable by everyone.
+
+**The scenario**
+
+A TLS terminator must read `/etc/tls/tls.key`. The tests run on a real k3s started by Testcontainers, create the `app-tls` Secret (key `tls.key`) in the `example` namespace and apply your Pod.
+
+- `src/main/resources/k8s/app.yaml`: the `app` Pod (`busybox` image) with `runAsNonRoot: true`, a Secret volume with `defaultMode: 0400` mounted at `/etc/tls`, and a command that reads the key and prints `key loaded`. The Pod's `securityContext` is the part you edit.
+- `src/test/java/VolumePermissionsTest.java`: waits for the `key loaded` log and checks the user, the group and the file mode.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the Pod state.** The failure message shows the container state, which tells you where it stopped.
+2. **Make the container start (TODO-00).** It sits in `CreateContainerConfigError`: the image defaults to root and `runAsNonRoot` forbids it. Run the process as user 1000 and group 1000 in the Pod's `securityContext`.
+3. **Give the key to group 1000 (TODO-01).** Now the app starts but reads the key with `Permission denied`: the file is `root:root` with mode `0400`. Make the volume's files belong to group 1000 without making them readable by other users. The `keyIsNotWorldReadable` test rejects the easy way out of using `defaultMode: 0444`, so the solution is in the `securityContext`, not in the file mode.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/volume-permissions-and-fsgroup test` passes `appLoadsItsKey`, `appRunsAsUser1000` (the process is `1000:1000`) and `keyIsNotWorldReadable` (the mode ends in `0`). You should be able to explain who owns the file, who the process is, and how `fsGroup` brings the two together without opening the key to everyone.
+
+**Optional challenges**
+
+- **TODO-02:** also mount an `emptyDir` at `/data` and compare `ls -ldn /data` with and without `fsGroup`. Then read the article's section on `hostPath` volumes: why would the same manifest behave differently on MicroK8s hostpath storage?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the article Volume Permissions and fsGroup.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/volume-permissions-and-fsgroup test`. The `TODO-00` and `TODO-01` comments inside the `securityContext` in `app.yaml` mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/): `runAsUser`, `fsGroup`, `fsGroupChangePolicy`.

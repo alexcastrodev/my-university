@@ -231,6 +231,43 @@ e Slicing Sem Alocar parte daqui.
   estável, mas não em código frio, nem sempre sem PGO, e nunca quando o valor
   escapa. Meça o caminho real antes e depois de uma mudança.
 
+## Lab
+
+Neste lab você recebe `Counter` (uma struct mutável), `Temperature` (uma struct mutável que deveria ser imutável) e `Holder`, que esconde um contador num campo `readonly`, além de `Semantics` e `Boxing` com métodos sem corpo. O seu trabalho é ver a semântica de cópia das structs, consertar os bugs clássicos de struct mutável, achar onde o boxing aloca e usar `stackalloc` para manter um buffer fora do heap. A ideia central é que uma struct é copiada ao ser passada, ao ser lida de um campo `readonly` e ao virar `object`.
+
+**O cenário**
+
+Tipos pequenos que mostram, um por um, onde valor e referência se comportam de modo diferente.
+
+- `Types.cs`: `Counter` (com `Value` e `Increment`), `Temperature` (com `Celsius { get; set; }`) e `Holder` (um campo `readonly Counter` e `IncrementTwice`, que hoje devolve 0 em vez de 2).
+- `Semantics.cs`: `IncrementCopy(Counter)` e `IncrementRef(ref Counter)`.
+- `Boxing.cs`: `BoxAll` (já pronto), `UnboxAll`, `SumOnStack` e `BoxNullable`.
+
+Os testes de alocação usam `GC.GetAllocatedBytesForCurrentThread` com margens largas e uma chamada de aquecimento, então comparam ordens de grandeza, não bytes exatos.
+
+**O que você vai fazer, passo a passo**
+
+1. **Cópia contra referência (TODO-00 e TODO-01).** Em `IncrementCopy`, chame `Increment` no parâmetro e devolva seu `Value`: como o parâmetro é uma cópia, o `Counter` de quem chama não muda. Em `IncrementRef`, o modificador `ref` já está lá, então uma única chamada a `Increment` altera o `Counter` do chamador.
+2. **Tornar a struct imutável (TODO-02).** Transforme `Temperature` em `readonly struct`: `Celsius` só pode ser definido na criação (`init`) e `WithCelsius` devolve uma **nova** `Temperature` em vez de alterar a atual.
+3. **Consertar o campo readonly (TODO-03).** Chamar um método mutável num campo `readonly` de struct age numa cópia escondida, e é por isso que `IncrementTwice` devolve 0. Corrija a declaração em `Holder` para os incrementos valerem.
+4. **Desencaixotar (TODO-04).** `UnboxAll` devolve os `int` guardados nas caixas. O unboxing é um cast explícito, `(int)`.
+5. **Buffer na pilha (TODO-05).** `SumOnStack` coloca os números de 1 a `count` num `Span<int>` criado com `stackalloc` e devolve a soma. Sem `int[]` nem `List<int>`: o buffer não pode tocar o heap.
+6. **Boxing de Nullable (TODO-06).** `BoxNullable` devolve o valor como `object`. Rode os testes e anote no que vira um `Nullable<int>` sem valor e no que vira um com valor.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `IncrementTwice` devolvia 0, por que `BoxAll` aloca algo por elemento enquanto `SumOnStack` não aloca quase nada, e em que `int?` é encaixotado.
+
+**Desafios opcionais**
+
+- **TODO-07:** adicione uma struct `readonly` `Vector3D` com `X`, `Y` e `Z` e `Semantics.Length(in Vector3D vector)`, passando-a por referência somente leitura.
+- **TODO-08:** adicione `Boxing.AllocatedByFormat(int)` e `Boxing.AllocatedByInterpolation(int)` para comparar `string.Format("{0}", i)` com `$"{i}"` em bytes alocados.
+- **TODO-09:** adicione `Semantics.IncrementFirst(List<Counter>)`. `list[0].Increment()` não compila, então use `CollectionsMarshal.AsSpan`.
+
+**Pré-requisitos:** classes e structs em C#, parâmetros `ref` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Value types, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types) (doc)

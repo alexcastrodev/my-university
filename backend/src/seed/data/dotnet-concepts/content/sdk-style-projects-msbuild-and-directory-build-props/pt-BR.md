@@ -290,6 +290,42 @@ ferramenta à parte e não foi usada aqui.
 - **`ArtifactsPath` ajuda ferramentas e quebra caminhos fixos.** Scripts que
   procuram `bin/Release` ao lado do projeto param de funcionar.
 
+## Lab
+
+Neste lab você escreve os arquivos MSBuild que fazem um projeto moderno funcionar. Você recebe a classe `MsBuildFiles` com métodos que lançam `NotImplementedException`, e cada um deve devolver o texto de um arquivo MSBuild. Os testes gravam seu texto numa árvore de pastas descartável e perguntam ao `dotnet msbuild` o que ele avaliou de verdade. A ideia central é ver o MSBuild confirmar (ou contradizer) o que você escreveu, e entender a ordem: `Directory.Build.props` roda antes do corpo do projeto, `Directory.Build.targets` roda depois.
+
+**O cenário**
+
+O problema é configurar vários projetos sem repetir propriedades em cada `.csproj`.
+
+- `src/SdkStyleLab/MsBuildFiles.cs`: os métodos a implementar (`ClassLibraryProject`, `ProjectWithExcludedFile`, `DirectoryBuildProps`, `ProjectOverridingNullable`, `DirectoryBuildTargets`, `NestedDirectoryBuildProps`, `CustomTargetProject`).
+- `MsBuildSandbox.cs`: cria a árvore temporária e roda `dotnet msbuild -getProperty:... -getItem:Compile`.
+- `MsBuildTests.cs`: um teste por TODO.
+
+Nada é restaurado nem compilado, e não há rede. Os testes só falham se o MSBuild realmente avaliar algo diferente do que o TODO pede.
+
+**O que você vai fazer, passo a passo**
+
+1. **Projeto SDK mínimo (TODO-00).** Em `ClassLibraryProject`, devolva `<Project Sdk="Microsoft.NET.Sdk">` com um `PropertyGroup` só com `TargetFramework` `net10.0`. O SDK cuida do resto, inclusive do glob implícito de `Compile`.
+2. **Excluir do glob (TODO-01).** Em `ProjectWithExcludedFile`, acrescente um `ItemGroup` com `Compile Remove="Legacy/**"` para tirar a pasta `Legacy`.
+3. **Props compartilhado (TODO-02).** Em `DirectoryBuildProps` (raiz `<Project>` sem `Sdk`), defina `TargetFramework`, `Nullable`, `LangVersion` 14.0 e `TreatWarningsAsErrors`. Em `ProjectOverridingNullable`, sobrescreva `Nullable` para `disable` no corpo: o corpo vem depois do props, então ganha.
+4. **Targets enxerga o projeto (TODO-03).** Em `DirectoryBuildTargets`, defina `ProjectKind` como `library` por padrão e `app` quando `OutputType` for `Exe`. Isso só funciona porque o `.targets` é importado depois do corpo do projeto.
+5. **Encadear arquivos (TODO-04).** Em `NestedDirectoryBuildProps`, importe o pai com `GetPathOfFileAbove` e só então defina `IsTestProject` como `true`. Sem o import, o arquivo da raiz fica escondido.
+6. **Target customizado (TODO-05).** Em `CustomTargetProject`, crie o target `WriteStamp` que usa `WriteLinesToFile` (com `Overwrite="true"`) para gravar `$(AssemblyName)|$(TargetFramework)` em `stamp.txt` dentro de `$(MSBuildProjectDirectory)`.
+
+**Como saber que terminou**
+
+`dotnet test` fica verde. Você deve conseguir explicar por que `Nullable` do projeto vence o do props, por que o `.targets` consegue ler o `OutputType`, e rodar `dotnet msbuild MyProject.csproj -getProperty:Nullable -getItem:Compile` em um projeto seu para ver o mesmo que os testes veem.
+
+**Desafios opcionais**
+
+- **TODO-06:** `ReleaseStrictProject` liga `TreatWarningsAsErrors` só quando `Configuration` é `Release`.
+- **TODO-07:** `ExplicitCompileProject` desliga os itens de compilação padrão e lista `Program.cs` à mão.
+
+**Pré-requisitos:** estrutura básica de `.csproj` (`PropertyGroup`, `ItemGroup`), o texto do concept sobre projetos SDK-style e `Directory.Build.props`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método começa lançando `NotImplementedException` com um comentário `TODO-NN` dizendo o que o arquivo deve conter, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [Customize your build, Microsoft Learn](https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build) (doc)

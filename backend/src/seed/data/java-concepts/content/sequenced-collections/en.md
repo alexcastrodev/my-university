@@ -126,6 +126,41 @@ class LruCache<K,V> extends LinkedHashMap<K,V> {
 - **A `reversed()` view being live, not a copy, is a real behavior to design around.** Passing a `list.reversed()` view somewhere that later mutates the original list changes what the view yields on its next read — usually the desired behavior for a live report, a bug if the caller assumed a snapshot; take an explicit copy (`new ArrayList<>(list.reversed())`) when a frozen order is what's actually needed.
 - **This lands on top of the existing type hierarchy, so a type already had partial coverage before JDK 21** — `Deque` already had `getFirst()`/`addFirst()` etc. long before `SequencedCollection` existed; JEP 431 didn't add new behavior to `Deque`, it gave that already-existing shape a name and extended the same shape to `List`, `LinkedHashSet`, and the map side, which previously had nothing comparable.
 
+## Lab
+
+In this lab you get `SequencedOps`, a utility class with five methods left to implement, each isolating one mechanic of Java 21's sequenced collections. Your job is to use the new `SequencedCollection` and `SequencedMap` methods in place of the old tricks. The core idea is that "first", "last" and "reversed" are now part of the contract, so you can write generic code over any collection with a defined order.
+
+**The scenario**
+
+Lists, deques, `LinkedHashSet` and ordered maps now share the same end operations.
+
+- `firstOrThrow`: the first element of a list, with the right exception when it is empty.
+- `addToFront`: insert at the start of any `SequencedCollection`.
+- `reversedView`: a live, reversed view of a list.
+- `firstValueOrNull`: the value of a `SequencedMap`'s first entry.
+- `recordMostRecent`: an LRU helper over a `LinkedHashMap`.
+- `SequencedOpsTest`: includes tests with `ArrayList`, `ArrayDeque`, `LinkedHashSet`, `LinkedHashMap` and `TreeMap`.
+
+**What you will do, step by step**
+
+1. **First element with the right exception (TODO-00).** In `firstOrThrow`, use the `SequencedCollection` method that throws `NoSuchElementException` on an empty list. `list.get(0)` throws `IndexOutOfBoundsException` for the same condition, and that is not what the test expects.
+2. **Generic code (TODO-01).** In `addToFront`, write only against the `SequencedCollection` contract, with no concrete type, so the same method works unmodified with `ArrayList`, `ArrayDeque` and `LinkedHashSet`.
+3. **A view, not a copy (TODO-02).** In `reversedView`, return the reversed view that `SequencedCollection` itself declares. A structural change made through the original list must show up in the view, and vice versa.
+4. **Direct first entry (TODO-03).** In `firstValueOrNull`, use the `SequencedMap` method for the first entry, with no iterator or walk over `keySet`/`values`, and return `null` if the map is empty. It must work even with a `TreeMap`.
+5. **LRU with `putLast` and `pollFirstEntry` (TODO-04).** In `recordMostRecent`, if the key is already present, update its value and move it to the end; otherwise insert it as the last entry. Then, if the map goes over `capacity`, remove the entry at the front (the least recently used).
+
+**How you know you are done**
+
+`mvn test` is all green. Reread the `reversedView` tests and confirm that a mutation on one side shows up on the other. You should be able to explain why a live view is dangerous when you wanted a snapshot.
+
+**Optional challenges**
+
+- **TODO-05:** implement `frozenReversedCopy`, which returns a reversed copy that does not reflect later changes to the list: the fix for when a live view is the wrong tool.
+
+**Prerequisites:** basic collections (`List`, `Deque`, `LinkedHashMap`) and Java 21.
+
+**How to run it:** clone the repository, go into `java-concepts/sequenced-collections` and run `mvn test` (or, from the root, `mvn -pl java-concepts/sequenced-collections test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [JEP 431: Sequenced Collections](https://openjdk.org/jeps/431) — doc

@@ -161,6 +161,37 @@ sequenceDiagram
   across two annotations** — reading `showDesignForm()` in isolation doesn't tell
   you it handles `GET /design` without also checking the class declaration.
 
+## Lab
+
+In this lab you get a two-step signup flow with the controller **half done**: the form, the `SignupForm` object and the success page exist, but the main handlers throw `UnsupportedOperationException`. The core idea is to feel the classic Spring MVC flow: a `GET` builds the `Model`, a `POST` receives a Java object already filled in by implicit binding, and a view name with the `redirect:` prefix becomes a real HTTP redirect.
+
+**The scenario**
+
+`GET /signup` shows an empty form, `POST /signup` receives the fields and redirects the browser to `GET /signup/success`.
+
+- `SignupController`: the controller under `@RequestMapping("/signup")`. `showSignupForm` and `processSignup` are empty, `showSuccessPage` already returns `"signup-success"`.
+- `SignupForm`: a POJO with `username` and `email`, getters and setters.
+- `MvcRequestApplication`: the `@SpringBootApplication` class.
+- `SignupControllerTest`: uses `@WebMvcTest` with `MockMvc`, a slice test that checks view names, model attributes and the redirect without needing a template engine.
+
+**What you will do, step by step**
+
+1. **Build the form model (TODO-00).** In `showSignupForm`, add a `new SignupForm()` to the `Model` under the name `"signupForm"` and return the view `"signup-form"`. The test checks the view name and that the attribute is a `SignupForm` instance.
+2. **Pass the user through a flash attribute (TODO-01).** In `processSignup`, use `redirectAttributes.addFlashAttribute("username", form.getUsername())`. A flash attribute survives the redirect and then disappears, unlike a URL parameter.
+3. **Redirect (TODO-02).** Return `"redirect:/signup/success"`. Without the `redirect:` prefix, Spring would treat the string as a template name and answer 200 instead of 3xx.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why the `POST` redirects instead of rendering a page (avoiding form resubmission), and how `username` and `email` reach `SignupForm` without any binding code of your own.
+
+**Optional challenges**
+
+- **TODO-03:** add an explicit `@ModelAttribute("signupForm")` to the `form` parameter of `processSignup`. Implicit binding already works, but Spring recommends the explicit form for GraalVM native-image hint generation.
+
+**Prerequisites:** basic Spring MVC (`@Controller`, `@GetMapping`, `@PostMapping`), HTTP 3xx status codes and the `Model` abstraction.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-mvc-request-handling` and run `mvn test`. The tests fail with `UnsupportedOperationException` until you resolve the `SignupController` TODOs.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 2,

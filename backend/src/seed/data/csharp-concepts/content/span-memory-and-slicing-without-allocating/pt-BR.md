@@ -263,6 +263,45 @@ rede devem usar `BinaryPrimitives`. `MemoryMarshal` e `CollectionsMarshal`
   para você a responsabilidade por layout, endianness e tempo de vida. Mantenha
   esse código em helpers pequenos e testados.
 
+## Lab
+
+Neste lab você recebe `Slicing` com seis métodos sem corpo e `Buffers.Squares`, que precisa preencher um array inline. O seu trabalho é processar texto e arrays por fatias de `Span<T>` sem copiar, entender por que `Memory<T>` existe e usar `stackalloc`, `params ReadOnlySpan<T>` e `[InlineArray]`. A ideia central é que uma fatia é só uma janela sobre memória que já existe, e os testes medem isso: eles chamam cada método muitas vezes, depois de um aquecimento, e comparam bytes alocados com margens largas, para separar "alguns bytes" de "um array ou string novo por chamada".
+
+**O cenário**
+
+Pequenas operações de texto e de array, todas escritas sem `Split`, `Substring` ou arrays temporários.
+
+- `Slicing.CountWords`: contar palavras separadas por espaços.
+- `Slicing.ParseInts`: ler `"10,-20,30"` para um span do chamador.
+- `Slicing.Middle`: uma visão gravável do array sem o primeiro e o último elemento.
+- `Slicing.Sum`: somar valores recebidos por `params`.
+- `Slicing.ToHex`: bytes em hexadecimal maiúsculo.
+- `Slicing.SumAsync`: somar um `Memory<int>` depois de um `await`.
+- `Buffers.Squares`: um `Buffer4`, uma struct `[InlineArray(4)]`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Contar palavras sem alocar (TODO-00).** Em `CountWords`, conte as palavras separadas por um ou mais espaços usando `Trim`, `IndexOf` e fatiamento no span. Sem `Split` e sem `Substring`.
+2. **Ler inteiros para um buffer do chamador (TODO-01).** Em `ParseInts`, leia uma linha separada por vírgulas, fatie cada campo, passe o span para `int.Parse` e devolva quantos inteiros foram escritos em `destination`.
+3. **Devolver uma visão, não uma cópia (TODO-02).** `Middle` devolve um `Span<int>` do array sem o primeiro e o último elemento, com `AsSpan` e um range. Escrever no span tem que alterar o array.
+4. **Params sem array (TODO-03).** Troque o parâmetro de `Sum` para `params ReadOnlySpan<int>` (C# 13), para chamadas como `Sum(1, 2, 3)` não alocarem um array, e some os valores. Passar um array continua funcionando.
+5. **Formatar direto no buffer (TODO-04).** `ToHex` devolve os bytes em hexadecimal maiúsculo (`"00FF10AB"`), formatando num buffer `stackalloc` (ou num buffer no heap se a entrada for grande) e alocando só a string de resultado. `byte.TryFormat(span, out _, "X2")` escreve sem alocar.
+6. **Memory depois do await (TODO-05).** Em `SumAsync`, faça `await Task.Yield()` e depois some os dados. Um `Span` não pode viver através de um `await`, então leia `data.Span` só depois dele, num trecho sem `await` em seguida.
+7. **Array inline (TODO-06).** `Squares` devolve um `Buffer4` com 0, 1, 4 e 9. Um inline array converte implicitamente para `Span<int>`, então preencha por um span.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `Split(' ')` alocaria um array e várias strings por chamada, e por que um `Span` não atravessa um `await` mas um `Memory<T>` atravessa.
+
+**Desafios opcionais**
+
+- **TODO-07:** adicione `StartsWithZero(this ReadOnlySpan<int> span)` e chame-o direto num `int[]`. As conversões de span de primeira classe do C# 14 fazem isso compilar.
+- **TODO-08:** adicione `AsBytes(ReadOnlySpan<int>)`, que enxerga os inteiros como bytes com `MemoryMarshal.AsBytes`.
+
+**Pré-requisitos:** arrays e strings em C#, tipos por valor versus por referência, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos lançam `NotImplementedException` e cada `TODO-NN` está num comentário com a dica, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Memory<T> and Span<T> usage guidelines, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines) (doc)

@@ -198,6 +198,38 @@ public void oldMethod() { }
 - **O tipo-contêiner de uma annotation repetível é uma declaração separada que você precisa manter em sincronia** — renomear ou reajustar o escopo da annotation repetível sem atualizar seu contêiner referenciado por `@Repeatable` quebra a compilação, não apenas no local de uso mas na própria declaração.
 - **Valores de annotation precisam ser constantes em tempo de compilação** (primitivos, `String`, literais de `Class`, constantes de enum, ou arrays/annotations desses) — não há como passar um valor calculado em tempo de execução, o que empurra qualquer configuração dinâmica para fora da annotation e para o que quer que a leia.
 
+## Lab
+
+Neste lab você recebe a anotação `@Important` e uma classe de exemplo já prontas, e implementa o `AuditScanner`, que descobre por reflexão quais métodos de uma classe carregam essa anotação. O objetivo é sentir na prática o que torna uma anotação útil em tempo de execução: a política de retenção `RUNTIME` faz o marcador sobreviver até a JVM, e a reflexão o lê de volta para guiar comportamento, a mesma ideia que JUnit e Spring usam para achar `@Test` e `@Transactional`.
+
+**O cenário**
+
+Um auditor precisa listar, justificar e contar os métodos críticos de um serviço, sem que ninguém mantenha essa lista à mão.
+
+- `Important.java`: a anotação, declarada com `@Retention(RetentionPolicy.RUNTIME)` e `@Target(ElementType.METHOD)`, com um `value()` cujo padrão é a string vazia. Já vem pronta.
+- `SampleService.java`: a classe de teste. Três dos quatro métodos têm `@Important`, e um deles (`validateState`) não informa valor. Também já vem pronta.
+- `AuditScanner.java`: a classe que você implementa. Recebe qualquer `Class<?>` e examina seus métodos declarados.
+
+Repare que `Class.getDeclaredMethods()` não garante ordem nenhuma. Por isso os testes comparam conjuntos de nomes e o tamanho, e não uma lista em ordem de declaração.
+
+**O que você vai fazer, passo a passo**
+
+1. **Listar os métodos anotados (TODO-00).** Em `findImportantMethods()`, percorra os métodos declarados do tipo e devolva o nome de cada um em que `Method.isAnnotationPresent(Important.class)` for verdadeiro. O método sem anotação (`logHeartbeat`) não pode aparecer.
+2. **Ler o motivo (TODO-01).** Em `reasonFor()`, ache o método pelo nome e devolva o `value()` da anotação obtida com `Method.getAnnotation(Important.class)`. Quando a anotação não traz valor, o resultado é a string vazia padrão. Se o método existe mas não está anotado, ou se nem existe, lance `NoSuchElementException(methodName)`.
+3. **Contar (TODO-02).** Em `countImportant()`, devolva quantos métodos declarados têm `@Important`. Dá para reaproveitar a lógica do passo 1.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Um bom sinal de entendimento: você consegue explicar o que mudaria se a anotação fosse declarada sem `@Retention(RUNTIME)` (a reflexão não a enxergaria mais) e por que os testes não dependem da ordem de `getDeclaredMethods()`.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `findImportantMethodsSorted()`, devolvendo os mesmos nomes de `findImportantMethods()` em ordem alfabética.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com `java.lang.reflect.Method`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/annotations-in-java` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/annotations-in-java test`). Cada método do `AuditScanner` começa lançando `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN` de dica, então a lista de testes vermelhos é o seu checklist.
+
 ## Documentation Links
 
 - [java.lang.annotation package — Java SE API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/package-summary.html) — doc

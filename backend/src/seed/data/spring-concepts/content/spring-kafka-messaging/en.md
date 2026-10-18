@@ -441,6 +441,32 @@ flowchart LR
   neighbours. If strict per-key ordering matters more than throughput, blocking
   retry on the main partition is the correct — and slower — choice.
 
+## Lab
+
+In this lab you get a Spring Boot application with a Kafka publisher and listener that do nothing yet: `publish()` sends nothing and `handle()` is not even registered as a listener. Your job is to wire both. The core idea is to feel in practice that the send key is almost never optional: Kafka routes by `hash(key) % partitions`, and the key is what makes events of the same order land on the same partition and be consumed in order.
+
+**The scenario**
+
+Order events (`OrderEvent` with `orderId` and `status`) published to a topic and consumed by a listener.
+
+- `OrderEventPublisher`: wraps a `KafkaTemplate<String, OrderEvent>` and defines the `orders.topic` topic.
+- `OrderEventListener`: stores what it receives in a queue and exposes `poll(timeout, unit)` so the test can wait for the next message. Each item is a `ReceivedOrderEvent` with the event and the partition it came from.
+- `OrderMessagingIntegrationTest`: uses `@EmbeddedKafka` with 3 partitions, a real in-process broker, with no Docker and no external service.
+- `src/test/resources/application.properties`: already configures the JSON (de)serializers and `auto-offset-reset=earliest`, so you do not touch configuration.
+
+**What you will do, step by step**
+
+1. **Publish with a key (TODO-00).** In `OrderEventPublisher.publish()`, call `kafkaTemplate.send(TOPIC, event.orderId(), event)` and return the `CompletableFuture`. Using the order id as the key is what guarantees the same partition and the send order for that order.
+2. **Register the listener (TODO-01).** In `OrderEventListener.handle()`, annotate the method with `@KafkaListener(topics = OrderEventPublisher.TOPIC, groupId = "order-lab-consumer")` and add the `@Header(KafkaHeaders.RECEIVED_PARTITION) int partition` parameter next to the `OrderEvent`. Put `new ReceivedOrderEvent(event, partition)` into the `received` queue. `KafkaTemplate` has no `receive()`, so a listener is the only way to consume.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why the second test would fail if the key were omitted or different on each send (the three events could land on different partitions) and why the first test checks reception in the listener, not just that `send()` did not throw.
+
+**Prerequisites:** basic Spring dependency injection (`@Service`, `@Component`, constructor injection) and Kafka basics: topics, partitions, producers and consumers.
+
+**How to run it:** clone the repository, go into the lab folder and run `mvn test`. The embedded broker takes a few seconds to start, so this suite is slower than the others. At first both tests fail, because `publish()` and `handle()` throw `UnsupportedOperationException`.
+
 ## Documentation Links
 
 - Craig Walls, "Spring in Action", 5th Edition (Manning, 2019) — Chapter 8,

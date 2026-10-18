@@ -122,6 +122,35 @@ up).
   `BcryptPassword4jPasswordEncoder`, and others) as an alternative implementation
   of the same algorithms.
 
+## Lab
+
+In this lab you get the `UserRegistry` class with empty methods. Your job is to register users storing only the **encoded** password and authenticate them later without ever comparing the raw one. The core idea is to feel why `matches()` is the only correct way to check credentials: `BCryptPasswordEncoder` embeds a random salt, so the same password produces a different hash on every `encode()`.
+
+**The scenario**
+
+An in-memory registry of users and passwords, built on top of any `PasswordEncoder`.
+
+- `UserRegistry`: takes a `PasswordEncoder` in the constructor and keeps a `Map<String, String>` from username to encoded password. It has `register`, `authenticate`, `encodedPasswordOf` and the static factory `usingDelegatingEncoder()`.
+- `UserRegistryTest`: uses `BCryptPasswordEncoder` and proves, among other things, that two `encode()` calls on the same password are never equal and that both still pass `matches()`.
+
+**What you will do, step by step**
+
+1. **Register (TODO-00).** In `register`, encode `rawPassword` with `passwordEncoder.encode(...)` and store the result in the map, never the raw password.
+2. **Authenticate (TODO-01 to TODO-03).** In `authenticate`, look up the user's encoded password. If the user was never registered, return `false`. Otherwise return `passwordEncoder.matches(rawPassword, encodedPassword)`. Do not use `==` or `.equals()` against the encoded value: with a random salt, that would reject a correct password almost every time.
+3. **Look up (TODO-04).** In `encodedPasswordOf`, return the encoded password wrapped in an `Optional`, or `Optional.empty()` when the user does not exist.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain why the test that registers "alice" twice sees two different encoded values and `authenticate` still returns `true`.
+
+**Optional challenges**
+
+- **TODO-05:** implement `usingDelegatingEncoder()` with `PasswordEncoderFactories.createDelegatingPasswordEncoder()`. Values now carry the `{bcrypt}` prefix, which lets the application support several algorithms at once. The test marked optional covers it.
+
+**Prerequisites:** basic Spring Framework and the difference between a raw password and a stored credential.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-security-password-encoding` and run `mvn test`. The tests fail with `UnsupportedOperationException` until you resolve the `UserRegistry` TODOs.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 4, "Dealing with passwords", section 4.1, "Understanding the PasswordEncoder contract", p. 86-96 — doc

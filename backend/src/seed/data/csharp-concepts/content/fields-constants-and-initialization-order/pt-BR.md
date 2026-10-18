@@ -220,6 +220,41 @@ de chamada.
   desserializadores nem reflection, e `[SetsRequiredMembers]` é uma promessa sem
   verificação. Use para ergonomia de construção, não como garantia de validação.
 
+## Lab
+
+Neste lab você recebe `Models.cs` com pequenos tipos que **já compilam**, cada um expondo uma regra de inicialização, mais testes xUnit prontos que falham até você aplicar a regra. O seu trabalho é editar esses tipos. A ideia central é observar a ordem exata em que o C# inicializa um objeto e escolher o tipo certo de campo (`const`, `static readonly`, `required`) para cada função. Alguns testes usam reflection para inspecionar a forma compilada do tipo, porque a regra é uma propriedade da IL, não da saída em tempo de execução.
+
+**O cenário**
+
+Cinco tipos pequenos, um por regra.
+
+- `Base` e `Derived`: o construtor de `Base` chama um método virtual, e `Derived` tem um campo com inicializador (`_name`) e outro só atribuído no corpo do construtor (`_late`).
+- `Limits`: duas constantes de configuração, `MaxRetries` e `Timeout`, hoje ambas `static` mutáveis.
+- `Precise` e `Relaxed`: dois tipos com um `static readonly`, um sem construtor estático (já marcado `beforefieldinit`) e outro que você ajusta.
+- `Person`: `Name` e `Born` com `init`, um construtor vazio e outro que atribui tudo.
+
+Repare que não há `NotImplementedException` aqui: o código roda, mas os testes ficam vermelhos até você fazer cada TODO.
+
+**O que você vai fazer, passo a passo**
+
+1. **Chamada virtual no construtor (TODO-00).** Em `Base`, chame `Describe()` no construtor e guarde o resultado em `SeenByBase`. Em `Derived`, faça o override para devolver `$"name={_name};late={_late ?? "null"}"`. O inicializador de campo roda **antes** do construtor base, mas a atribuição do corpo roda **depois**, e é isso que o teste mostra: `name=initialized;late=null`.
+2. **`const` contra `static readonly` (TODO-01).** Em `Limits`, torne `MaxRetries` uma `const`, porque nunca muda. Torne `Timeout` `static readonly`: uma `const` seria copiada para dentro de cada chamador compilado e não refletiria uma troca de versão da biblioteca.
+3. **Perder o `beforefieldinit` (TODO-02).** Em `Precise`, adicione um construtor estático vazio. O compilador deixa então de marcar o tipo como `beforefieldinit`, o que muda quando a inicialização estática roda. `Relaxed` fica de comparação.
+4. **Membros `required` (TODO-03).** Em `Person`, marque `Name` e `Born` como `required`, para que os inicializadores de objeto sejam obrigados a atribuí-los. O construtor `(name, born)` atribui tudo, então coloque `[SetsRequiredMembers]` nele para o compilador aceitar `new Person("Bia", 1985)`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `_late` aparece como `null` para `Base`, e por que uma `const` pública em uma biblioteca é uma decisão de compatibilidade e não só de estilo.
+
+**Desafios opcionais**
+
+- **TODO-04:** em `Counter<T>`, guarde a contagem num campo estático do próprio tipo genérico, de modo que `Counter<int>.Next()`, `Counter<int>.Next()` e `Counter<string>.Next()` devolvam 1, 2, 1. Hoje ele usa o campo compartilhado de `Shared`. Não há teste para este desafio, então confira você mesmo.
+- **TODO-05:** em `Settings`, encadeie os construtores com `this(...)`: `()` usa `"localhost"` e 5432, `(host)` usa 5432, e só o `(host, port)` atribui as propriedades e valida (host em branco lança `ArgumentException`, porta menor ou igual a 0 lança `ArgumentOutOfRangeException`). Também sem teste.
+
+**Pré-requisitos:** classes, construtores e herança em C#, `const`, `readonly` e `static`, e o .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os testes vermelhos indicam quais regras ainda não foram aplicadas, e os comentários `TODO-NN` em `Models.cs` explicam o que mudar em cada tipo.
+
 ## Documentation Links
 
 - [Instance constructors, C# programming guide, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors) (doc)

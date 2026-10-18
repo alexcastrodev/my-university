@@ -100,6 +100,38 @@ A ResourceQuota caps the namespace total (`requests.memory: 8Gi`), useful when s
 - **Memory limit = request vs limit > request.** Equal values mean no surprises and no overcommit. A higher limit lets a service burst but allows the node to overcommit, which ends in evictions when several Pods burst at once.
 - **Tight limits save capacity, loose limits save incidents.** Start generous, measure with `kubectl top` and Prometheus, then tighten.
 
+## Lab
+
+In this lab you get a `pods.yaml` with three Pods on a small node, and each has a resources problem. Your job is to fix all three. The core idea is to read what Kubernetes tells you (termination reason, exit code, QoS class, scheduler message) and adjust `requests` and `limits` accordingly, without trading one problem for another.
+
+**The scenario**
+
+The test applies the file in the `example` namespace of a real cluster (k3s via Testcontainers), waits about 30 seconds and inspects the Pods.
+
+- `worker`: builds a 150 MiB table in memory and then serves from it, but has `limits.memory: 64Mi` and keeps restarting.
+- `db`: a database that must be the last to be evicted when the node runs low on memory.
+- `batch`: requests `64Gi` of memory and is never scheduled, although the job needs about 128 MiB.
+- `src/test/resources/k8s/naive-worker.yaml`: the `worker` in its starting state, kept for comparison.
+
+**What you will do, step by step**
+
+1. **See the OOMKilled signature.** Run the tests before editing. `naiveWorkerIsOomKilled` passes and shows the reason `OOMKilled` with exit code `137` (128 plus SIGKILL, sent by the kernel).
+2. **Give the worker memory (TODO-00).** Raise the `worker` memory enough for the 150 MiB table, but keep a memory limit: without one, a leak can take the whole node down. The test checks for zero restarts, no previous termination and the `loaded` log line.
+3. **Make db Guaranteed (TODO-01).** Check the QoS class with `kubectl -n example get pod db -o jsonpath='{.status.qosClass}'`. Compare the container's `requests` and `limits` and see what is missing for the class to become `Guaranteed`.
+4. **Get batch scheduled (TODO-02).** Read the events of the `batch` Pod: the scheduler's message says why it stays `Pending`. Adjust the request and the limit to a realistic value, close to the 128 MiB the job really uses.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/resource-requests-limits-and-qos test` passes completely: `worker` has zero restarts and still has a memory limit, `db` is `Guaranteed` and `batch` is `Running`. You should be able to explain why code 137 means OOM, the difference between `requests` (what the scheduler reserves) and `limits` (what the kernel enforces), and how the QoS class sets the eviction order.
+
+**Optional challenges**
+
+- **TODO-03:** remove the CPU limit from `db` and add it back with a different value than the request. Which QoS class does each variant get, and why is a CPU limit the one place where it is worth accepting throttling?
+
+**Prerequisites:** Docker running (the test starts a `rancher/k3s` container and pulls `busybox` inside it), the articles "Requests, Limits, QoS Classes and OOMKilled" and "Node Capacity, Allocatable and Memory Budget", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/resource-requests-limits-and-qos test`. A run takes one to two minutes. You only edit `pods.yaml`, and each TODO sits next to the Pod it fixes.
+
 ## Documentation Links
 
 - [Kubernetes docs: Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/): units, requests, limits, enforcement.

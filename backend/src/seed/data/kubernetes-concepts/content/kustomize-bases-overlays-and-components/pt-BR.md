@@ -159,6 +159,39 @@ O binário `kustomize` independente costuma ser mais novo que o embutido no kube
 - **Components vs mais overlays.** Components evitam duplicação de funcionalidades opcionais; components demais dificultam ver o que um ambiente contém sem renderizá-lo.
 - **Renderizar no CI vs aplicar direto.** Arquivar o YAML renderizado dá um registro exato do que foi implantado; aplicar com `-k` direto é mais simples e depende da versão do Kustomize na hora do apply.
 
+## Lab
+
+Neste lab você recebe um `base` com um Deployment `web`, um Component `metrics` e dois overlays (`prod` e `dev`) com quatro defeitos. Seu trabalho é consertar os overlays, sem mexer na base nem no Component. A ideia central é sentir que cada ambiente deve declarar só o que o diferencia da base: o `prod` inclui um Component de forma correta e aplica patches pelo nome certo, e o `dev` deixa de ser uma cópia que se desatualiza e passa a herdar da base. O teste prova isso mudando a imagem da base, como uma nova release faria, e exigindo que os dois overlays a acompanhem sem serem editados.
+
+**O cenário**
+
+Os testes renderizam os overlays com o Kustomize embutido no `kubectl`, usando um container k3s iniciado pelo Testcontainers só para ter o `kubectl`. Antes de renderizar, trocam a imagem da base de `busybox:1.37` para `busybox:1.38`.
+
+- `src/main/resources/kustomize/base`: o Deployment `web` (1 réplica, `LOG_LEVEL=info`). Está certo.
+- `src/main/resources/kustomize/components/metrics`: um Component que adiciona as annotations de scrape do Prometheus. Está certo.
+- `overlays/prod`: namespace `shop-prod`, prefixo `prod-`, 3 réplicas, `LOG_LEVEL=warn` e com as annotations de scrape. Usa `replicas.yaml` como patch.
+- `overlays/dev`: namespace `shop-dev`, prefixo `dev-`, 1 réplica, `LOG_LEVEL=debug` e sem scrape. Hoje tem um `web.yaml` que é cópia da base.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes e leia o erro do `kubectl kustomize`.** Ele explica cada falha com precisão.
+2. **Incluir o Component do jeito certo (TODO-00).** O `prod` lista o Component em `resources`, e o `kubectl kustomize` recusa, porque um Component não é um recurso. Ele tem seu próprio campo no Kustomization.
+3. **Acertar o patch de réplicas (TODO-01).** O patch não casa com nada. Pense em qual nome um patch usa: o da base ou o que aparece depois do `namePrefix`.
+4. **Definir `LOG_LEVEL=warn` no prod (TODO-02).** Adicione um patch que mude a variável só nesse overlay.
+5. **Construir o dev sobre a base (TODO-03).** O `dev` funciona só porque `web.yaml` é uma cópia, e cópias derivam. Troque a cópia por uma referência à base e mude apenas o que difere (réplicas e `LOG_LEVEL`), para que o `dev` herde a nova imagem.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kustomize-bases-overlays-and-components test` passa em `prodRendersAsSpecified`, `devRendersAsSpecified` e `everyOverlayFollowsTheBase`. Você deve conseguir explicar por que o Component fica em outro campo, qual nome o patch enxerga e por que uma cópia da base é uma dívida.
+
+**Desafios opcionais**
+
+- **TODO-04:** adicione um overlay `staging` que seja monitorado como o prod, mas tenha 1 réplica e `LOG_LEVEL=info`. Quantos arquivos novos ele precisa, e por que o Component é o lugar certo para as annotations, e não a base?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` pelo `kubectl` dele), Java e Maven, e o artigo Kustomize: Bases, Overlays and Components.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/kustomize-bases-overlays-and-components test`. Os comentários `TODO-00` a `TODO-03` nos `kustomization.yaml` dos overlays marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Declarative Management of Kubernetes Objects Using Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/): bases, overlays, generators, `kubectl apply -k`.

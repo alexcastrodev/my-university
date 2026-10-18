@@ -256,6 +256,42 @@ quando `maybe` não é null.
   add { lock (_gate) _handlers.Add(value); }
   ```
 
+## Lab
+
+Neste lab você recebe um publicador de longa vida (`TickSource`) e os argumentos de evento prontos, e várias classes **esqueletos** que lançam `NotImplementedException`. O seu trabalho é implementar o padrão usual de disparo de eventos, devolver inscrições como `IDisposable` e provar, com um `WeakReference`, que o vazamento clássico sumiu. A ideia central é sentir que um evento é uma referência forte do publicador para cada assinante: se ninguém se desinscreve, o assinante nunca morre.
+
+**O cenário**
+
+Um publicador que vive para sempre (como um relógio estático da aplicação) mantém vivos assinantes que ninguém mais usa, a menos que eles se desinscrevam.
+
+- `Models.cs`: `ValueChangedEventArgs` e `TickSource` (já prontos, com `HandlerCount` e `Raise`) e `PriceFeed`, onde falta o `Subscribe`.
+- `Account.cs`: `Account` com o evento `BalanceChanged`, `Deposit` e `OnBalanceChanged`.
+- `Widget.cs`: `Widget` (assina `TickSource`), `WidgetFactory` (cria um widget e devolve só um `WeakReference`) e `LambdaListener`.
+- `Bonus.cs`: `Button` com acessores `add`/`remove` customizados e `Subscriber.Attach`.
+
+Repare que `WidgetFactory.Create` é marcado com `NoInlining`: sem isso o JIT pode manter o widget vivo no frame do chamador e o teste de coleta ficaria enganoso.
+
+**O que você vai fazer, passo a passo**
+
+1. **Disparar o evento do jeito padrão (TODO-00).** Em `Account.Deposit`, lance `ArgumentOutOfRangeException` se o valor for menor ou igual a zero; senão atualize o saldo e chame `OnBalanceChanged` com o saldo antigo e o novo. Em `OnBalanceChanged`, dispare `BalanceChanged` com `this` como sender, lendo o evento uma vez só com `?.Invoke`. Sem assinantes, nada acontece.
+2. **Assinar e desassinar com o mesmo método (TODO-01).** No construtor de `Widget`, guarde a fonte e assine `OnTick`. No `Dispose`, faça `-=` com o mesmo método para o `TickSource` não segurar mais o widget.
+3. **Devolver a inscrição como IDisposable (TODO-02).** Em `PriceFeed.Subscribe`, assine o handler e devolva um `IDisposable` cujo `Dispose` desinscreve. Chamar `Dispose` duas vezes tem que ser inofensivo. Uma classe privada pequena ou um `IDisposable` baseado em lambda servem.
+4. **Provar o vazamento com WeakReference (TODO-03).** Em `WidgetFactory.Create`, crie um `Widget` na fonte, descarte-o quando `dispose` for `true` e devolva só um `WeakReference`, sem manter nenhuma referência local. Um teste mostra que sem `Dispose` o widget continua vivo, e o outro mostra que com `Dispose` ele é coletado.
+5. **Lembrar que lambda escrita duas vezes são dois delegates (TODO-04).** Em `LambdaListener`, `Attach` assina um handler que incrementa `Count` e `Detach` remove exatamente a mesma instância. Guarde o delegate (ou use um method group), porque repetir a lambda cria outro delegate e o `-=` não remove nada.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `ShouldLeakWhenTheWidgetIsNeverDisposed` vê `IsAlive == true` e `HandlerCount == 1`, e por que depois do `Dispose` o mesmo widget é coletado.
+
+**Desafios opcionais**
+
+- **TODO-05:** em `Button.Click`, escreva acessores `add`/`remove` que guardam os handlers numa lista sob um `lock`, ignorando `null` (a forma de uma implementação de `partial event` do C# 14).
+- **TODO-06:** em `Subscriber.Attach`, assine só quando `maybe` não for nulo, usando a atribuição condicional nula do C# 14: `maybe?.BalanceChanged += handler;`.
+
+**Pré-requisitos:** delegates e delegates multicast, `IDisposable` e `using`, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos ainda não implementados lançam `NotImplementedException` e os comentários `TODO-NN` no código explicam o que fazer, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Standard .NET event patterns, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/event-pattern) (doc)

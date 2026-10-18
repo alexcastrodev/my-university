@@ -165,6 +165,37 @@ A static, process-wide filter can also be set without touching any code, via `-D
 - **`ObjectInputFilter` allowlists must be maintained as the class graph changes** — a filter pattern like `com.example.*;java.base/*;!*` needs updating whenever a legitimately deserialized class is added, or deserialization starts failing for valid data too.
 - **A single-element enum remains the preferred way to keep a serializable singleton safe against forged streams** — writing a manual `readResolve` on a non-enum singleton is fragile (Effective Java's `ElvisStealer` attack shows a crafted stream stealing a reference to the "impersonator" instance before `readResolve` runs); see the enum-singleton coverage in `singleton-and-noninstantiable-classes` rather than reintroducing that mechanism here.
 
+## Lab
+
+In this lab you get two `Serializable` classes, `Quantity` and `Reservation`, each with a real invariant in its constructor and no defense against deserialization. Your job is to harden both with the two techniques from the article. The core idea is to feel that `ObjectInputStream.readObject()` builds the object straight from bytes and never calls the constructor, so any invariant the constructor enforces is silently skipped unless you defend it.
+
+**The scenario**
+
+A tampered byte stream can produce an object the constructor would never let exist.
+
+- `Quantity`: holds an `amount` that must not be negative. It will defend itself with its own `readObject` that re-validates the field.
+- `Reservation`: holds `seats`, which must be positive. It will use the serialization proxy pattern: a private nested `SerializationProxy` is what actually gets serialized.
+- `SerializationSafetyTest`: really serializes and deserializes, corrupts the bytes through reflection (you only read that, you do not write it) and checks the outcome.
+
+**What you will do, step by step**
+
+1. **Defend `Quantity` (TODO-00 and TODO-01).** In `readObject`, read the default fields with `defaultReadObject()` and then check again that `amount` is not negative. If it is, throw `InvalidObjectException`, not `IllegalArgumentException`, which is the exception that belongs to deserialization.
+2. **Change `Reservation`'s serialized form (TODO-02).** In `writeReplace()`, return a `SerializationProxy` in place of the reservation itself, so the stream never carries the class's real field layout.
+3. **Block the direct path (TODO-03).** In `readObject()`, always throw `InvalidObjectException`. A forged stream that tries to produce a `Reservation` directly, bypassing the proxy, must be refused.
+4. **Rebuild through the constructor (TODO-04).** In `SerializationProxy.readResolve()`, call `new Reservation(seats)`. That way the invariant is enforced exactly like for any other caller, with no second copy of the validation to keep in sync.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why the proxy is sturdier than re-validating field by field, and what would happen to `Quantity` if `readObject` only called `defaultReadObject()`.
+
+**Optional challenges**
+
+- **TODO-05:** declare a `private static final long serialVersionUID` on `Quantity` to pin its serial form explicitly, instead of relying on the compiler-generated value, which changes whenever the class's shape changes.
+
+**Prerequisites:** constructors and invariants, checked exceptions and basic reflection (`Class`, `Field`, `setAccessible`), only to read the tests.
+
+**How to run it:** clone the repository, go into `java-concepts/serialization-risks-and-safer-alternatives` and run `mvn test` (or, from the root, `mvn -pl java-concepts/serialization-risks-and-safer-alternatives test`). The methods throw `UnsupportedOperationException` until you implement them, and the red tests are your checklist.
+
 ## Documentation Links
 
 - [Serializable — Java SE API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html) — doc

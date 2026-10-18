@@ -122,6 +122,39 @@ kubectl describe pod <pod>     # Mounts: and Volumes: sections
 - **emptyDir on disk vs in memory.** Disk is cheap and slower; memory is fast and competes with the application for its memory limit.
 - **Automounted ServiceAccount token vs none.** Leaving it on is harmless for most apps but occupies `/var/run/secrets`, grants API credentials to the container, and causes the nested-mount failure above. Turning it off by default is a reasonable hardening step.
 
+## Lab
+
+In this lab you get two Pods broken by their own `volumeMounts`, and your job is to fix both by editing only `app.yaml` and `web.yaml`. One never starts (`StartError`), the other starts and crashes because a ConfigMap hid the image's configuration. The core idea is to feel that a mount covers everything that exists at the target path, and that the runtime's error message often points at a different mount than the one you suspect.
+
+**The scenario**
+
+The test creates the `example` namespace, the `app-secrets` Secret (key `API_KEY`) and the `nginx-extra` ConfigMap (key `extra.conf`, a server block on port 8081). Everything runs on a real k3s started by Testcontainers.
+
+- `src/main/resources/k8s/app.yaml`: an Ubuntu Pod that reads `/run/secrets/API_KEY` and mounts the Secret at `/run/secrets`, read-only.
+- `src/main/resources/k8s/web.yaml`: an nginx that should serve the extra server block on 8081 and keep the default site on port 80.
+- `src/test/resources/k8s/naive-app.yaml`: the "obvious" Pod, with the same problem as `app`, given as an example of the error.
+- `src/test/java/VolumeMountConflictsTest.java`: checks the `naive-app` error message, the Secret content, the absence of a token and both nginx ports.
+
+Notice that the test `readOnlySecretAtRunSecretsBreaksTheTokenMountOnUbuntu` already passes with the starter code: it shows the exact error of the naive Pod. Read the message carefully, because the failing mount is not the Secret.
+
+**What you will do, step by step**
+
+1. **Run the tests once before changing anything.** Look at the `read-only file system` message from `naive-app` and find out which mount Kubernetes tried to create inside the Secret volume.
+2. **Make `app` start (TODO-00).** Keep the Secret at `/run/secrets`, where the app expects it, and do not touch the volume. The app never calls the Kubernetes API, so it does not need the ServiceAccount token that Kubernetes mounts automatically: change the Pod so it does not mount it.
+3. **Mount only the extra file in nginx (TODO-01).** The current mount covers the whole `/etc/nginx` directory and removes `nginx.conf`. Mount only the `extra.conf` key inside `/etc/nginx/conf.d/`, next to the image's `default.conf` (hint: `subPath`).
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/volumes-and-mount-conflicts test` passes every test: `appStartsWithItsSecretAtRunSecrets`, `appHasNoServiceAccountToken`, `extraServerBlockAnswers` and `defaultSiteStillWorks`, plus the one that already passed. You should be able to explain why `/var/run/secrets` lands inside `/run/secrets` on Ubuntu images and why a directory mount hides the image's content while a `subPath` does not.
+
+**Optional challenges**
+
+- **TODO-02:** update the ConfigMap (`kubectl -n example edit configmap nginx-extra`, changing the response text) and wait two minutes. Does `wget -qO- 127.0.0.1:8081` inside the Pod change? Compare with a full-directory mount of the same ConfigMap at `/etc/extra`.
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `ubuntu` and `nginx` inside it), Java and Maven, and the article Volumes and Mount Conflicts.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/volumes-and-mount-conflicts test`. The first run pulls the k3s image (about 250 MB). With the starter files it is slow because the tests wait for Pods that never become Ready; once fixed it takes about 30 seconds. The `TODO-00` and `TODO-01` comments in the manifests mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Volumes](https://kubernetes.io/docs/concepts/storage/volumes/): every volume type, `subPath`, `readOnly`.

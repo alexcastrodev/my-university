@@ -102,6 +102,40 @@ Como alternativa, altere por um momento o comando do Deployment para `["sleep", 
 - **Cópias de debug vs editar o Deployment ao vivo.** O `--copy-to` deixa a produção intocada, mas roda fora do controller dela; editar o Deployment é realista, mas precisa ser revertido com cuidado.
 - **Logs locais vs logs centrais.** `kubectl logs --previous` é imediato e guarda só uma tentativa anterior; logs centrais guardam tudo e exigem uma stack para rodar.
 
+## Lab
+
+Neste lab você recebe um `apps.yaml` com três Deployments quebrados, todos em `CrashLoopBackOff`, cada um por um motivo diferente: configuração faltando, comando errado e morte por falta de memória. O seu trabalho é diagnosticar cada um pela evidência e consertar o manifesto. A ideia central é sentir que `CrashLoopBackOff` não é a causa, é só o sintoma, e que o `state`, o `lastState` (motivo e exit code) e os logs apontam para causas bem distintas.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers) recebe o seu `apps.yaml` e espera 20 segundos. Depois disso, cada app precisa estar pronto com 0 restarts.
+
+- `api`: recusa-se a iniciar sem a variável `DATABASE_URL` e, quando sobe, loga `connected to postgres://db.shared:5432/shop`. O valor está no ConfigMap `api-config`, que não pode ser alterado.
+- `worker`: deve logar `working` em loop, mas o container nem chega a iniciar.
+- `cache`: aquece um cache de 64 MB em memória e tem um limite de memória de `32Mi`.
+- `src/test/java/CrashLoopTest.java`: para cada app que não está rodando, a mensagem de falha mostra o `state`, o `lastState` e as últimas linhas de log.
+
+Você só edita `src/main/resources/k8s/apps.yaml`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes e ler a evidência.** Os três falham. Antes de abrir o manifesto, decida só pela evidência o que está errado: o exit code, o `reason` (`Error`, `RunContainerError`, `OOMKilled`) e se existem logs ou não.
+2. **Consertar o `api` (TODO-00).** O ConfigMap tem a chave `database-url`, mas o app lê `DATABASE_URL`. Entregue ao container a variável com o nome que ele espera, a partir do ConfigMap, sem mudar o ConfigMap.
+3. **Consertar o `worker` (TODO-01).** O `command` está como um único elemento de lista com a linha inteira, então o runtime procura um executável com esse nome. Reescreva para que o shell receba o script como argumento. Sem logs e com `RunContainerError`, o problema está antes da aplicação.
+4. **Consertar o `cache` (TODO-02).** O container é morto com `OOMKilled` (exit code 137) porque o cache não cabe no limite. Mantenha um limite de memória, mas um em que o cache caiba.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/debugging-crashloopbackoff test` passa: os três apps ficam prontos com 0 restarts, `api` e `worker` logam o esperado e `cache` ainda tem limite de memória. Você deve conseguir dizer, olhando só o `lastState` e a presença de logs, qual das três causas é qual.
+
+**Desafios opcionais**
+
+- **TODO-03:** acompanhe `kubectl get pod -w` de um dos apps quebrados. Como a espera entre os restarts cresce e qual é o máximo?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele) e o artigo "Debugging CrashLoopBackOff".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/debugging-crashloopbackoff test`. Os comentários `TODO-00` a `TODO-02` no `apps.yaml` marcam o que consertar, e a falha de cada teste mostra a evidência do app correspondente.
+
 ## Documentation Links
 
 - [Kubernetes docs: Debug Running Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/): logs, exec, `kubectl debug` e cópias de Pod.

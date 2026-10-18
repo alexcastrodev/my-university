@@ -173,6 +173,41 @@ assertTrue(false); // test reported as FAILED
 - **Parameterized tests trade readability for coverage** — one method covering ten inputs is less code than ten near-identical `@Test` methods, but a failure message now has to include which input failed, and debugging means finding the right row in the source, not the right method name.
 - **Dynamic tests aren't statically discoverable** — because `@TestFactory` generates `DynamicTest`s at runtime, IDEs can't list them ahead of a run the way they list `@Test` methods, which makes "run just this one case" workflows clunkier.
 
+## Lab
+
+In this lab you get the `LoyaltyAccount` class **already built and working**, and a test class `LoyaltyAccountTest` full of methods that fail on purpose. There is no production code to write: your job is to write the JUnit 5 tests that prove the account behaves correctly. The core idea is to feel the JUnit 5 lifecycle and core API in practice: a fresh object per test, asserts that do not hide failures, a table of cases that pins down the boundaries and a `@Nested` group with its own setup.
+
+**The scenario**
+
+A loyalty account earns and redeems points and exposes a tier derived from the balance.
+
+- `LoyaltyAccount`: the `LoyaltyAccount(memberId, startingPoints)` constructor rejects a blank id and negative points.
+- `earn(amount)` and `redeem(amount)`: both reject a non-positive amount with `IllegalArgumentException`, and `redeem` throws `IllegalStateException` when the balance is too low.
+- `tier()`: BRONZE below 500, SILVER from 500 to 999, GOLD from 1000 up.
+- `LoyaltyAccountTest`: every method already carries a TODO comment saying exactly what to check.
+
+Read the rules of `earn`, `redeem` and `tier` before testing: they are new methods with their own rules, and copying the article is not enough.
+
+**What you will do, step by step**
+
+1. **Give every test a new account (TODO-00).** In `@BeforeEach`, assign `new LoyaltyAccount("M-1", 100)` to `account`. It must run before EACH test, not once, because the account is mutable and a shared instance would let one test's `earn`/`redeem` leak into the next test's balance.
+2. **Test earning points (TODO-01).** Call `earn(150)` and check that `getPoints()` is now 250.
+3. **Test rejection of invalid amounts (TODO-02).** `earn(0)` and `earn(-5)` must throw `IllegalArgumentException`. Check both in a single `assertAll()` with `assertThrows`, so a failure in one does not hide a failure in the other.
+4. **Pin down the tier boundaries (TODO-03).** Add a `@CsvSource` with "points, expected tier" rows covering the value just below and the exact value of each boundary (499 and 500, 999 and 1000). Get an edge wrong and the test lets a bug through.
+5. **Group redeeming in a `@Nested` class (TODO-04).** Inside `WhenRedeemingPoints`, write a `@BeforeEach` that calls `account.earn(200)` (the account ends up with 300, since the outer `@BeforeEach` already gave it 100) and three tests: `redeem(100)` leaves 200 points, `redeem(1000)` throws `IllegalStateException` and `redeem(0)` throws `IllegalArgumentException`.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why the outer `@BeforeEach` also runs for the `@Nested` tests, and why testing only the middle of each tier range would let a `>` slip in where `>=` belongs.
+
+**Optional challenges**
+
+- **TODO-05:** write a `@TestFactory` method that returns `Stream<DynamicTest>` and generates the `tier()` checks at runtime instead of separate `@Test` methods.
+
+**Prerequisites:** basic Java syntax, and reading `LoyaltyAccount` in `src/main/java` before writing any test.
+
+**How to run it:** clone the repository, go into `testing-concepts/junit-5-fundamentals` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/junit-5-fundamentals test`). The methods start with `fail("TODO-NN: not implemented yet")`, so the list of red tests is your checklist.
+
 ## Documentation Links
 
 - [JUnit 5 User Guide](https://docs.junit.org/current/user-guide/) — doc

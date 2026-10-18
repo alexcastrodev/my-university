@@ -117,6 +117,37 @@ Isso não afeta mais nada; os controllers emitem eventos novos conforme as coisa
 - **`kubectl events` vs `get events`.** O comando dedicado ordena direito e agrega bem; o `get events` suporta formatos de saída customizados e funciona em qualquer lugar.
 - **Exportar eventos vs depender da API.** Exportar exige um pipeline, mas dá histórico e busca; a API não exige configuração e é esquecida por design.
 
+## Lab
+
+Neste lab você recebe um script `latest-warning.sh` que parece correto e imprime o evento errado. O seu trabalho é descobrir quais eventos ele perde e por quê, e fazê-lo imprimir de fato o Warning mais recente do namespace. A ideia central é sentir que ordenar eventos por `.lastTimestamp` não é confiável: nem todo evento preenche esse campo.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers) recebe, no namespace `shop`, um Job que falha e, alguns segundos depois, um Pod que pede mais memória do que qualquer nó tem.
+
+- `src/test/resources/k8s/migrate.yaml`: já vem pronto, um Job `migrate` que falha uma vez, cedo (`backoffLimit: 0`).
+- `src/test/resources/k8s/report.yaml`: já vem pronto, um Pod `report` criado depois, pedindo `100Gi` de memória, que nenhum nó comporta.
+- `src/main/resources/latest-warning.sh`: o único arquivo que você edita. Recebe o namespace e hoje faz `kubectl get events --field-selector type=Warning --sort-by=.lastTimestamp` e pega a última linha.
+- `src/test/java/EventsTest.java`: roda o script dentro do nó e exige exatamente uma linha: o warning `FailedScheduling` do `pod/report`, com `Insufficient memory`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** O script imprime o warning do Job, que é mais antigo. A mensagem de falha lista todos os warnings com `lastTimestamp` e `eventTime`.
+2. **Entender o que falta (TODO-00).** Compare os dois campos de tempo na listagem: eventos de fontes diferentes preenchem campos diferentes, e o que não preenche um deles não entra na ordenação do jeito que você espera.
+3. **Imprimir o Warning mais recente de verdade (TODO-00).** Reescreva o script para ordenar por um critério que cubra todos os eventos, ou use outra forma de listar os eventos que já os ordene, e imprima uma única linha com motivo, objeto e mensagem.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubernetes-events test` passa: o script termina com sucesso, imprime exatamente uma linha e ela é o `FailedScheduling` do `pod/report`. Você deve conseguir explicar por que o `--sort-by=.lastTimestamp` escolheu o evento do Job.
+
+**Desafios opcionais**
+
+- **TODO-01:** imprima todos os warnings de um único objeto (por exemplo `pod/report`), inclusive os repetidos. Como o `kubectl events` mostra um evento que aconteceu muitas vezes, e qual campo guarda a contagem em cada tipo de evento?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele) e o artigo "Kubernetes Events".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/kubernetes-events test`. O comentário `TODO-00` em `latest-warning.sh` marca o que mudar, e o teste mostra todos os warnings do namespace quando o resultado está errado.
+
 ## Documentation Links
 
 - [kubectl events reference](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/): filtros, watch, ordenação.

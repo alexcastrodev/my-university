@@ -225,6 +225,44 @@ modular monolith, and a module may itself keep this four-layer shape inside.
   expected failures visible in the signature, but it adds a result type per use
   case. Exceptions are shorter and fine for truly exceptional cases.
 
+## Lab
+
+In this lab you get a multi-tenant API organized in four projects, with the layout, the ports (interfaces) and the middleware done, but the rules of each layer still missing: the domain accepts any string as a subdomain, the handlers and the repository throw `NotImplementedException` and the endpoint that creates a tenant does not exist yet. Your job is to fill in each layer, from the bottom up. The core idea is to feel the dependency rule (`Domain` <- `Application` <- `Infrastructure` and `Api`): business rules know nothing about EF Core or HTTP, which is why each layer can be tested on its own.
+
+**The scenario**
+
+A tenant is identified by a subdomain (`acme.example.com` belongs to the tenant `acme`).
+
+- `Tenancy.Domain/Tenant.cs`: the entity, with a version 7 `Id`, the `Subdomain` and `Rename`. No dependencies at all.
+- `Tenancy.Application`: the use cases `CreateTenantHandler` and `ResolveTenantHandler` and the ports `ITenantRepository` and `ITenantContext`.
+- `Tenancy.Infrastructure`: EF Core on SQLite, `TenancyDbContext`, `TenantConfiguration`, the `internal` `TenantRepository` and the DI registration.
+- `Tenancy.Api`: the `TenantResolutionMiddleware` (already done), the endpoints and the composition root.
+
+The tests are split by layer: domain tests need nothing, application tests use a fake repository, API tests run the whole stack against a temporary SQLite file, and a last group checks the dependency rule itself.
+
+**What you will do, step by step**
+
+Start from the bottom: domain, then application, then the rest.
+
+1. **Protect the domain (TODO-00 and TODO-01).** In `Tenant`, trim, lower-case and validate: 1 to 63 letters, digits or hyphens, not starting or ending with a hyphen, throwing `ArgumentException` for an invalid value and keeping the version 7 `Id`. In `Rename`, apply the same rules, keep the `Id` and leave the current subdomain untouched when the new one is invalid.
+2. **Write the use cases (TODO-02 and TODO-03).** `CreateTenantHandler` creates the `Tenant` (the domain decides what is valid) and answers `InvalidSubdomain` with the error message if it throws, `SubdomainTaken` if the repository says it exists, or stores it and answers `Created` with the tenant. `ResolveTenantHandler` takes the first label of the host (`acme.example.com` becomes `acme`, case-insensitive), treats a single-label host (`localhost`) as having no subdomain and otherwise answers `Found` or `NotFound`.
+3. **Map persistence (TODO-04 and TODO-05).** In `TenantConfiguration`, make `Id` the key, `Subdomain` required with a maximum length of 63 and a unique index, so the database itself rejects duplicates. The mapping lives here so the domain stays free of persistence. In `TenantRepository`, implement the three methods with EF Core: reads without tracking and `AddAsync` that really persists.
+4. **Translate to HTTP (TODO-06).** In `TenantsEndpoints`, make `POST /` call `CreateTenantHandler` and translate its result: `Created` becomes 201 with a `Location` and a `TenantDto` (never the entity), `SubdomainTaken` becomes 409 and `InvalidSubdomain` becomes 400, both with the message. The handler knows nothing about HTTP; this is the only place that does.
+
+**How you know you are done**
+
+`dotnet test` is all green, in all three test projects. You should be able to explain why each test lives in the project it does, why the repository and the configuration are `internal`, and how the dependency tests guarantee that `Application` never starts referencing EF Core.
+
+**Optional challenges**
+
+- **TODO-07:** add `using Microsoft.EntityFrameworkCore;` to a file in `Tenancy.Application` and try to use `DbContext`. What stops you, and which test would fail if you forced it?
+- **TODO-08:** replace SQLite with PostgreSQL by changing only `Tenancy.Infrastructure` (package and `UseNpgsql`). Which projects did not change?
+- **TODO-09:** write a second `ITenantRepository` that keeps tenants in a dictionary and register it from the API tests. What does that tell you about the layer boundary?
+
+**Prerequisites:** C# classes, interfaces and project references, Minimal APIs and dependency injection, EF Core basics and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state the methods throw `NotImplementedException` and the tests fail, with each TODO marked in a comment in the file of the corresponding layer.
+
 ## Documentation Links
 
 - [Common web application architectures, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures) (doc)

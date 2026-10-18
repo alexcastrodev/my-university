@@ -321,6 +321,35 @@ chamada `curl -u user:password` autentica via HTTP Basic no mesmo endpoint.
   para bean `SecurityFilterChain` já observada em outros pontos deste
   workflow.
 
+## Lab
+
+Neste lab você recebe uma `SecurityConfig` com três métodos vazios e um endpoint protegido pronto. Seu trabalho é montar a segurança para aceitar **HTTP Basic e form login ao mesmo tempo**. A ideia central é que configurar só um dos dois não apenas "falta uma feature": pode silenciar um comportamento que você achava que continuava funcionando.
+
+**O cenário**
+
+Toda requisição exige autenticação, com um único usuário `alice` / `password`.
+
+- `SecurityConfig`: expõe um `PasswordEncoder`, um `UserDetailsService` e o `SecurityFilterChain`. Os três lançam `UnsupportedOperationException`.
+- `GreetingController`: `GET /hello` devolve `"Hello, " + authentication.getName()`.
+- `SecurityConfigTest`: monta um `MockMvc` com `springSecurity()` e testa seis situações: desafio Basic 401, redirecionamento do navegador para `/login`, Basic bem-sucedido, Basic com senha errada, login por formulário com sessão, e login por formulário com senha errada indo para `/login?error`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Codificador de senha (TODO-00).** Devolva um `BCryptPasswordEncoder` em `passwordEncoder()`.
+2. **Usuário em memória (TODO-01).** Em `userDetailsService`, devolva um `InMemoryUserDetailsManager` com o usuário `alice`, authority `ROLE_USER` e a senha `password` codificada com o `passwordEncoder` recebido, usando `User.withUsername(...)`.
+3. **Exigir autenticação (TODO-02).** No `securityFilterChain`, use `authorizeHttpRequests` com `anyRequest().authenticated()`.
+4. **Ligar os dois mecanismos (TODO-03).** Habilite `.formLogin(Customizer.withDefaults())` **e** `.httpBasic(Customizer.withDefaults())` na mesma cadeia. Com os dois, o Spring Security escolhe o desafio pela requisição: uma chamada de API recebe 401 com `WWW-Authenticate: Basic`, e uma requisição com `Accept: text/html` é redirecionada para `/login`.
+5. **Desligar o CSRF (TODO-04).** Use `.csrf(AbstractHttpConfigurer::disable)`, porque o lab simula um cliente de API, não um formulário de navegador com token.
+6. **Fechar a cadeia (TODO-05).** Devolva `http.build()`.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar a diferença entre Basic (credenciais a cada requisição, sem sessão) e form login (autentica uma vez e usa a sessão), e o que aconteceria se você removesse o `httpBasic()`.
+
+**Pré-requisitos:** Spring Framework básico, `SecurityFilterChain` e `HttpSecurity` (veja o lab de user management) e noções de `MockMvc`.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-security-http-basic-and-form-login` e rode `mvn test`. Os testes falham enquanto os métodos de `SecurityConfig` lançarem `UnsupportedOperationException`; os comentários `TODO` dizem o que fazer em cada um.
+
 ## Documentation Links
 
 - Laurențiu Spilcă, "Spring Security in Action" (Manning, 2020) — Chapter 5, "Implementing authentication", section 5.3, p. 125-133 — doc

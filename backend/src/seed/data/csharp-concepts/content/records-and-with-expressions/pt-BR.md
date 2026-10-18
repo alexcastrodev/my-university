@@ -237,6 +237,39 @@ que atravessa a fronteira.
 - **Não serve para entidades.** O rastreamento do EF Core precisa de identidade
   por referência; records combinam melhor com DTOs, mensagens e value objects.
 
+## Lab
+
+Neste lab você recebe um modelo de cliente com records, uma classe `Operations` **esboçada** (os métodos lançam `NotImplementedException`) e um record `Money` ainda sem validação, mais testes xUnit prontos. O seu trabalho é implementar as operações e proteger `Money`. A ideia central é copiar e alterar records imutáveis com `with`, perceber que a cópia é **rasa**, e manter invariantes válidas mesmo que `with` não chame construtor algum.
+
+**O cenário**
+
+Um `Customer` guarda um `Address` e uma lista de tags, então você encontra os dois lados do `with`: a cópia aninhada que funciona bem e a lista compartilhada que não.
+
+- `Models.cs`: os records `Address(Street, City)`, `Customer(Name, Address, Tags)` (com `IReadOnlyList<string>`) e `Money(Amount, Currency)`.
+- `Operations.cs`: `MoveTo`, `AddTag`, `Add` e `SameContent`, que você implementa.
+- `RecordTests.cs`: os testes. Um deles mostra que dois `Customer` com a mesma lista de tags, mas instâncias diferentes, **não** são `Equal`, porque a igualdade do record compara a lista por referência.
+
+**O que você vai fazer, passo a passo**
+
+1. **`with` aninhado (TODO-00).** Em `MoveTo`, devolva uma cópia do cliente na nova cidade usando `with` dentro de `with`. O cliente original e o seu `Address` não podem mudar.
+2. **Não mutar a lista compartilhada (TODO-01).** Em `AddTag`, lembre que `with` copia só a referência de `Tags`. Se você reaproveitar a lista e mutá-la, o original muda. Construa uma lista nova com a tag no final.
+3. **Validar no `init` (TODO-02).** Em `Money`, `with` não chama construtor: ele chama os acessores `init`. Declare `Amount` de forma explícita com um acessor `init` (a palavra-chave `field` dá o campo de apoio) que lance `ArgumentOutOfRangeException` para valor negativo. Como a propriedade explícita substitui a gerada, ela precisa de um inicializador (`= Amount`) para o caminho do construtor, que não passa pelo acessor.
+4. **Somar com `with` (TODO-03).** Em `Add`, devolva um `Money` com a soma, construído a partir do primeiro operando com `with`. Lance `InvalidOperationException` se as moedas forem diferentes.
+5. **Comparar o que a igualdade não compara (TODO-04).** Em `SameContent`, compare `Name`, `Address` e as tags elemento a elemento, já que o `Equals` do record compara a lista por referência.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `money with { Amount = -5m }` lança, e por que `SameContent` é necessário apesar de `Customer` ser um record.
+
+**Desafios opcionais**
+
+- **TODO-05:** transforme `Money` num `readonly record struct`. O que muda para `with`, para a igualdade e para a validação?
+- **TODO-06:** derive `record DiscountedMoney : Money` e compare um `Money` e um `DiscountedMoney` com os mesmos valores. Por que não são iguais?
+
+**Pré-requisitos:** classes e propriedades em C#, acessores `init` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos de `Operations` lançam `NotImplementedException` e `Money` ainda aceita valores negativos, então os testes vermelhos são o seu checklist, e os comentários `TODO-NN` explicam cada um.
+
 ## Documentation Links
 
 - [Records, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) (doc)

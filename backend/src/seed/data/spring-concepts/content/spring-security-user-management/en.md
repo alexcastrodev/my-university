@@ -201,6 +201,38 @@ This split is a direct application of the interface segregation principle: an ap
 - **Mixing a JPA entity with `UserDetails` reads cleanly at first and gets worse with every relationship added** — the two-responsibility class in this Deep Dive is small; in practice, adding entity relationships (roles, audit fields) to a class that also satisfies a security contract compounds the confusion the decorator split avoids.
 - **The `User` builder is convenient but implicit** — building a `UserDetails` inline hides the type from the rest of the codebase behind `User.withUsername(...)`, which is fine for a demo but makes it harder to later add fields that a dedicated class could hold as first-class state.
 
+## Lab
+
+In this lab you get the Spring Security user classes **empty**, with an `UnsupportedOperationException` where the body should be. Your job is to implement the `UserDetails` contract and an in-memory `UserDetailsService`. The core idea is to see that Spring Security does not know your application's "users": it only knows these two interfaces, and anything that implements them can authenticate.
+
+**The scenario**
+
+You represent a user with credentials and account flags, and load that user by name.
+
+- `SimpleUser`: implements `UserDetails`, holding `username`, `password` and the `authorities`. The four status methods (`isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`) already return `true`.
+- `InMemoryUserDetailsService`: implements `UserDetailsService` on top of a `List<UserDetails>` received in the constructor.
+- `SecurityConfig`: an `@EnableWebSecurity` class that is still empty, used only by the optional challenge.
+- `SimpleUserTest` and `InMemoryUserDetailsServiceTest`: the tests you need to turn green.
+
+**What you will do, step by step**
+
+1. **Store and expose the data (TODO-00).** In the `SimpleUser` constructor, store `username`, `password` and `authorities` in the fields, and make `getUsername()`, `getPassword()` and `getAuthorities()` return them.
+2. **Understand the account flags (TODO-01).** The methods `isAccountNonExpired()`, `isAccountNonLocked()`, `isCredentialsNonExpired()` and `isEnabled()` already return `true`. Read what each one means: Spring Security refuses the login if any of them returns `false`.
+3. **Implement the service (TODO-02).** In the `InMemoryUserDetailsService` constructor, store the list. In `loadUserByUsername`, look for the user with that name and return it; if there is none, throw `UsernameNotFoundException`, the exception the framework expects in that case.
+
+**How you know you are done**
+
+`mvn test` is green. You should be able to explain what `UserDetails`, `GrantedAuthority` and `UserDetailsService` each represent and why the service throws an exception instead of returning `null`.
+
+**Optional challenges**
+
+- **TODO-03:** implement the configuration in `SecurityConfig` (the body is empty, so the shape is up to you).
+- **TODO-04 and TODO-05:** the README also mentions creating several authorities and a `SecurityUser` decorator over a JPA entity, but the starter code has no starting point for those two, so treat them as ideas to explore.
+
+**Prerequisites:** basic Spring Framework, Java interfaces and some notion of authentication and authorization.
+
+**How to run it:** clone the repository, go into `spring-concepts/spring-security-user-management` and run `mvn test`. The tests fail with `UnsupportedOperationException` until you fill in the TODOs.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 3: "Managing users", p. 61-78](https://www.manning.com/books/spring-security-in-action) — doc

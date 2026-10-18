@@ -146,6 +146,32 @@ jshell> /list
 jshell> FileInputStream fin = new FileInputStream("myfile.txt"); // no try/catch, no import needed here
 ```
 
+## Lab
+
+Neste lab você recebe a classe `SnippetEvaluator` com dois métodos vazios e usa a API embutível do JShell (`jdk.jshell.JShell`) para executar código Java que só existe como `String` em tempo de execução. A ideia central é perceber que o `jshell` interativo é só uma casca: o motor por baixo é uma sessão de avaliação viva, que acumula estado entre snippets até ser fechada.
+
+**O cenário**
+
+Um programa Java recebe trechos de código como texto e precisa devolver o valor que cada um produz, sem compilar nada na mão. O `jdk.jshell` já vem no JDK, sem dependência extra e sem flags de módulo.
+
+- `SnippetEvaluator.evaluate()`: recebe um snippet (`"2 + 2"`) e devolve o valor como `String` (`"4"`).
+- `SnippetEvaluator.evaluateAll()`: recebe vários snippets e os executa juntos, de modo que uma variável declarada em um continue existindo no seguinte.
+
+Dois detalhes do README valem antes de começar. `eval()` devolve uma `List<SnippetEvent>` porque um snippet pode afetar outros (redefinir um método atualiza quem o usava), e o evento do que você acabou de enviar é o último da lista. E uma declaração precisa do ponto e vírgula final (`"int x = 5;"`), enquanto uma expressão solta (`"2 + 2"`) não.
+
+**O que você vai fazer, passo a passo**
+
+1. **Avaliar um snippet (TODO-00).** Em `evaluate()`, crie um motor com `JShell.builder().build()` dentro de um try-with-resources (ele é `AutoCloseable`), chame `eval(expression)` e devolva o `value()` do evento, que é uma `String` ou `null` quando o snippet não produz valor (um statement, por exemplo).
+2. **Compartilhar a sessão (TODO-01).** Em `evaluateAll()`, abra exatamente UMA instância de `JShell` para a chamada inteira, avalie cada expressão contra ela, na ordem, e feche no final. Devolva os valores na mesma ordem. É isso que faz `"int x = 5;"` seguido de `"x * 2"` funcionar: abrir uma instância por snippet jogaria o estado fora.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `evaluateAll()` não pode simplesmente chamar `evaluate()` em loop e o que o fechamento do `JShell` faz com as variáveis declaradas.
+
+**Pré-requisitos:** sintaxe básica de Java e try-with-resources.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/jshell-repl` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/jshell-repl test`). Os dois métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` com a dica no comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Introduction to JShell — Java SE 25](https://docs.oracle.com/en/java/javase/25/jshell/introduction-jshell.html) — doc

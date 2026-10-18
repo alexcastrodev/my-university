@@ -242,6 +242,40 @@ produz `null`, por isso `GetType()` nunca informa `Nullable`.
 - **Migrar leva tempo.** O `#nullable` por arquivo permite andar aos poucos;
   ligar tudo de uma vez costuma terminar numa pilha de `!`.
 
+## Lab
+
+Neste lab você recebe um projeto com `<Nullable>enable</Nullable>` que **gera avisos de nulidade de propósito**: `User.Nickname` esconde um null com `null!`, `FindUser` não consegue dizer que pode devolver null, `TryGetUser` e `Trim` não têm os atributos de flow analysis e `Connection` dispara o CS8618. O seu trabalho é contar a verdade ao compilador: anotar os tipos, ajudar a análise de fluxo com atributos, manter as guard clauses que ainda são necessárias e ver como `Nullable<T>` difere de uma referência anulável. Leia os avisos do compilador enquanto trabalha: eles fazem parte do exercício.
+
+**O cenário**
+
+Um pequeno cadastro de usuários em memória, onde alguns usuários têm apelido e outros não.
+
+- `Models.cs`: `User` (com `Email` obrigatório e `Nickname`) e `Connection` (um campo `_endpoint` preenchido por `Initialize`).
+- `Nulls.cs`: os métodos estáticos a completar: `DisplayName`, `FindUser`, `TryGetUser`, `Trim`, `Require`, `Compare` e `FirstOrNull<T>`.
+
+As anotações de nulidade ficam nos metadados, então os testes as leem com `NullabilityInfoContext` e checam os atributos por reflection. Não basta o código compilar: a assinatura precisa dizer a verdade.
+
+**O que você vai fazer, passo a passo**
+
+1. **Declarar o apelido como opcional (TODO-00 e TODO-01).** Torne `User.Nickname` anulável e tire o `null!`. Depois, em `DisplayName`, devolva o apelido ou o e-mail quando o apelido for nulo ou só espaços, com `string.IsNullOrWhiteSpace` e sem o operador `!`.
+2. **Fazer o tipo de retorno dizer a verdade (TODO-02).** `FindUser` devolve o usuário ou null (o dicionário tem `GetValueOrDefault`), então mude o retorno para `User?`.
+3. **Ensinar o compilador com atributos (TODO-03, TODO-04 e TODO-05).** Em `TryGetUser`, preencha o `out` a partir de `FindUser` e anote com `[NotNullWhen(true)]`, para quem chama usar `user` depois de um `if` sem checar de novo. Em `Connection.Initialize`, use `[MemberNotNull]` para o aviso CS8618 sumir sem mudar o tipo do campo. Em `Trim`, devolva o valor aparado (ou null) e anote o retorno com `[NotNullIfNotNull(nameof(value))]`.
+4. **Manter a guarda em tempo de execução (TODO-06).** `Require` lança `ArgumentNullException` se o valor for null. O compilador avisa quem passa null, mas nada é imposto em runtime, então a guard clause continua necessária.
+5. **Entender operadores lifted e Nullable<T> (TODO-07 e TODO-08).** Em `Compare`, devolva `"equal"`, `"less"` ou `"greater"`; com exatamente um lado nulo, `"unordered"`, e dois nulls são `"equal"`. Veja o que `a < b` e `a > b` dão com `int?`. Em `FirstOrNull<T>`, devolva o primeiro item ou null; para `T?` significar `Nullable<T>`, adicione a constraint em `T`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde e o build não tem mais avisos de nulidade. Você deve conseguir explicar a diferença entre `string?` (só uma anotação do compilador) e `int?` (um `Nullable<int>` de verdade), e por que `Require` ainda precisa do `throw`.
+
+**Desafios opcionais**
+
+- **TODO-09:** adicione `Nulls.TryFirst<T>(IEnumerable<T>, Func<T, bool>, out T value)` e anote `value` com `[MaybeNullWhen(false)]`.
+- **TODO-10:** adicione `Nulls.CountBy<TKey>(IEnumerable<TKey>)` devolvendo um `Dictionary<TKey, int>`, com a constraint `notnull` em `TKey`.
+
+**Pré-requisitos:** classes, propriedades e generics em C#, tipos por valor versus por referência, e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Os métodos em `Nulls.cs` lançam `NotImplementedException` e cada `TODO-NN` está num comentário no código, então os testes vermelhos e os avisos do compilador mostram o que falta.
+
 ## Documentation Links
 
 - [Nullable reference types, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/null-safety/nullable-reference-types) (doc)

@@ -79,6 +79,41 @@ class NotAController {
 - **DFS sobre `target/classes` só funciona para classpaths "explodidos", não JARs empacotados** — percorrer uma árvore de `File` assume que as classes existem como arquivos `.class` soltos em disco; um deployment de produção rodando a partir de um fat JAR não tem esse diretório para percorrer, que é um dos motivos pelos quais scanners de verdade (o do Spring incluso) resolvem entradas de classpath de forma genérica (URLs de JAR, module paths) em vez de assumir um diretório de sistema de arquivos.
 - **Descoberta baseada em reflection troca tempo de startup por configuração zero** — nenhum arquivo XML/properties lista quais classes são controllers, o que é conveniente, mas todo o classpath (ou os pacotes base escaneados) precisa ser percorrido no startup para descobrir isso; reduzir `@ComponentScan(basePackages = ...)` à menor lista de pacotes suficiente reduz esse custo diretamente, o mesmo princípio da constante `BASE_PACKAGE` do scanner ingênuo.
 
+## Lab
+
+Neste lab você recebe cinco classes de apoio prontas e implementa o `ComponentScanner`, a parte de um container que filtra candidatos e instancia os sobreviventes. A ideia central é separar duas perguntas independentes que frameworks como o Spring fazem na inicialização: "este tipo implementa a interface X?" e "este tipo carrega a anotação Y?", e terminar transformando um objeto `Class` em uma instância viva.
+
+**O cenário**
+
+O scanner recebe uma `List<Class<?>>` de candidatos e responde o que um container pergunta ao subir. A descoberta da lista (varrer diretórios e jars) fica de fora de propósito: a mecânica de filtrar e instanciar é a mesma.
+
+- `Notifier.java`: interface com um método `notify(String)`.
+- `Component.java`: anotação marcadora, retida em tempo de execução.
+- `EmailNotifier.java`: implementa `Notifier` E tem `@Component`.
+- `SmsNotifier.java`: implementa `Notifier`, mas NÃO tem a anotação.
+- `LegacyHelper.java`: tem `@Component`, mas NÃO implementa `Notifier`.
+- `ComponentScanner.java`: o que você implementa.
+
+Os três candidatos cobrem todas as combinações de propósito. Checar a interface e checar a anotação são testes independentes, e os testes pegam um scanner que os confunde.
+
+**O que você vai fazer, passo a passo**
+
+1. **Filtrar por interface (TODO-00).** Em `findImplementations()`, devolva as classes de `candidates` que implementam `targetInterface`, sem incluir a própria interface, preservando a ordem de entrada. A ferramenta é `Class.isAssignableFrom()`. Cuidado com a direção: é a interface quem pergunta se pode ser atribuída a partir da classe candidata.
+2. **Filtrar por anotação (TODO-01).** Em `findAnnotated()`, devolva as classes anotadas com `annotationType`, também em ordem, usando `Class.isAnnotationPresent()`.
+3. **Instanciar (TODO-02).** Em `instantiateAll()`, crie uma instância de cada classe com `getDeclaredConstructor().newInstance()` e devolva na mesma ordem. É assim que um container transforma metadados em objetos.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `SmsNotifier` aparece em um filtro e `LegacyHelper` no outro, e por que nenhum dos dois entra na interseção.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `findAnnotatedImplementations()`, devolvendo só os candidatos que implementam a interface E têm a anotação. Tente montá-lo em cima dos dois métodos que você já escreveu.
+
+**Pré-requisitos:** sintaxe básica de Java, interfaces e anotações.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/classpath-scanning-via-reflection` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/classpath-scanning-via-reflection test`). Os métodos do scanner começam lançando `UnsupportedOperationException("Not implemented yet.")` com dicas nos comentários `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Class.forName() — java.lang API docs (Java SE 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html#forName(java.lang.String)) — doc

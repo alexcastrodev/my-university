@@ -175,6 +175,41 @@ assertTrue(false); // test reported as FAILED
 - **Testes parametrizados trocam legibilidade por cobertura**: um método cobrindo dez entradas é menos código do que dez métodos `@Test` quase idênticos, mas uma mensagem de falha agora precisa incluir qual entrada falhou, e depurar significa encontrar a linha certa na fonte, não o nome certo do método.
 - **Testes dinâmicos não são detectáveis estaticamente**: como `@TestFactory` gera `DynamicTest`s em tempo de execução, IDEs não conseguem listá-los antes de uma execução da forma como listam métodos `@Test`, o que torna fluxos de "rodar só este caso" mais desajeitados.
 
+## Lab
+
+Neste lab você recebe a classe `LoyaltyAccount` **pronta e funcionando**, e uma classe de teste `LoyaltyAccountTest` cheia de métodos que falham de propósito. Não há código de produção para escrever: o seu trabalho é escrever os testes JUnit 5 que provam que a conta se comporta direito. A ideia central é sentir na prática o ciclo de vida e a API principal do JUnit 5: cada teste com um objeto novo, asserts que não escondem falhas, uma tabela de casos que trava os limites e um grupo `@Nested` com setup próprio.
+
+**O cenário**
+
+Uma conta de fidelidade acumula e resgata pontos e expõe um nível (tier) derivado do saldo.
+
+- `LoyaltyAccount`: construtor `LoyaltyAccount(memberId, startingPoints)` que rejeita id em branco e pontos negativos.
+- `earn(amount)` e `redeem(amount)`: ambos rejeitam valor não positivo com `IllegalArgumentException`, e `redeem` lança `IllegalStateException` se faltar saldo.
+- `tier()`: BRONZE abaixo de 500, SILVER de 500 a 999, GOLD a partir de 1000.
+- `LoyaltyAccountTest`: cada método já traz um comentário TODO dizendo exatamente o que checar.
+
+Leia as regras de `earn`, `redeem` e `tier` antes de testar: são métodos novos com regras próprias, e copiar o artigo não basta.
+
+**O que você vai fazer, passo a passo**
+
+1. **Dar uma conta nova a cada teste (TODO-00).** No `@BeforeEach`, atribua `new LoyaltyAccount("M-1", 100)` a `account`. Precisa rodar antes de CADA teste, não uma vez só, porque a conta é mutável e uma instância compartilhada deixaria o `earn`/`redeem` de um teste vazar para o saldo do próximo.
+2. **Testar o acúmulo de pontos (TODO-01).** Chame `earn(150)` e confira que `getPoints()` agora é 250.
+3. **Testar a rejeição de valores inválidos (TODO-02).** `earn(0)` e `earn(-5)` devem lançar `IllegalArgumentException`. Verifique os dois num único `assertAll()` com `assertThrows`, para que a falha de um não esconda a do outro.
+4. **Travar os limites do tier (TODO-03).** Adicione um `@CsvSource` com linhas "pontos, tier esperado" cobrindo o valor logo abaixo e o valor exato de cada fronteira (499 e 500, 999 e 1000). Se errar uma borda, o teste deixa passar um bug.
+5. **Agrupar o resgate num `@Nested` (TODO-04).** Dentro de `WhenRedeemingPoints`, escreva um `@BeforeEach` que faz `account.earn(200)` (a conta fica com 300, porque o `@BeforeEach` externo já deu 100) e três testes: `redeem(100)` deixa 200 pontos, `redeem(1000)` lança `IllegalStateException` e `redeem(0)` lança `IllegalArgumentException`.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que o `@BeforeEach` externo também roda para os testes do `@Nested`, e por que testar só o meio de cada faixa de tier deixaria passar um `>` no lugar de `>=`.
+
+**Desafios opcionais**
+
+- **TODO-05:** escreva um método `@TestFactory` que devolve `Stream<DynamicTest>` e gera as checagens de `tier()` em tempo de execução, em vez de métodos `@Test` separados.
+
+**Pré-requisitos:** sintaxe básica de Java e ler `LoyaltyAccount` em `src/main/java` antes de escrever qualquer teste.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/junit-5-fundamentals` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/junit-5-fundamentals test`). Os métodos começam com `fail("TODO-NN: not implemented yet")`, então a lista de testes vermelhos é o seu checklist.
+
 ## Documentation Links
 
 - [JUnit 5 User Guide](https://docs.junit.org/current/user-guide/) (doc)

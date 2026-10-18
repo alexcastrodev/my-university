@@ -229,6 +229,43 @@ Without Allocating builds on this.
   steady state, but not in cold code, not always without PGO, and never when
   the value escapes. Measure the real path before and after a change.
 
+## Lab
+
+In this lab you get `Counter` (a mutable struct), `Temperature` (a mutable struct that should be immutable) and `Holder`, which hides a counter in a `readonly` field, plus `Semantics` and `Boxing` with methods that have no body. Your job is to see copy semantics for structs, fix the classic mutable-struct bugs, find where boxing allocates and use `stackalloc` to keep a buffer off the heap. The core idea is that a struct is copied when passed, when read from a `readonly` field and when turned into `object`.
+
+**The scenario**
+
+Small types that show, one by one, where value and reference types behave differently.
+
+- `Types.cs`: `Counter` (with `Value` and `Increment`), `Temperature` (with `Celsius { get; set; }`) and `Holder` (a `readonly Counter` field and `IncrementTwice`, which currently returns 0 instead of 2).
+- `Semantics.cs`: `IncrementCopy(Counter)` and `IncrementRef(ref Counter)`.
+- `Boxing.cs`: `BoxAll` (already done), `UnboxAll`, `SumOnStack` and `BoxNullable`.
+
+The allocation tests use `GC.GetAllocatedBytesForCurrentThread` with wide margins and a warm-up call, so they compare orders of magnitude, not exact bytes.
+
+**What you will do, step by step**
+
+1. **Copy versus reference (TODO-00 and TODO-01).** In `IncrementCopy`, call `Increment` on the parameter and return its `Value`: since the parameter is a copy, the caller's `Counter` stays unchanged. In `IncrementRef`, the `ref` modifier is already there, so a single call to `Increment` changes the caller's `Counter`.
+2. **Make the struct immutable (TODO-02).** Turn `Temperature` into a `readonly struct`: `Celsius` can only be set at creation (`init`) and `WithCelsius` returns a **new** `Temperature` instead of changing this one.
+3. **Fix the readonly field (TODO-03).** Calling a mutating method on a `readonly` struct field works on a hidden copy, which is why `IncrementTwice` returns 0. Fix the declaration in `Holder` so the increments stick.
+4. **Unbox (TODO-04).** `UnboxAll` returns the ints stored in the boxes. Unboxing is an explicit cast, `(int)`.
+5. **Buffer on the stack (TODO-05).** `SumOnStack` puts the numbers 1..`count` in a `Span<int>` created with `stackalloc` and returns their sum. No `int[]` and no `List<int>`: the buffer must not touch the heap.
+6. **Boxing a Nullable (TODO-06).** `BoxNullable` returns the value as `object`. Run the tests and note what a `Nullable<int>` without a value becomes, and what one with a value becomes.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `IncrementTwice` returned 0, why `BoxAll` allocates per element while `SumOnStack` allocates almost nothing, and what `int?` boxes to.
+
+**Optional challenges**
+
+- **TODO-07:** add a `readonly` struct `Vector3D` with `X`, `Y` and `Z` and `Semantics.Length(in Vector3D vector)`, passing it by readonly reference.
+- **TODO-08:** add `Boxing.AllocatedByFormat(int)` and `Boxing.AllocatedByInterpolation(int)` to compare `string.Format("{0}", i)` with `$"{i}"` using allocated bytes.
+- **TODO-09:** add `Semantics.IncrementFirst(List<Counter>)`. `list[0].Increment()` does not compile, so use `CollectionsMarshal.AsSpan`.
+
+**Prerequisites:** C# classes and structs, `ref` parameters and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Value types, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types) (doc)

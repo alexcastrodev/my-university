@@ -256,6 +256,45 @@ inlining a constant.
   IL3050) that the in-memory provider may need code generated at run time,
   which a Native AOT app cannot do.
 
+## Lab
+
+In this lab you get an in-memory list of `Order` queried through a small logging provider that delegates to the in-memory one, and several classes with **empty bodies**. Your job is to see a lambda as data: build one by hand, rewrite one with an `ExpressionVisitor`, watch an `IQueryProvider` receive the tree of every operator and keep captured values as variables instead of constants. The tests only use `AsQueryable()`, no database.
+
+**The scenario**
+
+Predicates over `Order(Id, Customer, Total)` handled as expression trees.
+
+- `Builders.cs`: `TotalGreaterThan` (to build), `TotalAboveConstant` (already done, with the value baked in as a constant) and `TotalAboveCaptured` (to build).
+- `Combinators.cs`: the `Or<T>` method, `ReplaceParameter` (an `ExpressionVisitor`) and `MemberCollector`, whose `Collect` is already done.
+- `LoggingQuery.cs`: `LoggingQueryable<T>` (already done) and `LoggingProvider`, which receives the tree of every operator.
+- `OrderQueries.cs`: `Filter`, with optional filters.
+
+Notice that `TotalAboveConstant` is the reference for what not to do in TODO-01: the value goes in as a constant, so every different value is a different tree (and, in EF Core, a different SQL text).
+
+**What you will do, step by step**
+
+1. **Build a lambda by hand (TODO-00).** In `TotalGreaterThan`, build `o => o.Total > value` with `Expression.Parameter` (name the parameter `"o"`), `Expression.Property`, `Expression.Constant`, `Expression.GreaterThan` and `Expression.Lambda`. The test compares it with the tree the compiler would build.
+2. **Keep the variable, not the value (TODO-01).** In `TotalAboveCaptured`, the tree must reference the variable `min` (a field on a closure object), not its current value. The hint: the body of `() => min` is exactly that member access.
+3. **Swap one parameter for another (TODO-02).** In `ReplaceParameter.VisitParameter`, return `to` when the node is `from` and the node unchanged otherwise.
+4. **Combine two predicates (TODO-03).** In `Or`, rewrite `right.Body` to use `left`'s parameter and combine both bodies with `Expression.OrElse`. Two lambdas own two different parameter objects, even when both are named `"o"`.
+5. **List the members read (TODO-04).** In `MemberCollector.VisitMember`, record `node.Member.Name` (once per name, in order of appearance) and keep walking the tree.
+6. **Watch the provider work (TODO-05 and TODO-06).** In `CreateQuery<TElement>`, log `"CreateQuery: <method name>"` (the expression is a `MethodCallExpression`), delegate to the inner provider and wrap the result so the next operator is logged too. In `Execute<TResult>`, log `"Execute: <expression>"` and delegate.
+7. **Optional filters (TODO-07).** In `OrderQueries.Filter`, chain one `Where` per filter that has a value and no `Where` at all for a null filter. `customer` is an exact match and `minTotal` is `Total >= minTotal`.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `TotalAboveCaptured` does not contain `150` in its tree text while `TotalAboveConstant` does, and why the log shows `CreateQuery` for each operator but `Execute` only when the result is requested.
+
+**Optional challenges**
+
+- **TODO-08:** add `And<T>` next to `Or<T>`.
+- **TODO-09:** add `OrderQueries.OrderByProperty(source, "Total", descending)` building the `OrderBy` call by hand and sending it to `source.Provider.CreateQuery`.
+- **TODO-10:** try to write a statement lambda, a `?.`, an `is` pattern and a switch expression as `Expression<Func<Order, ...>>`. Note the compiler error codes (CS0834, CS8072, CS8122, CS8514).
+
+**Prerequisites:** LINQ with `IEnumerable<T>` and `IQueryable<T>`, lambdas and closures, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Methods not yet implemented throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Expression trees, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/) (doc)

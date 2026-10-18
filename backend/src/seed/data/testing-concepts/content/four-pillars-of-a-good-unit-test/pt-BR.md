@@ -51,6 +51,38 @@ Quão caro é entender e manter o teste funcionando: quão difícil é lê-lo, e
 - **Testes frágeis maximizam proteção mais velocidade, sacrificam resistência**: um teste unitário rápido que afirma pesadamente sobre detalhes de implementação (sequências exatas de chamadas de mock, estado interno) pode genuinamente capturar regressões com rapidez, mas também falha constantemente em refatorações legítimas, que é exatamente a armadilha de falso positivo descrita pela história de campo acima.
 - **Um teste que zera em qualquer atributo é inútil, não apenas mais fraco**: como os quatro atributos se combinam multiplicativamente, e não aditivamente, um teste com ótima proteção e velocidade mas resistência zero à refatoração não é "razoavelmente bom", ele ativamente corrói a confiança na suíte inteira, o que é pior do que simplesmente não ter o teste.
 
+## Lab
+
+Neste lab você recebe a classe `Invoice` **pronta e funcionando** e uma classe de teste com métodos que falham de propósito. Não há código de produção para escrever: o seu trabalho é escrever testes que mirem, cada um, um dos quatro pilares do artigo (proteção contra regressões, resistência a refatoração, feedback rápido e manutenibilidade). A ideia central é sentir que todo teste pedido aqui poderia "só passar" se fosse escrito com descuido, e que o que importa é COMO você faz o assert, não apenas O QUE você confere.
+
+**O cenário**
+
+Uma fatura soma itens e aplica um desconto por volume.
+
+- `LineItem`: um record com `name`, `quantity` e `unitPrice`. `lineTotal()` é preço vezes quantidade.
+- `Invoice`: `total()` soma os itens, aplica 10% de desconto quando o subtotal chega a 100.00 (limite inclusive) e arredonda para 2 casas. `itemCount()` só delega para `items.size()`.
+- A soma dos itens acontece num método `computeSubtotal()` **privado**, e isso é de propósito: o teste precisa passar por `total()`.
+- `InvoiceTest`: cada método traz um TODO com o pilar que ele deve demonstrar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Proteger contra regressões (TODO-00).** Monte uma `Invoice` com um único `LineItem("Widget", 3, new BigDecimal("40.00"))`, subtotal 120.00, acima do limite. Confira que `total()` é um `BigDecimal("108.00")` HARDCODED, calculado por você à mão. Se você re-derivasse o esperado com a fórmula do próprio `Invoice`, o teste copiaria o bug junto e não pegaria nada.
+2. **O caso de fronteira abaixo do limite (TODO-01).** Um único item de exatamente 99.99, logo abaixo de 100.00. `total()` deve ser `BigDecimal("99.99")`, sem desconto.
+3. **Resistir a refatoração (TODO-02).** Use TRÊS itens que somam EXATAMENTE 100.00 (por exemplo 50.00 + 30.00 + 20.00, quantidade 1 cada) e confira que `total()` é `BigDecimal("90.00")`. Faça o assert SÓ por `total()`: não referencie `computeSubtotal()` e não crie um getter para o subtotal. Assim o teste continua passando se o método privado for renomeado, inlinado ou reescrito.
+4. **Manter barato (TODO-03).** Uma `Invoice` com `List.of()` e `total()` igual a `BigDecimal("0.00")`, sem nenhum setup além da lista vazia. É esse tipo de teste que continua fácil de ler e de manter quando a classe cresce.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar qual pilar cada teste ganha e qual ele sacrifica, e por que o teste do passo 3 sobreviveria a uma reescrita de `computeSubtotal()` enquanto um teste que dependesse dele quebraria.
+
+**Desafios opcionais**
+
+- **TODO-04:** escreva um teste para `itemCount()` com três itens quaisquer e compare quão pouco ele protege contra regressões em relação ao TODO-00, embora seja igualmente rápido e igualmente resistente a refatoração.
+
+**Pré-requisitos:** fundamentos de JUnit 5 (`@Test`, `assertEquals`) e ler `Invoice` e `LineItem` em `src/main/java`, reparando que a soma acontece num método privado.
+
+**Como rodar:** clone o repositório, entre em `testing-concepts/four-pillars-of-a-good-unit-test` e rode `mvn test` (ou, da raiz, `mvn -pl testing-concepts/four-pillars-of-a-good-unit-test test`). Os métodos de teste começam com `fail("TODO-NN: not implemented yet")`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - Vladimir Khorikov, *Unit Testing Principles, Practices, and Patterns* (Manning, 2020), Capítulo 4 "The Four Pillars of a Good Unit Test", pp. 67-86 (book)

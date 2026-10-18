@@ -115,6 +115,37 @@ Um cluster de nó único atrás de um firewall não tem endpoint de API público
 - **Tokens armazenados vs federação OIDC.** Tokens armazenados funcionam em qualquer lugar e precisam ser rotacionados; OIDC elimina segredos armazenados e exige configuração no API server.
 - **Identidade de deploy por namespace vs no cluster todo.** Identidades restritas limitam o estrago de um segredo de CI vazado; identidades no cluster todo são mais simples para pipelines que gerenciam muitos namespaces e perigosas pelo mesmo motivo.
 
+## Lab
+
+Neste lab você recebe o passo de deploy de um pipeline que sempre termina verde, mesmo quando a release nem sobe, e uma ServiceAccount de CI com `cluster-admin`. Seu trabalho é escrever o passo de deploy para que o job falhe quando a release não sobe e a versão anterior continue no ar, e reduzir as credenciais do pipeline ao mínimo necessário. A ideia central é sentir que o `kubectl set image` volta assim que o servidor de API guarda a mudança (não quando o app está saudável), e que um token de CI vazado vale tanto quanto as permissões que você deu a ele.
+
+**O cenário**
+
+O teste sobe um k3s de verdade (pelo Testcontainers), aplica o seu RBAC, monta um kubeconfig com apenas o token da ServiceAccount `ci-deployer` e roda o seu `deploy.sh` duas vezes, como duas execuções do pipeline: com `IMAGE=busybox:1.37` (deve dar certo, com 2 réplicas disponíveis) e com `IMAGE=busybox:0.0-does-not-exist` (deve falhar o job e deixar `busybox:1.37` no Deployment).
+
+- `src/main/resources/deploy.sh`: o passo de deploy. Aplica `/lab/k8s/app.yaml` e roda `kubectl set image` com a variável `IMAGE`.
+- `src/main/resources/k8s/ci-rbac.yaml`: o namespace `shop`, a ServiceAccount `ci-deployer` e um `ClusterRoleBinding` para `cluster-admin`.
+- `src/test/resources/k8s/app.yaml`: o Deployment `web` (2 réplicas, `maxUnavailable: 0`). Dado.
+- `src/test/java/CiDeployTest.java`: roda o pipeline e confere também que o CI consegue dar patch em Deployments de `shop`, mas não consegue ler Secrets, fazer deploy em outros namespaces nem criar cluster role bindings.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes primeiro.** A release quebrada reporta sucesso, porque o script não espera nada.
+2. **Esperar o rollout e reverter se falhar (TODO-00).** Depois do `set image`, espere o rollout terminar com um limite de tempo. Se ele não completar, reverta o Deployment para a revisão anterior e faça o script terminar com código diferente de zero, para o job falhar. Como o `set -eu` aborta no primeiro erro, planeje o fluxo para que o rollback aconteça antes de sair.
+3. **Trocar o `cluster-admin` pelo mínimo (TODO-01).** Hoje um token vazado dominaria o cluster inteiro. Troque o `ClusterRoleBinding` por um `Role` e um `RoleBinding` só em `shop`, com as permissões que o `deploy.sh` realmente usa. Dica: o `kubectl rollout undo` também lê ReplicaSets.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/deploying-from-ci-pipeline test` passa em `goodReleaseSucceeds`, `badReleaseFailsTheJobAndIsRolledBack` e `ciCredentialsAreLimitedToDeployingInShop`. Você deve conseguir explicar quais verbos e recursos o pipeline realmente precisa e por que o rollback é parte do job, não uma ação manual.
+
+**Desafios opcionais**
+
+- **TODO-02:** o token do teste vive uma hora. Como um pipeline real obteria credenciais de curta duração sem guardar token nenhum (pesquise federação OIDC para o seu sistema de CI), e o que muda se o sistema de CI for comprometido?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele), Java e Maven, e o artigo Deploying from a CI Pipeline.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/deploying-from-ci-pipeline test`. Os comentários `TODO-00` em `deploy.sh` e `TODO-01` em `ci-rbac.yaml` marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Authenticating (OpenID Connect tokens)](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens): confiando num emissor externo.

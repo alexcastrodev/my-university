@@ -238,6 +238,38 @@ notificação.
   numa lista de listeners raramente alterada, não numa fila ou buffer escrito tanto
   quanto lido.
 
+## Lab
+
+Neste lab você recebe `ConcurrentRegistry`, um registro compartilhado com três métodos por implementar. Seu trabalho é fazer "obter ou criar", "definir só se ausente" e "incrementar" usando os métodos compostos atômicos de `ConcurrentHashMap`. A ideia central é ver, com testes multi-thread de verdade, por que uma sequência "checa e depois age" feita de chamadas individualmente thread-safe não é thread-safe.
+
+**O cenário**
+
+Muitas threads batem na mesma chave ao mesmo tempo, e cada operação é uma ação composta: uma leitura seguida de uma escrita que precisa valer como um único passo.
+
+- `ConcurrentRegistry`: tem três `ConcurrentHashMap`s (contas, apelidos e contagem de acessos), os métodos que você vai escrever e os leitores `nicknameOf`, `hitsFor`, `size` e `constructions`.
+- `newAccount(id)`: já pronto. Conta quantas construções aconteceram e dorme 5 ms de propósito, para alargar a janela de corrida que uma implementação ingênua deixa aberta.
+- `ConcurrentRegistryTest`: usa dezenas a centenas de threads largando juntas por um `CountDownLatch`.
+
+Uma versão ingênua não falha por erro de compilação, e sim porque a corrida realmente acontece: construções extras, mais de um "vencedor" no apelido ou uma contagem menor que a esperada.
+
+**O que você vai fazer, passo a passo**
+
+1. **Obter ou criar a conta (TODO-00).** Em `getOrCreate(id)`, use um método atômico do mapa (`computeIfAbsent`, `putIfAbsent` ou `merge`) chamando `newAccount(id)`. `containsKey` seguido de `put` não é seguro, mesmo com cada chamada sendo thread-safe, e o contador `constructions()` do teste mostra isso.
+2. **Registrar o apelido uma única vez (TODO-01).** Em `registerNickname(id, nickname)`, defina o apelido só se não houver um e devolva `true` apenas se esta chamada foi a que definiu. Exatamente uma thread pode vencer.
+3. **Contar acessos sem perder atualizações (TODO-02).** Em `recordHit(id)`, incremente atomicamente a contagem, começando em 1 no primeiro acesso. Um `get` seguido de `put` perde atualizações.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar em que ponto exato a versão "checa e age" deixaria duas threads passarem e por que o método composto do mapa elimina esse intervalo.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente `clearNicknameIfMatches(id, expectedNickname)`, que remove atomicamente o apelido só se o valor atual for o esperado e devolve se removeu.
+
+**Pré-requisitos:** sintaxe básica de Java e noções de `ConcurrentHashMap`. `ExecutorService` e `CountDownLatch` aparecem nos testes, mas você não precisa escrevê-los.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/concurrent-collections-and-compound-actions` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/concurrent-collections-and-compound-actions test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [ConcurrentHashMap — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html) — doc

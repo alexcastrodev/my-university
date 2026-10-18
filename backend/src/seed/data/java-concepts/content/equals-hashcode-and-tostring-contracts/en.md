@@ -199,6 +199,37 @@ For a plain value type, this replaces the entire recipe above with zero hand-wri
   ```
 - **Specifying `toString()`'s exact format is a one-way door.** It gives callers something stable to parse and log against, but once published and depended on, changing it is a breaking change — the same way changing a public method signature would be. Leaving the format unspecified keeps that freedom but means anyone who parses the output anyway is relying on an explicitly undocumented detail.
 
+## Lab
+
+In this lab you get `GridPosition`, a `(row, col)` value class whose three contract methods still throw `UnsupportedOperationException`. Your job is to give it real logical equality: two different instances with the same coordinates must be equal, hash the same and print readably. The core idea is to feel, with a real `HashSet` and `HashMap`, what happens when `equals()` and `hashCode()` disagree.
+
+**The scenario**
+
+A grid position is identified only by its numbers, not by object identity, so it has to behave well as a collection element.
+
+- `GridPosition`: holds `row` and `col` (final, with getters) and has the `equals`, `hashCode`, `toString` and optional `equalsUsingGetClass` methods, all still to implement.
+- `GridPositionTest`: covers reflexivity, symmetry, comparison with `null` and with another type, the hash of equal instances, the `toString` format and the `HashSet` and `HashMap` tests that look a position up through another equivalent instance.
+
+**What you will do, step by step**
+
+1. **Implement `equals()` (TODO-00).** Return `true` right away for the same reference, then use `instanceof` (which already covers `null` and the type check) and compare `row` and `col`.
+2. **Implement `hashCode()` (TODO-01).** Every field `equals()` reads must go into the hash, for example with `Objects.hash(row, col)`. Without it two equal positions land in different buckets and the lookup fails.
+3. **Implement `toString()` (TODO-02).** Return exactly `"(row, col)"`, such as `"(2, 3)"`.
+
+After step 1, run the tests before doing step 2 and see which ones fail: the `HashSet` and `HashMap` tests break even with a correct `equals()`, and that is where the contract bites.
+
+**How you know you are done**
+
+`mvn test` is all green. You should be able to explain why `assertEquals(a, b)` passes before `hashCode()` exists but `set.contains(new GridPosition(2, 3))` does not, and why the contract requires equal objects to have the same hash.
+
+**Optional challenges**
+
+- **TODO-03:** implement `equalsUsingGetClass`, the same check as TODO-00 with `getClass()` instead of `instanceof`, to see the trade-off between the two approaches (the optional tests check that it rejects another type).
+
+**Prerequisites:** basic Java syntax, `Object`'s `equals`/`hashCode`/`toString` methods and familiarity with `HashSet` and `HashMap`.
+
+**How to run it:** clone the repository, go into `java-concepts/equals-hashcode-and-tostring-contracts` and run `mvn test` (or, from the root, `mvn -pl java-concepts/equals-hashcode-and-tostring-contracts test`). The methods throw `UnsupportedOperationException` until you implement them, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Object — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html) — doc

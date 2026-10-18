@@ -112,6 +112,35 @@ Plum
 - **Operações O(1) em média assumem um `hashCode()` razoavelmente bem distribuído** — uma função de hash ruim que colide muito degrada `get`/`put`/`remove` até O(n) dentro de um bucket (O(log n) desde o JDK 8, uma vez que um bucket treeifica após passar de 8 entradas), já que toda chave colidente precisa ser checada com `equals()`.
 - **`HashMap` não é sincronizado e permite uma chave `null`** — para acesso concorrente, use `ConcurrentHashMap` (veja o conceito HTTP Sessions Under the Hood para um uso real dele no lado servidor).
 
+## Lab
+
+Neste lab você recebe a classe `PriceCatalog`, que guarda preços em um `HashMap<String, Double>`, e implementa as operações básicas de um mapa. A ideia central é usar o retorno de `put()` para distinguir uma inserção de uma atualização e percorrer `entrySet()` com `Map.Entry` quando você precisa da chave e do valor ao mesmo tempo.
+
+**O cenário**
+
+Um catálogo mapeia nome de produto para preço, e precisa informar o preço anterior ao alterar, aplicar descontos e achar o produto mais caro.
+
+- `PriceCatalog.java`: guarda `prices` (um `Map<String, Double>` sobre `HashMap`). `size()` já está pronto. Os demais métodos devolvem `Optional` quando um valor pode não existir.
+
+**O que você vai fazer, passo a passo**
+
+1. **Definir preço (TODO-00).** Em `setPrice()`, guarde o preço com `put()` e devolva o preço ANTERIOR dentro de um `Optional`, ou `Optional.empty()` se o produto era novo. O `put()` já devolve o valor antigo (ou `null`), então não precisa de consulta extra.
+2. **Consultar (TODO-01).** Em `getPrice()`, devolva o preço do produto ou `Optional.empty()`. `get()` de uma chave ausente devolve `null` e não lança exceção, então confira isso antes de embrulhar.
+3. **Aplicar desconto (TODO-02).** Em `applyDiscount()`, leia o preço atual, calcule `price * (1 - percentOff / 100.0)` e faça `put()` do novo valor, o mesmo padrão ler-e-gravar de um depósito em saldo. Se o produto não existe, devolva `false` e não mude nada.
+4. **Achar o mais caro (TODO-03).** Em `mostExpensive()`, percorra `prices.entrySet()` comparando `Map.Entry.getValue()` e devolva a CHAVE do maior preço, ou `Optional.empty()` se o catálogo estiver vazio. Aqui o `entrySet()` é a ferramenta certa porque você precisa da chave e do valor juntos.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar o que `put()` devolve em cada caso (chave nova e chave existente) e por que o desconto não usa `keySet()` com um `get()` extra por chave.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `totalValue()`, somando todos os preços do catálogo via `entrySet()`.
+
+**Pré-requisitos:** sintaxe básica de Java e familiaridade com `Optional`.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/hash-map` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/hash-map test`). Os métodos pendentes lançam `UnsupportedOperationException("Not implemented yet.")` com um comentário `TODO-NN`, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - *Java: The Complete Reference*, 12th Edition (Herbert Schildt) — Chapter 20, pp. 612–614 — book

@@ -106,6 +106,38 @@ kubectl get pods -A -o jsonpath='{range .items[?(@.status.containerStatuses[0].r
 - **Watching phases vs readiness.** Phase `Running` says nothing about serving traffic; `Ready` is what matters for Services and rollouts.
 - **Restart back-off.** It protects the node from crash loops, and it also means a fixed dependency can take up to 5 minutes to be noticed; `kubectl delete pod` restarts immediately.
 
+## Lab
+
+In this lab you receive a `classify.sh` script that classifies Pods by looking only at the `STATUS` column of `kubectl get pods`, and your job is to rewrite it so it decides from the real status fields (phase, conditions and container states). The core idea is to feel in practice that `STATUS` is a summary made for humans: it hides some cases and changes from one second to the next for others, so a script that depends on it gets things wrong.
+
+**The scenario**
+
+A real Kubernetes cluster (k3s, started by Testcontainers) receives seven Pods in the `lab` namespace, each in a different situation. The script must print one `<name> <category>` line per Pod.
+
+- `src/test/resources/k8s/pods.yaml`: given, with one Pod per situation (`ok`, `warming-up`, `too-big`, `bad-image`, `crashing`, `batch-done`, `batch-failed`). The comment next to each name says the expected category.
+- `src/main/resources/classify.sh`: the only file you edit. It takes the namespace as an argument and today runs a `case` over the `STATUS` column.
+- `src/test/java/PodStatusTest.java`: waits for the Pods to reach their states and runs the script four times, three seconds apart, requiring exactly the same output every time.
+
+The categories are `ready`, `not-ready`, `unschedulable`, `image-pull`, `crash-loop`, `succeeded` and `failed`.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The failure message shows what `kubectl get pods` displayed at that moment. Compare the `STATUS` column with what each Pod really is.
+2. **Classify from the status fields (TODO-00).** Replace the `case` over `STATUS` with queries on the Pod's fields, for example with `-o jsonpath`: the phase (`status.phase`), the conditions (such as `Ready` and `PodScheduled`, with their reasons) and each container's state (`waiting`, `running`, `terminated`, plus `restartCount`). Use `kubectl get pod <name> -o yaml` on your own cluster, or the article, to see which fields exist.
+3. **Handle the cases that mislead.** A crash-looping container is `Running` (and even `Ready`) for an instant at every restart, and a Pod that ran but never became ready is different from one that already restarted. Decide on what does not flicker.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/pod-lifecycle-and-status test` passes, meaning all four runs print exactly the expected table. You should be able to explain, for each category, which field decides it and why the `STATUS` column would not do.
+
+**Optional challenges**
+
+- **TODO-01:** extend the script to Pods with several containers and init containers. Which container should decide the category when one is crash-looping and another is healthy?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container and pull `busybox` inside it) and the article "Pod Lifecycle and Status".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/pod-lifecycle-and-status test`. The test fails with the script's current output and shows the `kubectl get pods` of that moment, which is your starting point.
+
 ## Documentation Links
 
 - [Kubernetes docs: Pod Lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/): phases, conditions, container states, restart back-off.

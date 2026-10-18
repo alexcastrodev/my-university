@@ -239,6 +239,41 @@ at 2009 ms.
 - **`GetFromJsonAsync` hides the status code.** It throws on non-success, so
   use `GetAsync` when you must read a `ProblemDetails` body from a `4xx`.
 
+## Lab
+
+In this lab you get a typed client `GamesClient` that throws `NotImplementedException`, a `CorrelationIdHandler` that just passes the request through and an `AddGamesClient` that registers a bare client. Your job is to configure the factory the way production code should (base address, outgoing handler, pooled connection lifetime, handler rotation) and to handle the three ways a call can end early: a 404, a timeout and a cancellation. The core idea is to see that `HttpClient` is only the tip of a handler pipeline managed by `IHttpClientFactory`.
+
+**The scenario**
+
+No network is used: the tests replace the primary handler with an in-process fake (`FakeHandler`) that returns JSON, a status, or hangs forever.
+
+- `ServiceCollectionExtensions.cs`: `AddGamesClient(baseAddress, timeout)`, with the constants `ConnectionLifetime` (2 minutes) and `HandlerLifetime` (5 minutes).
+- `CorrelationIdHandler.cs`: a `DelegatingHandler` with the `X-Correlation-Id` header constant.
+- `GamesClient.cs`: the typed client, with `GetGameAsync`, `ReadFirstLineAsync` and two optional variants.
+- `Game.cs`: the `Game` record and `GameServiceTimeoutException`.
+
+**What you will do, step by step**
+
+1. **Configure the typed client (TODO-00).** In `AddGamesClient`, set `BaseAddress` and `Timeout` (default 30 seconds).
+2. **Plug in the outgoing handler (TODO-01 and TODO-04).** Register `CorrelationIdHandler` as transient and add it with `AddHttpMessageHandler`. Then, in the handler itself, add the `X-Correlation-Id` header (a new `Guid` in "N" format) unless the request already carries one, and pass the request down the chain.
+3. **Take care of connections and handlers (TODO-02 and TODO-03).** Use a `SocketsHttpHandler` as the primary handler with `PooledConnectionLifetime` equal to `ConnectionLifetime`, so a DNS change is noticed, and make the factory rotate the handler every `HandlerLifetime`.
+4. **Implement the call (TODO-05).** In `GetGameAsync`, do `GET /games/{id}`: return `null` for 404, throw for any other failure status and read the JSON into a `Game` otherwise. Dispose the response.
+5. **Tell a timeout from a cancellation (TODO-06).** A timeout from `HttpClient.Timeout` arrives as an `OperationCanceledException` that the caller did not ask for. Turn it into `GameServiceTimeoutException`, but let a cancellation requested through `cancellationToken` keep propagating unchanged.
+6. **Do not wait for the whole body (TODO-07).** In `ReadFirstLineAsync`, do the GET without buffering the body (`HttpCompletionOption`), check the status and return only the first line of the stream. The method must return before the body has finished arriving.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain what handler rotation and connection lifetime are for, why a timeout and the caller's cancellation are similar exceptions that need different handling, and why `ReadFirstLineAsync` cannot use the default option that waits for the body.
+
+**Optional challenges**
+
+- **TODO-08:** `StreamGamesAsync` with `GetFromJsonAsAsyncEnumerable`, yielding each `Game` as it is deserialized.
+- **TODO-09:** an overload of `GetGameAsync` with a per-call timeout, using a `CancellationTokenSource` linked to the token with `CancelAfter`, reporting `GameServiceTimeoutException`.
+
+**Prerequisites:** `async`/`await` and `CancellationToken`, dependency injection (lifetimes) and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. In the starter state the tests fail (the client throws `NotImplementedException`), and each TODO is marked in a comment in the corresponding file.
+
 ## Documentation Links
 
 - [Use the IHttpClientFactory, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory) (doc)

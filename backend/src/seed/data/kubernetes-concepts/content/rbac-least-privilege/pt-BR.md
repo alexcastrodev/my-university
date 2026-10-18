@@ -125,6 +125,37 @@ Ferramentas como `rbac-tool` ou `kubectl-who-can` respondem diretamente "quem co
 - **Concessões por namespace vs no cluster todo.** RoleBindings por namespace limitam o raio de impacto e multiplicam objetos; ClusterRoleBindings são simples e concedem tudo em todo lugar.
 - **RBAC estrito vs conveniência.** Permissões apertadas quebram ferramentas e scripts que assumiam admin; cada quebra é uma decisão sobre o que aquela ferramenta deveria realmente poder fazer.
 
+## Lab
+
+Neste lab você recebe um `rbac.yaml` com duas identidades de namespace e dois acessos generosos demais: o `deployer` é `cluster-admin` no cluster inteiro e o `viewer` tem o papel `edit`. O seu trabalho é trocá-los por permissões de menor privilégio e provar isso com `kubectl auth can-i`. A ideia central é sentir que "funciona" não é critério de RBAC: o teste importa tanto pelo que precisa ser permitido quanto pelo que precisa ser negado.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers, com RBAC ativo) recebe os namespaces `team-a` e `team-b` e o seu manifesto.
+
+- `ServiceAccount deployer` (CI): precisa fazer rollout de Deployments em `team-a` (get, list, watch, patch, update) e ler Pods e seus logs, nada além disso.
+- `ServiceAccount viewer` (desenvolvedores): lê tudo em `team-a`, menos Secrets, e não altera nada.
+- `src/main/resources/k8s/rbac.yaml`: o único arquivo que você edita. Hoje o `deployer` está num `ClusterRoleBinding` para `cluster-admin` e o `viewer` num `RoleBinding` para `edit`.
+- `src/test/java/RbacTest.java`: pergunta ao API server, com `kubectl auth can-i --as=system:serviceaccount:team-a:<nome>`, o que cada identidade pode fazer. Exige permitido: fazer patch, update e watch em Deployments, listar Pods e ler `pods/log` (deployer), e ler Deployments, logs e ConfigMaps (viewer). Exige negado: apagar Deployments, ler Secrets, `pods/exec`, criar RoleBindings, qualquer coisa em `team-b` e recursos do cluster como nodes.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** Todas as verificações de "deve ser permitido" passam, e as de "não pode" falham: o excesso de permissão não aparece até alguém perguntar o que deveria ser negado.
+2. **Dar ao deployer só o que ele precisa (TODO-00).** Remova o `ClusterRoleBinding` para `cluster-admin`. Crie um `Role` em `team-a` com apenas os verbos e recursos do cabeçalho do arquivo (atenção a `pods/log` como subrecurso e ao grupo de API de Deployments) e um `RoleBinding` que o ligue ao `deployer`.
+3. **Dar ao viewer o papel certo (TODO-01).** O Kubernetes traz um `ClusterRole` pronto para leitura sem Secrets. Troque o `edit` por ele no `RoleBinding` do `viewer`, que continua restrito a `team-a`.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/rbac-least-privilege test` passa: tudo o que precisa ser permitido continua permitido e tudo o que deve ser negado agora é negado. Você deve conseguir explicar por que um `Role` com um `RoleBinding` limita o acesso a um namespace e um `ClusterRoleBinding` não.
+
+**Desafios opcionais**
+
+- **TODO-02:** rode `kubectl auth can-i --list -n team-a --as=system:serviceaccount:team-a:deployer` dentro do cluster e compare com o `Role`. Depois dê ao deployer `create` só em `pods` e explique por que isso sozinho já permite ler todos os Secrets do namespace.
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s`) e o artigo "RBAC and Least Privilege".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/rbac-least-privilege test`. Os comentários `TODO-00` e `TODO-01` em `rbac.yaml` marcam os dois acessos a trocar.
+
 ## Documentation Links
 
 - [Kubernetes docs: Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/): objetos, papéis padrão, prevenção de escalonamento de privilégio.

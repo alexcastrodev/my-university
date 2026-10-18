@@ -262,6 +262,42 @@ size.
 - **Feature switches change runtime behavior.** HTTP/3, startup hooks and
   reflection JSON are off in trimmed .NET 10 apps unless re-enabled.
 
+## Lab
+
+In this lab you describe the publish switches in MSBuild (framework-dependent, self-contained with a `RuntimeIdentifier`, single file, trimming, feature switches, ReadyToRun) and watch the trim and single-file analyzers point at the code that would break in a published app, then fix that code. You receive the structure ready, with `ProjectFiles` and `AnalyzerFiles` throwing `NotImplementedException`, and your job is to return the text of `.csproj` files and of a small C# program. The core idea is to feel that publishing is a project decision that the SDK partly infers (for example, `PublishSingleFile` turns the analyzer on by itself), and that reflection-heavy code only shows its problem after publishing.
+
+**The scenario**
+
+The problem is publishing a lean executable without breaking what depends on reflection.
+
+- `ProjectFiles.cs`: methods that return `.csproj` text (`FrameworkDependentProject`, `SelfContainedSingleFileProject`, `TrimmedProject`, `SlimRuntimeProject`).
+- `AnalyzerFiles.cs`: `AnalyzerProject` (a project with the analyzers on) and `FixedProgram` (the corrected version of the program).
+- `SampleCode.cs`: `RiskyProgram`, already provided, with four classic problems: a type chosen from a string (IL2057), reflection over an unannotated `Type` (IL2070), reflection-based JSON (IL2026) and `Assembly.Location` (IL3000).
+
+This lab does not run `dotnet publish`: that would download runtime packs of tens of MB. The tests evaluate the project with `dotnet msbuild -getProperty` and run `dotnet build` on a framework-dependent project, where the analyzers already emit the same `IL` warnings. Everything is offline.
+
+**What you will do, step by step**
+
+1. **Framework-dependent (TODO-00).** In `FrameworkDependentProject`, write a `net10.0` console project with no RID and with `SelfContained` and `UseAppHost` false. The test passes a RID only on the command line to prove it does not imply self-contained.
+2. **Self-contained and single file (TODO-01).** In `SelfContainedSingleFileProject`, set the RID, `SelfContained`, `PublishSingleFile` and `IncludeNativeLibrariesForSelfExtract`. Do not write the analyzer property: `PublishSingleFile` already turns `EnableSingleFileAnalyzer` on.
+3. **Trimming (TODO-02).** In `TrimmedProject`, turn on `PublishTrimmed`, set `TrimMode` and create one `TrimmerRootAssembly` per assembly that ILLink must never cut.
+4. **Slim runtime (TODO-03).** In `SlimRuntimeProject`, turn off what the app does not use (`InvariantGlobalization`, `EventSourceSupport`, `UseSystemResourceKeys`), opt back in to `Http3Support` (trimming turns it off in .NET 10) and set `TrimmerSingleWarn` to false to see every warning.
+5. **See the warnings (TODO-04).** In `AnalyzerProject`, turn on the trim and single-file analyzers (through `PublishTrimmed` and `PublishSingleFile` or directly) so that building `RiskyProgram` emits IL2026, IL2057, IL2070 and IL3000.
+6. **Fix the code (TODO-05).** In `FixedProgram`, replace `Type.GetType` with `typeof(Plugin)`, annotate the parameter with `[DynamicallyAccessedMembers]`, use a source-generated `JsonSerializerContext` and replace `Assembly.Location` with `AppContext.BaseDirectory`. The program must print the same four lines with no IL warning. This step depends on TODO-04.
+
+**How you know you are done**
+
+`dotnet test` is green (it takes about 4 to 10 seconds). You should be able to explain which warning comes from which line of `RiskyProgram` and why the fixed version keeps working after trimming.
+
+**Optional challenges**
+
+- **TODO-06:** `ReadyToRunCompressedProject` combines `PublishReadyToRun` and `EnableCompressionInSingleFile`.
+- **TODO-07:** `StrictAnalyzerProject` puts IL2026, IL2057 and IL2070 in `WarningsAsErrors`, so the build fails instead of warning.
+
+**Prerequisites:** the concept text on self-contained, single-file and trimmed publishing, basic `.csproj` structure (`PropertyGroup`, `ItemGroup`) and the .NET 10 SDK (10.0.100).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. Until you implement a TODO, its test fails with `NotImplementedException`. Afterwards, as a manual follow-up (it needs network the first time), run `dotnet publish -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true -p:PublishTrimmed=true` on a console project and compare the output sizes.
+
 ## Documentation Links
 
 - [.NET application publishing overview, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/deploying/) (doc)

@@ -121,6 +121,38 @@ PreparedStatement statement = connection.prepareStatement(sql);
 new Country(rs.getString(2), rs.getString(3)); // breaks if the query's column order changes
 ```
 
+## Lab
+
+In this lab you get `CountryDao` **already built and working** and a test class with the database already prepared. Your job is to write the tests that run real SQL against a fresh in-memory H2 database for every test, the way the article shows for plain JDBC and for Spring's `JdbcTemplate`. The core idea is to feel that, in a DAO test, what matters is proving the SQL and the row mapping: a `RowMapper` that reads the wrong column still returns *a* `Country`, and only an assert on every field catches the mistake.
+
+**The scenario**
+
+A small DAO on top of `JdbcTemplate`, with no connection or resource-cleanup boilerplate.
+
+- `CountryDao`: `findAll()`, `findByCodeName(codeName)`, `findByNameStartingWith(prefix)` and `insert(country)`. The first ones use positional `?` placeholders, but `findByNameStartingWith` uses `NamedParameterJdbcTemplate` with a named `:prefix`.
+- `Country`: a record with `id`, `name` and `codeName`.
+- `CountryDaoTest`: `setUp()` already creates the embedded H2, the `country` table and three known rows (France/FR, Germany/DE, Finland/FI), and `tearDown()` drops the table. That part is done, and every test starts from the same state with nothing shared.
+
+**What you will do, step by step**
+
+1. **List everything (TODO-00).** Call `findAll()` and check that it returns exactly 3 countries, the ones seeded in `setUp()`.
+2. **Check the mapping (TODO-01).** Call `findByCodeName("FR")` and assert on every field of the `Country` (id, name and codeName), not just that a row came back.
+3. **The no-result case (TODO-02).** Call `findByCodeName("XX")` and check that it throws `EmptyResultDataAccessException`. This is `JdbcTemplate` translating an empty `ResultSet` into Spring's unchecked hierarchy, not a raw `SQLException`.
+4. **Named parameter and LIKE (TODO-03 and TODO-04).** `findByNameStartingWith("F")` must return exactly 2 (France and Finland, not Germany), which proves `:prefix` is really bound into the `LIKE` pattern. With the prefix "Z", the result must be an empty list, neither `null` nor an exception.
+5. **Insert and read back (TODO-05).** `insert(...)` a new country (for example id 4, "Spain", "ES") and then `findByCodeName("ES")`, comparing with what you inserted. This proves the insert persisted, not just that the method returned without throwing.
+
+**How you know you are done**
+
+`mvn test` is all green. You can explain why every test always sees the same three countries, why the TODO-01 assert looks at all fields and which SQL mistake the "F" prefix test would catch (matching everything or nothing).
+
+**Optional challenges**
+
+- **TODO-06:** query `select count(*) from country` directly with `jdbcTemplate`, bypassing `CountryDao`, as an independent check that `insert()` wrote exactly one row.
+
+**Prerequisites:** JUnit 5 fundamentals (`@Test`, `@BeforeEach`/`@AfterEach`, `assertThrows`) and reading `CountryDao` and `Country` in `src/main/java` before writing any test.
+
+**How to run it:** clone the repository, go into `testing-concepts/testing-jdbc-and-spring-jdbc` and run `mvn test` (or, from the root, `mvn -pl testing-concepts/testing-jdbc-and-spring-jdbc test`). The test methods start with `fail("TODO-NN: not implemented yet")`, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Data Access with JDBC — Spring Framework reference](https://docs.spring.io/spring-framework/reference/data-access/jdbc.html) — doc

@@ -531,6 +531,41 @@ encontrar em codebases 6.x.
   `SameSite` "como uma defesa em profundidade em vez da única proteção
   contra ataques CSRF".
 
+## Lab
+
+Neste lab você recebe um `SecurityConfig` e um `CsrfTokenController` que ainda lançam `UnsupportedOperationException`, junto com uma pequena API de produtos e um webhook já prontos. O seu trabalho é configurar o CSRF. A ideia central é sentir por que um `POST`/`PUT`/`DELETE` falha com 403 num setup padrão do Spring Security enquanto um `GET` nunca falha, e como isentar um único endpoint legitimamente não-navegador sem enfraquecer a proteção no resto.
+
+**O cenário**
+
+Uma API com rotas seguras e rotas que mudam estado, testada com `MockMvc`.
+
+- `ProductController`: `GET /products` (seguro), `POST /products`, `PUT /products/{id}` e `DELETE /products/{id}` (mudam estado).
+- `WebhookController`: `POST /webhooks/notify`, um callback máquina a máquina, nunca chamado por um navegador com cookie de sessão.
+- `CsrfTokenController`: `GET /csrf`, que deve devolver o token da requisição atual.
+- `SecurityConfig`: o `SecurityFilterChain` que você completa.
+- `SecurityConfigTest`: confere que `GET` passa sem token, que os métodos de escrita sem token dão 403 e com `with(csrf())` dão 200, e que o webhook passa sem token.
+
+Repare que o lab trata de CSRF, não de quem pode chamar o quê: por isso todas as rotas ficam liberadas e só o CSRF diferencia os resultados.
+
+**O que você vai fazer, passo a passo**
+
+1. **Liberar as requisições (TODO-00).** Em `securityFilterChain()`, use `authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())`, para isolar o efeito do CSRF.
+2. **Isentar só o webhook (TODO-01).** Use `csrf(csrf -> csrf.ignoringRequestMatchers("/webhooks/**"))`. Não chame `csrf(...disable)`: a proteção precisa continuar ligada em todos os outros caminhos.
+3. **Devolver a chain (TODO-02).** Retorne `http.build()`.
+4. **Expor o token (TODO-03).** Em `CsrfTokenController.csrf()`, leia o atributo `"_csrf"` da requisição e devolva o valor com `((CsrfToken) request.getAttribute("_csrf")).getToken()`. O `CsrfFilter` já colocou o token ali, antes do controller.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você consegue explicar por que `with(csrf())` existe nos testes (uma requisição sem token é indistinguível de uma forjada para o filtro) e por que o webhook pode ficar de fora sem criar risco de CSRF.
+
+**Desafios opcionais**
+
+- **TODO-04:** troque o repositório de token para `CookieCsrfTokenRepository.withHttpOnlyFalse()` dentro do customizer de `csrf(...)` do TODO-01, para o token também chegar por um cookie legível por JavaScript, o padrão de um front SPA no mesmo backend.
+
+**Pré-requisitos:** noções básicas de Spring Framework, `SecurityFilterChain`/`HttpSecurity` e `MockMvc`.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `mvn test`. Antes dos TODOs o contexto não sobe, porque `securityFilterChain()` lança `UnsupportedOperationException`, então todos os testes de `SecurityConfigTest` ficam vermelhos.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 10, "Applying CSRF protection and CORS", section 10.1 "Applying cross-site request forgery (CSRF) protection in applications" (10.1.1-10.1.3), p. 213-234](https://www.manning.com/books/spring-security-in-action) — doc

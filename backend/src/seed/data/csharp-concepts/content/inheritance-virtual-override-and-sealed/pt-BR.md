@@ -263,6 +263,41 @@ Desde o C# 8 interfaces podem ter corpos padrão e até membros privados, então
   e esse `null` pode viajar longe antes de falhar. Prefira `is T x`, ou um cast
   que lança exceção quando o tipo errado é bug.
 
+## Lab
+
+Neste lab você recebe `Models.cs` com uma pequena hierarquia (animais, relatórios e formas) e um `CountingBag` que herda de `Bag` e conta errado. Tudo **já compila**, mas os testes xUnit falham até você ajustar os tipos. O seu trabalho é editar essas classes. A ideia central é prever e controlar qual método roda: `virtual`/`override` despacham pelo tipo em tempo de execução, `new` esconde pelo tipo estático, e `sealed` e `abstract` moldam a hierarquia. No fim você vê por que herdar de uma classe cujos métodos virtuais se chamam entre si é frágil.
+
+**O cenário**
+
+Cinco pequenos problemas de herança em `Models.cs`.
+
+- `Animal` e `Dog`: `Speak()` hoje é escondido com `new` em `Dog`, `Describe()` também (e continua assim de propósito), e `Clone()` não é virtual.
+- `Report` e `SalesReport`: um relatório que chama `Title()` para se renderizar, com uma data fixa de criação.
+- `Shape`, `Circle` e `Square`, mais `ShapeText.Describe`, que hoje devolve sempre `"unknown"`.
+- `Bag` e `CountingBag`: `Bag.AddRange` chama o `Add` virtual, então `CountingBag` conta cada item duas vezes.
+
+Os testes usam reflection para conferir a forma dos tipos (abstract, sealed, tipo de retorno de `Clone`, tipo base de `CountingBag`), além do comportamento.
+
+**O que você vai fazer, passo a passo**
+
+1. **Virtual e override (TODO-00).** Torne `Animal.Speak()` virtual e troque o método escondido de `Dog` por um `override` que devolva `"Dog.Speak > "` seguido de `base.Speak()`. O teste usa uma variável `Animal` apontando para um `Dog`, para provar que vale o tipo em tempo de execução. `Describe()` continua com `new`, e o teste mostra que ali vale o tipo estático.
+2. **Base abstrata e folha selada (TODO-01).** Torne `Report` abstrata, com construtor `protected` e um `Title()` abstrato. Torne `SalesReport` `sealed`.
+3. **Retorno covariante (TODO-02).** Torne `Animal.Clone()` virtual e faça `Dog` sobrescrevê-lo devolvendo `Dog`, de modo que quem chama não precise de cast.
+4. **Switch de padrões (TODO-03).** Em `ShapeText.Describe`, use uma switch expression na ordem: `Circle` com `Radius > 10` vira `"big circle"`, outro `Circle` vira `"circle {radius}"`, `Square` vira `"square {side}"` e o resto, incluindo `null`, vira `"unknown"`.
+5. **Composição em vez de herança (TODO-04).** Torne `CountingBag` `sealed`, tire a herança de `Bag`, guarde uma `List<string>` própria e exponha só `Add`, `AddRange`, `Added` e `Count`, contando cada item uma única vez. O teste exige que o tipo base seja `object`.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que `a.Speak()` e `a.Describe()` dão resultados de classes diferentes para o mesmo objeto, e por que o `CountingBag` original contava seis para três itens.
+
+**Desafios opcionais**
+
+- **TODO-05:** em `Circle`, faça `Area()` um `sealed override`, para impedir novas sobrescritas. Não há teste para isto, então confira você mesmo (por exemplo, tentando sobrescrever numa subclasse).
+
+**Pré-requisitos:** classes e herança em C#, padrões de tipo e switch expressions, e o .NET 10 SDK (C# 14).
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. O código compila desde o início, então os testes vermelhos são o seu checklist, e os comentários `TODO-NN` em `Models.cs` explicam o que mudar em cada tipo.
+
 ## Documentation Links
 
 - [Inheritance, C# fundamentals, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance) (doc)

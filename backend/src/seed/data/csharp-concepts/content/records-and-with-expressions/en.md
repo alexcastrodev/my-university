@@ -231,6 +231,39 @@ crosses the boundary.
 - **Not for entities.** EF Core tracking needs reference identity; records fit
   DTOs, messages, and value objects better.
 
+## Lab
+
+In this lab you get a customer model built with records, a **stubbed** `Operations` class (its methods throw `NotImplementedException`) and a `Money` record with no validation yet, plus ready xUnit tests. Your job is to implement the operations and protect `Money`. The core idea is to copy and change immutable records with `with`, notice that the copy is **shallow**, and keep invariants valid even though `with` calls no constructor at all.
+
+**The scenario**
+
+A `Customer` holds an `Address` and a list of tags, so you meet both sides of `with`: the nested copy that works well and the shared list that does not.
+
+- `Models.cs`: the records `Address(Street, City)`, `Customer(Name, Address, Tags)` (with `IReadOnlyList<string>`) and `Money(Amount, Currency)`.
+- `Operations.cs`: `MoveTo`, `AddTag`, `Add` and `SameContent`, which you implement.
+- `RecordTests.cs`: the tests. One of them shows that two `Customer` values with the same tags but different list instances are **not** `Equal`, because record equality compares the list by reference.
+
+**What you will do, step by step**
+
+1. **Nested `with` (TODO-00).** In `MoveTo`, return a copy of the customer in the new city using `with` inside `with`. The original customer and its `Address` must not change.
+2. **Do not mutate the shared list (TODO-01).** In `AddTag`, remember that `with` only copies the reference to `Tags`. If you reuse the list and mutate it, the original changes. Build a new list with the tag appended.
+3. **Validate in the `init` (TODO-02).** In `Money`, `with` does not call a constructor: it calls the `init` accessors. Declare `Amount` explicitly with an `init` accessor (the `field` keyword gives you the backing field) that throws `ArgumentOutOfRangeException` for a negative amount. Since an explicit property replaces the generated one, it needs an initializer (`= Amount`) for the constructor path, which does not go through the accessor.
+4. **Add with `with` (TODO-03).** In `Add`, return a `Money` with the summed amount, built from the first operand using `with`. Throw `InvalidOperationException` if the currencies differ.
+5. **Compare what equality does not (TODO-04).** In `SameContent`, compare `Name`, `Address` and the tags element by element, since the record's `Equals` compares the list by reference.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why `money with { Amount = -5m }` throws, and why `SameContent` is needed even though `Customer` is a record.
+
+**Optional challenges**
+
+- **TODO-05:** turn `Money` into a `readonly record struct`. What changes for `with`, equality and the validation?
+- **TODO-06:** derive `record DiscountedMoney : Money` and compare a `Money` and a `DiscountedMoney` with the same values. Why are they not equal?
+
+**Prerequisites:** C# classes and properties, `init` accessors and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The `Operations` methods throw `NotImplementedException` and `Money` still accepts negative values, so red tests are your checklist, and the `TODO-NN` comments explain each one.
+
 ## Documentation Links
 
 - [Records, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record) (doc)

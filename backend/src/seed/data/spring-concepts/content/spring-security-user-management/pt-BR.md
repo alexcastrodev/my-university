@@ -203,6 +203,38 @@ Essa divisão é uma aplicação direta do princípio de segregação de interfa
 - **Misturar uma entidade JPA com `UserDetails` parece limpo no começo e piora a cada relacionamento adicionado** — a classe de dupla responsabilidade neste Deep Dive é pequena; na prática, adicionar relacionamentos de entidade (papéis, campos de auditoria) a uma classe que também satisfaz um contrato de segurança amplia a confusão que a divisão em decorator evita.
 - **O builder `User` é conveniente, mas implícito** — construir um `UserDetails` inline esconde o tipo do resto da base de código atrás de `User.withUsername(...)`, o que é aceitável para uma demo, mas dificulta adicionar depois campos que uma classe dedicada poderia manter como estado de primeira classe.
 
+## Lab
+
+Neste lab você recebe as classes de usuário do Spring Security **vazias**, com `UnsupportedOperationException` no lugar do corpo. Seu trabalho é implementar o contrato `UserDetails` e um `UserDetailsService` em memória. A ideia central é ver que o Spring Security não conhece "usuários" da sua aplicação: ele só conhece essas duas interfaces, e qualquer coisa que as implemente pode autenticar.
+
+**O cenário**
+
+Você representa um usuário com credenciais e flags de conta, e carrega esse usuário pelo nome.
+
+- `SimpleUser`: implementa `UserDetails`, guardando `username`, `password` e as `authorities`. Os quatro métodos de status (`isAccountNonExpired`, `isAccountNonLocked`, `isCredentialsNonExpired`, `isEnabled`) já devolvem `true`.
+- `InMemoryUserDetailsService`: implementa `UserDetailsService` sobre uma `List<UserDetails>` recebida no construtor.
+- `SecurityConfig`: uma classe `@EnableWebSecurity` ainda vazia, só usada no desafio opcional.
+- `SimpleUserTest` e `InMemoryUserDetailsServiceTest`: os testes que você precisa deixar verdes.
+
+**O que você vai fazer, passo a passo**
+
+1. **Guardar e expor os dados (TODO-00).** No construtor de `SimpleUser`, guarde `username`, `password` e `authorities` nos campos, e faça `getUsername()`, `getPassword()` e `getAuthorities()` devolvê-los.
+2. **Entender as flags de conta (TODO-01).** Os métodos `isAccountNonExpired()`, `isAccountNonLocked()`, `isCredentialsNonExpired()` e `isEnabled()` já retornam `true`. Leia o que cada um significa: o Spring Security recusa o login se qualquer um devolver `false`.
+3. **Implementar o serviço (TODO-02).** No construtor de `InMemoryUserDetailsService`, guarde a lista. Em `loadUserByUsername`, procure o usuário com aquele nome e devolva-o; se não achar, lance `UsernameNotFoundException`, que é a exceção que o framework espera nesse caso.
+
+**Como saber que terminou**
+
+`mvn test` fica verde. Você deve conseguir explicar o que `UserDetails`, `GrantedAuthority` e `UserDetailsService` cada um representa e por que o serviço lança exceção em vez de devolver `null`.
+
+**Desafios opcionais**
+
+- **TODO-03:** implemente a configuração em `SecurityConfig` (o corpo está vazio, então a forma fica por sua conta).
+- **TODO-04 e TODO-05:** o README também cita criar várias authorities e fazer um decorator `SecurityUser` sobre uma entidade JPA, mas o código inicial não tem ponto de partida para esses dois, então são só ideias para explorar.
+
+**Pré-requisitos:** Spring Framework básico, interfaces em Java e noções de autenticação e autorização.
+
+**Como rodar:** clone o repositório, entre em `spring-concepts/spring-security-user-management` e rode `mvn test`. Os testes falham com `UnsupportedOperationException` até você preencher os TODOs.
+
 ## Documentation Links
 
 - [Spring Security in Action (Manning, 2020) — Chapter 3: "Managing users", p. 61-78](https://www.manning.com/books/spring-security-in-action) — doc

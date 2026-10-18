@@ -87,6 +87,38 @@ Typical uses: a database client against a database Pod, a metrics or admin endpo
 - **port-forward vs a Service.** port-forward is private and temporary with no manifest changes; a Service is stable, shareable and needs access control of its own.
 - **Minimal images vs debuggability.** Distroless images shrink the attack surface and remove the shell you would use to debug; `kubectl debug` is the answer that keeps both.
 
+## Lab
+
+In this lab you receive an `inspect.sh` that works on paper but fails in practice: it tries to read a file from inside a container with no shell and no `cat`, and then tries to reach the app through a DNS name that does not exist where the script runs. Your job is to inspect the running container and reach it from outside the cluster network. The core idea is to feel that `kubectl exec` only runs programs that exist in the image, and that `kubectl debug` and `kubectl port-forward` are the way out when that is not enough.
+
+**The scenario**
+
+A real Kubernetes cluster (k3s, started by Testcontainers) runs nginx from a minimal image, and the script runs on the node, where `kubectl` works but the cluster DNS does not.
+
+- `src/test/resources/k8s/web.yaml`: given, with the `web` Deployment (nginx from `cgr.dev/chainguard/nginx`, port 8080, no shell, no `cat`, no package manager), the `web` Service and a `client` Pod. You may not change it.
+- `src/main/resources/inspect.sh`: the only file you edit. It must print two lines.
+- `src/test/java/DebugTest.java`: compares the output with what the test itself obtains, and also checks that no `kubectl port-forward` process is left running.
+
+The two lines are the `worker_processes` line of `/etc/nginx/nginx.conf` as the running container sees it, and the `Server` header that `web` sends back.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** See the two lines fail and read what the test expected.
+2. **Read the file from the running container (TODO-00).** `kubectl exec ... cat` does not work because the image has no `cat`. Use an ephemeral debug container (`kubectl debug`) with an image that has the tools, targeting the nginx container so it shares the process namespace, and read the file through the target process's filesystem. That container's logs give back what it printed.
+3. **Reach the app from outside the network (TODO-01).** `http://web:8080` does not resolve on the node. Use `kubectl port-forward` to go through the API server, fetch the `Server` header via `localhost` and **clean up afterwards**: the port-forward process must be stopped at the end of the script, or the test fails.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kubectl-exec-and-port-forward test` passes: the script exits successfully, line 1 is the real `worker_processes`, line 2 is the `Server` header and no `kubectl port-forward` is left behind. You should be able to explain why the debug container sees nginx's file without the Deployment being changed.
+
+**Optional challenges**
+
+- **TODO-02:** run `kubectl get pod -l app=web -o yaml` after the tests. What did your debug containers leave behind in the Pod, and how do you get rid of them?
+
+**Prerequisites:** Docker running locally (the tests start a `rancher/k3s` container, which pulls `cgr.dev/chainguard/nginx` and `busybox`) and the article "kubectl exec, debug and port-forward".
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/kubectl-exec-and-port-forward test`. The `TODO-00` and `TODO-01` comments in `inspect.sh` mark the two commands to rewrite.
+
 ## Documentation Links
 
 - [Kubernetes docs: Get a Shell to a Running Container](https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/): exec usage.

@@ -215,6 +215,42 @@ collection first (`Where(c => c.Shipping.Count > 0)`).
   SQLite, the column type differs per provider, and partial updates are generated
   differently. Run integration tests against the database you deploy on.
 
+## Lab
+
+In this lab you store value objects and lists in JSON columns with EF Core 10 complex types, query inside the document and change one member of it, both with a single statement and through change tracking. You receive the `Customer` entity and the `ShopDbContext` with nothing mapped, and the queries in `CustomerQueries` throw `NotImplementedException`. The core idea is to see that without the mapping `Address` becomes nothing useful, and that with it EF translates filters on JSON members into SQL and knows how to update a piece of the document.
+
+**The scenario**
+
+A customer has a required address, an optional billing address, a list of shipping addresses and a list of tags.
+
+- `Customer.cs`: `Customer` (`Address`, `Billing?`, `Shipping` as `List<Address>`, `Tags` as `List<string>`) and the `record Address(Street, City, Country)`.
+- `ShopDbContext.cs`: `OnModelCreating` with the mapping `TODO`s.
+- `CustomerQueries.cs`: the queries and updates to implement.
+
+The tests run on in-memory SQLite, seed three customers (Ana, Bruno, Clara) and inspect the stored JSON with `json_extract`. Notice that `Tags` needs no configuration: find out why (it is a collection of primitives).
+
+**What you will do, step by step**
+
+1. **Map the complex types (TODO-00 to TODO-02).** In `OnModelCreating`, map `Address` as a complex property stored in one JSON column, do the same for the optional `Billing`, and map `Shipping` as a complex collection in a JSON column.
+2. **Filter inside the JSON (TODO-03).** In `NamesByCityAsync`, return, ordered, the names of customers whose `Address.City` equals the requested city.
+3. **Primitive collection (TODO-04).** In `NamesWithTagAsync`, filter customers whose `Tags` list contains the tag.
+4. **Complex collection (TODO-05).** In `NamesShippingToAsync`, use `Shipping.Any(...)` to find customers with at least one shipping address in the country.
+5. **Change through tracking (TODO-06).** In `MoveAsync`, load the customer, replace the `Address` with a copy that has the new city (it is a record) and call `SaveChanges`.
+6. **Change in bulk (TODO-07).** In `AppendToCityAsync`, write one `ExecuteUpdate` that appends a suffix to `Address.City` of every customer in the country, without loading entities, and return the affected row count.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain the difference between replacing the whole complex value (TODO-06) and updating one member inside the document (TODO-07), and why the query by city does not load any customer into memory to filter.
+
+**Optional challenges**
+
+- **TODO-08:** update `Shipping[0].City` in bulk without creating elements for customers with an empty list (without that filter SQLite creates a half-empty element).
+- **TODO-09:** read the stored JSON text of an address with raw SQL (`Database.SqlQuery<string>`, with the column aliased as `Value`).
+
+**Prerequisites:** basic EF Core and LINQ, C# records and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The tests use in-memory SQLite. Each query method throws `NotImplementedException` with a `TODO-NN` comment and, without the mapping, the read and write tests also fail, so the list of red tests is your checklist.
+
 ## Documentation Links
 
 - [Complex types, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/modeling/complex-types) (doc)

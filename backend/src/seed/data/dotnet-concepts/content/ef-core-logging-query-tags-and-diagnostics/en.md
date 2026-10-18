@@ -225,6 +225,42 @@ without being counted. Other interceptor types cover connections, transactions,
   rewrites SQL is hard to find later. Prefer `LogTo` or `ILogger` when you only
   need to observe.
 
+## Lab
+
+In this lab you answer the question "what did EF Core actually send to the database?" with `ToQueryString`, `ILogger` categories and event ids, query tags and an interceptor, and you see what `EnableSensitiveDataLogging` and `EnableDetailedErrors` change. You receive a tiny catalog (`Product`) on in-memory SQLite, with no Docker or server, and several `TODO` points in the code. The core idea is that EF Core diagnostics come in layers (log, tags, interceptors) and each one shows something different: the SQL text, the parameters and how many commands were issued.
+
+**The scenario**
+
+The tests capture what EF Core logs with a test `ILoggerProvider` that you finish first, and then check the SQL text, the parameters in the log and the number of commands.
+
+- `LogCapture.cs`: `ListLoggerProvider`, which stores `LogEntry` (category, level, event id, message). `Log` is empty.
+- `CatalogQueries.cs`: `ExpensiveSql` and `Expensive` to implement, and `LoadOneByOne` already working (the classic N+1: one command for the ids and one per row).
+- `DbFactory.cs`: `Create`, which builds the `DbContext` on SQLite and receives the logger factory, the two diagnostic flags and the interceptors.
+- `CommandCounter.cs`: a `DbCommandInterceptor` that must count commands.
+- `Catalog.cs` (ready): `Product`, the context and the seed.
+
+**What you will do, step by step**
+
+1. **Record the logs (TODO-00).** In `ListLogger.Log`, add to the owner a `LogEntry` with the category, the level, the event id and the formatted message (`formatter(state, exception)`).
+2. **SQL without executing (TODO-01).** In `ExpensiveSql`, return the SQL (with the parameter header) of "products priced above `min`, ordered by name" without executing it. The variable `min` must be captured so it becomes the `@min` parameter.
+3. **Tags (TODO-02).** In `Expensive`, return the same query as an `IQueryable`, tagged twice with `TagWith` ("Catalog: expensive products" and "Called from the price list screen"). Tags become comments above the SQL.
+4. **Logger and flags (TODO-03).** In `DbFactory.Create`, send the EF logs to `loggerFactory` and turn sensitive data logging and detailed errors on or off according to the two flags. Read the `Executed DbCommand` message with the flags off and on (`@min='?'` versus `@min='20'`).
+5. **Interceptors (TODO-04).** Still in `Create`, register the interceptors you receive.
+6. **Count commands (TODO-05 and TODO-06).** In `CommandCounter`, count the command and store its text in `ReaderExecuting`, and do the same in `ReaderExecutingAsync`, which is a separate hook.
+
+**How you know you are done**
+
+`dotnet test` is green. You should be able to explain why `ToQueryString` does not show up in the execution log, why parameter values are hidden by default, what `EnableDetailedErrors` changes for a null property, and how the counter reveals the N+1 (1 plus the number of rows).
+
+**Optional challenges**
+
+- **TODO-07:** add `ExpensiveWithCallSite`, which also calls `TagWithCallSite()`. What does the comment contain?
+- **TODO-08:** add `DbFactory.CreateWithLogTo(connection, Action<string> sink)`, which logs only `RelationalEventId.CommandExecuted` at `Information` through `LogTo`. The current tests do not cover these two items.
+
+**Prerequisites:** basic EF Core queries, `Microsoft.Extensions.Logging` and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The main methods throw `NotImplementedException` and the other points (`Log`, `Create`, `CommandCounter`) are empty with `TODO-NN` comments, so the red tests show what is left.
+
 ## Documentation Links
 
 - [Simple logging, EF Core, Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging) (doc)

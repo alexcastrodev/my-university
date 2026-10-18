@@ -246,6 +246,43 @@ This is the shape source generators prefer: the user writes the declaration and
 - **Indexers are excluded.** `field` does not exist in indexer accessors, so an
   indexer still needs an explicit field.
 
+## Lab
+
+In this lab you get four small classes with **plain auto-properties** and ready xUnit tests that fail until you put logic in the accessors. Your job is to edit those properties. The core idea is to see that the `field` keyword (C# 14) lets you validate, normalize or give a lazy default inside an auto-property, without declaring a backing field by hand, and that `init` serves construction-time rules.
+
+**The scenario**
+
+Four classes in `Models.cs`, each with a property that needs logic.
+
+- `Temperature.Celsius`: a `double` that cannot go below absolute zero (-273.15).
+- `Person.Name`: an `init` property that must store the trimmed name and reject blank text.
+- `Document.Title`: a title with the default `"untitled"` until someone assigns another.
+- `Counter.Value`: an integer that raises the `Changed` event when it changes. The `OnChanged` helper already exists.
+
+There is no `NotImplementedException`: the code compiles and runs as simple auto-properties, so red tests show what is missing.
+
+**What you will do, step by step**
+
+1. **Validate in the setter (TODO-00).** In `Temperature.Celsius`, throw `ArgumentOutOfRangeException` for any value below -273.15 and use `field` in the setter body. The test checks that after a rejection the previous value is still stored.
+2. **Normalize in an `init` (TODO-01).** In `Person.Name`, keep the property `init`-only, store the trimmed value and throw `ArgumentException` for `null`, empty or whitespace-only text. Use `field` in the `init` accessor too.
+3. **Lazy default in the getter (TODO-02).** In `Document.Title`, return `"untitled"` until a title exists, with `field ??= "untitled"` in the getter. Keep the setter as an auto-implemented `set;`.
+4. **Event only on change (TODO-03).** In `Counter.Value`, raise `Changed` with the new value only if it actually changed. Assigning the current value again must raise nothing. Use `field` to read the old value inside the setter.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain what the compiler generates behind `field`, and why the `Temperature` setter must validate before assigning in order to preserve the previous value.
+
+**Optional challenges**
+
+These two have no stub or test, so you create the classes and the tests.
+
+- **TODO-04:** `Price.Amount`, normalizing the value in an `init` accessor.
+- **TODO-05:** `Session.Token`, applying `[field: NonSerialized]` to the compiler-generated backing field.
+
+**Prerequisites:** C# properties and auto-properties, events, exceptions and the .NET 10 SDK (C# 14).
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The properties start as auto-properties with no logic, so red tests show what still needs validation, and the `TODO-NN` comments in `Models.cs` hint at each one.
+
 ## Documentation Links
 
 - [The field contextual keyword, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field) (doc)

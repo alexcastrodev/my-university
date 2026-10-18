@@ -216,6 +216,42 @@ translated in this test.
 - **Result order from a database join is undefined.** In the run above the two
   orders of Ana came back as 150 then 50; add `OrderBy` before relying on it.
 
+## Lab
+
+In this lab you get `Queries`, a static class with **six empty methods** over `Customer` and `Order`. Your job is to use `Join`, `GroupJoin`, the .NET 10 `LeftJoin`, `ToLookup`, `ExceptBy` and `GroupBy` on in-memory data and observe what each one keeps or drops. The core idea is that the join "flavors" only differ when there is edge-case data, and the lab data was built for exactly that.
+
+**The scenario**
+
+Customers and orders in memory. One order has no customer (`CustomerId` is `null`) and one customer has no orders, and that is what makes the joins behave differently.
+
+- `Models.cs`: `Customer(Id, Name, Email)` and `Order(Id, int? CustomerId, Total)`.
+- `Queries.InnerJoin`, `LeftJoin` and `CountOrders`: the three ways to combine customers and orders.
+- `Queries.OrdersByCustomer`: an `ILookup` per customer.
+- `Queries.NewCustomers`: set subtraction by email.
+- `Queries.TotalPerCustomer`: a sum per customer.
+
+**What you will do, step by step**
+
+1. **Inner join (TODO-00).** `InnerJoin` returns one row per matching (customer, order) pair, using `Join`. Customers without orders and orders without a customer do not appear. `Customer.Id` is an `int` and `Order.CustomerId` is an `int?`: the two key selectors must have the same type, so cast one.
+2. **Left join (TODO-01).** `LeftJoin` is like the previous one, but customers without orders appear once with a `null` total. Use the .NET 10 `LeftJoin` operator, with `customers` as the left side; the result selector receives a `null` order when there is no match.
+3. **Count with GroupJoin (TODO-02).** `CountOrders` returns one row per customer with the number of orders, zero included. `GroupJoin` never drops a left element.
+4. **Immediate lookup (TODO-03).** `OrdersByCustomer` builds a lookup keyed by `CustomerId` with `ToLookup`. Unlike `GroupBy`, `ToLookup` runs now: later changes to the source list do not show up, and asking for a missing key returns an empty sequence instead of throwing.
+5. **Subtract sets (TODO-04).** `NewCustomers` returns the customers from `incoming` whose `Email` is not in `known`, compared ignoring case, with no duplicate emails in the result. Use `ExceptBy`, which is already a set operation and removes duplicates, instead of building a `HashSet` by hand.
+6. **Group and materialize (TODO-05).** `TotalPerCustomer` sums the totals per customer with `GroupBy`, skipping orders without a customer and sorting by id. `GroupBy` is deferred: return a materialized list.
+
+**How you know you are done**
+
+`dotnet test` is all green. You should be able to explain why the order with a null `CustomerId` disappears from both the inner join and the left join, why "Caio" shows up with a null total only in the left join, and why the lookup does not see an order added later.
+
+**Optional challenges**
+
+- **TODO-06:** implement `LeftJoin` again with `GroupJoin`, `SelectMany` and `DefaultIfEmpty`, the pre-.NET 10 way, and compare the code.
+- **TODO-07:** replace `ToLookup` with `GroupBy(...).ToDictionary(...)` and note what happens on a missing key.
+
+**Prerequisites:** LINQ basics (`Where`, `Select`), tuples and records, and the .NET 10 SDK.
+
+**How to run it:** clone the repository, go into the lab folder and run `dotnet test`. The methods throw `NotImplementedException` and each `TODO-NN` is a comment with the hint, so the red tests are your checklist.
+
 ## Documentation Links
 
 - [Set operations, C#, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/set-operations) (doc)

@@ -120,6 +120,38 @@ Useful to batch several imperative changes into one rollout; with declarative `a
 - **`rollout undo` vs rolling forward.** Undo is the fastest way back to a known-good state; rolling forward with a fix keeps Git and the cluster in sync. In practice: undo first to stop the bleeding, then make Git match.
 - **Long vs short `revisionHistoryLimit`.** More revisions mean more rollback targets and more idle ReplicaSets cluttering `kubectl get rs`.
 
+## Lab
+
+In this lab you get an almost empty `rollback.sh` script and a cluster with a bad release live. Your job is to write the operations script that recovers the service: roll back to a specific revision that worked and then restart the Pods so they read a changed ConfigMap. The core idea is to feel how rollout history works: `rollout undo` with no argument goes back only one revision (which may be the bad one), a rollback is a new revision and not a rewind of the counter, and a changed ConfigMap only reaches the Pods when they restart.
+
+**The scenario**
+
+The test starts a real k3s (through Testcontainers), deploys `web` with 2 replicas and `maxUnavailable: 0`, and releases three revisions, each with a `kubernetes.io/change-cause` annotation.
+
+- `v1`: works.
+- `v2`: rolls out fine but has a bug.
+- `v3`: uses an image that does not exist, so the rollout is stuck (the v2 Pods keep serving).
+
+Then the test changes `GREETING` in the `web-config` ConfigMap to `bonjour` and runs your `src/main/resources/rollback.sh` inside the node, with `kubectl` as admin. The app file `src/test/resources/k8s/web.yaml` is given, and `rollback.sh` is the only file you edit. The script starts with `kubectl rollout undo deploy/web`, which does not solve the problem.
+
+**What you will do, step by step**
+
+1. **Run the tests and read the history.** The failure message includes the `rollout history`, with the revisions and their change-causes.
+2. **Roll back to the last good revision and wait (TODO-00).** Take `deploy/web` back to the revision that worked, choosing it by number, and wait for the rollout to finish. See why a bare `undo` will not do: it goes to the previous revision, the buggy v2.
+3. **Make the Pods read the new ConfigMap and wait (TODO-01).** The ConfigMap changed, but the Pods only read it at startup. Trigger a controlled restart of the Deployment without editing its manifest, and wait for the rollout to finish.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/rollouts-restart-history-and-rollback test` passes `scriptSucceeds`, `everyPodServesTheLastGoodVersionWithTheNewConfig` (both Pods answer `v1 bonjour`) and `rollbackAndRestartAreNewRevisions` (the Deployment is at revision 5 and revision 1 is gone from the history). You should be able to explain why the rollback and the restart each created a new revision.
+
+**Optional challenges**
+
+- **TODO-02:** why did revision 1 disappear from the history, and which change-cause does revision 5 show? What would `kubectl rollout undo` (without `--to-revision`) do right after your script?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the article Rollouts: Status, Restart, History and Rollback.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/rollouts-restart-history-and-rollback test`. The `TODO-00` and `TODO-01` comments in `rollback.sh` mark what is left.
+
 ## Documentation Links
 
 - [Kubernetes docs: Deployments (updating, rolling back, pausing)](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/): rollout mechanics and revision history.

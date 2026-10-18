@@ -210,6 +210,43 @@ deixe a checagem de subsunção te proteger.
   cobrem um `double`. Adicione braços `double.NaN` e `null` explicitamente quando
   o tipo de entrada permitir.
 
+## Lab
+
+Neste lab você recebe a classe estática `Patterns` com seis métodos **esboçados**, que lançam `NotImplementedException`, e testes xUnit prontos que cobrem as bordas. O seu trabalho é implementá-los trocando cadeias de `if`/`else` por pattern matching: padrões de tipo, constante, relacionais, lógicos (`and`, `or`, `not`), de tupla e switch expressions. A ideia central é ver o que "exaustivo" significa na prática: o compilador avisa quando falta um caso, mas um valor fora do enum ainda pode estourar em tempo de execução.
+
+**O cenário**
+
+Seis pequenas decisões do dia a dia (descrever um valor, dar nota, checar dia útil, checar letra, precificar ingresso, avançar um semáforo), todas em `Patterns.cs`, junto com o enum `Light { Red, Yellow, Green }`.
+
+- `Describe(object?)`: `null`, inteiros negativos, zero e positivos, texto vazio ou não, `bool` e "outro".
+- `Grade(int)`: nota de 0 a 100 em A, B, C ou F.
+- `IsWeekday(DayOfWeek)` e `IsAsciiLetter(char)`: predicados escritos como um único padrão `is`.
+- `TicketPrice(int, bool)`: preço por idade e por ser sócio.
+- `Next(Light)`: o próximo estado do semáforo.
+
+Em `PatternTests.cs`, os `[InlineData]` incluem as fronteiras (89 e 90, 12 e 13, 64 e 65) e um valor de enum indefinido, `(Light)99`.
+
+**O que você vai fazer, passo a passo**
+
+1. **Um switch para vários padrões (TODO-00).** Em `Describe`, use uma switch expression com padrões de tipo, constante e relacionais (`null`, `int and < 0`, `0`, `""`, `string`, `bool` e o resto). A ordem dos braços importa.
+2. **Faixas relacionais (TODO-01).** Em `Grade`, use `< 0 or > 100` para lançar `ArgumentOutOfRangeException` e `>= 90`, `>= 80`, `>= 70` para as notas, com `F` no resto.
+3. **Padrões lógicos (TODO-02 e TODO-03).** Em `IsWeekday`, escreva um único `is not (... or ...)`. Em `IsAsciiLetter`, combine faixas com `and`/`or` e cuide dos parênteses: `and` amarra mais forte que `or`.
+4. **Padrão de tupla (TODO-04).** Em `TicketPrice`, faça switch em `(age, isMember)`. Os braços são testados de cima para baixo: idade negativa lança, abaixo de 3 paga 0, abaixo de 13 paga 5, 65 ou mais paga 7, e os demais pagam 8 (sócios) ou 10.
+5. **Exaustividade e o custo em runtime (TODO-05).** Em `Next`, liste os três membros do enum **sem** braço de descarte. O compilador só avisa se faltar um membro, e `(Light)99` lança `SwitchExpressionException` na execução.
+
+**Como saber que terminou**
+
+`dotnet test` fica todo verde. Você deve conseguir explicar por que a ordem dos braços importa em `TicketPrice`, e por que o teste de `(Light)99` espera uma exceção em vez de um aviso de compilação.
+
+**Desafios opcionais**
+
+- **TODO-06:** adicione a `Describe` um braço que o compilador marque como inalcançável (por exemplo `int` antes de `int and < 0`) e leia o erro.
+- **TODO-07:** reescreva `TicketPrice` com uma cláusula `when` em vez de padrão de tupla e compare a legibilidade.
+
+**Pré-requisitos:** `switch`, o operador `is` e o .NET 10 SDK.
+
+**Como rodar:** clone o repositório, entre na pasta do lab e rode `dotnet test`. Cada método esboçado lança `NotImplementedException` e tem no comentário a lista de casos esperada, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [Patterns, C# reference, Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns) (doc)

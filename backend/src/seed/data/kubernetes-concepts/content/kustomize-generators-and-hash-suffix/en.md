@@ -110,6 +110,40 @@ Verified: with `disableNameSuffixHash: true` the Secrets were named exactly `reg
 - **Generators vs YAML ConfigMaps.** Generators keep config in natural formats (`.env`, `.yaml`, `.conf`) and add the hash; plain YAML objects are what you see is what you get, without references being rewritten.
 - **Secrets from local files vs a secrets manager.** Local files are simple and depend on the machine running the build; External Secrets Operator or Sealed Secrets keep secrets reproducible from Git or a vault, at the cost of another component.
 
+## Lab
+
+In this lab you get a base and a `staging` overlay where the Pod works, but a configuration change never reaches it and the database password comes from a file committed to Git. Your job is to replace the hand-written ConfigMap and Secret YAML with Kustomize generators. The core idea is to feel that the hash suffix the generator adds to the name changes the Pod template when the content changes, and that is what turns new configuration into a rollout on its own.
+
+**The scenario**
+
+A base has a `web` Deployment that reads the `app-config` ConfigMap and the `db-credentials` Secret through `envFrom`. The tests run on a real k3s started by Testcontainers, whose `kubectl` already includes Kustomize: they apply `overlays/staging`, change `GREETING` in your files from `hi-staging` to `hi-v2`, apply again and expect the Pod to see the new value within a minute.
+
+- `base/deployment.yaml`: the `web` Deployment.
+- `base/configmap.yaml` and `base/kustomization.yaml`: the hand-written ConfigMap (`GREETING=hello`, `LOG_LEVEL=info`) and the resource list.
+- `overlays/staging/kustomization.yaml`: the overlay, which uses `config-patch.yaml` to override values and includes `secret.yaml`.
+- `overlays/staging/config-patch.yaml`, `secret.yaml` and `db.env`: the patch, the Secret with the password in the repository and the `.env` file with the value.
+
+You edit only files under `kustomize/`. To see what you are building, use `kubectl kustomize src/main/resources/kustomize/overlays/staging`.
+
+**What you will do, step by step**
+
+1. **Run the tests first.** The Pod works, but `changingAValueRollsOutTheDeployment` shows the new value never arrives, because nothing in the Pod template changed and nothing restarted.
+2. **Generate `app-config` in the base (TODO-00).** In `base/kustomization.yaml`, delete `configmap.yaml` and generate `app-config` with a `configMapGenerator`, with the same two keys. A plain ConfigMap keeps the same name forever; the generated one gets a hash suffix.
+3. **Merge the staging values (TODO-01).** In `overlays/staging/kustomization.yaml`, replace the patch with a `configMapGenerator` entry that merges `GREETING=hi-staging` and `ENVIRONMENT=staging` into the base values, and delete `config-patch.yaml`. The base's `LOG_LEVEL` must still be there.
+4. **Generate the Secret from the `.env` file (TODO-02).** Delete `secret.yaml` and generate `db-credentials` with a `secretGenerator` reading `db.env`. In a real project this file would stay out of Git.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/kustomize-generators-and-hash-suffix test` passes `baseAndOverlayValuesAreMerged`, `configMapNameCarriesAContentHash`, `secretIsGeneratedFromTheEnvFile` and `changingAValueRollsOutTheDeployment`. You should be able to explain why the hash makes the Deployment restart and why Kustomize rewrites the references to the generated name.
+
+**Optional challenges**
+
+- **TODO-03:** with the tests passing, run `kubectl kustomize` twice with different values and compare the ConfigMap names. What happens to the old ConfigMaps in a cluster after many deploys, and why is keeping them useful for `kubectl rollout undo`?
+
+**Prerequisites:** Docker running (the tests start a `rancher/k3s` container and pull `busybox` inside it), Java and Maven, and the articles Kustomize: Bases, Overlays and Components and Kustomize Generators and the Hash Suffix.
+
+**How to run it:** clone the repository and, from its root, run `mvn -pl kubernetes-concepts/kustomize-generators-and-hash-suffix test`. The `TODO-00`, `TODO-01` and `TODO-02` comments in the `kustomization.yaml` files mark what is left.
+
 ## Documentation Links
 
 - [Kustomize reference: configMapGenerator](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/configmapgenerator/): sources, behavior, options.

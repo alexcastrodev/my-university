@@ -89,6 +89,38 @@ Usos típicos: um cliente de banco contra um Pod de banco, um endpoint de métri
 - **port-forward vs um Service.** O port-forward é privado e temporário, sem mudar manifests; um Service é estável, compartilhável e precisa do seu próprio controle de acesso.
 - **Imagens mínimas vs depurabilidade.** Imagens distroless reduzem a superfície de ataque e removem o shell que você usaria para depurar; o `kubectl debug` é a resposta que mantém as duas coisas.
 
+## Lab
+
+Neste lab você recebe um `inspect.sh` que funciona no papel mas falha na prática: ele tenta ler um arquivo de dentro de um container sem shell e sem `cat`, e depois tenta alcançar o app por um nome DNS que não existe de onde o script roda. O seu trabalho é inspecionar o container em execução e alcançá-lo de fora da rede do cluster. A ideia central é sentir que `kubectl exec` só roda programas que existem na imagem, e que `kubectl debug` e `kubectl port-forward` são as saídas quando isso não basta.
+
+**O cenário**
+
+Um cluster Kubernetes real (k3s, subido pelo Testcontainers) roda um nginx de uma imagem mínima, e o script roda no nó, onde o `kubectl` funciona mas o DNS do cluster não.
+
+- `src/test/resources/k8s/web.yaml`: já vem pronto, com o Deployment `web` (nginx em `cgr.dev/chainguard/nginx`, porta 8080, sem shell, sem `cat`, sem gerenciador de pacotes), o Service `web` e um Pod `client`. Você não pode alterá-lo.
+- `src/main/resources/inspect.sh`: o único arquivo que você edita. Deve imprimir duas linhas.
+- `src/test/java/DebugTest.java`: compara a saída com o que o próprio teste obtém, e ainda confere que nenhum processo `kubectl port-forward` ficou rodando.
+
+As duas linhas são o `worker_processes` do `/etc/nginx/nginx.conf` como o container em execução o enxerga, e o header `Server` que o `web` devolve.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rodar os testes primeiro.** Veja as duas linhas falharem e leia o que o teste esperava.
+2. **Ler o arquivo do container em execução (TODO-00).** O `kubectl exec ... cat` não funciona porque a imagem não tem `cat`. Use um container efêmero de depuração (`kubectl debug`) com uma imagem que tenha as ferramentas, apontando para o container do nginx para compartilhar o namespace de processos, e leia o arquivo pelo sistema de arquivos do processo alvo. Os logs desse container devolvem o que ele imprimiu.
+3. **Alcançar o app de fora da rede (TODO-01).** `http://web:8080` não resolve no nó. Use `kubectl port-forward` para passar pelo API server, busque o header `Server` por `localhost` e **limpe depois**: o processo do port-forward precisa ser encerrado ao final do script, senão o teste falha.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/kubectl-exec-and-port-forward test` passa: o script termina com sucesso, a linha 1 é o `worker_processes` real, a linha 2 é o header `Server` e não sobra nenhum `kubectl port-forward`. Você deve conseguir explicar por que o container de depuração enxerga o arquivo do nginx sem que o Deployment seja alterado.
+
+**Desafios opcionais**
+
+- **TODO-02:** rode `kubectl get pod -l app=web -o yaml` depois dos testes. O que os seus containers de depuração deixaram no Pod, e como você se livra deles?
+
+**Pré-requisitos:** Docker rodando localmente (os testes sobem um container `rancher/k3s`, que baixa `cgr.dev/chainguard/nginx` e `busybox`) e o artigo "kubectl exec, debug and port-forward".
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/kubectl-exec-and-port-forward test`. Os comentários `TODO-00` e `TODO-01` em `inspect.sh` marcam as duas linhas a reescrever.
+
 ## Documentation Links
 
 - [Kubernetes docs: Get a Shell to a Running Container](https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/): uso do exec.

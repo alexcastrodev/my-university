@@ -141,6 +141,36 @@ Forgetting `NO_PROXY` for the Pod and Service CIDRs (`10.1.0.0/16` and `10.152.1
 - **Private CA vs public certificate on the registry.** A public certificate (e.g. Let's Encrypt via DNS-01) removes the need for any node configuration, at the price of the registry having a public DNS name.
 - **Restart cost.** Every change requires a MicroK8s restart. Batch registry changes and test with `ctr` before restarting.
 
+## Lab
+
+In this lab you get a `trust-registry.sh` that installs the company's private CA into the node's operating system, yet MicroK8s still cannot pull images from the internal registry. Your job is to set up trust the way MicroK8s's containerd expects it. The core idea is that MicroK8s's containerd does not use the host's certificate store, so trusting the CA system-wide (which fixes `curl` and `apt`) is not enough, and the configuration has to live in the right directory under the exact name.
+
+**The scenario**
+
+The company has a registry at `registry.lab:5443`, serving HTTPS with a certificate signed by a private CA. The test installs MicroK8s 1.35 in a Multipass VM, starts that registry, copies `busybox` into it as `registry.lab:5443/tools/busybox:1.37`, runs your script as root and then starts a Pod with that image.
+
+- `src/main/resources/trust-registry.sh`: your file. It already copies the CA into the host store and already creates a `certs.d/registry.lab` directory inside `/var/snap/microk8s/current/args`.
+- `src/main/resources/company-root-ca.crt`: the company root CA, next to the script.
+- `src/test/resources/registry.yaml` and `app.yaml`: given (the registry, the Job that seeds it and the `app` Pod). Do not edit.
+
+**What you will do, step by step**
+
+1. **Read the pull error.** Run the tests before editing: the failure message shows the latest pull error of the `app` Pod, which says what containerd complained about.
+2. **Understand the limit of host trust (TODO-00).** Find out whether trusting the CA on the host is enough for MicroK8s. Hint: the test also forbids solving the problem by turning TLS verification off (`skip_verify = true`).
+3. **Configure the registry in containerd (TODO-01).** Create the registry's hosts configuration in the `certs.d` directory, pointing to the company CA. Mind the directory name: containerd looks it up by the exact host of the image, and the address here includes a port.
+
+**How you know you are done**
+
+`mvn -pl kubernetes-concepts/microk8s-containerd-and-private-registry-ca test` passes completely: the script exits with 0, the `app` Pod becomes `Ready` pulling its image from the private registry, and no `hosts.toml` turns TLS verification off. You should be able to explain why the host CA did not help containerd and why trusting the CA beats skipping verification.
+
+**Optional challenges**
+
+- **TODO-02:** pull the image without Kubernetes, with `sudo microk8s ctr images pull --hosts-dir /var/snap/microk8s/current/args/certs.d registry.lab:5443/tools/busybox:1.37`. Why is that a quicker way to debug registry trust?
+
+**Prerequisites:** [Multipass](https://canonical.com/multipass) installed (the VM is deleted at the end), the article "MicroK8s containerd and Private Registry Trust", Java and Maven.
+
+**How to run it:** clone the repository and, from the root, run `mvn -pl kubernetes-concepts/microk8s-containerd-and-private-registry-ca test`. Each run takes a few minutes. You only edit `trust-registry.sh`; the TODO comments mark the spots.
+
 ## Documentation Links
 
 - [MicroK8s: Working with a private registry](https://canonical.com/microk8s/docs/registry-private): `hosts.toml` examples, CA, restart.

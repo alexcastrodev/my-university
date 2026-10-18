@@ -29,6 +29,7 @@ export interface JvmConcept extends JvmConceptSummary {
   version: string | null;
   updatedAt: string | null;
   sections: JvmConceptSection[];
+  lab?: string;
   references: JvmConceptReference[];
   related: ConceptLinkRef[];
 }

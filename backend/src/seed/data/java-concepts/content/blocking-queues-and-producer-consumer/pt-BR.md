@@ -149,6 +149,38 @@ A sincronização interna de `BlockingQueue` garante que o consumidor veja toda 
 - **`put()` e `take()` declaram `InterruptedException`, então cada chamador precisa decidir como reagir a ela** — engolir a exceção silenciosamente (um bloco `catch` vazio) descarta a informação de que a thread foi solicitada a parar; restaurar a interrupção (`Thread.currentThread().interrupt()`) ou propagar a exceção checked são as duas opções corretas, não ignorá-la.
 - **Um loop consumidor construído sobre `take()` nunca termina sozinho** — `while (true) { queue.take(); ... }` não tem condição natural de término, então um desligamento real precisa de um sinal explícito (interromper a thread consumidora, ou fazer os produtores enfileirarem um item "poison pill" reconhecível) que a própria fila não fornece.
 
+## Lab
+
+Neste lab você recebe `BoundedWorkQueue<T>`, um envoltório fino sobre uma `ArrayBlockingQueue` com capacidade fixa, com todos os métodos de entrada e saída por implementar. Seu trabalho é ligar cada um ao método certo de `BlockingQueue`. A ideia central é sentir a diferença entre bloquear até haver espaço (ou item) e desistir depois de um prazo, que é o que dá contrapressão a um produtor-consumidor.
+
+**O cenário**
+
+Um produtor entrega itens a um consumidor por uma fila limitada: se a fila enche, o produtor espera, e se esvazia, o consumidor espera.
+
+- `BoundedWorkQueue`: cria a `ArrayBlockingQueue` no construtor e expõe `submit`, `fetch`, `trySubmitWithin`, `fetchWithin`, o opcional `submitAll` e `size()`.
+- `BoundedWorkQueueTest`: sobe threads de verdade, espera 150 ms e confere que o produtor ou o consumidor continua vivo, bloqueado, e que nenhuma exceção foi lançada.
+
+Este lab não tem README: tudo o que está aqui vem do código e dos testes.
+
+**O que você vai fazer, passo a passo**
+
+1. **Bloquear em vez de lançar (TODO-00 e TODO-01).** `submit` usa `put` e `fetch` usa `take`. Com a fila cheia, `submit` espera em vez de estourar; com a fila vazia, `fetch` espera em vez de devolver `null`. Ambos propagam `InterruptedException`.
+2. **Esperar com prazo (TODO-02 e TODO-03).** `trySubmitWithin` usa `offer(item, timeout, unit)` e devolve se o item entrou. `fetchWithin` usa `poll(timeout, unit)` e devolve `null` se nada chegou a tempo. O prazo chega em milissegundos, então converta para `TimeUnit.MILLISECONDS`.
+
+Rode os testes e observe que os de bloqueio dependem de tempo: o produtor só termina depois que o consumidor drena a fila.
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar por que `add`/`remove` não servem aqui (lançam exceção em vez de esperar), e quando escolher `put`/`take` em vez de `offer`/`poll` com prazo.
+
+**Desafios opcionais**
+
+- **TODO-04:** implemente `submitAll(List<T>)`, enviando cada item em ordem e reaproveitando `submit`, para que o chamador bloqueie exatamente como em um `submit` isolado quando a fila encher.
+
+**Pré-requisitos:** sintaxe básica de Java, threads e `InterruptedException`, e a ideia de produtor e consumidor.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/blocking-queues-and-producer-consumer` e rode `mvn test` (ou, da raiz, `mvn -pl java-concepts/blocking-queues-and-producer-consumer test`). Os métodos lançam `UnsupportedOperationException` até você implementá-los, então os testes vermelhos mostram o que falta.
+
 ## Documentation Links
 
 - [BlockingQueue — java.util.concurrent](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/BlockingQueue.html) — doc

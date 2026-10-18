@@ -109,6 +109,35 @@ O truque popular de remover o finalizer **do próprio Namespace** pelo subresour
 - **Escalar para zero vs apagar.** Escalar é reversível e mantém configuração e dados; apagar é definitivo e limpa tudo.
 - **Remover finalizers à mão vs consertar o controller.** Removê-los destrava na hora e pode deixar vazar recursos externos que o finalizer protegia; restaurar o controller é mais lento e limpa direito.
 
+## Lab
+
+Neste lab você recebe um `ops.sh` com um comando que parece parar o app mas não para, e um namespace preso em `Terminating`. Seu trabalho é escrever o script de operações certo, que para o app do jeito correto e destrava o namespace sem deixar rastro. A ideia central é sentir que apagar Pods não para um Deployment (ele os recria), que o jeito de parar é reduzir as réplicas a zero, e que um namespace preso tem um motivo escrito nas suas conditions, geralmente um finalizer de algo que ninguém mais vai remover.
+
+**O cenário**
+
+O teste sobe um k3s de verdade (pelo Testcontainers), aplica `src/test/resources/k8s/cluster.yaml` (dado) e cria dois ambientes: um Deployment `web` com 2 réplicas no namespace `shop`, e um namespace `old-team` com um ConfigMap `leftover` cujo finalizer `example.com/cleanup` pertence a um controlador desinstalado há muito tempo. O teste apaga `old-team`, espera ele travar e roda o seu `src/main/resources/ops.sh` dentro do nó, com `kubectl` como admin.
+
+- `src/main/resources/ops.sh`: o único arquivo que você edita. Começa com `kubectl -n shop delete pods -l app=web`, que não resolve.
+- `src/test/java/StuckNamespaceTest.java`: confere o resultado e depois recria `old-team`, como um time novo faria, para ver se algo do antigo volta.
+
+**O que você vai fazer, passo a passo**
+
+1. **Rode os testes primeiro.** Veja que os Pods do `web` voltam e que `old-team` continua preso.
+2. **Parar o `web` sem perder o Deployment (TODO-00).** O Deployment deve continuar existindo, para poder ser religado depois, mas nenhum Pod pode ficar rodando. Apagar Pods não basta, porque o controlador recria os que faltam. Mude o número de réplicas desejado.
+3. **Destravar o `old-team` (TODO-01).** Leia as conditions do namespace (a mensagem de falha as mostra): elas dizem exatamente o que ainda impede a remoção. Tire o bloqueio do objeto que o segura, sem pular a limpeza do próprio namespace. Não remova o finalizer `kubernetes` do namespace (por exemplo, pelo subrecurso `/finalize`): o último teste detecta isso.
+
+**Como saber que terminou**
+
+`mvn -pl kubernetes-concepts/deleting-pods-scaling-and-stuck-namespaces test` passa em `scriptSucceeds`, `webIsStoppedButKept` (o Deployment tem 0 réplicas e nenhum Pod `web` está rodando) e `oldTeamIsGoneForGood` (o namespace some e, ao recriá-lo, o ConfigMap `leftover` não volta). Você deve conseguir explicar por que apagar Pods não parou o app e por que forçar a finalização do namespace deixaria lixo para trás.
+
+**Desafios opcionais**
+
+- **TODO-02:** resolva o TODO-01 forçando a finalização do namespace e rode os testes. Olhe o ConfigMap `leftover` que volta: qual é o `deletionTimestamp` dele, e por que ele ainda está no etcd?
+
+**Pré-requisitos:** Docker rodando (os testes sobem um container `rancher/k3s` e baixam `busybox` dentro dele), Java e Maven, e o artigo Deleting Pods, Scaling and Stuck Namespaces.
+
+**Como rodar:** clone o repositório e, a partir da raiz, rode `mvn -pl kubernetes-concepts/deleting-pods-scaling-and-stuck-namespaces test`. Os comentários `TODO-00` e `TODO-01` em `ops.sh` marcam o que falta.
+
 ## Documentation Links
 
 - [Kubernetes docs: Termination of Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination): grace period, remoção forçada.

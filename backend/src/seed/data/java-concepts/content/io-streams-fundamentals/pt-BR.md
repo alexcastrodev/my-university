@@ -148,6 +148,36 @@ O padrão é uma lista de permissão/negação separada por ponto e vírgula: `c
 - **Deserializar dados não confiáveis é um risco de segurança, não só de integridade de dados.** `readObject()` sobre bytes controlados por um atacante pode instanciar classes arbitrárias do classpath antes de qualquer código da aplicação rodar; `ObjectInputFilter` mitiga isso com uma lista de permissão, mas a opção mais segura é evitar completamente a deserialização de entrada não confiável — parsear para um formato de dados simples (JSON, um DTO) em vez disso.
 - **O `java.io` puro ainda merece seu lugar ao lado do `Path`/`Files` do NIO.2.** A abstração de stream (`InputStream`/`Reader` e afins) é o que a maioria das APIs — clients HTTP, bibliotecas de compressão, serialização — de fato consome, então `java.io` continua sendo a camada de interoperabilidade mesmo em código que, fora isso, faz navegação de sistema de arquivos e operações em massa em arquivos através de `Path`/`Files` (veja o conceito de NIO.2 para essa API em profundidade).
 
+## Lab
+
+Neste lab você recebe `StreamTools`, uma pequena caixa de ferramentas para streams de `java.io`, com quatro métodos vazios. Seu trabalho é implementá-los. A ideia central é trabalhar com os dois grupos clássicos, streams de bytes (`InputStream`/`OutputStream`) e de caracteres (`Reader`/`Writer`), e entender quem é dono do fechamento: quem passa o stream para o método, ou o próprio método.
+
+**O cenário**
+
+Utilitários que recebem streams já abertos pelo chamador.
+
+- `countLines(Reader)`: conta as linhas disponíveis.
+- `copy(InputStream, OutputStream)`: copia todos os bytes de um para o outro.
+- `readAllText(InputStream)`: lê tudo e decodifica como UTF-8.
+- `writeLines(Writer, List<String>)`: escreve cada linha seguida de um separador de linha.
+
+Nenhum desses métodos fecha o stream recebido. Quem abriu é dono, e fechar cedo quebraria código que ainda precisa dele. Só um recurso que o próprio método abre é dele para fechar.
+
+**O que você vai fazer, passo a passo**
+
+1. **Contar linhas (TODO-00).** Envolva o `Reader` em um `BufferedReader` e chame `readLine()` em loop até devolver `null`. Não feche o reader.
+2. **Copiar bytes (TODO-01).** `InputStream` tem um método (desde o JDK 9) que transfere tudo para um `OutputStream` em uma chamada. Procure por ele e não feche nenhum dos dois streams.
+3. **Ler como texto (TODO-02).** Leia todos os bytes e decodifique como UTF-8 (`StandardCharsets.UTF_8`), sem fechar o stream.
+4. **Escrever linhas (TODO-03).** Escreva cada linha seguida de um separador, de modo que ler de volta com `readLine()` reproduza as linhas originais. Um `BufferedWriter` oferece `newLine()`, com o separador correto para a plataforma. Como você não vai fechar o writer, pense no que precisa fazer para os dados realmente chegarem ao destino (`flush()`).
+
+**Como saber que terminou**
+
+`mvn test` fica todo verde. Você deve conseguir explicar a regra "quem abre, fecha" e por que decodificar com um charset explícito (UTF-8) é mais seguro do que depender do padrão da plataforma.
+
+**Pré-requisitos:** sintaxe básica de Java e exceções checadas (`IOException`). O projeto usa Java 21 e Maven.
+
+**Como rodar:** clone o repositório, entre em `java-concepts/io-streams-fundamentals` e rode `mvn test` (da raiz: `mvn -pl java-concepts/io-streams-fundamentals test`). Os métodos começam lançando `UnsupportedOperationException("Not implemented yet.")` e os comentários `TODO-NN` trazem dicas, então os testes vermelhos são o seu checklist.
+
 ## Documentation Links
 
 - [InputStream — Java SE 25 API](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html) — doc
