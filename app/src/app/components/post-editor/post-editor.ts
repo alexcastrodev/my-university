@@ -2,18 +2,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
+  computed,
   effect,
+  inject,
   input,
   model,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
+import { renderPostMarkdown } from '../../shared/post-markdown';
 
 /** Grows with its content up to this many px, then scrolls. */
 const MAX_HEIGHT_PX = 420;
+/** Room the overflow menu needs below its button; with less, it opens upwards. */
+const MENU_HEIGHT_PX = 220;
 
 /**
- * A small markdown editor for posts: a toolbar over a textarea that grows as you type.
+ * A small markdown editor for posts: Write and Preview tabs, a toolbar, and a textarea that grows as you type.
  * The value stays plain markdown text, so posts keep working with every existing endpoint.
  */
 @Component({
@@ -31,12 +38,33 @@ export class PostEditor {
 
   private area = viewChild.required<ElementRef<HTMLTextAreaElement>>('area');
 
+  private host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  protected previewing = signal(false);
+  protected menuOpen = signal(false);
+  protected menuUp = signal(false);
+  /** Tells a draft that was just cleared from one that was never typed, so an empty Preview can still say so. */
+  private hadContent = false;
+  /** Same renderer the published post goes through, so what you preview is what gets shown. */
+  protected preview = computed(() => renderPostMarkdown(this.value()));
+
   constructor() {
-    // The parent clears the draft after sending; the box has to shrink back with it.
+    // The parent clears the draft after sending: the box shrinks back and a preview goes back to Write.
     effect(() => {
-      this.value();
+      if (this.value() !== '') this.hadContent = true;
+      else if (this.hadContent) {
+        this.hadContent = false;
+        this.previewing.set(false);
+      }
       queueMicrotask(() => this.grow());
     });
+  }
+
+  protected setPreviewing(on: boolean): void {
+    this.previewing.set(on);
+    this.menuOpen.set(false);
+    // A hidden textarea measures 0px, so it has to be resized once it is back.
+    if (!on) queueMicrotask(() => this.grow());
   }
 
   protected onInput(): void {
@@ -44,7 +72,28 @@ export class PostEditor {
     this.grow();
   }
 
+  protected toggleMenu(button: HTMLElement): void {
+    if (!this.menuOpen()) this.menuUp.set(button.getBoundingClientRect().bottom + MENU_HEIGHT_PX > window.innerHeight);
+    this.menuOpen.update((open) => !open);
+  }
+
+  /** Escape closes the menu only; without stopping it, the discussion panel around the editor would close too. */
+  protected closeMenu(event: Event): void {
+    if (!this.menuOpen()) return;
+    event.stopPropagation();
+    this.menuOpen.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected onDocumentClick(event: MouseEvent): void {
+    if (this.menuOpen() && !this.host.nativeElement.contains(event.target as Node)) this.menuOpen.set(false);
+  }
+
   protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.closeMenu(event);
+      return;
+    }
     const mod = event.metaKey || event.ctrlKey;
     if (mod && event.key === 'Enter') {
       event.preventDefault();

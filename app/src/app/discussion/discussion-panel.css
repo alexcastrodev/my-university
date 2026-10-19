@@ -175,8 +175,19 @@
   font-size: 0.88rem;
   line-height: 1.5;
   color: var(--mu-ink);
-  white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.edit-actions .send {
+  margin: 0;
 }
 
 .actions {
@@ -274,33 +285,6 @@
   color: var(--mu-muted);
 }
 
-.field {
-  position: relative;
-  border: 1px solid var(--mu-divider);
-  border-radius: 10px;
-  padding: 0.5rem 0.6rem;
-  background: var(--mu-surface);
-}
-
-.field:focus-within {
-  border-color: var(--mu-accent);
-}
-
-textarea {
-  display: block;
-  width: 100%;
-  min-height: 2.6rem;
-  max-height: min(40vh, 16rem);
-  field-sizing: content;
-  resize: none;
-  border: none;
-  outline: none;
-  background: none;
-  font-family: inherit;
-  font-size: 0.88rem;
-  color: var(--mu-ink);
-}
-
 .send {
   display: block;
   margin: 0.3rem 0 0 auto;
@@ -318,10 +302,6 @@ textarea {
 .send:disabled {
   opacity: 0.5;
   cursor: default;
-}
-
-.send-arrow {
-  display: none;
 }
 
 .signin {
@@ -379,36 +359,5 @@ textarea {
 
   .head {
     padding-top: 0.5rem;
-  }
-
-  .field {
-    display: flex;
-    align-items: flex-end;
-    gap: 0.5rem;
-    border-radius: 1.4rem;
-    padding: 0.35rem 0.4rem 0.35rem 1rem;
-  }
-
-  textarea {
-    min-height: 1.6rem;
-    padding: 0.35rem 0;
-  }
-
-  .send {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    margin: 0;
-    padding: 0;
-    border-radius: 50%;
-    font-size: 1.1rem;
-  }
-
-  .send-label {
-    display: none;
-  }
-
-  .send-arrow {
-    display: inline;
   }
 }

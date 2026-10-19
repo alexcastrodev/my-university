@@ -32,13 +32,22 @@
               }
             </strong>
             <span class="time">· {{ timeAgo(c.createdAt) }}</span>
+            @if (c.editedAt) {
+              <span class="time" i18n="@@discussion.edited">· edited</span>
+            }
             @if (!isReply && thread.resolved) {
               <span class="resolved" i18n="@@discussion.resolved">Resolved</span>
             }
           }
         </div>
-        @if (!c.deleted) {
-          <p class="body">{{ c.body }}</p>
+        @if (!c.deleted && editingId() === c.id) {
+          <app-post-editor [(value)]="editDraft" [maxLength]="maxBody" (submitted)="saveEdit(c)" />
+          <div class="edit-actions">
+            <button type="button" class="link" (click)="editingId.set(null)" i18n="@@discussion.cancel">Cancel</button>
+            <button type="button" class="send" [disabled]="!canSaveEdit()" (click)="saveEdit(c)" i18n="@@discussion.save">Save</button>
+          </div>
+        } @else if (!c.deleted) {
+          <div class="body md" [innerHTML]="html(c.body)"></div>
           <div class="actions">
             <button
               type="button"
@@ -57,6 +66,7 @@
               <button type="button" class="resolve" (click)="discussion.accept(thread.root.id, c.id)" i18n="@@discussion.markResolved">Mark as resolved</button>
             }
             @if (c.mine) {
+              <button type="button" class="link" (click)="startEdit(c)" i18n="@@discussion.edit">Edit</button>
               <button type="button" class="link danger" (click)="remove(c)">
                 @if (confirmingDelete() === c.id) {
                   <ng-container i18n="@@discussion.confirmDelete">Confirm</ng-container>
@@ -136,21 +146,14 @@
             <button type="button" class="link" (click)="replyingTo.set(null)" i18n="@@discussion.cancel">Cancel</button>
           </div>
         }
-        <div class="field">
-          <textarea
-            rows="2"
-            [value]="draft()"
-            [maxLength]="maxBody"
-            i18n-placeholder="@@discussion.placeholder"
-            placeholder="Reply in this paragraph..."
-            (input)="onInput($event)"
-            (keydown)="onKeydown($event)"
-          ></textarea>
-          <button type="button" class="send" [disabled]="!canSend()" (click)="send()">
-            <span class="send-label" i18n="@@discussion.send">Send</span>
-            <span class="send-arrow" aria-hidden="true">↑</span>
-          </button>
-        </div>
+        <app-post-editor
+          [(value)]="draft"
+          [maxLength]="maxBody"
+          i18n-placeholder="@@discussion.placeholder"
+          placeholder="Reply in this paragraph..."
+          (submitted)="send()"
+        />
+        <button type="button" class="send" [disabled]="!canSend()" (click)="send()" i18n="@@discussion.send">Send</button>
         @if (discussion.error(); as error) {
           <p class="error" role="alert">
             @if (error === 'tooMany') {

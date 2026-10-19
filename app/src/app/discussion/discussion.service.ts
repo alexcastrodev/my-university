@@ -177,6 +177,10 @@ export class DiscussionService {
     return this.mutate(this.http.delete(`${API}/comments/${rootId}/accept`));
   }
 
+  edit(commentId: number, body: string): Promise<boolean> {
+    return this.mutate(this.http.put(`${API}/comments/${commentId}`, { body }));
+  }
+
   remove(commentId: number): Promise<boolean> {
     return this.mutate(this.http.delete(`${API}/comments/${commentId}`));
   }

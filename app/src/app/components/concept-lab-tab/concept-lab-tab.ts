@@ -57,6 +57,8 @@ export class ConceptLabTab {
   protected replyingTo = signal<number | null>(null);
   protected replyDraft = signal('');
   protected confirmingDelete = signal<number | null>(null);
+  protected editingId = signal<number | null>(null);
+  protected editDraft = signal('');
 
   protected threads = computed<ThreadView[]>(() => this.detail()?.threads ?? []);
   protected count = computed(() => this.detail()?.commentCount ?? 0);
@@ -94,6 +96,20 @@ export class ConceptLabTab {
       this.replyDraft.set('');
       this.replyingTo.set(null);
     }
+  }
+
+  protected startEdit(comment: CommentView): void {
+    this.editDraft.set(comment.body);
+    this.editingId.set(comment.id);
+  }
+
+  protected async saveEdit(comment: CommentView): Promise<void> {
+    const body = this.editDraft().trim();
+    if (!this.canSend(body)) return;
+    const ok = await this.run(() =>
+      firstValueFrom(this.http.put(`${API}/comments/${comment.id}`, { body })),
+    );
+    if (ok) this.editingId.set(null);
   }
 
   protected vote(comment: CommentView): void {
