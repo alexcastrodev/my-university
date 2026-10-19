@@ -29,6 +29,14 @@ test.describe('Course Page', () => {
       await expect(playlist.aside).toBeVisible();
     });
 
+    test('should leave room around the breadcrumb instead of touching the edge', async ({ page }) => {
+      const course = new CoursePage(page);
+      const crumbs = await course.breadcrumbs.boundingBox();
+      const main = await course.mainContent.boundingBox();
+      expect(crumbs.y - main.y).toBeGreaterThanOrEqual(8);
+      expect(crumbs.x - main.x).toBeGreaterThanOrEqual(16);
+    });
+
     test('main content should have overflow-y auto', async ({ page }) => {
       test.skip(page.viewportSize()?.width < 900, 'overflow-y is visible on mobile layout');
       const course = new CoursePage(page);

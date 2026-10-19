@@ -4,6 +4,7 @@ export class CoursePage {
 
     this.layout        = page.locator('.layout');
     this.mainContent   = page.locator('.main-content');
+    this.breadcrumbs   = page.getByRole('navigation', { name: 'Breadcrumb' });
     this.heroSection   = page.locator('.hero');
     this.courseTitle   = page.locator('.course-title').first();
     this.quizBanner    = page.locator('.quiz-banner');

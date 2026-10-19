@@ -28,7 +28,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     @case ('badge') { <path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="m9 11 2 2 4-4"/> }
     @case ('read') { <path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2V4z"/><path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8V4z"/> }
     @case ('practice') { <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/> }
-    @case ('review') { <path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/> }
+    @case ('discuss') { <path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 9.5h8M8 12.5h5"/> }
     @default { <path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2z"/> }
       }
     </svg>
