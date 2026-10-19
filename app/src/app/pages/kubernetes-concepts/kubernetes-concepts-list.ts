@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { KubernetesConceptCategory, KubernetesConceptSummary } from '../../models/kubernetes-concept.model';
+import { KUBERNETES_CONCEPT_TOPIC_ORDER, KubernetesConceptCategory, KubernetesConceptSummary } from '../../models/kubernetes-concept.model';
 import { KubernetesConceptsService } from '../../services/kubernetes-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: KubernetesConceptCategory | null }[] = [
@@ -18,24 +19,6 @@ const CATEGORY_OPTIONS: { label: string; value: KubernetesConceptCategory | null
   { label: 'kubernetesConcepts.category.troubleshooting', value: 'Troubleshooting' },
   { label: 'kubernetesConcepts.category.observability', value: 'Observability' },
   { label: 'kubernetesConcepts.category.security', value: 'Security' },
-];
-
-export interface KubernetesConceptTopicGroup {
-  topic: string;
-  concepts: KubernetesConceptSummary[];
-}
-
-const TOPIC_ORDER = [
-  'MicroK8s Cluster',
-  'Workloads',
-  'Secrets & Configuration',
-  'Networking',
-  'Storage & Backups',
-  'Kustomize',
-  'Delivery & Operations',
-  'Troubleshooting',
-  'Observability',
-  'Security',
 ];
 
 @Component({
@@ -64,27 +47,20 @@ export class KubernetesConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    const filtered = all.filter((c) => {
+    return all.filter((c) => {
       const matchesCategory = !category || c.category === category;
       const matchesLab = !showLabs || c.labUrl;
       return matchesCategory && matchesLab;
     });
-
-    return sortByRead(filtered, this.readSort());
   });
 
-  groupedConcepts = computed<KubernetesConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, KubernetesConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed<ConceptTopicGroup<KubernetesConceptSummary>[]>(() =>
+    groupByTopic(this.filteredConcepts(), KUBERNETES_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onFilterChange(category: KubernetesConceptCategory | null) {
     this.selectedCategory.set(category);

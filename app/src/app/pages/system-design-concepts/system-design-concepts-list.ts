@@ -1,31 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { SystemDesignConceptSummary } from '../../models/system-design-concept.model';
+import { SYSTEM_DESIGN_CONCEPT_TOPIC_ORDER, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-
-export interface SystemDesignConceptTopicGroup {
-  topic: string;
-  concepts: SystemDesignConceptSummary[];
-}
 
 const PATH = '/system-design/system-design-concepts';
 const PT_BR_PATH = '/pt-BR/system-design/system-design-concepts';
-
-const TOPIC_ORDER = [
-  'Distributed Systems Fundamentals',
-  'Resilience & Operability',
-  'Security in Distributed Systems',
-  'Data Storage & Modeling',
-  'Replication & Consistency',
-  'Scaling & Infrastructure',
-  'Messaging & Streaming',
-  'Observability & SRE',
-  'System Design Case Studies',
-];
 
 @Component({
   selector: 'app-system-design-concepts-list',
@@ -77,27 +61,20 @@ export class SystemDesignConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    const filtered = all.filter((c) => {
+    return all.filter((c) => {
       const matchesTag = !tag || c.tags.includes(tag);
       const matchesLab = !showLabs || c.labUrl;
       return matchesTag && matchesLab;
     });
-
-    return sortByRead(filtered, this.readSort());
   });
 
-  groupedConcepts = computed<SystemDesignConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, SystemDesignConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed<ConceptTopicGroup<SystemDesignConceptSummary>[]>(() =>
+    groupByTopic(this.filteredConcepts(), SYSTEM_DESIGN_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onFilterChange(tag: string | null) {
     this.selectedTag.set(tag);

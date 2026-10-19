@@ -9,12 +9,13 @@ export const READ_SORT_OPTIONS: { label: string; value: ReadSortOrder }[] = [
 /**
  * Stable sort by read status; leaves relative order within each group untouched.
  *
- * Also stamps each item with its 1-based `sequence` position in the array as given —
+ * Also stamps each item with its 1-based `sequence` position in the array as given,
  * i.e. the curriculum's actual prerequisite order, since callers always pass the
- * backend's `sortByPrerequisites` order in before any read-status re-sort is applied.
+ * backend's `sortByPrerequisites` order in (topic-grouped lists call it once per topic,
+ * so each topic is numbered 1, 2, 3...) before any read-status re-sort is applied.
  * Stamping happens before reordering so a concept's sequence number stays tied to
  * where it really sits in the curriculum even when "unread first"/"read first"
- * visually moves it elsewhere — the number answers "which lesson is this", not
+ * visually moves it elsewhere: the number answers "which lesson is this", not
  * "which position is it on screen right now".
  */
 export function sortByRead<T extends { read: boolean }>(

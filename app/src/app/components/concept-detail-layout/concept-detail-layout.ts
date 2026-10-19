@@ -26,6 +26,7 @@ export class ConceptDetailLayout {
   backLabel = input.required<string>();
   basePath = input.required<string>();
   items = input<ConceptSidebarItem[]>([]);
+  sidebarTitle = input<string | null>(null);
   activeSlug = input<string | null>(null);
   prevItem = input<ConceptPagerItem | null>(null);
   nextItem = input<ConceptPagerItem | null>(null);

@@ -33,3 +33,16 @@ export interface DotNetTestingConcept extends DotNetTestingConceptSummary {
   references: DotNetTestingConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const DOTNET_TESTING_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'MSTest Fundamentals',
+  'Test Doubles',
+  'Time & Async',
+  'ASP.NET Core Testing',
+  'Data Access Testing',
+  'Blazor',
+  'Tooling & CI',
+  'DDD',
+  'Application Architecture',
+];

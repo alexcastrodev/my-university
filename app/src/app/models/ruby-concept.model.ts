@@ -32,3 +32,12 @@ export interface RubyConcept extends RubyConceptSummary {
   references: RubyConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const RUBY_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Object Model & Metaprogramming',
+  'Concurrency',
+  'Collections & Blocks',
+  'Language Core & Idioms',
+  'Performance & Internals',
+];

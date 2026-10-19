@@ -41,3 +41,12 @@ export interface QuarkusConcept extends QuarkusConceptSummary {
   references: QuarkusConceptReference[];
   related: ConceptLinkRef[];
 }
+
+export const QUARKUS_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Core Configuration',
+  'Caching & Auditing',
+  'Multitenancy',
+  'Customization & Migration',
+  'Modern Data Access',
+  'Extensions & Tooling',
+];

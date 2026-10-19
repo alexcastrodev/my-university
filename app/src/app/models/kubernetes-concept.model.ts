@@ -46,3 +46,16 @@ export interface KubernetesConcept extends KubernetesConceptSummary {
   references: KubernetesConceptReference[];
   related: ConceptLinkRef[];
 }
+
+export const KUBERNETES_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'MicroK8s Cluster',
+  'Workloads',
+  'Secrets & Configuration',
+  'Networking',
+  'Storage & Backups',
+  'Kustomize',
+  'Delivery & Operations',
+  'Troubleshooting',
+  'Observability',
+  'Security',
+];

@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { QuarkusConceptView } from '../../components/quarkus-concept-view/quarkus-concept-view';
-import { QuarkusConcept, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
+import { QUARKUS_CONCEPT_TOPIC_ORDER, QuarkusConcept, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
 import { QuarkusConceptsService } from '../../services/quarkus-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { orderByTopic } from '../../shared/concept-topics';
 
 @Component({
   selector: 'app-quarkus-concepts-detail',
@@ -29,10 +31,17 @@ export class QuarkusConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<QuarkusConceptSummary>(() => this.quarkusConceptsService.listConcepts());
+  nav = createConceptNavigation<QuarkusConceptSummary>(() =>
+    this.quarkusConceptsService.listConcepts().pipe(map((list) => orderByTopic(list, QUARKUS_CONCEPT_TOPIC_ORDER))),
+  );
 
+  /** The topic of the open concept: the sidebar lists only that topic, like its group on the list page. */
+  currentTopic = computed(() => this.nav.allConcepts().find((c) => c.slug === this.nav.slug())?.topic ?? null);
   sidebarItems = computed(() =>
-    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
+    this.nav
+      .allConcepts()
+      .filter((c) => c.topic === this.currentTopic())
+      .map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
   );
   prevItem = computed(() => {
     const p = this.nav.prevConcept();

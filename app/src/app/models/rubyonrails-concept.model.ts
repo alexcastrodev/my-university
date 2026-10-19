@@ -32,3 +32,13 @@ export interface RubyOnRailsConcept extends RubyOnRailsConceptSummary {
   references: RubyOnRailsConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const RUBYONRAILS_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Database & ActiveRecord',
+  'Application Servers & Infra',
+  'Caching',
+  'Background Jobs',
+  'Observability',
+  'Front-end & Network',
+];

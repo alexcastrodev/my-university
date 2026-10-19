@@ -11,6 +11,14 @@
   background: var(--mu-bg);
 }
 
+.sidebar-title {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mu-ink);
+  margin-bottom: 0.35rem;
+}
+
 .sidebar-progress-label {
   display: block;
   font-size: 0.72rem;

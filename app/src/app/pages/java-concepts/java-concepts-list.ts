@@ -1,26 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { JavaConceptSummary } from '../../models/java-concept.model';
+import { JAVA_CONCEPT_TOPIC_ORDER, JavaConceptSummary } from '../../models/java-concept.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-
-export interface JavaConceptTopicGroup {
-  topic: string;
-  concepts: JavaConceptSummary[];
-}
-
-/** Pedagogical order — roughly the order a learner would want to progress through, not alphabetical. */
-const TOPIC_ORDER = [
-  'Collections',
-  'Concurrency',
-  'Language Features',
-  'API Design & Craft',
-  'Core APIs & Tooling',
-  'I/O & Networking',
-];
 
 const PATH = '/java/java-concepts';
 const PT_BR_PATH = '/pt-BR/java/java-concepts';
@@ -48,22 +34,16 @@ export class JavaConceptsListPage implements OnInit {
   filteredConcepts = computed(() => {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
-    const filtered = showLabs ? all.filter((c) => c.labUrl) : all;
-    return sortByRead(filtered, this.readSort());
+    return showLabs ? all.filter((c) => c.labUrl) : all;
   });
 
-  groupedConcepts = computed<JavaConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, JavaConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed<ConceptTopicGroup<JavaConceptSummary>[]>(() =>
+    groupByTopic(this.filteredConcepts(), JAVA_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   constructor() {
     this.loading.set(true);

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
+import { SPRING_CONCEPT_TOPIC_ORDER, SpringConceptCategory, SpringConceptSummary } from '../../models/spring-concept.model';
 import { SpringConceptsService } from '../../services/spring-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[] = [
@@ -12,22 +13,6 @@ const CATEGORY_OPTIONS: { label: string; value: SpringConceptCategory | null }[]
   { label: 'Spring Boot', value: 'Spring Boot' },
   { label: 'Spring Security', value: 'Spring Security' },
   { label: 'Spring Batch', value: 'Spring Batch' },
-];
-
-export interface SpringConceptTopicGroup {
-  topic: string;
-  concepts: SpringConceptSummary[];
-}
-
-const TOPIC_ORDER = [
-  'Core Spring & Boot',
-  'Spring MVC & Web',
-  'Data Access',
-  'Reactive',
-  'Messaging',
-  'Architecture',
-  'Spring Security',
-  'Spring Batch',
 ];
 
 const PATH = '/spring-concepts';
@@ -60,27 +45,20 @@ export class SpringConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    const filtered = all.filter((c) => {
+    return all.filter((c) => {
       const matchesCategory = !category || c.category === category;
       const matchesLab = !showLabs || c.labUrl;
       return matchesCategory && matchesLab;
     });
-
-    return sortByRead(filtered, this.readSort());
   });
 
-  groupedConcepts = computed<SpringConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, SpringConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed<ConceptTopicGroup<SpringConceptSummary>[]>(() =>
+    groupByTopic(this.filteredConcepts(), SPRING_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   constructor() {
     this.loading.set(true);
