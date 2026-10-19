@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
@@ -29,7 +29,7 @@ export class CoursePage implements OnInit {
   private courseLoader = effect(() => {
     const id = this.examId();
     this.auth.currentUser();
-    if (id) this.loadCourse(id);
+    if (id) untracked(() => this.loadCourse(id));
   });
 
   protected readonly markCompletedTooltip = $localize`:@@coursePage.markCompleted.tooltip:Log in to mark this lesson as completed`;

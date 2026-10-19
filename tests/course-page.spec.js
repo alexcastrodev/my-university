@@ -12,10 +12,11 @@ test.describe('Course Page', () => {
 
   test.describe('Header', () => {
     test('should render header on course page', async ({ page }) => {
+      test.skip((page.viewportSize()?.width ?? 1280) < 768, 'phones swap the sidebar for the bottom tab bar, see responsive.spec.js');
       const header = new SidebarPage(page);
       await expect(header.sidebar).toBeVisible();
       await expect(header.brandLink).toBeVisible();
-      await expect(header.examsLink).toBeVisible();
+      await expect(header.tracksLink).toBeVisible();
     });
   });
 
@@ -104,9 +105,10 @@ test.describe('Course Page', () => {
 
     test('should expand a collapsed module when clicking its header', async ({ page }) => {
       const playlist = new PlaylistPage(page);
-      const secondModuleHeader = playlist.modulesList.locator('.module-header').nth(1);
-      await secondModuleHeader.click();
-      await expect(playlist.modulesList.locator('.lessons-list').nth(1)).toBeVisible();
+      const secondModule = playlist.modulesList.locator('.module').nth(1);
+      await expect(secondModule.locator('.lessons-list')).toHaveCount(0);
+      await secondModule.locator('.module-header').click();
+      await expect(secondModule.locator('.lessons-list')).toBeVisible();
     });
 
     test('should navigate to lesson when clicking a lesson button', async ({ page }) => {

@@ -3,7 +3,7 @@ export class PlaylistPage {
     this.page = page;
 
     this.aside         = page.getByRole('complementary', { name: 'Course playlist' });
-    this.searchInput   = page.getByRole('searchbox', { name: 'Search within playlist' });
+    this.searchInput   = page.getByRole('searchbox', { name: 'Search lessons in this course' });
     this.modulesList   = page.locator('.modules-list');
     this.footer        = page.locator('.playlist-footer');
     this.footerDuration = page.locator('.footer-duration');

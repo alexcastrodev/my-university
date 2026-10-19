@@ -119,7 +119,7 @@ describe('SettingsPage', () => {
     expect(account.textContent).toContain('@ana-gh');
     expect(account.textContent).toContain('120 XP');
     const hrefs = Array.from(account.querySelectorAll('a')).map((a) => a.getAttribute('href'));
-    expect(hrefs).toEqual(['/profile', '/leaderboard']);
+    expect(hrefs).toEqual(['/profile', '/notifications', '/leaderboard']);
 
     (account.querySelector('.logout') as HTMLButtonElement).click();
     expect(logout).toHaveBeenCalled();
