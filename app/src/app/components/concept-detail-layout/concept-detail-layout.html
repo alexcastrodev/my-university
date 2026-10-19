@@ -13,6 +13,12 @@
       <p class="dz-hint" i18n="@@discussion.hint">Click a paragraph to see or start its discussion.</p>
     }
 
+    @if (discussion.topic(); as topic) {
+      @if (!discussion.labTabOpen()) {
+        <app-concept-discussion id="discussion" class="concept-end-discussion" [topic]="topic" />
+      }
+    }
+
     @if (prevItem() || nextItem()) {
       <nav class="concept-pager" i18n-aria-label="@@concept.sidebarNav.ariaLabel" aria-label="Concept navigation">
         @if (prevItem(); as p) {

@@ -1,0 +1,204 @@
+import { HttpClient } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  LOCALE_ID,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { CommentView, DiscussionTopic, MarkerDetail, ThreadView } from '../../discussion/discussion.model';
+import { renderPostMarkdown } from '../../shared/post-markdown';
+import { PostEditor } from '../post-editor/post-editor';
+import { timeAgo } from '../../discussion/time-ago';
+
+const API = '/api/discussions';
+const MAX_BODY = 2000;
+const QUOTE_CHARS = 220;
+
+/**
+ * A concept's page-level discussion: one flat list of posts (a thread each, replies underneath,
+ * quoting the post they answer) on a single marker per concept and language, so votes, deletes
+ * and replies reuse the paragraph-discussion endpoints. `lab` is the one in the Lab tab, `general`
+ * the one at the end of every concept; each has its own marker.
+ */
+@Component({
+  selector: 'app-concept-discussion',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, NgTemplateOutlet, PostEditor],
+  templateUrl: './concept-discussion.html',
+  styleUrl: './concept-discussion.css',
+})
+export class ConceptDiscussion {
+  topic = input.required<DiscussionTopic>();
+  kind = input<'lab' | 'general'>('general');
+
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
+  private locale = inject(LOCALE_ID);
+
+  protected readonly maxBody = MAX_BODY;
+  protected signedIn = computed(() => this.auth.currentUser() !== null);
+  protected detail = signal<MarkerDetail | null>(null);
+  protected busy = signal(false);
+  protected failed = signal(false);
+  protected draft = signal('');
+  protected replyingTo = signal<number | null>(null);
+  protected replyDraft = signal('');
+  protected confirmingDelete = signal<number | null>(null);
+  protected editingId = signal<number | null>(null);
+  protected editDraft = signal('');
+
+  protected threads = computed<ThreadView[]>(() => this.detail()?.threads ?? []);
+  protected count = computed(() => this.detail()?.commentCount ?? 0);
+  protected placeholder = computed(() =>
+    this.kind() === 'lab'
+      ? $localize`:@@lab.placeholder:Stuck on a TODO or found a better way? Share it with other students...`
+      : $localize`:@@concept.discussion.placeholder:Got a question, a correction or a better way to explain this? Share it with other students...`,
+  );
+  protected empty = computed(() =>
+    this.kind() === 'lab'
+      ? $localize`:@@lab.empty:No posts yet. Be the first to share how the lab went.`
+      : $localize`:@@concept.discussion.empty:No posts yet. Be the first to start the discussion.`,
+  );
+
+  constructor() {
+    effect(() => {
+      this.topic();
+      this.kind();
+      // Moving to another concept must not carry over its posts or a half-written draft.
+      this.detail.set(null);
+      this.draft.set('');
+      this.replyingTo.set(null);
+      void this.reload();
+    });
+  }
+
+  protected canSend(text: string): boolean {
+    return text.trim().length > 0 && text.length <= MAX_BODY && !this.busy();
+  }
+
+  protected async post(): Promise<void> {
+    const body = this.draft().trim();
+    if (!this.canSend(body)) return;
+    const ok = await this.run(() =>
+      firstValueFrom(this.http.post(`${API}/${this.kind()}`, { ...this.topicBody(), body })),
+    );
+    if (ok) this.draft.set('');
+  }
+
+  protected async reply(thread: ThreadView): Promise<void> {
+    const body = this.replyDraft().trim();
+    const markerId = this.detail()?.id;
+    if (!this.canSend(body) || !markerId) return;
+    const ok = await this.run(() =>
+      firstValueFrom(
+        this.http.post(`${API}/markers/${markerId}/comments`, { parentId: thread.root.id, body }),
+      ),
+    );
+    if (ok) {
+      this.replyDraft.set('');
+      this.replyingTo.set(null);
+    }
+  }
+
+  protected startEdit(comment: CommentView): void {
+    this.editDraft.set(comment.body);
+    this.editingId.set(comment.id);
+  }
+
+  protected async saveEdit(comment: CommentView): Promise<void> {
+    const body = this.editDraft().trim();
+    if (!this.canSend(body)) return;
+    const ok = await this.run(() =>
+      firstValueFrom(this.http.put(`${API}/comments/${comment.id}`, { body })),
+    );
+    if (ok) this.editingId.set(null);
+  }
+
+  protected vote(comment: CommentView): void {
+    const url = `${API}/comments/${comment.id}/vote`;
+    void this.run(() =>
+      firstValueFrom(comment.votedByMe ? this.http.delete(url) : this.http.put(url, {})),
+    );
+  }
+
+  protected async remove(comment: CommentView): Promise<void> {
+    if (this.confirmingDelete() !== comment.id) {
+      this.confirmingDelete.set(comment.id);
+      return;
+    }
+    this.confirmingDelete.set(null);
+    await this.run(() => firstValueFrom(this.http.delete(`${API}/comments/${comment.id}`)));
+  }
+
+  protected toggleReply(thread: ThreadView): void {
+    this.replyDraft.set('');
+    this.replyingTo.set(this.replyingTo() === thread.root.id ? null : thread.root.id);
+  }
+
+  protected html(markdown: string): string {
+    return renderPostMarkdown(markdown);
+  }
+
+  protected name(comment: CommentView): string {
+    return comment.author?.displayName ?? '';
+  }
+
+  protected initials(comment: CommentView): string {
+    return this.name(comment)
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join('');
+  }
+
+  protected ago(iso: string): string {
+    return timeAgo(iso, this.locale);
+  }
+
+  protected excerpt(comment: CommentView): string {
+    const text = comment.deleted ? '' : comment.body;
+    return text.length > QUOTE_CHARS ? `${text.slice(0, QUOTE_CHARS)}...` : text;
+  }
+
+  /** The same fields as a query string and as a request body; `discipline` only exists for the curriculum. */
+  private topicBody(): Record<string, string> {
+    const { module, slug, discipline, lang } = this.topic();
+    return { module, slug, lang, ...(discipline ? { discipline } : {}) };
+  }
+
+  private async reload(): Promise<void> {
+    try {
+      const detail = await firstValueFrom(
+        this.http.get<MarkerDetail>(`${API}/${this.kind()}`, { params: this.topicBody() }),
+      );
+      this.detail.set(detail);
+    } catch {
+      // The discussion is an extra: the page works without it.
+      this.detail.set({ id: 0, quote: '', commentCount: 0, threads: [] });
+    }
+  }
+
+  private async run(action: () => Promise<unknown>): Promise<boolean> {
+    this.busy.set(true);
+    this.failed.set(false);
+    try {
+      await action();
+      await this.reload();
+      return true;
+    } catch {
+      this.failed.set(true);
+      return false;
+    } finally {
+      this.busy.set(false);
+    }
+  }
+}

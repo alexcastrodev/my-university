@@ -999,6 +999,8 @@
     "lab.empty": "Nenhum post ainda. Seja o primeiro a contar como foi o lab.",
     "lab.replyPlaceholder": "Escreva uma resposta...",
     "lab.send": "Enviar",
+    "concept.discussion.placeholder": "Tem uma dúvida, uma correção ou um jeito melhor de explicar isto? Compartilhe com os outros alunos...",
+    "concept.discussion.empty": "Nenhum post ainda. Seja o primeiro a iniciar a discussão.",
     "editor.toolbar": "Formatação",
     "editor.bold": "Negrito",
     "editor.italic": "Itálico",
@@ -1022,9 +1024,10 @@
     "notifications.empty": "Nenhuma resposta ainda. Quando alguém responder a um comentário seu, aparece aqui.",
     "notifications.replied": "{$INTERPOLATION} respondeu ao seu comentário",
     "notifications.inLab": "Lab",
+    "notifications.inConcept": "Discussão do conceito",
     "notifications.inParagraph": "Discussão do parágrafo",
     "settings.notifications.title": "Notificações",
-    "settings.notifications.hint": "Receba uma notificação quando alguém responder ao seu comentário, em uma discussão de parágrafo ou de lab. Desligando, nenhuma nova é criada.",
+    "settings.notifications.hint": "Receba uma notificação quando alguém responder ao seu comentário, em uma discussão de parágrafo, de lab ou do conceito. Desligando, nenhuma nova é criada.",
     "settings.notifications.on": "Ligadas",
     "settings.notifications.off": "Desligadas"
   }

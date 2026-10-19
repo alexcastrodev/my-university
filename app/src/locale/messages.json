@@ -602,6 +602,8 @@
     "lab.empty": "No posts yet. Be the first to share how the lab went.",
     "lab.replyPlaceholder": "Write a reply...",
     "lab.send": "Send",
+    "concept.discussion.placeholder": "Got a question, a correction or a better way to explain this? Share it with other students...",
+    "concept.discussion.empty": "No posts yet. Be the first to start the discussion.",
     "editor.toolbar": "Formatting",
     "editor.bold": "Bold",
     "editor.italic": "Italic",
@@ -625,9 +627,10 @@
     "notifications.empty": "No replies yet. When someone answers one of your comments, it shows up here.",
     "notifications.replied": "{$INTERPOLATION} replied to your comment",
     "notifications.inLab": "Lab",
+    "notifications.inConcept": "Concept discussion",
     "notifications.inParagraph": "Paragraph discussion",
     "settings.notifications.title": "Notifications",
-    "settings.notifications.hint": "Get a notification when someone replies to your comment, in a paragraph discussion or in a lab discussion. Turn it off and no new ones are created.",
+    "settings.notifications.hint": "Get a notification when someone replies to your comment, in a paragraph, lab or concept discussion. Turn it off and no new ones are created.",
     "settings.notifications.on": "On",
     "settings.notifications.off": "Off"
   }

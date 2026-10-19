@@ -5,6 +5,7 @@ import { ReadingProgressBar } from '../reading-progress-bar/reading-progress-bar
 import { DiscussionHost } from '../../discussion/discussion-host';
 import { DiscussionService } from '../../discussion/discussion.service';
 import { DiscussionToggle } from '../../discussion/discussion-toggle';
+import { ConceptDiscussion } from '../concept-discussion/concept-discussion';
 
 export interface ConceptPagerItem {
   slug: string;
@@ -14,7 +15,7 @@ export interface ConceptPagerItem {
 @Component({
   selector: 'app-concept-detail-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ReadingProgressBar, ConceptSidebarNav, DiscussionHost, DiscussionToggle],
+  imports: [RouterLink, ReadingProgressBar, ConceptSidebarNav, DiscussionHost, DiscussionToggle, ConceptDiscussion],
   templateUrl: './concept-detail-layout.html',
   styleUrl: './concept-detail-layout.css',
 })

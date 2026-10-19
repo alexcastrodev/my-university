@@ -96,6 +96,20 @@ export class DiscussionController {
     return this.service.createLabPost(userId, dto);
   }
 
+  @Get('general')
+  @Header('Cache-Control', 'no-store')
+  getGeneral(@Query() topic: TopicDto, @OptionalUserId() userId: number | null) {
+    return this.service.getGeneral(topic, userId);
+  }
+
+  @Post('general')
+  createGeneralPost(
+    @CurrentUserId() userId: number,
+    @Body() dto: CreateLabPostDto,
+  ) {
+    return this.service.createGeneralPost(userId, dto);
+  }
+
   @Post('threads')
   createThread(@CurrentUserId() userId: number, @Body() dto: CreateThreadDto) {
     return this.service.createThread(userId, dto);
