@@ -2,8 +2,8 @@ name: Security scan
 
 # Static checks that run on every PR (and weekly, to catch rules and advisories published later):
 # secrets in the diff and history, CodeQL on the TypeScript code, and config guards for hardening
-# that is easy to undo. Dependency advisories are covered by security-audit.yml; add
-# actions/dependency-review-action here once the repository's Dependency graph setting is on.
+# that is easy to undo. Dependency advisories already in the lockfiles are covered by security-audit.yml;
+# the dependency-review job below blocks a PR that adds or bumps a dependency to a vulnerable version.
 on:
   pull_request:
   push:
@@ -57,6 +57,24 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: /language:javascript-typescript
+
+  dependency-review:
+    name: Dependency review
+    # It compares the PR against its base, so it only runs on pull requests.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # GHSA-vfj7-8cjw-p6xm (braces) has no fixed version and is accepted in pnpm-workspace.yaml,
+      # so a PR that touches it is not blocked for it.
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v5.0.0
+        with:
+          fail-on-severity: high
+          license-check: false
+          allow-ghsas: GHSA-vfj7-8cjw-p6xm
 
   config-guards:
     name: Config guards
