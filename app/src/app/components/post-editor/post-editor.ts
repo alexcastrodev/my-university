@@ -158,6 +158,9 @@ export class PostEditor {
   protected grow(): void {
     const el = this.area().nativeElement;
     el.style.height = 'auto';
+    // Hidden or not laid out yet (a view coming back, the server render): scrollHeight is 0, and
+    // writing it would squash the box to its padding. Leave it on `auto`, which follows `rows`.
+    if (!el.scrollHeight) return;
     el.style.height = `${Math.min(el.scrollHeight, MAX_HEIGHT_PX)}px`;
     el.style.overflowY = el.scrollHeight > MAX_HEIGHT_PX ? 'auto' : 'hidden';
   }

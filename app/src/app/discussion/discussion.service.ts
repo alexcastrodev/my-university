@@ -41,6 +41,8 @@ export class DiscussionService {
   detail = signal<MarkerDetail | null>(null);
   busy = signal(false);
   error = signal<DiscussionError>(null);
+  /** The Lab tab is on screen, and it has its own discussion, so the one at the end of the concept steps aside. */
+  labTabOpen = signal(false);
 
   /** The current page has discussions at all (a concept page, not a list or a lesson). */
   available = computed(() => this.topic() !== null);

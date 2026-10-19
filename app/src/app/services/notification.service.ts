@@ -17,6 +17,7 @@ export interface NotificationItem {
   route: string[];
   markerId: number;
   lab: boolean;
+  general: boolean;
 }
 
 /**

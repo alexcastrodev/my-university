@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { NotificationItem, NotificationService } from '../../services/notification.service';
 import { SeoService } from '../../services/seo.service';
 
-/** Replies to the reader's comments, newest first. Each row opens the lab tab or the paragraph discussion it came from. */
+/** Replies to the reader's comments, newest first. Each row opens the lab tab, the discussion at the end of the concept or the paragraph discussion it came from. */
 @Component({
   selector: 'app-notifications-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,7 +35,8 @@ export class NotificationsPage implements OnInit {
   }
 
   protected query(item: NotificationItem): Record<string, string | number> {
-    return item.lab ? { tab: 'lab' } : { [MARKER_PARAM]: item.markerId };
+    if (item.lab) return { tab: 'lab' };
+    return item.general ? {} : { [MARKER_PARAM]: item.markerId };
   }
 
   protected ago(iso: string): string {

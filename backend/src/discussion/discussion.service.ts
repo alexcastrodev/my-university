@@ -37,7 +37,9 @@ import {
   FeedScope,
   feedPage,
   POSTS_PER_MINUTE,
+  GENERAL_ANCHOR,
   LAB_ANCHOR,
+  PAGE_ANCHORS_SQL,
   quoteAppearsIn,
   ThreadView,
   VoteInfo,
@@ -154,7 +156,7 @@ export class DiscussionService {
               ) AS "resolvedCount"
          FROM "discussion_marker" m
          LEFT JOIN "discussion_comment" c ON c."markerId" = m."id"
-        WHERE m."topicKey" = $1 AND m."lang" = $2 AND m."anchorKey" <> '${LAB_ANCHOR}'
+        WHERE m."topicKey" = $1 AND m."lang" = $2 AND m."anchorKey" NOT IN (${PAGE_ANCHORS_SQL})
         GROUP BY m."id"
        HAVING COUNT(c."id") FILTER (WHERE c."deletedAt" IS NULL) > 0
         ORDER BY m."blockIndex", m."id"`,
@@ -250,7 +252,7 @@ export class DiscussionService {
           FROM activity a
           JOIN "discussion_marker" m ON m."id" = a."markerId"
          WHERE ($2::varchar IS NULL OR m."lang" = $2)
-           AND m."anchorKey" <> '${LAB_ANCHOR}'
+           AND m."anchorKey" NOT IN (${PAGE_ANCHORS_SQL})
            AND ${SCOPE_SQL[scope]}
       )`;
   }
@@ -338,37 +340,49 @@ export class DiscussionService {
   }
 
   /** The lab's discussion: one marker per concept and language, an empty detail until the first post. */
-  async getLab(
+  getLab(topic: TopicDto, viewerId: number | null): Promise<MarkerDetail> {
+    return this.getPageDiscussion(topic, LAB_ANCHOR, viewerId);
+  }
+
+  /** The discussion at the end of a concept page, same shape as the lab's. */
+  getGeneral(topic: TopicDto, viewerId: number | null): Promise<MarkerDetail> {
+    return this.getPageDiscussion(topic, GENERAL_ANCHOR, viewerId);
+  }
+
+  /** A new top-level post in the lab's discussion; answers go through `reply` like any thread. */
+  createLabPost(userId: number, dto: CreateLabPostDto) {
+    return this.createPagePost(userId, dto, LAB_ANCHOR, 'Lab');
+  }
+
+  createGeneralPost(userId: number, dto: CreateLabPostDto) {
+    return this.createPagePost(userId, dto, GENERAL_ANCHOR, 'Concept');
+  }
+
+  private async getPageDiscussion(
     topic: TopicDto,
+    anchorKey: string,
     viewerId: number | null,
   ): Promise<MarkerDetail> {
     const { topicKey } = this.resolveTopic(topic);
     const marker = await this.markers.findOneBy({
       topicKey,
       lang: topic.lang,
-      anchorKey: LAB_ANCHOR,
+      anchorKey,
       blockIndex: 0,
     });
     if (!marker) return { id: 0, quote: '', commentCount: 0, threads: [] };
     return this.getMarker(marker.id, viewerId);
   }
 
-  /** A new top-level post in the lab's discussion; answers go through `reply` like any thread. */
-  async createLabPost(
+  private async createPagePost(
     userId: number,
     dto: CreateLabPostDto,
+    anchorKey: string,
+    quote: string,
   ): Promise<{ markerId: number; commentId: number }> {
     const { topicKey } = this.resolveTopic(dto);
     await this.assertCanPost(userId);
-    return this.postRoot(
-      userId,
-      topicKey,
-      dto.lang,
-      LAB_ANCHOR,
-      0,
-      'Lab',
-      dto.body,
-    );
+    return this.postRoot(userId, topicKey, dto.lang, anchorKey, 0, quote, dto.body);
   }
 
   private async postRoot(

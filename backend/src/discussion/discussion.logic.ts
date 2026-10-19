@@ -235,3 +235,7 @@ export function areaSql(
 
 /** Anchor of the marker that holds a concept's lab discussion; never a hash, so it cannot clash with a paragraph. */
 export const LAB_ANCHOR = 'lab';
+/** Same idea for the discussion at the end of a concept page, which belongs to the page and not to a paragraph. */
+export const GENERAL_ANCHOR = 'general';
+/** SQL list of the anchors above: markers that are not a paragraph's, so they stay out of the badges and the feed. */
+export const PAGE_ANCHORS_SQL = `'${LAB_ANCHOR}', '${GENERAL_ANCHOR}'`;

@@ -25,7 +25,7 @@
       <ul class="list">
         @for (item of notifications.items(); track item.id) {
           <li>
-            <a class="item" [class.unread]="!item.read" [routerLink]="item.route" [queryParams]="query(item)" (click)="notifications.markRead(item)">
+            <a class="item" [class.unread]="!item.read" [routerLink]="item.route" [queryParams]="query(item)" [fragment]="item.general ? 'discussion' : undefined" (click)="notifications.markRead(item)">
               <div class="item-head">
                 <span class="who" i18n="@@notifications.replied">{{ item.actor }} replied to your comment</span>
                 <span class="time">{{ ago(item.createdAt) }}</span>
@@ -33,7 +33,7 @@
               @if (item.excerpt) {
                 <p class="excerpt">{{ item.excerpt }}</p>
               }
-              <span class="where">{{ item.conceptTitle }} · @if (item.lab) { <ng-container i18n="@@notifications.inLab">Lab</ng-container> } @else { <ng-container i18n="@@notifications.inParagraph">Paragraph discussion</ng-container> }</span>
+              <span class="where">{{ item.conceptTitle }} · @if (item.lab) { <ng-container i18n="@@notifications.inLab">Lab</ng-container> } @else if (item.general) { <ng-container i18n="@@notifications.inConcept">Concept discussion</ng-container> } @else { <ng-container i18n="@@notifications.inParagraph">Paragraph discussion</ng-container> }</span>
             </a>
           </li>
         }

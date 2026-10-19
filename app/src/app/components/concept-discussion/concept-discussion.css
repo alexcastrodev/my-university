@@ -1,0 +1,180 @@
+:host {
+  display: block;
+}
+
+.discussion {
+  margin-top: 2rem;
+}
+
+.discussion-title {
+  font-size: 1.1rem;
+  margin: 0 0 1rem;
+  color: var(--mu-ink);
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.composer.inline {
+  margin: 0.5rem 0 0 2.75rem;
+}
+
+.send {
+  background: var(--mu-accent);
+  color: var(--mu-white);
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.signin {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--mu-accent);
+  font-weight: 600;
+}
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.post {
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+
+.post.reply {
+  margin-left: 1.5rem;
+}
+
+.post-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--mu-bg-alt);
+  color: var(--mu-ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.avatar.me {
+  background: var(--mu-accent-soft-strong);
+  color: var(--mu-accent-strong);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.name {
+  color: var(--mu-ink);
+}
+
+.time,
+.muted,
+.removed {
+  color: var(--mu-muted);
+  font-size: 0.8rem;
+}
+
+.quote {
+  margin: 0 0 0.7rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--mu-surface-alt);
+  border-left: 3px solid var(--mu-accent-border);
+  border-radius: 6px;
+  color: var(--mu-muted);
+  font-size: 0.88rem;
+}
+
+.quote .md {
+  margin-top: 0.2rem;
+}
+
+.quote-by {
+  color: var(--mu-ink-soft);
+  font-size: 0.82rem;
+}
+
+.post-body {
+  overflow-wrap: anywhere;
+  color: var(--mu-ink);
+  line-height: 1.55;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.vote,
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+  cursor: pointer;
+}
+
+.vote.voted {
+  color: var(--mu-accent);
+}
+
+.vote:disabled {
+  cursor: default;
+}
+
+.link:hover,
+.vote:not(:disabled):hover {
+  color: var(--mu-ink);
+}
+
+.link.danger:hover {
+  color: var(--mu-danger);
+}
+
+.error {
+  color: var(--mu-danger);
+  font-size: 0.85rem;
+}

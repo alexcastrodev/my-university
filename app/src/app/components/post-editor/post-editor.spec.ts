@@ -63,6 +63,16 @@ describe('PostEditor', () => {
     expect(el.querySelector<HTMLTextAreaElement>('textarea')!.value).toBe('   ');
   });
 
+  it('does not squash the box to its padding when it is measured while hidden', async () => {
+    const area = el.querySelector<HTMLTextAreaElement>('textarea')!;
+    el.style.display = 'none';
+    fixture.componentRef.setInput('value', 'text');
+    await fixture.whenStable();
+    expect(area.style.height).not.toBe('0px');
+    el.style.display = '';
+    expect(area.offsetHeight).toBeGreaterThan(60);
+  });
+
   describe('in a narrow editor', () => {
     const narrow = async () => {
       el.style.width = '320px';

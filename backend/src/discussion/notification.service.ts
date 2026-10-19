@@ -11,7 +11,7 @@ import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
 import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
-import { LAB_ANCHOR } from './discussion.logic';
+import { GENERAL_ANCHOR, LAB_ANCHOR } from './discussion.logic';
 import { Notification } from './notification.entity';
 
 const PAGE = 30;
@@ -27,6 +27,8 @@ export interface NotificationView {
   markerId: number;
   /** Replies to the lab's discussion open the Lab tab; paragraph ones open the marker. */
   lab: boolean;
+  /** Replies to the discussion at the end of a concept open the concept at that discussion. */
+  general: boolean;
 }
 
 @Injectable()
@@ -100,6 +102,7 @@ export class NotificationService {
         route: detail.route,
         markerId: marker.id,
         lab: marker.anchorKey === LAB_ANCHOR,
+        general: marker.anchorKey === GENERAL_ANCHOR,
       };
     });
     return { unread: await this.unreadCount(userId), items };
