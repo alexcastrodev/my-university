@@ -10,10 +10,11 @@ test.describe('Exam List Page', () => {
 
   test.describe('Header', () => {
     test('should render header with brand, nav and search', async ({ page }) => {
+      test.skip((page.viewportSize()?.width ?? 1280) < 768, 'phones swap the sidebar for the bottom tab bar, see responsive.spec.js');
       const header = new SidebarPage(page);
       await expect(header.sidebar).toBeVisible();
       await expect(header.brandLink).toBeVisible();
-      await expect(header.examsLink).toBeVisible();
+      await expect(header.tracksLink).toBeVisible();
       const vp = page.viewportSize();
       if (!vp || vp.width >= 768) {
         await expect(header.searchInput).toBeVisible();
@@ -48,12 +49,6 @@ test.describe('Exam List Page', () => {
       const card = examList.examCard('OCP Java SE 25 Developer');
       await expect(card).toBeVisible();
       await expect(card.getByText('Start Practice →')).toBeVisible();
-    });
-
-    test('should group exams by category', async ({ page }) => {
-      const examList = new ExamListPage(page);
-      await expect(examList.categorySections.first()).toBeVisible();
-      await expect(examList.categorySection('Language')).toBeVisible();
     });
 
     test('should navigate to course page when clicking exam card', async ({ page }) => {

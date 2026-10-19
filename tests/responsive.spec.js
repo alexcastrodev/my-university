@@ -90,10 +90,11 @@ test.describe('Responsive Layout', () => {
       await expect(header.searchInput).not.toBeVisible();
     });
 
-    test('should render brand and nav links', async ({ page }) => {
+    test('should swap the sidebar for the bottom tab bar', async ({ page }) => {
       const header = new SidebarPage(page);
-      await expect(header.brandLink).toBeVisible();
-      await expect(header.avatarBtn).toBeVisible();
+      await expect(header.sidebar).toBeHidden();
+      await expect(header.bottomNav).toBeVisible();
+      await expect(header.bottomNav.getByRole('link', { name: 'Home' })).toBeVisible();
     });
 
     test('main content should be full viewport width', async ({ page }) => {

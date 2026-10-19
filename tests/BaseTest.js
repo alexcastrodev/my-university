@@ -1,7 +1,6 @@
 import { test as base, expect } from '@playwright/test';
-import { LoginPage } from './pages/LoginPage.js';
 
-export const BASE_URL = 'http://localhost';
+export const BASE_URL = process.env.BASE_URL ?? 'http://localhost';
 export const EXAM_ID = 'java-21';
 
 export const VIEWPORTS = {
@@ -19,9 +18,10 @@ export const test = base.extend({
 
 export { expect };
 
+/** The login screen is GitHub OAuth now; the dev-only test route sets the same session cookie. */
 async function login(page) {
-  await page.goto(`${BASE_URL}/login`);
-  await new LoginPage(page).login('Test User');
+  const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: 'Test User' } });
+  expect(res.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
 }
 
 export async function gotoExamList(page) {
