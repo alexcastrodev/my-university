@@ -4,7 +4,7 @@ import { RubyConceptsService } from '../../services/ruby-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
-import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 @Component({
@@ -32,7 +32,7 @@ export class RubyConceptsListPage implements OnInit {
     return showLabs ? all.filter((c) => c.labUrl) : all;
   });
 
-  groupedConcepts = computed<ConceptTopicGroup<RubyConceptSummary>[]>(() =>
+  groupedConcepts = computed(() =>
     groupByTopic(this.filteredConcepts(), RUBY_CONCEPT_TOPIC_ORDER).map((group) => ({
       topic: group.topic,
       // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.

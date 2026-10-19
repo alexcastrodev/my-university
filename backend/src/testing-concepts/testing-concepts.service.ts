@@ -19,6 +19,8 @@ export interface TestingConceptSummary {
   slug: string;
   id: number;
   category: TestingConceptCategory;
+  /** The concept's session in concepts.json; the list and the article sidebar group by it. */
+  topic: string;
   title: string;
   summary: string;
   publishedAt: string;
@@ -42,6 +44,7 @@ interface ConceptMeta {
   /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
   requires?: string[];
   category: TestingConceptCategory;
+  session: string;
   title: string;
   summary: string;
   publishedAt: string;
@@ -98,6 +101,7 @@ export class TestingConceptsService {
       slug: meta.slug,
       id: meta.id,
       category: meta.category,
+      topic: meta.session,
       title: title ?? meta.title,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,
@@ -122,6 +126,7 @@ export class TestingConceptsService {
       slug: meta.slug,
       id: meta.id,
       category: meta.category,
+      topic: meta.session,
       title: title ?? meta.title,
       summary: summary ?? meta.summary,
       publishedAt: meta.publishedAt,

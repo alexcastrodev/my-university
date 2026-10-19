@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import { AlgorithmsConceptView } from '../../components/algorithms-concept-view/algorithms-concept-view';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
-import { AlgorithmsConcept, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
+import { ALGORITHMS_CONCEPT_TOPIC_ORDER, AlgorithmsConcept, AlgorithmsConceptSummary } from '../../models/algorithms-concept.model';
 import { AlgorithmsConceptsService } from '../../services/algorithms-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { orderByTopic } from '../../shared/concept-topics';
 
 @Component({
   selector: 'app-algorithms-concepts-detail',
@@ -29,10 +31,17 @@ export class AlgorithmsConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<AlgorithmsConceptSummary>(() => this.algorithmsConceptsService.listConcepts());
+  nav = createConceptNavigation<AlgorithmsConceptSummary>(() =>
+    this.algorithmsConceptsService.listConcepts().pipe(map((list) => orderByTopic(list, ALGORITHMS_CONCEPT_TOPIC_ORDER))),
+  );
 
+  /** The topic of the open concept: the sidebar lists only that topic, like its group on the list page. */
+  currentTopic = computed(() => this.nav.allConcepts().find((c) => c.slug === this.nav.slug())?.topic ?? null);
   sidebarItems = computed(() =>
-    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
+    this.nav
+      .allConcepts()
+      .filter((c) => c.topic === this.currentTopic())
+      .map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.category })),
   );
   prevItem = computed(() => {
     const p = this.nav.prevConcept();

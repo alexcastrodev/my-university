@@ -4,7 +4,7 @@ import { KubernetesConceptsService } from '../../services/kubernetes-concepts.se
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
-import { ConceptTopicGroup, groupByTopic } from '../../shared/concept-topics';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: KubernetesConceptCategory | null }[] = [
@@ -54,7 +54,7 @@ export class KubernetesConceptsListPage implements OnInit {
     });
   });
 
-  groupedConcepts = computed<ConceptTopicGroup<KubernetesConceptSummary>[]>(() =>
+  groupedConcepts = computed(() =>
     groupByTopic(this.filteredConcepts(), KUBERNETES_CONCEPT_TOPIC_ORDER).map((group) => ({
       topic: group.topic,
       // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.

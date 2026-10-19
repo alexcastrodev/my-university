@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { TestingConceptCategory, TestingConceptSummary } from '../../models/testing-concept.model';
+import { TESTING_CONCEPT_TOPIC_ORDER, TestingConceptCategory, TestingConceptSummary } from '../../models/testing-concept.model';
 import { TestingConceptsService } from '../../services/testing-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: TestingConceptCategory | null }[] = [
@@ -38,14 +39,20 @@ export class TestingConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    const filtered = all.filter((c) => {
+    return all.filter((c) => {
       const matchesCategory = !category || c.category === category;
       const matchesLab = !showLabs || c.labUrl;
       return matchesCategory && matchesLab;
     });
-
-    return sortByRead(filtered, this.readSort());
   });
+
+  groupedConcepts = computed(() =>
+    groupByTopic(this.filteredConcepts(), TESTING_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onFilterChange(category: TestingConceptCategory | null) {
     this.selectedCategory.set(category);
