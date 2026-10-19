@@ -66,6 +66,9 @@ ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server/server.mjs"]
 
 FROM nginx:1.29-alpine AS web
+# The nginx tag is rebuilt rarely, so its Alpine packages (curl, libexpat, openssl, ...) carry fixed
+# CVEs. Pull the security updates in at build time.
+RUN apk upgrade --no-cache
 # Size nginx workers by the container's CPU limit instead of the host's core count.
 ENV NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE=1
 # Drop the stock welcome page so it can't shadow a route.
