@@ -425,6 +425,76 @@ app-concept-actions {
   font-family: 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
 }
 
+.section-body .md-table,
+.deep-dive-body .md-table {
+  margin: 0 0 1.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+  background: var(--mu-surface);
+}
+
+.section-body .md-table table,
+.deep-dive-body .md-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.section-body .md-table th,
+.deep-dive-body .md-table th {
+  padding: 0.6rem 0.9rem;
+  background: var(--mu-bg-alt);
+  border-bottom: 1px solid var(--mu-line);
+  color: var(--mu-ink-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.section-body .md-table th code,
+.deep-dive-body .md-table th code {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.section-body .md-table td,
+.deep-dive-body .md-table td {
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--mu-line-soft);
+  vertical-align: top;
+}
+
+.section-body .md-table tbody tr:last-child td,
+.deep-dive-body .md-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.section-body .md-table tbody tr:nth-child(even) td,
+.deep-dive-body .md-table tbody tr:nth-child(even) td {
+  background: var(--mu-surface-alt);
+}
+
+.section-body .md-table tbody tr:hover td,
+.deep-dive-body .md-table tbody tr:hover td {
+  background: var(--mu-bg-alt);
+}
+
+.section-body .md-table td:first-child,
+.deep-dive-body .md-table td:first-child {
+  color: var(--mu-ink);
+  font-weight: 600;
+}
+
+.section-body .md-table .md-nowrap,
+.deep-dive-body .md-table .md-nowrap {
+  white-space: nowrap;
+}
+
 .section-body .hljs-keyword,
 .section-body .hljs-built_in {
   color: #f472b6;
