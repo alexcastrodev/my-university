@@ -36,3 +36,14 @@ export interface SpringConcept extends SpringConceptSummary {
   references: SpringConceptReference[];
   related: ConceptLinkRef[];
 }
+
+export const SPRING_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Core Spring & Boot',
+  'Spring MVC & Web',
+  'Data Access',
+  'Reactive',
+  'Messaging',
+  'Architecture',
+  'Spring Security',
+  'Spring Batch',
+];

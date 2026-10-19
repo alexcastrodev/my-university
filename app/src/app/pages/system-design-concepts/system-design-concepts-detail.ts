@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { SystemDesignConceptView } from '../../components/system-design-concept-view/system-design-concept-view';
-import { SystemDesignConcept, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
+import { SYSTEM_DESIGN_CONCEPT_TOPIC_ORDER, SystemDesignConcept, SystemDesignConceptSummary } from '../../models/system-design-concept.model';
 import { Language } from '../../models/language.model';
 import { SystemDesignConceptsService } from '../../services/system-design-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { orderByTopic } from '../../shared/concept-topics';
 
 const PATH = '/system-design/system-design-concepts';
 const PT_BR_PATH = '/pt-BR/system-design/system-design-concepts';
@@ -39,7 +41,7 @@ export class SystemDesignConceptsDetailPage implements OnInit {
   protected readonly backLabelText = $localize`:@@header.nav.systemDesign:System Design`;
 
   nav = createConceptNavigation<SystemDesignConceptSummary>(() =>
-    this.systemDesignConceptsService.listConcepts(),
+    this.systemDesignConceptsService.listConcepts().pipe(map((list) => orderByTopic(list, SYSTEM_DESIGN_CONCEPT_TOPIC_ORDER))),
   );
 
   showFallbackNotice = computed(() => {
@@ -47,8 +49,13 @@ export class SystemDesignConceptsDetailPage implements OnInit {
     return concept != null && concept.language !== this.languageService.language;
   });
 
+  /** The topic of the open concept: the sidebar lists only that topic, like its group on the list page. */
+  currentTopic = computed(() => this.nav.allConcepts().find((c) => c.slug === this.nav.slug())?.topic ?? null);
   sidebarItems = computed(() =>
-    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.difficulty })),
+    this.nav
+      .allConcepts()
+      .filter((c) => c.topic === this.currentTopic())
+      .map((c) => ({ slug: c.slug, label: c.title, read: c.read, badge: c.difficulty })),
   );
   prevItem = computed(() => {
     const p = this.nav.prevConcept();

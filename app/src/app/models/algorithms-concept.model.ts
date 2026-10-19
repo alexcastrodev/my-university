@@ -23,6 +23,7 @@ export interface AlgorithmsConceptSummary {
   slug: string;
   id: number;
   category: AlgorithmsConceptCategory;
+  topic: string;
   title: string;
   summary: string;
   publishedAt: string;
@@ -38,3 +39,19 @@ export interface AlgorithmsConcept extends AlgorithmsConceptSummary {
   sections: AlgorithmsConceptSection[];
   references: AlgorithmsConceptReference[];
 }
+
+/** Analysis and the basic toolkit first, then data structures and strings, the graph sessions
+ *  together, then dynamic programming, and the theory-heavy sessions last. */
+export const ALGORITHMS_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Analyzing Algorithms',
+  'Sorting',
+  'Searching Techniques and Number Theory',
+  'Data Structures',
+  'Strings',
+  'Graph Traversal and Orderings',
+  'Shortest Paths',
+  'Flow and Matching',
+  'Dynamic Programming, Greedy and Search',
+  'Hardness and Approximation',
+  'Optimization and Machine Learning',
+];

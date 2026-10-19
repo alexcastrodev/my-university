@@ -1,25 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { RubyOnRailsConceptSummary } from '../../models/rubyonrails-concept.model';
+import { RUBYONRAILS_CONCEPT_TOPIC_ORDER, RubyOnRailsConceptSummary } from '../../models/rubyonrails-concept.model';
 import { RubyOnRailsConceptsService } from '../../services/rubyonrails-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
-
-export interface RubyOnRailsConceptTopicGroup {
-  topic: string;
-  concepts: RubyOnRailsConceptSummary[];
-}
-
-/** Pedagogical order — roughly the order a learner would want to progress through, not alphabetical. */
-const TOPIC_ORDER = [
-  'Database & ActiveRecord',
-  'Application Servers & Infra',
-  'Caching',
-  'Background Jobs',
-  'Observability',
-  'Front-end & Network',
-];
 
 @Component({
   selector: 'app-rubyonrails-concepts-list',
@@ -43,22 +29,16 @@ export class RubyOnRailsConceptsListPage implements OnInit {
   filteredConcepts = computed(() => {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
-    const filtered = showLabs ? all.filter((c) => c.labUrl) : all;
-    return sortByRead(filtered, this.readSort());
+    return showLabs ? all.filter((c) => c.labUrl) : all;
   });
 
-  groupedConcepts = computed<RubyOnRailsConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, RubyOnRailsConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed(() =>
+    groupByTopic(this.filteredConcepts(), RUBYONRAILS_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onToggleLabsFilter() {
     this.showOnlyLabs.update((v) => !v);

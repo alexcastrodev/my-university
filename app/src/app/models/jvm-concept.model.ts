@@ -33,3 +33,13 @@ export interface JvmConcept extends JvmConceptSummary {
   references: JvmConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Bytecode and the JIT first, then memory and garbage collection, then concurrency, profiling and database integration. */
+export const JVM_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Compilation & Bytecode',
+  'Memory & Performance',
+  'Garbage Collection',
+  'Concurrency & I/O',
+  'Profiling & Benchmarking',
+  'Database Integration',
+];

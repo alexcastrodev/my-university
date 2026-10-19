@@ -33,3 +33,13 @@ export interface JavaConcept extends JavaConceptSummary {
   references: JavaConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const JAVA_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Collections',
+  'Concurrency',
+  'Language Features',
+  'API Design & Craft',
+  'Core APIs & Tooling',
+  'I/O & Networking',
+];

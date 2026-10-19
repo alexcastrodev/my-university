@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { JavaConceptView } from '../../components/java-concept-view/java-concept-view';
-import { JavaConcept, JavaConceptSummary } from '../../models/java-concept.model';
+import { JAVA_CONCEPT_TOPIC_ORDER, JavaConcept, JavaConceptSummary } from '../../models/java-concept.model';
 import { Language } from '../../models/language.model';
 import { JavaConceptsService } from '../../services/java-concepts.service';
 import { LanguageService } from '../../services/language.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { orderByTopic } from '../../shared/concept-topics';
 
 const PATH = '/java/java-concepts';
 const PT_BR_PATH = '/pt-BR/java/java-concepts';
@@ -38,15 +40,22 @@ export class JavaConceptsDetailPage implements OnInit {
   protected readonly basePath = PATH;
   protected readonly backLabelText = $localize`:@@javaConcepts.title:Java Concepts`;
 
-  nav = createConceptNavigation<JavaConceptSummary>(() => this.javaConceptsService.listConcepts());
+  nav = createConceptNavigation<JavaConceptSummary>(() =>
+    this.javaConceptsService.listConcepts().pipe(map((list) => orderByTopic(list, JAVA_CONCEPT_TOPIC_ORDER))),
+  );
 
   showFallbackNotice = computed(() => {
     const concept = this.concept();
     return concept != null && concept.language !== this.languageService.language;
   });
 
+  /** The topic of the open concept: the sidebar lists only that topic, like its group on the list page. */
+  currentTopic = computed(() => this.nav.allConcepts().find((c) => c.slug === this.nav.slug())?.topic ?? null);
   sidebarItems = computed(() =>
-    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
+    this.nav
+      .allConcepts()
+      .filter((c) => c.topic === this.currentTopic())
+      .map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
   );
   prevItem = computed(() => {
     const p = this.nav.prevConcept();

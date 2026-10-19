@@ -41,3 +41,15 @@ export interface SystemDesignConcept extends SystemDesignConceptSummary {
   sections: SystemDesignConceptSection[];
   references: SystemDesignConceptReference[];
 }
+
+export const SYSTEM_DESIGN_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Distributed Systems Fundamentals',
+  'Resilience & Operability',
+  'Security in Distributed Systems',
+  'Data Storage & Modeling',
+  'Replication & Consistency',
+  'Scaling & Infrastructure',
+  'Messaging & Streaming',
+  'Observability & SRE',
+  'System Design Case Studies',
+];

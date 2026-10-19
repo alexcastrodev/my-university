@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { QuarkusConceptCategory, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
+import { QUARKUS_CONCEPT_TOPIC_ORDER, QuarkusConceptCategory, QuarkusConceptSummary } from '../../models/quarkus-concept.model';
 import { QuarkusConceptsService } from '../../services/quarkus-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: QuarkusConceptCategory | null }[] = [
@@ -14,20 +15,6 @@ const CATEGORY_OPTIONS: { label: string; value: QuarkusConceptCategory | null }[
   { label: 'quarkusConcepts.category.customizationMigration', value: 'Customization & Migration' },
   { label: 'quarkusConcepts.category.modernDataAccess', value: 'Modern Data Access' },
   { label: 'quarkusConcepts.category.extensionsTooling', value: 'Extensions & Tooling' },
-];
-
-export interface QuarkusConceptTopicGroup {
-  topic: string;
-  concepts: QuarkusConceptSummary[];
-}
-
-const TOPIC_ORDER = [
-  'Core Configuration',
-  'Caching & Auditing',
-  'Multitenancy',
-  'Customization & Migration',
-  'Modern Data Access',
-  'Extensions & Tooling',
 ];
 
 @Component({
@@ -56,27 +43,20 @@ export class QuarkusConceptsListPage implements OnInit {
     const showLabs = this.showOnlyLabs();
     const all = this.concepts();
 
-    const filtered = all.filter((c) => {
+    return all.filter((c) => {
       const matchesCategory = !category || c.category === category;
       const matchesLab = !showLabs || c.labUrl;
       return matchesCategory && matchesLab;
     });
-
-    return sortByRead(filtered, this.readSort());
   });
 
-  groupedConcepts = computed<QuarkusConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, QuarkusConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed(() =>
+    groupByTopic(this.filteredConcepts(), QUARKUS_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onFilterChange(category: QuarkusConceptCategory | null) {
     this.selectedCategory.set(category);

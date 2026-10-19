@@ -42,3 +42,35 @@ export interface DotNetConcept extends DotNetConceptSummary {
   references: DotNetConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const DOTNET_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  // Platform & Tooling
+  'Runtime & SDK',
+  'Project System',
+  'NuGet & Packaging',
+  'Publishing & Native AOT',
+  // ASP.NET Core
+  'ASP.NET Core Fundamentals',
+  'Hosting & Pipeline',
+  'Minimal APIs',
+  'API Documentation',
+  'HTTP Clients',
+  'Security',
+  // Blazor
+  'Blazor Fundamentals',
+  'Components & Forms',
+  // Data Access
+  'Data Access Choices',
+  'EF Core',
+  'EF Core Modeling',
+  'EF Core Querying',
+  'Migrations',
+  // Architecture
+  'Application Architecture',
+  'Modular Architecture',
+  'DDD',
+  // Concurrency & Background Work
+  'Background Jobs',
+  'Concurrency',
+];

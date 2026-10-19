@@ -25,6 +25,8 @@ export interface AlgorithmsConceptSummary {
   slug: string;
   id: number;
   category: AlgorithmsConceptCategory;
+  /** The concept's session in concepts.json; the list and the article sidebar group by it. */
+  topic: string;
   title: string;
   summary: string;
   publishedAt: string;
@@ -43,6 +45,7 @@ export interface AlgorithmsConceptDetail extends AlgorithmsConceptSummary {
 interface ConceptMeta extends AlgorithmsConceptSummary {
   /** Slugs (within this same track) that should be understood first — see `../shared/concept-order`. */
   requires?: string[];
+  session: string;
   references: ConceptReference[];
 }
 
@@ -93,6 +96,7 @@ export class AlgorithmsConceptsService {
       slug: meta.slug,
       id: meta.id,
       category: meta.category,
+      topic: meta.session,
       title: title ?? meta.title,
       summary: description ?? meta.summary,
       publishedAt: meta.publishedAt,
@@ -120,6 +124,7 @@ export class AlgorithmsConceptsService {
       slug: meta.slug,
       id: meta.id,
       category: meta.category,
+      topic: meta.session,
       title: title ?? meta.title,
       summary: description ?? meta.summary,
       publishedAt: meta.publishedAt,

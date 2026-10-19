@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { map } from 'rxjs';
 import { BreadcrumbItem } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDetailLayout } from '../../components/concept-detail-layout/concept-detail-layout';
 import { DotNetConceptView } from '../../components/dotnet-concept-view/dotnet-concept-view';
-import { DotNetConcept, DotNetConceptSummary } from '../../models/dotnet-concept.model';
+import { DOTNET_CONCEPT_TOPIC_ORDER, DotNetConcept, DotNetConceptSummary } from '../../models/dotnet-concept.model';
 import { DotNetConceptsService } from '../../services/dotnet-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { XpService } from '../../services/xp.service';
 import { createConceptNavigation } from '../../shared/concept-navigation';
+import { orderByTopic } from '../../shared/concept-topics';
 
 @Component({
   selector: 'app-dotnet-concepts-detail',
@@ -29,10 +31,17 @@ export class DotNetConceptsDetailPage implements OnInit {
   read = signal(false);
   marking = signal(false);
 
-  nav = createConceptNavigation<DotNetConceptSummary>(() => this.dotNetConceptsService.listConcepts());
+  nav = createConceptNavigation<DotNetConceptSummary>(() =>
+    this.dotNetConceptsService.listConcepts().pipe(map((list) => orderByTopic(list, DOTNET_CONCEPT_TOPIC_ORDER))),
+  );
 
+  /** The topic of the open concept: the sidebar lists only that topic, like its group on the list page. */
+  currentTopic = computed(() => this.nav.allConcepts().find((c) => c.slug === this.nav.slug())?.topic ?? null);
   sidebarItems = computed(() =>
-    this.nav.allConcepts().map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
+    this.nav
+      .allConcepts()
+      .filter((c) => c.topic === this.currentTopic())
+      .map((c) => ({ slug: c.slug, label: c.title, read: c.read })),
   );
   prevItem = computed(() => {
     const p = this.nav.prevConcept();

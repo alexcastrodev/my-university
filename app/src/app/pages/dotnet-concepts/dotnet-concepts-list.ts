@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { DotNetConceptCategory, DotNetConceptSummary } from '../../models/dotnet-concept.model';
+import { DOTNET_CONCEPT_TOPIC_ORDER, DotNetConceptCategory, DotNetConceptSummary } from '../../models/dotnet-concept.model';
 import { DotNetConceptsService } from '../../services/dotnet-concepts.service';
 import { SeoService } from '../../services/seo.service';
 import { ConceptCardListComponent } from '../../shared/concept-card-list/concept-card-list';
 import { ConceptViewToggleComponent } from '../../shared/concept-card-list/concept-view-toggle';
+import { groupByTopic } from '../../shared/concept-topics';
 import { READ_SORT_OPTIONS, ReadSortOrder, sortByRead } from '../../shared/read-sort';
 
 const CATEGORY_OPTIONS: { label: string; value: DotNetConceptCategory | null }[] = [
@@ -14,43 +15,6 @@ const CATEGORY_OPTIONS: { label: string; value: DotNetConceptCategory | null }[]
   { label: 'Data Access', value: 'Data Access' },
   { label: 'Architecture', value: 'Architecture' },
   { label: 'Concurrency & Background Work', value: 'Concurrency & Background Work' },
-];
-
-export interface DotNetConceptTopicGroup {
-  topic: string;
-  concepts: DotNetConceptSummary[];
-}
-
-/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
-const TOPIC_ORDER = [
-  // Platform & Tooling
-  'Runtime & SDK',
-  'Project System',
-  'NuGet & Packaging',
-  'Publishing & Native AOT',
-  // ASP.NET Core
-  'ASP.NET Core Fundamentals',
-  'Hosting & Pipeline',
-  'Minimal APIs',
-  'API Documentation',
-  'HTTP Clients',
-  'Security',
-  // Blazor
-  'Blazor Fundamentals',
-  'Components & Forms',
-  // Data Access
-  'Data Access Choices',
-  'EF Core',
-  'EF Core Modeling',
-  'EF Core Querying',
-  'Migrations',
-  // Architecture
-  'Application Architecture',
-  'Modular Architecture',
-  'DDD',
-  // Concurrency & Background Work
-  'Background Jobs',
-  'Concurrency',
 ];
 
 @Component({
@@ -77,24 +41,18 @@ export class DotNetConceptsListPage implements OnInit {
   filteredConcepts = computed(() => {
     const category = this.selectedCategory();
     const showLabs = this.showOnlyLabs();
-    const filtered = this.concepts().filter(
+    return this.concepts().filter(
       (c) => (!category || c.category === category) && (!showLabs || c.labUrl),
     );
-    return sortByRead(filtered, this.readSort());
   });
 
-  groupedConcepts = computed<DotNetConceptTopicGroup[]>(() => {
-    const byTopic = new Map<string, DotNetConceptSummary[]>();
-    for (const concept of this.filteredConcepts()) {
-      const group = byTopic.get(concept.topic);
-      if (group) group.push(concept);
-      else byTopic.set(concept.topic, [concept]);
-    }
-
-    const known = TOPIC_ORDER.filter((topic) => byTopic.has(topic));
-    const unknown = [...byTopic.keys()].filter((topic) => !TOPIC_ORDER.includes(topic)).sort();
-    return [...known, ...unknown].map((topic) => ({ topic, concepts: byTopic.get(topic)! }));
-  });
+  groupedConcepts = computed(() =>
+    groupByTopic(this.filteredConcepts(), DOTNET_CONCEPT_TOPIC_ORDER).map((group) => ({
+      topic: group.topic,
+      // Numbered inside the topic (1, 2, 3...), the same list the article sidebar shows.
+      concepts: sortByRead(group.concepts, this.readSort()),
+    })),
+  );
 
   onFilterChange(category: DotNetConceptCategory | null) {
     this.selectedCategory.set(category);

@@ -17,6 +17,7 @@ export interface TestingConceptSummary {
   slug: string;
   id: number;
   category: TestingConceptCategory;
+  topic: string;
   title: string;
   summary: string;
   publishedAt: string;
@@ -33,3 +34,12 @@ export interface TestingConcept extends TestingConceptSummary {
   lab?: string;
   references: TestingConceptReference[];
 }
+
+/** Principles first, then the JUnit tooling, unit test design, test doubles, and Spring/database testing last. */
+export const TESTING_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  'Principles, Strategy and End-to-End',
+  'JUnit 5',
+  'Writing Good Unit Tests',
+  'Test Doubles and Mocking',
+  'Spring and Database Testing',
+];

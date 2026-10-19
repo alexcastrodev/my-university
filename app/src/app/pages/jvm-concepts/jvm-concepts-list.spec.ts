@@ -32,6 +32,17 @@ const FIXTURES: JvmConceptSummary[] = [
     language: 'en',
     availableLanguages: ['en'],
   },
+  {
+    slug: 'g1-internals',
+    id: 3,
+    title: 'G1 Internals',
+    topic: 'Garbage Collection',
+    summary: 'Regions, humongous objects and evacuation failure.',
+    publishedAt: '2026-08-12',
+    read: false,
+    language: 'en',
+    availableLanguages: ['en'],
+  },
 ];
 
 class MockJvmConceptsService {
@@ -99,5 +110,15 @@ describe('JvmConceptsListPage', () => {
     const cards = fixture.nativeElement.querySelectorAll('.concept-card');
     expect(cards.length).toBe(1);
     expect(cards[0].textContent).toContain('The .class File Format');
+  });
+
+  it('groups by topic and numbers each topic from 1', () => {
+    const fixture = render();
+    const groups = fixture.componentInstance.groupedConcepts();
+
+    expect(groups.map((g) => g.topic)).toEqual(['Garbage Collection', 'Class Loading']);
+    expect(groups.map((g) => g.concepts.map((c) => c.sequence))).toEqual([[1, 2], [1]]);
+    const headings = fixture.nativeElement.querySelectorAll('.topic-heading');
+    expect([...headings].map((h: Element) => h.textContent?.trim())).toEqual(['Garbage Collection', 'Class Loading']);
   });
 });

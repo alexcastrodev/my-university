@@ -41,3 +41,36 @@ export interface CSharpConcept extends CSharpConceptSummary {
   references: CSharpConceptReference[];
   related: ConceptLinkRef[];
 }
+
+/** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
+export const CSHARP_CONCEPT_TOPIC_ORDER: readonly string[] = [
+  // Language
+  'Language Basics',
+  'Strings & Formatting',
+  'Numbers & Conversions',
+  'Operators & Control Flow',
+  'Pattern Matching',
+  'Exceptions',
+  'Methods & Lambdas',
+  // Type Design
+  'Classes & Members',
+  'Properties & Initialization',
+  'Records & Equality',
+  'Inheritance & Polymorphism',
+  'Interfaces & Generics',
+  'Delegates & Events',
+  'Nullability',
+  'Extension Members',
+  // Base Class Library
+  'Text & Regex',
+  'Common Types',
+  'Collections',
+  'Files & I/O',
+  'Streams',
+  'Serialization',
+  // LINQ
+  'LINQ',
+  // Memory & Concurrency
+  'Memory & Value Semantics',
+  'Threads',
+];

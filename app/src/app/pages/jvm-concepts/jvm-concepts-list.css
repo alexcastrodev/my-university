@@ -122,3 +122,15 @@
   color: var(--mu-indigo);
 }
 
+.topic-group {
+  margin-bottom: 2rem;
+}
+
+.topic-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--mu-ink);
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--mu-line);
+}
