@@ -288,8 +288,10 @@ CI picks the MTP mode with no extra flag.
 
 ### Coverage is not a verdict
 
-The solution of the lab reaches 93.9% of lines and 100% of branches. So does this
-test, which asserts nothing:
+The solution of the lab reaches 93.9% of lines and 100% of branches in `coverage.sh`,
+which builds in Debug. The Release build the workflow uses counts 27 coverable lines
+instead of 33 and reports 92.5% of lines with the same 100% of branches, so both pass
+the gate. This test, which asserts nothing, reaches the same numbers in `coverage.sh`:
 
 ```csharp
 [TestMethod]
