@@ -13,6 +13,13 @@ export interface DotNetTestingConceptTopicGroup {
 
 /** Pedagogical order: roughly the order a learner would want to progress through, not alphabetical. */
 const TOPIC_ORDER = [
+  'MSTest Fundamentals',
+  'Test Doubles',
+  'Time & Async',
+  'ASP.NET Core Testing',
+  'Data Access Testing',
+  'Blazor',
+  'Tooling & CI',
   'DDD',
   'Application Architecture',
 ];
