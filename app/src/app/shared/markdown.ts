@@ -1,5 +1,5 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked } from 'marked';
+import { marked, Renderer, Tokens } from 'marked';
 import hljs from 'highlight.js/lib/core';
 import java from 'highlight.js/lib/languages/java';
 import csharp from 'highlight.js/lib/languages/csharp';
@@ -8,6 +8,8 @@ import plaintext from 'highlight.js/lib/languages/plaintext';
 hljs.registerLanguage('java', java);
 hljs.registerLanguage('csharp', csharp);
 hljs.registerLanguage('plaintext', plaintext);
+
+const SHORT_CELL_CHARS = 32;
 
 const codeBlockRenderer = {
   code({ text, lang }: { text: string; lang?: string }) {
@@ -22,6 +24,16 @@ const codeBlockRenderer = {
     const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext';
     const highlighted = hljs.highlight(text, { language }).value;
     return `<pre><div class="code-lang">${language}</div><code class="hljs language-${language}">${highlighted}</code></pre>`;
+  },
+  // Wide tables scroll inside their own frame instead of pushing the page sideways on mobile.
+  table(this: Renderer, token: Tokens.Table) {
+    return `<div class="md-table">${Renderer.prototype.table.call(this, token)}</div>`;
+  },
+  // Short cells (dates, versions, labels) stay on one line so a narrow screen scrolls the
+  // table instead of breaking "14 de novembro de 2028" into three lines. Prose cells still wrap.
+  tablecell(this: Renderer, token: Tokens.TableCell) {
+    const html = Renderer.prototype.tablecell.call(this, token);
+    return token.text.length <= SHORT_CELL_CHARS ? html.replace(/^<(t[dh])/, '<$1 class="md-nowrap"') : html;
   },
 };
 marked.use({ renderer: codeBlockRenderer });
