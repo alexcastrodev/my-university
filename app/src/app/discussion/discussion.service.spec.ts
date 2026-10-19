@@ -141,6 +141,23 @@ describe('DiscussionService', () => {
     expect(await done).toBe(true);
   });
 
+  it('edits a comment in place, then reloads the thread so it shows as edited', async () => {
+    await loadTopic('/dotnet-concepts/a', [marker(1)]);
+    service.openMarker(marker(1));
+    http.expectOne('/api/discussions/markers/1').flush({ id: 1, quote: 'q', commentCount: 1, threads: [] });
+
+    const done = service.edit(55, 'Fixed with `code`');
+    const put = http.expectOne('/api/discussions/comments/55');
+    expect(put.request.method).toBe('PUT');
+    expect(put.request.body).toEqual({ body: 'Fixed with `code`' });
+    put.flush(null, { status: 204, statusText: 'No Content' });
+    await Promise.resolve();
+    await Promise.resolve();
+    http.expectOne('/api/discussions/markers/1').flush({ id: 1, quote: 'q', commentCount: 1, threads: [] });
+    http.expectOne((r) => r.url === '/api/discussions').flush([marker(1)]);
+    expect(await done).toBe(true);
+  });
+
   it('reports a flood as its own error', async () => {
     await loadTopic('/dotnet-concepts/a');
     service.openBlock({ key: 'abcdef0123456789', index: 0, quote: 'first words' }, null);

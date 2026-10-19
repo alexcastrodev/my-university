@@ -1,31 +1,63 @@
 <div class="editor">
-  <div class="toolbar" role="toolbar" i18n-aria-label="@@editor.toolbar" aria-label="Formatting">
-    <button type="button" class="tool" i18n-title="@@editor.bold" title="Bold (Ctrl+B)" i18n-aria-label="@@editor.bold" aria-label="Bold" (mousedown)="$event.preventDefault()" (click)="wrap('**', '**', 'bold')"><b>B</b></button>
-    <button type="button" class="tool" i18n-title="@@editor.italic" title="Italic (Ctrl+I)" i18n-aria-label="@@editor.italic" aria-label="Italic" (mousedown)="$event.preventDefault()" (click)="wrap('_', '_', 'italic')"><i>I</i></button>
-    <button type="button" class="tool" i18n-title="@@editor.strike" title="Strikethrough" i18n-aria-label="@@editor.strike" aria-label="Strikethrough" (mousedown)="$event.preventDefault()" (click)="wrap('~~', '~~', 'text')"><s>S</s></button>
-    <span class="sep" aria-hidden="true"></span>
-    <button type="button" class="tool" i18n-title="@@editor.quote" title="Quote" i18n-aria-label="@@editor.quote" aria-label="Quote" (mousedown)="$event.preventDefault()" (click)="list('quote')">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M7 7h4v6a4 4 0 0 1-4 4v-2a2 2 0 0 0 2-2H7zm8 0h4v6a4 4 0 0 1-4 4v-2a2 2 0 0 0 2-2h-2z"/></svg>
-    </button>
-    <button type="button" class="tool" i18n-title="@@editor.code" title="Inline code" i18n-aria-label="@@editor.code" aria-label="Inline code" (mousedown)="$event.preventDefault()" (click)="wrap('`', '`', 'code')">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
-    </button>
-    <button type="button" class="tool" i18n-title="@@editor.codeBlock" title="Code block" i18n-aria-label="@@editor.codeBlock" aria-label="Code block" (mousedown)="$event.preventDefault()" (click)="codeBlock()">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 10-2 2 2 2"/><path d="m14 10 2 2-2 2"/></svg>
-    </button>
-    <button type="button" class="tool" i18n-title="@@editor.list" title="List" i18n-aria-label="@@editor.list" aria-label="List" (mousedown)="$event.preventDefault()" (click)="list('bullet')">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
-    </button>
-    <button type="button" class="tool" i18n-title="@@editor.numbered" title="Numbered list" i18n-aria-label="@@editor.numbered" aria-label="Numbered list" (mousedown)="$event.preventDefault()" (click)="list('number')">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 6h11M10 12h11M10 18h11"/><path d="M3 5l1.5-1v4M3 14h3l-3 3h3"/></svg>
-    </button>
-    <button type="button" class="tool" i18n-title="@@editor.link" title="Link" i18n-aria-label="@@editor.link" aria-label="Link" (mousedown)="$event.preventDefault()" (click)="link()">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>
-    </button>
+  <div class="bar">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" class="tab" [class.active]="!previewing()" [attr.aria-selected]="!previewing()" (click)="setPreviewing(false)" i18n="@@editor.write">Write</button>
+      <button type="button" role="tab" class="tab" [class.active]="previewing()" [attr.aria-selected]="previewing()" (click)="setPreviewing(true)" i18n="@@editor.preview">Preview</button>
+    </div>
+    <div class="toolbar" role="toolbar" [hidden]="previewing()" i18n-aria-label="@@editor.toolbar" aria-label="Formatting">
+      <button type="button" class="tool" i18n-title="@@editor.bold" title="Bold (Ctrl+B)" i18n-aria-label="@@editor.bold" aria-label="Bold" (mousedown)="$event.preventDefault()" (click)="wrap('**', '**', 'bold')"><b>B</b></button>
+      <button type="button" class="tool" i18n-title="@@editor.italic" title="Italic (Ctrl+I)" i18n-aria-label="@@editor.italic" aria-label="Italic" (mousedown)="$event.preventDefault()" (click)="wrap('_', '_', 'italic')"><i>I</i></button>
+      <button type="button" class="tool wide" i18n-title="@@editor.strike" title="Strikethrough" i18n-aria-label="@@editor.strike" aria-label="Strikethrough" (mousedown)="$event.preventDefault()" (click)="wrap('~~', '~~', 'text')"><s>S</s></button>
+      <span class="sep wide" aria-hidden="true"></span>
+      <button type="button" class="tool wide" i18n-title="@@editor.quote" title="Quote" i18n-aria-label="@@editor.quote" aria-label="Quote" (mousedown)="$event.preventDefault()" (click)="list('quote')">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M7 7h4v6a4 4 0 0 1-4 4v-2a2 2 0 0 0 2-2H7zm8 0h4v6a4 4 0 0 1-4 4v-2a2 2 0 0 0 2-2h-2z"/></svg>
+      </button>
+      <button type="button" class="tool wide" i18n-title="@@editor.code" title="Inline code" i18n-aria-label="@@editor.code" aria-label="Inline code" (mousedown)="$event.preventDefault()" (click)="wrap('`', '`', 'code')">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+      </button>
+      <button type="button" class="tool" i18n-title="@@editor.codeBlock" title="Code block" i18n-aria-label="@@editor.codeBlock" aria-label="Code block" (mousedown)="$event.preventDefault()" (click)="codeBlock()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 10-2 2 2 2"/><path d="m14 10 2 2-2 2"/></svg>
+      </button>
+      <button type="button" class="tool wide" i18n-title="@@editor.list" title="List" i18n-aria-label="@@editor.list" aria-label="List" (mousedown)="$event.preventDefault()" (click)="list('bullet')">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+      </button>
+      <button type="button" class="tool wide" i18n-title="@@editor.numbered" title="Numbered list" i18n-aria-label="@@editor.numbered" aria-label="Numbered list" (mousedown)="$event.preventDefault()" (click)="list('number')">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 6h11M10 12h11M10 18h11"/><path d="M3 5l1.5-1v4M3 14h3l-3 3h3"/></svg>
+      </button>
+      <button type="button" class="tool wide" i18n-title="@@editor.link" title="Link" i18n-aria-label="@@editor.link" aria-label="Link" (mousedown)="$event.preventDefault()" (click)="link()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>
+      </button>
+
+      <!-- Narrow editors (the side panel, a phone): the tools that do not fit move into this menu. -->
+      <div class="more-wrap" (keydown.escape)="closeMenu($event)">
+        <button #more type="button" class="tool more" aria-haspopup="menu" [attr.aria-expanded]="menuOpen()" i18n-title="@@editor.more" title="More formatting" i18n-aria-label="@@editor.more" aria-label="More formatting" (mousedown)="$event.preventDefault()" (click)="toggleMenu(more)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </button>
+        @if (menuOpen()) {
+          <div class="menu" [class.up]="menuUp()" role="menu">
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="wrap('~~', '~~', 'text'); menuOpen.set(false)" i18n="@@editor.strike">Strikethrough</button>
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="list('quote'); menuOpen.set(false)" i18n="@@editor.quote">Quote</button>
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="wrap('`', '`', 'code'); menuOpen.set(false)" i18n="@@editor.code">Inline code</button>
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="link(); menuOpen.set(false)" i18n="@@editor.link">Link</button>
+            <hr class="menu-sep" />
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="list('bullet'); menuOpen.set(false)" i18n="@@editor.list">List</button>
+            <button type="button" role="menuitem" class="item" (mousedown)="$event.preventDefault()" (click)="list('number'); menuOpen.set(false)" i18n="@@editor.numbered">Numbered list</button>
+          </div>
+        }
+      </div>
+    </div>
   </div>
+  @if (previewing()) {
+    @if (value().trim()) {
+      <div class="preview md" [innerHTML]="preview()"></div>
+    } @else {
+      <p class="preview empty" i18n="@@editor.nothingToPreview">Nothing to preview</p>
+    }
+  }
   <textarea
     #area
     class="area"
+    [hidden]="previewing()"
     [rows]="minRows()"
     [value]="value()"
     [maxLength]="maxLength()"

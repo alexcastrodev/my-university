@@ -14,6 +14,9 @@
         } @else {
           <strong class="name">{{ name(c) }}</strong>
           <span class="time">{{ ago(c.createdAt) }}</span>
+          @if (c.editedAt) {
+            <span class="time" i18n="@@lab.edited">· edited</span>
+          }
         }
       </div>
     </header>
@@ -25,31 +28,40 @@
           <div class="md" [innerHTML]="html(excerpt(thread.root))"></div>
         </blockquote>
       }
-      <div class="post-body md" [innerHTML]="html(c.body)"></div>
-      <footer class="post-actions">
-        <button
-          type="button"
-          class="vote"
-          [class.voted]="c.votedByMe"
-          [disabled]="c.mine || !signedIn() || busy()"
-          [attr.aria-pressed]="c.votedByMe"
-          i18n-aria-label="@@lab.upvote"
-          aria-label="Upvote"
-          (click)="vote(c)"
-        >▲ {{ c.votes }}</button>
-        @if (signedIn()) {
-          <button type="button" class="link" (click)="toggleReply(thread)" i18n="@@lab.reply">Reply</button>
-        }
-        @if (c.mine) {
-          <button type="button" class="link danger" (click)="remove(c)">
-            @if (confirmingDelete() === c.id) {
-              <ng-container i18n="@@lab.confirm">Confirm</ng-container>
-            } @else {
-              <ng-container i18n="@@lab.delete">Delete</ng-container>
-            }
-          </button>
-        }
-      </footer>
+      @if (editingId() === c.id) {
+        <app-post-editor [(value)]="editDraft" [maxLength]="maxBody" (submitted)="saveEdit(c)" />
+        <div class="post-actions">
+          <button type="button" class="link" (click)="editingId.set(null)" i18n="@@lab.cancel">Cancel</button>
+          <button type="button" class="send" [disabled]="!canSend(editDraft())" (click)="saveEdit(c)" i18n="@@lab.save">Save</button>
+        </div>
+      } @else {
+        <div class="post-body md" [innerHTML]="html(c.body)"></div>
+        <footer class="post-actions">
+          <button
+            type="button"
+            class="vote"
+            [class.voted]="c.votedByMe"
+            [disabled]="c.mine || !signedIn() || busy()"
+            [attr.aria-pressed]="c.votedByMe"
+            i18n-aria-label="@@lab.upvote"
+            aria-label="Upvote"
+            (click)="vote(c)"
+          >▲ {{ c.votes }}</button>
+          @if (signedIn()) {
+            <button type="button" class="link" (click)="toggleReply(thread)" i18n="@@lab.reply">Reply</button>
+          }
+          @if (c.mine) {
+            <button type="button" class="link" (click)="startEdit(c)" i18n="@@lab.edit">Edit</button>
+            <button type="button" class="link danger" (click)="remove(c)">
+              @if (confirmingDelete() === c.id) {
+                <ng-container i18n="@@lab.confirm">Confirm</ng-container>
+              } @else {
+                <ng-container i18n="@@lab.delete">Delete</ng-container>
+              }
+            </button>
+          }
+        </footer>
+      }
     }
   </article>
 </ng-template>

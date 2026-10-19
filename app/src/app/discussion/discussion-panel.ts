@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { PostEditor } from '../components/post-editor/post-editor';
+import { renderPostMarkdown } from '../shared/post-markdown';
 import { BlockAnchor, CommentView, MarkerSummary, ThreadView } from './discussion.model';
 import { DiscussionService } from './discussion.service';
 import { timeAgo } from './time-ago';
@@ -30,7 +32,7 @@ const MAX_BODY = 2000;
 @Component({
   selector: 'app-discussion-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgTemplateOutlet],
+  imports: [RouterLink, NgTemplateOutlet, PostEditor],
   templateUrl: './discussion-panel.html',
   styleUrl: './discussion-panel.css',
 })
@@ -45,6 +47,8 @@ export class DiscussionPanel {
   protected draft = signal('');
   protected replyingTo = signal<{ rootId: number; name: string } | null>(null);
   protected confirmingDelete = signal<number | null>(null);
+  protected editingId = signal<number | null>(null);
+  protected editDraft = signal('');
   private swipeStart: number | null = null;
 
   protected target = this.discussion.target;
@@ -71,6 +75,13 @@ export class DiscussionPanel {
     () =>
       this.draft().trim().length > 0 &&
       this.draft().length <= MAX_BODY &&
+      !this.discussion.busy(),
+  );
+
+  protected canSaveEdit = computed(
+    () =>
+      this.editDraft().trim().length > 0 &&
+      this.editDraft().length <= MAX_BODY &&
       !this.discussion.busy(),
   );
 
@@ -104,15 +115,18 @@ export class DiscussionPanel {
     this.replyingTo.set({ rootId: thread.root.id, name: this.displayName(comment) });
   }
 
-  protected onInput(event: Event): void {
-    this.draft.set((event.target as HTMLTextAreaElement).value);
+  protected html(markdown: string): string {
+    return renderPostMarkdown(markdown);
   }
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-      event.preventDefault();
-      void this.send();
-    }
+  protected startEdit(comment: CommentView): void {
+    this.editDraft.set(comment.body);
+    this.editingId.set(comment.id);
+  }
+
+  protected async saveEdit(comment: CommentView): Promise<void> {
+    if (!this.canSaveEdit()) return;
+    if (await this.discussion.edit(comment.id, this.editDraft().trim())) this.editingId.set(null);
   }
 
   protected async send(): Promise<void> {
