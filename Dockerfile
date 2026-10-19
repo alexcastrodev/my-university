@@ -37,6 +37,9 @@ RUN pnpm prune --prod
 
 FROM node:24-alpine AS api
 WORKDIR /app
+# Nothing here runs npm (tini starts node directly), and the npm bundled with the image carries
+# its own dependencies (brace-expansion, undici) that scanners flag. Drop it from the runtime image.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 # Secure by default: dev-only endpoints (dev-login, _test/login) stay disabled unless
 # an environment (docker-compose.yml) explicitly overrides this to "development".
 ENV NODE_ENV=production
@@ -56,6 +59,8 @@ CMD ["node", "dist/main.js"]
 
 FROM node:24-alpine AS ssr
 WORKDIR /app
+# No npm in the runtime image either, same as the api stage.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 ENV NODE_ENV=production PORT=4000
 RUN apk add --no-cache tini
 COPY --from=frontend-build /repo/app/dist/ocp-simulator ./
