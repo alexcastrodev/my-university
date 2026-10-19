@@ -75,6 +75,20 @@ describe('LandingPage', () => {
     expect(fixture.nativeElement.querySelector('.community-grid')).toBeNull();
   });
 
+  it('lists three ways to use the platform, the third being the discussion (the spaced review was removed)', () => {
+    const { fixture } = setup(false);
+
+    const cards: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.how-card'));
+    expect(cards.map((c) => c.querySelector('.how-title')?.textContent?.trim())).toEqual([
+      'Pick a topic',
+      'Track your XP',
+      'Talk it through',
+    ]);
+    // An unknown slug falls back to a book, so the chat bubble has to be a real icon case.
+    expect(cards[2].querySelector('.how-icon path')?.getAttribute('d')).toContain('M4 5h16v11H9');
+    expect(fixture.nativeElement.textContent).not.toContain('resurface');
+  });
+
   it('shows up to 4 real leaderboard entries once loaded, never fabricated ones', () => {
     const entries: LeaderboardEntry[] = Array.from({ length: 6 }, (_, i) => ({
       userId: i + 1,
