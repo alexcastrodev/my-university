@@ -63,32 +63,32 @@ stateDiagram-v2
 
 **Problem:** Design a PDA that accepts exactly the strings with some number of 0s followed by exactly the same number of 1s (including the empty string, n = 0), the same language this discipline's pumping lemma proves is not regular.
 
-**Design.** Use stack alphabet Γ = {X, $}, where $ marks the bottom of the stack (pushed once at the start, so we can later detect "the stack has nothing but the marker left," i.e., effectively empty) and X marks one unmatched 0. States: q_start (push $, then move to q_push), q_push (push an X for every 0 read), q_pop (pop an X for every 1 read), q_accept (reached when a pop leaves only $ on top, or when the input was empty and only $ is on the stack).
+**Design.** Use stack alphabet Γ = {X, \$}, where \$ marks the bottom of the stack (pushed once at the start, so we can later detect "the stack has nothing but the marker left," i.e., effectively empty) and X marks one unmatched 0. States: q_start (push \$, then move to q_push), q_push (push an X for every 0 read), q_pop (pop an X for every 1 read), q_accept (reached when a pop leaves only \$ on top, or when the input was empty and only \$ is on the stack).
 
 Transitions:
-- q_start: ε, ε → $, then move to q_push.
+- q_start: ε, ε → \$, then move to q_push.
 - q_push: on reading 0, ε → X (push X), stay in q_push.
 - q_push: ε, ε → ε (no input consumed), move to q_pop — this ε-transition is how the PDA nondeterministically "guesses" that the 0s have ended, without needing to look ahead.
 - q_pop: on reading 1, X → ε (pop X), stay in q_pop.
-- q_pop: ε, $ → $ (top of stack is just the bottom marker, meaning all 0s were matched), move to q_accept.
+- q_pop: ε, \$ → \$ (top of stack is just the bottom marker, meaning all 0s were matched), move to q_accept.
 - q_accept ∈ F.
 
 **Trace on the accepted string `0011`:**
 
 | Step | Remaining input | State | Stack (top on left) | Action |
 |---|---|---|---|---|
-| 0 | 0011 | q_start | (empty) | push $ → move to q_push |
-| 1 | 0011 | q_push | $ | read 0, push X |
-| 2 | 011 | q_push | X$ | read 0, push X |
-| 3 | 11 | q_push | XX$ | ε-move to q_pop (guess: 0s are done) |
-| 4 | 11 | q_pop | XX$ | read 1, pop X |
-| 5 | 1 | q_pop | X$ | read 1, pop X |
-| 6 | (empty) | q_pop | $ | ε-move, top is $ → move to q_accept |
-| 7 | (empty) | q_accept | $ | accept — input consumed, in F |
+| 0 | 0011 | q_start | (empty) | push \$ → move to q_push |
+| 1 | 0011 | q_push | \$ | read 0, push X |
+| 2 | 011 | q_push | X\$ | read 0, push X |
+| 3 | 11 | q_push | XX\$ | ε-move to q_pop (guess: 0s are done) |
+| 4 | 11 | q_pop | XX\$ | read 1, pop X |
+| 5 | 1 | q_pop | X\$ | read 1, pop X |
+| 6 | (empty) | q_pop | \$ | ε-move, top is \$ → move to q_accept |
+| 7 | (empty) | q_accept | \$ | accept — input consumed, in F |
 
 Two 0s were pushed and exactly two 1s popped them off, leaving just the bottom marker — accepted.
 
-**Trace on the rejected string `011`** (one 0, two 1s — unequal counts): push $, push one X for the single 0 (stack: X$), ε-move to q_pop, read the first 1 and pop the X (stack: $), then attempt to read the second 1 — but q_pop's only transition on input 1 requires popping an X, and the top of the stack is now $, not X, so no transition applies. The PDA has no way to consume the second 1 in this branch, and (since nondeterminism explores every branch, and no branch here leads to acceptance) the string is correctly rejected. This is exactly the point of the stack: it makes the mismatch between the 0-count and the 1-count structurally detectable, something no finite-state memory alone could do for arbitrarily large n.
+**Trace on the rejected string `011`** (one 0, two 1s — unequal counts): push \$, push one X for the single 0 (stack: X\$), ε-move to q_pop, read the first 1 and pop the X (stack: \$), then attempt to read the second 1 — but q_pop's only transition on input 1 requires popping an X, and the top of the stack is now \$, not X, so no transition applies. The PDA has no way to consume the second 1 in this branch, and (since nondeterminism explores every branch, and no branch here leads to acceptance) the string is correctly rejected. This is exactly the point of the stack: it makes the mismatch between the 0-count and the 1-count structurally detectable, something no finite-state memory alone could do for arbitrarily large n.
 
 ### Example 2 — a PDA for balanced parentheses
 

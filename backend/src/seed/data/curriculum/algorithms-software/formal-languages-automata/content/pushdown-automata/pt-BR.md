@@ -65,32 +65,32 @@ stateDiagram-v2
 
 **Problema:** Desenhe um PDA que aceita exatamente as strings com algum número de 0s seguido por exatamente o mesmo número de 1s (incluindo a string vazia, n = 0), a mesma linguagem que o lema do bombeamento desta disciplina prova não ser regular.
 
-**Design.** Use o alfabeto de pilha Γ = {X, $}, onde $ marca o fundo da pilha (empilhado uma vez no início, para que depois possamos detectar "a pilha só tem o marcador restante", ou seja, efetivamente vazia) e X marca um 0 não casado. Estados: q_start (empilha $, depois move para q_push), q_push (empilha um X para cada 0 lido), q_pop (desempilha um X para cada 1 lido), q_accept (alcançado quando um desempilhamento deixa apenas $ no topo, ou quando a entrada era vazia e só $ está na pilha).
+**Design.** Use o alfabeto de pilha Γ = {X, \$}, onde \$ marca o fundo da pilha (empilhado uma vez no início, para que depois possamos detectar "a pilha só tem o marcador restante", ou seja, efetivamente vazia) e X marca um 0 não casado. Estados: q_start (empilha \$, depois move para q_push), q_push (empilha um X para cada 0 lido), q_pop (desempilha um X para cada 1 lido), q_accept (alcançado quando um desempilhamento deixa apenas \$ no topo, ou quando a entrada era vazia e só \$ está na pilha).
 
 Transições:
-- q_start: ε, ε → $, depois move para q_push.
+- q_start: ε, ε → \$, depois move para q_push.
 - q_push: ao ler 0, ε → X (empilha X), permanece em q_push.
 - q_push: ε, ε → ε (nenhuma entrada consumida), move para q_pop, essa transição-ε é como o PDA "adivinha" não-deterministicamente que os 0s terminaram, sem precisar olhar adiante.
 - q_pop: ao ler 1, X → ε (desempilha X), permanece em q_pop.
-- q_pop: ε, $ → $ (o topo da pilha é apenas o marcador de fundo, significando que todos os 0s foram casados), move para q_accept.
+- q_pop: ε, \$ → \$ (o topo da pilha é apenas o marcador de fundo, significando que todos os 0s foram casados), move para q_accept.
 - q_accept ∈ F.
 
 **Rastro na string aceita `0011`:**
 
 | Passo | Entrada restante | Estado | Pilha (topo à esquerda) | Ação |
 |---|---|---|---|---|
-| 0 | 0011 | q_start | (vazia) | empilha $ → move para q_push |
-| 1 | 0011 | q_push | $ | lê 0, empilha X |
-| 2 | 011 | q_push | X$ | lê 0, empilha X |
-| 3 | 11 | q_push | XX$ | move-ε para q_pop (adivinha: 0s terminaram) |
-| 4 | 11 | q_pop | XX$ | lê 1, desempilha X |
-| 5 | 1 | q_pop | X$ | lê 1, desempilha X |
-| 6 | (vazia) | q_pop | $ | move-ε, topo é $ → move para q_accept |
-| 7 | (vazia) | q_accept | $ | aceita: entrada consumida, em F |
+| 0 | 0011 | q_start | (vazia) | empilha \$ → move para q_push |
+| 1 | 0011 | q_push | \$ | lê 0, empilha X |
+| 2 | 011 | q_push | X\$ | lê 0, empilha X |
+| 3 | 11 | q_push | XX\$ | move-ε para q_pop (adivinha: 0s terminaram) |
+| 4 | 11 | q_pop | XX\$ | lê 1, desempilha X |
+| 5 | 1 | q_pop | X\$ | lê 1, desempilha X |
+| 6 | (vazia) | q_pop | \$ | move-ε, topo é \$ → move para q_accept |
+| 7 | (vazia) | q_accept | \$ | aceita: entrada consumida, em F |
 
 Dois 0s foram empilhados e exatamente dois 1s os desempilharam, deixando apenas o marcador de fundo: aceita.
 
-**Rastro na string rejeitada `011`** (um 0, dois 1s: contagens desiguais): empilha $, empilha um X para o único 0 (pilha: X$), move-ε para q_pop, lê o primeiro 1 e desempilha o X (pilha: $), depois tenta ler o segundo 1, mas a única transição de q_pop na entrada 1 exige desempilhar um X, e o topo da pilha agora é $, não X, então nenhuma transição se aplica. O PDA não tem como consumir o segundo 1 nesse ramo, e (já que o não-determinismo explora todo ramo, e nenhum ramo aqui leva à aceitação) a string é corretamente rejeitada. Esse é exatamente o ponto da pilha: ela torna o descompasso entre a contagem de 0s e a contagem de 1s estruturalmente detectável, algo que nenhuma memória de estado finito sozinha conseguiria fazer para n arbitrariamente grande.
+**Rastro na string rejeitada `011`** (um 0, dois 1s: contagens desiguais): empilha \$, empilha um X para o único 0 (pilha: X\$), move-ε para q_pop, lê o primeiro 1 e desempilha o X (pilha: \$), depois tenta ler o segundo 1, mas a única transição de q_pop na entrada 1 exige desempilhar um X, e o topo da pilha agora é \$, não X, então nenhuma transição se aplica. O PDA não tem como consumir o segundo 1 nesse ramo, e (já que o não-determinismo explora todo ramo, e nenhum ramo aqui leva à aceitação) a string é corretamente rejeitada. Esse é exatamente o ponto da pilha: ela torna o descompasso entre a contagem de 0s e a contagem de 1s estruturalmente detectável, algo que nenhuma memória de estado finito sozinha conseguiria fazer para n arbitrariamente grande.
 
 ### Exemplo 2: um PDA para parênteses balanceados
 

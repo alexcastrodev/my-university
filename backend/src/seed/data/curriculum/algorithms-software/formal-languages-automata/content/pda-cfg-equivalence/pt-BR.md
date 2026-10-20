@@ -37,12 +37,12 @@ A ideia chave é que a pilha do PDA guarda exatamente a parte da forma sentencia
 
 **Gramática G:** S → aSb | ε (isso gera {aⁿbⁿ : n ≥ 0}, a mesma linguagem para a qual o PDA de exemplo do conceito anterior foi projetado à mão diretamente, esta construção em vez disso deriva um PDA equivalente mecanicamente a partir da gramática).
 
-**PDA resultante (pela construção acima):** alfabeto de pilha {S, a, b, $}; comece empilhando $ e depois S.
+**PDA resultante (pela construção acima):** alfabeto de pilha {S, a, b, \$}; comece empilhando \$ e depois S.
 - Se o topo da pilha é S: não deterministicamente ou (desempilhe S, empilhe b, depois S, depois a, de modo que a fique no topo, casando com a regra S → aSb lida da esquerda para a direita) ou (desempilhe S, empilhe nada, casando com a regra S → ε).
 - Se o topo da pilha é um terminal (a ou b): ele precisa casar e consumir o símbolo de entrada correspondente; desempilhe-o.
-- Se o topo da pilha é $ e a entrada está esgotada: aceite.
+- Se o topo da pilha é \$ e a entrada está esgotada: aceite.
 
-**Rastro em `aabb`:** a pilha começa $S. Aplique S → aSb: desempilhe S, empilhe b, S, a (do topo para baixo: a, S, b, $, lido de cima para baixo como a depois S depois b depois $). O topo é `a`, casa com o primeiro `a` da entrada, consuma-o, desempilhe: a pilha agora é S, b, $. Aplique S → aSb de novo: desempilhe S, empilhe b, S, a: a pilha é a, S, b, b, $. O topo `a` casa com o segundo `a` da entrada, consuma, desempilhe: pilha S, b, b, $. Agora aplique S → ε: desempilhe S, empilhe nada: pilha b, b, $. O topo `b` casa com o terceiro símbolo da entrada `b`, consuma, desempilhe: pilha b, $. O topo `b` casa com o quarto símbolo da entrada `b`, consuma, desempilhe: pilha $, entrada esgotada, aceite. Esse rastro espelha, símbolo por símbolo, a derivação mais à esquerda S ⇒ aSb ⇒ aaSbb ⇒ aabb, que é exatamente o sentido em que o PDA "simula" a derivação: a pilha em cada ponto guarda precisamente o sufixo ainda não expandido (S, depois Sb, depois só os terminais esperando para serem casados).
+**Rastro em `aabb`:** a pilha começa \$S. Aplique S → aSb: desempilhe S, empilhe b, S, a (do topo para baixo: a, S, b, \$, lido de cima para baixo como a depois S depois b depois \$). O topo é `a`, casa com o primeiro `a` da entrada, consuma-o, desempilhe: a pilha agora é S, b, \$. Aplique S → aSb de novo: desempilhe S, empilhe b, S, a: a pilha é a, S, b, b, \$. O topo `a` casa com o segundo `a` da entrada, consuma, desempilhe: pilha S, b, b, \$. Agora aplique S → ε: desempilhe S, empilhe nada: pilha b, b, \$. O topo `b` casa com o terceiro símbolo da entrada `b`, consuma, desempilhe: pilha b, \$. O topo `b` casa com o quarto símbolo da entrada `b`, consuma, desempilhe: pilha \$, entrada esgotada, aceite. Esse rastro espelha, símbolo por símbolo, a derivação mais à esquerda S ⇒ aSb ⇒ aaSbb ⇒ aabb, que é exatamente o sentido em que o PDA "simula" a derivação: a pilha em cada ponto guarda precisamente o sufixo ainda não expandido (S, depois Sb, depois só os terminais esperando para serem casados).
 
 ### Direção 2, a ideia: da computação de um PDA para regras de gramática
 
@@ -64,17 +64,17 @@ flowchart LR
 
 **Problema:** Aplique a mesma construção a G: S → 0S1 | 1 (essa gramática gera {0ⁿ1ⁿ⁺¹ : n ≥ 0}, n zeros seguidos por n+1 uns), e rastreie a aceitação da string `00111` (n = 2).
 
-**Construção:** a pilha começa $S. Regra S → 0S1: desempilhe S, empilhe 1, S, 0 (de modo que 0 fique no topo, casando com a regra lida da esquerda para a direita). Regra S → 1 (o caso base terminal): desempilhe S, empilhe 1.
+**Construção:** a pilha começa \$S. Regra S → 0S1: desempilhe S, empilhe 1, S, 0 (de modo que 0 fique no topo, casando com a regra lida da esquerda para a direita). Regra S → 1 (o caso base terminal): desempilhe S, empilhe 1.
 
-**Rastro em `00111`:** pilha $S → aplique S→0S1 → pilha (topo para baixo) 0,S,1,$. O topo `0` casa com o primeiro símbolo da entrada, consuma, desempilhe: S,1,$. Aplique S→0S1 de novo → pilha 0,S,1,1,$. O topo `0` casa com o segundo símbolo da entrada, consuma, desempilhe: S,1,1,$. Agora aplique a regra base S→1: desempilhe S, empilhe 1: pilha 1,1,1,$. O topo `1` casa com o terceiro símbolo da entrada, consuma, desempilhe: 1,1,$. O topo `1` casa com o quarto símbolo, consuma, desempilhe: 1,$. O topo `1` casa com o quinto e último símbolo, consuma, desempilhe: a pilha é só $, entrada totalmente consumida, aceite. Esse rastro espelha exatamente a derivação S ⇒ 0S1 ⇒ 00S11 ⇒ 00111, confirmando que o PDA aceita precisamente quando existe uma derivação mais à esquerda correspondente.
+**Rastro em `00111`:** pilha \$S → aplique S→0S1 → pilha (topo para baixo) 0,S,1,\$. O topo `0` casa com o primeiro símbolo da entrada, consuma, desempilhe: S,1,\$. Aplique S→0S1 de novo → pilha 0,S,1,1,\$. O topo `0` casa com o segundo símbolo da entrada, consuma, desempilhe: S,1,1,\$. Agora aplique a regra base S→1: desempilhe S, empilhe 1: pilha 1,1,1,\$. O topo `1` casa com o terceiro símbolo da entrada, consuma, desempilhe: 1,1,\$. O topo `1` casa com o quarto símbolo, consuma, desempilhe: 1,\$. O topo `1` casa com o quinto e último símbolo, consuma, desempilhe: a pilha é só \$, entrada totalmente consumida, aceite. Esse rastro espelha exatamente a derivação S ⇒ 0S1 ⇒ 00S11 ⇒ 00111, confirmando que o PDA aceita precisamente quando existe uma derivação mais à esquerda correspondente.
 
 **Contraste com uma string fora da linguagem:** rastrear `0011` (dois 0s, dois 1s) em vez disso esgota a entrada um símbolo cedo demais, depois de ambas as aplicações de S→0S1 e da regra base S→1, a pilha ainda guarda mais dois terminais 1 para casar, mas só dois 1s de entrada estiveram disponíveis e ambos já foram consumidos até aquele ponto do rastro, deixando um `1` preso na pilha sem entrada restante para casar com ele. O PDA não tem caminho de aceitação para `0011`, refletindo corretamente que G gera 0ⁿ1ⁿ⁺¹ (sempre um 1 a mais do que 0s), não 0ⁿ1ⁿ.
 
 ### Exemplo 2: lendo um rastro de pilha de volta como uma derivação
 
-**Problema:** Dado o PDA da Direção 1 (para S → aSb | ε), suponha que um rastro empilha $S, depois aplica S→ε imediatamente, depois aceita. Que string foi aceita, e a que derivação isso corresponde?
+**Problema:** Dado o PDA da Direção 1 (para S → aSb | ε), suponha que um rastro empilha \$S, depois aplica S→ε imediatamente, depois aceita. Que string foi aceita, e a que derivação isso corresponde?
 
-**Raciocínio:** empilhar S e então imediatamente desempilhá-lo via S→ε (empilhando nada) deixa a pilha em apenas $, com zero símbolos de entrada consumidos em qualquer ponto desse rastro. Isso corresponde a aceitar a string vazia ε, casando diretamente com a derivação S ⇒ ε, o caso base da gramática, com a atividade de pilha do PDA aqui reduzida ao mínimo possível: uma empilhada, uma desempilhada imediata, nenhum terminal casado.
+**Raciocínio:** empilhar S e então imediatamente desempilhá-lo via S→ε (empilhando nada) deixa a pilha em apenas \$, com zero símbolos de entrada consumidos em qualquer ponto desse rastro. Isso corresponde a aceitar a string vazia ε, casando diretamente com a derivação S ⇒ ε, o caso base da gramática, com a atividade de pilha do PDA aqui reduzida ao mínimo possível: uma empilhada, uma desempilhada imediata, nenhum terminal casado.
 
 ### Exemplo 3: por que a ideia de não terminal-por-par-de-estados da direção 2 é necessária, não decorativa
 
