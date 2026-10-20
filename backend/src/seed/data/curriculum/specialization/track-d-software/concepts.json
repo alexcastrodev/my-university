@@ -1,1 +1,603 @@
-[]
+[
+  {
+    "slug": "continuations-and-continuation-passing-style",
+    "id": 1,
+    "title": "Continuations and Continuation-Passing Style",
+    "topic": "Programming Languages",
+    "requires": [],
+    "related": [
+      {
+        "label": "Implementing Closures: The Environment That Outlives Its Frame",
+        "slug": "implementing-closures-the-environment-that-outlives-its-frame",
+        "feature": "curriculum/software-distributed/programming-languages"
+      },
+      {
+        "label": "Static Single Assignment Form",
+        "slug": "static-single-assignment-form",
+        "feature": "curriculum/software-distributed/compilers"
+      }
+    ],
+    "summary": "A continuation is the rest of the computation, reified as a function. Rewriting a program in continuation-passing style makes control flow explicit (every call is a tail call, every intermediate result is named), which is exactly the form that compilers, async/await desugaring, generators, and virtual threads use internally.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Flanagan, Sabry, Duba, Felleisen: The Essence of Compiling with Continuations (PLDI 1993)",
+        "url": "https://dl.acm.org/doi/10.1145/155090.155113",
+        "type": "doc"
+      },
+      {
+        "label": "R7RS Scheme: call-with-current-continuation and dynamic-wind",
+        "url": "https://small.r7rs.org/",
+        "type": "doc"
+      },
+      {
+        "label": "JEP 444: Virtual Threads",
+        "url": "https://openjdk.org/jeps/444",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "bottom-up-lr-parsing-and-parser-generators",
+    "id": 2,
+    "title": "Bottom-Up LR Parsing and Parser Generators",
+    "topic": "Compilers",
+    "requires": [
+      "continuations-and-continuation-passing-style"
+    ],
+    "related": [
+      {
+        "label": "Pushdown Automata",
+        "slug": "pushdown-automata",
+        "feature": "curriculum/algorithms-software/formal-languages-automata"
+      },
+      {
+        "label": "Syntax-Directed Translation and Attribute Grammars",
+        "slug": "syntax-directed-translation-and-attribute-grammars",
+        "feature": "curriculum/software-distributed/compilers"
+      }
+    ],
+    "summary": "An LR parser reads input left to right and builds the rightmost derivation in reverse, using a stack and a finite automaton over sets of grammar items to decide between shifting and reducing. Understanding the tables explains where shift/reduce conflicts come from and why yacc, Bison, and their descendants accept the grammars they do.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "GNU Bison manual: the Bison parser algorithm and conflicts",
+        "url": "https://www.gnu.org/software/bison/manual/bison.html",
+        "type": "doc"
+      },
+      {
+        "label": "Knuth: On the Translation of Languages from Left to Right (Information and Control, 1965)",
+        "url": "https://www.sciencedirect.com/science/article/pii/S0019995865904262",
+        "type": "doc"
+      },
+      {
+        "label": "Stanford CS143: Compilers",
+        "url": "https://web.stanford.edu/class/cs143/",
+        "type": "doc"
+      },
+      {
+        "label": "Grune, Jacobs: Parsing Techniques: A Practical Guide (2nd ed.)",
+        "url": "https://dickgrune.com/Books/PTAPG_2nd_Edition/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "llvm-ir-and-modular-compiler-infrastructure",
+    "id": 3,
+    "title": "LLVM IR and Modular Compiler Infrastructure",
+    "topic": "Compilers",
+    "requires": [
+      "bottom-up-lr-parsing-and-parser-generators"
+    ],
+    "related": [
+      {
+        "label": "Static Single Assignment Form",
+        "slug": "static-single-assignment-form",
+        "feature": "curriculum/software-distributed/compilers"
+      },
+      {
+        "label": "Instruction Selection: Tree Pattern Matching",
+        "slug": "instruction-selection-tree-pattern-matching",
+        "feature": "curriculum/software-distributed/compilers"
+      }
+    ],
+    "summary": "LLVM turns the M-languages-by-N-targets compiler problem into M plus N by putting a typed, SSA-form intermediate representation in the middle. Frontends emit memory-based IR, a pipeline of analysis and transformation passes (mem2reg first among them) optimizes it, and a backend lowers it to machine code.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "LLVM Language Reference Manual",
+        "url": "https://llvm.org/docs/LangRef.html",
+        "type": "doc"
+      },
+      {
+        "label": "Lattner, Adve: LLVM: A Compilation Framework for Lifelong Program Analysis & Transformation (CGO 2004)",
+        "url": "https://llvm.org/pubs/2004-01-30-CGO-LLVM.html",
+        "type": "doc"
+      },
+      {
+        "label": "LLVM Tutorial: My First Language Frontend with LLVM (Kaleidoscope)",
+        "url": "https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "parametric-polymorphism-and-system-f",
+    "id": 4,
+    "title": "Parametric Polymorphism and System F",
+    "topic": "Type Systems",
+    "requires": [
+      "llvm-ir-and-modular-compiler-infrastructure"
+    ],
+    "related": [
+      {
+        "label": "Type Inference and the Need for Unification",
+        "slug": "type-inference-and-the-need-for-unification",
+        "feature": "curriculum/software-distributed/programming-languages"
+      },
+      {
+        "label": "The Simply Typed Lambda Calculus",
+        "slug": "the-simply-typed-lambda-calculus",
+        "feature": "curriculum/software-distributed/programming-languages"
+      }
+    ],
+    "summary": "System F adds universal quantification over types to the simply typed lambda calculus, so one definition can be used at every type. Because a polymorphic function cannot inspect its type argument, its type alone constrains what it can do (\"theorems for free\"), which is the theory behind generics in Java, C#, Rust, and Haskell.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Pierce: Types and Programming Languages (MIT Press), chapters 23 and 24",
+        "url": "https://www.cis.upenn.edu/~bcpierce/tapl/",
+        "type": "doc"
+      },
+      {
+        "label": "Wadler: Theorems for Free! (FPCA 1989)",
+        "url": "https://dl.acm.org/doi/10.1145/99370.99404",
+        "type": "doc"
+      },
+      {
+        "label": "The Java Language Specification: Type Erasure (section 4.6)",
+        "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.6",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "subtyping-variance-and-bounded-polymorphism",
+    "id": 5,
+    "title": "Subtyping, Variance, and Bounded Polymorphism",
+    "topic": "Type Systems",
+    "requires": [
+      "parametric-polymorphism-and-system-f"
+    ],
+    "related": [
+      {
+        "label": "Polymorphism",
+        "slug": "polymorphism",
+        "feature": "curriculum/algorithms-software/programming-paradigms"
+      },
+      {
+        "label": "Type Checking: Progress and Preservation",
+        "slug": "type-checking-progress-and-preservation",
+        "feature": "curriculum/software-distributed/programming-languages"
+      }
+    ],
+    "summary": "Subtyping lets a value of a more specific type stand in for a more general one, and the rule for function types (contravariant in the argument, covariant in the result) decides which generic types may be substituted. Mutable containers must be invariant to stay sound, which is why Java arrays are a historical mistake and why wildcards, Kotlin's in/out, and bounded quantification exist.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Pierce: Types and Programming Languages (MIT Press), chapters 15 and 26",
+        "url": "https://www.cis.upenn.edu/~bcpierce/tapl/",
+        "type": "doc"
+      },
+      {
+        "label": "The Java Tutorials: Wildcards",
+        "url": "https://docs.oracle.com/javase/tutorial/java/generics/wildcards.html",
+        "type": "doc"
+      },
+      {
+        "label": "Kotlin documentation: Generics, declaration-site variance",
+        "url": "https://kotlinlang.org/docs/generics.html",
+        "type": "doc"
+      },
+      {
+        "label": "Liskov, Wing: A Behavioral Notion of Subtyping (TOPLAS 1994)",
+        "url": "https://dl.acm.org/doi/10.1145/197320.197383",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ownership-borrowing-and-linear-types",
+    "id": 6,
+    "title": "Ownership, Borrowing, and Linear Types",
+    "topic": "Type Systems",
+    "requires": [
+      "subtyping-variance-and-bounded-polymorphism"
+    ],
+    "related": [
+      {
+        "label": "Common Memory Bugs: Leaks, Double Frees, and Dangling Pointers",
+        "slug": "common-memory-bugs-leaks-and-dangling-pointers",
+        "feature": "curriculum/computer/c-and-assembly"
+      },
+      {
+        "label": "Automatic Memory Management: Reference Counting and Tracing GC",
+        "slug": "automatic-memory-management-reference-counting-and-tracing-gc",
+        "feature": "curriculum/software-distributed/programming-languages"
+      }
+    ],
+    "summary": "Substructural type systems restrict how often a value may be used. Rust's affine types plus the rule \"many readers or one writer\" give memory safety and data-race freedom with no garbage collector, and the same discipline (linear types) appears in Linear Haskell and in research languages for resources and protocols.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "The Rust Programming Language: Understanding Ownership",
+        "url": "https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html",
+        "type": "doc"
+      },
+      {
+        "label": "Jung, Jourdan, Krebbers, Dreyer: RustBelt: Securing the Foundations of the Rust Programming Language (POPL 2018)",
+        "url": "https://plv.mpi-sws.org/rustbelt/popl18/paper.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Bernardy et al.: Linear Haskell: Practical Linearity in a Higher-Order Polymorphic Language (POPL 2018)",
+        "url": "https://arxiv.org/abs/1710.09756",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "dependent-types-and-the-curry-howard-correspondence",
+    "id": 7,
+    "title": "Dependent Types and the Curry-Howard Correspondence",
+    "topic": "Type Systems",
+    "requires": [
+      "ownership-borrowing-and-linear-types"
+    ],
+    "related": [
+      {
+        "label": "Theorem Proving and Proof Assistants",
+        "slug": "theorem-proving-and-proof-assistants",
+        "feature": "curriculum/ai-theory/formal-methods"
+      },
+      {
+        "label": "Predicates and Quantifiers",
+        "slug": "predicates-and-quantifiers",
+        "feature": "curriculum/foundations/discrete-math-logic"
+      }
+    ],
+    "summary": "When types may mention values, a type can state a precise specification (a vector of length n, a sorted list) and a program of that type is a proof that the specification holds. Under the Curry-Howard correspondence, implication is the function type, conjunction is the pair type, and universal quantification is the dependent function type, which is how Lean, Coq/Rocq, and Agda double as programming languages and proof assistants.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Theorem Proving in Lean 4",
+        "url": "https://lean-lang.org/theorem_proving_in_lean4/",
+        "type": "doc"
+      },
+      {
+        "label": "Wadler: Propositions as Types (Communications of the ACM, 2015)",
+        "url": "https://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Software Foundations, Volume 1: Logical Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/lf-current/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "abstract-interpretation-and-galois-connections",
+    "id": 8,
+    "title": "Abstract Interpretation and Galois Connections",
+    "topic": "Program Analysis",
+    "requires": [
+      "dependent-types-and-the-curry-howard-correspondence"
+    ],
+    "related": [
+      {
+        "label": "The Data-Flow Analysis Framework: Lattices and Fixed Points",
+        "slug": "the-data-flow-analysis-framework-lattices-and-fixed-points",
+        "feature": "curriculum/software-distributed/compilers"
+      },
+      {
+        "label": "The Limits of Verification",
+        "slug": "the-limits-of-verification",
+        "feature": "curriculum/ai-theory/formal-methods"
+      }
+    ],
+    "summary": "Abstract interpretation runs a program over a simplified domain (signs, intervals) instead of concrete values, and a Galois connection between the two guarantees that every concrete behavior is covered. Widening forces loops to converge, trading precision for termination, and the result is a sound analysis that can prove the absence of whole classes of runtime errors.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Cousot, Cousot: Abstract Interpretation: A Unified Lattice Model for Static Analysis of Programs (POPL 1977)",
+        "url": "https://www.di.ens.fr/~cousot/COUSOTpapers/POPL77.shtml",
+        "type": "doc"
+      },
+      {
+        "label": "Moller, Schwartzbach: Static Program Analysis (lecture notes, Aarhus University)",
+        "url": "https://cs.au.dk/~amoeller/spa/",
+        "type": "doc"
+      },
+      {
+        "label": "Blanchet et al.: A Static Analyzer for Large Safety-Critical Software (PLDI 2003)",
+        "url": "https://www.di.ens.fr/~cousot/COUSOTpapers/PLDI03.shtml",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "pointer-analysis-andersen-and-steensgaard",
+    "id": 9,
+    "title": "Pointer Analysis: Andersen and Steensgaard",
+    "topic": "Program Analysis",
+    "requires": [
+      "abstract-interpretation-and-galois-connections"
+    ],
+    "related": [
+      {
+        "label": "Pointers: Addresses, Dereferencing, and the Address-Of Operator",
+        "slug": "pointers-addresses-and-dereferencing",
+        "feature": "curriculum/computer/c-and-assembly"
+      },
+      {
+        "label": "Common Subexpression Elimination",
+        "slug": "common-subexpression-elimination",
+        "feature": "curriculum/software-distributed/compilers"
+      }
+    ],
+    "summary": "Almost every other analysis and optimization needs to know which memory locations a pointer or reference may refer to. Andersen's inclusion-based analysis solves subset constraints for precision at cubic worst-case cost, Steensgaard's unification-based analysis merges equivalence classes in near-linear time, and context, field, and heap sensitivity decide where on the precision-cost curve a real tool sits.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Smaragdakis, Balatsouras: Pointer Analysis (Foundations and Trends in Programming Languages, 2015)",
+        "url": "https://yanniss.github.io/points-to-tutorial15.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Steensgaard: Points-to Analysis in Almost Linear Time (POPL 1996)",
+        "url": "https://dl.acm.org/doi/10.1145/237721.237727",
+        "type": "doc"
+      },
+      {
+        "label": "Moller, Schwartzbach: Static Program Analysis, chapter on pointer analysis",
+        "url": "https://cs.au.dk/~amoeller/spa/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "symbolic-execution-and-concolic-testing",
+    "id": 10,
+    "title": "Symbolic Execution and Concolic Testing",
+    "topic": "Program Analysis",
+    "requires": [
+      "pointer-analysis-andersen-and-steensgaard"
+    ],
+    "related": [
+      {
+        "label": "SMT Solvers and Decision Procedures",
+        "slug": "smt-solvers-and-decision-procedures",
+        "feature": "curriculum/ai-theory/formal-methods"
+      },
+      {
+        "label": "Test Coverage",
+        "slug": "test-coverage",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "Symbolic execution runs a program on symbolic inputs, collecting a path condition at every branch and asking an SMT solver whether each path is feasible and what concrete input drives it. Concolic testing mixes concrete and symbolic execution to generate a test for every path it can reach, at the price of path explosion and limited reasoning about loops, memory, and the environment.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "King: Symbolic Execution and Program Testing (Communications of the ACM, 1976)",
+        "url": "https://dl.acm.org/doi/10.1145/360248.360252",
+        "type": "doc"
+      },
+      {
+        "label": "Cadar, Dunbar, Engler: KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs (OSDI 2008)",
+        "url": "https://www.usenix.org/legacy/event/osdi08/tech/full_papers/cadar/cadar.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Godefroid, Klarlund, Sen: DART: Directed Automated Random Testing (PLDI 2005)",
+        "url": "https://dl.acm.org/doi/10.1145/1065010.1065036",
+        "type": "doc"
+      },
+      {
+        "label": "Baldoni et al.: A Survey of Symbolic Execution Techniques (ACM Computing Surveys, 2018)",
+        "url": "https://arxiv.org/abs/1610.00502",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "separation-logic-and-reasoning-about-the-heap",
+    "id": 11,
+    "title": "Separation Logic and Reasoning About the Heap",
+    "topic": "Software Verification",
+    "requires": [
+      "symbolic-execution-and-concolic-testing"
+    ],
+    "related": [
+      {
+        "label": "Hoare Logic: Rules of Inference",
+        "slug": "hoare-logic-rules-of-inference",
+        "feature": "curriculum/ai-theory/formal-methods"
+      },
+      {
+        "label": "Loop Invariants and the While Rule",
+        "slug": "loop-invariants-and-the-while-rule",
+        "feature": "curriculum/ai-theory/formal-methods"
+      },
+      {
+        "label": "Ownership, Borrowing, and Linear Types",
+        "slug": "ownership-borrowing-and-linear-types",
+        "feature": "curriculum/specialization/track-d-software"
+      }
+    ],
+    "summary": "Hoare logic breaks down when pointers alias, because any assertion about one cell might be invalidated by a write through another name. Separation logic adds a separating conjunction P * Q, meaning P and Q hold of disjoint parts of the heap, and a frame rule that lets a proof about a small footprint extend to any larger heap; this is the foundation of Infer, VeriFast, Viper, and the RustBelt proof.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Reynolds: Separation Logic: A Logic for Shared Mutable Data Structures (LICS 2002)",
+        "url": "https://www.cs.cmu.edu/~jcr/seplogic.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "O'Hearn: Separation Logic (Communications of the ACM, 2019)",
+        "url": "https://dl.acm.org/doi/10.1145/3211968",
+        "type": "doc"
+      },
+      {
+        "label": "Infer documentation: Separation Logic and Bi-abduction",
+        "url": "https://fbinfer.com/docs/separation-logic-and-bi-abduction",
+        "type": "doc"
+      },
+      {
+        "label": "Software Foundations, Volume 6: Separation Logic Foundations",
+        "url": "https://softwarefoundations.cis.upenn.edu/slf-current/index.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "coverage-guided-fuzzing",
+    "id": 12,
+    "title": "Coverage-Guided Fuzzing",
+    "topic": "Developer Tools",
+    "requires": [
+      "separation-logic-and-reasoning-about-the-heap"
+    ],
+    "related": [
+      {
+        "label": "Memory-Safety and Injection Vulnerabilities",
+        "slug": "memory-safety-and-injection-vulnerabilities",
+        "feature": "curriculum/software-distributed/security-cryptography"
+      },
+      {
+        "label": "Systematic Debugging",
+        "slug": "systematic-debugging",
+        "feature": "curriculum/algorithms-software/software-construction"
+      }
+    ],
+    "summary": "A fuzzer feeds a program mutated inputs and watches for crashes. Coverage-guided fuzzers such as AFL and libFuzzer instrument the target, keep every input that reaches new code, and mutate from those, which turns an exponential blind search into an incremental one; combined with sanitizers they find memory-safety bugs in parsers and protocol code at scale.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Miller, Fredriksen, So: An Empirical Study of the Reliability of UNIX Utilities (Communications of the ACM, 1990)",
+        "url": "https://dl.acm.org/doi/10.1145/96267.96279",
+        "type": "doc"
+      },
+      {
+        "label": "AFL technical details (lcamtuf)",
+        "url": "https://lcamtuf.coredump.cx/afl/technical_details.txt",
+        "type": "doc"
+      },
+      {
+        "label": "The Fuzzing Book (Zeller et al.)",
+        "url": "https://www.fuzzingbook.org/",
+        "type": "doc"
+      },
+      {
+        "label": "LLVM documentation: libFuzzer",
+        "url": "https://llvm.org/docs/LibFuzzer.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "language-servers-and-incremental-computation",
+    "id": 13,
+    "title": "Language Servers and Incremental Computation",
+    "topic": "Developer Tools",
+    "requires": [
+      "coverage-guided-fuzzing"
+    ],
+    "related": [
+      {
+        "label": "Parsing Expressions into an Abstract Syntax Tree",
+        "slug": "parsing-expressions-into-an-abstract-syntax-tree",
+        "feature": "curriculum/software-distributed/programming-languages"
+      },
+      {
+        "label": "Continuous Integration",
+        "slug": "continuous-integration",
+        "feature": "curriculum/software-distributed/software-engineering"
+      }
+    ],
+    "summary": "The Language Server Protocol turns the editors-times-languages integration problem into editors plus languages by putting analysis behind a JSON-RPC interface. Making that analysis fast enough to run on every keystroke needs error-tolerant parsing and demand-driven, memoized queries with early cutoff, the same idea that underlies modern build systems.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Language Server Protocol: overview and specification",
+        "url": "https://microsoft.github.io/language-server-protocol/",
+        "type": "doc"
+      },
+      {
+        "label": "Mokhov, Mitchell, Peyton Jones: Build Systems a la Carte (ICFP 2018)",
+        "url": "https://www.microsoft.com/en-us/research/uploads/prod/2018/03/build-systems.pdf",
+        "type": "doc"
+      },
+      {
+        "label": "Salsa: a framework for on-demand, incrementalized computation",
+        "url": "https://salsa-rs.github.io/salsa/",
+        "type": "doc"
+      },
+      {
+        "label": "rust-analyzer book: Architecture",
+        "url": "https://rust-analyzer.github.io/book/contributing/architecture.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "capstone-choosing-a-program-analysis-strategy-for-a-real-codebase",
+    "id": 14,
+    "title": "Capstone: Choosing a Program Analysis Strategy for a Real Codebase",
+    "topic": "Capstone",
+    "requires": [
+      "ownership-borrowing-and-linear-types",
+      "abstract-interpretation-and-galois-connections",
+      "separation-logic-and-reasoning-about-the-heap",
+      "coverage-guided-fuzzing"
+    ],
+    "related": [
+      {
+        "label": "A Design Goals Decision Guide",
+        "slug": "a-design-goals-decision-guide",
+        "feature": "curriculum/algorithms-software/software-construction"
+      },
+      {
+        "label": "Testing Shows the Presence of Bugs; Proof Shows Their Absence",
+        "slug": "testing-shows-presence-proof-shows-absence",
+        "feature": "curriculum/ai-theory/formal-methods"
+      }
+    ],
+    "summary": "Types, abstract interpretation, separation logic, symbolic execution, and fuzzing each give a different guarantee at a different cost. This capstone picks a technique for three realistic situations (nullness in a large Java monorepo, a C parser for untrusted input, a controller that must never raise a runtime error) and states for each exactly what is guaranteed and what is not.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      {
+        "label": "Moller, Schwartzbach: Static Program Analysis (lecture notes, Aarhus University)",
+        "url": "https://cs.au.dk/~amoeller/spa/",
+        "type": "doc"
+      },
+      {
+        "label": "Bessey et al.: A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World (Communications of the ACM, 2010)",
+        "url": "https://dl.acm.org/doi/10.1145/1646353.1646374",
+        "type": "doc"
+      },
+      {
+        "label": "Sadowski et al.: Lessons from Building Static Analysis Tools at Google (Communications of the ACM, 2018)",
+        "url": "https://dl.acm.org/doi/10.1145/3188720",
+        "type": "doc"
+      },
+      {
+        "label": "NullAway: a fast annotation-based null checker for Java",
+        "url": "https://github.com/uber/NullAway",
+        "type": "doc"
+      }
+    ]
+  }
+]
