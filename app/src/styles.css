@@ -76,7 +76,7 @@
 
 /* Left sidebar width. Expanded by default, icons only below 1200px or when the reader collapsed
    it (data-sidebar on <html>, set by the inline script in index.html and by the Sidebar itself).
-   Phones and the full-screen daily runner have no sidebar. Order matters: later rules win. */
+   Phones have no sidebar. Order matters: later rules win. */
 :root { --mu-sidebar-w: 216px; }
 :root[data-sidebar='collapsed'] { --mu-sidebar-w: 56px; }
 @media (max-width: 1199px) {
@@ -88,7 +88,6 @@
   :root:not([data-sidebar='expanded']),
   :root[data-sidebar] { --mu-sidebar-w: 0px; }
 }
-:root[data-sidebar-hidden] { --mu-sidebar-w: 0px; }
 
 
 /* Dark theme overrides — applied via a `data-theme="dark"` attribute on <html>,
@@ -184,8 +183,7 @@ html, body {
 
 /* Clear the fixed mobile bottom-nav (plus the home-indicator safe area it sits
    above) so page content is never hidden behind it, with a little breathing room
-   so the last card doesn't touch the bar. The full-screen daily runner covers the
-   viewport (position: fixed) and pads its own safe areas. Must come after the
+   so the last card doesn't touch the bar. Must come after the
    html, body reset above, which zeroes padding with the same specificity. */
 @media (max-width: 768px) {
   body {

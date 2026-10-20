@@ -70,9 +70,6 @@ export class Sidebar {
 
   private preference = signal<boolean | null>(this.readPreference());
   private narrow = signal(this.isBrowser && matchMedia(NARROW_QUERY).matches);
-  /** The full-screen daily runner owns the whole viewport, like it does for the bottom nav. */
-  protected hidden = signal(this.shouldHide(this.router.url));
-
   collapsed = computed(() => this.preference() ?? this.narrow());
   studying = signal<StudyingNowItem[]>([]);
   private lastRefresh = 0;
@@ -119,12 +116,9 @@ export class Sidebar {
     if (!this.isBrowser) return;
 
     matchMedia(NARROW_QUERY).addEventListener('change', (event) => this.narrow.set(event.matches));
-    this.applyHidden();
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        this.hidden.set(this.shouldHide(e.urlAfterRedirects));
-        this.applyHidden();
+      .subscribe(() => {
         // Reading a concept changes it, so look again when it's stale.
         const stale = Date.now() - this.lastRefresh > REFRESH_MS;
         if (this.auth.currentUser() && stale) {
@@ -213,11 +207,4 @@ export class Sidebar {
     }
   }
 
-  private shouldHide(url: string): boolean {
-    return url.startsWith('/daily/session');
-  }
-
-  private applyHidden(): void {
-    document.documentElement.toggleAttribute('data-sidebar-hidden', this.hidden());
-  }
 }

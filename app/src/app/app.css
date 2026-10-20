@@ -1,5 +1,4 @@
-/* Everything except the sidebar sits to its right; --mu-sidebar-w is 0 on phones and
-   while the full-screen daily runner is open (see styles.css). */
+/* Everything except the sidebar sits to its right; --mu-sidebar-w is 0 on phones (see styles.css). */
 .app-shell {
   margin-left: var(--mu-sidebar-w);
   transition: margin-left 0.15s ease;
@@ -20,7 +19,6 @@
   app-sidebar,
   app-footer,
   app-bottom-nav,
-  app-daily-return-pill,
   app-xp-toast,
   app-chunk-reload-toast,
   app-ask-ai-tooltip,

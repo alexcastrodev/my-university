@@ -12,12 +12,6 @@
   padding: 1.25rem 1rem 1.5rem;
 }
 
-.greeting {
-  margin: 0 0 0.15rem;
-  font-size: 0.8rem;
-  color: var(--mu-muted);
-}
-
 .headline {
   margin: 0 0 0.9rem;
   font-size: 1.45rem;
@@ -25,75 +19,6 @@
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--mu-ink);
-}
-
-.today {
-  padding: 0.85rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid var(--mu-line);
-  border-radius: var(--mu-radius-lg);
-  background: var(--mu-surface);
-}
-
-
-.today-empty {
-  margin: 0 0 0.85rem;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--mu-muted);
-}
-
-.chips {
-  list-style: none;
-  margin: 0 0 0.85rem;
-  padding: 0;
-}
-
-/* One row per card, title in full: on a phone a card you can't read isn't a preview. */
-.chip {
-  display: grid;
-  grid-template-columns: 4.25rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.5rem 0.15rem;
-  border-bottom: 1px solid var(--mu-line);
-}
-
-.chip:last-child {
-  border-bottom: none;
-}
-
-.chip-type {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--mu-accent);
-}
-
-.chip-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--mu-ink);
-}
-
-.start {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.85rem;
-  border-radius: var(--mu-radius);
-  background: var(--mu-accent);
-  color: var(--mu-white);
-  font-size: 0.95rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.start svg {
-  width: 14px;
-  height: 14px;
 }
 
 .stats {
@@ -298,27 +223,6 @@
 
 /* Loading placeholders: same boxes as the loaded content, so nothing jumps when data lands.
    The shimmer itself is the global .mu-skeleton (styles.css). */
-.headline-skeleton {
-  width: 70%;
-  height: 1.45rem;
-  margin: 0.1rem 0 1rem;
-}
-
-.sk-type {
-  height: 0.62rem;
-  width: 3rem;
-}
-
-.sk-title {
-  height: 0.85rem;
-  width: 85%;
-}
-
-.sk-start {
-  height: 2.9rem;
-  border-radius: var(--mu-radius);
-}
-
 .sk-ring {
   width: 48px;
   height: 48px;

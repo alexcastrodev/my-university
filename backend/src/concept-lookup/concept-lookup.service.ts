@@ -162,9 +162,8 @@ export class ConceptLookupService {
 
   /**
    * Full content behind a sourceId: the same resolution `getRecentActivity`
-   * do for a display title, but returning `sections` too. This is the one seam
-   * `DailyService` (grupo F session builder) reads real Read/Notice card content through,
-   * instead of `DailyModule` re-importing all eleven concept modules itself.
+   * do for a display title, but returning `sections` too. The discussion features read concept
+   * content through this one seam instead of re-importing every concept module themselves.
    */
   resolveConceptDetail(
     sourceType: ConceptSourceType,

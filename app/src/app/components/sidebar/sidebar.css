@@ -19,10 +19,6 @@
   transition: width 0.15s ease;
 }
 
-.sidebar.hidden {
-  display: none;
-}
-
 /* Labels disappear when the rail is collapsed. This is keyed on the <html> attribute and the
    viewport instead of component state so the very first paint is already right. */
 :host-context(html[data-sidebar='collapsed']) .label {
