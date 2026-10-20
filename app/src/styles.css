@@ -363,6 +363,18 @@ app-concept-actions {
   overflow-x: auto;
 }
 
+/* Display equations scroll inside their own line on narrow screens instead of widening the page. */
+.section-body .math-display {
+  display: block;
+  margin: 0 0 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.section-body .math-display .katex-display {
+  margin: 0.25rem 0;
+}
+
 .section-body .mermaid-diagram svg {
   max-width: 100%;
   height: auto;

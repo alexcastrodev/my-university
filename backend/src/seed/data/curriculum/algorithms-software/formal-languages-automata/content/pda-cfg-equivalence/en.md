@@ -35,12 +35,12 @@ The key idea is that the PDA's stack holds exactly the part of the current sente
 
 **Grammar G:** S → aSb | ε (this generates {aⁿbⁿ : n ≥ 0}, the same language the previous concept's example PDA was hand-designed for directly — this construction instead derives an equivalent PDA mechanically from the grammar).
 
-**Resulting PDA (by the construction above):** stack alphabet {S, a, b, $}; start by pushing $ then S.
+**Resulting PDA (by the construction above):** stack alphabet {S, a, b, \$}; start by pushing \$ then S.
 - If top of stack is S: nondeterministically either (pop S, push b then S then a — so that a ends up on top, matching the rule S → aSb read left to right) or (pop S, push nothing — matching the rule S → ε).
 - If top of stack is a terminal (a or b): it must match and consume the corresponding input symbol; pop it.
-- If top of stack is $ and input is exhausted: accept.
+- If top of stack is \$ and input is exhausted: accept.
 
-**Trace on `aabb`:** stack starts $S. Apply S → aSb: pop S, push b, S, a (top to bottom: a, S, b, $ — read top-down as a then S then b then $). Top is `a`, matches input's first `a`, consume it, pop: stack is now S, b, $. Apply S → aSb again: pop S, push b, S, a: stack is a, S, b, b, $. Top `a` matches input's second `a`, consume, pop: stack S, b, b, $. Now apply S → ε: pop S, push nothing: stack b, b, $. Top `b` matches input's third symbol `b`, consume, pop: stack b, $. Top `b` matches input's fourth symbol `b`, consume, pop: stack $, input exhausted — accept. This trace mirrors, symbol for symbol, the leftmost derivation S ⇒ aSb ⇒ aaSbb ⇒ aabb — which is exactly the sense in which the PDA "simulates" the derivation: the stack at each point holds precisely the not-yet-expanded suffix (S, then Sb, then just the terminals waiting to be matched).
+**Trace on `aabb`:** stack starts \$S. Apply S → aSb: pop S, push b, S, a (top to bottom: a, S, b, \$ — read top-down as a then S then b then \$). Top is `a`, matches input's first `a`, consume it, pop: stack is now S, b, \$. Apply S → aSb again: pop S, push b, S, a: stack is a, S, b, b, \$. Top `a` matches input's second `a`, consume, pop: stack S, b, b, \$. Now apply S → ε: pop S, push nothing: stack b, b, \$. Top `b` matches input's third symbol `b`, consume, pop: stack b, \$. Top `b` matches input's fourth symbol `b`, consume, pop: stack \$, input exhausted — accept. This trace mirrors, symbol for symbol, the leftmost derivation S ⇒ aSb ⇒ aaSbb ⇒ aabb — which is exactly the sense in which the PDA "simulates" the derivation: the stack at each point holds precisely the not-yet-expanded suffix (S, then Sb, then just the terminals waiting to be matched).
 
 ### Direction 2, the idea: from a PDA's computation to grammar rules
 
@@ -62,17 +62,17 @@ flowchart LR
 
 **Problem:** Apply the same construction to G: S → 0S1 | 1 (this grammar generates {0ⁿ1ⁿ⁺¹ : n ≥ 0} — n zeros followed by n+1 ones), and trace acceptance of the string `00111` (n = 2).
 
-**Construction:** stack starts $S. Rule S → 0S1: pop S, push 1, S, 0 (so 0 ends up on top, matching the rule read left to right). Rule S → 1 (the terminal base case): pop S, push 1.
+**Construction:** stack starts \$S. Rule S → 0S1: pop S, push 1, S, 0 (so 0 ends up on top, matching the rule read left to right). Rule S → 1 (the terminal base case): pop S, push 1.
 
-**Trace on `00111`:** stack $S → apply S→0S1 → stack (top to bottom) 0,S,1,$. Top `0` matches input's first symbol, consume, pop: S,1,$. Apply S→0S1 again → stack 0,S,1,1,$. Top `0` matches input's second symbol, consume, pop: S,1,1,$. Now apply the base rule S→1: pop S, push 1: stack 1,1,1,$. Top `1` matches input's third symbol, consume, pop: 1,1,$. Top `1` matches the fourth symbol, consume, pop: 1,$. Top `1` matches the fifth and final symbol, consume, pop: stack is just $, input fully consumed — accept. This trace mirrors the derivation S ⇒ 0S1 ⇒ 00S11 ⇒ 00111 exactly, confirming the PDA accepts precisely when a matching leftmost derivation exists.
+**Trace on `00111`:** stack \$S → apply S→0S1 → stack (top to bottom) 0,S,1,\$. Top `0` matches input's first symbol, consume, pop: S,1,\$. Apply S→0S1 again → stack 0,S,1,1,\$. Top `0` matches input's second symbol, consume, pop: S,1,1,\$. Now apply the base rule S→1: pop S, push 1: stack 1,1,1,\$. Top `1` matches input's third symbol, consume, pop: 1,1,\$. Top `1` matches the fourth symbol, consume, pop: 1,\$. Top `1` matches the fifth and final symbol, consume, pop: stack is just \$, input fully consumed — accept. This trace mirrors the derivation S ⇒ 0S1 ⇒ 00S11 ⇒ 00111 exactly, confirming the PDA accepts precisely when a matching leftmost derivation exists.
 
 **Contrast with a string not in the language:** tracing `0011` (two 0s, two 1s) instead runs out of input one symbol early — after both S→0S1 applications and the base rule S→1, the stack still holds two more terminal 1s to match, but only two input 1s were ever available and both are already consumed by that point in the trace, leaving one `1` stuck on the stack with no input left to match it against. The PDA has no accepting path for `0011`, correctly reflecting that G generates 0ⁿ1ⁿ⁺¹ (always one more 1 than 0), not 0ⁿ1ⁿ.
 
 ### Example 2 — reading a stack trace back as a derivation
 
-**Problem:** Given the PDA from Direction 1 (for S → aSb | ε), suppose a trace pushes $S, then applies S→ε immediately, then accepts. What string was accepted, and what derivation does this correspond to?
+**Problem:** Given the PDA from Direction 1 (for S → aSb | ε), suppose a trace pushes \$S, then applies S→ε immediately, then accepts. What string was accepted, and what derivation does this correspond to?
 
-**Reasoning:** pushing S then immediately popping it via S→ε (pushing nothing) leaves the stack at just $, with zero input symbols consumed anywhere in this trace. This corresponds to accepting the empty string ε, matching the derivation S ⇒ ε directly — the base case of the grammar, with the PDA's stack activity here reduced to the minimum possible: one push, one immediate pop, no terminals matched at all.
+**Reasoning:** pushing S then immediately popping it via S→ε (pushing nothing) leaves the stack at just \$, with zero input symbols consumed anywhere in this trace. This corresponds to accepting the empty string ε, matching the derivation S ⇒ ε directly — the base case of the grammar, with the PDA's stack activity here reduced to the minimum possible: one push, one immediate pop, no terminals matched at all.
 
 ### Example 3 — why direction 2's nonterminal-per-state-pair idea is necessary, not decorative
 

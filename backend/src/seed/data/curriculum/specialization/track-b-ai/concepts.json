@@ -1,1 +1,253 @@
-[]
+[
+  {
+    "slug": "subword-tokenization-and-byte-pair-encoding",
+    "id": 1,
+    "title": "Subword Tokenization and Byte-Pair Encoding",
+    "topic": "Natural Language Processing",
+    "requires": [],
+    "related": [
+      { "label": "Self-Attention, Parallelism, and Positional Encoding", "slug": "self-attention-parallelism-and-positional-encoding", "feature": "curriculum/ai-theory/deep-learning" },
+      { "label": "Entropy Coding and the Full JPEG Pipeline", "slug": "entropy-coding-and-the-jpeg-pipeline", "feature": "curriculum/specialization/image-processing" }
+    ],
+    "summary": "A language model never sees characters or words, it sees integer token ids drawn from a fixed vocabulary. Byte-pair encoding builds that vocabulary by greedily merging the most frequent adjacent pair of symbols, landing between a character vocabulary (tiny, but sequences too long) and a word vocabulary (short sequences, but every unseen word is unknown).",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Sennrich, Haddow, Birch: Neural Machine Translation of Rare Words with Subword Units (ACL 2016)", "url": "https://arxiv.org/abs/1508.07909", "type": "doc" },
+      { "label": "Stanford CS224N: Natural Language Processing with Deep Learning", "url": "https://web.stanford.edu/class/cs224n/", "type": "doc" },
+      { "label": "Stanford CS336: Language Modeling from Scratch", "url": "https://stanford-cs336.github.io/spring2025/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "word-embeddings-and-the-distributional-hypothesis",
+    "id": 2,
+    "title": "Word Embeddings and the Distributional Hypothesis",
+    "topic": "Natural Language Processing",
+    "requires": ["subword-tokenization-and-byte-pair-encoding"],
+    "related": [
+      { "label": "Representation Learning: The Network Learns Its Own Features", "slug": "representation-learning-the-network-learns-its-own-features", "feature": "curriculum/ai-theory/deep-learning" },
+      { "label": "Principal Component Analysis", "slug": "principal-component-analysis", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "\"You shall know a word by the company it keeps\": word2vec turns that linguistic hypothesis into a training objective, learning dense vectors whose dot products predict which words co-occur, and the resulting geometry (similar words close together, consistent offsets for analogies) is the ancestor of the embedding layer at the bottom of every modern language model.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Mikolov et al.: Efficient Estimation of Word Representations in Vector Space (2013)", "url": "https://arxiv.org/abs/1301.3781", "type": "doc" },
+      { "label": "Mikolov et al.: Distributed Representations of Words and Phrases and their Compositionality (NeurIPS 2013)", "url": "https://arxiv.org/abs/1310.4546", "type": "doc" },
+      { "label": "Stanford CS224N: Natural Language Processing with Deep Learning", "url": "https://web.stanford.edu/class/cs224n/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "pretraining-objectives-causal-and-masked-language-modeling",
+    "id": 3,
+    "title": "Pretraining Objectives: Causal and Masked Language Modeling",
+    "topic": "Natural Language Processing",
+    "requires": ["word-embeddings-and-the-distributional-hypothesis"],
+    "related": [
+      { "label": "The Transformer Architecture", "slug": "the-transformer-architecture", "feature": "curriculum/ai-theory/deep-learning" },
+      { "label": "Softmax and Cross-Entropy Loss", "slug": "softmax-and-cross-entropy-loss", "feature": "curriculum/ai-theory/deep-learning" }
+    ],
+    "summary": "Self-supervised pretraining manufactures labels from raw text: a causal model (GPT) predicts each next token from the ones before it, a masked model (BERT) predicts hidden tokens from both sides. The choice of objective decides what the model can do afterwards, generate text left to right, or encode a whole sentence for classification.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Devlin et al.: BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding (NAACL 2019)", "url": "https://arxiv.org/abs/1810.04805", "type": "doc" },
+      { "label": "Radford et al.: Language Models are Unsupervised Multitask Learners (GPT-2, 2019)", "url": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf", "type": "doc" },
+      { "label": "Stanford CS224N: Natural Language Processing with Deep Learning", "url": "https://web.stanford.edu/class/cs224n/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "scaling-laws-and-compute-optimal-training",
+    "id": 4,
+    "title": "Scaling Laws and Compute-Optimal Training",
+    "topic": "Large Models",
+    "requires": ["pretraining-objectives-causal-and-masked-language-modeling"],
+    "related": [
+      { "label": "The Bias-Variance Tradeoff", "slug": "the-bias-variance-tradeoff", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "Test loss of a language model falls as a smooth power law in parameters, data, and compute, which turns \"how big should the model be\" into an engineering calculation. Chinchilla showed the earlier recipe was badly unbalanced: for a fixed compute budget, parameters and training tokens should grow together, roughly 20 tokens per parameter.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Kaplan et al.: Scaling Laws for Neural Language Models (2020)", "url": "https://arxiv.org/abs/2001.08361", "type": "doc" },
+      { "label": "Hoffmann et al.: Training Compute-Optimal Large Language Models (Chinchilla, 2022)", "url": "https://arxiv.org/abs/2203.15556", "type": "doc" },
+      { "label": "Stanford CS336: Language Modeling from Scratch", "url": "https://stanford-cs336.github.io/spring2025/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "parameter-efficient-fine-tuning-and-lora",
+    "id": 5,
+    "title": "Parameter-Efficient Fine-Tuning and LoRA",
+    "topic": "Large Models",
+    "requires": ["scaling-laws-and-compute-optimal-training"],
+    "related": [
+      { "label": "Principal Component Analysis", "slug": "principal-component-analysis", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "Full fine-tuning updates and stores every one of a model's billions of weights per task. LoRA freezes the pretrained weights and learns only a low-rank correction BA added to each target matrix, cutting trainable parameters by orders of magnitude, and it works because the update a task actually needs has low intrinsic rank.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Hu et al.: LoRA: Low-Rank Adaptation of Large Language Models (ICLR 2022)", "url": "https://arxiv.org/abs/2106.09685", "type": "doc" },
+      { "label": "Dettmers et al.: QLoRA: Efficient Finetuning of Quantized LLMs (NeurIPS 2023)", "url": "https://arxiv.org/abs/2305.14314", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "alignment-from-human-feedback-rlhf-and-dpo",
+    "id": 6,
+    "title": "Alignment from Human Feedback: RLHF and DPO",
+    "topic": "Large Models",
+    "requires": ["parameter-efficient-fine-tuning-and-lora"],
+    "related": [
+      { "label": "Utility Theory and Rational Preferences", "slug": "utility-theory-and-rational-preferences", "feature": "curriculum/ai-theory/artificial-intelligence" }
+    ],
+    "summary": "A pretrained model imitates the internet, not a helpful assistant. RLHF collects human comparisons between pairs of answers, fits a reward model to them with the Bradley-Terry model, and optimizes the policy against that reward under a KL leash; DPO reaches the same optimum with a single classification-style loss and no explicit reward model or RL loop.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Ouyang et al.: Training Language Models to Follow Instructions with Human Feedback (InstructGPT, NeurIPS 2022)", "url": "https://arxiv.org/abs/2203.02155", "type": "doc" },
+      { "label": "Rafailov et al.: Direct Preference Optimization: Your Language Model is Secretly a Reward Model (NeurIPS 2023)", "url": "https://arxiv.org/abs/2305.18290", "type": "doc" },
+      { "label": "Christiano et al.: Deep Reinforcement Learning from Human Preferences (NeurIPS 2017)", "url": "https://arxiv.org/abs/1706.03741", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "retrieval-augmented-generation",
+    "id": 7,
+    "title": "Retrieval-Augmented Generation",
+    "topic": "Large Models",
+    "requires": [
+      "alignment-from-human-feedback-rlhf-and-dpo",
+      "word-embeddings-and-the-distributional-hypothesis",
+      "pretraining-objectives-causal-and-masked-language-modeling"
+    ],
+    "related": [],
+    "summary": "A model's weights are a frozen, lossy snapshot of its training data. Retrieval-augmented generation fetches relevant passages at query time (by dense embedding similarity, keyword search, or both) and puts them in the context window, so answers can cite current, private, or long-tail facts the weights never memorized.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Lewis et al.: Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (NeurIPS 2020)", "url": "https://arxiv.org/abs/2005.11401", "type": "doc" },
+      { "label": "Karpukhin et al.: Dense Passage Retrieval for Open-Domain Question Answering (EMNLP 2020)", "url": "https://arxiv.org/abs/2004.04906", "type": "doc" },
+      { "label": "Stanford CS224N: Natural Language Processing with Deep Learning", "url": "https://web.stanford.edu/class/cs224n/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "object-detection-and-semantic-segmentation",
+    "id": 8,
+    "title": "Object Detection and Semantic Segmentation",
+    "topic": "Computer Vision",
+    "requires": ["retrieval-augmented-generation"],
+    "related": [
+      { "label": "CNN Architectures and Residual Connections", "slug": "cnn-architectures-and-residual-connections", "feature": "curriculum/ai-theory/deep-learning" },
+      { "label": "Region Growing and Connected-Component Labeling", "slug": "region-growing-and-connected-component-labeling", "feature": "curriculum/specialization/image-processing" }
+    ],
+    "summary": "Classification answers \"what is in this image\"; detection also answers \"where\", with a box per object, and segmentation answers it per pixel. Faster R-CNN proposes candidate boxes and classifies them, U-Net upsamples a CNN's coarse features back to full resolution with skip connections, and both are trained and scored with intersection over union.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Ren, He, Girshick, Sun: Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks (NeurIPS 2015)", "url": "https://arxiv.org/abs/1506.01497", "type": "doc" },
+      { "label": "Ronneberger, Fischer, Brox: U-Net: Convolutional Networks for Biomedical Image Segmentation (MICCAI 2015)", "url": "https://arxiv.org/abs/1505.04597", "type": "doc" },
+      { "label": "Stanford CS231n: Deep Learning for Computer Vision", "url": "https://cs231n.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "vision-transformers-and-contrastive-image-text-learning",
+    "id": 9,
+    "title": "Vision Transformers and Contrastive Image-Text Learning",
+    "topic": "Computer Vision",
+    "requires": ["object-detection-and-semantic-segmentation", "pretraining-objectives-causal-and-masked-language-modeling"],
+    "related": [
+      { "label": "The Transformer Architecture", "slug": "the-transformer-architecture", "feature": "curriculum/ai-theory/deep-learning" }
+    ],
+    "summary": "A Vision Transformer cuts an image into 16x16 patches and treats them as tokens, trading the CNN's built-in locality for flexibility that pays off with enough data. CLIP trains an image encoder and a text encoder together so matching image-caption pairs land close in a shared space, which is what makes zero-shot classification by text prompt possible.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Dosovitskiy et al.: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (ICLR 2021)", "url": "https://arxiv.org/abs/2010.11929", "type": "doc" },
+      { "label": "Radford et al.: Learning Transferable Visual Models From Natural Language Supervision (CLIP, ICML 2021)", "url": "https://arxiv.org/abs/2103.00020", "type": "doc" },
+      { "label": "Stanford CS231n: Deep Learning for Computer Vision", "url": "https://cs231n.stanford.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "variational-autoencoders-and-the-evidence-lower-bound",
+    "id": 10,
+    "title": "Variational Autoencoders and the Evidence Lower Bound",
+    "topic": "Generative Models",
+    "requires": ["vision-transformers-and-contrastive-image-text-learning"],
+    "related": [
+      { "label": "Autoencoders and Learned Latent Spaces", "slug": "autoencoders-and-learned-latent-spaces", "feature": "curriculum/ai-theory/deep-learning" },
+      { "label": "Gaussian Mixture Models and the EM Algorithm", "slug": "gaussian-mixture-models-and-the-em-algorithm", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "A plain autoencoder's latent space has holes: decoding a random point gives garbage. A VAE makes the encoder output a distribution, regularizes it toward a standard Gaussian with a KL term, and trains by maximizing the evidence lower bound, using the reparameterization trick so gradients can flow through the sampling step.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Kingma, Welling: Auto-Encoding Variational Bayes (ICLR 2014)", "url": "https://arxiv.org/abs/1312.6114", "type": "doc" },
+      { "label": "Kingma, Welling: An Introduction to Variational Autoencoders (2019)", "url": "https://arxiv.org/abs/1906.02691", "type": "doc" },
+      { "label": "Stanford CS236: Deep Generative Models", "url": "https://deepgenerativemodels.github.io/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "diffusion-models-and-flow-matching",
+    "id": 11,
+    "title": "Diffusion Models and Flow Matching",
+    "topic": "Generative Models",
+    "requires": ["variational-autoencoders-and-the-evidence-lower-bound"],
+    "related": [
+      { "label": "Beyond Autoencoders: GANs and Diffusion Models, A Survey", "slug": "beyond-autoencoders-gans-and-diffusion-models-a-survey", "feature": "curriculum/ai-theory/deep-learning" }
+    ],
+    "summary": "A diffusion model learns to undo a fixed process that gradually turns data into Gaussian noise: training is just regressing the noise that was added (a plain mean-squared error), and generation runs the learned denoiser backwards from pure noise. Flow matching recasts the same idea as learning a velocity field that transports noise to data along simple paths.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Ho, Jain, Abbeel: Denoising Diffusion Probabilistic Models (NeurIPS 2020)", "url": "https://arxiv.org/abs/2006.11239", "type": "doc" },
+      { "label": "Lipman et al.: Flow Matching for Generative Modeling (ICLR 2023)", "url": "https://arxiv.org/abs/2210.02747", "type": "doc" },
+      { "label": "MIT 6.S184: Generative AI with Stochastic Differential Equations", "url": "https://diffusion.csail.mit.edu/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "deep-q-networks-value-based-deep-reinforcement-learning",
+    "id": 12,
+    "title": "Deep Q-Networks: Value-Based Deep Reinforcement Learning",
+    "topic": "Reinforcement Learning",
+    "requires": ["diffusion-models-and-flow-matching"],
+    "related": [
+      { "label": "Value Iteration and Policy Iteration", "slug": "value-iteration-and-policy-iteration", "feature": "curriculum/ai-theory/artificial-intelligence" },
+      { "label": "Markov Decision Processes and the Bellman Equation", "slug": "markov-decision-processes-and-the-bellman-equation", "feature": "curriculum/ai-theory/artificial-intelligence" }
+    ],
+    "summary": "Value iteration needs the transition model and a table over every state; Q-learning drops the model by learning from sampled transitions, and DQN drops the table by approximating Q with a neural network. Two engineering fixes, a replay buffer and a slowly updated target network, are what keep that combination from diverging.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Mnih et al.: Playing Atari with Deep Reinforcement Learning (2013)", "url": "https://arxiv.org/abs/1312.5602", "type": "doc" },
+      { "label": "Sutton, Barto: Reinforcement Learning: An Introduction (2nd ed.)", "url": "http://incompleteideas.net/book/the-book-2nd.html", "type": "doc" },
+      { "label": "UC Berkeley CS285: Deep Reinforcement Learning", "url": "https://rail.eecs.berkeley.edu/deeprlcourse/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "policy-gradients-and-proximal-policy-optimization",
+    "id": 13,
+    "title": "Policy Gradients and Proximal Policy Optimization",
+    "topic": "Reinforcement Learning",
+    "requires": ["deep-q-networks-value-based-deep-reinforcement-learning"],
+    "related": [
+      { "label": "Gradient Descent as a General Optimizer", "slug": "gradient-descent-as-a-general-optimizer", "feature": "curriculum/ai-theory/machine-learning" }
+    ],
+    "summary": "Instead of learning values and acting greedily, a policy-gradient method adjusts the policy's parameters directly in the direction that makes high-return actions more likely. The REINFORCE estimator makes that gradient computable from samples, a baseline tames its variance, and PPO's clipped objective stops each update from moving the policy too far at once.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Schulman et al.: Proximal Policy Optimization Algorithms (2017)", "url": "https://arxiv.org/abs/1707.06347", "type": "doc" },
+      { "label": "Sutton, Barto: Reinforcement Learning: An Introduction (2nd ed.), Chapter 13", "url": "http://incompleteideas.net/book/the-book-2nd.html", "type": "doc" },
+      { "label": "UC Berkeley CS285: Deep Reinforcement Learning", "url": "https://rail.eecs.berkeley.edu/deeprlcourse/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-designing-an-ai-system-for-a-real-task",
+    "id": 14,
+    "title": "Capstone: Designing an AI System for a Real Task",
+    "topic": "Capstone",
+    "requires": [
+      "retrieval-augmented-generation",
+      "alignment-from-human-feedback-rlhf-and-dpo",
+      "vision-transformers-and-contrastive-image-text-learning",
+      "diffusion-models-and-flow-matching",
+      "policy-gradients-and-proximal-policy-optimization"
+    ],
+    "related": [
+      { "label": "Capstone: Designing a Deep Learning Model for a New Task", "slug": "capstone-designing-a-deep-learning-model-for-a-new-task", "feature": "curriculum/ai-theory/deep-learning" }
+    ],
+    "summary": "Given three realistic requests (a support assistant over a private, changing knowledge base, a visual product search with no labeled training set, and a warehouse controller that must learn from trial and error), choose and justify a design from this track for each, and name what each rejected alternative would have cost.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Stanford CS224N: Natural Language Processing with Deep Learning", "url": "https://web.stanford.edu/class/cs224n/", "type": "doc" },
+      { "label": "Stanford CS231n: Deep Learning for Computer Vision", "url": "https://cs231n.stanford.edu/", "type": "doc" },
+      { "label": "UC Berkeley CS285: Deep Reinforcement Learning", "url": "https://rail.eecs.berkeley.edu/deeprlcourse/", "type": "doc" }
+    ]
+  }
+]

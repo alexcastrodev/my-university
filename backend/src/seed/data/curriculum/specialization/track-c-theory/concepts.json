@@ -1,1 +1,245 @@
-[]
+[
+  {
+    "slug": "splay-trees-and-the-potential-method",
+    "id": 1,
+    "title": "Splay Trees and the Potential Method",
+    "topic": "Advanced Algorithms",
+    "requires": [],
+    "related": [
+      { "label": "Amortized Analysis of Union-Find", "slug": "amortized-analysis-of-union-find", "feature": "curriculum/algorithms-software/data-structures-ii" },
+      { "label": "AVL Rotations: Single and Double", "slug": "avl-rotations", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "A splay tree keeps no balance information at all, yet every sequence of m operations costs O(m log n): each access rotates the touched node to the root, and the potential method proves the bound by charging expensive operations against a stored \"energy\" that cheap operations deposit.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Sleator, Tarjan: Self-Adjusting Binary Search Trees (JACM 1985)", "url": "https://www.cs.cmu.edu/~sleator/papers/self-adjusting.pdf", "type": "doc" },
+      { "label": "MIT 6.854J: Advanced Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/", "type": "doc" },
+      { "label": "MIT 6.851: Advanced Data Structures (OCW)", "url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "randomized-min-cut-and-concentration-bounds",
+    "id": 2,
+    "title": "Randomized Min-Cut and Concentration Bounds",
+    "topic": "Advanced Algorithms",
+    "requires": ["splay-trees-and-the-potential-method"],
+    "related": [
+      { "label": "The Max-Flow Min-Cut Theorem", "slug": "the-max-flow-min-cut-theorem", "feature": "curriculum/algorithms-software/algorithms" },
+      { "label": "Expectation and Variance", "slug": "expectation-and-variance", "feature": "curriculum/foundations/probability-statistics" }
+    ],
+    "summary": "Karger's algorithm finds a minimum cut by contracting random edges until two vertices remain; one run succeeds with probability at least 2/(n(n-1)), so repeating it O(n^2 log n) times makes failure negligible. Markov, Chebyshev, and Chernoff bounds are the tools that turn \"usually works\" into a quantified guarantee.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "MIT 6.856J: Randomized Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-856j-randomized-algorithms-fall-2002/", "type": "doc" },
+      { "label": "MIT 6.046J: Design and Analysis of Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "locality-sensitive-hashing-and-approximate-nearest-neighbors",
+    "id": 3,
+    "title": "Locality-Sensitive Hashing and Approximate Nearest Neighbors",
+    "topic": "Advanced Algorithms",
+    "requires": ["randomized-min-cut-and-concentration-bounds"],
+    "related": [
+      { "label": "Universal Hashing", "slug": "universal-hashing", "feature": "curriculum/algorithms-software/data-structures-ii" },
+      { "label": "Retrieval-Augmented Generation", "slug": "retrieval-augmented-generation", "feature": "curriculum/specialization/track-b-ai" }
+    ],
+    "summary": "Exact nearest-neighbor search in high dimensions degrades to scanning everything. Locality-sensitive hashing flips the goal of an ordinary hash function: similar items should collide. Banding MinHash signatures or random-hyperplane bits amplifies a small gap in collision probability into a sharp threshold, giving sublinear approximate search.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Stanford CS168: The Modern Algorithmic Toolbox, Lecture 4: Dimensionality Reduction", "url": "https://web.stanford.edu/class/cs168/l/l4.pdf", "type": "doc" },
+      { "label": "Andoni, Indyk: LSH Algorithm and Implementation (E2LSH)", "url": "http://www.mit.edu/~andoni/LSH/", "type": "doc" },
+      { "label": "MIT 6.854J: Advanced Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "approximation-algorithms-and-lp-rounding",
+    "id": 4,
+    "title": "Approximation Algorithms and LP Rounding",
+    "topic": "Approximation & Online Algorithms",
+    "requires": ["locality-sensitive-hashing-and-approximate-nearest-neighbors"],
+    "related": [
+      { "label": "Proving NP-Completeness via Reduction", "slug": "proving-np-completeness-via-reduction", "feature": "curriculum/algorithms-software/computability-complexity" },
+      { "label": "Integer Linear Programming and Branch and Bound", "slug": "integer-linear-programming-and-branch-and-bound", "feature": "curriculum/algorithms-software/linear-programming-optimization" }
+    ],
+    "summary": "When a problem is NP-hard, settle for a provable ratio instead of the optimum. Relax the integer program to a linear program, solve it, and round: for vertex cover, keeping every vertex with LP value at least 1/2 is a 2-approximation, and greedy set cover is within a factor ln n, which is essentially the best possible unless P = NP.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Williamson, Shmoys: The Design of Approximation Algorithms (Cambridge University Press, free online edition)", "url": "https://www.designofapproxalgs.com/", "type": "doc" },
+      { "label": "MIT 6.854J: Advanced Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "online-algorithms-and-competitive-analysis",
+    "id": 5,
+    "title": "Online Algorithms and Competitive Analysis",
+    "topic": "Approximation & Online Algorithms",
+    "requires": ["approximation-algorithms-and-lp-rounding"],
+    "related": [
+      { "label": "Cache Replacement Policies", "slug": "cache-replacement-policies", "feature": "curriculum/computer/computer-architecture" }
+    ],
+    "summary": "An online algorithm must decide before seeing the future, so it is compared with an offline optimum that knows everything. Ski rental shows a 2-competitive break-even rule, paging shows LRU is k-competitive and no deterministic algorithm does better, and randomization against an oblivious adversary improves paging to O(log k).",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Sleator, Tarjan: Amortized Efficiency of List Update and Paging Rules (CACM 1985), via MIT 6.854J", "url": "https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/", "type": "doc" },
+      { "label": "Stanford CS261: A Second Course in Algorithms (Roughgarden, lecture notes)", "url": "https://timroughgarden.org/w16/w16.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "streaming-algorithms-and-sketches",
+    "id": 6,
+    "title": "Streaming Algorithms and Sketches",
+    "topic": "Approximation & Online Algorithms",
+    "requires": ["online-algorithms-and-competitive-analysis"],
+    "related": [
+      { "label": "Bloom Filters: Probabilistic Set Membership", "slug": "bloom-filters-probabilistic-set-membership", "feature": "curriculum/algorithms-software/data-structures-ii" }
+    ],
+    "summary": "A stream too large to store must be summarized in one pass with tiny memory. The Count-Min sketch estimates any item's frequency within an additive error using a few hashed counter rows, and HyperLogLog counts distinct elements to about 2% error in a few kilobytes by tracking the longest run of leading zeros in hashed values.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Stanford CS168: The Modern Algorithmic Toolbox, Lecture 2: Approximate Heavy Hitters and the Count-Min Sketch", "url": "https://web.stanford.edu/class/cs168/l/l2.pdf", "type": "doc" },
+      { "label": "Flajolet, Fusy, Gandouet, Meunier: HyperLogLog (AofA 2007)", "url": "https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "space-complexity-pspace-and-savitchs-theorem",
+    "id": 7,
+    "title": "Space Complexity, PSPACE, and Savitch's Theorem",
+    "topic": "Complexity",
+    "requires": ["streaming-algorithms-and-sketches"],
+    "related": [
+      { "label": "The P vs. NP Question: Real Stakes", "slug": "the-p-vs-np-question", "feature": "curriculum/algorithms-software/computability-complexity" },
+      { "label": "Minimax and Adversarial Game Trees", "slug": "minimax-and-adversarial-game-trees", "feature": "curriculum/ai-theory/artificial-intelligence" }
+    ],
+    "summary": "Measuring memory instead of time gives a different landscape: space can be reused, so nondeterminism costs only a square (Savitch: NSPACE(s) is inside SPACE(s^2)), PSPACE equals NPSPACE, and TQBF, deciding a fully quantified Boolean formula, is PSPACE-complete, which is why perfect play in many generalized games is PSPACE-hard.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "MIT 18.404J: Theory of Computation (Sipser, OCW)", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/", "type": "doc" },
+      { "label": "Arora, Barak: Computational Complexity: A Modern Approach (Princeton draft)", "url": "https://theory.cs.princeton.edu/complexity/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "randomized-complexity-classes-and-derandomization",
+    "id": 8,
+    "title": "Randomized Complexity Classes and Derandomization",
+    "topic": "Complexity",
+    "requires": ["space-complexity-pspace-and-savitchs-theorem"],
+    "related": [
+      { "label": "The Complexity Class P", "slug": "the-complexity-class-p", "feature": "curriculum/algorithms-software/computability-complexity" }
+    ],
+    "summary": "BPP is the class of problems solvable in polynomial time with error at most 1/3 on every input; repetition and a Chernoff bound shrink that error exponentially. Polynomial identity testing is in BPP via Schwartz-Zippel with no known deterministic algorithm, and the conjecture that P = BPP ties randomness to circuit lower bounds.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Arora, Barak: Computational Complexity: A Modern Approach (Princeton draft)", "url": "https://theory.cs.princeton.edu/complexity/", "type": "doc" },
+      { "label": "Vadhan: Pseudorandomness (Harvard, monograph)", "url": "https://people.seas.harvard.edu/~salil/pseudorandomness/", "type": "doc" },
+      { "label": "MIT 18.404J: Theory of Computation (Sipser, OCW)", "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "interactive-proofs-and-zero-knowledge",
+    "id": 9,
+    "title": "Interactive Proofs and Zero Knowledge",
+    "topic": "Complexity",
+    "requires": ["randomized-complexity-classes-and-derandomization"],
+    "related": [
+      { "label": "The Complexity Class NP", "slug": "the-complexity-class-np", "feature": "curriculum/algorithms-software/computability-complexity" }
+    ],
+    "summary": "Let the verifier ask random questions instead of reading a static certificate, and much more becomes provable: graph non-isomorphism has a simple interactive proof, and IP equals PSPACE. Zero-knowledge proofs convince the verifier a statement is true while revealing nothing else, defined by a simulator that fakes the transcript without the secret.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Goldwasser, Micali, Rackoff: The Knowledge Complexity of Interactive Proof Systems (SIAM J. Computing 1989)", "url": "https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Proof%20Systems/The_Knowledge_Complexity_Of_Interactive_Proof_Systems.pdf", "type": "doc" },
+      { "label": "Arora, Barak: Computational Complexity: A Modern Approach (Princeton draft)", "url": "https://theory.cs.princeton.edu/complexity/", "type": "doc" },
+      { "label": "MIT 6.875: Foundations of Cryptography", "url": "https://mit6875.github.io/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "one-way-functions-and-pseudorandom-generators",
+    "id": 10,
+    "title": "One-Way Functions and Pseudorandom Generators",
+    "topic": "Cryptography",
+    "requires": ["interactive-proofs-and-zero-knowledge"],
+    "related": [
+      { "label": "Perfect Secrecy and the One-Time Pad", "slug": "perfect-secrecy-and-the-one-time-pad", "feature": "curriculum/software-distributed/security-cryptography" },
+      { "label": "Cryptographic Hash Functions", "slug": "cryptographic-hash-functions", "feature": "curriculum/software-distributed/security-cryptography" }
+    ],
+    "summary": "Modern cryptography replaces \"looks hard to break\" with reductions: a scheme is secure if breaking it would let you invert a one-way function. Computational indistinguishability defines pseudorandomness, a hard-core bit turns a one-way permutation into a generator that stretches a short seed, and a PRG makes a one-time pad with a short key.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "MIT 6.875: Foundations of Cryptography", "url": "https://mit6875.github.io/", "type": "doc" },
+      { "label": "Barak: An Intensive Introduction to Cryptography (Harvard CS127)", "url": "https://intensecrypto.org/public/", "type": "doc" },
+      { "label": "Goldreich: Foundations of Cryptography (Weizmann)", "url": "https://www.wisdom.weizmann.ac.il/~oded/foc-book.html", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "lattice-based-cryptography-and-learning-with-errors",
+    "id": 11,
+    "title": "Lattice-Based Cryptography and Learning With Errors",
+    "topic": "Cryptography",
+    "requires": ["one-way-functions-and-pseudorandom-generators"],
+    "related": [
+      { "label": "RSA Public-Key Cryptography", "slug": "rsa-public-key-cryptography", "feature": "curriculum/software-distributed/security-cryptography" },
+      { "label": "Diffie-Hellman Key Exchange", "slug": "diffie-hellman-key-exchange", "feature": "curriculum/software-distributed/security-cryptography" }
+    ],
+    "summary": "Shor's algorithm would break RSA and Diffie-Hellman on a large quantum computer, so standards are moving to lattices. Learning With Errors asks to solve a linear system mod q whose equations each carry small noise; Regev showed it is as hard as worst-case lattice problems, and it underlies ML-KEM, standardized by NIST as FIPS 203 in 2024.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "Regev: The Learning with Errors Problem (survey, 2010)", "url": "https://cims.nyu.edu/~regev/papers/lwesurvey.pdf", "type": "doc" },
+      { "label": "NIST FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard (2024)", "url": "https://csrc.nist.gov/pubs/fips/203/final", "type": "doc" },
+      { "label": "MIT 6.875: Foundations of Cryptography", "url": "https://mit6875.github.io/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "convex-hulls-and-the-sweep-line-paradigm",
+    "id": 12,
+    "title": "Convex Hulls and the Sweep-Line Paradigm",
+    "topic": "Computational Geometry",
+    "requires": ["lattice-based-cryptography-and-learning-with-errors"],
+    "related": [
+      { "label": "The Comparison-Sort Lower Bound", "slug": "the-comparison-sort-lower-bound", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Computational geometry starts from one exact primitive, the orientation test (a sign of a 2x2 determinant). With it, Andrew's monotone chain builds a convex hull in O(n log n), which a reduction from sorting shows is optimal, and a sweep line that stops only at events finds all k segment intersections in O((n + k) log n).",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "de Berg, Cheong, van Kreveld, Overmars: Computational Geometry: Algorithms and Applications (3rd ed., Springer)", "url": "https://link.springer.com/book/10.1007/978-3-540-77974-2", "type": "doc" },
+      { "label": "CMU 15-456: Computational Geometry", "url": "https://www.cs.cmu.edu/afs/cs/academic/class/15456-s14/", "type": "doc" },
+      { "label": "Stanford CS268: Geometric Algorithms", "url": "http://graphics.stanford.edu/courses/cs268-16-fall/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "voronoi-diagrams-and-delaunay-triangulations",
+    "id": 13,
+    "title": "Voronoi Diagrams and Delaunay Triangulations",
+    "topic": "Computational Geometry",
+    "requires": ["convex-hulls-and-the-sweep-line-paradigm"],
+    "related": [
+      { "label": "Triangle Rasterization: Edge Functions and Barycentric Coordinates", "slug": "triangle-rasterization-edge-functions-and-barycentric-coordinates", "feature": "curriculum/specialization/computer-graphics" }
+    ],
+    "summary": "The Voronoi diagram splits the plane into regions closest to each site, and its dual, the Delaunay triangulation, connects sites whose circumcircles are empty. Delaunay maximizes the minimum angle among all triangulations, the incircle determinant test and edge flips build it, and both structures have linear size and O(n log n) construction.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "de Berg, Cheong, van Kreveld, Overmars: Computational Geometry: Algorithms and Applications (3rd ed., Springer)", "url": "https://link.springer.com/book/10.1007/978-3-540-77974-2", "type": "doc" },
+      { "label": "CMU 15-456: Computational Geometry", "url": "https://www.cs.cmu.edu/afs/cs/academic/class/15456-s14/", "type": "doc" }
+    ]
+  },
+  {
+    "slug": "capstone-attacking-a-hard-problem-with-the-theory-toolkit",
+    "id": 14,
+    "title": "Capstone: Attacking a Hard Problem with the Theory Toolkit",
+    "topic": "Capstone",
+    "requires": [
+      "voronoi-diagrams-and-delaunay-triangulations",
+      "approximation-algorithms-and-lp-rounding",
+      "streaming-algorithms-and-sketches",
+      "lattice-based-cryptography-and-learning-with-errors"
+    ],
+    "related": [
+      { "label": "Choosing a Paradigm: A Decision Guide", "slug": "choosing-a-paradigm-a-decision-guide", "feature": "curriculum/algorithms-software/algorithms" }
+    ],
+    "summary": "Given three realistic problems (placing warehouses so no town is far from one, counting unique visitors across a fleet of servers, and choosing a key exchange that must stay secure for 20 years), classify each one's hardness, pick the right tool from this track (approximation, sketching, geometry, or post-quantum cryptography), and state the exact guarantee the tool gives and what it gives up.",
+    "publishedAt": "2026-10-20",
+    "references": [
+      { "label": "MIT 6.854J: Advanced Algorithms (OCW)", "url": "https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/", "type": "doc" },
+      { "label": "Stanford CS168: The Modern Algorithmic Toolbox", "url": "https://web.stanford.edu/class/cs168/", "type": "doc" }
+    ]
+  }
+]

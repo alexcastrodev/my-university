@@ -1,5 +1,6 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked, Renderer, Tokens } from 'marked';
+import katex from 'katex';
 import hljs from 'highlight.js/lib/core';
 import java from 'highlight.js/lib/languages/java';
 import csharp from 'highlight.js/lib/languages/csharp';
@@ -56,6 +57,53 @@ const wikiLinkExtension = {
   },
 };
 marked.use({ extensions: [wikiLinkExtension] });
+
+// LaTeX math rendered with KaTeX (plain string output, so it works under SSR too): `$$...$$` as display math (its own block or
+// inline), `$...$` as inline math. Inline delimiters follow Pandoc's rule (no space right inside
+// the dollars, no digit right after the closing one) so prices like "$5 or $10" stay plain text.
+// A literal dollar in prose is written `\$`; dollars inside code spans and blocks are untouched.
+function renderMath(tex: string, displayMode: boolean): string {
+  return katex.renderToString(tex.trim(), { displayMode, throwOnError: false, output: 'htmlAndMathml' });
+}
+
+const blockMathExtension = {
+  name: 'blockMath',
+  level: 'block' as const,
+  start(src: string) {
+    const match = /^\$\$/m.exec(src);
+    return match ? match.index : undefined;
+  },
+  tokenizer(src: string) {
+    const match = /^\$\$([\s\S]+?)\$\$[ \t]*(?:\n+|$)/.exec(src);
+    if (!match) return undefined;
+    return { type: 'blockMath', raw: match[0], text: match[1] } as any;
+  },
+  renderer(token: any) {
+    return `<div class="math-display">${renderMath(token.text, true)}</div>\n`;
+  },
+};
+
+const inlineMathExtension = {
+  name: 'inlineMath',
+  level: 'inline' as const,
+  start(src: string) {
+    const match = /(?<![\\\w$])\$/.exec(src);
+    return match ? match.index : undefined;
+  },
+  tokenizer(src: string) {
+    const display = /^\$\$([^$]+?)\$\$/.exec(src);
+    if (display) return { type: 'inlineMath', raw: display[0], text: display[1], displayMode: true } as any;
+    const match = /^\$(?![\s$])((?:\\.|[^\\$\n])+?)(?<![\s\\])\$(?![\d$])/.exec(src);
+    if (!match) return undefined;
+    return { type: 'inlineMath', raw: match[0], text: match[1], displayMode: false } as any;
+  },
+  renderer(token: any) {
+    return token.displayMode
+      ? `<span class="math-display">${renderMath(token.text, true)}</span>`
+      : renderMath(token.text, false);
+  },
+};
+marked.use({ extensions: [blockMathExtension, inlineMathExtension] });
 
 let deepDiveDefinitions: Map<string, string> = new Map();
 let deepDiveTriggers: { id: string; phrase: string }[] = [];
