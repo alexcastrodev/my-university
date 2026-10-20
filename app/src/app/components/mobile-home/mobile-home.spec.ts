@@ -1,25 +1,13 @@
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NEVER, of } from 'rxjs';
-import { DailySession } from '../../models/daily.model';
 import { AreaXpBreakdownEntry } from '../../models/xp.model';
 import { AuthService } from '../../services/auth.service';
-import { DailySessionService } from '../../services/daily-session.service';
 import { XpService } from '../../services/xp.service';
 import { MobileHome } from './mobile-home';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ago = (days: number) => new Date(Date.now() - days * DAY_MS).toISOString();
-
-const SESSION: DailySession = {
-  estimatedMinutes: 4,
-  summary: { headline: '', tomorrow: { title: '', body: '' } },
-  cards: [
-    { type: 'read', xp: 20, previewTitle: 'Set', previewSubtitle: '', recap: '', kicker: '', title: 'Set', body: '', fullTopicRoute: [], sourceId: 'set' },
-    { type: 'write', xp: 20, previewTitle: 'Docker', previewSubtitle: '', recap: '', kicker: '', title: 'Docker', maxLength: 240, sourceId: 'docker' },
-  ],
-};
 
 const AREAS: AreaXpBreakdownEntry[] = [
   { module: 'java-concepts', xp: 60, lastActivityAt: ago(0) },
@@ -27,10 +15,8 @@ const AREAS: AreaXpBreakdownEntry[] = [
   { module: 'spring-concepts', xp: 250, lastActivityAt: ago(2) },
 ];
 
-function setup(options: { mobile?: boolean; loading?: boolean } = {}) {
-  const { mobile = true, loading = false } = options;
-  spyOn(window, 'matchMedia').and.returnValue({ matches: mobile } as MediaQueryList);
-  const build = jasmine.createSpy('build').and.returnValue(loading ? NEVER : of(SESSION));
+function setup(options: { loading?: boolean } = {}) {
+  const { loading = false } = options;
 
   TestBed.configureTestingModule({
     imports: [MobileHome],
@@ -38,7 +24,6 @@ function setup(options: { mobile?: boolean; loading?: boolean } = {}) {
       provideZonelessChangeDetection(),
       provideRouter([]),
       { provide: AuthService, useValue: { currentUser: signal({ id: 1, displayName: 'Alexandro Castro' }) } },
-      { provide: DailySessionService, useValue: { build } },
       {
         provide: XpService,
         useValue: {
@@ -54,40 +39,28 @@ function setup(options: { mobile?: boolean; loading?: boolean } = {}) {
 
   const fixture = TestBed.createComponent(MobileHome);
   fixture.detectChanges();
-  return { fixture, build };
+  return { fixture };
 }
 
 describe('MobileHome', () => {
-  it("greets by first name and previews today's session", () => {
+  it('greets by first name', () => {
     const { fixture } = setup();
-    const el: HTMLElement = fixture.nativeElement;
+    const headline = (fixture.nativeElement as HTMLElement).querySelector('.headline')!;
 
-    expect(el.querySelector('.greeting')!.textContent).toContain('Alexandro');
-    expect(el.querySelector('.greeting')!.textContent).not.toContain('Castro');
-    expect(el.querySelector('.headline')!.textContent).toContain('Your 4 minutes today');
-    expect(el.querySelectorAll('.chip').length).toBe(2);
-    expect(el.querySelector('.start')!.textContent).toContain('+40 XP');
-    expect(el.querySelector('.start')!.getAttribute('href')).toBe('/daily/session');
+    expect(headline.textContent).toContain('Alexandro');
+    expect(headline.textContent).not.toContain('Castro');
   });
 
   it('shows placeholders, not zeros or an empty box, while everything is still loading', () => {
     const { fixture } = setup({ loading: true });
     const el: HTMLElement = fixture.nativeElement;
 
-    expect(el.querySelector('.greeting')!.textContent).toContain('Alexandro');
-    expect(el.querySelector('.today')!.getAttribute('aria-busy')).toBe('true');
-    expect(el.querySelectorAll('.today .mu-skeleton').length).toBeGreaterThan(0);
+    expect(el.querySelector('.headline')!.textContent).toContain('Alexandro');
     expect(el.querySelector('.ring')).toBeNull();
     expect(el.querySelectorAll('.stats .mu-skeleton').length).toBeGreaterThan(0);
     expect(el.textContent).not.toContain('record 0');
     expect(el.querySelectorAll('.areas .mu-skeleton').length).toBeGreaterThan(0);
     expect(el.querySelector('.areas-empty')).toBeNull();
-  });
-
-  it('does not build a session on wide screens, where it is never shown', () => {
-    const { build } = setup({ mobile: false });
-
-    expect(build).not.toHaveBeenCalled();
   });
 
   it('shows level, streak record and goal', () => {

@@ -17,8 +17,6 @@ import { Lesson } from './lesson/lesson.entity';
 import { Course } from './course/course.entity';
 import { AlgorithmsConceptsModule } from './algorithms-concepts/algorithms-concepts.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
-import { DailyModule } from './daily/daily.module';
-import { DailyWriteAnswer } from './daily/daily-write-answer.entity';
 import { DiscussionComment } from './discussion/discussion-comment.entity';
 import { DiscussionMarker } from './discussion/discussion-marker.entity';
 import { DiscussionModule } from './discussion/discussion.module';
@@ -67,7 +65,6 @@ import { XpModule } from './xp/xp.module';
         Question,
         ExamAttempt,
         UserXpEntry,
-        DailyWriteAnswer,
         DiscussionMarker,
         DiscussionComment,
         DiscussionVote,
@@ -102,7 +99,6 @@ import { XpModule } from './xp/xp.module';
     XpModule,
     ConceptLookupModule,
     DiscussionModule,
-    DailyModule,
     SeedModule,
     SearchModule,
     SitemapModule,

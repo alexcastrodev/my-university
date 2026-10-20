@@ -16,10 +16,7 @@ describe('BottomNav', () => {
       providers: [
         provideZonelessChangeDetection(),
         { provide: AuthService, useValue: { currentUser } },
-        provideRouter([
-          { path: 'daily/session', component: Dummy },
-          { path: '**', component: Dummy },
-        ]),
+        provideRouter([{ path: '**', component: Dummy }]),
       ],
     }).compileComponents();
 
@@ -37,13 +34,13 @@ describe('BottomNav', () => {
   }
 
   it('links Home to the dashboard when logged in', async () => {
-    const { fixture } = await setup('/daily');
+    const { fixture } = await setup('/computer-science');
 
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/dashboard');
   });
 
   it('links Home to the landing page when logged out', async () => {
-    const { fixture } = await setup('/daily', null);
+    const { fixture } = await setup('/computer-science', null);
 
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
@@ -58,14 +55,14 @@ describe('BottomNav', () => {
     expect(homeTab(fixture)?.getAttribute('href')).toBe('/');
   });
 
-  it('renders the five tabs', async () => {
+  it('renders the four tabs', async () => {
     const { fixture } = await setup('/dashboard');
 
     const tabs = fixture.nativeElement.querySelectorAll('.tab');
-    expect(tabs.length).toBe(5);
+    expect(tabs.length).toBe(4);
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('Home');
-    expect(text).toContain('Daily');
+    expect(text).not.toContain('Daily');
     expect(text).toContain('Track');
     expect(text).toContain('Discussions');
     expect(text).toContain('Settings');
@@ -89,21 +86,5 @@ describe('BottomNav', () => {
     ).find((a) => a.textContent?.includes('Settings'));
 
     expect(settingsTab?.getAttribute('href')).toBe('/settings');
-  });
-
-  it('is visible on regular routes', async () => {
-    const { fixture } = await setup('/daily');
-
-    expect(fixture.nativeElement.querySelector('.bottom-nav')).toBeTruthy();
-  });
-
-  it('hides itself on the full-screen session runner', async () => {
-    const { fixture, router } = await setup('/daily');
-    expect(fixture.nativeElement.querySelector('.bottom-nav')).toBeTruthy();
-
-    await router.navigateByUrl('/daily/session');
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('.bottom-nav')).toBeNull();
   });
 });

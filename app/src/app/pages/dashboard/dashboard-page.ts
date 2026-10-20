@@ -188,7 +188,7 @@ export class DashboardPage implements OnInit {
 
   /** On a phone, the areas table, ranking and weekly activity are never on
    *  screen, and the areas table alone costs one full concept list per area (a dozen requests)
-   *  that would compete with the daily session the phone Home is waiting for. They load when
+   *  that would compete with what the phone Home is waiting for. They load when
    *  the viewport is (or later becomes, e.g. a rotated tablet) wider than a phone. */
   private loadDesktopPanelsWhenWide(): void {
     if (!isPlatformBrowser(this.platformId)) return;

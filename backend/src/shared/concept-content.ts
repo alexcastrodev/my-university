@@ -112,7 +112,7 @@ type ConceptContent<F extends string> = {
 /**
  * Content ships inside the image and never changes while the process runs, so in production
  * every slug/language is read and parsed once and served from memory afterwards. Without this,
- * list endpoints (and the daily/activity title lookups, which fan out over every track) re-read
+ * list endpoints (and the activity title lookups, which fan out over every track) re-read
  * hundreds of files with blocking fs calls on each request. Outside production the cache stays
  * off so edited markdown shows up on the next request without a restart.
  */
