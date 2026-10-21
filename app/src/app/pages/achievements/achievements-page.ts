@@ -24,6 +24,8 @@ export class AchievementsPage implements OnInit {
   /** Bound from the `view` query parameter (the router passes it in); anything but `available` means "Earned". */
   view = input<string | undefined>(undefined);
   protected available = computed(() => this.view() === 'available');
+  /** Bound from `?award=<id>`: the award a link (the "badge earned" dialog, a concept's sidebar) points at. */
+  award = input<string | undefined>(undefined);
 
   protected loading = signal(true);
 

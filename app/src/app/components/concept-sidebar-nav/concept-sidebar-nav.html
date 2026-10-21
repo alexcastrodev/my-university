@@ -9,7 +9,46 @@
     </div>
   </div>
 
-  <ol class="concept-list" role="list">
+  @if (award(); as a) {
+    @if (a.awarded) {
+      <a
+        class="sidebar-award sidebar-award-earned"
+        routerLink="/profile/achievements"
+        [queryParams]="{ award: a.id }"
+        data-testid="sidebar-award"
+      >
+        <app-award-hex [award]="a" size="small" />
+        <span class="sidebar-award-text">
+          <span class="sidebar-award-kicker">
+            @if (a.type === 'badge') {
+              <ng-container i18n="@@concept.sidebarNav.badgeEarned">Badge earned</ng-container>
+            } @else {
+              <ng-container i18n="@@concept.sidebarNav.trophyEarned">Trophy earned</ng-container>
+            }
+          </span>
+          <span class="sidebar-award-title">{{ a.title }}</span>
+          <span class="sidebar-award-link" i18n="@@concept.sidebarNav.awardSee">See on your profile →</span>
+        </span>
+      </a>
+    } @else {
+      <div class="sidebar-award" data-testid="sidebar-award">
+        <app-award-hex [award]="a" size="small" [locked]="true" />
+        <span class="sidebar-award-text">
+          <span class="sidebar-award-kicker">
+            @if (a.type === 'badge') {
+              <ng-container i18n="@@concept.sidebarNav.badgeProgress">Badge · {{ a.done }} / {{ a.total }}</ng-container>
+            } @else {
+              <ng-container i18n="@@concept.sidebarNav.trophyProgress">Trophy · {{ a.done }} / {{ a.total }}</ng-container>
+            }
+          </span>
+          <span class="sidebar-award-title">{{ a.title }}</span>
+          <span class="sidebar-award-hint" i18n="@@concept.sidebarNav.awardHint">Read them all, in any order, to earn it (+{{ a.exp }} XP).</span>
+        </span>
+      </div>
+    }
+  }
+
+  <ol class="concept-list" [class.with-award]="award()" role="list">
     @for (item of items(); track item.slug) {
       <li>
         <a

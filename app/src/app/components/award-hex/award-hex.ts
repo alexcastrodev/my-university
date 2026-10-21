@@ -10,13 +10,13 @@ import { TrackIcon } from '../track-icon/track-icon';
   selector: 'app-award-hex',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TrackIcon],
-  template: `<span class="hex" [class.hex-trophy]="trophy()" [class.hex-small]="size() === 'small'" [class.hex-locked]="locked()" aria-hidden="true"><app-track-icon [slug]="slug()" /></span>`,
+  template: `<span class="hex" [class.hex-trophy]="trophy()" [class.hex-small]="size() === 'small'" [class.hex-large]="size() === 'large'" [class.hex-locked]="locked()" aria-hidden="true"><app-track-icon [slug]="slug()" /></span>`,
   styleUrl: './award-hex.css',
 })
 export class AwardHex {
   /** Only the kind and the track icon matter, so the catalog can draw prizes that are not awards yet. */
   award = input.required<Pick<AwardView, 'type' | 'iconSlug'>>();
-  size = input<'normal' | 'small'>('normal');
+  size = input<'normal' | 'small' | 'large'>('normal');
   locked = input(false);
 
   protected trophy = computed(() => this.award().type === 'trophy');

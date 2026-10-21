@@ -2,6 +2,7 @@
   class="award"
   [class.award-trophy]="award().type === 'trophy'"
   [class.award-retired]="award().retired"
+  [class.award-highlighted]="highlighted()"
   [attr.title]="award().trackTitle ? award().title + ' · ' + award().trackTitle : award().title"
 >
   <app-award-hex [award]="award()" />

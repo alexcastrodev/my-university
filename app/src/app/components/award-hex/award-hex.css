@@ -16,3 +16,5 @@
 
 .hex-small { width: 32px; height: 37px; }
 .hex-small app-track-icon { transform: scale(0.8); }
+.hex-large { width: 72px; height: 83px; }
+.hex-large app-track-icon { transform: scale(1.6); }

@@ -6,7 +6,7 @@ import {
   type PublishedSnapshot, type SeedInput, type TrackManifest, type Unit,
 } from '../src/achievements/catalog';
 import { getCatalog, getUnitTitles, loadSeed } from '../src/achievements/load-seed';
-import { describeCatalog, describeRequirements } from '../src/achievements/view';
+import { describeCatalog, describeRequirements, describeUnitAward } from '../src/achievements/view';
 import { fromSourceId, parseCurriculumSourceId } from '../src/concept-lookup/concept-lookup.constants';
 import { MANIFEST } from '../src/achievements/manifest';
 
@@ -376,6 +376,39 @@ describe('describeRequirements', () => {
   it('is null for an unknown, retired or invalid track', () => {
     expect(describeRequirements(catalog, titles, 'nope', new Set())).toBeNull();
     expect(describeRequirements(buildCatalog(seed, [{ ...manifest[0], status: 'retired' }]), titles, T1, new Set())).toBeNull();
+  });
+});
+
+describe('describeUnitAward', () => {
+  const done = (units: Unit[]) => new Set(units.map(unitKey));
+
+  it('names the session badge a concept counts toward, with progress in any order', () => {
+    const view = describeUnitAward(catalog, '/kubernetes-concepts/e', done([k('f'), k('a')]), [])!;
+    expect(view).toMatchObject({ trackId: T1, type: 'badge', id: S2, title: 'Beta', total: 3, done: 1, awarded: false, awardedAt: null });
+    expect(view.exp).toBe(AWARD_XP.badgePerUnit * 3);
+  });
+
+  it('reports the badge as earned once its award row exists', () => {
+    const at = day(3);
+    const view = describeUnitAward(catalog, '/kubernetes-concepts/d', done([k('d'), k('e'), k('f')]), [{ sourceType: 'badge', sourceId: S2, exp: 6, updatedAt: at }])!;
+    expect(view).toMatchObject({ done: 3, awarded: true, awardedAt: at.toISOString() });
+  });
+
+  it('falls back to the trophy for a track without badges', () => {
+    expect(describeUnitAward(catalog, '/java/jvm-concepts/x', new Set(), [])).toMatchObject({ type: 'trophy', id: T2, total: 3 });
+    expect(describeUnitAward(catalog, '/computer-science/foundations/discrete-math-logic/q', new Set(), [])).toMatchObject({ type: 'trophy', id: T3, total: 2 });
+  });
+
+  it('is null for a path no active track holds', () => {
+    expect(describeUnitAward(catalog, '/kubernetes-concepts/nope', new Set(), [])).toBeNull();
+    expect(describeUnitAward(catalog, '/kubernetes-concepts', new Set(), [])).toBeNull();
+  });
+
+  it('finds the Runtime & SDK badge for a real .NET concept', () => {
+    const real = getCatalog();
+    const session = real.tracks.flatMap((t) => t.sessions).find((s) => s.title === 'Runtime & SDK')!;
+    const slug = session.units[0].sourceId.slice('dotnet:'.length);
+    expect(describeUnitAward(real, `/dotnet-concepts/${slug}`, new Set(), [])).toMatchObject({ type: 'badge', id: session.sessionId, total: session.units.length });
   });
 });
 

@@ -8,6 +8,7 @@ import { XpHistoryEntry, XpSummary } from '../models/xp.model';
 import { AuthService } from './auth.service';
 import { XpService } from './xp.service';
 import { XpToastService } from './xp-toast.service';
+import { AwardCelebrationService } from './award-celebration.service';
 
 const user = (id: number): User => ({ id, displayName: 'u', githubLogin: 'u', avatarUrl: '', preferredLanguage: null });
 const summary = (total: number): XpSummary => ({ total, level: { number: 1, title: 'Hello World', minXp: 0, nextLevelXp: 100 }, breakdown: [] });
@@ -26,7 +27,12 @@ function setup() {
   const service = TestBed.inject(XpService);
   const http = TestBed.inject(HttpTestingController);
   const toast = TestBed.inject(XpToastService);
-  const toasts = () => toast.toasts().map((t) => `${t.label ?? ''}|${t.amount}`);
+  const celebration = TestBed.inject(AwardCelebrationService);
+  // XP toasts as `|amount`, then celebrated awards as `type: title|exp`, in the order they happened per kind.
+  const toasts = () => [
+    ...toast.toasts().map((t) => `${t.label ?? ''}|${t.amount}`),
+    ...celebration.pending().map((a) => `${a.type}: ${a.title}|${a.exp}`),
+  ];
   return { service, http, toasts, currentUser };
 }
 
@@ -57,7 +63,7 @@ describe('XpService achievements', () => {
     expect(service.summary()!.total).toBe(110);
   });
 
-  it('after an action raised XP: toasts the XP, syncs, and announces the award with its own XP', async () => {
+  it('after an action raised XP: toasts the XP, syncs, and celebrates the award with its own XP', async () => {
     const { service, http, toasts } = setup();
     service.loadSummary();
     flushSummary(http, 100);
@@ -70,7 +76,7 @@ describe('XpService achievements', () => {
     http.expectOne('/api/xp/summary').flush(summary(124)); // baseline refresh must not add a "+14 XP" toast
     await tick();
 
-    expect(toasts()).toEqual(['|10', 'Badge unlocked: Workloads|14']);
+    expect(toasts()).toEqual(['|10', 'badge: Workloads|14']);
   });
 
   it('announces a trophy with its own wording', async () => {
@@ -83,7 +89,7 @@ describe('XpService achievements', () => {
     await flushSync(http, [badge({ type: 'trophy', id: 't1', title: 'Kubernetes Concepts', exp: 50 })]);
     http.expectOne('/api/xp/summary').flush(summary(60));
     await tick();
-    expect(toasts()).toContain('Trophy unlocked: Kubernetes Concepts|50');
+    expect(toasts()).toContain('trophy: Kubernetes Concepts|50');
   });
 
   it('never announces the same award twice in a session', async () => {
@@ -100,7 +106,7 @@ describe('XpService achievements', () => {
       http.expectOne('/api/xp/summary').flush(summary(total + 10));
       await tick();
     }
-    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+    expect(toasts().filter((t) => t.startsWith('badge:'))).toHaveSize(1);
   });
 
   it('announces awards received with an action once, refreshes the collection, and ignores a user who left', async () => {
@@ -112,12 +118,12 @@ describe('XpService achievements', () => {
     await tick();
     http.expectOne('/api/xp/achievements').flush(VIEW);
     await tick();
-    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+    expect(toasts().filter((t) => t.startsWith('badge:'))).toHaveSize(1);
 
     currentUser.set(user(2));
     service.receiveAwards(1, [badge({ id: 'b2' })]);
     http.expectNone('/api/xp/achievements/sync');
-    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+    expect(toasts().filter((t) => t.startsWith('badge:'))).toHaveSize(1);
   });
 
   it('ignores a summary that arrives after the user changed, and does not toast it', async () => {
@@ -153,7 +159,7 @@ describe('XpService achievements', () => {
     await tick();
     http.expectOne('/api/xp/achievements').flush(VIEW);
     await tick();
-    expect(toasts().filter((t) => t.startsWith('Badge unlocked'))).toHaveSize(1);
+    expect(toasts().filter((t) => t.startsWith('badge:'))).toHaveSize(1);
   });
 
   it('runs syncs one at a time', async () => {
@@ -182,6 +188,7 @@ describe('XpService achievements', () => {
     await pending;
     expect(service.achievements()).toBeNull();
     expect(TestBed.inject(XpToastService).toasts()).toEqual([]);
+    expect(TestBed.inject(AwardCelebrationService).pending()).toEqual([]);
   });
 
   it('flags an error instead of pretending nothing was earned, and recovers on the next sync', async () => {

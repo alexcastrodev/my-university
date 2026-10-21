@@ -9,6 +9,17 @@
   min-width: 0;
 }
 .award-retired { opacity: 0.8; }
+.award-highlighted {
+  border-color: var(--mu-info);
+  box-shadow: 0 0 0 3px var(--mu-info-soft);
+  animation: award-highlight 1.2s ease-out 2;
+}
+@keyframes award-highlight {
+  50% { box-shadow: 0 0 0 6px var(--mu-info-soft); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .award-highlighted { animation: none; }
+}
 
 .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .award-title {

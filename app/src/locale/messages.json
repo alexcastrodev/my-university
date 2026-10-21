@@ -516,8 +516,6 @@
     "achievements.catalog.need.concepts": "Concepts to read: {$INTERPOLATION}",
     "achievements.catalog.need.lessons": "Lessons to finish: {$INTERPOLATION}",
     "achievements.catalog.assessed": "Ends with a knowledge check",
-    "xpToast.badge": "Badge unlocked: {$title}",
-    "xpToast.trophy": "Trophy unlocked: {$title}",
     "publicProfile.loading": "Loading profile…",
     "publicProfile.missing.title": "Profile not found",
     "publicProfile.missing.body": "This profile is private or does not exist.",
@@ -609,6 +607,20 @@
     "settings.notifications.title": "Notifications",
     "settings.notifications.hint": "Get a notification when someone replies to your comment, in a paragraph, lab or concept discussion. Turn it off and no new ones are created.",
     "settings.notifications.on": "On",
-    "settings.notifications.off": "Off"
+    "settings.notifications.off": "Off",
+    "concept.sidebarNav.badgeEarned": "Badge earned",
+    "concept.sidebarNav.trophyEarned": "Trophy earned",
+    "concept.sidebarNav.awardSee": "See on your profile →",
+    "concept.sidebarNav.badgeProgress": "Badge · {$INTERPOLATION} / {$INTERPOLATION_1}",
+    "concept.sidebarNav.trophyProgress": "Trophy · {$INTERPOLATION} / {$INTERPOLATION_1}",
+    "concept.sidebarNav.awardHint": "Read them all, in any order, to earn it (+{$INTERPOLATION} XP).",
+    "awardCelebration.eyebrow.many": "New achievements!",
+    "awardCelebration.eyebrow.trophy": "New trophy!",
+    "awardCelebration.eyebrow.badge": "New badge!",
+    "awardCelebration.hint.trophy": "You finished every session of this track. The trophy is now on your profile.",
+    "awardCelebration.hint.badge": "You read every concept of this session. The badge is now on your profile.",
+    "awardCelebration.continue": "Keep studying",
+    "awardCelebration.seeTrophies": "See my trophies",
+    "awardCelebration.seeBadges": "See my badges"
   }
 }

@@ -1,0 +1,61 @@
+<dialog
+  #dialog
+  class="celebration"
+  aria-labelledby="celebration-title"
+  aria-describedby="celebration-hint"
+  (close)="close()"
+  (click)="onDialogClick($event)"
+>
+  @if (awards().length > 0) {
+    <div class="panel">
+      <div class="glow" aria-hidden="true"></div>
+      <p class="eyebrow">
+        @if (awards().length > 1) {
+          <ng-container i18n="@@awardCelebration.eyebrow.many">New achievements!</ng-container>
+        } @else if (onlyTrophies()) {
+          <ng-container i18n="@@awardCelebration.eyebrow.trophy">New trophy!</ng-container>
+        } @else {
+          <ng-container i18n="@@awardCelebration.eyebrow.badge">New badge!</ng-container>
+        }
+      </p>
+
+      <ul class="awards" role="list">
+        @for (award of awards(); track award.type + award.id) {
+          <li class="award" [class.award-trophy]="award.type === 'trophy'">
+            <app-award-hex class="pop" [award]="award" size="large" />
+            <h2 class="award-title" [attr.id]="$first ? 'celebration-title' : null">{{ award.title }}</h2>
+            @if (award.type === 'badge' && award.trackTitle) {
+              <span class="award-track">{{ award.trackTitle }}</span>
+            }
+            <span class="chip-xp" i18n="@@achievements.exp">+{{ award.exp }} XP</span>
+          </li>
+        }
+      </ul>
+
+      <p id="celebration-hint" class="hint">
+        @if (onlyTrophies()) {
+          <ng-container i18n="@@awardCelebration.hint.trophy">You finished every session of this track. The trophy is now on your profile.</ng-container>
+        } @else {
+          <ng-container i18n="@@awardCelebration.hint.badge">You read every concept of this session. The badge is now on your profile.</ng-container>
+        }
+      </p>
+
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" (click)="close()" i18n="@@awardCelebration.continue">Keep studying</button>
+        <a
+          class="btn btn-primary"
+          routerLink="/profile/achievements"
+          [queryParams]="{ award: highlightId() }"
+          (click)="close()"
+          data-testid="celebration-see"
+        >
+          @if (onlyTrophies()) {
+            <ng-container i18n="@@awardCelebration.seeTrophies">See my trophies</ng-container>
+          } @else {
+            <ng-container i18n="@@awardCelebration.seeBadges">See my badges</ng-container>
+          }
+        </a>
+      </div>
+    </div>
+  }
+</dialog>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { AchievementsView, AwardView, CatalogTrackView, TrackRequirementsView } from '../models/achievements.model';
+import { AchievementsView, AwardView, CatalogTrackView, TrackRequirementsView, UnitAwardView } from '../models/achievements.model';
 import {
   AreaXpBreakdownEntry,
   DailyGoalStatus,
@@ -12,6 +12,7 @@ import {
   XpSummary,
 } from '../models/xp.model';
 import { AuthService } from './auth.service';
+import { AwardCelebrationService } from './award-celebration.service';
 import { XpToastService } from './xp-toast.service';
 
 const HISTORY_PAGE_SIZE = 20;
@@ -21,6 +22,7 @@ export class XpService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
   private toast = inject(XpToastService);
+  private celebration = inject(AwardCelebrationService);
 
   summary = signal<XpSummary | null>(null);
   /** The activity loaded so far, newest first; "Load more" appends to it. */
@@ -150,19 +152,26 @@ export class XpService {
     }
   }
 
-  /** Shows the toast for an award; false when this user was already told about it. */
+  /** Celebrates an award (a dialog, see `AwardCelebrationService`); false when this user was already told about it. */
   private announce(userId: number, award: AwardView): boolean {
     const key = `${userId}:${award.type}:${award.id}`;
     if (this.announced.has(key)) return false;
     this.announced.add(key);
-    const badge = award.type === 'badge';
-    this.toast.show(award.exp, {
-      icon: badge ? 'badge' : 'trophy',
-      label: badge
-        ? $localize`:@@xpToast.badge:Badge unlocked: ${award.title}:title:`
-        : $localize`:@@xpToast.trophy:Trophy unlocked: ${award.title}:title:`,
-    });
+    this.celebration.show(award);
     return true;
+  }
+
+  /**
+   * The prize the unit at `path` (e.g. `/dotnet-concepts/<slug>`) counts toward, with the user's progress.
+   * Null when signed out, when no track holds the unit, or when the request fails: the box is only a hint.
+   */
+  async loadUnitAward(path: string): Promise<UnitAwardView | null> {
+    if (!this.auth.currentUser()) return null;
+    try {
+      return await firstValueFrom(this.http.get<UnitAwardView | null>('/api/xp/achievements/unit', { params: { path } }));
+    } catch {
+      return null;
+    }
   }
 
   /** First page of the activity list; replaces whatever was loaded before. */

@@ -56,7 +56,7 @@ describe('CurriculumConceptsDetailPage', () => {
             listConcepts: () => of([]),
           },
         },
-        { provide: XpService, useValue: { loadSummary: () => {} } },
+        { provide: XpService, useValue: { loadSummary: () => {}, achievements: () => null, loadUnitAward: () => Promise.resolve(null) } },
       ],
     }).compileComponents();
   });

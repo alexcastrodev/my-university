@@ -899,8 +899,6 @@
     "achievements.catalog.need.concepts": "Conceitos para ler: {$INTERPOLATION}",
     "achievements.catalog.need.lessons": "Lições para concluir: {$INTERPOLATION}",
     "achievements.catalog.assessed": "Termina com uma verificação de conhecimento",
-    "xpToast.badge": "Selo desbloqueado: {$title}",
-    "xpToast.trophy": "Troféu desbloqueado: {$title}",
     "publicProfile.loading": "Carregando perfil…",
     "publicProfile.missing.title": "Perfil não encontrado",
     "publicProfile.missing.body": "Este perfil é privado ou não existe.",
@@ -992,6 +990,20 @@
     "settings.notifications.title": "Notificações",
     "settings.notifications.hint": "Receba uma notificação quando alguém responder ao seu comentário, em uma discussão de parágrafo, de lab ou do conceito. Desligando, nenhuma nova é criada.",
     "settings.notifications.on": "Ligadas",
-    "settings.notifications.off": "Desligadas"
+    "settings.notifications.off": "Desligadas",
+    "concept.sidebarNav.badgeEarned": "Selo conquistado",
+    "concept.sidebarNav.trophyEarned": "Troféu conquistado",
+    "concept.sidebarNav.awardSee": "Ver no seu perfil →",
+    "concept.sidebarNav.badgeProgress": "Selo · {$INTERPOLATION} / {$INTERPOLATION_1}",
+    "concept.sidebarNav.trophyProgress": "Troféu · {$INTERPOLATION} / {$INTERPOLATION_1}",
+    "concept.sidebarNav.awardHint": "Leia todos, em qualquer ordem, para ganhar (+{$INTERPOLATION} XP).",
+    "awardCelebration.eyebrow.many": "Novas conquistas!",
+    "awardCelebration.eyebrow.trophy": "Novo troféu!",
+    "awardCelebration.eyebrow.badge": "Novo selo!",
+    "awardCelebration.hint.trophy": "Você concluiu todas as sessões desta trilha. O troféu já está no seu perfil.",
+    "awardCelebration.hint.badge": "Você leu todos os conceitos desta sessão. O selo já está no seu perfil.",
+    "awardCelebration.continue": "Continuar estudando",
+    "awardCelebration.seeTrophies": "Ver meus troféus",
+    "awardCelebration.seeBadges": "Ver meus selos"
   }
 }

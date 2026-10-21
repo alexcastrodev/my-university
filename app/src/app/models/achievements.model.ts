@@ -89,3 +89,20 @@ export interface TrackRequirementsView {
   /** The track's own units when it has no sessions; empty otherwise. */
   units: RequirementUnitView[];
 }
+
+/** The prize a unit counts toward and how far the user is from it: the badge box beside a concept. */
+export interface UnitAwardView {
+  trackId: string;
+  trackTitle: string;
+  iconSlug: string;
+  /** A session's badge, or the trophy of a track that has no badges. */
+  type: AwardType;
+  /** Same id as the award once it is earned. */
+  id: string;
+  title: string;
+  exp: number;
+  total: number;
+  done: number;
+  awarded: boolean;
+  awardedAt: string | null;
+}

@@ -175,3 +175,56 @@ export function describeRequirements(
     units: track.sessions.length === 0 ? view(track.units) : [],
   };
 }
+
+/** The prize a unit counts toward, and how far the user is from it. Drives the "badge" box of a concept page. */
+export interface UnitAwardView {
+  trackId: string;
+  trackTitle: string;
+  iconSlug: string;
+  /** A session's badge when the track hands out badges, otherwise the track's trophy. */
+  type: AwardType;
+  /** `sessionId` for a badge, `trackId` for a trophy: the same id as the award, once earned. */
+  id: string;
+  title: string;
+  exp: number;
+  total: number;
+  done: number;
+  awarded: boolean;
+  awardedAt: string | null;
+}
+
+/**
+ * The prize the unit at `path` (its app route, e.g. `/dotnet-concepts/<slug>`) counts toward, or null
+ * when no active track holds it. Order never matters: the prize asks for every unit, in any order.
+ */
+export function describeUnitAward(
+  catalog: Catalog,
+  path: string,
+  doneKeys: ReadonlySet<string>,
+  awards: AwardRow[],
+): UnitAwardView | null {
+  const awardedAt = new Map(awards.map((a) => [`${a.sourceType}:${a.sourceId}`, a.updatedAt.toISOString()] as const));
+  const count = (units: Unit[]) => units.filter((u) => doneKeys.has(unitKey(u))).length;
+  const isPath = (track: CatalogTrack) => (u: Unit) => nextRouteOf(track, u)?.join('/') === path;
+  for (const track of catalog.tracks) {
+    if (!track.valid || track.status !== 'active' || !track.units.some(isPath(track))) continue;
+    const base = { trackId: track.trackId, trackTitle: track.title, iconSlug: iconSlugOf(track) };
+    const session = hasBadges(track) ? track.sessions.find((s) => s.units.some(isPath(track))) : undefined;
+    const prize = session
+      ? { type: 'badge' as const, id: session.sessionId, title: session.title, exp: badgeXp(session), units: session.units }
+      : { type: 'trophy' as const, id: track.trackId, title: track.title, exp: trophyXp(track), units: track.units };
+    const at = awardedAt.get(`${prize.type}:${prize.id}`) ?? null;
+    return {
+      ...base,
+      type: prize.type,
+      id: prize.id,
+      title: prize.title,
+      exp: prize.exp,
+      total: prize.units.length,
+      done: count(prize.units),
+      awarded: at !== null,
+      awardedAt: at,
+    };
+  }
+  return null;
+}

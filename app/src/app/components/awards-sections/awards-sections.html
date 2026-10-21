@@ -3,7 +3,7 @@
     <h2 id="trophies-title" class="section-title" i18n="@@publicProfile.trophies">Trophies</h2>
     <ul class="cards">
       @for (award of trophies(); track award.id) {
-        <li><app-award-tile [award]="award" /></li>
+        <li><app-award-tile [award]="award" [highlighted]="award.id === highlight()" /></li>
       }
     </ul>
   </section>
@@ -14,7 +14,7 @@
     <h2 id="badges-title" class="section-title" i18n="@@publicProfile.badges">Badges</h2>
     <ul class="cards">
       @for (award of badges(); track award.id) {
-        <li><app-award-tile [award]="award" /></li>
+        <li><app-award-tile [award]="award" [highlighted]="award.id === highlight()" /></li>
       }
     </ul>
   </section>

@@ -4,6 +4,7 @@ import { Sidebar } from './components/sidebar/sidebar';
 import { Footer } from './components/footer/footer';
 import { BottomNav } from './components/bottom-nav/bottom-nav';
 import { XpToast } from './components/xp-toast/xp-toast';
+import { AwardCelebration } from './components/award-celebration/award-celebration';
 import { ChunkReloadToast } from './components/chunk-reload-toast/chunk-reload-toast';
 import { AskAiTooltip } from './components/ask-ai-tooltip/ask-ai-tooltip';
 import { MermaidViewer } from './components/mermaid-viewer/mermaid-viewer';
@@ -16,7 +17,7 @@ import { TextHighlightService } from './services/text-highlight.service';
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Sidebar, Footer, BottomNav, XpToast, ChunkReloadToast, AskAiTooltip, MermaidViewer, SearchPalette, RouterOutlet],
+  imports: [Sidebar, Footer, BottomNav, XpToast, AwardCelebration, ChunkReloadToast, AskAiTooltip, MermaidViewer, SearchPalette, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

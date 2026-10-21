@@ -13,4 +13,6 @@ import { AwardTile } from '../award-tile/award-tile';
 export class AwardsSections {
   trophies = input<AwardView[]>([]);
   badges = input<AwardView[]>([]);
+  /** Id of the award to ring and scroll to, if any. */
+  highlight = input<string | null>(null);
 }

@@ -4,7 +4,8 @@ import { EntityManager, In, MoreThanOrEqual, Repository } from 'typeorm';
 import { computeProgress, evaluateAwards, unitKey, type AwardType, type Unit, type UnitSourceType } from '../achievements/catalog';
 import { getCatalog, getUnitTitles } from '../achievements/load-seed';
 import {
-  AwardView, CatalogTrackView, describeAwards, describeCatalog, describeProgress, describeRequirements, TrackProgressView, TrackRequirementsView,
+  AwardView, CatalogTrackView, describeAwards, describeCatalog, describeProgress, describeRequirements, describeUnitAward, TrackProgressView, TrackRequirementsView,
+  UnitAwardView,
 } from '../achievements/view';
 import { normalizeSlug, slugProblem } from '../auth/profile-slug';
 import { User } from '../auth/user.entity';
@@ -333,6 +334,12 @@ export class XpService {
   async getTrackRequirements(userId: number, trackId: string): Promise<TrackRequirementsView | null> {
     const dates = await this.unitDates(userId);
     return describeRequirements(getCatalog(), getUnitTitles(), trackId, new Set(dates.keys()));
+  }
+
+  /** Read-only: the prize the unit at an app path counts toward, with the user's progress, or null. */
+  async getUnitAward(userId: number, path: string): Promise<UnitAwardView | null> {
+    const [awards, dates] = await Promise.all([this.awardRows(userId), this.unitDates(userId)]);
+    return describeUnitAward(getCatalog(), path, new Set(dates.keys()), awards);
   }
 
   /** Awards the user has earned but that are not recorded yet. Never writes. */

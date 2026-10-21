@@ -73,6 +73,12 @@ export class XpController {
     return view;
   }
 
+  /** Read-only: the prize a unit counts toward (`?path=/dotnet-concepts/<slug>`), or null when none does. */
+  @Get('achievements/unit')
+  getUnitAward(@CurrentUserId() userId: number, @Query('path') path?: string) {
+    return typeof path === 'string' && path.length > 0 ? this.service.getUnitAward(userId, path) : null;
+  }
+
   /** Records awards earned but not yet recorded; returns only the ones this call created. */
   @Post('achievements/sync')
   async syncAchievements(@CurrentUserId() userId: number) {
