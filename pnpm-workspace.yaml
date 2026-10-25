@@ -19,6 +19,14 @@ overrides:
   # GHSA-238p-pmpm-9mq7: mermaid 11 pins katex ^0.16, the fix is 0.18.2. Not the newest 0.18, which
   # was published by accident with breaking changes (0.18.11, deprecated on npm); 0.18.10 is the last good one.
   'katex@<0.18.2': '0.18.10'
+  # @angular/build 22.2 pins vite 8.3.0 exactly; the fixes are in 8.3.3, same minor.
+  'vite@>=8.3.0 <8.3.3': '^8.3.3'
+  'dompurify@<3.4.17': '^3.4.17'
+  'follow-redirects@>=1.16.0 <1.16.1': '^1.16.1'
+  'body-parser@<1.20.9': '^1.20.9'
+  'body-parser@>=2.0.0 <2.4.0': '^2.4.0'
+  'fast-uri@>=3.0.0 <3.1.9': '^3.1.9'
+  'zod@<4.6.6': '^4.6.6'
 # Advisories accepted after review, with no patched release reachable yet:
 # - GHSA-vfj7-8cjw-p6xm (braces): no fixed version published; only reached by
 #   karma's file watcher in local `ng test`, never shipped to production.
