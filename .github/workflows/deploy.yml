@@ -19,9 +19,16 @@ jobs:
 
       - name: Build images
         run: |
+          # web carries the deployed image's lazy chunks over, for tabs still on that build.
+          docker pull pizito:5001/university-web:latest || true
+          previous_web=no-previous-web
+          if docker image inspect pizito:5001/university-web:latest >/dev/null 2>&1; then
+            previous_web=pizito:5001/university-web:latest
+          fi
           for target in api ssr web; do
             docker build --target "$target" \
               --build-arg SENTRY_RELEASE=${{ github.sha }} \
+              --build-arg PREVIOUS_WEB_IMAGE="$previous_web" \
               -t "pizito:5001/university-$target:latest" \
               -t "pizito:5001/university-$target:${{ github.sha }}" .
           done

@@ -1,3 +1,7 @@
+# The web image currently deployed, whose hashed assets the new web image keeps (see the `web`
+# stage). The deploy workflow passes the registry's :latest; local builds keep the empty default.
+ARG PREVIOUS_WEB_IMAGE=no-previous-web
+
 # ─── Stage 1: Build Frontend ──────────────────────────────────────────────────
 # app/ depends on the "algorithmator" workspace package (packages/algorithmator), so this
 # stage needs the repo-root pnpm workspace, not just app/ in isolation.
@@ -70,6 +74,9 @@ HEALTHCHECK --interval=5s --timeout=3s --start-period=20s --retries=3 \
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server/server.mjs"]
 
+FROM scratch AS no-previous-web
+FROM ${PREVIOUS_WEB_IMAGE} AS previous-web
+
 FROM nginx:1.29-alpine AS web
 # The nginx tag is rebuilt rarely, so its Alpine packages (curl, libexpat, openssl, ...) carry fixed
 # CVEs. Pull the security updates in at build time.
@@ -81,6 +88,13 @@ RUN mkdir -p /var/cache/nginx/api && rm -rf /usr/share/nginx/html/*
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 COPY security-headers.conf /etc/nginx/snippets/security-headers.conf
 COPY --from=frontend-build /repo/app/dist/ocp-simulator/browser /usr/share/nginx/html
+# A tab opened before this deploy still asks for the previous builds' lazy chunks, so the last
+# 10 builds' hashed assets are carried over from the deployed image (~8.5 MB per build).
+COPY .ci/carry-previous-assets.sh /tmp/
+RUN --mount=type=bind,from=previous-web,target=/previous \
+    sh /tmp/carry-previous-assets.sh /usr/share/nginx/html /usr/share/nginx/asset-manifests \
+      /previous/usr/share/nginx/html /previous/usr/share/nginx/asset-manifests 10 \
+    && rm /tmp/carry-previous-assets.sh
 COPY backend/src/seed/data /public/content
 RUN chmod -R a+rX /public/content /usr/share/nginx/html
 EXPOSE 80
