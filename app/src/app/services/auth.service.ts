@@ -4,7 +4,8 @@ import { Observable, map, tap } from 'rxjs';
 import { User } from '../models/auth.model';
 import { Language } from '../models/language.model';
 
-const STORAGE_KEY = 'ocp-user';
+export const STORED_USER_KEY = 'ocp-user';
+const STORAGE_KEY = STORED_USER_KEY;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
