@@ -73,6 +73,12 @@ function loadSdk(): Promise<SentrySdk> {
       integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 0.2,
       tracePropagationTargets: [/^\/api\//, new RegExp(`^https://${PRODUCTION_HOST}/api/`)],
+      ignoreErrors: [
+        // Microsoft's link scanner (Outlook Safe Links / Defender) opens shared links in a
+        // headless CefSharp browser from Azure and rejects a promise of its own with this message.
+        // It is not the app's error and no real visitor ever sees it.
+        /Object Not Found Matching Id:\d+, MethodName:\w+, ParamCount:\d+/,
+      ],
     });
     return Sentry;
   });
