@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-10-28
 title: "Value converters, value comparers e IDs fortemente tipados"
 summary: Value converters do EF Core 10 na prática: conversores prontos e próprios, ConfigureConventions por tipo, null que nunca chega ao conversor, o que traduz e o que quebra nas queries, o ValueComparer que evita perder alterações em tipos mutáveis, comparers de chave, IDs fortemente tipados do banco à rota da Minimal API, o custo por linha e quando preferir complex type, owned type ou entidade.
@@ -58,14 +58,7 @@ O email foi para minúsculas pelo conversor, e as 10:00 locais voltaram como 13:
 
 ### Null nunca chega ao conversor
 
-A documentação diz que um `null` nunca é passado a um conversor: null na coluna é null na entidade e vice-versa. Mapeei um `Email?` opcional com um conversor que lançaria exceção com null (`e => e!.Value`) e salvei um contato sem email:
-
-```text
-stored Email: NULL      read back Email is null: True
-Where(c => c.Email == null)  ->  WHERE "c"."Email" IS NULL
-```
-
-Nenhuma exceção. O conversor só vê valores não nulos, e é por isso que um único conversor atende `Email` e `Email?`. Converter o próprio null é possível com uma flag no construtor, `convertsNulls: true`, mas o compilador reclama: `warning EF1001: ... is an internal API that supports the Entity Framework Core infrastructure`. Tentei mesmo assim, mapeando `string? Nick` para `""` no banco:
+A documentação diz que um `null` nunca é passado a um conversor: null na coluna é null na entidade e vice-versa. Mapeei um `Email?` opcional com um conversor que lançaria exceção com null (`e => e!.Value`) e salvei um contato sem email. A coluna recebeu `NULL`, o email voltou como `null`, e `Where(c => c.Email == null)` virou `WHERE "c"."Email" IS NULL`. Nenhuma exceção. O conversor só vê valores não nulos, e é por isso que um único conversor atende `Email` e `Email?`. Converter o próprio null é possível com uma flag no construtor, `convertsNulls: true`, mas o compilador reclama: `warning EF1001: ... is an internal API that supports the Entity Framework Core infrastructure`. Tentei mesmo assim, mapeando `string? Nick` para `""` no banco:
 
 ```csharp
 c.Property(x => x.Nick).HasConversion(new ValueConverter<string?, string>(
@@ -123,8 +116,7 @@ As duas alterações se perderam sem nenhum erro. A documentação explica o cas
 
 ```csharp
 p.Property(x => x.Tags).HasConversion(to, from, new ValueComparer<List<string>>((a, b) => a!.SequenceEqual(b!),
-    l => l.Aggregate(0, (h, s) => HashCode.Combine(h, s.GetHashCode())),
-    l => l.ToList()));
+    l => l.Aggregate(0, (h, s) => HashCode.Combine(h, s.GetHashCode())), l => l.ToList()));
 p.Property(x => x.Blob).Metadata.SetValueComparer(new ValueComparer<byte[]>((a, b) => a!.SequenceEqual(b!), a => a.Aggregate(0, (h, x) => HashCode.Combine(h, x)), a => a.ToArray()));
 ```
 
@@ -149,7 +141,7 @@ Sem comparer, uma única linha acabou rastreada três vezes. O modelo também in
 
 ### IDs fortemente tipados
 
-Uma interface marcadora, um conversor genérico e um loop com reflection em `ConfigureConventions` cobrem todos os tipos de id:
+Uma interface marcadora, um conversor genérico e um loop com reflection em `ConfigureConventions` (as duas últimas linhas) cobrem todos os tipos de id:
 
 ```csharp
 public interface IStrongId { Guid Value { get; } }
@@ -160,7 +152,6 @@ public class StrongIdConverter<T>() : ValueConverter<T, Guid>(id => id.Value, Fr
     static Expression<Func<Guid, T>> FromGuid()   // g => new T(g): C# não tem "new T(arg)" para parâmetro de tipo
     { var g = Expression.Parameter(typeof(Guid)); return Expression.Lambda<Func<Guid, T>>(Expression.New(typeof(T).GetConstructor([typeof(Guid)])!, g), g); }
 }
-// ConfigureConventions
 foreach (var t in typeof(IStrongId).Assembly.GetTypes().Where(t => t.IsValueType && typeof(IStrongId).IsAssignableFrom(t)))
     b.Properties(t).HaveConversion(typeof(StrongIdConverter<>).MakeGenericType(t));
 ```
@@ -213,7 +204,6 @@ Mapeei uma linha com `BoolToZeroOneConverter<int>`, `DateTimeToBinaryConverter`,
 Id (Guid)   TEXT  0F8FAD5B-D9CB-469F-A165-70867728950E  uuid   0f8fad5b-d9cb-469f-a165-70867728950e
 Active      INTEGER 1                                   integer 1
 When        INTEGER 5250973802427387904                 bigint 5250973802427387904
-S           TEXT Archived                               text Archived
 Ref (bytes) BLOB 5BAD8F0FCBD99F46A16570867728950E       bytea 5bad8f0fcbd99f46a16570867728950e
 ```
 
@@ -238,8 +228,6 @@ Cerca de 15 por cento mais lento e cerca de 6 MB a mais, boa parte pelos objetos
 | Um value object com vários campos, trocado inteiro, consultado por campo (`Address`, `Money` com moeda) | Complex type (colunas ou JSON) |
 | Uma parte com identidade oculta, ou um mapeamento owned já existente (a documentação agora direciona novos mapeamentos JSON para complex types) | Owned type |
 | Algo com ciclo de vida próprio, referenciado de outros lugares, ou uma lista grande que cresce | Entidade separada |
-
-Um conversor mapeia para exatamente uma coluna e esconde o interior do valor do LINQ. Um complex type mapeia cada membro para uma coluna, ou para uma coluna JSON consultável por membro, como mostra o conceito de colunas JSON.
 
 ## Trade-offs
 

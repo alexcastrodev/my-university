@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-10-28
 ---
 ## Objective
@@ -56,14 +56,7 @@ The email was lowercased by the converter, and the local 10:00 came back as 13:0
 
 ### Null never reaches the converter
 
-The docs say a `null` is never passed to a converter: null in the column is null on the entity and vice versa. I mapped an optional `Email?` with a converter that would throw on null (`e => e!.Value`) and saved a contact without an email:
-
-```text
-stored Email: NULL      read back Email is null: True
-Where(c => c.Email == null)  ->  WHERE "c"."Email" IS NULL
-```
-
-No exception. The converter can only ever see non-null values, which is why one converter serves `Email` and `Email?`. Converting null itself is possible through a constructor flag, `convertsNulls: true`, but the compiler flags it: `warning EF1001: ... is an internal API that supports the Entity Framework Core infrastructure`. I tried it anyway, mapping `string? Nick` to `""` in the database:
+The docs say a `null` is never passed to a converter: null in the column is null on the entity and vice versa. I mapped an optional `Email?` with a converter that would throw on null (`e => e!.Value`) and saved a contact without an email. The column got `NULL`, the email read back as `null`, and `Where(c => c.Email == null)` became `WHERE "c"."Email" IS NULL`. No exception. The converter can only ever see non-null values, which is why one converter serves `Email` and `Email?`. Converting null itself is possible through a constructor flag, `convertsNulls: true`, but the compiler flags it: `warning EF1001: ... is an internal API that supports the Entity Framework Core infrastructure`. I tried it anyway, mapping `string? Nick` to `""` in the database:
 
 ```csharp
 c.Property(x => x.Nick).HasConversion(new ValueConverter<string?, string>(
@@ -121,8 +114,7 @@ Both edits were lost without an error. The docs explain the `byte[]` case: non-k
 
 ```csharp
 p.Property(x => x.Tags).HasConversion(to, from, new ValueComparer<List<string>>((a, b) => a!.SequenceEqual(b!),
-    l => l.Aggregate(0, (h, s) => HashCode.Combine(h, s.GetHashCode())),
-    l => l.ToList()));
+    l => l.Aggregate(0, (h, s) => HashCode.Combine(h, s.GetHashCode())), l => l.ToList()));
 p.Property(x => x.Blob).Metadata.SetValueComparer(new ValueComparer<byte[]>((a, b) => a!.SequenceEqual(b!), a => a.Aggregate(0, (h, x) => HashCode.Combine(h, x)), a => a.ToArray()));
 ```
 
@@ -147,7 +139,7 @@ Without a comparer, one row ended up tracked three times. The model reported a s
 
 ### Strongly-typed ids
 
-One marker interface, one generic converter, and a reflection loop in `ConfigureConventions` cover every id type:
+One marker interface, one generic converter, and a reflection loop in `ConfigureConventions` (the last two lines) cover every id type:
 
 ```csharp
 public interface IStrongId { Guid Value { get; } }
@@ -158,7 +150,6 @@ public class StrongIdConverter<T>() : ValueConverter<T, Guid>(id => id.Value, Fr
     static Expression<Func<Guid, T>> FromGuid()   // g => new T(g): C# has no "new T(arg)" for a type parameter
     { var g = Expression.Parameter(typeof(Guid)); return Expression.Lambda<Func<Guid, T>>(Expression.New(typeof(T).GetConstructor([typeof(Guid)])!, g), g); }
 }
-// ConfigureConventions
 foreach (var t in typeof(IStrongId).Assembly.GetTypes().Where(t => t.IsValueType && typeof(IStrongId).IsAssignableFrom(t)))
     b.Properties(t).HaveConversion(typeof(StrongIdConverter<>).MakeGenericType(t));
 ```
@@ -211,7 +202,6 @@ I mapped one row with `BoolToZeroOneConverter<int>`, `DateTimeToBinaryConverter`
 Id (Guid)   TEXT  0F8FAD5B-D9CB-469F-A165-70867728950E  uuid   0f8fad5b-d9cb-469f-a165-70867728950e
 Active      INTEGER 1                                   integer 1
 When        INTEGER 5250973802427387904                 bigint 5250973802427387904
-S           TEXT Archived                               text Archived
 Ref (bytes) BLOB 5BAD8F0FCBD99F46A16570867728950E       bytea 5bad8f0fcbd99f46a16570867728950e
 ```
 
@@ -236,8 +226,6 @@ About 15 percent slower and about 6 MB more, much of it the extra `Email` object
 | A value object with several fields, replaced whole, queried by field (`Address`, `Money` with currency) | Complex type (columns or JSON) |
 | A part with a hidden identity, or an existing owned mapping (the docs now steer new JSON mappings to complex types) | Owned type |
 | Something with its own lifecycle, referenced from elsewhere, or a large growing list | Separate entity |
-
-A converter maps to exactly one column and hides the inside of the value from LINQ. A complex type maps each member to a column, or to a JSON column queryable by member, as the JSON columns concept shows.
 
 ## Trade-offs
 

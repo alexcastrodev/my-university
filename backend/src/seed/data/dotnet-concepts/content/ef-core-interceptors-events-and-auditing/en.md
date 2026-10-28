@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-10-28
 ---
 ## Objective
@@ -58,6 +58,7 @@ Without scope validation the singleton captured the first user forever, so every
 ### Sync and async are separate hooks
 
 One interceptor overrode only `SavingChangesAsync`, another only `SavingChanges`; I called each API once:
+
 ```text
 after SaveChanges():      asyncOnly=0 syncOnly=1
 after SaveChangesAsync(): asyncOnly=1 syncOnly=1

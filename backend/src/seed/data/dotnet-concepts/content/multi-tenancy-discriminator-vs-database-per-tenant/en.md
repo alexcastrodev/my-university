@@ -1,5 +1,5 @@
 ---
-version: 1.0
+version: 1.1
 updatedAt: 2026-10-28
 ---
 ## Objective
@@ -31,13 +31,14 @@ public class SharedDb(DbContextOptions options, ITenantProvider tenant) : DbCont
 }
 ```
 
-I created two DI scopes in one process (tenant 1 and tenant 2) and queried both contexts:
+I created two DI scopes in one process (tenant 1 and tenant 2), queried both contexts and printed `ToQueryString()` of the first (only its header and `WHERE` line shown):
 
 ```text
 scope1 tenant1: A-100,A-200
 scope2 tenant2: B-100,B-200
 same model instance: True
-WHERE o."TenantId" = @ef_filter__TenantId     (ToQueryString, with -- @ef_filter__TenantId='1' on top)
+-- @ef_filter__TenantId='1'
+WHERE o."TenantId" = @ef_filter__TenantId
 ```
 
 One model, one SQL text, a different parameter value per context instance. That is the whole trick, and it is easy to break.
@@ -73,7 +74,7 @@ OrderLines.Count: 6
 OrderLines.Include(Order).Count: 2
 ```
 
-LINQ paths (including `FromSql` composition and `ExecuteUpdate`/`ExecuteDelete`) carry the filter; `Database.SqlQuery` and `ExecuteSql` see every tenant. Every tenant-owned entity needs its own filter, and the `Include` hid the missing one, because the required navigation became an `INNER JOIN` to the filtered orders. A test that always includes the parent will not catch a missing child filter.
+LINQ paths (including `FromSql` composition and `ExecuteUpdate`) carry the filter; `Database.SqlQuery` and `ExecuteSql` see every tenant. Every tenant-owned entity needs its own filter, and the `Include` hid the missing one: as the filters lesson showed, a required navigation to a filtered entity becomes an `INNER JOIN` to the filtered rows. A test that always includes the parent will not catch a missing child filter.
 
 ### Writes: stamping TenantId and refusing other tenants
 
@@ -224,7 +225,7 @@ About 3 ms per tiny local database. The rest is reasoning, not measured: on a re
 
 ### Blazor Server and the comparison
 
-Not run here: the Blazor EF Core docs say scoped services live as long as the user's circuit, so a scoped `DbContext` is shared by all of that user's components, is not thread-safe and keeps growing; they recommend a factory and a context per operation, and the multi-tenancy docs add that the factory must be `Scoped` when the connection string depends on the user.
+Not run here: the Blazor EF Core docs say scoped services live as long as the user's circuit, so a scoped `DbContext` is shared by all of that user's components, and `DbContext` is not thread-safe; they recommend a factory and a context per operation, and the multi-tenancy docs add that the factory must be `Scoped` when the connection string depends on the user.
 
 | | Discriminator + filter (+ RLS) | Schema per tenant | Database per tenant |
 |:--|:--|:--|:--|

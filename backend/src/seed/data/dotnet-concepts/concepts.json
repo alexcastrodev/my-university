@@ -7090,5 +7090,329 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "explicit-transactions-savepoints-and-transactionscope",
+    "id": 632,
+    "category": "Data Access",
+    "title": "Explicit Transactions, Savepoints and TransactionScope",
+    "topic": "EF Core",
+    "summary": "Explicit transaction control in EF Core 10 measured on SQLite and PostgreSQL: BeginTransaction across several SaveChanges, AutoTransactionBehavior in the log, the savepoint EF creates by itself, sharing a transaction with ADO.NET, the retrying execution strategy, isolation levels with two connections and a 40001 retry, SQLite isolation, TransactionScope and async flow, prepared transactions with two connections, and lock waits.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "transactions-and-optimistic-concurrency"
+    ],
+    "related": [
+      {
+        "label": "Transactions and Optimistic Concurrency in EF Core",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server, SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions, ACID, and Isolation Levels",
+        "slug": "transactions-acid-and-isolation-levels",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Distributed Transactions and Two-Phase Commit",
+        "slug": "distributed-transactions-and-two-phase-commit",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Troubleshooting with pg_stat_activity, pg_stat_statements, and Locks",
+        "slug": "postgresql-troubleshooting-activity-statements-and-locks",
+        "feature": "database-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Transactions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Connection resiliency, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency",
+        "type": "doc"
+      },
+      {
+        "label": "TransactionScope class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.transactions.transactionscope?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Transactions in Microsoft.Data.Sqlite, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/transactions",
+        "type": "doc"
+      },
+      {
+        "label": "Transaction locking and row versioning guide, SQL Server, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver17",
+        "type": "doc"
+      },
+      {
+        "label": "Transaction Isolation, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/transaction-iso.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "value-converters-comparers-and-strongly-typed-ids",
+    "id": 608,
+    "category": "Data Access",
+    "title": "Value Converters, Comparers and Strongly-Typed Ids",
+    "topic": "EF Core Modeling",
+    "summary": "Built-in and custom value converters in EF Core 10, ConfigureConventions per type, why null never reaches a converter, what translates and what fails in queries on converted members, the ValueComparer that keeps in-place edits from being lost, key comparers, strongly-typed ids from the column to the Minimal API route, the cost per row, and when a complex type, owned type or entity fits better, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "ef-core-model-building-conventions-and-fluent-api"
+    ],
+    "related": [
+      {
+        "label": "EF Core Model Building: Conventions and Fluent API",
+        "slug": "ef-core-model-building-conventions-and-fluent-api",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Relationships, Keys and Delete Behavior",
+        "slug": "relationships-keys-and-delete-behavior",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Query Translation and Performance",
+        "slug": "query-translation-and-performance",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Value conversions, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/value-conversions",
+        "type": "doc"
+      },
+      {
+        "label": "Value comparers, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/value-comparers",
+        "type": "doc"
+      },
+      {
+        "label": "Model bulk configuration, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/bulk-configuration",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in EF Core 7, value generation for guarded keys, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite value generation, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/value-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Parameter binding in Minimal API apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "multi-tenancy-discriminator-vs-database-per-tenant",
+    "id": 634,
+    "category": "Data Access",
+    "title": "Multi-Tenancy: Discriminator vs Database per Tenant",
+    "topic": "EF Core",
+    "summary": "Multi-tenant data access with EF Core 10, measured: a tenant filter bound to the context instance, filters that freeze the first tenant, writes the filter does not guard, unique indexes with TenantId, PostgreSQL row-level security and who bypasses it, database per tenant with factories and pooling, schema per tenant with IModelCacheKeyFactory, and what migrations do in each model.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "global-and-named-query-filters"
+    ],
+    "related": [
+      {
+        "label": "Global and Named Query Filters",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Interceptors, Events and Auditing",
+        "slug": "ef-core-interceptors-events-and-auditing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ADO.NET Connections, Commands, Readers and Pooling",
+        "slug": "ado-net-connections-commands-readers-and-pooling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Applying Migrations in Production",
+        "slug": "applying-migrations-in-production",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "PostgreSQL Connection Pooling with HAProxy and PgBouncer",
+        "slug": "postgresql-connection-pooling-haproxy-pgbouncer",
+        "feature": "database-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Multi-tenancy, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy",
+        "type": "doc"
+      },
+      {
+        "label": "Global query filters, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/querying/filters",
+        "type": "doc"
+      },
+      {
+        "label": "DbContext lifetime, configuration, and initialization, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
+        "type": "doc"
+      },
+      {
+        "label": "Alternating between multiple models with the same DbContext type, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/modeling/dynamic-model",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core Blazor with Entity Framework Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/blazor/blazor-ef-core?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Row Security Policies, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ef-core-interceptors-events-and-auditing",
+    "id": 633,
+    "category": "Data Access",
+    "title": "EF Core Interceptors, Events and Auditing",
+    "topic": "EF Core",
+    "summary": "The EF Core 10 interceptor families and the order of their hooks, registration versus DI lifetimes, the sync hook that never calls the async one, short-circuiting with InterceptionResult, a same-transaction audit and soft-delete interceptor and what bypasses it, a slow-query log and a tenant id for row-level security on PostgreSQL, the .NET events and the cost of an interceptor, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "dbcontext-lifetime-and-change-tracking"
+    ],
+    "related": [
+      {
+        "label": "DbContext Lifetime and Change Tracking",
+        "slug": "dbcontext-lifetime-and-change-tracking",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Global and Named Query Filters",
+        "slug": "global-and-named-query-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Domain Events and Consistency Boundaries",
+        "slug": "domain-events-and-consistency-boundaries",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-tenancy: Discriminator vs Database per Tenant",
+        "slug": "multi-tenancy-discriminator-vs-database-per-tenant",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Interceptors, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors",
+        "type": "doc"
+      },
+      {
+        "label": ".NET events in EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/events",
+        "type": "doc"
+      },
+      {
+        "label": "Change detection and notifications, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/change-tracking/change-detection",
+        "type": "doc"
+      },
+      {
+        "label": "SaveChangesInterceptor class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.diagnostics.savechangesinterceptor?view=efcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "ExecuteUpdate and ExecuteDelete, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/saving/execute-insert-update-delete",
+        "type": "doc"
+      },
+      {
+        "label": "Row Security Policies, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
