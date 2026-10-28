@@ -14,7 +14,7 @@ minimumReleaseAgeExclude:
 overrides:
   'brace-expansion@<1.1.21': '^1.1.21'
   'engine.io@>=6.6.0 <6.6.10': '^6.6.10'
-  'qs@>=2.2.5 <6.16.0': '^6.16.0'
+  'qs@>=2.2.5 <6.16.1': '^6.16.1'
   'source-map-js@>=1.0.0 <1.2.2': '^1.2.2'
   # GHSA-238p-pmpm-9mq7: mermaid 11 pins katex ^0.16, the fix is 0.18.2. Not the newest 0.18, which
   # was published by accident with breaking changes (0.18.11, deprecated on npm); 0.18.10 is the last good one.

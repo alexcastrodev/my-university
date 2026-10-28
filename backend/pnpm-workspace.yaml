@@ -15,6 +15,9 @@ overrides:
 # Advisories accepted after review, with no patched release reachable yet:
 # - GHSA-vfj7-8cjw-p6xm (braces): no fixed version published; only reached by
 #   ts-loader at build time, never shipped in the production image.
+# - GHSA-gcqx-w48m-w2h4 (deepmerge): advisory says patched in 4.3.2, but npm only has up to
+#   4.3.1; only reached by @nestjs/cli (devDependency) via fork-ts-checker-webpack-plugin.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm
+    - GHSA-gcqx-w48m-w2h4

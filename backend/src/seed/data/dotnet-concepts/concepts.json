@@ -6928,5 +6928,167 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+    "id": 635,
+    "category": "Data Access",
+    "title": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+    "topic": "EF Core",
+    "summary": "One EF Core 10 model measured on PostgreSQL 18 and SQLite, with SQL Server from the docs: case sensitivity and collations (ICU nondeterministic, citext, NOCASE), DateTime and DateTimeOffset rules, decimal storage and precision, identity, GUID generation and batching, ALTER COLUMN versus table rebuild, arrays, JSON and enums, concurrency tokens, and why tests on SQLite miss production bugs.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "ef-core-functions-and-database-specific-translation"
+    ],
+    "related": [
+      {
+        "label": "EF Core Functions and Database-Specific Translation",
+        "slug": "ef-core-functions-and-database-specific-translation",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Migrations Workflow",
+        "slug": "ef-core-migrations-workflow",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Transactions and Optimistic Concurrency",
+        "slug": "transactions-and-optimistic-concurrency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JSON Columns and Complex Types",
+        "slug": "json-columns-and-complex-types",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Generated Values, Defaults and Computed Columns",
+        "slug": "generated-values-defaults-and-computed-columns",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Value Converters, Comparers and Strongly Typed IDs",
+        "slug": "value-converters-comparers-and-strongly-typed-ids",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in EF Core 10",
+        "slug": "whats-new-in-ef-core-10",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Collations and case sensitivity, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/miscellaneous/collations-and-case-sensitivity",
+        "type": "doc"
+      },
+      {
+        "label": "SQLite database provider limitations, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sqlite/limitations",
+        "type": "doc"
+      },
+      {
+        "label": "Microsoft SQL Server database provider, EF Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/ef/core/providers/sql-server/",
+        "type": "doc"
+      },
+      {
+        "label": "Collations and case sensitivity, Npgsql Entity Framework Core provider",
+        "url": "https://www.npgsql.org/efcore/misc/collations-and-case-sensitivity.html",
+        "type": "doc"
+      },
+      {
+        "label": "Date and time handling, Npgsql documentation",
+        "url": "https://www.npgsql.org/doc/types/datetime.html",
+        "type": "doc"
+      },
+      {
+        "label": "Collation support, PostgreSQL documentation",
+        "url": "https://www.postgresql.org/docs/current/collation.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ado-net-connections-commands-readers-and-pooling",
+    "id": 640,
+    "category": "Data Access",
+    "title": "ADO.NET: Connections, Commands, Readers and Pooling",
+    "topic": "Data Access Choices",
+    "summary": "Raw ADO.NET on .NET 10 measured on Npgsql and SQLite: the System.Data.Common object model, parameters vs SQL injection with the statement the server logged, execute methods and CommandBehavior, ordinal vs name reads, leaking and exhausting the pool, what Close() leaves on the server, Pooling=false, idle pruning, dead backends after a kill or restart, DbDataSource in DI, DbBatch and binary COPY, streaming vs ToList memory, and EF Core sharing the same pool.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "ef-core-ado-net-dapper-and-nosql"
+    ],
+    "related": [
+      {
+        "label": "EF Core, ADO.NET, Dapper and Choosing a Data Access Approach",
+        "slug": "ef-core-ado-net-dapper-and-nosql",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Explicit Transactions, Savepoints and TransactionScope",
+        "slug": "explicit-transactions-savepoints-and-transactionscope",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Raw SQL, Unmapped Types and Views",
+        "slug": "raw-sql-unmapped-types-and-views",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Connection Pooling and Proxying: HAProxy and PgBouncer",
+        "slug": "postgresql-connection-pooling-haproxy-pgbouncer",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Terminating Rogue Connections: pg_cancel_backend, pg_terminate_backend, and tcpkill",
+        "slug": "postgresql-terminating-rogue-connections",
+        "feature": "database-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "SQL Server connection pooling (ADO.NET), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql-server-connection-pooling",
+        "type": "doc"
+      },
+      {
+        "label": "DbDataSource class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.data.common.dbdatasource?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "DbBatch class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.data.common.dbbatch?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Npgsql basic usage, Npgsql documentation",
+        "url": "https://www.npgsql.org/doc/basic-usage.html",
+        "type": "doc"
+      },
+      {
+        "label": "Npgsql connection string parameters, Npgsql documentation",
+        "url": "https://www.npgsql.org/doc/connection-string-parameters.html",
+        "type": "doc"
+      },
+      {
+        "label": "Npgsql performance, Npgsql documentation",
+        "url": "https://www.npgsql.org/doc/performance.html",
+        "type": "doc"
+      }
+    ]
   }
 ]
