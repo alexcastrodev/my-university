@@ -5545,5 +5545,1388 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "caching-imemorycache-hybridcache-and-distributed",
+    "id": 420,
+    "category": "ASP.NET Core",
+    "title": "Caching: IMemoryCache, HybridCache and Distributed",
+    "topic": "Caching & Performance",
+    "summary": "IMemoryCache is not atomic (stampede), lazy expiration, a SizeLimit that drops silently, IDistributedCache, HybridCache with L1/L2 and one factory run per key, tags, what invalidation does not reach on other servers, and the payload and key limits, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "dependency-injection-and-service-lifetimes"
+    ],
+    "related": [
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching Strategies and CDNs",
+        "slug": "caching-strategies-and-cdns",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Redis Application Patterns: Caching, Sessions, Rate Limiting",
+        "slug": "redis-application-patterns-caching-sessions-rate-limiting",
+        "feature": "database-concepts"
+      },
+      {
+        "label": "Hibernate First and Second Level Cache",
+        "slug": "hibernate-first-and-second-level-cache",
+        "feature": "spring-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "HybridCache library in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Cache in-memory in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Distributed caching in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Caching overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Caching in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/caching",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "opentelemetry-logs-metrics-and-traces",
+    "id": 430,
+    "category": "ASP.NET Core",
+    "title": "OpenTelemetry: Logs, Metrics and Traces",
+    "topic": "Observability",
+    "summary": "ILogger, Meter and ActivitySource as the three framework APIs, what ASP.NET Core already emits on its own, what the SDK and the instrumentation packages add, context propagation, metric cardinality limits, histogram buckets, sampling, resources and the path the OTLP exporter really posts to, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "HTTP Logging and Request Diagnostics",
+        "slug": "http-logging-and-request-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Distributed Tracing and Observability",
+        "slug": "distributed-tracing-and-observability",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Metrics, Monitoring and Alerting System",
+        "slug": "metrics-monitoring-and-alerting-system",
+        "feature": "system-design-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": ".NET Observability with OpenTelemetry, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/observability-with-otel",
+        "type": "doc"
+      },
+      {
+        "label": "Creating Metrics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/metrics-instrumentation",
+        "type": "doc"
+      },
+      {
+        "label": "Add distributed tracing instrumentation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-instrumentation-walkthroughs",
+        "type": "doc"
+      },
+      {
+        "label": "Compare metric APIs, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/compare-metric-apis",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core metrics, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/metrics/overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "OpenTelemetry semantic conventions",
+        "url": "https://opentelemetry.io/docs/specs/semconv/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "health-checks-liveness-and-readiness",
+    "id": 440,
+    "category": "ASP.NET Core",
+    "title": "Health Checks: Liveness and Readiness",
+    "topic": "Operations",
+    "summary": "AddHealthChecks and MapHealthChecks, status codes (Degraded is still 200), IHealthCheck with failureStatus and exceptions, tags and Predicate for liveness, readiness and startup, a hanging check with and without a timeout, the EF Core DbContext check with SQLite, the private JSON report, and why dependencies in the liveness probe restart every replica, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Startup, Liveness and Readiness Probes",
+        "slug": "startup-liveness-readiness-probes",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Health checks in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Health probes in Azure Container Apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/health-probes",
+        "type": "doc"
+      },
+      {
+        "label": ".NET on Azure Container Apps overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/container-apps/dotnet-overview",
+        "type": "doc"
+      },
+      {
+        "label": "Health monitoring, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "ilogger-categories-levels-filtering-and-scopes",
+    "id": 431,
+    "category": "ASP.NET Core",
+    "title": "ILogger: Categories, Levels, Filtering and Scopes",
+    "topic": "Observability",
+    "summary": "ILogger<T> and ILoggerFactory categories, log levels, the rule that picks one filter per provider and category, per-provider sections, AddFilter, EventId, message templates versus interpolation and CA2254, scopes, source-generated [LoggerMessage] logging and redaction of classified data, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "configuration-and-the-options-pattern"
+    ],
+    "related": [
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTP Logging and Request Diagnostics",
+        "slug": "http-logging-and-request-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Logging, Query Tags and Diagnostics",
+        "slug": "ef-core-logging-query-tags-and-diagnostics",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Logging in Java: SLF4J, Logback, and java.util.logging",
+        "slug": "logging-in-java",
+        "feature": "java-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Logging in C# and .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Compile-time logging source generation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Logging providers in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/providers",
+        "type": "doc"
+      },
+      {
+        "label": "CA2254: Template should be a static expression, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2254",
+        "type": "doc"
+      },
+      {
+        "label": "Data redaction in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/data-redaction",
+        "type": "doc"
+      },
+      {
+        "label": "Logging in .NET and ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+    "id": 213,
+    "category": "Platform & Tooling",
+    "title": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+    "topic": "Publishing & Native AOT",
+    "summary": "Two routes to a .NET 10 container image, the SDK's PublishContainer (no Dockerfile, no daemon) and a multi-stage Dockerfile, with the inferred base image (Ubuntu 24.04 for 10.0), the rootless user 1654, the image config and layers read from a tar archive, chiseled and Alpine families measured by size, multi-arch images, registry authentication, and what missing ICU does to culture-sensitive code.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "self-contained-single-file-and-trimmed-publishing"
+    ],
+    "related": [
+      {
+        "label": "Self-Contained, Single-File and Trimmed Publishing",
+        "slug": "self-contained-single-file-and-trimmed-publishing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing Spring Boot: Dockerfiles, Layered JARs & Buildpacks",
+        "slug": "spring-boot-docker-deployment",
+        "feature": "spring-concepts"
+      },
+      {
+        "label": "Managed Runtime Memory in Containers",
+        "slug": "managed-runtime-memory-in-containers",
+        "feature": "kubernetes-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Containerize an app with dotnet publish, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish",
+        "type": "doc"
+      },
+      {
+        "label": "Containerize a .NET app reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/containers/publish-configuration",
+        "type": "doc"
+      },
+      {
+        "label": ".NET container images, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/docker/container-images",
+        "type": "doc"
+      },
+      {
+        "label": "Introduction to Docker, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/docker/introduction",
+        "type": "doc"
+      },
+      {
+        "label": "Globalization config settings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "rate-limiting-and-request-timeouts",
+    "id": 450,
+    "category": "ASP.NET Core",
+    "title": "Rate Limiting and Request Timeouts",
+    "topic": "Resilience & Protection",
+    "summary": "The ASP.NET Core rate limiting and request timeouts middlewares measured with real bursts: fixed window, sliding window, token bucket and concurrency limiters, the default 503, 429 with Retry-After, queueing latency, global and named policies, partitioning and its DoS risk, the reverse proxy trap, the rate limiting metrics, and what the client sees when a request times out.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Resilience: Retries, Timeouts and Circuit Breakers",
+        "slug": "resilience-retries-timeouts-and-circuit-breakers",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting",
+        "slug": "rate-limiting",
+        "feature": "system-design-concepts"
+      },
+      {
+        "label": "Rate Limiting and Abuse Protection with rack-attack",
+        "slug": "rate-limiting-and-abuse-protection",
+        "feature": "rubyonrails-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Rate limiting middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Request timeouts middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/timeouts?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Rate limit an HTTP handler in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/http-ratelimiter",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core to work with proxy servers and load balancers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Announcing Rate Limiting for .NET, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/announcing-rate-limiting-for-dotnet/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "openid-connect-entra-id-and-bff",
+    "id": 405,
+    "category": "ASP.NET Core",
+    "title": "OpenID Connect, Entra ID and the BFF Pattern",
+    "topic": "Security",
+    "summary": "Signing in with OpenID Connect in ASP.NET Core (code flow with PKCE, PAR by default, the cookie as session, SaveTokens, claim mapping, RP-initiated and front-channel logout, Correlation failed and message.State errors behind proxies and replicas), protecting an API with Microsoft.Identity.Web (audience, issuer, scp versus roles, v1 and v2 tokens, downstream calls) and the BFF pattern for SPAs, all observed against a local OpenID provider.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WASM Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Configure OpenID Connect Web (UI) authentication in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-oidc-web-authentication?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Quickstart: Protect an ASP.NET Core Web API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msidweb/getting-started/quickstart-webapi",
+        "type": "doc"
+      },
+      {
+        "label": "Implement authorization in web APIs with Microsoft.Identity.Web, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msidweb/authentication/authorization",
+        "type": "doc"
+      },
+      {
+        "label": "Call downstream APIs from web apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/msidweb/call-downstream-apis/from-web-apps",
+        "type": "doc"
+      },
+      {
+        "label": "Access tokens in the Microsoft identity platform, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/entra/identity-platform/access-tokens",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 10017: OAuth 2.0 for Browser-Based Applications, IETF",
+        "url": "https://datatracker.ietf.org/doc/html/rfc10017",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+    "id": 407,
+    "category": "ASP.NET Core",
+    "title": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+    "topic": "Security",
+    "summary": "Choosing the .NET primitive by the job, with measurements: SHA256.HashData, why a fast hash is wrong for passwords, PBKDF2 with a random salt, the real format of Identity's PasswordHasher, constant-time comparison, HMAC, signatures, AesGcm tamper detection and nonces, the SYSLIB diagnostics on legacy APIs, RandomNumberGenerator and the .NET 10 post-quantum types.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Data Protection: Key Ring and Purposes",
+        "slug": "data-protection-key-ring-and-purposes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Cross-platform cryptography in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography",
+        "type": "doc"
+      },
+      {
+        "label": ".NET cryptography model, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/security/cryptography-model",
+        "type": "doc"
+      },
+      {
+        "label": "Rfc2898DeriveBytes.Pbkdf2 Method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.rfc2898derivebytes.pbkdf2?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "AesGcm Class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aesgcm?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Post-Quantum Cryptography in .NET, .NET Blog",
+        "url": "https://devblogs.microsoft.com/dotnet/post-quantum-cryptography-in-dotnet/",
+        "type": "doc"
+      },
+      {
+        "label": "Password Storage Cheat Sheet, OWASP",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "mvc-controllers-filters-and-model-binding",
+    "id": 330,
+    "category": "ASP.NET Core",
+    "title": "MVC Controllers, Filters and Model Binding",
+    "topic": "MVC & Razor Pages",
+    "summary": "Controller-based web APIs in ASP.NET Core 10: what ApiController turns on and how to turn it off, binding sources and precedence, binding failures, over-posting with an entity vs a DTO, the real filter pipeline order, scopes and Order, ServiceFilter vs TypeFilter, exception filters vs middleware, ActionResult of T, a comparison with Minimal APIs and what changed since ASP.NET MVC 5, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "minimal-apis-routing-and-route-groups"
+    ],
+    "related": [
+      {
+        "label": "Parameter Binding and Endpoint Filters",
+        "slug": "parameter-binding-and-endpoint-filters",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Problem Details and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dependency Injection and Service Lifetimes",
+        "slug": "dependency-injection-and-service-lifetimes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Create web APIs with ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Filters in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Model Binding in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Model validation in ASP.NET Core MVC and Razor Pages, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Controller action return types in ASP.NET Core web API, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Migrate HTTP modules to ASP.NET Core middleware, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/areas/http-modules?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "analyzers-editorconfig-and-build-quality-gates",
+    "id": 113,
+    "category": "Platform & Tooling",
+    "title": "Analyzers, EditorConfig and Build Quality Gates",
+    "topic": "Project System",
+    "summary": "CA and IDE rules and when each runs in dotnet build, AnalysisMode and AnalysisLevel with measured warning counts (and the latest trap on SDK 10.0.100), severity and precedence in .editorconfig and .globalconfig, TreatWarningsAsErrors and its siblings including the NuGet audit effect, suppressions and the trace they leave, nullable as a gate, third-party analyzers with PrivateAssets, and dotnet format in CI.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "sdk-style-projects-msbuild-and-directory-build-props"
+    ],
+    "related": [
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "What's New in .NET 10: A Map of the Platform",
+        "slug": "whats-new-in-dotnet-10",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Code analysis in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Configure code analysis rules, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-options",
+        "type": "doc"
+      },
+      {
+        "label": "Configuration files for code analysis rules, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files",
+        "type": "doc"
+      },
+      {
+        "label": "Suppress code analysis warnings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/suppress-warnings",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild properties for Microsoft.NET.Sdk, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props",
+        "type": "doc"
+      },
+      {
+        "label": "dotnet format command, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-format",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "data-protection-key-ring-and-purposes",
+    "id": 406,
+    "category": "ASP.NET Core",
+    "title": "Data Protection: Key Ring and Purposes",
+    "topic": "Security",
+    "summary": "The ASP.NET Core Data Protection system behind auth cookies, antiforgery tokens and OIDC state: IDataProtector, the payload format, purposes and isolation, time-limited payloads, the key ring on disk with its dates and rolling, SetApplicationName, EF Core and certificate protection, and two real cookie-auth instances with separate rings, a shared ring and a simulated redeploy, with the measured result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "authentication-and-authorization-fundamentals"
+    ],
+    "related": [
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenID Connect, Entra ID and BFF",
+        "slug": "openid-connect-entra-id-and-bff",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Cryptography: Hashing, HMAC, AES-GCM and Password Hashing",
+        "slug": "cryptography-hashing-hmac-aes-gcm-and-password-hashing",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET Core Data Protection overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/introduction?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Configure ASP.NET Core Data Protection, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Data Protection key management and lifetime in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/default-settings?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Key storage providers in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Purpose strings in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/purpose-strings?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Limit the lifetime of protected payloads in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/limited-lifetime-payloads?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "diagnosing-production-with-dotnet-trace-dump-and-gcdump",
+    "id": 130,
+    "category": "Platform & Tooling",
+    "title": "Diagnosing Production with dotnet-trace, dotnet-dump and dotnet-gcdump",
+    "topic": "Diagnostics",
+    "summary": "The .NET diagnostic CLI tools on a live process without code changes: the diagnostic port and EventPipe, dotnet-trace and topN for a hot method, dotnet-counters for CPU and thread pool, two gcdumps and dotnet-dump with dumpheap, gcroot and syncblk for a leak and a deadlock, dotnet-stack for starvation, containers, and what worked or failed on macOS.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "roslyn-il-and-the-jit"
+    ],
+    "related": [
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Coordinating Concurrent Work",
+        "slug": "coordinating-concurrent-work",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "From Source to Machine Code: Roslyn, IL and the JIT",
+        "slug": "roslyn-il-and-the-jit",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "dotnet-trace performance analysis utility, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace",
+        "type": "doc"
+      },
+      {
+        "label": "Investigate performance counters (dotnet-counters), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters",
+        "type": "doc"
+      },
+      {
+        "label": "Dump collection and analysis utility (dotnet-dump), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-dump",
+        "type": "doc"
+      },
+      {
+        "label": "Heap analysis tool (dotnet-gcdump), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-gcdump",
+        "type": "doc"
+      },
+      {
+        "label": "Inspect managed stack traces (dotnet-stack), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-stack",
+        "type": "doc"
+      },
+      {
+        "label": "Collect diagnostics in Linux containers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/diagnostics/diagnostics-in-containers",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "output-caching-and-http-caching",
+    "id": 421,
+    "category": "ASP.NET Core",
+    "title": "Output Caching and HTTP Caching",
+    "topic": "Caching & Performance",
+    "summary": "Caching whole responses three ways, measured with handler counters: HTTP headers and ETag with 304, the Response Caching middleware that a client switches off with one header and that ignores the query string, and Output Caching with policies, cache keys, tags, resource locking, limits and a real leak caused by the wrong middleware order.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Caching: IMemoryCache, HybridCache and Distributed",
+        "slug": "caching-imemorycache-hybridcache-and-distributed",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics, Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Authentication and Authorization Fundamentals",
+        "slug": "authentication-and-authorization-fundamentals",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WASM Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MVC Controllers, Filters and Model Binding",
+        "slug": "mvc-controllers-filters-and-model-binding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Rate Limiting and Request Timeouts",
+        "slug": "rate-limiting-and-request-timeouts",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Output caching middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/output?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Response caching in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/response?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Response Caching Middleware in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/middleware?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Overview of caching in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/performance/caching/overview?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "RFC 9111: HTTP Caching, IETF",
+        "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "localization-resx-and-istringlocalizer",
+    "id": 495,
+    "category": "ASP.NET Core",
+    "title": "Localization: resx and IStringLocalizer",
+    "topic": "Globalization",
+    "summary": "CurrentCulture versus CurrentUICulture, resx files and satellite assemblies, the fallback chain, the key returned for a missing translation, the naming rules that fail silently, UseRequestLocalization with query string, cookie and Accept-Language, localized validation messages and invariant globalization mode, with the real output of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MVC Controllers, Filters and Model Binding",
+        "slug": "mvc-controllers-filters-and-model-binding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Input Validation in Minimal APIs",
+        "slug": "input-validation-in-minimal-apis",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Task and async/await Internals",
+        "slug": "task-and-async-await-internals",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Globalization and localization in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Strategies for selecting language and culture in a localized ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/select-language-culture?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Provide localized resources for languages and cultures in an ASP.NET Core app, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/provide-resources?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Localization in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/localization",
+        "type": "doc"
+      },
+      {
+        "label": ".NET globalization and ICU, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu",
+        "type": "doc"
+      },
+      {
+        "label": "Globalization config settings, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/runtime-config/globalization",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "api-versioning-with-asp-versioning",
+    "id": 490,
+    "category": "ASP.NET Core",
+    "title": "API Versioning with Asp.Versioning",
+    "topic": "Web API Design",
+    "summary": "Versioning ASP.NET Core 10 APIs with the Asp.Versioning packages: which package fits Minimal APIs, controllers and OpenAPI, the query string, header, URL segment and media type readers with the exact status codes and problem-details bodies each returned, default versions, version-neutral endpoints, deprecation and sunset headers, OpenAPI documents per version, and a strategy comparison grounded in the measurements.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "rest-semantics-status-codes-and-idempotency"
+    ],
+    "related": [
+      {
+        "label": "DTOs and the API Contract",
+        "slug": "dtos-and-the-api-contract",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Minimal APIs: Routing and Route Groups",
+        "slug": "minimal-apis-routing-and-route-groups",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "MVC Controllers, Filters and Model Binding",
+        "slug": "mvc-controllers-filters-and-model-binding",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ProblemDetails and Global Exception Handling",
+        "slug": "problem-details-and-global-exception-handling",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Output Caching and HTTP Caching",
+        "slug": "output-caching-and-http-caching",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "ASP.NET API Versioning repository, GitHub",
+        "url": "https://github.com/dotnet/aspnet-api-versioning",
+        "type": "doc"
+      },
+      {
+        "label": "API Version Reader, ASP.NET API Versioning Documentation",
+        "url": "https://dotnet.github.io/aspnet-api-versioning/aspnet-core/config/reader.html",
+        "type": "doc"
+      },
+      {
+        "label": "Error Responses, ASP.NET API Versioning Documentation",
+        "url": "https://dotnet.github.io/aspnet-api-versioning/aspnet-core/errors.html",
+        "type": "doc"
+      },
+      {
+        "label": "Version Policies, ASP.NET API Versioning Documentation",
+        "url": "https://dotnet.github.io/aspnet-api-versioning/aspnet-core/version-policies.html",
+        "type": "doc"
+      },
+      {
+        "label": "API Documentation, ASP.NET API Versioning Documentation",
+        "url": "https://dotnet.github.io/aspnet-api-versioning/aspnet-core/docs/overview.html",
+        "type": "doc"
+      },
+      {
+        "label": "Generate OpenAPI documents, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "grpc-services-and-json-transcoding",
+    "id": 470,
+    "category": "ASP.NET Core",
+    "title": "gRPC Services and JSON Transcoding",
+    "topic": "Remote APIs",
+    "summary": "gRPC in ASP.NET Core 10 with measured results: .proto contracts and generated code, the HTTP/2 requirement (h2c, HTTP_1_1_REQUIRED, 426 on HTTP/1.1), channel reuse, the four call types, deadlines and cancellation, status codes and rich errors, metadata, interceptors, contract evolution, protobuf vs JSON sizes, JSON transcoding and its streaming limits, and when to choose gRPC, REST or transcoding.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "The Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "REST Semantics: Status Codes and Idempotency",
+        "slug": "rest-semantics-status-codes-and-idempotency",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HTTPS, HSTS and Secure Defaults",
+        "slug": "https-hsts-and-secure-defaults",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SignalR, WebSockets and SSE",
+        "slug": "signalr-websockets-and-sse",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Choosing an ASP.NET Core Application Model",
+        "slug": "choosing-an-aspnet-core-application-model",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Overview for gRPC on .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Call gRPC services with the .NET client, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/client?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "gRPC JSON transcoding in ASP.NET Core gRPC apps, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/json-transcoding?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Reliable gRPC services with deadlines and cancellation, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/deadlines-cancellation?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Error handling with gRPC on .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/grpc/error-handling?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Language Guide (proto 3), Protocol Buffers Documentation",
+        "url": "https://protobuf.dev/programming-guides/proto3/",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "signalr-websockets-and-sse",
+    "id": 460,
+    "category": "ASP.NET Core",
+    "title": "SignalR, WebSockets and Server-Sent Events",
+    "topic": "Real-Time",
+    "summary": "Real-time push in ASP.NET Core 10 measured end to end: raw WebSockets with AllowedOrigins and close handling, SSE with TypedResults.ServerSentEvents and SseParser, strongly typed SignalR hubs with groups, users and streaming, negotiation and transports, keep-alive, client timeout and the 32 KB limit, automatic reconnect delays, query-string tokens in logs, and two instances without a backplane.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "middleware-pipeline-and-program-cs"
+    ],
+    "related": [
+      {
+        "label": "Middleware Pipeline and Program.cs",
+        "slug": "middleware-pipeline-and-program-cs",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "JWT Bearer and ASP.NET Core Identity",
+        "slug": "jwt-bearer-and-aspnet-core-identity",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "CORS for SPA and WASM Clients",
+        "slug": "cors-for-spa-and-wasm-clients",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Kestrel, IIS and Hosting Models",
+        "slug": "kestrel-iis-and-hosting-models",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "ILogger Categories, Levels, Filtering and Scopes",
+        "slug": "ilogger-categories-levels-filtering-and-scopes",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "gRPC Services and JSON Transcoding",
+        "slug": "grpc-services-and-json-transcoding",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Use hubs in ASP.NET Core SignalR, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/hubs?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core SignalR .NET client, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/dotnet-client?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core SignalR configuration, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/configuration?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "ASP.NET Core SignalR production hosting and scaling, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/signalr/scale?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "WebSockets support in ASP.NET Core, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/websockets?view=aspnetcore-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in ASP.NET Core in .NET 10, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "aspire-apphost-servicedefaults-and-deployment",
+    "id": 480,
+    "category": "ASP.NET Core",
+    "title": "Aspire: AppHost, ServiceDefaults and Deployment",
+    "topic": "Cloud-Native",
+    "summary": "What Aspire adds on top of ASP.NET Core: the AppHost app model (AddProject, WithReference, WaitFor, WithReplicas), the service discovery and OTLP environment variables each service receives, exactly what ServiceDefaults configures and why its health endpoints exist only in Development, the token-protected dashboard and OTLP key, hosting vs client integrations, and what aspire publish generates for Docker Compose and Kubernetes, with the observed result of each experiment.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "opentelemetry-logs-metrics-and-traces"
+    ],
+    "related": [
+      {
+        "label": "OpenTelemetry: Logs, Metrics and Traces",
+        "slug": "opentelemetry-logs-metrics-and-traces",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Health Checks: Liveness and Readiness",
+        "slug": "health-checks-liveness-and-readiness",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "HttpClient and IHttpClientFactory",
+        "slug": "httpclient-and-ihttpclientfactory",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Containerizing .NET: SDK Publish, Dockerfile and Chiseled Images",
+        "slug": "containerizing-dotnet-sdk-publish-dockerfile-chiseled",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "What is Aspire?, aspire.dev",
+        "url": "https://aspire.dev/get-started/what-is-aspire/",
+        "type": "doc"
+      },
+      {
+        "label": "Service defaults, aspire.dev",
+        "url": "https://aspire.dev/fundamentals/service-defaults/",
+        "type": "doc"
+      },
+      {
+        "label": "Telemetry, aspire.dev",
+        "url": "https://aspire.dev/fundamentals/telemetry/",
+        "type": "doc"
+      },
+      {
+        "label": "Explore the Aspire dashboard, aspire.dev",
+        "url": "https://aspire.dev/dashboard/explore/",
+        "type": "doc"
+      },
+      {
+        "label": "Deploy with Aspire, aspire.dev",
+        "url": "https://aspire.dev/deployment/deploy-with-aspire/",
+        "type": "doc"
+      },
+      {
+        "label": "What's new in Aspire 13.4, Microsoft Aspire blog",
+        "url": "https://devblogs.microsoft.com/aspire/whats-new-aspire-13-4/",
+        "type": "doc"
+      }
+    ]
   }
 ]

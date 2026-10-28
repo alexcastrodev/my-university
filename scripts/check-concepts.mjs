@@ -13,8 +13,8 @@ const DATA = join(ROOT, 'backend/src/seed/data');
 // the only other copy is TOPIC_ORDER / CATEGORY_OPTIONS in the app list pages.
 const TAXONOMY = {
   'dotnet-concepts': {
-    'Platform & Tooling': ['Runtime & SDK', 'Project System', 'NuGet & Packaging', 'Publishing & Native AOT'],
-    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'API Documentation', 'HTTP Clients', 'Security'],
+    'Platform & Tooling': ['Runtime & SDK', 'Project System', 'NuGet & Packaging', 'Publishing & Native AOT', 'Diagnostics'],
+    'ASP.NET Core': ['ASP.NET Core Fundamentals', 'Hosting & Pipeline', 'Minimal APIs', 'MVC & Razor Pages', 'API Documentation', 'HTTP Clients', 'Security', 'Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Real-Time', 'Remote APIs', 'Web API Design', 'Cloud-Native', 'Globalization'],
     Blazor: ['Blazor Fundamentals', 'Components & Forms'],
     'Data Access': ['Data Access Choices', 'EF Core', 'EF Core Modeling', 'EF Core Querying', 'Migrations'],
     Architecture: ['Application Architecture', 'Modular Architecture', 'DDD'],
@@ -108,7 +108,8 @@ for (const [track, concepts] of Object.entries(conceptsByTrack)) {
         if (!new RegExp(`^${field}:\\s*\\S`, 'm').test(match[1])) fail(at, `frontmatter missing "${field}"`);
       }
       // The backend splits on every "## " line, so the list must match exactly.
-      const headings = [...match[2].matchAll(/^## (.+)$/gm)].map((m) => m[1].trim());
+      // "Lab" is optional: the service splits it out (splitLabSection) when the concept has a lab.
+      const headings = [...match[2].matchAll(/^## (.+)$/gm)].map((m) => m[1].trim()).filter((h) => h !== 'Lab');
       if (headings.join('|') !== SECTIONS.join('|')) {
         fail(at, `sections must be exactly [${SECTIONS.join(', ')}], found [${headings.join(', ')}]`);
       }
