@@ -5397,5 +5397,243 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "preprocessor-directives-and-conditional-compilation",
+    "id": 107,
+    "category": "Language",
+    "title": "Preprocessor Directives and Conditional Compilation",
+    "topic": "Language Basics",
+    "summary": "The C# preprocessor directives on .NET 10: #define and #if, the symbols the SDK defines (RELEASE yes, WINDOWS no), DefineConstants from MSBuild and the command line, #pragma warning and #nullable, #line, #error and #warning, #region, the #! and #: lines of file-based apps, and the alternatives to #if: runtime OS checks, Conditional, feature switches and static readonly flags.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "csharp-language-versions-and-preview-features"
+    ],
+    "related": [
+      {
+        "label": "Attributes: Custom and Compiler-Read",
+        "slug": "attributes-custom-and-compiler-read",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Top-Level Programs, Implicit Usings and Namespaces",
+        "slug": "top-level-programs-implicit-usings-and-namespaces",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "File-Based Apps: Running a Single .cs File (.NET 10)",
+        "slug": "file-based-apps",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Multi-Targeting and .NET Standard",
+        "slug": "multi-targeting-and-netstandard",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "C# preprocessor directives, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/preprocessor-directives",
+        "type": "doc"
+      },
+      {
+        "label": "Target frameworks in SDK-style projects (preprocessor symbols), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/frameworks",
+        "type": "doc"
+      },
+      {
+        "label": "C# compiler options for language features (DefineConstants), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language",
+        "type": "doc"
+      },
+      {
+        "label": "File-based apps reference, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps",
+        "type": "doc"
+      },
+      {
+        "label": "Platform compatibility analyzer, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/analyzers/platform-compat-analyzer",
+        "type": "doc"
+      },
+      {
+        "label": "FeatureSwitchDefinitionAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "pinvoke-libraryimport-and-native-interop",
+    "id": 720,
+    "category": "Memory & Concurrency",
+    "title": "P/Invoke, LibraryImport and Native Interop",
+    "topic": "Interop & Unsafe",
+    "summary": "DllImport versus the LibraryImport source generator and the stub it emits, calling libc and a clang-built dylib, library names and entry points, UTF-8 versus UTF-16, errno with SetLastError, the bool size trap, struct layout and Pack, spans and pinning, callbacks collected by the GC, NativeLibrary and import resolvers, native memory and SafeHandle, all run on macOS arm64.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "value-types-reference-types-and-boxing"
+    ],
+    "related": [
+      {
+        "label": "Unsafe Code, Pointers and Function Pointers",
+        "slug": "unsafe-code-pointers-and-function-pointers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "IDisposable, Finalizers and Deterministic Cleanup",
+        "slug": "idisposable-finalizers-and-deterministic-cleanup",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Source generation for platform invokes, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke-source-generation",
+        "type": "doc"
+      },
+      {
+        "label": "Native interoperability best practices, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/best-practices",
+        "type": "doc"
+      },
+      {
+        "label": "Native library loading, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/native-library-loading",
+        "type": "doc"
+      },
+      {
+        "label": "Platform Invoke (P/Invoke), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke",
+        "type": "doc"
+      },
+      {
+        "label": "NativeLibrary class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.nativelibrary",
+        "type": "doc"
+      },
+      {
+        "label": "SafeHandle class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.safehandle",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "unsafe-code-pointers-and-function-pointers",
+    "id": 721,
+    "category": "Memory & Concurrency",
+    "title": "Unsafe Code, Pointers and Function Pointers",
+    "topic": "Interop & Unsafe",
+    "summary": "Enabling unsafe code and the CS0227 error, pointer operators and scaled arithmetic, fixed for arrays, strings and spans, fixed-size buffers versus InlineArray, Unsafe, MemoryMarshal and NativeMemory, a measured overrun and a stale pointer after GC compaction, function pointers with UnmanagedCallersOnly and measured call costs, the safe replacements and the C# 15 memory safety model.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "span-memory-and-slicing-without-allocating"
+    ],
+    "related": [
+      {
+        "label": "Span, Memory and Slicing Without Allocating",
+        "slug": "span-memory-and-slicing-without-allocating",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "The Garbage Collector: Generations and the LOH",
+        "slug": "garbage-collector-generations-and-the-loh",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Numeric Types and Binary Representation",
+        "slug": "numeric-types-and-binary-representation",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "P/Invoke, LibraryImport and Native Interop",
+        "slug": "pinvoke-libraryimport-and-native-interop",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Delegates and Multicast Invocation",
+        "slug": "delegates-and-multicast-invocation",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Unsafe code, pointer types, and function pointers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code",
+        "type": "doc"
+      },
+      {
+        "label": "Pointer related operators, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/pointer-related-operators",
+        "type": "doc"
+      },
+      {
+        "label": "fixed statement, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/fixed",
+        "type": "doc"
+      },
+      {
+        "label": "Function pointers, C# 9.0 feature proposal, dotnet/csharplang",
+        "url": "https://github.com/dotnet/csharplang/blob/main/proposals/csharp-9.0/function-pointers.md",
+        "type": "doc"
+      },
+      {
+        "label": "Unsafe class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.unsafe",
+        "type": "doc"
+      },
+      {
+        "label": "NativeMemory class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.nativememory",
+        "type": "doc"
+      }
+    ]
   }
 ]

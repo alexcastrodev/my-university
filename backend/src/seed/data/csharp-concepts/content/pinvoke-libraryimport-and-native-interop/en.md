@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-10-29
 ---
 ## Objective
 
@@ -10,8 +10,8 @@ invoke (P/Invoke) is the bridge, and on .NET 10 / C# 14 it has two flavors:
 `LibraryImport` source generator, which writes that stub into your project at
 compile time. This concept calls libc and a tiny clang-built `.dylib` and shows
 what breaks at each boundary, from names and encodings to callbacks and handles.
-Everything ran on macOS arm64; Windows and Linux behavior is quoted from the
-docs.
+Everything ran on macOS arm64; Windows and Linux behavior is quoted from
+the docs.
 
 ## Use Cases
 
@@ -119,7 +119,7 @@ only one with a `string` threw `ArgumentException: Object contains references.`
 alignment; `Pack` must match a native `#pragma pack`. `{ int a; long b; }`
 measured 16 bytes in `Marshal.SizeOf` and C `sizeof`, 12 with `Pack = 1`.
 `{ byte tag; int value; }` has `value` at offset 4, or 1 with `Pack = 1`; a C
-`t->value` on the packed one returned 0, not 1234 (it read past it). Test
+`t->value` on the packed one returned 0, not 1234 (it read past the end). Test
 `Marshal.SizeOf<T>()`/`OffsetOf<T>()` against C `sizeof`/`offsetof`.
 
 ### Arrays, spans, ref parameters and pinning
@@ -217,8 +217,8 @@ code at compile time instead of `[ComImport]`'s runtime stubs, so it suits AOT.
 
 - **LibraryImport versus DllImport.** Readable, AOT-friendly stubs and build
   errors, for the price of `partial`, unsafe code and explicit `string`/`bool`.
-- **Marshalled versus blittable signatures.** Each `string`/`bool`/delegate
-  conversion can be wrong (a `string` return freed libc's memory); raw is explicit.
+- **Marshalled versus blittable signatures.** Each `string`, `bool` or delegate
+  conversion can be wrong (a `string` return freed libc's memory).
 - **SafeHandle versus IntPtr.** An object and a finalizer per handle buy
   release of forgotten handles, and per the docs never a double release.
 - **Platform reach.** All of this was observed on macOS arm64; per the docs,

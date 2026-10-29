@@ -422,7 +422,7 @@ describe('published catalog (real seeds)', () => {
   it('waves B to E cover every concept of their module, in sessions of 3 to 12 (no warning)', () => {
     const seeds = loadSeed(MANIFEST);
     const waves: [string, string | undefined, number][] = [
-      ['dotnet-concepts', undefined, 105], ['csharp-concepts', undefined, 79], ['jvm-concepts', undefined, 19],
+      ['dotnet-concepts', undefined, 105], ['csharp-concepts', undefined, 83], ['jvm-concepts', undefined, 19],
       ['quarkus-concepts', undefined, 16], ['ruby-concepts', undefined, 29], ['rubyonrails-concepts', undefined, 19],
       ['spring-concepts', undefined, 97], ['system-design-concepts', undefined, 82], ['testing-concepts', undefined, 28],
       ['algorithms-concepts', undefined, 63], ['java-concepts', undefined, 104], ['database-concepts', undefined, 136],

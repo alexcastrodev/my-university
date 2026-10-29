@@ -415,7 +415,7 @@ export const MANIFEST: TrackManifest[] = [
     status: 'active',
     source: { kind: 'concepts', module: 'csharp-concepts', groupBy: 'topic', category: 'Memory & Concurrency' },
     sessions: [
-      { sessionId: '01a14507-ff5a-70db-ba47-7479fc008d5c', title: 'Memory & Value Semantics', label: 'Memory & Value Semantics' },
+      { sessionId: '01a14507-ff5a-70db-ba47-7479fc008d5c', title: 'Memory, Interop & Unsafe', label: ['Memory & Value Semantics', 'Interop & Unsafe'] },
       { sessionId: '01a14507-ff5a-70dd-acfe-2bf2abed6e8d', title: 'Threads', label: 'Threads' },
     ],
   },
