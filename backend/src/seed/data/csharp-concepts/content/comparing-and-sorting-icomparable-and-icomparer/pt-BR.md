@@ -7,12 +7,11 @@ summary: O contrato de sinal de IComparable e IComparer, Comparison e Comparer.D
 ## Objective
 
 Ordenar em .NET depende de um contrato: uma comparação devolve um número
-negativo, zero ou positivo. `IComparable<T>` coloca esse contrato no tipo,
-`IComparer<T>` e `Comparison<T>` o colocam fora, e `Comparer<T>.Default`
-escolhe um quando você não passa nada. Quebrá-lo raramente falha de forma
-visível: um comparer que discorda de `Equals` junta itens em um `SortedSet<T>`,
-`List<T>.Sort` reordena chaves iguais e `BinarySearch` em dados fora de ordem
-devolve um índice errado. Este conceito mostra cada caso no .NET 10 / C# 14,
+negativo, zero ou positivo. `IComparable<T>` o coloca no tipo, `IComparer<T>`
+e `Comparison<T>`, fora dele, e `Comparer<T>.Default` escolhe quando você não
+passa nada. Quebrá-lo raramente falha de forma visível: um comparer que
+discorda de `Equals` junta itens em um `SortedSet<T>`, `List<T>.Sort` reordena
+chaves iguais e `BinarySearch` em dados fora de ordem devolve índice errado. Este conceito mostra cada caso no .NET 10 / C# 14,
 além de nulls, exceções, ordenação por várias chaves, `NaN`, `DateTimeOffset`,
 spans e o custo medido de cada estilo de comparer.
 
@@ -21,16 +20,14 @@ spans e o custo medido de cada estilo de comparer.
 - Uma ordem natural para um tipo de valor como `Money`, para `Sort()` dispensar argumento.
 - Ordenar uma entidade de vários jeitos (por nome, por data) sem mudar o tipo.
 - Manter uma lista ordenada e inserir com `BinarySearch` em vez de reordenar.
-- Diagnosticar bugs do tipo "a ordenação mexeu nas minhas linhas" ou "o set
-  perdeu um item".
+- Diagnosticar bugs como "o sort mexeu nas linhas" ou "o set perdeu um item".
 
 ## Deep Dive
 
 ### O contrato de sinal e as três formas
 
-A documentação define só o sinal, e as implementações devolvem outras
-magnitudes: teste `< 0`, nunca `== -1`, e use `CompareTo`, não subtração
-(ela estoura):
+A documentação define só o sinal, e as implementações usam outras magnitudes:
+teste `< 0`, nunca `== -1`, e use `CompareTo`, não subtração (ela estoura):
 
 ```csharp
 "a".CompareTo("b"); string.CompareOrdinal("a", "c"); ((byte)1).CompareTo((byte)9); // -1 -2 -8
@@ -66,11 +63,10 @@ new List<Plain> { new(1), new(2) }.Sort();     // igual em Array.Sort e OrderBy(
 new SortedSet<Plain> { new(1), new(2) };       // a ArgumentException, sem embrulho
 ```
 
-Uma lista de um elemento ordena sem erro. Records ganham igualdade, mas não
-ordem: `record Rec(int X)` e `record struct RS(int X)` lançam o mesmo em
-`Sort()`. Código genérico pede `IComparable<T>` (ou, na generic math,
-`IComparisonOperators<T, T, bool>` para `<`), então com `Max<T>` restrito a
-`where T : IComparable<T>` o compilador aponta a falta:
+Lista de um elemento ordena sem erro. Records têm igualdade, não ordem: `record
+Rec(int X)` e `record struct RS(int X)` lançam o mesmo em `Sort()`. Código
+genérico pede `IComparable<T>` (ou `IComparisonOperators<T, T, bool>` da generic
+math, para `<`); com `Max<T>` em `where T : IComparable<T>`, o compilador acusa:
 
 ```text
 r1 < r2        error CS0019: Operator '<' cannot be applied to operands of type 'Rec' and 'Rec'
@@ -121,17 +117,15 @@ var desc = new SortedSet<int>(Comparer<int>.Create((x, y) => y.CompareTo(x))) { 
 ```
 
 `BinarySearch(bia)` na lista ordenada `Caio, Ana, Bia, Duda` devolveu 1
-(`Ana`), enquanto `IndexOf(bia)` (que usa `Equals`) devolveu 2. Torne a ordem
-total (`Name` como desempate) ou deixe-a em um `IComparer<T>` com nome.
-`SortedDictionary` e `SortedList` também recebem um comparer: com
-`OrdinalIgnoreCase`, atribuir "B" atualizou a chave "b".
+(`Ana`), e `IndexOf(bia)` (que usa `Equals`) devolveu 2. Torne a ordem total
+(`Name` como desempate) ou use um `IComparer<T>` com nome. `SortedDictionary` e
+`SortedList` também recebem comparer: com `OrdinalIgnoreCase`, "B" atualizou "b".
 
 ### Estabilidade e ordenação por várias chaves
 
 A documentação de `List<T>.Sort`: "performs an unstable sort; that is, if two
-elements are equal, their order might not be preserved" (introsort, com
-insertion sort em partições de 16 ou menos). Pedidos com ids 0..39 e
-`Priority = Id % 3`:
+elements are equal, their order might not be preserved" (introsort, insertion
+sort em partições de até 16). Pedidos com ids 0..39, `Priority = Id % 3`:
 
 ```csharp
 list.Sort((x, y) => x.Priority.CompareTo(y.Priority));  // Array.Sort: o mesmo
@@ -141,11 +135,10 @@ orders.OrderBy(o => o.Priority);                        // documentado como est�
 ```
 
 Até 16 itens pareceu estável; a primeira reordenação veio em n = 17, então
-testes unitários pequenos não pegam. Uma ordenação estável no lugar precisa do
-índice original como última chave (ou de um sort LINQ copiado de volta). Para
-várias chaves, uma cadeia de comparação imprimiu o mesmo que `ThenBy`: a cadeia
-ordena no lugar e serve para `SortedSet<T>`, `ThenBy` aloca mas é estável (veja
-LINQ Operator Families and Query Syntax):
+testes pequenos não pegam. Um sort estável no lugar precisa do índice original
+como última chave (ou de um sort LINQ copiado de volta). Para várias chaves,
+uma cadeia de comparação imprimiu o mesmo que `ThenBy`: ela ordena no lugar e
+serve a `SortedSet<T>`, `ThenBy` aloca mas é estável (veja o conceito de LINQ):
 
 ```csharp
 indexed.Sort((x, y) => x.o.Priority != y.o.Priority                  // pares (o, i)
@@ -201,13 +194,12 @@ Console.WriteLine($"{utc.CompareTo(brt)} {utc == brt} {utc.EqualsExact(brt)}"); 
 ### Spans, arrays chave/item e o custo de cada estilo
 
 `MemoryExtensions.Sort` ordena uma fatia no lugar: `big.AsSpan(1, 3).Sort()`
-transformou `50,40,30,20,10` em `50,20,30,40,10`. `Array.Sort(keys, items)`
-move um segundo array junto: chaves `3,1,2` com itens `c,a,b` viraram `1,2,3`
-e `a,b,c`.
+fez de `50,40,30,20,10` `50,20,30,40,10`. `Array.Sort(keys, items)` move um
+segundo array junto: chaves `3,1,2` e itens `c,a,b` viraram `1,2,3` e `a,b,c`.
 
-Ordenando 1.000.000 ints aleatórios e 1.000.000 structs de dois ints (pela
-chave), build Release, 5 aquecimentos e a mediana de 15 execuções, Apple
-Silicon, .NET 10.0.0, com outros processos na máquina (conte com uns 10%):
+1.000.000 ints aleatórios e 1.000.000 structs de dois ints (pela chave), build
+Release, 5 aquecimentos e mediana de 15 execuções, Apple Silicon, .NET 10.0.0,
+com outros processos na máquina (conte com uns 10%):
 
 | Sort | int[] | struct[] |
 |---|---|---|
@@ -218,28 +210,25 @@ Silicon, .NET 10.0.0, com outros processos na máquina (conte com uns 10%):
 | `Order().ToArray()` / `Array.Sort(keys, items)` | cerca de 49 ms | cerca de 50 ms |
 | `OrderBy(...).ToArray()` | cerca de 106 ms | cerca de 107 ms |
 
-O padrão foi o mais rápido, também com `Comparer<int>.Default` passado
-(cerca de 49 ms). Um lambda custou cerca de 12 a 16% a mais, uma classe
-comparer mais ainda, e um comparer struct não ganhou nada: o código-fonte do
-runtime de `Span.Sort<T, TComparer>` diz "value-type comparer will be boxed".
-`OrderBy` custou cerca do dobro da ordenação no lugar, enquanto `Order()` em
-`int` empatou com `Array.Sort`.
+O padrão foi o mais rápido, também com `Comparer<int>.Default` passado (cerca
+de 49 ms). Um lambda custou cerca de 12 a 16% a mais, uma classe comparer mais
+ainda, e um comparer struct não ganhou nada: o fonte do runtime de
+`Span.Sort<T, TComparer>` diz "value-type comparer will be boxed". `OrderBy`
+custou cerca do dobro do sort no lugar; `Order()` em `int` empatou.
 
 ## Trade-offs
 
 - **Uma ordem natural é uma promessa a todo chamador.** Limite-a a uma ordem
   óbvia, total e coerente com `Equals`; o resto é um `IComparer<T>` com nome.
-- **Ordenações no lugar são rápidas e instáveis.** Elas reordenaram empates a
-  partir de 17 itens. Use `OrderBy`/`ThenBy` ou um desempate por índice quando
-  os empates precisam manter a ordem.
+- **Sorts no lugar são rápidos e instáveis.** Reordenaram empates a partir de
+  17 itens. Use `OrderBy`/`ThenBy` ou desempate por índice quando importa.
 - **Um comparer quebrado pode não lançar.** A exceção "inconsistent results" é
   ocasional; `(a, b) => 1` produziu saída fora de ordem sem erro, e comparações
   com operadores em `double` quebram com `NaN`.
-- **Coleções ordenadas deduplicam pelo comparer, não por `Equals`.** Um
-  comparer que ignora um campo junta itens do set e sobrescreve valores do
-  dicionário.
-- **`BinarySearch` confia em você.** Entrada mal ordenada dá índice errado, em silêncio.
-- **Comparers struct não compensam.** `Span.Sort` faz boxing deles; um lambda foi mais rápido.
+- **Coleções ordenadas deduplicam pelo comparer, não por `Equals`.** Ignorar
+  um campo junta itens do set e sobrescreve valores do dicionário.
+- **`BinarySearch` confia em você, e comparers struct não compensam.** Entrada
+  mal ordenada dá índice errado em silêncio; `Span.Sort` faz boxing do struct.
 
 ## Documentation Links
 

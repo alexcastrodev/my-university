@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-10-29
 ---
 ## Objective
 
@@ -224,7 +224,7 @@ Culture data is not part of .NET: the docs say it comes from ICU (maintained by 
 
 ### What localization is not
 
-Time zones are a separate problem: `pt-BR` says how to print a date, not which offset it is in. Converting to the user's time zone is planned as its own lesson on dates, times and time zones. And `.resx` is just the default store: the docs describe `IStringLocalizerFactory` as the lowest level of the abstraction, which is the seam where a JSON-file or database-backed implementation would replace the registered `ResourceManagerStringLocalizerFactory` (I did not build one).
+Time zones are a separate problem: `pt-BR` says how to print a date, not which offset it is in. Converting to the user's time zone is covered in the C# lesson on dates, times and time zones. And `.resx` is just the default store: the docs describe `IStringLocalizerFactory` as the lowest level of the abstraction, which is the seam where a JSON-file or database-backed implementation would replace the registered `ResourceManagerStringLocalizerFactory` (I did not build one).
 
 ## Trade-offs
 

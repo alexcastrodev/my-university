@@ -397,7 +397,7 @@ export const MANIFEST: TrackManifest[] = [
       { sessionId: '01a14507-ff5a-70cb-a99d-63c7fa633e24', title: 'Collections', label: 'Collections' },
       { sessionId: '01a14507-ff5a-70cd-983e-8da55d377adf', title: 'Text, Regex & Common Types', label: ['Text & Regex', 'Common Types'] },
       { sessionId: '01a14507-ff5a-70d0-a7a5-b09d089dfde6', title: 'Streams, Files & I/O', label: ['Streams', 'Files & I/O'] },
-      { sessionId: '01a14507-ff5a-70d2-9717-08d877eebf48', title: 'Serialization', label: 'Serialization' },
+      { sessionId: '01a14507-ff5a-70d2-9717-08d877eebf48', title: 'Serialization, Reflection & Attributes', label: ['Serialization', 'Reflection & Attributes'] },
     ],
   },
   {

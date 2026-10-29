@@ -5584,12 +5584,12 @@
         "feature": "system-design-concepts"
       },
       {
-        "label": "Redis Application Patterns: Caching, Sessions, Rate Limiting",
+        "label": "Redis Application Patterns: Caching, Session Storage, and Rate Limiting",
         "slug": "redis-application-patterns-caching-sessions-rate-limiting",
         "feature": "database-concepts"
       },
       {
-        "label": "Hibernate First and Second Level Cache",
+        "label": "Hibernate's First-Level and Second-Level Cache",
         "slug": "hibernate-first-and-second-level-cache",
         "feature": "spring-concepts"
       }
@@ -5665,7 +5665,7 @@
         "feature": "system-design-concepts"
       },
       {
-        "label": "Metrics, Monitoring and Alerting System",
+        "label": "Designing a Metrics Monitoring and Alerting System",
         "slug": "metrics-monitoring-and-alerting-system",
         "feature": "system-design-concepts"
       }
@@ -6015,7 +6015,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "JWT Bearer and ASP.NET Core Identity",
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
         "slug": "jwt-bearer-and-aspnet-core-identity",
         "feature": "dotnet-concepts"
       },
@@ -6025,7 +6025,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "CORS for SPA and WASM Clients",
+        "label": "CORS for SPA and WebAssembly Clients",
         "slug": "cors-for-spa-and-wasm-clients",
         "feature": "dotnet-concepts"
       },
@@ -6091,7 +6091,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "JWT Bearer and ASP.NET Core Identity",
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
         "slug": "jwt-bearer-and-aspnet-core-identity",
         "feature": "dotnet-concepts"
       },
@@ -6111,7 +6111,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "What's New in .NET 10",
+        "label": "What's New in .NET 10: A Map of the Platform",
         "slug": "whats-new-in-dotnet-10",
         "feature": "dotnet-concepts"
       }
@@ -6177,7 +6177,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Problem Details and Global Exception Handling",
+        "label": "ProblemDetails and Global Exception Handling",
         "slug": "problem-details-and-global-exception-handling",
         "feature": "dotnet-concepts"
       },
@@ -6192,7 +6192,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Middleware Pipeline and Program.cs",
+        "label": "The Middleware Pipeline and Program.cs",
         "slug": "middleware-pipeline-and-program-cs",
         "feature": "dotnet-concepts"
       }
@@ -6324,7 +6324,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "OpenID Connect, Entra ID and BFF",
+        "label": "OpenID Connect, Entra ID and the BFF Pattern",
         "slug": "openid-connect-entra-id-and-bff",
         "feature": "dotnet-concepts"
       },
@@ -6334,7 +6334,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "JWT Bearer and ASP.NET Core Identity",
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
         "slug": "jwt-bearer-and-aspnet-core-identity",
         "feature": "dotnet-concepts"
       },
@@ -6471,7 +6471,7 @@
     ],
     "related": [
       {
-        "label": "Middleware Pipeline and Program.cs",
+        "label": "The Middleware Pipeline and Program.cs",
         "slug": "middleware-pipeline-and-program-cs",
         "feature": "dotnet-concepts"
       },
@@ -6481,7 +6481,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "REST Semantics, Status Codes and Idempotency",
+        "label": "REST Semantics: Status Codes and Idempotency",
         "slug": "rest-semantics-status-codes-and-idempotency",
         "feature": "dotnet-concepts"
       },
@@ -6491,7 +6491,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "CORS for SPA and WASM Clients",
+        "label": "CORS for SPA and WebAssembly Clients",
         "slug": "cors-for-spa-and-wasm-clients",
         "feature": "dotnet-concepts"
       },
@@ -6575,6 +6575,11 @@
         "label": "Task and async/await Internals",
         "slug": "task-and-async-await-internals",
         "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Dates, Times and Time Zones",
+        "slug": "dates-times-and-time-zones",
+        "feature": "csharp-concepts"
       }
     ],
     "references": [
@@ -6729,7 +6734,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "SignalR, WebSockets and SSE",
+        "label": "SignalR, WebSockets and Server-Sent Events",
         "slug": "signalr-websockets-and-sse",
         "feature": "dotnet-concepts"
       },
@@ -6785,17 +6790,17 @@
     ],
     "related": [
       {
-        "label": "Middleware Pipeline and Program.cs",
+        "label": "The Middleware Pipeline and Program.cs",
         "slug": "middleware-pipeline-and-program-cs",
         "feature": "dotnet-concepts"
       },
       {
-        "label": "JWT Bearer and ASP.NET Core Identity",
+        "label": "JWT Bearer Tokens and ASP.NET Core Identity",
         "slug": "jwt-bearer-and-aspnet-core-identity",
         "feature": "dotnet-concepts"
       },
       {
-        "label": "CORS for SPA and WASM Clients",
+        "label": "CORS for SPA and WebAssembly Clients",
         "slug": "cors-for-spa-and-wasm-clients",
         "feature": "dotnet-concepts"
       },
@@ -6810,7 +6815,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "ILogger Categories, Levels, Filtering and Scopes",
+        "label": "ILogger: Categories, Levels, Filtering and Scopes",
         "slug": "ilogger-categories-levels-filtering-and-scopes",
         "feature": "dotnet-concepts"
       },
@@ -6942,7 +6947,7 @@
     ],
     "related": [
       {
-        "label": "EF Core Functions and Database-Specific Translation",
+        "label": "EF.Functions and Database-Specific Translation",
         "slug": "ef-core-functions-and-database-specific-translation",
         "feature": "dotnet-concepts"
       },
@@ -6952,7 +6957,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Transactions and Optimistic Concurrency",
+        "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
       },
@@ -6967,12 +6972,12 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Value Converters, Comparers and Strongly Typed IDs",
+        "label": "Value Converters, Comparers and Strongly-Typed Ids",
         "slug": "value-converters-comparers-and-strongly-typed-ids",
         "feature": "dotnet-concepts"
       },
       {
-        "label": "What's New in EF Core 10",
+        "label": "What's New in EF Core 10: A Map",
         "slug": "whats-new-in-ef-core-10",
         "feature": "dotnet-concepts"
       }
@@ -7119,7 +7124,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "EF Core Provider Differences: PostgreSQL, SQL Server, SQLite",
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
         "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
         "feature": "dotnet-concepts"
       },
@@ -7185,7 +7190,7 @@
     ],
     "related": [
       {
-        "label": "EF Core Model Building: Conventions and Fluent API",
+        "label": "EF Core Model Building: Conventions, Annotations and Fluent API",
         "slug": "ef-core-model-building-conventions-and-fluent-api",
         "feature": "dotnet-concepts"
       },
@@ -7210,7 +7215,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Query Translation and Performance",
+        "label": "Query Translation and Performance in EF Core",
         "slug": "query-translation-and-performance",
         "feature": "dotnet-concepts"
       },
@@ -7266,7 +7271,7 @@
     ],
     "related": [
       {
-        "label": "Global and Named Query Filters",
+        "label": "Global and Named Query Filters (EF Core 10)",
         "slug": "global-and-named-query-filters",
         "feature": "dotnet-concepts"
       },
@@ -7281,7 +7286,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "ADO.NET Connections, Commands, Readers and Pooling",
+        "label": "ADO.NET: Connections, Commands, Readers and Pooling",
         "slug": "ado-net-connections-commands-readers-and-pooling",
         "feature": "dotnet-concepts"
       },
@@ -7296,7 +7301,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "PostgreSQL Connection Pooling with HAProxy and PgBouncer",
+        "label": "Connection Pooling and Proxying: HAProxy and PgBouncer",
         "slug": "postgresql-connection-pooling-haproxy-pgbouncer",
         "feature": "database-concepts"
       }
@@ -7357,7 +7362,7 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Global and Named Query Filters",
+        "label": "Global and Named Query Filters (EF Core 10)",
         "slug": "global-and-named-query-filters",
         "feature": "dotnet-concepts"
       },
@@ -7372,12 +7377,12 @@
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Multi-tenancy: Discriminator vs Database per Tenant",
+        "label": "Multi-Tenancy: Discriminator vs Database per Tenant",
         "slug": "multi-tenancy-discriminator-vs-database-per-tenant",
         "feature": "dotnet-concepts"
       },
       {
-        "label": "Transactions and Optimistic Concurrency",
+        "label": "Transactions and Optimistic Concurrency in EF Core",
         "slug": "transactions-and-optimistic-concurrency",
         "feature": "dotnet-concepts"
       }

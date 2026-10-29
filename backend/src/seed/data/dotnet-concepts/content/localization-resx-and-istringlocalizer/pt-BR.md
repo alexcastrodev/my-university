@@ -1,6 +1,6 @@
 ---
-version: 1.0
-updatedAt: 2026-10-28
+version: 1.1
+updatedAt: 2026-10-29
 title: "Localização: resx e IStringLocalizer"
 summary: CurrentCulture versus CurrentUICulture, arquivos resx e satellite assemblies, a cadeia de fallback, a chave devolvida quando falta tradução, as regras de nome que falham em silêncio, UseRequestLocalization com query string, cookie e Accept-Language, mensagens de validação localizadas e o modo invariante de globalização, com a saída real de cada experimento.
 ---
@@ -226,7 +226,7 @@ Os dados de cultura não fazem parte do .NET: a documentação diz que eles vêm
 
 ### O que localização não é
 
-Fuso horário é outro problema: `pt-BR` diz como imprimir uma data, não em qual offset ela está. Converter para o fuso do usuário está planejado como uma lição própria sobre datas, horas e fusos horários. E o `.resx` é apenas o armazenamento padrão: a documentação descreve o `IStringLocalizerFactory` como o nível mais baixo da abstração, que é o ponto onde uma implementação baseada em arquivos JSON ou em banco de dados substituiria a `ResourceManagerStringLocalizerFactory` registrada (não construí uma).
+Fuso horário é outro problema: `pt-BR` diz como imprimir uma data, não em qual offset ela está. Converter para o fuso do usuário é assunto da lição de C# sobre datas, horas e fusos horários. E o `.resx` é apenas o armazenamento padrão: a documentação descreve o `IStringLocalizerFactory` como o nível mais baixo da abstração, que é o ponto onde uma implementação baseada em arquivos JSON ou em banco de dados substituiria a `ResourceManagerStringLocalizerFactory` registrada (não construí uma).
 
 ## Trade-offs
 

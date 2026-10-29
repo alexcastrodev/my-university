@@ -5002,5 +5002,400 @@
         "type": "doc"
       }
     ]
+  },
+  {
+    "slug": "dates-times-and-time-zones",
+    "id": 512,
+    "category": "Base Class Library",
+    "title": "Dates, Times and Time Zones",
+    "topic": "Common Types",
+    "summary": "DateTime and DateTimeKind, round-trip formats, DateTimeOffset, TimeZoneInfo with IANA and Windows ids and invariant mode, daylight saving gaps and repeated hours with 23 and 25 hour days, the recurring 9 am meeting bug, DateOnly and TimeOnly, DateTimeStyles, TimeProvider with FakeTimeProvider, and Stopwatch.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "parsing-tryparse-and-the-try-pattern"
+    ],
+    "related": [
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Formatting Values: Interpolated Strings, Format Specifiers and Cultures",
+        "slug": "formatting-values-and-interpolated-strings",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Parsing, TryParse and the Try Pattern",
+        "slug": "parsing-tryparse-and-the-try-pattern",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Localization: resx and IStringLocalizer",
+        "slug": "localization-resx-and-istringlocalizer",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
+        "slug": "ef-core-provider-differences-postgresql-sql-server-sqlite",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Choose between DateTime, DateOnly, DateTimeOffset, TimeSpan, TimeOnly, and TimeZoneInfo, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/datetime/choosing-between-datetime",
+        "type": "doc"
+      },
+      {
+        "label": "Converting times between time zones, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/datetime/converting-between-time-zones",
+        "type": "doc"
+      },
+      {
+        "label": "How to resolve ambiguous times, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/datetime/resolve-ambiguous-times",
+        "type": "doc"
+      },
+      {
+        "label": "What is TimeProvider?, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/datetime/timeprovider-overview",
+        "type": "doc"
+      },
+      {
+        "label": "TimeZoneInfo class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo",
+        "type": "doc"
+      },
+      {
+        "label": "TimeProvider class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.timeprovider",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "comparing-and-sorting-icomparable-and-icomparer",
+    "id": 513,
+    "category": "Base Class Library",
+    "title": "Comparing and Sorting: IComparable and IComparer",
+    "topic": "Collections",
+    "summary": "The sign contract of IComparable and IComparer, Comparison and Comparer.Default, nulls, the exceptions for a missing or inconsistent comparison, why CompareTo must agree with Equals in SortedSet and BinarySearch, unstable List.Sort versus stable OrderBy, multi-key ordering, BinarySearch insertion points, NaN and DateTimeOffset, span sorting and the measured cost of each comparer style.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "collection-interfaces-and-choosing-a-collection"
+    ],
+    "related": [
+      {
+        "label": "Strings: Comparison, Culture and Ordering",
+        "slug": "strings-comparison-culture-and-ordering",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Dictionary, HashSet, and Equality",
+        "slug": "dictionary-hashset-and-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Struct and Record Equality",
+        "slug": "struct-and-record-equality",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collections Gap Audit: OrderedDictionary and ReadOnlySet",
+        "slug": "collections-gap-audit-ordered-and-read-only-sets",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Collection Interfaces and Choosing a Collection",
+        "slug": "collection-interfaces-and-choosing-a-collection",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "LINQ: Operator Families and Query Syntax",
+        "slug": "linq-operator-families-and-query-syntax",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Generics: Constraints and Variance",
+        "slug": "generics-constraints-and-variance",
+        "feature": "csharp-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "IComparable<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1",
+        "type": "doc"
+      },
+      {
+        "label": "IComparer<T> interface, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1",
+        "type": "doc"
+      },
+      {
+        "label": "List<T>.Sort method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort",
+        "type": "doc"
+      },
+      {
+        "label": "Array.Sort method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.array.sort",
+        "type": "doc"
+      },
+      {
+        "label": "Enumerable.OrderBy method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby",
+        "type": "doc"
+      },
+      {
+        "label": "Comparisons and sorts within collections, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/collections/comparisons-and-sorts-within-collections",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "reflection-type-metadata-and-its-costs",
+    "id": 631,
+    "category": "Base Class Library",
+    "title": "Reflection: Type Metadata and Its Costs",
+    "topic": "Reflection & Attributes",
+    "summary": "typeof, GetType and Type.GetType, the BindingFlags traps, private members, Activator and Invoke with ref and out, TargetInvocationException, generics, NullabilityInfoContext and ReflectionTypeLoadException, the measured cost against delegates and UnsafeAccessor, and what breaks under trimming and Native AOT.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "attributes-custom-and-compiler-read"
+    ],
+    "related": [
+      {
+        "label": "Attributes: Custom and Compiler-Read",
+        "slug": "attributes-custom-and-compiler-read",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Expression Trees and IQueryable Providers",
+        "slug": "expression-trees-and-iqueryable-providers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "dynamic, ExpandoObject and the DLR",
+        "slug": "dynamic-expandoobject-and-the-dlr",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "System.Text.Json: Source Generation, JsonNode and Utf8JsonReader",
+        "slug": "system-text-json-source-generation-and-utf8jsonreader",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Value Types, Reference Types and Boxing",
+        "slug": "value-types-reference-types-and-boxing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Reflection in .NET, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/fundamentals/reflection/overview",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes and reflection (C#), Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/",
+        "type": "doc"
+      },
+      {
+        "label": "BindingFlags enum, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.reflection.bindingflags?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Type.GetProperties method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.type.getproperties?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "UnsafeAccessorAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.unsafeaccessorattribute?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "Prepare .NET libraries for trimming, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/deploying/trimming/prepare-libraries-for-trimming",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "console-apps-exit-codes-and-system-commandline",
+    "id": 105,
+    "category": "Language",
+    "title": "Console Apps, Exit Codes and System.CommandLine",
+    "topic": "Language Basics",
+    "summary": "Main signatures, args and the dotnet run -- separator, exit codes and their 0..255 truncation on Unix, crashes and FailFast, stdout versus stderr, stdin and encodings, Ctrl+C and SIGTERM on .NET 10, and a CLI built with System.CommandLine 2.0 (options, arguments, validators, help, parse errors, response files, directives and cancellation), with the measured exit code of each case.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "top-level-programs-implicit-usings-and-namespaces"
+    ],
+    "related": [
+      {
+        "label": "Top-Level Programs, Implicit Usings and Namespaces",
+        "slug": "top-level-programs-implicit-usings-and-namespaces",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Exceptions: try, catch, Filters and finally",
+        "slug": "exceptions-try-catch-filters-and-finally",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Async I/O and System.IO.Pipelines",
+        "slug": "async-io-and-system-io-pipelines",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Result Types versus Exceptions",
+        "slug": "result-types-versus-exceptions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Hosted Services and BackgroundService",
+        "slug": "hosted-services-and-backgroundservice",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "The dotnet CLI and the Noun-First Commands",
+        "slug": "dotnet-cli-and-noun-first-commands",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Configuration and the Options Pattern",
+        "slug": "configuration-and-the-options-pattern",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "System.CommandLine overview, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/standard/commandline/",
+        "type": "doc"
+      },
+      {
+        "label": "Tutorial: Build a command-line app with System.CommandLine, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/system-command-line",
+        "type": "doc"
+      },
+      {
+        "label": "Main() and command-line arguments, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/main-command-line",
+        "type": "doc"
+      },
+      {
+        "label": "Environment.Exit method, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.environment.exit?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": "PosixSignalRegistration class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.posixsignalregistration?view=net-10.0",
+        "type": "doc"
+      },
+      {
+        "label": ".NET runtime no longer provides default termination signal handlers, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/sigterm-signal-handler",
+        "type": "doc"
+      }
+    ]
+  },
+  {
+    "slug": "xml-documentation-comments",
+    "id": 106,
+    "category": "Language",
+    "title": "XML Documentation Comments",
+    "topic": "Language Basics",
+    "summary": "How GenerateDocumentationFile produces the XML file and its T:, M: and P: ID strings, cref syntax for generics, overloads and nested types, the real CS1591, CS1570, CS1572, CS1573, CS1574 and CS1587 warnings, inheritdoc and include as the compiler emits them, docs for records, primary constructors and required members, the XML inside a NuGet package, and a build policy that enforces docs without noise.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "classes-members-and-access-modifiers"
+    ],
+    "related": [
+      {
+        "label": "Classes, Members and Access Modifiers",
+        "slug": "classes-members-and-access-modifiers",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Primary Constructors for Classes and Structs",
+        "slug": "primary-constructors-for-classes-and-structs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Records and with Expressions",
+        "slug": "records-and-with-expressions",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "C# Language Versions, the Compiler and Preview Features",
+        "slug": "csharp-language-versions-and-preview-features",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Analyzers, EditorConfig and Build Quality Gates",
+        "slug": "analyzers-editorconfig-and-build-quality-gates",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "SDK-Style Projects, MSBuild and Directory.Build.props",
+        "slug": "sdk-style-projects-msbuild-and-directory-build-props",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Packaging and Publishing a NuGet Library",
+        "slug": "packaging-and-publishing-a-nuget-library",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "XML documentation comments, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/",
+        "type": "doc"
+      },
+      {
+        "label": "Recommended XML tags for C# documentation comments, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags",
+        "type": "doc"
+      },
+      {
+        "label": "Documentation comments, C# language specification, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments",
+        "type": "doc"
+      },
+      {
+        "label": "Compiler Warning CS1591, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/cs1591",
+        "type": "doc"
+      },
+      {
+        "label": "C# compiler options that control output: DocumentationFile, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/output",
+        "type": "doc"
+      },
+      {
+        "label": "MSBuild reference for .NET SDK projects: GenerateDocumentationFile, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generatedocumentationfile",
+        "type": "doc"
+      }
+    ]
   }
 ]
