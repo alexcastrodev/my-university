@@ -6934,7 +6934,7 @@
     "id": 635,
     "category": "Data Access",
     "title": "EF Core Provider Differences: PostgreSQL, SQL Server and SQLite",
-    "topic": "EF Core",
+    "topic": "EF Core Modeling",
     "summary": "One EF Core 10 model measured on PostgreSQL 18 and SQLite, with SQL Server from the docs: case sensitivity and collations (ICU nondeterministic, citext, NOCASE), DateTime and DateTimeOffset rules, decimal storage and precision, identity, GUID generation and batching, ALTER COLUMN versus table rebuild, arrays, JSON and enums, concurrency tokens, and why tests on SQLite miss production bugs.",
     "publishedAt": "2026-10-28",
     "requires": [
@@ -7339,7 +7339,7 @@
     "id": 633,
     "category": "Data Access",
     "title": "EF Core Interceptors, Events and Auditing",
-    "topic": "EF Core",
+    "topic": "EF Core Querying",
     "summary": "The EF Core 10 interceptor families and the order of their hooks, registration versus DI lifetimes, the sync hook that never calls the async one, short-circuiting with InterceptionResult, a same-transaction audit and soft-delete interceptor and what bypasses it, a slow-query log and a tenant id for row-level security on PostgreSQL, the .NET events and the cost of an interceptor, with the measured result of each experiment.",
     "publishedAt": "2026-10-28",
     "requires": [

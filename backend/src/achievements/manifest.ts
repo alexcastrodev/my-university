@@ -306,7 +306,7 @@ export const MANIFEST: TrackManifest[] = [
       { sessionId: '01a14507-ff5a-7080-a4ca-0bba4614b2bb', title: 'Runtime & SDK', label: 'Runtime & SDK' },
       { sessionId: '01a14507-ff5a-7083-915f-3714d30e9c41', title: 'Project System', label: 'Project System' },
       { sessionId: '01a14507-ff5a-7085-b12c-df6c42461320', title: 'NuGet & Packaging', label: 'NuGet & Packaging' },
-      { sessionId: '01a14507-ff5a-7088-a730-416f32647d1d', title: 'Publishing & Native AOT', label: 'Publishing & Native AOT' },
+      { sessionId: '01a14507-ff5a-7088-a730-416f32647d1d', title: 'Publishing, Native AOT & Diagnostics', label: ['Publishing & Native AOT', 'Diagnostics'] },
     ],
   },
   {
@@ -319,6 +319,8 @@ export const MANIFEST: TrackManifest[] = [
       { sessionId: '01a14507-ff5a-708f-ac9c-a326e69f2d0a', title: 'Hosting, Pipeline & Security', label: ['Hosting & Pipeline', 'Security'] },
       { sessionId: '01a14507-ff5a-7091-b7b6-d301f7ba6aa8', title: 'Minimal APIs', label: 'Minimal APIs' },
       { sessionId: '01a14507-ff5a-7094-8fa8-0ce25286f2c6', title: 'API Documentation & HTTP Clients', label: ['API Documentation', 'HTTP Clients'] },
+      { sessionId: '01a18493-1951-7639-bc6d-51c6e6931620', title: 'Production Readiness', label: ['Resilience & Protection', 'Caching & Performance', 'Observability', 'Operations', 'Cloud-Native'] },
+      { sessionId: '01a18493-1951-7f9b-adc5-ecdd3f317001', title: 'APIs, Real-Time & Globalization', label: ['MVC & Razor Pages', 'Web API Design', 'Remote APIs', 'Real-Time', 'Globalization'] },
     ],
   },
   {

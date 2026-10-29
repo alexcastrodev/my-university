@@ -94,6 +94,16 @@ The closing `## Documentation Links` section is prose/list only — it's separat
 from the structured `references` array in `concepts.json`, kept in sync manually
 (same links, human-readable list form here).
 
+### Editing an existing concept: bump `version` and `updatedAt`
+
+Any edit to the markdown of a concept that was already committed must also update
+its frontmatter: raise `version` by one minor step (`1.0` becomes `1.1`, `1.1`
+becomes `1.2`) and set `updatedAt` to the date of the edit (`YYYY-MM-DD`). A new
+file starts at `version: 1.0` with `updatedAt` equal to its creation date. When a
+concept has an `en.md` and a `pt-BR.md`, both files keep the same `version` and
+`updatedAt`, so revise and bump them together. If the date is the same as the one
+already in the file, `version` still changes.
+
 ## Deep Dive section
 
 Each `###` sub-topic should show the mechanic with a runnable-looking code snippet,

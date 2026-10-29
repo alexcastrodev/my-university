@@ -4931,5 +4931,76 @@
       }
     ],
     "id": 12
+  },
+  {
+    "slug": "attributes-custom-and-compiler-read",
+    "id": 630,
+    "category": "Base Class Library",
+    "title": "Attributes: Custom and Compiler-Read",
+    "topic": "Reflection & Attributes",
+    "summary": "Declaring an attribute with AttributeUsage and the compile errors of its rules, targets such as assembly, return and field, reading attributes by reflection and what each lookup costs, Inherited on overrides, the attributes the compiler interprets (caller info, Conditional, Obsolete, Experimental, nullability, ModuleInitializer, SetsRequiredMembers, InlineArray) and a command dispatcher with its trimming warnings.",
+    "publishedAt": "2026-10-28",
+    "requires": [
+      "classes-members-and-access-modifiers"
+    ],
+    "related": [
+      {
+        "label": "Reflection: Type Metadata and Its Costs",
+        "slug": "reflection-type-metadata-and-its-costs",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Nullable Reference Types and Flow Analysis",
+        "slug": "nullable-reference-types-and-flow-analysis",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Guard Clauses, Throwing and Rethrowing",
+        "slug": "guard-clauses-throwing-and-rethrowing",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Partial Types and Partial Members",
+        "slug": "partial-types-and-partial-members",
+        "feature": "csharp-concepts"
+      },
+      {
+        "label": "Source Generators and AOT-Friendly Code",
+        "slug": "source-generators-and-aot-friendly-code",
+        "feature": "dotnet-concepts"
+      },
+      {
+        "label": "Native AOT and Its Limits",
+        "slug": "native-aot-and-its-limits",
+        "feature": "dotnet-concepts"
+      }
+    ],
+    "references": [
+      {
+        "label": "Attributes and reflection, C# guide, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/reflection-and-attributes/",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes interpreted by the compiler: Miscellaneous, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/general",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes interpreted by the compiler: Tracking caller information, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information",
+        "type": "doc"
+      },
+      {
+        "label": "Attributes interpreted by the compiler: Nullable static analysis, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis",
+        "type": "doc"
+      },
+      {
+        "label": "AttributeUsageAttribute class, Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.attributeusageattribute",
+        "type": "doc"
+      }
+    ]
   }
 ]

@@ -23,9 +23,9 @@ const TAXONOMY = {
   'csharp-concepts': {
     Language: ['Language Basics', 'Strings & Formatting', 'Numbers & Conversions', 'Operators & Control Flow', 'Pattern Matching', 'Exceptions', 'Methods & Lambdas'],
     'Type Design': ['Classes & Members', 'Properties & Initialization', 'Records & Equality', 'Inheritance & Polymorphism', 'Interfaces & Generics', 'Delegates & Events', 'Nullability', 'Extension Members'],
-    'Base Class Library': ['Text & Regex', 'Common Types', 'Collections', 'Files & I/O', 'Streams', 'Serialization'],
+    'Base Class Library': ['Text & Regex', 'Common Types', 'Collections', 'Files & I/O', 'Streams', 'Serialization', 'Reflection & Attributes'],
     LINQ: ['LINQ'],
-    'Memory & Concurrency': ['Memory & Value Semantics', 'Threads'],
+    'Memory & Concurrency': ['Memory & Value Semantics', 'Interop & Unsafe', 'Threads'],
   },
 };
 

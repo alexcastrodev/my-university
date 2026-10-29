@@ -68,9 +68,11 @@ export const CSHARP_CONCEPT_TOPIC_ORDER: readonly string[] = [
   'Files & I/O',
   'Streams',
   'Serialization',
+  'Reflection & Attributes',
   // LINQ
   'LINQ',
   // Memory & Concurrency
   'Memory & Value Semantics',
+  'Interop & Unsafe',
   'Threads',
 ];
