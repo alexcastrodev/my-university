@@ -17,7 +17,8 @@ export type SearchResultType =
   | 'kubernetes-concept'
   | 'dotnet-concept'
   | 'csharp-concept'
-  | 'dotnet-testing-concept';
+  | 'dotnet-testing-concept'
+  | 'dotnet-ai-concept';
 
 export interface SearchResult {
   type: SearchResultType;

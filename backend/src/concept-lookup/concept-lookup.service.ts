@@ -16,6 +16,7 @@ import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-
 import { DotNetConceptsService } from '../dotnet-concepts/dotnet-concepts.service';
 import { CSharpConceptsService } from '../csharp-concepts/csharp-concepts.service';
 import { DotNetTestingConceptsService } from '../dotnet-testing-concepts/dotnet-testing-concepts.service';
+import { DotNetAiConceptsService } from '../dotnet-ai-concepts/dotnet-ai-concepts.service';
 import { curriculumSourceId, fromSourceId, parseCurriculumSourceId, ResolvedCurriculum, ResolvedSource, ConceptSourceType, toSourceId } from './concept-lookup.constants';
 import { XpService } from '../xp/xp.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
@@ -51,6 +52,7 @@ export class ConceptLookupService {
     private dotNetConcepts: DotNetConceptsService,
     private cSharpConcepts: CSharpConceptsService,
     private dotNetTestingConcepts: DotNetTestingConceptsService,
+    private dotNetAiConcepts: DotNetAiConceptsService,
     private quarkusConcepts: QuarkusConceptsService,
     private kubernetesConcepts: KubernetesConceptsService,
     private curriculum: CurriculumService,
@@ -74,6 +76,7 @@ export class ConceptLookupService {
       'dotnet-concepts': new Map(this.dotNetConcepts.findAll().map((c) => [c.slug, c.title])),
       'csharp-concepts': new Map(this.cSharpConcepts.findAll().map((c) => [c.slug, c.title])),
       'dotnet-testing-concepts': new Map(this.dotNetTestingConcepts.findAll().map((c) => [c.slug, c.title])),
+      'dotnet-ai-concepts': new Map(this.dotNetAiConcepts.findAll().map((c) => [c.slug, c.title])),
       'quarkus-concepts': new Map(this.quarkusConcepts.findAll().map((c) => [c.slug, c.title])),
       'kubernetes-concepts': new Map(this.kubernetesConcepts.findAll().map((c) => [c.slug, c.title])),
     };
@@ -145,6 +148,10 @@ export class ConceptLookupService {
       }
       case 'dotnet-testing-concepts': {
         const d = this.dotNetTestingConcepts.findBySlug(slug, lang);
+        return d ? { title: d.title, sections: d.sections } : undefined;
+      }
+      case 'dotnet-ai-concepts': {
+        const d = this.dotNetAiConcepts.findBySlug(slug, lang);
         return d ? { title: d.title, sections: d.sections } : undefined;
       }
       case 'quarkus-concepts': {

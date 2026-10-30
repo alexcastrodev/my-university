@@ -126,6 +126,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'dotnet-ai-concepts',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'dotnet-ai-concepts/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'databases/database-concepts',
     renderMode: RenderMode.Server,
   },

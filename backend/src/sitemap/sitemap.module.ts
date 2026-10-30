@@ -14,6 +14,7 @@ import { RubyOnRailsConceptsModule } from '../rubyonrails-concepts/rubyonrails-c
 import { DotNetConceptsModule } from '../dotnet-concepts/dotnet-concepts.module';
 import { CSharpConceptsModule } from '../csharp-concepts/csharp-concepts.module';
 import { DotNetTestingConceptsModule } from '../dotnet-testing-concepts/dotnet-testing-concepts.module';
+import { DotNetAiConceptsModule } from '../dotnet-ai-concepts/dotnet-ai-concepts.module';
 import { SpringConceptsModule } from '../spring-concepts/spring-concepts.module';
 import { SystemDesignConceptsModule } from '../system-design-concepts/system-design-concepts.module';
 import { TestingConceptsModule } from '../testing-concepts/testing-concepts.module';
@@ -37,6 +38,7 @@ import { SitemapService } from './sitemap.service';
     DotNetConceptsModule,
     CSharpConceptsModule,
     DotNetTestingConceptsModule,
+    DotNetAiConceptsModule,
     QuarkusConceptsModule,
     KubernetesConceptsModule,
     CurriculumModule,

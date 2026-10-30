@@ -188,6 +188,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/dotnet-testing-concepts/dotnet-testing-concepts-detail').then((m) => m.DotNetTestingConceptsDetailPage),
   },
   {
+    path: 'dotnet-ai-concepts',
+    loadComponent: () => import('./pages/dotnet-ai-concepts/dotnet-ai-concepts-list').then((m) => m.DotNetAiConceptsListPage),
+  },
+  {
+    path: 'dotnet-ai-concepts/:slug',
+    loadComponent: () => import('./pages/dotnet-ai-concepts/dotnet-ai-concepts-detail').then((m) => m.DotNetAiConceptsDetailPage),
+  },
+  {
     path: 'java/exam/:examId/lesson/:lessonId',
     loadComponent: () => import('./pages/course/course-page').then((m) => m.CoursePage),
   },

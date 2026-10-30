@@ -30,6 +30,7 @@ export const CONCEPT_MODULES: readonly ConceptModuleConfig[] = [
   { module: 'dotnet-concepts', sourceType: 'concept-read', prefix: 'dotnet:', route: (slug) => ['/dotnet-concepts', slug] },
   { module: 'csharp-concepts', sourceType: 'concept-read', prefix: 'csharp:', route: (slug) => ['/csharp-concepts', slug] },
   { module: 'dotnet-testing-concepts', sourceType: 'concept-read', prefix: 'dotnet-testing:', route: (slug) => ['/dotnet-testing-concepts', slug] },
+  { module: 'dotnet-ai-concepts', sourceType: 'concept-read', prefix: 'dotnet-ai:', route: (slug) => ['/dotnet-ai-concepts', slug] },
   { module: 'csharp-minute', sourceType: 'episode-watched', prefix: 'csharp:', route: (slug) => ['/csharp-minute', slug] },
 ];
 

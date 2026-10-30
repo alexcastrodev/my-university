@@ -107,6 +107,15 @@ export const COMPLEMENTARY_AREAS: ComplementaryArea[] = [
     relationship: 'Practice ahead of the theory',
   },
   {
+    slug: 'dotnet-ai-concepts',
+    apiBase: '/api/dotnet-ai-concepts',
+    title: 'AI in .NET',
+    routerLink: '/dotnet-ai-concepts',
+    touchesModule: 'software-distributed',
+    touchesTitle: 'Software + Distributed',
+    relationship: 'An applied framework example',
+  },
+  {
     slug: 'csharp-concepts',
     apiBase: '/api/csharp-concepts',
     title: 'C#',
