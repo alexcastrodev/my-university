@@ -49,7 +49,9 @@
 }
 
 .stage-venue {
+  min-width: 0;
   font-weight: 400;
+  overflow-wrap: anywhere;
 }
 
 .stage-text {

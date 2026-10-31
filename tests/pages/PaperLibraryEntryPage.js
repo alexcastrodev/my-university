@@ -1,6 +1,19 @@
+import { PaperLayout } from './PaperLayout.js';
+
 export class PaperLibraryEntryPage {
   constructor(page) {
     this.page = page;
+
+    // The reading controls, the PDF and the facts sit in the aside, beside the body on a wide screen.
+    this.layout = new PaperLayout(page);
+    this.aside = this.layout.aside;
+    this.body = this.layout.body;
+    this.sideDetails = this.aside.locator('app-paper-library-details');
+    this.sidePdf = this.aside.locator('.attachment');
+    this.sideFacts = this.aside.locator('.facts');
+    this.sideRemove = this.aside.locator('.remove');
+    this.bodyAbstract = this.body.locator('.abstract');
+    this.bodyNotes = this.body.locator('#notes');
 
     this.title = page.getByRole('heading', { level: 1 });
     this.backLink = page.getByRole('link', { name: /My library/ }).first();
