@@ -30,6 +30,8 @@ import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
 import { PaperAttachment } from './paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from './paper-attachments/paper-attachment-version.entity';
+import { PaperAnnotation } from './paper-annotations/paper-annotation.entity';
+import { PaperAnnotationsModule } from './paper-annotations/paper-annotations.module';
 import { PaperAttachmentsModule } from './paper-attachments/paper-attachments.module';
 import { StorageDeletion } from './paper-attachments/storage-deletion.entity';
 import { Paper } from './papers/paper.entity';
@@ -87,6 +89,7 @@ import { XpModule } from './xp/xp.module';
         PaperSource,
         PaperAttachment,
         PaperAttachmentVersion,
+        PaperAnnotation,
         StorageDeletion,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
@@ -120,6 +123,7 @@ import { XpModule } from './xp/xp.module';
     DiscussionModule,
     PapersModule,
     PaperAttachmentsModule,
+    PaperAnnotationsModule,
     PrivatePapersModule,
     SeedModule,
     SearchModule,

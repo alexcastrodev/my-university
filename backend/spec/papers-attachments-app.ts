@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AuthModule } from '../src/auth/auth.module';
 import { User } from '../src/auth/user.entity';
+import { PaperAnnotation } from '../src/paper-annotations/paper-annotation.entity';
+import { PaperAnnotationsModule } from '../src/paper-annotations/paper-annotations.module';
 import { PaperAttachment } from '../src/paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from '../src/paper-attachments/paper-attachment-version.entity';
 import { PaperAttachmentsModule } from '../src/paper-attachments/paper-attachments.module';
@@ -35,7 +37,7 @@ export interface AttachmentsApp {
 }
 
 /**
- * The real PapersModule, AuthModule and PaperAttachmentsModule on a free port against DATABASE_URL and the
+ * The real PapersModule, AuthModule, PaperAttachmentsModule and PaperAnnotationsModule on a free port against DATABASE_URL and the
  * S3-compatible storage from the S3_* variables, with small upload limits so the limit tests stay light.
  */
 export async function startAttachmentsApp(limits: {
@@ -74,6 +76,7 @@ export async function startAttachmentsApp(limits: {
           PaperLibraryEntry,
           PaperAttachment,
           PaperAttachmentVersion,
+          PaperAnnotation,
           StorageDeletion,
         ],
         synchronize: false,
@@ -81,6 +84,7 @@ export async function startAttachmentsApp(limits: {
       AuthModule,
       PapersModule,
       PaperAttachmentsModule,
+      PaperAnnotationsModule,
       PrivatePapersModule,
     ],
   })

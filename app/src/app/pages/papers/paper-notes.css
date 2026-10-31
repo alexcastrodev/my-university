@@ -1,0 +1,99 @@
+.block {
+  margin-top: 1.75rem;
+}
+
+.block-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  color: var(--mu-ink);
+}
+
+.muted {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--mu-muted);
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.field {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  font: inherit;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn-primary {
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border-color: var(--mu-accent);
+}
+
+.problem {
+  margin: 0 0 0.75rem;
+  color: var(--mu-danger-strong);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.empty {
+  margin: 0;
+}
+
+.pdf-line {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--mu-ink-soft);
+}
+
+.pdf-line a {
+  margin-left: 0.4rem;
+  color: var(--mu-accent-strong);
+}
+
+.review {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--mu-line);
+}
+
+.review-title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: var(--mu-ink);
+}

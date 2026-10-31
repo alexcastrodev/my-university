@@ -1,0 +1,52 @@
+<article class="item" [class.stale]="annotation().stale" [attr.data-kind]="annotation().kind" [attr.data-annotation]="annotation().id">
+  <header class="head">
+    <span class="kind">{{ kind() }}</span>
+    @if (annotation().page) {
+      @if (annotation().stale) {
+        <span class="page muted">{{ olderLabel() }}</span>
+      } @else {
+        <button type="button" class="page" (click)="open.emit()">{{ pageLabel() }}</button>
+      }
+    }
+    <time class="when muted" [attr.datetime]="annotation().createdAt">{{ when() }}</time>
+  </header>
+
+  @if (annotation().quote) {
+    <blockquote class="quote">{{ annotation().quote }}</blockquote>
+  }
+
+  @if (editing()) {
+    <form class="edit" (submit)="submit($event)">
+      <textarea
+        class="field"
+        rows="3"
+        maxlength="5000"
+        [value]="draft()"
+        (input)="draft.set($any($event.target).value)"
+        i18n-aria-label="@@papers.notes.editField"
+        aria-label="Text"
+      ></textarea>
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary" [disabled]="!canSave() || busy()" i18n="@@papers.notes.save">Save</button>
+        <button type="button" class="btn" (click)="editing.set(false)" i18n="@@papers.notes.cancel">Cancel</button>
+      </div>
+    </form>
+  } @else {
+    @if (annotation().body; as body) {
+      <app-annotation-text [text]="body" />
+    }
+    <footer class="buttons">
+      @if (annotation().stale) {
+        <button type="button" class="btn" [disabled]="busy()" (click)="keep.emit()" i18n="@@papers.notes.keep">Keep as a note</button>
+      }
+      <button type="button" class="btn" [disabled]="busy()" (click)="startEdit()" i18n="@@papers.notes.edit">Edit</button>
+      @if (confirming()) {
+        <span class="ask" i18n="@@papers.notes.confirmDelete">Delete this?</span>
+        <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove.emit()" i18n="@@papers.notes.confirmYes">Delete</button>
+        <button type="button" class="btn" (click)="confirming.set(false)" i18n="@@papers.notes.cancel">Cancel</button>
+      } @else {
+        <button type="button" class="btn" [disabled]="busy()" (click)="confirming.set(true)" i18n="@@papers.notes.delete">Delete</button>
+      }
+    </footer>
+  }
+</article>
