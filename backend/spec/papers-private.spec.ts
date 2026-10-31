@@ -282,7 +282,7 @@ describe('nobody else sees a private paper', () => {
     const doi = `10.5560/imp${run}`;
     const mine = await dropOk(ana, { title: `Imported later ${run}`, doi });
 
-    const created = await fetch(`${app.url}/papers`, {
+    const created = await fetch(`${app.url}/papers/_test`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Cookie: bob },
       body: JSON.stringify({

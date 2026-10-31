@@ -185,30 +185,26 @@ export interface PaperInput {
   keywords?: string[];
 }
 
-/** Where the provider disagrees with what the catalog stores; the catalog keeps its own value. */
-export interface PaperConflict {
-  field: string;
-  current: unknown;
-  incoming: unknown;
-  resolution: 'kept-current' | 'replaced';
+/** The paper a DOI already is for the reader; mirrors POST /api/paper-library/import/preview. */
+export interface ImportMatch {
+  paperId: string;
+  title: string;
+  /** True for one of the reader's own papers; false for a catalog paper, which is used as it is. */
+  private: boolean;
+  inLibrary: boolean;
 }
 
-/** What looking a DOI up found, and what adding it would do; mirrors POST /api/papers/import/preview. */
+/** What looking a DOI up found, and what adding it would do. */
 export interface ImportPreview {
   doi: string;
   source: { name: 'crossref'; retrievedAt: string };
   candidate: PaperInput;
-  /** The paper it would merge into; null when it would be a new one. */
-  match: Paper | null;
-  conflicts: PaperConflict[];
+  /** What adding would reuse; null when it would create a new private paper. */
+  match: ImportMatch | null;
 }
 
-/** The answer of POST /api/papers and POST /api/papers/import. */
-export interface PaperWriteResult {
-  paper: Paper;
-  created: boolean;
-  conflicts: PaperConflict[];
-}
+/** The answer of POST /api/paper-library/import and /manual: the paper now in the library. */
+export type AddPaperResult = Omit<PrivatePaperResult, 'attachment'>;
 
 /** The six sections of the Research Analysis, in reading order. */
 export const ANALYSIS_SECTIONS = [

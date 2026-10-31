@@ -11,7 +11,7 @@ export class PaperLibraryPage {
     this.cards = page.locator('.paper-card');
     this.cardTitles = this.cards.locator('.paper-title');
     this.resultsCount = page.locator('.results-count');
-    this.empty = page.getByText('Your library is empty. Open a paper and add it to start.');
+    this.empty = page.getByText('Your library is empty. Add a paper by its DOI, or open one from the list.');
     this.noMatches = page.getByText('No papers in your library match.');
     this.signedOut = page.getByText('Sign in to see your library.');
     this.errorMessage = page.getByText('Your library could not be loaded.');
@@ -19,6 +19,7 @@ export class PaperLibraryPage {
     this.clearFilters = page.getByRole('button', { name: 'Clear filters' }).first();
     this.activeFilters = page.locator('.chip-active');
     this.browseLink = page.getByRole('link', { name: 'Browse all papers' }).first();
+    this.addPaperLink = page.getByRole('link', { name: 'Add a paper' }).first();
 
     // The drop zone for a paper that is not in the catalog (#203), and the form that follows a chosen file.
     this.drop = page.locator('app-paper-private-drop');

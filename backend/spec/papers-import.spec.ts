@@ -32,11 +32,11 @@ async function signIn(name: string): Promise<string> {
 }
 
 const preview = (cookie: string | undefined, doi: unknown) =>
-  send('POST', '/papers/import/preview', { doi }, cookie);
+  send('POST', '/paper-library/import/preview', { doi }, cookie);
 const importDoi = (cookie: string | undefined, doi: unknown) =>
-  send('POST', '/papers/import', { doi }, cookie);
+  send('POST', '/paper-library/import', { doi }, cookie);
 const create = (cookie: string | undefined, body: unknown) =>
-  send('POST', '/papers', body, cookie);
+  send('POST', '/paper-library/manual', body, cookie);
 
 /** What Crossref says about a DOI, as its API wraps it. */
 const record = (doi: string, message: Record<string, unknown> = {}): StubReply => ({
@@ -64,12 +64,36 @@ const sources = (paperId: string) =>
       WHERE "paperId" = (SELECT id FROM paper WHERE "publicId" = $1) ORDER BY id`,
     [paperId],
   );
+/** Papers in the public catalog with this DOI. Adding a paper never makes one. */
 const papersWithDoi = async (doi: string) =>
   (
     await json<{ total: number }>(
       await fetch(`${app.url}/papers?doi=${encodeURIComponent(doi)}`),
     )
   ).total;
+/** Papers some reader keeps for themselves with this DOI. */
+const ownPapersWithDoi = async (doi: string): Promise<number> =>
+  Number(
+    (
+      await app.dataSource.query(
+        `SELECT COUNT(*) AS n FROM paper WHERE doi = $1 AND "ownerId" IS NOT NULL`,
+        [doi],
+      )
+    )[0].n,
+  );
+/** The paper as its reader sees it, through the library (a private paper has no public address). */
+const paperOf = (cookie: string, paperId: string) =>
+  send('GET', `/paper-library/${paperId}/paper`, undefined, cookie);
+/** A paper in the public catalog, put there the way the dev seed does. Cleaned up with the run's DOIs. */
+async function catalogPaper(doi: string, title = `Catalog paper ${run}`) {
+  const res = await send('POST', '/papers/_test', {
+    title,
+    doi,
+    authors: [{ name: 'Ada Lovelace' }],
+  });
+  expect(res.status).toBe(201);
+  return (await json<{ paper: { id: string } }>(res)).paper.id;
+}
 
 beforeAll(async () => {
   app = await startImportApp();
@@ -125,7 +149,6 @@ describe('preview', () => {
       doi,
       source: { name: 'crossref' },
       match: null,
-      conflicts: [],
       candidate: {
         title: 'Attention Is All You Need: A study',
         abstract: 'First & foremost <b>paragraph</b>.\n\nSecond paragraph.',
@@ -146,6 +169,7 @@ describe('preview', () => {
     // The publisher's full-text link is never carried over: no PDF is fetched or pointed at.
     expect(JSON.stringify(body)).not.toContain('paper.pdf');
     expect(await papersWithDoi(doi)).toBe(0);
+    expect(await ownPapersWithDoi(doi)).toBe(0);
   });
 
   it.each([
@@ -181,7 +205,7 @@ describe('preview', () => {
   it('refuses a body that is not a DOI string (400)', async () => {
     const cookie = await signIn('p4');
     expect((await preview(cookie, 42)).status).toBe(400);
-    expect((await send('POST', '/papers/import/preview', {}, cookie)).status).toBe(400);
+    expect((await send('POST', '/paper-library/import/preview', {}, cookie)).status).toBe(400);
     expect((await preview(cookie, 'x'.repeat(301))).status).toBe(400);
   });
 
@@ -246,33 +270,34 @@ describe('preview', () => {
     expect(await json(res)).toMatchObject({ code: 'provider_invalid' });
   });
 
-  it('shows the paper a DOI would match and where the provider disagrees, changing nothing', async () => {
+  it('says when the DOI is a catalog paper or one the reader already has, changing nothing', async () => {
     const cookie = await signIn('p8');
-    const doi = newDoi();
-    const made = await create(cookie, {
-      title: `Stored title ${run}`,
-      doi,
-      authors: [{ name: 'Ada Lovelace' }],
-      venue: 'Stored venue',
+    const other = await signIn('p8b');
+    const inCatalog = newDoi();
+    const catalogId = await catalogPaper(inCatalog, `In the catalog ${run}`);
+    const mine = newDoi();
+    know(inCatalog);
+    know(mine, { title: [`Mine ${run}`] });
+
+    // A catalog paper is used as it is, so the reader sees it and not what the provider says.
+    expect(await json(await preview(cookie, inCatalog))).toMatchObject({
+      match: { paperId: catalogId, title: `In the catalog ${run}`, private: false, inLibrary: false },
     });
-    expect(made.status).toBe(201);
-    const id = (await json(made)).paper.id;
-    know(doi, { title: ['Provider title'], 'container-title': ['Provider venue'], abstract: '<jats:p>Filled in</jats:p>' });
+    expect((await importDoi(cookie, inCatalog)).status).toBe(201);
+    expect((await json(await preview(cookie, inCatalog))).match).toMatchObject({ inLibrary: true });
 
-    const res = await preview(cookie, doi);
-    expect(res.status).toBe(200);
-    const body = await json(res);
-    expect(body.match).toMatchObject({ id, title: `Stored title ${run}`, abstract: 'Filled in' });
-    expect(body.conflicts.map((c: any) => [c.field, c.resolution])).toEqual(
-      expect.arrayContaining([
-        ['title', 'kept-current'],
-        ['venue', 'kept-current'],
-      ]),
-    );
-
-    const stored = await json(await fetch(`${app.url}/papers/${id}`));
-    expect(stored).toMatchObject({ title: `Stored title ${run}`, abstract: null, venue: 'Stored venue' });
-    expect(await sources(id)).toHaveLength(1);
+    expect((await json(await preview(cookie, mine))).match).toBeNull();
+    const added = await json(await importDoi(cookie, mine));
+    expect((await json(await preview(cookie, mine))).match).toMatchObject({
+      paperId: added.paperId,
+      title: `Mine ${run}`,
+      private: true,
+      inLibrary: true,
+    });
+    // What a reader keeps for themselves is not visible to the next one.
+    expect((await json(await preview(other, mine))).match).toBeNull();
+    expect(await ownPapersWithDoi(mine)).toBe(1);
+    expect(await ownPapersWithDoi(inCatalog)).toBe(0);
   });
 });
 
@@ -333,16 +358,17 @@ describe('provider trouble', () => {
     const doi = newDoi();
     app.crossref.set(doi, { status: 503, body: 'down' });
     expect((await importDoi(cookie, doi)).status).toBe(502);
-    expect(await papersWithDoi(doi)).toBe(0);
+    expect(await ownPapersWithDoi(doi)).toBe(0);
 
     const res = await create(cookie, { title: `Typed by hand ${run}`, doi, authors: [{ name: 'Grace Hopper' }] });
     expect(res.status).toBe(201);
-    expect(await papersWithDoi(doi)).toBe(1);
+    expect(await ownPapersWithDoi(doi)).toBe(1);
+    expect(await papersWithDoi(doi)).toBe(0);
   });
 });
 
 describe('import', () => {
-  it('creates the paper and records Crossref, the DOI and the retrieval time as its provenance', async () => {
+  it('adds a private paper to the library and records Crossref, the DOI and the retrieval time as its provenance', async () => {
     const cookie = await signIn('i1');
     const doi = newDoi();
     know(doi, { 'container-title': ['Journal of Tests'], subject: ['Testing'] });
@@ -352,22 +378,31 @@ describe('import', () => {
     const body = await json(res);
     expect(body).toMatchObject({
       created: true,
-      conflicts: [],
-      paper: { doi, title: `Imported paper ${run}`, venue: 'Journal of Tests', keywords: ['testing'], type: 'journal-article' },
+      private: true,
+      matched: false,
+      library: { paperId: body.paperId, private: true, status: 'to-read' },
     });
 
-    const shown = await json(await fetch(`${app.url}/papers/${body.paper.id}`));
-    expect(shown).toMatchObject({ doi, title: `Imported paper ${run}` });
-    expect(shown).not.toHaveProperty('sources');
+    // It is the reader's own: found through the library, never at the public address.
+    const mine = await json(await paperOf(cookie, body.paperId));
+    expect(mine).toMatchObject({
+      doi,
+      title: `Imported paper ${run}`,
+      venue: 'Journal of Tests',
+      keywords: ['testing'],
+      type: 'journal-article',
+    });
+    expect((await fetch(`${app.url}/papers/${body.paperId}`)).status).toBe(404);
+    expect(await papersWithDoi(doi)).toBe(0);
 
-    const rows = await sources(body.paper.id);
+    const rows = await sources(body.paperId);
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({ source: 'crossref', externalId: doi, conflicts: [] });
     expect(rows[0].payload).toMatchObject({ doi, title: `Imported paper ${run}` });
     expect(new Date(rows[0].retrievedAt).getTime()).toBeLessThanOrEqual(Date.now());
   });
 
-  it('matches an existing DOI instead of duplicating it, and keeps one provenance row per import', async () => {
+  it('adding the same DOI again changes nothing: one paper, one provenance row', async () => {
     const cookie = await signIn('i2');
     const doi = newDoi();
     know(doi);
@@ -376,57 +411,56 @@ describe('import', () => {
     expect([first.status, second.status]).toEqual([201, 200]);
     const a = await json(first);
     const b = await json(second);
-    expect(b.created).toBe(false);
-    expect(b.paper.id).toBe(a.paper.id);
-    expect(await papersWithDoi(doi)).toBe(1);
-    expect(await sources(a.paper.id)).toHaveLength(2);
+    expect(b).toMatchObject({ created: false, private: true, paperId: a.paperId });
+    expect(await ownPapersWithDoi(doi)).toBe(1);
+    expect(await sources(a.paperId)).toHaveLength(1);
   });
 
-  it('never overwrites what is stored: the disagreement is returned and kept in the provenance', async () => {
+  it('puts a catalog paper in the library instead of copying it, and leaves the catalog alone', async () => {
     const cookie = await signIn('i3');
     const doi = newDoi();
-    const made = await json(
-      await create(cookie, { title: `Original title ${run}`, doi, authors: [{ name: 'Ada Lovelace' }] }),
-    );
+    const catalogId = await catalogPaper(doi, `Original title ${run}`);
     know(doi, { title: ['Provider title'] });
 
     const res = await importDoi(cookie, doi);
-    expect(res.status).toBe(200);
-    const body = await json(res);
-    expect(body.paper).toMatchObject({ id: made.paper.id, title: `Original title ${run}` });
-    expect(body.conflicts).toEqual([
-      { field: 'title', current: `Original title ${run}`, incoming: 'Provider title', resolution: 'kept-current' },
-    ]);
-    const rows = await sources(made.paper.id);
-    expect(rows.map((r: any) => r.source)).toEqual(['manual', 'crossref']);
-    expect(rows[1].conflicts).toEqual(body.conflicts);
+    expect(res.status).toBe(201);
+    expect(await json(res)).toMatchObject({
+      paperId: catalogId,
+      matched: true,
+      private: false,
+      created: true,
+      library: { paperId: catalogId, private: false },
+    });
+    expect((await importDoi(cookie, doi)).status).toBe(200);
+    expect(await ownPapersWithDoi(doi)).toBe(0);
+    expect(await papersWithDoi(doi)).toBe(1);
+    const stored = await json(await fetch(`${app.url}/papers/${catalogId}`));
+    expect(stored).toMatchObject({ title: `Original title ${run}` });
+    expect(await sources(catalogId)).toHaveLength(1);
   });
 
-  it('matches a paper that was entered by hand without a DOI, and gives it the DOI', async () => {
-    const cookie = await signIn('i4');
-    const doi = newDoi();
-    const made = await json(
-      await create(cookie, {
-        title: `The same paper ${run}`,
-        publicationDate: '2021-03-09',
-        authors: [{ name: 'Lovelace, Ada' }],
-      }),
-    );
-    expect(made.paper.doi).toBeNull();
-    know(doi, { title: [`The same paper ${run}`], author: [{ given: 'Ada', family: 'Lovelace' }] });
-
-    const res = await importDoi(cookie, doi);
-    expect(res.status).toBe(200);
-    expect((await json(res)).paper).toMatchObject({ id: made.paper.id, doi });
-  });
-
-  it('ends in one paper when the same DOI is imported at the same moment', async () => {
-    const cookies = await Promise.all([signIn('i5a'), signIn('i5b'), signIn('i5c'), signIn('i5d')]);
+  it('gives each reader their own paper when two add the same DOI, and neither can open the other', async () => {
+    const ana = await signIn('i4a');
+    const bob = await signIn('i4b');
     const doi = newDoi();
     know(doi);
-    const results = await Promise.all(cookies.map((c) => importDoi(c, doi)));
+    const first = await json(await importDoi(ana, doi));
+    const second = await json(await importDoi(bob, doi));
+    expect(second).toMatchObject({ created: true, private: true });
+    expect(second.paperId).not.toBe(first.paperId);
+    expect(await ownPapersWithDoi(doi)).toBe(2);
+    expect((await paperOf(bob, first.paperId)).status).toBe(404);
+    expect((await paperOf(ana, second.paperId)).status).toBe(404);
+  });
+
+  it('ends in one paper when the same reader adds the same DOI at the same moment', async () => {
+    const cookie = await signIn('i5');
+    const doi = newDoi();
+    know(doi);
+    const results = await Promise.all([1, 2, 3, 4].map(() => importDoi(cookie, doi)));
     expect(results.map((r) => r.status).sort()).toEqual([200, 200, 200, 201]);
-    expect(await papersWithDoi(doi)).toBe(1);
+    expect(new Set(await Promise.all(results.map(async (r) => (await json(r)).paperId))).size).toBe(1);
+    expect(await ownPapersWithDoi(doi)).toBe(1);
   });
 
   it('creates nothing when the provider fails', async () => {
@@ -437,8 +471,8 @@ describe('import', () => {
     expect((await importDoi(cookie, missing)).status).toBe(404);
     expect((await importDoi(cookie, down)).status).toBe(502);
     expect((await importDoi(cookie, 'nope')).status).toBe(400);
-    expect(await papersWithDoi(missing)).toBe(0);
-    expect(await papersWithDoi(down)).toBe(0);
+    expect(await ownPapersWithDoi(missing)).toBe(0);
+    expect(await ownPapersWithDoi(down)).toBe(0);
   });
 
   it('looks the DOI up once for a preview and the import that follows it', async () => {
@@ -454,11 +488,34 @@ describe('import', () => {
     const cookie = await signIn('i8');
     const doi = newDoi();
     know(doi);
-    const res = await send('POST', '/papers/import', { doi, title: 'Forged title', abstract: 'forged' }, cookie);
+    const res = await send('POST', '/paper-library/import', { doi, title: 'Forged title', abstract: 'forged' }, cookie);
     expect(res.status).toBe(201);
-    const { paper } = await json(res);
+    const paper = await json(await paperOf(cookie, (await json(res)).paperId));
     expect(paper.title).toBe(`Imported paper ${run}`);
     expect(paper.abstract).toBeNull();
+  });
+
+  it('refuses a paper over the limit of papers a reader may keep (409), but still takes a catalog paper', async () => {
+    const cookie = await signIn('i9');
+    const [one, two, three] = [newDoi(), newDoi(), newDoi()];
+    const inCatalog = newDoi();
+    [one, two, three, inCatalog].forEach((d) => know(d));
+    await catalogPaper(inCatalog);
+    process.env.PAPER_PRIVATE_MAX_PER_USER = '2';
+    try {
+      expect((await importDoi(cookie, one)).status).toBe(201);
+      expect((await create(cookie, { title: `By hand ${run}`, doi: two })).status).toBe(201);
+
+      const res = await importDoi(cookie, three);
+      expect(res.status).toBe(409);
+      expect(await json(res)).toMatchObject({ code: 'private_papers_limit' });
+      expect(await ownPapersWithDoi(three)).toBe(0);
+
+      expect((await importDoi(cookie, inCatalog)).status).toBe(201);
+      expect((await importDoi(cookie, one)).status).toBe(200);
+    } finally {
+      delete process.env.PAPER_PRIVATE_MAX_PER_USER;
+    }
   });
 });
 
@@ -504,7 +561,7 @@ describe('limits', () => {
 });
 
 describe('creating by hand', () => {
-  it('creates the paper and records it as a manual source', async () => {
+  it('adds a private paper to the library and records it as a manual source', async () => {
     const cookie = await signIn('m1');
     const doi = newDoi();
     const res = await create(cookie, {
@@ -516,23 +573,47 @@ describe('creating by hand', () => {
       type: 'preprint',
     });
     expect(res.status).toBe(201);
-    const { paper, created } = await json(res);
-    expect(created).toBe(true);
-    expect(paper).toMatchObject({ doi, keywords: ['typed'], type: 'preprint' });
-    expect((await sources(paper.id))[0]).toMatchObject({ source: 'manual', externalId: null });
+    const body = await json(res);
+    expect(body).toMatchObject({ created: true, private: true, matched: false });
+    expect(await json(await paperOf(cookie, body.paperId))).toMatchObject({ doi, keywords: ['typed'], type: 'preprint' });
+    expect((await sources(body.paperId))[0]).toMatchObject({ source: 'manual', externalId: null });
+    expect(await papersWithDoi(doi)).toBe(0);
   });
 
-  it('answers 409 already_exists with the id when the DOI is taken, and does not touch that paper', async () => {
+  it('uses the catalog paper when the DOI is in the catalog, and ignores what was typed', async () => {
+    const cookie = await signIn('m1b');
+    const doi = newDoi();
+    const catalogId = await catalogPaper(doi, `Catalog title ${run}`);
+    const res = await create(cookie, { title: `Typed instead ${run}`, doi, abstract: 'typed' });
+    expect(res.status).toBe(201);
+    expect(await json(res)).toMatchObject({ paperId: catalogId, matched: true, private: false });
+    expect(await ownPapersWithDoi(doi)).toBe(0);
+    expect(await json(await fetch(`${app.url}/papers/${catalogId}`))).toMatchObject({
+      title: `Catalog title ${run}`,
+      abstract: null,
+    });
+  });
+
+  it('answers 409 already_exists with the id when the reader has it, and does not touch that paper', async () => {
     const cookie = await signIn('m2');
     const doi = newDoi();
     const made = await json(await create(cookie, { title: `First ${run}`, doi, authors: [{ name: 'Ada Lovelace' }] }));
 
     const res = await create(cookie, { title: `Second ${run}`, doi, abstract: 'Filled by someone else' });
     expect(res.status).toBe(409);
-    expect(await json(res)).toMatchObject({ code: 'already_exists', paperId: made.paper.id });
-    const stored = await json(await fetch(`${app.url}/papers/${made.paper.id}`));
-    expect(stored).toMatchObject({ title: `First ${run}`, abstract: null });
-    expect(await sources(made.paper.id)).toHaveLength(1);
+    expect(await json(res)).toMatchObject({ code: 'already_exists', paperId: made.paperId });
+    expect(await json(await paperOf(cookie, made.paperId))).toMatchObject({ title: `First ${run}`, abstract: null });
+    expect(await sources(made.paperId)).toHaveLength(1);
+  });
+
+  it('gives another reader who types the same DOI their own paper', async () => {
+    const ana = await signIn('m2a');
+    const bob = await signIn('m2b');
+    const doi = newDoi();
+    const first = await json(await create(ana, { title: `Same DOI ${run}`, doi }));
+    const second = await create(bob, { title: `Same DOI ${run}`, doi });
+    expect(second.status).toBe(201);
+    expect((await json(second)).paperId).not.toBe(first.paperId);
   });
 
   it('answers 409 when the same paper is entered again without a DOI', async () => {
@@ -542,7 +623,7 @@ describe('creating by hand', () => {
     expect(first.status).toBe(201);
     const again = await create(cookie, { ...body, title: `TWICE ${run}!` });
     expect(again.status).toBe(409);
-    expect((await json(again)).paperId).toBe((await json(first)).paper.id);
+    expect((await json(again)).paperId).toBe((await json(first)).paperId);
   });
 
   it.each([

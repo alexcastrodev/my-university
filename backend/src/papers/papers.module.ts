@@ -20,7 +20,7 @@ import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
 
 // Reads are public (the catalog, #179, and the published analysis, #180). Writes of the analysis need a staff
-// role. Adding a paper needs a session (import by DOI or by hand, #181); changing one that exists has no route yet.
+// role. Adding a paper needs a session and puts it in the reader's own library, never in the catalog (#212); changing one that exists has no route yet.
 @Module({
   imports: [
     TypeOrmModule.forFeature([

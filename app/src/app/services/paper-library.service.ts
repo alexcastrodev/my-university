@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
-import { LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery, Paper, PrivatePaperResult } from '../models/paper.model';
+import { AddPaperResult, ImportPreview, LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery, Paper, PaperInput, PrivatePaperResult } from '../models/paper.model';
 
 /** The signed-in reader's private paper library. Every call needs a session (401 without one). */
 @Injectable({ providedIn: 'root' })
@@ -41,6 +41,21 @@ export class PaperLibraryService {
       params,
       headers: { 'Content-Type': 'application/pdf', 'X-Filename': encodeURIComponent(file.name) },
     });
+  }
+
+  /** Looks a DOI up at the provider and says what adding it to the library would do. Changes nothing. */
+  previewDoi(doi: string): Observable<ImportPreview> {
+    return this.http.post<ImportPreview>(`${this.base}/import/preview`, { doi });
+  }
+
+  /** Adds the paper for a DOI: the catalog's if it is there, else a private one. The server fetches the metadata. */
+  addByDoi(doi: string): Observable<AddPaperResult> {
+    return this.http.post<AddPaperResult>(`${this.base}/import`, { doi });
+  }
+
+  /** Adds a paper typed in by hand. 409 `already_exists` with `paperId` when the reader has it. */
+  addByHand(input: PaperInput): Observable<AddPaperResult> {
+    return this.http.post<AddPaperResult>(`${this.base}/manual`, input);
   }
 
   add(paperId: string): Observable<LibraryEntry> {
