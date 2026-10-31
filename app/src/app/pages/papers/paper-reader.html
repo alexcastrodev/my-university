@@ -1,0 +1,140 @@
+<div class="reader">
+  @switch (state()) {
+    @case ('loading') {
+      <div class="state" role="status" i18n-aria-label="@@papers.reader.loading.ariaLabel" aria-label="Opening the PDF">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@papers.reader.loading">Opening your PDF…</ng-container>
+      </div>
+    }
+    @case ('signedOut') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.library.page.signedOut">Sign in to see your library.</p>
+        <a class="action" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+      </div>
+    }
+    @case ('missing') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.library.entry.missing">This paper is not in your library.</p>
+        <a class="action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+      </div>
+    }
+    @case ('noFile') {
+      <div class="state" role="alert">
+        <p i18n="@@papers.reader.noFile">This paper has no PDF yet. Upload one on its library page.</p>
+        <a class="action" [routerLink]="['/library', paperId()]" i18n="@@papers.reader.toPaper">Go to the paper</a>
+      </div>
+    }
+    @case ('ready') {
+      <div #bar class="bar">
+      <div class="toolbar" role="toolbar" i18n-aria-label="@@papers.reader.toolbar" aria-label="PDF reader">
+        <a class="tool tool-back" [routerLink]="['/library', paperId()]" i18n-aria-label="@@papers.reader.back" aria-label="Back to the paper">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+        <h1 class="title">{{ paper()?.title }}</h1>
+
+        <form class="pager" (submit)="onPageSubmit($event)">
+          <button type="button" class="tool" [disabled]="current() <= 1" (click)="goTo(current() - 1)" i18n-aria-label="@@papers.reader.prev" aria-label="Previous page">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+          <input
+            id="reader-page"
+            class="page-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            [value]="pageInput()"
+            (input)="pageInput.set($any($event.target).value)"
+            i18n-aria-label="@@papers.reader.pageInput"
+            aria-label="Page number"
+          />
+          <span class="page-total"><ng-container i18n="@@papers.reader.of">of</ng-container> {{ pageCount() }}</span>
+          <button type="button" class="tool" [disabled]="current() >= pageCount()" (click)="goTo(current() + 1)" i18n-aria-label="@@papers.reader.next" aria-label="Next page">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+        </form>
+
+        <div class="zoom">
+          <button type="button" class="tool" [disabled]="!canZoomOut()" (click)="zoomOut()" i18n-aria-label="@@papers.reader.zoomOut" aria-label="Zoom out">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          </button>
+          <output class="zoom-level" aria-live="polite">{{ zoomPercent() }}%</output>
+          <button type="button" class="tool" [disabled]="!canZoomIn()" (click)="zoomIn()" i18n-aria-label="@@papers.reader.zoomIn" aria-label="Zoom in">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          </button>
+          <button type="button" class="tool tool-text" [class.on]="zoomMode() === 'fit'" [attr.aria-pressed]="zoomMode() === 'fit'" (click)="fitWidth()" i18n="@@papers.reader.fit">Fit width</button>
+        </div>
+
+        <button type="button" class="tool" [class.on]="searchOpen()" [attr.aria-expanded]="searchOpen()" (click)="toggleSearch()" i18n-aria-label="@@papers.reader.search" aria-label="Search in the document">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2" /><path d="M16 16l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+
+      @if (searchOpen()) {
+        <form class="search" (submit)="onSearch($event)">
+          <input
+            id="reader-search"
+            class="search-input"
+            type="search"
+            autocomplete="off"
+            [value]="query()"
+            (input)="query.set($any($event.target).value)"
+            i18n-aria-label="@@papers.reader.searchInput"
+            aria-label="Search in the document"
+          />
+          <button type="submit" class="tool tool-text" [disabled]="searching()" i18n="@@papers.reader.find">Find</button>
+          @if (searching()) {
+            <span class="search-status" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.reader.searching">Searching…</ng-container></span>
+          } @else if (searched()) {
+            <span class="search-status" role="status">
+              @if (hits().length) {
+                {{ hitIndex() + 1 }} / {{ matchesLabel() }}
+              } @else {
+                <ng-container i18n="@@papers.reader.noMatches">No matches</ng-container>
+              }
+            </span>
+            @if (hits().length > 1) {
+              <button type="button" class="tool" (click)="step(-1)" i18n-aria-label="@@papers.reader.prevMatch" aria-label="Previous match">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button type="button" class="tool" (click)="step(1)" i18n-aria-label="@@papers.reader.nextMatch" aria-label="Next match">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            }
+          }
+        </form>
+      }
+      </div>
+
+      <div #pages class="pages">
+        @for (n of pageNumbers(); track n) {
+          <div class="page" role="region" [attr.data-page]="n" [attr.aria-label]="pageLabel(n)" [style.width.px]="box(n).w" [style.height.px]="box(n).h">
+            <canvas width="0" height="0"></canvas>
+            <div class="textLayer"></div>
+          </div>
+        }
+      </div>
+    }
+    @default {
+      <div class="state state-error" role="alert">
+        @switch (state()) {
+          @case ('corrupt') {
+            <p i18n="@@papers.reader.corrupt">This file is not a readable PDF.</p>
+          }
+          @case ('encrypted') {
+            <p i18n="@@papers.reader.encrypted">This PDF is password protected and cannot be opened here.</p>
+          }
+          @case ('memory') {
+            <p i18n="@@papers.reader.memory">This PDF is too large for this device to open.</p>
+          }
+          @default {
+            <p i18n="@@papers.reader.failed">The PDF could not be opened.</p>
+          }
+        }
+        <div class="state-actions">
+          <button type="button" class="action" (click)="retry()" i18n="@@papers.retry">Try again</button>
+          <a class="action action-quiet" [href]="fileUrl()" download i18n="@@papers.reader.download">Download the file</a>
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -12,6 +12,7 @@
     @if (current(); as file) {
       <p class="file">
         <a class="file-name" [href]="fileUrl()" download>{{ file.filename }}</a>
+        <a class="read-link" [routerLink]="['/library', paperId(), 'read']" i18n="@@papers.attachment.read">Read</a>
         <span class="muted">{{ size() }}, <ng-container i18n="@@papers.attachment.uploadedOn">uploaded on</ng-container> {{ uploadedOn() }}</span>
       </p>
     } @else {

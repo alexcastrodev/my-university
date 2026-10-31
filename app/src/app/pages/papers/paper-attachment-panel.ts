@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PaperAttachment } from '../../models/paper.model';
 import { MAX_PDF_BYTES, PaperAttachmentsService } from '../../services/paper-attachments.service';
@@ -9,6 +10,7 @@ import { attachmentErrorMessage, formatFileSize, formatPaperDate } from '../../s
 @Component({
   selector: 'app-paper-attachment-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
   templateUrl: './paper-attachment-panel.html',
   styleUrl: './paper-attachment-panel.css',
 })

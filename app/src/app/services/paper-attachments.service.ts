@@ -27,6 +27,13 @@ export class PaperAttachmentsService {
       .pipe(catchError((err) => (err?.status === 404 ? of(null) : throwError(() => err))));
   }
 
+  /** The approved file's bytes, through the authorized route: the reader never holds a URL to the file. `null` when there is none. */
+  file(paperId: string): Observable<ArrayBuffer | null> {
+    return this.http
+      .get(this.fileUrl(paperId), { responseType: 'arraybuffer' })
+      .pipe(catchError((err) => (err?.status === 404 ? of(null) : throwError(() => err))));
+  }
+
   /** The PDF goes as the raw body; what the server decides to accept depends on the bytes, not on this type. */
   upload(paperId: string, file: File): Observable<PaperAttachment> {
     return this.http.put<PaperAttachment>(this.base(paperId), file, {

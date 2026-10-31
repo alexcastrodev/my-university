@@ -1,0 +1,273 @@
+:host {
+  display: block;
+  background: var(--mu-bg);
+}
+
+.reader {
+  min-height: calc(100vh - var(--mu-header-h));
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 1rem;
+  color: var(--mu-muted);
+  text-align: center;
+}
+
+.state p {
+  margin: 0;
+}
+
+.state-error {
+  color: var(--mu-danger-strong);
+}
+
+.state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.action {
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--mu-white);
+  text-decoration: none;
+  background: var(--mu-accent);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.action-quiet {
+  color: var(--mu-accent-strong);
+  background: transparent;
+  border: 1px solid var(--mu-line);
+}
+
+/* The toolbar and the search under it stay together on top of the page. */
+.bar {
+  position: sticky;
+  top: var(--mu-safe-top, 0px);
+  z-index: 5;
+  background: var(--mu-surface, var(--mu-bg));
+  border-bottom: 1px solid var(--mu-line);
+}
+
+.toolbar,
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.search {
+  border-top: 1px solid var(--mu-line);
+}
+
+.title {
+  flex: 1 1 8rem;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pager,
+.zoom {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--mu-text);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tool:hover:not(:disabled),
+.tool.on {
+  background: var(--mu-accent-soft, var(--mu-line));
+}
+
+.tool:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tool:focus-visible,
+.page-input:focus-visible,
+.search-input:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.page-input {
+  width: 2.75rem;
+  height: 2.25rem;
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--mu-text);
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.page-total,
+.zoom-level,
+.search-status {
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+  white-space: nowrap;
+}
+
+.zoom-level {
+  min-width: 3rem;
+  text-align: center;
+}
+
+.search-input {
+  flex: 1 1 10rem;
+  min-width: 0;
+  height: 2.25rem;
+  padding: 0 0.6rem;
+  font: inherit;
+  color: var(--mu-text);
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+/* A page wider than the screen (zoomed in) scrolls sideways inside here; the document scrolls up and down. */
+.pages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+}
+
+.page {
+  position: relative;
+  flex: none;
+  margin-inline: auto;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+}
+
+.page canvas {
+  display: block;
+}
+
+/* The text pdf.js draws over the canvas so it can be selected and searched. Its spans are made by the engine, not the template. */
+.page ::ng-deep .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  line-height: 1;
+  text-align: initial;
+  transform-origin: 0 0;
+  forced-color-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.page ::ng-deep .textLayer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+
+.page ::ng-deep .textLayer > :not(.markedContent),
+.page ::ng-deep .textLayer .markedContent span:not(.markedContent) {
+  --font-height: 0;
+  --scale-x: 1;
+  --rotate: 0deg;
+  z-index: 1;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+.page ::ng-deep .textLayer .markedContent {
+  display: contents;
+}
+
+.page ::ng-deep .textLayer span.hit {
+  background: rgb(255 200 0 / 0.45);
+  border-radius: 2px;
+}
+
+.page ::ng-deep .textLayer ::selection {
+  background: rgb(0 90 255 / 0.3);
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    gap: 0.25rem;
+    padding-inline: 0.5rem;
+  }
+
+  /* The keyboard of a phone has its own search key, so the search fits on one row. */
+  .search .tool-text {
+    display: none;
+  }
+
+  .search-status {
+    font-size: 0.8rem;
+  }
+
+  /* The bar stays on top while reading, so on a phone it keeps to the controls. The title is still there for a screen reader. */
+  .title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
