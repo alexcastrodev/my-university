@@ -1,0 +1,45 @@
+.public-link {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+}
+
+.public-link a {
+  color: var(--mu-accent-strong);
+  font-weight: 600;
+}
+
+.remove {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--mu-line);
+  font-size: 0.9rem;
+}
+
+.remove-error {
+  color: var(--mu-danger-strong);
+}
+
+/* The shared .action is the page's primary button; here it is the quiet one, and only Remove is loud. */
+.remove .action {
+  color: var(--mu-ink);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+}
+
+.remove .action-quiet {
+  color: var(--mu-danger-strong);
+}
+
+.remove .action-danger {
+  color: var(--mu-white);
+  background: var(--mu-danger-strong);
+  border-color: var(--mu-danger-strong);
+}
+
+.private-note {
+  margin: 0 0 1rem;
+}

@@ -8,6 +8,7 @@ export class PapersListPage {
     this.typeSelect = page.getByLabel('Type', { exact: true });
     this.areaSelect = page.getByLabel('Research area', { exact: true });
     this.sortSelect = page.getByLabel('Sort by', { exact: true });
+    this.addPaperLink = page.getByRole('link', { name: 'Add a paper' });
     this.cards = page.locator('.paper-card');
     this.resultsCount = page.locator('.results-count');
     this.noMatches = page.getByText('No papers match your search.');

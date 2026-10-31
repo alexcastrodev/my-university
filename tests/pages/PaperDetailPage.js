@@ -18,10 +18,27 @@ export class PaperDetailPage {
     this.postButton = this.discussion.getByRole('button', { name: 'Post' });
     this.signIn = this.discussion.locator('a.signin');
     this.posts = this.discussion.locator('.post-body');
+
+    // The public page only has the one button; what a reader keeps about a paper lives on the library page.
+    this.library = page.locator('app-paper-library-button');
+    this.librarySignIn = this.library.getByRole('link', { name: 'Sign in to save this paper to your library' });
+    this.libraryAdd = this.library.getByRole('button', { name: 'Add to my library' });
+    this.libraryRemove = this.library.getByRole('button', { name: 'Remove from library' });
+    this.libraryIn = this.library.locator('.in-library');
+    this.libraryOpen = this.library.getByRole('link', { name: 'Open in my library' });
+    this.libraryControls = this.library.locator('select, input');
+    this.libraryError = this.library.getByRole('alert');
+
+    this.analysis = page.locator('#analysis');
+    this.analysisNote = this.analysis.locator('.analysis-note');
+    this.noAnalysis = this.analysis.getByText('There is no Research Analysis for this paper yet.');
+    this.analysisCredit = this.analysis.locator('.analysis-credit');
+    this.analysisTitles = this.analysis.locator('.analysis-section-title');
   }
 
-  async goto(id) {
-    await this.page.goto(`/papers/${id}`);
+  /** `query` is for a page that changed since it was last rendered: the server keeps a rendered page per URL for a few minutes. */
+  async goto(id, query = '') {
+    await this.page.goto(`/papers/${id}${query}`);
   }
 
   /** The value shown next to a label in the facts box (Type, Published, Venue, DOI...). */
@@ -35,6 +52,11 @@ export class PaperDetailPage {
 
   keyword(name) {
     return this.keywords.filter({ hasText: name });
+  }
+
+  /** One section of the Research Analysis, found by its heading ("Overview", "Critical Analysis"...). */
+  analysisSection(title) {
+    return this.analysis.locator('.analysis-section').filter({ has: this.page.getByRole('heading', { level: 3, name: title, exact: true }) });
   }
 
   async post(text) {

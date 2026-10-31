@@ -1,0 +1,175 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@papers.add.title">Add a paper</h1>
+    <p class="page-sub" i18n="@@papers.add.subtitle">Look a paper up by its DOI, check what was found, then add it to the catalog. Or enter the details yourself.</p>
+  </div>
+
+  <div class="page-body">
+    <a routerLink="/papers" class="back-link">← <ng-container i18n="@@papers.add.back">Back to papers</ng-container></a>
+
+    @if (!signedIn()) {
+      <div class="state">
+        <p i18n="@@papers.add.signIn.text">Sign in to add a paper to the catalog.</p>
+        <a routerLink="/login" class="action signin" i18n="@@papers.add.signIn.link">Sign in</a>
+      </div>
+    } @else {
+      <section class="panel" aria-labelledby="doi-heading">
+        <h2 id="doi-heading" class="panel-title" i18n="@@papers.add.doi.heading">Add by DOI</h2>
+        <form class="lookup" (submit)="onLookup($event)">
+          <label class="visually-hidden" for="paper-doi" i18n="@@papers.add.doi.label">DOI</label>
+          <input
+            id="paper-doi"
+            class="input"
+            type="text"
+            name="doi"
+            maxlength="300"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            i18n-placeholder="@@papers.add.doi.placeholder"
+            placeholder="10.1234/abc or https://doi.org/10.1234/abc"
+            [value]="doi()"
+            (input)="doi.set($any($event.target).value)"
+          />
+          <button type="submit" class="action" [disabled]="looking() || !doi().trim()">
+            @if (looking()) { <ng-container i18n="@@papers.add.doi.looking">Looking up…</ng-container> } @else { <ng-container i18n="@@papers.add.doi.lookup">Look up</ng-container> }
+          </button>
+        </form>
+
+        @if (failureText(); as text) {
+          <p class="problem" role="alert">{{ text }}</p>
+        }
+
+        @if (found(); as f) {
+          <article class="found" aria-labelledby="found-title">
+            <p class="found-source"><span i18n="@@papers.add.found.source">Source</span>: Crossref</p>
+            <h3 id="found-title" class="found-title">{{ f.candidate.title }}</h3>
+            @if (f.candidate.authors?.length) {
+              <p class="found-authors">{{ names(f) }}</p>
+            }
+            <dl class="found-facts">
+              <div>
+                <dt i18n="@@papers.detail.type">Type</dt>
+                <dd>{{ paperTypeLabel(f.candidate.type ?? 'other') }}</dd>
+              </div>
+              <div>
+                <dt i18n="@@papers.detail.published">Published</dt>
+                <dd>
+                  @if (f.candidate.publicationDate; as d) { {{ date(d) }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
+                </dd>
+              </div>
+              @if (f.candidate.venue) {
+                <div>
+                  <dt i18n="@@papers.detail.venue">Venue</dt>
+                  <dd>{{ f.candidate.venue }}</dd>
+                </div>
+              }
+              <div>
+                <dt i18n="@@papers.detail.doi">DOI</dt>
+                <dd>{{ f.doi }}</dd>
+              </div>
+            </dl>
+            @if (f.candidate.abstract) {
+              <p class="found-abstract">{{ f.candidate.abstract }}</p>
+            }
+
+            @if (f.match; as m) {
+              <div class="notice notice-match" role="status">
+                <p i18n="@@papers.add.match.text">This paper is already in the catalog.</p>
+                @if (f.conflicts.length) {
+                  <p class="muted" i18n="@@papers.add.match.conflicts">Crossref differs on some details. The catalog keeps its own.</p>
+                }
+                <a [routerLink]="['/papers', m.id]" class="action" i18n="@@papers.add.match.open">Open it</a>
+              </div>
+            } @else {
+              <button type="button" class="action" [disabled]="adding()" (click)="onAdd()">
+                @if (adding()) { <ng-container i18n="@@papers.add.adding">Adding…</ng-container> } @else { <ng-container i18n="@@papers.add.add">Add to the catalog</ng-container> }
+              </button>
+            }
+          </article>
+        }
+      </section>
+
+      <section class="panel" aria-labelledby="manual-heading">
+        <h2 id="manual-heading" class="panel-title" i18n="@@papers.add.manual.heading">Enter the details by hand</h2>
+        <p class="muted" i18n="@@papers.add.manual.hint">For a paper with no DOI, one Crossref does not know, or when the lookup is down.</p>
+        <button type="button" class="link-button" [attr.aria-expanded]="manualOpen()" aria-controls="manual-form" (click)="toggleManual()">
+          @if (manualOpen()) { <ng-container i18n="@@papers.add.manual.hide">Hide the form</ng-container> } @else { <ng-container i18n="@@papers.add.manual.show">Show the form</ng-container> }
+        </button>
+
+        @if (manualOpen()) {
+          <form id="manual-form" class="manual" (submit)="onSave($event)">
+            <div class="field">
+              <label for="f-title"><span i18n="@@papers.add.f.title">Title</span> <span class="required" aria-hidden="true">*</span></label>
+              <input id="f-title" class="input" type="text" maxlength="1000" required [value]="form().title" (input)="setField('title', $any($event.target).value)" />
+            </div>
+            <div class="field">
+              <label for="f-authors" i18n="@@papers.add.f.authors">Authors</label>
+              <textarea id="f-authors" class="input" rows="3" [value]="form().authors" (input)="setField('authors', $any($event.target).value)"></textarea>
+              <span class="hint" i18n="@@papers.add.f.authorsHint">One per line.</span>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-date" i18n="@@papers.add.f.date">Publication date</label>
+                <input id="f-date" class="input" type="text" maxlength="10" placeholder="2024-05" [value]="form().publicationDate" (input)="setField('publicationDate', $any($event.target).value)" />
+                <span class="hint" i18n="@@papers.add.f.dateHint">YYYY, YYYY-MM or YYYY-MM-DD.</span>
+              </div>
+              <div class="field">
+                <label for="f-type" i18n="@@papers.add.f.type">Type</label>
+                <select id="f-type" class="input" (change)="setField('type', $any($event.target).value)">
+                  <option value="" [selected]="!form().type" i18n="@@papers.add.f.typeAuto">Not sure</option>
+                  @for (type of types; track type) {
+                    <option [value]="type" [selected]="form().type === type">{{ paperTypeLabel(type) }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-venue" i18n="@@papers.add.f.venue">Venue</label>
+              <input id="f-venue" class="input" type="text" maxlength="500" [value]="form().venue" (input)="setField('venue', $any($event.target).value)" />
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-doi" i18n="@@papers.add.f.doi">DOI</label>
+                <input id="f-doi" class="input" type="text" maxlength="300" autocapitalize="off" spellcheck="false" [value]="form().doi" (input)="setField('doi', $any($event.target).value)" />
+              </div>
+              <div class="field">
+                <label for="f-url" i18n="@@papers.add.f.url">Link</label>
+                <input id="f-url" class="input" type="url" maxlength="2000" placeholder="https://" [value]="form().url" (input)="setField('url', $any($event.target).value)" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="f-area" i18n="@@papers.add.f.area">Research area</label>
+                <input id="f-area" class="input" type="text" maxlength="200" [value]="form().researchArea" (input)="setField('researchArea', $any($event.target).value)" />
+              </div>
+              <div class="field">
+                <label for="f-keywords" i18n="@@papers.add.f.keywords">Keywords</label>
+                <input id="f-keywords" class="input" type="text" [value]="form().keywords" (input)="setField('keywords', $any($event.target).value)" />
+                <span class="hint" i18n="@@papers.add.f.keywordsHint">Separated by commas.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-abstract" i18n="@@papers.add.f.abstract">Abstract</label>
+              <textarea id="f-abstract" class="input" rows="5" maxlength="20000" [value]="form().abstract" (input)="setField('abstract', $any($event.target).value)"></textarea>
+            </div>
+            <p class="muted" i18n="@@papers.add.manual.rule">A paper with no DOI needs a publication date or at least one author, so it can be told apart from others.</p>
+
+            @if (existingId(); as id) {
+              <div class="notice notice-match" role="alert">
+                <p i18n="@@papers.add.match.text">This paper is already in the catalog.</p>
+                <a [routerLink]="['/papers', id]" class="action" i18n="@@papers.add.match.open">Open it</a>
+              </div>
+            }
+            @if (saveError(); as error) {
+              <p class="problem" role="alert">{{ error }}</p>
+            }
+            <button type="submit" class="action" [disabled]="!canSave()">
+              @if (saving()) { <ng-container i18n="@@papers.add.saving">Adding…</ng-container> } @else { <ng-container i18n="@@papers.add.save">Add paper</ng-container> }
+            </button>
+          </form>
+        }
+      </section>
+    }
+  </div>
+</div>

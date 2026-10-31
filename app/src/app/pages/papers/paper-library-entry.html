@@ -1,0 +1,116 @@
+<div class="page">
+  <div class="page-body">
+    <a routerLink="/library" class="back-link">← <ng-container i18n="@@header.nav.library">My library</ng-container></a>
+
+    @switch (state()) {
+      @case ('loading') {
+        <div class="state" role="status" i18n-aria-label="@@papers.detail.loading.ariaLabel" aria-label="Loading paper">
+          <span class="spinner" aria-hidden="true"></span>
+          <ng-container i18n="@@papers.detail.loading">Loading paper…</ng-container>
+        </div>
+      }
+      @case ('signedOut') {
+        <div class="state" role="alert">
+          <p i18n="@@papers.library.page.signedOut">Sign in to see your library.</p>
+          <a class="action" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+        </div>
+      }
+      @case ('missing') {
+        <div class="state" role="alert">
+          <p i18n="@@papers.library.entry.missing">This paper is not in your library.</p>
+          <a class="action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+        </div>
+      }
+      @case ('failed') {
+        <div class="state state-error" role="alert">
+          <p i18n="@@papers.detail.error">The paper could not be loaded.</p>
+          <button type="button" class="action" (click)="retry()" i18n="@@papers.retry">Try again</button>
+        </div>
+      }
+      @case ('ready') {
+        @if (paper(); as p) {
+          @if (entry(); as e) {
+            <article class="paper">
+              <header class="paper-header">
+                <h1 class="paper-title">{{ p.title }}</h1>
+
+                <p class="paper-authors">
+                  @if (p.authors.length) {
+                    {{ authorNames(p) }}
+                  } @else {
+                    <span class="muted" i18n="@@papers.detail.noAuthors">Authors not listed.</span>
+                  }
+                </p>
+
+                <dl class="facts">
+                  <div class="fact">
+                    <dt i18n="@@papers.detail.type">Type</dt>
+                    <dd>{{ paperTypeLabel(p.type) }}</dd>
+                  </div>
+                  <div class="fact">
+                    <dt i18n="@@papers.detail.published">Published</dt>
+                    <dd>
+                      @if (date(); as d) { {{ d }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
+                    </dd>
+                  </div>
+                  @if (p.venue) {
+                    <div class="fact">
+                      <dt i18n="@@papers.detail.venue">Venue</dt>
+                      <dd>{{ p.venue }}</dd>
+                    </div>
+                  }
+                  @if (doiUrl(); as doi) {
+                    <div class="fact">
+                      <dt i18n="@@papers.detail.doi">DOI</dt>
+                      <dd><a [href]="doi" target="_blank" rel="noopener noreferrer">{{ p.doi }}</a></dd>
+                    </div>
+                  }
+                  @if (sourceUrl(); as url) {
+                    <div class="fact">
+                      <dt i18n="@@papers.detail.source">Original page</dt>
+                      <dd><a [href]="url" target="_blank" rel="noopener noreferrer">{{ url }}</a></dd>
+                    </div>
+                  }
+                </dl>
+
+                <p class="public-link">
+                  <a [routerLink]="['/papers', p.id]" i18n="@@papers.library.entry.public">View the public page and its discussion</a>
+                </p>
+              </header>
+
+              <section class="block" aria-labelledby="mine-heading">
+                <h2 id="mine-heading" class="block-title" i18n="@@papers.library.entry.mine">Your reading</h2>
+                <p class="muted private-note" i18n="@@papers.library.private">Only you can see your library.</p>
+                <app-paper-library-details [entry]="e" />
+
+                <div class="remove">
+                  @if (confirmingRemove()) {
+                    <span i18n="@@papers.library.entry.confirmRemove">Remove this paper and what you recorded about it?</span>
+                    <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirm">Remove</button>
+                    <button type="button" class="action" [disabled]="removing()" (click)="confirmingRemove.set(false)" i18n="@@papers.library.entry.cancel">Cancel</button>
+                  } @else {
+                    <button type="button" class="action action-quiet" (click)="confirmingRemove.set(true)" i18n="@@papers.library.remove">Remove from library</button>
+                  }
+                  @if (removeFailed()) {
+                    <span class="remove-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</span>
+                  }
+                </div>
+              </section>
+
+              <app-paper-attachment-panel [paperId]="p.id" />
+
+              <section class="block" aria-labelledby="abstract-heading">
+                <h2 id="abstract-heading" class="block-title" i18n="@@papers.detail.abstract">Abstract</h2>
+                @for (paragraph of paragraphs(); track $index) {
+                  <p class="abstract">{{ paragraph }}</p>
+                } @empty {
+                  <p class="muted" i18n="@@papers.detail.noAbstract">No abstract is available for this paper.</p>
+                }
+              </section>
+            </article>
+          }
+        }
+      }
+    }
+  </div>
+</div>

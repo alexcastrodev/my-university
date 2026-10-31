@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import { BASE_URL } from './BaseTest.js';
 import { PaperAttachmentPage } from './pages/PaperAttachmentPage.js';
 
-// Papers are seeded through the dev-only route; every test signs in as a reader of its own, so the PDFs of
-// one test never show up in another.
+// Papers are seeded through the dev-only route; every test signs in as a reader of its own (with the paper in
+// their library, where the PDF lives), so the PDFs of one test never show up in another.
 const token = `pa${Math.random().toString(36).slice(2, 8)}`;
 
 let api;
@@ -26,6 +26,8 @@ test.afterAll(async () => {
 async function signIn(page, name) {
   const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `${name} ${token}` } });
   expect(res.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
+  const added = await page.request.post(`${BASE_URL}/api/paper-library`, { data: { paperId } });
+  expect(added.ok(), `POST /api/paper-library: ${await added.text()}`).toBeTruthy();
 }
 
 /** The page never needs to scroll sideways, whatever the viewport. */
@@ -58,7 +60,7 @@ test.describe('Paper PDF', () => {
   test('asks a signed-out visitor to sign in, without an upload field', async ({ page }) => {
     const attachment = new PaperAttachmentPage(page);
     await attachment.goto(paperId);
-    await expect(attachment.signIn).toBeVisible();
+    await expect(attachment.signedOut).toBeVisible();
     await expect(attachment.fileInput).toHaveCount(0);
   });
 

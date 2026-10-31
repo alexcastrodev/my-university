@@ -1,6 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, SelectQueryBuilder } from 'typeorm';
-import { PAPER_PAGE_DEFAULT_LIMIT, PaperListQueryDto } from './paper-query.dto';
+import {
+  PAPER_PAGE_DEFAULT_LIMIT,
+  PaperFilterDto,
+  PaperListQueryDto,
+} from './paper-query.dto';
 import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
@@ -85,6 +89,16 @@ export class PapersCatalogService {
       .limit(limit)
       .getMany();
 
+    return {
+      items: await this.summaries(papers),
+      total,
+      page,
+      limit,
+    };
+  }
+
+  /** The catalog rows for these papers, in the same order. */
+  async summaries(papers: Paper[]): Promise<PaperSummary[]> {
     const ids = papers.map((p) => p.id);
     const [authors, keywords] = ids.length
       ? await Promise.all([
@@ -112,23 +126,18 @@ export class PapersCatalogService {
     const authorsOf = by(authors);
     const keywordsOf = by(keywords);
 
-    return {
-      items: papers.map((p) => ({
-        id: p.id,
-        title: p.title,
-        authors: (authorsOf.get(p.id) ?? []).map((a) => a.name),
-        keywords: (keywordsOf.get(p.id) ?? []).map((k) => k.keyword),
-        venue: p.venue,
-        publicationDate: p.publicationDate,
-        doi: p.doi,
-        researchArea: p.researchArea,
-        type: p.type,
-        excerpt: excerptOf(p.abstract),
-      })),
-      total,
-      page,
-      limit,
-    };
+    return papers.map((p) => ({
+      id: p.id,
+      title: p.title,
+      authors: (authorsOf.get(p.id) ?? []).map((a) => a.name),
+      keywords: (keywordsOf.get(p.id) ?? []).map((k) => k.keyword),
+      venue: p.venue,
+      publicationDate: p.publicationDate,
+      doi: p.doi,
+      researchArea: p.researchArea,
+      type: p.type,
+      excerpt: excerptOf(p.abstract),
+    }));
   }
 
   /** The values the filter selects offer, most used first. */
@@ -166,7 +175,8 @@ export class PapersCatalogService {
     return paper.title;
   }
 
-  private filter(builder: SelectQueryBuilder<Paper>, query: PaperListQueryDto) {
+  /** Adds the shared filters to a query over `Paper` aliased `p`. */
+  filter(builder: SelectQueryBuilder<Paper>, query: PaperFilterDto) {
     const has = (text?: string): text is string => !!text && text.length > 0;
 
     if (has(query.q)) {

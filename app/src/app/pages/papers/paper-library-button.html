@@ -1,0 +1,24 @@
+@if (ready()) {
+  <div class="library-action">
+    @if (!signedIn()) {
+      <a class="library-link" routerLink="/login" i18n="@@papers.library.signIn">Sign in to save this paper to your library</a>
+    } @else if (loadFailed()) {
+      <span class="library-error" role="alert" i18n="@@papers.library.loadError">Your library could not be loaded.</span>
+      <button type="button" class="library-button" (click)="load()" i18n="@@papers.retry">Try again</button>
+    } @else if (inLibrary() === false) {
+      <button type="button" class="library-button library-button-primary" [disabled]="busy()" (click)="add()" i18n="@@papers.library.add">Add to my library</button>
+    } @else if (inLibrary()) {
+      <span class="in-library">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <ng-container i18n="@@papers.library.inLibrary">In my library</ng-container>
+      </span>
+      <a class="library-link" [routerLink]="['/library', paperId()]" i18n="@@papers.library.open">Open in my library</a>
+      <button type="button" class="library-button library-button-quiet" [disabled]="busy()" (click)="remove()" i18n="@@papers.library.remove">Remove from library</button>
+    }
+    @if (saveFailed()) {
+      <span class="library-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</span>
+    }
+  </div>
+}

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { normalizeLanguage } from '../shared/language';
 import { GithubProfile } from './github-oauth.service';
 import { normalizeSlug, slugProblem } from './profile-slug';
+import { ROLES } from './roles';
 import { User } from './user.entity';
 
 /** Returns a copy of `user` with `displayName` replaced by the effective value (override, if set). Does not persist anything. */
@@ -112,6 +113,14 @@ export class AuthService {
         avatarUrl: 'https://avatars.githubusercontent.com/u/0',
       }),
     );
+  }
+
+  /** Test-only: gives a user staff roles, the way someone with database access would in production. */
+  async setRoles(userId: number, roles: string[]): Promise<void> {
+    if (!Array.isArray(roles) || roles.some((r) => !(ROLES as readonly string[]).includes(r))) {
+      throw new BadRequestException(`roles must be a list of: ${ROLES.join(', ')}`);
+    }
+    await this.repo.update(userId, { roles });
   }
 
   /** Test-only: deletes every user created via `createTestUser`, and their XP rows via cascade, so repeated spec runs don't pollute things like the leaderboard. */

@@ -1,17 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, LOCALE_ID, afterNextRender, computed, effect, inject, input, signal, untracked } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { finalize } from 'rxjs';
 import { PaperAttachment } from '../../models/paper.model';
-import { AuthService } from '../../services/auth.service';
 import { MAX_PDF_BYTES, PaperAttachmentsService } from '../../services/paper-attachments.service';
 import { attachmentErrorMessage, formatFileSize, formatPaperDate } from '../../shared/paper-format';
 
-/** The reader's own PDF of a paper: upload, replace, download, remove. Private, so it only exists in the browser. */
+/** The reader's own PDF of a paper: upload, replace, download, remove. Lives on the library page, which only the browser renders. */
 @Component({
   selector: 'app-paper-attachment-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
   templateUrl: './paper-attachment-panel.html',
   styleUrl: './paper-attachment-panel.css',
 })
@@ -19,14 +16,10 @@ export class PaperAttachmentPanel {
   readonly paperId = input.required<number>();
 
   private attachments = inject(PaperAttachmentsService);
-  private auth = inject(AuthService);
   private locale = inject(LOCALE_ID);
 
-  /** Set once the page is in the browser: the server renders none of this, so hydration has nothing to disagree on. */
-  protected ready = signal(false);
-  protected signedIn = computed(() => this.auth.currentUser() !== null);
   protected attachment = signal<PaperAttachment | null>(null);
-  protected loading = signal(false);
+  protected loading = signal(true);
   protected loadFailed = signal(false);
   protected uploading = signal(false);
   protected removing = signal(false);
@@ -62,10 +55,9 @@ export class PaperAttachmentPanel {
   });
 
   constructor() {
-    afterNextRender(() => this.ready.set(true));
     effect(() => {
       const id = this.paperId();
-      if (this.ready() && this.signedIn()) untracked(() => this.load(id));
+      untracked(() => this.load(id));
     });
   }
 
