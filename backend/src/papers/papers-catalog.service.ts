@@ -230,8 +230,9 @@ export class PapersCatalogService {
   detail(slug: string, lang: Language = DEFAULT_LANGUAGE): PublicPaperView {
     const meta = this.bySlug.get(slug);
     if (!meta) throw new NotFoundException();
+    // The folder is named by the file's own slug, never by the one in the request.
     const { language, availableLanguages, body, summary, version, updatedAt, title } = this.content(
-      slug,
+      meta.slug,
       normalizeLanguage(lang),
     );
     return {

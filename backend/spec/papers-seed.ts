@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import seed from '../src/seed/data/papers/papers.json';
 
 /** One entry of `papers.json`, the real seed the live stack serves (see src/seed/data/papers). */
 export interface SeedPaper {
@@ -16,9 +15,7 @@ export interface SeedPaper {
   abstract?: string;
 }
 
-export const SEED_PAPERS: SeedPaper[] = JSON.parse(
-  readFileSync(join(__dirname, '../src/seed/data/papers/papers.json'), 'utf-8'),
-);
+export const SEED_PAPERS: SeedPaper[] = seed;
 
 /** The seed paper with this slug, or a failure that names it. */
 export function seedPaper(slug: string): SeedPaper {
