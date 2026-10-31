@@ -214,7 +214,7 @@ export class PaperAttachmentsService
       }
       void this.drain();
       await this.audit.record(userId, 'attachment.upload', publicIdOf(ref), {
-        size: bytes.length,
+        size: bytes.byteLength,
         outcome: verdict.ok ? 'approved' : 'rejected',
         ...(verdict.ok ? {} : { code: verdict.code }),
       });
