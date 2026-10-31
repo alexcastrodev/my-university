@@ -204,7 +204,9 @@ test.describe('Papers catalog', () => {
     test('opens from the list on a stable URL and shows the whole record', async ({ page }) => {
       const list = new PapersListPage(page);
       const paper = new PaperDetailPage(page);
-      await list.goto(`?q=${token}`);
+      // The seeds are recreated for every test (new ids) while the server keeps a rendered list per URL for a
+      // few minutes, so a list another test already loaded would link to ids that no longer exist.
+      await list.goto(`?q=${token}&fresh=${Date.now()}`);
       await list.open(title('full'));
 
       await expect(page).toHaveURL(new RegExp(`/papers/${full}$`));
