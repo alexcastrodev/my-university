@@ -10,28 +10,25 @@ import { PapersListPage } from './pages/PapersListPage.js';
 // browser. The server side of the lookup, import and creation is covered against a stub Crossref in
 // backend/spec/papers-import.spec.ts.
 const token = `pa${Math.random().toString(36).slice(2, 8)}`;
-const catalogIds = [];
 let api;
 
 test.beforeAll(async ({ playwright }) => {
   api = await playwright.request.newContext({ baseURL: BASE_URL });
 });
 test.afterAll(async () => {
-  await Promise.all(catalogIds.splice(0).map((id) => api.delete(`/api/papers/_test/${id}`)));
   await api.dispose();
 });
+
+// The catalog is the seed files (backend/src/seed/data/papers): a test that needs a catalog paper picks one.
+const CATALOG = [
+  { id: 'foundationdb-unbundled-transactional-kv-store', title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store' },
+  { id: 'metastable-failures-in-distributed-systems', title: 'Metastable Failures in Distributed Systems' },
+  { id: 'tidb-raft-based-htap-database', title: 'TiDB: A Raft-based HTAP Database' },
+];
 
 async function signIn(page, name = 'Adder') {
   const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `${name} ${token}` } });
   expect(res.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
-}
-
-async function seed(data) {
-  const res = await api.post('/api/papers/_test', { data });
-  expect(res.ok(), await res.text()).toBeTruthy();
-  const { paper } = await res.json();
-  catalogIds.push(paper.id);
-  return paper;
 }
 
 const candidate = {
@@ -106,7 +103,7 @@ test.describe('Add a paper', () => {
     });
 
     test('previews what the DOI is, then adds it and opens it in the library', async ({ page }) => {
-      const real = await seed({ title: `Opened after adding ${token}`, doi: `10.5555/${token}.opened` });
+      const real = CATALOG[0];
       let lookedUp;
       let imported;
       await page.route(PREVIEW, (route) => {
@@ -136,13 +133,13 @@ test.describe('Add a paper', () => {
 
       await add.addButton.click();
       await expect(page).toHaveURL(new RegExp(`/library/${real.id}$`));
-      await expect(new PaperLibraryEntryPage(page).title).toHaveText(`Opened after adding ${token}`);
+      await expect(new PaperLibraryEntryPage(page).title).toHaveText(real.title);
       // The server fetches the metadata itself: the browser sends the DOI and nothing else.
       expect(imported).toEqual({ doi: '10.5555/stubbed' });
     });
 
     test('says a catalog paper is used as it is, and adds it on request', async ({ page }) => {
-      const real = await seed({ title: `In the catalog ${token}`, doi: `10.5555/${token}.catalog` });
+      const real = CATALOG[1];
       await page.route(PREVIEW, reply(200, preview({ match: { paperId: real.id, title: real.title, private: false, inLibrary: false } })));
       await page.request.post('/api/paper-library', { data: { paperId: real.id } });
       await page.route(/\/api\/paper-library\/import$/, reply(201, added(real.id)));
@@ -157,7 +154,7 @@ test.describe('Add a paper', () => {
     });
 
     test('says the paper is already in the library and links to it, with nothing to add', async ({ page }) => {
-      const real = await seed({ title: `Already here ${token}`, doi: `10.5555/${token}.here` });
+      const real = CATALOG[2];
       await page.route(PREVIEW, reply(200, preview({ match: { paperId: real.id, title: real.title, private: false, inLibrary: true } })));
 
       const add = new PaperAddPage(page);

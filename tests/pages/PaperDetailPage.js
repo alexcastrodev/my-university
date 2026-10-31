@@ -35,14 +35,21 @@ export class PaperDetailPage {
 
     this.analysis = page.locator('#analysis');
     this.analysisNote = this.analysis.locator('.analysis-note');
-    this.noAnalysis = this.analysis.getByText('There is no Research Analysis for this paper yet.');
     this.analysisCredit = this.analysis.locator('.analysis-credit');
     this.analysisTitles = this.analysis.locator('.analysis-section-title');
+    this.analysisBodies = this.analysis.locator('.section-body');
+    // The same page in the other language, for search engines.
+    this.alternates = page.locator('link[rel="alternate"][hreflang]');
   }
 
   /** `query` is for a page that changed since it was last rendered: the server keeps a rendered page per URL for a few minutes. */
   async goto(id, query = '') {
     await this.page.goto(`/papers/${id}${query}`);
+  }
+
+  /** The Portuguese version of the same paper. */
+  async gotoPortuguese(id) {
+    await this.page.goto(`/pt-BR/papers/${id}`);
   }
 
   /** The value shown next to a label in the facts box (Type, Published, Venue, DOI...). */

@@ -1,3 +1,5 @@
+import { Language } from './language.model';
+
 export const PAPER_TYPES = [
   'journal-article',
   'conference-paper',
@@ -18,7 +20,7 @@ export type PaperSort = 'recent' | 'title';
 
 /** A row of the public catalog; mirrors GET /api/papers. */
 export interface PaperSummary {
-  /** The public id (UUIDv7): what URLs and the API call the paper. */
+  /** The public id: the slug of a catalog paper (a file), the UUIDv7 of a private one. */
   id: string;
   title: string;
   authors: string[];
@@ -52,9 +54,9 @@ export interface PaperFacets {
   types: FacetValue[];
 }
 
-/** The public record of one paper; mirrors GET /api/papers/:id. */
+/** The record of one paper; mirrors GET /api/paper-library/:id/paper. */
 export interface Paper {
-  /** The public id (UUIDv7). */
+  /** The public id: a slug for a catalog paper, a UUIDv7 for a private one. */
   id: string;
   title: string;
   abstract: string | null;
@@ -67,6 +69,26 @@ export interface Paper {
   stage: PublicationStage;
   authors: { name: string; orcid: string | null }[];
   keywords: string[];
+}
+
+/** One `##` section of the Research Analysis; `content` is markdown. */
+export interface PaperSection {
+  title: string;
+  content: string;
+}
+
+/**
+ * A catalog paper with our Research Analysis; mirrors GET /api/papers/:slug. The analysis is the markdown of the
+ * paper's file, in the reader's language (English when it has no translation).
+ */
+export interface PublicPaper extends Paper {
+  language: Language;
+  availableLanguages: Language[];
+  summary: string;
+  version: string;
+  /** The day the analysis was last revised, `YYYY-MM-DD`. */
+  updatedAt: string;
+  sections: PaperSection[];
 }
 
 /** The catalog filters as they live in the URL: a missing key means "not filtered". */
@@ -205,37 +227,3 @@ export interface ImportPreview {
 
 /** The answer of POST /api/paper-library/import and /manual: the paper now in the library. */
 export type AddPaperResult = Omit<PrivatePaperResult, 'attachment'>;
-
-/** The six sections of the Research Analysis, in reading order. */
-export const ANALYSIS_SECTIONS = [
-  'overview',
-  'contribution',
-  'methodology',
-  'findings',
-  'criticalAnalysis',
-  'furtherResearch',
-] as const;
-export type AnalysisSectionKey = (typeof ANALYSIS_SECTIONS)[number];
-
-/** A section either says something or says why it does not: nothing forces an unsupported claim. */
-export type AnalysisSectionState = 'present' | 'not_applicable' | 'not_reported' | 'unable_to_determine';
-
-export interface AnalysisSection {
-  state: AnalysisSectionState;
-  text: string | null;
-}
-
-/** Someone the analysis credits; the profile link exists only when that person made the profile public. */
-export interface AnalysisPerson {
-  name: string;
-  profilePath: string | null;
-}
-
-/** The published Research Analysis; mirrors GET /api/papers/:id/analysis. Drafts never come through here. */
-export interface PaperAnalysis {
-  revision: number;
-  publishedAt: string;
-  author: AnalysisPerson | null;
-  publishedBy: AnalysisPerson | null;
-  sections: Partial<Record<AnalysisSectionKey, AnalysisSection>>;
-}

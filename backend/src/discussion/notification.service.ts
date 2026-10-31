@@ -14,7 +14,7 @@ import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { GENERAL_ANCHOR, LAB_ANCHOR } from './discussion.logic';
 import { Notification } from './notification.entity';
-import { paperIdOfTopicKey } from './paper-topic';
+import { paperSlugOfTopicKey } from './paper-topic';
 
 const PAGE = 30;
 
@@ -128,11 +128,12 @@ export class NotificationService {
   private async detail(
     marker: DiscussionMarker,
   ): Promise<{ title: string; route: string[] } | null> {
-    const paperId = paperIdOfTopicKey(marker.topicKey);
-    if (paperId !== null) {
-      // The paper may have been removed since the reply; then there is nothing to link to.
-      const title = await this.papers.titleOfPublic(paperId).catch(() => null);
-      return title === null ? null : { title, route: ['/papers', paperId] };
+    const slug = paperSlugOfTopicKey(marker.topicKey);
+    if (slug !== null) {
+      // The paper may have been removed from the files since the reply; then there is nothing to link to.
+      return this.papers.has(slug)
+        ? { title: this.papers.titleOf(slug), route: ['/papers', slug] }
+        : null;
     }
     const [sourceType, ...rest] = marker.topicKey.split(':');
     const sourceId = rest.join(':');

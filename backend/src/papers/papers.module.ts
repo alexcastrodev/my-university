@@ -1,11 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../auth/user.entity';
 import { Paper } from './paper.entity';
-import { PaperAnalysis, PaperAnalysisEvent } from './paper-analysis.entity';
 import { PaperAuthor } from './paper-author.entity';
-import { PaperAnalysisController } from './paper-analysis.controller';
-import { PaperAnalysisService } from './paper-analysis.service';
 import { PaperKeyword } from './paper-keyword.entity';
 import { PaperLibraryController } from './paper-library.controller';
 import { PaperLibraryEntry } from './paper-library.entity';
@@ -19,8 +15,8 @@ import { PapersCatalogService } from './papers-catalog.service';
 import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
 
-// Reads are public (the catalog, #179, and the published analysis, #180). Writes of the analysis need a staff
-// role. Adding a paper needs a session and puts it in the reader's own library, never in the catalog (#212); changing one that exists has no route yet.
+// The public papers are authored files read through PapersCatalogService (#213): no route writes to them.
+// Adding a paper needs a session and puts it in the reader's own library, never in the public list (#212).
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -29,16 +25,12 @@ import { PapersService } from './papers.service';
       PaperKeyword,
       PaperLibraryEntry,
       PaperSource,
-      PaperAnalysis,
-      PaperAnalysisEvent,
-      User,
     ]),
   ],
-  controllers: [PapersController, PaperAnalysisController, PaperImportController, PaperLibraryController],
+  controllers: [PapersController, PaperImportController, PaperLibraryController],
   providers: [
     PapersService,
     PapersCatalogService,
-    PaperAnalysisService,
     PaperImportService,
     CrossrefClient,
     PaperLibraryService,

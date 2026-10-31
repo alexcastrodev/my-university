@@ -9,8 +9,10 @@ import {
   OnApplicationBootstrap,
   OnModuleDestroy,
 } from '@nestjs/common';
-import { DataSource, EntityManager, IsNull } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 import { Paper } from '../papers/paper.entity';
+import { PaperRef, refColumn } from '../papers/paper-ref';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { StorageService } from '../storage/storage.service';
 import {
   AttachmentLimits,
@@ -19,7 +21,6 @@ import {
 import { VersionState } from './paper-attachment-version.entity';
 import { scanPdf } from './pdf-scan';
 
-const MAX_ID = 2_147_483_647;
 const KEY_PREFIX = 'papers';
 const MAX_NAME_LENGTH = 200;
 /** A version still pending after this long belongs to an upload that died; its bytes go. */
@@ -117,6 +118,8 @@ export class PaperAttachmentsService
   constructor(
     @Inject(DataSource) private readonly dataSource: DataSource,
     @Inject(StorageService) private readonly storage: StorageService,
+    @Inject(PapersCatalogService)
+    private readonly catalog: PapersCatalogService,
   ) {}
 
   get maxBytes(): number {
@@ -135,11 +138,10 @@ export class PaperAttachmentsService
 
   async upload(
     userId: number,
-    paperId: number,
+    ref: PaperRef,
     bytes: Buffer,
     filename: string,
   ): Promise<{ attachment: AttachmentView; created: boolean }> {
-    this.checkId(paperId);
     if (!bytes.byteLength) {
       throw fail(400, 'empty_body', 'Send the PDF as the request body.');
     }
@@ -156,15 +158,15 @@ export class PaperAttachmentsService
     this.uploading.add(userId);
     try {
       // A public paper, or the reader's own private one: never someone else's.
-      const paper = await this.dataSource.getRepository(Paper).exists({
-        where: [
-          { id: paperId, ownerId: IsNull() },
-          { id: paperId, ownerId: userId },
-        ],
-      });
+      const paper =
+        ref.kind === 'public'
+          ? this.catalog.has(ref.slug)
+          : await this.dataSource
+              .getRepository(Paper)
+              .exists({ where: { id: ref.id, ownerId: userId } });
       if (!paper) throw new NotFoundException('Paper not found');
       if (
-        (await this.usedBytes(userId, paperId)) + bytes.byteLength >
+        (await this.usedBytes(userId, ref)) + bytes.byteLength >
         this.limits.quotaBytes
       ) {
         throw fail(
@@ -174,7 +176,7 @@ export class PaperAttachmentsService
         );
       }
 
-      const pending = await this.startVersion(userId, paperId, bytes, filename);
+      const pending = await this.startVersion(userId, ref, bytes, filename);
       try {
         await this.storage.put(pending.key, bytes, 'application/pdf');
       } catch (err) {
@@ -214,7 +216,7 @@ export class PaperAttachmentsService
         throw fail(422, verdict.code, verdict.reason);
       }
       return {
-        attachment: await this.get(userId, paperId),
+        attachment: await this.get(userId, ref),
         created: pending.created,
       };
     } finally {
@@ -222,11 +224,11 @@ export class PaperAttachmentsService
     }
   }
 
-  async get(userId: number, paperId: number): Promise<AttachmentView> {
-    this.checkId(paperId);
+  async get(userId: number, ref: PaperRef): Promise<AttachmentView> {
+    const { column, value } = refColumn(ref);
     const attachment: { id: number }[] = await this.dataSource.query(
-      `SELECT id FROM paper_attachment WHERE "paperId" = $1 AND "ownerId" = $2`,
-      [paperId, userId],
+      `SELECT id FROM paper_attachment WHERE "${column}" = $1 AND "ownerId" = $2`,
+      [value, userId],
     );
     if (!attachment.length) throw new NotFoundException('No PDF attached');
     const versions: VersionRow[] = await this.dataSource.query(
@@ -253,8 +255,8 @@ export class PaperAttachmentsService
   }
 
   /** The approved file as a stream. A pending, rejected or superseded version is never returned. */
-  async open(userId: number, paperId: number): Promise<DownloadableFile> {
-    this.checkId(paperId);
+  async open(userId: number, ref: PaperRef): Promise<DownloadableFile> {
+    const { column, value } = refColumn(ref);
     const rows: {
       objectKey: string;
       originalName: string;
@@ -264,8 +266,8 @@ export class PaperAttachmentsService
       `SELECT v."objectKey", v."originalName", v.size, v.sha256
          FROM paper_attachment a
          JOIN paper_attachment_version v ON v."attachmentId" = a.id AND v.state = 'approved'
-        WHERE a."paperId" = $1 AND a."ownerId" = $2`,
-      [paperId, userId],
+        WHERE a."${column}" = $1 AND a."ownerId" = $2`,
+      [value, userId],
     );
     if (!rows.length) throw new NotFoundException('No approved PDF');
     const file = await this.storage.getStream(rows[0].objectKey);
@@ -288,11 +290,11 @@ export class PaperAttachmentsService
   }
 
   /** Deletes the attachment and every version. The objects are queued by a trigger and removed right after. */
-  async remove(userId: number, paperId: number): Promise<void> {
-    if (!this.validId(paperId)) return;
+  async remove(userId: number, ref: PaperRef): Promise<void> {
+    const { column, value } = refColumn(ref);
     await this.dataSource.query(
-      `DELETE FROM paper_attachment WHERE "paperId" = $1 AND "ownerId" = $2`,
-      [paperId, userId],
+      `DELETE FROM paper_attachment WHERE "${column}" = $1 AND "ownerId" = $2`,
+      [value, userId],
     );
     void this.drain();
   }
@@ -360,22 +362,15 @@ export class PaperAttachmentsService
     while ((await this.drain()) === DELETE_BATCH);
   }
 
-  private validId(id: number) {
-    return Number.isSafeInteger(id) && id >= 1 && id <= MAX_ID;
-  }
-
-  private checkId(id: number) {
-    if (!this.validId(id)) throw new NotFoundException('Paper not found');
-  }
-
   /** Bytes the reader holds, not counting the approved file of this paper, which this upload would replace. */
-  private async usedBytes(userId: number, paperId: number): Promise<number> {
+  private async usedBytes(userId: number, ref: PaperRef): Promise<number> {
+    const { column, value } = refColumn(ref);
     const [{ used }]: { used: string }[] = await this.dataSource.query(
       `SELECT COALESCE(SUM(v.size), 0) AS used
          FROM paper_attachment_version v JOIN paper_attachment a ON a.id = v."attachmentId"
         WHERE a."ownerId" = $1 AND v.state IN ('pending', 'approved')
-          AND NOT (a."paperId" = $2 AND v.state = 'approved')`,
-      [userId, paperId],
+          AND NOT (a."${column}" = $2 AND v.state = 'approved')`,
+      [userId, value],
     );
     return Number(used);
   }
@@ -383,22 +378,23 @@ export class PaperAttachmentsService
   /** Writes the attachment (if it is new) and a pending version. The object does not exist yet. */
   private async startVersion(
     userId: number,
-    paperId: number,
+    ref: PaperRef,
     bytes: Buffer,
     filename: string,
   ) {
+    const { column, value } = refColumn(ref);
     const key = this.storage.newKey(KEY_PREFIX);
     const sha256 = createHash('sha256').update(bytes).digest('hex');
     try {
       return await this.dataSource.transaction(async (m) => {
         const inserted: { id: number }[] = await m.query(
-          `INSERT INTO paper_attachment ("paperId", "ownerId") VALUES ($1, $2)
-           ON CONFLICT ("paperId", "ownerId") DO NOTHING RETURNING id`,
-          [paperId, userId],
+          `INSERT INTO paper_attachment ("${column}", "ownerId") VALUES ($1, $2)
+           ON CONFLICT ("${column}", "ownerId") DO NOTHING RETURNING id`,
+          [value, userId],
         );
         const [{ id: attachmentId }]: { id: number }[] = await m.query(
-          `SELECT id FROM paper_attachment WHERE "paperId" = $1 AND "ownerId" = $2 FOR UPDATE`,
-          [paperId, userId],
+          `SELECT id FROM paper_attachment WHERE "${column}" = $1 AND "ownerId" = $2 FOR UPDATE`,
+          [value, userId],
         );
         const [{ next }]: { next: number }[] = await m.query(
           `SELECT COALESCE(MAX(version), 0) + 1 AS next FROM paper_attachment_version WHERE "attachmentId" = $1`,

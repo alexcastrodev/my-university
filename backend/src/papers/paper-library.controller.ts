@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 import { CurrentUserId } from '../auth/session';
+import { normalizeLanguage } from '../shared/language';
 import {
   AddToLibraryDto,
   LibraryQueryDto,
@@ -21,6 +22,7 @@ import {
 } from './paper-library.dto';
 import { PaperIds } from './paper-public-id';
 import { PaperLibraryService } from './paper-library.service';
+import { PapersCatalogService } from './papers-catalog.service';
 import { PapersService } from './papers.service';
 
 // esbuild (vitest) emits no decorator metadata, so each pipe is told its DTO by hand. Unknown fields
@@ -43,6 +45,7 @@ export class PaperLibraryController {
     @Inject(PaperLibraryService) private readonly library: PaperLibraryService,
     @Inject(PaperIds) private readonly ids: PaperIds,
     @Inject(PapersService) private readonly papers: PapersService,
+    @Inject(PapersCatalogService) private readonly catalog: PapersCatalogService,
   ) {}
 
   @Get()
@@ -87,10 +90,13 @@ export class PaperLibraryController {
   async paper(
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
+    @Query('lang') lang?: string,
   ) {
-    const id = await this.ids.resolveFor(userId, paperId);
-    await this.library.get(userId, id);
-    return this.papers.getFor(userId, id);
+    const ref = await this.ids.resolveFor(userId, paperId);
+    await this.library.get(userId, ref);
+    return ref.kind === 'public'
+      ? this.catalog.detail(ref.slug, normalizeLanguage(lang))
+      : this.papers.getOwn(userId, ref.id);
   }
 
   @Patch(':paperId')

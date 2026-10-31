@@ -2,25 +2,15 @@ import { test, expect } from '@playwright/test';
 import { BASE_URL } from './BaseTest.js';
 import { PaperAttachmentPage } from './pages/PaperAttachmentPage.js';
 
-// Papers are seeded through the dev-only route; every test signs in as a reader of its own (with the paper in
-// their library, where the PDF lives), so the PDFs of one test never show up in another.
+// The paper is one of the seed files (backend/src/seed/data/papers). Every test signs in as a reader of its own
+// (with the paper in their library, where the PDF lives), so the PDFs of one test never show up in another, and
+// takes its PDFs and entry away when it is done.
 const token = `pa${Math.random().toString(36).slice(2, 8)}`;
+const paperId = 'metastable-failures-in-distributed-systems';
 
-let api;
-let paperId;
-
-test.beforeAll(async ({ playwright }) => {
-  api = await playwright.request.newContext({ baseURL: BASE_URL });
-  const res = await api.post('/api/papers/_test', {
-    data: { title: `Attachment paper ${token}`, authors: [{ name: 'Ada Lovelace' }], publicationDate: '2021' },
-  });
-  expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  paperId = (await res.json()).paper.id;
-});
-
-test.afterAll(async () => {
-  await api.delete(`/api/papers/_test/${paperId}`);
-  await api.dispose();
+test.afterEach(async ({ page }) => {
+  await page.request.delete(`${BASE_URL}/api/papers/${paperId}/attachment`);
+  await page.request.delete(`${BASE_URL}/api/paper-library/${paperId}`);
 });
 
 async function signIn(page, name) {

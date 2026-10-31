@@ -1,15 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Paper, PaperAnalysis, PaperFacets, PaperPage, PaperQuery } from '../models/paper.model';
+import { Observable } from 'rxjs';
+import { PaperFacets, PaperPage, PaperQuery, PublicPaper } from '../models/paper.model';
+import { LanguageService } from './language.service';
 
 @Injectable({ providedIn: 'root' })
 export class PapersService {
   private http = inject(HttpClient);
+  private language = inject(LanguageService);
   private base = '/api/papers';
 
   list(query: PaperQuery): Observable<PaperPage> {
-    let params = new HttpParams();
+    let params = new HttpParams().set('lang', this.language.language);
     for (const [key, value] of Object.entries(query)) {
       if (value !== undefined && value !== '') params = params.set(key, String(value));
     }
@@ -20,13 +22,8 @@ export class PapersService {
     return this.http.get<PaperFacets>(`${this.base}/facets`);
   }
 
-  /** A paper by its public id. An id from before public ids is answered with a redirect, which the browser follows. */
-  get(id: string): Observable<Paper> {
-    return this.http.get<Paper>(`${this.base}/${id}`);
-  }
-
-  /** The published analysis of a paper, or null when it has none. */
-  analysis(id: string): Observable<PaperAnalysis | null> {
-    return this.http.get<{ analysis: PaperAnalysis | null }>(`${this.base}/${id}/analysis`).pipe(map((r) => r.analysis));
+  /** A catalog paper by its slug, with its analysis in the reader's language (English when it has no translation). */
+  get(slug: string): Observable<PublicPaper> {
+    return this.http.get<PublicPaper>(`${this.base}/${slug}`, { params: { lang: this.language.language } });
   }
 }

@@ -1,14 +1,11 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { json } from './helpers';
 import { CatalogApp, startCatalogApp } from './papers-catalog-app';
+import { FixturePaper } from './papers-fixtures';
 
-// Requests to the real PapersController (spec/papers-catalog-app.ts) backed by the real Postgres; each
-// test sends a request and asserts on the response. Every title, DOI, keyword and area carries a
-// per-run token, so a test only ever sees its own papers and never meets leftovers of an interrupted run.
-const run = Math.random().toString(36).slice(2, 8);
-const doi = (n: string) => `10.5555/${run}.${n}`;
-const title = (n: string) => `Catalog paper ${run} ${n}`;
-const area = (n: string) => `Area ${run} ${n}`;
+// Requests to the real PapersController (spec/papers-catalog-app.ts), which reads the public papers from
+// files (#213). Each describe boots the app on a folder of fixtures it writes itself, sends a request and
+// asserts on the response. Nothing here depends on the real seed; papers-seed.spec.ts covers that.
 
 interface Summary {
   id: string;
@@ -31,534 +28,535 @@ interface Page {
   limit: number;
 }
 
+const LONG_ABSTRACT = `${'Consensus '.repeat(40)}ends here.`;
+
+const PAPERS: FixturePaper[] = [
+  {
+    slug: 'transformers-survey',
+    title: 'Transformers Survey',
+    authors: ['Ada Lovelace', 'Hopper, Grace'],
+    type: 'journal-article',
+    venue: 'Journal of Specs',
+    publicationDate: '2024-05',
+    doi: '10.5555/spec.survey',
+    url: 'https://example.org/survey',
+    researchArea: 'Machine Learning',
+    keywords: ['Zeta', 'alpha', ' alpha '],
+    abstract: 'We study the catalog.',
+    portuguese: { title: 'Uma revisão dos transformers' },
+  },
+  {
+    slug: 'raft-in-practice',
+    title: 'Raft in Practice',
+    authors: ['Diego Ongaro'],
+    type: 'conference-paper',
+    publicationDate: '2014-06-19',
+    doi: '10.5555/spec.raft',
+    researchArea: 'Distributed Systems',
+    keywords: ['raft', 'consensus'],
+    abstract: 'Replicated logs and leader election.',
+  },
+  {
+    slug: 'old-preprint',
+    title: 'An Old Preprint',
+    authors: ['Leslie Lamport'],
+    type: 'preprint',
+    publicationDate: '2019',
+    researchArea: 'Distributed Systems',
+    keywords: ['consensus'],
+  },
+  {
+    slug: 'a-thesis',
+    title: 'A Thesis On Schedulers',
+    authors: ['Grace Hopper'],
+    type: 'thesis',
+    publicationDate: '2022',
+    researchArea: 'Operating Systems',
+  },
+  { slug: 'undated-note', title: 'An Undated Note', type: 'other' },
+  {
+    slug: 'a-report',
+    title: 'A Report',
+    authors: ['Ada Lovelace'],
+    type: 'report',
+    publicationDate: '2024-05-20',
+    researchArea: 'Machine Learning',
+  },
+  {
+    slug: 'long-abstract',
+    title: 'Long Abstract',
+    type: 'conference-paper',
+    publicationDate: '2018-03-01',
+    abstract: LONG_ABSTRACT,
+  },
+];
+
 let app: CatalogApp;
-const created = new Set<string>();
-/** A well-formed public id that no paper has. */
-const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
-/** A UUID of version 7: what PostgreSQL's uuidv7() makes. */
-const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
-const devAuth = process.env.ENABLE_DEV_AUTH;
-
-const send = (method: string, path: string, data?: unknown) =>
-  fetch(`${app.url}${path}`, {
-    method,
-    // Fastify rejects a JSON content type on a request with no body.
-    headers: data === undefined ? {} : { 'Content-Type': 'application/json' },
-    body: data === undefined ? undefined : JSON.stringify(data),
-  });
-
-let doiCounter = 0;
-
-/**
- * Seeds through the same dev-only route the browser tests use. A paper needs a DOI, a date or an author
- * to be told apart from others (#178), so one that has none of them gets a DOI of its own.
- */
-async function seed(data: Record<string, unknown>): Promise<string> {
-  const body =
-    data.doi || data.publicationDate || data.authors
-      ? data
-      : { ...data, doi: doi(`auto${doiCounter++}`) };
-  const res = await send('POST', '/papers/_test', body);
-  expect(res.status, await res.clone().text()).toBe(201);
-  const { paper } = await json<{ paper: { id: string } }>(res);
-  created.add(paper.id);
-  return paper.id;
-}
-
-const list = async (query: string) => {
+const list = async (query = '') => {
   const res = await fetch(`${app.url}/papers?${query}`);
   return { res, page: await json<Page>(res) };
 };
-/** Titles of everything of this run that the query returns, in order. */
-const titles = async (query: string) =>
-  (await list(`q=${run}&${query}`)).page.items.map((i) => i.title);
-
-beforeAll(async () => {
-  process.env.ENABLE_DEV_AUTH = '1';
-  app = await startCatalogApp();
-});
-afterEach(async () => {
-  await Promise.all(
-    [...created].map((id) => send('DELETE', `/papers/_test/${id}`)),
-  );
-  created.clear();
-});
-afterAll(async () => {
-  if (devAuth === undefined) delete process.env.ENABLE_DEV_AUTH;
-  else process.env.ENABLE_DEV_AUTH = devAuth;
-  await app.close();
-});
+/** The slugs a query returns, in order. */
+const slugs = async (query = '') =>
+  (await list(query)).page.items.map((i) => i.id);
+const detail = (slug: string, query = '') =>
+  fetch(`${app.url}/papers/${slug}${query}`);
 
 describe('GET /papers', () => {
-  it('lists the public metadata of a paper, with its authors in order and its keywords', async () => {
-    const id = await seed({
-      title: title('full'),
-      abstract: 'We study the catalog.',
-      doi: doi('full'),
-      venue: 'Journal of Specs',
-      publicationDate: '2024-05',
-      url: 'https://example.org/full',
-      researchArea: area('x'),
-      type: 'journal-article',
-      authors: [{ name: 'Ada Lovelace' }, { name: 'Hopper, Grace' }],
-      keywords: ['Zeta', 'alpha'],
-    });
+  beforeAll(async () => {
+    app = await startCatalogApp(PAPERS);
+  });
+  afterAll(() => app.close());
 
-    const { res, page } = await list(`q=${run}`);
+  it('lists the public metadata of a paper, with its authors in order and its keywords', async () => {
+    const { res, page } = await list('q=survey');
 
     expect(res.status).toBe(200);
     expect(page).toMatchObject({ total: 1, page: 1, limit: 20 });
     expect(page.items[0]).toEqual({
-      id,
-      title: title('full'),
+      id: 'transformers-survey',
+      title: 'Transformers Survey',
       authors: ['Ada Lovelace', 'Hopper, Grace'],
-      keywords: ['alpha', 'zeta'],
+      keywords: ['zeta', 'alpha'],
       venue: 'Journal of Specs',
       publicationDate: '2024-05',
-      doi: doi('full'),
-      url: 'https://example.org/full',
-      researchArea: area('x'),
+      doi: '10.5555/spec.survey',
+      url: 'https://example.org/survey',
+      researchArea: 'Machine Learning',
       type: 'journal-article',
       stage: 'published',
       excerpt: 'We study the catalog.',
     });
   });
 
+  it('shows a paper with nothing but the required fields as nulls and empty lists', async () => {
+    const { page } = await list('q=undated');
+
+    expect(page.items).toEqual([
+      {
+        id: 'undated-note',
+        title: 'An Undated Note',
+        authors: ['Ada Lovelace'],
+        keywords: [],
+        venue: null,
+        publicationDate: null,
+        doi: null,
+        url: null,
+        researchArea: null,
+        type: 'other',
+        stage: 'unknown',
+        excerpt: null,
+      },
+    ]);
+  });
+
+  it('cuts a long abstract at a word boundary, with an ellipsis', async () => {
+    const { page } = await list('q=long');
+
+    const excerpt = page.items[0].excerpt!;
+    expect(excerpt.length).toBeLessThanOrEqual(281);
+    expect(excerpt.endsWith('…')).toBe(true);
+    expect(LONG_ABSTRACT.startsWith(excerpt.slice(0, -1))).toBe(true);
+    expect(excerpt.slice(0, -1).endsWith('Consensus')).toBe(true);
+  });
+
   it('returns an empty page, not an error, when nothing matches', async () => {
-    const { res, page } = await list(`q=${run}-nothing-like-this`);
+    const { res, page } = await list('q=zzz-nothing');
+
     expect(res.status).toBe(200);
-    expect(page).toMatchObject({ items: [], total: 0 });
+    expect(page).toEqual({ items: [], total: 0, page: 1, limit: 20 });
   });
 
-  it('shows a paper with nothing but a title as nulls and empty lists', async () => {
-    await seed({ title: title('bare') });
-    const { page } = await list(`q=${run}`);
-    expect(page.items[0]).toMatchObject({
-      authors: [],
-      keywords: [],
-      venue: null,
-      publicationDate: null,
-      doi: expect.stringContaining(run),
-      researchArea: null,
-      type: 'other',
-      excerpt: null,
-    });
+  it('puts the newest publication first and a paper without a date last', async () => {
+    expect(await slugs()).toEqual([
+      'a-report',
+      'transformers-survey',
+      'a-thesis',
+      'old-preprint',
+      'long-abstract',
+      'raft-in-practice',
+      'undated-note',
+    ]);
+    expect(await slugs('sort=recent')).toEqual(await slugs());
   });
 
-  it('cuts a long abstract at a word boundary', async () => {
-    await seed({ title: title('long'), abstract: 'lorem '.repeat(200) });
-    const { excerpt } = (await list(`q=${run}`)).page.items[0];
-    expect(excerpt!.endsWith('…')).toBe(true);
-    expect(excerpt!.length).toBeLessThanOrEqual(281);
-    expect(excerpt).not.toMatch(/lore…$/);
+  it('can sort by title, ignoring case', async () => {
+    expect(await slugs('sort=title')).toEqual([
+      'a-report',
+      'a-thesis',
+      'old-preprint',
+      'undated-note',
+      'long-abstract',
+      'raft-in-practice',
+      'transformers-survey',
+    ]);
   });
 
-  describe('search and filters', () => {
-    it('finds by title, abstract, author, keyword and DOI with the free-text query', async () => {
-      await seed({ title: title('by-title') });
-      await seed({
-        title: title('plain-a'),
-        abstract: `mentions needle${run}`,
-      });
-      await seed({
-        title: title('plain-b'),
-        authors: [{ name: `Needleson${run}` }],
-      });
-      await seed({ title: title('plain-c'), keywords: [`kw${run}needle`] });
-      await seed({ title: title('plain-d'), doi: doi('needle') });
-
-      expect((await list(`q=${title('by-title')}`)).page.total).toBe(1);
-      expect(
-        (await list(`q=needle${run}`)).page.items.map((i) => i.title),
-      ).toEqual([title('plain-a')]);
-      expect((await list(`q=needleson${run}`)).page.items[0].title).toBe(
-        title('plain-b'),
-      );
-      expect((await list(`q=kw${run}needle`)).page.items[0].title).toBe(
-        title('plain-c'),
-      );
-      expect((await list(`q=${doi('needle')}`)).page.items[0].title).toBe(
-        title('plain-d'),
-      );
-    });
-
-    it('filters by author, case-insensitively and on any position', async () => {
-      await seed({
-        title: title('a1'),
-        authors: [{ name: 'First Person' }, { name: `Turing${run}, Alan` }],
-      });
-      await seed({ title: title('a2'), authors: [{ name: 'Someone Else' }] });
-      expect(await titles(`author=turing${run}`)).toEqual([title('a1')]);
-    });
-
-    it('filters by DOI in any spelling, and by a fragment of one', async () => {
-      await seed({ title: title('d1'), doi: doi('one') });
-      await seed({ title: title('d2'), doi: doi('two') });
-      expect(
-        await titles(
-          `doi=${encodeURIComponent(`https://doi.org/${doi('one').toUpperCase()}`)}`,
-        ),
-      ).toEqual([title('d1')]);
-      expect(
-        await titles(`doi=${encodeURIComponent(`doi:${doi('two')}`)}`),
-      ).toEqual([title('d2')]);
-      expect(
-        (await titles(`doi=${encodeURIComponent(`${run}.`)}`)).sort(),
-      ).toEqual([title('d1'), title('d2')]);
-    });
-
-    it('filters by a whole keyword, ignoring case, not by a piece of one', async () => {
-      await seed({ title: title('k1'), keywords: [`Raft${run}`, 'consensus'] });
-      await seed({ title: title('k2'), keywords: [`raftish${run}`] });
-      expect(await titles(`keyword=RAFT${run}`)).toEqual([title('k1')]);
-      expect(await titles(`keyword=raft`)).toEqual([]);
-    });
-
-    it('filters by research area, publication type and year', async () => {
-      await seed({
-        title: title('f1'),
-        researchArea: area('a'),
-        type: 'preprint',
-        publicationDate: '2021-03-01',
-      });
-      await seed({
-        title: title('f2'),
-        researchArea: area('a'),
-        type: 'book',
-        publicationDate: '2022',
-      });
-      await seed({
-        title: title('f3'),
-        researchArea: area('b'),
-        type: 'preprint',
-        publicationDate: '2021',
-      });
-
-      expect(
-        (
-          await titles(`area=${encodeURIComponent(area('a').toUpperCase())}`)
-        ).sort(),
-      ).toEqual([title('f1'), title('f2')]);
-      expect((await titles('type=preprint')).sort()).toEqual([
-        title('f1'),
-        title('f3'),
-      ]);
-      expect((await titles('year=2021')).sort()).toEqual([
-        title('f1'),
-        title('f3'),
-      ]);
-    });
-
-    it('filters by publication stage, which groups the types that stand alike', async () => {
-      await seed({ title: title('s1'), type: 'journal-article' });
-      await seed({ title: title('s2'), type: 'conference-paper' });
-      await seed({ title: title('s3'), type: 'preprint' });
-      await seed({ title: title('s4'), type: 'thesis' });
-
-      expect((await titles('stage=published')).sort()).toEqual([
-        title('s1'),
-        title('s2'),
-      ]);
-      expect(await titles('stage=preprint')).toEqual([title('s3')]);
-      expect(await titles('stage=thesis')).toEqual([title('s4')]);
-      expect(await titles('stage=published&type=preprint')).toEqual([]);
-    });
-
-    it('combines filters with AND', async () => {
-      await seed({
-        title: title('c1'),
-        researchArea: area('a'),
-        type: 'preprint',
-        publicationDate: '2021',
-      });
-      await seed({
-        title: title('c2'),
-        researchArea: area('a'),
-        type: 'book',
-        publicationDate: '2021',
-      });
-      expect(
-        await titles(
-          `area=${encodeURIComponent(area('a'))}&type=preprint&year=2021`,
-        ),
-      ).toEqual([title('c1')]);
-    });
-
-    it('treats % and _ in the query as the characters, not as wildcards', async () => {
-      await seed({ title: title('50% sure') });
-      await seed({ title: title('plain') });
-      expect(
-        (await list(`q=${encodeURIComponent(`${run} 50%`)}`)).page.items.map(
-          (i) => i.title,
-        ),
-      ).toEqual([title('50% sure')]);
-      expect(
-        (await list(`q=${encodeURIComponent(`%${run}`)}`)).page.total,
-      ).toBe(0);
-      expect(
-        (await list(`q=${encodeURIComponent(`${run}_plain`)}`)).page.total,
-      ).toBe(0);
-    });
-
-    it('ignores empty filters', async () => {
-      await seed({ title: title('e1') });
-      const { res, page } = await list(
-        `q=${run}&author=&keyword=&area=&type=&year=&sort=`,
-      );
-      expect(res.status).toBe(200);
-      expect(page.total).toBe(1);
-    });
+  it.each([
+    ['the title', 'q=schedulers', ['a-thesis']],
+    ['the abstract', 'q=leader+election', ['raft-in-practice']],
+    ['an author', 'q=ongaro', ['raft-in-practice']],
+    ['a keyword', 'q=zeta', ['transformers-survey']],
+    ['the DOI', 'q=spec.raft', ['raft-in-practice']],
+    ['any letter case', 'q=RAFT', ['raft-in-practice']],
+  ])('finds a paper by text in %s', async (_name, query, expected) => {
+    expect(await slugs(query)).toEqual(expected);
   });
 
-  describe('ordering and pagination', () => {
-    it('puts the most recent first and the undated last, then by title when asked', async () => {
-      await seed({ title: title('b-old'), publicationDate: '2001' });
-      await seed({ title: title('c-new'), publicationDate: '2023-06' });
-      await seed({ title: title('a-undated') });
-      expect(await titles('')).toEqual([
-        title('c-new'),
-        title('b-old'),
-        title('a-undated'),
-      ]);
-      expect(await titles('sort=title')).toEqual([
-        title('a-undated'),
-        title('b-old'),
-        title('c-new'),
-      ]);
-    });
-
-    it('pages without repeating or skipping, and reports the total', async () => {
-      for (const n of ['1', '2', '3', '4', '5']) {
-        await seed({ title: title(`p${n}`), publicationDate: `200${n}` });
-      }
-      const first = (await list(`q=${run}&limit=2&page=1`)).page;
-      const second = (await list(`q=${run}&limit=2&page=2`)).page;
-      const third = (await list(`q=${run}&limit=2&page=3`)).page;
-      const beyond = (await list(`q=${run}&limit=2&page=4`)).page;
-
-      expect([first.total, second.total, third.total]).toEqual([5, 5, 5]);
-      expect([first, second, third].map((p) => p.items.length)).toEqual([
-        2, 2, 1,
-      ]);
-      expect(
-        [...first.items, ...second.items, ...third.items].map((i) => i.title),
-      ).toEqual(['5', '4', '3', '2', '1'].map((n) => title(`p${n}`)));
-      expect(beyond).toMatchObject({ items: [], total: 5, page: 4, limit: 2 });
-    });
+  it.each([
+    ['an author, as a part of the name', 'author=hopper', ['transformers-survey', 'a-thesis']],
+    ['a keyword, as a whole keyword', 'keyword=consensus', ['old-preprint', 'raft-in-practice']],
+    ['a keyword, ignoring case', 'keyword=ALPHA', ['transformers-survey']],
+    ['the area, as a whole area', 'area=distributed+systems', ['old-preprint', 'raft-in-practice']],
+    ['the type', 'type=conference-paper', ['long-abstract', 'raft-in-practice']],
+    ['the stage', 'stage=published', ['transformers-survey', 'long-abstract', 'raft-in-practice']],
+    ['the stage thesis', 'stage=thesis', ['a-thesis']],
+    ['the year', 'year=2024', ['a-report', 'transformers-survey']],
+    ['the DOI', 'doi=10.5555/spec.survey', ['transformers-survey']],
+  ])('filters by %s', async (_name, query, expected) => {
+    expect(await slugs(query)).toEqual(expected);
   });
 
-  describe('validation', () => {
-    it.each([
-      ['an unknown publication type', 'type=zine'],
-      ['an unknown publication stage', 'stage=peer-reviewed'],
-      ['an unknown sort', 'sort=random'],
-      ['a page below 1', 'page=0'],
-      ['a page above the cap', 'page=1001'],
-      ['a non-numeric page', 'page=abc'],
-      ['a limit below 1', 'limit=0'],
-      ['a limit above the cap', 'limit=51'],
-      ['a year that is not four digits', 'year=99'],
-      ['a text query over 200 characters', `q=${'x'.repeat(201)}`],
-      ['an unknown parameter', 'unknown=1'],
-    ])('rejects %s with a 400', async (_name, query) => {
-      const res = await fetch(`${app.url}/papers?${query}`);
-      expect(res.status).toBe(400);
-    });
+  it.each([
+    ['https://doi.org/', 'doi=https%3A%2F%2Fdoi.org%2F10.5555%2FSPEC.RAFT'],
+    ['doi:', 'doi=doi%3A10.5555%2Fspec.raft'],
+    ['a fragment', 'doi=spec.raft'],
+  ])('finds a paper by its DOI written as %s', async (_name, query) => {
+    expect(await slugs(query)).toEqual(['raft-in-practice']);
+  });
+
+  it('does not treat a part of a keyword or of an area as the whole', async () => {
+    expect(await slugs('keyword=consens')).toEqual([]);
+    expect(await slugs('area=systems')).toEqual([]);
+  });
+
+  it('combines every filter with AND', async () => {
+    expect(await slugs('area=Machine+Learning&year=2024&author=lovelace')).toEqual([
+      'a-report',
+      'transformers-survey',
+    ]);
+    expect(await slugs('area=Machine+Learning&year=2024&author=ongaro')).toEqual([]);
+    expect(await slugs('author=hopper&type=thesis&q=schedulers')).toEqual(['a-thesis']);
+  });
+
+  it('treats a blank filter as no filter', async () => {
+    expect(await slugs('author=&q=+')).toEqual(await slugs());
+  });
+
+  it('shows the Portuguese title when asked, and the English one for a paper without a translation', async () => {
+    const { page } = await list('lang=pt-BR&sort=title');
+
+    const titles = Object.fromEntries(page.items.map((i) => [i.id, i.title]));
+    expect(titles['transformers-survey']).toBe('Uma revisão dos transformers');
+    expect(titles['raft-in-practice']).toBe('Raft in Practice');
+    expect((await list('lang=fr')).page.items.map((i) => i.title)).toEqual(
+      (await list()).page.items.map((i) => i.title),
+    );
+  });
+
+  it('searches the title the reader sees, in the language of the list', async () => {
+    expect(await slugs('lang=pt-BR&q=revis%C3%A3o')).toEqual(['transformers-survey']);
+    expect(await slugs('q=revis%C3%A3o')).toEqual([]);
+  });
+
+  it.each([
+    ['a page below 1', 'page=0'],
+    ['a page that is not a number', 'page=first'],
+    ['a limit below 1', 'limit=0'],
+    ['a limit above the maximum of 50', 'limit=51'],
+    ['an unknown type', 'type=zine'],
+    ['an unknown stage', 'stage=unpublished'],
+    ['a year that is not four digits', 'year=20x4'],
+    ['an unknown sort', 'sort=popular'],
+    ['a text of more than 200 characters', `q=${'x'.repeat(201)}`],
+    ['a filter that does not exist', 'colour=blue'],
+  ])('answers 400 for %s', async (_name, query) => {
+    expect((await fetch(`${app.url}/papers?${query}`)).status).toBe(400);
+  });
+
+  it('does not need a session', async () => {
+    const res = await fetch(`${app.url}/papers`, { headers: { Cookie: 'uid=1.forged' } });
+    expect(res.status).toBe(200);
+  });
+});
+
+describe('GET /papers: paging through a catalog of 45 papers', () => {
+  const many: FixturePaper[] = Array.from({ length: 45 }, (_, i) => {
+    const n = String(i + 1).padStart(2, '0');
+    return {
+      slug: `paper-${n}`,
+      title: `Paper ${n}`,
+      publicationDate: `${2000 + (i % 20)}-01-${String((i % 20) + 1).padStart(2, '0')}`,
+    };
+  });
+  beforeAll(async () => {
+    app = await startCatalogApp(many);
+  });
+  afterAll(() => app.close());
+
+  it('serves 20 a page by default and says how many there are', async () => {
+    const { page } = await list('sort=title');
+
+    expect(page).toMatchObject({ total: 45, page: 1, limit: 20 });
+    expect(page.items).toHaveLength(20);
+    expect(page.items[0].id).toBe('paper-01');
+    expect(page.items[19].id).toBe('paper-20');
+  });
+
+  it('serves the next pages, then an empty one past the end', async () => {
+    const second = (await list('sort=title&page=2')).page;
+    const third = (await list('sort=title&page=3')).page;
+    const fourth = (await list('sort=title&page=4')).page;
+
+    expect(second.items.map((i) => i.id)).toEqual(
+      Array.from({ length: 20 }, (_, i) => `paper-${String(i + 21).padStart(2, '0')}`),
+    );
+    expect(third.items).toHaveLength(5);
+    expect(third.items[4].id).toBe('paper-45');
+    expect(fourth).toMatchObject({ items: [], total: 45, page: 4 });
+  });
+
+  it('takes the page size from limit, up to 50', async () => {
+    expect((await list('limit=7')).page.items).toHaveLength(7);
+    expect((await list('limit=50')).page.items).toHaveLength(45);
+  });
+
+  it('never repeats or skips a paper across pages in the default order', async () => {
+    const seen: string[] = [];
+    for (const page of [1, 2, 3]) seen.push(...(await slugs(`page=${page}`)));
+
+    expect(seen).toHaveLength(45);
+    expect(new Set(seen).size).toBe(45);
+  });
+
+  it('breaks a tie on the date by the slug, so the order never shuffles', async () => {
+    const sameDay = [1, 21, 41].map((n) => `paper-${String(n).padStart(2, '0')}`);
+    const dated = (await list('limit=50')).page.items.filter((i) => sameDay.includes(i.id));
+    expect(new Set(dated.map((i) => i.publicationDate)).size).toBe(1);
+    expect(dated.map((i) => i.id)).toEqual(sameDay);
   });
 });
 
 describe('publication stage (#201)', () => {
-  const expected: Record<string, string> = {
-    'journal-article': 'published',
-    'conference-paper': 'published',
-    'book-chapter': 'published',
-    book: 'published',
-    preprint: 'preprint',
-    thesis: 'thesis',
-    report: 'report',
-    other: 'unknown',
-  };
+  const kinds = [
+    ['journal-article', 'published'],
+    ['conference-paper', 'published'],
+    ['book-chapter', 'published'],
+    ['book', 'published'],
+    ['preprint', 'preprint'],
+    ['thesis', 'thesis'],
+    ['report', 'report'],
+    ['other', 'unknown'],
+  ];
+  beforeAll(async () => {
+    app = await startCatalogApp(
+      kinds.map(([type]) => ({ slug: `kind-${type}`, title: `Kind ${type}`, type })),
+    );
+  });
+  afterAll(() => app.close());
 
   it('says where every kind of paper stands, in the list and in the full record', async () => {
-    const ids = new Map<string, string>();
-    for (const type of Object.keys(expected)) {
-      ids.set(type, await seed({ title: title(`kind ${type}`), type }));
+    const { page } = await list();
+    for (const [type, stage] of kinds) {
+      expect(page.items.find((i) => i.id === `kind-${type}`)).toMatchObject({ type, stage });
+      expect(await json(await detail(`kind-${type}`))).toMatchObject({ type, stage });
     }
-
-    const page = await json<Page>(
-      await send('GET', `/papers?q=${encodeURIComponent(title('kind '))}&limit=50`),
-    );
-    expect(page.total).toBe(Object.keys(expected).length);
-    for (const [type, stage] of Object.entries(expected)) {
-      const id = ids.get(type);
-      expect(page.items.find((p) => p.id === id)?.stage, type).toBe(stage);
-      const detail = await json<{ stage: string }>(
-        await send('GET', `/papers/${id}`),
-      );
-      expect(detail.stage, type).toBe(stage);
-    }
-  });
-
-  it('calls a paper whose kind is not known unknown, not published', async () => {
-    const id = await seed({ title: title('no kind') });
-    const detail = await json<{ type: string; stage: string }>(
-      await send('GET', `/papers/${id}`),
-    );
-    expect(detail).toMatchObject({ type: 'other', stage: 'unknown' });
   });
 });
 
 describe('GET /papers/facets', () => {
-  it('counts the research areas and types in the catalog, most used first', async () => {
-    await seed({
-      title: title('x1'),
-      researchArea: area('big'),
-      type: 'thesis',
-    });
-    await seed({
-      title: title('x2'),
-      researchArea: area('big'),
-      type: 'thesis',
-    });
-    await seed({
-      title: title('x3'),
-      researchArea: area('small'),
-      type: 'thesis',
-    });
+  beforeAll(async () => {
+    app = await startCatalogApp(PAPERS);
+  });
+  afterAll(() => app.close());
 
+  it('counts the research areas and types in the catalog, most used first', async () => {
     const res = await fetch(`${app.url}/papers/facets`);
-    const facets = await json<{
-      areas: { value: string; count: number }[];
-      types: { value: string; count: number }[];
-    }>(res);
 
     expect(res.status).toBe(200);
-    const mine = facets.areas.filter((a) => a.value.includes(run));
-    expect(mine).toEqual([
-      { value: area('big'), count: 2 },
-      { value: area('small'), count: 1 },
-    ]);
-    expect(
-      facets.types.find((t) => t.value === 'thesis')!.count,
-    ).toBeGreaterThanOrEqual(3);
+    expect(await json(res)).toEqual({
+      areas: [
+        { value: 'Distributed Systems', count: 2 },
+        { value: 'Machine Learning', count: 2 },
+        { value: 'Operating Systems', count: 1 },
+      ],
+      types: [
+        { value: 'conference-paper', count: 2 },
+        { value: 'journal-article', count: 1 },
+        { value: 'other', count: 1 },
+        { value: 'preprint', count: 1 },
+        { value: 'report', count: 1 },
+        { value: 'thesis', count: 1 },
+      ],
+    });
   });
 });
 
-describe('GET /papers/:id', () => {
-  it('returns the full public record and nothing about where it came from', async () => {
-    const id = await seed({
-      title: title('detail'),
-      abstract: 'The abstract.',
-      doi: doi('detail'),
-      venue: 'Venue',
-      publicationDate: '2020',
-      url: 'https://example.org/detail',
-      researchArea: area('d'),
-      type: 'conference-paper',
-      authors: [{ name: 'Ada Lovelace', orcid: '0000-0002-1825-0097' }],
-      keywords: ['one'],
-    });
+describe('GET /papers/:slug', () => {
+  beforeAll(async () => {
+    app = await startCatalogApp(PAPERS);
+  });
+  afterAll(() => app.close());
 
-    const res = await fetch(`${app.url}/papers/${id}`);
-    const body = await json<Record<string, unknown>>(res);
+  it('returns the full public record and our analysis of it, and nothing about where it came from', async () => {
+    const res = await detail('transformers-survey');
 
     expect(res.status).toBe(200);
+    const body = await json<any>(res);
+    expect(Object.keys(body).sort()).toEqual(
+      [
+        'abstract', 'authors', 'availableLanguages', 'doi', 'id', 'keywords', 'language',
+        'publicationDate', 'researchArea', 'sections', 'stage', 'summary', 'title', 'type',
+        'updatedAt', 'url', 'venue', 'version',
+      ].sort(),
+    );
     expect(body).toMatchObject({
-      id,
-      title: title('detail'),
-      abstract: 'The abstract.',
-      doi: doi('detail'),
-      venue: 'Venue',
-      publicationDate: '2020',
-      url: 'https://example.org/detail',
-      researchArea: area('d'),
-      type: 'conference-paper',
+      id: 'transformers-survey',
+      title: 'Transformers Survey',
+      abstract: 'We study the catalog.',
+      doi: '10.5555/spec.survey',
+      venue: 'Journal of Specs',
+      publicationDate: '2024-05',
+      url: 'https://example.org/survey',
+      researchArea: 'Machine Learning',
+      type: 'journal-article',
       stage: 'published',
-      authors: [{ name: 'Ada Lovelace', orcid: '0000-0002-1825-0097' }],
-      keywords: ['one'],
+      authors: [
+        { name: 'Ada Lovelace', orcid: null },
+        { name: 'Hopper, Grace', orcid: null },
+      ],
+      keywords: ['zeta', 'alpha'],
+      language: 'en',
+      availableLanguages: ['en', 'pt-BR'],
+      summary: 'Summary of transformers-survey (en)',
+      version: '1.0',
+      updatedAt: '2026-01-02',
     });
-    expect(Object.keys(body)).not.toContain('sources');
-    expect(Object.keys(body)).not.toContain('fingerprint');
   });
 
-  it('answers 404 for a paper that does not exist and for anything that is not a public id', async () => {
-    for (const id of [UNKNOWN_ID, '99999999999', 'not-an-id', '0']) {
-      expect((await fetch(`${app.url}/papers/${id}`)).status, id).toBe(404);
-    }
-  });
+  it('carries the Research Analysis as six sections, in the order they are read', async () => {
+    const body = await json<any>(await detail('transformers-survey'));
 
-  it('is addressed by a UUIDv7, in either letter case, and carries it as its id', async () => {
-    const id = await seed({ title: title('uuid') });
-    expect(id).toMatch(UUID_V7);
-
-    for (const spelling of [id, id.toUpperCase()]) {
-      const res = await fetch(`${app.url}/papers/${spelling}`);
-      expect(res.status).toBe(200);
-      expect((await json<{ id: string }>(res)).id).toBe(id);
-    }
-    const { page } = await list(`q=${title('uuid')}`);
-    expect(page.items.map((i) => i.id)).toEqual([id]);
-  });
-
-  it('never shows the integer key: not in the record, the list, or the analysis', async () => {
-    const id = await seed({ title: title('hidden-key') });
-    const [row]: { id: number }[] = await app.dataSource.query(
-      `SELECT id FROM paper WHERE "publicId" = $1`,
-      [id],
-    );
-    const bodies = await Promise.all([
-      fetch(`${app.url}/papers/${id}`).then((r) => r.text()),
-      fetch(`${app.url}/papers/${id}/analysis`).then((r) => r.text()),
-      fetch(`${app.url}/papers?q=${title('hidden-key')}`).then((r) => r.text()),
+    expect(body.sections.map((s: any) => s.title)).toEqual([
+      'Overview',
+      'Contribution',
+      'Methodology',
+      'Findings',
+      'Critical Analysis',
+      'Further Research',
     ]);
-    for (const body of bodies) {
-      expect(body).not.toMatch(new RegExp(`"(id|paperId)":\\s*${row.id}\\b`));
-    }
+    expect(body.sections[0].content).toContain('Our Overview text for transformers-survey (en).');
   });
 
-  it('answers the id a paper used to have with a permanent redirect to its public id', async () => {
-    const id = await seed({ title: title('legacy') });
-    const [row]: { id: number }[] = await app.dataSource.query(
-      `SELECT id FROM paper WHERE "publicId" = $1`,
-      [id],
-    );
+  it('answers in Portuguese when asked, with the Portuguese section titles', async () => {
+    const body = await json<any>(await detail('transformers-survey', '?lang=pt-BR'));
 
-    const res = await fetch(`${app.url}/papers/${row.id}`, { redirect: 'manual' });
-    expect(res.status).toBe(301);
-    expect(res.headers.get('location')).toBe(`/api/papers/${id}`);
-    expect(await res.text()).not.toContain(String(row.id));
+    expect(body).toMatchObject({
+      title: 'Uma revisão dos transformers',
+      language: 'pt-BR',
+      availableLanguages: ['en', 'pt-BR'],
+      summary: 'Summary of transformers-survey (pt-BR)',
+    });
+    expect(body.sections.map((s: any) => s.title)).toEqual([
+      'Visão geral',
+      'Contribuição',
+      'Metodologia',
+      'Resultados',
+      'Análise crítica',
+      'Pesquisas futuras',
+    ]);
+  });
 
-    // Followed, it lands on the record; an integer nobody had is a plain 404.
-    const followed = await fetch(`${app.url}/papers/${row.id}`);
-    expect(followed.status).toBe(200);
-    expect((await json<{ id: string }>(followed)).id).toBe(id);
-    expect((await fetch(`${app.url}/papers/2147483000`)).status).toBe(404);
+  it('falls back to English for a paper without a translation, and says so', async () => {
+    const body = await json<any>(await detail('raft-in-practice', '?lang=pt-BR'));
+
+    expect(body).toMatchObject({
+      title: 'Raft in Practice',
+      language: 'en',
+      availableLanguages: ['en'],
+    });
+    expect(body.sections[0].title).toBe('Overview');
+  });
+
+  it('treats a language it does not have as English', async () => {
+    expect(await json(await detail('transformers-survey', '?lang=fr'))).toMatchObject({
+      language: 'en',
+    });
+  });
+
+  it.each([
+    ['a slug no paper has', 'no-such-paper'],
+    ['a UUID, which is how a private paper is addressed', '01a191ed-2e04-7235-ae86-8483c518560e'],
+    ['the integer a paper had before public ids', '3105'],
+    ['the slug in capital letters', 'Transformers-Survey'],
+    ['a path that climbs out', '..%2Fpackage'],
+  ])('answers 404 for %s', async (_name, slug) => {
+    expect((await detail(slug)).status).toBe(404);
   });
 
   it('does not need a session: nothing in the response depends on the viewer', async () => {
-    const id = await seed({ title: title('anon') });
-    const res = await fetch(`${app.url}/papers/${id}`, {
-      headers: { Cookie: 'uid=1' },
-    });
-    expect(res.status).toBe(200);
+    const anonymous = await json(await detail('transformers-survey'));
+    const signed = await json(
+      await fetch(`${app.url}/papers/transformers-survey`, { headers: { Cookie: 'uid=1.forged' } }),
+    );
+    expect(signed).toEqual(anonymous);
   });
 });
 
-describe('dev-only seeding routes', () => {
-  it('do not exist unless dev auth is on', async () => {
-    delete process.env.ENABLE_DEV_AUTH;
-    try {
-      expect(
-        (await send('POST', '/papers/_test', { title: title('no') })).status,
-      ).toBe(404);
-      expect((await send('DELETE', '/papers/_test/1')).status).toBe(404);
-    } finally {
-      process.env.ENABLE_DEV_AUTH = '1';
-    }
+describe('no route writes to the public papers', () => {
+  beforeAll(async () => {
+    app = await startCatalogApp(PAPERS);
+  });
+  afterAll(() => app.close());
+
+  const send = (method: string, path: string) =>
+    fetch(`${app.url}${path}`, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: method === 'GET' ? undefined : JSON.stringify({ title: 'x', authors: [{ name: 'y' }] }),
+    });
+
+  it.each([
+    ['POST', '/papers'],
+    ['POST', '/papers/_test'],
+    ['PUT', '/papers/transformers-survey'],
+    ['PATCH', '/papers/transformers-survey'],
+    ['DELETE', '/papers/transformers-survey'],
+    ['DELETE', '/papers/_test/transformers-survey'],
+    ['POST', '/papers/transformers-survey/analysis'],
+    ['PUT', '/papers/transformers-survey/analysis'],
+    ['GET', '/papers/transformers-survey/analysis'],
+    ['POST', '/papers/transformers-survey/publish'],
+  ])('answers 404 to %s %s, so the list is changed only by changing the files', async (method, path) => {
+    expect((await send(method, path)).status).toBe(404);
+    expect(await slugs('limit=50')).toHaveLength(PAPERS.length);
+  });
+});
+
+describe('a mistake in the files', () => {
+  const ok: FixturePaper = { slug: 'fine', title: 'Fine' };
+
+  it.each([
+    ['a slug that is not lowercase words', { slug: 'Not A Slug', title: 'T' }, /Not A Slug.*slug/],
+    ['a date that is not a date', { slug: 'bad-date', title: 'T', publicationDate: 'last year' }, /bad-date.*publicationDate/],
+    ['no author', { slug: 'no-author', title: 'T', authors: [] }, /no-author.*author/],
+    ['a type that does not exist', { slug: 'bad-type', title: 'T', type: 'zine' }, /bad-type.*type/],
+    ['a DOI with a resolver prefix', { slug: 'bad-doi', title: 'T', doi: 'https://doi.org/10.5555/x' }, /bad-doi.*doi/],
+    ['a link that is not http', { slug: 'bad-url', title: 'T', url: 'javascript:alert(1)' }, /bad-url.*url/],
+  ])('stops the boot for %s, naming the paper', async (_name, broken, message) => {
+    await expect(startCatalogApp([ok, broken])).rejects.toThrow(message);
   });
 
-  it('refuse an invalid paper', async () => {
-    const res = await send('POST', '/papers/_test', { title: '   ' });
-    expect(res.status).toBe(400);
+  it('stops the boot for a slug used twice', async () => {
+    await expect(startCatalogApp([ok, ok])).rejects.toThrow(/fine.*twice/);
+  });
+
+  it('stops the boot for a DOI used twice', async () => {
+    await expect(
+      startCatalogApp([
+        { slug: 'one', title: 'One', doi: '10.5555/same' },
+        { slug: 'two', title: 'Two', doi: '10.5555/same' },
+      ]),
+    ).rejects.toThrow(/two.*DOI/);
   });
 });

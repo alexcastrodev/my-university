@@ -8,6 +8,7 @@ import { JavaMinuteService } from '../java-minute/java-minute.service';
 import { CSharpMinuteService } from '../csharp-minute/csharp-minute.service';
 import { JvmConceptsService } from '../jvm-concepts/jvm-concepts.service';
 import { QuarkusConceptsService } from '../quarkus-concepts/quarkus-concepts.service';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { KubernetesConceptsService } from '../kubernetes-concepts/kubernetes-concepts.service';
 import { RubyConceptsService } from '../ruby-concepts/ruby-concepts.service';
 import { RubyOnRailsConceptsService } from '../rubyonrails-concepts/rubyonrails-concepts.service';
@@ -51,6 +52,7 @@ export class SitemapService {
     private readonly dotNetTestingConcepts: DotNetTestingConceptsService,
     private readonly quarkusConcepts: QuarkusConceptsService,
     private readonly kubernetesConcepts: KubernetesConceptsService,
+    private readonly papers: PapersCatalogService,
     private readonly curriculum: CurriculumService,
   ) {}
 
@@ -59,6 +61,18 @@ export class SitemapService {
       { path: '/', lastmod: null, changefreq: 'weekly', priority: '1.0' },
     ];
 
+    // The public papers are authored files with a translation each (#213); a reader's private papers are not listed.
+    urls.push(
+      ...this.localizedSectionUrls(
+        '/papers',
+        '/pt-BR/papers',
+        this.papers.slugs().map(({ slug, updatedAt, languages }) => ({
+          slug,
+          publishedAt: updatedAt,
+          availableLanguages: languages,
+        })),
+      ),
+    );
     urls.push(
       ...this.localizedSectionUrls('/java/java-concepts', '/pt-BR/java/java-concepts', this.javaConcepts.findAll()),
     );
@@ -181,7 +195,7 @@ export class SitemapService {
   private localizedSectionUrls(
     enBase: string,
     ptBrBase: string,
-    items: { slug: string; publishedAt: string; availableLanguages: Language[] }[],
+    items: { slug: string; publishedAt: string | null; availableLanguages: Language[] }[],
   ): SitemapUrl[] {
     const urls: SitemapUrl[] = [
       {

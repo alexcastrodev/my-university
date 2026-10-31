@@ -6,12 +6,12 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  IsUUID,
   Matches,
   Max,
   MaxLength,
   Min,
 } from 'class-validator';
+import { PAPER_SLUG_MAX } from './paper-ref';
 import { PaperFilterDto } from './paper-query.dto';
 import { LIBRARY_STATUSES } from './paper-library.entity';
 import type { LibraryStatus } from './paper-library.entity';
@@ -26,8 +26,9 @@ const trim = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() || undefined : value;
 
 export class AddToLibraryDto {
-  /** The paper's public id (UUIDv7). */
-  @IsUUID()
+  /** The slug of a public paper. A private paper has no public way in. */
+  @IsString()
+  @MaxLength(PAPER_SLUG_MAX)
   paperId: string;
 
   @IsOptional()

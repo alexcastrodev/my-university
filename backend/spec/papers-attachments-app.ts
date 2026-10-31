@@ -19,10 +19,10 @@ import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
 import { PapersModule } from '../src/papers/papers.module';
-import { PaperAnalysis, PaperAnalysisEvent } from '../src/papers/paper-analysis.entity';
 import { PaperLibraryEntry } from '../src/papers/paper-library.entity';
 import { PrivatePapersModule } from '../src/private-papers/private-papers.module';
 import { StorageService } from '../src/storage/storage.service';
+import { FixturePaper, usePapers } from './papers-fixtures';
 
 export interface AttachmentsApp {
   /** `http://127.0.0.1:port/api` of the real Nest app. */
@@ -43,7 +43,8 @@ export async function startAttachmentsApp(limits: {
   quotaBytes: number;
   /** Most private papers (#203) one reader may keep; the default of the service when left out. */
   privatePapers?: number;
-}): Promise<AttachmentsApp> {
+}, papers?: FixturePaper[]): Promise<AttachmentsApp> {
+  const dropFiles = usePapers(papers);
   const saved = {
     max: process.env.PAPER_PDF_MAX_BYTES,
     quota: process.env.PAPER_PDF_USER_QUOTA_BYTES,
@@ -71,8 +72,6 @@ export async function startAttachmentsApp(limits: {
           PaperKeyword,
           PaperSource,
           PaperLibraryEntry,
-          PaperAnalysis,
-          PaperAnalysisEvent,
           PaperAttachment,
           PaperAttachmentVersion,
           StorageDeletion,
@@ -104,6 +103,7 @@ export async function startAttachmentsApp(limits: {
     maintain: () => app.get(PaperAttachmentsService).maintain(),
     close: async () => {
       await app.close();
+      dropFiles();
       for (const [key, value] of Object.entries({
         PAPER_PDF_MAX_BYTES: saved.max,
         PAPER_PDF_USER_QUOTA_BYTES: saved.quota,

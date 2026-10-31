@@ -3,37 +3,28 @@ import { BASE_URL } from './BaseTest.js';
 import { PapersListPage } from './pages/PapersListPage.js';
 import { PaperDetailPage } from './pages/PaperDetailPage.js';
 
-// Seeds through the dev-only route (404 unless ENABLE_DEV_AUTH=1, like the test login), reads through
-// the pages. Every title carries a per-worker token, so a test only sees its own papers.
-const token = `pw${Math.random().toString(36).slice(2, 8)}`;
-const title = (n) => `Playwright paper ${token} ${n}`;
-const keyword = (n) => `kw${token}${n}`;
-const ada = `Ada Lovelace ${token}`;
-const grace = `Grace Hopper ${token}`;
-
-let api;
-const ids = [];
-/** The integer a seeded paper had before public ids (the dev-only seed route shows it), for the old-link tests. */
-const legacyIds = new Map();
-const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
-
-test.beforeAll(async ({ playwright }) => {
-  api = await playwright.request.newContext({ baseURL: BASE_URL });
-});
-
-test.afterAll(async () => {
-  await Promise.all(ids.splice(0).map((id) => api.delete(`/api/papers/_test/${id}`)));
-  await api.dispose();
-});
-
-async function seed(data) {
-  const res = await api.post('/api/papers/_test', { data });
-  expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper, legacyId } = await res.json();
-  ids.push(paper.id);
-  legacyIds.set(paper.id, legacyId);
-  return paper.id;
-}
+// The public papers are files (backend/src/seed/data/papers), so these tests read the real seed through the
+// pages: nothing is created, and a change to a paper there is a change to what these tests expect.
+const SEED = 7;
+const FDB = {
+  slug: 'foundationdb-unbundled-transactional-kv-store',
+  title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
+  doi: '10.1145/3448016.3457559',
+};
+const TIDB = { slug: 'tidb-raft-based-htap-database', title: 'TiDB: A Raft-based HTAP Database' };
+const METASTABLE = {
+  slug: 'metastable-failures-in-distributed-systems',
+  title: 'Metastable Failures in Distributed Systems',
+  doi: '10.1145/3458336.3465286',
+};
+const PAGED = {
+  slug: 'pagedattention-memory-management-for-llm-serving',
+  title: 'Efficient Memory Management for Large Language Model Serving with PagedAttention',
+  doi: '10.1145/3600006.3613165',
+};
+const SECTIONS = ['Overview', 'Contribution', 'Methodology', 'Findings', 'Critical Analysis', 'Further Research'];
+const SECTIONS_PT = ['Visão geral', 'Contribuição', 'Metodologia', 'Resultados', 'Análise crítica', 'Pesquisas futuras'];
+const run = Math.random().toString(36).slice(2, 8);
 
 /** The page never needs to scroll sideways, whatever the viewport. */
 async function expectNoHorizontalScroll(page) {
@@ -42,191 +33,146 @@ async function expectNoHorizontalScroll(page) {
 }
 
 test.describe('Papers catalog', () => {
-  let full;
-  let preprint;
-  let bare;
-
-  test.beforeAll(async () => {
-    full = await seed({
-      title: title('full'),
-      abstract: 'First paragraph of the abstract.\n\nSecond paragraph of the abstract.',
-      doi: `10.5555/${token}.full`,
-      venue: 'Journal of Playwright',
-      publicationDate: '2024-05',
-      url: 'https://example.org/full',
-      researchArea: `Area ${token}`,
-      type: 'journal-article',
-      authors: [{ name: ada, orcid: '0000-0002-1825-0097' }, { name: grace }],
-      keywords: [keyword('a'), keyword('b')],
-    });
-    preprint = await seed({
-      title: title('preprint'),
-      abstract: 'A preprint.',
-      publicationDate: '2023',
-      type: 'preprint',
-      authors: [{ name: 'Alan Turing' }],
-      keywords: [keyword('a')],
-    });
-    bare = await seed({ title: title('bare'), doi: `10.5555/${token}.bare` });
-  });
-
   test.describe('list', () => {
     test('shows each paper with its authors, type, date and keywords', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
+      await papers.goto();
 
       await expect(papers.heading).toBeVisible();
-      await expect(papers.cards).toHaveCount(3);
-      await expect(papers.resultsCount).toContainText('3');
+      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.resultsCount).toContainText(String(SEED));
 
-      const card = papers.card(title('full'));
-      await expect(card).toContainText(`${ada}; ${grace}`);
-      await expect(card).toContainText('Journal article');
-      await expect(card).toContainText('May 2024');
-      await expect(card).toContainText('Journal of Playwright');
-      await expect(card).toContainText('First paragraph of the abstract.');
-      await expect(card.getByRole('link', { name: keyword('a') })).toBeVisible();
+      const card = papers.card(METASTABLE.title);
+      await expect(card).toContainText('Nathan Bronson');
+      await expect(card).toContainText('Conference paper');
+      await expect(card).toContainText('June 2021');
+      await expect(card).toContainText('Proceedings of the Workshop on Hot Topics in Operating Systems');
+      await expect(card.getByRole('link', { name: 'resilience' })).toBeVisible();
     });
 
-    test('reads like a reference row: place and DOI on top, initials for the authors, links to the sources', async ({ page }) => {
+    test('lists the newest paper first, as a reference row with its DOI, initials and links to the sources', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
-      await expect(papers.cards).toHaveCount(3);
+      await papers.goto();
+      await expect(papers.cards).toHaveCount(SEED);
 
-      await expect(papers.cardRef(title('full'))).toHaveText(`[1] / DOI 10.5555/${token}.full`);
-      await expect(papers.cardRef(title('preprint'))).toHaveText('[2]');
-      await expect(papers.cardAvatars(title('full'))).toHaveText(['AP', 'GP']);
-      await expect(papers.cardAvatars(title('preprint'))).toHaveText(['AT']);
-      await expect(papers.cardAvatars(title('bare'))).toHaveCount(0);
-
-      await expect(papers.cardSource(title('full'), 'DOI')).toHaveAttribute('href', `https://doi.org/10.5555/${token}.full`);
-      await expect(papers.cardSource(title('full'), 'Page')).toHaveAttribute('href', 'https://example.org/full');
-      await expect(papers.cardSource(title('bare'), 'DOI')).toBeVisible();
-      await expect(papers.cardSource(title('bare'), 'Page')).toHaveCount(0);
-      await expect(papers.cardSource(title('preprint'), 'DOI')).toHaveCount(0);
+      expect((await papers.titles())[0]).toBe(PAGED.title);
+      await expect(papers.cardRef(PAGED.title)).toHaveText(`[1] / DOI ${PAGED.doi}`);
+      await expect(papers.cardAvatars(PAGED.title).first()).toHaveText('WK');
+      await expect(papers.cardSource(PAGED.title, 'DOI')).toHaveAttribute('href', `https://doi.org/${PAGED.doi}`);
+      await expect(papers.cardSource(PAGED.title, 'Page')).toHaveAttribute('href', `https://dl.acm.org/doi/${PAGED.doi}`);
+      await expect(papers.card(FDB.title)).toContainText('more');
       await expectNoHorizontalScroll(page);
-    });
-
-    test('shows a paper with nothing but a title and a DOI without breaking', async ({ page }) => {
-      const papers = new PapersListPage(page);
-      await papers.goto(`?q=${title('bare')}`);
-      await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('bare')).getByRole('link', { name: title('bare') })).toHaveAttribute('href', `/papers/${bare}`);
     });
 
     test('searches from the box and keeps the search in the URL', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.search(title('preprint'));
+      await papers.search(TIDB.title);
 
       await expect(page).toHaveURL(/[?&]q=/);
       await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('preprint'))).toBeVisible();
+      await expect(papers.card(TIDB.title)).toBeVisible();
 
       await page.reload();
-      await expect(papers.searchInput).toHaveValue(title('preprint'));
+      await expect(papers.searchInput).toHaveValue(TIDB.title);
       await expect(papers.cards).toHaveCount(1);
     });
 
     test('finds a paper by author, by DOI and by keyword', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
-      await papers.search(grace);
-      await expect(papers.card(title('full'))).toBeVisible();
-
-      await papers.search(`10.5555/${token}.bare`);
+      await papers.search('Nathan Bronson');
       await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('bare'))).toBeVisible();
+      await expect(papers.card(METASTABLE.title)).toBeVisible();
 
-      await papers.search(keyword('b'));
+      await papers.search(FDB.doi);
       await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('full'))).toBeVisible();
+      await expect(papers.card(FDB.title)).toBeVisible();
+
+      await papers.search('kernel bypass');
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card('Demikernel')).toBeVisible();
     });
 
     test('filters by publication type', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
-      await expect(papers.cards).toHaveCount(3);
+      await papers.goto();
+      await expect(papers.cards).toHaveCount(SEED);
 
-      await papers.typeSelect.selectOption({ label: 'Preprint' });
-      await expect(page).toHaveURL(/type=preprint/);
+      await papers.typeSelect.selectOption({ label: 'Journal article' });
+      await expect(page).toHaveURL(/type=journal-article/);
       await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('preprint'))).toBeVisible();
+      await expect(papers.card(TIDB.title)).toBeVisible();
     });
 
-    test('says where each paper stands, so a preprint is not mistaken for a reviewed article', async ({ page }) => {
+    test('says where each paper stands, and filters by it', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
-      await expect(papers.cards).toHaveCount(3);
-
-      await expect(papers.cardStage(title('full'))).toHaveText('Published');
-      await expect(papers.cardStage(title('preprint'))).toHaveText('Preprint: not reviewed yet');
-      await expect(papers.cardStage(title('bare'))).toHaveText('Status unknown');
-    });
-
-    test('filters by publication stage', async ({ page }) => {
-      const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
+      await papers.goto();
+      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.cardStage(TIDB.title)).toHaveText('Published');
+      await expect(papers.cardStage(METASTABLE.title)).toHaveText('Published');
 
       await papers.stageSelect.selectOption({ label: 'Published' });
       await expect(page).toHaveURL(/stage=published/);
-      await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('full'))).toBeVisible();
+      await expect(papers.cards).toHaveCount(SEED);
 
+      // The seed holds no preprint: the filter finds none.
       await papers.stageSelect.selectOption({ label: 'Preprint: not reviewed yet' });
       await expect(page).toHaveURL(/stage=preprint/);
-      await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('preprint'))).toBeVisible();
+      await expect(papers.noMatches).toBeVisible();
 
       await papers.stageSelect.selectOption({ label: 'All' });
-      await expect(papers.cards).toHaveCount(3);
+      await expect(papers.cards).toHaveCount(SEED);
     });
 
     test('filters by research area', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
-      await papers.areaSelect.selectOption({ label: `Area ${token} (1)` });
-      await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(title('full'))).toBeVisible();
+      await papers.goto();
+      await papers.areaSelect.selectOption({ label: 'Operating Systems (3)' });
+      await expect(papers.cards).toHaveCount(3);
+      await expect(papers.card('Snap')).toBeVisible();
+      await expect(papers.card('ghOSt')).toBeVisible();
+      await expect(papers.card('Demikernel')).toBeVisible();
     });
 
     test('filters by a keyword chip and lets the reader remove the filter', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
+      await papers.goto();
 
-      // A chip on a card starts a keyword filter of its own, so the search text is not carried along.
-      await papers.card(title('full')).getByRole('link', { name: keyword('a') }).click();
-      await expect(page).toHaveURL(new RegExp(`keyword=${keyword('a')}`));
-      await expect(papers.cards).toHaveCount(2);
-      await expect(papers.activeFilters).toContainText(keyword('a'));
+      await papers.card(FDB.title).getByRole('link', { name: 'oltp' }).click();
+      await expect(page).toHaveURL(/keyword=oltp/);
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.activeFilters).toContainText('oltp');
 
       await papers.activeFilters.getByRole('button', { name: 'Remove filter' }).click();
       await expect(page).not.toHaveURL(/keyword=/);
       await expect(papers.activeFilters).toHaveCount(0);
+      await expect(papers.cards).toHaveCount(SEED);
     });
 
     test('sorts by title', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
+      await papers.goto('?area=Databases');
       await papers.sortSelect.selectOption({ label: 'Title (A to Z)' });
       await expect(page).toHaveURL(/sort=title/);
-      await expect.poll(() => papers.titles()).toEqual([title('bare'), title('full'), title('preprint')]);
+      await expect.poll(() => papers.titles()).toEqual([FDB.title, TIDB.title]);
     });
 
     test('says nothing matched, and clears the filters', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}-no-such-paper`);
+      await papers.goto(`?q=${run}-no-such-paper`);
       await expect(papers.noMatches).toBeVisible();
 
       await papers.clearFilters.click();
       await expect(page).not.toHaveURL(/q=/);
       await expect(papers.noMatches).toBeHidden();
+      await expect(papers.cards).toHaveCount(SEED);
     });
 
     test('ignores a malformed filter in the URL instead of failing', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}&type=zine&page=abc&sort=random`);
-      await expect(papers.cards).toHaveCount(3);
+      await papers.goto('?type=zine&page=abc&sort=random');
+      await expect(papers.cards).toHaveCount(SEED);
     });
 
     test('shows an error with a retry when the catalog cannot be loaded', async ({ page }) => {
@@ -236,139 +182,113 @@ test.describe('Papers catalog', () => {
       let failures = 1;
       await page.route(/\/api\/papers(\?|$)/, (route) => (failures-- > 0 ? route.fulfill({ status: 500, body: '{}' }) : route.continue()));
 
-      await papers.search(token);
+      await papers.search('FoundationDB');
       await expect(papers.errorMessage).toBeVisible();
 
       await papers.retryButton.click();
-      await expect(papers.cards).toHaveCount(3);
+      await expect(papers.cards).toHaveCount(1);
+    });
+
+    test('lists the same papers in Portuguese', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.gotoPortuguese();
+      await expect(papers.cards).toHaveCount(SEED);
+      await expect(papers.card(METASTABLE.title)).toContainText('junho de 2021');
     });
 
     test('fits the screen', async ({ page }) => {
       const papers = new PapersListPage(page);
-      await papers.goto(`?q=${token}`);
-      await expect(papers.cards).toHaveCount(3);
+      await papers.goto();
+      await expect(papers.cards).toHaveCount(SEED);
       await expectNoHorizontalScroll(page);
     });
   });
 
   test.describe('detail', () => {
-    test('opens from the list on a stable URL and shows the whole record', async ({ page }) => {
+    test('opens from the list on the slug of the paper and shows the whole record', async ({ page }) => {
       const list = new PapersListPage(page);
       const paper = new PaperDetailPage(page);
-      // The seeds are recreated for every test (new ids) while the server keeps a rendered list per URL for a
-      // few minutes, so a list another test already loaded would link to ids that no longer exist.
-      await list.goto(`?q=${token}&fresh=${Date.now()}`);
-      await list.open(title('full'));
+      await list.goto();
+      await list.open(METASTABLE.title);
 
-      await expect(page).toHaveURL(new RegExp(`/papers/${full}$`));
-      await expect(paper.title).toHaveText(title('full'));
-      await expect(paper.author(ada)).toBeVisible();
-      await expect(paper.author(grace)).toBeVisible();
-      await expect(paper.fact('Type')).toContainText('Journal article');
-      await expect(paper.fact('Date')).toContainText('May 2024');
-      await expect(paper.fact('Venue')).toContainText('Journal of Playwright');
-      await expect(paper.fact('Research area')).toContainText(`Area ${token}`);
-      await expect(paper.fact('DOI').getByRole('link')).toHaveAttribute('href', `https://doi.org/10.5555/${token}.full`);
-      await expect(paper.fact('Original page').getByRole('link')).toHaveAttribute('href', 'https://example.org/full');
-      await expect(paper.abstract).toHaveText(['First paragraph of the abstract.', 'Second paragraph of the abstract.']);
-      await expect(paper.keyword(keyword('a'))).toBeVisible();
-      await expect(paper.keyword(keyword('b'))).toBeVisible();
+      await expect(page).toHaveURL(new RegExp(`/papers/${METASTABLE.slug}$`));
+      await expect(paper.title).toHaveText(METASTABLE.title);
+      await expect(paper.author('Nathan Bronson')).toBeVisible();
+      await expect(paper.fact('Type')).toContainText('Conference paper');
+      await expect(paper.fact('Date')).toContainText('June 2021');
+      await expect(paper.fact('Venue')).toContainText('Hot Topics in Operating Systems');
+      await expect(paper.fact('Research area')).toContainText('Distributed Systems');
+      await expect(paper.fact('DOI').getByRole('link')).toHaveAttribute('href', `https://doi.org/${METASTABLE.doi}`);
+      await expect(paper.fact('Original page').getByRole('link')).toHaveAttribute('href', `https://dl.acm.org/doi/${METASTABLE.doi}`);
+      await expect(paper.keyword('resilience')).toBeVisible();
     });
 
     test('opens straight from its URL, without the paper being in anyone library', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      await paper.goto(full);
-      await expect(paper.title).toHaveText(title('full'));
+      await paper.goto(FDB.slug);
+      await expect(paper.title).toHaveText(FDB.title);
       await expect(paper.discussion).toBeVisible();
     });
 
     test('explains where the paper stands, next to the title', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-
-      await paper.goto(preprint);
-      await expect(paper.stageTitle).toContainText('Preprint: not reviewed yet');
-      await expect(paper.stageText).toContainText('treat it as work in progress');
-
-      await paper.goto(full);
+      await paper.goto(TIDB.slug);
       await expect(paper.stageTitle).toContainText('Published');
-      await expect(paper.stageTitle).toContainText('Journal of Playwright');
       await expect(paper.stageText).toContainText('one study is never the final word');
-
-      await paper.goto(bare);
-      await expect(paper.stageTitle).toContainText('Status unknown');
-      await expect(paper.stageText).toContainText('We do not know whether other experts reviewed this');
     });
 
-    test('explains what is missing instead of leaving blanks', async ({ page }) => {
+    test('shows the abstract of the authors when the file has one, and says so when it has none', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      await paper.goto(bare);
+      await paper.goto(PAGED.slug);
+      await expect(paper.abstract.first()).toContainText('High throughput serving of large language models');
 
-      await expect(paper.title).toHaveText(title('bare'));
-      await expect(paper.noAuthors).toBeVisible();
-      await expect(paper.dateUnknown).toBeVisible();
+      await paper.goto(FDB.slug);
       await expect(paper.noAbstract).toBeVisible();
-      await expect(paper.noKeywords).toBeVisible();
+      await expect(paper.analysis).toBeVisible();
     });
 
     test('links an author, a keyword and a type back into the catalog', async ({ page }) => {
       const list = new PapersListPage(page);
       const paper = new PaperDetailPage(page);
 
-      await paper.goto(full);
-      await paper.author(grace).click();
-      await expect(page).toHaveURL(/author=Grace/);
+      await paper.goto(METASTABLE.slug);
+      await paper.author('Nathan Bronson').click();
+      await expect(page).toHaveURL(/author=Nathan/);
       await expect(list.cards).toHaveCount(1);
-      await expect(list.activeFilters).toContainText(grace);
+      await expect(list.activeFilters).toContainText('Nathan Bronson');
 
-      await paper.goto(full);
-      await paper.keyword(keyword('a')).click();
-      await expect(list.cards).toHaveCount(2);
+      await paper.goto(METASTABLE.slug);
+      await paper.keyword('outages').click();
+      await expect(page).toHaveURL(/keyword=outages/);
+      await expect(list.cards).toHaveCount(1);
 
-      await paper.goto(full);
+      await paper.goto(TIDB.slug);
       await paper.fact('Type').getByRole('link').click();
       await expect(page).toHaveURL(/type=journal-article/);
     });
 
-    test('says the paper does not exist for an unknown or malformed id', async ({ page }) => {
+    test('says the paper does not exist for an unknown id, a malformed one, a UUID or an old integer', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      await paper.goto('01a191ed-2e04-7235-ae86-8483c518560e');
-      await expect(paper.notFound).toBeVisible();
-      await paper.goto(999999999);
-      await expect(paper.notFound).toBeVisible();
-      await paper.goto('not-an-id');
-      await expect(paper.notFound).toBeVisible();
-    });
-
-    test('addresses a paper by an opaque UUIDv7, never by the integer behind it', async ({ page }) => {
-      expect(full).toMatch(UUID_V7);
-      const papers = new PapersListPage(page);
-      // `fresh` keeps the server's rendered-list cache from answering with the ids of an earlier seed.
-      await papers.goto(`?q=${token}&fresh=${Date.now()}`);
-      await expect(papers.card(title('full')).getByRole('link', { name: title('full') })).toHaveAttribute('href', `/papers/${full}`);
-    });
-
-    test('moves an old link with the integer id to the public address', async ({ page }) => {
-      const paper = new PaperDetailPage(page);
-      await paper.goto(legacyIds.get(full));
-      await expect(page).toHaveURL(new RegExp(`/papers/${full}$`));
-      await expect(paper.title).toHaveText(title('full'));
-      expect(page.url()).not.toContain(String(legacyIds.get(full)));
+      for (const id of ['no-such-paper', 'Not_A_Slug', '01a191ed-2e04-7235-ae86-8483c518560e', '12345']) {
+        await paper.goto(id);
+        await expect(paper.notFound, id).toBeVisible();
+      }
     });
 
     test('asks a signed-out reader to sign in to join the discussion', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      await paper.goto(full);
+      await paper.goto(FDB.slug);
       await expect(paper.signIn).toBeVisible();
       await expect(paper.composer).toHaveCount(0);
     });
 
     test('lets a signed-in reader post to the paper discussion, and keeps it', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `Reader ${token}` } });
+      const res = await page.request.post(`${BASE_URL}/api/auth/_test/login`, { data: { displayName: `Reader ${run}` } });
       expect(res.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
 
-      await paper.goto(full);
-      const text = `Question about the method ${token}`;
+      await paper.goto(FDB.slug);
+      const text = `Question about the method ${run}`;
       await paper.post(text);
       await expect(paper.posts.filter({ hasText: text })).toHaveCount(1);
 
@@ -378,193 +298,64 @@ test.describe('Papers catalog', () => {
 
     test('fits the screen', async ({ page }) => {
       const paper = new PaperDetailPage(page);
-      await paper.goto(full);
+      await paper.goto(PAGED.slug);
       await expect(paper.title).toBeVisible();
       await expectNoHorizontalScroll(page);
     });
   });
 });
 
-test.describe('Papers catalog pagination', () => {
-  const total = 21;
-  // Its own token: the papers above search by `token`, and with parallel tests one worker can run both groups.
-  const paged = `pg${Math.random().toString(36).slice(2, 8)}`;
+test.describe('Research Analysis', () => {
+  test('shows the six sections in order, written by Kurz and not by the authors', async ({ page }) => {
+    const paper = new PaperDetailPage(page);
+    await paper.goto(FDB.slug);
 
-  test.beforeAll(async () => {
-    // Sequential on purpose: each paper takes the next publication year, so the order is known.
-    for (let n = 1; n <= total; n++) {
-      await seed({ title: `Paged ${paged} ${String(n).padStart(2, '0')}`, publicationDate: String(1900 + n), doi: `10.5555/${paged}.p${n}` });
+    await expect(paper.analysisNote).toContainText('Written by Kurz, not by the authors of the paper');
+    await expect(paper.analysisTitles).toHaveText(SECTIONS);
+    await expect(paper.analysisBodies).toHaveCount(SECTIONS.length);
+    for (const title of SECTIONS) {
+      await expect(paper.analysisSection(title).locator('.section-body')).not.toBeEmpty();
     }
   });
 
-  test('splits the results in pages of twenty and moves between them', async ({ page }) => {
-    const papers = new PapersListPage(page);
-    await papers.goto(`?q=Paged ${paged}`);
-
-    await expect(papers.cards).toHaveCount(20);
-    await expect(papers.resultsCount).toContainText(String(total));
-    await expect(papers.pageStatus).toHaveText('Page 1 of 2');
-    await expect(papers.prevLink).toHaveCount(0);
-
-    await papers.nextLink.click();
-    await expect(page).toHaveURL(/page=2/);
-    await expect(papers.cards).toHaveCount(1);
-    await expect(papers.cards.first()).toContainText(`Paged ${paged} 01`);
-    await expect(papers.pageStatus).toHaveText('Page 2 of 2');
-    await expect(papers.nextLink).toHaveCount(0);
-
-    await papers.prevLink.click();
-    await expect(papers.cards).toHaveCount(20);
-    await expect(page).not.toHaveURL(/page=/);
-  });
-});
-
-test.describe('Research Analysis', () => {
-  const curatorName = `Curator ${token}`;
-  const reviewerName = `Reviewer ${token}`;
-  let curator;
-  let reviewer;
-
-  /** A signed-in API client with staff roles, granted the way the dev-only route allows. */
-  async function staff(playwright, displayName, roles) {
-    const client = await playwright.request.newContext({ baseURL: BASE_URL });
-    const login = await client.post('/api/auth/_test/login', { data: { displayName } });
-    expect(login.ok(), 'POST /api/auth/_test/login (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
-    const granted = await client.post('/api/auth/_test/roles', { data: { roles } });
-    expect(granted.ok(), 'POST /api/auth/_test/roles (needs ENABLE_DEV_AUTH=1)').toBeTruthy();
-    return client;
-  }
-
-  test.beforeAll(async ({ playwright }) => {
-    curator = await staff(playwright, curatorName, ['paper-curator']);
-    reviewer = await staff(playwright, reviewerName, ['paper-reviewer']);
-  });
-  test.afterAll(async () => {
-    await curator.dispose();
-    await reviewer.dispose();
-  });
-
-  const sections = (tag) => ({
-    overview: { state: 'present', text: `Overview ${tag}\n\nSecond paragraph ${tag}` },
-    contribution: { state: 'present', text: `Contribution ${tag}` },
-    methodology: { state: 'present', text: `Methodology ${tag}` },
-    findings: { state: 'not_reported' },
-    criticalAnalysis: { state: 'present', text: `Critical ${tag}` },
-    furtherResearch: { state: 'not_applicable' },
-  });
-
-  async function newPaper(name) {
-    return seed({ title: `Analysed ${token} ${name}`, abstract: 'The abstract written by the authors.', doi: `10.5555/${token}.a.${name}` });
-  }
-  async function saveDraft(id, body) {
-    const res = await curator.put(`/api/papers/${id}/analysis/draft`, { data: { sections: body } });
-    expect(res.ok(), await res.text()).toBeTruthy();
-  }
-  async function publish(id) {
-    const res = await reviewer.post(`/api/papers/${id}/analysis/publish`, { data: {} });
-    expect(res.ok(), await res.text()).toBeTruthy();
-  }
-
-  test('says there is no analysis yet, and that an analysis would not be the authors', async ({ page }) => {
+  test('says when it was last revised and which version it is, with no reviewer or publisher', async ({ page }) => {
     const paper = new PaperDetailPage(page);
-    await paper.goto(await newPaper('none'));
-    await expect(paper.analysis).toBeVisible();
-    await expect(paper.noAnalysis).toBeVisible();
-    await expect(paper.analysisNote).toContainText('not by the authors of the paper');
-  });
+    await paper.goto(FDB.slug);
 
-  test('never shows a draft, only what was published', async ({ page }) => {
-    const id = await newPaper('draft');
-    await saveDraft(id, sections('secret draft'));
-    const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.noAnalysis).toBeVisible();
-    await expect(page.getByText('secret draft')).toHaveCount(0);
-  });
-
-  test('shows a published analysis in the six sections, with who wrote and reviewed it', async ({ page }) => {
-    const id = await newPaper('published');
-    await saveDraft(id, sections('v1'));
-    await publish(id);
-
-    const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.analysisTitles).toHaveText(['Overview', 'Contribution', 'Methodology', 'Findings', 'Critical Analysis', 'Further Research']);
-    await expect(paper.analysisCredit).toContainText(curatorName);
-    await expect(paper.analysisCredit).toContainText(reviewerName);
-    await expect(paper.analysisCredit).toContainText('Revision');
-    await expect(paper.analysisSection('Overview').locator('.analysis-text')).toHaveText(['Overview v1', 'Second paragraph v1']);
-    await expect(paper.analysisSection('Methodology')).toContainText('Methodology v1');
-    await expect(paper.noAnalysis).toHaveCount(0);
-  });
-
-  test('explains a section that has no text instead of leaving it blank', async ({ page }) => {
-    const id = await newPaper('states');
-    await saveDraft(id, { ...sections('v1'), methodology: { state: 'unable_to_determine' } });
-    await publish(id);
-
-    const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.analysisSection('Findings')).toContainText('The paper does not report this.');
-    await expect(paper.analysisSection('Further Research')).toContainText('Not applicable to this paper.');
-    await expect(paper.analysisSection('Methodology')).toContainText('Could not be determined from the paper.');
+    await expect(paper.analysisCredit).toContainText('Last revised');
+    await expect(paper.analysisCredit).toContainText('October 31, 2026');
+    await expect(paper.analysisCredit).toContainText('Version');
+    await expect(paper.analysisCredit).toContainText('1.0');
+    await expect(paper.analysisCredit).not.toContainText('Reviewed by');
+    await expect(paper.analysisCredit).not.toContainText('Published');
   });
 
   test('keeps the abstract of the authors apart from the analysis', async ({ page }) => {
-    const id = await newPaper('apart');
-    await saveDraft(id, sections('v1'));
-    await publish(id);
-
     const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.abstract).toHaveText('The abstract written by the authors.');
+    await paper.goto(PAGED.slug);
+
+    await expect(paper.abstract.first()).toBeVisible();
     await expect(paper.analysis.locator('.abstract')).toHaveCount(0);
-    await expect(paper.analysisNote).toContainText('abstract above is the authors');
+    await expect(paper.analysisNote).toContainText('The abstract above is the authors');
   });
 
-  test('shows a new revision only after it is published, and nothing once it is withdrawn', async ({ page }) => {
-    const id = await newPaper('revisions');
-    await saveDraft(id, sections('v1'));
-    await publish(id);
-    await saveDraft(id, sections('v2'));
-
+  test('is in Portuguese on the Portuguese page, which points to both languages for search engines', async ({ page }) => {
     const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.analysisSection('Overview')).toContainText('Overview v1');
+    await paper.gotoPortuguese(FDB.slug);
 
-    await publish(id);
-    // The server renders a paper page once per URL for a few minutes, so a changed analysis asks with a new URL.
-    await paper.goto(id, '?after=publish');
-    await expect(paper.analysisSection('Overview')).toContainText('Overview v2');
-    await expect(paper.analysisCredit).toContainText('2');
-
-    const withdrawn = await reviewer.post(`/api/papers/${id}/analysis/withdraw`, { data: {} });
-    expect(withdrawn.ok()).toBeTruthy();
-    await paper.goto(id, '?after=withdraw');
-    await expect(paper.noAnalysis).toBeVisible();
-  });
-
-  test('shows the text of a section as text, never as markup', async ({ page }) => {
-    const id = await newPaper('markup');
-    const hostile = '<img src=x onerror="window.__pwned=1"> <b>bold</b>';
-    await saveDraft(id, { ...sections('v1'), overview: { state: 'present', text: hostile } });
-    await publish(id);
-
-    const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.analysisSection('Overview')).toContainText(hostile);
-    await expect(paper.analysis.locator('img, b')).toHaveCount(0);
-    expect(await page.evaluate(() => window.__pwned)).toBeUndefined();
+    await expect(paper.title).toHaveText(FDB.title);
+    await expect(paper.analysisTitles).toHaveText(SECTIONS_PT);
+    await expect(paper.analysisNote).toContainText('Escrita pelo Kurz');
+    await expect(paper.analysisCredit).toContainText('Última revisão');
+    await expect(paper.analysisCredit).toContainText('31 de outubro de 2026');
+    await expect(paper.alternates.first()).toHaveAttribute('href', /\/papers\/foundationdb-unbundled-transactional-kv-store$/);
+    await expect(page.locator('link[rel="alternate"][hreflang="pt-BR"]')).toHaveAttribute('href', /\/pt-BR\/papers\/foundationdb/);
   });
 
   test('fits the screen', async ({ page }) => {
-    const id = await newPaper('fit');
-    await saveDraft(id, { ...sections('v1'), overview: { state: 'present', text: `A${'very'.repeat(60)}longunbrokenword` } });
-    await publish(id);
-
     const paper = new PaperDetailPage(page);
-    await paper.goto(id);
-    await expect(paper.analysisTitles).toHaveCount(6);
+    await paper.goto(FDB.slug);
+    await expect(paper.analysisTitles).toHaveCount(SECTIONS.length);
     await expectNoHorizontalScroll(page);
   });
 });

@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Inject,
   Injectable,
   NotFoundException,
@@ -10,24 +9,18 @@ import { PaperInputDto } from './paper.dto';
 import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
-import { isPublicId } from './paper-public-id';
 import { PublicationStage, stageOf } from './paper-stage';
-import { PaperConflict, PaperSource } from './paper-source.entity';
-import {
-  familyName,
-  normalizeDoi,
-  normalizeText,
-  paperFingerprint,
-} from './paper.normalize';
+import { PaperSource } from './paper-source.entity';
+import { normalizeDoi, paperFingerprint } from './paper.normalize';
 
 export interface SourceInfo {
-  /** `manual`, `crossref`, `openalex`, ... */
+  /** `manual`, `crossref`, ... */
   source: string;
   externalId?: string;
 }
 
 export interface PaperView {
-  /** The public id (UUIDv7). The integer key is internal and appears in no response. */
+  /** The public id: the slug of a public paper, the UUIDv7 of a private one. The integer key is internal. */
   id: string;
   title: string;
   abstract: string | null;
@@ -41,18 +34,7 @@ export interface PaperView {
   stage: PublicationStage;
   authors: { name: string; orcid: string | null }[];
   keywords: string[];
-  createdAt: Date;
-  updatedAt: Date;
 }
-
-export interface UpsertResult {
-  paper: PaperView;
-  created: boolean;
-  conflicts: PaperConflict[];
-}
-
-/** `fill` only completes what is empty (imports); `overwrite` is an explicit correction. */
-type Mode = 'fill' | 'overwrite';
 
 /** The input after trimming and normalizing. `null` means the source did not say. */
 interface Clean {
@@ -68,65 +50,23 @@ interface Clean {
   keywords: string[] | null;
 }
 
-const SCALARS = [
-  'title',
-  'abstract',
-  'doi',
-  'venue',
-  'publicationDate',
-  'url',
-  'researchArea',
-  'type',
-] as const;
-
 /** The first key of the advisory lock readers take while adding a paper; the second is the reader's id. */
 const ADD_LOCK = 212;
 
 const text = (value?: string): string | null => value?.trim() || null;
 
-/** "Lovelace, Ada" and "Ada Lovelace" give the same key: family name plus the given name's initial. */
-function authorKey(name: string): string {
-  const given = name.includes(',')
-    ? name.split(',').slice(1).join(' ')
-    : name.trim().split(/\s+/).slice(0, -1).join(' ');
-  return `${familyName(name)}|${normalizeText(given).slice(0, 1)}`;
-}
-
-const sameText = (a: unknown, b: unknown) =>
-  a === b || normalizeText(String(a)) === normalizeText(String(b));
-
-function isUniqueViolation(err: unknown): boolean {
-  const code =
-    (err as { driverError?: { code?: string }; code?: string }).driverError
-      ?.code ?? (err as { code?: string }).code;
-  return code === '23505';
-}
-
-/** Thrown inside the transaction of `preview` to carry its result out and roll everything back. */
-class Previewed {
-  constructor(
-    readonly match: PaperView | null,
-    readonly conflicts: PaperConflict[],
-  ) {}
-}
-
+/**
+ * The rows of a reader's own private papers (#203, #212). The public papers are files (see
+ * papers-catalog.service.ts), so nothing here writes to or reads from the public listing.
+ */
 @Injectable()
 export class PapersService {
   constructor(@Inject(DataSource) private readonly dataSource: DataSource) {}
 
   /**
-   * Adds a paper or merges it into the one it duplicates (same DOI, or same fingerprint when the DOI
-   * is missing on either side), and records where the metadata came from.
-   */
-  upsert(input: PaperInputDto, source: SourceInfo): Promise<UpsertResult> {
-    const clean = this.clean(input);
-    return this.write((m) => this.upsertIn(m, clean, source, input));
-  }
-
-  /**
-   * A paper a reader brings in by DOI or by hand (#212). It is theirs alone: nothing here touches the catalog or
-   * another reader's papers. `created` is false when they already have it (the same DOI, or the same fingerprint
-   * when the DOI is missing on either side), and nothing is changed then.
+   * A paper a reader brings in by DOI, by hand or by PDF. It is theirs alone: nothing here touches another
+   * reader's papers. `created` is false when they already have it (the same DOI, or the same fingerprint when
+   * the DOI is missing on either side), and nothing is changed then.
    */
   addPrivate(
     userId: number,
@@ -149,126 +89,13 @@ export class PapersService {
     });
   }
 
-  /**
-   * What `upsert` would do, without keeping any of it: the paper it would merge into (as it would look after
-   * the merge) and the disagreements, or `match: null` when it would create a new paper.
-   */
-  async preview(
-    input: PaperInputDto,
-  ): Promise<{ match: PaperView | null; conflicts: PaperConflict[] }> {
-    const clean = this.clean(input);
-    const fingerprint = paperFingerprint(
-      clean.title,
-      clean.publicationDate,
-      clean.authors?.[0]?.name,
-    );
-    try {
-      await this.dataSource.transaction(async (m) => {
-        const existing = await this.findDuplicate(m, clean.doi, fingerprint, null);
-        if (!existing) throw new Previewed(null, []);
-        const merged = await this.mergeInto(
-          m,
-          existing,
-          clean,
-          'fill',
-          { source: 'preview' },
-          input,
-        );
-        // Rolled back: the merge only ran to learn its result.
-        throw new Previewed(merged.paper, merged.conflicts);
-      });
-    } catch (err) {
-      if (err instanceof Previewed) {
-        return { match: err.match, conflicts: err.conflicts };
-      }
-      throw err;
-    }
-    throw new Error('unreachable');
-  }
-
-  /** An explicit correction of one paper: given values replace the stored ones, and say so in the provenance. */
-  correct(
-    id: number,
-    input: PaperInputDto,
-    source: SourceInfo,
-  ): Promise<UpsertResult> {
-    const clean = this.clean(input);
-    return this.write(async (m) => {
-      const existing = await m.findOne(Paper, { where: { id } });
-      if (!existing) throw new NotFoundException();
-      return this.mergeInto(m, existing, clean, 'overwrite', source, input);
-    });
-  }
-
-  /** The public record of a paper: bibliographic metadata only, never where it came from. */
-  async getPublic(publicId: string): Promise<PaperView> {
-    if (!isPublicId(publicId)) throw new NotFoundException();
+  /** The record of one of the reader's own papers, or 404. */
+  async getOwn(userId: number, id: number): Promise<PaperView> {
     const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { publicId: publicId.toLowerCase(), ownerId: IsNull() },
+      where: { id, ownerId: userId },
     });
     if (!paper) throw new NotFoundException();
     return this.view(this.dataSource.manager, paper);
-  }
-
-  /** What the library page shows: a public paper, or one of the reader's own private papers. */
-  async getFor(userId: number, id: number): Promise<PaperView> {
-    const paper = await this.dataSource.manager.findOne(Paper, {
-      where: [
-        { id, ownerId: IsNull() },
-        { id, ownerId: userId },
-      ],
-    });
-    if (!paper) throw new NotFoundException();
-    return this.view(this.dataSource.manager, paper);
-  }
-
-  /**
-   * The public id of the paper that had this integer id before #202, or 404. Only for the redirect from old
-   * links: nothing else turns an integer into a paper.
-   */
-  async publicIdOfLegacy(id: number): Promise<string> {
-    const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { id, ownerId: IsNull() },
-      select: { id: true, publicId: true },
-    });
-    if (!paper) throw new NotFoundException();
-    return paper.publicId;
-  }
-
-  /** The record plus its provenance and conflicts; for maintainers, not for the public API. */
-  async get(id: number) {
-    const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { id },
-    });
-    if (!paper) throw new NotFoundException();
-    const sources = await this.dataSource.manager.find(PaperSource, {
-      where: { paperId: id },
-      order: { id: 'ASC' },
-    });
-    return {
-      ...(await this.view(this.dataSource.manager, paper)),
-      sources: sources.map((s) => ({
-        source: s.source,
-        externalId: s.externalId,
-        retrievedAt: s.retrievedAt,
-        conflicts: s.conflicts,
-      })),
-    };
-  }
-
-  /** Runs one write in a transaction, and once more if a concurrent write took the same identity first. */
-  private async write(run: (m: EntityManager) => Promise<UpsertResult>) {
-    for (let attempt = 0; ; attempt++) {
-      try {
-        return await this.dataSource.transaction(run);
-      } catch (err) {
-        if (!isUniqueViolation(err)) throw err;
-        if (attempt > 0)
-          throw new ConflictException(
-            'Another paper already has this DOI or identity',
-          );
-      }
-    }
   }
 
   private clean(input: PaperInputDto): Clean {
@@ -301,31 +128,12 @@ export class PapersService {
     };
   }
 
-  private async upsertIn(
-    m: EntityManager,
-    clean: Clean,
-    source: SourceInfo,
-    raw: PaperInputDto,
-  ): Promise<UpsertResult> {
-    const fingerprint = paperFingerprint(
-      clean.title,
-      clean.publicationDate,
-      clean.authors?.[0]?.name,
-    );
-    const existing = await this.findDuplicate(m, clean.doi, fingerprint, null);
-    if (existing) {
-      return this.mergeInto(m, existing, clean, 'fill', source, raw);
-    }
-    const paper = await this.insert(m, clean, fingerprint, null, source, raw);
-    return { paper: await this.view(m, paper), created: true, conflicts: [] };
-  }
-
-  /** A new paper with its authors, keywords and provenance; `ownerId` null is a catalog paper. */
+  /** A new paper with its authors, keywords and provenance; the reader's id. */
   private async insert(
     m: EntityManager,
     clean: Clean,
     fingerprint: string,
-    ownerId: number | null,
+    ownerId: number,
     source: SourceInfo,
     raw: PaperInputDto,
   ): Promise<Paper> {
@@ -350,7 +158,7 @@ export class PapersService {
     );
     await this.replaceAuthors(m, paper.id, clean.authors ?? []);
     await this.addKeywords(m, paper.id, clean.keywords ?? []);
-    await this.recordSource(m, paper.id, source, raw, []);
+    await this.recordSource(m, paper.id, source, raw);
     return paper;
   }
 
@@ -363,10 +171,10 @@ export class PapersService {
     m: EntityManager,
     doi: string | null,
     fingerprint: string,
-    ownerId: number | null,
+    ownerId: number,
   ) {
-    // One owner's papers only: a catalog paper (null) never merges into a reader's own, nor one reader's into another's.
-    const owner = { ownerId: ownerId ?? IsNull() };
+    // One reader's papers only: one reader's never merges into another's.
+    const owner = { ownerId };
     return doi
       ? m.findOne(Paper, { where: { doi, ...owner } }).then(
           (byDoi) =>
@@ -380,107 +188,6 @@ export class PapersService {
           where: { fingerprint, ...owner },
           order: { id: 'ASC' },
         });
-  }
-
-  private async mergeInto(
-    m: EntityManager,
-    paper: Paper,
-    clean: Clean,
-    mode: Mode,
-    source: SourceInfo,
-    raw: PaperInputDto,
-  ): Promise<UpsertResult> {
-    const conflicts: PaperConflict[] = [];
-    const updates: Partial<Paper> = {};
-
-    for (const field of SCALARS) {
-      const incoming = clean[field];
-      if (incoming == null) continue;
-      const current = paper[field];
-      // 'other' is the default, so it counts as "not set yet".
-      if (current == null || (field === 'type' && current === 'other')) {
-        (updates as Record<string, unknown>)[field] = incoming;
-      } else if (!sameText(current, incoming)) {
-        conflicts.push({
-          field,
-          current,
-          incoming,
-          resolution: mode === 'overwrite' ? 'replaced' : 'kept-current',
-        });
-        if (mode === 'overwrite')
-          (updates as Record<string, unknown>)[field] = incoming;
-      }
-    }
-
-    const authors = await m.find(PaperAuthor, {
-      where: { paperId: paper.id },
-      order: { position: 'ASC' },
-    });
-    let nextAuthors = authors.map((a) => ({ name: a.name, orcid: a.orcid }));
-    if (clean.authors) {
-      const sameList =
-        authors.length === clean.authors.length &&
-        authors.every(
-          (a, i) => authorKey(a.name) === authorKey(clean.authors![i].name),
-        );
-      if (!authors.length && clean.authors.length) {
-        nextAuthors = clean.authors;
-      } else if (sameList) {
-        // Same people: only complete the ORCID iDs the stored list lacks.
-        nextAuthors = authors.map((a, i) => ({
-          name: a.name,
-          orcid: a.orcid ?? clean.authors![i].orcid,
-        }));
-      } else if (authors.length || mode === 'overwrite') {
-        if (authors.length) {
-          conflicts.push({
-            field: 'authors',
-            current: authors.map((a) => a.name),
-            incoming: clean.authors.map((a) => a.name),
-            resolution: mode === 'overwrite' ? 'replaced' : 'kept-current',
-          });
-        }
-        if (mode === 'overwrite') nextAuthors = clean.authors;
-      }
-    }
-
-    const title = updates.title ?? paper.title;
-    const date = updates.publicationDate ?? paper.publicationDate;
-    const fingerprint = paperFingerprint(title, date, nextAuthors[0]?.name);
-    if (fingerprint !== paper.fingerprint) updates.fingerprint = fingerprint;
-
-    if (Object.keys(updates).length) {
-      await m.update(Paper, paper.id, updates);
-    }
-    if (
-      JSON.stringify(nextAuthors) !==
-      JSON.stringify(authors.map((a) => ({ name: a.name, orcid: a.orcid })))
-    ) {
-      await this.replaceAuthors(m, paper.id, nextAuthors);
-    }
-
-    if (clean.keywords) {
-      if (mode === 'overwrite') {
-        const stored = (
-          await m.find(PaperKeyword, { where: { paperId: paper.id } })
-        ).map((k) => k.keyword);
-        const dropped = stored.filter((k) => !clean.keywords!.includes(k));
-        if (dropped.length) {
-          conflicts.push({
-            field: 'keywords',
-            current: stored,
-            incoming: clean.keywords,
-            resolution: 'replaced',
-          });
-          await m.delete(PaperKeyword, { paperId: paper.id });
-        }
-      }
-      await this.addKeywords(m, paper.id, clean.keywords);
-    }
-
-    await this.recordSource(m, paper.id, source, raw, conflicts);
-    const fresh = await m.findOneOrFail(Paper, { where: { id: paper.id } });
-    return { paper: await this.view(m, fresh), created: false, conflicts };
   }
 
   private async replaceAuthors(
@@ -522,7 +229,6 @@ export class PapersService {
     paperId: number,
     source: SourceInfo,
     payload: PaperInputDto,
-    conflicts: PaperConflict[],
   ) {
     return m.save(
       m.create(PaperSource, {
@@ -530,7 +236,7 @@ export class PapersService {
         source: source.source,
         externalId: source.externalId ?? null,
         payload: payload as unknown as Record<string, unknown>,
-        conflicts,
+        conflicts: [],
       }),
     );
   }
@@ -559,8 +265,6 @@ export class PapersService {
       stage: stageOf(paper.type),
       authors: authors.map((a) => ({ name: a.name, orcid: a.orcid })),
       keywords: keywords.map((k) => k.keyword),
-      createdAt: paper.createdAt,
-      updatedAt: paper.updatedAt,
     };
   }
 }
