@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { ConceptSection, readConceptContent, splitSections } from '../shared/concept-content';
-import { DEFAULT_LANGUAGE, Language, normalizeLanguage } from '../shared/language';
+import { DEFAULT_LANGUAGE, Language, SUPPORTED_LANGUAGES, normalizeLanguage } from '../shared/language';
 import { PAPER_TYPES, Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { byRecent, byTitle, matchesFilter, Searchable } from './paper-filter';
@@ -38,9 +38,12 @@ export interface PaperSummary {
 export interface HeldPaper {
   summary: PaperSummary;
   abstract: string | null;
+  /** The English original of the texts shown translated, so a search in either language finds the paper. */
+  original?: Searchable['original'];
 }
 
-export const searchableOf = ({ summary, abstract }: HeldPaper): Searchable => ({
+export const searchableOf = ({ summary, abstract, original }: HeldPaper): Searchable => ({
+  original,
   title: summary.title,
   abstract,
   doi: summary.doi,
@@ -74,6 +77,8 @@ export interface PublicPaperView extends PaperView {
   availableLanguages: Language[];
   /** One line from us about the paper; not the abstract, which is the authors'. */
   summary: string | null;
+  /** True when the abstract above is our translation of the authors' English one. */
+  abstractTranslated: boolean;
   version: string | null;
   /** The day the analysis was last revised (`YYYY-MM-DD`). */
   updatedAt: string | null;
@@ -96,6 +101,29 @@ interface PaperMeta {
   keywords?: string[];
   /** The authors' abstract, only where the publisher lets it be reproduced. */
   abstract?: string;
+  /** What reads differently in another language; the fields above are the English original and the fallback. */
+  i18n?: Partial<Record<Language, PaperTranslation>>;
+}
+
+/** The texts of a paper that are translated: the title and the venue stay as published. */
+interface PaperTranslation {
+  researchArea?: string;
+  /** One for each English keyword, in the same order. */
+  keywords?: string[];
+  /** Our translation of `abstract`, so it exists only where the abstract does. */
+  abstract?: string;
+}
+
+/** The texts of a paper in one language, English wherever there is no translation. */
+function textsOf(meta: PaperMeta, lang: Language) {
+  const t = lang === DEFAULT_LANGUAGE ? undefined : meta.i18n?.[lang];
+  return {
+    abstract: t?.abstract ?? meta.abstract ?? null,
+    abstractTranslated: !!t?.abstract,
+    researchArea: t?.researchArea ?? meta.researchArea ?? null,
+    keywords: keywordsOf({ ...meta, keywords: t?.keywords ?? meta.keywords }),
+    translated: !!t,
+  };
 }
 
 const FRONTMATTER_FIELDS = ['title', 'summary', 'version', 'updatedAt'] as const;
@@ -143,6 +171,16 @@ function loadIndex(dir: string): PaperMeta[] {
       dois.add(meta.doi);
     }
     if (meta.url !== undefined && !/^https?:\/\//.test(meta.url)) fail('url is http or https');
+    for (const [lang, t] of Object.entries(meta.i18n ?? {})) {
+      if (lang === DEFAULT_LANGUAGE || !SUPPORTED_LANGUAGES.includes(lang as Language)) {
+        fail(`i18n is keyed by a supported language other than ${DEFAULT_LANGUAGE}`);
+      }
+      if (t.researchArea !== undefined && !meta.researchArea) fail(`i18n ${lang}: researchArea has nothing to translate`);
+      if (t.abstract !== undefined && !meta.abstract) fail(`i18n ${lang}: abstract has nothing to translate`);
+      if (t.keywords !== undefined && t.keywords.length !== (meta.keywords ?? []).length) {
+        fail(`i18n ${lang}: one keyword for each English keyword`);
+      }
+    }
     if (!existsSync(join(dir, 'content', meta.slug, `${DEFAULT_LANGUAGE}.md`))) {
       fail(`content/${meta.slug}/en.md is missing`);
     }
@@ -208,8 +246,8 @@ export class PapersCatalogService {
     };
   }
 
-  /** The values the filter selects offer, most used first. */
-  facets(): PaperFacets {
+  /** The values the filter selects offer, most used first, with the areas in the language asked. */
+  facets(lang: Language = DEFAULT_LANGUAGE): PaperFacets {
     const count = (values: (string | undefined)[]): FacetValue[] => {
       const counts = new Map<string, number>();
       for (const value of values) {
@@ -221,7 +259,8 @@ export class PapersCatalogService {
         .slice(0, FACET_LIMIT);
     };
     return {
-      areas: count(this.metas.map((m) => m.researchArea)),
+      // A paper without a file in this language is listed in English, so its area is too.
+      areas: count(this.metas.map((m) => textsOf(m, this.content(m.slug, lang).language).researchArea ?? undefined)),
       types: count(this.metas.map((m) => m.type)),
     };
   }
@@ -235,19 +274,21 @@ export class PapersCatalogService {
       meta.slug,
       normalizeLanguage(lang),
     );
+    const texts = textsOf(meta, language);
     return {
       id: meta.slug,
       title: title ?? meta.title,
-      abstract: meta.abstract ?? null,
+      abstract: texts.abstract,
+      abstractTranslated: texts.abstractTranslated,
       doi: meta.doi ?? null,
       venue: meta.venue ?? null,
       publicationDate: meta.publicationDate ?? null,
       url: meta.url ?? null,
-      researchArea: meta.researchArea ?? null,
+      researchArea: texts.researchArea,
       type: meta.type,
       stage: stageOf(meta.type),
       authors: meta.authors.map((a) => ({ name: a.name, orcid: a.orcid ?? null })),
-      keywords: keywordsOf(meta),
+      keywords: texts.keywords,
       language,
       availableLanguages,
       summary,
@@ -315,22 +356,26 @@ export class PapersCatalogService {
   }
 
   private load(meta: PaperMeta, lang: Language): HeldPaper {
-    const { title } = this.content(meta.slug, lang);
+    const { title, language } = this.content(meta.slug, lang);
+    const texts = textsOf(meta, language);
     return {
-      abstract: meta.abstract ?? null,
+      abstract: texts.abstract,
+      original: texts.translated
+        ? { abstract: meta.abstract ?? null, keywords: keywordsOf(meta), researchArea: meta.researchArea ?? null }
+        : undefined,
       summary: {
         id: meta.slug,
         title: title ?? meta.title,
         authors: meta.authors.map((a) => a.name),
-        keywords: keywordsOf(meta),
+        keywords: texts.keywords,
         venue: meta.venue ?? null,
         publicationDate: meta.publicationDate ?? null,
         doi: meta.doi ?? null,
         url: meta.url ?? null,
-        researchArea: meta.researchArea ?? null,
+        researchArea: texts.researchArea,
         type: meta.type,
         stage: stageOf(meta.type),
-        excerpt: excerptOf(meta.abstract ?? null),
+        excerpt: excerptOf(texts.abstract),
       },
     };
   }

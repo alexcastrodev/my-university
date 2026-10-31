@@ -21,6 +21,8 @@ export interface FixturePaper {
   abstract?: string;
   /** Also write a pt-BR.md; its title overrides the English one when given. */
   portuguese?: { title?: string };
+  /** The `i18n` of the index: the texts that read differently in Portuguese. */
+  i18n?: { 'pt-BR': { researchArea?: string; keywords?: string[]; abstract?: string } };
   /** The `updatedAt` of the analysis, `2026-01-02` when left out. */
   updatedAt?: string;
 }
@@ -94,6 +96,7 @@ export function usePapers(papers: FixturePaper[] = DEFAULT_PAPERS): () => void {
     researchArea: p.researchArea,
     keywords: p.keywords,
     abstract: p.abstract,
+    i18n: p.i18n,
   }));
   writeFileSync(join(dir, 'papers.json'), JSON.stringify(index));
   for (const p of papers) {

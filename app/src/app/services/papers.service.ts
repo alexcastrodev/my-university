@@ -19,7 +19,7 @@ export class PapersService {
   }
 
   facets(): Observable<PaperFacets> {
-    return this.http.get<PaperFacets>(`${this.base}/facets`);
+    return this.http.get<PaperFacets>(`${this.base}/facets`, { params: { lang: this.language.language } });
   }
 
   /** A catalog paper by its slug, with its analysis in the reader's language (English when it has no translation). */

@@ -13,6 +13,7 @@ export interface SeedPaper {
   researchArea?: string;
   keywords?: string[];
   abstract?: string;
+  i18n?: { 'pt-BR'?: { researchArea?: string; keywords?: string[]; abstract?: string } };
 }
 
 export const SEED_PAPERS: SeedPaper[] = seed;

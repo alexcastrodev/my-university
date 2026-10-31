@@ -1045,6 +1045,7 @@
     "papers.detail.source": "Página original",
     "papers.detail.abstract": "Resumo",
     "papers.detail.noAbstract": "Este paper não tem resumo disponível.",
+    "papers.detail.abstractTranslated": "Tradução nossa do resumo original dos autores, em inglês.",
     "papers.detail.keywords": "Palavras-chave",
     "papers.detail.noKeywords": "Nenhuma palavra-chave informada.",
     "papers.detail.side": "Detalhes do paper",
