@@ -10,6 +10,7 @@ import { DataSource } from 'typeorm';
 import { AuthModule } from '../src/auth/auth.module';
 import { User } from '../src/auth/user.entity';
 import { PaperAnnotation } from '../src/paper-annotations/paper-annotation.entity';
+import { PaperAnnotationShare, PaperAnnotationShareRecipient } from '../src/paper-annotations/paper-annotation-share.entity';
 import { PaperAnnotationsModule } from '../src/paper-annotations/paper-annotations.module';
 import { PaperAttachment } from '../src/paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from '../src/paper-attachments/paper-attachment-version.entity';
@@ -77,6 +78,8 @@ export async function startAttachmentsApp(limits: {
           PaperAttachment,
           PaperAttachmentVersion,
           PaperAnnotation,
+          PaperAnnotationShare,
+          PaperAnnotationShareRecipient,
           StorageDeletion,
         ],
         synchronize: false,

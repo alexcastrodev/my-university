@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
+  ArrayUnique,
   IsArray,
   IsIn,
   IsInt,
@@ -15,6 +16,8 @@ import {
 } from 'class-validator';
 import { ANNOTATION_KINDS } from './paper-annotation.entity';
 import type { AnnotationKind } from './paper-annotation.entity';
+import { VISIBILITIES } from './paper-annotation-share.entity';
+import type { Visibility } from './paper-annotation-share.entity';
 
 export const MAX_BODY = 5000;
 export const MAX_QUOTE = 2000;
@@ -94,4 +97,25 @@ export class UpdateAnnotationDto {
   @IsOptional()
   @IsIn(['note'])
   kind?: 'note';
+}
+
+export const MAX_RECIPIENTS = 20;
+
+/**
+ * Who a shared annotation is for. `users` names the readers by their public profile (the vanity slug, the
+ * profile id, or the link `/u/...` that holds either): the same name they already give out, and only readers
+ * whose profile is public can be named.
+ */
+export class ShareAnnotationDto {
+  @IsIn(VISIBILITIES)
+  visibility: Visibility;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(MAX_RECIPIENTS)
+  @ArrayUnique()
+  @IsString({ each: true })
+  @MaxLength(200, { each: true })
+  @Matches(NO_NUL, { each: true })
+  recipients?: string[];
 }

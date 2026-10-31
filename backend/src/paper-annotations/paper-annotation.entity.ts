@@ -32,7 +32,7 @@ export interface AnnotationRect {
  * the reader's own PDF. It belongs to the library entry (so to one user and one paper) and goes with it.
  *
  * Private by construction: nothing here is reachable except through the owner's library entry, and the
- * sharing of annotations (#187) will add its own column rather than loosen this one.
+ * sharing of annotations (#187) is a separate table that holds a copy, so this one is never loosened.
  *
  * An anchored annotation records the PDF it was made on by `pdfSha256`. When the file is replaced by a
  * different one the annotation is kept but called stale, never moved onto text it was not made for. The

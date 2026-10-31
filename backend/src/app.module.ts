@@ -31,6 +31,7 @@ import { OgImageModule } from './og-image/og-image.module';
 import { PaperAttachment } from './paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from './paper-attachments/paper-attachment-version.entity';
 import { PaperAnnotation } from './paper-annotations/paper-annotation.entity';
+import { PaperAnnotationShare, PaperAnnotationShareRecipient } from './paper-annotations/paper-annotation-share.entity';
 import { PaperAnnotationsModule } from './paper-annotations/paper-annotations.module';
 import { PaperAttachmentsModule } from './paper-attachments/paper-attachments.module';
 import { StorageDeletion } from './paper-attachments/storage-deletion.entity';
@@ -90,6 +91,8 @@ import { XpModule } from './xp/xp.module';
         PaperAttachment,
         PaperAttachmentVersion,
         PaperAnnotation,
+        PaperAnnotationShare,
+        PaperAnnotationShareRecipient,
         StorageDeletion,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],

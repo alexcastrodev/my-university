@@ -14,6 +14,7 @@ import {
   PaperAnnotation,
 } from './paper-annotation.entity';
 import { CreateAnnotationDto, UpdateAnnotationDto } from './paper-annotation.dto';
+import { ShareView, sharesOf } from './paper-annotation-share-queries';
 
 export interface AnnotationView {
   id: string;
@@ -28,6 +29,8 @@ export interface AnnotationView {
   pdfVersion: number | null;
   /** True when the PDF now served is not the file it was made on: it is kept, shown for review, never moved. */
   stale: boolean;
+  /** What the reader chose to publish of it (#187), or null while it is private, which is the default. */
+  share: ShareView | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -59,7 +62,8 @@ export class PaperAnnotationsService {
       where: { entryId: entry.id },
       order: { createdAt: 'ASC', id: 'ASC' },
     });
-    return { version: current?.version ?? null, items: rows.map((r) => view(r, current)) };
+    const shares = await sharesOf(this.dataSource, rows.map((r) => r.id));
+    return { version: current?.version ?? null, items: rows.map((r) => view(r, current, shares.get(r.id))) };
   }
 
   async create(userId: number, ref: PaperRef, dto: CreateAnnotationDto): Promise<AnnotationView> {
@@ -80,7 +84,7 @@ export class PaperAnnotationsService {
       if ([dto.version, dto.page, dto.quote, dto.prefix, dto.suffix, dto.rects].some((v) => v !== undefined)) {
         throw bad('note_has_no_place', 'A note has no place in the PDF');
       }
-      return view(await repo.save(repo.create({ entryId: entry.id, kind: 'note', body })), null);
+      return view(await repo.save(repo.create({ entryId: entry.id, kind: 'note', body })), null, undefined);
     }
 
     if (!dto.page || !dto.version) throw bad('anchor_required', 'An annotation needs the PDF version and the page');
@@ -124,19 +128,17 @@ export class PaperAnnotationsService {
         rects,
       }),
     );
-    return view(saved, current);
+    return view(saved, current, undefined);
   }
 
   async update(userId: number, ref: PaperRef, id: string, dto: UpdateAnnotationDto): Promise<AnnotationView> {
-    const entry = await this.entryOf(userId, ref);
+    const row = await this.own(userId, ref, id);
     const repo = this.dataSource.getRepository(PaperAnnotation);
-    const row = isUuid(id) ? await repo.findOne({ where: { id: id.toLowerCase(), entryId: entry.id } }) : null;
-    if (!row) throw new NotFoundException();
     const current = await this.currentOf(userId, ref);
     const typed = dto.body === undefined ? undefined : dto.body.trim() || null;
 
     if (dto.kind === 'note') {
-      if (row.kind === 'note' || !view(row, current).stale) {
+      if (row.kind === 'note' || !view(row, current, undefined).stale) {
         throw bad('not_stale', 'Only an annotation the PDF outgrew can become a note');
       }
       const text = [row.quote && `> ${row.quote.replace(/\s+/g, ' ')}`, typed === undefined ? row.body : typed]
@@ -162,7 +164,18 @@ export class PaperAnnotationsService {
       }
       row.body = typed;
     }
-    return view(await repo.save(row), current);
+    const saved = await repo.save(row);
+    return view(saved, current, (await sharesOf(this.dataSource, [saved.id])).get(saved.id));
+  }
+
+  /** The reader's own annotation. Someone else's, one on a paper outside their library and one that is not there are the same 404. */
+  async own(userId: number, ref: PaperRef, id: string): Promise<PaperAnnotation> {
+    const entry = await this.entryOf(userId, ref);
+    const row = isUuid(id)
+      ? await this.dataSource.getRepository(PaperAnnotation).findOne({ where: { id: id.toLowerCase(), entryId: entry.id } })
+      : null;
+    if (!row) throw new NotFoundException();
+    return row;
   }
 
   async remove(userId: number, ref: PaperRef, id: string): Promise<void> {
@@ -200,7 +213,7 @@ export class PaperAnnotationsService {
 const bad = (code: string, message: string) =>
   new BadRequestException({ statusCode: 400, code, message });
 
-function view(row: PaperAnnotation, current: Current | null): AnnotationView {
+function view(row: PaperAnnotation, current: Current | null, share: ShareView | undefined): AnnotationView {
   return {
     id: row.id,
     kind: row.kind,
@@ -212,6 +225,7 @@ function view(row: PaperAnnotation, current: Current | null): AnnotationView {
     rects: row.rects,
     pdfVersion: row.pdfVersion,
     stale: row.kind !== 'note' && row.pdfSha256 !== current?.sha256,
+    share: share ?? null,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
   };

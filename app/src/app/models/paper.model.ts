@@ -253,8 +253,45 @@ export interface Annotation {
   pdfVersion: number | null;
   /** True when the PDF now served is not the file it was made on: kept for review, never drawn on the new one. */
   stale: boolean;
+  /** What the reader chose to publish of it, or null while it is private (the default). */
+  share: AnnotationShare | null;
   createdAt: string;
   updatedAt: string;
+}
+
+/** Who a shared annotation is for: `public` is anyone who opens the paper, `users` the readers named. */
+export type ShareVisibility = 'public' | 'users';
+
+/** The audience and the age of the copy a reader published; mirrors the `share` of an annotation. */
+export interface AnnotationShare {
+  visibility: ShareVisibility;
+  /** The readers a `users` share is for, by the id of their public profile. */
+  recipients: { id: string; name: string }[];
+  sharedAt: string;
+  /** When the copy was last made from the annotation: editing the annotation does not change it. */
+  updatedAt: string;
+}
+
+/** What the audience is sent as; mirrors PUT /api/paper-library/:paperId/annotations/:id/share. */
+export interface ShareInput {
+  visibility: ShareVisibility;
+  /** Public profile names (the part after `/u/`), or ids, for a `users` share. */
+  recipients?: string[];
+}
+
+/** A copy shared on a public paper, as the viewer may see it; mirrors GET /api/papers/:slug/shared-annotations. */
+export interface SharedAnnotation {
+  id: string;
+  kind: AnnotationKind;
+  body: string | null;
+  page: number | null;
+  /** The passage, cut to a few lines by the server. */
+  quote: string | null;
+  visibility: ShareVisibility;
+  /** True for the viewer's own. */
+  mine: boolean;
+  author: { name: string; avatarUrl: string; /** The key of `/u/<key>`, or null when the author's profile is not public. */ profile: string | null };
+  sharedAt: string;
 }
 
 export interface AnnotationList {

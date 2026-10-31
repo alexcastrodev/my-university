@@ -36,6 +36,8 @@
           <app-annotation-item
             [annotation]="note"
             [busy]="busyId() === note.id"
+            [sharePaper]="canShare() ? paperId() : null"
+            (shareChange)="shared(note, $event)"
             (save)="save(note, $event)"
             (remove)="remove(note)"
           />

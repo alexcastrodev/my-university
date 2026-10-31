@@ -33,6 +33,10 @@ export class PaperDetailPage {
     this.libraryControls = this.library.locator('select, input');
     this.libraryError = this.library.getByRole('alert');
 
+    // What readers shared about the paper (#187): shown only when there is something to show.
+    this.shared = page.locator('#shared-annotations');
+    this.sharedItems = this.shared.locator('li.item');
+
     this.analysis = page.locator('#analysis');
     this.analysisNote = this.analysis.locator('.analysis-note');
     this.analysisCredit = this.analysis.locator('.analysis-credit');
@@ -45,6 +49,16 @@ export class PaperDetailPage {
   /** `query` is for a page that changed since it was last rendered: the server keeps a rendered page per URL for a few minutes. */
   async goto(id, query = '') {
     await this.page.goto(`/papers/${id}${query}`);
+  }
+
+  /**
+   * Opens the paper and waits for the server's answer about what readers shared, so "nothing shared" is what the
+   * server said and not a page that has not asked yet.
+   */
+  async gotoWithShares(id) {
+    const answered = this.page.waitForResponse((res) => res.url().endsWith(`/api/papers/${id}/shared-annotations`));
+    await this.goto(id);
+    await answered;
   }
 
   /** The Portuguese version of the same paper. */
@@ -73,5 +87,10 @@ export class PaperDetailPage {
   async post(text) {
     await this.composer.fill(text);
     await this.postButton.click();
+  }
+
+  /** One shared annotation, found by the text it shows. */
+  sharedItem(text) {
+    return this.sharedItems.filter({ hasText: text });
   }
 }

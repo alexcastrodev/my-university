@@ -219,6 +219,8 @@
                   <app-annotation-item
                     [annotation]="a"
                     [busy]="busyId() === a.id"
+                    [sharePaper]="canShare() ? paperId() : null"
+                    (shareChange)="shared(a, $event)"
                     (open)="show(a)"
                     (save)="edit(a, $event)"
                     (remove)="drop(a)"

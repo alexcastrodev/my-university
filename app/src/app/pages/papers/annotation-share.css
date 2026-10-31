@@ -1,0 +1,120 @@
+.share {
+  margin-top: 0.5rem;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.35rem;
+}
+
+.badge {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--mu-accent-strong, var(--mu-accent));
+  background: var(--mu-accent-soft, var(--mu-bg-alt));
+  border-radius: 999px;
+}
+
+.muted {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  color: var(--mu-muted);
+}
+
+.status .muted {
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.7rem;
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.who legend {
+  margin-bottom: 0.2rem;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--mu-ink);
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+}
+
+.field {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  font-weight: 400;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.problem {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mu-danger-strong);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.35rem 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn-primary {
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border-color: var(--mu-accent);
+}
