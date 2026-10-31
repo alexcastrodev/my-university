@@ -8,12 +8,36 @@ part of it.
 
 | Table | Holds |
 | --- | --- |
-| `paper` | title, abstract, DOI, venue, publication date, URL, research area, type, fingerprint, timestamps |
+| `paper` | public id, title, abstract, DOI, venue, publication date, URL, research area, type, fingerprint, timestamps |
 | `paper_author` | one row per author with a `position`, so order is kept and nothing is a comma-separated string |
 | `paper_keyword` | one row per keyword, stored lowercase and unique per paper |
 | `paper_source` | one row per write: which source, its id there, the record as received, and the conflicts it had |
 
 `publicationDate` is `YYYY`, `YYYY-MM` or `YYYY-MM-DD`, because scholarly dates are often only a year.
+
+## How a paper is addressed (public ids, #202)
+
+A paper has two ids. The integer `id` is the internal key: every foreign key (authors, keywords, sources,
+analysis, library entries, attachments) points at it, and it never leaves the server. `publicId` is what
+everything outside uses: a UUIDv7 made by PostgreSQL 18's native `uuidv7()` (time-ordered, opaque, not
+countable). It is what the URLs `/papers/:id` and `/library/:id`, the API (`/api/papers/:id`,
+`/api/paper-library/:paperId`, `.../attachment`, `.../analysis`), the `id` of every response and the
+discussion topic (`paper:<publicId>`) carry.
+
+- **Resolving.** `PaperIds.resolve(publicId)` turns the param into the internal key in each handler. Malformed
+  and unknown ids are the same 404, so a caller learns nothing by trying. It is a service rather than a route
+  pipe on purpose: a pipe runs after the global `ValidationPipe`, which turns a param typed `number` into NaN.
+- **Old links.** `GET /api/papers/<integer>` answers 301 to `/api/papers/<publicId>`, and the SSR server turns
+  `/papers/<integer>` (and `/pt-BR/papers/<integer>`) into a 301 to the public page; the library page follows
+  the same redirect client-side. Nothing else accepts an integer. The lookup must only ever resolve papers that
+  were public before #202 (the whole catalog today): a paper that exists only in one reader's library (#203)
+  has no old link and must not be reachable through it. Remove the redirect once no published link uses it.
+- **Migration 023** adds the column with `DEFAULT uuidv7()`, which PostgreSQL evaluates for every existing row
+  (so the backfill gives each paper its own id in the same statement) and keeps for later inserts. It also
+  rewrites the discussion topic keys `paper:<integer>` to `paper:<publicId>`, so existing threads stay on
+  their paper; `down` puts them back.
+- **Tests that need the integer** (the old-link redirect) get it from the dev-only seed route
+  (`POST /api/papers/_test`, `legacyId`), which does not exist in production.
 
 ## When two records are the same paper
 

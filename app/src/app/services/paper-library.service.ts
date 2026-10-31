@@ -22,21 +22,21 @@ export class PaperLibraryService {
   }
 
   /** The entry for a paper, or `null` when it is not in the library. */
-  get(paperId: number): Observable<LibraryEntry | null> {
+  get(paperId: string): Observable<LibraryEntry | null> {
     return this.http
       .get<LibraryEntry>(`${this.base}/${paperId}`)
       .pipe(catchError((err) => (err?.status === 404 ? of(null) : throwError(() => err))));
   }
 
-  add(paperId: number): Observable<LibraryEntry> {
+  add(paperId: string): Observable<LibraryEntry> {
     return this.http.post<LibraryEntry>(this.base, { paperId });
   }
 
-  update(paperId: number, change: LibraryChange): Observable<LibraryEntry> {
+  update(paperId: string, change: LibraryChange): Observable<LibraryEntry> {
     return this.http.patch<LibraryEntry>(`${this.base}/${paperId}`, change);
   }
 
-  remove(paperId: number): Observable<void> {
+  remove(paperId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${paperId}`);
   }
 }

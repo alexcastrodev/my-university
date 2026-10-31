@@ -16,6 +16,7 @@ import {
   parseCurriculumSourceId,
 } from '../concept-lookup/concept-lookup.constants';
 import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
+import { isPublicId } from '../papers/paper-public-id';
 import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { ConceptSection } from '../shared/concept-content';
 import { Language } from '../shared/language';
@@ -134,13 +135,13 @@ export class DiscussionService {
     topic: TopicDto,
   ): Promise<{ topicKey: string; sections: ConceptSection[] }> {
     if (topic.module === PAPERS_MODULE) {
-      // Digits only, and normalized, so "007" and "7" cannot become two boards for one paper.
-      if (topic.discipline || !/^\d+$/.test(topic.slug)) {
+      // The public id as the slug rule lets it through (lowercase), so two spellings of it cannot become
+      // two boards for one paper.
+      if (topic.discipline || !isPublicId(topic.slug)) {
         throw new NotFoundException();
       }
-      const id = Number(topic.slug);
-      await this.papers.titleOf(id);
-      return { topicKey: `${PAPER_TOPIC_PREFIX}${id}`, sections: [] };
+      await this.papers.titleOfPublic(topic.slug);
+      return { topicKey: `${PAPER_TOPIC_PREFIX}${topic.slug}`, sections: [] };
     }
     const source = this.lookup.resolveTopic(
       topic.module,

@@ -7,7 +7,9 @@ import { del, get, json, login, post, put } from './helpers';
  * through `_test` as well.
  */
 const run = Math.random().toString(36).slice(2, 8);
-let paperId: number;
+let paperId: string;
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
 
 const KEYS = [
   'overview',
@@ -28,7 +30,7 @@ const complete = (tag = 'v1') => ({
   furtherResearch: { state: 'not_applicable' },
 });
 
-const analysisPath = (id: number | string = paperId) => `/papers/${id}/analysis`;
+const analysisPath = (id: string = paperId) => `/papers/${id}/analysis`;
 
 async function staff(name: string, roles: string[]) {
   const user = await login(`${name}-${run}`);
@@ -41,15 +43,15 @@ async function staff(name: string, roles: string[]) {
   return user;
 }
 
-const saveDraft = (cookie: string, sections: unknown, id?: number) =>
+const saveDraft = (cookie: string, sections: unknown, id?: string) =>
   put(`${analysisPath(id)}/draft`, { sections }, { Cookie: cookie });
-const publish = (cookie: string, id?: number) =>
+const publish = (cookie: string, id?: string) =>
   post(`${analysisPath(id)}/publish`, {}, { Cookie: cookie });
-const withdraw = (cookie: string, id?: number) =>
+const withdraw = (cookie: string, id?: string) =>
   post(`${analysisPath(id)}/withdraw`, {}, { Cookie: cookie });
-const history = (cookie: string, id?: number) =>
+const history = (cookie: string, id?: string) =>
   get(`${analysisPath(id)}/history`, { Cookie: cookie });
-const readPublic = async (id?: number) =>
+const readPublic = async (id?: string) =>
   json<{ analysis: any }>(await get(analysisPath(id)));
 
 let curator: { id: number; cookie: string };
@@ -58,13 +60,13 @@ let reviewer: { id: number; cookie: string };
 let reader: { id: number; cookie: string };
 
 /** Another paper, removed after the run, for the tests that must not touch the main one. */
-const extra: number[] = [];
-async function anotherPaper(): Promise<number> {
+const extra: string[] = [];
+async function anotherPaper(): Promise<string> {
   const res = await post('/papers/_test', {
     title: `Another analysis paper ${run} ${Math.random()}`,
     authors: [{ name: 'Grace Hopper' }],
   });
-  const id = (await json<{ paper: { id: number } }>(res)).paper.id;
+  const id = (await json<{ paper: { id: string } }>(res)).paper.id;
   extra.push(id);
   return id;
 }
@@ -75,7 +77,7 @@ beforeAll(async () => {
     authors: [{ name: 'Ada Lovelace' }],
   });
   expect(res.status).toBe(201);
-  paperId = (await json<{ paper: { id: number } }>(res)).paper.id;
+  paperId = (await json<{ paper: { id: string } }>(res)).paper.id;
   curator = await staff('curator', ['paper-curator']);
   editor = await staff('editor', ['paper-curator']);
   reviewer = await staff('reviewer', ['paper-reviewer']);
@@ -92,9 +94,10 @@ describe('who can do what', () => {
     expect(await json(res)).toEqual({ analysis: null });
   });
 
-  it('answers 404 for a paper that does not exist and 400 for a malformed id', async () => {
-    expect((await get(analysisPath(2147483000))).status).toBe(404);
-    expect((await get(analysisPath('not-an-id'))).status).toBe(400);
+  it('answers 404 for a paper that does not exist and for anything that is not a public id', async () => {
+    expect((await get(analysisPath(UNKNOWN_ID))).status).toBe(404);
+    expect((await get(analysisPath('not-an-id'))).status).toBe(404);
+    expect((await get(analysisPath('2147483000'))).status).toBe(404);
   });
 
   it.each([
@@ -167,7 +170,7 @@ describe('what a draft accepts', () => {
   });
 
   it('answers 404 for a paper that does not exist', async () => {
-    expect((await saveDraft(curator.cookie, complete(), 2147483000)).status).toBe(404);
+    expect((await saveDraft(curator.cookie, complete(), UNKNOWN_ID)).status).toBe(404);
   });
 });
 

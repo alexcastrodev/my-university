@@ -25,7 +25,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** What the reader keeps about a paper. Dates are ISO strings; `completedAt` is a plain day. */
 export interface LibraryEntryView {
-  paperId: number;
+  /** The paper's public id. */
+  paperId: string;
   status: LibraryStatus;
   rating: number | null;
   tags: string[];
@@ -52,8 +53,8 @@ export interface LibraryFacets {
 
 const TAG_FACET_LIMIT = 100;
 
-const view = (e: PaperLibraryEntry): LibraryEntryView => ({
-  paperId: e.paperId,
+const view = (e: PaperLibraryEntry, publicId: string): LibraryEntryView => ({
+  paperId: publicId,
   status: e.status,
   rating: e.rating,
   tags: e.tags,
@@ -110,10 +111,11 @@ export class PaperLibraryService {
     userId: number,
     dto: AddToLibraryDto,
   ): Promise<{ entry: LibraryEntryView; created: boolean }> {
-    const exists = await this.dataSource
-      .getRepository(Paper)
-      .exists({ where: { id: dto.paperId } });
-    if (!exists) throw new NotFoundException('Paper not found');
+    const paper = await this.dataSource.getRepository(Paper).findOne({
+      where: { publicId: dto.paperId.toLowerCase() },
+      select: { id: true, publicId: true },
+    });
+    if (!paper) throw new NotFoundException('Paper not found');
 
     const status = dto.status ?? 'to-read';
     const rows: { id: number }[] = await this.dataSource.query(
@@ -121,16 +123,17 @@ export class PaperLibraryService {
        VALUES ($1, $2, $3, $4)
        ON CONFLICT ("userId", "paperId") DO NOTHING
        RETURNING id`,
-      [userId, dto.paperId, status, status === 'read' ? today() : null],
+      [userId, paper.id, status, status === 'read' ? today() : null],
     );
     return {
-      entry: await this.get(userId, dto.paperId),
+      entry: await this.get(userId, paper.id),
       created: rows.length > 0,
     };
   }
 
   async get(userId: number, paperId: number): Promise<LibraryEntryView> {
-    return view(await this.entryOf(userId, paperId));
+    const entry = await this.entryOf(userId, paperId);
+    return view(entry, entry.paper.publicId);
   }
 
   async update(
@@ -158,9 +161,10 @@ export class PaperLibraryService {
     if (dto.rating !== undefined) entry.rating = dto.rating;
     if (dto.tags !== undefined) entry.tags = cleanTags(dto.tags);
 
-    return view(
-      await this.dataSource.getRepository(PaperLibraryEntry).save(entry),
-    );
+    const saved = await this.dataSource
+      .getRepository(PaperLibraryEntry)
+      .save(entry);
+    return view(saved, entry.paper.publicId);
   }
 
   /** Takes the paper out of the reader's library. The paper and other readers' entries stay. */
@@ -228,10 +232,11 @@ export class PaperLibraryService {
         : [],
     ]);
     const entryOf = new Map(entries.map((e) => [e.paperId, e]));
+    // Summaries come back in the order of `papers`, and carry the public id: the entry is found by the key.
     return {
-      items: summaries.map((s) => ({
+      items: summaries.map((s, i) => ({
         ...s,
-        library: view(entryOf.get(s.id)!),
+        library: view(entryOf.get(papers[i].id)!, s.id),
       })),
       total,
       page,
@@ -280,7 +285,7 @@ export class PaperLibraryService {
     const entry = this.validId(paperId)
       ? await this.dataSource
           .getRepository(PaperLibraryEntry)
-          .findOne({ where: { userId, paperId } })
+          .findOne({ where: { userId, paperId }, relations: { paper: true } })
       : null;
     if (!entry) throw new NotFoundException('Not in your library');
     return entry;

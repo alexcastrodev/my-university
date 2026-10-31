@@ -20,7 +20,8 @@ export class PapersService {
     return this.http.get<PaperFacets>(`${this.base}/facets`);
   }
 
-  get(id: number): Observable<Paper> {
+  /** A paper by its public id. An id from before public ids is answered with a redirect, which the browser follows. */
+  get(id: string): Observable<Paper> {
     return this.http.get<Paper>(`${this.base}/${id}`);
   }
 
@@ -40,7 +41,7 @@ export class PapersService {
   }
 
   /** The published analysis of a paper, or null when it has none. */
-  analysis(id: number): Observable<PaperAnalysis | null> {
+  analysis(id: string): Observable<PaperAnalysis | null> {
     return this.http.get<{ analysis: PaperAnalysis | null }>(`${this.base}/${id}/analysis`).pipe(map((r) => r.analysis));
   }
 }

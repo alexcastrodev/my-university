@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, Subject, catchError, finalize, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { EMPTY, Observable, Subject, catchError, finalize, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { LibraryEntry, Paper } from '../../models/paper.model';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel, safeWebUrl } from '../../shared/paper-format';
+import { isLegacyPaperId, isPaperId } from '../../shared/paper-id';
 import { PaperAttachmentPanel } from './paper-attachment-panel';
 import { PaperLibraryDetails } from './paper-library-details';
 import { PaperStage } from './paper-stage';
@@ -69,8 +70,16 @@ export class PaperLibraryEntryPage {
           this.removeFailed.set(false);
         }),
         switchMap((id): Observable<Loaded> => {
-          if (!/^[1-9]\d{0,9}$/.test(id)) return of('missing');
-          return forkJoin([this.library.get(Number(id)), this.papers.get(Number(id))]).pipe(
+          if (isLegacyPaperId(id)) {
+            // A link from before public ids: the API answers it with a redirect, and the address follows it.
+            return this.papers.get(id).pipe(
+              tap((paper) => void this.router.navigate(['/library', paper.id], { replaceUrl: true })),
+              switchMap(() => EMPTY),
+              catchError((err): Observable<Loaded> => of(err?.status === 404 ? 'missing' : 'failed')),
+            );
+          }
+          if (!isPaperId(id)) return of('missing');
+          return forkJoin([this.library.get(id), this.papers.get(id)]).pipe(
             map(([entry, paper]): Loaded => (entry ? { entry, paper } : 'missing')),
             catchError((err): Observable<Loaded> => of(err?.status === 401 ? 'signedOut' : err?.status === 404 ? 'missing' : 'failed')),
           );
@@ -100,7 +109,7 @@ export class PaperLibraryEntryPage {
     this.request.next(this.route.snapshot.paramMap.get('paperId') ?? '');
   }
 
-  protected remove(paperId: number): void {
+  protected remove(paperId: string): void {
     this.removeFailed.set(false);
     this.removing.set(true);
     this.library

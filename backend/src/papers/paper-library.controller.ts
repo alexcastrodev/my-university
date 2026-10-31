@@ -6,7 +6,6 @@ import {
   HttpCode,
   Inject,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -20,6 +19,7 @@ import {
   LibraryQueryDto,
   UpdateLibraryEntryDto,
 } from './paper-library.dto';
+import { PaperIds } from './paper-public-id';
 import { PaperLibraryService } from './paper-library.service';
 
 // esbuild (vitest) emits no decorator metadata, so each pipe is told its DTO by hand. Unknown fields
@@ -40,6 +40,7 @@ const updateBody = strict(UpdateLibraryEntryDto);
 export class PaperLibraryController {
   constructor(
     @Inject(PaperLibraryService) private readonly library: PaperLibraryService,
+    @Inject(PaperIds) private readonly ids: PaperIds,
   ) {}
 
   @Get()
@@ -69,28 +70,28 @@ export class PaperLibraryController {
   }
 
   @Get(':paperId')
-  get(
+  async get(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
   ) {
-    return this.library.get(userId, paperId);
+    return this.library.get(userId, await this.ids.resolve(paperId));
   }
 
   @Patch(':paperId')
-  update(
+  async update(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
     @Body(updateBody) dto: UpdateLibraryEntryDto,
   ) {
-    return this.library.update(userId, paperId, dto);
+    return this.library.update(userId, await this.ids.resolve(paperId), dto);
   }
 
   @Delete(':paperId')
   @HttpCode(204)
   async remove(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
   ) {
-    await this.library.remove(userId, paperId);
+    await this.library.remove(userId, await this.ids.resolve(paperId));
   }
 }

@@ -2,6 +2,7 @@ import { Inject, Module, OnModuleInit } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import type { FastifyInstance } from 'fastify';
+import { PapersModule } from '../papers/papers.module';
 import { StorageModule } from '../storage/storage.module';
 import { PaperAttachment } from './paper-attachment.entity';
 import { PaperAttachmentVersion } from './paper-attachment-version.entity';
@@ -13,6 +14,7 @@ import { StorageDeletion } from './storage-deletion.entity';
 @Module({
   imports: [
     StorageModule,
+    PapersModule,
     TypeOrmModule.forFeature([
       PaperAttachment,
       PaperAttachmentVersion,

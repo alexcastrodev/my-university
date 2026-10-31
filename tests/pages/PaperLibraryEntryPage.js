@@ -47,7 +47,7 @@ export class PaperLibraryEntryPage {
    */
   async #saved(change) {
     const answered = this.page.waitForResponse(
-      (res) => res.request().method() === 'PATCH' && /\/api\/paper-library\/\d+$/.test(res.url()),
+      (res) => res.request().method() === 'PATCH' && /\/api\/paper-library\/[0-9a-f-]{36}$/.test(res.url()),
     );
     await change();
     await answered;
