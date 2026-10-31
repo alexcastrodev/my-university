@@ -62,21 +62,21 @@ async function uploadPdf(page) {
 test.describe('sharing a note with everyone', () => {
   test('shows it on the paper page to a visitor with its author, leaves the private notes out, and takes it back', async ({ page, browser }) => {
     const text = unique('Shared note');
-    const secret = unique('Private note');
+    const hidden = unique('Private note');
     const entry = await ownerWithNote(page, 'Owner', text);
-    expect((await entry.addNote(secret)).status()).toBe(201);
+    expect((await entry.addNote(hidden)).status()).toBe(201);
 
     const controls = new AnnotationShareControls(entry.item(text));
     await expect(entry.item(text).locator('app-annotation-share')).toBeVisible();
     expect((await controls.shareWithEveryone()).status()).toBe(200);
     await expect(controls.status).toContainText('Shared with everyone who opens the paper');
-    await expect(new AnnotationShareControls(entry.item(secret)).status).toHaveCount(0);
+    await expect(new AnnotationShareControls(entry.item(hidden)).status).toHaveCount(0);
 
     const { context, detail } = await visitor(browser);
     await detail.gotoWithShares(PAPER.id);
     await expect(detail.sharedItem(text)).toBeVisible();
     await expect(detail.sharedItem(text)).toContainText(`Owner ${token}`);
-    await expect(detail.shared).not.toContainText(secret);
+    await expect(detail.shared).not.toContainText(hidden);
 
     expect((await controls.stopSharing()).status()).toBe(204);
     await expect(controls.status).toHaveCount(0);

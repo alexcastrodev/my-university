@@ -37,8 +37,14 @@ export function excerpt(quote: string | null): string | null {
 
 /** What `/u/<x>` names: the vanity slug or the profile id. Accepts the bare name, `@name` or the whole link. */
 export function profileKeyOf(raw: string): string {
-  const last = raw.trim().replace(/[?#].*$/, '').replace(/\/+$/, '').split('/').pop() ?? '';
-  return last.replace(/^@/, '').toLowerCase();
+  // No regular expressions: the text is the reader's, and indexOf and split are linear whatever they hold.
+  let text = raw.trim();
+  for (const stop of ['?', '#']) {
+    const at = text.indexOf(stop);
+    if (at >= 0) text = text.slice(0, at);
+  }
+  const last = text.split('/').filter(Boolean).pop() ?? '';
+  return (last.startsWith('@') ? last.slice(1) : last).toLowerCase();
 }
 
 /** The shares of these annotations, for the author's own list. One query, whatever the number of annotations. */
