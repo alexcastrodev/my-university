@@ -79,6 +79,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'library/:paperId',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'papers/:id',
     renderMode: RenderMode.Server,
   },

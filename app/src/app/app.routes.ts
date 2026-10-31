@@ -124,6 +124,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/papers/paper-library').then((m) => m.PaperLibraryPage),
   },
   {
+    path: 'library/:paperId',
+    loadComponent: () => import('./pages/papers/paper-library-entry').then((m) => m.PaperLibraryEntryPage),
+  },
+  {
     path: 'papers/:id',
     loadComponent: () => import('./pages/papers/paper-detail').then((m) => m.PaperDetailPage),
   },

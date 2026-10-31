@@ -105,7 +105,7 @@
           <ul class="papers">
             @for (paper of p.items; track paper.id) {
               <li class="paper-card">
-                <h2 class="paper-title"><a [routerLink]="['/papers', paper.id]">{{ paper.title }}</a></h2>
+                <h2 class="paper-title"><a [routerLink]="['/library', paper.id]">{{ paper.title }}</a></h2>
                 @if (paper.authors.length) {
                   <p class="paper-authors">
                     {{ paper.authors.slice(0, authorsShown).join('; ') }}

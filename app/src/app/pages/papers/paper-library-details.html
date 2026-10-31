@@ -1,0 +1,63 @@
+@if (entry(); as e) {
+  <div class="fields">
+    <div class="field">
+      <label class="field-label" for="library-status" i18n="@@papers.library.status">Status</label>
+      <select id="library-status" class="field-input" (change)="setStatus($any($event.target).value)">
+        @for (status of statuses; track status) {
+          <option [value]="status" [selected]="e.status === status">{{ statusLabel(status) }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="library-rating" i18n="@@papers.library.rating">Rating (1 to 5)</label>
+      <select id="library-rating" class="field-input" (change)="setRating($any($event.target).value)">
+        <option value="" [selected]="e.rating === null" i18n="@@papers.library.notRated">Not rated</option>
+        @for (rating of ratings; track rating) {
+          <option [value]="rating" [selected]="e.rating === rating">{{ rating }}</option>
+        }
+      </select>
+    </div>
+
+    @if (e.status === 'read') {
+      <div class="field">
+        <label class="field-label" for="library-completed" i18n="@@papers.library.completedAt">Finished on</label>
+        <input id="library-completed" class="field-input" type="date" [max]="today" [value]="e.completedAt ?? ''" (change)="setCompleted($any($event.target).value)" />
+      </div>
+    }
+  </div>
+
+  <div class="tags">
+    <p class="field-label" id="library-tags-label" i18n="@@papers.library.tags">Your tags</p>
+    @if (e.tags.length) {
+      <ul class="tag-list" aria-labelledby="library-tags-label">
+        @for (tag of e.tags; track tag) {
+          <li class="tag">
+            <span>{{ tag }}</span>
+            <button type="button" class="tag-remove" (click)="removeTag(tag)" i18n-aria-label="@@papers.library.removeTag" aria-label="Remove tag" [attr.title]="tag">×</button>
+          </li>
+        }
+      </ul>
+    }
+    <form class="tag-form" (submit)="addTag($event)">
+      <label class="visually-hidden" for="library-tag-input" i18n="@@papers.library.tagLabel">New tag</label>
+      <input
+        id="library-tag-input"
+        class="field-input tag-input"
+        type="text"
+        name="tag"
+        maxlength="40"
+        autocomplete="off"
+        i18n-placeholder="@@papers.library.tagPlaceholder"
+        placeholder="Add a tag"
+        [value]="tagText()"
+        (input)="tagText.set($any($event.target).value)"
+      />
+      <button type="submit" class="details-button" [disabled]="!tagText().trim()" i18n="@@papers.library.tagAdd">Add</button>
+    </form>
+  </div>
+
+  @if (saveFailed()) {
+    <p class="details-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
+  }
+}
