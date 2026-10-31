@@ -40,3 +40,43 @@ export function formatPaperDate(date: string, locale: string): string {
 export function safeWebUrl(url: string | null): string | null {
   return url && /^https?:\/\//i.test(url) ? url : null;
 }
+
+/** What a refused or failed PDF upload means, in the reader's language. `code` is the API's stable code. */
+export function attachmentErrorMessage(code: string | null | undefined): string {
+  switch (code) {
+    case 'not_pdf':
+      return $localize`:@@papers.attachment.error.notPdf:This file is not a PDF.`;
+    case 'malformed':
+      return $localize`:@@papers.attachment.error.malformed:This PDF is damaged or incomplete.`;
+    case 'encrypted':
+      return $localize`:@@papers.attachment.error.encrypted:Encrypted PDFs are not accepted. Remove the restrictions and try again.`;
+    case 'active_content':
+      return $localize`:@@papers.attachment.error.activeContent:This PDF contains scripts or actions that open files or forms, which are not accepted.`;
+    case 'unscannable':
+      return $localize`:@@papers.attachment.error.unscannable:This PDF could not be checked, so it was not accepted.`;
+    case 'too_large':
+      return $localize`:@@papers.attachment.error.tooLarge:The file is larger than 25 MB.`;
+    case 'quota_exceeded':
+      return $localize`:@@papers.attachment.error.quota:Your PDF storage is full. Remove one to upload another.`;
+    case 'upload_in_progress':
+      return $localize`:@@papers.attachment.error.inProgress:Another upload is still running. Wait for it to finish.`;
+    case 'expired':
+    case 'upload_expired':
+      return $localize`:@@papers.attachment.error.expired:The upload did not finish. Try again.`;
+    case 'storage_unavailable':
+      return $localize`:@@papers.attachment.error.storage:The file could not be stored right now. Try again in a moment.`;
+    default:
+      return $localize`:@@papers.attachment.error.generic:The file could not be uploaded. Try again.`;
+  }
+}
+
+/** A file size as a person reads it: "340 KB", "4.2 MB". */
+export function formatFileSize(bytes: number, locale: string): string {
+  const mega = bytes >= 1024 * 1024;
+  return new Intl.NumberFormat(locale, {
+    style: 'unit',
+    unit: mega ? 'megabyte' : 'kilobyte',
+    maximumFractionDigits: mega ? 1 : 0,
+  }).format(mega ? bytes / (1024 * 1024) : Math.max(bytes / 1024, 1));
+}
+

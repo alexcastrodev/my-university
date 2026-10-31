@@ -9,13 +9,14 @@ import { Paper } from '../../models/paper.model';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel, safeWebUrl } from '../../shared/paper-format';
+import { PaperAttachmentPanel } from './paper-attachment-panel';
 
 type Loaded = { paper: Paper } | { missing: true } | { failed: true };
 
 @Component({
   selector: 'app-paper-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Breadcrumbs, ConceptDiscussion],
+  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperAttachmentPanel],
   templateUrl: './paper-detail.html',
   styleUrl: './paper-detail.css',
 })

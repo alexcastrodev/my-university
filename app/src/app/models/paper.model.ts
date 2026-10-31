@@ -70,3 +70,28 @@ export interface PaperQuery {
   sort?: PaperSort;
   page?: number;
 }
+
+export type AttachmentState = 'pending' | 'approved' | 'rejected' | 'superseded';
+
+export interface AttachmentVersion {
+  version: number;
+  state: AttachmentState;
+  filename: string;
+  size: number;
+  sha256: string;
+  /** Stable code of why a refused version was refused; map it with `attachmentErrorMessage`. */
+  rejectCode: string | null;
+  rejectReason: string | null;
+  uploadedAt: string;
+  scannedAt: string | null;
+}
+
+/** The signed-in reader's own PDF for a paper; mirrors GET /api/papers/:id/attachment. Newest version first. */
+export interface PaperAttachment {
+  id: number;
+  paperId: number;
+  visibility: 'private';
+  /** The version being served, or null when none was approved. */
+  current: number | null;
+  versions: AttachmentVersion[];
+}

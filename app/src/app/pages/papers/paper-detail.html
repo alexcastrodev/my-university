@@ -97,6 +97,8 @@
             <p class="muted" i18n="@@papers.detail.noKeywords">No keywords listed.</p>
           }
         </section>
+
+        <app-paper-attachment-panel [paperId]="p.id" />
       </article>
 
       @if (topic(); as t) {

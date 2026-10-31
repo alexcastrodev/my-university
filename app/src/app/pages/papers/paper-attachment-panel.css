@@ -1,0 +1,135 @@
+.attachment {
+  margin-top: 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+}
+
+.attachment-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.attachment-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--mu-ink-soft);
+}
+
+.attachment-note a,
+.file-name {
+  color: var(--mu-accent-strong);
+  font-weight: 600;
+}
+
+.attachment-error {
+  color: var(--mu-danger-strong);
+}
+
+.file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+}
+
+.file-name {
+  overflow-wrap: anywhere;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+}
+
+.field-input {
+  max-width: 100%;
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.field-input:focus-visible,
+.attachment-button:focus-visible,
+.file-name:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.attachment-button {
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--mu-ink);
+  background: var(--mu-bg-alt);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.attachment-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.attachment-button-quiet {
+  color: var(--mu-danger-strong);
+}
+
+.attachment-button-danger {
+  color: var(--mu-danger-strong);
+  border-color: var(--mu-danger-strong);
+}
+
+.attachment-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.muted {
+  color: var(--mu-muted);
+}
+
+@media (max-width: 600px) {
+  .field-input {
+    width: 100%;
+  }
+}
