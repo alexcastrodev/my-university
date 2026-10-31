@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, DestroyRef, LOCALE_ID, OnInit, comp
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, catchError, map, of, switchMap, tap } from 'rxjs';
-import { PAPER_TYPES, PaperFacets, PaperPage, PaperQuery, PaperSort, PaperType } from '../../models/paper.model';
+import { PAPER_TYPES, PUBLICATION_STAGES, PaperFacets, PaperPage, PaperQuery, PaperSort, PaperType } from '../../models/paper.model';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
-import { formatPaperDate, paperTypeLabel } from '../../shared/paper-format';
+import { formatPaperDate, paperTypeLabel, stageLabel } from '../../shared/paper-format';
+import { PaperStage } from './paper-stage';
 import { paperQueryParams, parsePaperQuery } from './papers-query';
 
 const AUTHORS_SHOWN = 4;
@@ -13,7 +14,7 @@ const AUTHORS_SHOWN = 4;
 @Component({
   selector: 'app-papers-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, PaperStage],
   templateUrl: './papers-list.html',
   styleUrl: './papers-list.css',
 })
@@ -26,6 +27,8 @@ export class PapersListPage implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   protected readonly paperTypeLabel = paperTypeLabel;
+  protected readonly stageLabel = stageLabel;
+  protected readonly stages = PUBLICATION_STAGES;
   protected readonly paperQueryParams = paperQueryParams;
   protected readonly authorsShown = AUTHORS_SHOWN;
 
@@ -45,8 +48,8 @@ export class PapersListPage implements OnInit {
   protected currentPage = computed(() => this.page()?.page ?? 1);
   /** Whether anything narrows the list; an empty result then means "no match" rather than "no papers yet". */
   protected filtered = computed(() => {
-    const { q, author, keyword, area, type } = this.query();
-    return !!(q || author || keyword || area || type);
+    const { q, author, keyword, area, type, stage } = this.query();
+    return !!(q || author || keyword || area || type || stage);
   });
   protected types = computed(() => {
     const present = new Set(this.facets()?.types.map((t) => t.value));
@@ -107,6 +110,10 @@ export class PapersListPage implements OnInit {
 
   protected onType(value: string): void {
     this.go({ type: (value || undefined) as PaperType | undefined });
+  }
+
+  protected onStage(value: string): void {
+    this.go({ stage: PUBLICATION_STAGES.find((s) => s === value) });
   }
 
   protected onArea(value: string): void {

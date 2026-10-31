@@ -20,6 +20,7 @@ interface Summary {
   doi: string | null;
   researchArea: string | null;
   type: string;
+  stage: string;
   excerpt: string | null;
 }
 interface Page {
@@ -112,6 +113,7 @@ describe('GET /papers', () => {
       doi: doi('full'),
       researchArea: area('x'),
       type: 'journal-article',
+      stage: 'published',
       excerpt: 'We study the catalog.',
     });
   });
@@ -241,6 +243,21 @@ describe('GET /papers', () => {
       ]);
     });
 
+    it('filters by publication stage, which groups the types that stand alike', async () => {
+      await seed({ title: title('s1'), type: 'journal-article' });
+      await seed({ title: title('s2'), type: 'conference-paper' });
+      await seed({ title: title('s3'), type: 'preprint' });
+      await seed({ title: title('s4'), type: 'thesis' });
+
+      expect((await titles('stage=published')).sort()).toEqual([
+        title('s1'),
+        title('s2'),
+      ]);
+      expect(await titles('stage=preprint')).toEqual([title('s3')]);
+      expect(await titles('stage=thesis')).toEqual([title('s4')]);
+      expect(await titles('stage=published&type=preprint')).toEqual([]);
+    });
+
     it('combines filters with AND', async () => {
       await seed({
         title: title('c1'),
@@ -327,6 +344,7 @@ describe('GET /papers', () => {
   describe('validation', () => {
     it.each([
       ['an unknown publication type', 'type=zine'],
+      ['an unknown publication stage', 'stage=peer-reviewed'],
       ['an unknown sort', 'sort=random'],
       ['a page below 1', 'page=0'],
       ['a page above the cap', 'page=1001'],
@@ -340,6 +358,47 @@ describe('GET /papers', () => {
       const res = await fetch(`${app.url}/papers?${query}`);
       expect(res.status).toBe(400);
     });
+  });
+});
+
+describe('publication stage (#201)', () => {
+  const expected: Record<string, string> = {
+    'journal-article': 'published',
+    'conference-paper': 'published',
+    'book-chapter': 'published',
+    book: 'published',
+    preprint: 'preprint',
+    thesis: 'thesis',
+    report: 'report',
+    other: 'unknown',
+  };
+
+  it('says where every kind of paper stands, in the list and in the full record', async () => {
+    const ids = new Map<string, number>();
+    for (const type of Object.keys(expected)) {
+      ids.set(type, await seed({ title: title(`kind ${type}`), type }));
+    }
+
+    const page = await json<Page>(
+      await send('GET', `/papers?q=${encodeURIComponent(title('kind '))}&limit=50`),
+    );
+    expect(page.total).toBe(Object.keys(expected).length);
+    for (const [type, stage] of Object.entries(expected)) {
+      const id = ids.get(type);
+      expect(page.items.find((p) => p.id === id)?.stage, type).toBe(stage);
+      const detail = await json<{ stage: string }>(
+        await send('GET', `/papers/${id}`),
+      );
+      expect(detail.stage, type).toBe(stage);
+    }
+  });
+
+  it('calls a paper whose kind is not known unknown, not published', async () => {
+    const id = await seed({ title: title('no kind') });
+    const detail = await json<{ type: string; stage: string }>(
+      await send('GET', `/papers/${id}`),
+    );
+    expect(detail).toMatchObject({ type: 'other', stage: 'unknown' });
   });
 });
 
@@ -408,6 +467,7 @@ describe('GET /papers/:id', () => {
       url: 'https://example.org/detail',
       researchArea: area('d'),
       type: 'conference-paper',
+      stage: 'published',
       authors: [{ name: 'Ada Lovelace', orcid: '0000-0002-1825-0097' }],
       keywords: ['one'],
     });

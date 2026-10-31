@@ -9,6 +9,7 @@ import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
 import { normalizeDoi } from './paper.normalize';
+import { PublicationStage, stageOf, typesOfStage } from './paper-stage';
 
 /** What a catalog row shows; the full record (abstract, URL, ORCIDs) is one request away. */
 export interface PaperSummary {
@@ -21,6 +22,8 @@ export interface PaperSummary {
   doi: string | null;
   researchArea: string | null;
   type: PaperType;
+  /** What the type says about review, in plain terms (see paper-stage.ts). */
+  stage: PublicationStage;
   /** The start of the abstract, or null when the paper has none. */
   excerpt: string | null;
 }
@@ -136,6 +139,7 @@ export class PapersCatalogService {
       doi: p.doi,
       researchArea: p.researchArea,
       type: p.type,
+      stage: stageOf(p.type),
       excerpt: excerptOf(p.abstract),
     }));
   }
@@ -210,6 +214,11 @@ export class PapersCatalogService {
       });
     }
     if (query.type) builder.andWhere('p.type = :type', { type: query.type });
+    if (query.stage) {
+      builder.andWhere('p.type IN (:...stageTypes)', {
+        stageTypes: typesOfStage(query.stage),
+      });
+    }
     if (query.year) {
       builder.andWhere('LEFT(p.publicationDate, 4) = :year', {
         year: query.year,

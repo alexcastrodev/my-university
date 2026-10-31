@@ -36,6 +36,15 @@
             </select>
           </div>
         }
+        <div class="filter">
+          <label class="filter-label" for="filter-stage" i18n="@@papers.filter.stage">Publication stage</label>
+          <select id="filter-stage" class="filter-select" (change)="onStage($any($event.target).value)">
+            <option value="" [selected]="!query().stage" i18n="@@papers.filter.all">All</option>
+            @for (stage of stages; track stage) {
+              <option [value]="stage" [selected]="query().stage === stage">{{ stageLabel(stage) }}</option>
+            }
+          </select>
+        </div>
         @if (f.areas.length) {
           <div class="filter">
             <label class="filter-label" for="filter-area" i18n="@@papers.filter.area">Research area</label>
@@ -112,6 +121,7 @@
                 </p>
               }
               <p class="paper-meta">
+                <app-paper-stage [stage]="paper.stage" />
                 <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
                 @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
                 @if (paper.venue) { <span>{{ paper.venue }}</span> }

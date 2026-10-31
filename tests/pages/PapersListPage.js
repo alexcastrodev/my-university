@@ -6,6 +6,7 @@ export class PapersListPage {
     this.searchInput = page.getByRole('searchbox', { name: 'Search papers' });
     this.searchButton = page.getByRole('button', { name: 'Search', exact: true });
     this.typeSelect = page.getByLabel('Type', { exact: true });
+    this.stageSelect = page.getByLabel('Publication stage', { exact: true });
     this.areaSelect = page.getByLabel('Research area', { exact: true });
     this.sortSelect = page.getByLabel('Sort by', { exact: true });
     this.addPaperLink = page.getByRole('link', { name: 'Add a paper' });
@@ -33,6 +34,11 @@ export class PapersListPage {
 
   card(title) {
     return this.cards.filter({ hasText: title });
+  }
+
+  /** The small label saying where a paper stands (Preprint: not reviewed yet, Published...). */
+  cardStage(title) {
+    return this.card(title).locator('.stage-pill');
   }
 
   titles() {

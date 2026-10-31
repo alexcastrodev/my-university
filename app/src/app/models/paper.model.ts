@@ -10,6 +10,10 @@ export const PAPER_TYPES = [
 ] as const;
 export type PaperType = (typeof PAPER_TYPES)[number];
 
+/** Where a paper stands for a reader with no academic background; the API derives it from the type. */
+export const PUBLICATION_STAGES = ['preprint', 'published', 'thesis', 'report', 'unknown'] as const;
+export type PublicationStage = (typeof PUBLICATION_STAGES)[number];
+
 export type PaperSort = 'recent' | 'title';
 
 /** A row of the public catalog; mirrors GET /api/papers. */
@@ -24,6 +28,7 @@ export interface PaperSummary {
   doi: string | null;
   researchArea: string | null;
   type: PaperType;
+  stage: PublicationStage;
   /** The start of the abstract, or null when the paper has none. */
   excerpt: string | null;
 }
@@ -56,6 +61,7 @@ export interface Paper {
   url: string | null;
   researchArea: string | null;
   type: PaperType;
+  stage: PublicationStage;
   authors: { name: string; orcid: string | null }[];
   keywords: string[];
 }
@@ -67,6 +73,7 @@ export interface PaperQuery {
   keyword?: string;
   area?: string;
   type?: PaperType;
+  stage?: PublicationStage;
   sort?: PaperSort;
   page?: number;
 }
