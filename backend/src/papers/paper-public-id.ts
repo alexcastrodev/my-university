@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { DataSource, IsNull } from 'typeorm';
 import { Paper } from './paper.entity';
 
 /** Any UUID, case-insensitive: the shape of `paper.publicId`. Anything else is not a paper. */
@@ -27,10 +27,23 @@ export const isLegacyId = (value: unknown): value is string =>
 export class PaperIds {
   constructor(@Inject(DataSource) private readonly dataSource: DataSource) {}
 
+  /** A public paper. A private one (#203) is the same 404 as an id that does not exist. */
   async resolve(publicId: string): Promise<number> {
+    return this.find(publicId, [{ ownerId: IsNull() }]);
+  }
+
+  /** What a reader may reach: a public paper, or one of their own private papers. Anyone else's is a 404. */
+  async resolveFor(userId: number, publicId: string): Promise<number> {
+    return this.find(publicId, [{ ownerId: IsNull() }, { ownerId: userId }]);
+  }
+
+  private async find(
+    publicId: string,
+    owners: { ownerId: ReturnType<typeof IsNull> | number }[],
+  ): Promise<number> {
     if (!isPublicId(publicId)) throw new NotFoundException();
     const paper = await this.dataSource.getRepository(Paper).findOne({
-      where: { publicId: publicId.toLowerCase() },
+      where: owners.map((o) => ({ ...o, publicId: publicId.toLowerCase() })),
       select: { id: true },
     });
     if (!paper) throw new NotFoundException();

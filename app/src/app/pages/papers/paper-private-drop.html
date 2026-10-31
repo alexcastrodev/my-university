@@ -1,0 +1,57 @@
+<section class="drop" aria-labelledby="private-drop-heading">
+  <h2 id="private-drop-heading" class="drop-title" i18n="@@papers.private.title">Add a paper that is not in the catalog</h2>
+
+  @if (file(); as f) {
+    <form class="drop-form" (submit)="submit($event)">
+      <p class="drop-file"><span class="drop-file-name">{{ f.name }}</span> <span class="muted">{{ size() }}</span></p>
+
+      <div class="field">
+        <label class="field-label" for="private-title" i18n="@@papers.private.titleLabel">Title</label>
+        <input id="private-title" class="field-input" type="text" name="title" required [attr.maxlength]="maxTitle" autocomplete="off" [value]="title()" (input)="title.set($any($event.target).value)" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="private-doi" i18n="@@papers.private.doiLabel">DOI (optional)</label>
+        <input id="private-doi" class="field-input" type="text" name="doi" maxlength="300" autocomplete="off" placeholder="10.1234/abc" [value]="doi()" (input)="doi.set($any($event.target).value)" />
+        <p class="field-hint" i18n="@@papers.private.doiHint">If the paper is already in the catalog, that paper is added with your PDF instead of a copy.</p>
+      </div>
+
+      @if (errorCode()) {
+        <p class="drop-error" role="alert">{{ errorText() }}</p>
+      }
+      @if (uploading()) {
+        <p class="drop-note" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.private.uploading">Uploading and checking the file…</ng-container></p>
+      }
+
+      <div class="drop-actions">
+        <button type="submit" class="drop-button" [disabled]="!canSubmit()" i18n="@@papers.private.submit">Add to my library</button>
+        <button type="button" class="drop-button drop-button-quiet" [disabled]="uploading()" (click)="cancel()" i18n="@@papers.private.cancel">Cancel</button>
+      </div>
+    </form>
+  } @else {
+    <label class="drop-zone" for="private-file" [class.drop-zone-over]="dragging()" (dragover)="over($event)" (dragleave)="dragging.set(false)" (drop)="drop($event)">
+      <svg class="drop-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 16V5m0 0-4 4m4-4 4 4M5 15v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="drop-zone-text">
+        <strong i18n="@@papers.private.choose">Drop a PDF here or choose a file</strong>
+        <span class="muted" i18n="@@papers.private.hint">Only you will see it. Up to 25 MB.</span>
+      </span>
+      <input id="private-file" class="visually-hidden" type="file" accept="application/pdf,.pdf" (change)="pick($event)" />
+    </label>
+
+    @if (errorCode()) {
+      <p class="drop-error" role="alert">{{ errorText() }}</p>
+    }
+    @if (result(); as r) {
+      <p class="drop-note drop-done" role="status">
+        @if (r.matched) {
+          <ng-container i18n="@@papers.private.doneMatched">That DOI is already in the catalog, so your PDF was attached to the catalog paper in your library.</ng-container>
+        } @else {
+          <ng-container i18n="@@papers.private.donePrivate">Added as a private paper that only you can see.</ng-container>
+        }
+        <a [routerLink]="['/library', r.paperId]" i18n="@@papers.private.open">Open it</a>
+      </p>
+    }
+  }
+</section>

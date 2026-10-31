@@ -73,9 +73,16 @@
                   }
                 </dl>
 
-                <p class="public-link">
-                  <a [routerLink]="['/papers', p.id]" i18n="@@papers.library.entry.public">View the public page and its discussion</a>
-                </p>
+                @if (e.private) {
+                  <p class="public-link">
+                    <span class="badge-private" i18n="@@papers.private.badge">Private</span>
+                    <span class="muted" i18n="@@papers.library.entry.privateNote">Only you can see this paper. It has no public page.</span>
+                  </p>
+                } @else {
+                  <p class="public-link">
+                    <a [routerLink]="['/papers', p.id]" i18n="@@papers.library.entry.public">View the public page and its discussion</a>
+                  </p>
+                }
               </header>
 
               <section class="block" aria-labelledby="mine-heading">
@@ -85,11 +92,18 @@
 
                 <div class="remove">
                   @if (confirmingRemove()) {
-                    <span i18n="@@papers.library.entry.confirmRemove">Remove this paper and what you recorded about it?</span>
-                    <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirm">Remove</button>
+                    @if (e.private) {
+                      <span i18n="@@papers.library.entry.confirmDelete">Delete this paper, its PDF and what you recorded about it? This cannot be undone.</span>
+                      <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirmDeleteYes">Delete</button>
+                    } @else {
+                      <span i18n="@@papers.library.entry.confirmRemove">Remove this paper and what you recorded about it?</span>
+                      <button type="button" class="action action-danger" [disabled]="removing()" (click)="remove(p.id)" i18n="@@papers.library.entry.confirm">Remove</button>
+                    }
                     <button type="button" class="action" [disabled]="removing()" (click)="confirmingRemove.set(false)" i18n="@@papers.library.entry.cancel">Cancel</button>
                   } @else {
-                    <button type="button" class="action action-quiet" (click)="confirmingRemove.set(true)" i18n="@@papers.library.remove">Remove from library</button>
+                    <button type="button" class="action action-quiet" (click)="confirmingRemove.set(true)">
+                      @if (e.private) { <ng-container i18n="@@papers.library.entry.delete">Delete paper</ng-container> } @else { <ng-container i18n="@@papers.library.remove">Remove from library</ng-container> }
+                    </button>
                   }
                   @if (removeFailed()) {
                     <span class="remove-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</span>

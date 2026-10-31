@@ -9,7 +9,7 @@ import {
   OnApplicationBootstrap,
   OnModuleDestroy,
 } from '@nestjs/common';
-import { DataSource, EntityManager } from 'typeorm';
+import { DataSource, EntityManager, IsNull } from 'typeorm';
 import { Paper } from '../papers/paper.entity';
 import { StorageService } from '../storage/storage.service';
 import {
@@ -155,9 +155,13 @@ export class PaperAttachmentsService
     }
     this.uploading.add(userId);
     try {
-      const paper = await this.dataSource
-        .getRepository(Paper)
-        .exists({ where: { id: paperId } });
+      // A public paper, or the reader's own private one: never someone else's.
+      const paper = await this.dataSource.getRepository(Paper).exists({
+        where: [
+          { id: paperId, ownerId: IsNull() },
+          { id: paperId, ownerId: userId },
+        ],
+      });
       if (!paper) throw new NotFoundException('Paper not found');
       if (
         (await this.usedBytes(userId, paperId)) + bytes.byteLength >

@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { del, get, json, login, post } from './helpers';
+import { BASE, del, get, json, login, post } from './helpers';
+import { makePdf } from './pdf-fixtures';
 
 /**
  * Live stack, like discussions.spec: a paper's discussion is the one concept pages use (same endpoints,
@@ -98,6 +99,31 @@ describe('discussion on a paper page', () => {
       { Cookie: ana.cookie },
     );
     expect(res.status).toBe(404);
+  });
+
+  it("answers 404 for a reader's private paper, even to its owner, on read and on write", async () => {
+    const ana = await login(`paper-private-${run}`);
+    const made = await fetch(
+      `${BASE}/paper-library/private?title=${encodeURIComponent(`Private discussion ${run}`)}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/pdf', Cookie: ana.cookie },
+        body: makePdf() as BodyInit,
+      },
+    );
+    expect(made.status).toBe(201);
+    const { paperId: privateId } = await json<{ paperId: string }>(made);
+
+    expect((await general(privateId)).status).toBe(404);
+    expect((await general(privateId, ana.cookie)).status).toBe(404);
+    const res = await post(
+      '/discussions/general',
+      { ...topic(privateId), body: 'talking to myself' },
+      { Cookie: ana.cookie },
+    );
+    expect(res.status).toBe(404);
+
+    await del(`/paper-library/${privateId}`, { Cookie: ana.cookie });
   });
 
   it.each([

@@ -8,6 +8,17 @@
   font-weight: 600;
 }
 
+.badge-private {
+  margin-right: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mu-info-strong);
+  background: var(--mu-info-soft);
+  border: 1px solid var(--mu-info-border);
+  border-radius: 4px;
+}
+
 .remove {
   display: flex;
   flex-wrap: wrap;

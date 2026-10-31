@@ -172,7 +172,19 @@ export class PapersService {
   async getPublic(publicId: string): Promise<PaperView> {
     if (!isPublicId(publicId)) throw new NotFoundException();
     const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { publicId: publicId.toLowerCase() },
+      where: { publicId: publicId.toLowerCase(), ownerId: IsNull() },
+    });
+    if (!paper) throw new NotFoundException();
+    return this.view(this.dataSource.manager, paper);
+  }
+
+  /** What the library page shows: a public paper, or one of the reader's own private papers. */
+  async getFor(userId: number, id: number): Promise<PaperView> {
+    const paper = await this.dataSource.manager.findOne(Paper, {
+      where: [
+        { id, ownerId: IsNull() },
+        { id, ownerId: userId },
+      ],
     });
     if (!paper) throw new NotFoundException();
     return this.view(this.dataSource.manager, paper);
@@ -184,7 +196,7 @@ export class PapersService {
    */
   async publicIdOfLegacy(id: number): Promise<string> {
     const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { id },
+      where: { id, ownerId: IsNull() },
       select: { id: true, publicId: true },
     });
     if (!paper) throw new NotFoundException();
@@ -306,16 +318,21 @@ export class PapersService {
     doi: string | null,
     fingerprint: string,
   ) {
+    // Public papers only: an import never merges into a reader's private paper (#203).
+    const owner = { ownerId: IsNull() };
     return doi
-      ? m.findOne(Paper, { where: { doi } }).then(
+      ? m.findOne(Paper, { where: { doi, ...owner } }).then(
           (byDoi) =>
             byDoi ??
             m.findOne(Paper, {
-              where: { fingerprint, doi: IsNull() },
+              where: { fingerprint, doi: IsNull(), ...owner },
               order: { id: 'ASC' },
             }),
         )
-      : m.findOne(Paper, { where: { fingerprint }, order: { id: 'ASC' } });
+      : m.findOne(Paper, {
+          where: { fingerprint, ...owner },
+          order: { id: 'ASC' },
+        });
   }
 
   private async mergeInto(

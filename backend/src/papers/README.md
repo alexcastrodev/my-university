@@ -186,6 +186,39 @@ the entry is the only thing that is private.
   `type`, `year`) plus `status`, `tag` and `sort` (`added`, `title`, `completed`, `rating`). `GET
   /api/paper-library/facets` counts the reader's papers per status and per tag for the filter controls.
 - A paper does not need a PDF to be in a library; the private PDF upload (#183) attaches to the paper later.
+- A paper that exists only in one reader's library (#203) is covered in its own section below.
+
+## Private papers (a reader drops a PDF, #203)
+
+A reader can keep a paper that is not in the catalog. `paper.ownerId` is null for every public paper and the
+owner's user id for a private one (deleted with the user). A private paper is a real `paper` row, so its library
+entry, attachment, tags and status work exactly as for any other; what changes is who can reach it.
+
+- **Adding one.** `POST /api/paper-library/private?title=...&doi=...` with the PDF as the raw body (like the
+  attachment upload) and its name in `X-Filename`. The title is required (plain text, up to 300 characters);
+  the DOI is optional. The PDF goes through the same upload as an attachment: size limit, content scan, the
+  per-reader quota. 201 when the paper joined the library, 200 when it was already there (the PDF only gained a
+  version).
+- **A DOI that is already in the catalog** adds that paper to the library with the PDF attached, and creates
+  nothing (`matched: true`, `private: false`). Only public papers match, so a reader's private paper is never
+  found through someone else's DOI, and an import never merges into one (`findDuplicate` looks at public papers).
+- **A DOI that is not** is kept on the private paper (normalized), so a later catalog import of the same DOI is
+  not blocked: the DOI and fingerprint uniqueness are partial indexes over public papers.
+- **Excluded from everything public.** The catalog list, its filters and facets, the public paper
+  (`GET /api/papers/:id`), the old integer links (`publicIdOfLegacy`), the discussion and its notifications, and
+  the Research Analysis all look at `ownerId IS NULL`, so a private paper is a 404 there, the same as an id that
+  does not exist. `PaperIds.resolve` is the public resolver; `PaperIds.resolveFor(userId, id)` also accepts the
+  caller's own private paper and is what the library and attachment routes use. The sitemap does not list
+  papers at all yet; when it does, it must filter on `ownerId IS NULL` too.
+- **Read through the library.** `GET /api/paper-library/:paperId/paper` returns the paper for an entry in the
+  reader's library (a public or their own private one), so the library page never needs the public route.
+- **Limits.** The PDF rules and quota of #183, and `PAPER_PRIVATE_MAX_PER_USER` private papers per reader
+  (default 100, 409 `private_papers_limit`). The count is not locked, so two drops at the same instant can pass
+  the cap by one.
+- **Deleting.** `DELETE /api/paper-library/:paperId` on a private paper deletes the paper itself: the library
+  entry and the attachment go by cascade, and the trigger of #183 queues the stored PDF for deletion (storage
+  catches up within the maintenance interval). A failed drop (a PDF that is refused) leaves no paper behind.
+- **Publishing a private paper to the catalog** is a follow-up: it needs a decision about rights.
 
 ## What is not here
 

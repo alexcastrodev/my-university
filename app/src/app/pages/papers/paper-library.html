@@ -12,6 +12,8 @@
         <a class="search-button signin" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
       </div>
     } @else {
+      <app-paper-private-drop (added)="retry()" />
+
       <nav class="tabs" i18n-aria-label="@@papers.library.page.statusNav" aria-label="Reading status">
         <a class="tab" [routerLink]="[]" [queryParams]="libraryQueryParams({ ...query(), status: undefined, page: undefined })" [class.tab-active]="!query().status" [attr.aria-current]="!query().status ? 'page' : null">
           <ng-container i18n="@@papers.filter.all">All</ng-container>
@@ -116,7 +118,8 @@
                 }
                 <p class="paper-meta">
                   <span class="badge badge-status" [attr.data-status]="paper.library.status">{{ statusLabel(paper.library.status) }}</span>
-                  <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
+                  @if (paper.library.private) { <span class="badge badge-private" i18n="@@papers.private.badge">Private</span> }
+                  @if (!paper.library.private) { <span class="badge">{{ paperTypeLabel(paper.type) }}</span> }
                   @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
                   @if (paper.venue) { <span>{{ paper.venue }}</span> }
                 </p>

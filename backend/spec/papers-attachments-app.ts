@@ -19,6 +19,9 @@ import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
 import { PapersModule } from '../src/papers/papers.module';
+import { PaperAnalysis, PaperAnalysisEvent } from '../src/papers/paper-analysis.entity';
+import { PaperLibraryEntry } from '../src/papers/paper-library.entity';
+import { PrivatePapersModule } from '../src/private-papers/private-papers.module';
 import { StorageService } from '../src/storage/storage.service';
 
 export interface AttachmentsApp {
@@ -38,15 +41,21 @@ export interface AttachmentsApp {
 export async function startAttachmentsApp(limits: {
   maxBytes: number;
   quotaBytes: number;
+  /** Most private papers (#203) one reader may keep; the default of the service when left out. */
+  privatePapers?: number;
 }): Promise<AttachmentsApp> {
   const saved = {
     max: process.env.PAPER_PDF_MAX_BYTES,
     quota: process.env.PAPER_PDF_USER_QUOTA_BYTES,
     dev: process.env.ENABLE_DEV_AUTH,
+    cap: process.env.PAPER_PRIVATE_MAX_PER_USER,
   };
   process.env.PAPER_PDF_MAX_BYTES = String(limits.maxBytes);
   process.env.PAPER_PDF_USER_QUOTA_BYTES = String(limits.quotaBytes);
   process.env.ENABLE_DEV_AUTH = '1';
+  if (limits.privatePapers) {
+    process.env.PAPER_PRIVATE_MAX_PER_USER = String(limits.privatePapers);
+  }
 
   @Module({
     imports: [
@@ -61,6 +70,9 @@ export async function startAttachmentsApp(limits: {
           PaperAuthor,
           PaperKeyword,
           PaperSource,
+          PaperLibraryEntry,
+          PaperAnalysis,
+          PaperAnalysisEvent,
           PaperAttachment,
           PaperAttachmentVersion,
           StorageDeletion,
@@ -70,6 +82,7 @@ export async function startAttachmentsApp(limits: {
       AuthModule,
       PapersModule,
       PaperAttachmentsModule,
+      PrivatePapersModule,
     ],
   })
   class AttachmentsModule {}
@@ -95,6 +108,7 @@ export async function startAttachmentsApp(limits: {
         PAPER_PDF_MAX_BYTES: saved.max,
         PAPER_PDF_USER_QUOTA_BYTES: saved.quota,
         ENABLE_DEV_AUTH: saved.dev,
+        PAPER_PRIVATE_MAX_PER_USER: saved.cap,
       })) {
         if (value === undefined) delete process.env[key];
         else process.env[key] = value;

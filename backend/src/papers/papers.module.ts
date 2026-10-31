@@ -44,6 +44,6 @@ import { PapersService } from './papers.service';
     PaperLibraryService,
     PaperIds,
   ],
-  exports: [PapersService, PapersCatalogService, PaperIds],
+  exports: [PapersService, PapersCatalogService, PaperIds, PaperLibraryService],
 })
 export class PapersModule {}

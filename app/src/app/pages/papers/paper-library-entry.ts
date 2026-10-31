@@ -14,8 +14,9 @@ import { PaperLibraryDetails } from './paper-library-details';
 type Loaded = { paper: Paper; entry: LibraryEntry } | 'signedOut' | 'missing' | 'failed';
 
 /**
- * One paper in the reader's library: the record and what the reader keeps about it. The public page
- * (and its discussion) is a link away, never part of this one. Client-rendered, private.
+ * One paper in the reader's library: the record and what the reader keeps about it. The record is read through
+ * the library, so a private paper (#203) works like any other. The public page (and its discussion) is a link
+ * away, never part of this one, and a private paper has none. Client-rendered, private.
  */
 @Component({
   selector: 'app-paper-library-entry',
@@ -78,7 +79,7 @@ export class PaperLibraryEntryPage {
             );
           }
           if (!isPaperId(id)) return of('missing');
-          return forkJoin([this.library.get(id), this.papers.get(id)]).pipe(
+          return forkJoin([this.library.get(id), this.library.paper(id)]).pipe(
             map(([entry, paper]): Loaded => (entry ? { entry, paper } : 'missing')),
             catchError((err): Observable<Loaded> => of(err?.status === 401 ? 'signedOut' : err?.status === 404 ? 'missing' : 'failed')),
           );

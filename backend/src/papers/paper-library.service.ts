@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { DataSource, IsNull } from 'typeorm';
 import { Paper } from './paper.entity';
 import {
   AddToLibraryDto,
@@ -27,6 +27,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 export interface LibraryEntryView {
   /** The paper's public id. */
   paperId: string;
+  /** True for a paper only this reader has (#203): it has no public page and is deleted with its entry. */
+  private: boolean;
   status: LibraryStatus;
   rating: number | null;
   tags: string[];
@@ -53,8 +55,12 @@ export interface LibraryFacets {
 
 const TAG_FACET_LIMIT = 100;
 
-const view = (e: PaperLibraryEntry, publicId: string): LibraryEntryView => ({
-  paperId: publicId,
+const view = (
+  e: PaperLibraryEntry,
+  paper: Pick<Paper, 'publicId' | 'ownerId'>,
+): LibraryEntryView => ({
+  paperId: paper.publicId,
+  private: paper.ownerId !== null,
   status: e.status,
   rating: e.rating,
   tags: e.tags,
@@ -106,34 +112,41 @@ export class PaperLibraryService {
     private readonly catalog: PapersCatalogService,
   ) {}
 
-  /** Puts a paper in the library. Adding what is already there changes nothing (`created: false`). */
+  /** Puts a public paper in the library. Adding what is already there changes nothing (`created: false`). */
   async add(
     userId: number,
     dto: AddToLibraryDto,
   ): Promise<{ entry: LibraryEntryView; created: boolean }> {
     const paper = await this.dataSource.getRepository(Paper).findOne({
-      where: { publicId: dto.paperId.toLowerCase() },
-      select: { id: true, publicId: true },
+      where: { publicId: dto.paperId.toLowerCase(), ownerId: IsNull() },
+      select: { id: true },
     });
     if (!paper) throw new NotFoundException('Paper not found');
+    return this.addById(userId, paper.id, dto.status);
+  }
 
-    const status = dto.status ?? 'to-read';
+  /** The same by the internal key, for a paper the caller already holds (a private one has no public way in). */
+  async addById(
+    userId: number,
+    paperId: number,
+    status: LibraryStatus = 'to-read',
+  ): Promise<{ entry: LibraryEntryView; created: boolean }> {
     const rows: { id: number }[] = await this.dataSource.query(
       `INSERT INTO paper_library_entry ("userId", "paperId", "status", "completedAt")
        VALUES ($1, $2, $3, $4)
        ON CONFLICT ("userId", "paperId") DO NOTHING
        RETURNING id`,
-      [userId, paper.id, status, status === 'read' ? today() : null],
+      [userId, paperId, status, status === 'read' ? today() : null],
     );
     return {
-      entry: await this.get(userId, paper.id),
+      entry: await this.get(userId, paperId),
       created: rows.length > 0,
     };
   }
 
   async get(userId: number, paperId: number): Promise<LibraryEntryView> {
     const entry = await this.entryOf(userId, paperId);
-    return view(entry, entry.paper.publicId);
+    return view(entry, entry.paper);
   }
 
   async update(
@@ -164,15 +177,21 @@ export class PaperLibraryService {
     const saved = await this.dataSource
       .getRepository(PaperLibraryEntry)
       .save(entry);
-    return view(saved, entry.paper.publicId);
+    return view(saved, entry.paper);
   }
 
-  /** Takes the paper out of the reader's library. The paper and other readers' entries stay. */
+  /**
+   * Takes the paper out of the reader's library. The paper and other readers' entries stay, except for the
+   * reader's own private paper (#203): it exists only for this entry, so it goes with it, and its PDF with it.
+   */
   async remove(userId: number, paperId: number): Promise<void> {
     if (!this.validId(paperId)) return;
     await this.dataSource
       .getRepository(PaperLibraryEntry)
       .delete({ userId, paperId });
+    await this.dataSource
+      .getRepository(Paper)
+      .delete({ id: paperId, ownerId: userId });
   }
 
   async list(userId: number, query: LibraryQueryDto): Promise<LibraryPage> {
@@ -232,11 +251,11 @@ export class PaperLibraryService {
         : [],
     ]);
     const entryOf = new Map(entries.map((e) => [e.paperId, e]));
-    // Summaries come back in the order of `papers`, and carry the public id: the entry is found by the key.
+    // Summaries come back in the order of `papers`: the entry is found by the internal key.
     return {
       items: summaries.map((s, i) => ({
         ...s,
-        library: view(entryOf.get(papers[i].id)!, s.id),
+        library: view(entryOf.get(papers[i].id)!, papers[i]),
       })),
       total,
       page,

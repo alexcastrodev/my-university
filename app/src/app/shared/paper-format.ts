@@ -77,6 +77,12 @@ export function attachmentErrorMessage(code: string | null | undefined): string 
       return $localize`:@@papers.attachment.error.expired:The upload did not finish. Try again.`;
     case 'storage_unavailable':
       return $localize`:@@papers.attachment.error.storage:The file could not be stored right now. Try again in a moment.`;
+    case 'invalid_title':
+      return $localize`:@@papers.private.error.title:Give the paper a title of up to 300 characters, as plain text.`;
+    case 'invalid_doi':
+      return $localize`:@@papers.private.error.doi:That is not a valid DOI. It looks like 10.1234/abc.`;
+    case 'private_papers_limit':
+      return $localize`:@@papers.private.error.limit:You reached the limit of papers of your own. Delete one to add another.`;
     default:
       return $localize`:@@papers.attachment.error.generic:The file could not be uploaded. Try again.`;
   }

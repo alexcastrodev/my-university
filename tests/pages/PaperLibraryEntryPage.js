@@ -26,6 +26,12 @@ export class PaperLibraryEntryPage {
     this.confirmRemove = page.getByRole('button', { name: 'Remove', exact: true });
     this.cancelRemove = page.getByRole('button', { name: 'Cancel' });
     this.removeError = page.locator('.remove').getByRole('alert');
+
+    // A private paper (#203) has no public page and is deleted, not just taken out of the library.
+    this.privateBadge = page.locator('.badge-private');
+    this.privateNote = page.getByText('Only you can see this paper. It has no public page.');
+    this.deletePaper = page.getByRole('button', { name: 'Delete paper' });
+    this.confirmDelete = page.getByRole('button', { name: 'Delete', exact: true });
   }
 
   async goto(id) {

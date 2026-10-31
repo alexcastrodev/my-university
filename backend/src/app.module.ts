@@ -42,6 +42,7 @@ import {
   PaperAnalysisEvent,
 } from './papers/paper-analysis.entity';
 import { PapersModule } from './papers/papers.module';
+import { PrivatePapersModule } from './private-papers/private-papers.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { QuarkusConceptsModule } from './quarkus-concepts/quarkus-concepts.module';
@@ -125,6 +126,7 @@ import { XpModule } from './xp/xp.module';
     DiscussionModule,
     PapersModule,
     PaperAttachmentsModule,
+    PrivatePapersModule,
     SeedModule,
     SearchModule,
     SitemapModule,

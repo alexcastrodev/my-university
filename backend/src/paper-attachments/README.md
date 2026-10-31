@@ -73,7 +73,8 @@ an external scanner when uploads get large or frequent.
 | `PAPER_PDF_MAX_BYTES` | 25 MiB | Largest accepted PDF. nginx's `client_max_body_size` for the upload route (26m) must stay above it. |
 | `PAPER_PDF_USER_QUOTA_BYTES` | 500 MiB | Bytes of PDFs one reader may hold (waiting for a scan, or approved). The file a replacement removes does not count against it. |
 
-The upload route in `nginx.conf` also rate limits `PUT` per IP. If another proxy sits in front of nginx in
+The upload routes in `nginx.conf` (`PUT /api/papers/<public id>/attachment` and `POST /api/paper-library/private`)
+also rate limit per IP. If another proxy sits in front of nginx in
 production, its body size limit must allow the same size.
 
 ## Deletion and retention

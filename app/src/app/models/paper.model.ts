@@ -106,6 +106,8 @@ export type LibrarySort = 'added' | 'title' | 'completed' | 'rating';
 export interface LibraryEntry {
   /** The paper's public id. */
   paperId: string;
+  /** True for a paper only this reader has (#203): it has no public page. */
+  private: boolean;
   status: LibraryStatus;
   /** 1 to 5, or null when not rated. */
   rating: number | null;
@@ -130,6 +132,18 @@ export interface LibraryFacets {
   total: number;
   statuses: { value: LibraryStatus; count: number }[];
   tags: FacetValue[];
+}
+
+/** What dropping a PDF came to; mirrors POST /api/paper-library/private. */
+export interface PrivatePaperResult {
+  /** The public id of the paper that holds the PDF now. */
+  paperId: string;
+  private: boolean;
+  /** True when the DOI was already in the catalog and that paper was added instead of a copy. */
+  matched: boolean;
+  created: boolean;
+  library: LibraryEntry;
+  attachment: PaperAttachment;
 }
 
 /** The library filters as they live in the URL: a missing key means "not filtered". */
