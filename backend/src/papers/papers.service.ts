@@ -94,6 +94,14 @@ function isUniqueViolation(err: unknown): boolean {
   return code === '23505';
 }
 
+/** Thrown inside the transaction of `preview` to carry its result out and roll everything back. */
+class Previewed {
+  constructor(
+    readonly match: PaperView | null,
+    readonly conflicts: PaperConflict[],
+  ) {}
+}
+
 @Injectable()
 export class PapersService {
   constructor(@Inject(DataSource) private readonly dataSource: DataSource) {}
@@ -105,6 +113,43 @@ export class PapersService {
   upsert(input: PaperInputDto, source: SourceInfo): Promise<UpsertResult> {
     const clean = this.clean(input);
     return this.write((m) => this.upsertIn(m, clean, source, input));
+  }
+
+  /**
+   * What `upsert` would do, without keeping any of it: the paper it would merge into (as it would look after
+   * the merge) and the disagreements, or `match: null` when it would create a new paper.
+   */
+  async preview(
+    input: PaperInputDto,
+  ): Promise<{ match: PaperView | null; conflicts: PaperConflict[] }> {
+    const clean = this.clean(input);
+    const fingerprint = paperFingerprint(
+      clean.title,
+      clean.publicationDate,
+      clean.authors?.[0]?.name,
+    );
+    try {
+      await this.dataSource.transaction(async (m) => {
+        const existing = await this.findDuplicate(m, clean.doi, fingerprint);
+        if (!existing) throw new Previewed(null, []);
+        const merged = await this.mergeInto(
+          m,
+          existing,
+          clean,
+          'fill',
+          { source: 'preview' },
+          input,
+        );
+        // Rolled back: the merge only ran to learn its result.
+        throw new Previewed(merged.paper, merged.conflicts);
+      });
+    } catch (err) {
+      if (err instanceof Previewed) {
+        return { match: err.match, conflicts: err.conflicts };
+      }
+      throw err;
+    }
+    throw new Error('unreachable');
   }
 
   /** An explicit correction of one paper: given values replace the stored ones, and say so in the provenance. */

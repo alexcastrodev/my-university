@@ -1,17 +1,25 @@
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Observable, Subject, catchError, map, of, switchMap, tap } from 'rxjs';
+import { Observable, Subject, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDiscussion } from '../../components/concept-discussion/concept-discussion';
 import { DiscussionTopic } from '../../discussion/discussion.model';
-import { Paper } from '../../models/paper.model';
+import { ANALYSIS_SECTIONS, AnalysisSection, AnalysisSectionKey, Paper, PaperAnalysis } from '../../models/paper.model';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
-import { formatPaperDate, paperTypeLabel, safeWebUrl } from '../../shared/paper-format';
+import {
+  analysisSectionTitle,
+  analysisStateLabel,
+  formatPaperDate,
+  paperTypeLabel,
+  paragraphsOf,
+  safeWebUrl,
+} from '../../shared/paper-format';
 import { PaperLibraryButton } from './paper-library-button';
 
-type Loaded = { paper: Paper } | { missing: true } | { failed: true };
+/** `analysis` is null when the paper has none, and `'failed'` when only that request failed: the paper still shows. */
+type Loaded = { paper: Paper; analysis: PaperAnalysis | null | 'failed' } | { missing: true } | { failed: true };
 
 @Component({
   selector: 'app-paper-detail',
@@ -27,9 +35,15 @@ export class PaperDetailPage {
   private locale = inject(LOCALE_ID);
 
   protected readonly paperTypeLabel = paperTypeLabel;
+  protected readonly analysisSectionTitle = analysisSectionTitle;
+  protected readonly analysisStateLabel = analysisStateLabel;
+  protected readonly paragraphsOf = paragraphsOf;
+  protected readonly sectionKeys = ANALYSIS_SECTIONS;
   protected readonly papersLabel = $localize`:@@papers.title:Papers`;
 
   protected paper = signal<Paper | null>(null);
+  protected analysis = signal<PaperAnalysis | null>(null);
+  protected analysisFailed = signal(false);
   protected loading = signal(true);
   protected notFound = signal(false);
   protected failed = signal(false);
@@ -55,12 +69,7 @@ export class PaperDetailPage {
     return doi ? `https://doi.org/${doi}` : null;
   });
   protected sourceUrl = computed(() => safeWebUrl(this.paper()?.url ?? null));
-  protected paragraphs = computed(() =>
-    (this.paper()?.abstract ?? '')
-      .split(/\n{2,}/)
-      .map((p) => p.trim())
-      .filter(Boolean),
-  );
+  protected paragraphs = computed(() => paragraphsOf(this.paper()?.abstract ?? null));
 
   private request = new Subject<string>();
 
@@ -72,11 +81,16 @@ export class PaperDetailPage {
           this.notFound.set(false);
           this.failed.set(false);
           this.paper.set(null);
+          this.analysis.set(null);
+          this.analysisFailed.set(false);
         }),
         switchMap((id): Observable<Loaded> => {
           if (!/^[1-9]\d{0,9}$/.test(id)) return of({ missing: true });
-          return this.papers.get(Number(id)).pipe(
-            map((paper) => ({ paper })),
+          const paperId = Number(id);
+          return forkJoin({
+            paper: this.papers.get(paperId),
+            analysis: this.papers.analysis(paperId).pipe(catchError(() => of('failed' as const))),
+          }).pipe(
             catchError((err) => of<Loaded>(err?.status === 404 ? { missing: true } : { failed: true })),
           );
         }),
@@ -86,6 +100,8 @@ export class PaperDetailPage {
         this.loading.set(false);
         if ('paper' in result) {
           this.paper.set(result.paper);
+          this.analysisFailed.set(result.analysis === 'failed');
+          this.analysis.set(result.analysis === 'failed' ? null : result.analysis);
           this.seo.set({
             title: result.paper.title,
             description: this.describe(result.paper),
@@ -105,6 +121,16 @@ export class PaperDetailPage {
 
   protected retry(): void {
     this.request.next(this.route.snapshot.paramMap.get('id') ?? '');
+  }
+
+  /** A section of the published analysis; every published analysis has all six, but the type does not say so. */
+  protected section(analysis: PaperAnalysis, key: AnalysisSectionKey): AnalysisSection | null {
+    return analysis.sections[key] ?? null;
+  }
+
+  /** The day it was published, as far as the reader's language writes it. */
+  protected publishedOn(analysis: PaperAnalysis): string {
+    return formatPaperDate(analysis.publishedAt.slice(0, 10), this.locale);
   }
 
   protected orcidUrl(orcid: string): string {

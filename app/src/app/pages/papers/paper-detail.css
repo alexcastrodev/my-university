@@ -178,6 +178,76 @@
   border-color: var(--mu-accent-border);
 }
 
+/* The analysis is Kurz's own text, set apart from the authors' abstract so the two are never mistaken. */
+.analysis {
+  padding: 1.1rem 1.25rem 0.5rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-left: 4px solid var(--mu-accent);
+  border-radius: 10px;
+}
+
+.analysis-note {
+  margin: 0 0 0.9rem;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+}
+
+.analysis-credit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--mu-line);
+}
+
+.analysis-credit div {
+  min-width: 0;
+}
+
+.analysis-credit dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mu-muted);
+}
+
+.analysis-credit dd {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--mu-ink);
+  overflow-wrap: anywhere;
+}
+
+.analysis-credit a {
+  color: var(--mu-ink-soft);
+}
+
+.analysis-section {
+  margin: 0 0 1.1rem;
+}
+
+.analysis-section-title {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  color: var(--mu-ink);
+}
+
+.analysis-text {
+  margin: 0 0 0.7rem;
+  line-height: 1.7;
+  color: var(--mu-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.analysis-state {
+  margin: 0;
+  font-style: italic;
+  color: var(--mu-muted);
+}
+
 @media (max-width: 600px) {
   .page-body {
     padding: 1rem 1rem 2.5rem;
@@ -185,5 +255,9 @@
 
   .paper-title {
     font-size: 1.35rem;
+  }
+
+  .analysis {
+    padding: 0.9rem 1rem 0.35rem;
   }
 }

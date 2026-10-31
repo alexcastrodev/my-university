@@ -49,6 +49,98 @@ person fixes one).
 - **Provenance.** `paper_source` keeps every write in order with the payload as received, so a rejected value
   from an import can still be reviewed and applied later through a correction.
 
+## Research Analysis
+
+Every paper can have one **published** Research Analysis next to its abstract: six sections (Overview,
+Contribution, Methodology, Findings, Critical Analysis, Further Research) written by Kurz, never presented as
+the authors' own text.
+
+**Product decision (#180): curator-authored, reviewer-published.** The analyses are written by a small group
+of staff, not contributed anonymously. Nothing in this module lets a reader edit an analysis.
+
+| Who | Can |
+| --- | --- |
+| Anyone | Read the published analysis (`GET /api/papers/:id/analysis`) |
+| `paper-curator` | Create and edit the draft (`PUT .../analysis/draft`), read the history |
+| `paper-reviewer` | Publish the draft, withdraw the published analysis, read the history |
+
+Holding both roles lets one person do the whole cycle. That is allowed on purpose (the project may start with
+one maintainer), and the page then credits the same person as author and as reviewer, so it is visible. To make
+review a real second pair of eyes, give the roles to different people.
+
+Roles are the `user.roles` column (`auth/roles.ts`), checked in `PaperAnalysisService` so no route can forget
+it. They are granted by whoever has the database, for example:
+
+```sql
+UPDATE "user" SET roles = array_append(roles, 'paper-curator') WHERE "githubLogin" = '<login>' AND NOT 'paper-curator' = ANY(roles);
+```
+
+There is no HTTP route that grants a role (only the dev-only `_test/roles`). The role is on the user id, not
+on an environment list of logins, because a GitHub login can be renamed and then claimed by someone else.
+
+### Content model
+
+`paper_analysis` has one row per revision with `sections` as `jsonb`. Each section is `{ state, text }`:
+
+- `present`: `text` is required (plain text, paragraphs split by a blank line, at most 6000 characters).
+- `not_applicable` (the paper has nothing of that kind, such as experiments in a theory paper), `not_reported`
+  (the paper does not say) or `unable_to_determine`: no text. Nothing forces an unsupported claim.
+
+A draft may leave sections out (undecided). Publishing needs all six decided, otherwise 422 names the missing ones.
+The text is shown as text, never as markup.
+
+### Revisions and history
+
+- A paper has at most one `draft` and one `published` revision (partial unique indexes), so it has zero or one
+  current published analysis.
+- A published revision is never edited. Changing it means saving a new draft (revision n+1); publishing that
+  draft turns the old one into `superseded`. Withdrawing marks it `withdrawn`; publishing again needs a new draft.
+- `paper_analysis_event` is the audit trail: `draft_created`, `draft_edited`, `published`, `withdrawn`, each with
+  the actor and the time. `GET .../analysis/history` (curators and reviewers) lists every revision with its sections
+  and the events. Writers of one paper are serialized by a row lock on `paper`, so two curators saving at the same
+  moment end in one draft.
+- Drafts are never in a public response. The public analysis names the author and the publisher (display name,
+  and a link only when that person made the profile public), nothing else about them.
+
+The server keeps a rendered page per URL for five minutes (`app/src/server.ts`), so a newly published or
+withdrawn analysis can take up to that long to show on `/papers/:id`.
+
+## Adding a paper (DOI import and by hand)
+
+A signed-in reader can bring a paper into the catalog in two ways. Both need a session; the catalog itself stays
+readable by anyone.
+
+| Route | What it does |
+| --- | --- |
+| `POST /api/papers/import/preview` `{ doi }` | Looks the DOI up at Crossref and says what importing would do. Changes nothing. |
+| `POST /api/papers/import` `{ doi }` | Imports it (201) or matches the paper already there (200). |
+| `POST /api/papers` | Adds a paper typed in by hand (201), or 409 `already_exists` with its `paperId`. |
+
+- **Provider: Crossref** (`crossref.client.ts`), free and without a key. `CROSSREF_MAILTO` (optional, server side
+  only) puts requests in Crossref's polite pool and goes in the user agent; `CROSSREF_BASE_URL` points tests at a
+  stub. Nothing of the reader is ever sent to Crossref. OpenAlex or another source can be added as enrichment if
+  Crossref turns out to be thin, but nothing needs it yet.
+- **The metadata comes from the server, never from the request.** `import` fetches the DOI itself, so a client
+  cannot import text it made up under a Crossref label. A lookup is kept five minutes, so the preview and the
+  import that follows it cost one request and show the same record.
+- **Mapping**: JATS markup in titles and abstracts becomes plain text with blank-line paragraphs; names become
+  authors (ORCID kept when well formed, at most 500 authors); `issued` becomes a `YYYY`, `YYYY-MM` or `YYYY-MM-DD`
+  date; Crossref's `type` maps to the paper types (`proceedings-article` to `conference-paper`, `posted-content`
+  to `preprint`...); journal subjects become keywords. The publisher's full-text `link` entries are ignored on
+  purpose: importing metadata never fetches or points at a publisher PDF.
+- **Matching, not duplicating**: an import goes through `PapersService.upsert` (same DOI, or same fingerprint with
+  a DOI-less record), mode `fill`. It only completes what is empty; where Crossref disagrees the stored value stays,
+  the disagreement is returned as a conflict and saved in `paper_source` with the DOI as `externalId` and the
+  retrieval time. A preview shows the match and the conflicts by running the same merge inside a transaction it
+  rolls back.
+- **By hand never merges**: a hand-made record that matches an existing paper is refused with 409 instead of
+  filling its empty fields, so a reader cannot alter a paper that already exists. A paper can still be created by
+  hand when Crossref is down or does not know the DOI.
+- **Failures** are answered with a stable `code`: `invalid_doi` (400, before any request to Crossref),
+  `not_found` (404), `rate_limited` (429, the provider's `Retry-After` in `retryAfter`), `provider_unavailable`
+  and `provider_invalid` (502), and `too_many_requests` (429, ours: 20 lookups and 20 creations per reader per
+  ten minutes, per process).
+
 ## A reader's library (`/api/paper-library`)
 
 A `paper_library_entry` says "this user keeps this paper": reading status (`to-read`, `reading`, `read`), an
@@ -73,6 +165,9 @@ the entry is the only thing that is private.
 
 ## What is not here
 
-There is no HTTP surface yet, so no authorization decision has been made: the public catalog (#179) and the
-metadata import (#181) expose it, and decide who may call `upsert` and `correct`. `spec/papers-app.ts` is a
-throwaway server used only by the tests.
+- There is no editor screen for the analysis yet: curators and reviewers use the API. The endpoints return
+  everything an editor needs.
+- Nothing changes a paper that already exists over HTTP. `PapersService.correct` (which keeps the replaced values
+  in the provenance) has no route yet; the staff roles of #180 now exist, so deciding who may correct a paper
+  can build on them.
+- `spec/papers-app.ts` is a throwaway server used only by the service tests.

@@ -33,6 +33,10 @@ import { PaperAuthor } from './papers/paper-author.entity';
 import { PaperKeyword } from './papers/paper-keyword.entity';
 import { PaperLibraryEntry } from './papers/paper-library.entity';
 import { PaperSource } from './papers/paper-source.entity';
+import {
+  PaperAnalysis,
+  PaperAnalysisEvent,
+} from './papers/paper-analysis.entity';
 import { PapersModule } from './papers/papers.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
@@ -80,6 +84,8 @@ import { XpModule } from './xp/xp.module';
         PaperKeyword,
         PaperLibraryEntry,
         PaperSource,
+        PaperAnalysis,
+        PaperAnalysisEvent,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.

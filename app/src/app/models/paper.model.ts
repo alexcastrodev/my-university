@@ -121,3 +121,76 @@ export interface LibraryChange {
   tags?: string[];
   completedAt?: string | null;
 }
+
+/** A paper as it is sent to be created by hand; mirrors the body of POST /api/papers. Only the title is required. */
+export interface PaperInput {
+  title: string;
+  abstract?: string;
+  doi?: string;
+  venue?: string;
+  publicationDate?: string;
+  url?: string;
+  researchArea?: string;
+  type?: PaperType;
+  authors?: { name: string; orcid?: string }[];
+  keywords?: string[];
+}
+
+/** Where the provider disagrees with what the catalog stores; the catalog keeps its own value. */
+export interface PaperConflict {
+  field: string;
+  current: unknown;
+  incoming: unknown;
+  resolution: 'kept-current' | 'replaced';
+}
+
+/** What looking a DOI up found, and what adding it would do; mirrors POST /api/papers/import/preview. */
+export interface ImportPreview {
+  doi: string;
+  source: { name: 'crossref'; retrievedAt: string };
+  candidate: PaperInput;
+  /** The paper it would merge into; null when it would be a new one. */
+  match: Paper | null;
+  conflicts: PaperConflict[];
+}
+
+/** The answer of POST /api/papers and POST /api/papers/import. */
+export interface PaperWriteResult {
+  paper: Paper;
+  created: boolean;
+  conflicts: PaperConflict[];
+}
+
+/** The six sections of the Research Analysis, in reading order. */
+export const ANALYSIS_SECTIONS = [
+  'overview',
+  'contribution',
+  'methodology',
+  'findings',
+  'criticalAnalysis',
+  'furtherResearch',
+] as const;
+export type AnalysisSectionKey = (typeof ANALYSIS_SECTIONS)[number];
+
+/** A section either says something or says why it does not: nothing forces an unsupported claim. */
+export type AnalysisSectionState = 'present' | 'not_applicable' | 'not_reported' | 'unable_to_determine';
+
+export interface AnalysisSection {
+  state: AnalysisSectionState;
+  text: string | null;
+}
+
+/** Someone the analysis credits; the profile link exists only when that person made the profile public. */
+export interface AnalysisPerson {
+  name: string;
+  profilePath: string | null;
+}
+
+/** The published Research Analysis; mirrors GET /api/papers/:id/analysis. Drafts never come through here. */
+export interface PaperAnalysis {
+  revision: number;
+  publishedAt: string;
+  author: AnalysisPerson | null;
+  publishedBy: AnalysisPerson | null;
+  sections: Partial<Record<AnalysisSectionKey, AnalysisSection>>;
+}
