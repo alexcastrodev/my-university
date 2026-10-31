@@ -1180,6 +1180,8 @@
     "papers.analysis.section.furtherResearch": "Pesquisas futuras",
     "papers.analysis.state.notApplicable": "Não se aplica a este paper.",
     "papers.analysis.state.notReported": "O paper não informa isso.",
-    "papers.analysis.state.unableToDetermine": "Não foi possível determinar a partir do paper."
+    "papers.analysis.state.unableToDetermine": "Não foi possível determinar a partir do paper.",
+    "bottomNav.papers": "Papers",
+    "bottomNav.library": "Biblioteca"
   }
 }
