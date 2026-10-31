@@ -1,7 +1,9 @@
 ---
 title: "Metastable Failures in Distributed Systems"
 summary: Um artigo de visão que dá nome a uma classe de incidentes em que um gatilho empurra o sistema para um estado ruim que um ciclo de realimentação mantém vivo depois que o gatilho acaba.
-version: 1.0
+researchArea: Sistemas distribuídos
+keywords: falhas metaestáveis, resiliência, sobrecarga, novas tentativas, cache, interrupções de serviço
+version: 1.1
 updatedAt: 2026-10-31
 ---
 

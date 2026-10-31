@@ -196,6 +196,12 @@
   color: var(--mu-muted);
 }
 
+.abstract-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+}
+
 .keywords {
   display: flex;
   flex-wrap: wrap;

@@ -22,16 +22,25 @@ seed/data/papers/
   content/<slug>/pt-BR.md     the Portuguese one (optional; the API falls back to English)
 ```
 
-An entry of `papers.json` has `slug`, `title`, `authors` (`[{ name, orcid? }]`, at least one) and `type`, and
-optionally `venue`, `publicationDate` (`YYYY`, `YYYY-MM` or `YYYY-MM-DD`), `doi` (lowercase, no resolver prefix),
-`url` (http or https), `researchArea`, `keywords` and `abstract`. The abstract is the authors' own text, so it goes
-in only where the publisher lets it be reproduced (open licence); otherwise the page shows the link to it.
-
-The markdown is the concepts' format: frontmatter with `title`, `summary`, `version` and `updatedAt`, then six
-`## ` sections in this order (Overview, Contribution, Methodology, Findings, Critical Analysis, Further Research;
-in Portuguese Visão geral, Contribuição, Metodologia, Resultados, Análise crítica, Pesquisas futuras). The
-analysis is ours and says so on the page; it is never presented as the authors' text. Editing a file bumps
+An entry of `papers.json` is the index of facts: `slug`, `title`, `authors` (`[{ name, orcid? }]`, at least one)
+and `type`, and optionally `venue`, `publicationDate` (`YYYY`, `YYYY-MM` or `YYYY-MM-DD`), `doi` (lowercase, no
+resolver prefix) and `url` (http or https). Everything that is text lives in the markdown of each language, like a
+concept: the frontmatter has `title`, `summary`, `version` and `updatedAt`, and optionally `researchArea` and
+`keywords` (comma separated, lowercase); then, optionally, the authors' abstract as the first section,
+`## Abstract` (in Portuguese `## Resumo`), and then six `## ` sections in this order (Overview, Contribution,
+Methodology, Findings, Critical Analysis, Further Research; in Portuguese Visão geral, Contribuição,
+Metodologia, Resultados, Análise crítica, Pesquisas futuras). The abstract is the authors' own text, so it goes
+in only where the publisher lets it be reproduced (open licence); otherwise the page shows the link to it. The
+page sets it apart from the analysis, which is ours and says so; the analysis is never presented as the authors'
+text, and the abstract section is not part of the analysis the API returns in `sections`. Editing a file bumps
 `version` and `updatedAt` in both languages (CLAUDE.md).
+
+A Portuguese reader gets the area, the keywords and the abstract of `pt-BR.md` in the list, the facets, the
+detail and the library, and the page says the abstract is our translation (`abstractTranslated`). An English
+reader, a paper without a `pt-BR.md` and anything the Portuguese file leaves out get the English text. The title
+and the venue stay as published. A filter or a search from a Portuguese reader matches the English original too
+(`area`, `keyword`, `q`), so a link copied from the English list still works after the switch of language. A
+Portuguese file has one keyword for each English one, in the same order (`papers-seed.spec.ts` checks it).
 
 - **Checked at boot.** `PapersCatalogService` reads the index once and stops the API with a message that names
   the paper (`papers.json, <slug>: <why>`) for a bad or repeated slug, a missing title, author or `en.md`, a
@@ -42,9 +51,10 @@ analysis is ours and says so on the page; it is never presented as the authors' 
   A slug is permanent: renaming one orphans the library entries, PDFs and discussion that point at it.
 - **Routes.** Only `GET /api/papers`, `GET /api/papers/facets` and `GET /api/papers/:slug?lang=` exist for the
   public papers. The list takes `q`, `author`, `doi`, `keyword`, `area`, `type`, `stage`, `year`, `sort`, `page`
-  and `limit`, filters and sorts in memory (a few hundred papers at most), and titles come in `lang`.
-- **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `version`, `updatedAt` and
-  `sections` (`[{ title, content }]`, the markdown of each section).
+  and `limit`, filters and sorts in memory (a few hundred papers at most), and titles, excerpts, keywords and
+  areas come in `lang`; the facets take `lang` too, so the area select is in the reader's language.
+- **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `abstractTranslated`,
+  `version`, `updatedAt` and `sections` (`[{ title, content }]`, the markdown of each section).
 - **Tests** point `PAPERS_DATA_DIR` at a folder of fixtures (`spec/papers-fixtures.ts`); with the variable unset
   the real seed is read. `spec/papers-seed.spec.ts` runs against the live stack and checks every seed paper:
   it loads in both languages with six sections, and neither language has an em dash or an en dash.

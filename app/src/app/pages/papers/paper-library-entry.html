@@ -126,6 +126,9 @@
                   } @empty {
                     <p class="muted" i18n="@@papers.detail.noAbstract">No abstract is available for this paper.</p>
                   }
+                  @if (p.abstractTranslated) {
+                    <p class="abstract-note" i18n="@@papers.detail.abstractTranslated">Our translation of the authors' English abstract.</p>
+                  }
                 </section>
 
                 <app-paper-notes [paperId]="p.id" [canShare]="!e.private" />

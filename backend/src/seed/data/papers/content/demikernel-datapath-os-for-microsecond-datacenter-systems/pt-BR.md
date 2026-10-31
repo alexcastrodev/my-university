@@ -1,7 +1,9 @@
 ---
 title: "The Demikernel Datapath OS Architecture for Microsecond-scale Datacenter Systems"
 summary: Um sistema operacional de caminho de dados portável para dispositivos kernel-bypass, que dá a aplicações em escala de microssegundos uma única API e custos em escala de nanossegundos.
-version: 1.0
+researchArea: Sistemas operacionais
+keywords: sistema operacional, bypass de kernel, datacenters, libos
+version: 1.1
 updatedAt: 2026-10-31
 ---
 

@@ -38,9 +38,12 @@ export interface PaperSummary {
 export interface HeldPaper {
   summary: PaperSummary;
   abstract: string | null;
+  /** The English original of the texts shown translated, so a search in either language finds the paper. */
+  original?: Searchable['original'];
 }
 
-export const searchableOf = ({ summary, abstract }: HeldPaper): Searchable => ({
+export const searchableOf = ({ summary, abstract, original }: HeldPaper): Searchable => ({
+  original,
   title: summary.title,
   abstract,
   doi: summary.doi,
@@ -74,6 +77,8 @@ export interface PublicPaperView extends PaperView {
   availableLanguages: Language[];
   /** One line from us about the paper; not the abstract, which is the authors'. */
   summary: string | null;
+  /** True when the abstract above is our translation of the authors' English one. */
+  abstractTranslated: boolean;
   version: string | null;
   /** The day the analysis was last revised (`YYYY-MM-DD`). */
   updatedAt: string | null;
@@ -92,13 +97,25 @@ interface PaperMeta {
   publicationDate?: string;
   doi?: string;
   url?: string;
-  researchArea?: string;
-  keywords?: string[];
-  /** The authors' abstract, only where the publisher lets it be reproduced. */
-  abstract?: string;
 }
 
-const FRONTMATTER_FIELDS = ['title', 'summary', 'version', 'updatedAt'] as const;
+/**
+ * What the markdown of one language says about the paper itself, apart from the analysis: the area and the
+ * keywords in the frontmatter (`keywords` comma separated), and the authors' abstract as the `## Abstract`
+ * (in Portuguese `## Resumo`) section. Both are optional, and English is the fallback for each.
+ */
+const ABSTRACT_TITLES = ['Abstract', 'Resumo'];
+
+interface PaperTexts {
+  abstract: string | null;
+  researchArea: string | null;
+  /** As written in the file; `keywordsOf` normalises them. */
+  keywords: string[];
+  /** The Research Analysis: the sections of the file, without the abstract. */
+  sections: ConceptSection[];
+}
+
+const FRONTMATTER_FIELDS = ['title', 'summary', 'version', 'updatedAt', 'researchArea', 'keywords'] as const;
 const EXCERPT_CHARS = 280;
 const FACET_LIMIT = 50;
 const DATE = /^\d{4}(-\d{2}(-\d{2})?)?$/;
@@ -208,8 +225,8 @@ export class PapersCatalogService {
     };
   }
 
-  /** The values the filter selects offer, most used first. */
-  facets(): PaperFacets {
+  /** The values the filter selects offer, most used first, with the areas in the language asked. */
+  facets(lang: Language = DEFAULT_LANGUAGE): PaperFacets {
     const count = (values: (string | undefined)[]): FacetValue[] => {
       const counts = new Map<string, number>();
       for (const value of values) {
@@ -221,7 +238,8 @@ export class PapersCatalogService {
         .slice(0, FACET_LIMIT);
     };
     return {
-      areas: count(this.metas.map((m) => m.researchArea)),
+      // A paper without a file in this language is listed in English, so its area is too.
+      areas: count(this.metas.map((m) => this.texts(m.slug, lang).researchArea ?? undefined)),
       types: count(this.metas.map((m) => m.type)),
     };
   }
@@ -231,29 +249,28 @@ export class PapersCatalogService {
     const meta = this.bySlug.get(slug);
     if (!meta) throw new NotFoundException();
     // The folder is named by the file's own slug, never by the one in the request.
-    const { language, availableLanguages, body, summary, version, updatedAt, title } = this.content(
-      meta.slug,
-      normalizeLanguage(lang),
-    );
+    const texts = this.texts(meta.slug, normalizeLanguage(lang));
+    const { language, availableLanguages, summary, version, updatedAt, title } = texts.file;
     return {
       id: meta.slug,
       title: title ?? meta.title,
-      abstract: meta.abstract ?? null,
+      abstract: texts.abstract,
+      abstractTranslated: texts.abstractTranslated,
       doi: meta.doi ?? null,
       venue: meta.venue ?? null,
       publicationDate: meta.publicationDate ?? null,
       url: meta.url ?? null,
-      researchArea: meta.researchArea ?? null,
+      researchArea: texts.researchArea,
       type: meta.type,
       stage: stageOf(meta.type),
       authors: meta.authors.map((a) => ({ name: a.name, orcid: a.orcid ?? null })),
-      keywords: keywordsOf(meta),
+      keywords: texts.keywords,
       language,
       availableLanguages,
       summary,
       version,
       updatedAt,
-      sections: splitSections(body),
+      sections: texts.sections,
     };
   }
 
@@ -314,29 +331,67 @@ export class PapersCatalogService {
     return readConceptContent(this.dir, slug, lang, FRONTMATTER_FIELDS);
   }
 
-  private load(meta: PaperMeta, lang: Language): HeldPaper {
-    const { title } = this.content(meta.slug, lang);
+  /**
+   * The texts of the file of this language, and, for a translation, the English ones that fill what it leaves
+   * out and that a filter or a search also matches.
+   *
+   * ponytail: the sections are split on every call (a few KB each); memoize by slug and language if the
+   * catalog grows to hundreds of papers.
+   */
+  private texts(slug: string, lang: Language) {
+    const file = this.content(slug, lang);
+    const mine = textsIn(file);
+    if (file.language === DEFAULT_LANGUAGE) {
+      return { ...mine, file, keywords: keywordsOf(mine.keywords), abstractTranslated: false, original: undefined };
+    }
+    const en = textsIn(this.content(slug, DEFAULT_LANGUAGE));
     return {
-      abstract: meta.abstract ?? null,
+      file,
+      sections: mine.sections,
+      abstract: mine.abstract ?? en.abstract,
+      abstractTranslated: !!mine.abstract && !!en.abstract,
+      researchArea: mine.researchArea ?? en.researchArea,
+      keywords: keywordsOf(mine.keywords.length ? mine.keywords : en.keywords),
+      original: { abstract: en.abstract, keywords: keywordsOf(en.keywords), researchArea: en.researchArea },
+    };
+  }
+
+  private load(meta: PaperMeta, lang: Language): HeldPaper {
+    const texts = this.texts(meta.slug, lang);
+    const { title } = texts.file;
+    return {
+      abstract: texts.abstract,
+      original: texts.original,
       summary: {
         id: meta.slug,
         title: title ?? meta.title,
         authors: meta.authors.map((a) => a.name),
-        keywords: keywordsOf(meta),
+        keywords: texts.keywords,
         venue: meta.venue ?? null,
         publicationDate: meta.publicationDate ?? null,
         doi: meta.doi ?? null,
         url: meta.url ?? null,
-        researchArea: meta.researchArea ?? null,
+        researchArea: texts.researchArea,
         type: meta.type,
         stage: stageOf(meta.type),
-        excerpt: excerptOf(meta.abstract ?? null),
+        excerpt: excerptOf(texts.abstract),
       },
     };
   }
 }
 
 /** Lowercase and unique, as the rows of a private paper keep them. */
-const keywordsOf = (meta: PaperMeta): string[] => [
-  ...new Set((meta.keywords ?? []).map((k) => k.trim().replace(/\s+/g, ' ').toLowerCase()).filter(Boolean)),
+const keywordsOf = (keywords: string[]): string[] => [
+  ...new Set(keywords.map((k) => k.trim().replace(/\s+/g, ' ').toLowerCase()).filter(Boolean)),
 ];
+
+/** The paper's own texts in a file: the abstract section, the area and keywords of the frontmatter, and the rest. */
+function textsIn(file: { body: string; researchArea: string | null; keywords: string | null }): PaperTexts {
+  const all = splitSections(file.body);
+  return {
+    abstract: all.find((s) => ABSTRACT_TITLES.includes(s.title))?.content || null,
+    researchArea: file.researchArea,
+    keywords: file.keywords ? file.keywords.split(',') : [],
+    sections: all.filter((s) => !ABSTRACT_TITLES.includes(s.title)),
+  };
+}

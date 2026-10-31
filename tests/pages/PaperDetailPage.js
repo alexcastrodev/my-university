@@ -18,6 +18,9 @@ export class PaperDetailPage {
     this.noAuthors = page.getByText('Authors not listed.');
     this.abstract = page.locator('.abstract');
     this.noAbstract = page.getByText('No abstract is available for this paper.');
+    // Shown only on the Portuguese page of a paper whose abstract we translated.
+    this.abstractNote = page.locator('.abstract-note');
+    this.area = page.locator('.fact a[href*="area="]');
     this.keywords = page.locator('.keywords .chip');
     this.noKeywords = page.getByText('No keywords listed.');
     this.dateUnknown = page.getByText('Date not listed');

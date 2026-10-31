@@ -60,6 +60,8 @@ export interface Paper {
   id: string;
   title: string;
   abstract: string | null;
+  /** True when `abstract` is our translation of the authors' English one (a catalog paper read in Portuguese). */
+  abstractTranslated?: boolean;
   doi: string | null;
   venue: string | null;
   publicationDate: string | null;

@@ -196,6 +196,29 @@ test.describe('Papers catalog', () => {
       await expect(papers.card(METASTABLE.title)).toContainText('junho de 2021');
     });
 
+    test('shows the area and the start of the abstract in Portuguese, and keeps an English link working', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.gotoPortuguese();
+
+      await expect(papers.cardArea(PAGED.title)).toHaveText('Sistemas para aprendizado de máquina');
+      await expect(papers.cardExcerpt(PAGED.title)).toContainText('Servir modelos de linguagem grandes');
+      await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Sistemas operacionais' })).toHaveCount(1);
+      await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Operating Systems' })).toHaveCount(0);
+
+      // A link copied from the English list still finds the paper after the switch of language.
+      await papers.gotoPortuguese('?area=Machine+Learning+Systems');
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(PAGED.title)).toBeVisible();
+    });
+
+    test('keeps the English texts for an English reader', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto();
+
+      await expect(papers.cardArea(PAGED.title)).toHaveText('Machine Learning Systems');
+      await expect(papers.cardExcerpt(PAGED.title)).toContainText('High throughput serving of large language models');
+    });
+
     test('fits the screen', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto();
@@ -325,7 +348,7 @@ test.describe('Research Analysis', () => {
     await expect(paper.analysisCredit).toContainText('Last revised');
     await expect(paper.analysisCredit).toContainText('October 31, 2026');
     await expect(paper.analysisCredit).toContainText('Version');
-    await expect(paper.analysisCredit).toContainText('1.0');
+    await expect(paper.analysisCredit).toContainText('1.1');
     await expect(paper.analysisCredit).not.toContainText('Reviewed by');
     await expect(paper.analysisCredit).not.toContainText('Published');
   });
@@ -350,6 +373,27 @@ test.describe('Research Analysis', () => {
     await expect(paper.analysisCredit).toContainText('31 de outubro de 2026');
     await expect(paper.alternates.first()).toHaveAttribute('href', /\/papers\/foundationdb-unbundled-transactional-kv-store$/);
     await expect(page.locator('link[rel="alternate"][hreflang="pt-BR"]')).toHaveAttribute('href', /\/pt-BR\/papers\/foundationdb/);
+  });
+
+  test('translates the abstract, the keywords and the area on the Portuguese page, and says so', async ({ page }) => {
+    const paper = new PaperDetailPage(page);
+    await paper.gotoPortuguese(PAGED.slug);
+
+    await expect(paper.title).toHaveText(PAGED.title);
+    await expect(paper.abstract.first()).toContainText('Servir modelos de linguagem grandes');
+    await expect(paper.abstractNote).toHaveText('Tradução nossa do resumo original dos autores, em inglês.');
+    await expect(paper.area).toHaveText('Sistemas para aprendizado de máquina');
+    await expect(paper.keywords).toContainText(['inferência de llms', 'cache kv', 'memória virtual', 'paginação', 'memória de gpu']);
+  });
+
+  test('keeps the English abstract, keywords and area for an English reader, with no note about a translation', async ({ page }) => {
+    const paper = new PaperDetailPage(page);
+    await paper.goto(PAGED.slug);
+
+    await expect(paper.abstract.first()).toContainText('High throughput serving of large language models');
+    await expect(paper.abstractNote).toHaveCount(0);
+    await expect(paper.area).toHaveText('Machine Learning Systems');
+    await expect(paper.keywords).toContainText(['llm serving', 'kv cache', 'virtual memory', 'paging', 'gpu memory']);
   });
 
   test('fits the screen', async ({ page }) => {

@@ -13,6 +13,11 @@ export interface Searchable {
   researchArea: string | null;
   type: PaperType;
   publicationDate: string | null;
+  /**
+   * The English original of a text shown translated. A filter or a search matches either, so a link or a
+   * search typed in one language still finds the paper after the reader switches to the other.
+   */
+  original?: Pick<Searchable, 'abstract' | 'keywords' | 'researchArea'>;
 }
 
 const has = (text?: string): text is string => !!text && text.length > 0;
@@ -32,9 +37,11 @@ export function matchesFilter(paper: Searchable, query: PaperFilterDto): boolean
     const found =
       contains(paper.title, q) ||
       contains(paper.abstract, q) ||
+      contains(paper.original?.abstract ?? null, q) ||
       contains(paper.doi, q) ||
       paper.authors.some((a) => contains(a, q)) ||
-      paper.keywords.some((k) => contains(k, q));
+      paper.keywords.some((k) => contains(k, q)) ||
+      !!paper.original?.keywords.some((k) => contains(k, q));
     if (!found) return false;
   }
   if (has(query.author)) {
@@ -47,12 +54,13 @@ export function matchesFilter(paper: Searchable, query: PaperFilterDto): boolean
   }
   if (has(query.keyword)) {
     const keyword = query.keyword.toLowerCase();
-    if (!paper.keywords.some((k) => k.toLowerCase() === keyword)) return false;
+    const same = (k: string) => k.toLowerCase() === keyword;
+    if (!paper.keywords.some(same) && !paper.original?.keywords.some(same)) return false;
   }
   if (has(query.area)) {
-    if (paper.researchArea?.toLowerCase() !== query.area.toLowerCase()) {
-      return false;
-    }
+    const area = query.area.toLowerCase();
+    const same = (a: string | null | undefined) => a?.toLowerCase() === area;
+    if (!same(paper.researchArea) && !same(paper.original?.researchArea)) return false;
   }
   if (query.type && paper.type !== query.type) return false;
   if (query.stage && !typesOfStage(query.stage).includes(paper.type)) {

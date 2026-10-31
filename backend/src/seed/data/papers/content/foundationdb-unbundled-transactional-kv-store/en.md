@@ -1,7 +1,9 @@
 ---
 title: "FoundationDB: A Distributed Unbundled Transactional Key Value Store"
 summary: A transactional key-value store that splits transaction processing, storage and configuration into parts that scale on their own, and tests itself with deterministic simulation.
-version: 1.0
+researchArea: Databases
+keywords: unbundled database, oltp, strict serializability, multiversion concurrency control, optimistic concurrency control, simulation testing
+version: 1.1
 updatedAt: 2026-10-31
 ---
 

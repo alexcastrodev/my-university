@@ -16,11 +16,12 @@ export interface FixturePaper {
   publicationDate?: string;
   doi?: string;
   url?: string;
+  /** The area, the keywords and the abstract live in the markdown, like the analysis: here in `en.md`. */
   researchArea?: string;
   keywords?: string[];
   abstract?: string;
-  /** Also write a pt-BR.md; its title overrides the English one when given. */
-  portuguese?: { title?: string };
+  /** Also write a pt-BR.md; what is given overrides the English text, what is left out falls back to it. */
+  portuguese?: { title?: string; researchArea?: string; keywords?: string[]; abstract?: string };
   /** The `updatedAt` of the analysis, `2026-01-02` when left out. */
   updatedAt?: string;
 }
@@ -65,15 +66,24 @@ const SECTIONS = {
   'pt-BR': ['Visão geral', 'Contribuição', 'Metodologia', 'Resultados', 'Análise crítica', 'Pesquisas futuras'],
 };
 
-function analysis(paper: FixturePaper, lang: 'en' | 'pt-BR', title?: string): string {
+const ABSTRACT_TITLE = { en: 'Abstract', 'pt-BR': 'Resumo' };
+
+function analysis(
+  paper: FixturePaper,
+  lang: 'en' | 'pt-BR',
+  texts: { title?: string; researchArea?: string; keywords?: string[]; abstract?: string },
+): string {
   const head = [
-    `title: "${title ?? paper.title}"`,
+    `title: "${texts.title ?? paper.title}"`,
     `summary: Summary of ${paper.slug} (${lang})`,
+    ...(texts.researchArea ? [`researchArea: ${texts.researchArea}`] : []),
+    ...(texts.keywords ? [`keywords: ${texts.keywords.join(', ')}`] : []),
     'version: 1.0',
     `updatedAt: ${paper.updatedAt ?? '2026-01-02'}`,
   ];
+  const abstract = texts.abstract ? [`## ${ABSTRACT_TITLE[lang]}\n\n${texts.abstract}`] : [];
   const body = SECTIONS[lang].map((name) => `## ${name}\n\nOur ${name} text for ${paper.slug} (${lang}).`);
-  return `---\n${head.join('\n')}\n---\n\n${body.join('\n\n')}\n`;
+  return `---\n${head.join('\n')}\n---\n\n${[...abstract, ...body].join('\n\n')}\n`;
 }
 
 /**
@@ -91,19 +101,13 @@ export function usePapers(papers: FixturePaper[] = DEFAULT_PAPERS): () => void {
     publicationDate: p.publicationDate,
     doi: p.doi,
     url: p.url,
-    researchArea: p.researchArea,
-    keywords: p.keywords,
-    abstract: p.abstract,
   }));
   writeFileSync(join(dir, 'papers.json'), JSON.stringify(index));
   for (const p of papers) {
     mkdirSync(join(dir, 'content', p.slug), { recursive: true });
-    writeFileSync(join(dir, 'content', p.slug, 'en.md'), analysis(p, 'en'));
+    writeFileSync(join(dir, 'content', p.slug, 'en.md'), analysis(p, 'en', p));
     if (p.portuguese) {
-      writeFileSync(
-        join(dir, 'content', p.slug, 'pt-BR.md'),
-        analysis(p, 'pt-BR', p.portuguese.title),
-      );
+      writeFileSync(join(dir, 'content', p.slug, 'pt-BR.md'), analysis(p, 'pt-BR', p.portuguese));
     }
   }
   const saved = process.env.PAPERS_DATA_DIR;

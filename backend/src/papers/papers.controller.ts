@@ -32,8 +32,8 @@ export class PapersController {
 
   /** The research areas and publication types present in the catalog, for the filter selects. */
   @Get('facets')
-  facets() {
-    return this.catalog.facets();
+  facets(@Query('lang') lang?: string) {
+    return this.catalog.facets(normalizeLanguage(lang));
   }
 
   /** A paper by its slug, with its analysis. A private paper, or an id that is no slug, is a 404. */
