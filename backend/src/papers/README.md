@@ -105,8 +105,47 @@ The text is shown as text, never as markup.
 The server keeps a rendered page per URL for five minutes (`app/src/server.ts`), so a newly published or
 withdrawn analysis can take up to that long to show on `/papers/:id`.
 
+## Adding a paper (DOI import and by hand)
+
+A signed-in reader can bring a paper into the catalog in two ways. Both need a session; the catalog itself stays
+readable by anyone.
+
+| Route | What it does |
+| --- | --- |
+| `POST /api/papers/import/preview` `{ doi }` | Looks the DOI up at Crossref and says what importing would do. Changes nothing. |
+| `POST /api/papers/import` `{ doi }` | Imports it (201) or matches the paper already there (200). |
+| `POST /api/papers` | Adds a paper typed in by hand (201), or 409 `already_exists` with its `paperId`. |
+
+- **Provider: Crossref** (`crossref.client.ts`), free and without a key. `CROSSREF_MAILTO` (optional, server side
+  only) puts requests in Crossref's polite pool and goes in the user agent; `CROSSREF_BASE_URL` points tests at a
+  stub. Nothing of the reader is ever sent to Crossref. OpenAlex or another source can be added as enrichment if
+  Crossref turns out to be thin, but nothing needs it yet.
+- **The metadata comes from the server, never from the request.** `import` fetches the DOI itself, so a client
+  cannot import text it made up under a Crossref label. A lookup is kept five minutes, so the preview and the
+  import that follows it cost one request and show the same record.
+- **Mapping**: JATS markup in titles and abstracts becomes plain text with blank-line paragraphs; names become
+  authors (ORCID kept when well formed, at most 500 authors); `issued` becomes a `YYYY`, `YYYY-MM` or `YYYY-MM-DD`
+  date; Crossref's `type` maps to the paper types (`proceedings-article` to `conference-paper`, `posted-content`
+  to `preprint`...); journal subjects become keywords. The publisher's full-text `link` entries are ignored on
+  purpose: importing metadata never fetches or points at a publisher PDF.
+- **Matching, not duplicating**: an import goes through `PapersService.upsert` (same DOI, or same fingerprint with
+  a DOI-less record), mode `fill`. It only completes what is empty; where Crossref disagrees the stored value stays,
+  the disagreement is returned as a conflict and saved in `paper_source` with the DOI as `externalId` and the
+  retrieval time. A preview shows the match and the conflicts by running the same merge inside a transaction it
+  rolls back.
+- **By hand never merges**: a hand-made record that matches an existing paper is refused with 409 instead of
+  filling its empty fields, so a reader cannot alter a paper that already exists. A paper can still be created by
+  hand when Crossref is down or does not know the DOI.
+- **Failures** are answered with a stable `code`: `invalid_doi` (400, before any request to Crossref),
+  `not_found` (404), `rate_limited` (429, the provider's `Retry-After` in `retryAfter`), `provider_unavailable`
+  and `provider_invalid` (502), and `too_many_requests` (429, ours: 20 lookups and 20 creations per reader per
+  ten minutes, per process).
+
 ## What is not here
 
-- There is no editor screen yet: curators and reviewers use the API. The endpoints return everything an editor needs.
-- There is no HTTP route that writes the paper itself: the metadata import (#181) brings it, and decides who may
-  call `upsert` and `correct`. `spec/papers-app.ts` is a throwaway server used only by the service tests.
+- There is no editor screen for the analysis yet: curators and reviewers use the API. The endpoints return
+  everything an editor needs.
+- Nothing changes a paper that already exists over HTTP. `PapersService.correct` (which keeps the replaced values
+  in the provenance) has no route yet; the staff roles of #180 now exist, so deciding who may correct a paper
+  can build on them.
+- `spec/papers-app.ts` is a throwaway server used only by the service tests.

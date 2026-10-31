@@ -74,6 +74,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    // Depends on who is signed in, which the server never knows: nothing to render ahead.
+    path: 'papers/new',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'papers/:id',
     renderMode: RenderMode.Server,
   },
