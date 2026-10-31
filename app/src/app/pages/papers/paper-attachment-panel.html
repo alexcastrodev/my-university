@@ -1,0 +1,55 @@
+<section class="attachment" aria-labelledby="attachment-heading">
+  <h2 id="attachment-heading" class="attachment-title" i18n="@@papers.attachment.title">My PDF</h2>
+
+  @if (loading()) {
+    <p class="attachment-note" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.attachment.loading">Loading your PDF…</ng-container></p>
+  } @else if (loadFailed()) {
+    <div role="alert">
+      <p class="attachment-note attachment-error" i18n="@@papers.attachment.loadError">Your PDF could not be loaded.</p>
+      <button type="button" class="attachment-button" (click)="load()" i18n="@@papers.retry">Try again</button>
+    </div>
+  } @else {
+    @if (current(); as file) {
+      <p class="file">
+        <a class="file-name" [href]="fileUrl()" download>{{ file.filename }}</a>
+        <span class="muted">{{ size() }}, <ng-container i18n="@@papers.attachment.uploadedOn">uploaded on</ng-container> {{ uploadedOn() }}</span>
+      </p>
+    } @else {
+      <p class="attachment-note" i18n="@@papers.attachment.empty">Keep your own copy of this paper. Only you can see it.</p>
+    }
+
+    @if (refusal(); as why) {
+      <p class="attachment-note attachment-error" role="alert"><ng-container i18n="@@papers.attachment.refused">Your last upload was not accepted.</ng-container> {{ why }}</p>
+    }
+
+    <div class="field">
+      <label class="field-label" for="attachment-file">
+        @if (current()) {
+          <ng-container i18n="@@papers.attachment.replace">Replace with another PDF</ng-container>
+        } @else {
+          <ng-container i18n="@@papers.attachment.upload">Upload a PDF (up to 25 MB)</ng-container>
+        }
+      </label>
+      <input id="attachment-file" class="field-input" type="file" accept="application/pdf,.pdf" [disabled]="busy()" (change)="pick($event)" />
+    </div>
+
+    @if (uploading()) {
+      <p class="attachment-note" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.attachment.uploading">Uploading and checking the file…</ng-container></p>
+    }
+    @if (errorCode()) {
+      <p class="attachment-note attachment-error" role="alert">{{ errorText() }}</p>
+    }
+
+    @if (current()) {
+      <p class="attachment-foot">
+        @if (confirmRemove()) {
+          <span class="muted" i18n="@@papers.attachment.confirmRemove">Remove this PDF for good?</span>
+          <button type="button" class="attachment-button attachment-button-danger" [disabled]="busy()" (click)="remove()" i18n="@@papers.attachment.confirmYes">Yes, remove</button>
+          <button type="button" class="attachment-button" (click)="confirmRemove.set(false)" i18n="@@papers.attachment.confirmNo">Cancel</button>
+        } @else {
+          <button type="button" class="attachment-button attachment-button-quiet" [disabled]="busy()" (click)="confirmRemove.set(true)" i18n="@@papers.attachment.remove">Remove PDF</button>
+        }
+      </p>
+    }
+  }
+</section>

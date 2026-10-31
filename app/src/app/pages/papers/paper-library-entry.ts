@@ -7,6 +7,7 @@ import { PaperLibraryService } from '../../services/paper-library.service';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel, safeWebUrl } from '../../shared/paper-format';
+import { PaperAttachmentPanel } from './paper-attachment-panel';
 import { PaperLibraryDetails } from './paper-library-details';
 
 type Loaded = { paper: Paper; entry: LibraryEntry } | 'signedOut' | 'missing' | 'failed';
@@ -18,7 +19,7 @@ type Loaded = { paper: Paper; entry: LibraryEntry } | 'signedOut' | 'missing' | 
 @Component({
   selector: 'app-paper-library-entry',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperLibraryDetails],
+  imports: [RouterLink, PaperAttachmentPanel, PaperLibraryDetails],
   templateUrl: './paper-library-entry.html',
   styleUrls: ['./paper-detail.css', './paper-library-entry.css'],
 })

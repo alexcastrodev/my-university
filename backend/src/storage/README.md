@@ -1,6 +1,6 @@
 # Object storage
 
-Private file storage for application data (the first use is paper PDFs). The service is
+Private file storage for application data (the first use is paper PDFs, see `../paper-attachments/README.md`). The service is
 [SeaweedFS](https://github.com/seaweedfs/seaweedfs); the application only speaks the S3 protocol to it,
 through the AWS SDK for JavaScript v3. AWS S3 is not a dependency. Another S3-compatible server can replace
 SeaweedFS by changing the environment variables below.
@@ -19,13 +19,14 @@ await storage.put(key, bytes, 'application/pdf');
 const meta = await storage.head(key); // { size, contentType, ... } or null
 const url = await storage.presignGet(key); // 300 s by default, 3600 s at most
 await storage.delete(key);
+const file = await storage.getStream(key); // { body, size, contentType } or null; consume or destroy the body
 ```
 
 `presignPut(key, contentType)` returns a URL for a direct browser upload. The Content-Type is part of the
 signature, so the client must send exactly that one or the request is refused.
 
-`AppModule` does not import `StorageModule` yet. Once a feature module does, the settings are checked at boot,
-and a missing variable stops the app with `Missing storage config: ...` naming every missing one.
+`PaperAttachmentsModule` imports `StorageModule`, so the settings are checked at boot, and a missing variable
+stops the app with `Missing storage config: ...` naming every missing one.
 
 ## Configuration
 
@@ -97,9 +98,9 @@ another application's bucket answers 403; an anonymous read answers 403.
 - The production image is `chrislusf/seaweedfs:latest`, unpinned, while local development pins 4.47. Pin
   production to the same tag before relying on upgrades being uneventful.
 - Presigned URLs are signed for the host in the endpoint. The production endpoint is internal to `proxy_net`,
-  so URLs handed to a browser need `S3_PUBLIC_ENDPOINT` set to an address browsers can reach, and CORS
-  configured for browser uploads. Neither exists yet; decide it with the first feature that hands URLs to
-  the browser (paper PDF upload).
+  so a URL handed to a browser would need `S3_PUBLIC_ENDPOINT` set to an address browsers can reach, and CORS
+  configured on the bucket. The paper PDF attachments do not need either: they go through the API in both
+  directions (`../paper-attachments/README.md`). Decide it again only for a feature that must hand URLs out.
 - `head()` returns `null` for a missing bucket as well as a missing object, because HEAD responses have no body
   to tell them apart. The first `put` into a missing bucket fails with the real error.
 - SeaweedFS errors reach callers as the SDK's own errors (`$metadata.httpStatusCode` carries the HTTP status).
