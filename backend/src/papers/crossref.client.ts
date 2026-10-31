@@ -95,13 +95,33 @@ function decode(text: string): string {
   });
 }
 
+/**
+ * Drops every tag in one pass: a `<` followed by a letter, `/`, `!` or `?` opens one and runs to the next `>`.
+ * A `<` that is not followed by one of those ("p < 0.05") is text and stays. No `<` is left in front of a letter,
+ * so a tag cannot be rebuilt out of what is left (`<scr<b>ipt>` loses all of `<scr<b>`).
+ */
+function stripTags(markup: string): string {
+  let text = '';
+  for (let i = 0; i < markup.length; i++) {
+    if (markup[i] === '<' && /[a-z/!?]/i.test(markup[i + 1] ?? '')) {
+      const end = markup.indexOf('>', i + 1);
+      if (end === -1) return text + markup.slice(i);
+      i = end;
+    } else {
+      text += markup[i];
+    }
+  }
+  return text;
+}
+
 /** Crossref text carries JATS/MathML markup; the catalog keeps plain text, paragraphs split by a blank line. */
 export function plainText(markup: string): string {
   return decode(
-    markup
-      .replace(/<jats:title>[\s\S]*?<\/jats:title>/gi, '')
-      .replace(/<\/(?:jats:)?p>|<br\s*\/?>/gi, '\n\n')
-      .replace(/<[^>]*>/g, ''),
+    stripTags(
+      markup
+        .replace(/<jats:title>[\s\S]*?<\/jats:title>/gi, '')
+        .replace(/<\/(?:jats:)?p>|<br\s*\/?>/gi, '\n\n'),
+    ),
   )
     .replace(/\u0000/g, '')
     .split(/\n{2,}/)

@@ -214,6 +214,21 @@ describe('preview', () => {
     expect((await json(await preview(cookie, doi))).candidate.type).toBe(expected);
   });
 
+  it('does not rebuild a tag out of nested ones, and keeps a lone < as text', async () => {
+    const cookie = await signIn('p6b');
+    const doi = newDoi();
+    know(doi, {
+      title: ['<scr<b>ipt>Nested</scr</b>ipt> title'],
+      abstract: '<jats:p><scr<i>ipt>x</scr</i>ipt> with p &lt; 0.05 and a < b</jats:p>',
+    });
+    const { candidate } = await json(await preview(cookie, doi));
+    for (const text of [candidate.title, candidate.abstract]) {
+      expect(text).not.toMatch(/<[a-z/!?]/i);
+    }
+    expect(candidate.title).toBe('ipt>Nestedipt> title');
+    expect(candidate.abstract).toBe('ipt>xipt> with p < 0.05 and a < b');
+  });
+
   it('keeps provider limits: at most 500 authors, and a record with no usable title is refused', async () => {
     const cookie = await signIn('p7');
     const many = newDoi();
