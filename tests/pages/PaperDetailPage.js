@@ -18,6 +18,19 @@ export class PaperDetailPage {
     this.postButton = this.discussion.getByRole('button', { name: 'Post' });
     this.signIn = this.discussion.locator('a.signin');
     this.posts = this.discussion.locator('.post-body');
+
+    this.library = page.locator('app-paper-library-panel');
+    this.librarySignIn = this.library.getByRole('link', { name: 'Sign in to save this paper to your library' });
+    this.libraryAdd = this.library.getByRole('button', { name: 'Add to my library' });
+    this.libraryRemove = this.library.getByRole('button', { name: 'Remove from library' });
+    this.libraryStatus = this.library.getByLabel('Status', { exact: true });
+    this.libraryRating = this.library.getByLabel('Rating (1 to 5)');
+    this.libraryCompleted = this.library.getByLabel('Finished on');
+    this.libraryTagInput = this.library.getByLabel('New tag');
+    this.libraryTagAdd = this.library.getByRole('button', { name: 'Add', exact: true });
+    this.libraryTags = this.library.locator('.tag');
+    this.libraryOpen = this.library.getByRole('link', { name: 'Open my library' });
+    this.libraryError = this.library.getByRole('alert');
   }
 
   async goto(id) {
@@ -40,5 +53,44 @@ export class PaperDetailPage {
   async post(text) {
     await this.composer.fill(text);
     await this.postButton.click();
+  }
+
+  /**
+   * Runs a change and waits for the server to answer it, so a navigation or reload right after
+   * cannot cut the save off. Not for a change that is meant to fail.
+   */
+  async #saved(change) {
+    const answered = this.page.waitForResponse(
+      (res) => res.request().method() === 'PATCH' && /\/api\/paper-library\/\d+$/.test(res.url()),
+    );
+    await change();
+    await answered;
+  }
+
+  /** Sets the reading status by its visible name ("To read", "Reading", "Read"). */
+  async setStatus(label) {
+    await this.#saved(() => this.libraryStatus.selectOption({ label }));
+  }
+
+  async rate(stars) {
+    await this.#saved(() => this.libraryRating.selectOption(stars === null ? '' : String(stars)));
+  }
+
+  /** The finishing day, as `YYYY-MM-DD`. */
+  async finishedOn(day) {
+    await this.#saved(() => this.libraryCompleted.fill(day));
+  }
+
+  async addTag(text) {
+    await this.libraryTagInput.fill(text);
+    await this.#saved(() => this.libraryTagAdd.click());
+  }
+
+  libraryTag(text) {
+    return this.libraryTags.filter({ hasText: text });
+  }
+
+  async removeTag(text) {
+    await this.#saved(() => this.libraryTag(text).getByRole('button').click());
   }
 }

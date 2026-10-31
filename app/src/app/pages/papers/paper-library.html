@@ -1,0 +1,162 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@papers.library.page.title">My library</h1>
+    <p class="page-sub" i18n="@@papers.library.page.subtitle">Your private reading list. Only you can see it.</p>
+    <a class="hero-action" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+  </div>
+
+  <div class="page-body">
+    @if (signedOut()) {
+      <div class="state">
+        <p i18n="@@papers.library.page.signedOut">Sign in to see your library.</p>
+        <a class="search-button signin" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+      </div>
+    } @else {
+      <nav class="tabs" i18n-aria-label="@@papers.library.page.statusNav" aria-label="Reading status">
+        <a class="tab" [routerLink]="[]" [queryParams]="libraryQueryParams({ ...query(), status: undefined, page: undefined })" [class.tab-active]="!query().status" [attr.aria-current]="!query().status ? 'page' : null">
+          <ng-container i18n="@@papers.filter.all">All</ng-container>
+          @if (facets(); as f) { <span class="tab-count">{{ f.total }}</span> }
+        </a>
+        @for (status of statuses; track status) {
+          <a class="tab" [routerLink]="[]" [queryParams]="libraryQueryParams({ ...query(), status, page: undefined })" [class.tab-active]="query().status === status" [attr.aria-current]="query().status === status ? 'page' : null">
+            {{ statusLabel(status) }}
+            @if (facets()) { <span class="tab-count">{{ countOf(status) }}</span> }
+          </a>
+        }
+      </nav>
+
+      <form class="search" role="search" (submit)="onSearch($event)">
+        <label class="visually-hidden" for="library-search" i18n="@@papers.library.page.search.label">Search your library</label>
+        <input
+          id="library-search"
+          class="search-input"
+          type="search"
+          name="q"
+          maxlength="200"
+          autocomplete="off"
+          i18n-placeholder="@@papers.library.page.search.placeholder"
+          placeholder="Title, author or keyword"
+          [value]="searchText()"
+          (input)="searchText.set($any($event.target).value)"
+        />
+        <button type="submit" class="search-button" i18n="@@papers.search.submit">Search</button>
+      </form>
+
+      <div class="filters">
+        @if (facets(); as f) {
+          @if (f.tags.length) {
+            <div class="filter">
+              <label class="filter-label" for="filter-tag" i18n="@@papers.library.page.tag">Tag</label>
+              <select id="filter-tag" class="filter-select" (change)="onTag($any($event.target).value)">
+                <option value="" [selected]="!query().tag" i18n="@@papers.filter.all">All</option>
+                @for (tag of f.tags; track tag.value) {
+                  <option [value]="tag.value" [selected]="query().tag === tag.value">{{ tag.value }} ({{ tag.count }})</option>
+                }
+              </select>
+            </div>
+          }
+        }
+        <div class="filter">
+          <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
+          <select id="filter-sort" class="filter-select" (change)="onSort($any($event.target).value)">
+            <option value="added" [selected]="!query().sort || query().sort === 'added'" i18n="@@papers.library.sort.added">Recently added</option>
+            <option value="title" [selected]="query().sort === 'title'" i18n="@@papers.sort.title">Title (A to Z)</option>
+            <option value="completed" [selected]="query().sort === 'completed'" i18n="@@papers.library.sort.completed">Recently finished</option>
+            <option value="rating" [selected]="query().sort === 'rating'" i18n="@@papers.library.sort.rating">Highest rated</option>
+          </select>
+        </div>
+      </div>
+
+      @if (filtered()) {
+        <div class="active-filters">
+          @if (query().tag) {
+            <span class="chip chip-active">
+              <span><span i18n="@@papers.library.page.tag">Tag</span>: <strong>{{ query().tag }}</strong></span>
+              <button type="button" class="chip-remove" (click)="clear('tag')" i18n-aria-label="@@papers.active.remove" aria-label="Remove filter">×</button>
+            </span>
+          }
+          <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="state" role="status" i18n-aria-label="@@papers.library.page.loading.ariaLabel" aria-label="Loading your library">
+          <span class="spinner" aria-hidden="true"></span>
+          <ng-container i18n="@@papers.library.page.loading">Loading your library…</ng-container>
+        </div>
+      } @else if (failed()) {
+        <div class="state state-error" role="alert">
+          <p i18n="@@papers.library.page.error">Your library could not be loaded.</p>
+          <button type="button" class="search-button" (click)="retry()" i18n="@@papers.retry">Try again</button>
+        </div>
+      } @else if (page(); as p) {
+        @if (p.items.length === 0) {
+          <div class="state">
+            @if (filtered()) {
+              <p i18n="@@papers.library.page.emptyFiltered">No papers in your library match.</p>
+              <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
+            } @else {
+              <p i18n="@@papers.library.page.empty">Your library is empty. Open a paper and add it to start.</p>
+              <a class="search-button signin" routerLink="/papers" i18n="@@papers.library.page.browse">Browse all papers</a>
+            }
+          </div>
+        } @else {
+          <p class="results-count" aria-live="polite"><span i18n="@@papers.results">Results</span>: {{ p.total }}</p>
+          <ul class="papers">
+            @for (paper of p.items; track paper.id) {
+              <li class="paper-card">
+                <h2 class="paper-title"><a [routerLink]="['/papers', paper.id]">{{ paper.title }}</a></h2>
+                @if (paper.authors.length) {
+                  <p class="paper-authors">
+                    {{ paper.authors.slice(0, authorsShown).join('; ') }}
+                    @if (paper.authors.length > authorsShown) {
+                      <span class="muted">+{{ paper.authors.length - authorsShown }} <ng-container i18n="@@papers.card.moreAuthors">more</ng-container></span>
+                    }
+                  </p>
+                }
+                <p class="paper-meta">
+                  <span class="badge badge-status" [attr.data-status]="paper.library.status">{{ statusLabel(paper.library.status) }}</span>
+                  <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
+                  @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
+                  @if (paper.venue) { <span>{{ paper.venue }}</span> }
+                </p>
+                <p class="paper-meta">
+                  @if (paper.library.rating; as rating) {
+                    <span><span i18n="@@papers.library.page.rating">Rating</span>: {{ rating }}/5</span>
+                  }
+                  @if (paper.library.completedAt; as day) {
+                    <span><span i18n="@@papers.library.page.finished">Finished</span> {{ date(day) }}</span>
+                  }
+                  <span class="muted"><span i18n="@@papers.library.addedOn">Added on</span> {{ date(paper.library.addedAt.slice(0, 10)) }}</span>
+                </p>
+                @if (paper.library.tags.length) {
+                  <p class="paper-keywords">
+                    @for (tag of paper.library.tags; track tag) {
+                      <a class="chip" [routerLink]="[]" [queryParams]="libraryQueryParams({ tag })">{{ tag }}</a>
+                    }
+                  </p>
+                }
+              </li>
+            }
+          </ul>
+
+          @if (pages() > 1) {
+            <nav class="pagination" i18n-aria-label="@@papers.pagination.ariaLabel" aria-label="Pagination">
+              @if (currentPage() > 1) {
+                <a class="page-link" [routerLink]="[]" [queryParams]="prevParams()" rel="prev">← <ng-container i18n="@@papers.pagination.prev">Previous</ng-container></a>
+              } @else {
+                <span class="page-link disabled" aria-hidden="true">← <ng-container i18n="@@papers.pagination.prev">Previous</ng-container></span>
+              }
+              <span class="page-status"><span i18n="@@papers.pagination.page">Page</span> {{ currentPage() }} <span i18n="@@papers.pagination.of">of</span> {{ pages() }}</span>
+              @if (currentPage() < pages()) {
+                <a class="page-link" [routerLink]="[]" [queryParams]="nextParams()" rel="next"><ng-container i18n="@@papers.pagination.next">Next</ng-container> →</a>
+              } @else {
+                <span class="page-link disabled" aria-hidden="true"><ng-container i18n="@@papers.pagination.next">Next</ng-container> →</span>
+              }
+            </nav>
+          }
+        }
+      }
+    }
+  </div>
+</div>

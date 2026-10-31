@@ -1,0 +1,92 @@
+@if (ready()) {
+  <section class="library" aria-labelledby="library-heading">
+    <h2 id="library-heading" class="library-title" i18n="@@papers.library.title">My library</h2>
+
+    @if (!signedIn()) {
+      <p class="library-note">
+        <a routerLink="/login" i18n="@@papers.library.signIn">Sign in to save this paper to your library</a>
+      </p>
+    } @else if (loading()) {
+      <p class="library-note" role="status"><span class="spinner" aria-hidden="true"></span> <ng-container i18n="@@papers.library.loading">Loading your library…</ng-container></p>
+    } @else if (loadFailed()) {
+      <div role="alert">
+        <p class="library-note library-error" i18n="@@papers.library.loadError">Your library could not be loaded.</p>
+        <button type="button" class="library-button" (click)="load()" i18n="@@papers.retry">Try again</button>
+      </div>
+    } @else if (entry(); as e) {
+      <div class="fields">
+        <div class="field">
+          <label class="field-label" for="library-status" i18n="@@papers.library.status">Status</label>
+          <select id="library-status" class="field-input" (change)="setStatus($any($event.target).value)">
+            @for (status of statuses; track status) {
+              <option [value]="status" [selected]="e.status === status">{{ statusLabel(status) }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="library-rating" i18n="@@papers.library.rating">Rating (1 to 5)</label>
+          <select id="library-rating" class="field-input" (change)="setRating($any($event.target).value)">
+            <option value="" [selected]="e.rating === null" i18n="@@papers.library.notRated">Not rated</option>
+            @for (rating of ratings; track rating) {
+              <option [value]="rating" [selected]="e.rating === rating">{{ rating }}</option>
+            }
+          </select>
+        </div>
+
+        @if (e.status === 'read') {
+          <div class="field">
+            <label class="field-label" for="library-completed" i18n="@@papers.library.completedAt">Finished on</label>
+            <input id="library-completed" class="field-input" type="date" [max]="today" [value]="e.completedAt ?? ''" (change)="setCompleted($any($event.target).value)" />
+          </div>
+        }
+      </div>
+
+      <div class="tags">
+        <p class="field-label" id="library-tags-label" i18n="@@papers.library.tags">Your tags</p>
+        @if (e.tags.length) {
+          <ul class="tag-list" aria-labelledby="library-tags-label">
+            @for (tag of e.tags; track tag) {
+              <li class="tag">
+                <span>{{ tag }}</span>
+                <button type="button" class="tag-remove" (click)="removeTag(tag)" i18n-aria-label="@@papers.library.removeTag" aria-label="Remove tag" [attr.title]="tag">×</button>
+              </li>
+            }
+          </ul>
+        }
+        <form class="tag-form" (submit)="addTag($event)">
+          <label class="visually-hidden" for="library-tag-input" i18n="@@papers.library.tagLabel">New tag</label>
+          <input
+            id="library-tag-input"
+            class="field-input tag-input"
+            type="text"
+            name="tag"
+            maxlength="40"
+            autocomplete="off"
+            i18n-placeholder="@@papers.library.tagPlaceholder"
+            placeholder="Add a tag"
+            [value]="tagText()"
+            (input)="tagText.set($any($event.target).value)"
+          />
+          <button type="submit" class="library-button" [disabled]="!tagText().trim()" i18n="@@papers.library.tagAdd">Add</button>
+        </form>
+      </div>
+
+      @if (saveFailed()) {
+        <p class="library-note library-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
+      }
+
+      <p class="library-foot">
+        <span class="muted"><span i18n="@@papers.library.addedOn">Added on</span> {{ addedOn() }}. <ng-container i18n="@@papers.library.private">Only you can see your library.</ng-container></span>
+        <a routerLink="/papers/library" class="library-link" i18n="@@papers.library.open">Open my library</a>
+        <button type="button" class="library-button library-button-quiet" [disabled]="busy()" (click)="remove()" i18n="@@papers.library.remove">Remove from library</button>
+      </p>
+    } @else {
+      <p class="library-note" i18n="@@papers.library.empty">Keep this paper in your private library to follow your reading.</p>
+      <button type="button" class="library-button library-button-primary" [disabled]="busy()" (click)="add()" i18n="@@papers.library.add">Add to my library</button>
+      @if (saveFailed()) {
+        <p class="library-note library-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
+      }
+    }
+  </section>
+}

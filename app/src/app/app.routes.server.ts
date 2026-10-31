@@ -74,6 +74,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    // The reader's own papers: private, so the server renders only the shell and the browser fetches the list.
+    path: 'papers/library',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'papers/:id',
     renderMode: RenderMode.Server,
   },
