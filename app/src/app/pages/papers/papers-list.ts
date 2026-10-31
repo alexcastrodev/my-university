@@ -116,8 +116,13 @@ export class PapersListPage implements OnInit {
     this.go({ area: value || undefined });
   }
 
+  /**
+   * A search is in order of relevance unless a sort is asked, so "most recent" is then sent as such; a list
+   * without a search is newest first already, and the URL stays without the parameter.
+   */
   protected onSort(value: string): void {
-    this.go({ sort: value === 'title' ? ('title' as PaperSort) : undefined });
+    const sort = value === 'title' || (value === 'recent' && this.query().q) ? (value as PaperSort) : undefined;
+    this.go({ sort });
   }
 
   protected clear(key: keyof PaperQuery): void {

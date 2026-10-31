@@ -54,7 +54,8 @@ Portuguese file has one keyword for each English one, in the same order (`papers
 - **Routes.** Only `GET /api/papers`, `GET /api/papers/facets` and `GET /api/papers/:slug?lang=` exist for the
   public papers. The list takes `q`, `author`, `doi`, `keyword`, `area`, `type`, `stage`, `year`, `sort`, `page`
   and `limit`, filters and sorts in memory (a few hundred papers at most), and titles, excerpts, keywords and
-  areas come in `lang`; the facets take `lang` too, so the area select is in the reader's language.
+  areas come in `lang`; the facets take `lang` too, so the area select is in the reader's language. `q` goes
+  through the search index (below) when there is one.
 - **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `abstractTranslated`,
   `version`, `updatedAt` and `sections` (`[{ title, content }]`, the markdown of each section).
 - **Tests** point `PAPERS_DATA_DIR` at a folder of fixtures (`spec/papers-fixtures.ts`); with the variable unset
@@ -62,6 +63,26 @@ Portuguese file has one keyword for each English one, in the same order (`papers
   it loads in both languages with six sections, and neither language has an em dash or an en dash.
 - **When a slug leaves the files**, the library entries and PDFs that point at it stay in their tables but are
   hidden everywhere (the list, the facets, the entry, the attachment). If the slug comes back, so do they.
+
+## Searching the public papers (Meilisearch)
+
+`q` on `GET /api/papers` asks the `papers` index of Meilisearch (`papers-search.ts`), built on boot from the
+files like the site-wide search index (one document per paper and language, skipped when nothing changed). It
+searches the title, keywords, area, authors, DOI, our one-line summary, the abstract and the analysis, and a
+translation also carries the English original of each text, so a search typed in either language finds the paper.
+Accents and letter case do not matter, a typo is forgiven, words like "em", "de", "the" and "of" are ignored, and
+every other word of the query must be in the paper. "Falhas em sistemas distribuídos" finds *Metastable Failures in
+Distributed Systems* through its Portuguese keyword and area.
+
+- **Order.** With `q` and no `sort`, the list is in order of relevance (the page offers "Relevance" while there is a
+  search); `sort=recent` or `sort=title` sort the same matches by date or title. Without `q`, newest first as before.
+- **Only the index.** With Meilisearch up, `q` matches exactly what the index found; every other filter still
+  applies in memory. The search is by words only, with no embedder and no hybrid search.
+- **Fallback.** Without `MEILI_HOST` (the specs, a bare `nest start`) or when Meilisearch fails, `q` is the old
+  plain match (`paper-filter.ts`: the query as typed, a substring) and a warning is logged. A search never breaks
+  the list.
+- **Not indexed.** A reader's private papers and library are still filtered in memory, and papers are not in
+  the site-wide search palette.
 
 ## How a private paper is addressed (public ids, #202)
 

@@ -3,7 +3,8 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { ConceptSection, readConceptContent, splitSections } from '../shared/concept-content';
-import { DEFAULT_LANGUAGE, Language, normalizeLanguage } from '../shared/language';
+import { DEFAULT_LANGUAGE, Language, SUPPORTED_LANGUAGES, normalizeLanguage } from '../shared/language';
+import { toPlainText } from '../shared/plain-text';
 import { PAPER_TYPES, Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { byRecent, byTitle, matchesFilter, Searchable } from './paper-filter';
@@ -55,6 +56,28 @@ export const searchableOf = ({ summary, abstract, original }: HeldPaper): Search
   type: summary.type,
   publicationDate: summary.publicationDate,
 });
+
+/** One paper in one language, as the search index holds it (`alt*`: the English original a translation changed). */
+export interface PaperSearchDocument {
+  /** `<slug>_<language>`. */
+  id: string;
+  slug: string;
+  language: Language;
+  title: string;
+  altTitle: string | null;
+  authors: string[];
+  doi: string | null;
+  keywords: string[];
+  altKeywords: string[];
+  researchArea: string | null;
+  altResearchArea: string | null;
+  /** Our one line about the paper. */
+  summary: string | null;
+  abstract: string | null;
+  altAbstract: string | null;
+  /** The Research Analysis as plain text. */
+  content: string;
+}
 
 export interface PaperPage {
   items: PaperSummary[];
@@ -212,15 +235,27 @@ export class PapersCatalogService {
     });
   }
 
-  list(query: PaperListQueryDto): PaperPage {
+  /**
+   * The page of papers that pass every filter. `ranked` is what the search index (papers-search.ts) found
+   * for `q`, best first: then `q` matches exactly those papers. Null when there is no index to ask, and then
+   * `q` is the plain match of paper-filter.ts. Without a `sort`, a search is in the index's order and a list
+   * without a search is newest first.
+   */
+  list(query: PaperListQueryDto, ranked: string[] | null = null): PaperPage {
     const lang = normalizeLanguage(query.lang);
     const page = query.page ?? 1;
     const limit = query.limit ?? PAPER_PAGE_DEFAULT_LIMIT;
+    const { q, ...filters } = query;
+    const rank = new Map((ranked ?? []).map((slug, i) => [slug, i]));
+    const byRank = (a: PaperSummary, b: PaperSummary) => rank.get(a.id)! - rank.get(b.id)!;
     const found = this.metas
       .map((meta) => this.load(meta, lang))
-      .filter((held) => matchesFilter(searchableOf(held), query))
+      .filter((held) => {
+        const paper = searchableOf(held);
+        return matchesFilter(paper, filters) && (ranked ? rank.has(held.summary.id) : matchesFilter(paper, { q }));
+      })
       .map((held) => held.summary)
-      .sort(query.sort === 'title' ? byTitle : byRecent);
+      .sort(query.sort === 'title' ? byTitle : query.sort === 'recent' || !q || !ranked ? byRecent : byRank);
     return {
       items: found.slice((page - 1) * limit, page * limit),
       total: found.length,
@@ -277,6 +312,38 @@ export class PapersCatalogService {
       updatedAt,
       sections: texts.sections,
     };
+  }
+
+  /**
+   * What the search index holds: every paper in every language, with the English original of each text a
+   * translation changes, so a search typed in either language finds it.
+   */
+  searchDocuments(): PaperSearchDocument[] {
+    return this.metas.flatMap((meta) =>
+      SUPPORTED_LANGUAGES.map((lang) => {
+        const view = this.detail(meta.slug, lang);
+        const { original } = this.texts(meta.slug, lang);
+        const other = <T>(mine: T, en: T | undefined) =>
+          en !== undefined && JSON.stringify(en) !== JSON.stringify(mine) ? en : null;
+        return {
+          id: `${meta.slug}_${lang}`,
+          slug: meta.slug,
+          language: lang,
+          title: view.title,
+          altTitle: other(view.title, meta.title),
+          authors: view.authors.map((a) => a.name),
+          doi: view.doi,
+          keywords: view.keywords,
+          altKeywords: other(view.keywords, original?.keywords) ?? [],
+          researchArea: view.researchArea,
+          altResearchArea: other(view.researchArea, original?.researchArea ?? undefined),
+          summary: view.summary,
+          abstract: view.abstract,
+          altAbstract: other(view.abstract, original?.abstract ?? undefined),
+          content: toPlainText(view.sections.map((s) => `${s.title}\n${s.content}`).join('\n')),
+        };
+      }),
+    );
   }
 
   /** A public paper as a list row, plus what a search needs; null when there is no such paper. */

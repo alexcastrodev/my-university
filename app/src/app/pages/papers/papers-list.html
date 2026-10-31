@@ -45,7 +45,10 @@
         <div class="filter">
           <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
           <select id="filter-sort" class="filter-select" (change)="onSort($any($event.target).value)">
-            <option value="recent" [selected]="query().sort !== 'title'" i18n="@@papers.sort.recent">Most recent</option>
+            @if (query().q) {
+              <option value="" [selected]="!query().sort" i18n="@@papers.sort.relevance">Relevance</option>
+            }
+            <option value="recent" [selected]="query().sort === 'recent' || (!query().sort && !query().q)" i18n="@@papers.sort.recent">Most recent</option>
             <option value="title" [selected]="query().sort === 'title'" i18n="@@papers.sort.title">Title (A to Z)</option>
           </select>
         </div>
