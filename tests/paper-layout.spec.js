@@ -100,8 +100,23 @@ test.describe('public paper page layout', () => {
     const paper = new PaperDetailPage(page);
     await paper.goto(PUBLIC);
     await expect(paper.aside).toBeVisible();
-    // The last card is the library button, which shows once the library has answered.
+    // The library button is the first card, and shows once the library has answered.
     await expect(paper.libraryIn).toBeVisible();
+  });
+
+  test('puts the library button at the top of the aside, above the authors', async ({ page }) => {
+    const paper = new PaperDetailPage(page);
+    for (const width of [1440, 390]) {
+      await paper.layout.resize(width, width < 700 ? 844 : 900);
+      await paper.layout.scrollTo(0);
+      const { library, authors } = await paper.libraryAndAuthorsBoxes();
+      expect(library.y + library.height, `library button above the authors at ${width}px`).toBeLessThanOrEqual(authors.y);
+    }
+    // At 390px, the last width above, the aside is stacked: the button is the first thing under the title block.
+    const { header, aside } = await paper.layout.boxes();
+    const library = await paper.sideLibrary.boundingBox();
+    expect(Math.abs(library.y - aside.y), 'library button starts the aside').toBeLessThanOrEqual(1);
+    expect(aside.y, 'aside right after the title block').toBeGreaterThanOrEqual(header.y + header.height - 1);
   });
 
   test('keeps authors, facts, keywords and the library button in an aside beside the body, level with the title', async ({ page }) => {

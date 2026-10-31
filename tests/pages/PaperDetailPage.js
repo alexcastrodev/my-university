@@ -95,6 +95,14 @@ export class PaperDetailPage {
     return this.keywords.filter({ hasText: name });
   }
 
+  /** Where the library button and the authors card sit, in viewport coordinates: the button comes first in the aside. */
+  async libraryAndAuthorsBoxes() {
+    return {
+      library: await this.sideLibrary.boundingBox(),
+      authors: await this.sideAuthors.boundingBox(),
+    };
+  }
+
   /** One section of the Research Analysis, found by its heading ("Overview", "Critical Analysis"...). */
   analysisSection(title) {
     return this.analysis.locator('.analysis-section').filter({ has: this.page.getByRole('heading', { level: 3, name: title, exact: true }) });
