@@ -141,10 +141,10 @@ export class PaperAttachmentsService
     filename: string,
   ): Promise<{ attachment: AttachmentView; created: boolean }> {
     this.checkId(paperId);
-    if (!bytes.length) {
+    if (!bytes.byteLength) {
       throw fail(400, 'empty_body', 'Send the PDF as the request body.');
     }
-    if (bytes.length > this.limits.maxBytes) {
+    if (bytes.byteLength > this.limits.maxBytes) {
       throw fail(413, 'too_large', 'The file is larger than the upload limit.');
     }
     if (this.uploading.has(userId)) {
@@ -161,7 +161,7 @@ export class PaperAttachmentsService
         .exists({ where: { id: paperId } });
       if (!paper) throw new NotFoundException('Paper not found');
       if (
-        (await this.usedBytes(userId, paperId)) + bytes.length >
+        (await this.usedBytes(userId, paperId)) + bytes.byteLength >
         this.limits.quotaBytes
       ) {
         throw fail(
@@ -411,7 +411,7 @@ export class PaperAttachmentsService
             next,
             key,
             cleanFilename(filename),
-            bytes.length,
+            bytes.byteLength,
             sha256,
             userId,
           ],
