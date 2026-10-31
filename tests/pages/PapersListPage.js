@@ -47,6 +47,11 @@ export class PapersListPage {
     return this.card(title).locator('.chip-area');
   }
 
+  /** The line with the published title, under a translated one. */
+  cardOriginalTitle(title) {
+    return this.card(title).locator('.original-title');
+  }
+
   /** The start of the abstract under the title of a row. */
   cardExcerpt(title) {
     return this.card(title).locator('.paper-excerpt');

@@ -3,7 +3,7 @@ title: "Metastable Failures in Distributed Systems"
 summary: A vision paper that names a class of outages where a trigger pushes a system into a bad state that a feedback loop then keeps alive after the trigger is gone.
 researchArea: Distributed Systems
 keywords: metastable failures, resilience, overload, retries, caching, outages
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

@@ -71,6 +71,13 @@
   overflow-wrap: anywhere;
 }
 
+.original-title {
+  margin: -0.4rem 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--mu-muted);
+  overflow-wrap: anywhere;
+}
+
 .paper-authors {
   display: flex;
   flex-wrap: wrap;

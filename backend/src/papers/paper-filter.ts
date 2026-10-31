@@ -17,7 +17,7 @@ export interface Searchable {
    * The English original of a text shown translated. A filter or a search matches either, so a link or a
    * search typed in one language still finds the paper after the reader switches to the other.
    */
-  original?: Pick<Searchable, 'abstract' | 'keywords' | 'researchArea'>;
+  original?: Pick<Searchable, 'title' | 'abstract' | 'keywords' | 'researchArea'>;
 }
 
 const has = (text?: string): text is string => !!text && text.length > 0;
@@ -36,6 +36,7 @@ export function matchesFilter(paper: Searchable, query: PaperFilterDto): boolean
     const q = query.q.toLowerCase();
     const found =
       contains(paper.title, q) ||
+      contains(paper.original?.title ?? null, q) ||
       contains(paper.abstract, q) ||
       contains(paper.original?.abstract ?? null, q) ||
       contains(paper.doi, q) ||

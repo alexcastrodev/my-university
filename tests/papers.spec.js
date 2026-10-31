@@ -9,17 +9,20 @@ const SEED = 7;
 const FDB = {
   slug: 'foundationdb-unbundled-transactional-kv-store',
   title: 'FoundationDB: A Distributed Unbundled Transactional Key Value Store',
+  titlePt: 'FoundationDB: um armazenamento chave-valor transacional, distribuído e desagregado',
   doi: '10.1145/3448016.3457559',
 };
 const TIDB = { slug: 'tidb-raft-based-htap-database', title: 'TiDB: A Raft-based HTAP Database' };
 const METASTABLE = {
   slug: 'metastable-failures-in-distributed-systems',
   title: 'Metastable Failures in Distributed Systems',
+  titlePt: 'Falhas metaestáveis em sistemas distribuídos',
   doi: '10.1145/3458336.3465286',
 };
 const PAGED = {
   slug: 'pagedattention-memory-management-for-llm-serving',
   title: 'Efficient Memory Management for Large Language Model Serving with PagedAttention',
+  titlePt: 'Gerenciamento eficiente de memória para servir modelos de linguagem grandes com PagedAttention',
   doi: '10.1145/3600006.3613165',
 };
 const SECTIONS = ['Overview', 'Contribution', 'Methodology', 'Findings', 'Critical Analysis', 'Further Research'];
@@ -193,22 +196,46 @@ test.describe('Papers catalog', () => {
       const papers = new PapersListPage(page);
       await papers.gotoPortuguese();
       await expect(papers.cards).toHaveCount(SEED);
-      await expect(papers.card(METASTABLE.title)).toContainText('junho de 2021');
+      await expect(papers.card(METASTABLE.titlePt)).toContainText('junho de 2021');
     });
 
     test('shows the area and the start of the abstract in Portuguese, and keeps an English link working', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.gotoPortuguese();
 
-      await expect(papers.cardArea(PAGED.title)).toHaveText('Sistemas para aprendizado de máquina');
-      await expect(papers.cardExcerpt(PAGED.title)).toContainText('Servir modelos de linguagem grandes');
+      await expect(papers.cardArea(PAGED.titlePt)).toHaveText('Sistemas para aprendizado de máquina');
+      await expect(papers.cardExcerpt(PAGED.titlePt)).toContainText('Servir modelos de linguagem grandes');
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Sistemas operacionais' })).toHaveCount(1);
       await expect(papers.areaSelectPortuguese.locator('option', { hasText: 'Operating Systems' })).toHaveCount(0);
 
       // A link copied from the English list still finds the paper after the switch of language.
       await papers.gotoPortuguese('?area=Machine+Learning+Systems');
       await expect(papers.cards).toHaveCount(1);
-      await expect(papers.card(PAGED.title)).toBeVisible();
+      await expect(papers.card(PAGED.titlePt)).toBeVisible();
+    });
+
+    test('shows the translated title with the published one under it, and finds a paper by either', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.gotoPortuguese();
+
+      await expect(papers.card(METASTABLE.titlePt).getByRole('heading', { level: 2 })).toHaveText(METASTABLE.titlePt);
+      await expect(papers.cardOriginalTitle(METASTABLE.titlePt)).toHaveText(`Título original: ${METASTABLE.title}`);
+
+      // A search typed in English still finds it, and so does one in Portuguese.
+      await papers.gotoPortuguese('?q=Metastable+Failures');
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(METASTABLE.titlePt)).toBeVisible();
+      await papers.gotoPortuguese('?q=metaest%C3%A1veis');
+      await expect(papers.cards).toHaveCount(1);
+      await expect(papers.card(METASTABLE.titlePt)).toBeVisible();
+    });
+
+    test('keeps the published title alone for an English reader', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto();
+
+      await expect(papers.card(METASTABLE.title)).toBeVisible();
+      await expect(papers.cardOriginalTitle(METASTABLE.title)).toHaveCount(0);
     });
 
     test('keeps the English texts for an English reader', async ({ page }) => {
@@ -348,7 +375,7 @@ test.describe('Research Analysis', () => {
     await expect(paper.analysisCredit).toContainText('Last revised');
     await expect(paper.analysisCredit).toContainText('October 31, 2026');
     await expect(paper.analysisCredit).toContainText('Version');
-    await expect(paper.analysisCredit).toContainText('1.1');
+    await expect(paper.analysisCredit).toContainText('1.2');
     await expect(paper.analysisCredit).not.toContainText('Reviewed by');
     await expect(paper.analysisCredit).not.toContainText('Published');
   });
@@ -366,7 +393,8 @@ test.describe('Research Analysis', () => {
     const paper = new PaperDetailPage(page);
     await paper.gotoPortuguese(FDB.slug);
 
-    await expect(paper.title).toHaveText(FDB.title);
+    await expect(paper.title).toHaveText(FDB.titlePt);
+    await expect(paper.originalTitle).toHaveText(`Título original: ${FDB.title}`);
     await expect(paper.analysisTitles).toHaveText(SECTIONS_PT);
     await expect(paper.analysisNote).toContainText('Escrita pelo Kurz');
     await expect(paper.analysisCredit).toContainText('Última revisão');
@@ -379,7 +407,8 @@ test.describe('Research Analysis', () => {
     const paper = new PaperDetailPage(page);
     await paper.gotoPortuguese(PAGED.slug);
 
-    await expect(paper.title).toHaveText(PAGED.title);
+    await expect(paper.title).toHaveText(PAGED.titlePt);
+    await expect(paper.originalTitle).toHaveText(`Título original: ${PAGED.title}`);
     await expect(paper.abstract.first()).toContainText('Servir modelos de linguagem grandes');
     await expect(paper.abstractNote).toHaveText('Tradução nossa do resumo original dos autores, em inglês.');
     await expect(paper.area).toHaveText('Sistemas para aprendizado de máquina');
@@ -390,6 +419,8 @@ test.describe('Research Analysis', () => {
     const paper = new PaperDetailPage(page);
     await paper.goto(PAGED.slug);
 
+    await expect(paper.title).toHaveText(PAGED.title);
+    await expect(paper.originalTitle).toHaveCount(0);
     await expect(paper.abstract.first()).toContainText('High throughput serving of large language models');
     await expect(paper.abstractNote).toHaveCount(0);
     await expect(paper.area).toHaveText('Machine Learning Systems');

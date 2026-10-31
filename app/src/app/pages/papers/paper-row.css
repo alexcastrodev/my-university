@@ -44,6 +44,13 @@
   text-decoration: underline;
 }
 
+.original-title {
+  margin: -0.3rem 0 0.6rem;
+  font-size: 0.82rem;
+  color: var(--mu-muted);
+  overflow-wrap: anywhere;
+}
+
 .row-people {
   display: flex;
   align-items: center;

@@ -23,6 +23,8 @@ export interface PaperSummary {
   /** The public id: the slug of a catalog paper (a file), the UUIDv7 of a private one. */
   id: string;
   title: string;
+  /** The title the authors published, when `title` is our translation of it (a catalog paper read in Portuguese). */
+  originalTitle: string | null;
   authors: string[];
   keywords: string[];
   venue: string | null;
@@ -59,6 +61,8 @@ export interface Paper {
   /** The public id: a slug for a catalog paper, a UUIDv7 for a private one. */
   id: string;
   title: string;
+  /** The title the authors published, when `title` is our translation of it. */
+  originalTitle?: string | null;
   abstract: string | null;
   /** True when `abstract` is our translation of the authors' English one (a catalog paper read in Portuguese). */
   abstractTranslated?: boolean;

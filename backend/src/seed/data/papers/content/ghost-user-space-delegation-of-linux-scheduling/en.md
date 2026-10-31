@@ -3,7 +3,7 @@ title: "ghOSt: Fast & Flexible User-Space Delegation of Linux Scheduling"
 summary: A way to run Linux scheduling policy in userspace agents while the kernel only actuates the decisions, so policies can change without rebooting the host.
 researchArea: Operating Systems
 keywords: scheduling, linux kernel, userspace delegation, tail latency, datacenter
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

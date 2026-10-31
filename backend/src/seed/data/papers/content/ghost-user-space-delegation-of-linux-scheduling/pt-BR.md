@@ -1,9 +1,9 @@
 ---
-title: "ghOSt: Fast & Flexible User-Space Delegation of Linux Scheduling"
+title: "ghOSt: delegação rápida e flexível do escalonamento do Linux ao espaço do usuário"
 summary: Uma forma de rodar a política de escalonamento do Linux em agentes em espaço de usuário enquanto o kernel só executa as decisões, de modo que as políticas mudem sem reiniciar o host.
 researchArea: Sistemas operacionais
 keywords: escalonamento, kernel do linux, delegação ao espaço do usuário, latência de cauda, datacenter
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 
