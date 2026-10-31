@@ -28,6 +28,10 @@ import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { CSharpMinuteModule } from './csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
+import { PaperAttachment } from './paper-attachments/paper-attachment.entity';
+import { PaperAttachmentVersion } from './paper-attachments/paper-attachment-version.entity';
+import { PaperAttachmentsModule } from './paper-attachments/paper-attachments.module';
+import { StorageDeletion } from './paper-attachments/storage-deletion.entity';
 import { Paper } from './papers/paper.entity';
 import { PaperAuthor } from './papers/paper-author.entity';
 import { PaperKeyword } from './papers/paper-keyword.entity';
@@ -78,6 +82,9 @@ import { XpModule } from './xp/xp.module';
         PaperAuthor,
         PaperKeyword,
         PaperSource,
+        PaperAttachment,
+        PaperAttachmentVersion,
+        StorageDeletion,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.
@@ -109,6 +116,7 @@ import { XpModule } from './xp/xp.module';
     ConceptLookupModule,
     DiscussionModule,
     PapersModule,
+    PaperAttachmentsModule,
     SeedModule,
     SearchModule,
     SitemapModule,

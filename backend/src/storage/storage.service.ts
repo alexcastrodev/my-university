@@ -2,6 +2,7 @@ import {
   DeleteObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
+  NoSuchKey,
   NotFound,
   PutObjectCommand,
   S3Client,
@@ -9,7 +10,14 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { OnModuleDestroy } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
+import { Readable } from 'node:stream';
 import { StorageConfig } from './storage.config';
+
+export interface ObjectStream {
+  body: Readable;
+  size: number;
+  contentType?: string;
+}
 
 export interface StoredObject {
   size: number;
@@ -93,6 +101,23 @@ export class StorageService implements OnModuleDestroy {
       };
     } catch (err) {
       if (err instanceof NotFound) return null;
+      throw err;
+    }
+  }
+
+  /** The object as a stream, or null when it does not exist. The caller must consume or destroy the body. */
+  async getStream(key: string): Promise<ObjectStream | null> {
+    try {
+      const res = await this.client.send(
+        new GetObjectCommand({ Bucket: this.bucket, Key: key }),
+      );
+      return {
+        body: res.Body as Readable,
+        size: res.ContentLength ?? 0,
+        contentType: res.ContentType,
+      };
+    } catch (err) {
+      if (err instanceof NoSuchKey) return null;
       throw err;
     }
   }
