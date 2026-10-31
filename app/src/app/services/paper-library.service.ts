@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, of, throwError } from 'rxjs';
-import { AddPaperResult, ImportPreview, LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery, Paper, PaperInput, PrivatePaperResult } from '../models/paper.model';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { AddPaperResult, Collection, ImportPreview, LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery, Paper, PaperInput, PrivatePaperResult } from '../models/paper.model';
 
 /** The signed-in reader's private paper library. Every call needs a session (401 without one). */
 @Injectable({ providedIn: 'root' })
@@ -68,5 +68,31 @@ export class PaperLibraryService {
 
   remove(paperId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${paperId}`);
+  }
+
+  collections(): Observable<Collection[]> {
+    return this.http.get<{ items: Collection[] }>(`${this.base}/collections`).pipe(map((r) => r.items));
+  }
+
+  /** 409 `name_taken` when the reader has a collection with that name, `collections_limit` at the limit. */
+  createCollection(name: string): Observable<Collection> {
+    return this.http.post<Collection>(`${this.base}/collections`, { name });
+  }
+
+  renameCollection(id: string, name: string): Observable<Collection> {
+    return this.http.patch<Collection>(`${this.base}/collections/${id}`, { name });
+  }
+
+  /** Deletes the collection only: its papers stay in the library. */
+  deleteCollection(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/collections/${id}`);
+  }
+
+  addToCollection(id: string, paperId: string): Observable<Collection> {
+    return this.http.put<Collection>(`${this.base}/collections/${id}/papers/${paperId}`, null);
+  }
+
+  takeFromCollection(id: string, paperId: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/collections/${id}/papers/${paperId}`);
   }
 }

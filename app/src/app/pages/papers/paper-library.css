@@ -62,3 +62,36 @@
   background: var(--mu-info-soft);
   border-color: var(--mu-info-border);
 }
+
+.manage {
+  margin-bottom: 1rem;
+}
+
+.manage-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--mu-ink-soft);
+  cursor: pointer;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 999px;
+}
+
+.manage-summary:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.manage[open] > .manage-summary {
+  margin-bottom: 0.75rem;
+}
+
+.chip-collection {
+  color: var(--mu-accent-strong);
+  background: var(--mu-accent-soft);
+  border-color: var(--mu-accent-border);
+}

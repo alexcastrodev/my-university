@@ -132,6 +132,19 @@ export type LibraryStatus = (typeof LIBRARY_STATUSES)[number];
 
 export type LibrarySort = 'added' | 'title' | 'completed' | 'rating';
 
+/** One of the reader's own collections as a paper names it. */
+export interface CollectionRef {
+  id: string;
+  name: string;
+}
+
+/** A collection of the reader's library papers (#188); mirrors GET /api/paper-library/collections. */
+export interface Collection extends CollectionRef {
+  /** How many papers it holds. */
+  count: number;
+  createdAt: string;
+}
+
 /** What the signed-in reader keeps about a paper; mirrors GET /api/paper-library/:paperId. */
 export interface LibraryEntry {
   /** The paper's public id. */
@@ -145,6 +158,8 @@ export interface LibraryEntry {
   addedAt: string;
   /** The day it was finished, `YYYY-MM-DD`; only a paper with status `read` has one. */
   completedAt: string | null;
+  /** The collections this paper sits in, by name. */
+  collections: CollectionRef[];
 }
 
 export interface LibraryItem extends PaperSummary {
@@ -181,6 +196,8 @@ export interface LibraryQuery {
   q?: string;
   status?: LibraryStatus;
   tag?: string;
+  /** The id of one of the reader's collections. */
+  collection?: string;
   sort?: LibrarySort;
   page?: number;
 }

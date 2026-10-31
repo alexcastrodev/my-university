@@ -1300,6 +1300,25 @@
     "papers.shared.mine": "Você",
     "papers.shared.chosen": "Compartilhada com leitores escolhidos",
     "papers.shared.manageNote": "Gerencie nas suas anotações",
-    "papers.shared.manageReader": "Gerencie no leitor"
+    "papers.shared.manageReader": "Gerencie no leitor",
+    "papers.collections.error.taken": "Você já tem uma coleção com esse nome.",
+    "papers.collections.error.limit": "Você chegou ao limite de coleções. Apague uma para criar outra.",
+    "papers.collections.error.invalid": "O nome de uma coleção é texto simples.",
+    "papers.collections.error.generic": "Não foi possível salvar. Tente de novo.",
+    "papers.collections.renameLabel": "Novo nome",
+    "papers.collections.save": "Salvar",
+    "papers.collections.confirmDelete": "Apagar esta coleção? Os artigos dela continuam na sua biblioteca.",
+    "papers.collections.confirmYes": "Apagar",
+    "papers.collections.rename": "Renomear",
+    "papers.collections.delete": "Apagar",
+    "papers.collections.empty": "Você ainda não tem coleções. Crie uma para agrupar artigos, por exemplo por projeto ou tema. Só você as vê.",
+    "papers.collections.newLabel": "Nova coleção",
+    "papers.collections.newPlaceholder": "Nome de uma nova coleção",
+    "papers.collections.create": "Criar",
+    "papers.collections.heading": "Coleções",
+    "papers.collections.filter": "Coleção",
+    "papers.library.collections": "Suas coleções",
+    "papers.library.noCollections": "Você ainda não tem coleções.",
+    "papers.library.makeCollection": "Crie uma na sua biblioteca."
   }
 }

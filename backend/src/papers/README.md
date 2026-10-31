@@ -139,7 +139,7 @@ files (see above).
 
 - **One entry per user and paper** (unique constraint). Adding what is already there answers 200 and changes
   nothing, so a double click cannot reset a status. This is a product decision: one paper is one entry, not
-  one per context. Grouping (folders and collections) belongs to #188 and does not need a second entry.
+  one per context. Grouping is by collections (#188, below) and does not need a second entry.
 - **Privacy is by construction.** Every route takes the user id from the session cookie and addresses an
   entry by the paper's public id (a slug or a UUID), so there is no entry id of someone else's to guess. Another reader's paper is
   indistinguishable from one that is not in your library (404), and deleting it is a no-op (204).
@@ -153,6 +153,43 @@ files (see above).
   /api/paper-library/facets` counts the reader's papers per status and per tag for the filter controls.
 - A paper does not need a PDF to be in a library; the private PDF upload (#183) attaches to the paper later.
 - A paper that exists only in one reader's library (#203) is covered in its own section below.
+- **Collections.** `GET /api/paper-library?collection=<id>` is the library list narrowed to one of the reader's
+  collections; it takes every other filter and sort. Each entry carries `collections: [{ id, name }]`, by name.
+  See "Collections" below.
+
+## Collections (#188)
+
+A reader groups the papers of their library in collections, like "Thesis, chapter 2" or "Reading group". A
+collection is **private to its owner, always**: there is no sharing, no public flag, and no route that lists or
+counts another reader's collections. Another reader's id is the same 404 as one that does not exist.
+
+| Route | What it does |
+| --- | --- |
+| `GET /api/paper-library/collections` | `{ items }`: `id`, `name`, `count`, `createdAt`, by name ignoring case (then by id). |
+| `POST /api/paper-library/collections` | `{ name }`. 201 with the collection. |
+| `PATCH /api/paper-library/collections/:id` | `{ name }`. Renames it. |
+| `DELETE /api/paper-library/collections/:id` | 204. |
+| `PUT /api/paper-library/collections/:id/papers/:paperId` | Puts a paper of the library in it. 200 with the collection, also when it was already there. |
+| `DELETE /api/paper-library/collections/:id/papers/:paperId` | Takes it out of that collection only. 204, also when it was not in it. |
+
+`:paperId` is the public id used everywhere else (a slug, or the UUID of the reader's own private paper). A
+paper that is not in the reader's library is a 404 on `PUT`: a collection holds library entries, never papers.
+
+- **Many collections per paper.** The membership table is `paper_collection_item (collectionId, entryId)`.
+- **What goes where.** Taking a paper out of a collection leaves the entry, the paper and the PDF alone.
+  Deleting a collection removes only its membership rows. Removing a paper from the library (or deleting a
+  private paper) drops it from every collection by foreign key cascade, and putting it back does not bring it
+  back into them. Deleting the reader deletes their collections.
+- **Names.** Trimmed, repeated spaces folded, 1 to 80 characters, no control characters, unique per reader
+  whatever the case (a unique index on `lower(name)`, so "Thesis" and "thesis" clash; renaming to the same name
+  in another case is fine). Stored as text and escaped where shown. At most `PAPER_COLLECTIONS_MAX_PER_USER`
+  (default 100) per reader.
+- **Order.** Collections by name, then id. The papers of a collection come in the library's own sorts, so
+  by default newest added to the library first, not the order they joined the collection.
+- Errors carry `{ statusCode, code, message }`: `name_required`, `name_invalid` (400), `name_taken`,
+  `collections_limit` (409). The count of a collection includes an entry whose public paper is no longer in the
+  files, which the list hides (see above).
+- The tables have no TypeORM entity: they are read and written with SQL (migration 028).
 
 ## Private papers (a reader drops a PDF, #203)
 

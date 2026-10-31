@@ -26,6 +26,11 @@ export class PaperLibraryEntryPage {
     this.tags = this.details.locator('.tag');
     this.saveError = this.details.getByRole('alert');
 
+    // Collections (#188): one checkbox per collection the reader has.
+    this.collectionList = this.details.locator('.collection-list');
+    this.noCollections = this.details.getByText('You have no collections yet.');
+    this.makeCollectionLink = this.details.getByRole('link', { name: 'Make one in your library.' });
+
     this.remove = page.getByRole('button', { name: 'Remove from library' });
     this.confirmRemove = page.getByRole('button', { name: 'Remove', exact: true });
     this.cancelRemove = page.getByRole('button', { name: 'Cancel' });
@@ -52,6 +57,25 @@ export class PaperLibraryEntryPage {
 
   async goto(id) {
     await this.page.goto(`/library/${id}`);
+  }
+
+  collectionBox(name) {
+    return this.details.getByRole('checkbox', { name, exact: true });
+  }
+
+  async #collected(method, change) {
+    const answered = this.page.waitForResponse((r) => r.request().method() === method && r.url().includes('/api/paper-library/collections/'));
+    await change();
+    return answered;
+  }
+
+  /** Ticks a collection and returns the API's answer to putting the paper in it. */
+  joinCollection(name) {
+    return this.#collected('PUT', () => this.collectionBox(name).check());
+  }
+
+  leaveCollection(name) {
+    return this.#collected('DELETE', () => this.collectionBox(name).uncheck());
   }
 
   /** The value shown next to a label in the facts box (Type, Published, Venue, DOI...). */

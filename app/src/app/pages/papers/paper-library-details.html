@@ -57,6 +57,27 @@
     </form>
   </div>
 
+  <div class="collections">
+    <p class="field-label" id="library-collections-label" i18n="@@papers.library.collections">Your collections</p>
+    @if (collections().length) {
+      <ul class="collection-list" aria-labelledby="library-collections-label">
+        @for (c of collections(); track c.id) {
+          <li>
+            <label class="choice">
+              <input type="checkbox" [checked]="memberOf().has(c.id)" (change)="toggle(c, $any($event.target))" />
+              <span>{{ c.name }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="muted"><ng-container i18n="@@papers.library.noCollections">You have no collections yet.</ng-container> <a routerLink="/library" i18n="@@papers.library.makeCollection">Make one in your library.</a></p>
+    }
+    @if (collectionFailed()) {
+      <p class="details-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
+    }
+  </div>
+
   @if (saveFailed()) {
     <p class="details-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
   }

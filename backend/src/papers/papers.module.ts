@@ -4,6 +4,8 @@ import { Paper } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
 import { PaperLibraryController } from './paper-library.controller';
+import { PaperCollectionsController } from './paper-collections.controller';
+import { PaperCollectionsService } from './paper-collections.service';
 import { PaperLibraryEntry } from './paper-library.entity';
 import { PaperLibraryService } from './paper-library.service';
 import { PaperSource } from './paper-source.entity';
@@ -27,13 +29,14 @@ import { PapersService } from './papers.service';
       PaperSource,
     ]),
   ],
-  controllers: [PapersController, PaperImportController, PaperLibraryController],
+  controllers: [PapersController, PaperImportController, PaperLibraryController, PaperCollectionsController],
   providers: [
     PapersService,
     PapersCatalogService,
     PaperImportService,
     CrossrefClient,
     PaperLibraryService,
+    PaperCollectionsService,
     PaperIds,
   ],
   exports: [PapersService, PapersCatalogService, PaperIds, PaperLibraryService],

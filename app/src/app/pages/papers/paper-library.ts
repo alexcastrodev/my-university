@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, DestroyRef, LOCALE_ID, OnInit, comp
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, catchError, map, of, switchMap, tap } from 'rxjs';
-import { LIBRARY_STATUSES, LibraryFacets, LibraryPage, LibraryQuery, LibraryStatus } from '../../models/paper.model';
+import { Collection, LIBRARY_STATUSES, LibraryFacets, LibraryPage, LibraryQuery, LibraryStatus } from '../../models/paper.model';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, libraryStatusLabel } from '../../shared/paper-format';
+import { PaperCollections } from './paper-collections';
 import { PaperRow } from './paper-row';
 import { LIBRARY_SORTS, libraryQueryParams, parseLibraryQuery } from './paper-library-query';
 import { PaperPrivateDrop } from './paper-private-drop';
@@ -14,7 +15,7 @@ import { PaperPrivateDrop } from './paper-private-drop';
 @Component({
   selector: 'app-paper-library',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperRow, PaperPrivateDrop],
+  imports: [RouterLink, PaperCollections, PaperRow, PaperPrivateDrop],
   templateUrl: './paper-library.html',
   styleUrls: ['./papers-list.css', './paper-library.css'],
 })
@@ -35,6 +36,7 @@ export class PaperLibraryPage implements OnInit {
   protected searchText = signal('');
   protected page = signal<LibraryPage | null>(null);
   protected facets = signal<LibraryFacets | null>(null);
+  protected collections = signal<Collection[]>([]);
   protected loading = signal(true);
   protected failed = signal(false);
   protected signedOut = signal(false);
@@ -47,9 +49,10 @@ export class PaperLibraryPage implements OnInit {
   });
   protected currentPage = computed(() => this.page()?.page ?? 1);
   protected filtered = computed(() => {
-    const { q, status, tag } = this.query();
-    return !!(q || status || tag);
+    const { q, status, tag, collection } = this.query();
+    return !!(q || status || tag || collection);
   });
+  protected collectionName = computed(() => this.collections().find((c) => c.id === this.query().collection)?.name ?? '');
   protected countOf = (status: LibraryStatus) => this.facets()?.statuses.find((s) => s.value === status)?.count ?? 0;
   protected prevParams = computed(() => libraryQueryParams({ ...this.query(), page: this.currentPage() > 2 ? this.currentPage() - 1 : undefined }));
   protected nextParams = computed(() => libraryQueryParams({ ...this.query(), page: this.currentPage() + 1 }));
@@ -65,6 +68,7 @@ export class PaperLibraryPage implements OnInit {
           this.library.list(query).pipe(
             catchError((err) => {
               if (err?.status === 401) this.signedOut.set(true);
+              else if (err?.status === 404 && query.collection) this.dropCollection(true);
               else this.failed.set(true);
               return of(null);
             }),
@@ -111,6 +115,23 @@ export class PaperLibraryPage implements OnInit {
     this.go({ tag: value || undefined });
   }
 
+  protected onCollection(value: string): void {
+    this.go({ collection: value || undefined });
+  }
+
+  /** The manager created, renamed or deleted a collection: read them again, and the list, whose rows name them. */
+  protected collectionsChanged(): void {
+    this.library.collections().subscribe({
+      next: (list) => {
+        this.collections.set(list);
+        const active = this.query().collection;
+        if (active && !list.some((c) => c.id === active)) this.dropCollection();
+        else this.request.next(this.query());
+      },
+      error: () => undefined,
+    });
+  }
+
   protected onSort(value: string): void {
     this.go({ sort: value === 'added' ? undefined : this.sorts.find((s) => s === value) });
   }
@@ -129,6 +150,12 @@ export class PaperLibraryPage implements OnInit {
 
   private loadFacets(): void {
     this.library.facets().subscribe({ next: (facets) => this.facets.set(facets), error: () => undefined });
+    this.library.collections().subscribe({ next: (list) => this.collections.set(list), error: () => undefined });
+  }
+
+  /** The collection in the URL is gone (deleted, or never the reader's): show the library again without it. */
+  private dropCollection(replaceUrl = false): void {
+    void this.router.navigate([], { queryParams: libraryQueryParams({ ...this.query(), collection: undefined, page: undefined }), replaceUrl });
   }
 
   private go(patch: Partial<LibraryQuery>): void {
