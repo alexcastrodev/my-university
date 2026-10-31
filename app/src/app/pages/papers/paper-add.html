@@ -53,7 +53,7 @@
                 <dd>{{ paperTypeLabel(f.candidate.type ?? 'other') }}</dd>
               </div>
               <div>
-                <dt i18n="@@papers.detail.published">Published</dt>
+                <dt i18n="@@papers.detail.published">Date</dt>
                 <dd>
                   @if (f.candidate.publicationDate; as d) { {{ date(d) }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
                 </dd>

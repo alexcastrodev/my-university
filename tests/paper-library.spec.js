@@ -12,6 +12,8 @@ const title = (n) => `Library paper ${token} ${n}`;
 
 let api;
 const ids = [];
+/** The integer a seeded paper had before public ids (the dev-only seed route shows it), for the old-link test. */
+const legacyIds = new Map();
 let alpha;
 let beta;
 let gamma;
@@ -31,8 +33,9 @@ test.afterAll(async () => {
 async function seed(data) {
   const res = await api.post('/api/papers/_test', { data });
   expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper } = await res.json();
+  const { paper, legacyId } = await res.json();
   ids.push(paper.id);
+  legacyIds.set(paper.id, legacyId);
   return paper.id;
 }
 
@@ -199,6 +202,16 @@ test.describe('Paper library', () => {
       await expect(entry.publicLink).toHaveAttribute('href', `/papers/${alpha}`);
     });
 
+    test('explains where the paper stands, as the public page does', async ({ page }) => {
+      await signIn(page, 'Careful');
+      await addToLibrary(page, beta);
+      const entry = new PaperLibraryEntryPage(page);
+      await entry.goto(beta);
+
+      await expect(entry.stageTitle).toContainText('Preprint: not reviewed yet');
+      await expect(entry.stageText).toContainText('treat it as work in progress');
+    });
+
     test('follows the reading progress: reading, then read with a finishing day', async ({ page }) => {
       await signIn(page, 'Progress');
       await addToLibrary(page, alpha);
@@ -254,7 +267,7 @@ test.describe('Paper library', () => {
       await entry.goto(alpha);
       await expect(entry.status).toHaveValue('to-read');
 
-      await page.route(/\/api\/paper-library\/\d+$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
+      await page.route(/\/api\/paper-library\/[0-9a-f-]{36}$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
       await entry.status.selectOption({ label: 'Reading' });
       await expect(entry.saveError).toContainText('Your change could not be saved.');
       await expect(entry.status).toHaveValue('to-read');
@@ -302,6 +315,16 @@ test.describe('Paper library', () => {
 
       await expect(entry.errorMessage).toBeVisible();
       await entry.retryButton.click();
+      await expect(entry.title).toHaveText(title('alpha'));
+    });
+
+    test('moves an old link with the integer id to the public address', async ({ page }) => {
+      await signIn(page, 'Old link');
+      await addToLibrary(page, alpha);
+      const entry = new PaperLibraryEntryPage(page);
+      await entry.goto(legacyIds.get(alpha));
+
+      await expect(page).toHaveURL(new RegExp(`/library/${alpha}$`));
       await expect(entry.title).toHaveText(title('alpha'));
     });
 
@@ -391,6 +414,15 @@ test.describe('Paper library', () => {
       await library.sortSelect.selectOption('rating');
       await expect(page).toHaveURL(/sort=rating/);
       await expect(library.cardTitles.first()).toHaveText(title('alpha'));
+    });
+
+    test('keeps saying where each paper stands: a preprint stays a preprint in the library', async ({ page }) => {
+      const library = new PaperLibraryPage(page);
+      await library.goto();
+
+      await expect(library.cardStage(title('beta'))).toHaveText('Preprint: not reviewed yet');
+      await expect(library.cardStage(title('alpha'))).toHaveText('Published');
+      await expect(library.cardStage(title('gamma'))).toHaveText('Status unknown');
     });
 
     test('opens the library entry of a paper from its card', async ({ page }) => {

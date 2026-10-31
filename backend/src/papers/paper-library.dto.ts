@@ -6,6 +6,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsUUID,
   Matches,
   Max,
   MaxLength,
@@ -25,10 +26,9 @@ const trim = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() || undefined : value;
 
 export class AddToLibraryDto {
-  @IsInt()
-  @Min(1)
-  @Max(2_147_483_647)
-  paperId: number;
+  /** The paper's public id (UUIDv7). */
+  @IsUUID()
+  paperId: string;
 
   @IsOptional()
   @IsIn(LIBRARY_STATUSES)

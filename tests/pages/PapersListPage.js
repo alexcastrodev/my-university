@@ -6,6 +6,7 @@ export class PapersListPage {
     this.searchInput = page.getByRole('searchbox', { name: 'Search papers' });
     this.searchButton = page.getByRole('button', { name: 'Search', exact: true });
     this.typeSelect = page.getByLabel('Type', { exact: true });
+    this.stageSelect = page.getByLabel('Publication stage', { exact: true });
     this.areaSelect = page.getByLabel('Research area', { exact: true });
     this.sortSelect = page.getByLabel('Sort by', { exact: true });
     this.addPaperLink = page.getByRole('link', { name: 'Add a paper' });
@@ -33,6 +34,26 @@ export class PapersListPage {
 
   card(title) {
     return this.cards.filter({ hasText: title });
+  }
+
+  /** The small label saying where a paper stands (Preprint: not reviewed yet, Published...). */
+  cardStage(title) {
+    return this.card(title).locator('.stage-pill');
+  }
+
+  /** The reference tag on top of a row: its place in the result and its DOI ("[1] / DOI 10.1000/x"). */
+  cardRef(title) {
+    return this.card(title).locator('.row-ref');
+  }
+
+  /** The initials of the first authors, drawn instead of photos. */
+  cardAvatars(title) {
+    return this.card(title).locator('.avatar');
+  }
+
+  /** The source links after the excerpt ("DOI", "Page"). */
+  cardSource(title, name) {
+    return this.card(title).locator('.row-links').getByRole('link', { name, exact: true });
   }
 
   titles() {

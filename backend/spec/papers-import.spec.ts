@@ -58,9 +58,10 @@ const know = (doi: string, message?: Record<string, unknown>) =>
   app.crossref.set(doi, record(doi, message));
 const asked = (doi: string) => app.requests.filter((r) => r.doi === doi).length;
 
-const sources = (paperId: number) =>
+const sources = (paperId: string) =>
   app.dataSource.query(
-    `SELECT source, "externalId", "retrievedAt", conflicts, payload FROM paper_source WHERE "paperId" = $1 ORDER BY id`,
+    `SELECT source, "externalId", "retrievedAt", conflicts, payload FROM paper_source
+      WHERE "paperId" = (SELECT id FROM paper WHERE "publicId" = $1) ORDER BY id`,
     [paperId],
   );
 const papersWithDoi = async (doi: string) =>

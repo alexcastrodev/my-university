@@ -131,8 +131,8 @@ export class NotificationService {
     const paperId = paperIdOfTopicKey(marker.topicKey);
     if (paperId !== null) {
       // The paper may have been removed since the reply; then there is nothing to link to.
-      const title = await this.papers.titleOf(paperId).catch(() => null);
-      return title === null ? null : { title, route: ['/papers', String(paperId)] };
+      const title = await this.papers.titleOfPublic(paperId).catch(() => null);
+      return title === null ? null : { title, route: ['/papers', paperId] };
     }
     const [sourceType, ...rest] = marker.topicKey.split(':');
     const sourceId = rest.join(':');

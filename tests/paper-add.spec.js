@@ -191,13 +191,13 @@ test.describe('Add a paper', () => {
       await add.typeField.selectOption({ label: 'Preprint' });
       await add.saveButton.click();
 
-      await expect(page).toHaveURL(/\/papers\/\d+$/);
-      ids.push(Number(page.url().split('/').pop()));
+      await expect(page).toHaveURL(/\/papers\/[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+      ids.push(page.url().split('/').pop());
       const detail = new PaperDetailPage(page);
       await expect(detail.title).toHaveText(title);
       await expect(detail.author('Grace Hopper')).toBeVisible();
       await expect(detail.fact('Type')).toContainText('Preprint');
-      await expect(detail.fact('Published')).toContainText('May 2020');
+      await expect(detail.fact('Date')).toContainText('May 2020');
       await expect(detail.keyword('typing')).toBeVisible();
     });
 

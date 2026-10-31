@@ -5,6 +5,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { User } from '../src/auth/user.entity';
 import { Paper } from '../src/papers/paper.entity';
 import {
@@ -18,6 +19,7 @@ import { PapersModule } from '../src/papers/papers.module';
 
 export interface CatalogApp {
   url: string;
+  dataSource: DataSource;
   close: () => Promise<void>;
 }
 
@@ -56,5 +58,9 @@ export async function startCatalogApp(): Promise<CatalogApp> {
   );
   app.setGlobalPrefix('api');
   await app.listen(0, '127.0.0.1');
-  return { url: `${await app.getUrl()}/api`, close: () => app.close() };
+  return {
+    url: `${await app.getUrl()}/api`,
+    dataSource: app.get(DataSource),
+    close: () => app.close(),
+  };
 }

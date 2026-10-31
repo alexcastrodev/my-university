@@ -10,6 +10,8 @@ import { PaperInputDto } from './paper.dto';
 import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
+import { isPublicId } from './paper-public-id';
+import { PublicationStage, stageOf } from './paper-stage';
 import { PaperConflict, PaperSource } from './paper-source.entity';
 import {
   familyName,
@@ -25,7 +27,8 @@ export interface SourceInfo {
 }
 
 export interface PaperView {
-  id: number;
+  /** The public id (UUIDv7). The integer key is internal and appears in no response. */
+  id: string;
   title: string;
   abstract: string | null;
   doi: string | null;
@@ -34,6 +37,8 @@ export interface PaperView {
   url: string | null;
   researchArea: string | null;
   type: PaperType;
+  /** What the type says about review, in plain terms (see paper-stage.ts). */
+  stage: PublicationStage;
   authors: { name: string; orcid: string | null }[];
   keywords: string[];
   createdAt: Date;
@@ -167,15 +172,26 @@ export class PapersService {
   }
 
   /** The public record of a paper: bibliographic metadata only, never where it came from. */
-  async getPublic(id: number): Promise<PaperView> {
-    if (!Number.isSafeInteger(id) || id < 1 || id > 2_147_483_647) {
-      throw new NotFoundException();
-    }
+  async getPublic(publicId: string): Promise<PaperView> {
+    if (!isPublicId(publicId)) throw new NotFoundException();
     const paper = await this.dataSource.manager.findOne(Paper, {
-      where: { id },
+      where: { publicId: publicId.toLowerCase() },
     });
     if (!paper) throw new NotFoundException();
     return this.view(this.dataSource.manager, paper);
+  }
+
+  /**
+   * The public id of the paper that had this integer id before #202, or 404. Only for the redirect from old
+   * links: nothing else turns an integer into a paper.
+   */
+  async publicIdOfLegacy(id: number): Promise<string> {
+    const paper = await this.dataSource.manager.findOne(Paper, {
+      where: { id },
+      select: { id: true, publicId: true },
+    });
+    if (!paper) throw new NotFoundException();
+    return paper.publicId;
   }
 
   /** The record plus its provenance and conflicts; for maintainers, not for the public API. */
@@ -470,7 +486,7 @@ export class PapersService {
       }),
     ]);
     return {
-      id: paper.id,
+      id: paper.publicId,
       title: paper.title,
       abstract: paper.abstract,
       doi: paper.doi,
@@ -479,6 +495,7 @@ export class PapersService {
       url: paper.url,
       researchArea: paper.researchArea,
       type: paper.type,
+      stage: stageOf(paper.type),
       authors: authors.map((a) => ({ name: a.name, orcid: a.orcid })),
       keywords: keywords.map((k) => k.keyword),
       createdAt: paper.createdAt,

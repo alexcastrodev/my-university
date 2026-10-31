@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Observable, Subject, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { EMPTY, Observable, Subject, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { BreadcrumbItem, Breadcrumbs } from '../../components/breadcrumbs/breadcrumbs';
 import { ConceptDiscussion } from '../../components/concept-discussion/concept-discussion';
 import { DiscussionTopic } from '../../discussion/discussion.model';
@@ -16,7 +16,9 @@ import {
   paragraphsOf,
   safeWebUrl,
 } from '../../shared/paper-format';
+import { isLegacyPaperId, isPaperId } from '../../shared/paper-id';
 import { PaperLibraryButton } from './paper-library-button';
+import { PaperStage } from './paper-stage';
 
 /** `analysis` is null when the paper has none, and `'failed'` when only that request failed: the paper still shows. */
 type Loaded = { paper: Paper; analysis: PaperAnalysis | null | 'failed' } | { missing: true } | { failed: true };
@@ -24,13 +26,14 @@ type Loaded = { paper: Paper; analysis: PaperAnalysis | null | 'failed' } | { mi
 @Component({
   selector: 'app-paper-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton],
+  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton, PaperStage],
   templateUrl: './paper-detail.html',
   styleUrl: './paper-detail.css',
 })
 export class PaperDetailPage {
   private papers = inject(PapersService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private seo = inject(SeoService);
   private locale = inject(LOCALE_ID);
 
@@ -51,7 +54,7 @@ export class PaperDetailPage {
   /** Papers have one discussion for every language: the paper is the same whoever reads it. */
   protected topic = computed<DiscussionTopic | null>(() => {
     const paper = this.paper();
-    return paper ? { module: 'papers', slug: String(paper.id), lang: 'en' } : null;
+    return paper ? { module: 'papers', slug: paper.id, lang: 'en' } : null;
   });
   protected breadcrumbs = computed<BreadcrumbItem[]>(() => {
     const paper = this.paper();
@@ -85,11 +88,18 @@ export class PaperDetailPage {
           this.analysisFailed.set(false);
         }),
         switchMap((id): Observable<Loaded> => {
-          if (!/^[1-9]\d{0,9}$/.test(id)) return of({ missing: true });
-          const paperId = Number(id);
+          if (isLegacyPaperId(id)) {
+            // A link from before public ids: the API answers it with a redirect, and the address follows it.
+            return this.papers.get(id).pipe(
+              tap((paper) => void this.router.navigate(['/papers', paper.id], { replaceUrl: true })),
+              switchMap(() => EMPTY),
+              catchError((err) => of<Loaded>(err?.status === 404 ? { missing: true } : { failed: true })),
+            );
+          }
+          if (!isPaperId(id)) return of({ missing: true });
           return forkJoin({
-            paper: this.papers.get(paperId),
-            analysis: this.papers.analysis(paperId).pipe(catchError(() => of('failed' as const))),
+            paper: this.papers.get(id),
+            analysis: this.papers.analysis(id).pipe(catchError(() => of('failed' as const))),
           }).pipe(
             catchError((err) => of<Loaded>(err?.status === 404 ? { missing: true } : { failed: true })),
           );

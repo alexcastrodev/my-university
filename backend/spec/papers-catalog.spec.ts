@@ -11,15 +11,17 @@ const title = (n: string) => `Catalog paper ${run} ${n}`;
 const area = (n: string) => `Area ${run} ${n}`;
 
 interface Summary {
-  id: number;
+  id: string;
   title: string;
   authors: string[];
   keywords: string[];
   venue: string | null;
   publicationDate: string | null;
   doi: string | null;
+  url: string | null;
   researchArea: string | null;
   type: string;
+  stage: string;
   excerpt: string | null;
 }
 interface Page {
@@ -30,7 +32,11 @@ interface Page {
 }
 
 let app: CatalogApp;
-const created = new Set<number>();
+const created = new Set<string>();
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
+/** A UUID of version 7: what PostgreSQL's uuidv7() makes. */
+const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const devAuth = process.env.ENABLE_DEV_AUTH;
 
 const send = (method: string, path: string, data?: unknown) =>
@@ -47,14 +53,14 @@ let doiCounter = 0;
  * Seeds through the same dev-only route the browser tests use. A paper needs a DOI, a date or an author
  * to be told apart from others (#178), so one that has none of them gets a DOI of its own.
  */
-async function seed(data: Record<string, unknown>): Promise<number> {
+async function seed(data: Record<string, unknown>): Promise<string> {
   const body =
     data.doi || data.publicationDate || data.authors
       ? data
       : { ...data, doi: doi(`auto${doiCounter++}`) };
   const res = await send('POST', '/papers/_test', body);
   expect(res.status, await res.clone().text()).toBe(201);
-  const { paper } = await json<{ paper: { id: number } }>(res);
+  const { paper } = await json<{ paper: { id: string } }>(res);
   created.add(paper.id);
   return paper.id;
 }
@@ -110,8 +116,10 @@ describe('GET /papers', () => {
       venue: 'Journal of Specs',
       publicationDate: '2024-05',
       doi: doi('full'),
+      url: 'https://example.org/full',
       researchArea: area('x'),
       type: 'journal-article',
+      stage: 'published',
       excerpt: 'We study the catalog.',
     });
   });
@@ -241,6 +249,21 @@ describe('GET /papers', () => {
       ]);
     });
 
+    it('filters by publication stage, which groups the types that stand alike', async () => {
+      await seed({ title: title('s1'), type: 'journal-article' });
+      await seed({ title: title('s2'), type: 'conference-paper' });
+      await seed({ title: title('s3'), type: 'preprint' });
+      await seed({ title: title('s4'), type: 'thesis' });
+
+      expect((await titles('stage=published')).sort()).toEqual([
+        title('s1'),
+        title('s2'),
+      ]);
+      expect(await titles('stage=preprint')).toEqual([title('s3')]);
+      expect(await titles('stage=thesis')).toEqual([title('s4')]);
+      expect(await titles('stage=published&type=preprint')).toEqual([]);
+    });
+
     it('combines filters with AND', async () => {
       await seed({
         title: title('c1'),
@@ -327,6 +350,7 @@ describe('GET /papers', () => {
   describe('validation', () => {
     it.each([
       ['an unknown publication type', 'type=zine'],
+      ['an unknown publication stage', 'stage=peer-reviewed'],
       ['an unknown sort', 'sort=random'],
       ['a page below 1', 'page=0'],
       ['a page above the cap', 'page=1001'],
@@ -340,6 +364,47 @@ describe('GET /papers', () => {
       const res = await fetch(`${app.url}/papers?${query}`);
       expect(res.status).toBe(400);
     });
+  });
+});
+
+describe('publication stage (#201)', () => {
+  const expected: Record<string, string> = {
+    'journal-article': 'published',
+    'conference-paper': 'published',
+    'book-chapter': 'published',
+    book: 'published',
+    preprint: 'preprint',
+    thesis: 'thesis',
+    report: 'report',
+    other: 'unknown',
+  };
+
+  it('says where every kind of paper stands, in the list and in the full record', async () => {
+    const ids = new Map<string, string>();
+    for (const type of Object.keys(expected)) {
+      ids.set(type, await seed({ title: title(`kind ${type}`), type }));
+    }
+
+    const page = await json<Page>(
+      await send('GET', `/papers?q=${encodeURIComponent(title('kind '))}&limit=50`),
+    );
+    expect(page.total).toBe(Object.keys(expected).length);
+    for (const [type, stage] of Object.entries(expected)) {
+      const id = ids.get(type);
+      expect(page.items.find((p) => p.id === id)?.stage, type).toBe(stage);
+      const detail = await json<{ stage: string }>(
+        await send('GET', `/papers/${id}`),
+      );
+      expect(detail.stage, type).toBe(stage);
+    }
+  });
+
+  it('calls a paper whose kind is not known unknown, not published', async () => {
+    const id = await seed({ title: title('no kind') });
+    const detail = await json<{ type: string; stage: string }>(
+      await send('GET', `/papers/${id}`),
+    );
+    expect(detail).toMatchObject({ type: 'other', stage: 'unknown' });
   });
 });
 
@@ -408,6 +473,7 @@ describe('GET /papers/:id', () => {
       url: 'https://example.org/detail',
       researchArea: area('d'),
       type: 'conference-paper',
+      stage: 'published',
       authors: [{ name: 'Ada Lovelace', orcid: '0000-0002-1825-0097' }],
       keywords: ['one'],
     });
@@ -415,13 +481,58 @@ describe('GET /papers/:id', () => {
     expect(Object.keys(body)).not.toContain('fingerprint');
   });
 
-  it('answers 404 for a paper that does not exist, including ids beyond the integer range', async () => {
-    expect((await fetch(`${app.url}/papers/2147483000`)).status).toBe(404);
-    expect((await fetch(`${app.url}/papers/99999999999`)).status).toBe(404);
+  it('answers 404 for a paper that does not exist and for anything that is not a public id', async () => {
+    for (const id of [UNKNOWN_ID, '99999999999', 'not-an-id', '0']) {
+      expect((await fetch(`${app.url}/papers/${id}`)).status, id).toBe(404);
+    }
   });
 
-  it('answers 400 for an id that is not a number', async () => {
-    expect((await fetch(`${app.url}/papers/not-a-number`)).status).toBe(400);
+  it('is addressed by a UUIDv7, in either letter case, and carries it as its id', async () => {
+    const id = await seed({ title: title('uuid') });
+    expect(id).toMatch(UUID_V7);
+
+    for (const spelling of [id, id.toUpperCase()]) {
+      const res = await fetch(`${app.url}/papers/${spelling}`);
+      expect(res.status).toBe(200);
+      expect((await json<{ id: string }>(res)).id).toBe(id);
+    }
+    const { page } = await list(`q=${title('uuid')}`);
+    expect(page.items.map((i) => i.id)).toEqual([id]);
+  });
+
+  it('never shows the integer key: not in the record, the list, or the analysis', async () => {
+    const id = await seed({ title: title('hidden-key') });
+    const [row]: { id: number }[] = await app.dataSource.query(
+      `SELECT id FROM paper WHERE "publicId" = $1`,
+      [id],
+    );
+    const bodies = await Promise.all([
+      fetch(`${app.url}/papers/${id}`).then((r) => r.text()),
+      fetch(`${app.url}/papers/${id}/analysis`).then((r) => r.text()),
+      fetch(`${app.url}/papers?q=${title('hidden-key')}`).then((r) => r.text()),
+    ]);
+    for (const body of bodies) {
+      expect(body).not.toMatch(new RegExp(`"(id|paperId)":\\s*${row.id}\\b`));
+    }
+  });
+
+  it('answers the id a paper used to have with a permanent redirect to its public id', async () => {
+    const id = await seed({ title: title('legacy') });
+    const [row]: { id: number }[] = await app.dataSource.query(
+      `SELECT id FROM paper WHERE "publicId" = $1`,
+      [id],
+    );
+
+    const res = await fetch(`${app.url}/papers/${row.id}`, { redirect: 'manual' });
+    expect(res.status).toBe(301);
+    expect(res.headers.get('location')).toBe(`/api/papers/${id}`);
+    expect(await res.text()).not.toContain(String(row.id));
+
+    // Followed, it lands on the record; an integer nobody had is a plain 404.
+    const followed = await fetch(`${app.url}/papers/${row.id}`);
+    expect(followed.status).toBe(200);
+    expect((await json<{ id: string }>(followed)).id).toBe(id);
+    expect((await fetch(`${app.url}/papers/2147483000`)).status).toBe(404);
   });
 
   it('does not need a session: nothing in the response depends on the viewer', async () => {

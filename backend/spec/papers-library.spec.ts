@@ -6,7 +6,9 @@ import { BASE, del, get, json, login, post } from './helpers';
  * response. The library is private, so most of this file is about who can and cannot reach what.
  */
 const run = Math.random().toString(36).slice(2, 8);
-const paperIds: number[] = [];
+const paperIds: string[] = [];
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
 
 const patch = (path: string, body: unknown, cookie?: string) =>
   fetch(`${BASE}${path}`, {
@@ -18,7 +20,7 @@ const patch = (path: string, body: unknown, cookie?: string) =>
     body: JSON.stringify(body),
   });
 
-async function seed(title: string, extra: object = {}): Promise<number> {
+async function seed(title: string, extra: object = {}): Promise<string> {
   const res = await post('/papers/_test', {
     title: `${title} ${run}`,
     authors: [{ name: 'Ada Lovelace' }],
@@ -26,12 +28,12 @@ async function seed(title: string, extra: object = {}): Promise<number> {
     ...extra,
   });
   expect(res.status).toBe(201);
-  const id = (await json<{ paper: { id: number } }>(res)).paper.id;
+  const id = (await json<{ paper: { id: string } }>(res)).paper.id;
   paperIds.push(id);
   return id;
 }
 
-const add = (cookie: string, paperId: number, status?: string) =>
+const add = (cookie: string, paperId: string, status?: string) =>
   post('/paper-library', { paperId, status }, { Cookie: cookie });
 
 const library = async (cookie: string, query = '') => {
@@ -42,9 +44,9 @@ const library = async (cookie: string, query = '') => {
   );
 };
 
-let first: number;
-let second: number;
-let third: number;
+let first: string;
+let second: string;
+let third: string;
 
 beforeAll(async () => {
   first = await seed('Attention Is All You Need', {
@@ -122,16 +124,15 @@ describe('adding a paper', () => {
 
   it('answers 404 for a paper that does not exist', async () => {
     const ana = await login(`lib-ghost-${run}`);
-    expect((await add(ana.cookie, 2147483000)).status).toBe(404);
+    expect((await add(ana.cookie, UNKNOWN_ID)).status).toBe(404);
   });
 
   it.each([
     ['no paper id', {}],
     ['a text id', { paperId: 'abc' }],
-    ['an id below 1', { paperId: 0 }],
-    ['an id past the integer range', { paperId: 99999999999 }],
-    ['an unknown status', { paperId: 1, status: 'abandoned' }],
-    ['an unknown field', { paperId: 1, userId: 2 }],
+    ['the integer id a paper had before public ids', { paperId: 3105 }],
+    ['an unknown status', { paperId: UNKNOWN_ID, status: 'abandoned' }],
+    ['an unknown field', { paperId: UNKNOWN_ID, userId: 2 }],
   ])('answers 400 for %s', async (_name, body) => {
     const ana = await login(`lib-bad-${run}`);
     const res = await post('/paper-library', body, { Cookie: ana.cookie });
@@ -514,9 +515,16 @@ describe('removing a paper', () => {
     expect(
       (await del(`/paper-library/${first}`, { Cookie: ana.cookie })).status,
     ).toBe(204);
+    // A paper that is not in the library is a no-op, a paper that does not exist is a 404.
+    expect(
+      (await del(`/paper-library/${third}`, { Cookie: ana.cookie })).status,
+    ).toBe(204);
+    expect(
+      (await del(`/paper-library/${UNKNOWN_ID}`, { Cookie: ana.cookie })).status,
+    ).toBe(404);
     expect(
       (await del('/paper-library/99999999999', { Cookie: ana.cookie })).status,
-    ).toBe(204);
+    ).toBe(404);
   });
 
   it('goes away with the paper', async () => {

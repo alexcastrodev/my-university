@@ -6,13 +6,13 @@ import {
   HttpCode,
   Inject,
   Param,
-  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
 import { CurrentUserId } from '../auth/session';
 import { PaperAnalysisService } from './paper-analysis.service';
 import { parseSections } from './paper-analysis.sections';
+import { PaperIds } from './paper-public-id';
 
 /**
  * A paper's Research Analysis. Reading the published one is public; everything else needs a session and a
@@ -23,24 +23,22 @@ export class PaperAnalysisController {
   constructor(
     @Inject(PaperAnalysisService)
     private readonly analysis: PaperAnalysisService,
+    @Inject(PaperIds) private readonly ids: PaperIds,
   ) {}
 
   @Get()
-  published(@Param('id', ParseIntPipe) id: number) {
-    return this.analysis.getPublic(id);
+  async published(@Param('id') id: string) {
+    return this.analysis.getPublic(await this.ids.resolve(id));
   }
 
   @Get('history')
-  history(
-    @Param('id', ParseIntPipe) id: number,
-    @CurrentUserId() userId: number,
-  ) {
-    return this.analysis.history(id, userId);
+  async history(@Param('id') id: string, @CurrentUserId() userId: number) {
+    return this.analysis.history(await this.ids.resolve(id), userId);
   }
 
   @Put('draft')
-  saveDraft(
-    @Param('id', ParseIntPipe) id: number,
+  async saveDraft(
+    @Param('id') id: string,
     @CurrentUserId() userId: number,
     @Body() body: unknown,
   ) {
@@ -52,7 +50,7 @@ export class PaperAnalysisController {
       throw new BadRequestException('The body must be { "sections": { ... } }');
     }
     return this.analysis.saveDraft(
-      id,
+      await this.ids.resolve(id),
       userId,
       parseSections((body as { sections: unknown }).sections),
     );
@@ -60,19 +58,13 @@ export class PaperAnalysisController {
 
   @Post('publish')
   @HttpCode(200)
-  publish(
-    @Param('id', ParseIntPipe) id: number,
-    @CurrentUserId() userId: number,
-  ) {
-    return this.analysis.publish(id, userId);
+  async publish(@Param('id') id: string, @CurrentUserId() userId: number) {
+    return this.analysis.publish(await this.ids.resolve(id), userId);
   }
 
   @Post('withdraw')
   @HttpCode(200)
-  withdraw(
-    @Param('id', ParseIntPipe) id: number,
-    @CurrentUserId() userId: number,
-  ) {
-    return this.analysis.withdraw(id, userId);
+  async withdraw(@Param('id') id: string, @CurrentUserId() userId: number) {
+    return this.analysis.withdraw(await this.ids.resolve(id), userId);
   }
 }

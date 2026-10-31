@@ -9,18 +9,25 @@ import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
 import { normalizeDoi } from './paper.normalize';
+import { isPublicId } from './paper-public-id';
+import { PublicationStage, stageOf, typesOfStage } from './paper-stage';
 
-/** What a catalog row shows; the full record (abstract, URL, ORCIDs) is one request away. */
+/** What a catalog row shows; the full record (whole abstract, ORCIDs) is one request away. */
 export interface PaperSummary {
-  id: number;
+  /** The public id (UUIDv7); the integer key never leaves the server. */
+  id: string;
   title: string;
   authors: string[];
   keywords: string[];
   venue: string | null;
   publicationDate: string | null;
   doi: string | null;
+  /** The paper's own page at the publisher or the archive, for the link on a list row. */
+  url: string | null;
   researchArea: string | null;
   type: PaperType;
+  /** What the type says about review, in plain terms (see paper-stage.ts). */
+  stage: PublicationStage;
   /** The start of the abstract, or null when the paper has none. */
   excerpt: string | null;
 }
@@ -127,15 +134,17 @@ export class PapersCatalogService {
     const keywordsOf = by(keywords);
 
     return papers.map((p) => ({
-      id: p.id,
+      id: p.publicId,
       title: p.title,
       authors: (authorsOf.get(p.id) ?? []).map((a) => a.name),
       keywords: (keywordsOf.get(p.id) ?? []).map((k) => k.keyword),
       venue: p.venue,
       publicationDate: p.publicationDate,
       doi: p.doi,
+      url: p.url,
       researchArea: p.researchArea,
       type: p.type,
+      stage: stageOf(p.type),
       excerpt: excerptOf(p.abstract),
     }));
   }
@@ -175,6 +184,17 @@ export class PapersCatalogService {
     return paper.title;
   }
 
+  /** The title of a paper by its public id, or 404: what a discussion or a notification shows for it. */
+  async titleOfPublic(publicId: string): Promise<string> {
+    if (!isPublicId(publicId)) throw new NotFoundException();
+    const paper = await this.dataSource.getRepository(Paper).findOne({
+      where: { publicId: publicId.toLowerCase() },
+      select: { id: true, title: true },
+    });
+    if (!paper) throw new NotFoundException();
+    return paper.title;
+  }
+
   /** Adds the shared filters to a query over `Paper` aliased `p`. */
   filter(builder: SelectQueryBuilder<Paper>, query: PaperFilterDto) {
     const has = (text?: string): text is string => !!text && text.length > 0;
@@ -210,6 +230,11 @@ export class PapersCatalogService {
       });
     }
     if (query.type) builder.andWhere('p.type = :type', { type: query.type });
+    if (query.stage) {
+      builder.andWhere('p.type IN (:...stageTypes)', {
+        stageTypes: typesOfStage(query.stage),
+      });
+    }
     if (query.year) {
       builder.andWhere('LEFT(p.publicationDate, 4) = :year', {
         year: query.year,

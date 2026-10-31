@@ -42,7 +42,6 @@ export interface VersionView {
 
 export interface AttachmentView {
   id: number;
-  paperId: number;
   visibility: 'private';
   /** The version being served, or null when none passed its scan yet. Newest versions first below. */
   current: number | null;
@@ -233,7 +232,6 @@ export class PaperAttachmentsService
     );
     return {
       id: attachment[0].id,
-      paperId,
       visibility: 'private',
       current: versions.find((v) => v.state === 'approved')?.version ?? null,
       versions: versions.map((v) => ({

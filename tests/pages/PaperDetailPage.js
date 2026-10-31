@@ -12,6 +12,10 @@ export class PaperDetailPage {
     this.dateUnknown = page.getByText('Date not listed');
     this.notFound = page.getByText('Paper not found.');
     this.backLink = page.getByRole('link', { name: /Papers/ }).first();
+    // Where the paper stands, in plain words, next to the title.
+    this.stage = page.locator('.stage-note');
+    this.stageTitle = this.stage.locator('.stage-title');
+    this.stageText = this.stage.locator('.stage-text');
     this.discussion = page.locator('#discussion');
     this.discussionHeading = this.discussion.locator('.discussion-title');
     this.composer = this.discussion.locator('textarea');
