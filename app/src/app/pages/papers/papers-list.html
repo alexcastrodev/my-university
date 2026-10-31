@@ -1,0 +1,151 @@
+<div class="page">
+  <div class="page-hero">
+    <h1 class="page-title" i18n="@@papers.title">Papers</h1>
+    <p class="page-sub" i18n="@@papers.subtitle">The research behind the concepts. Search by title, author, DOI or keyword.</p>
+  </div>
+
+  <div class="page-body">
+    <form class="search" role="search" (submit)="onSearch($event)">
+      <label class="visually-hidden" for="paper-search" i18n="@@papers.search.label">Search papers</label>
+      <input
+        id="paper-search"
+        class="search-input"
+        type="search"
+        name="q"
+        maxlength="200"
+        autocomplete="off"
+        i18n-placeholder="@@papers.search.placeholder"
+        placeholder="Title, author, DOI or keyword"
+        [value]="searchText()"
+        (input)="searchText.set($any($event.target).value)"
+      />
+      <button type="submit" class="search-button" i18n="@@papers.search.submit">Search</button>
+    </form>
+
+    <div class="filters">
+      @if (facets(); as f) {
+        @if (types().length) {
+          <div class="filter">
+            <label class="filter-label" for="filter-type" i18n="@@papers.filter.type">Type</label>
+            <select id="filter-type" class="filter-select" (change)="onType($any($event.target).value)">
+              <option value="" [selected]="!query().type" i18n="@@papers.filter.all">All</option>
+              @for (type of types(); track type) {
+                <option [value]="type" [selected]="query().type === type">{{ paperTypeLabel(type) }}</option>
+              }
+            </select>
+          </div>
+        }
+        @if (f.areas.length) {
+          <div class="filter">
+            <label class="filter-label" for="filter-area" i18n="@@papers.filter.area">Research area</label>
+            <select id="filter-area" class="filter-select" (change)="onArea($any($event.target).value)">
+              <option value="" [selected]="!query().area" i18n="@@papers.filter.all">All</option>
+              @for (area of f.areas; track area.value) {
+                <option [value]="area.value" [selected]="query().area === area.value">{{ area.value }} ({{ area.count }})</option>
+              }
+            </select>
+          </div>
+        }
+      }
+      <div class="filter">
+        <label class="filter-label" for="filter-sort" i18n="@@papers.filter.sort">Sort by</label>
+        <select id="filter-sort" class="filter-select" (change)="onSort($any($event.target).value)">
+          <option value="recent" [selected]="query().sort !== 'title'" i18n="@@papers.sort.recent">Most recent</option>
+          <option value="title" [selected]="query().sort === 'title'" i18n="@@papers.sort.title">Title (A to Z)</option>
+        </select>
+      </div>
+    </div>
+
+    @if (query().keyword || query().author || filtered()) {
+      <div class="active-filters">
+        @if (query().keyword) {
+          <span class="chip chip-active">
+            <span><span i18n="@@papers.active.keyword">Keyword</span>: <strong>{{ query().keyword }}</strong></span>
+            <button type="button" class="chip-remove" (click)="clear('keyword')" i18n-aria-label="@@papers.active.remove" aria-label="Remove filter">×</button>
+          </span>
+        }
+        @if (query().author) {
+          <span class="chip chip-active">
+            <span><span i18n="@@papers.active.author">Author</span>: <strong>{{ query().author }}</strong></span>
+            <button type="button" class="chip-remove" (click)="clear('author')" i18n-aria-label="@@papers.active.remove" aria-label="Remove filter">×</button>
+          </span>
+        }
+        @if (filtered()) {
+          <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
+        }
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="state" role="status" i18n-aria-label="@@papers.loading.ariaLabel" aria-label="Loading papers">
+        <span class="spinner" aria-hidden="true"></span>
+        <ng-container i18n="@@papers.loading">Loading papers…</ng-container>
+      </div>
+    } @else if (failed()) {
+      <div class="state state-error" role="alert">
+        <p i18n="@@papers.error">The papers could not be loaded.</p>
+        <button type="button" class="search-button" (click)="retry()" i18n="@@papers.retry">Try again</button>
+      </div>
+    } @else if (page(); as p) {
+      @if (p.items.length === 0) {
+        <div class="state">
+          @if (filtered()) {
+            <p i18n="@@papers.empty.filtered">No papers match your search.</p>
+            <button type="button" class="link-button" (click)="clearAll()" i18n="@@papers.clearFilters">Clear filters</button>
+          } @else {
+            <p i18n="@@papers.empty.catalog">There are no papers in the catalog yet.</p>
+          }
+        </div>
+      } @else {
+        <p class="results-count" aria-live="polite"><span i18n="@@papers.results">Results</span>: {{ p.total }}</p>
+        <ul class="papers">
+          @for (paper of p.items; track paper.id) {
+            <li class="paper-card">
+              <h2 class="paper-title"><a [routerLink]="['/papers', paper.id]">{{ paper.title }}</a></h2>
+              @if (paper.authors.length) {
+                <p class="paper-authors">
+                  {{ paper.authors.slice(0, authorsShown).join('; ') }}
+                  @if (paper.authors.length > authorsShown) {
+                    <span class="muted">+{{ paper.authors.length - authorsShown }} <ng-container i18n="@@papers.card.moreAuthors">more</ng-container></span>
+                  }
+                </p>
+              }
+              <p class="paper-meta">
+                <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
+                @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
+                @if (paper.venue) { <span>{{ paper.venue }}</span> }
+                @if (paper.researchArea) {
+                  <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ area: paper.researchArea })">{{ paper.researchArea }}</a>
+                }
+              </p>
+              @if (paper.excerpt) { <p class="paper-excerpt">{{ paper.excerpt }}</p> }
+              @if (paper.keywords.length) {
+                <p class="paper-keywords">
+                  @for (keyword of paper.keywords; track keyword) {
+                    <a class="chip" [routerLink]="[]" [queryParams]="paperQueryParams({ keyword })">{{ keyword }}</a>
+                  }
+                </p>
+              }
+            </li>
+          }
+        </ul>
+
+        @if (pages() > 1) {
+          <nav class="pagination" i18n-aria-label="@@papers.pagination.ariaLabel" aria-label="Pagination">
+            @if (currentPage() > 1) {
+              <a class="page-link" [routerLink]="[]" [queryParams]="prevParams()" rel="prev">← <ng-container i18n="@@papers.pagination.prev">Previous</ng-container></a>
+            } @else {
+              <span class="page-link disabled" aria-hidden="true">← <ng-container i18n="@@papers.pagination.prev">Previous</ng-container></span>
+            }
+            <span class="page-status"><span i18n="@@papers.pagination.page">Page</span> {{ currentPage() }} <span i18n="@@papers.pagination.of">of</span> {{ pages() }}</span>
+            @if (currentPage() < pages()) {
+              <a class="page-link" [routerLink]="[]" [queryParams]="nextParams()" rel="next"><ng-container i18n="@@papers.pagination.next">Next</ng-container> →</a>
+            } @else {
+              <span class="page-link disabled" aria-hidden="true"><ng-container i18n="@@papers.pagination.next">Next</ng-container> →</span>
+            }
+          </nav>
+        }
+      }
+    }
+  </div>
+</div>

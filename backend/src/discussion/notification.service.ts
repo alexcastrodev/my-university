@@ -8,11 +8,13 @@ import {
   parseCurriculumSourceId,
 } from '../concept-lookup/concept-lookup.constants';
 import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { GENERAL_ANCHOR, LAB_ANCHOR } from './discussion.logic';
 import { Notification } from './notification.entity';
+import { paperIdOfTopicKey } from './paper-topic';
 
 const PAGE = 30;
 
@@ -41,6 +43,7 @@ export class NotificationService {
     private markers: Repository<DiscussionMarker>,
     @InjectRepository(User) private users: Repository<User>,
     private lookup: ConceptLookupService,
+    private papers: PapersCatalogService,
   ) {}
 
   /** Tells the authors the reply was addressed to (never the replier, never someone who opted out). */
@@ -87,24 +90,31 @@ export class NotificationService {
         where: { id: In(rows.map((r) => r.markerId)) },
       })).map((m) => [m.id, m]),
     );
-    const items = rows.flatMap((n) => {
-      const comment = comments.get(n.commentId);
-      const marker = markers.get(n.markerId);
-      const detail = marker && this.detail(marker);
-      if (!comment || !marker || !detail) return [];
-      return {
-        id: n.id,
-        read: n.readAt !== null,
-        createdAt: n.createdAt,
-        actor: comment.author?.displayNameOverride ?? comment.author?.displayName ?? '',
-        excerpt: comment.deletedAt ? '' : comment.body.slice(0, 160),
-        conceptTitle: detail.title,
-        route: detail.route,
-        markerId: marker.id,
-        lab: marker.anchorKey === LAB_ANCHOR,
-        general: marker.anchorKey === GENERAL_ANCHOR,
-      };
-    });
+    const items = (
+      await Promise.all(
+        rows.map(async (n) => {
+          const comment = comments.get(n.commentId);
+          const marker = markers.get(n.markerId);
+          const detail = marker && (await this.detail(marker));
+          if (!comment || !marker || !detail) return [];
+          return {
+            id: n.id,
+            read: n.readAt !== null,
+            createdAt: n.createdAt,
+            actor:
+              comment.author?.displayNameOverride ??
+              comment.author?.displayName ??
+              '',
+            excerpt: comment.deletedAt ? '' : comment.body.slice(0, 160),
+            conceptTitle: detail.title,
+            route: detail.route,
+            markerId: marker.id,
+            lab: marker.anchorKey === LAB_ANCHOR,
+            general: marker.anchorKey === GENERAL_ANCHOR,
+          };
+        }),
+      )
+    ).flat();
     return { unread: await this.unreadCount(userId), items };
   }
 
@@ -115,7 +125,15 @@ export class NotificationService {
     );
   }
 
-  private detail(marker: DiscussionMarker) {
+  private async detail(
+    marker: DiscussionMarker,
+  ): Promise<{ title: string; route: string[] } | null> {
+    const paperId = paperIdOfTopicKey(marker.topicKey);
+    if (paperId !== null) {
+      // The paper may have been removed since the reply; then there is nothing to link to.
+      const title = await this.papers.titleOf(paperId).catch(() => null);
+      return title === null ? null : { title, route: ['/papers', String(paperId)] };
+    }
     const [sourceType, ...rest] = marker.topicKey.split(':');
     const sourceId = rest.join(':');
     const where =

@@ -70,6 +70,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'papers',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'papers/:id',
+    renderMode: RenderMode.Server,
+  },
+  {
     path: 'kubernetes-concepts/:slug',
     renderMode: RenderMode.Server,
   },

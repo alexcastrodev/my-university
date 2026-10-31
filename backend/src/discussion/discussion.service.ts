@@ -16,11 +16,14 @@ import {
   parseCurriculumSourceId,
 } from '../concept-lookup/concept-lookup.constants';
 import { ConceptLookupService } from '../concept-lookup/concept-lookup.service';
+import { PapersCatalogService } from '../papers/papers-catalog.service';
+import { ConceptSection } from '../shared/concept-content';
 import { Language } from '../shared/language';
 import { DiscussionComment } from './discussion-comment.entity';
 import { DiscussionMarker } from './discussion-marker.entity';
 import { DiscussionVote } from './discussion-vote.entity';
 import { NotificationService } from './notification.service';
+import { PAPER_TOPIC_PREFIX, PAPERS_MODULE } from './paper-topic';
 import {
   CreateLabPostDto,
   CreateThreadDto,
@@ -122,11 +125,23 @@ export class DiscussionService {
     @InjectRepository(DiscussionVote) private votes: Repository<DiscussionVote>,
     @InjectRepository(User) private users: Repository<User>,
     private lookup: ConceptLookupService,
+    private papers: PapersCatalogService,
     private notifications: NotificationService,
   ) {}
 
-  /** The concept the request names, or 404. Also hands back its sections for the quote check. */
-  private resolveTopic(topic: TopicDto) {
+  /** The concept or paper the request names, or 404. Also hands back its sections for the quote check. */
+  private async resolveTopic(
+    topic: TopicDto,
+  ): Promise<{ topicKey: string; sections: ConceptSection[] }> {
+    if (topic.module === PAPERS_MODULE) {
+      // Digits only, and normalized, so "007" and "7" cannot become two boards for one paper.
+      if (topic.discipline || !/^\d+$/.test(topic.slug)) {
+        throw new NotFoundException();
+      }
+      const id = Number(topic.slug);
+      await this.papers.titleOf(id);
+      return { topicKey: `${PAPER_TOPIC_PREFIX}${id}`, sections: [] };
+    }
     const source = this.lookup.resolveTopic(
       topic.module,
       topic.slug,
@@ -147,7 +162,7 @@ export class DiscussionService {
 
   /** Per-marker comment counts for one concept, what the page needs to draw its badges. */
   async summary(topic: TopicDto): Promise<MarkerSummary[]> {
-    const { topicKey } = this.resolveTopic(topic);
+    const { topicKey } = await this.resolveTopic(topic);
     const rows: Record<string, string | number>[] = await this.markers.query(
       `SELECT m."id", m."anchorKey", m."blockIndex", m."quote",
               COUNT(c."id") FILTER (WHERE c."deletedAt" IS NULL) AS "commentCount",
@@ -324,7 +339,7 @@ export class DiscussionService {
     userId: number,
     dto: CreateThreadDto,
   ): Promise<{ markerId: number; commentId: number }> {
-    const { topicKey, sections } = this.resolveTopic(dto);
+    const { topicKey, sections } = await this.resolveTopic(dto);
     if (!quoteAppearsIn(sections, dto.quote)) throw new NotFoundException();
     await this.assertCanPost(userId);
 
@@ -363,7 +378,7 @@ export class DiscussionService {
     anchorKey: string,
     viewerId: number | null,
   ): Promise<MarkerDetail> {
-    const { topicKey } = this.resolveTopic(topic);
+    const { topicKey } = await this.resolveTopic(topic);
     const marker = await this.markers.findOneBy({
       topicKey,
       lang: topic.lang,
@@ -380,7 +395,7 @@ export class DiscussionService {
     anchorKey: string,
     quote: string,
   ): Promise<{ markerId: number; commentId: number }> {
-    const { topicKey } = this.resolveTopic(dto);
+    const { topicKey } = await this.resolveTopic(dto);
     await this.assertCanPost(userId);
     return this.postRoot(userId, topicKey, dto.lang, anchorKey, 0, quote, dto.body);
   }

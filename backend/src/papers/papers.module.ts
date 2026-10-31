@@ -4,14 +4,17 @@ import { Paper } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
 import { PaperSource } from './paper-source.entity';
+import { PapersCatalogService } from './papers-catalog.service';
+import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
 
-// No controller yet: the public catalog (#179) and the metadata import (#181) are what expose it.
+// Reads are public (the catalog, #179). Writes have no route yet: the metadata import (#181) brings it.
 @Module({
   imports: [
     TypeOrmModule.forFeature([Paper, PaperAuthor, PaperKeyword, PaperSource]),
   ],
-  providers: [PapersService],
-  exports: [PapersService],
+  controllers: [PapersController],
+  providers: [PapersService, PapersCatalogService],
+  exports: [PapersService, PapersCatalogService],
 })
 export class PapersModule {}
