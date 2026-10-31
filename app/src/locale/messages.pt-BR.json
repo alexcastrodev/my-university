@@ -1047,6 +1047,7 @@
     "papers.detail.noAbstract": "Este paper não tem resumo disponível.",
     "papers.detail.keywords": "Palavras-chave",
     "papers.detail.noKeywords": "Nenhuma palavra-chave informada.",
+    "papers.detail.side": "Detalhes do paper",
     "papers.attachment.title": "Meu PDF",
     "papers.attachment.loading": "Carregando seu PDF…",
     "papers.attachment.loadError": "Não foi possível carregar seu PDF.",

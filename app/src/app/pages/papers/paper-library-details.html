@@ -71,7 +71,7 @@
         }
       </ul>
     } @else {
-      <p class="muted"><ng-container i18n="@@papers.library.noCollections">You have no collections yet.</ng-container> <a routerLink="/library" i18n="@@papers.library.makeCollection">Make one in your library.</a></p>
+      <p class="muted"><ng-container i18n="@@papers.library.noCollections">You have no collections yet.</ng-container>&ngsp;<a routerLink="/library" i18n="@@papers.library.makeCollection">Make one in your library.</a></p>
     }
     @if (collectionFailed()) {
       <p class="details-error" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>

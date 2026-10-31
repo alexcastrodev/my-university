@@ -1,6 +1,17 @@
+import { PaperLayout } from './PaperLayout.js';
+
 export class PaperDetailPage {
   constructor(page) {
     this.page = page;
+
+    // Authors, facts, keywords and the library button sit in the aside, beside the body on a wide screen.
+    this.layout = new PaperLayout(page);
+    this.aside = this.layout.aside;
+    this.body = this.layout.body;
+    this.sideAuthors = this.aside.locator('.paper-authors');
+    this.sideFacts = this.aside.locator('.facts');
+    this.sideKeywords = this.aside.locator('.keywords .chip');
+    this.sideLibrary = this.aside.locator('app-paper-library-button');
 
     this.title = page.getByRole('heading', { level: 1 });
     this.authors = page.locator('.paper-authors');
