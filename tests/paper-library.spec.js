@@ -202,6 +202,16 @@ test.describe('Paper library', () => {
       await expect(entry.publicLink).toHaveAttribute('href', `/papers/${alpha}`);
     });
 
+    test('explains where the paper stands, as the public page does', async ({ page }) => {
+      await signIn(page, 'Careful');
+      await addToLibrary(page, beta);
+      const entry = new PaperLibraryEntryPage(page);
+      await entry.goto(beta);
+
+      await expect(entry.stageTitle).toContainText('Preprint: not reviewed yet');
+      await expect(entry.stageText).toContainText('treat it as work in progress');
+    });
+
     test('follows the reading progress: reading, then read with a finishing day', async ({ page }) => {
       await signIn(page, 'Progress');
       await addToLibrary(page, alpha);
@@ -404,6 +414,15 @@ test.describe('Paper library', () => {
       await library.sortSelect.selectOption('rating');
       await expect(page).toHaveURL(/sort=rating/);
       await expect(library.cardTitles.first()).toHaveText(title('alpha'));
+    });
+
+    test('keeps saying where each paper stands: a preprint stays a preprint in the library', async ({ page }) => {
+      const library = new PaperLibraryPage(page);
+      await library.goto();
+
+      await expect(library.cardStage(title('beta'))).toHaveText('Preprint: not reviewed yet');
+      await expect(library.cardStage(title('alpha'))).toHaveText('Published');
+      await expect(library.cardStage(title('gamma'))).toHaveText('Status unknown');
     });
 
     test('opens the library entry of a paper from its card', async ({ page }) => {

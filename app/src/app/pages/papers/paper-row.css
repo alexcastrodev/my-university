@@ -1,0 +1,155 @@
+:host {
+  display: block;
+}
+
+.row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.row-ref {
+  min-width: 0;
+  padding: 0.15rem 0.55rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+
+.row-date {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+}
+
+.paper-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.paper-title a {
+  color: var(--mu-ink);
+  text-decoration: none;
+}
+
+.paper-title a:hover {
+  color: var(--mu-accent-strong);
+  text-decoration: underline;
+}
+
+.row-people {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.paper-authors {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--mu-ink);
+}
+
+/* Initials, not photos: the color comes from the name, so a person looks the same on every row. */
+.avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: -0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: hsl(var(--h) 50% 26%);
+  background: hsl(var(--h) 55% 86%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--mu-bg);
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+:host-context(:root[data-theme='dark']) .avatar {
+  color: hsl(var(--h) 60% 86%);
+  background: hsl(var(--h) 35% 30%);
+}
+
+.paper-excerpt {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--mu-ink-soft);
+}
+
+.row-links {
+  color: var(--mu-accent-strong);
+}
+
+.row-links a {
+  color: inherit;
+}
+
+.row-labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--mu-muted);
+}
+
+.badge,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 999px;
+}
+
+.badge {
+  color: var(--mu-ink-soft);
+  background: var(--mu-bg-alt);
+}
+
+.chip-area {
+  color: var(--mu-accent-strong);
+  background: var(--mu-accent-soft);
+  border: 1px solid var(--mu-accent-border);
+}
+
+a.chip-area:hover {
+  background: var(--mu-accent-border);
+}
+
+.muted {
+  color: var(--mu-muted);
+}
+
+@media (max-width: 600px) {
+  .paper-title {
+    font-size: 1.1rem;
+  }
+
+  .avatar {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.66rem;
+  }
+}

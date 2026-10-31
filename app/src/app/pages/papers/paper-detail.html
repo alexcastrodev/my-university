@@ -22,6 +22,7 @@
         <header class="paper-header">
           <app-breadcrumbs [items]="breadcrumbs()" />
           <h1 class="paper-title">{{ p.title }}</h1>
+          <app-paper-stage [stage]="p.stage" [venue]="p.venue" [explain]="true" />
 
           <p class="paper-authors">
             @if (p.authors.length) {
@@ -44,7 +45,7 @@
               <dd><a [routerLink]="['/papers']" [queryParams]="{ type: p.type }">{{ paperTypeLabel(p.type) }}</a></dd>
             </div>
             <div class="fact">
-              <dt i18n="@@papers.detail.published">Published</dt>
+              <dt i18n="@@papers.detail.published">Date</dt>
               <dd>
                 @if (date(); as d) { {{ d }} } @else { <span class="muted" i18n="@@papers.detail.dateUnknown">Date not listed</span> }
               </dd>
