@@ -27,6 +27,15 @@ optionally `venue`, `publicationDate` (`YYYY`, `YYYY-MM` or `YYYY-MM-DD`), `doi`
 `url` (http or https), `researchArea`, `keywords` and `abstract`. The abstract is the authors' own text, so it goes
 in only where the publisher lets it be reproduced (open licence); otherwise the page shows the link to it.
 
+An entry can also carry `i18n`, keyed by a language other than English (today `pt-BR`), with `researchArea`,
+`keywords` (one for each English keyword, in the same order) and `abstract` (our translation of `abstract`, so
+only where the paper has one). A Portuguese reader gets those in the list, the facets, the detail and the
+library, and the page says the abstract is our translation (`abstractTranslated`); an English reader, a language
+without a translation and a paper without a `pt-BR.md` get the English fields, which are also the fallback for
+anything the block leaves out. The title and the venue stay as published. A filter or a search from a
+Portuguese reader matches the English original too (`area`, `keyword`, `q`), so a link copied from the English
+list still works after the switch of language. Keep Portuguese keywords lowercase and the text free of dashes.
+
 The markdown is the concepts' format: frontmatter with `title`, `summary`, `version` and `updatedAt`, then six
 `## ` sections in this order (Overview, Contribution, Methodology, Findings, Critical Analysis, Further Research;
 in Portuguese Visão geral, Contribuição, Metodologia, Resultados, Análise crítica, Pesquisas futuras). The
@@ -35,16 +44,19 @@ analysis is ours and says so on the page; it is never presented as the authors' 
 
 - **Checked at boot.** `PapersCatalogService` reads the index once and stops the API with a message that names
   the paper (`papers.json, <slug>: <why>`) for a bad or repeated slug, a missing title, author or `en.md`, a
-  malformed date, URL or DOI, or a DOI used twice. A mistake in the files never reaches a reader.
+  malformed date, URL or DOI, a DOI used twice, or an `i18n` block for an unsupported language, with an abstract
+  or an area the paper does not have, or with another number of keywords. A mistake in the files never reaches a
+  reader.
 - **The slug is the id.** Lowercase words joined by hyphens, at most 100 characters and never shaped like a
   UUID (`paper-ref.ts`). It is what the URLs `/papers/:slug`, `/library/:slug`, the API (`/api/papers/:slug`,
   `/api/paper-library/:paperId`, `.../attachment`), the sitemap and the discussion topic (`paper:<slug>`) carry.
   A slug is permanent: renaming one orphans the library entries, PDFs and discussion that point at it.
 - **Routes.** Only `GET /api/papers`, `GET /api/papers/facets` and `GET /api/papers/:slug?lang=` exist for the
   public papers. The list takes `q`, `author`, `doi`, `keyword`, `area`, `type`, `stage`, `year`, `sort`, `page`
-  and `limit`, filters and sorts in memory (a few hundred papers at most), and titles come in `lang`.
-- **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `version`, `updatedAt` and
-  `sections` (`[{ title, content }]`, the markdown of each section).
+  and `limit`, filters and sorts in memory (a few hundred papers at most), and titles, excerpts, keywords and
+  areas come in `lang`; the facets take `lang` too, so the area select is in the reader's language.
+- **Detail** answers the record plus `language`, `availableLanguages`, `summary`, `abstractTranslated`,
+  `version`, `updatedAt` and `sections` (`[{ title, content }]`, the markdown of each section).
 - **Tests** point `PAPERS_DATA_DIR` at a folder of fixtures (`spec/papers-fixtures.ts`); with the variable unset
   the real seed is read. `spec/papers-seed.spec.ts` runs against the live stack and checks every seed paper:
   it loads in both languages with six sections, and neither language has an em dash or an en dash.

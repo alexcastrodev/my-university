@@ -8,6 +8,7 @@ export class PapersListPage {
     this.typeSelect = page.getByLabel('Type', { exact: true });
     this.stageSelect = page.getByLabel('Publication stage', { exact: true });
     this.areaSelect = page.getByLabel('Research area', { exact: true });
+    this.areaSelectPortuguese = page.getByLabel('Área de pesquisa', { exact: true });
     this.sortSelect = page.getByLabel('Sort by', { exact: true });
     this.addPaperLink = page.getByRole('link', { name: 'Add a paper' });
     this.cards = page.locator('.paper-card');
@@ -39,6 +40,16 @@ export class PapersListPage {
 
   card(title) {
     return this.cards.filter({ hasText: title });
+  }
+
+  /** The research area chip on a row. */
+  cardArea(title) {
+    return this.card(title).locator('.chip-area');
+  }
+
+  /** The start of the abstract under the title of a row. */
+  cardExcerpt(title) {
+    return this.card(title).locator('.paper-excerpt');
   }
 
   /** The small label saying where a paper stands (Preprint: not reviewed yet, Published...). */
