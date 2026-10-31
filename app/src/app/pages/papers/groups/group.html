@@ -1,0 +1,116 @@
+<div class="page">
+  <div class="page-body">
+    <a class="back" routerLink="/groups" i18n="@@groups.back">All groups</a>
+
+    @switch (state()) {
+      @case ('loading') {
+        <div class="state" role="status"><span class="spinner"></span></div>
+      }
+      @case ('signedOut') {
+        <div class="state">
+          <p i18n="@@groups.page.signedOut">Sign in to see your reading groups.</p>
+          <a class="search-button" routerLink="/login" i18n="@@papers.library.page.signIn">Sign in</a>
+        </div>
+      }
+      @case ('missing') {
+        <div class="state">
+          <p i18n="@@groups.missing">This group does not exist, or you are not in it.</p>
+          <a class="search-button" routerLink="/groups" i18n="@@groups.back">All groups</a>
+        </div>
+      }
+      @case ('failed') {
+        <div class="state state-error">
+          <p i18n="@@groups.failed">This group could not be loaded.</p>
+          <button type="button" class="search-button" (click)="refresh()" i18n="@@papers.retry">Try again</button>
+        </div>
+      }
+      @default {
+        @if (group(); as g) {
+          <header class="group-head">
+            <div class="title-row">
+              <h1 class="page-title">{{ g.name }}</h1>
+              <span class="badge">{{ roleLabel(g.role) }}</span>
+            </div>
+            @if (g.description; as text) {
+              <p class="desc">{{ text }}</p>
+            }
+            <p class="meta">
+              <span>{{ readersLabel(g.memberCount) }}</span>
+              <span>{{ papersLabel(g.paperCount) }}</span>
+            </p>
+          </header>
+
+          @if (problem(); as text) {
+            <p class="problem" role="alert">{{ text }}</p>
+          }
+
+          <div class="buttons">
+            @if (owner()) {
+              <button type="button" class="btn" (click)="edit()" [disabled]="busy()" i18n="@@groups.edit">Rename or describe</button>
+              <button type="button" class="btn btn-danger" (click)="confirming.set('delete')" [disabled]="busy()" i18n="@@groups.delete">Delete group</button>
+            } @else {
+              <button type="button" class="btn btn-danger" (click)="confirming.set('leave')" [disabled]="busy()" i18n="@@groups.leave">Leave group</button>
+            }
+          </div>
+
+          @if (confirming() === 'delete') {
+            <div class="confirm" role="alertdialog" aria-labelledby="confirm-text">
+              <p id="confirm-text" i18n="@@groups.delete.confirm">Delete this group for everyone? Its readers, board and shared annotations go with it. No one's library, notes or PDFs are touched.</p>
+              <div class="buttons">
+                <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="destroy()" i18n="@@groups.delete.yes">Delete the group</button>
+                <button type="button" class="btn" (click)="confirming.set(null)" i18n="@@papers.notes.cancel">Cancel</button>
+              </div>
+            </div>
+          }
+          @if (confirming() === 'leave') {
+            <div class="confirm" role="alertdialog" aria-labelledby="confirm-text">
+              <p id="confirm-text" i18n="@@groups.leave.confirm">Leave this group? The annotations you shared into it are withdrawn from it. Your posts stay.</p>
+              <div class="buttons">
+                <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="leave()" i18n="@@groups.leave.yes">Leave the group</button>
+                <button type="button" class="btn" (click)="confirming.set(null)" i18n="@@papers.notes.cancel">Cancel</button>
+              </div>
+            </div>
+          }
+
+          @if (editing()) {
+            <form class="form manage" (submit)="save($event)">
+              <label class="label">
+                <span i18n="@@groups.create.name">Name</span>
+                <input type="text" class="field" maxlength="80" autocomplete="off" [value]="name()" (input)="name.set($any($event.target).value)" />
+              </label>
+              <label class="label">
+                <span i18n="@@groups.create.description">What the group studies (optional)</span>
+                <textarea class="field" rows="2" maxlength="500" [value]="description()" (input)="description.set($any($event.target).value)"></textarea>
+              </label>
+              <div class="buttons">
+                <button type="submit" class="btn btn-primary" [disabled]="busy() || !name().trim()" i18n="@@groups.save">Save</button>
+                <button type="button" class="btn" (click)="editing.set(false)" i18n="@@papers.notes.cancel">Cancel</button>
+              </div>
+            </form>
+          }
+
+          <nav class="tabs" i18n-aria-label="@@groups.tabs.aria" aria-label="Group sections">
+            @for (t of tabs; track t) {
+              <a class="tab" routerLink="." [queryParams]="{ tab: t === 'papers' ? null : t }" [class.tab-active]="tab() === t" [attr.aria-current]="tab() === t ? 'page' : null">{{ tabLabel(t) }}</a>
+            }
+          </nav>
+
+          @switch (tab()) {
+            @case ('papers') {
+              <app-group-papers [group]="g" [papers]="papers()" (changed)="refresh()" />
+            }
+            @case ('board') {
+              <app-group-board [group]="g" [papers]="papers()" />
+            }
+            @case ('annotations') {
+              <app-group-annotations [group]="g" [papers]="papers()" />
+            }
+            @case ('members') {
+              <app-group-members [group]="g" [members]="members()" (changed)="refresh()" />
+            }
+          }
+        }
+      }
+    }
+  </div>
+</div>

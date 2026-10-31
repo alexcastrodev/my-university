@@ -118,3 +118,7 @@
   background: var(--mu-accent);
   border-color: var(--mu-accent);
 }
+
+.muted a {
+  color: var(--mu-accent-strong, var(--mu-accent));
+}

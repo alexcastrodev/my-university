@@ -11,6 +11,9 @@ uploaded, downloaded, shared and removed what, and when. It is not a log of read
 | `share.create` | An annotation was shared, or shared again | `visibility`, `kind`, `recipients` (a number) |
 | `share.revoke` | A share that existed was taken back | `kind` |
 | `library.remove` | A paper that was in the library was removed | `private` |
+| `group.create`, `group.delete` | A reading group was made or deleted (#190) | `group` (its id) |
+| `group.join`, `group.leave` | A reader accepted an invitation, or left a group | `group` |
+| `group.member_remove`, `group.role_change` | A member was removed, or given another role | `group`, `role` |
 
 A request that changed nothing records nothing: deleting what was not there, a download that was a 404, taking
 back a share that did not exist.

@@ -1,0 +1,90 @@
+<section class="block" aria-labelledby="board-heading">
+  <h2 id="board-heading" class="block-title" i18n="@@groups.board.title">Board</h2>
+  <p class="muted" i18n="@@groups.board.note">Only the readers of this group see these posts. They are the readers' own words.</p>
+
+  <form class="form" (submit)="send($event)">
+    <label class="label">
+      <span i18n="@@groups.board.write">Write to the group</span>
+      <textarea class="field" rows="3" maxlength="5000" [value]="body()" (input)="body.set($any($event.target).value)"></textarea>
+    </label>
+    @if (papers().length) {
+      <label class="label">
+        <span i18n="@@groups.board.about">About a paper (optional)</span>
+        <select class="field" (change)="about.set($any($event.target).value)">
+          <option value="" [selected]="!about()" i18n="@@groups.board.aboutNone">No paper in particular</option>
+          @for (paper of papers(); track paper.id) {
+            <option [value]="paper.id" [selected]="about() === paper.id">{{ paper.title }}</option>
+          }
+        </select>
+      </label>
+    }
+    @if (problem(); as text) {
+      <p class="problem" role="alert">{{ text }}</p>
+    }
+    <div class="buttons">
+      <button type="submit" class="btn btn-primary" [disabled]="busy() || !body().trim()" i18n="@@groups.board.post">Post</button>
+    </div>
+  </form>
+</section>
+
+<section class="block" aria-labelledby="posts-heading">
+  <h2 id="posts-heading" class="block-title" i18n="@@groups.board.posts">Posts</h2>
+  @if (papers().length) {
+    <label class="filter">
+      <span i18n="@@groups.board.show">Show</span>
+      <select class="field filter-select" (change)="only.set($any($event.target).value)">
+        <option value="" [selected]="!only()" i18n="@@groups.board.showAll">Every post</option>
+        @for (paper of papers(); track paper.id) {
+          <option [value]="paper.id" [selected]="only() === paper.id">{{ paper.title }}</option>
+        }
+      </select>
+    </label>
+  }
+
+  @if (loading()) {
+    <p class="muted" role="status" i18n="@@groups.board.loading">Loading the posts…</p>
+  } @else if (failed()) {
+    <p class="problem" role="alert" i18n="@@groups.board.failed">The posts could not be loaded.</p>
+  } @else if (posts().length) {
+    <ul class="list" aria-labelledby="posts-heading">
+      @for (post of posts(); track post.id) {
+        <li class="item" [attr.data-post]="post.id">
+          <header class="head">
+            <span class="avatar" aria-hidden="true">
+              @if (post.author.avatarUrl) {
+                <img [src]="post.author.avatarUrl" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer" />
+              }
+            </span>
+            @if (post.author.profile; as profile) {
+              <a class="author" [routerLink]="['/u', profile]">{{ post.author.name }}</a>
+            } @else {
+              <span class="author">{{ post.author.name }}</span>
+            }
+            @if (post.mine) {
+              <span class="badge" i18n="@@papers.shared.mine">You</span>
+            }
+          </header>
+          <p class="meta">
+            <time [attr.datetime]="post.createdAt">{{ when(post.createdAt) }}</time>
+            @if (post.paper; as slug) {
+              <a class="chip" [routerLink]="['/papers', slug]">{{ titles().get(slug) ?? slug }}</a>
+            }
+          </p>
+          <app-annotation-text [text]="post.body" />
+          @if (post.canRemove) {
+            <div class="buttons">
+              <button type="button" class="btn btn-danger" [disabled]="busy()" [attr.aria-label]="removeLabel(post.author.name)" (click)="remove(post)" i18n="@@groups.members.remove">Remove</button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+    @if (next()) {
+      <div class="buttons more">
+        <button type="button" class="btn" [disabled]="busy()" (click)="older()" i18n="@@groups.board.older">Older posts</button>
+      </div>
+    }
+  } @else {
+    <p class="empty" i18n="@@groups.board.empty">No posts yet. Start the conversation above.</p>
+  }
+</section>

@@ -1,6 +1,7 @@
 import { RequestMethod } from '@nestjs/common';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { PaperAnnotationsModule } from '../src/paper-annotations/paper-annotations.module';
+import { PaperGroupsModule } from '../src/paper-groups/paper-groups.module';
 import { PaperAttachmentsModule } from '../src/paper-attachments/paper-attachments.module';
 import { PaperAuditModule } from '../src/paper-audit/paper-audit.module';
 import { PapersModule } from '../src/papers/papers.module';
@@ -70,7 +71,7 @@ afterAll(async () => {
 describe('every route needs a session unless it is public on purpose', () => {
   /** Every route of the Papers controllers, found from their decorators, so a new one cannot be forgotten. */
   function routes(): { method: string; path: string }[] {
-    const modules = [PapersModule, PaperAttachmentsModule, PaperAnnotationsModule, PrivatePapersModule, PaperAuditModule];
+    const modules = [PapersModule, PaperAttachmentsModule, PaperAnnotationsModule, PaperGroupsModule, PrivatePapersModule, PaperAuditModule];
     const out: { method: string; path: string }[] = [];
     for (const module of modules) {
       for (const controller of Reflect.getMetadata('controllers', module) as (new () => object)[]) {

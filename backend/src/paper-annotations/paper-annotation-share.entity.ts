@@ -14,8 +14,11 @@ import type { AnnotationKind } from './paper-annotation.entity';
 /** A bookmark says nothing worth publishing; everything else a reader wrote can be shared. */
 export const SHAREABLE_KINDS = ['note', 'highlight', 'comment', 'question'] as const;
 
-/** `public` is anyone who opens the paper, signed in or not; `users` is the readers named in the recipients. */
-export const VISIBILITIES = ['public', 'users'] as const;
+/**
+ * `public` is anyone who opens the paper, signed in or not; `users` is the readers named in the recipients;
+ * `group` is the members of the reading groups it was shared into (#190), and nobody else.
+ */
+export const VISIBILITIES = ['public', 'users', 'group'] as const;
 export type Visibility = (typeof VISIBILITIES)[number];
 
 /**

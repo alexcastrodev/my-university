@@ -278,14 +278,16 @@ export interface Annotation {
   updatedAt: string;
 }
 
-/** Who a shared annotation is for: `public` is anyone who opens the paper, `users` the readers named. */
-export type ShareVisibility = 'public' | 'users';
+/** Who a shared annotation is for: `public` is anyone who opens the paper, `users` the readers named, `group` the reading groups chosen. */
+export type ShareVisibility = 'public' | 'users' | 'group';
 
 /** The audience and the age of the copy a reader published; mirrors the `share` of an annotation. */
 export interface AnnotationShare {
   visibility: ShareVisibility;
   /** The readers a `users` share is for, by the id of their public profile. */
   recipients: { id: string; name: string }[];
+  /** The reading groups a `group` share is for. */
+  groups: { id: string; name: string }[];
   sharedAt: string;
   /** When the copy was last made from the annotation: editing the annotation does not change it. */
   updatedAt: string;
@@ -296,6 +298,8 @@ export interface ShareInput {
   visibility: ShareVisibility;
   /** Public profile names (the part after `/u/`), or ids, for a `users` share. */
   recipients?: string[];
+  /** The ids of the reading groups (up to 5) for a `group` share; the reader must be in all of them. */
+  groups?: string[];
 }
 
 /** A copy shared on a public paper, as the viewer may see it; mirrors GET /api/papers/:slug/shared-annotations. */
@@ -329,4 +333,77 @@ export interface AnnotationInput {
   prefix?: string;
   suffix?: string;
   rects?: AnnotationRect[];
+}
+
+// ---- Reading groups (#190)
+
+export type GroupRole = 'owner' | 'moderator' | 'member';
+
+/** A reading group as its member sees it; mirrors GET /api/paper-groups. */
+export interface PaperGroup {
+  id: string;
+  name: string;
+  description: string | null;
+  /** The role of the reader who asked. */
+  role: GroupRole;
+  memberCount: number;
+  paperCount: number;
+  createdAt: string;
+}
+
+/** A person by what their public profile publishes. `id` is the id of that profile. */
+export interface GroupPerson {
+  id: string;
+  name: string;
+  avatarUrl: string;
+  /** The key of `/u/<profile>`, or null when the person's profile is not public. */
+  profile: string | null;
+}
+
+export interface GroupMember extends GroupPerson {
+  role: GroupRole;
+  joinedAt: string;
+  you: boolean;
+}
+
+/** Either the reader's own invitation (`group`, `invitedBy`) or one a manager sees in the group (`invitee`). */
+export interface GroupInvitation {
+  id: string;
+  createdAt: string;
+  group?: { id: string; name: string; description: string | null };
+  invitedBy?: GroupPerson | null;
+  invitee?: GroupPerson;
+}
+
+/** A public paper on a group's list. */
+export interface GroupPaper extends PaperSummary {
+  addedAt: string;
+  addedBy: string | null;
+  /** How many annotations members shared into the group for it. */
+  sharedCount: number;
+}
+
+export interface GroupPost {
+  id: string;
+  body: string;
+  /** The slug of the group paper the post is about, if any. */
+  paper: string | null;
+  author: GroupPerson;
+  createdAt: string;
+  mine: boolean;
+  canRemove: boolean;
+}
+
+/** An annotation a member shared into the group; `id` is the id of the share. */
+export interface GroupAnnotation {
+  id: string;
+  paper: string;
+  kind: AnnotationKind;
+  body: string | null;
+  page: number | null;
+  quote: string | null;
+  author: GroupPerson;
+  sharedAt: string;
+  mine: boolean;
+  canRemove: boolean;
 }

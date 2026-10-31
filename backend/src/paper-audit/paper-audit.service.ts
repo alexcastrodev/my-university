@@ -9,6 +9,12 @@ export const AUDIT_ACTIONS = [
   'share.create',
   'share.revoke',
   'library.remove',
+  'group.create',
+  'group.delete',
+  'group.join',
+  'group.leave',
+  'group.member_remove',
+  'group.role_change',
 ] as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
 

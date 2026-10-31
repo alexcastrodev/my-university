@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Matches,
   Max,
   MaxLength,
@@ -100,6 +101,8 @@ export class UpdateAnnotationDto {
 }
 
 export const MAX_RECIPIENTS = 20;
+/** How many reading groups one annotation can be shared into at once. */
+export const MAX_GROUPS = 5;
 
 /**
  * Who a shared annotation is for. `users` names the readers by their public profile (the vanity slug, the
@@ -118,4 +121,12 @@ export class ShareAnnotationDto {
   @MaxLength(200, { each: true })
   @Matches(NO_NUL, { each: true })
   recipients?: string[];
+
+  /** For `group`: the reading groups (ids) to share into, up to `MAX_GROUPS`, all of which the reader is in. */
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(MAX_GROUPS)
+  @ArrayUnique()
+  @IsUUID('all', { each: true })
+  groups?: string[];
 }

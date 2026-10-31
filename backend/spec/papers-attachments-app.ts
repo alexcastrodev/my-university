@@ -12,6 +12,7 @@ import { User } from '../src/auth/user.entity';
 import { PaperAnnotation } from '../src/paper-annotations/paper-annotation.entity';
 import { PaperAnnotationShare, PaperAnnotationShareRecipient } from '../src/paper-annotations/paper-annotation-share.entity';
 import { PaperAnnotationsModule } from '../src/paper-annotations/paper-annotations.module';
+import { PaperGroupsModule } from '../src/paper-groups/paper-groups.module';
 import { PaperAuditService } from '../src/paper-audit/paper-audit.service';
 import { PaperAttachment } from '../src/paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from '../src/paper-attachments/paper-attachment-version.entity';
@@ -91,6 +92,7 @@ export async function startAttachmentsApp(limits: {
       PapersModule,
       PaperAttachmentsModule,
       PaperAnnotationsModule,
+      PaperGroupsModule,
       PrivatePapersModule,
     ],
   })

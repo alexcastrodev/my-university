@@ -33,6 +33,7 @@ import { PaperAttachmentVersion } from './paper-attachments/paper-attachment-ver
 import { PaperAnnotation } from './paper-annotations/paper-annotation.entity';
 import { PaperAnnotationShare, PaperAnnotationShareRecipient } from './paper-annotations/paper-annotation-share.entity';
 import { PaperAnnotationsModule } from './paper-annotations/paper-annotations.module';
+import { PaperGroupsModule } from './paper-groups/paper-groups.module';
 import { PaperAttachmentsModule } from './paper-attachments/paper-attachments.module';
 import { StorageDeletion } from './paper-attachments/storage-deletion.entity';
 import { Paper } from './papers/paper.entity';
@@ -127,6 +128,7 @@ import { XpModule } from './xp/xp.module';
     PapersModule,
     PaperAttachmentsModule,
     PaperAnnotationsModule,
+    PaperGroupsModule,
     PrivatePapersModule,
     SeedModule,
     SearchModule,
