@@ -69,6 +69,7 @@ services:
       - ./backend:/workspace
     environment:
       - API_URL=http://web/api
+      - DATABASE_URL=postgres://postgres@postgres:5432/ocp_java
       - CI=true
     command: sh -c "corepack enable && corepack prepare pnpm@11.3.0 --activate && pnpm install --frozen-lockfile && pnpm spec"
     depends_on:
