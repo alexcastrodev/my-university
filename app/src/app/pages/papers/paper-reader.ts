@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, firstValueFrom, forkJoin, from, map, switchMap, tap } from 'rxjs';
-import { Annotation, AnnotationInput, Paper } from '../../models/paper.model';
+import { Annotation, AnnotationInput, AnnotationShare, Paper } from '../../models/paper.model';
 import { PaperAnnotationsService } from '../../services/paper-annotations.service';
 import { PaperAttachmentsService } from '../../services/paper-attachments.service';
 import { PaperLibraryService } from '../../services/paper-library.service';
@@ -92,6 +92,8 @@ export class PaperReaderPage {
   protected busyId = signal<string | null>(null);
   protected flashId = signal<string | null>(null);
   protected barHeight = signal(0);
+  /** Only a public paper has a page to share annotations on. */
+  protected canShare = signal(false);
   protected kindLabel = annotationKindLabel;
   /** True while a finger or a pointer is on the selection bar: tapping it must not drop the selection it acts on. */
   protected holdSelection = false;
@@ -334,6 +336,11 @@ export class PaperReaderPage {
     return mark ? this.drop(mark) : this.add({ kind: 'bookmark', page: this.current() }).then(() => undefined);
   }
 
+  /** The reader shared an annotation, changed its audience or took it back. */
+  protected shared(a: Annotation, share: AnnotationShare | null): void {
+    this.items.update((list) => list.map((x) => (x.id === a.id ? { ...x, share } : x)));
+  }
+
   protected edit(a: Annotation, body: string): Promise<void> {
     return this.change(a, { body });
   }
@@ -408,6 +415,7 @@ export class PaperReaderPage {
       const [entry, paper] = await firstValueFrom(forkJoin([this.library.get(id), this.library.paper(id)]));
       if (!entry) return 'missing';
       this.paper.set(paper);
+      this.canShare.set(!entry.private);
       this.seo.set({ title: paper.title, description: 'A paper in your library.', path: `/library/${id}/read`, noindex: true });
       const bytes = await firstValueFrom(this.attachments.file(id));
       if (!bytes) return 'noFile';

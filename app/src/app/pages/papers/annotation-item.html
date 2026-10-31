@@ -48,5 +48,10 @@
         <button type="button" class="btn" [disabled]="busy()" (click)="confirming.set(true)" i18n="@@papers.notes.delete">Delete</button>
       }
     </footer>
+    @if (sharePaper(); as paper) {
+      @if (annotation().kind !== 'bookmark') {
+        <app-annotation-share [paperId]="paper" [annotation]="annotation()" (changed)="shareChange.emit($event)" />
+      }
+    }
   }
 </article>

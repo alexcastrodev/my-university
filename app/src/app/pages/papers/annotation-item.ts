@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, input, output, signal } from '@angular/core';
-import { Annotation, AnnotationKind } from '../../models/paper.model';
+import { Annotation, AnnotationKind, AnnotationShare } from '../../models/paper.model';
 import { formatPaperDate } from '../../shared/paper-format';
+import { AnnotationSharePanel } from './annotation-share';
 import { AnnotationText } from './annotation-text';
 
 export function annotationKindLabel(kind: AnnotationKind): string {
@@ -25,7 +26,7 @@ export function annotationKindLabel(kind: AnnotationKind): string {
 @Component({
   selector: 'app-annotation-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AnnotationText],
+  imports: [AnnotationText, AnnotationSharePanel],
   templateUrl: './annotation-item.html',
   styleUrl: './annotation-item.css',
 })
@@ -35,11 +36,15 @@ export class AnnotationItem {
   readonly annotation = input.required<Annotation>();
   /** The one being changed right now: its buttons wait. */
   readonly busy = input(false);
+  /** The id of the paper when this annotation may be shared (it is on a public paper), or null when it may not. */
+  readonly sharePaper = input<string | null>(null);
 
   readonly open = output<void>();
   readonly save = output<string>();
   readonly remove = output<void>();
   readonly keep = output<void>();
+  /** The annotation's share after the reader changed it, or null once taken back. */
+  readonly shareChange = output<AnnotationShare | null>();
 
   protected editing = signal(false);
   protected draft = signal('');

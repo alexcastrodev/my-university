@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Annotation } from '../../models/paper.model';
+import { Annotation, AnnotationShare } from '../../models/paper.model';
 import { PaperAnnotationsService } from '../../services/paper-annotations.service';
 import { AnnotationItem } from './annotation-item';
 
@@ -20,6 +20,8 @@ export class PaperNotes {
   private annotations = inject(PaperAnnotationsService);
 
   readonly paperId = input.required<string>();
+  /** A note on a public paper may be shared; one on a private paper has no page to be shared on. */
+  readonly canShare = input(false);
 
   protected items = signal<Annotation[]>([]);
   protected version = signal<number | null>(null);
@@ -37,6 +39,11 @@ export class PaperNotes {
 
   constructor() {
     effect(() => this.load(this.paperId()));
+  }
+
+  /** The reader shared an annotation, changed its audience or took it back. */
+  protected shared(a: Annotation, share: AnnotationShare | null): void {
+    this.items.update((all) => all.map((x) => (x.id === a.id ? { ...x, share } : x)));
   }
 
   protected load(id: string): void {

@@ -15,13 +15,14 @@ import { parseMarkdown } from '../../shared/markdown';
 import { isPaperSlug } from '../../shared/paper-id';
 import { PaperLibraryButton } from './paper-library-button';
 import { PaperStage } from './paper-stage';
+import { SharedAnnotations } from './shared-annotations';
 
 type Loaded = { paper: PublicPaper } | { missing: true } | { failed: true };
 
 @Component({
   selector: 'app-paper-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton, PaperStage],
+  imports: [RouterLink, Breadcrumbs, ConceptDiscussion, PaperLibraryButton, PaperStage, SharedAnnotations],
   templateUrl: './paper-detail.html',
   styleUrl: './paper-detail.css',
 })

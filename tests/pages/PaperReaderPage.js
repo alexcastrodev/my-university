@@ -98,6 +98,11 @@ export class PaperReaderPage {
     return this.pageBox(n).locator('.ribbon');
   }
 
+  /** One annotation of the panel, found by the text it shows. */
+  panelItem(text) {
+    return this.panel.locator('app-annotation-item').filter({ hasText: text });
+  }
+
   /** The annotations the panel lists, by kind. */
   panelItems(kind) {
     return this.panel.locator(`app-annotation-item article[data-kind="${kind}"]`);

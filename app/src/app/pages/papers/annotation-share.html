@@ -1,0 +1,69 @@
+<div class="share" [attr.data-visibility]="share()?.visibility ?? null">
+  @if (share(); as s) {
+    <p class="status">
+      <span class="badge">{{ audience() }}</span>
+      <span class="muted"><ng-container i18n="@@papers.share.since">since</ng-container> {{ since() }}</span>
+    </p>
+    @if (outdated()) {
+      <p class="muted" i18n="@@papers.share.outdated">You changed this after sharing it. Readers still see the earlier text.</p>
+    }
+  }
+
+  @if (open()) {
+    <form class="form" (submit)="submit($event)">
+      <fieldset class="who">
+        <legend i18n="@@papers.share.who">Who can see it</legend>
+        <label class="choice">
+          <input type="radio" [name]="'who-' + annotation().id" value="public" [checked]="visibility() === 'public'" (change)="visibility.set('public')" />
+          <span i18n="@@papers.share.public">Everyone who opens the paper</span>
+        </label>
+        <label class="choice">
+          <input type="radio" [name]="'who-' + annotation().id" value="users" [checked]="visibility() === 'users'" (change)="visibility.set('users')" />
+          <span i18n="@@papers.share.users">Only the readers I name</span>
+        </label>
+      </fieldset>
+
+      @if (visibility() === 'users') {
+        <label class="names">
+          <span i18n="@@papers.share.names">Their public profile names</span>
+          <input
+            type="text"
+            class="field"
+            autocomplete="off"
+            maxlength="1000"
+            [value]="names()"
+            (input)="names.set($any($event.target).value)"
+            i18n-placeholder="@@papers.share.namesPlaceholder"
+            placeholder="ana-silva, bruno-costa"
+          />
+        </label>
+      }
+
+      <p class="muted" i18n="@@papers.share.notice">It is shown on the paper's page with your name. Only your text and the passage, cut to a few lines, are shared: never the PDF, and none of your other notes. You can stop sharing at any time.</p>
+
+      @if (problem(); as text) {
+        <p class="problem" role="alert">{{ text }}</p>
+      }
+
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary" [disabled]="!canSend()" i18n="@@papers.share.send">Share</button>
+        <button type="button" class="btn" (click)="open.set(false)" i18n="@@papers.notes.cancel">Cancel</button>
+      </div>
+    </form>
+  } @else {
+    @if (problem(); as text) {
+      <p class="problem" role="alert">{{ text }}</p>
+    }
+    <div class="buttons">
+      @if (share()) {
+        @if (outdated()) {
+          <button type="button" class="btn" [disabled]="busy()" (click)="refresh()" i18n="@@papers.share.refresh">Update the shared copy</button>
+        }
+        <button type="button" class="btn" [disabled]="busy()" (click)="begin()" i18n="@@papers.share.change">Change who sees it</button>
+        <button type="button" class="btn" [disabled]="busy()" (click)="stop()" i18n="@@papers.share.stop">Stop sharing</button>
+      } @else {
+        <button type="button" class="btn" (click)="begin()" i18n="@@papers.share.start">Share</button>
+      }
+    </div>
+  }
+</div>

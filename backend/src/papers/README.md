@@ -11,7 +11,7 @@ There are two kinds of paper, and they live in different places:
 
 PDFs are not part of either: they are attachments (#183) of the reader that uploaded them.
 The reader's notes, highlights and bookmarks on a paper are theirs alone too (#186): see
-`../paper-annotations/README.md`.
+`../paper-annotations/README.md`, which also says how one can be shared on purpose (#187).
 
 ## The public papers (files)
 
