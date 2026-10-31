@@ -96,6 +96,8 @@ export function attachmentErrorMessage(code: string | null | undefined): string 
       return $localize`:@@papers.attachment.error.encrypted:Encrypted PDFs are not accepted. Remove the restrictions and try again.`;
     case 'active_content':
       return $localize`:@@papers.attachment.error.activeContent:This PDF contains scripts or actions that open files or forms, which are not accepted.`;
+    case 'too_many_pages':
+      return $localize`:@@papers.attachment.error.tooManyPages:This PDF has more pages than are accepted.`;
     case 'unscannable':
       return $localize`:@@papers.attachment.error.unscannable:This PDF could not be checked, so it was not accepted.`;
     case 'too_large':

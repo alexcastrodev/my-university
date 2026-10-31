@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 import { Paper } from '../papers/paper.entity';
-import { PaperRef, refColumn } from '../papers/paper-ref';
+import { PaperRef, publicIdOf, refColumn } from '../papers/paper-ref';
 import { PapersCatalogService } from '../papers/papers-catalog.service';
 import { StorageService } from '../storage/storage.service';
 import {
@@ -19,6 +19,7 @@ import {
   loadAttachmentLimits,
 } from './paper-attachments.config';
 import { VersionState } from './paper-attachment-version.entity';
+import { PaperAuditService } from '../paper-audit/paper-audit.service';
 import { scanPdf } from './pdf-scan';
 
 const KEY_PREFIX = 'papers';
@@ -120,6 +121,7 @@ export class PaperAttachmentsService
     @Inject(StorageService) private readonly storage: StorageService,
     @Inject(PapersCatalogService)
     private readonly catalog: PapersCatalogService,
+    @Inject(PaperAuditService) private readonly audit: PaperAuditService,
   ) {}
 
   get maxBytes(): number {
@@ -211,6 +213,11 @@ export class PaperAttachmentsService
         );
       }
       void this.drain();
+      await this.audit.record(userId, 'attachment.upload', publicIdOf(ref), {
+        size: bytes.length,
+        outcome: verdict.ok ? 'approved' : 'rejected',
+        ...(verdict.ok ? {} : { code: verdict.code }),
+      });
 
       if (!verdict.ok) {
         throw fail(422, verdict.code, verdict.reason);
@@ -270,6 +277,7 @@ export class PaperAttachmentsService
       [value, userId],
     );
     if (!rows.length) throw new NotFoundException('No approved PDF');
+    await this.audit.record(userId, 'attachment.download', publicIdOf(ref), { size: Number(rows[0].size) });
     const file = await this.storage.getStream(rows[0].objectKey);
     if (!file) {
       this.logger.error(
@@ -292,10 +300,12 @@ export class PaperAttachmentsService
   /** Deletes the attachment and every version. The objects are queued by a trigger and removed right after. */
   async remove(userId: number, ref: PaperRef): Promise<void> {
     const { column, value } = refColumn(ref);
-    await this.dataSource.query(
-      `DELETE FROM paper_attachment WHERE "${column}" = $1 AND "ownerId" = $2`,
+    // TypeORM answers a DELETE with `[rows, count]`.
+    const [gone]: [unknown[], number] = await this.dataSource.query(
+      `DELETE FROM paper_attachment WHERE "${column}" = $1 AND "ownerId" = $2 RETURNING id`,
       [value, userId],
     );
+    if (gone.length) await this.audit.record(userId, 'attachment.delete', publicIdOf(ref));
     void this.drain();
   }
 
