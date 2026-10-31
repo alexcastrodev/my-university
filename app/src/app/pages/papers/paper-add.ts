@@ -84,7 +84,7 @@ export class PaperAddPage {
   protected form = signal<ManualForm>({ ...EMPTY_FORM });
   protected saving = signal(false);
   protected saveError = signal<string | null>(null);
-  protected existingId = signal<number | null>(null);
+  protected existingId = signal<string | null>(null);
   protected canSave = computed(() => this.form().title.trim().length > 0 && !this.saving());
 
   protected failureText = computed(() => {
@@ -173,7 +173,7 @@ export class PaperAddPage {
       error: (err: HttpErrorResponse) => {
         this.saving.set(false);
         if (err.error?.code === 'already_exists') {
-          this.existingId.set(Number(err.error.paperId));
+          this.existingId.set(String(err.error.paperId));
         } else if (err.status === 401) {
           this.saveError.set($localize`:@@papers.add.error.signedOut:Your session ended. Sign in again to add papers.`);
         } else if (err.status === 429) {

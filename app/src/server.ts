@@ -111,6 +111,32 @@ app.use((req, res, next) => {
 });
 
 /**
+ * A paper used to be addressed by an integer (`/papers/3105`); it is a UUIDv7 now, and links with the
+ * integer exist. The API answers the old id with a 301 to the public one: this turns that into a 301 of
+ * the page, so search engines move to the new address and a visitor lands on it without a client-side hop.
+ * Anything else (the API down, an unknown paper) falls through to the render, which says what is wrong.
+ */
+const legacyPaperPath = /^(\/pt-BR)?\/papers\/([1-9]\d{0,9})\/?$/;
+app.use(async (req, res, next) => {
+  const match = ssrApiOrigin && req.method === 'GET' ? legacyPaperPath.exec(req.path) : null;
+  if (!match) {
+    next();
+    return;
+  }
+  try {
+    const api = await fetch(`${ssrApiOrigin}/api/papers/${match[2]}`, { redirect: 'manual' });
+    const publicId = api.status === 301 ? /\/api\/papers\/([0-9a-f-]{36})$/i.exec(api.headers.get('location') ?? '')?.[1] : undefined;
+    if (publicId) {
+      res.redirect(301, `${match[1] ?? ''}/papers/${publicId}`);
+      return;
+    }
+  } catch {
+    // The render below shows the page's own error state.
+  }
+  next();
+});
+
+/**
  * Serve static files from /browser
  */
 app.use(

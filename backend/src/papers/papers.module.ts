@@ -14,6 +14,7 @@ import { PaperSource } from './paper-source.entity';
 import { CrossrefClient } from './crossref.client';
 import { PaperImportController } from './paper-import.controller';
 import { PaperImportService } from './paper-import.service';
+import { PaperIds } from './paper-public-id';
 import { PapersCatalogService } from './papers-catalog.service';
 import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
@@ -41,7 +42,8 @@ import { PapersService } from './papers.service';
     PaperImportService,
     CrossrefClient,
     PaperLibraryService,
+    PaperIds,
   ],
-  exports: [PapersService, PapersCatalogService],
+  exports: [PapersService, PapersCatalogService, PaperIds],
 })
 export class PapersModule {}

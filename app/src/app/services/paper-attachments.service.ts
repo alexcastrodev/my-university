@@ -11,30 +11,30 @@ export const MAX_PDF_BYTES = 25 * 1024 * 1024;
 export class PaperAttachmentsService {
   private http = inject(HttpClient);
 
-  private base(paperId: number): string {
+  private base(paperId: string): string {
     return `/api/papers/${paperId}/attachment`;
   }
 
   /** Where the approved file is downloaded from: a plain link, the session cookie authorizes it. */
-  fileUrl(paperId: number): string {
+  fileUrl(paperId: string): string {
     return `${this.base(paperId)}/file`;
   }
 
   /** The reader's attachment for a paper, or `null` when there is none. */
-  get(paperId: number): Observable<PaperAttachment | null> {
+  get(paperId: string): Observable<PaperAttachment | null> {
     return this.http
       .get<PaperAttachment>(this.base(paperId))
       .pipe(catchError((err) => (err?.status === 404 ? of(null) : throwError(() => err))));
   }
 
   /** The PDF goes as the raw body; what the server decides to accept depends on the bytes, not on this type. */
-  upload(paperId: number, file: File): Observable<PaperAttachment> {
+  upload(paperId: string, file: File): Observable<PaperAttachment> {
     return this.http.put<PaperAttachment>(this.base(paperId), file, {
       headers: { 'Content-Type': 'application/pdf', 'X-Filename': encodeURIComponent(file.name) },
     });
   }
 
-  remove(paperId: number): Observable<void> {
+  remove(paperId: string): Observable<void> {
     return this.http.delete<void>(this.base(paperId));
   }
 }

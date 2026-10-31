@@ -13,6 +13,9 @@ const grace = `Grace Hopper ${token}`;
 
 let api;
 const ids = [];
+/** The integer a seeded paper had before public ids (the dev-only seed route shows it), for the old-link tests. */
+const legacyIds = new Map();
+const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 test.beforeAll(async ({ playwright }) => {
   api = await playwright.request.newContext({ baseURL: BASE_URL });
@@ -26,8 +29,9 @@ test.afterAll(async () => {
 async function seed(data) {
   const res = await api.post('/api/papers/_test', { data });
   expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper } = await res.json();
+  const { paper, legacyId } = await res.json();
   ids.push(paper.id);
+  legacyIds.set(paper.id, legacyId);
   return paper.id;
 }
 
@@ -263,10 +267,28 @@ test.describe('Papers catalog', () => {
 
     test('says the paper does not exist for an unknown or malformed id', async ({ page }) => {
       const paper = new PaperDetailPage(page);
+      await paper.goto('01a191ed-2e04-7235-ae86-8483c518560e');
+      await expect(paper.notFound).toBeVisible();
       await paper.goto(999999999);
       await expect(paper.notFound).toBeVisible();
       await paper.goto('not-an-id');
       await expect(paper.notFound).toBeVisible();
+    });
+
+    test('addresses a paper by an opaque UUIDv7, never by the integer behind it', async ({ page }) => {
+      expect(full).toMatch(UUID_V7);
+      const papers = new PapersListPage(page);
+      // `fresh` keeps the server's rendered-list cache from answering with the ids of an earlier seed.
+      await papers.goto(`?q=${token}&fresh=${Date.now()}`);
+      await expect(papers.card(title('full')).getByRole('link', { name: title('full') })).toHaveAttribute('href', `/papers/${full}`);
+    });
+
+    test('moves an old link with the integer id to the public address', async ({ page }) => {
+      const paper = new PaperDetailPage(page);
+      await paper.goto(legacyIds.get(full));
+      await expect(page).toHaveURL(new RegExp(`/papers/${full}$`));
+      await expect(paper.title).toHaveText(title('full'));
+      expect(page.url()).not.toContain(String(legacyIds.get(full)));
     });
 
     test('asks a signed-out reader to sign in to join the discussion', async ({ page }) => {

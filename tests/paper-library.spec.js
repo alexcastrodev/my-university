@@ -12,6 +12,8 @@ const title = (n) => `Library paper ${token} ${n}`;
 
 let api;
 const ids = [];
+/** The integer a seeded paper had before public ids (the dev-only seed route shows it), for the old-link test. */
+const legacyIds = new Map();
 let alpha;
 let beta;
 let gamma;
@@ -31,8 +33,9 @@ test.afterAll(async () => {
 async function seed(data) {
   const res = await api.post('/api/papers/_test', { data });
   expect(res.ok(), `POST /api/papers/_test (needs ENABLE_DEV_AUTH=1): ${await res.text()}`).toBeTruthy();
-  const { paper } = await res.json();
+  const { paper, legacyId } = await res.json();
   ids.push(paper.id);
+  legacyIds.set(paper.id, legacyId);
   return paper.id;
 }
 
@@ -254,7 +257,7 @@ test.describe('Paper library', () => {
       await entry.goto(alpha);
       await expect(entry.status).toHaveValue('to-read');
 
-      await page.route(/\/api\/paper-library\/\d+$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
+      await page.route(/\/api\/paper-library\/[0-9a-f-]{36}$/, (route) => (route.request().method() === 'PATCH' ? route.abort() : route.continue()), { times: 1 });
       await entry.status.selectOption({ label: 'Reading' });
       await expect(entry.saveError).toContainText('Your change could not be saved.');
       await expect(entry.status).toHaveValue('to-read');
@@ -302,6 +305,16 @@ test.describe('Paper library', () => {
 
       await expect(entry.errorMessage).toBeVisible();
       await entry.retryButton.click();
+      await expect(entry.title).toHaveText(title('alpha'));
+    });
+
+    test('moves an old link with the integer id to the public address', async ({ page }) => {
+      await signIn(page, 'Old link');
+      await addToLibrary(page, alpha);
+      const entry = new PaperLibraryEntryPage(page);
+      await entry.goto(legacyIds.get(alpha));
+
+      await expect(page).toHaveURL(new RegExp(`/library/${alpha}$`));
       await expect(entry.title).toHaveText(title('alpha'));
     });
 

@@ -9,10 +9,12 @@ import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
 import { normalizeDoi } from './paper.normalize';
+import { isPublicId } from './paper-public-id';
 
 /** What a catalog row shows; the full record (abstract, URL, ORCIDs) is one request away. */
 export interface PaperSummary {
-  id: number;
+  /** The public id (UUIDv7); the integer key never leaves the server. */
+  id: string;
   title: string;
   authors: string[];
   keywords: string[];
@@ -127,7 +129,7 @@ export class PapersCatalogService {
     const keywordsOf = by(keywords);
 
     return papers.map((p) => ({
-      id: p.id,
+      id: p.publicId,
       title: p.title,
       authors: (authorsOf.get(p.id) ?? []).map((a) => a.name),
       keywords: (keywordsOf.get(p.id) ?? []).map((k) => k.keyword),
@@ -171,6 +173,17 @@ export class PapersCatalogService {
     const paper = await this.dataSource
       .getRepository(Paper)
       .findOne({ where: { id }, select: { id: true, title: true } });
+    if (!paper) throw new NotFoundException();
+    return paper.title;
+  }
+
+  /** The title of a paper by its public id, or 404: what a discussion or a notification shows for it. */
+  async titleOfPublic(publicId: string): Promise<string> {
+    if (!isPublicId(publicId)) throw new NotFoundException();
+    const paper = await this.dataSource.getRepository(Paper).findOne({
+      where: { publicId: publicId.toLowerCase() },
+      select: { id: true, title: true },
+    });
     if (!paper) throw new NotFoundException();
     return paper.title;
   }

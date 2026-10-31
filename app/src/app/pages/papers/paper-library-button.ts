@@ -16,7 +16,7 @@ import { PaperLibraryService } from '../../services/paper-library.service';
   styleUrl: './paper-library-button.css',
 })
 export class PaperLibraryButton {
-  readonly paperId = input.required<number>();
+  readonly paperId = input.required<string>();
 
   private library = inject(PaperLibraryService);
   private auth = inject(AuthService);

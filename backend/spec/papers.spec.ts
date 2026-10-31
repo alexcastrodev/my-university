@@ -6,12 +6,14 @@ import { PapersApp, startPapersApp } from './papers-app';
 // request and asserts on the response. Titles and DOIs carry a per-run token so they never meet
 // leftovers of an interrupted run.
 const run = Math.random().toString(36).slice(2, 8);
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
 const doi = (n: string) => `10.5555/${run}.${n}`;
 const title = (n: string) => `Spec paper ${run} ${n}`;
 
 interface Result {
   paper: {
-    id: number;
+    id: string;
     title: string;
     doi: string | null;
     abstract: string | null;
@@ -31,7 +33,7 @@ interface Result {
 }
 
 let app: PapersApp;
-const created = new Set<number>();
+const created = new Set<string>();
 
 const jsonInit = (method: string, data: unknown): RequestInit => ({
   method,
@@ -45,9 +47,9 @@ async function add(data: Record<string, unknown>, query = '') {
   if (res.status < 300) created.add(body.paper.id);
   return { res, body };
 }
-const correct = (id: number, data: Record<string, unknown>) =>
+const correct = (id: string, data: Record<string, unknown>) =>
   fetch(`${app.url}/papers/${id}`, jsonInit('PUT', data));
-const read = (id: number) => fetch(`${app.url}/papers/${id}`);
+const read = (id: string) => fetch(`${app.url}/papers/${id}`);
 
 beforeAll(async () => {
   app = await startPapersApp();
@@ -431,7 +433,7 @@ describe('GET /papers/:id: provenance', () => {
   });
 
   it('answers 404 for a paper that does not exist', async () => {
-    expect((await read(2147483000)).status).toBe(404);
+    expect((await read(UNKNOWN_ID)).status).toBe(404);
   });
 });
 
@@ -495,7 +497,7 @@ describe('PUT /papers/:id: a correction', () => {
   });
 
   it('answers 404 for a paper that does not exist', async () => {
-    expect((await correct(2147483000, { title: title('ghost') })).status).toBe(
+    expect((await correct(UNKNOWN_ID, { title: title('ghost') })).status).toBe(
       404,
     );
   });

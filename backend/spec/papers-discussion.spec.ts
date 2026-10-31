@@ -3,18 +3,20 @@ import { del, get, json, login, post } from './helpers';
 
 /**
  * Live stack, like discussions.spec: a paper's discussion is the one concept pages use (same endpoints,
- * same authorization, same notifications), keyed `papers/<id>`. Papers are seeded through the dev-only route.
+ * same authorization, same notifications), keyed `paper:<public id>`. Papers are seeded through the dev-only route.
  */
 const run = Math.random().toString(36).slice(2, 8);
-let paperId: number;
+let paperId: string;
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
 
-const topic = (slug: string | number = paperId) => ({
+const topic = (slug: string = paperId) => ({
   module: 'papers',
-  slug: String(slug),
+  slug,
   lang: 'en',
 });
 
-const general = async (slug?: string | number, cookie?: string) =>
+const general = async (slug?: string, cookie?: string) =>
   get(
     `/discussions/general?module=papers&slug=${slug ?? paperId}&lang=en`,
     cookie ? { Cookie: cookie } : {},
@@ -33,7 +35,7 @@ beforeAll(async () => {
     authors: [{ name: 'Ada Lovelace' }],
   });
   expect(res.status).toBe(201);
-  paperId = (await json<{ paper: { id: number } }>(res)).paper.id;
+  paperId = (await json<{ paper: { id: string } }>(res)).paper.id;
 });
 afterAll(async () => {
   await del(`/papers/_test/${paperId}`);
@@ -67,12 +69,19 @@ describe('discussion on a paper page', () => {
     expect(res.status).toBe(401);
   });
 
-  it('keeps one board per paper however the id is spelled', async () => {
+  it('has one spelling per paper: the public id in lowercase, anything else is refused', async () => {
     const ana = await login(`paper-pad-${run}`);
+    const shouting = await post(
+      '/discussions/general',
+      { ...topic(paperId.toUpperCase()), body: 'upper-case id' },
+      { Cookie: ana.cookie },
+    );
+    expect(shouting.status).toBe(400);
+
     const created = await json<{ markerId: number }>(
       await post(
         '/discussions/general',
-        { ...topic(`00${paperId}`), body: 'padded id' },
+        { ...topic(), body: 'the one spelling' },
         { Cookie: ana.cookie },
       ),
     );
@@ -82,10 +91,10 @@ describe('discussion on a paper page', () => {
 
   it('answers 404 for a paper that does not exist, on read and on write', async () => {
     const ana = await login(`paper-404-${run}`);
-    expect((await general(2147483000)).status).toBe(404);
+    expect((await general(UNKNOWN_ID)).status).toBe(404);
     const res = await post(
       '/discussions/general',
-      { ...topic(2147483000), body: 'nobody home' },
+      { ...topic(UNKNOWN_ID), body: 'nobody home' },
       { Cookie: ana.cookie },
     );
     expect(res.status).toBe(404);
@@ -94,6 +103,7 @@ describe('discussion on a paper page', () => {
   it.each([
     ['a slug that is not an id', 'not-an-id'],
     ['an id beyond the integer range', '99999999999'],
+    ['the integer a paper had before public ids', '3105'],
   ])('answers 404 for %s', async (_name, slug) => {
     expect((await general(slug)).status).toBe(404);
   });
@@ -145,7 +155,7 @@ describe('discussion on a paper page', () => {
       markerId,
       general: true,
       conceptTitle: `Discussion paper ${run}`,
-      route: ['/papers', String(paperId)],
+      route: ['/papers', paperId],
     });
   });
 });

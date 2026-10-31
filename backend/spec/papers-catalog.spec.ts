@@ -11,7 +11,7 @@ const title = (n: string) => `Catalog paper ${run} ${n}`;
 const area = (n: string) => `Area ${run} ${n}`;
 
 interface Summary {
-  id: number;
+  id: string;
   title: string;
   authors: string[];
   keywords: string[];
@@ -30,7 +30,11 @@ interface Page {
 }
 
 let app: CatalogApp;
-const created = new Set<number>();
+const created = new Set<string>();
+/** A well-formed public id that no paper has. */
+const UNKNOWN_ID = '01a191ed-2e04-7235-ae86-8483c518560e';
+/** A UUID of version 7: what PostgreSQL's uuidv7() makes. */
+const UUID_V7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const devAuth = process.env.ENABLE_DEV_AUTH;
 
 const send = (method: string, path: string, data?: unknown) =>
@@ -47,14 +51,14 @@ let doiCounter = 0;
  * Seeds through the same dev-only route the browser tests use. A paper needs a DOI, a date or an author
  * to be told apart from others (#178), so one that has none of them gets a DOI of its own.
  */
-async function seed(data: Record<string, unknown>): Promise<number> {
+async function seed(data: Record<string, unknown>): Promise<string> {
   const body =
     data.doi || data.publicationDate || data.authors
       ? data
       : { ...data, doi: doi(`auto${doiCounter++}`) };
   const res = await send('POST', '/papers/_test', body);
   expect(res.status, await res.clone().text()).toBe(201);
-  const { paper } = await json<{ paper: { id: number } }>(res);
+  const { paper } = await json<{ paper: { id: string } }>(res);
   created.add(paper.id);
   return paper.id;
 }
@@ -415,13 +419,58 @@ describe('GET /papers/:id', () => {
     expect(Object.keys(body)).not.toContain('fingerprint');
   });
 
-  it('answers 404 for a paper that does not exist, including ids beyond the integer range', async () => {
-    expect((await fetch(`${app.url}/papers/2147483000`)).status).toBe(404);
-    expect((await fetch(`${app.url}/papers/99999999999`)).status).toBe(404);
+  it('answers 404 for a paper that does not exist and for anything that is not a public id', async () => {
+    for (const id of [UNKNOWN_ID, '99999999999', 'not-an-id', '0']) {
+      expect((await fetch(`${app.url}/papers/${id}`)).status, id).toBe(404);
+    }
   });
 
-  it('answers 400 for an id that is not a number', async () => {
-    expect((await fetch(`${app.url}/papers/not-a-number`)).status).toBe(400);
+  it('is addressed by a UUIDv7, in either letter case, and carries it as its id', async () => {
+    const id = await seed({ title: title('uuid') });
+    expect(id).toMatch(UUID_V7);
+
+    for (const spelling of [id, id.toUpperCase()]) {
+      const res = await fetch(`${app.url}/papers/${spelling}`);
+      expect(res.status).toBe(200);
+      expect((await json<{ id: string }>(res)).id).toBe(id);
+    }
+    const { page } = await list(`q=${title('uuid')}`);
+    expect(page.items.map((i) => i.id)).toEqual([id]);
+  });
+
+  it('never shows the integer key: not in the record, the list, or the analysis', async () => {
+    const id = await seed({ title: title('hidden-key') });
+    const [row]: { id: number }[] = await app.dataSource.query(
+      `SELECT id FROM paper WHERE "publicId" = $1`,
+      [id],
+    );
+    const bodies = await Promise.all([
+      fetch(`${app.url}/papers/${id}`).then((r) => r.text()),
+      fetch(`${app.url}/papers/${id}/analysis`).then((r) => r.text()),
+      fetch(`${app.url}/papers?q=${title('hidden-key')}`).then((r) => r.text()),
+    ]);
+    for (const body of bodies) {
+      expect(body).not.toMatch(new RegExp(`"(id|paperId)":\\s*${row.id}\\b`));
+    }
+  });
+
+  it('answers the id a paper used to have with a permanent redirect to its public id', async () => {
+    const id = await seed({ title: title('legacy') });
+    const [row]: { id: number }[] = await app.dataSource.query(
+      `SELECT id FROM paper WHERE "publicId" = $1`,
+      [id],
+    );
+
+    const res = await fetch(`${app.url}/papers/${row.id}`, { redirect: 'manual' });
+    expect(res.status).toBe(301);
+    expect(res.headers.get('location')).toBe(`/api/papers/${id}`);
+    expect(await res.text()).not.toContain(String(row.id));
+
+    // Followed, it lands on the record; an integer nobody had is a plain 404.
+    const followed = await fetch(`${app.url}/papers/${row.id}`);
+    expect(followed.status).toBe(200);
+    expect((await json<{ id: string }>(followed)).id).toBe(id);
+    expect((await fetch(`${app.url}/papers/2147483000`)).status).toBe(404);
   });
 
   it('does not need a session: nothing in the response depends on the viewer', async () => {

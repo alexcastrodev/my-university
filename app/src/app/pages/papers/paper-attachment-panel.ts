@@ -13,7 +13,7 @@ import { attachmentErrorMessage, formatFileSize, formatPaperDate } from '../../s
   styleUrl: './paper-attachment-panel.css',
 })
 export class PaperAttachmentPanel {
-  readonly paperId = input.required<number>();
+  readonly paperId = input.required<string>();
 
   private attachments = inject(PaperAttachmentsService);
   private locale = inject(LOCALE_ID);

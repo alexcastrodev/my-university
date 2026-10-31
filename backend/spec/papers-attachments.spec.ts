@@ -16,6 +16,8 @@ const QUOTA = 300_000;
 
 let app: AttachmentsApp;
 const paperIds: number[] = [];
+/** The internal key behind a public id, for the SQL these tests run on the side. */
+const internalOf = new Map<string, number>();
 
 const sha256 = (bytes: Buffer) =>
   createHash('sha256').update(bytes).digest('hex');
@@ -31,10 +33,10 @@ async function signIn(name: string): Promise<string> {
 }
 
 let seq = 0;
-async function newPaper(label: string): Promise<number> {
+async function newPaper(label: string): Promise<string> {
   const n = ++seq;
-  const rows: { id: number }[] = await app.dataSource.query(
-    `INSERT INTO paper (title, doi, fingerprint) VALUES ($1, $2, $3) RETURNING id`,
+  const rows: { id: number; publicId: string }[] = await app.dataSource.query(
+    `INSERT INTO paper (title, doi, fingerprint) VALUES ($1, $2, $3) RETURNING id, "publicId"`,
     [
       `Attachment paper ${label} ${run}`,
       `10.5555/att${run}.${n}`,
@@ -42,12 +44,13 @@ async function newPaper(label: string): Promise<number> {
     ],
   );
   paperIds.push(rows[0].id);
-  return rows[0].id;
+  internalOf.set(rows[0].publicId, rows[0].id);
+  return rows[0].publicId;
 }
 
 const upload = (
   cookie: string | undefined,
-  paperId: number | string,
+  paperId: string,
   body: Buffer | string | undefined,
   headers: Record<string, string> = {},
 ) =>
@@ -67,18 +70,18 @@ const call = (method: string, path: string, cookie?: string) =>
     headers: cookie ? { Cookie: cookie } : {},
   });
 
-const view = (paperId: number, cookie: string) =>
+const view = (paperId: string, cookie: string) =>
   call('GET', `/papers/${paperId}/attachment`, cookie);
-const file = (paperId: number, cookie: string) =>
+const file = (paperId: string, cookie: string) =>
   call('GET', `/papers/${paperId}/attachment/file`, cookie);
 
 /** The object key a version row points to (null once its bytes are gone). */
-async function keyOf(paperId: number, version: number): Promise<string | null> {
+async function keyOf(paperId: string, version: number): Promise<string | null> {
   const rows: { objectKey: string | null }[] = await app.dataSource.query(
     `SELECT v."objectKey" FROM paper_attachment_version v
        JOIN paper_attachment a ON a.id = v."attachmentId"
       WHERE a."paperId" = $1 AND v.version = $2`,
-    [paperId, version],
+    [internalOf.get(paperId), version],
   );
   return rows[0]?.objectKey ?? null;
 }
@@ -113,13 +116,13 @@ afterAll(async () => {
 
 describe('who can reach an attachment', () => {
   it.each([
-    ['upload', (id: number) => upload(undefined, id, makePdf())],
+    ['upload', (id: string) => upload(undefined, id, makePdf())],
     [
       'read the record',
-      (id: number) => call('GET', `/papers/${id}/attachment`),
+      (id: string) => call('GET', `/papers/${id}/attachment`),
     ],
-    ['download', (id: number) => call('GET', `/papers/${id}/attachment/file`)],
-    ['delete', (id: number) => call('DELETE', `/papers/${id}/attachment`)],
+    ['download', (id: string) => call('GET', `/papers/${id}/attachment/file`)],
+    ['delete', (id: string) => call('DELETE', `/papers/${id}/attachment`)],
   ])('answers 401 to %s without a session', async (_name, send) => {
     const paper = await newPaper('anon');
     expect((await send(paper)).status).toBe(401);
@@ -191,7 +194,6 @@ describe('uploading a PDF', () => {
     });
     expect(res.status).toBe(201);
     expect(await res.json()).toMatchObject({
-      paperId: paper,
       visibility: 'private',
       current: 1,
       versions: [
@@ -284,10 +286,14 @@ describe('uploading a PDF', () => {
 
   it('answers 404 for a paper that does not exist, or an id that is not one', async () => {
     const ana = await signIn('404');
-    expect((await upload(ana, 2147483000, makePdf())).status).toBe(404);
-    expect((await upload(ana, 99999999999, makePdf())).status).toBe(404);
-    expect((await upload(ana, 'abc', makePdf())).status).toBe(400);
-    expect((await view(2147483000, ana)).status).toBe(404);
+    const unknown = '01a191ed-2e04-7235-ae86-8483c518560e';
+    expect((await upload(ana, unknown, makePdf())).status).toBe(404);
+    expect((await view(unknown, ana)).status).toBe(404);
+    // The integer a paper used to have in its URL, and anything else that is not a public id.
+    for (const notAnId of ['2147483000', '99999999999', 'abc']) {
+      expect((await upload(ana, notAnId, makePdf())).status).toBe(404);
+      expect((await view(notAnId, ana)).status).toBe(404);
+    }
   });
 });
 
@@ -624,7 +630,7 @@ describe('replacing and deleting', () => {
     const paperGone = await newPaper('cascade-paper');
     await upload(ana, paperGone, makePdf({ padding: 5 }));
     const keyA = (await keyOf(paperGone, 1))!;
-    await app.dataSource.query(`DELETE FROM paper WHERE id = $1`, [paperGone]);
+    await app.dataSource.query(`DELETE FROM paper WHERE "publicId" = $1`, [paperGone]);
     expect(await gone(keyA)).toBe(true);
 
     const bia = await signIn('cascade-user');
@@ -659,7 +665,7 @@ describe('replacing and deleting', () => {
 describe('a file that is not approved is never served', () => {
   /** A version row written directly, as another process would leave it. */
   async function plant(
-    paper: number,
+    paper: string,
     ana: string,
     state: string,
     withBytes: boolean,
@@ -670,7 +676,7 @@ describe('a file that is not approved is never served', () => {
     );
     const att: { id: number }[] = await app.dataSource.query(
       `INSERT INTO paper_attachment ("paperId", "ownerId") VALUES ($1, $2) RETURNING id`,
-      [paper, me[0].id],
+      [internalOf.get(paper), me[0].id],
     );
     const key = withBytes ? `papers/planted-${run}-${paper}` : null;
     if (key) await app.storage.put(key, makePdf(), 'application/pdf');
@@ -742,7 +748,7 @@ describe('the database refuses states that would expose or orphan a file', () =>
     await expect(
       app.dataSource.query(
         `INSERT INTO paper_attachment ("paperId", "ownerId", visibility) VALUES ($1, $2, 'public')`,
-        [paper, me[0].id],
+        [internalOf.get(paper), me[0].id],
       ),
     ).rejects.toThrow();
   });

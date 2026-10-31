@@ -6,13 +6,13 @@ import {
   HttpCode,
   Inject,
   Param,
-  ParseIntPipe,
   Put,
   Req,
   Res,
 } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { CurrentUserId } from '../auth/session';
+import { PaperIds } from '../papers/paper-public-id';
 import { PaperAttachmentsService, fail } from './paper-attachments.service';
 
 /** `filename*` carries the real name (RFC 5987); the plain one is an ASCII fallback for old clients. */
@@ -33,6 +33,7 @@ export class PaperAttachmentsController {
   constructor(
     @Inject(PaperAttachmentsService)
     private readonly attachments: PaperAttachmentsService,
+    @Inject(PaperIds) private readonly ids: PaperIds,
   ) {}
 
   /**
@@ -43,7 +44,7 @@ export class PaperAttachmentsController {
   @Put()
   async upload(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
     @Headers('x-filename') filename: string | undefined,
     @Req() req: FastifyRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
@@ -58,7 +59,7 @@ export class PaperAttachmentsController {
     }
     const { attachment, created } = await this.attachments.upload(
       userId,
-      paperId,
+      await this.ids.resolve(paperId),
       body,
       filename ?? '',
     );
@@ -67,21 +68,24 @@ export class PaperAttachmentsController {
   }
 
   @Get()
-  get(
+  async get(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
   ) {
-    return this.attachments.get(userId, paperId);
+    return this.attachments.get(userId, await this.ids.resolve(paperId));
   }
 
   /** The approved file. Never cached and never rendered by the browser on this origin. */
   @Get('file')
   async file(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
     @Res() reply: FastifyReply,
   ) {
-    const file = await this.attachments.open(userId, paperId);
+    const file = await this.attachments.open(
+      userId,
+      await this.ids.resolve(paperId),
+    );
     await reply
       .header('Content-Type', 'application/pdf')
       .header('Content-Length', file.size)
@@ -97,8 +101,8 @@ export class PaperAttachmentsController {
   @HttpCode(204)
   async remove(
     @CurrentUserId() userId: number,
-    @Param('paperId', ParseIntPipe) paperId: number,
+    @Param('paperId') paperId: string,
   ) {
-    await this.attachments.remove(userId, paperId);
+    await this.attachments.remove(userId, await this.ids.resolve(paperId));
   }
 }

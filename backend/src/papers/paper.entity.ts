@@ -34,6 +34,14 @@ export class Paper {
   @PrimaryGeneratedColumn()
   id: number;
 
+  /**
+   * What addresses the paper from outside (URLs, the API, the discussion topic): an opaque UUIDv7 made by
+   * PostgreSQL. The integer `id` never leaves the server.
+   */
+  @Column({ type: 'uuid', default: () => 'uuidv7()', update: false })
+  @Index('UQ_paper_publicId', { unique: true })
+  publicId: string;
+
   @Column({ type: 'text' })
   title: string;
 

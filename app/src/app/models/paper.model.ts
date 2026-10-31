@@ -14,7 +14,8 @@ export type PaperSort = 'recent' | 'title';
 
 /** A row of the public catalog; mirrors GET /api/papers. */
 export interface PaperSummary {
-  id: number;
+  /** The public id (UUIDv7): what URLs and the API call the paper. */
+  id: string;
   title: string;
   authors: string[];
   keywords: string[];
@@ -47,7 +48,8 @@ export interface PaperFacets {
 
 /** The public record of one paper; mirrors GET /api/papers/:id. */
 export interface Paper {
-  id: number;
+  /** The public id (UUIDv7). */
+  id: string;
   title: string;
   abstract: string | null;
   doi: string | null;
@@ -89,7 +91,6 @@ export interface AttachmentVersion {
 /** The signed-in reader's own PDF for a paper; mirrors GET /api/papers/:id/attachment. Newest version first. */
 export interface PaperAttachment {
   id: number;
-  paperId: number;
   visibility: 'private';
   /** The version being served, or null when none was approved. */
   current: number | null;
@@ -103,7 +104,8 @@ export type LibrarySort = 'added' | 'title' | 'completed' | 'rating';
 
 /** What the signed-in reader keeps about a paper; mirrors GET /api/paper-library/:paperId. */
 export interface LibraryEntry {
-  paperId: number;
+  /** The paper's public id. */
+  paperId: string;
   status: LibraryStatus;
   /** 1 to 5, or null when not rated. */
   rating: number | null;

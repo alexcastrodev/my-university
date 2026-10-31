@@ -7,7 +7,6 @@ import {
   Inject,
   Module,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -27,6 +26,7 @@ import { Paper } from '../src/papers/paper.entity';
 import { PaperAuthor } from '../src/papers/paper-author.entity';
 import { PaperKeyword } from '../src/papers/paper-keyword.entity';
 import { PaperSource } from '../src/papers/paper-source.entity';
+import { PaperIds } from '../src/papers/paper-public-id';
 import { PapersService } from '../src/papers/papers.service';
 
 // A throwaway Nest server that exposes PapersService over HTTP, against the real Postgres (the
@@ -44,6 +44,7 @@ class PapersHarnessController {
   constructor(
     @Inject(PapersService) private readonly papers: PapersService,
     @Inject(DataSource) private readonly dataSource: DataSource,
+    @Inject(PaperIds) private readonly ids: PaperIds,
   ) {}
 
   @Post()
@@ -59,24 +60,26 @@ class PapersHarnessController {
   }
 
   @Put(':id')
-  correct(
-    @Param('id', ParseIntPipe) id: number,
+  async correct(
+    @Param('id') id: string,
     @Body(body) dto: PaperInputDto,
     @Query('source') source = 'manual',
   ) {
-    return this.papers.correct(id, dto, { source });
+    return this.papers.correct(await this.ids.resolve(id), dto, { source });
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    return this.papers.get(id);
+  async get(@Param('id') id: string) {
+    return this.papers.get(await this.ids.resolve(id));
   }
 
   /** Test cleanup only: the authors, keywords and sources go with it (ON DELETE CASCADE). */
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    await this.dataSource.getRepository(Paper).delete(id);
+  async remove(@Param('id') id: string) {
+    await this.dataSource
+      .getRepository(Paper)
+      .delete(await this.ids.resolve(id));
   }
 }
 
@@ -103,6 +106,11 @@ export async function startPapersApp(): Promise<PapersApp> {
       {
         provide: PapersService,
         useFactory: (dataSource: DataSource) => new PapersService(dataSource),
+        inject: [DataSource],
+      },
+      {
+        provide: PaperIds,
+        useFactory: (dataSource: DataSource) => new PaperIds(dataSource),
         inject: [DataSource],
       },
     ],
