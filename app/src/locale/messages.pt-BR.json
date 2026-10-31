@@ -1000,6 +1000,7 @@
     "papers.search.placeholder": "Título, autor, DOI ou palavra-chave",
     "papers.search.submit": "Buscar",
     "papers.filter.type": "Tipo",
+    "papers.filter.stage": "Situação da publicação",
     "papers.filter.area": "Área de pesquisa",
     "papers.filter.all": "Todos",
     "papers.filter.sort": "Ordenar por",
@@ -1037,7 +1038,7 @@
     "papers.detail.orcid": "ORCID",
     "papers.detail.noAuthors": "Autores não informados.",
     "papers.detail.type": "Tipo",
-    "papers.detail.published": "Publicado",
+    "papers.detail.published": "Data",
     "papers.detail.dateUnknown": "Data não informada",
     "papers.detail.venue": "Veículo",
     "papers.detail.area": "Área de pesquisa",
@@ -1180,6 +1181,16 @@
     "papers.analysis.section.furtherResearch": "Pesquisas futuras",
     "papers.analysis.state.notApplicable": "Não se aplica a este paper.",
     "papers.analysis.state.notReported": "O paper não informa isso.",
-    "papers.analysis.state.unableToDetermine": "Não foi possível determinar a partir do paper."
+    "papers.analysis.state.unableToDetermine": "Não foi possível determinar a partir do paper.",
+    "papers.stage.preprint": "Preprint: ainda não revisado",
+    "papers.stage.preprint.note": "Os autores compartilharam isto antes de outros especialistas conferirem. Os resultados podem mudar ou se mostrar errados: trate como trabalho em andamento, não como algo estabelecido.",
+    "papers.stage.published": "Publicado",
+    "papers.stage.published.note": "Saiu em uma revista, congresso ou livro, que normalmente avaliam o trabalho antes de aceitar. Mesmo assim, um único estudo nunca é a palavra final.",
+    "papers.stage.thesis": "Tese ou dissertação",
+    "papers.stage.thesis.note": "Escrita para obter um título universitário e avaliada por uma banca. Não é o mesmo que um artigo avaliado por uma revista.",
+    "papers.stage.report": "Relatório",
+    "papers.stage.report.note": "Publicado por uma instituição ou empresa. Especialistas independentes não necessariamente o revisaram.",
+    "papers.stage.unknown": "Situação desconhecida",
+    "papers.stage.unknown.note": "Não sabemos se outros especialistas revisaram isto. Veja onde foi publicado antes de confiar."
   }
 }

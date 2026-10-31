@@ -11,6 +11,8 @@ import {
 } from 'class-validator';
 import { PAPER_TYPES } from './paper.entity';
 import type { PaperType } from './paper.entity';
+import { PUBLICATION_STAGES } from './paper-stage';
+import type { PublicationStage } from './paper-stage';
 
 export const PAPER_SORTS = ['recent', 'title'] as const;
 export type PaperSort = (typeof PAPER_SORTS)[number];
@@ -61,6 +63,12 @@ export class PaperFilterDto {
   @Transform(trim)
   @IsIn(PAPER_TYPES)
   type?: PaperType;
+
+  /** Where the paper stands (preprint, published...): the types that make up a stage, see paper-stage.ts. */
+  @IsOptional()
+  @Transform(trim)
+  @IsIn(PUBLICATION_STAGES)
+  stage?: PublicationStage;
 
   /** Publication year, four digits. */
   @IsOptional()

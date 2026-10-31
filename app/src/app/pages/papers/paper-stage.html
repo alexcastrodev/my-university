@@ -1,0 +1,13 @@
+@if (explain()) {
+  <div class="stage stage-note" [attr.data-stage]="stage()">
+    <p class="stage-title">
+      <strong>{{ label(stage()) }}</strong>
+      @if (stage() === 'published' && venue(); as v) {
+        <span class="stage-venue">{{ v }}</span>
+      }
+    </p>
+    <p class="stage-text">{{ note(stage()) }}</p>
+  </div>
+} @else {
+  <span class="stage stage-pill" [attr.data-stage]="stage()">{{ label(stage()) }}</span>
+}

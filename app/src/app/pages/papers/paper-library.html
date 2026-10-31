@@ -116,6 +116,7 @@
                 }
                 <p class="paper-meta">
                   <span class="badge badge-status" [attr.data-status]="paper.library.status">{{ statusLabel(paper.library.status) }}</span>
+                  <app-paper-stage [stage]="paper.stage" />
                   <span class="badge">{{ paperTypeLabel(paper.type) }}</span>
                   @if (paper.publicationDate) { <span>{{ date(paper.publicationDate) }}</span> }
                   @if (paper.venue) { <span>{{ paper.venue }}</span> }

@@ -9,6 +9,7 @@ import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, paperTypeLabel, safeWebUrl } from '../../shared/paper-format';
 import { PaperAttachmentPanel } from './paper-attachment-panel';
 import { PaperLibraryDetails } from './paper-library-details';
+import { PaperStage } from './paper-stage';
 
 type Loaded = { paper: Paper; entry: LibraryEntry } | 'signedOut' | 'missing' | 'failed';
 
@@ -19,7 +20,7 @@ type Loaded = { paper: Paper; entry: LibraryEntry } | 'signedOut' | 'missing' | 
 @Component({
   selector: 'app-paper-library-entry',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperAttachmentPanel, PaperLibraryDetails],
+  imports: [RouterLink, PaperAttachmentPanel, PaperLibraryDetails, PaperStage],
   templateUrl: './paper-library-entry.html',
   styleUrls: ['./paper-detail.css', './paper-library-entry.css'],
 })

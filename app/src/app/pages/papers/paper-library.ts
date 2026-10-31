@@ -6,6 +6,7 @@ import { LIBRARY_STATUSES, LibraryFacets, LibraryPage, LibraryQuery, LibraryStat
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, libraryStatusLabel, paperTypeLabel } from '../../shared/paper-format';
+import { PaperStage } from './paper-stage';
 import { LIBRARY_SORTS, libraryQueryParams, parseLibraryQuery } from './paper-library-query';
 
 const AUTHORS_SHOWN = 4;
@@ -14,7 +15,7 @@ const AUTHORS_SHOWN = 4;
 @Component({
   selector: 'app-paper-library',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, PaperStage],
   templateUrl: './paper-library.html',
   styleUrls: ['./papers-list.css', './paper-library.css'],
 })

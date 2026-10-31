@@ -10,6 +10,7 @@ import { PaperInputDto } from './paper.dto';
 import { Paper, PaperType } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
+import { PublicationStage, stageOf } from './paper-stage';
 import { PaperConflict, PaperSource } from './paper-source.entity';
 import {
   familyName,
@@ -34,6 +35,8 @@ export interface PaperView {
   url: string | null;
   researchArea: string | null;
   type: PaperType;
+  /** What the type says about review, in plain terms (see paper-stage.ts). */
+  stage: PublicationStage;
   authors: { name: string; orcid: string | null }[];
   keywords: string[];
   createdAt: Date;
@@ -479,6 +482,7 @@ export class PapersService {
       url: paper.url,
       researchArea: paper.researchArea,
       type: paper.type,
+      stage: stageOf(paper.type),
       authors: authors.map((a) => ({ name: a.name, orcid: a.orcid })),
       keywords: keywords.map((k) => k.keyword),
       createdAt: paper.createdAt,
