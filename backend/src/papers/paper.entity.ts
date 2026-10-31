@@ -20,15 +20,17 @@ export const PAPER_TYPES = [
 export type PaperType = (typeof PAPER_TYPES)[number];
 
 /**
- * The canonical bibliographic record of a paper, shared by every reader. It has no owner: a user's
- * relation to it (library entry, annotation, contribution) lives in its own table.
+ * The canonical bibliographic record of a paper, shared by every reader. A public paper has no owner: a user's
+ * relation to it (library entry, annotation, contribution) lives in its own table. A private paper (#203) is
+ * one reader's own, and is excluded from everything public.
  *
  * Identity: `doi` when there is one, otherwise `fingerprint` (see paper.normalize.ts and the README).
  */
 @Entity('paper')
+@Index('UQ_paper_doi', ['doi'], { unique: true, where: '"ownerId" IS NULL' })
 @Index('UQ_paper_fingerprint_without_doi', ['fingerprint'], {
   unique: true,
-  where: '"doi" IS NULL',
+  where: '"doi" IS NULL AND "ownerId" IS NULL',
 })
 export class Paper {
   @PrimaryGeneratedColumn()
@@ -48,9 +50,13 @@ export class Paper {
   @Column({ type: 'text', nullable: true })
   abstract: string | null;
 
-  /** Normalized: lowercase, no URL or `doi:` prefix. Unique, and many papers have none. */
-  @Column({ type: 'text', nullable: true, unique: true })
+  /** Normalized: lowercase, no URL or `doi:` prefix. Unique among public papers, and many papers have none. */
+  @Column({ type: 'text', nullable: true })
   doi: string | null;
+
+  /** Null for a public paper; the reader's user id for a private one, which only that reader can reach. */
+  @Column({ type: 'integer', nullable: true })
+  ownerId: number | null;
 
   /** Hash of normalized title, year and first author's family name; recomputed when they change. */
   @Column({ type: 'text' })

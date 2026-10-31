@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
-import { LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery } from '../models/paper.model';
+import { LibraryChange, LibraryEntry, LibraryFacets, LibraryPage, LibraryQuery, Paper, PrivatePaperResult } from '../models/paper.model';
 
 /** The signed-in reader's private paper library. Every call needs a session (401 without one). */
 @Injectable({ providedIn: 'root' })
@@ -26,6 +26,21 @@ export class PaperLibraryService {
     return this.http
       .get<LibraryEntry>(`${this.base}/${paperId}`)
       .pipe(catchError((err) => (err?.status === 404 ? of(null) : throwError(() => err))));
+  }
+
+  /** The paper itself, read through the library: a private paper has no public address. 404 when it is not in the library. */
+  paper(paperId: string): Observable<Paper> {
+    return this.http.get<Paper>(`${this.base}/${paperId}/paper`);
+  }
+
+  /** The PDF goes as the raw body, like an attachment; the title and the optional DOI travel in the query. */
+  addFromPdf(file: File, title: string, doi: string): Observable<PrivatePaperResult> {
+    let params = new HttpParams().set('title', title);
+    if (doi) params = params.set('doi', doi);
+    return this.http.post<PrivatePaperResult>(`${this.base}/private`, file, {
+      params,
+      headers: { 'Content-Type': 'application/pdf', 'X-Filename': encodeURIComponent(file.name) },
+    });
   }
 
   add(paperId: string): Observable<LibraryEntry> {

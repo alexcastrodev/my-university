@@ -8,12 +8,13 @@ import { SeoService } from '../../services/seo.service';
 import { formatPaperDate, libraryStatusLabel } from '../../shared/paper-format';
 import { PaperRow } from './paper-row';
 import { LIBRARY_SORTS, libraryQueryParams, parseLibraryQuery } from './paper-library-query';
+import { PaperPrivateDrop } from './paper-private-drop';
 
 /** The reader's own papers: filter by reading status, tag and text, sort by date or rating. Client-rendered, private. */
 @Component({
   selector: 'app-paper-library',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperRow],
+  imports: [RouterLink, PaperRow, PaperPrivateDrop],
   templateUrl: './paper-library.html',
   styleUrls: ['./papers-list.css', './paper-library.css'],
 })

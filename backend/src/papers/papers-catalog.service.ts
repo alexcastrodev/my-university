@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource, SelectQueryBuilder } from 'typeorm';
+import { DataSource, IsNull, SelectQueryBuilder } from 'typeorm';
 import {
   PAPER_PAGE_DEFAULT_LIMIT,
   PaperFilterDto,
@@ -65,7 +65,7 @@ function excerptOf(abstract: string | null): string | null {
 }
 
 /**
- * The read side of the catalog: public metadata only. Provenance (`paper_source`) is not selected
+ * The read side of the catalog: public metadata of public papers only (a private paper, #203, is never listed). Provenance (`paper_source`) is not selected
  * anywhere in here, so it cannot leak by accident.
  *
  * ponytail: ILIKE scans, fine while the catalog is thousands of papers; move to a tsvector index
@@ -80,7 +80,8 @@ export class PapersCatalogService {
     const limit = query.limit ?? PAPER_PAGE_DEFAULT_LIMIT;
     const builder = this.dataSource
       .getRepository(Paper)
-      .createQueryBuilder('p');
+      .createQueryBuilder('p')
+      .where('p.ownerId IS NULL');
     this.filter(builder, query);
 
     const total = await builder.getCount();
@@ -157,7 +158,7 @@ export class PapersCatalogService {
         .createQueryBuilder('p')
         .select(`p.${column}`, 'value')
         .addSelect('COUNT(*)', 'count')
-        .where(`p.${column} IS NOT NULL`)
+        .where(`p.${column} IS NOT NULL AND p.ownerId IS NULL`)
         .groupBy(`p.${column}`)
         .orderBy('COUNT(*)', 'DESC')
         .addOrderBy(`p.${column}`, 'ASC')
@@ -179,7 +180,10 @@ export class PapersCatalogService {
     }
     const paper = await this.dataSource
       .getRepository(Paper)
-      .findOne({ where: { id }, select: { id: true, title: true } });
+      .findOne({
+        where: { id, ownerId: IsNull() },
+        select: { id: true, title: true },
+      });
     if (!paper) throw new NotFoundException();
     return paper.title;
   }
@@ -188,7 +192,7 @@ export class PapersCatalogService {
   async titleOfPublic(publicId: string): Promise<string> {
     if (!isPublicId(publicId)) throw new NotFoundException();
     const paper = await this.dataSource.getRepository(Paper).findOne({
-      where: { publicId: publicId.toLowerCase() },
+      where: { publicId: publicId.toLowerCase(), ownerId: IsNull() },
       select: { id: true, title: true },
     });
     if (!paper) throw new NotFoundException();

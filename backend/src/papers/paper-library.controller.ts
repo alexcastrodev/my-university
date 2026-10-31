@@ -21,6 +21,7 @@ import {
 } from './paper-library.dto';
 import { PaperIds } from './paper-public-id';
 import { PaperLibraryService } from './paper-library.service';
+import { PapersService } from './papers.service';
 
 // esbuild (vitest) emits no decorator metadata, so each pipe is told its DTO by hand. Unknown fields
 // are rejected: a typo in a field or filter name is a 400, not a silently ignored change.
@@ -41,6 +42,7 @@ export class PaperLibraryController {
   constructor(
     @Inject(PaperLibraryService) private readonly library: PaperLibraryService,
     @Inject(PaperIds) private readonly ids: PaperIds,
+    @Inject(PapersService) private readonly papers: PapersService,
   ) {}
 
   @Get()
@@ -74,7 +76,21 @@ export class PaperLibraryController {
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
   ) {
-    return this.library.get(userId, await this.ids.resolve(paperId));
+    return this.library.get(userId, await this.ids.resolveFor(userId, paperId));
+  }
+
+  /**
+   * The paper itself, read through the library instead of the public route: a private paper has no public
+   * address. It needs the entry, so a paper that is not in the reader's library is a 404 here.
+   */
+  @Get(':paperId/paper')
+  async paper(
+    @CurrentUserId() userId: number,
+    @Param('paperId') paperId: string,
+  ) {
+    const id = await this.ids.resolveFor(userId, paperId);
+    await this.library.get(userId, id);
+    return this.papers.getFor(userId, id);
   }
 
   @Patch(':paperId')
@@ -83,7 +99,11 @@ export class PaperLibraryController {
     @Param('paperId') paperId: string,
     @Body(updateBody) dto: UpdateLibraryEntryDto,
   ) {
-    return this.library.update(userId, await this.ids.resolve(paperId), dto);
+    return this.library.update(
+      userId,
+      await this.ids.resolveFor(userId, paperId),
+      dto,
+    );
   }
 
   @Delete(':paperId')
@@ -92,6 +112,9 @@ export class PaperLibraryController {
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
   ) {
-    await this.library.remove(userId, await this.ids.resolve(paperId));
+    await this.library.remove(
+      userId,
+      await this.ids.resolveFor(userId, paperId),
+    );
   }
 }

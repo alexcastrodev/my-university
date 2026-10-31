@@ -50,3 +50,9 @@
   outline: 2px solid var(--mu-accent);
   outline-offset: 1px;
 }
+
+.badge-private {
+  color: var(--mu-info-strong);
+  background: var(--mu-info-soft);
+  border-color: var(--mu-info-border);
+}

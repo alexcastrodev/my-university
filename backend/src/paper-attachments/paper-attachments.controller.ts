@@ -59,7 +59,7 @@ export class PaperAttachmentsController {
     }
     const { attachment, created } = await this.attachments.upload(
       userId,
-      await this.ids.resolve(paperId),
+      await this.ids.resolveFor(userId, paperId),
       body,
       filename ?? '',
     );
@@ -72,7 +72,7 @@ export class PaperAttachmentsController {
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
   ) {
-    return this.attachments.get(userId, await this.ids.resolve(paperId));
+    return this.attachments.get(userId, await this.ids.resolveFor(userId, paperId));
   }
 
   /** The approved file. Never cached and never rendered by the browser on this origin. */
@@ -84,7 +84,7 @@ export class PaperAttachmentsController {
   ) {
     const file = await this.attachments.open(
       userId,
-      await this.ids.resolve(paperId),
+      await this.ids.resolveFor(userId, paperId),
     );
     await reply
       .header('Content-Type', 'application/pdf')
@@ -103,6 +103,6 @@ export class PaperAttachmentsController {
     @CurrentUserId() userId: number,
     @Param('paperId') paperId: string,
   ) {
-    await this.attachments.remove(userId, await this.ids.resolve(paperId));
+    await this.attachments.remove(userId, await this.ids.resolveFor(userId, paperId));
   }
 }

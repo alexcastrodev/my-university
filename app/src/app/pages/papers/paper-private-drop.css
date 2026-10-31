@@ -1,0 +1,188 @@
+.drop {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+}
+
+.drop-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.drop-zone {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.15rem;
+  color: var(--mu-ink-soft);
+  cursor: pointer;
+  border: 2px dashed var(--mu-line);
+  border-radius: 10px;
+}
+
+.drop-zone:hover,
+.drop-zone:focus-within,
+.drop-zone-over {
+  color: var(--mu-accent-strong);
+  background: var(--mu-accent-soft);
+  border-color: var(--mu-accent-border);
+}
+
+.drop-zone:focus-within {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 2px;
+}
+
+.drop-icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.drop-zone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.drop-zone-text strong {
+  color: var(--mu-ink);
+}
+
+.muted {
+  color: var(--mu-muted);
+}
+
+.drop-file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+}
+
+.drop-file-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mu-muted);
+}
+
+.field-input {
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  color: var(--mu-ink);
+  background: var(--mu-surface);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+}
+
+.field-input:focus-visible {
+  outline: 2px solid var(--mu-accent);
+  outline-offset: 1px;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--mu-muted);
+}
+
+.drop-note,
+.drop-error {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: var(--mu-ink-soft);
+}
+
+.drop-error {
+  color: var(--mu-danger-strong);
+}
+
+.drop-note a {
+  margin-left: 0.4rem;
+  font-weight: 600;
+  color: var(--mu-accent-strong);
+}
+
+.drop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.drop-button {
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border: 1px solid var(--mu-accent);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.drop-button:hover:not(:disabled) {
+  background: var(--mu-accent-strong);
+}
+
+.drop-button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.drop-button-quiet {
+  color: var(--mu-ink);
+  background: var(--mu-bg-alt);
+  border-color: var(--mu-line);
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  border: 2px solid var(--mu-line);
+  border-top-color: var(--mu-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .drop-actions .drop-button {
+    flex: 1 1 100%;
+  }
+}
