@@ -116,6 +116,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/kubernetes-concepts/kubernetes-concepts-list').then((m) => m.KubernetesConceptsListPage),
   },
   {
+    path: 'papers',
+    loadComponent: () => import('./pages/papers/papers-list').then((m) => m.PapersListPage),
+  },
+  {
+    path: 'papers/:id',
+    loadComponent: () => import('./pages/papers/paper-detail').then((m) => m.PaperDetailPage),
+  },
+  {
     path: 'kubernetes-concepts/:slug',
     loadComponent: () => import('./pages/kubernetes-concepts/kubernetes-concepts-detail').then((m) => m.KubernetesConceptsDetailPage),
   },

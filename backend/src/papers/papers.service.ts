@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -95,7 +96,7 @@ function isUniqueViolation(err: unknown): boolean {
 
 @Injectable()
 export class PapersService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(@Inject(DataSource) private readonly dataSource: DataSource) {}
 
   /**
    * Adds a paper or merges it into the one it duplicates (same DOI, or same fingerprint when the DOI
@@ -120,6 +121,19 @@ export class PapersService {
     });
   }
 
+  /** The public record of a paper: bibliographic metadata only, never where it came from. */
+  async getPublic(id: number): Promise<PaperView> {
+    if (!Number.isSafeInteger(id) || id < 1 || id > 2_147_483_647) {
+      throw new NotFoundException();
+    }
+    const paper = await this.dataSource.manager.findOne(Paper, {
+      where: { id },
+    });
+    if (!paper) throw new NotFoundException();
+    return this.view(this.dataSource.manager, paper);
+  }
+
+  /** The record plus its provenance and conflicts; for maintainers, not for the public API. */
   async get(id: number) {
     const paper = await this.dataSource.manager.findOne(Paper, {
       where: { id },
