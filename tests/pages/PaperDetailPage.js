@@ -14,6 +14,8 @@ export class PaperDetailPage {
     this.sideLibrary = this.aside.locator('app-paper-library-button');
 
     this.title = page.getByRole('heading', { level: 1 });
+    // The title the authors published, under our translation of it.
+    this.originalTitle = page.locator('.original-title');
     this.authors = page.locator('.paper-authors');
     this.noAuthors = page.getByText('Authors not listed.');
     this.abstract = page.locator('.abstract');

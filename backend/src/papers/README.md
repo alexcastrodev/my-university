@@ -37,9 +37,11 @@ text, and the abstract section is not part of the analysis the API returns in `s
 
 A Portuguese reader gets the area, the keywords and the abstract of `pt-BR.md` in the list, the facets, the
 detail and the library, and the page says the abstract is our translation (`abstractTranslated`). An English
-reader, a paper without a `pt-BR.md` and anything the Portuguese file leaves out get the English text. The title
-and the venue stay as published. A filter or a search from a Portuguese reader matches the English original too
-(`area`, `keyword`, `q`), so a link copied from the English list still works after the switch of language. A
+reader, a paper without a `pt-BR.md` and anything the Portuguese file leaves out get the English text. The
+venue stays as published. The `title` of `pt-BR.md` is our translation of the title in `papers.json`; the
+published one (the title to cite) comes along as `originalTitle` whenever the two differ, and the pages show it
+under the translated one. A filter or a search from a Portuguese reader matches the English original too
+(`title`, `area`, `keyword`, `q`), so a link copied from the English list still works after the switch of language. A
 Portuguese file has one keyword for each English one, in the same order (`papers-seed.spec.ts` checks it).
 
 - **Checked at boot.** `PapersCatalogService` reads the index once and stops the API with a message that names

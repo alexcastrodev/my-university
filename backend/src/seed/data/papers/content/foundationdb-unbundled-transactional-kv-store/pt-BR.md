@@ -1,9 +1,9 @@
 ---
-title: "FoundationDB: A Distributed Unbundled Transactional Key Value Store"
+title: "FoundationDB: um armazenamento chave-valor transacional, distribuído e desagregado"
 summary: Um banco chave-valor transacional que separa processamento de transações, armazenamento e configuração em partes que escalam de forma independente, e que se testa com simulação determinística.
 researchArea: Bancos de dados
 keywords: banco de dados desagregado, oltp, serializabilidade estrita, controle de concorrência multiversão, controle de concorrência otimista, testes por simulação
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

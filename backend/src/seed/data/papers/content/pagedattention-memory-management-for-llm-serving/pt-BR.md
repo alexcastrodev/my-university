@@ -1,9 +1,9 @@
 ---
-title: "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+title: "Gerenciamento eficiente de memória para servir modelos de linguagem grandes com PagedAttention"
 summary: Aplica a paginação dos sistemas operacionais ao cache chave-valor do serviço de LLMs, quase eliminando a memória de GPU desperdiçada e permitindo que requisições compartilhem blocos de cache.
 researchArea: Sistemas para aprendizado de máquina
 keywords: inferência de llms, cache kv, memória virtual, paginação, memória de gpu
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

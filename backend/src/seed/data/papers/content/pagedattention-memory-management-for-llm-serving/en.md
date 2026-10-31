@@ -3,7 +3,7 @@ title: "Efficient Memory Management for Large Language Model Serving with PagedA
 summary: Applies operating-system paging to the key-value cache of LLM serving, nearly removing wasted GPU memory and letting requests share cache blocks.
 researchArea: Machine Learning Systems
 keywords: llm serving, kv cache, virtual memory, paging, gpu memory
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

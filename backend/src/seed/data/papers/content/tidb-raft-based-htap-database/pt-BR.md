@@ -1,9 +1,9 @@
 ---
-title: "TiDB: A Raft-based HTAP Database"
+title: "TiDB: um banco de dados HTAP baseado em Raft"
 summary: Um banco SQL distribuído que atende transações e análises sobre os mesmos dados replicando logs do Raft para um armazenamento colunar por meio de nós learner.
 researchArea: Bancos de dados
 keywords: htap, raft, consenso, transações distribuídas, armazenamento colunar, newsql
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

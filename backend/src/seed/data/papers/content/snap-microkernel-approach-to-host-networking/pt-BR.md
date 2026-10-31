@@ -1,9 +1,9 @@
 ---
-title: "Snap: a Microkernel Approach to Host Networking"
+title: "Snap: uma abordagem de microkernel para a rede do host"
 summary: O Google tira a rede do host do kernel e a leva para um sistema em espaço de usuário de engines modulares, com atualizações transparentes e um escalonador projetado junto com o kernel.
 researchArea: Sistemas operacionais
 keywords: pilha de rede, datacenter, microkernel, rdma
-version: 1.1
+version: 1.2
 updatedAt: 2026-10-31
 ---
 

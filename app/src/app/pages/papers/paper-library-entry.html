@@ -33,6 +33,9 @@
             <article class="paper layout">
               <header class="paper-header">
                 <h1 class="paper-title">{{ p.title }}</h1>
+                @if (p.originalTitle; as original) {
+                  <p class="original-title"><span i18n="@@papers.originalTitle">Original title</span>: <em>{{ original }}</em></p>
+                }
                 <app-paper-stage [stage]="p.stage" [venue]="p.venue" [explain]="true" />
 
                 <p class="paper-authors">

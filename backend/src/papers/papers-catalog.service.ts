@@ -19,6 +19,8 @@ export interface PaperSummary {
   /** What URLs and the API call the paper: the slug of a public one, the UUIDv7 of a private one. */
   id: string;
   title: string;
+  /** The title the authors published, when `title` is our translation of it; null otherwise (and for a private paper). */
+  originalTitle: string | null;
   authors: string[];
   keywords: string[];
   venue: string | null;
@@ -79,6 +81,8 @@ export interface PublicPaperView extends PaperView {
   summary: string | null;
   /** True when the abstract above is our translation of the authors' English one. */
   abstractTranslated: boolean;
+  /** The title the authors published, when `title` is our translation of it. */
+  originalTitle: string | null;
   version: string | null;
   /** The day the analysis was last revised (`YYYY-MM-DD`). */
   updatedAt: string | null;
@@ -254,6 +258,7 @@ export class PapersCatalogService {
     return {
       id: meta.slug,
       title: title ?? meta.title,
+      originalTitle: translatedTitle(title, meta.title),
       abstract: texts.abstract,
       abstractTranslated: texts.abstractTranslated,
       doi: meta.doi ?? null,
@@ -313,6 +318,7 @@ export class PapersCatalogService {
       summary: {
         id: p.publicId,
         title: p.title,
+        originalTitle: null,
         authors: (authorsOf.get(p.id) ?? []).map((a) => a.name),
         keywords: (keywordsByPaper.get(p.id) ?? []).map((k) => k.keyword),
         venue: p.venue,
@@ -361,10 +367,11 @@ export class PapersCatalogService {
     const { title } = texts.file;
     return {
       abstract: texts.abstract,
-      original: texts.original,
+      original: texts.original && { ...texts.original, title: meta.title },
       summary: {
         id: meta.slug,
         title: title ?? meta.title,
+        originalTitle: translatedTitle(title, meta.title),
         authors: meta.authors.map((a) => a.name),
         keywords: texts.keywords,
         venue: meta.venue ?? null,
@@ -379,6 +386,9 @@ export class PapersCatalogService {
     };
   }
 }
+
+/** The published title, when the file of this language gives a different (translated) one. */
+const translatedTitle = (shown: string | null | undefined, published: string): string | null => (shown && shown !== published ? published : null);
 
 /** Lowercase and unique, as the rows of a private paper keep them. */
 const keywordsOf = (keywords: string[]): string[] => [

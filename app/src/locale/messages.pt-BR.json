@@ -1430,6 +1430,7 @@
     "papers.share.audience.group": "Compartilhada com os grupos de leitura {$groups}",
     "papers.share.error.groups": "Escolha grupos de que você participa e que tenham este paper na lista.",
     "papers.share.error.groupsLoad": "Não foi possível carregar os seus grupos. Tente de novo.",
-    "groups.invite.placeholder": "ana-silva"
+    "groups.invite.placeholder": "ana-silva",
+    "papers.originalTitle": "Título original"
   }
 }

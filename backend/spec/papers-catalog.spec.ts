@@ -10,6 +10,7 @@ import { FixturePaper } from './papers-fixtures';
 interface Summary {
   id: string;
   title: string;
+  originalTitle: string | null;
   authors: string[];
   keywords: string[];
   venue: string | null;
@@ -116,6 +117,7 @@ describe('GET /papers', () => {
     expect(page.items[0]).toEqual({
       id: 'transformers-survey',
       title: 'Transformers Survey',
+      originalTitle: null,
       authors: ['Ada Lovelace', 'Hopper, Grace'],
       keywords: ['zeta', 'alpha'],
       venue: 'Journal of Specs',
@@ -136,6 +138,7 @@ describe('GET /papers', () => {
       {
         id: 'undated-note',
         title: 'An Undated Note',
+        originalTitle: null,
         authors: ['Ada Lovelace'],
         keywords: [],
         venue: null,
@@ -252,6 +255,25 @@ describe('GET /papers', () => {
     expect((await list('lang=fr')).page.items.map((i) => i.title)).toEqual(
       (await list()).page.items.map((i) => i.title),
     );
+  });
+
+  it('keeps the published title next to a translated one, and only then', async () => {
+    const pt = Object.fromEntries((await list('lang=pt-BR')).page.items.map((i) => [i.id, i.originalTitle]));
+    const en = (await list()).page.items.map((i) => i.originalTitle);
+
+    expect(pt['transformers-survey']).toBe('Transformers Survey');
+    expect(pt['raft-in-practice']).toBeNull();
+    expect(en.every((t) => t === null)).toBe(true);
+    expect((await json<any>(await detail('transformers-survey', '?lang=pt-BR'))).originalTitle).toBe('Transformers Survey');
+    expect((await json<any>(await detail('transformers-survey'))).originalTitle).toBeNull();
+    expect((await json<any>(await detail('raft-in-practice', '?lang=pt-BR'))).originalTitle).toBeNull();
+  });
+
+  it('finds a paper by its translated title or by the published one for a Portuguese reader, and only by the published one for the rest', async () => {
+    expect(await slugs('lang=pt-BR&q=revis%C3%A3o+dos+transformers')).toEqual(['transformers-survey']);
+    expect(await slugs('lang=pt-BR&q=transformers+survey')).toEqual(['transformers-survey']);
+    expect(await slugs('q=transformers+survey')).toEqual(['transformers-survey']);
+    expect(await slugs('q=revis%C3%A3o+dos+transformers')).toEqual([]);
   });
 
   it('searches the title the reader sees, in the language of the list', async () => {
@@ -406,7 +428,7 @@ describe('GET /papers/:slug', () => {
     expect(Object.keys(body).sort()).toEqual(
       [
         'abstract', 'abstractTranslated', 'authors', 'availableLanguages', 'doi', 'id', 'keywords', 'language',
-        'publicationDate', 'researchArea', 'sections', 'stage', 'summary', 'title', 'type',
+        'originalTitle', 'publicationDate', 'researchArea', 'sections', 'stage', 'summary', 'title', 'type',
         'updatedAt', 'url', 'venue', 'version',
       ].sort(),
     );
@@ -622,6 +644,7 @@ describe('the texts of a paper in Portuguese', () => {
     expect(body).toMatchObject({
       language: 'pt-BR',
       title: 'Atenção paginada',
+      originalTitle: 'Paged Attention',
       abstract: 'Propomos o PagedAttention para servir modelos.',
       abstractTranslated: true,
       researchArea: 'Sistemas de aprendizado de máquina',
@@ -664,6 +687,7 @@ describe('the texts of a paper in Portuguese', () => {
 
     expect(body).toMatchObject({
       language: 'en',
+      originalTitle: null,
       abstract: 'Context switches.',
       abstractTranslated: false,
       researchArea: 'Operating Systems',

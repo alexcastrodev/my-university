@@ -7,6 +7,9 @@
   </div>
 
   <h2 class="paper-title"><a [routerLink]="link()">{{ paper().title }}</a></h2>
+  @if (paper().originalTitle; as original) {
+    <p class="original-title"><span i18n="@@papers.originalTitle">Original title</span>: <em>{{ original }}</em></p>
+  }
 
   @if (paper().authors.length) {
     <div class="row-people">
