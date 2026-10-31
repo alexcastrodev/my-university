@@ -1,0 +1,75 @@
+<section class="block" id="notes" aria-labelledby="notes-heading">
+  <h2 id="notes-heading" class="block-title" i18n="@@papers.notes.title">Notes</h2>
+  <p class="muted" i18n="@@papers.notes.private">Only you can see your notes and highlights.</p>
+
+  @if (loading()) {
+    <p class="muted" role="status" i18n="@@papers.notes.loading">Loading your notes…</p>
+  } @else if (failed()) {
+    <p class="problem" role="alert">
+      <ng-container i18n="@@papers.notes.error">Your notes could not be loaded.</ng-container>
+      <button type="button" class="btn" (click)="retry()" i18n="@@papers.retry">Try again</button>
+    </p>
+  } @else {
+    <form class="composer" (submit)="add($event)">
+      <textarea
+        id="note-text"
+        class="field"
+        rows="3"
+        maxlength="5000"
+        [value]="text()"
+        (input)="text.set($any($event.target).value)"
+        i18n-placeholder="@@papers.notes.placeholder"
+        placeholder="Write a note about this paper. Markdown works."
+        i18n-aria-label="@@papers.notes.field"
+        aria-label="New note"
+      ></textarea>
+      <button type="submit" class="btn btn-primary" [disabled]="!canAdd()" i18n="@@papers.notes.add">Add note</button>
+    </form>
+
+    @if (saveError()) {
+      <p class="problem" role="alert" i18n="@@papers.library.saveError">Your change could not be saved.</p>
+    }
+
+    <ul class="list" aria-label="Notes" i18n-aria-label="@@papers.notes.listLabel">
+      @for (note of notes(); track note.id) {
+        <li>
+          <app-annotation-item
+            [annotation]="note"
+            [busy]="busyId() === note.id"
+            (save)="save(note, $event)"
+            (remove)="remove(note)"
+          />
+        </li>
+      } @empty {
+        <li class="muted empty" i18n="@@papers.notes.empty">No notes yet.</li>
+      }
+    </ul>
+
+    @if (version() !== null) {
+      <p class="pdf-line">
+        <ng-container i18n="@@papers.notes.onPdf">On your PDF: {{ onPdf() }} highlights, comments, questions and bookmarks.</ng-container>
+        <a [routerLink]="['/library', paperId(), 'read']" i18n="@@papers.notes.openReader">Open the reader</a>
+      </p>
+    }
+
+    @if (stale().length) {
+      <div class="review" id="needs-review">
+        <h3 class="review-title" i18n="@@papers.notes.review.title">Needs review</h3>
+        <p class="muted" i18n="@@papers.notes.review.text">The PDF changed after you made these, so they are not shown on it. Keep what they said as a note, or delete them.</p>
+        <ul class="list">
+          @for (a of stale(); track a.id) {
+            <li>
+              <app-annotation-item
+                [annotation]="a"
+                [busy]="busyId() === a.id"
+                (save)="save(a, $event)"
+                (remove)="remove(a)"
+                (keep)="keep(a)"
+              />
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  }
+</section>

@@ -4,12 +4,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, firstValueFrom, forkJoin, from, map, switchMap, tap } from 'rxjs';
-import { Paper } from '../../models/paper.model';
+import { Annotation, AnnotationInput, Paper } from '../../models/paper.model';
+import { PaperAnnotationsService } from '../../services/paper-annotations.service';
 import { PaperAttachmentsService } from '../../services/paper-attachments.service';
 import { PaperLibraryService } from '../../services/paper-library.service';
 import { SeoService } from '../../services/seo.service';
 import { isPaperId } from '../../shared/paper-id';
+import { AnnotationItem, annotationKindLabel } from './annotation-item';
 import { PageRender, PdfDocument, PdfFailure, closePdf, failureOf, openPdf, pageText } from './pdf-engine';
+import { SelectionAnchor, captureSelection } from './pdf-selection';
 
 type State = 'loading' | 'ready' | 'signedOut' | 'missing' | 'noFile' | PdfFailure;
 
@@ -21,6 +24,9 @@ const GUTTER = 16;
 /** Pages this far from the reader (and off screen) give their canvas back. */
 const KEEP_PAGES = 3;
 
+/** What an annotation stores about the text it sits on. */
+const place = (a: SelectionAnchor) => ({ page: a.page, quote: a.quote, prefix: a.prefix, suffix: a.suffix, rects: a.rects });
+
 /**
  * A paper's own PDF, read inside the app (#185). The bytes come through the authorized attachment route and go
  * straight to pdf.js, which parses in its own worker. Pages are drawn only while they are near the screen, one at
@@ -29,15 +35,16 @@ const KEEP_PAGES = 3;
 @Component({
   selector: 'app-paper-reader',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, AnnotationItem],
   templateUrl: './paper-reader.html',
   styleUrl: './paper-reader.css',
-  host: { '(document:keydown)': 'onKey($event)' },
+  host: { '(document:keydown)': 'onKey($event)', '(document:selectionchange)': 'onSelectionChange()' },
 })
 export class PaperReaderPage {
   private route = inject(ActivatedRoute);
   private library = inject(PaperLibraryService);
   private attachments = inject(PaperAttachmentsService);
+  private annotations = inject(PaperAnnotationsService);
   private seo = inject(SeoService);
   private destroyRef = inject(DestroyRef);
   private injector = inject(Injector);
@@ -72,6 +79,41 @@ export class PaperReaderPage {
     const n = this.hits().length;
     return n === 1 ? $localize`:@@papers.reader.match.one:1 match` : $localize`:@@papers.reader.match.many:${n}:count: matches`;
   });
+
+  // Highlights, comments, questions and bookmarks (#186): the reader's own marks on this PDF.
+  protected items = signal<Annotation[]>([]);
+  protected pdfVersion = signal<number | null>(null);
+  protected annotationsFailed = signal(false);
+  protected annotationError = signal<'save' | 'stale' | null>(null);
+  protected panelOpen = signal(false);
+  protected selection = signal<SelectionAnchor | null>(null);
+  protected draft = signal<{ kind: 'comment' | 'question'; anchor: SelectionAnchor } | null>(null);
+  protected draftText = signal('');
+  protected busyId = signal<string | null>(null);
+  protected flashId = signal<string | null>(null);
+  protected barHeight = signal(0);
+  protected kindLabel = annotationKindLabel;
+  /** True while a finger or a pointer is on the selection bar: tapping it must not drop the selection it acts on. */
+  protected holdSelection = false;
+
+  /** What is drawn on this PDF, by the page it is on. A stale annotation is never drawn on a file it was not made for. */
+  protected live = computed(() =>
+    this.items()
+      .filter((a) => a.kind !== 'note' && !a.stale)
+      .sort((a, b) => (a.page ?? 0) - (b.page ?? 0) || a.createdAt.localeCompare(b.createdAt)),
+  );
+  protected review = computed(() => this.items().filter((a) => a.kind !== 'note' && a.stale));
+  protected byPage = computed(() => {
+    const map = new Map<number, Annotation[]>();
+    for (const a of this.live()) map.set(a.page!, [...(map.get(a.page!) ?? []), a]);
+    return map;
+  });
+  protected bookmark = computed(() => this.live().find((a) => a.kind === 'bookmark' && a.page === this.current()) ?? null);
+  protected canSaveDraft = computed(() => this.draftText().trim().length > 0 && !this.busyId());
+
+  protected onPage(n: number): Annotation[] {
+    return this.byPage().get(n) ?? [];
+  }
 
   protected pageLabel = (n: number) => $localize`:@@papers.reader.pageLabel:Page ${n}:page:`;
 
@@ -241,6 +283,123 @@ export class PaperReaderPage {
     event.preventDefault();
   }
 
+  /** The marks the reader made on this PDF. Reading the PDF does not depend on them, so a failure only says so in the panel. */
+  private async loadAnnotations(id: string, token: number): Promise<void> {
+    try {
+      const list = await firstValueFrom(this.annotations.list(id));
+      if (token !== this.loadToken) return;
+      this.items.set(list.items);
+      this.pdfVersion.set(list.version);
+      this.annotationsFailed.set(false);
+    } catch {
+      if (token === this.loadToken) this.annotationsFailed.set(true);
+    }
+  }
+
+  protected onSelectionChange(): void {
+    if (this.state() !== 'ready' || this.holdSelection) return;
+    this.selection.set(captureSelection(this.pagesEl()?.nativeElement));
+  }
+
+  protected clearSelection(): void {
+    window.getSelection()?.removeAllRanges();
+    this.selection.set(null);
+  }
+
+  protected async highlightSelection(): Promise<void> {
+    const anchor = this.selection();
+    if (anchor && (await this.add({ kind: 'highlight', ...place(anchor) }))) this.clearSelection();
+  }
+
+  /** Comments and questions are written in the panel, next to the text they are about. */
+  protected startDraft(kind: 'comment' | 'question'): void {
+    const anchor = this.selection();
+    if (!anchor) return;
+    this.draft.set({ kind, anchor });
+    this.draftText.set('');
+    this.panelOpen.set(true);
+    this.clearSelection();
+    afterNextRender(() => document.getElementById('annotation-draft')?.focus(), { injector: this.injector });
+  }
+
+  protected async saveDraft(event: Event): Promise<void> {
+    event.preventDefault();
+    const draft = this.draft();
+    const body = this.draftText().trim();
+    if (draft && body && (await this.add({ kind: draft.kind, body, ...place(draft.anchor) }))) this.draft.set(null);
+  }
+
+  protected toggleBookmark(): Promise<void> {
+    const mark = this.bookmark();
+    return mark ? this.drop(mark) : this.add({ kind: 'bookmark', page: this.current() }).then(() => undefined);
+  }
+
+  protected edit(a: Annotation, body: string): Promise<void> {
+    return this.change(a, { body });
+  }
+
+  protected keep(a: Annotation): Promise<void> {
+    return this.change(a, { kind: 'note' });
+  }
+
+  /** Takes the reader to where an annotation is, and flashes it. On a phone the panel gets out of the way. */
+  protected show(a: Annotation): void {
+    if (!a.page) return;
+    this.goTo(a.page);
+    this.flashId.set(a.id);
+    setTimeout(() => this.flashId.update((id) => (id === a.id ? null : id)), 1800);
+    if (window.matchMedia('(max-width: 768px)').matches) this.panelOpen.set(false);
+  }
+
+  protected async drop(a: Annotation): Promise<void> {
+    this.busyId.set(a.id);
+    this.annotationError.set(null);
+    try {
+      await firstValueFrom(this.annotations.remove(this.paperId(), a.id));
+      this.items.update((list) => list.filter((x) => x.id !== a.id));
+    } catch (err) {
+      this.fail(err);
+    } finally {
+      this.busyId.set(null);
+    }
+  }
+
+  private async change(a: Annotation, patch: { body?: string; kind?: 'note' }): Promise<void> {
+    this.busyId.set(a.id);
+    this.annotationError.set(null);
+    try {
+      const next = await firstValueFrom(this.annotations.update(this.paperId(), a.id, patch));
+      this.items.update((list) => list.map((x) => (x.id === a.id ? next : x)));
+    } catch (err) {
+      this.fail(err);
+    } finally {
+      this.busyId.set(null);
+    }
+  }
+
+  /** Saves a new mark on the PDF being read; the server refuses it if that is no longer the PDF of the paper. */
+  private async add(input: AnnotationInput): Promise<boolean> {
+    const version = this.pdfVersion();
+    if (version === null) return false;
+    this.busyId.set('new');
+    this.annotationError.set(null);
+    try {
+      const made = await firstValueFrom(this.annotations.create(this.paperId(), { ...input, version }));
+      this.items.update((list) => [...list, made]);
+      return true;
+    } catch (err) {
+      this.fail(err);
+      return false;
+    } finally {
+      this.busyId.set(null);
+    }
+  }
+
+  private fail(err: unknown): void {
+    const replaced = err instanceof HttpErrorResponse && err.status === 409 && err.error?.code === 'stale_version';
+    this.annotationError.set(replaced ? 'stale' : 'save');
+  }
+
   /** Fetches the record and the file, opens it, and says what the reader should see. */
   private async load(id: string): Promise<State> {
     if (!isPaperId(id) || !this.browser) return 'missing';
@@ -253,6 +412,11 @@ export class PaperReaderPage {
       const bytes = await firstValueFrom(this.attachments.file(id));
       if (!bytes) return 'noFile';
       const doc = await openPdf(new Uint8Array(bytes));
+      if (token !== this.loadToken) {
+        void closePdf(doc);
+        return 'loading';
+      }
+      await this.loadAnnotations(id, token);
       if (token !== this.loadToken) {
         void closePdf(doc);
         return 'loading';
@@ -287,13 +451,16 @@ export class PaperReaderPage {
       { rootMargin: '100% 0px' },
     );
     pages.querySelectorAll('.page').forEach((el) => this.observer!.observe(el));
+    const bar = this.barEl()?.nativeElement;
     this.resizer = new ResizeObserver(() => {
+      if (bar) this.barHeight.set(bar.offsetHeight);
       const width = pages.clientWidth;
       if (Math.abs(width - this.lastWidth) < 2) return;
       this.lastWidth = width;
       if (this.zoomMode() === 'fit') this.applyScale();
     });
     this.resizer.observe(pages);
+    if (bar) this.resizer.observe(bar);
     // Captured, so a scroll inside any container is seen, not just the window's.
     const onScroll = () => {
       cancelAnimationFrame(this.frame);
@@ -424,6 +591,12 @@ export class PaperReaderPage {
     this.doc = undefined;
     this.observer = this.resizer = this.detach = undefined;
     this.pageCount.set(0);
+    this.items.set([]);
+    this.pdfVersion.set(null);
+    this.selection.set(null);
+    this.draft.set(null);
+    this.annotationError.set(null);
+    this.annotationsFailed.set(false);
     this.sizes.set(new Map());
     this.hits.set([]);
     this.searched.set(false);

@@ -227,3 +227,50 @@ export interface ImportPreview {
 
 /** The answer of POST /api/paper-library/import and /manual: the paper now in the library. */
 export type AddPaperResult = Omit<PrivatePaperResult, 'attachment'>;
+
+export const ANNOTATION_KINDS = ['note', 'highlight', 'comment', 'question', 'bookmark'] as const;
+export type AnnotationKind = (typeof ANNOTATION_KINDS)[number];
+
+/** Where an annotation sits on its page, as fractions (0 to 1) of the page from its top left corner. */
+export interface AnnotationRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/** A note, or something the reader marked on their own PDF; mirrors GET /api/paper-library/:paperId/annotations. */
+export interface Annotation {
+  id: string;
+  kind: AnnotationKind;
+  /** What the reader typed, markdown as typed: show it through `renderNoteMarkdown`, never as HTML. */
+  body: string | null;
+  page: number | null;
+  quote: string | null;
+  prefix: string | null;
+  suffix: string | null;
+  rects: AnnotationRect[] | null;
+  pdfVersion: number | null;
+  /** True when the PDF now served is not the file it was made on: kept for review, never drawn on the new one. */
+  stale: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AnnotationList {
+  /** The PDF version being served, or null when the paper has no PDF. */
+  version: number | null;
+  items: Annotation[];
+}
+
+/** An annotation as it is sent to be created; the server fills in the rest. */
+export interface AnnotationInput {
+  kind: AnnotationKind;
+  body?: string;
+  version?: number;
+  page?: number;
+  quote?: string;
+  prefix?: string;
+  suffix?: string;
+  rects?: AnnotationRect[];
+}

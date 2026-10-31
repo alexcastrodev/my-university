@@ -271,3 +271,248 @@
     clip-path: inset(50%);
   }
 }
+
+/* What the reader marked: drawn over the canvas, never in the way of selecting the text under it. */
+.marks {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.mark {
+  position: absolute;
+  background: rgb(255 214 0 / 0.5);
+  border-radius: 2px;
+}
+
+.mark[data-kind='comment'] {
+  background: rgb(64 140 255 / 0.35);
+}
+
+.mark[data-kind='question'] {
+  background: rgb(180 90 255 / 0.35);
+}
+
+.mark.flash {
+  outline: 2px solid var(--mu-accent);
+  animation: flash 0.9s ease-in-out 2;
+}
+
+@keyframes flash {
+  50% {
+    outline-color: transparent;
+  }
+}
+
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 1.25rem;
+  width: 14px;
+  height: 28px;
+  background: var(--mu-accent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+
+.count {
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--mu-danger-strong);
+  border-top: 1px solid var(--mu-line);
+}
+
+/* The pages and, when it is open, the panel beside them. */
+.workspace {
+  display: flex;
+  align-items: flex-start;
+}
+
+.workspace .pages {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.panel {
+  position: sticky;
+  top: calc(var(--mu-safe-top, 0px) + var(--bar-h, 0px));
+  flex: none;
+  width: 340px;
+  height: calc(100vh - var(--bar-h, 0px) - var(--mu-safe-top, 0px));
+  padding: 0 0.75rem 1rem;
+  overflow-y: auto;
+  color: var(--mu-text);
+  background: var(--mu-surface, var(--mu-bg));
+  border-left: 1px solid var(--mu-line);
+  box-sizing: border-box;
+}
+
+.panel-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  background: inherit;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.panel-text {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--mu-muted);
+}
+
+.panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review {
+  margin-top: 1.25rem;
+}
+
+.draft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  padding: 0.6rem;
+  border: 1px solid var(--mu-accent);
+  border-radius: 8px;
+}
+
+.kind {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mu-muted);
+}
+
+.quote {
+  margin: 0;
+  padding-left: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--mu-muted);
+  border-left: 3px solid var(--mu-line);
+}
+
+.field {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  color: var(--mu-text);
+  background: var(--mu-bg);
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--mu-text);
+  background: transparent;
+  border: 1px solid var(--mu-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn-primary {
+  color: var(--mu-white);
+  background: var(--mu-accent);
+  border-color: var(--mu-accent);
+}
+
+/* The actions for the text that is selected, within thumb reach. */
+.selbar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 9;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  background: var(--mu-surface, var(--mu-bg));
+  border: 1px solid var(--mu-line);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+  transform: translateX(-50%);
+}
+
+.sel-btn {
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--mu-text);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sel-btn:hover:not(:disabled),
+.sel-btn:focus-visible {
+  background: var(--mu-accent-soft, var(--mu-line));
+}
+
+.sel-btn:disabled {
+  opacity: 0.5;
+}
+
+/* Where the phone's tab bar shows (768px and under), the panel is a sheet above it instead of a column, and the
+   actions for the selected text sit above it too. */
+@media (max-width: 768px) {
+  .panel {
+    position: fixed;
+    inset: auto 0 calc(var(--mu-nav-h) + var(--mu-safe-bottom)) 0;
+    z-index: 8;
+    width: auto;
+    height: auto;
+    max-height: 55vh;
+    border-top: 1px solid var(--mu-line);
+    border-left: 0;
+    box-shadow: 0 -4px 16px rgb(0 0 0 / 0.2);
+  }
+
+  .selbar {
+    bottom: calc(var(--mu-nav-h) + var(--mu-safe-bottom) + 0.75rem);
+  }
+}

@@ -114,6 +114,8 @@
 
               <app-paper-attachment-panel [paperId]="p.id" />
 
+              <app-paper-notes [paperId]="p.id" />
+
               <section class="block" aria-labelledby="abstract-heading">
                 <h2 id="abstract-heading" class="block-title" i18n="@@papers.detail.abstract">Abstract</h2>
                 @for (paragraph of paragraphs(); track $index) {

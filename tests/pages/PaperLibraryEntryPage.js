@@ -31,6 +31,18 @@ export class PaperLibraryEntryPage {
     this.cancelRemove = page.getByRole('button', { name: 'Cancel' });
     this.removeError = page.locator('.remove').getByRole('alert');
 
+    // Private notes and what was marked on the PDF (#186).
+    this.notes = page.locator('#notes');
+    this.noteField = this.notes.getByLabel('New note');
+    this.addNoteButton = this.notes.getByRole('button', { name: 'Add note' });
+    this.noNotes = this.notes.getByText('No notes yet.');
+    this.notesError = this.notes.getByText('Your notes could not be loaded.');
+    this.onPdfLine = this.notes.locator('.pdf-line');
+    this.openReader = this.notes.getByRole('link', { name: 'Open the reader' });
+    this.needsReview = page.locator('#needs-review');
+    this.noteImages = this.notes.locator('app-annotation-text img');
+    this.noteLinks = this.notes.locator('app-annotation-text a');
+
     // A private paper (#203) has no public page and is deleted, not just taken out of the library.
     this.privateBadge = page.locator('.badge-private');
     this.privateNote = page.getByText('Only you can see this paper. It has no public page.');
@@ -84,5 +96,53 @@ export class PaperLibraryEntryPage {
 
   async removeTag(text) {
     await this.#saved(() => this.tag(text).getByRole('button').click());
+  }
+  /** One note or annotation of the list, found by the text it shows. */
+  item(text) {
+    return this.notes.locator('app-annotation-item').filter({ hasText: text });
+  }
+
+  /** The notes list has its own label; the "Needs review" list is another one. */
+  noteItems() {
+    return this.notes.getByRole('list', { name: 'Notes' }).locator('app-annotation-item');
+  }
+
+  reviewItems() {
+    return this.needsReview.locator('app-annotation-item');
+  }
+
+  /** Runs a change and waits for the server's answer to the annotations call, so a reload right after cannot cut it off. */
+  async #answered(method, change) {
+    const answered = this.page.waitForResponse(
+      (res) => res.request().method() === method && /\/api\/paper-library\/[a-z0-9-]+\/annotations(\/|$)/.test(res.url()),
+    );
+    await change();
+    return answered;
+  }
+
+  async addNote(text) {
+    await this.noteField.fill(text);
+    return this.#answered('POST', () => this.addNoteButton.click());
+  }
+
+  async editNote(item, text) {
+    await item.getByRole('button', { name: 'Edit' }).click();
+    await item.getByLabel('Text').fill(text);
+    return this.#answered('PATCH', () => item.getByRole('button', { name: 'Save' }).click());
+  }
+
+  /** Delete asks once more before it deletes. */
+  async deleteNote(item) {
+    await item.getByRole('button', { name: 'Delete' }).click();
+    return this.#answered('DELETE', () => item.getByRole('button', { name: 'Delete' }).click());
+  }
+
+  keepAsNote(item) {
+    return this.#answered('PATCH', () => item.getByRole('button', { name: 'Keep as a note' }).click());
+  }
+
+  /** True when a script typed into a note ran: it sets this flag if it does. */
+  scriptRan() {
+    return this.page.evaluate(() => 'xss' in window);
   }
 }
