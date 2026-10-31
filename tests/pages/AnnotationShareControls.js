@@ -11,6 +11,8 @@ export class AnnotationShareControls {
     this.everyone = this.panel.getByLabel('Everyone who opens the paper');
     this.chosen = this.panel.getByLabel('Only the readers I name');
     this.names = this.panel.getByLabel('Their public profile names');
+    this.groups = this.panel.getByLabel('Only my reading groups');
+    this.noGroups = this.panel.getByText('None of your groups has this paper on its list.');
     this.send = this.panel.locator('form').getByRole('button', { name: 'Share', exact: true });
     this.cancel = this.panel.getByRole('button', { name: 'Cancel' });
     this.change = this.panel.getByRole('button', { name: 'Change who sees it' });
@@ -40,6 +42,14 @@ export class AnnotationShareControls {
     await this.start.click();
     await this.chosen.check();
     await this.names.fill(names);
+    return this.#answered('PUT', () => this.send.click());
+  }
+
+  /** Only the groups that have the paper on their list are offered; `names` are those to tick. */
+  async shareWithGroups(names) {
+    await this.start.click();
+    await this.groups.check();
+    for (const name of names) await this.panel.getByLabel(name, { exact: true }).check();
     return this.#answered('PUT', () => this.send.click());
   }
 

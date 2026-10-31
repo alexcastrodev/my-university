@@ -128,6 +128,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/papers/paper-add').then((m) => m.PaperAddPage),
   },
   {
+    path: 'groups',
+    loadComponent: () => import('./pages/papers/groups/groups').then((m) => m.PaperGroupsPage),
+  },
+  {
+    path: 'groups/:id',
+    loadComponent: () => import('./pages/papers/groups/group').then((m) => m.PaperGroupPage),
+  },
+  {
     path: 'library/:paperId',
     loadComponent: () => import('./pages/papers/paper-library-entry').then((m) => m.PaperLibraryEntryPage),
   },

@@ -6,6 +6,8 @@ export interface ShareView {
   visibility: Visibility;
   /** The readers a `users` share is for, by the id of their public profile. Empty for `public`. */
   recipients: { id: string; name: string }[];
+  /** The reading groups a `group` share is in. Empty otherwise. */
+  groups: { id: string; name: string }[];
   sharedAt: Date;
   /** The last time the copy was made from the annotation: editing the annotation does not change it. */
   updatedAt: Date;
@@ -51,7 +53,14 @@ export function profileKeyOf(raw: string): string {
 export async function sharesOf(dataSource: DataSource, annotationIds: string[]): Promise<Map<string, ShareView>> {
   const out = new Map<string, ShareView>();
   if (!annotationIds.length) return out;
-  const rows: { annotationId: string; visibility: Visibility; createdAt: Date; updatedAt: Date; recipients: { id: string; name: string }[] }[] =
+  const rows: {
+    annotationId: string;
+    visibility: Visibility;
+    createdAt: Date;
+    updatedAt: Date;
+    recipients: { id: string; name: string }[];
+    groups: { id: string; name: string }[];
+  }[] =
     await dataSource.query(
       `SELECT s."annotationId", s.visibility, s."createdAt", s."updatedAt",
               COALESCE(
@@ -59,13 +68,18 @@ export async function sharesOf(dataSource: DataSource, annotationIds: string[]):
                                  ORDER BY u."displayName")
                    FROM paper_annotation_share_recipient r JOIN "user" u ON u.id = r."userId"
                   WHERE r."shareId" = s.id),
-                '[]'::json) AS recipients
+                '[]'::json) AS recipients,
+              COALESCE(
+                (SELECT json_agg(json_build_object('id', g.id, 'name', g.name) ORDER BY lower(g.name), g.id)
+                   FROM paper_annotation_share_group sg JOIN paper_group g ON g.id = sg."groupId"
+                  WHERE sg."shareId" = s.id),
+                '[]'::json) AS groups
          FROM paper_annotation_share s
         WHERE s."annotationId" = ANY($1::uuid[])`,
       [annotationIds],
     );
   for (const r of rows) {
-    out.set(r.annotationId, { visibility: r.visibility, recipients: r.recipients, sharedAt: r.createdAt, updatedAt: r.updatedAt });
+    out.set(r.annotationId, { visibility: r.visibility, recipients: r.recipients, groups: r.groups, sharedAt: r.createdAt, updatedAt: r.updatedAt });
   }
   return out;
 }

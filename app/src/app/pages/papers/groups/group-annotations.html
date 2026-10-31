@@ -1,0 +1,69 @@
+<section class="block" aria-labelledby="annotations-heading">
+  <h2 id="annotations-heading" class="block-title" i18n="@@groups.annotations.title">Shared annotations</h2>
+  <p class="muted" i18n="@@groups.annotations.note">Annotations that members chose to share with this group. They are the members' own words, not the authors' and not Kurz's. To share one, open it in your library and choose your groups.</p>
+
+  @if (papers().length) {
+    <label class="filter">
+      <span i18n="@@groups.board.show">Show</span>
+      <select class="field filter-select" (change)="only.set($any($event.target).value)">
+        <option value="" [selected]="!only()" i18n="@@groups.annotations.showAll">Every paper</option>
+        @for (paper of papers(); track paper.id) {
+          <option [value]="paper.id" [selected]="only() === paper.id">{{ paper.title }}</option>
+        }
+      </select>
+    </label>
+  }
+
+  @if (problem(); as text) {
+    <p class="problem" role="alert">{{ text }}</p>
+  }
+
+  @if (loading()) {
+    <p class="muted" role="status" i18n="@@groups.annotations.loading">Loading the annotations…</p>
+  } @else if (failed()) {
+    <p class="problem" role="alert" i18n="@@groups.annotations.failed">The annotations could not be loaded.</p>
+  } @else if (items().length) {
+    <ul class="list" aria-labelledby="annotations-heading">
+      @for (a of items(); track a.id) {
+        <li class="item" [attr.data-kind]="a.kind" [attr.data-annotation]="a.id">
+          <header class="head">
+            <span class="avatar" aria-hidden="true">
+              @if (a.author.avatarUrl) {
+                <img [src]="a.author.avatarUrl" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer" />
+              }
+            </span>
+            @if (a.author.profile; as profile) {
+              <a class="author" [routerLink]="['/u', profile]">{{ a.author.name }}</a>
+            } @else {
+              <span class="author">{{ a.author.name }}</span>
+            }
+            @if (a.mine) {
+              <span class="badge" i18n="@@papers.shared.mine">You</span>
+            }
+          </header>
+          <p class="meta">
+            <a class="chip" [routerLink]="['/papers', a.paper]">{{ titles().get(a.paper) ?? a.paper }}</a>
+            <span>{{ kindLabel(a.kind) }}</span>
+            @if (a.page) {
+              <span>{{ pageLabel(a.page) }}</span>
+            }
+            <time [attr.datetime]="a.sharedAt">{{ when(a.sharedAt) }}</time>
+          </p>
+          @if (a.quote) {
+            <blockquote class="quote">{{ a.quote }}</blockquote>
+          }
+          @if (a.body) {
+            <app-annotation-text [text]="a.body" />
+          }
+          @if (a.canRemove) {
+            <div class="buttons">
+              <button type="button" class="btn btn-danger" [disabled]="busy()" [attr.aria-label]="removeLabel(a.author.name)" (click)="remove(a)" i18n="@@groups.annotations.remove">Take out of the group</button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="empty" i18n="@@groups.annotations.empty">No annotation shared with this group yet.</p>
+  }
+</section>

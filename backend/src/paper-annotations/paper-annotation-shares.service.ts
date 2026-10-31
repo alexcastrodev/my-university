@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Inject, Injectable } from '@nes
 import { DataSource } from 'typeorm';
 import { PaperAuditService } from '../paper-audit/paper-audit.service';
 import { PaperRef, isUuid } from '../papers/paper-ref';
+import { groupsToShareInto } from '../paper-groups/paper-group-access';
 import { ShareAnnotationDto } from './paper-annotation.dto';
 import { PaperAnnotationsService } from './paper-annotations.service';
 import { SHAREABLE_KINDS } from './paper-annotation-share.entity';
@@ -37,6 +38,7 @@ export class PaperAnnotationSharesService {
       throw bad('not_shareable', 'A bookmark cannot be shared');
     }
     const recipients = await this.recipientsOf(userId, dto);
+    const groups = await this.groupsOf(userId, ref.slug, dto);
 
     const [{ count }]: { count: string }[] = await this.dataSource.query(
       `SELECT count(*) FROM paper_annotation_share WHERE "authorId" = $1 AND "annotationId" <> $2`,
@@ -64,8 +66,17 @@ export class PaperAnnotationSharesService {
       for (const recipient of recipients) {
         await tx.query(`INSERT INTO paper_annotation_share_recipient ("shareId", "userId") VALUES ($1, $2)`, [shareId, recipient]);
       }
+      await tx.query(`DELETE FROM paper_annotation_share_group WHERE "shareId" = $1`, [shareId]);
+      for (const group of groups) {
+        await tx.query(`INSERT INTO paper_annotation_share_group ("shareId", "groupId") VALUES ($1, $2)`, [shareId, group]);
+      }
     });
-    await this.audit.record(userId, 'share.create', ref.slug, { visibility: dto.visibility, kind: row.kind, recipients: recipients.length });
+    await this.audit.record(userId, 'share.create', ref.slug, {
+      visibility: dto.visibility,
+      kind: row.kind,
+      recipients: recipients.length,
+      groups: groups.length,
+    });
     return (await sharesOf(this.dataSource, [row.id])).get(row.id)!;
   }
 
@@ -101,6 +112,7 @@ export class PaperAnnotationSharesService {
          FROM paper_annotation_share s
          JOIN "user" u ON u.id = s."authorId"
         WHERE s."paperSlug" = $1
+          AND s.visibility <> 'group'
           AND (s.visibility = 'public'
                OR s."authorId" = $2::int
                OR EXISTS (SELECT 1 FROM paper_annotation_share_recipient r WHERE r."shareId" = s.id AND r."userId" = $2::int))
@@ -124,10 +136,24 @@ export class PaperAnnotationSharesService {
     };
   }
 
+  /**
+   * The reading groups a `group` share goes into: each must be one the reader is in, and have the paper on its
+   * list. A group the reader is not in is "not found", like one that does not exist.
+   */
+  private async groupsOf(userId: number, slug: string, dto: ShareAnnotationDto): Promise<string[]> {
+    const named = dto.groups ?? [];
+    if (dto.visibility !== 'group') {
+      if (named.length) throw bad('groups_only_for_group', 'Groups are for a share with reading groups');
+      return [];
+    }
+    if (!named.length) throw bad('groups_required', 'Name at least one reading group to share with');
+    return groupsToShareInto(this.dataSource, userId, slug, named);
+  }
+
   /** The ids of the readers a share is for. A name that is no public profile is refused, whoever holds it. */
   private async recipientsOf(userId: number, dto: ShareAnnotationDto): Promise<number[]> {
     const named = dto.recipients ?? [];
-    if (dto.visibility === 'public') {
+    if (dto.visibility !== 'users') {
       if (named.length) throw bad('recipients_only_for_users', 'Recipients are for a share with chosen people');
       return [];
     }

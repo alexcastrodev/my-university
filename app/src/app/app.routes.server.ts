@@ -93,6 +93,15 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    // Reading groups (#190) depend on who is signed in: the server renders only the shell.
+    path: 'groups',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'groups/:id',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'papers/:id',
     renderMode: RenderMode.Server,
   },

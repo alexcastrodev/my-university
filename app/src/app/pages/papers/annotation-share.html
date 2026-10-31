@@ -21,7 +21,34 @@
           <input type="radio" [name]="'who-' + annotation().id" value="users" [checked]="visibility() === 'users'" (change)="visibility.set('users')" />
           <span i18n="@@papers.share.users">Only the readers I name</span>
         </label>
+        <label class="choice">
+          <input type="radio" [name]="'who-' + annotation().id" value="group" [checked]="visibility() === 'group'" (change)="chooseGroups()" />
+          <span i18n="@@papers.share.groups">Only my reading groups</span>
+        </label>
       </fieldset>
+
+      @if (visibility() === 'group') {
+        @if (groups(); as list) {
+          @if (list.length) {
+            <fieldset class="who groups">
+              <legend i18n="@@papers.share.groupsLegend">Groups that study this paper</legend>
+              @for (g of list; track g.id) {
+                <label class="choice">
+                  <input type="checkbox" [checked]="picked().includes(g.id)" (change)="toggle(g.id, $any($event.target).checked)" />
+                  <span>{{ g.name }}</span>
+                </label>
+              }
+            </fieldset>
+          } @else {
+            <p class="muted">
+              <ng-container i18n="@@papers.share.noGroups">None of your groups has this paper on its list. Add it to a group first.</ng-container>
+              <a routerLink="/groups" i18n="@@groups.link">Reading groups</a>
+            </p>
+          }
+        } @else {
+          <p class="muted" role="status" i18n="@@papers.share.groupsLoading">Loading your groups…</p>
+        }
+      }
 
       @if (visibility() === 'users') {
         <label class="names">
@@ -39,7 +66,11 @@
         </label>
       }
 
-      <p class="muted" i18n="@@papers.share.notice">It is shown on the paper's page with your name. Only your text and the passage, cut to a few lines, are shared: never the PDF, and none of your other notes. You can stop sharing at any time.</p>
+      @if (visibility() === 'group') {
+        <p class="muted" i18n="@@papers.share.noticeGroup">Only the readers of those groups see it, in the group, with your name. Only your text and the passage, cut to a few lines, are shared: never the PDF, and none of your other notes. Leaving a group takes it out of that group, and you can stop sharing at any time.</p>
+      } @else {
+        <p class="muted" i18n="@@papers.share.notice">It is shown on the paper's page with your name. Only your text and the passage, cut to a few lines, are shared: never the PDF, and none of your other notes. You can stop sharing at any time.</p>
+      }
 
       @if (problem(); as text) {
         <p class="problem" role="alert">{{ text }}</p>

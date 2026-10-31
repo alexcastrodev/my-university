@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, input, output, signal } from '@angular/core';
-import { Annotation, AnnotationShare, ShareVisibility } from '../../models/paper.model';
+import { RouterLink } from '@angular/router';
+import { Annotation, AnnotationShare, PaperGroup, ShareVisibility } from '../../models/paper.model';
 import { PaperAnnotationsService } from '../../services/paper-annotations.service';
+import { PaperGroupsService } from '../../services/paper-groups.service';
 import { formatPaperDate } from '../../shared/paper-format';
 
 /** Names are separated by spaces, commas or semicolons. */
@@ -16,11 +18,13 @@ const NAMES = /[\s,;]+/;
 @Component({
   selector: 'app-annotation-share',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
   templateUrl: './annotation-share.html',
   styleUrl: './annotation-share.css',
 })
 export class AnnotationSharePanel {
   private annotations = inject(PaperAnnotationsService);
+  private groupsApi = inject(PaperGroupsService);
   private locale = inject(LOCALE_ID);
 
   readonly paperId = input.required<string>();
@@ -31,6 +35,9 @@ export class AnnotationSharePanel {
   protected open = signal(false);
   protected visibility = signal<ShareVisibility>('public');
   protected names = signal('');
+  /** The reader's groups that have this paper on their list, or null until asked; and the ones picked. */
+  protected groups = signal<PaperGroup[] | null>(null);
+  protected picked = signal<string[]>([]);
   protected busy = signal(false);
   protected problem = signal<string | null>(null);
 
@@ -44,30 +51,60 @@ export class AnnotationSharePanel {
     const share = this.share();
     if (!share) return '';
     if (share.visibility === 'public') return $localize`:@@papers.share.audience.public:Shared with everyone who opens the paper`;
+    if (share.visibility === 'group') {
+      const groups = share.groups.map((g) => g.name).join(', ');
+      return $localize`:@@papers.share.audience.group:Shared with the reading groups ${groups}:groups:`;
+    }
     const names = share.recipients.map((r) => r.name).join(', ');
     return $localize`:@@papers.share.audience.users:Shared with ${names}:names:`;
   });
   protected since = computed(() => formatPaperDate((this.share()?.sharedAt ?? '').slice(0, 10), this.locale));
-  protected canSend = computed(() => !this.busy() && (this.visibility() === 'public' || this.parsed().length > 0));
+  protected canSend = computed(
+    () => !this.busy() && (this.visibility() === 'public' || (this.visibility() === 'users' ? this.parsed().length > 0 : this.picked().length > 0)),
+  );
   private parsed = computed(() => this.names().split(NAMES).filter(Boolean));
 
   protected begin(): void {
-    this.visibility.set(this.share()?.visibility ?? 'public');
+    const share = this.share();
+    this.visibility.set(share?.visibility ?? 'public');
     this.names.set('');
+    this.picked.set(share?.visibility === 'group' ? share.groups.map((g) => g.id) : []);
     this.problem.set(null);
     this.open.set(true);
+    if (this.visibility() === 'group') this.loadGroups();
+  }
+
+  protected chooseGroups(): void {
+    this.visibility.set('group');
+    this.loadGroups();
+  }
+
+  /** Only the groups that have this paper on their list can be chosen: that is what the server accepts. */
+  private loadGroups(): void {
+    if (this.groups()) return;
+    this.groupsApi.list(this.paperId()).subscribe({
+      next: (res) => this.groups.set(res.items),
+      error: () => {
+        this.groups.set([]);
+        this.problem.set($localize`:@@papers.share.error.groupsLoad:Your groups could not be loaded. Try again.`);
+      },
+    });
+  }
+
+  protected toggle(id: string, on: boolean): void {
+    this.picked.update((list) => (on ? (list.includes(id) ? list : [...list, id]) : list.filter((g) => g !== id)));
   }
 
   protected submit(event: Event): void {
     event.preventDefault();
     if (!this.canSend()) return;
-    this.send(this.visibility(), this.parsed());
+    this.send(this.visibility(), this.parsed(), this.picked());
   }
 
   /** Makes the copy again from the annotation as it is now, for the same readers. */
   protected refresh(): void {
     const share = this.share();
-    if (share) this.send(share.visibility, share.recipients.map((r) => r.id));
+    if (share) this.send(share.visibility, share.recipients.map((r) => r.id), share.groups.map((g) => g.id));
   }
 
   protected stop(): void {
@@ -82,11 +119,11 @@ export class AnnotationSharePanel {
     });
   }
 
-  private send(visibility: ShareVisibility, recipients: string[]): void {
+  private send(visibility: ShareVisibility, recipients: string[], groups: string[]): void {
     this.busy.set(true);
     this.problem.set(null);
     this.annotations
-      .share(this.paperId(), this.annotation().id, visibility === 'users' ? { visibility, recipients } : { visibility })
+      .share(this.paperId(), this.annotation().id, visibility === 'users' ? { visibility, recipients } : visibility === 'group' ? { visibility, groups } : { visibility })
       .subscribe({
         next: (share) => {
           this.busy.set(false);
@@ -104,6 +141,8 @@ export class AnnotationSharePanel {
         ? $localize`:@@papers.share.error.notFound:No reader has that public profile. Use the part after /u/ in their profile link; readers whose profile is not public cannot be named.`
         : code === 'recipient_is_you'
           ? $localize`:@@papers.share.error.you:You already see what you share. Name someone else.`
+          : code === 'groups_required' || code === 'group_not_found'
+            ? $localize`:@@papers.share.error.groups:Choose groups you are in that have this paper on their list.`
           : code === 'shares_limit'
             ? $localize`:@@papers.share.error.limit:You have reached the limit of shared annotations. Stop sharing one to share another.`
             : $localize`:@@papers.share.error.generic:That could not be saved. Try again.`,
