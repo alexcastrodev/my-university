@@ -111,6 +111,7 @@ services:
       - /workspace/node_modules
     environment:
       - API_URL=http://web/api
+      - DATABASE_URL=postgres://postgres@postgres:5432/ocp_java
       - CI=true
       - S3_ENDPOINT=http://seaweedfs:8333
       - S3_BUCKET=university-papers

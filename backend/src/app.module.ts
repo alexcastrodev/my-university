@@ -28,6 +28,11 @@ import { JavaMinuteModule } from './java-minute/java-minute.module';
 import { CSharpMinuteModule } from './csharp-minute/csharp-minute.module';
 import { JvmConceptsModule } from './jvm-concepts/jvm-concepts.module';
 import { OgImageModule } from './og-image/og-image.module';
+import { Paper } from './papers/paper.entity';
+import { PaperAuthor } from './papers/paper-author.entity';
+import { PaperKeyword } from './papers/paper-keyword.entity';
+import { PaperSource } from './papers/paper-source.entity';
+import { PapersModule } from './papers/papers.module';
 import { Progress } from './progress/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { QuarkusConceptsModule } from './quarkus-concepts/quarkus-concepts.module';
@@ -69,6 +74,10 @@ import { XpModule } from './xp/xp.module';
         DiscussionComment,
         DiscussionVote,
         Notification,
+        Paper,
+        PaperAuthor,
+        PaperKeyword,
+        PaperSource,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
       // Run explicitly in main.ts under a cross-replica advisory lock instead.
@@ -99,6 +108,7 @@ import { XpModule } from './xp/xp.module';
     XpModule,
     ConceptLookupModule,
     DiscussionModule,
+    PapersModule,
     SeedModule,
     SearchModule,
     SitemapModule,
