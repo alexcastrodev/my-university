@@ -1,5 +1,8 @@
-/** A complete PDF with one line of Helvetica text per page, so the reader has something to draw, select and search. */
-export function textPdf(lines) {
+/**
+ * A complete PDF with one line of Helvetica text per page, so the reader has something to draw, select and search.
+ * `padding` adds that many bytes of comment, to make a file of a given size.
+ */
+export function textPdf(lines, { padding = 0 } = {}) {
   const objects = [
     '<< /Type /Catalog /Pages 2 0 R >>',
     `<< /Type /Pages /Kids [${lines.map((_, i) => `${4 + i * 2} 0 R`).join(' ')}] /Count ${lines.length} >>`,
@@ -10,7 +13,7 @@ export function textPdf(lines) {
     objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents ${5 + i * 2} 0 R >>`);
     objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
   });
-  let body = '%PDF-1.4\n';
+  let body = `%PDF-1.4\n${padding ? `%${'x'.repeat(padding)}\n` : ''}`;
   const offsets = objects.map((o, i) => {
     const at = body.length;
     body += `${i + 1} 0 obj\n${o}\nendobj\n`;

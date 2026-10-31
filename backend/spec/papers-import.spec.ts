@@ -555,6 +555,75 @@ describe('limits', () => {
   });
 });
 
+describe('what the provider is asked, and what it may answer', () => {
+  it('keeps a DOI with ?, & and # in the path: it never becomes a query or another address', async () => {
+    const cookie = await signIn('x1');
+    const doi = `10.5555/${run}.q${counter++}?x=1&mailto=evil@example.org#frag`;
+    know(doi);
+    const res = await preview(cookie, doi);
+    expect(res.status).toBe(200);
+    const [request] = app.requests.filter((r) => r.doi === doi);
+    expect(request.search).toBe('');
+  });
+
+  it.each([
+    ['a path that climbs out of /works/', `10.5555/../members`],
+    ['the same through doi.org', `https://doi.org/10.5555/../../journals`],
+    ['the same, percent-encoded', `10.5555/%2e%2e/members`],
+    ['a bare dot', `10.5555/./x`],
+  ])('refuses a DOI with %s, without asking the provider', async (_name, doi) => {
+    const cookie = await signIn('x2');
+    const before = app.requests.length;
+    expect((await preview(cookie, doi)).status).toBe(400);
+    expect((await importDoi(cookie, doi)).status).toBe(400);
+    expect(app.requests).toHaveLength(before);
+  });
+
+  it.each([
+    'http://169.254.169.254/latest/meta-data/',
+    'https://evil.example/10.1234/abc',
+    '//evil.example/10.1234/abc',
+    'file:///etc/passwd',
+    'gopher://127.0.0.1:6379/_PING',
+  ])('refuses %s in place of a DOI, without asking anyone', async (value) => {
+    const cookie = await signIn('x3');
+    const before = app.requests.length;
+    expect((await preview(cookie, value)).status).toBe(400);
+    expect(app.requests).toHaveLength(before);
+  });
+
+  it('does not follow a redirect from the provider', async () => {
+    const cookie = await signIn('x4');
+    const doi = newDoi();
+    app.crossref.set(doi, { status: 302, headers: { Location: 'http://127.0.0.1:9/elsewhere' } });
+    const res = await preview(cookie, doi);
+    expect(res.status).toBe(502);
+    expect(await json(res)).toMatchObject({ code: 'provider_unavailable' });
+    expect(app.requests.filter((r) => r.doi === doi)).toHaveLength(1);
+  });
+
+  it('refuses an answer far bigger than any record, instead of reading it all', async () => {
+    const cookie = await signIn('x5');
+    const doi = newDoi();
+    app.crossref.set(doi, { status: 200, body: 'x'.repeat(4_000_001) });
+    const res = await preview(cookie, doi);
+    expect(res.status).toBe(502);
+    expect(await json(res)).toMatchObject({ code: 'provider_invalid' });
+  });
+
+  it('keeps script and markup in a title as text, and refuses a link that is not http or https', async () => {
+    const cookie = await signIn('x6');
+    const doi = newDoi();
+    know(doi, { title: ['<img src=x onerror=alert(1)> and <script>alert(2)</script>'], URL: 'javascript:alert(3)' });
+    const body = await json(await preview(cookie, doi));
+    expect(body.candidate.title).not.toMatch(/[<>]/);
+    expect(JSON.stringify(body.candidate)).not.toContain('javascript:');
+    const made = await create(cookie, { title: `Typed ${run}`, authors: [{ name: 'Ada' }], url: 'javascript:alert(4)' });
+    expect(made.status).toBe(400);
+    expect((await create(cookie, { title: `Typed ${run}`, authors: [{ name: 'Ada' }], url: 'data:text/html,<b>x</b>' })).status).toBe(400);
+  });
+});
+
 describe('creating by hand', () => {
   it('adds a private paper to the library and records it as a manual source', async () => {
     const cookie = await signIn('m1');

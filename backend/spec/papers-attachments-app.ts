@@ -12,6 +12,7 @@ import { User } from '../src/auth/user.entity';
 import { PaperAnnotation } from '../src/paper-annotations/paper-annotation.entity';
 import { PaperAnnotationShare, PaperAnnotationShareRecipient } from '../src/paper-annotations/paper-annotation-share.entity';
 import { PaperAnnotationsModule } from '../src/paper-annotations/paper-annotations.module';
+import { PaperAuditService } from '../src/paper-audit/paper-audit.service';
 import { PaperAttachment } from '../src/paper-attachments/paper-attachment.entity';
 import { PaperAttachmentVersion } from '../src/paper-attachments/paper-attachment-version.entity';
 import { PaperAttachmentsModule } from '../src/paper-attachments/paper-attachments.module';
@@ -34,6 +35,8 @@ export interface AttachmentsApp {
   storage: StorageService;
   /** Runs the maintenance job (retire stale uploads, empty the deletion queue) once, right now. */
   maintain: () => Promise<void>;
+  /** The audit trail's service, to purge it on demand. */
+  audit: PaperAuditService;
   close: () => Promise<void>;
 }
 
@@ -108,6 +111,7 @@ export async function startAttachmentsApp(limits: {
     dataSource: app.get(DataSource),
     storage: app.get(StorageService, { strict: false }),
     maintain: () => app.get(PaperAttachmentsService).maintain(),
+    audit: app.get(PaperAuditService, { strict: false }),
     close: async () => {
       await app.close();
       dropFiles();

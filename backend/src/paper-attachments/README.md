@@ -54,8 +54,10 @@ The type the client declares decides nothing; the content does.
   are refused too; the reader has to remove the restrictions. That is a deliberate trade-off.
 - `active_content`: `/JavaScript`, `/JS`, `/Launch`, `/RichMedia`, `/XFA`, `/SubmitForm` or `/ImportData`,
   after undoing `#xx` name escapes, in the file or inside any compressed object stream.
+- `too_many_pages`: more page objects than `PAPER_PDF_MAX_PAGES`. They are counted from the objects
+  themselves, in the file and inside object streams, never from the `/Count` the file claims.
 - `unscannable`: an object stream that cannot be inflated (other filter, corrupt, or larger than the
-  decompression bounds). Fail closed.
+  decompression bounds), or a check that outran `PAPER_PDF_SCAN_TIMEOUT_MS`. Fail closed.
 
 It is not an antivirus and not a full PDF parser, and it does not make a PDF safe to open on its own. The
 defences that matter are the ones around it: the file is served as an attachment with
@@ -72,10 +74,19 @@ an external scanner when uploads get large or frequent.
 | --- | --- | --- |
 | `PAPER_PDF_MAX_BYTES` | 25 MiB | Largest accepted PDF. nginx's `client_max_body_size` for the upload route (26m) must stay above it. |
 | `PAPER_PDF_USER_QUOTA_BYTES` | 500 MiB | Bytes of PDFs one reader may hold (waiting for a scan, or approved). The file a replacement removes does not count against it. |
+| `PAPER_PDF_MAX_PAGES` | 2000 | Most page objects a PDF may have. |
+| `PAPER_PDF_SCAN_TIMEOUT_MS` | 5000 | How long the scan may run before the file is refused as `unscannable`. The scan runs on the request thread, so this is what keeps it from holding it. |
 
-The upload routes in `nginx.conf` (`PUT /api/papers/<public id>/attachment` and `POST /api/paper-library/private`)
-also rate limit per IP. If another proxy sits in front of nginx in
+The upload routes in `nginx.conf` (`PUT /api/papers/<public id>/attachment`, for the slug of a public paper or the
+UUID of a private one, and `POST /api/paper-library/private`) also rate limit per IP, and cap the uploads in
+flight (8 in total, 6 per address, then 429): an upload sits in the API's memory while it is read and scanned.
+Until #189 the first route only matched a UUID, so a PDF over 1 MB sent to a public paper met nginx's default
+body limit and no rate limit. If another proxy sits in front of nginx in
 production, its body size limit must allow the same size.
+
+## Audit
+
+Upload (with its outcome), download and delete each leave a row in the audit trail (`../paper-audit/README.md`).
 
 ## Deletion and retention
 

@@ -1319,6 +1319,7 @@
     "papers.collections.filter": "Coleção",
     "papers.library.collections": "Suas coleções",
     "papers.library.noCollections": "Você ainda não tem coleções.",
-    "papers.library.makeCollection": "Crie uma na sua biblioteca."
+    "papers.library.makeCollection": "Crie uma na sua biblioteca.",
+    "papers.attachment.error.tooManyPages": "Este PDF tem mais páginas do que o aceito."
   }
 }

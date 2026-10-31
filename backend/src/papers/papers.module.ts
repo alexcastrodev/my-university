@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PaperAuditModule } from '../paper-audit/paper-audit.module';
 import { Paper } from './paper.entity';
 import { PaperAuthor } from './paper-author.entity';
 import { PaperKeyword } from './paper-keyword.entity';
@@ -21,6 +22,7 @@ import { PapersService } from './papers.service';
 // Adding a paper needs a session and puts it in the reader's own library, never in the public list (#212).
 @Module({
   imports: [
+    PaperAuditModule,
     TypeOrmModule.forFeature([
       Paper,
       PaperAuthor,

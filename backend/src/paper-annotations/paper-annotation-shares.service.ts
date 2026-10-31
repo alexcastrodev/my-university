@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { PaperAuditService } from '../paper-audit/paper-audit.service';
 import { PaperRef, isUuid } from '../papers/paper-ref';
 import { ShareAnnotationDto } from './paper-annotation.dto';
 import { PaperAnnotationsService } from './paper-annotations.service';
@@ -23,6 +24,7 @@ export class PaperAnnotationSharesService {
   constructor(
     @Inject(DataSource) private readonly dataSource: DataSource,
     @Inject(PaperAnnotationsService) private readonly annotations: PaperAnnotationsService,
+    @Inject(PaperAuditService) private readonly audit: PaperAuditService,
   ) {}
 
   /** Shares an annotation, or shares it again: the copy is made anew and the audience replaced. */
@@ -63,13 +65,19 @@ export class PaperAnnotationSharesService {
         await tx.query(`INSERT INTO paper_annotation_share_recipient ("shareId", "userId") VALUES ($1, $2)`, [shareId, recipient]);
       }
     });
+    await this.audit.record(userId, 'share.create', ref.slug, { visibility: dto.visibility, kind: row.kind, recipients: recipients.length });
     return (await sharesOf(this.dataSource, [row.id])).get(row.id)!;
   }
 
   /** Takes the share back: from that moment nobody but the author can see the copy. Nothing to take back is fine. */
   async unshare(userId: number, ref: PaperRef, id: string): Promise<void> {
     const row = await this.annotations.own(userId, ref, id);
-    await this.dataSource.query(`DELETE FROM paper_annotation_share WHERE "annotationId" = $1 AND "authorId" = $2`, [row.id, userId]);
+    // TypeORM answers a DELETE with `[rows, count]`.
+    const [gone]: [unknown[], number] = await this.dataSource.query(
+      `DELETE FROM paper_annotation_share WHERE "annotationId" = $1 AND "authorId" = $2 RETURNING 1`,
+      [row.id, userId],
+    );
+    if (gone.length && ref.kind === 'public') await this.audit.record(userId, 'share.revoke', ref.slug, { kind: row.kind });
   }
 
   /**

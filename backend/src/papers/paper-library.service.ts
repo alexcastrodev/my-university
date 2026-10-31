@@ -19,9 +19,10 @@ import {
   PaperLibraryEntry,
 } from './paper-library.entity';
 import { byTitle, matchesFilter } from './paper-filter';
+import { PaperAuditService } from '../paper-audit/paper-audit.service';
 import { CollectionRef, PaperCollectionsService } from './paper-collections.service';
 import { PAPER_PAGE_DEFAULT_LIMIT } from './paper-query.dto';
-import { isPaperSlug, PaperRef, refColumn } from './paper-ref';
+import { isPaperSlug, PaperRef, publicIdOf, refColumn } from './paper-ref';
 import {
   HeldPaper,
   PaperSummary,
@@ -129,6 +130,8 @@ export class PaperLibraryService {
     private readonly catalog: PapersCatalogService,
     @Inject(PaperCollectionsService)
     private readonly collections: PaperCollectionsService,
+    @Inject(PaperAuditService)
+    private readonly audit: PaperAuditService,
   ) {}
 
   /** Puts a public paper in the library. Adding what is already there changes nothing (`created: false`). */
@@ -212,10 +215,14 @@ export class PaperLibraryService {
    */
   async remove(userId: number, ref: PaperRef): Promise<void> {
     const { column, value } = refColumn(ref);
-    await this.dataSource.query(
-      `DELETE FROM paper_library_entry WHERE "userId" = $1 AND "${column}" = $2`,
+    // TypeORM answers a DELETE with `[rows, count]`.
+    const [gone]: [unknown[], number] = await this.dataSource.query(
+      `DELETE FROM paper_library_entry WHERE "userId" = $1 AND "${column}" = $2 RETURNING 1`,
       [userId, value],
     );
+    if (gone.length) {
+      await this.audit.record(userId, 'library.remove', publicIdOf(ref), { private: ref.kind === 'private' });
+    }
     if (ref.kind === 'private') {
       await this.dataSource
         .getRepository(Paper)

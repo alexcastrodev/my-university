@@ -443,6 +443,52 @@ describe('refusing what is not a clean PDF', () => {
     await refused('bomb', bomb, 'unscannable');
   });
 
+  describe('page and time limits', () => {
+    const page = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 200 200] >>';
+    /** Sets an environment variable for one test and puts it back. */
+    async function withEnv(name: string, value: string, run: () => Promise<void>) {
+      const saved = process.env[name];
+      process.env[name] = value;
+      try {
+        await run();
+      } finally {
+        if (saved === undefined) delete process.env[name];
+        else process.env[name] = saved;
+      }
+    }
+
+    it('refuses a PDF with more pages than allowed, counting the page objects and not the /Count it claims', async () => {
+      await withEnv('PAPER_PDF_MAX_PAGES', '5', async () => {
+        // The file says it has one page (`/Count 1`) and holds seven page objects.
+        await refused('pages-plain', makePdf({ objects: Array(6).fill(page) }), 'too_many_pages');
+      });
+    });
+
+    it('counts the pages that sit inside a compressed object stream', async () => {
+      await withEnv('PAPER_PDF_MAX_PAGES', '5', async () => {
+        const hidden = deflated(Array(8).fill('<< /Type /Page /Parent 2 0 R >>').join(' '));
+        await refused('pages-hidden', makePdf({ objectStream: hidden }), 'too_many_pages');
+      });
+    });
+
+    it('does not take /Type /Pages (the tree) for a page, and accepts a PDF at the limit', async () => {
+      await withEnv('PAPER_PDF_MAX_PAGES', '3', async () => {
+        const paper = await newPaper('pages-limit');
+        const ana = await signIn('pages-limit');
+        // One page in the fixture plus two more: three pages and one tree node.
+        expect((await upload(ana, paper, makePdf({ objects: [page, page] }))).status).toBe(201);
+      });
+    });
+
+    it('refuses a PDF whose check would take too long, instead of holding the request thread', async () => {
+      // A budget that is already spent: whatever the machine's speed, the first stream finds the time up.
+      await withEnv('PAPER_PDF_SCAN_TIMEOUT_MS', '-1', async () => {
+        const streams = Array(50).fill('<< /Length 0 >>\nstream\n\nendstream');
+        await refused('slow', makePdf({ objects: streams }), 'unscannable');
+      });
+    });
+  });
+
   it('answers 415 when the body is not sent as a PDF at all', async () => {
     const paper = await newPaper('type');
     const ana = await signIn('type');
