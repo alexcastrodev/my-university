@@ -17,7 +17,15 @@ overrides:
 #   ts-loader at build time, never shipped in the production image.
 # - GHSA-gcqx-w48m-w2h4 (deepmerge): advisory says patched in 4.3.2, but npm only has up to
 #   4.3.1; only reached by @nestjs/cli (devDependency) via fork-ts-checker-webpack-plugin.
+# - GHSA-3g3m-2fjr-6pw4 (glob, AbortSignal cancellation does not stop an async walk) and
+#   GHSA-g3hv-75wg-m249 (minimatch, DoS through glob amplification): reached through
+#   @nestjs/cli and eslint (dev tools) and through @sentry/bundler-plugins, which only
+#   @sentry/node's webpack/rollup/vite entry points load; the backend imports only
+#   @sentry/nestjs. Not reachable at runtime. The minimatch fix is 11.x, which breaks
+#   callers still on 3.x, and glob 14 is a major bump for @nestjs/cli's build.
 auditConfig:
   ignoreGhsas:
     - GHSA-vfj7-8cjw-p6xm
     - GHSA-gcqx-w48m-w2h4
+    - GHSA-3g3m-2fjr-6pw4
+    - GHSA-g3hv-75wg-m249
