@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { AuthService } from './auth.service';
@@ -18,6 +19,7 @@ import {
   clearOauthState,
   clearSession,
   CurrentUserId,
+  OptionalUserId,
   readOauthState,
   setOauthState,
   setSession,
@@ -148,6 +150,18 @@ export class AuthController {
     );
     setSession(reply, user.id);
     return { id: user.id };
+  }
+
+  /** Test-only: grants the logged-in user staff roles. 404 first, so a production probe learns nothing. */
+  @Post('_test/roles')
+  async testRoles(
+    @OptionalUserId() userId: number | null,
+    @Body('roles') roles: string[],
+  ) {
+    assertDevAuth();
+    if (userId === null) throw new UnauthorizedException();
+    await this.service.setRoles(userId, roles);
+    return { ok: true };
   }
 
   /** Test-only: wipes every user created via `_test/login`, so a spec run starts from a clean leaderboard. */

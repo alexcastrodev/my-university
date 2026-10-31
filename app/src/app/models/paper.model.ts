@@ -109,3 +109,37 @@ export interface PaperWriteResult {
   created: boolean;
   conflicts: PaperConflict[];
 }
+
+/** The six sections of the Research Analysis, in reading order. */
+export const ANALYSIS_SECTIONS = [
+  'overview',
+  'contribution',
+  'methodology',
+  'findings',
+  'criticalAnalysis',
+  'furtherResearch',
+] as const;
+export type AnalysisSectionKey = (typeof ANALYSIS_SECTIONS)[number];
+
+/** A section either says something or says why it does not: nothing forces an unsupported claim. */
+export type AnalysisSectionState = 'present' | 'not_applicable' | 'not_reported' | 'unable_to_determine';
+
+export interface AnalysisSection {
+  state: AnalysisSectionState;
+  text: string | null;
+}
+
+/** Someone the analysis credits; the profile link exists only when that person made the profile public. */
+export interface AnalysisPerson {
+  name: string;
+  profilePath: string | null;
+}
+
+/** The published Research Analysis; mirrors GET /api/papers/:id/analysis. Drafts never come through here. */
+export interface PaperAnalysis {
+  revision: number;
+  publishedAt: string;
+  author: AnalysisPerson | null;
+  publishedBy: AnalysisPerson | null;
+  sections: Partial<Record<AnalysisSectionKey, AnalysisSection>>;
+}

@@ -50,6 +50,10 @@ export class User {
   @Column({ default: true })
   notifyReplies: boolean;
 
+  /** Staff roles (see roles.ts). Empty for a reader; never client-writable. */
+  @Column({ type: 'text', array: true, default: () => `'{}'` })
+  roles: string[];
+
   @CreateDateColumn()
   createdAt: Date;
 

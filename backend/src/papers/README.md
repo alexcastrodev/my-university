@@ -49,6 +49,62 @@ person fixes one).
 - **Provenance.** `paper_source` keeps every write in order with the payload as received, so a rejected value
   from an import can still be reviewed and applied later through a correction.
 
+## Research Analysis
+
+Every paper can have one **published** Research Analysis next to its abstract: six sections (Overview,
+Contribution, Methodology, Findings, Critical Analysis, Further Research) written by Kurz, never presented as
+the authors' own text.
+
+**Product decision (#180): curator-authored, reviewer-published.** The analyses are written by a small group
+of staff, not contributed anonymously. Nothing in this module lets a reader edit an analysis.
+
+| Who | Can |
+| --- | --- |
+| Anyone | Read the published analysis (`GET /api/papers/:id/analysis`) |
+| `paper-curator` | Create and edit the draft (`PUT .../analysis/draft`), read the history |
+| `paper-reviewer` | Publish the draft, withdraw the published analysis, read the history |
+
+Holding both roles lets one person do the whole cycle. That is allowed on purpose (the project may start with
+one maintainer), and the page then credits the same person as author and as reviewer, so it is visible. To make
+review a real second pair of eyes, give the roles to different people.
+
+Roles are the `user.roles` column (`auth/roles.ts`), checked in `PaperAnalysisService` so no route can forget
+it. They are granted by whoever has the database, for example:
+
+```sql
+UPDATE "user" SET roles = array_append(roles, 'paper-curator') WHERE "githubLogin" = '<login>' AND NOT 'paper-curator' = ANY(roles);
+```
+
+There is no HTTP route that grants a role (only the dev-only `_test/roles`). The role is on the user id, not
+on an environment list of logins, because a GitHub login can be renamed and then claimed by someone else.
+
+### Content model
+
+`paper_analysis` has one row per revision with `sections` as `jsonb`. Each section is `{ state, text }`:
+
+- `present`: `text` is required (plain text, paragraphs split by a blank line, at most 6000 characters).
+- `not_applicable` (the paper has nothing of that kind, such as experiments in a theory paper), `not_reported`
+  (the paper does not say) or `unable_to_determine`: no text. Nothing forces an unsupported claim.
+
+A draft may leave sections out (undecided). Publishing needs all six decided, otherwise 422 names the missing ones.
+The text is shown as text, never as markup.
+
+### Revisions and history
+
+- A paper has at most one `draft` and one `published` revision (partial unique indexes), so it has zero or one
+  current published analysis.
+- A published revision is never edited. Changing it means saving a new draft (revision n+1); publishing that
+  draft turns the old one into `superseded`. Withdrawing marks it `withdrawn`; publishing again needs a new draft.
+- `paper_analysis_event` is the audit trail: `draft_created`, `draft_edited`, `published`, `withdrawn`, each with
+  the actor and the time. `GET .../analysis/history` (curators and reviewers) lists every revision with its sections
+  and the events. Writers of one paper are serialized by a row lock on `paper`, so two curators saving at the same
+  moment end in one draft.
+- Drafts are never in a public response. The public analysis names the author and the publisher (display name,
+  and a link only when that person made the profile public), nothing else about them.
+
+The server keeps a rendered page per URL for five minutes (`app/src/server.ts`), so a newly published or
+withdrawn analysis can take up to that long to show on `/papers/:id`.
+
 ## Adding a paper (DOI import and by hand)
 
 A signed-in reader can bring a paper into the catalog in two ways. Both need a session; the catalog itself stays
@@ -87,6 +143,9 @@ readable by anyone.
 
 ## What is not here
 
-Nothing changes a paper that already exists over HTTP. `PapersService.correct` (which keeps the replaced values
-in the provenance) has no route yet, because deciding who may correct a paper needs the staff roles of #180.
-`spec/papers-app.ts` is a throwaway server used only by the service tests.
+- There is no editor screen for the analysis yet: curators and reviewers use the API. The endpoints return
+  everything an editor needs.
+- Nothing changes a paper that already exists over HTTP. `PapersService.correct` (which keeps the replaced values
+  in the provenance) has no route yet; the staff roles of #180 now exist, so deciding who may correct a paper
+  can build on them.
+- `spec/papers-app.ts` is a throwaway server used only by the service tests.
