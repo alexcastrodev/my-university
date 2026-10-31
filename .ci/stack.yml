@@ -46,6 +46,15 @@ services:
       - GITHUB_CLIENT_ID
       - GITHUB_CLIENT_SECRET
       - GITHUB_CALLBACK_URL
+      # Object storage: the shared SeaweedFS (stack `bucket`, S3 API on 8333) reached over proxy_net by
+      # its full service name. Only the keys are secret (they come from the host .env, like the ones
+      # above); the `university` identity is limited to the university-papers bucket in its s3.json.
+      - S3_ENDPOINT=http://bucket_seaweedfs:8333
+      - S3_BUCKET=university-papers
+      - S3_REGION=us-east-1
+      - S3_FORCE_PATH_STYLE=true
+      - S3_ACCESS_KEY
+      - S3_SECRET_KEY
       # Error and performance reporting (Sentry project kutz/university-api). A DSN is not a
       # secret, it only lets clients send events; set here, and nowhere else, so only production reports.
       - SENTRY_DSN=https://ead6bcc0a9533ee44b1aabcf93268f8d@o4509399654989824.ingest.us.sentry.io/4512158423187456

@@ -16,6 +16,8 @@
 docker compose up -d
 ```
 
+This also starts a local SeaweedFS for private file storage; see [backend/src/storage/README.md](./backend/src/storage/README.md).
+
 # Tests
 
 ```bash
