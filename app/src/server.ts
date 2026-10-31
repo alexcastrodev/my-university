@@ -123,11 +123,14 @@ app.use(async (req, res, next) => {
     next();
     return;
   }
+  // Only a number and one of two fixed prefixes reach the API call and the redirect, never the raw path.
+  const legacyId = Number(match[2]);
+  const prefix = match[1] ? '/pt-BR' : '';
   try {
-    const api = await fetch(`${ssrApiOrigin}/api/papers/${match[2]}`, { redirect: 'manual' });
+    const api = await fetch(`${ssrApiOrigin}/api/papers/${legacyId}`, { redirect: 'manual' });
     const publicId = api.status === 301 ? /\/api\/papers\/([0-9a-f-]{36})$/i.exec(api.headers.get('location') ?? '')?.[1] : undefined;
     if (publicId) {
-      res.redirect(301, `${match[1] ?? ''}/papers/${publicId}`);
+      res.redirect(301, `${prefix}/papers/${publicId}`);
       return;
     }
   } catch {
