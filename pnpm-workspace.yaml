@@ -6,6 +6,10 @@ allowBuilds:
   esbuild: true
   lmdb: true
   msgpackr-extract: true
+# pdfjs-dist lists a Node canvas binding as an optional dependency. The reader only runs in the browser, so the
+# native binaries are never wanted (and never installed).
+ignoredOptionalDependencies:
+  - '@napi-rs/canvas'
 minimumReleaseAgeExclude:
   - cytoscape@3.34.3
 

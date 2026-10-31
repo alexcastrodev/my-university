@@ -40,6 +40,15 @@
   overflow-wrap: anywhere;
 }
 
+.read-link {
+  padding: 0.2rem 0.75rem;
+  font-weight: 600;
+  color: var(--mu-white);
+  text-decoration: none;
+  background: var(--mu-accent);
+  border-radius: 6px;
+}
+
 .spinner {
   display: inline-block;
   width: 14px;
@@ -84,6 +93,7 @@
 
 .field-input:focus-visible,
 .attachment-button:focus-visible,
+.read-link:focus-visible,
 .file-name:focus-visible {
   outline: 2px solid var(--mu-accent);
   outline-offset: 1px;
