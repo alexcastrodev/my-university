@@ -49,6 +49,28 @@ person fixes one).
 - **Provenance.** `paper_source` keeps every write in order with the payload as received, so a rejected value
   from an import can still be reviewed and applied later through a correction.
 
+## A reader's library (`/api/paper-library`)
+
+A `paper_library_entry` says "this user keeps this paper": reading status (`to-read`, `reading`, `read`), an
+optional rating from 1 to 5, the day it was finished, and the reader's own tags. The paper stays shared;
+the entry is the only thing that is private.
+
+- **One entry per user and paper** (unique constraint). Adding what is already there answers 200 and changes
+  nothing, so a double click cannot reset a status. This is a product decision: one paper is one entry, not
+  one per context. Grouping (folders and collections) belongs to #188 and does not need a second entry.
+- **Privacy is by construction.** Every route takes the user id from the session cookie and addresses an
+  entry by paper id, so there is no entry id of someone else's to guess. Another reader's paper is
+  indistinguishable from one that is not in your library (404), and deleting it is a no-op (204).
+- **Dates.** `addedAt` is set on insert. `completedAt` is a calendar day (no time zone) and exists only while
+  the status is `read` (a check constraint). Moving to `read` without a day dates it today; the reader may
+  give a past day, or clear it; moving away from `read` clears it. A future day is refused.
+- **Tags** are the reader's own labels, not the paper's keywords: lowercase, trimmed, no repeats, at most 20
+  of 40 characters, no control characters. A change replaces the whole list.
+- **List.** `GET /api/paper-library` takes the catalog filters (`q`, `author`, `doi`, `keyword`, `area`,
+  `type`, `year`) plus `status`, `tag` and `sort` (`added`, `title`, `completed`, `rating`). `GET
+  /api/paper-library/facets` counts the reader's papers per status and per tag for the filter controls.
+- A paper does not need a PDF to be in a library; the private PDF upload (#183) attaches to the paper later.
+
 ## What is not here
 
 There is no HTTP surface yet, so no authorization decision has been made: the public catalog (#179) and the

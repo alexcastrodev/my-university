@@ -31,6 +31,7 @@ import { OgImageModule } from './og-image/og-image.module';
 import { Paper } from './papers/paper.entity';
 import { PaperAuthor } from './papers/paper-author.entity';
 import { PaperKeyword } from './papers/paper-keyword.entity';
+import { PaperLibraryEntry } from './papers/paper-library.entity';
 import { PaperSource } from './papers/paper-source.entity';
 import { PapersModule } from './papers/papers.module';
 import { Progress } from './progress/progress.entity';
@@ -77,6 +78,7 @@ import { XpModule } from './xp/xp.module';
         Paper,
         PaperAuthor,
         PaperKeyword,
+        PaperLibraryEntry,
         PaperSource,
       ],
       migrations: [join(__dirname, 'migrations', '*.js')],
