@@ -29,6 +29,8 @@
         </header>
 
         <aside class="side" i18n-aria-label="@@papers.detail.side" aria-label="Paper details">
+          <app-paper-library-button class="card" [paperId]="p.id" />
+
           <section class="card" aria-labelledby="authors-heading">
             <h2 id="authors-heading" class="card-title" i18n="@@papers.add.f.authors">Authors</h2>
             <p class="paper-authors">
@@ -96,8 +98,6 @@
               <p class="muted" i18n="@@papers.detail.noKeywords">No keywords listed.</p>
             }
           </section>
-
-          <app-paper-library-button class="card" [paperId]="p.id" />
         </aside>
 
         <div class="paper-body">
