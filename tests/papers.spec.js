@@ -84,6 +84,25 @@ test.describe('Papers catalog', () => {
       await expect(card.getByRole('link', { name: keyword('a') })).toBeVisible();
     });
 
+    test('reads like a reference row: place and DOI on top, initials for the authors, links to the sources', async ({ page }) => {
+      const papers = new PapersListPage(page);
+      await papers.goto(`?q=${token}`);
+      await expect(papers.cards).toHaveCount(3);
+
+      await expect(papers.cardRef(title('full'))).toHaveText(`[1] / DOI 10.5555/${token}.full`);
+      await expect(papers.cardRef(title('preprint'))).toHaveText('[2]');
+      await expect(papers.cardAvatars(title('full'))).toHaveText(['AP', 'GP']);
+      await expect(papers.cardAvatars(title('preprint'))).toHaveText(['AT']);
+      await expect(papers.cardAvatars(title('bare'))).toHaveCount(0);
+
+      await expect(papers.cardSource(title('full'), 'DOI')).toHaveAttribute('href', `https://doi.org/10.5555/${token}.full`);
+      await expect(papers.cardSource(title('full'), 'Page')).toHaveAttribute('href', 'https://example.org/full');
+      await expect(papers.cardSource(title('bare'), 'DOI')).toBeVisible();
+      await expect(papers.cardSource(title('bare'), 'Page')).toHaveCount(0);
+      await expect(papers.cardSource(title('preprint'), 'DOI')).toHaveCount(0);
+      await expectNoHorizontalScroll(page);
+    });
+
     test('shows a paper with nothing but a title and a DOI without breaking', async ({ page }) => {
       const papers = new PapersListPage(page);
       await papers.goto(`?q=${title('bare')}`);

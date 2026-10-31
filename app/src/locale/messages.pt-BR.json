@@ -1191,6 +1191,8 @@
     "papers.stage.report": "Relatório",
     "papers.stage.report.note": "Publicado por uma instituição ou empresa. Especialistas independentes não necessariamente o revisaram.",
     "papers.stage.unknown": "Situação desconhecida",
-    "papers.stage.unknown.note": "Não sabemos se outros especialistas revisaram isto. Veja onde foi publicado antes de confiar."
+    "papers.stage.unknown.note": "Não sabemos se outros especialistas revisaram isto. Veja onde foi publicado antes de confiar.",
+    "papers.row.doi": "DOI",
+    "papers.row.page": "Página"
   }
 }

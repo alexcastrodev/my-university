@@ -26,6 +26,7 @@ export interface PaperSummary {
   /** `YYYY`, `YYYY-MM` or `YYYY-MM-DD`: scholarly dates are often only a year. */
   publicationDate: string | null;
   doi: string | null;
+  url: string | null;
   researchArea: string | null;
   type: PaperType;
   stage: PublicationStage;

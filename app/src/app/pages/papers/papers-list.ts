@@ -1,20 +1,18 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, LOCALE_ID, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, catchError, map, of, switchMap, tap } from 'rxjs';
 import { PAPER_TYPES, PUBLICATION_STAGES, PaperFacets, PaperPage, PaperQuery, PaperSort, PaperType } from '../../models/paper.model';
 import { PapersService } from '../../services/papers.service';
 import { SeoService } from '../../services/seo.service';
-import { formatPaperDate, paperTypeLabel, stageLabel } from '../../shared/paper-format';
-import { PaperStage } from './paper-stage';
+import { paperTypeLabel, stageLabel } from '../../shared/paper-format';
+import { PaperRow } from './paper-row';
 import { paperQueryParams, parsePaperQuery } from './papers-query';
-
-const AUTHORS_SHOWN = 4;
 
 @Component({
   selector: 'app-papers-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, PaperStage],
+  imports: [RouterLink, PaperRow],
   templateUrl: './papers-list.html',
   styleUrl: './papers-list.css',
 })
@@ -23,14 +21,12 @@ export class PapersListPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private seo = inject(SeoService);
-  private locale = inject(LOCALE_ID);
   private destroyRef = inject(DestroyRef);
 
   protected readonly paperTypeLabel = paperTypeLabel;
   protected readonly stageLabel = stageLabel;
   protected readonly stages = PUBLICATION_STAGES;
   protected readonly paperQueryParams = paperQueryParams;
-  protected readonly authorsShown = AUTHORS_SHOWN;
 
   protected query = signal<PaperQuery>({});
   protected searchText = signal('');
@@ -132,9 +128,6 @@ export class PapersListPage implements OnInit {
     void this.router.navigate([], { queryParams: this.query().sort ? { sort: this.query().sort } : {} });
   }
 
-  protected date(value: string): string {
-    return formatPaperDate(value, this.locale);
-  }
 
   private go(patch: Partial<PaperQuery>): void {
     // A new filter starts again from the first page.
