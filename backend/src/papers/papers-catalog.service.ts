@@ -233,10 +233,9 @@ export class PapersCatalogService {
 
   /**
    * The page of papers that pass every filter. `ranked` is what the search index (papers-search.ts) found
-   * for `q`, best first, or null when there is no index to ask. A paper matches `q` when the index found it
-   * or when the text contains `q` as typed, so the index only ever adds to what the plain match finds.
-   * Without a `sort`, a search is in the index's order (the papers it did not find after, newest first),
-   * and a list without a search is newest first.
+   * for `q`, best first: then `q` matches exactly those papers. Null when there is no index to ask, and then
+   * `q` is the plain match of paper-filter.ts. Without a `sort`, a search is in the index's order and a list
+   * without a search is newest first.
    */
   list(query: PaperListQueryDto, ranked: string[] | null = null): PaperPage {
     const lang = normalizeLanguage(query.lang);
@@ -244,13 +243,12 @@ export class PapersCatalogService {
     const limit = query.limit ?? PAPER_PAGE_DEFAULT_LIMIT;
     const { q, ...filters } = query;
     const rank = new Map((ranked ?? []).map((slug, i) => [slug, i]));
-    const byRank = (a: PaperSummary, b: PaperSummary) =>
-      (rank.get(a.id) ?? Infinity) - (rank.get(b.id) ?? Infinity) || byRecent(a, b);
+    const byRank = (a: PaperSummary, b: PaperSummary) => rank.get(a.id)! - rank.get(b.id)!;
     const found = this.metas
       .map((meta) => this.load(meta, lang))
       .filter((held) => {
         const paper = searchableOf(held);
-        return matchesFilter(paper, filters) && (rank.has(held.summary.id) || matchesFilter(paper, { q }));
+        return matchesFilter(paper, filters) && (ranked ? rank.has(held.summary.id) : matchesFilter(paper, { q }));
       })
       .map((held) => held.summary)
       .sort(query.sort === 'title' ? byTitle : query.sort === 'recent' || !q || !ranked ? byRecent : byRank);

@@ -174,14 +174,13 @@ export class MeilisearchClient {
     method: string,
     path: string,
     body?: unknown,
-    timeoutMs?: number,
   ): Promise<void> {
     const { taskUid } = await this.request<{ taskUid: number }>(
       method,
       path,
       body,
     );
-    await this.waitForTask(taskUid, timeoutMs);
+    await this.waitForTask(taskUid);
   }
 
   /** Creates the index, tolerating "already exists" (the create task itself fails with `index_already_exists`). */
@@ -208,19 +207,15 @@ export class MeilisearchClient {
    * adds or updates, so a page that was removed or renamed would stay searchable forever;
    * instead everything goes into a fresh index that is then atomically swapped in, so search
    * keeps answering from the old index until the new one is complete.
-   *
-   * `taskTimeoutMs` is for an index whose upload also computes embeddings, which can take minutes.
    */
   async rebuild({
     index,
     settings,
     documents,
-    taskTimeoutMs,
   }: {
     index: string;
     settings: object;
     documents: object[];
-    taskTimeoutMs?: number;
   }): Promise<void> {
     const fingerprint = createHash('sha256')
       .update(JSON.stringify({ settings, documents }))
@@ -236,8 +231,8 @@ export class MeilisearchClient {
     await this.ensureIndex(index);
     await this.ensureIndex(staging);
     try {
-      await this.enqueue('PATCH', `/indexes/${staging}/settings`, settings, taskTimeoutMs);
-      await this.enqueue('PUT', `/indexes/${staging}/documents`, documents, taskTimeoutMs);
+      await this.enqueue('PATCH', `/indexes/${staging}/settings`, settings);
+      await this.enqueue('PUT', `/indexes/${staging}/documents`, documents);
       await this.enqueue('POST', '/swap-indexes', [
         { indexes: [index, staging] },
       ]);
@@ -290,10 +285,6 @@ export class MeilisearchClient {
     query: string;
     filter: string[];
     limit: number;
-    /** Keyword and semantic search together, through this embedder of the index. */
-    hybrid?: { embedder: string; semanticRatio: number };
-    /** Hits that score below this (0 to 1) are left out. */
-    rankingScoreThreshold?: number;
     matchingStrategy?: 'last' | 'all' | 'frequency';
   }): Promise<string[]> {
     const data = await this.request<{ hits: { id: string }[] }>(
@@ -305,10 +296,6 @@ export class MeilisearchClient {
         limit: req.limit,
         attributesToRetrieve: ['id'],
         ...(req.matchingStrategy && { matchingStrategy: req.matchingStrategy }),
-        ...(req.hybrid && { hybrid: req.hybrid }),
-        ...(req.rankingScoreThreshold !== undefined && {
-          rankingScoreThreshold: req.rankingScoreThreshold,
-        }),
       },
     );
     return data.hits.map((hit) => hit.id);

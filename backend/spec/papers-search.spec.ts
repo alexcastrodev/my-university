@@ -15,12 +15,8 @@ class FakeMeili {
   requests: Request[] = [];
   /** What the next searches answer: ids, or an error to throw. */
   answer: string[] | Error = [];
-  /** Builds that carry an embedder fail, as a model that does not load would. */
-  failWithEmbedder = false;
-
   rebuild(req: Rebuild): Promise<void> {
     this.rebuilds.push(req);
-    if (this.failWithEmbedder && 'embedders' in req.settings) return Promise.reject(new Error('model did not load'));
     return Promise.resolve();
   }
 
@@ -30,7 +26,7 @@ class FakeMeili {
   }
 }
 
-const ENV = ['MEILI_HOST', 'MEILI_PAPERS_EMBEDDER', 'MEILI_PAPERS_SEMANTIC_RATIO', 'MEILI_PAPERS_MIN_SCORE'];
+const ENV = ['MEILI_HOST'];
 const savedEnv = Object.fromEntries(ENV.map((k) => [k, process.env[k]]));
 
 let dropFiles: () => void;
@@ -96,6 +92,15 @@ describe('PapersSearch.rank', () => {
     expect(meili.rebuilds).toEqual([]);
   });
 
+  it('builds the papers index by words only, without an embedder', async () => {
+    const { meili, search } = searchWith({ MEILI_HOST: 'http://meili.test' });
+    await search.rebuild();
+    expect(meili.rebuilds).toHaveLength(1);
+    expect(meili.rebuilds[0].index).toBe('papers');
+    expect(meili.rebuilds[0].settings).not.toHaveProperty('embedders');
+    expect(meili.rebuilds[0].documents).toHaveLength(6);
+  });
+
   it('searches the language asked, by every word, and answers slugs', async () => {
     const { meili, search } = searchWith({ MEILI_HOST: 'http://meili.test' });
     meili.answer = ['deep-residual-learning_pt-BR', 'attention-is-all-you-need_pt-BR'];
@@ -111,53 +116,13 @@ describe('PapersSearch.rank', () => {
         matchingStrategy: 'all',
       }),
     ]);
-    expect(meili.requests[0].hybrid).toBeUndefined();
+    expect(meili.requests[0]).not.toHaveProperty('hybrid');
   });
 
   it('answers null when Meilisearch fails', async () => {
     const { meili, search } = searchWith({ MEILI_HOST: 'http://meili.test' });
     meili.answer = new Error('connection refused');
     expect(await search.rank('attention', 'en')).toBeNull();
-  });
-
-  it('is hybrid once the index was built with the embedder', async () => {
-    const { meili, search } = searchWith({
-      MEILI_HOST: 'http://meili.test',
-      MEILI_PAPERS_EMBEDDER: '{"source":"huggingFace","model":"some/model"}',
-      MEILI_PAPERS_SEMANTIC_RATIO: '0.7',
-      MEILI_PAPERS_MIN_SCORE: '0.4',
-    });
-    await search.rebuild();
-    expect(meili.rebuilds).toHaveLength(1);
-    const embedder = (meili.rebuilds[0].settings as { embedders: Record<string, Record<string, unknown>> })
-      .embedders.default;
-    expect(embedder).toMatchObject({ source: 'huggingFace', model: 'some/model' });
-    expect(embedder.documentTemplate).toContain('doc.title');
-
-    await search.rank('falhas', 'en');
-    expect(meili.requests[0]).toMatchObject({
-      hybrid: { embedder: 'default', semanticRatio: 0.7 },
-      rankingScoreThreshold: 0.4,
-    });
-  });
-
-  it('builds without the embedder when the build with it fails, and then searches by words', async () => {
-    const { meili, search } = searchWith({
-      MEILI_HOST: 'http://meili.test',
-      MEILI_PAPERS_EMBEDDER: '{"source":"huggingFace","model":"missing/model"}',
-    });
-    meili.failWithEmbedder = true;
-    await search.rebuild();
-    expect(meili.rebuilds).toHaveLength(2);
-    expect(meili.rebuilds[1].settings).not.toHaveProperty('embedders');
-    await search.rank('attention', 'en');
-    expect(meili.requests[0].hybrid).toBeUndefined();
-  });
-
-  it('ignores an embedder that is not a JSON object', async () => {
-    const { meili, search } = searchWith({ MEILI_HOST: 'http://meili.test', MEILI_PAPERS_EMBEDDER: 'huggingFace' });
-    await search.rebuild();
-    expect(meili.rebuilds[0].settings).not.toHaveProperty('embedders');
   });
 });
 
@@ -169,12 +134,10 @@ describe('the catalog with the index ranking', () => {
     expect(page.total).toBe(2);
   });
 
-  it('keeps what the plain match finds and the index did not, after the ranked ones', () => {
-    // "attention" is a keyword of both; the index only answered one.
-    expect(slugs(catalog.list({ q: 'attention' }, ['deep-residual-learning']))).toEqual([
-      'deep-residual-learning',
-      'attention-is-all-you-need',
-    ]);
+  it('lists only what the index found, even when the plain match would find more', () => {
+    // "attention" is a keyword of both; the index answered one, and that is the search.
+    expect(slugs(catalog.list({ q: 'attention' }, ['deep-residual-learning']))).toEqual(['deep-residual-learning']);
+    expect(slugs(catalog.list({ q: 'attention' }, []))).toEqual([]);
   });
 
   it('still applies every other filter', () => {

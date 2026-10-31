@@ -5,9 +5,6 @@ import { Language } from '../shared/language';
 import { PapersCatalogService } from './papers-catalog.service';
 
 const INDEX = 'papers';
-const EMBEDDER = 'default';
-/** Computing the embeddings of every paper (and, the first time, downloading a local model) takes minutes. */
-const SEMANTIC_TASK_TIMEOUT_MS = 15 * 60_000;
 /** More than the catalog will hold for a long while; the ranking is cut here. */
 const MAX_HITS = 1000;
 
@@ -46,60 +43,18 @@ const SETTINGS = {
   pagination: { maxTotalHits: MAX_HITS },
 };
 
-/** What the embedder reads of a paper: what it is about, not the whole analysis. */
-const DOCUMENT_TEMPLATE = [
-  '{{ doc.title }}',
-  '{% if doc.altTitle %}{{ doc.altTitle }}{% endif %}',
-  '{% if doc.researchArea %}{{ doc.researchArea }}{% endif %}',
-  "{{ doc.keywords | join: ', ' }}",
-  '{% if doc.summary %}{{ doc.summary }}{% endif %}',
-  '{% if doc.abstract %}{{ doc.abstract }}{% endif %}',
-].join('\n');
-
-/**
- * The embedder of `MEILI_PAPERS_EMBEDDER`: a Meilisearch embedder object as JSON, for example
- * `{"source":"huggingFace","model":"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"}` (a model
- * that runs inside Meilisearch, no key), or `{"source":"openAi","apiKey":"...","model":"text-embedding-3-small"}`.
- * Unset, the search is by words only. A template of our own is used when the object brings none.
- */
-function embedderFromEnv(): Record<string, unknown> | null {
-  const raw = process.env.MEILI_PAPERS_EMBEDDER?.trim();
-  if (!raw) return null;
-  try {
-    const parsed = JSON.parse(raw) as unknown;
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('not an object');
-    return { documentTemplate: DOCUMENT_TEMPLATE, documentTemplateMaxBytes: 2000, ...parsed };
-  } catch (err) {
-    new Logger('PapersSearch').error(
-      `MEILI_PAPERS_EMBEDDER is not a JSON object (${(err as Error).message}); searching by words only`,
-    );
-    return null;
-  }
-}
-
-const numberFromEnv = (name: string, fallback: number) => {
-  const value = Number(process.env[name]);
-  return process.env[name] && Number.isFinite(value) && value >= 0 && value <= 1 ? value : fallback;
-};
-
 /**
  * The search of the public papers in Meilisearch: accents and letter case do not matter, a typo is forgiven,
- * a word matches in either language, and the papers come best first. With an embedder (see `embedderFromEnv`)
- * it is also semantic: "falhas em sistemas distribuídos" finds "Metastable Failures" by meaning.
+ * a word matches in either language, and the papers come best first. By words only: no embedder, no hybrid.
  *
  * Only with `MEILI_HOST` set (the Docker stack). Without it, or when Meilisearch fails, `rank` answers null
- * and the catalog falls back to its plain match (papers-filter.ts), so a search never breaks the list.
+ * and the catalog falls back to its plain match (paper-filter.ts), so a search never breaks the list.
  * The index is rebuilt on boot from the files, like the site-wide one (search.service.ts).
  */
 @Injectable()
 export class PapersSearch implements OnApplicationBootstrap {
   private readonly log = new Logger(PapersSearch.name);
   private readonly enabled = !!process.env.MEILI_HOST;
-  private readonly embedder = embedderFromEnv();
-  private readonly semanticRatio = numberFromEnv('MEILI_PAPERS_SEMANTIC_RATIO', 0.5);
-  private readonly minScore = numberFromEnv('MEILI_PAPERS_MIN_SCORE', 0.5);
-  /** Whether the live index has the embedder; false until a rebuild with it succeeds. */
-  private semantic = false;
 
   constructor(
     @Inject(PapersCatalogService) private readonly catalog: PapersCatalogService,
@@ -121,28 +76,8 @@ export class PapersSearch implements OnApplicationBootstrap {
     });
   }
 
-  /** With the embedder when there is one; when that build fails (a model that does not load, a bad key), without. */
   async rebuild(): Promise<void> {
-    const documents = this.catalog.searchDocuments();
-    if (this.embedder) {
-      try {
-        await this.meili.rebuild({
-          index: INDEX,
-          settings: { ...SETTINGS, embedders: { [EMBEDDER]: this.embedder } },
-          documents,
-          taskTimeoutMs: SEMANTIC_TASK_TIMEOUT_MS,
-        });
-        this.semantic = true;
-        return;
-      } catch (err) {
-        Sentry.captureException(err);
-        this.log.error(
-          `The papers index could not be built with the embedder, searching by words only: ${(err as Error).message}`,
-        );
-      }
-    }
-    this.semantic = false;
-    await this.meili.rebuild({ index: INDEX, settings: SETTINGS, documents });
+    await this.meili.rebuild({ index: INDEX, settings: SETTINGS, documents: this.catalog.searchDocuments() });
   }
 
   /** The slugs of the papers that match `q` in this language, best first; null when there is no index to ask. */
@@ -155,10 +90,6 @@ export class PapersSearch implements OnApplicationBootstrap {
         filter: [`language = "${lang}"`],
         limit: MAX_HITS,
         matchingStrategy: 'all',
-        ...(this.semantic && {
-          hybrid: { embedder: EMBEDDER, semanticRatio: this.semanticRatio },
-          rankingScoreThreshold: this.minScore,
-        }),
       });
       return ids.map((id) => id.slice(0, -`_${lang}`.length));
     } catch (err) {

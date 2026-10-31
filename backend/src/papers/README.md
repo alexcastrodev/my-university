@@ -74,19 +74,11 @@ Distributed Systems* through its Portuguese keyword and area.
 
 - **Order.** With `q` and no `sort`, the list is in order of relevance (the page offers "Relevance" while there is a
   search); `sort=recent` or `sort=title` sort the same matches by date or title. Without `q`, newest first as before.
-- **Never less than before.** A paper whose text contains `q` as typed is listed even when the index did not
-  find it (after the ranked ones), and every other filter still applies in memory.
-- **Fallback.** Without `MEILI_HOST` (the specs, a bare `nest start`) or when Meilisearch fails, the list uses
-  only that plain match (`paper-filter.ts`) and logs a warning. A search never breaks the list.
-- **Semantic, opt in.** `MEILI_PAPERS_EMBEDDER` is a Meilisearch embedder object as JSON, for example
-  `{"source":"huggingFace","model":"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"}` (runs inside
-  Meilisearch, no key; the first build downloads the model) or
-  `{"source":"openAi","apiKey":"...","model":"text-embedding-3-small"}`. The search is then hybrid: words and
-  meaning together, so a query finds a paper that says the same thing in other words.
-  `MEILI_PAPERS_SEMANTIC_RATIO` (0 to 1, default 0.5) weighs meaning against words, and
-  `MEILI_PAPERS_MIN_SCORE` (0 to 1, default 0.5) leaves out the weak matches, without which every paper would be
-  "similar" to any query. If the build with the embedder fails (a model that does not load, a bad key), it is
-  reported to Sentry and the index is built without it, searching by words.
+- **Only the index.** With Meilisearch up, `q` matches exactly what the index found; every other filter still
+  applies in memory. The search is by words only, with no embedder and no hybrid search.
+- **Fallback.** Without `MEILI_HOST` (the specs, a bare `nest start`) or when Meilisearch fails, `q` is the old
+  plain match (`paper-filter.ts`: the query as typed, a substring) and a warning is logged. A search never breaks
+  the list.
 - **Not indexed.** A reader's private papers and library are still filtered in memory, and papers are not in
   the site-wide search palette.
 
