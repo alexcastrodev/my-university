@@ -71,6 +71,57 @@ export interface PaperQuery {
   page?: number;
 }
 
+export const LIBRARY_STATUSES = ['to-read', 'reading', 'read'] as const;
+export type LibraryStatus = (typeof LIBRARY_STATUSES)[number];
+
+export type LibrarySort = 'added' | 'title' | 'completed' | 'rating';
+
+/** What the signed-in reader keeps about a paper; mirrors GET /api/paper-library/:paperId. */
+export interface LibraryEntry {
+  paperId: number;
+  status: LibraryStatus;
+  /** 1 to 5, or null when not rated. */
+  rating: number | null;
+  tags: string[];
+  addedAt: string;
+  /** The day it was finished, `YYYY-MM-DD`; only a paper with status `read` has one. */
+  completedAt: string | null;
+}
+
+export interface LibraryItem extends PaperSummary {
+  library: LibraryEntry;
+}
+
+export interface LibraryPage {
+  items: LibraryItem[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface LibraryFacets {
+  total: number;
+  statuses: { value: LibraryStatus; count: number }[];
+  tags: FacetValue[];
+}
+
+/** The library filters as they live in the URL: a missing key means "not filtered". */
+export interface LibraryQuery {
+  q?: string;
+  status?: LibraryStatus;
+  tag?: string;
+  sort?: LibrarySort;
+  page?: number;
+}
+
+/** A change to one entry. A missing key is left alone; `null` clears the rating or the finishing day. */
+export interface LibraryChange {
+  status?: LibraryStatus;
+  rating?: number | null;
+  tags?: string[];
+  completedAt?: string | null;
+}
+
 /** A paper as it is sent to be created by hand; mirrors the body of POST /api/papers. Only the title is required. */
 export interface PaperInput {
   title: string;

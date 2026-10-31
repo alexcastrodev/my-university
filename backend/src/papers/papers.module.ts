@@ -7,6 +7,9 @@ import { PaperAuthor } from './paper-author.entity';
 import { PaperAnalysisController } from './paper-analysis.controller';
 import { PaperAnalysisService } from './paper-analysis.service';
 import { PaperKeyword } from './paper-keyword.entity';
+import { PaperLibraryController } from './paper-library.controller';
+import { PaperLibraryEntry } from './paper-library.entity';
+import { PaperLibraryService } from './paper-library.service';
 import { PaperSource } from './paper-source.entity';
 import { CrossrefClient } from './crossref.client';
 import { PaperImportController } from './paper-import.controller';
@@ -23,19 +26,21 @@ import { PapersService } from './papers.service';
       Paper,
       PaperAuthor,
       PaperKeyword,
+      PaperLibraryEntry,
       PaperSource,
       PaperAnalysis,
       PaperAnalysisEvent,
       User,
     ]),
   ],
-  controllers: [PapersController, PaperAnalysisController, PaperImportController],
+  controllers: [PapersController, PaperAnalysisController, PaperImportController, PaperLibraryController],
   providers: [
     PapersService,
     PapersCatalogService,
     PaperAnalysisService,
     PaperImportService,
     CrossrefClient,
+    PaperLibraryService,
   ],
   exports: [PapersService, PapersCatalogService],
 })

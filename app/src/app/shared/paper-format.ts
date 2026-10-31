@@ -1,4 +1,4 @@
-import { AnalysisSectionKey, AnalysisSectionState, PaperType } from '../models/paper.model';
+import { AnalysisSectionKey, AnalysisSectionState, LibraryStatus, PaperType } from '../models/paper.model';
 
 /** The name of a publication type, in the reader's language. */
 export function paperTypeLabel(type: PaperType): string {
@@ -19,6 +19,18 @@ export function paperTypeLabel(type: PaperType): string {
       return $localize`:@@papers.type.report:Report`;
     default:
       return $localize`:@@papers.type.other:Other`;
+  }
+}
+
+/** The name of a reading status, in the reader's language. */
+export function libraryStatusLabel(status: LibraryStatus): string {
+  switch (status) {
+    case 'reading':
+      return $localize`:@@papers.library.status.reading:Reading`;
+    case 'read':
+      return $localize`:@@papers.library.status.read:Read`;
+    default:
+      return $localize`:@@papers.library.status.toRead:To read`;
   }
 }
 

@@ -22,8 +22,8 @@ export const PAPER_PAGE_MAX_LIMIT = 50;
 const trim = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim() || undefined : value;
 
-/** Query string of the public catalog. Every filter is optional and they combine with AND. */
-export class PaperListQueryDto {
+/** The filters and paging every paper list shares (catalog and library). Optional, combined with AND. */
+export class PaperFilterDto {
   /** Free text over title, abstract, DOI, author names and keywords. */
   @IsOptional()
   @Transform(trim)
@@ -69,11 +69,6 @@ export class PaperListQueryDto {
   year?: string;
 
   @IsOptional()
-  @Transform(trim)
-  @IsIn(PAPER_SORTS)
-  sort?: PaperSort;
-
-  @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
@@ -86,4 +81,12 @@ export class PaperListQueryDto {
   @Min(1)
   @Max(PAPER_PAGE_MAX_LIMIT)
   limit?: number;
+}
+
+/** Query string of the public catalog. */
+export class PaperListQueryDto extends PaperFilterDto {
+  @IsOptional()
+  @Transform(trim)
+  @IsIn(PAPER_SORTS)
+  sort?: PaperSort;
 }
