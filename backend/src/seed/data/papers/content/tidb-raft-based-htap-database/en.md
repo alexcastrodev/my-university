@@ -1,7 +1,9 @@
 ---
 title: "TiDB: A Raft-based HTAP Database"
 summary: A distributed SQL database that serves transactions and analytics from the same data by replicating Raft logs to a columnar store through learner nodes.
-version: 1.0
+researchArea: Databases
+keywords: htap, raft, consensus, distributed transactions, columnar storage, newsql
+version: 1.1
 updatedAt: 2026-10-31
 ---
 

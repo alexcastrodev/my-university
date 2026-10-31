@@ -67,7 +67,7 @@ describe('the seed is a usable catalog', () => {
   it('offers the areas in Portuguese to a Portuguese reader, one for each English area', async () => {
     const facets = await json<{ areas: { value: string; count: number }[] }>(await get('/papers/facets?lang=pt-BR'));
 
-    const areas = new Set(SEED_PAPERS.map((p) => p.i18n!['pt-BR']!.researchArea));
+    const areas = new Set(SEED_PAPERS.map((p) => p.pt.researchArea));
     expect(new Set(facets.areas.map((a) => a.value))).toEqual(areas);
     expect(areas.size).toBe(new Set(SEED_PAPERS.map((p) => p.researchArea)).size);
     expect(facets.areas.reduce((n, a) => n + a.count, 0)).toBe(SEED_PAPERS.length);
@@ -130,16 +130,16 @@ describe.each(SEED_PAPERS.map((p) => [p.slug, p] as const))('the seed paper %s',
   });
 
   it('translates the abstract, the keywords and the area for a Portuguese reader, and leaves English alone', async () => {
-    const pt = meta.i18n?.['pt-BR'];
-    expect(pt?.researchArea, 'researchArea').toBeTruthy();
-    expect(pt?.keywords?.length, 'keywords').toBe(meta.keywords?.length);
-    expect(!!pt?.abstract, 'abstract is translated exactly when the paper has one').toBe(!!meta.abstract);
+    const pt = meta.pt;
+    expect(pt.researchArea, 'researchArea').toBeTruthy();
+    expect(pt.keywords.length, 'one keyword for each English keyword').toBe(meta.keywords!.length);
+    expect(!!pt.abstract, 'abstract is translated exactly when the paper has one').toBe(!!meta.abstract);
 
     const body = await json<any>(await get(`/papers/${slug}?lang=pt-BR`));
     expect(body).toMatchObject({
-      researchArea: pt!.researchArea,
-      keywords: pt!.keywords!.map((k) => k.toLowerCase()),
-      abstract: pt!.abstract ?? null,
+      researchArea: pt.researchArea,
+      keywords: pt.keywords.map((k) => k.toLowerCase()),
+      abstract: pt.abstract ?? null,
       abstractTranslated: !!meta.abstract,
       title: expect.any(String),
       venue: meta.venue ?? null,
@@ -149,8 +149,15 @@ describe.each(SEED_PAPERS.map((p) => [p.slug, p] as const))('the seed paper %s',
     expect(en).toMatchObject({ researchArea: meta.researchArea, abstract: meta.abstract ?? null, abstractTranslated: false });
   });
 
+  it('keeps the abstract out of the analysis, which is the six sections of the file', async () => {
+    for (const lang of ['en', 'pt-BR']) {
+      const body = await json<any>(await get(`/papers/${slug}?lang=${lang}`));
+      expect(body.sections.map((s: any) => s.title), lang).toEqual(lang === 'en' ? EN : PT);
+    }
+  });
+
   it('is found in the list by the area in either language, and shows the Portuguese area and excerpt', async () => {
-    const pt = meta.i18n!['pt-BR']!;
+    const pt = meta.pt;
     for (const area of [pt.researchArea!, meta.researchArea!]) {
       const page = await list(`&lang=pt-BR&area=${encodeURIComponent(area)}`);
       expect(page.items.map((i) => i.id), area).toContain(slug);

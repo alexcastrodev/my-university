@@ -1,7 +1,9 @@
 ---
 title: "Snap: a Microkernel Approach to Host Networking"
 summary: Google moves host networking out of the kernel into a userspace system of modular engines, with transparent upgrades and a scheduler co-designed with the kernel.
-version: 1.0
+researchArea: Operating Systems
+keywords: network stack, datacenter, microkernel, rdma
+version: 1.1
 updatedAt: 2026-10-31
 ---
 

@@ -1,9 +1,15 @@
 ---
 title: "Efficient Memory Management for Large Language Model Serving with PagedAttention"
 summary: Applies operating-system paging to the key-value cache of LLM serving, nearly removing wasted GPU memory and letting requests share cache blocks.
-version: 1.0
+researchArea: Machine Learning Systems
+keywords: llm serving, kv cache, virtual memory, paging, gpu memory
+version: 1.1
 updatedAt: 2026-10-31
 ---
+
+## Abstract
+
+High throughput serving of large language models (LLMs) requires batching sufficiently many requests at a time. However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically. When managed inefficiently, this memory can be significantly wasted by fragmentation and redundant duplication, limiting the batch size. To address this problem, we propose PagedAttention, an attention algorithm inspired by the classical virtual memory and paging techniques in operating systems. On top of it, we build vLLM, an LLM serving system that achieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV cache within and across requests to further reduce memory usage. Our evaluations show that vLLM improves the throughput of popular LLMs by 2-4x with the same level of latency compared to the state-of-the-art systems, such as FasterTransformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms. vLLM's source code is publicly available at https://github.com/vllm-project/vllm.
 
 ## Overview
 

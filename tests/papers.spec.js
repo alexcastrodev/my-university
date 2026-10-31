@@ -348,7 +348,7 @@ test.describe('Research Analysis', () => {
     await expect(paper.analysisCredit).toContainText('Last revised');
     await expect(paper.analysisCredit).toContainText('October 31, 2026');
     await expect(paper.analysisCredit).toContainText('Version');
-    await expect(paper.analysisCredit).toContainText('1.0');
+    await expect(paper.analysisCredit).toContainText('1.1');
     await expect(paper.analysisCredit).not.toContainText('Reviewed by');
     await expect(paper.analysisCredit).not.toContainText('Published');
   });

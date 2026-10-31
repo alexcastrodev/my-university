@@ -1,9 +1,15 @@
 ---
 title: "ghOSt: Fast & Flexible User-Space Delegation of Linux Scheduling"
 summary: Uma forma de rodar a política de escalonamento do Linux em agentes em espaço de usuário enquanto o kernel só executa as decisões, de modo que as políticas mudem sem reiniciar o host.
-version: 1.0
+researchArea: Sistemas operacionais
+keywords: escalonamento, kernel do linux, delegação ao espaço do usuário, latência de cauda, datacenter
+version: 1.1
 updatedAt: 2026-10-31
 ---
+
+## Resumo
+
+Apresentamos o ghOSt, nossa infraestrutura para delegar decisões de escalonamento do kernel a código no espaço do usuário. O ghOSt foi projetado para atender às necessidades, em rápida evolução, das cargas de trabalho e das plataformas dos nossos data centers. Melhorar as decisões de escalonamento pode aumentar drasticamente a vazão, a latência de cauda, a escalabilidade e a segurança de cargas de trabalho importantes. No entanto, escalonadores de kernel são difíceis de implementar, testar e implantar de forma eficiente em uma frota grande. Pesquisas recentes sugerem que políticas de escalonamento sob medida, dentro de sistemas operacionais de plano de dados personalizados, podem trazer resultados de desempenho atraentes em um data center. Porém, esses ganhos se mostraram difíceis de obter, pois é impraticável implantar imagens de SO personalizadas na granularidade de uma aplicação, em especial em um ambiente multilocatário, o que limita as aplicações práticas dessas novas técnicas. O ghOSt oferece delegação de uso geral de políticas de escalonamento a processos no espaço do usuário em um ambiente Linux. O ghOSt fornece mecanismos de encapsulamento de estado, comunicação e ação que permitem expressar políticas de escalonamento complexas dentro de um agente no espaço do usuário, ajudando também na sincronização. Programadores usam qualquer linguagem para desenvolver e otimizar as políticas, que são modificadas sem reiniciar o host. O ghOSt suporta uma ampla gama de modelos de escalonamento, de um por CPU a centralizado, de execução até o fim a preemptivo, e tem baixo custo nas ações de escalonamento. Demonstramos o desempenho do ghOSt em cargas de trabalho acadêmicas e reais, incluindo o Google Snap e o Google Search. Mostramos que, usando o ghOSt no lugar do escalonador do kernel, conseguimos rapidamente obter vazão e latência comparáveis, ao mesmo tempo em que habilitamos otimização de políticas, atualizações sem interrupção e isolamento de falhas para as cargas de trabalho dos nossos data centers. Disponibilizamos nossa implementação como código aberto para possibilitar pesquisa e desenvolvimento futuros baseados no ghOSt.
 
 ## Visão geral
 

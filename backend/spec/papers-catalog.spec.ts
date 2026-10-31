@@ -571,13 +571,11 @@ describe('the texts of a paper in Portuguese', () => {
       researchArea: 'Machine Learning Systems',
       keywords: ['LLM serving', 'kv cache'],
       abstract: 'We propose PagedAttention to serve models.',
-      portuguese: { title: 'Atenção paginada' },
-      i18n: {
-        'pt-BR': {
-          researchArea: 'Sistemas de aprendizado de máquina',
-          keywords: ['inferência de llms', 'cache kv'],
-          abstract: 'Propomos o PagedAttention para servir modelos.',
-        },
+      portuguese: {
+        title: 'Atenção paginada',
+        researchArea: 'Sistemas de aprendizado de máquina',
+        keywords: ['inferência de llms', 'cache kv'],
+        abstract: 'Propomos o PagedAttention para servir modelos.',
       },
     },
     {
@@ -588,8 +586,7 @@ describe('the texts of a paper in Portuguese', () => {
       researchArea: 'Databases',
       keywords: ['sql'],
       abstract: 'About relational queries.',
-      portuguese: {},
-      i18n: { 'pt-BR': { researchArea: 'Bancos de dados' } },
+      portuguese: { researchArea: 'Bancos de dados' },
     },
     {
       slug: 'plain-english',
@@ -609,7 +606,6 @@ describe('the texts of a paper in Portuguese', () => {
       researchArea: 'Operating Systems',
       keywords: ['scheduling'],
       abstract: 'Context switches.',
-      i18n: { 'pt-BR': { researchArea: 'Sistemas operacionais', keywords: ['escalonamento'], abstract: 'Trocas de contexto.' } },
     },
   ];
 
@@ -663,7 +659,7 @@ describe('the texts of a paper in Portuguese', () => {
     });
   });
 
-  it('shows English when the paper has no file in Portuguese, even if the index has a translation', async () => {
+  it('shows English when the paper has no file in Portuguese', async () => {
     const body = await json<any>(await detail('no-portuguese-file', '?lang=pt-BR'));
 
     expect(body).toMatchObject({
@@ -724,21 +720,5 @@ describe('the texts of a paper in Portuguese', () => {
     expect(await slugs('lang=pt-BR&q=propomos')).toEqual(['paged-attention']);
     expect(await slugs('lang=pt-BR&q=we+propose')).toEqual(['paged-attention']);
     expect(await slugs('q=propomos')).toEqual([]);
-  });
-});
-
-describe('a mistake in the translations of the files', () => {
-  const translated = { slug: 'translated', title: 'Translated', researchArea: 'Databases', keywords: ['sql', 'raft'], abstract: 'An abstract.' };
-  const bare = { slug: 'bare', title: 'Bare' };
-  const i18n = (pt: object, extra: object = {}) => ({ i18n: { 'pt-BR': pt, ...extra } }) as Pick<FixturePaper, 'i18n'>;
-
-  it.each([
-    ['a language that is not supported', { ...translated, ...i18n({}, { fr: { researchArea: 'Bases' } }) }, /translated.*i18n.*language/],
-    ['the original language', { ...translated, ...i18n({}, { en: { researchArea: 'Databases' } }) }, /translated.*i18n.*language/],
-    ['an area where the paper has none', { ...bare, ...i18n({ researchArea: 'x' }) }, /bare.*researchArea/],
-    ['an abstract where the paper has none', { ...bare, ...i18n({ abstract: 'x' }) }, /bare.*abstract/],
-    ['a different number of keywords', { ...translated, ...i18n({ keywords: ['sql'] }) }, /translated.*keyword/],
-  ])('stops the boot for %s, naming the paper', async (_name, paper, message) => {
-    await expect(startCatalogApp([paper])).rejects.toThrow(message);
   });
 });
