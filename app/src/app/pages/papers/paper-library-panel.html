@@ -78,7 +78,7 @@
 
       <p class="library-foot">
         <span class="muted"><span i18n="@@papers.library.addedOn">Added on</span> {{ addedOn() }}. <ng-container i18n="@@papers.library.private">Only you can see your library.</ng-container></span>
-        <a routerLink="/papers/library" class="library-link" i18n="@@papers.library.open">Open my library</a>
+        <a routerLink="/library" class="library-link" i18n="@@papers.library.open">Open my library</a>
         <button type="button" class="library-button library-button-quiet" [disabled]="busy()" (click)="remove()" i18n="@@papers.library.remove">Remove from library</button>
       </p>
     } @else {

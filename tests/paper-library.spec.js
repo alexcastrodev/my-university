@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { BASE_URL } from './BaseTest.js';
 import { PaperDetailPage } from './pages/PaperDetailPage.js';
 import { PaperLibraryPage } from './pages/PaperLibraryPage.js';
+import { SidebarPage } from './pages/SidebarPage.js';
 
 // Papers are seeded through the dev-only route and read through the pages. Every title carries a per-worker
 // token, so a test only ever sees its own papers, and every test signs in as a reader of its own.
@@ -56,6 +57,44 @@ async function addFromPage(page, id) {
 }
 
 test.describe('Paper library', () => {
+  // The phone has no sidebar (a tab bar takes over), so the menu is only checked on the desktop projects.
+  test.describe('menu', () => {
+    test.skip(({ isMobile }) => isMobile, 'the sidebar does not exist on phones');
+
+    test('a signed-out visitor sees Papers but no library entry', async ({ page }) => {
+      const sidebar = new SidebarPage(page);
+      await page.goto('/papers');
+      await expect(sidebar.papersLink).toBeVisible();
+      await expect(sidebar.libraryLink).toHaveCount(0);
+    });
+
+    test('Papers stays the public catalog and My library is its own entry', async ({ page }) => {
+      await signIn(page, 'Navigator');
+      const sidebar = new SidebarPage(page);
+      await page.goto('/papers');
+      await expect(sidebar.papersLink).toHaveClass(/active/);
+      await expect(sidebar.libraryLink).not.toHaveClass(/active/);
+
+      await sidebar.libraryLink.click();
+      await expect(page).toHaveURL(/\/library$/);
+      await expect(new PaperLibraryPage(page).heading).toBeVisible();
+      await expect(sidebar.libraryLink).toHaveClass(/active/);
+      await expect(sidebar.papersLink).not.toHaveClass(/active/);
+
+      await sidebar.papersLink.click();
+      await expect(page).toHaveURL(/\/papers$/);
+      await expect(page.getByRole('heading', { level: 1, name: 'Papers' })).toBeVisible();
+    });
+
+    test('a paper page still counts as Papers, not as the library', async ({ page }) => {
+      await signIn(page, 'Reader');
+      const sidebar = new SidebarPage(page);
+      await new PaperDetailPage(page).goto(alpha);
+      await expect(sidebar.papersLink).toHaveClass(/active/);
+      await expect(sidebar.libraryLink).not.toHaveClass(/active/);
+    });
+  });
+
   test.describe('signed out', () => {
     test('asks to sign in on the paper page, without an add button', async ({ page }) => {
       const paper = new PaperDetailPage(page);

@@ -22,7 +22,7 @@ export class PaperLibraryPage {
   }
 
   async goto(query = '') {
-    await this.page.goto(`/papers/library${query}`);
+    await this.page.goto(`/library${query}`);
   }
 
   /** A status tab by its visible name ("All", "To read", "Reading", "Read"). */

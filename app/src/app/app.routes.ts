@@ -120,7 +120,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/papers/papers-list').then((m) => m.PapersListPage),
   },
   {
-    path: 'papers/library',
+    path: 'library',
     loadComponent: () => import('./pages/papers/paper-library').then((m) => m.PaperLibraryPage),
   },
   {

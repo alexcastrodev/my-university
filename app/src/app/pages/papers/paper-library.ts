@@ -92,7 +92,7 @@ export class PaperLibraryPage implements OnInit {
     this.seo.set({
       title: 'My library',
       description: 'Your private paper library.',
-      path: '/papers/library',
+      path: '/library',
       noindex: true,
     });
     // Counts per status and the tags are a convenience: without them the list and the search still work.

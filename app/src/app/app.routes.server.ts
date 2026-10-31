@@ -75,7 +75,7 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     // The reader's own papers: private, so the server renders only the shell and the browser fetches the list.
-    path: 'papers/library',
+    path: 'library',
     renderMode: RenderMode.Client,
   },
   {
